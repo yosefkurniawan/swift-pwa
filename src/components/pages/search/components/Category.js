@@ -4,17 +4,48 @@ import Typography from "../../../commons/Typography";
 import Button from "../../../commons/Button";
 import { Slide } from "@material-ui/core";
 
-const Component = ({ open, data, t, onClick }) => {
+const Component = ({
+  open,
+  data,
+  t,
+  onClick,
+  direction = "left",
+  slide = false
+}) => {
   const styles = useStyles();
-
-  return (
-    <Slide
-      direction="right"
-      in={open}
-      timeout={1500}
-      mountOnEnter
-      unmountOnExit
-    >
+  if (slide === true) {
+    return (
+      <Slide
+        direction={direction}
+        in={open}
+        timeout={1000}
+        mountOnEnter
+        unmountOnExit
+      >
+        <div className={styles.body}>
+          <Typography variant="h1" align="center">
+            {t("common:search:mainTitle")}
+          </Typography>
+          <div className={styles.item}>
+            {data.map((item, indx) => (
+              <Button
+                key={indx}
+                variant="text"
+                capitalize={true}
+                onClick={() => onClick(item)}
+              >
+                <Typography variant="span">{item}</Typography>
+              </Button>
+            ))}
+          </div>
+          <Typography variant="h1" align="center">
+            {t("common:search:backTitle")}
+          </Typography>
+        </div>
+      </Slide>
+    );
+  } else {
+    return (
       <div className={styles.body}>
         <Typography variant="h1" align="center">
           {t("common:search:mainTitle")}
@@ -25,7 +56,7 @@ const Component = ({ open, data, t, onClick }) => {
               key={indx}
               variant="text"
               capitalize={true}
-              onClick={() => onClick(item) }
+              onClick={() => onClick(item)}
             >
               <Typography variant="span">{item}</Typography>
             </Button>
@@ -35,8 +66,8 @@ const Component = ({ open, data, t, onClick }) => {
           {t("common:search:backTitle")}
         </Typography>
       </div>
-    </Slide>
-  );
+    );
+  }
 };
 
 export default Component;

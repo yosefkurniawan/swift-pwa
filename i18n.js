@@ -1,10 +1,6 @@
 const NextI18Next = require("next-i18next").default;
 
 module.exports = new NextI18Next({
-  localeSubpaths : {
-    en : 'en',
-    id : 'id'
-  },
   defaultLanguage: "en",
   otherLanguages: ["id"],
   // workaround until next-i18next support public path
