@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "row",
     position: "absolute",
     justifyContent: "space-arround",
-    bottom: "15vh",
+    bottom: "5em",
     left: "50%",
     transform: "translate(-50%, -50%)"
   },

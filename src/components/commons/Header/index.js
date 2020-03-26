@@ -5,14 +5,22 @@ import { Button, NoSsr } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
 import Typography from "../Typography";
 import { useRouter } from "next/router";
+import classNames from "classnames";
 
-
-const Header = ({ LeftComponent, CenterComponent, RightComponent }) => {
+const Header = ({
+  LeftComponent,
+  CenterComponent,
+  RightComponent,
+  className = {}
+}) => {
   const styles = useStyles();
-  const route = useRouter()
-  const back = () => { route.back() };
+  const route = useRouter();
+  const back = () => {
+    route.back();
+  };
+  const containerStyle = classNames(styles.container, className);
   return (
-    <div className={styles.container}>
+    <div className={containerStyle}>
       <div className={styles.leftContainer}>
         {React.isValidElement(LeftComponent) ? (
           LeftComponent
@@ -26,7 +34,7 @@ const Header = ({ LeftComponent, CenterComponent, RightComponent }) => {
             }
             className={styles.btmBack}
           >
-            <ArrowBack className={styles.backIcon}/>
+            <ArrowBack className={styles.backIcon} />
           </Button>
         )}
       </div>
@@ -46,6 +54,10 @@ const Header = ({ LeftComponent, CenterComponent, RightComponent }) => {
   );
 };
 
-const Component = (props) => (<NoSsr><Header {...props} /></NoSsr>)
+const Component = props => (
+  <NoSsr>
+    <Header {...props} />
+  </NoSsr>
+);
 
 export default Component;

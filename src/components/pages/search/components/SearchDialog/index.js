@@ -1,6 +1,6 @@
 import React from "react";
 import useStyles from "./style";
-import { Dialog, Slide, AppBar, Toolbar, IconButton } from "@material-ui/core";
+import { Dialog, Grow, AppBar, Toolbar, IconButton } from "@material-ui/core";
 import { Close as CloseIcon } from "@material-ui/icons";
 import Typography from "../../../../commons/Typography";
 import TextField from "../../../../commons/Forms/TextField";
@@ -26,7 +26,7 @@ const category = [
 ];
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Grow ref={ref} {...props}  timeout={600} />;
 });
 
 const TextSearch = ({
