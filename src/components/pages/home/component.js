@@ -9,7 +9,7 @@ import SpanProduct from "../../commons/SpanProduct";
 
 const data = [
   {
-    img: "assets/img/noun_Image.svg",
+    img: "https://www.creohouse.co.id/wp-content/uploads/2016/09/jasa-desain-banner-web-creohouse.jpg",
     link: "/"
   },
   {

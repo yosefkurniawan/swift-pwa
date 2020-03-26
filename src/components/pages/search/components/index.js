@@ -1,11 +1,12 @@
-import { Slide } from "@material-ui/core";
+import { Slide, Dialog, AppBar, Toolbar, IconButton } from "@material-ui/core";
 import React, { useState } from "react";
-import ButtonField from "./components/ButtonField";
-import Header from "../../commons/Header";
-import CategorySlider from "./components/Category";
-import SubCategorySlider from "./components/SubCategory";
-import SearchDialog from "./components/SearchDialog";
-import useStyles from "./style";
+import ButtonField from "./ButtonField";
+import Header from "../../../commons/Header";
+import CategorySlider from "./Category";
+import SubCategorySlider from "./SubCategory";
+import SearchDialog from "./SearchDialog";
+import useStyles from "../style";
+import { ArrowBack } from "@material-ui/icons";
 
 const data = [
   "Subcategory One",
@@ -23,12 +24,17 @@ const dataSub = [
   "Subcategory Level - Five"
 ];
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="left" ref={ref} {...props} />;
+});
+
 const Component = props => {
   const styles = useStyles();
   const [category, setCategory] = useState("");
   const [showCat, setShowCat] = useState(true);
   const [showSubCat, setShowSubCat] = useState(false);
-  const [openSearch, setOpenSeach] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
+  const [slideCat, setSlideCat] = useState(false);
   const openSub = cat => {
     setCategory(cat);
     setShowSubCat(true);
@@ -39,24 +45,40 @@ const Component = props => {
     setCategory("");
     setShowSubCat(false);
     setShowCat(true);
+    setSlideCat(true);
+  };
+
+  const open = props.open;
+  const handleClose = () => {
+    props.setOpen(false);
+    closeSub()
+    setSlideCat(false);
   };
 
   return (
     <>
       <SearchDialog
         open={openSearch}
-        setOpen={() => setOpenSeach(!openSearch)}
+        setOpen={() => setOpenSearch(!openSearch)}
       />
-      <Slide in={true} direction="right" timeout={1500}>
+      <Dialog
+        fullScreen
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
         <div className={styles.container}>
-          <Header
-            CenterComponent={
+          <AppBar className={styles.appBar}>
+            <Toolbar>
+              <IconButton edge="start" onClick={handleClose} aria-label="close">
+                <ArrowBack className={styles.iconClose} />
+              </IconButton>
               <ButtonField
-                placeholder="Search..."
-                onClick={() => setOpenSeach(true)}
+                placeholder="Search ..."
+                onClick={() => setOpenSearch(true)}
               />
-            }
-          />
+            </Toolbar>
+          </AppBar>
           <>
             {category === "" ? (
               <CategorySlider
@@ -64,6 +86,8 @@ const Component = props => {
                 open={showCat}
                 {...props}
                 onClick={openSub}
+                direction={'right'}
+                slide={slideCat}
               />
             ) : (
               <SubCategorySlider
@@ -76,7 +100,7 @@ const Component = props => {
             )}
           </>
         </div>
-      </Slide>
+      </Dialog>
     </>
   );
 };

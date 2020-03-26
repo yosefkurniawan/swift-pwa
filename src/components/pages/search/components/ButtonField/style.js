@@ -4,7 +4,7 @@ import { PRIMARY, GRAY_SECONDARY } from "../../../../../theme/colors";
 
 const useStyles = makeStyles(theme => ({ 
     container : {
-        minWidth : '250px',
+        width : '100rem',
         height : '100%',
         display : 'flex',
         flexDirection : 'row',
