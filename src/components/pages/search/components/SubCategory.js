@@ -4,10 +4,10 @@ import Typography from "../../../commons/Typography";
 import Button from "../../../commons/Button";
 import { Slide, IconButton } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
+import Router from "next/router";
 
 const Component = ({ open, data, category, onBack }) => {
   const styles = useStyles();
-
   return (
     <Slide
       direction="left"
@@ -26,7 +26,10 @@ const Component = ({ open, data, category, onBack }) => {
               key={indx}
               variant="text"
               capitalize={true}
-              onClick={() => {}}
+              onClick={() => {
+                let url = item.replace(' ','-')
+                Router.push('/category/'+url.toLowerCase())
+              }}
             >
               <Typography variant="span">{item}</Typography>
             </Button>

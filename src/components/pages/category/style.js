@@ -9,12 +9,15 @@ const useStyles = makeStyles(theme => ({
         ...FlexColumn
     },
     headContainer : {
-        height : '40rem',
+        height : '40em',
         position : 'relative',
         backgroundColor : GRAY_PRIMARY
     },
     header : {
-        position : 'absolute',
+        position : 'relative',
+        top : 10,
+        left : 16,
+        zIndex : 3
     }
 }))
 
