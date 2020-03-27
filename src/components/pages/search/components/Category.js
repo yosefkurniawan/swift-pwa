@@ -1,73 +1,55 @@
-import React, { useState } from "react";
+import React from "react";
 import useStyles from "../style";
 import Typography from "../../../commons/Typography";
 import Button from "../../../commons/Button";
 import { Slide } from "@material-ui/core";
 
-const Component = ({
+const Category = ({
   open,
   data,
-  t,
   onClick,
   direction = "left",
   slide = false
 }) => {
   const styles = useStyles();
+
+  const content = () => (<div className={styles.body}>
+    <div className={styles.item}>
+      {data.map((cat_lvl1, indx) => (
+        <>
+          <Typography variant="h1" align="center">
+            {cat_lvl1.name}
+          </Typography>
+          {cat_lvl1.children.map((cat_lvl2, indx) => (
+            <Button
+              key={indx}
+              variant="text"
+              capitalize={true}
+              onClick={() => onClick(cat_lvl2)}
+            >
+              <Typography variant="span">{cat_lvl2.name}</Typography>
+            </Button>
+          ))}
+        </>
+      ))}
+    </div>
+  </div>);
+
   if (slide === true) {
     return (
       <Slide
         direction={direction}
         in={open}
-        timeout={1000}
+        timeout={300}
         mountOnEnter
         unmountOnExit
       >
-        <div className={styles.body}>
-          <Typography variant="h1" align="center">
-            {t("common:search:mainTitle")}
-          </Typography>
-          <div className={styles.item}>
-            {data.map((item, indx) => (
-              <Button
-                key={indx}
-                variant="text"
-                capitalize={true}
-                onClick={() => onClick(item)}
-              >
-                <Typography variant="span">{item}</Typography>
-              </Button>
-            ))}
-          </div>
-          <Typography variant="h1" align="center">
-            {t("common:search:backTitle")}
-          </Typography>
-        </div>
+        {content()}
       </Slide>
     );
   } else {
-    return (
-      <div className={styles.body}>
-        <Typography variant="h1" align="center">
-          {t("common:search:mainTitle")}
-        </Typography>
-        <div className={styles.item}>
-          {data.map((item, indx) => (
-            <Button
-              key={indx}
-              variant="text"
-              capitalize={true}
-              onClick={() => onClick(item)}
-            >
-              <Typography variant="span">{item}</Typography>
-            </Button>
-          ))}
-        </div>
-        <Typography variant="h1" align="center">
-          {t("common:search:backTitle")}
-        </Typography>
-      </div>
-    );
+    return <>{content()}</>
   }
 };
 
-export default Component;
+export default Category;
