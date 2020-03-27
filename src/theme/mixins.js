@@ -43,3 +43,7 @@ export const showHide = {
   }
 }
 
+export const ClearMarginPadding ={
+  margin : 0,
+  padding : 0
+}

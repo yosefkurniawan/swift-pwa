@@ -18,7 +18,9 @@ const Layout = (Page, props) => {
             <Page {...this.props} />
           </main>
           <footer>
-            <Navigation />
+            {
+              <Navigation show={this.props.pageConfig.bottomNav} />
+            }
           </footer>
         </div>
       );

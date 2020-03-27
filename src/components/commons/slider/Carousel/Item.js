@@ -1,7 +1,7 @@
 import useStyles from "./style";
 import Image from "../../Image";
 import Typography from "../../Typography";
-import { IDR } from '../../price/priceFormat'
+import PriceFormat from '../../price/priceFormat'
 
 const Item = ({}) => {
   const styles = useStyles();
@@ -14,7 +14,7 @@ const Item = ({}) => {
       <div className={styles.detailItem}>
         <Typography variant="span">Product</Typography>
         <Typography variant="span" type="bold">
-          {IDR(98000)}
+          <PriceFormat value={90000} currency="IDR" />
         </Typography>
       </div>
     </div>
