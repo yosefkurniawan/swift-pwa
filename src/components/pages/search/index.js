@@ -1,5 +1,5 @@
 import React from 'react'
-import Component from './components'
+import Search from './components'
 import { withTranslation } from '../../../../i18n'
 
-export default withTranslation()(Component);
+export default withTranslation()(Search);
