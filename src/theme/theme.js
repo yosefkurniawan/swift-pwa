@@ -52,6 +52,9 @@ const theme = createMuiTheme({
             label : {
                 ...FONT_REGULER,
                 'text-transform' : 'capitalize'
+            },
+            root : {
+                marginBottom : -15
             }
         }
     },

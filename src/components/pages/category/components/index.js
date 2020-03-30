@@ -8,17 +8,14 @@ import useStyles from "../style";
 import ProductList from "./ProductList";
 import { Tab, Tabs } from "./Tabs";
 import FilterDialog from "./FilterDialog";
+import Banner from '../../../commons/slider/Banner'
 
 const data = [
   {
     img:
-      "https://www.creohouse.co.id/wp-content/uploads/2016/09/jasa-desain-banner-web-creohouse.jpg",
+      "/assets/img/noun_Image.svg",
     link: "/"
   },
-  {
-    img: "assets/img/noun_Image.svg",
-    link: "/"
-  }
 ];
 
 const product = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -35,7 +32,7 @@ function a11yProps(index) {
 const Component = () => {
   const styles = useStyles();
   const [value, setValue] = React.useState(0);
-  const [openFilter, setOpenFilter] = React.useState(true);
+  const [openFilter, setOpenFilter] = React.useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -48,8 +45,8 @@ const Component = () => {
       />
       <Box className={styles.container}>
         <div className={styles.headContainer}>
+          <Banner data={data} height="40vh" />
           <Header className={styles.header} />
-          {/* <Banner data={data} /> */}
         </div>
         <div>
           <AppBar position="static" color="inherit" className={styles.tabs}>
@@ -60,7 +57,7 @@ const Component = () => {
               scrollButtons="off"
               aria-label="scrollable prevent tabs example"
             >
-              <Tab classNames label="All Item" {...a11yProps(0)} />
+              <Tab label="All Item" {...a11yProps(0)} />
               {category.map((item, index) => (
                 <Tab key={index} label={item} {...a11yProps(index + 1)} />
               ))}
@@ -77,7 +74,7 @@ const Component = () => {
           </Typography>
           <div className={styles.filterBtnContainer}>
             <Button
-              variant="icon"
+              variant="text"
               className={styles.btnFilter}
               onClick={() => setOpenFilter(true)}
             >

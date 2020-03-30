@@ -1,8 +1,8 @@
 import { sliderStyle, useStyles } from "./style";
 import { Slider, withStyles } from "@material-ui/core";
-import PriceFormat from "../../price/priceFormat";
 import Typography from "../../Typography";
 import PropTypes from "prop-types";
+import currency from '../../../../helpers/currency'
 
 const CustomSlider = withStyles(sliderStyle)(Slider);
 
@@ -26,10 +26,20 @@ const Component = ({
       </Typography>
       <div className={styles.spanLabelPrice}>
         <Typography variant="label" type="reguler" letter="uppercase">
-          <PriceFormat currency="idr" value={input[0]} />
+        {
+           currency({
+             value : input[0],
+             currency : 'IDR'
+           })
+         }
         </Typography>
         <Typography variant="label" type="reguler" letter="uppercase">
-          <PriceFormat currency="idr" value={input[1]} />
+        {
+           currency({
+             value : input[1],
+             currency : 'IDR'
+           })
+         }
         </Typography>
       </div>
       <CustomSlider

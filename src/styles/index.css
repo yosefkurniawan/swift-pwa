@@ -17,6 +17,12 @@ main {
   bottom: 0;
   width: 100%;
   z-index: 99;
+  box-shadow: 0px 0 3px #0000001A;
+  display: block;
+}
+
+.hide {
+  display: none;
 }
 
 @media (max-width: 500px) {

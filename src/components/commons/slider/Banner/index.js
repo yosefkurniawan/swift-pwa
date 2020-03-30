@@ -7,7 +7,7 @@ import { autoPlay } from "react-swipeable-views-utils";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 import useStyles from "./style";
 
-const Component = ({ data = [] }) => {
+const Component = ({ data = [], height = '100vh' }) => {
   const styles = useStyles();
   const [index, setIndex] = useState(0);
 
@@ -27,7 +27,7 @@ const Component = ({ data = [] }) => {
         enableMouseEvents={true}
       >
         {data.map((item, key) => {
-          return <ImageSlide src={item.img} link={item.link} />;
+          return <ImageSlide height={height} key={key} src={item.img} link={item.link} />;
         })}
       </AutoPlaySwipeableViews>
       <div className={styles.dots}>

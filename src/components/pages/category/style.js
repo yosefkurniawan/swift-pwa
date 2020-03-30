@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: GRAY_PRIMARY
   },
   header: {
-    position: "relative",
+    position: "absolute",
     top: 0,
     left: 0,
     zIndex: 3

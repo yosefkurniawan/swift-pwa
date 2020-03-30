@@ -101,7 +101,7 @@ const Component = ({ open, setOpen }) => {
         </Typography>
         <div className={styles.result}>
           {data.map((dt, idx) => (
-            <TextSearch text={dt.text} searchValue={value} value={dt.value} />
+            <TextSearch key={idx} text={dt.text} searchValue={value} value={dt.value} />
           ))}
         </div>
         <Typography
@@ -114,7 +114,7 @@ const Component = ({ open, setOpen }) => {
         </Typography>
         <div className={styles.result}>
         {category.map((dt, idx) => (
-            <TextSearch text={dt.text} searchValue={value} value={dt.value} subText={`in ${dt.cat}`} />
+            <TextSearch key={idx} text={dt.text} searchValue={value} value={dt.value} subText={`in ${dt.cat}`} />
           ))}
         </div>
       </div>

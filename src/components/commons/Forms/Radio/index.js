@@ -37,6 +37,7 @@ function Component({
             value={item.value || ""}
             control={<Radio color="default" size="small" />}
             label={item.label || ""}
+            className={styles.radioContainer}
           />
         ))}
       </RadioGroup>

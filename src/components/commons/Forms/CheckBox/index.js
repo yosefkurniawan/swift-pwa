@@ -46,23 +46,27 @@ const Component = ({
                 label={item.label ? item.label : item}
                 value={item.value ? item.value : item}
                 active={true}
+                key={index}
               />
             ) : (
               <CheckDefault
                 active={true}
                 label={item.label ? item.label : item}
                 value={item.value ? item.value : item}
+                key={index}
               />
             )
           ) : CustomItem ? (
             <CustomItem
               label={item.label ? item.label : item}
               value={item.value ? item.value : item}
+              key={index}
             />
           ) : (
             <CheckDefault
               label={item.label ? item.label : item}
               value={item.value ? item.value : item}
+              key={index}
             />
           )
         )}

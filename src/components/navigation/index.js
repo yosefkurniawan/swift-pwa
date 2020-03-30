@@ -16,12 +16,12 @@ const Navigation = ({ pathname = "", show = true }) => {
     setOpenSearch(close);
     setActive("home");
   };
-  if (show) {
+  const navClass = show ? "bottom-navigation" : "hide"
     return (
       <>
         <SearchModal open={openSearch} setOpen={handleCloseSearch} />
         <BottomNavigation
-          className="bottom-navigation"
+          className={navClass}
           value={active}
           onChange={(event, newValue) => {
             setActive(newValue);
@@ -66,9 +66,6 @@ const Navigation = ({ pathname = "", show = true }) => {
         </BottomNavigation>
       </>
     );
-  } else {
-    return <></>;
-  }
 };
 
 export default Navigation;

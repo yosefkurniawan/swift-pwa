@@ -1,6 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { WHITE, GRAY_PRIMARY, PRIMARY } from "../../../theme/colors";
-import { Centering } from "../../../theme/mixins";
+import { GRAY_PRIMARY, PRIMARY, WHITE } from "../../../theme/colors";
 const useStyles = makeStyles(theme => ({
   container: {
     width: "100%",

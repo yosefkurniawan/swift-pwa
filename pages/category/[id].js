@@ -4,7 +4,6 @@ import Layout from "../../src/components/layouts";
 export async function getServerSideProps() {
     const pageConfig = {
         title: "Category",
-        className: "category",
         bottomNav : false
     };
 

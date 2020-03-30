@@ -1,12 +1,11 @@
-import { Slide, Dialog, AppBar, Toolbar, IconButton } from "@material-ui/core";
-import React, { useState } from "react";
-import ButtonField from "./ButtonField";
-import Header from "../../../commons/Header";
-import CategorySlider from "./Category";
-import SubCategorySlider from "./SubCategory";
-import SearchDialog from "./SearchDialog";
-import useStyles from "../style";
+import { AppBar, Dialog, IconButton, Slide, Toolbar } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
+import React, { useState } from "react";
+import useStyles from "../style";
+import ButtonField from "./ButtonField";
+import CategorySlider from "./Category";
+import SearchDialog from "./SearchDialog";
+import SubCategorySlider from "./SubCategory";
 
 const data = [
   "Subcategory One",

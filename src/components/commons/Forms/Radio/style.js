@@ -7,7 +7,6 @@ const useStyles = makeStyles({
     ...CreateMargin(0,0,0,0),
     ...FlexColumn
   },
-  label : {}
 });
 
 export default useStyles

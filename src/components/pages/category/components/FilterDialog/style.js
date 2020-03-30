@@ -59,6 +59,7 @@ const useStyles = makeStyles(theme => ({
   ...showHide,
   fieldContainer: {
     ...CreatePadding(10, 10, 10, 30),
+    paddingBottom : 18,
     borderBottom: `1px solid ${GRAY_PRIMARY}`
   },
   last : {

@@ -7,20 +7,16 @@ const Layout = (Page, props) => {
     }
 
     render() {
-      const className =
-        this.props.pageConfig && this.props.pageConfig.className
-          ? " " + this.props.pageConfig.className
-          : "";
       return (
         <div>
-          <header></header>
+          <header>
+            <title>{this.props.pageConfig.title}</title>
+          </header>
           <main>
             <Page {...this.props} />
           </main>
           <footer>
-            {
-              <Navigation show={this.props.pageConfig.bottomNav} />
-            }
+            {<Navigation show={this.props.pageConfig.bottomNav} />}
           </footer>
         </div>
       );

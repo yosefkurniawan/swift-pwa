@@ -1,4 +1,3 @@
-import Image from "../../commons/Image";
 import Banner from "../../commons/slider/Banner";
 import Carousel from "../../commons/slider/Carousel";
 import Span from "../../commons/Span";
@@ -35,7 +34,7 @@ const Component = ({ t }) => {
         <Carousel data={data} />
       </div>
       <Span>
-        <Image src="assets" />
+        <img src="assets/img/noun_Image.svg" />
       </Span>
       <div className={styles.slider}>
         <Carousel data={data} />
