@@ -13,25 +13,28 @@ const Category = ({
 }) => {
   const styles = useStyles();
 
-  const content = () => (<div className={styles.body}>
+  const content = () => (
+  <div className={styles.body}>
     <div className={styles.item}>
-      {data.map((cat_lvl1, indx) => (
-        <>
-          <Typography variant="h1" align="center">
-            {cat_lvl1.name}
-          </Typography>
-          {cat_lvl1.children.map((cat_lvl2, indx) => (
-            <Button
-              key={indx}
-              variant="text"
-              capitalize={true}
-              onClick={() => onClick(cat_lvl2)}
-            >
-              <Typography variant="span">{cat_lvl2.name}</Typography>
-            </Button>
-          ))}
-        </>
-      ))}
+      {data.length ? 
+        data.map((cat_lvl1, indx) => (
+          <>
+            <Typography variant="h1" align="center">
+              {cat_lvl1.name}
+            </Typography>
+            {cat_lvl1.children.map((cat_lvl2, indx) => (
+              <Button
+                key={indx}
+                variant="text"
+                capitalize={true}
+                onClick={() => onClick(cat_lvl2)}
+              >
+                <Typography variant="span">{cat_lvl2.name}</Typography>
+              </Button>
+            ))}
+          </>
+        ))
+       : null}
     </div>
   </div>);
 
