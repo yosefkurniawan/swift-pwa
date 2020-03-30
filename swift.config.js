@@ -1,2 +1,5 @@
 /* Magento GraphQL Endpoint */
-export const graphqlEndpoint = "https://swiftpwa-be.testingnow.me/graphql";
+export const graphqlEndpoint = {
+    dev: "https://swiftpwa-be.testingnow.me/graphql",
+    prod: "https://swiftpwa-be.testingnow.me/graphql"
+};

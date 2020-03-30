@@ -6,7 +6,6 @@ import SubCategory from "./SubCategory";
 import SearchDialog from "./SearchDialog";
 import useStyles from "../style";
 import { ArrowBack } from "@material-ui/icons";
-import withApollo from "../../../../services/graphql/withApollo";
 import { GraphCategory } from "../../../../services/graphql";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -21,10 +20,14 @@ const Component = props => {
     const [openSearch, setOpenSearch] = useState(false);
     const [slideCat, setSlideCat] = useState(false);
 
-    const { loading, data } = GraphCategory.getCategories();
+    const { loading, data, error } = GraphCategory.getCategories();
 
     if (loading && !data) {
         return <div>Loading...</div>;
+    }
+    
+    if (error) {
+        return <div>Error: {JSON.stringify(error)}</div>;
     }
 
     const openSub = cat => {
@@ -100,4 +103,4 @@ const Component = props => {
     );
 };
 
-export default withApollo(Component);
+export default Component;

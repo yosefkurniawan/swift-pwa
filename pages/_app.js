@@ -1,11 +1,14 @@
 import React from "react";
 import App from "next/app";
 import Head from "next/head";
+import { ApolloProvider } from "@apollo/react-hooks";
+import { getDataFromTree } from "@apollo/react-ssr";
+import withApollo from "../src/services/graphql/api";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/theme/theme";
-import "../src/styles/index.css";
 import { appWithTranslation } from '../i18n'
+import "../src/styles/index.css";
 
 class MyApp extends App {
     componentDidMount() {
@@ -17,13 +20,13 @@ class MyApp extends App {
     }
 
     render() {
-        const { Component, pageProps } = this.props;
+        const { Component, pageProps, apollo } = this.props;
         const title = pageProps.pageConfig && pageProps.pageConfig.title
             ? pageProps.pageConfig.title
             : "Swift PWA";
         
         return (
-            <React.Fragment>
+            <ApolloProvider client={apollo}>
                 <Head>
                     <title>{title}</title>
                     <meta
@@ -36,9 +39,9 @@ class MyApp extends App {
                     <CssBaseline />
                     <Component {...pageProps} />
                 </ThemeProvider>
-            </React.Fragment>
+            </ApolloProvider>
         );
     }
 }
 
-export default appWithTranslation(MyApp)
+export default withApollo(appWithTranslation(MyApp), { getDataFromTree });
