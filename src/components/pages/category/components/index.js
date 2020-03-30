@@ -62,7 +62,7 @@ const Component = () => {
             >
               <Tab classNames label="All Item" {...a11yProps(0)} />
               {category.map((item, index) => (
-                <Tab label={item} {...a11yProps(index + 1)} />
+                <Tab key={index} label={item} {...a11yProps(index + 1)} />
               ))}
             </Tabs>
           </AppBar>

@@ -35,6 +35,9 @@ const theme = createMuiTheme({
             h1 : {
                 ...FONT_24,
                 ...FONT_DEFAULT
+            },
+            root : {
+                ...FONT_DEFAULT
             }
         },
         MuiRadio : {
@@ -44,10 +47,13 @@ const theme = createMuiTheme({
                     color : PRIMARY
                 },
             },
-            input : {
-                maxWidth : 10
-            }
         },
+        MuiFormControlLabel : {
+            label : {
+                ...FONT_REGULER,
+                'text-transform' : 'capitalize'
+            }
+        }
     },
     props: {
         MuiTypography: {

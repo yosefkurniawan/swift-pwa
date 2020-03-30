@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     'text-transform' : 'uppercase'
   },
   span: {
-    fontSize: FONT_12,
+    ...FONT_12,
     fontWeight: "400",
     margin: 5,
     'text-transform' : 'capitalize'
@@ -43,6 +43,10 @@ const useStyles = makeStyles(theme => ({
   },
   italic: {
     fontStyle: "italic"
+  },
+  label : {
+    ...FONT_12,
+    margin : 0
   }
 }));
 

@@ -7,7 +7,7 @@ const IDR = (value) => {
 }
 
 const Component = ({currency = 'IDR', value = 0}) => {
-    switch (currency) {
+    switch (currency.toUpperCase()) {
         case 'IDR':
             return IDR(value)
             break;

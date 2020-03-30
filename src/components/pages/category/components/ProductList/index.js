@@ -11,7 +11,7 @@ import ButtonColor from "../../../../commons/ButtonColor";
 
 const color = ["#343434", "#6E6E6E", "#989898", "#C9C9C9"];
 
-const ItemProduct = ({ data = {}, key = "" }) => {
+const ItemProduct = ({ data = {},}) => {
   const styles = useStyles();
   const [feed, setFeed] = React.useState(false);
   const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
@@ -22,7 +22,7 @@ const ItemProduct = ({ data = {}, key = "" }) => {
   );
 
   return (
-    <Grid item xs={6} sm={6} md={3} key={key}>
+    <Grid item xs={6} sm={6} md={3} >
       <div className={styles.itemContainer}>
         <div className={styles.imgItem}>
           <Image src="zeit.svg" className={styles.imgProduct} />
@@ -33,11 +33,12 @@ const ItemProduct = ({ data = {}, key = "" }) => {
               Product
             </Typography>
             <Typography variant="p" className={styles.clearMarginPadding}>
-              <PriceFormat currency="IDR" value={90000} />
+              idr 9000
+              {/* <PriceFormat currency="IDR" value={90000} /> */}
             </Typography>
             <div className={styles.colorContainer}>
               {color.map((clr, index) => (
-                <ButtonColor color={clr} key={index} size={16} className={styles.btnColor} />
+                <ButtonColor key={index} color={clr} key={index} size={16} className={styles.btnColor} />
               ))}
             </div>
           </div>
