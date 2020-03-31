@@ -1,6 +1,6 @@
 import React from "react";
 import useStyles from "./style";
-import { Button, NoSsr } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
 import { useRouter } from "next/router";
 import classNames from "classnames";
@@ -46,19 +46,17 @@ const Header = ({
                 )}
             </div>
             <div className={styles.centerContainer}>
-                {React.isValidElement(CenterComponent) ? CenterComponent : null}
+                {React.isValidElement(CenterComponent)
+                    ? CenterComponent
+                    : null}
             </div>
             <div className={styles.rightContainer}>
-                {React.isValidElement(RightComponent) ? RightComponent : null}
+                {React.isValidElement(RightComponent)
+                    ? RightComponent
+                    : null}
             </div>
         </header>
     );
 };
 
-const Component = props => (
-    <NoSsr>
-        <Header {...props} />
-    </NoSsr>
-);
-
-export default Component;
+export default Header;

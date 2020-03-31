@@ -3,7 +3,7 @@ import classNames from "classnames";
 import useStyles from "./style";
 import Button from "@material-ui/core/Button";
 
-const Component = ({
+const CustomButton = ({
   className = {},
   variant = "contained",
   color = "primary",
@@ -24,4 +24,4 @@ const Component = ({
   );
 };
 
-export default Component;
+export default CustomButton;

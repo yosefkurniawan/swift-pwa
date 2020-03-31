@@ -3,7 +3,7 @@ import { Grid } from "@material-ui/core";
 import Typography from "../Typography";
 import Button from "../Button";
 
-const Component = () => {
+const SpanProduct = () => {
   const styles = useStyles();
   return (
     <div className={styles.container}>
@@ -33,4 +33,4 @@ const Component = () => {
   );
 };
 
-export default Component;
+export default SpanProduct;

@@ -1,22 +1,42 @@
-import useStyles from './style'
-import Typograpy from '../../Typography'
-import classNames from 'classnames'
+import classNames from "classnames";
+import useStyles from "./style";
 
+const ChecboxColor = ({
+  label = "",
+  name = "",
+  value = "",
+  dataValues = [],
+  onChange = () => {}
+}) => {
+  const styles = useStyles();
+  const findVal = dataValues.find(element => element.value === value);
+  const checked =
+    (findVal !== "" && findVal !== undefined && findVal) ? true : false;
 
-const Component = ({ active = false, value = "", onChange }) => {
-    const styles = useStyles()
-    const [checked, setChecked] = React.useState(active);
-    const handleChange = () => {
-      setChecked(!checked);
-    };
-    const containerStyle = checked ? classNames(styles.container, styles.active) : styles.container
-    const customStyle = {
-        backgroundColor : `${value || '#fff'}`
+  const handleChange = () => {
+    let newValue = dataValues;
+    if (checked === true) {
+      newValue = newValue.filter(element => element.value !== value);
+    } else {
+      newValue = [...newValue, { label, value }];
     }
-    return (
-        <div className={containerStyle} onClick={handleChange} style={customStyle}>
-        </div>
-    )
-}
+    onChange(newValue);
+  };
 
-export default Component
+  const containerStyle = checked
+    ? classNames(styles.container, styles.active)
+    : styles.container;
+  const customStyle = {
+    backgroundColor: `${value || "#fff"}`
+  };
+  
+  return (
+    <div
+      className={containerStyle}
+      onClick={handleChange}
+      style={customStyle}
+    ></div>
+  );
+};
+
+export default ChecboxColor;

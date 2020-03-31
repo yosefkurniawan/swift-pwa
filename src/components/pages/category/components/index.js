@@ -28,10 +28,10 @@ function a11yProps(index) {
   };
 }
 
-const Component = () => {
+const CategoryPage = () => {
   const styles = useStyles();
   const [value, setValue] = React.useState(0);
-  const [openFilter, setOpenFilter] = React.useState(false);
+  const [openFilter, setOpenFilter] = React.useState(true);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -91,4 +91,4 @@ const Component = () => {
   );
 };
 
-export default Component;
+export default CategoryPage;

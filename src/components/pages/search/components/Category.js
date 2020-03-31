@@ -17,9 +17,9 @@ const Category = ({
   <div className={styles.body}>
     <div className={styles.item}>
       {data.length ? 
-        data.map((cat_lvl1, indx) => (
+        data.map((cat_lvl1, index) => (
           <>
-            <Typography variant="h1" align="center">
+            <Typography key={index} variant="h1" align="center">
               {cat_lvl1.name}
             </Typography>
             {cat_lvl1.children.map((cat_lvl2, indx) => (

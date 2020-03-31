@@ -20,7 +20,7 @@ const data = [
   }
 ];
 
-const Component = ({ t }) => {
+const HomePage = ({ t }) => {
   const styles = useStyles();
   return (
     <div className={styles.container}>
@@ -49,4 +49,4 @@ const Component = ({ t }) => {
   );
 };
 
-export default Component;
+export default HomePage;

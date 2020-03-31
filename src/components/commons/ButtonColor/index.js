@@ -1,7 +1,7 @@
 import useStyles from "./style";
 import classNames from "classnames";
 
-const Component = ({
+const ButtonColor = ({
   onClick = () => {},
   color = "#000",
   size = 20,
@@ -19,4 +19,4 @@ const Component = ({
   return <span className={customClass} style={styles} onClick={onClick}></span>;
 };
 
-export default Component;
+export default ButtonColor;
