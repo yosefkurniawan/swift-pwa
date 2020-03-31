@@ -1,10 +1,12 @@
 import Cart from "../src/components/pages/cart";
 import Layout from "../src/components/layouts";
+import CartHeader from "../src/components/pages/cart/components/header";
 
-export async function getStaticProps() {
+export async function getStaticProps(ctx) {
     const pageConfig = {
-        title: "Shopping Cart",
-        className: "cart"
+        title: "Shopping Bag",
+        className: "cart",
+        header: "relative"
     };
 
     // By returning { props: pageConfig }, the Page component
@@ -16,4 +18,4 @@ export async function getStaticProps() {
     };
 }
 
-export default Layout(Cart);
+export default Layout(Cart, CartHeader);

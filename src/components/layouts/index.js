@@ -1,27 +1,36 @@
 import Navigation from "../navigation";
+import Header from "../../components/commons/Header";
+import Head from "next/head";
 
-const Layout = (Page, props) => {
-  return class Layout extends React.Component {
-    constructor(props) {
-      super(props);
-    }
+const Layout = (Page, CustomHeader) => {
+    return class Layout extends React.Component {
+        constructor(props) {
+            super(props);
+        }
 
-    render() {
-      return (
-        <div>
-          <header>
-            <title>{this.props.pageConfig.title}</title>
-          </header>
-          <main>
-            <Page {...this.props} />
-          </main>
-          <footer>
-            {<Navigation show={this.props.pageConfig.bottomNav} />}
-          </footer>
-        </div>
-      );
-    }
-  };
+        render() {
+            return (
+                <>
+                    <Head>
+                        <title>{this.props.pageConfig.title}</title>
+                    </Head>
+
+                    {CustomHeader ? (
+                        <CustomHeader {...this.props} />
+                    ) : (
+                        <Header {...this.props} />
+                    )}
+
+                    <main>
+                        <Page {...this.props} />
+                    </main>
+                    <footer>
+                        {<Navigation show={this.props.pageConfig.bottomNav} />}
+                    </footer>
+                </>
+            );
+        }
+    };
 };
 
 export default Layout;

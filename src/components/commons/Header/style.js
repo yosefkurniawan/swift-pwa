@@ -1,29 +1,42 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { CreatePadding, CreateMargin } from '../../../theme/mixins'
+import { GRAY_PRIMARY } from "../../../theme/colors";
 
-const useStyles = makeStyles(theme => ({ 
-    container : {
-        ...CreatePadding(10,10,10,10),
-        width : '100%',
-        height : '10vh',
-        display : 'flex',
-        flexDirection : 'row',
-        alignItems : 'center',
-        ...CreateMargin(0,0,18,0)
+const useStyles = makeStyles(theme => ({
+    container: {
+        ...CreatePadding(10, 10, 10, 10),
+        width: "100%",
+        height: 50,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        ...CreateMargin(0, 0, 18, 0),
+        borderBottom: "1px solid " + GRAY_PRIMARY
     },
-    leftContainer : {
-        justifyContent : 'flex-start',
-        alignItems : 'center'
+    leftContainer: {
+        position: "absolute",
+        left: 0
     },
-    rightContainer : {
-        alignItems : 'flex-end',
+    rightContainer: {
+        position: "absolute",
+        right: 0
     },
-    centerContainer : {
-        alignItems : 'center',
+    centerContainer: {
+        alignItems: "center",
+        textAlign: "center",
+        flexGrow: 1,
+        ...CreatePadding(0, "20%", 0, "20%")
     },
-    backIcon : {
-        fontSize : 30
+    backIcon: {
+        fontSize: 30
     },
-}))
+    headerAbsolute: {
+        position: "absolute",
+        zIndex: 1
+    },
+    headerRelative: {
+        position: "relative"
+    }
+}));
 
 export default useStyles;
