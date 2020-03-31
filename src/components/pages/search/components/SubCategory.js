@@ -7,7 +7,6 @@ import { ArrowBack } from "@material-ui/icons";
 import Router from "next/router";
 
 const SubCategory = ({ open, data, category, onBack }) => {
-  console.log(data)
   const styles = useStyles();
   return (
     <Slide
@@ -28,7 +27,7 @@ const SubCategory = ({ open, data, category, onBack }) => {
               variant="text"
               capitalize={true}
               onClick={() => {
-                Router.push('/category/'+item.url_path.toLowerCase())
+                Router.push('/category/'+item.url_key.toLowerCase())
               }}
             >
               <Typography variant="span">{item.name}</Typography>

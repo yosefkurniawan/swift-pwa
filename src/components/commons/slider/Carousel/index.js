@@ -48,7 +48,7 @@ function slideRenderer(params) {
   return <Item key={key} />;
 }
 
-const Component = ({ data = [1,2,3] }) => {
+const Caraousel = ({ data = [1,2,3] }) => {
   const styles = useStyles();
   const [index, setIndex] = useState(parseInt(data.length/2));
   return (
@@ -70,4 +70,4 @@ const Component = ({ data = [1,2,3] }) => {
   );
 };
 
-export default Component;
+export default Caraousel;

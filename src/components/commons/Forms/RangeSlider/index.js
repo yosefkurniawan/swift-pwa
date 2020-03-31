@@ -6,7 +6,7 @@ import currency from '../../../../helpers/currency'
 
 const CustomSlider = withStyles(sliderStyle)(Slider);
 
-const Component = ({
+const RangeSlider = ({
   maxValue = 100,
   onChange = () => {},
   value = [0, 10],
@@ -52,11 +52,11 @@ const Component = ({
   );
 };
 
-Component.propTypes = {
+RangeSlider.propTypes = {
   max: PropTypes.number,
   onChange: PropTypes.func,
   value: PropTypes.array,
   label: PropTypes.string
 };
 
-export default Component;
+export default RangeSlider;

@@ -64,7 +64,7 @@ const TextSearch = ({
   );
 };
 
-const Component = ({ open, setOpen }) => {
+const SearchDialog = ({ open, setOpen }) => {
   const styles = useStyles();
   const [value, setValue] = React.useState("");
   const classBody =
@@ -122,4 +122,4 @@ const Component = ({ open, setOpen }) => {
   );
 };
 
-export default Component;
+export default SearchDialog;

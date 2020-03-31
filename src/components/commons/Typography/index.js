@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { Typography } from "@material-ui/core";
 import useStyles from "./style";
 
-const Component = ({
+const CustomTypography = ({
   variant,
   type,
   className = {},
@@ -27,10 +27,10 @@ const Component = ({
   );
 };
 
-Component.propTypes = {
+CustomTypography.propTypes = {
   variant: PropTypes.oneOf(["h1", "h2", "h3", "h6", "p", "span", "title",'label']),
   type: PropTypes.oneOf(["bold", "italic", 'semiBold','reguler']),
   className: PropTypes.object
 };
 
-export default Component;
+export default CustomTypography;
