@@ -1,17 +1,16 @@
 import useStyles from "./style";
 import { Grid } from "@material-ui/core";
-import Image from "../Image";
 import Typography from "../Typography";
 import Button from "../Button";
 
-const Component = ({}) => {
+const Component = () => {
   const styles = useStyles();
   return (
     <div className={styles.container}>
       <Grid container justify="center">
         <Grid item sm={12} md={12} lg={12}>
           <div className={styles.imageContainer}>
-            <Image src="error" />
+            <img src="/assets/img/noun_Image.svg" />
           </div>
         </Grid>
         <Grid item sm={12} md={12} lg={12}>

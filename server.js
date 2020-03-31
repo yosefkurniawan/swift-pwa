@@ -13,7 +13,7 @@ const handle = app.getRequestHandler();
   const server = express()
 
   server.use(nextI18NextMiddleware(nextI18next))
-
+  server.get("/category/:cat/:sub/:sub-cat", (req, res) => app.render(req, res, `/category`));
   server.get('*', (req, res) => handle(req, res))
 
   await server.listen(port)

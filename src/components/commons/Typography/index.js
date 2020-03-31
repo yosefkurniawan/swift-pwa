@@ -21,14 +21,14 @@ const Component = ({
     className,
   );
   return (
-    <Typography variant={variant} className={customStyle} align={align}>
+    <Typography className={customStyle} align={align}>
       {children}
     </Typography>
   );
 };
 
 Component.propTypes = {
-  variant: PropTypes.oneOf(["h1", "h2", "h3", "h6", "p", "span", "title"]),
+  variant: PropTypes.oneOf(["h1", "h2", "h3", "h6", "p", "span", "title",'label']),
   type: PropTypes.oneOf(["bold", "italic", 'semiBold','reguler']),
   className: PropTypes.object
 };

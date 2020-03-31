@@ -8,7 +8,6 @@ const Component = ({
   variant = "contained",
   color = "primary",
   children,
-  capitalize = false,
   onClick = () => {}
 }) => {
   const styles = useStyles();
@@ -19,7 +18,6 @@ const Component = ({
       variant={variant}
       color={color}
       className={customClass}
-      autoCapitalize={capitalize}
     >
       {children}
     </Button>

@@ -5,7 +5,7 @@ import { virtualize } from "react-swipeable-views-utils";
 import { mod } from "react-swipeable-views-core";
 import Item from "./Item";
 
-const VirtualizeView = virtualize(SwipeableViews);
+// const VirtualizeView = virtualize(SwipeableViews);
 
 import useStyles from "./style";
 
@@ -48,19 +48,24 @@ function slideRenderer(params) {
   return <Item key={key} />;
 }
 
-const Component = ({ data = [] }) => {
+const Component = ({ data = [1,2,3] }) => {
   const styles = useStyles();
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(parseInt(data.length/2));
   return (
     <div className={styles.container}>
-      <VirtualizeView
+      <SwipeableViews
         className={styles.caraousel}
         slideClassName={styles.slideContainer}
-        slideRenderer={slideRenderer}
         index={index}
         onChangeIndex={index => setIndex(index)}
         enableMouseEvents={true}
-      ></VirtualizeView>
+      >
+        {
+          data.map((item, index) => (
+            <Item key={index} />
+          ))
+        }
+      </SwipeableViews>
     </div>
   );
 };

@@ -1,39 +1,38 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { GRAY_PRIMARY, WHITE } from "../../../../theme/colors";
+import { Centering, FlexColumn, CreatePadding } from "../../../../theme/mixins";
 const useStyles = makeStyles(theme => ({
   container: {
     width: "100%",
     height: "100%",
-    position : 'relative',
-    backgroundColor : WHITE
+    position: "relative",
+    backgroundColor: WHITE
   },
-  caraousel : {
-    padding : '0 55px'
+  caraousel: {
+    padding: "0 55px"
   },
-  slideContainer  : {
-    padding : '0 15px',
+  slideContainer: {
+    padding: "0 15px",
   },
-  itemContainer : {
-      minWidth : 233,
-      maxWidth : '80%',
-      display : 'flex',
-      flexDirection : 'column',
-      height : '100%'
+  itemContainer: {
+    width: "100%",
+    display : 'inline-block',
+    height: "100%",
+    overflow: 'hidden',
   },
-  imgItem : {
-      width : '100%',
-      display : 'flex',
-      justifyContent : 'center',
-      alignItems : 'center',
-      height : 288,
-      backgroundColor : GRAY_PRIMARY,
+  imgItem: {
+    width: "100%",
+    ...Centering,
+    height : 288,
+    backgroundColor: GRAY_PRIMARY
   },
-  detailItem : {
-      display : 'flex',
-      flexDirection : 'column',
-      justifyContent : 'center',
-      alignItems : 'center',
-      height : 150,
+  detailItem: {
+    ...FlexColumn,
+    justifyContent: "center",
+    alignItems: "center",
+    height : 'auto',
+    ...CreatePadding(16,0,0,0)
+      
   }
 }));
 
