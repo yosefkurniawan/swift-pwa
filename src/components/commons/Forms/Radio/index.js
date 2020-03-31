@@ -4,7 +4,7 @@ import useStyles from "./style";
 import Typography from "../../Typography";
 
 // Inspired by blueprintjs
-function Component({
+function CustomRadio({
   valueData = [],
   onChange = () => {},
   value = "",
@@ -43,4 +43,4 @@ function Component({
   );
 }
 
-export default Component;
+export default CustomRadio;

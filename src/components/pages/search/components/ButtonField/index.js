@@ -2,7 +2,7 @@ import useStyles from "./style";
 import Button from "../../../../commons/Button";
 import Typography from "../../../../commons/Typography";
 
-const Component = ({ placeholder = "", onClick }) => {
+const ButtonField = ({ placeholder = "", onClick }) => {
   const styles = useStyles();
   return (
     <div className={styles.container}>
@@ -19,4 +19,4 @@ const Component = ({ placeholder = "", onClick }) => {
   );
 };
 
-export default Component;
+export default ButtonField;

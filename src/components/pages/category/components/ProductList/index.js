@@ -53,7 +53,7 @@ const ItemProduct = ({ data = {},}) => {
   );
 };
 
-const Component = ({ data = [], className = {} }) => {
+const ProductList = ({ data = [], className = {} }) => {
   const styles = useStyles();
 
   return (
@@ -65,4 +65,4 @@ const Component = ({ data = [], className = {} }) => {
   );
 };
 
-export default Component;
+export default ProductList;

@@ -5,11 +5,11 @@ import RadioGroup from "../../../../commons/Forms/Radio";
 import Typography from "../../../../commons/Typography";
 import RangeSlider from "../../../../commons/Forms/RangeSlider";
 import CheckBox from "../../../../commons/Forms/CheckBox";
-import CheckBoxSize from "../../../../commons/Forms/CheckBoxSize"
-import CheckBoxColor from "../../../../commons/Forms/CheckBoxColor"
+import CheckBoxSize from "../../../../commons/Forms/CheckBoxSize";
+import CheckBoxColor from "../../../../commons/Forms/CheckBoxColor";
 import Button from "../../../../commons/Button";
 import useStyles from "./style";
-import classNames from 'classnames'
+import classNames from "classnames";
 
 const radioData = [
   { value: "popularity", label: "Popularity" },
@@ -18,33 +18,51 @@ const radioData = [
   { value: "priceLow", label: "Price (Low to Hight)" }
 ];
 
-const checkBoxData = [
+const brandData = [
   { value: "one", label: "Brand One" },
   { value: "two", label: "brand two" },
   { value: "three", label: "Brand three" },
   { value: "four", label: "brand four" }
-]
+];
+
+const colorData = [
+  { value: "#717171", label: "One" },
+  { value: "#9b9b9b", label: " two" },
+  { value: "#c1c1c1", label: " three" },
+  { value: "#e5e5e5", label: " four" },
+  { value: "#ffffff", label: " four" }
+];
+
+const sizeData = [
+  { value: "s", label: "S" },
+  { value: "m", label: "M" },
+  { value: "l", label: "L" },
+  { value: "xl", label: "XL" },
+  { value: "xxl", label: "XXL" }
+];
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Component = ({ open, setOpen }) => {
+const FilterDialog = ({ open, setOpen }) => {
   const styles = useStyles();
   const [value, setValue] = React.useState("");
   const [short, setShort] = React.useState("female");
   const [priceRange, setPriceRange] = React.useState([250000, 1000000]);
   const [size, setSize] = React.useState(["M", "XL"]);
   const [color, setColor] = React.useState(["#717171", "#9b9b9b"]);
-  const [brand, setbrand] = React.useState([]);
+  const [brand, setbrand] = React.useState([
+    { value: "four", label: "brand four" }
+  ]);
 
   const handleClear = () => {
-    setShort("")
-    setPriceRange([0,0])
-    setSize([])
-    setColor([])
-    setbrand([])
-  }
+    setShort("");
+    setPriceRange([0, 0]);
+    setSize([]);
+    setColor([]);
+    setbrand([]);
+  };
 
   return (
     <Dialog
@@ -95,36 +113,45 @@ const Component = ({ open, setOpen }) => {
             data={["S", "M", "L", "XL", "XXL"]}
             value={size}
             flex="row"
-            CustomItem={ CheckBoxSize }
+            CustomItem={CheckBoxSize}
+            onChange={setSize}
           />
         </div>
         <div className={styles.fieldContainer}>
           <CheckBox
             label="color"
-            data={["#717171", "#9b9b9b", "#c1c1c1", "#e5e5e5" ,"#ffffff"]}
+            data={["#717171", "#9b9b9b", "#c1c1c1", "#e5e5e5", "#ffffff"]}
             value={color}
             flex="row"
-            CustomItem={ CheckBoxColor }
+            CustomItem={CheckBoxColor}
+            onChange={setColor}
           />
         </div>
         <div className={classNames(styles.fieldContainer, styles.last)}>
           <CheckBox
             label="brand"
-            data={checkBoxData}
+            data={brandData}
             value={brand}
             flex="column"
+            onChange={setbrand}
           />
         </div>
       </div>
 
       <div className={styles.footer}>
-        <Button variant="outlined" className={styles.btnSave} onClick={handleClear}>
+        <Button
+          variant="outlined"
+          className={styles.btnSave}
+          onClick={handleClear}
+        >
           Clear
         </Button>
-        <Button className={styles.btnSave} onClick={setOpen}>Save</Button>
+        <Button className={styles.btnSave} onClick={setOpen}>
+          Save
+        </Button>
       </div>
     </Dialog>
   );
 };
 
-export default Component;
+export default FilterDialog;

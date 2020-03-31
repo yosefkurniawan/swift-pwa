@@ -3,7 +3,7 @@ import useStyles from "./style";
 import { TextField } from '@material-ui/core';
 import classNames from 'classnames'
 
-const Component = ({ placeholder = "", disabled = false, onChange = () => {}, value = '', className={} }) => {
+const CustomTextField = ({ placeholder = "", disabled = false, onChange = () => {}, value = '', className={} }) => {
   const styles = useStyles();
   const [localValue, setValue] = useState(value)
   const onChangeText = (event) => {
@@ -23,4 +23,4 @@ const Component = ({ placeholder = "", disabled = false, onChange = () => {}, va
   );
 };
 
-export default Component;
+export default CustomTextField;

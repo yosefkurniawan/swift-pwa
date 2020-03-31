@@ -12,7 +12,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const Component = props => {
+const SearchPage = props => {
     const styles = useStyles();
     const [openedCategory, setOpenedCategory] = useState([]);
     const [showCat, setShowCat] = useState(true);
@@ -103,4 +103,4 @@ const Component = props => {
     );
 };
 
-export default Component;
+export default SearchPage;

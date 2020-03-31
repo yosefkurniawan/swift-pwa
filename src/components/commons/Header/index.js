@@ -54,10 +54,10 @@ const Header = ({
   );
 };
 
-const Component = props => (
+const CustomHeader = props => (
   <NoSsr>
     <Header {...props} />
   </NoSsr>
 );
 
-export default Component;
+export default CustomHeader;
