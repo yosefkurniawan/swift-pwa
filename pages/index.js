@@ -8,7 +8,6 @@ export async function getStaticProps() {
     // - className
     const pageConfig = {
         title: "Homepage",
-        className: "home"
     };
 
     // By returning { props: pageConfig }, the Page component

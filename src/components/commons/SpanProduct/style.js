@@ -1,16 +1,16 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { WHITE, GRAY_PRIMARY, PRIMARY } from "../../../theme/colors";
+import { GRAY_PRIMARY, PRIMARY, WHITE } from "../../../theme/colors";
 const useStyles = makeStyles(theme => ({
   container: {
     width: "100%",
     height: '100%',
     position : 'relative',
     backgroundColor : WHITE,
-    padding : 10
+    padding : 10,
   },
   imageContainer : {
       minWidth : 345,
-      maxWidth : '95%',
+      maxWidth : '100%',
       height : 168,
       display : 'flex',
       justifyContent : 'center',

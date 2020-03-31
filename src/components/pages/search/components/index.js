@@ -1,11 +1,11 @@
-import { Slide, Dialog, AppBar, Toolbar, IconButton } from "@material-ui/core";
+import { AppBar, Dialog, IconButton, Slide, Toolbar } from "@material-ui/core";
+import { ArrowBack } from "@material-ui/icons";
 import React, { useState } from "react";
+import useStyles from "../style";
 import ButtonField from "./ButtonField";
 import Category from "./Category";
 import SubCategory from "./SubCategory";
 import SearchDialog from "./SearchDialog";
-import useStyles from "../style";
-import { ArrowBack } from "@material-ui/icons";
 import { GraphCategory } from "../../../../services/graphql";
 
 const Transition = React.forwardRef(function Transition(props, ref) {

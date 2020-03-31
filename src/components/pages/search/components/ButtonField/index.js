@@ -6,7 +6,7 @@ const Component = ({ placeholder = "", onClick }) => {
   const styles = useStyles();
   return (
     <div className={styles.container}>
-      <Button variant="texts" capitalize={true} onClick={onClick}>
+      <Button variant="text" capitalize={true} onClick={onClick}>
         <Typography
           variant="span"
           type="semiBold"

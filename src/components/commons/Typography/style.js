@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { FONT_12 } from "../../../theme/typography";
+import { FONT_12, FONT_24 } from "../../../theme/typography";
 import { PRIMARY } from "../../../theme/colors";
 const useStyles = makeStyles(theme => ({
   root: {
@@ -12,10 +12,11 @@ const useStyles = makeStyles(theme => ({
   },
   h1: {
     fontWeight: "bold",
-    'text-transform' : 'uppercase'
+    'text-transform' : 'uppercase',
+    ...FONT_24
   },
   span: {
-    fontSize: FONT_12,
+    ...FONT_12,
     fontWeight: "400",
     margin: 5,
     'text-transform' : 'capitalize'
@@ -43,6 +44,10 @@ const useStyles = makeStyles(theme => ({
   },
   italic: {
     fontStyle: "italic"
+  },
+  label : {
+    ...FONT_12,
+    margin : 0
   }
 }));
 

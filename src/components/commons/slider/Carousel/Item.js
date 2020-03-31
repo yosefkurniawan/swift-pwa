@@ -1,7 +1,6 @@
 import useStyles from "./style";
-import Image from "../../Image";
 import Typography from "../../Typography";
-import { priceFormat } from '../../price/priceFormat'
+import currency from "../../../../helpers/currency";
 
 const Item = ({}) => {
   const styles = useStyles();
@@ -9,12 +8,17 @@ const Item = ({}) => {
   return (
     <div className={styles.itemContainer}>
       <div className={styles.imgItem}>
-        <Image src="ad" />
+        <img src="assets/img/noun_Image.svg" />
       </div>
       <div className={styles.detailItem}>
         <Typography variant="span">Product</Typography>
         <Typography variant="span" type="bold">
-          {priceFormat(98000)}
+         {
+           currency({
+             value : 90000,
+             currency : 'IDR'
+           })
+         }
         </Typography>
       </div>
     </div>

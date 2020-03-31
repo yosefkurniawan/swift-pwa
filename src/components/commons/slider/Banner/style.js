@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "row",
     position: "absolute",
     justifyContent: "space-arround",
-    bottom: "5em",
+    bottom: "10%",
     left: "50%",
     transform: "translate(-50%, -50%)"
   },
@@ -36,7 +36,6 @@ const useStyles = makeStyles(theme => ({
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
     width: "100%",
-    height: "100vh"
   }
 }));
 
