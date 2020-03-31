@@ -1,9 +1,4 @@
-const Cart = (props) => {
-    return (
-        <div>
-            <h1>{props.pageConfig.title}</h1>
-        </div>
-    );
-};
+import Cart from "./components";
+import { withTranslation } from "../../../../i18n";
 
-export default Cart;
+export default withTranslation()(Cart);

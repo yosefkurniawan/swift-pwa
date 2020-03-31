@@ -3,8 +3,9 @@ import Layout from "../../src/components/layouts";
 
 export async function getServerSideProps() {
     const pageConfig = {
-        title: "Category",
-        bottomNav : false
+        title: "[Category Name]",
+        bottomNav: false,
+        header: "absolute"
     };
 
     // By returning { props: pageConfig }, the Page component

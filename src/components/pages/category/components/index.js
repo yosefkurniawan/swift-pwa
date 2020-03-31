@@ -2,7 +2,6 @@ import { AppBar, Box } from "@material-ui/core";
 import { Tune } from "@material-ui/icons";
 import React from "react";
 import Button from "../../../commons/Button";
-import Header from "../../../commons/Header";
 import Typography from "../../../commons/Typography";
 import useStyles from "../style";
 import ProductList from "./ProductList";
@@ -46,7 +45,6 @@ const Component = () => {
       <Box className={styles.container}>
         <div className={styles.headContainer}>
           <Banner data={data} height="40vh" />
-          <Header className={styles.header} />
         </div>
         <div>
           <AppBar position="static" color="inherit" className={styles.tabs}>
