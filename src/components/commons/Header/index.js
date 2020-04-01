@@ -1,9 +1,10 @@
 import React from "react";
 import useStyles from "./style";
 import { Button } from "@material-ui/core";
-import { ArrowBack } from "@material-ui/icons";
+import { ArrowBack, Close as CloseIcon } from "@material-ui/icons";
 import { useRouter } from "next/router";
 import classNames from "classnames";
+import Typography from "../../commons/Typography";
 
 const Header = ({
     LeftComponent,
@@ -41,19 +42,34 @@ const Header = ({
                         }
                         className={styles.btnBack}
                     >
-                        <ArrowBack className={styles.backIcon} />
+                        {pageConfig.headerBackIcon &&
+                        pageConfig.headerBackIcon == "close" ? (
+                            <CloseIcon className={styles.backIcon} />
+                        ) : (
+                            <ArrowBack className={styles.backIcon} />
+                        )}
                     </Button>
                 )}
             </div>
             <div className={styles.centerContainer}>
-                {React.isValidElement(CenterComponent)
-                    ? CenterComponent
-                    : null}
+                {React.isValidElement(CenterComponent) ? (
+                    CenterComponent
+                ) : (
+                    <>
+                        {pageConfig.headerTitle ? (
+                            <Typography
+                                variant="title"
+                                type="bold"
+                                letter="uppercase"
+                            >
+                                {pageConfig.headerTitle}
+                            </Typography>
+                        ) : null}
+                    </>
+                )}
             </div>
             <div className={styles.rightContainer}>
-                {React.isValidElement(RightComponent)
-                    ? RightComponent
-                    : null}
+                {React.isValidElement(RightComponent) ? RightComponent : null}
             </div>
         </header>
     );
