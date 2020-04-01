@@ -1,12 +1,15 @@
 {
-  "home" : {
-    "logoName" : "LOGO"
-  },
-  "product" : {
-    "title_product" : "Nama Produk"
-  },
-  "search" : {
-    "mainTitle" : "Koleksi terbaru",
-    "backTitle" : "kembali ke produk"
-  }
+    "edit": "Edit",
+    "variant": "Varian",
+    "save": "Simpan",
+    "home": {
+        "logoName": "LOGO"
+    },
+    "product": {
+        "title_product": "Nama Produk"
+    },
+    "search": {
+        "mainTitle": "Koleksi terbaru",
+        "backTitle": "kembali ke produk"
+    }
 }
