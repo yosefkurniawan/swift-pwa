@@ -1,0 +1,11 @@
+{
+    "dashboard": {
+        "pageTitle": "Beranda Pelanggan"
+    },
+    "register": {
+        "pageTitle": "Daftar Akun Baru"
+    },
+    "login": {
+        "pageTitle": "Login"
+    }
+}

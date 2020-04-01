@@ -1,5 +1,7 @@
-import * as GraphCategory from './repository/category';
+import * as GraphCategory from "./repository/category";
+import * as GraphExample from "./repository/category";
 
-export {
-    GraphCategory
+export { 
+    GraphCategory,
+    GraphExample
 };
