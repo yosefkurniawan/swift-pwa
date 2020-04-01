@@ -8,7 +8,7 @@ const Item = ({}) => {
   return (
     <div className={styles.itemContainer}>
       <div className={styles.imgItem}>
-        <img src="assets/img/noun_Image.svg" />
+        <img src="/assets/img/noun_Image.svg" />
       </div>
       <div className={styles.detailItem}>
         <Typography variant="span">Product</Typography>

@@ -31,7 +31,7 @@ function a11yProps(index) {
 const CategoryPage = () => {
   const styles = useStyles();
   const [value, setValue] = React.useState(0);
-  const [openFilter, setOpenFilter] = React.useState(true);
+  const [openFilter, setOpenFilter] = React.useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

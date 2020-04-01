@@ -23,3 +23,8 @@ export const FONT_REGULER = {
     ...FONT_12,
     fontWeight : 'reguler'
 }
+
+
+export const textAlign = (align = 'left') => ({
+    textAlign : align
+})

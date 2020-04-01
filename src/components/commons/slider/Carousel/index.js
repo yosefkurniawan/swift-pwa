@@ -1,58 +1,25 @@
-import React, { useState, useEffect } from "react";
-import classNames from "classnames";
+import React, { useState } from "react";
 import SwipeableViews from "react-swipeable-views";
-import { virtualize } from "react-swipeable-views-utils";
-import { mod } from "react-swipeable-views-core";
 import Item from "./Item";
-
-// const VirtualizeView = virtualize(SwipeableViews);
-
 import useStyles from "./style";
+import Typography from "../../Typography";
 
-function slideRenderer(params) {
-  const styles = {
-    slide1: {
-      backgroundColor: "#FEA900",
-      height: 100
-    },
-    slide2: {
-      backgroundColor: "#B3DC4A",
-      height: 100
-    },
-    slide3: {
-      backgroundColor: "#6AC0FF",
-      height: 100
-    }
-  };
-
-  const { index, key } = params;
-  let style;
-
-  switch (mod(index, 3)) {
-    case 0:
-      style = styles.slide1;
-      break;
-
-    case 1:
-      style = styles.slide2;
-      break;
-
-    case 2:
-      style = styles.slide3;
-      break;
-
-    default:
-      break;
-  }
-
-  return <Item key={key} />;
-}
-
-const Caraousel = ({ data = [1,2,3] }) => {
+const Caraousel = ({ data = [1, 2, 3], title = "" }) => {
   const styles = useStyles();
-  const [index, setIndex] = useState(parseInt(data.length/2));
+  const [index, setIndex] = useState(parseInt(data.length / 2));
   return (
     <div className={styles.container}>
+      {title && title !== "" && (
+        <Typography
+          align="center"
+          letter="uppercase"
+          type="bold"
+          variant="span"
+          className={styles.title}
+        >
+          {title}
+        </Typography>
+      )}
       <SwipeableViews
         className={styles.caraousel}
         slideClassName={styles.slideContainer}
@@ -60,11 +27,9 @@ const Caraousel = ({ data = [1,2,3] }) => {
         onChangeIndex={index => setIndex(index)}
         enableMouseEvents={true}
       >
-        {
-          data.map((item, index) => (
-            <Item key={index} />
-          ))
-        }
+        {data.map((item, index) => (
+          <Item key={index} />
+        ))}
       </SwipeableViews>
     </div>
   );

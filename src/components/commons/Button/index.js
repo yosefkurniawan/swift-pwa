@@ -8,6 +8,7 @@ const CustomButton = ({
   variant = "contained",
   color = "primary",
   children,
+  disabled = false,
   onClick = () => {}
 }) => {
   const styles = useStyles();
@@ -18,6 +19,7 @@ const CustomButton = ({
       variant={variant}
       color={color}
       className={customClass}
+      disabled={disabled}
     >
       {children}
     </Button>
