@@ -5,7 +5,7 @@ import Layout from "../../layouts";
 const Page = props => {
     const pageConfig = {
         title: "[Category Name]",
-        header: false // available values: "absolute", "relative", false (default)
+        header: "absolute" // available values: "absolute", "relative", false (default)
     };
     return (
         <Layout pageConfig={pageConfig}>

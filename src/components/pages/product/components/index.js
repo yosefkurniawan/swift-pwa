@@ -60,10 +60,10 @@ const ProductPage = ({ t, i18n }) => {
       <Box className={styles.container}>
         <div className={styles.headContainer}>
           <Banner data={data} height="70vh" />
-          <Header
+          {/* <Header
             className={styles.header}
             RightComponent={<ShoppingBagIcon />}
-          />
+          /> */}
           <RightDrawer
             open={openDrawer}
             setOpen={() => setOpenDrawer(!openDrawer)}
