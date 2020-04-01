@@ -32,7 +32,8 @@ const useStyles = makeStyles(theme => ({
     },
     headerAbsolute: {
         position: "absolute",
-        zIndex: 1
+        zIndex: 1,
+        borderBottom: "none"
     },
     headerRelative: {
         position: "relative"

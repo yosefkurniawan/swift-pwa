@@ -18,7 +18,6 @@ const Header = ({
     const back = () => {
         route.back();
     };
-    const containerStyle = classNames(styles.container, className);
 
     if (pageConfig && !pageConfig.header) return null;
 
@@ -27,8 +26,9 @@ const Header = ({
             ? styles.headerAbsolute
             : styles.headerRelative;
 
+    const containerStyle = classNames(styles.container, position, className);
     return (
-        <header className={[containerStyle, position].join(" ")}>
+        <header className={containerStyle}>
             <div className={styles.leftContainer}>
                 {React.isValidElement(LeftComponent) ? (
                     LeftComponent
