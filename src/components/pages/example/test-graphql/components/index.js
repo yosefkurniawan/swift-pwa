@@ -1,47 +1,48 @@
+import { GraphExample } from "../../../../../services/graphql";
+
+/* no need these two here if these are already implemented in _app.js */
 // import { getDataFromTree } from "@apollo/react-ssr";
 // import withApollo from "../../../../../services/graphql/api";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
-// import { GraphCategory } from "../../../../../src/services/graphql";
-// import { getCategories } from "../../../../../src/services/graphql/repository/example";
 
-const QUERY = gql`
-    {
-        categoryList {
-            children_count
-            children {
-                id
-                level
-                name
-                path
-                url_path
-                url_key
-                include_in_menu
-                children {
-                    id
-                    level
-                    name
-                    path
-                    url_path
-                    url_key
-                    children {
-                        id
-                        level
-                        name
-                        path
-                        url_path
-                        url_key
-                    }
-                }
-            }
-        }
-    }
-`;
+/* no need to define query from here. better put all queries in src/service/graphql */
+// import { useQuery } from "@apollo/react-hooks";
+// import gql from "graphql-tag";
+// const QUERY = gql`
+//     {
+//         categoryList {
+//             children_count
+//             children {
+//                 id
+//                 level
+//                 name
+//                 path
+//                 url_path
+//                 url_key
+//                 include_in_menu
+//                 children {
+//                     id
+//                     level
+//                     name
+//                     path
+//                     url_path
+//                     url_key
+//                     children {
+//                         id
+//                         level
+//                         name
+//                         path
+//                         url_path
+//                         url_key
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// `;
 
 const TestGraphql = props => {
-    const { loading, data } = useQuery(QUERY);
-    // const { loading, data, error } = GraphCategory.getCategories();
-    // const { loading, data } = getCategories();
+    // const { loading, data } = useQuery(QUERY);
+    const { loading, data, error } = GraphExample.getCategories();
 
     if (loading || !data) {
         return <h1>loading...</h1>;
@@ -68,4 +69,4 @@ const TestGraphql = props => {
 };
 
 export default TestGraphql;
-// export default withApollo(Test, { getDataFromTree });
+// export default withApollo(TestGraphql, { getDataFromTree });
