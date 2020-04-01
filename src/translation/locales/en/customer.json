@@ -1,0 +1,11 @@
+{
+    "dashboard": {
+        "pageTitle": "Customer Dashboard"
+    },
+    "register": {
+        "pageTitle": "Create New Account"
+    },
+    "login": {
+        "pageTitle": "Login"
+    }
+}
