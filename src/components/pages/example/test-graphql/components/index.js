@@ -1,9 +1,9 @@
 // import { getDataFromTree } from "@apollo/react-ssr";
-// import withApollo from "../src/services/graphql/api";
+// import withApollo from "../../../../../services/graphql/api";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
-// import { GraphCategory } from "../src/services/graphql";
-// import { getCategories } from "../src/services/graphql/repository/category";
+// import { GraphCategory } from "../../../../../src/services/graphql";
+// import { getCategories } from "../../../../../src/services/graphql/repository/example";
 
 const QUERY = gql`
     {
@@ -38,7 +38,7 @@ const QUERY = gql`
     }
 `;
 
-const Test = props => {
+const TestGraphql = props => {
     const { loading, data } = useQuery(QUERY);
     // const { loading, data, error } = GraphCategory.getCategories();
     // const { loading, data } = getCategories();
@@ -67,19 +67,5 @@ const Test = props => {
     );
 };
 
-Test.getInitialProps = async ctx => {
-    const pageConfig = {
-        title: "Sample Page",
-        className: "test"
-    };
-
-    // By returning { props: pageConfig }, the Page component
-    // will receive `pageConfig` as a prop at build time
-    return {
-        pageConfig
-    };
-};
-
-
-export default Test;
+export default TestGraphql;
 // export default withApollo(Test, { getDataFromTree });
