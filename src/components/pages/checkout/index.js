@@ -1,9 +1,19 @@
-const Checkout = (props) => {
+import Content from "./components";
+import Layout from "../../layouts";
+import { withTranslation } from "../../../../i18n";
+
+const Page = props => {
+    const { t } = props;
+    const pageConfig = {
+        title: t("checkout:pageTitle"),
+        header: "relative", // available values: "absolute", "relative", false (default)
+        headerTitle: t("checkout:pageTitle")
+    };
     return (
-        <div>
-            <h1>{props.pageConfig.title}</h1>
-        </div>
+        <Layout pageConfig={pageConfig}>
+            <Content {...props} />
+        </Layout>
     );
 };
 
-export default Checkout;
+export default withTranslation()(Page);
