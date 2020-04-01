@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { FONT_12, FONT_24 } from "../../../theme/typography";
+import { FONT_12, FONT_24, textAlign } from "../../../theme/typography";
 import { PRIMARY } from "../../../theme/colors";
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,7 +48,17 @@ const useStyles = makeStyles(theme => ({
   label : {
     ...FONT_12,
     margin : 0
-  }
+  },
+  left : {
+    ...textAlign('left')
+  },
+  right : {
+    ...textAlign('right')
+  },
+  center : {
+    ...textAlign('center')
+  },
+  
 }));
 
 export default useStyles;

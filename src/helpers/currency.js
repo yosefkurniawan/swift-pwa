@@ -7,7 +7,7 @@ const IDR = (value) => {
     return `IDR ${number}`
 }
 
-const PriceFormat = ({currency = 'IDR', value = 0}) => {
+const currency = ({currency = 'IDR', value = 0}) => {
     switch (currency.toUpperCase()) {
         case 'IDR':
             return IDR(value)
@@ -18,4 +18,4 @@ const PriceFormat = ({currency = 'IDR', value = 0}) => {
     }
 }
 
-export default PriceFormat
+export default currency

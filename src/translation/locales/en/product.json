@@ -1,3 +1,9 @@
 {
-    "addToCart" : "Add to Shopping Bag"
+    "addToCart" : "Add to Shopping Bag",
+    "recomendedTitle" : "recomended for your",
+    "review" : "review",
+    "colorOption" : "color option",
+    "customerReview" : "customer reviews",
+    "writeReview" : "write a review",
+    "moreReview" : "Read more reviews"
 }

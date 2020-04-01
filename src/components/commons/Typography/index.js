@@ -18,6 +18,7 @@ const CustomTypography = ({
     styles[letter],
     styles[variant],
     styles[type],
+    styles[align],
     className,
   );
   return (

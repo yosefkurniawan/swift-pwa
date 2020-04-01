@@ -51,3 +51,16 @@ export const CenterAbsolute = {
   "-webkit-transform": "translateX(-50%)",
   transform: " translateX(-50%)"
 };
+
+export const CreateBorder = (
+  borderTop = "",
+  borderRight = "",
+  BorderBottom = "",
+  borderLeft = "",
+  color = "#000"
+) => ({
+  borderTop : `${borderTop} solid ${color}`,
+  borderRight : `${borderRight} solid ${color}`,
+  borderBottom : `${BorderBottom} solid ${color}`,
+  borderLeft : `${borderLeft} solid ${color}`,
+});

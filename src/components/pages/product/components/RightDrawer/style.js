@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
-import { Centering, FlexRow } from "../../../../../theme/mixins";
-import { WHITE } from "../../../../../theme/colors";
+import { Centering, FlexRow, CreatePadding, FlexColumn, CreateMargin } from "../../../../../theme/mixins";
+import { WHITE, GRAY_PRIMARY } from "../../../../../theme/colors";
 
 export default makeStyles(theme => ({
   container: {
@@ -20,7 +20,7 @@ export default makeStyles(theme => ({
     width: 144,
     height: 33,
     ...Centering,
-    borderRadius: 10,
+    borderRadius: '10px 10px 0px 0px',
     backgroundColor: WHITE,
     transform: "rotate(-90deg)",
     position: "absolute",
@@ -31,14 +31,60 @@ export default makeStyles(theme => ({
     right: 120
   },
 
+  drawerContainer : {
+    background : "transparent"
+  },
+
+  contianerBtnDrawer : {
+    alingIntems : 'center',
+    width : 50,
+    height : '100%',
+    background : 'transparent',
+    position :"relative"
+  },
+
+  btnOpenInDrawer : {
+    backgroundColor : WHITE,
+    right : -56,
+    height : 33,
+    transform : 'rotate(-90deg)',
+    borderRadius: '10px 10px 0px 0px',
+    position : 'absolute',
+    top : "35vh",
+    width: 144,
+    height: 33,
+    ...Centering
+  },
 
   body: {
     height: "100%",
-    width: "40vw",
+    width: "50vw",
     [theme.breakpoints.up("sm")]: {
-      width: '30vw'
+      width: '40vw'
     },
-    backgroundColor: 'transparent',
-    boxShadow: "5px 0px 5px 3px #0000001A"
-  }
+    background: 'transparent',
+    position : 'relative',
+    ...FlexRow,
+  },
+  content : {
+    height: "100%",
+    width : '100%',
+    background: WHITE,
+    boxShadow: "5px 0px 5px 3px #0000001A",
+    ...CreatePadding(12,12,12,12),
+    ...Centering,
+    alignItems : 'center'
+  },
+
+  itemLookContainer : {
+    backgroundColor : GRAY_PRIMARY,
+    ...Centering,
+    ...CreateMargin(12,12,12,12),
+    width : 99,
+    height : 122
+  },
+  img : {
+    width : 50,
+    height : 50
+  },
 }));

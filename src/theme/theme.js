@@ -56,7 +56,18 @@ const theme = createMuiTheme({
       root: {
         marginBottom: -15
       }
-    }
+    },
+    MuiDrawer : {
+      paperAnchorRight : {
+        background : 'transparent',
+        boxShadow : 'none'
+      }
+    },
+    MuiIcon : {
+      root : {
+        color : PRIMARY
+      }
+    },
   },
   props: {
     MuiTypography: {

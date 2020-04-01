@@ -1,7 +1,6 @@
 import { makeStyles } from "@material-ui/core";
-import { GRAY_PRIMARY, GRAY_SECONDARY, WHITE } from "../../../theme/colors";
-import { FlexColumn, FlexRow, CreatePadding, CreateMargin, CenterAbsolute } from "../../../theme/mixins";
-import { FONT_10 } from "../../../theme/typography";
+import { GRAY_PRIMARY, PRIMARY, WHITE, GRAY_SECONDARY } from "../../../theme/colors";
+import { CenterAbsolute, CreateBorder, CreateMargin, CreatePadding, FlexColumn, FlexRow, Centering } from "../../../theme/mixins";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -25,7 +24,8 @@ const useStyles = makeStyles(theme => ({
 
   body : {
       ...CreatePadding(15,30,30,30),
-      ...FlexColumn
+      ...FlexColumn,
+      ...CreateBorder(0,0,'1px', 0, GRAY_PRIMARY)
   },
 
   footer: {
@@ -37,8 +37,8 @@ const useStyles = makeStyles(theme => ({
     bottom: 0,
     left : 0,
     ...CenterAbsolute,
-    backgroundColor: WHITE,
-    opacity : 0.7,
+    background : 'rgba(255,255,255,0.7)',
+    // opacity : 0.7,
     ...CreatePadding(20, 20, 20, 20)
   },
   btnAddToCard: {
@@ -50,12 +50,53 @@ const useStyles = makeStyles(theme => ({
     height: 41,
     bottom: 0,
     left : 0,
+    opacity : 'none',
     ...CenterAbsolute,
     color : WHITE,
   },
   textBtnAddToCard : {
     fontSize : 16,
-    color : WHITE,
+    color : `${WHITE} !important`,
+  },
+
+  titleContainer : {
+    ...FlexRow,
+    justifyContent : 'space-between',
+    alignItems : 'center'
+  },
+  titlePriceContainer : {
+    ...FlexColumn
+  },
+
+  shareContainer : {
+    justifyContent : 'flex-end'
+  },
+
+  btnShare : {
+    margin : '0px !important'
+  },
+
+  iconShare : {
+    color : PRIMARY,
+    fontSize : 25,
+    ...CreateMargin(0,0,0,0)
+  },
+
+  carouselContainer : {
+    ...CreateMargin(40,0,120,0)
+  },
+  desc : {
+    ...CreateMargin(12,0,12,0),
+    textAlign : 'center'
+  },
+  ratingContainer : {
+    ...FlexRow
+  },
+  btnLoadReview : {
+    ...Centering,
+  },
+  textLoadReview : {
+    color : `${GRAY_SECONDARY} !important`
   }
 
 }));
