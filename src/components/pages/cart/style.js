@@ -1,6 +1,11 @@
 import { makeStyles } from "@material-ui/core";
 import { GRAY_PRIMARY, GRAY_SECONDARY, PRIMARY } from "../../../theme/colors";
-import { FlexColumn, FlexRow, CreatePadding } from "../../../theme/mixins";
+import {
+    FlexColumn,
+    FlexRow,
+    CreatePadding,
+    CreateMargin
+} from "../../../theme/mixins";
 import { FONT_10, FONT_BIG } from "../../../theme/typography";
 
 const useStyles = makeStyles(theme => ({
@@ -17,6 +22,22 @@ const useStyles = makeStyles(theme => ({
         ...FlexColumn,
         position: "relative",
         height: "100%"
+    },
+    slider: {
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        ...CreateMargin(30, 0, 30, 0)
+    },
+    toolbar: {
+        ...FlexRow
+    },
+    items: {
+        ...FlexColumn
+    },
+    item: {
+        ...FlexRow
     }
 }));
 
