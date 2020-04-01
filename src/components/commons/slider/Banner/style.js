@@ -12,21 +12,22 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "row",
     position: "absolute",
     justifyContent: "space-arround",
-    bottom: "10%",
+    bottom: 33,
     left: "50%",
     transform: "translate(-50%, -50%)"
   },
   dotsItem: {
-    width: 17,
-    height: 17,
-    border: `3px solid ${WHITE}`,
+    width: 7,
+    height: 7,
     borderRadius: 100,
-    backgroundColor: "transparent",
+    backgroundColor: WHITE,
     margin: 5,
     cursor: "pointer"
   },
   dotActive: {
-    backgroundColor: PRIMARY
+    backgroundColor: PRIMARY,
+    width: 10,
+    height: 10,
   },
   hide: {
     display: "none"

@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     ...CreateMargin(30,0,30,0),
   },
   header : {
-    height : '100vh',
+    height : '95vh',
     [theme.breakpoints.down('sm')]: {
       width : '100%'
     },
