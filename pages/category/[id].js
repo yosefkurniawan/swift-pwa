@@ -1,20 +1,14 @@
-import Category from "../../src/components/pages/category";
-import Layout from "../../src/components/layouts";
+import Page from "../../src/components/pages/category";
 
-export async function getServerSideProps() {
-    const pageConfig = {
-        title: "[Category Name]",
-        bottomNav: false,
-        header: "absolute"
-    };
+// export async function getServerSideProps() {
+    
+    // @TODO: get category data by id then provide the data into props
 
-    // By returning { props: pageConfig }, the Page component
-    // will receive `pageConfig` as a prop at build time
-    return {
-        props: {
-            pageConfig
-        }
-    };
-}
+    // return {
+    //     props: {
+    //         // ...
+    //     }
+    // };
+// }
 
-export default Layout(Category);
+export default Page;
