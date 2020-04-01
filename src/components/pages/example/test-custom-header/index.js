@@ -1,4 +1,4 @@
-import TestCustomHeader from "./components";
+import Content from "./components";
 import CustomHeader from "./components/header";
 import Layout from "../../../layouts";
 import { withTranslation } from "../../../../../i18n";
@@ -9,8 +9,8 @@ const Page = ({ t }) => {
         header: "relative" // available values: "absolute", "relative", false (default)
     };
     return (
-        <Layout pageConfig={pageConfig} CustomHeader={<CustomHeader/>}>
-            <TestCustomHeader />
+        <Layout pageConfig={pageConfig} CustomHeader={<CustomHeader />}>
+            <Content />
         </Layout>
     );
 };

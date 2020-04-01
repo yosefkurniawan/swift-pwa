@@ -1,4 +1,4 @@
-import TestLayout from "./components";
+import Content from "./components";
 import Layout from "../../../layouts";
 import { withTranslation } from "../../../../../i18n";
 
@@ -9,7 +9,7 @@ const Page = ({t}) => {
     }
     return (
         <Layout pageConfig={pageConfig}>
-            <TestLayout/>
+            <Content/>
         </Layout>
     )
 }
