@@ -1,6 +1,6 @@
 import useStyles from "./style";
-import Carousel from "../../../../commons/slider/Carousel";
-import Typography from "../../../../commons/Typography";
+import Carousel from "@components/slider/Carousel";
+import Typography from "@components//Typography";
 
 const CrossSell = props => {
     const { t } = props;

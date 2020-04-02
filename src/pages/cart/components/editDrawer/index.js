@@ -1,6 +1,6 @@
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-import Typography from "../../../../commons/Typography";
-import Button from "../../../../commons/Button";
+import Typography from "@components/Typography";
+import Button from "@components/Button";
 import useStyles from "./style";
 
 const EditDrawer = ({t, open,toggleOpen}) => {

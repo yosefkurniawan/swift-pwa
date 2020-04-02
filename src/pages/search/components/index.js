@@ -6,7 +6,7 @@ import ButtonField from "./ButtonField";
 import Category from "./Category";
 import SubCategory from "./SubCategory";
 import SearchDialog from "./SearchDialog";
-import { GraphCategory } from "../../../../services/graphql";
+import { GraphCategory } from "@services/graphql";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;

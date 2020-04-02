@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import { FlexColumn, CreatePadding } from "../../../../../theme/mixins";
+import { FlexColumn, CreatePadding } from "@theme/mixins";
 const useStyles = makeStyles(theme => ({
     container: {
         width: "100%",

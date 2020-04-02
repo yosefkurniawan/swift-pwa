@@ -2,7 +2,7 @@ import Banner from "@components/slider/Banner";
 import Carousel from "@components/slider/Carousel";
 import Span from "@components/Span";
 import SpanProduct from "@components/SpanProduct";
-import useStyles from "./style.js.js";
+import useStyles from "./style.js";
 
 const data = [
   {
