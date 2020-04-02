@@ -17,7 +17,12 @@ const TestTranslate = ({ t }) => (
                 >
                     {t("change-locale")}
                 </button>
-                <p>{t('testText1')}</p>
+                {/* get translation from default namespace ("example") */}
+                <p>{t("testText1")}</p>
+                
+                {/* get translation from another namespace ("common") */}
+                <p>{t("common:variant")}</p>
+
                 <Link href="#">
                     <button type="button">{t("to-second-page")}</button>
                 </Link>
@@ -34,4 +39,5 @@ TestTranslate.propTypes = {
     t: PropTypes.func.isRequired
 };
 
+/* set "example" as default namespace. leave the parameter withTranslation() blank to unset default namespace */
 export default withTranslation("example")(TestTranslate);
