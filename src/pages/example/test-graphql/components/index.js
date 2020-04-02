@@ -1,4 +1,4 @@
-import { GraphExample } from "../../../../../services/graphql";
+import { GraphExample } from "@services/graphql";
 
 /* no need these two here if these are already implemented in _app.js */
 // import { getDataFromTree } from "@apollo/react-ssr";

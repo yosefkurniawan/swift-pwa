@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
-import { Centering, FlexRow, CreatePadding, FlexColumn, CreateMargin } from "../@theme/mixins";
-import { WHITE, GRAY_PRIMARY } from "../@theme/colors";
+import { Centering, FlexRow, CreatePadding, FlexColumn, CreateMargin } from "@theme/mixins";
+import { WHITE, GRAY_PRIMARY } from "@theme/colors";
 
 export default makeStyles(theme => ({
   container: {
