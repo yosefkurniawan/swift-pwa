@@ -1,21 +1,22 @@
-const express = require('express')
-const next = require('next')
-const nextI18NextMiddleware = require('next-i18next/middleware').default
+const express = require("express");
+const next = require("next");
+const nextI18NextMiddleware = require("next-i18next/middleware").default;
 
-const nextI18next = require('./i18n')
+const nextI18next = require("./i18n");
 
-const port = process.env.PORT || 3000
-const app = next({ dev: process.env.NODE_ENV !== 'production' })
+const port = process.env.PORT || 3000;
+const app = next({ dev: process.env.NODE_ENV !== "production" });
 const handle = app.getRequestHandler();
 
 (async () => {
-  await app.prepare()
-  const server = express()
+    await app.prepare();
+    const server = express();
 
-  server.use(nextI18NextMiddleware(nextI18next))
-  server.get("/category/:cat/:sub/:sub-cat", (req, res) => app.render(req, res, `/category`));
-  server.get('*', (req, res) => handle(req, res))
+    await nextI18next.initPromise;
+    server.use(nextI18NextMiddleware(nextI18next));
 
-  await server.listen(port)
-  console.log(`> Ready on http://localhost:${port}`)
-})()
+    server.get("*", (req, res) => handle(req, res));
+
+    await server.listen(port);
+    console.log(`> Ready on http://localhost:${port}`); // eslint-disable-line no-console
+})();
