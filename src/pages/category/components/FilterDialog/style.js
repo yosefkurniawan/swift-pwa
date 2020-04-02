@@ -1,13 +1,13 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { WHITE, PRIMARY, GRAY_PRIMARY } from "../@theme/colors";
+import { WHITE, PRIMARY, GRAY_PRIMARY } from "@theme/colors";
 import {
   CreateMargin,
   CreatePadding,
   FlexRow,
   FlexColumn,
   showHide
-} from "../@theme/mixins";
-import { FONT_BIG } from "../@theme/typography";
+} from "@theme/mixins";
+import { FONT_BIG } from "@theme/typography";
 
 const useStyles = makeStyles(theme => ({
   appBar: {

@@ -6,8 +6,8 @@ import {
   FlexRow,
   Centering,
   FlexColumn
-} from "../@theme/mixins";
-import { GRAY_PRIMARY } from "../@theme/colors";
+} from "@theme/mixins";
+import { GRAY_PRIMARY } from "@theme/colors";
 
 export default makeStyles(theme => ({
   container: {

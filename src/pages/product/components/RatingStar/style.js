@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
-import { FlexRow } from "../@theme/mixins";
-import { GRAY_PRIMARY, PRIMARY } from "../@theme/colors";
+import { FlexRow } from "@theme/mixins";
+import { GRAY_PRIMARY, PRIMARY } from "@theme/colors";
 
 export default makeStyles(theme => ({
     container : {
