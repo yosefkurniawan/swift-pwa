@@ -32,7 +32,8 @@ export default makeStyles(theme => ({
   },
 
   drawerContainer : {
-    background : "transparent"
+    background : "transparent",
+    overflow : 'hidden'
   },
 
   contianerBtnDrawer : {
@@ -72,6 +73,19 @@ export default makeStyles(theme => ({
     background: WHITE,
     boxShadow: "5px 0px 5px 3px #0000001A",
     ...CreatePadding(12,12,12,12),
+    display : 'flex',
+    flexWrap : 'wrap',
+    justifyContent : 'center',
+    alingIntems : 'center',
+    overflow : 'auto !important'
+  },
+
+  contentMin : {
+    height: "100%",
+    width : '100%',
+    background: WHITE,
+    boxShadow: "5px 0px 5px 3px #0000001A",
+    ...CreatePadding(12,12,12,12),
     ...Centering,
     alignItems : 'center'
   },
@@ -81,7 +95,8 @@ export default makeStyles(theme => ({
     ...Centering,
     ...CreateMargin(12,12,12,12),
     width : 99,
-    height : 122
+    height : 122,
+    margin : 'auto'
   },
   img : {
     width : 50,

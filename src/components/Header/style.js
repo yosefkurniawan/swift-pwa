@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { CreatePadding, CreateMargin } from '@theme/mixins'
+import { CreatePadding, CreateMargin, CenterAbsolute } from '@theme/mixins'
 import { GRAY_PRIMARY } from "@theme/colors";
 
 const useStyles = makeStyles(theme => ({
@@ -11,7 +11,11 @@ const useStyles = makeStyles(theme => ({
         flexDirection: "row",
         alignItems: "center",
         ...CreateMargin(0, 0, 18, 0),
-        borderBottom: "1px solid " + GRAY_PRIMARY
+        borderBottom: "1px solid " + GRAY_PRIMARY,
+        [theme.breakpoints.up('md')] : {
+            maxWidth : 900,
+            ...CenterAbsolute
+        },
     },
     leftContainer: {
         position: "absolute",
