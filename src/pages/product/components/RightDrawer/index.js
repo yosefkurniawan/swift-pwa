@@ -1,6 +1,7 @@
 import { Drawer } from "@material-ui/core";
 import Typography from "@components/Typography";
 import useStyles from "./style";
+import classNames from 'classnames'
 
 
 const ItemLook = ({}) => {
@@ -12,10 +13,11 @@ const ItemLook = ({}) => {
   )
 }
 
-const data = [1, 2, 3]
+const data = [1, 2, 3,4,5,6,7,8]
 
 const RightDrawer = ({ open = false, setOpen = () => {} }) => {
   const styles = useStyles();
+  const contetStyle = data.length >3 ? styles.content : styles.contentMin
   return (
     <div className={styles.container}>
       <div className={styles.btnOpen} onClick={setOpen}>
@@ -49,7 +51,7 @@ const RightDrawer = ({ open = false, setOpen = () => {} }) => {
               </Typography>
             </div>
           </div>
-          <div className={styles.content}>
+          <div className={contetStyle}>
             {
               data.map(item => (<ItemLook key={item} />))
             }
