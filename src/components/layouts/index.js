@@ -1,6 +1,6 @@
 import React from "react";
-import Navigation from "../navigation";
-import Header from "../../components/commons/Header";
+import Navigation from "@components/Navigation";
+import Header from "@components/Header";
 import Head from "next/head";
 
 // Layout params:

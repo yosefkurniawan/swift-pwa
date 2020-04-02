@@ -1,3 +1,3 @@
-import Page from "../src/components/pages/cart";
+import Page from "@pages/cart";
 
 export default Page;

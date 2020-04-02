@@ -1,3 +1,3 @@
-import Page from "../../src/components/pages/example/test-custom-header";
+import Page from "@pages/example/test-custom-header";
 
 export default Page;

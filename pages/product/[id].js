@@ -1,3 +1,3 @@
-import Product from "../../src/components/pages/product";
+import Product from "@pages/product";
 
 export default Product

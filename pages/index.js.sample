@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
-import Home from "../src/components/home";
-import Layout from "../src/theme/layout";
+import Home from "@pages/home";
+import Layout from "@components/Layout";
 
 
 // This function gets called at build time on server-side.
