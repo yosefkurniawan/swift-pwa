@@ -8,7 +8,7 @@
     "export": "next export",
     "clean": "cross-env rimraf ./.next ./out",
     "release": "cross-env NODE_ENV=production npm run clean && npm run build && npm run export",
-    "start": "next start",
+    "start": "cross-env NODE_ENV=production node server.js",
     "stage": "cross-env NODE_ENV=production node server.js",
     "generate-certs": "mkdir certs && openssl req -x509 -days 365 -newkey rsa:2048 -nodes -sha256 -keyout certs/privateKey.key -out certs/certificate.crt"
   },
