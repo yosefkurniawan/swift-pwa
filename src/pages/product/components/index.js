@@ -1,7 +1,7 @@
 import { Box, IconButton, Badge } from "@material-ui/core";
 import React from "react";
 import Header from "@components/Header";
-import Banner from "@components/slider/Banner";
+import Banner from "@components/Slider/Banner";
 import useStyles from "../style";
 import {
   LocalMall,
@@ -12,7 +12,7 @@ import Button from "@components/Button";
 import Typography from "@components/Typography";
 import RightDrawer from "./RightDrawer";
 import currency from "@helpers/currency";
-import Caraousel from "@components/slider/Carousel";
+import Caraousel from "@components/Slider/Carousel";
 import RatingStar from "./RatingStar";
 import CustomerReview from "./CustomerReview";
 import ExpandDetail from './ExpandDetail'

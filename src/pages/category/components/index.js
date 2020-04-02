@@ -7,7 +7,7 @@ import useStyles from "../style";
 import ProductList from "./ProductList";
 import { Tab, Tabs } from "./Tabs";
 import FilterDialog from "./FilterDialog";
-import Banner from '@components/slider/Banner'
+import Banner from '@components/Slider/Banner'
 
 const data = [
   {

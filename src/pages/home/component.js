@@ -1,5 +1,5 @@
-import Banner from "@components/slider/Banner";
-import Carousel from "@components/slider/Carousel";
+import Banner from "@components/Slider/Banner";
+import Carousel from "@components/Slider/Carousel";
 import Span from "@components/Span";
 import SpanProduct from "@components/SpanProduct";
 import useStyles from "./style.js";
