@@ -6,8 +6,8 @@ import { getDataFromTree } from "@apollo/react-ssr";
 import withApollo from "../src/services/graphql/api";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import theme from "../src/theme/theme";
-import { appWithTranslation } from '../i18n'
+import theme from "@theme/theme";
+import { appWithTranslation } from '@i18n'
 import "../src/styles/index.css";
 
 class MyApp extends App {

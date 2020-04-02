@@ -1,4 +1,4 @@
-import Page from "../../src/components/pages/category";
+import Page from "@pages/category";
 
 // export async function getServerSideProps() {
     

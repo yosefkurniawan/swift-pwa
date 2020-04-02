@@ -1,3 +1,3 @@
-import Page from "../src/components/pages/checkout";
+import Page from "@pages/checkout";
 
 export default Page;
