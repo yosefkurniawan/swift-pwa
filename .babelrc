@@ -1,0 +1,23 @@
+{
+    "presets": [
+        "next/babel"
+    ],
+    "plugins": [
+        [
+            "module-resolver",
+            {
+                "root": [
+                    "."
+                ],
+                "alias": {
+                    "@components": "./src/components",
+                    "@i18n": "./i18n",
+                    "@pages": "./src/pages",
+                    "@theme": "./src/theme",
+                    "@helpers": "./src/helpers",
+                    "@services": "./src/services"
+                }
+            }
+        ]
+    ]
+}

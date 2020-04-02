@@ -1,3 +1,3 @@
-import Page from "../../src/components/pages/customer/account";
+import Page from "@pages/customer/account";
 
 export default Page;

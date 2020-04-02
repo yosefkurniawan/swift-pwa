@@ -38,6 +38,7 @@
     "react-typed": "^1.2.0"
   },
   "devDependencies": {
+    "babel-plugin-module-resolver": "^4.0.0",
     "cross-env": "^7.0.2",
     "rimraf": "^3.0.2"
   }
