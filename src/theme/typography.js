@@ -6,6 +6,10 @@ export const FONT_12 =  {
     fontSize : 12
 }
 
+export const FONT_14 = {
+    fontSize: 14
+};
+
 export const FONT_24 =  {
     fontSize : 24
 }

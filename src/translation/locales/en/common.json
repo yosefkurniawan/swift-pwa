@@ -1,7 +1,5 @@
 {
-    "edit": "Edit",
     "variant": "Variant",
-    "save": "Save",
     "home": {
         "logoName": "LOGO"
     },
@@ -11,5 +9,10 @@
     "search": {
         "mainTitle": "New in Collection",
         "backTitle": "back in stock sale"
+    },
+    "button": {
+        "edit": "Edit",
+        "save": "Save",
+        "continueShopping": "Continue Shopping"
     }
 }

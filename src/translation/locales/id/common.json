@@ -1,7 +1,5 @@
 {
-    "edit": "Edit",
     "variant": "Varian",
-    "save": "Simpan",
     "home": {
         "logoName": "LOGO"
     },
@@ -11,5 +9,10 @@
     "search": {
         "mainTitle": "Koleksi terbaru",
         "backTitle": "kembali ke produk"
+    },
+    "button": {
+        "edit": "Edit",
+        "save": "Simpan",
+        "continueShopping": "Lanjut Berbelanja"
     }
 }

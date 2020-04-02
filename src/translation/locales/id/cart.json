@@ -2,5 +2,14 @@
     "pageTitle": "Keranjang Belanja",
     "counter": {
         "text": "item di keranjang"
+    },
+    "crossell": {
+        "title": "Recommended for You"
+    },
+    "empty": {
+        "text": "Keranjang belanja kosong"
+    },
+    "button": {
+        "saveEdit": "Simpan"
     }
 }
