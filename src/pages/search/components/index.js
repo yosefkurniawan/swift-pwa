@@ -44,10 +44,10 @@ const SearchPage = props => {
     };
 
     const open = props.open;
-    const handleClose = () => {
-        props.setOpen(false);
+    const handleCloseModal = () => {
         closeSub();
         setSlideCat(false);
+        props.setOpenModal(false);
     };
 
     return (
@@ -59,7 +59,6 @@ const SearchPage = props => {
             <Dialog
                 fullScreen
                 open={open}
-                onClose={handleClose}
                 TransitionComponent={Transition}
             >
                 <div className={styles.container}>
@@ -67,7 +66,7 @@ const SearchPage = props => {
                         <Toolbar>
                             <IconButton
                                 edge="start"
-                                onClick={handleClose}
+                                onClick={handleCloseModal}
                                 aria-label="close"
                             >
                                 <ArrowBack className={styles.iconClose} />
@@ -75,6 +74,7 @@ const SearchPage = props => {
                             <ButtonField
                                 placeholder="Search ..."
                                 onClick={() => setOpenSearch(true)}
+                                className={styles.searchButton}
                             />
                         </Toolbar>
                     </AppBar>

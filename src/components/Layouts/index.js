@@ -21,7 +21,7 @@ const Layout = (props) => {
             )}
 
             <main>{React.cloneElement(props.children, { pageConfig })}</main>
-            <footer>{<Navigation show={props.pageConfig.bottomNav} />}</footer>
+            <footer>{<Navigation active={props.pageConfig.bottomNav} />}</footer>
         </>
     );
 };

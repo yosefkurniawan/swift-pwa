@@ -8,17 +8,16 @@ const useStyles = makeStyles(theme => ({
   },
   body: {
     ...Centering,
-    ...CreatePadding("auto", 80, 80, 80),
+    ...CreatePadding(20, 80, 80, 80),
     justifyContent: "space-between"
   },
   item: {
-    ...CreateMargin(20, 0, 40, 0),
+    margin: 0,
     ...Centering
   },
   appBar: {
     position: "relative",
     backgroundColor: WHITE,
-    ...CreatePadding(10, 10, 10, 10),
     boxShadow: "none"
   },
   iconClose : {
