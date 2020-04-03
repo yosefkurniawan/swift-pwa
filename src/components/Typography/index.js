@@ -23,7 +23,7 @@ const getVariant = variant => {
     "inherit"
   ];
   const variantCustom = {
-    span: "subtitle1",
+    span: "caption",
     title: "h1",
     p: "body1",
     label: "caption"
