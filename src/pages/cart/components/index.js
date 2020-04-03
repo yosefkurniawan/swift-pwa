@@ -7,6 +7,7 @@ import Item from "./item";
 import CrossSell from "./crosssell";
 import Link from "next/link";
 import EditDrawer from "./editDrawer";
+import CheckoutDrawer from "./checkoutBox";
 
 const Cart = props => {
     const { t } = props;
@@ -68,13 +69,14 @@ const Cart = props => {
                     toggleOpen={toggleEditDrawer}
                     {...props}
                 />
+                <CheckoutDrawer editMode={editMode} t={t} />
             </>
         );
     } else {
         return (
             <Box className={styles.container}>
                 <Typography variant="span" type="reguler" align="center">
-                    <p className={styles.emptyCart}>{t("cart:empty:text")}</p>
+                    <span className={styles.emptyCart}>{t("cart:empty:text")}</span>
                 </Typography>
                 <Link href="/">
                     <Button className={styles.toolbarButton}>

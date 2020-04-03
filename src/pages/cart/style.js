@@ -40,7 +40,8 @@ const useStyles = makeStyles(theme => ({
         marginTop: 20
     },
     itemImgWrapper: {
-        flex: 1
+        flex: 1,
+        maxWidth: 200
     },
     itemImg: {
         width: "100%",

@@ -6,6 +6,7 @@ import Button from "@components/Button";
 import CustomRadio from "@components/Forms/Radio";
 import SelectColor from "@components/Forms/SelectColor";
 import SelectSize from "@components/Forms/SelectSize";
+import Router from "next/router";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Fade ref={ref} {...props} />;
@@ -42,79 +43,90 @@ const OptionDialog = props => {
   };
 
   return (
-    <Dialog
-      fullScreen
-      open={open}
-      TransitionComponent={Transition}
-      onClose={setOpen}
-    >
-      <div className={styles.root}>
-        <div className={styles.bannerContainer} onClick={() => setOpen()}>
-          <img src="/assets/img/sample/product.png" className={styles.img} />
-        </div>
-        <div className={styles.optionContainer}>
-          <CustomRadio
-            label="Select color"
-            flex="row"
-            CustomItem={SelectColor}
-            value={color}
-            valueData={colorData}
-            onChange={handleChangeColor}
-            className={styles.label}
-            classContainer={styles.center}
-          />
-          {sizeOptions === "" || sizeOptions.length <= 0 || !sizeOptions ? (
-            <>
-              <Typography variant="label" type="bold" letter="uppercase">
-                Select Size
-              </Typography>
-              <Typography variant="p" className={styles.error}>
-                Sorry! This item is out of stock.
-              </Typography>
-            </>
-          ) : (
-            <>
-              <CustomRadio
-                label="Select size"
-                flex="row"
-                CustomItem={SelectSize}
-                value={size}
-                valueData={sizeOptions}
-                onChange={setSize}
-                className={styles.sizeContainer}
-                classContainer={styles.center}
-              />
-              <Button variant="text">
-                <Typography
-                  variant="p"
-                  letter="capitalize"
-                  decoration="underline"
-                >
-                  {t("product:viewGuide")}
-                </Typography>
-              </Button>
-            </>
-          )}
+      <Dialog
+          fullScreen
+          open={open}
+          TransitionComponent={Transition}
+          onClose={setOpen}
+      >
+          <div className={styles.root}>
+              <div className={styles.bannerContainer} onClick={() => setOpen()}>
+                  <img
+                      src="/assets/img/sample/product.png"
+                      className={styles.img}
+                  />
+              </div>
+              <div className={styles.optionContainer}>
+                  <CustomRadio
+                      label="Select color"
+                      flex="row"
+                      CustomItem={SelectColor}
+                      value={color}
+                      valueData={colorData}
+                      onChange={handleChangeColor}
+                      className={styles.label}
+                      classContainer={styles.center}
+                  />
+                  {sizeOptions === "" ||
+                  sizeOptions.length <= 0 ||
+                  !sizeOptions ? (
+                      <>
+                          <Typography
+                              variant="label"
+                              type="bold"
+                              letter="uppercase"
+                          >
+                              Select Size
+                          </Typography>
+                          <Typography variant="p" className={styles.error}>
+                              Sorry! This item is out of stock.
+                          </Typography>
+                      </>
+                  ) : (
+                      <>
+                          <CustomRadio
+                              label="Select size"
+                              flex="row"
+                              CustomItem={SelectSize}
+                              value={size}
+                              valueData={sizeOptions}
+                              onChange={setSize}
+                              className={styles.sizeContainer}
+                              classContainer={styles.center}
+                          />
+                          <Button variant="text">
+                              <Typography
+                                  variant="p"
+                                  letter="capitalize"
+                                  decoration="underline"
+                              >
+                                  {t("product:viewGuide")}
+                              </Typography>
+                          </Button>
+                      </>
+                  )}
 
-          <div className={styles.footer}>
-            <Button
-              className={styles.btnAddToCard}
-              color="primary"
-              onClick={() => {}}
-            >
-              <Typography
-                align="center"
-                type="reguler"
-                letter="capitalize"
-                className={styles.textBtnAddToCard}
-              >
-                {t("product:addToCart")}
-              </Typography>
-            </Button>
+                  <div className={styles.footer}>
+                      <Button
+                          className={styles.btnAddToCard}
+                          color="primary"
+                          onClick={() => {
+                              Router.push("/cart");
+                          }}
+                      >
+                          <Typography
+                              align="center"
+                              type="reguler"
+                              letter="capitalize"
+                              className={styles.textBtnAddToCard}
+                          >
+                              {t("product:addToCart")}
+                          </Typography>
+                      </Button>
+                  </div>
+              </div>
           </div>
-        </div>
-      </div>
-    </Dialog>
+      </Dialog>
   );
 };
 

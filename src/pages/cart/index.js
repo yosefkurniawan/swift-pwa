@@ -9,7 +9,7 @@ const Page = props => {
         header: "relative", // available values: "absolute", "relative", false (default)
         headerTitle: t("cart:pageTitle"),
         headerBackIcon: "close", // available values: "close", "arrow"
-        bottomNav: "cart"
+        bottomNav: false
     };
     return (
         <Layout pageConfig={pageConfig}>
