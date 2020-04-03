@@ -20,8 +20,12 @@ const Layout = (props) => {
                 <Header pageConfig={props.pageConfig} />
             )}
 
-            <main>{React.cloneElement(props.children, { pageConfig })}</main>
-            <footer>{<Navigation active={props.pageConfig.bottomNav} />}</footer>
+            <main className={pageConfig.className}>
+                {React.cloneElement(props.children, { pageConfig })}
+            </main>
+            <footer>
+                {<Navigation active={props.pageConfig.bottomNav} />}
+            </footer>
         </>
     );
 };
