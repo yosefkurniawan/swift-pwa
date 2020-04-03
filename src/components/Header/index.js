@@ -61,6 +61,7 @@ const Header = ({
                                 variant="title"
                                 type="bold"
                                 letter="uppercase"
+                                align="center"
                             >
                                 {pageConfig.headerTitle}
                             </Typography>

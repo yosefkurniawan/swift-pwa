@@ -14,6 +14,8 @@
         "edit": "Edit",
         "save": "Save",
         "continueShopping": "Continue Shopping",
-        "cancel" : "Cancel"
-    }
+        "cancel": "Cancel",
+        "checkout": "Checkout"
+    },
+    "subtotal": "Subtotal"
 }
