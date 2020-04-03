@@ -68,6 +68,11 @@ const theme = createMuiTheme({
                 color: PRIMARY
             }
         },
+        MuiButton : {
+           root : {
+            borderRadius : 100
+           }
+        }
     },
     props: {
         MuiTypography: {

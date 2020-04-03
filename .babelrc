@@ -15,7 +15,8 @@
                     "@pages": "./src/pages",
                     "@theme": "./src/theme",
                     "@helpers": "./src/helpers",
-                    "@services": "./src/services"
+                    "@services": "./src/services",
+                    "@config" : "./swift.config.js"
                 }
             }
         ]

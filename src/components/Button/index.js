@@ -12,7 +12,7 @@ const CustomButton = ({
   onClick = () => {}
 }) => {
   const styles = useStyles();
-  const customClass = classNames(styles.button, className);
+  const customClass = classNames(styles.container, className);
   return (
     <Button
       onClick={onClick}

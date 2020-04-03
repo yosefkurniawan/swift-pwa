@@ -13,6 +13,7 @@
     "button": {
         "edit": "Edit",
         "save": "Save",
-        "continueShopping": "Continue Shopping"
+        "continueShopping": "Continue Shopping",
+        "cancel" : "Cancel"
     }
 }

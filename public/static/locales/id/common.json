@@ -13,6 +13,7 @@
     "button": {
         "edit": "Edit",
         "save": "Simpan",
-        "continueShopping": "Lanjut Berbelanja"
+        "continueShopping": "Lanjut Berbelanja",
+        "cancel" : "Batal"
     }
 }
