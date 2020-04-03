@@ -11,11 +11,9 @@ export default makeStyles(theme => ({
         padding : 0
     },
     icon : {
-        fontSize : 14,
         color : GRAY_PRIMARY
     },
     iconActive : {
-        fontSize : 14,
         color : PRIMARY
     }
 }))

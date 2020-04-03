@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { GRAY_PRIMARY, WHITE } from "@theme/colors";
-import { FlexRow, Centering, CreateMargin, CreatePadding } from "@theme/mixins";
+import { CreateMargin, CreatePadding } from "@theme/mixins";
 const useStyles = makeStyles(theme => ({
   container: {
     width: "100%",

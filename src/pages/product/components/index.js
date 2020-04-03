@@ -4,8 +4,12 @@ import Caraousel from "@components/Slider/Carousel";
 import Typography from "@components/Typography";
 import currency from "@helpers/currency";
 import { Box, IconButton } from "@material-ui/core";
-import { FavoriteBorderOutlined, ShareOutlined } from "@material-ui/icons";
-import classNames from 'classnames';
+import {
+  FavoriteBorderOutlined,
+  ShareOutlined,
+  Favorite
+} from "@material-ui/icons";
+import classNames from "classnames";
 import React from "react";
 import useStyles from "../style";
 import CustomerReview from "./CustomerReview";
@@ -13,18 +17,20 @@ import ExpandDetail from "./ExpandDetail";
 import OptionDialog from "./OptionDialog";
 import RatingStar from "./RatingStar";
 import RightDrawer from "./RightDrawer";
+import SharePopup from "./SharePopup";
+import AddReviewDialog from "./AddReviewDialog";
 
 const data = [
   {
-    img: "/assets/img/noun_Image.svg",
+    img: "/assets/img/sample/product.png",
     link: "#"
   },
   {
-    img: "/assets/img/noun_Image.svg",
+    img: "/assets/img/sample/product.png",
     link: "#"
   },
   {
-    img: "/assets/img/noun_Image.svg",
+    img: "/assets/img/sample/product.png",
     link: "#"
   }
 ];
@@ -39,6 +45,19 @@ const ProductPage = props => {
   const styles = useStyles();
   const [openOption, setOpenOption] = React.useState(false);
   const [openDrawer, setOpenDrawer] = React.useState(false);
+  const [openShare, setOpenShare] = React.useState(false);
+  const [feed, setFeed] = React.useState(false);
+  const [openReview, setOpenReview] = React.useState(false);
+
+  const favoritIcon = feed ? (
+    <Favorite className={styles.iconShare} />
+  ) : (
+    <FavoriteBorderOutlined className={styles.iconShare} />
+  );
+
+  const handleFeed = () => {
+    setFeed(!feed);
+  };
 
   return (
     <>
@@ -46,6 +65,16 @@ const ProductPage = props => {
         {...props}
         open={openOption}
         setOpen={() => setOpenOption(!openOption)}
+      />
+      <SharePopup
+        open={openShare}
+        setOpen={() => setOpenShare(!openShare)}
+        {...props}
+      />
+      <AddReviewDialog
+        open={openReview}
+        setOpen={() => setOpenReview(!openReview)}
+        {...props}
       />
       <Box className={styles.container}>
         <div className={styles.headContainer}>
@@ -79,10 +108,13 @@ const ProductPage = props => {
               </Typography>
             </div>
             <div className={styles.shareContainer}>
-              <IconButton className={styles.btnShare}>
-                <FavoriteBorderOutlined className={styles.iconShare} />
+              <IconButton className={styles.btnShare} onClick={handleFeed}>
+                {favoritIcon}
               </IconButton>
-              <IconButton className={styles.btnShare}>
+              <IconButton
+                className={styles.btnShare}
+                onClick={() => setOpenShare(true)}
+              >
                 <ShareOutlined className={styles.iconShare} />
               </IconButton>
             </div>
@@ -133,7 +165,7 @@ const ProductPage = props => {
               </Typography>
             </div>
             <div className={styles.shareContainer}>
-              <Button variant="outlined">{t("product:writeReview")}</Button>
+              <Button onClick={() => setOpenReview(true)} variant="outlined">{t("product:writeReview")}</Button>
             </div>
           </div>
           <div className={styles.reviewContainer}>

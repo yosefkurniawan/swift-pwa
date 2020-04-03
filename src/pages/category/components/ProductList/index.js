@@ -21,10 +21,10 @@ const ItemProduct = ({ data = {},}) => {
   );
 
   return (
-    <Grid item xs={6} sm={6} md={3} >
+    <Grid item xs={6} sm={4} md={3} >
       <div className={styles.itemContainer}>
         <div className={styles.imgItem}>
-          <img src="/assets/img/noun_Image.svg" className={styles.imgProduct} />
+          <img src="/assets/img/sample/product.png" className={styles.imgProduct} />
         </div>
         <div className={styles.detailItem}>
           <div className={styles.descItem}>
