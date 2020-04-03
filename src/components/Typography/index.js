@@ -74,7 +74,7 @@ CustomTypography.propTypes = {
     "label"
   ]),
   type: PropTypes.oneOf(["bold", "italic", "semiBold", "reguler"]),
-  className: PropTypes.object
+  className: PropTypes.string
 };
 
 export default CustomTypography;
