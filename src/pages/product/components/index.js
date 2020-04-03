@@ -22,15 +22,15 @@ import AddReviewDialog from "./AddReviewDialog";
 
 const data = [
   {
-    img: "/assets/img/noun_Image.svg",
+    img: "/assets/img/sample/product.png",
     link: "#"
   },
   {
-    img: "/assets/img/noun_Image.svg",
+    img: "/assets/img/sample/product.png",
     link: "#"
   },
   {
-    img: "/assets/img/noun_Image.svg",
+    img: "/assets/img/sample/product.png",
     link: "#"
   }
 ];

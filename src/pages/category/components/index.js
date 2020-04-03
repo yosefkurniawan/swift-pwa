@@ -12,7 +12,7 @@ import Banner from '@components/Slider/Banner'
 const data = [
   {
     img:
-      "/assets/img/noun_Image.svg",
+      "/assets/img/sample/category-banner.png",
     link: "/"
   },
 ];
