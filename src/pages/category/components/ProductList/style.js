@@ -25,6 +25,9 @@ export default makeStyles(theme => ({
       detailItem: {
         height : 'auto',
         ...CreatePadding(14,14,14,14),
+        [theme.breakpoints.up('sm')] : {
+          ...CreatePadding(28,14,14,14),
+        },
         position : 'relative'  
       },
       descItem : {

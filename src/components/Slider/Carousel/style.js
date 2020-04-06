@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     width: 233,
     display : 'inline-block',
     height: "100%",
-    overflow: 'hidden',
+    // overflow: 'hidden',
     // ...CreateMargin(0,10,0,10)
   },
   imgItem: {
