@@ -24,7 +24,7 @@ const RangeSlider = ({
         {label}
       </Typography>
       <div className={styles.spanLabelPrice}>
-        <Typography variant="label" type="reguler" letter="uppercase">
+        <Typography variant="label" type="regular" letter="uppercase">
         {
            currency({
              value : value[0],
@@ -32,7 +32,7 @@ const RangeSlider = ({
            })
          }
         </Typography>
-        <Typography variant="label" type="reguler" letter="uppercase">
+        <Typography variant="label" type="regular" letter="uppercase">
         {
            currency({
              value : value[1],

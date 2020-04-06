@@ -54,12 +54,12 @@ const TextSearch = ({
             variant="span"
             letter="lowercase"
             className={styles.rmMargin}
-            type="reguler"
+            type="regular"
           >
             {textArray.map((txt, idx) => idx >= valueArray.length && txt)}
           </Typography>
         </Typography>
-        <Typography variant="p" type="reguler" className={styles.rmMargin}>
+        <Typography variant="p" type="regular" className={styles.rmMargin}>
           {subText}
         </Typography>
       </div>

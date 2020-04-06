@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   semiBold: {
     fontWeight: "500"
   },
-  reguler : {
+  regular : {
     fontWeight : '300'
   },
   italic: {

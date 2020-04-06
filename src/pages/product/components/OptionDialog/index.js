@@ -117,7 +117,7 @@ const OptionDialog = props => {
                       >
                           <Typography
                               align="center"
-                              type="reguler"
+                              type="regular"
                               letter="capitalize"
                               className={styles.textBtnAddToCard}
                           >

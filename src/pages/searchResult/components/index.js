@@ -62,7 +62,7 @@ const CategoryPage = () => {
         <div className={styles.filterContainer}>
           <Typography
             variant="p"
-            type="reguler"
+            type="regular"
             className={styles.countProductText}
           >
             123 Product
