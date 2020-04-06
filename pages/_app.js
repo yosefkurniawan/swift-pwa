@@ -3,7 +3,7 @@ import App from "next/app";
 import Head from "next/head";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { getDataFromTree } from "@apollo/react-ssr";
-import withApollo from "../src/services/graphql/api";
+import withApollo from "@services/graphql/api";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "@theme/theme";
