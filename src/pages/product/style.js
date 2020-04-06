@@ -53,6 +53,7 @@ const useStyles = makeStyles(theme => ({
     opacity : 'none',
     ...CenterAbsolute,
     color : WHITE,
+    borderRadius : 100
   },
   textBtnAddToCard : {
     fontSize : 16,

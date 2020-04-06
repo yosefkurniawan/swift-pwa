@@ -58,6 +58,12 @@ const useStyles = makeStyles(theme => ({
   center : {
     textAlign: 'center'
   },
+  underline : {
+    textDecoration : 'underline'
+  },
+  italic : {
+    fontStyle : 'italic'
+  }
   
 }));
 

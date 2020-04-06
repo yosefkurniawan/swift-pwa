@@ -7,7 +7,6 @@ const useStyles = makeStyles(theme => ({
     appBar : {
         position : 'relative',
         backgroundColor : WHITE,
-        ...CreatePadding(10,10,10,10),
         boxShadow : 'none'
     },
     header : {

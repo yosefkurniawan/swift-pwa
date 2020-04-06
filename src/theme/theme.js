@@ -68,10 +68,10 @@ const theme = createMuiTheme({
                 color: PRIMARY
             }
         },
-        MuiButtonBase: {
-          label: {
-            color: "red"
-          }
+        MuiButton : {
+           root : {
+            borderRadius : 100
+           }
         }
     },
     props: {

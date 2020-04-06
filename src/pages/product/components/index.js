@@ -1,33 +1,36 @@
-import { Box, IconButton, Badge } from "@material-ui/core";
-import React from "react";
-import Header from "@components/Header";
-import Banner from "@components/slider/Banner";
-import useStyles from "../style";
-import {
-  LocalMall,
-  FavoriteBorderOutlined,
-  ShareOutlined
-} from "@material-ui/icons";
 import Button from "@components/Button";
+import Banner from "@components/Slider/Banner";
+import Caraousel from "@components/Slider/Carousel";
 import Typography from "@components/Typography";
-import RightDrawer from "./RightDrawer";
 import currency from "@helpers/currency";
-import Caraousel from "@components/slider/Carousel";
-import RatingStar from "./RatingStar";
+import { Box, IconButton } from "@material-ui/core";
+import {
+  FavoriteBorderOutlined,
+  ShareOutlined,
+  Favorite
+} from "@material-ui/icons";
+import classNames from "classnames";
+import React from "react";
+import useStyles from "../style";
 import CustomerReview from "./CustomerReview";
-import ExpandDetail from './ExpandDetail'
+import ExpandDetail from "./ExpandDetail";
+import OptionDialog from "./OptionDialog";
+import RatingStar from "./RatingStar";
+import RightDrawer from "./RightDrawer";
+import SharePopup from "./SharePopup";
+import AddReviewDialog from "./AddReviewDialog";
 
 const data = [
   {
-    img: "/assets/img/noun_Image.svg",
+    img: "/assets/img/sample/product.png",
     link: "#"
   },
   {
-    img: "/assets/img/noun_Image.svg",
+    img: "/assets/img/sample/product.png",
     link: "#"
   },
   {
-    img: "/assets/img/noun_Image.svg",
+    img: "/assets/img/sample/product.png",
     link: "#"
   }
 ];
@@ -37,33 +40,45 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
 enim ad minim veniam, quis nostrud exercitation ullamco laboris
 nisi ut aliquip ex ea commodo consequat.`;
 
-const ShoppingBagIcon = ({ data = 0 }) => {
-  return (
-    <IconButton>
-      <Badge badgeContent={data}>
-        <LocalMall />
-      </Badge>
-    </IconButton>
-  );
-};
-
-const ProductPage = ({ t, i18n }) => {
+const ProductPage = props => {
+  const { t, i18n } = props;
   const styles = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [openOption, setOpenOption] = React.useState(false);
   const [openDrawer, setOpenDrawer] = React.useState(false);
+  const [openShare, setOpenShare] = React.useState(false);
+  const [feed, setFeed] = React.useState(false);
+  const [openReview, setOpenReview] = React.useState(false);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const favoritIcon = feed ? (
+    <Favorite className={styles.iconShare} />
+  ) : (
+    <FavoriteBorderOutlined className={styles.iconShare} />
+  );
+
+  const handleFeed = () => {
+    setFeed(!feed);
   };
+
   return (
     <>
+      <OptionDialog
+        {...props}
+        open={openOption}
+        setOpen={() => setOpenOption(!openOption)}
+      />
+      <SharePopup
+        open={openShare}
+        setOpen={() => setOpenShare(!openShare)}
+        {...props}
+      />
+      <AddReviewDialog
+        open={openReview}
+        setOpen={() => setOpenReview(!openReview)}
+        {...props}
+      />
       <Box className={styles.container}>
         <div className={styles.headContainer}>
           <Banner data={data} height="70vh" />
-          {/* <Header
-            className={styles.header}
-            RightComponent={<ShoppingBagIcon />}
-          /> */}
           <RightDrawer
             open={openDrawer}
             setOpen={() => setOpenDrawer(!openDrawer)}
@@ -93,10 +108,13 @@ const ProductPage = ({ t, i18n }) => {
               </Typography>
             </div>
             <div className={styles.shareContainer}>
-              <IconButton className={styles.btnShare}>
-                <FavoriteBorderOutlined className={styles.iconShare} />
+              <IconButton className={styles.btnShare} onClick={handleFeed}>
+                {favoritIcon}
               </IconButton>
-              <IconButton className={styles.btnShare}>
+              <IconButton
+                className={styles.btnShare}
+                onClick={() => setOpenShare(true)}
+              >
                 <ShareOutlined className={styles.iconShare} />
               </IconButton>
             </div>
@@ -133,7 +151,7 @@ const ProductPage = ({ t, i18n }) => {
                 variant="span"
                 type="bold"
                 letter="uppercase"
-                className="clear-margin-padding"
+                className={classNames("clear-margin-padding", styles.title)}
               >
                 {t("product:customerReview")}
               </Typography>
@@ -147,7 +165,7 @@ const ProductPage = ({ t, i18n }) => {
               </Typography>
             </div>
             <div className={styles.shareContainer}>
-              <Button variant="outlined">{t("product:writeReview")}</Button>
+              <Button onClick={() => setOpenReview(true)} variant="outlined">{t("product:writeReview")}</Button>
             </div>
           </div>
           <div className={styles.reviewContainer}>
@@ -155,7 +173,12 @@ const ProductPage = ({ t, i18n }) => {
             <CustomerReview />
             <div className={styles.btnLoadReview}>
               <Button variant="text" disabled={true}>
-                <Typography variant="span" type="reguler" letter="capitalize" className={styles.textLoadReview}>
+                <Typography
+                  variant="span"
+                  type="reguler"
+                  letter="capitalize"
+                  className={styles.textLoadReview}
+                >
                   {t("product:moreReview")}
                 </Typography>
               </Button>
@@ -166,7 +189,11 @@ const ProductPage = ({ t, i18n }) => {
           <Caraousel data={data} title={t("product:recomendedTitle")} />
         </div>
         <div className={styles.footer}>
-          <Button className={styles.btnAddToCard} color="primary">
+          <Button
+            className={styles.btnAddToCard}
+            color="primary"
+            onClick={() => setOpenOption(true)}
+          >
             <Typography
               align="center"
               type="reguler"

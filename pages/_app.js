@@ -21,14 +21,11 @@ class MyApp extends App {
 
     render() {
         const { Component, pageProps, apollo } = this.props;
-        const title = pageProps.pageConfig && pageProps.pageConfig.title
-            ? pageProps.pageConfig.title
-            : "Swift PWA";
         
         return (
             <ApolloProvider client={apollo}>
                 <Head>
-                    <title>{title}</title>
+                    <title>Swift PWA</title>
                     <meta
                         name="viewport"
                         content="minimum-scale=1, initial-scale=1, width=device-width"

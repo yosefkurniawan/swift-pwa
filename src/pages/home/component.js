@@ -1,5 +1,5 @@
-import Banner from "@components/slider/Banner";
-import Carousel from "@components/slider/Carousel";
+import Banner from "@components/Slider/Banner";
+import Carousel from "@components/Slider/Carousel";
 import Span from "@components/Span";
 import SpanProduct from "@components/SpanProduct";
 import useStyles from "./style.js";
@@ -7,15 +7,15 @@ import useStyles from "./style.js";
 const data = [
   {
     img:
-      "https://www.creohouse.co.id/wp-content/uploads/2016/09/jasa-desain-banner-web-creohouse.jpg",
+      "/assets/img/sample/home-slider.png",
     link: "/"
   },
   {
-    img: "assets/img/noun_Image.svg",
+    img: "/assets/img/sample/home-slider.png",
     link: "/"
   },
   {
-    img: "assets/img/noun_Image.svg",
+    img: "/assets/img/sample/home-slider.png",
     link: "/"
   }
 ];
@@ -28,7 +28,7 @@ const HomePage = ({ t }) => {
         <div className={styles.logo}>
           <h1 className={styles.titleLogo}>{t("common:home:logoName")}</h1>
         </div>
-        <Banner data={data} />
+        <Banner data={data} height="95vh" />
       </div>
       <div className={styles.slider}>
         <Carousel data={data} />

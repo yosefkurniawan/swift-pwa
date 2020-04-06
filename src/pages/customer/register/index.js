@@ -6,7 +6,8 @@ const Page = props => {
     const { t } = props;
     const pageConfig = {
         title: t("customer:register:pageTitle"),
-        header: false // available values: "absolute", "relative", false (default)
+        header: false, // available values: "absolute", "relative", false (default)
+        bottomNav: "account"
     };
     return (
         <Layout pageConfig={pageConfig}>

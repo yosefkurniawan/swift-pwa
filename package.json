@@ -8,7 +8,7 @@
     "export": "next export",
     "clean": "cross-env rimraf ./.next ./out",
     "release": "cross-env NODE_ENV=production npm run clean && npm run build && npm run export",
-    "start": "next start",
+    "start": "cross-env NODE_ENV=production node server.js",
     "stage": "cross-env NODE_ENV=production node server.js",
     "generate-certs": "mkdir certs && openssl req -x509 -days 365 -newkey rsa:2048 -nodes -sha256 -keyout certs/privateKey.key -out certs/certificate.crt"
   },
@@ -33,6 +33,7 @@
     "next-with-apollo": "^5.0.0",
     "react": "16.13.0",
     "react-dom": "16.13.0",
+    "react-share": "^4.1.0",
     "react-swipeable-views": "^0.13.9",
     "react-swipeable-views-utils": "^0.13.9",
     "react-typed": "^1.2.0"

@@ -5,5 +5,11 @@
     "colorOption" : "color option",
     "customerReview" : "customer reviews",
     "writeReview" : "write a review",
-    "moreReview" : "Read more reviews"
+    "moreReview" : "Read more reviews",
+    "viewGuide" : "view site guide",
+    "shareTitle" : "Share",
+    "summary" : "summary",
+    "nickname" : "nickname",
+    "submitReview" : "Submit Review" ,
+    "rate" : "Rate"
 }

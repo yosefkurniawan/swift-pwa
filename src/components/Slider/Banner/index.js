@@ -7,7 +7,7 @@ import { autoPlay } from "react-swipeable-views-utils";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 import useStyles from "./style";
 
-const Banner = ({ data = [], height = '100vh' }) => {
+const Banner = ({ data = [], height = '100%' }) => {
   const styles = useStyles();
   const [index, setIndex] = useState(0);
 

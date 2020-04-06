@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(theme => ({
-  button : {
+  container : {
     borderRadius : 100
   }
 }));
