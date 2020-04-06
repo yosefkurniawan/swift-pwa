@@ -18,9 +18,10 @@ export default makeStyles((theme) => ({
   },
   bannerContainer: {
     height: "70vh",
-    width: "100%",
-    backgroundColor: GRAY_PRIMARY,
-    ...Centering,
+    "backgroundPosition": "center",
+    "backgroundRepeat": "repeat",
+    "backgroundSize": "cover",
+    backgroundColor: 'red',
   },
   img: {
     display: "block",

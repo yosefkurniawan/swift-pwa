@@ -32,6 +32,7 @@ const OptionDialog = props => {
   const [color, setColor] = React.useState(colorData[0].value);
   const [size, setSize] = React.useState(sizeData[0].value);
   const [sizeOptions, setSizeOptions] = React.useState(sizeData);
+  const [banner, setBanner] = React.useState('/assets/img/sample/product.png')
 
   const handleChangeColor = val => {
     if (val === "#c1c1c1") {
@@ -42,6 +43,10 @@ const OptionDialog = props => {
     setColor(val);
   };
 
+  const bannerStyles = {
+    backgroundImage: `url(${banner})`
+  }
+
   return (
       <Dialog
           fullScreen
@@ -50,11 +55,7 @@ const OptionDialog = props => {
           onClose={setOpen}
       >
           <div className={styles.root}>
-              <div className={styles.bannerContainer} onClick={() => setOpen()}>
-                  <img
-                      src="/assets/img/sample/product.png"
-                      className={styles.img}
-                  />
+              <div className={styles.bannerContainer} style={bannerStyles} onClick={() => setOpen()}>
               </div>
               <div className={styles.optionContainer}>
                   <CustomRadio

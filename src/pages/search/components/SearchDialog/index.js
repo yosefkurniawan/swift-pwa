@@ -5,35 +5,37 @@ import { Close as CloseIcon } from "@material-ui/icons";
 import Typography from "@components/Typography";
 import TextField from "@components/Forms/TextField";
 import classNames from "classnames";
+import Link from "next/link";
+import Router from "next/router";
 
 const data = [
   {
     text: "Shisendo",
-    value: 1
-  }
+    value: 1,
+  },
 ];
 const category = [
   {
     text: "Shirt",
     value: 23,
-    cat: "Top"
+    cat: "Top",
   },
   {
     text: "Shine",
     value: 13,
-    cat: "Accesories"
-  }
+    cat: "Accesories",
+  },
 ];
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Grow ref={ref} {...props}  timeout={600} />;
+  return <Grow ref={ref} {...props} timeout={600} />;
 });
 
 const TextSearch = ({
   text = "",
   searchValue = "",
   value = 3,
-  subText = ""
+  subText = "",
 }) => {
   const styles = useStyles();
   const textArray = text.split("");
@@ -57,7 +59,9 @@ const TextSearch = ({
             {textArray.map((txt, idx) => idx >= valueArray.length && txt)}
           </Typography>
         </Typography>
-        <Typography variant="p" type="reguler" className={styles.rmMargin}>{subText}</Typography>
+        <Typography variant="p" type="reguler" className={styles.rmMargin}>
+          {subText}
+        </Typography>
       </div>
       <Typography variant="p">{value}</Typography>
     </div>
@@ -101,7 +105,16 @@ const SearchDialog = ({ open, setOpen }) => {
         </Typography>
         <div className={styles.result}>
           {data.map((dt, idx) => (
-            <TextSearch key={idx} text={dt.text} searchValue={value} value={dt.value} />
+            <a
+              onClick={() => {
+                Router.push(
+                  "/product/[id]",
+                  "/product/" + dt.text.toLowerCase()
+                );
+              }}
+            >
+              <TextSearch text={dt.text} searchValue={value} value={dt.value} />
+            </a>
           ))}
         </div>
         <Typography
@@ -113,8 +126,19 @@ const SearchDialog = ({ open, setOpen }) => {
           Category
         </Typography>
         <div className={styles.result}>
-        {category.map((dt, idx) => (
-            <TextSearch key={idx} text={dt.text} searchValue={value} value={dt.value} subText={`in ${dt.cat}`} />
+          {category.map((dt, idx) => (
+            <a
+              onClick={() =>
+                Router.push("/search/[id]", "/search/" + dt.cat.toLowerCase())
+              }
+            >
+              <TextSearch
+                text={dt.text}
+                searchValue={value}
+                value={dt.value}
+                subText={`in ${dt.cat}`}
+              />
+            </a>
           ))}
         </div>
       </div>
