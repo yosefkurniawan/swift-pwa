@@ -20,6 +20,8 @@ const data = [
   }
 ];
 
+const carouselData = [1,2,3,4,5,6,7,8,9]
+
 const HomePage = ({ t }) => {
   const styles = useStyles();
   return (
@@ -31,13 +33,13 @@ const HomePage = ({ t }) => {
         <Banner data={data} height="95vh" />
       </div>
       <div className={styles.slider}>
-        <Carousel data={data} />
+        <Carousel data={carouselData} />
       </div>
       <Span>
         <img src="assets/img/noun_Image.svg" />
       </Span>
       <div className={styles.slider}>
-        <Carousel data={data} />
+        <Carousel data={carouselData} />
       </div>
       <div className={styles.slider}>
         <SpanProduct />
