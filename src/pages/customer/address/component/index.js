@@ -2,8 +2,7 @@
 import React, { Fragment, useState } from "react";
 import { AppBar, IconButton, Toolbar, Typography, Box, Button, TextField, Dialog } from "@material-ui/core";
 import { ArrowBack, Add, Close, PinDrop } from "@material-ui/icons";
-
-
+import IcubeMaps from "@components/GoogleMaps/Maps"
 import useStyles from "./style.js";
 
 // Main Render Page
@@ -188,8 +187,11 @@ const Content = (props) => {
                                 fullWidth
                                 className={[styles.form_input].join(' ')}
                             />
-                            <Box style={{width:"100%", height:"320px"}}>
-                                
+                            <Box style={{width:`100%`, height:`500px`}}>
+                                <IcubeMaps
+                                    height='300px'
+                                    isMarkerShown
+                                />
                             </Box>
                         </form>
                     </Box>
