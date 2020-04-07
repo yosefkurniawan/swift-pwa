@@ -1,7 +1,12 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { WHITE, PRIMARY, GRAY_PRIMARY } from "@theme/colors";
+import { CreateMargin, CreatePadding } from "@theme/mixins";
 
 const useStyles = makeStyles(theme => ({
+    padding_vertical_40:{
+        paddingTop: "40px",
+        paddingBottom: "40px"
+    },
     border_bottom: {
         borderBottom: `1px solid ${GRAY_PRIMARY}`,
     },
@@ -21,22 +26,19 @@ const useStyles = makeStyles(theme => ({
         paddingRight: "15px"
     },
     account_wrapper: {
-        paddingBottom: "40px",
         background: "white"
     },
     account_block: {
         display: "block",
         margin:"auto",
         textAlign: "center",
-        paddingTop: "40px",
-        paddingBottom: "40px",
         position: "relative"
     },
     account_username: {
-        marginBottom: 0
+        margin: 0
     },
     account_email: {
-        marginTop: 0
+        margin: 0
     },
     account_point: {
         background: "black",
@@ -47,7 +49,7 @@ const useStyles = makeStyles(theme => ({
         color: "white",
         left: "20%",
         right: "20%",
-        top: "-5%",
+        top: "-10%",
     },
     account_point_title: {
         marginBottom: 0,
