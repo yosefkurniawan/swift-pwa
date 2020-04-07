@@ -9,16 +9,23 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: WHITE
   },
   caraousel: {
-    padding: "0 55px"
+    padding: "0 55px",
+    [theme.breakpoints.up('sm')] : {
+      padding : "0 35vw"
+    },
+    [theme.breakpoints.up('lg')] : {
+      padding : "0 315px"
+    }
   },
   slideContainer: {
     padding: "0 15px",
   },
   itemContainer: {
-    width: "100%",
+    width: 233,
     display : 'inline-block',
     height: "100%",
     overflow: 'hidden',
+    // ...CreateMargin(0,10,0,10)
   },
   imgItem: {
     width: "100%",

@@ -73,22 +73,6 @@ const theme = createMuiTheme({
             borderRadius : 100
            }
         }
-    },
-    props: {
-        MuiTypography: {
-            variantMapping: {
-                h1: "h1",
-                h2: "h3",
-                h3: "h3",
-                h4: "h3",
-                h5: "h3",
-                h6: "h3",
-                subtitle1: "h3",
-                subtitle2: "h3",
-                body1: "span",
-                body2: "span"
-            }
-        }
     }
 });
 
