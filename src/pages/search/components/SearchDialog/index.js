@@ -75,6 +75,11 @@ const SearchDialog = ({ open, setOpen }) => {
     value === ""
       ? classNames(styles.body, styles.hide)
       : classNames(styles.body, styles.show);
+  const handleSearch = (ev) => {
+    if (ev.key === 'Enter') {
+      Router.push("/search/[id]", "/search/" + value)
+    }
+  }
   return (
     <Dialog
       fullScreen
@@ -91,6 +96,7 @@ const SearchDialog = ({ open, setOpen }) => {
             placeholder="Search ..."
             value={value}
             onChange={setValue}
+            onKeyPress={handleSearch}
           />
         </Toolbar>
       </AppBar>
@@ -129,7 +135,7 @@ const SearchDialog = ({ open, setOpen }) => {
           {category.map((dt, idx) => (
             <a
               onClick={() =>
-                Router.push("/search/[id]", "/search/" + dt.cat.toLowerCase())
+                Router.push("/category/[id]", "/category/" + dt.cat.toLowerCase())
               }
             >
               <TextSearch

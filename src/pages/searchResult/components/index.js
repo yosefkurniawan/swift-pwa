@@ -1,32 +1,31 @@
-import { AppBar, Box } from "@material-ui/core";
+import Button from "@components/Button";
+import FilterDialog from "@components/FilterDialog";
+import GridList from "@components/GridList";
+import ProductItem from "@components/ProductItem";
+import CustomTabs from "@components/Tabs";
+import Typography from "@components/Typography";
+import { Box } from "@material-ui/core";
 import { Tune } from "@material-ui/icons";
 import React from "react";
-import Button from "@components/Button";
-import Typography from "@components/Typography";
 import useStyles from "../style";
-import ProductList from "./ProductList";
-import { Tab, Tabs } from "./Tabs";
-import FilterDialog from "./FilterDialog";
-import Banner from '@components/Slider/Banner'
-
-const data = [
-  {
-    img:
-      "/assets/img/sample/category-banner.png",
-    link: "/"
-  },
-];
 
 const product = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const category = ["DRESS", "TOP", "bottom", "accecories", "hijab"];
 
-function a11yProps(index) {
-  return {
-    id: `scrollable-prevent-tab-${index}`,
-    "aria-controls": `scrollable-prevent-tabpanel-${index}`
-  };
-}
+const radioData = [
+  { value: "popularity", label: "Popularity" },
+  { value: "new", label: "New Item" },
+  { value: "priceHigh", label: "price (Hight to Low)" },
+  { value: "priceLow", label: "Price (Low to Hight)" },
+];
+
+const brandData = [
+  { value: "one", label: "Brand One" },
+  { value: "two", label: "brand two" },
+  { value: "three", label: "Brand three" },
+  { value: "four", label: "brand four" },
+];
 
 const CategoryPage = () => {
   const styles = useStyles();
@@ -41,23 +40,17 @@ const CategoryPage = () => {
       <FilterDialog
         open={openFilter}
         setOpen={() => setOpenFilter(!openFilter)}
+        itemProps={{
+          selectBrandData: brandData,
+          shortByData: radioData,
+          selectSize: false,
+          selectColor: false,
+        }}
+        getValue={(v) => console.log(v)}
       />
       <Box className={styles.container}>
         <div>
-          <AppBar position="static" color="inherit" className={styles.tabs}>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              variant="scrollable"
-              scrollButtons="off"
-              aria-label="scrollable prevent tabs example"
-            >
-              <Tab label="All Item" {...a11yProps(0)} />
-              {category.map((item, index) => (
-                <Tab key={index} label={item} {...a11yProps(index + 1)} />
-              ))}
-            </Tabs>
-          </AppBar>
+          <CustomTabs data={category} onChange={handleChange} value={value} />
         </div>
         <div className={styles.filterContainer}>
           <Typography
@@ -81,7 +74,15 @@ const CategoryPage = () => {
           </div>
         </div>
         <div className={styles.productContainer}>
-          <ProductList data={product} />
+          <GridList
+            data={product}
+            ItemComponent={ProductItem}
+            itemProps={{
+              color: ["#343434", "#6E6E6E", "#989898", "#C9C9C9"],
+              showListColor: true,
+            }}
+            gridItemProps={{ xs: 6, sm: 4, md: 3 }}
+          />
         </div>
       </Box>
     </>

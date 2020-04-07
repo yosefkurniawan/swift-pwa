@@ -1,7 +1,14 @@
-import useStyles from "./style";
 import classNames from "classnames";
 
-const ButtonColor = ({
+import { makeStyles } from "@material-ui/core";
+
+const useStyles =  makeStyles(theme => ({
+    root : {
+        borderRadius : 100,
+    }
+}))
+
+const ListColor = ({
   onClick = () => {},
   color = "#000",
   size = 20,
@@ -19,4 +26,5 @@ const ButtonColor = ({
   return <span className={customClass} style={styles} onClick={onClick}></span>;
 };
 
-export default ButtonColor;
+export default ListColor;
+

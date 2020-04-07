@@ -70,15 +70,6 @@ CustomTypography.propTypes = {
     "h4",
     "h5",
     "h6",
-    "subtitle1",
-    "subtitle2",
-    "body1",
-    "body2",
-    "caption",
-    "button",
-    "overline",
-    "srOnly",
-    "inherit",
     "p",
     "span",
     "title",
@@ -88,7 +79,7 @@ CustomTypography.propTypes = {
   letter : PropTypes.oneOf(["uppercase", "capitalize", "lowercase"]),
   align : PropTypes.oneOf(["top","bottom", "center", "left"]),
   decoration : PropTypes.oneOf(["underline"]),
-  className: PropTypes.object
+  className: PropTypes.any
 };
 
 export default CustomTypography;

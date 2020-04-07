@@ -10,7 +10,7 @@ const RangeSlider = ({
   maxValue = 100,
   onChange = () => {},
   value = [0, 10],
-  label= "label"
+  label= ""
 }) => {
   const styles = useStyles();
 
