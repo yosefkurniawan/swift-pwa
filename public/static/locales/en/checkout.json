@@ -1,3 +1,7 @@
 {
-    "pageTitle": "Checkout"
+    "pageTitle": "Checkout",
+    "shippingAddress" : "Shipping Address",
+    "deliveryMethod" : "delivery Method",
+    "payment" : "payment",
+    "placeOrder" : "place Order"
 }
