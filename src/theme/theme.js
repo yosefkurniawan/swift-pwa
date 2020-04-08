@@ -29,7 +29,7 @@ const theme = createMuiTheme({
         MuiTextField: {
             root: {
                 ...FONT_REGULER
-            }
+            },
         },
         MuiTypography: {
             h1: {

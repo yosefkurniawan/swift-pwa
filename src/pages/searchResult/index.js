@@ -8,7 +8,7 @@ const Page = props => {
     const pageConfig = {
         title: "[Search Result]",
         header: "relative", // available values: "absolute", "relative", false (default)
-        headerTitle : 'Search Result : '+router.query.id,
+        headerTitle : 'Search Result : '+router.query.q,
         bottomNav: "browse"
     };
     return (
