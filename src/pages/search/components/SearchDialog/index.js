@@ -77,7 +77,10 @@ const SearchDialog = ({ open, setOpen }) => {
       : classNames(styles.body, styles.show);
   const handleSearch = (ev) => {
     if (ev.key === 'Enter') {
-      Router.push("/search/[id]", "/search/" + value)
+      Router.push({
+        pathname: '/catalogsearch/result',
+        query: { q: value }
+    })
     }
   }
   return (

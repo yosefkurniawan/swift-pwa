@@ -1,19 +1,23 @@
 import { makeStyles } from "@material-ui/core";
-import { PRIMARY, GRAY_PRIMARY } from "@theme/colors";
+import { GRAY_PRIMARY, PRIMARY } from "@theme/colors";
 import {
-  CreateMargin,
-  CreatePadding,
+  Centering,
   CreateBorder,
-  FlexRow,
+  CreatePadding,
   FlexColumn,
-  CenterAbsolute,
-  CreateShadow
+  FlexRow,
+  CreateMargin
 } from "@theme/mixins";
 export default makeStyles((theme) => ({
-  container: {
-    height: "100%",
+  root: {
+    ...FlexColumn,
+    height: "100vh",
     width: "100%",
-    position: "relateive",
+  },
+  container: {
+    width: "100%",
+    height: "auto",
+    paddingBottom: 150,
   },
   block: {
     ...CreateBorder(0, 0, "1px", 0, GRAY_PRIMARY),
@@ -31,24 +35,38 @@ export default makeStyles((theme) => ({
   listShipping: {
     ...CreateBorder("1px", 0, 0, 0, PRIMARY),
   },
-  footer : {
-    ...FlexColumn,
-    width: "100%",
-    position: "fixed",
-    bottom: 0,
-    left: 0,
-    ...CreateShadow('top',3),
-    ...CreatePadding(20, 20, 20, 20),
+  fieldPoinContainer: {
+    ...FlexRow,
+    alignItems: "center",
+    ...CreateMargin(10,0,15,0)
   },
-  btnSave: {
-    ...CreateMargin(13, 8, 0, 0),
-    ...CenterAbsolute,
-    width: 316,
-    maxWidth : '85%',
-    height: 41
+  btnAplly: {
+    height: 30,
+    ...Centering,
+    marginLeft : 5
   },
-  listSummary : {
-      ...FlexRow,
-      justifyContent : 'space-between'
+  btnPoint : {
+    maxWidth : 120,
+    ...Centering,
+    padding : 5
+  },
+  cardPoint : {
+    ...CreateMargin(30,0,30,0),
+    ...CreatePadding(17,17,17,17),
+    ...FlexRow,
+    alignItems : 'center',
+    justifyContent : 'space-between',
+    ...CreateBorder("1px","1px","1px","1px", GRAY_PRIMARY),
+    borderRadius : 10
+  },
+  pointText : {
+    fontSize : 20,
+    ...CreateMargin(0,0,0,5)
+  },
+  btnBalanceGift : {
+    ...CreateMargin(-25,0,0,-5)
+  },
+  rmBorder : {
+    border : 'none'
   }
 }));

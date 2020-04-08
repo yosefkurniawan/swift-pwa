@@ -13,6 +13,10 @@ export default makeStyles(theme => ({
         ...CreateBorder(0, 0, '1px', 0, PRIMARY),
         ...FlexRow
     },
+    rootRmBorder : {
+        ...FlexRow,
+        border : 'none'
+    },
     labelContainer : {
         ...FlexRow,
         justifyContent : 'space-between',

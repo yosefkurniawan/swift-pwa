@@ -31,6 +31,7 @@ function CustomRadio({
   classContainer = {},
   classItem = {},
   flex = "column",
+  propsItem = {}
 }) {
   const styles = useStyles();
 
@@ -65,9 +66,10 @@ function CustomRadio({
               selected={JSON.stringify(value) === JSON.stringify(item.value) ? true : false}
               onChange={handleChangeCustom}
               className={classItem}
+              {...propsItem}
             />
           ) : (
-            <RadioItem key={index} {...item} className={classItem} />
+            <RadioItem key={index} {...item} {...propsItem} className={classItem} />
           )
         )}
       </RadioGroup>
