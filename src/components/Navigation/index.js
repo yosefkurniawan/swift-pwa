@@ -9,6 +9,7 @@ import {
 import Router from "next/router";
 import SearchModal from "@pages/search";
 import useStyles from "./style";
+import { withApollo } from "@lib/apollo";
 
 // active: true (default), "home", "browse", "cart", "account"
 const Navigation = ({ active = true }) => {
@@ -92,4 +93,4 @@ const Navigation = ({ active = true }) => {
     }
 };
 
-export default Navigation;
+export default withApollo({ ssr: true })(Navigation);

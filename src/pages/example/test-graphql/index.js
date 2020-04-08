@@ -1,6 +1,7 @@
 import Content from "./components";
 import Layout from "@components/Layouts";
 import { withTranslation } from "@i18n";
+import { withApollo } from "@lib/apollo";
 
 const Page = () => {
     const pageConfig = {
@@ -9,9 +10,9 @@ const Page = () => {
     };
     return (
         <Layout pageConfig={pageConfig}>
-            <Content />
+            <Content pageConfig={pageConfig} />
         </Layout>
     );
 };
 
-export default withTranslation()(Page);
+export default withApollo({ ssr: true })(withTranslation()(Page));
