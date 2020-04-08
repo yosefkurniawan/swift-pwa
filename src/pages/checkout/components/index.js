@@ -10,16 +10,21 @@ import Summary from "./Summary";
 import PaymentList from "./PaymentList";
 
 const deliveryData = [
-  { label: "Standart", value: { name: "standart", price: 1000 } },
-  { label: "Express", value: { name: "express", price: 2500 } },
+  { label: "Standart", value: { name: "standart", price: 20000 } },
+  { label: "Express", value: { name: "express", price: 35000 } },
 ];
 
-const FieldPoint = ({ onChange = () => {}, value = "", placeholder = "" }) => {
+const FieldPoint = ({
+  onChange = () => {},
+  value = "",
+  placeholder = "",
+  action,
+}) => {
   const styles = useStyles();
   return (
     <div className={styles.fieldPoinContainer}>
       <TextField value={value} onChange={onChange} placeholder={placeholder} />
-      <Button variant="outlined" className={styles.btnAplly}>
+      <Button variant="outlined" className={styles.btnAplly} onClick={action}>
         <Typography variant="p" type="bold" letter="uppercase">
           Aplly
         </Typography>
@@ -32,6 +37,101 @@ const Checkout = (props) => {
   const { t } = props;
   const styles = useStyles();
   const [delivery, setDelivery] = React.useState([]);
+  const [summary, setSummary] = React.useState([
+    { item: "sub total", value: 300000 },
+  ]);
+
+  const [point, setPoint] = React.useState(100000);
+  const [credit, setCredit] = React.useState(100000);
+
+  const handleAddres = () => {};
+  const handleShipping = (val) => {
+    setDelivery(val);
+    let include = false;
+    let newData = [];
+    summary.map((item) => {
+      if (item.item === "shipping") {
+        include = true;
+        item.value = val.price;
+      }
+      newData.push(item);
+    });
+
+    include === false
+      ? setSummary([...newData, { item: "shipping", value: val.price }])
+      : setSummary(newData);
+  };
+  const handlePayment = () => {};
+  const handlePromo = () => {
+    let include = false;
+    let newData = [];
+    summary.map((item) => {
+      if (item.item === "promo") {
+        include = true;
+        item.value = -20000;
+      }
+      newData.push(item);
+    });
+
+    include === false
+      ? setSummary([...newData, { item: "promo", value: -20000 }])
+      : setSummary(newData);
+  };
+  const handleGift = () => {
+    let include = false;
+    let newData = [];
+    summary.map((item) => {
+      if (item.item === "gift") {
+        include = true;
+        item.value = -30000;
+      }
+      newData.push(item);
+    });
+
+    include === false
+      ? setSummary([...newData, { item: "gift", value: -30000 }])
+      : setSummary(newData);
+  };
+  const handleCheckBalance = () => {};
+  const handleUsePoint = async () => {
+    if (point !== 0) {
+      let include = false;
+      let newData = [];
+      summary.map((item) => {
+        if (item.item === "point") {
+          include = true;
+          item.value = -point;
+        }
+        newData.push(item);
+      });
+
+      include === false
+        ? await setSummary([...newData, { item: "point", value: -point }])
+        : await setSummary(newData);
+
+      setPoint(0);
+    }
+  };
+  const handleUseCredit = async () => {
+    if (credit !== 0) {
+      let include = false;
+      let newData = [];
+      summary.map((item) => {
+        if (item.item === "credit") {
+          include = true;
+          item.value = -credit;
+        }
+        newData.push(item);
+      });
+
+      include === false
+        ? await setSummary([...newData, { item: "credit", value: -credit }])
+        : await setSummary(newData);
+
+      setCredit(0);
+    }
+  };
+
   return (
     <div className={styles.root}>
       <div className={styles.container}>
@@ -59,7 +159,7 @@ const Checkout = (props) => {
           </Typography>
           <Radio
             value={delivery}
-            onChange={setDelivery}
+            onChange={handleShipping}
             classContainer={styles.listShipping}
             CustomItem={DeliveryItem}
             valueData={deliveryData}
@@ -73,8 +173,8 @@ const Checkout = (props) => {
           <PaymentList />
         </div>
         <div className={classNames(styles.block, styles.rmBorder)}>
-          <FieldPoint placeholder="Promo Code" />
-          <FieldPoint placeholder="Gift Card Number" />
+          <FieldPoint placeholder="Promo Code" action={handlePromo} />
+          <FieldPoint placeholder="Gift Card Number" action={handleGift} />
           <Button variant="text" className={styles.btnBalanceGift}>
             <Typography variant="p" decoration="underline" letter="capitalize">
               Check Balance
@@ -90,10 +190,14 @@ const Checkout = (props) => {
                 type="bold"
                 className={styles.pointText}
               >
-                100.000
+                {point.toLocaleString(undefined, { minimumFractionDigits: 0 })}
               </Typography>
             </div>
-            <Button variant="outlined" className={styles.btnPoint}>
+            <Button
+              variant="outlined"
+              className={styles.btnPoint}
+              onClick={handleUsePoint}
+            >
               <Typography variant="p" type="bold" letter="uppercase">
                 USE MY POIN
               </Typography>
@@ -109,10 +213,14 @@ const Checkout = (props) => {
                 type="bold"
                 className={styles.pointText}
               >
-                100.000
+                {credit.toLocaleString(undefined, { minimumFractionDigits: 0 })}
               </Typography>
             </div>
-            <Button variant="outlined" className={styles.btnPoint}>
+            <Button
+              variant="outlined"
+              className={styles.btnPoint}
+              onClick={handleUseCredit}
+            >
               <Typography
                 variant="p"
                 type="bold"
@@ -125,7 +233,7 @@ const Checkout = (props) => {
           </div>
         </div>
       </div>
-      <Summary {...props} />
+      <Summary {...props} data={summary} />
     </div>
   );
 };
