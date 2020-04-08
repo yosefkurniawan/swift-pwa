@@ -96,7 +96,7 @@ const ProductPage = props => {
                 Product Name
               </Typography>
               <Typography
-                type="reguler"
+                type="regular"
                 variant="span"
                 letter="uppercase"
                 className="clear-margin-padding"
@@ -122,11 +122,11 @@ const ProductPage = props => {
           <div className={styles.titleContainer}>
             <div className={styles.ratingContainer}>
               <RatingStar value={3} />
-              <Typography variant="p" type="reguler" letter="capitalize">
+              <Typography variant="p" type="regular" letter="capitalize">
                 5 {t("product:review")}
               </Typography>
             </div>
-            <Typography variant="p" type="reguler" letter="lowercase">
+            <Typography variant="p" type="regular" letter="lowercase">
               3 {t("product:colorOption")}
             </Typography>
           </div>
@@ -134,7 +134,7 @@ const ProductPage = props => {
             <Typography
               align="center"
               variant="p"
-              type="reguler"
+              type="regular"
               letter="default"
             >
               {lorem}
@@ -156,7 +156,7 @@ const ProductPage = props => {
                 {t("product:customerReview")}
               </Typography>
               <Typography
-                type="reguler"
+                type="regular"
                 variant="p"
                 letter="capitalize"
                 className="clear-margin-padding"
@@ -175,7 +175,7 @@ const ProductPage = props => {
               <Button variant="text" disabled={true}>
                 <Typography
                   variant="span"
-                  type="reguler"
+                  type="regular"
                   letter="capitalize"
                   className={styles.textLoadReview}
                 >
@@ -196,7 +196,7 @@ const ProductPage = props => {
           >
             <Typography
               align="center"
-              type="reguler"
+              type="regular"
               letter="capitalize"
               className={styles.textBtnAddToCard}
             >

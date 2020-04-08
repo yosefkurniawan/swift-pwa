@@ -24,7 +24,7 @@ const RightDrawer = ({ open = false, setOpen = () => {} }) => {
         <Typography
           variant="span"
           letter="uppercase"
-          type="reguler"
+          type="regular"
           align="center"
         >
           shop the look
@@ -44,7 +44,7 @@ const RightDrawer = ({ open = false, setOpen = () => {} }) => {
               <Typography
                 variant="span"
                 letter="uppercase"
-                type="reguler"
+                type="regular"
                 align="center"
               >
                 shop the look

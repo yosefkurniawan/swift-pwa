@@ -32,7 +32,7 @@ const Cart = props => {
                 <Box className={styles.container}>
                     <div className={styles.toolbar}>
                         <div className={styles.toolbarCounter}>
-                            <Typography variant="p" type="reguler">
+                            <Typography variant="p" type="regular">
                                 <span>2</span> {t("cart:counter:text")}
                             </Typography>
                         </div>
@@ -75,7 +75,7 @@ const Cart = props => {
     } else {
         return (
             <Box className={styles.container}>
-                <Typography variant="span" type="reguler" align="center">
+                <Typography variant="span" type="regular" align="center">
                     <span className={styles.emptyCart}>{t("cart:empty:text")}</span>
                 </Typography>
                 <Link href="/">

@@ -23,7 +23,7 @@ const CustomerReview = ({}) => {
               Customer Name
             </Typography>
             <Typography
-              type="reguler"
+              type="regular"
               variant="p"
               letter="capitalize"
               className="clear-margin-padding"
@@ -38,7 +38,7 @@ const CustomerReview = ({}) => {
         </div>
       </div>
       <div className={styles.content}>
-        <Typography variant="p" type="reguler" align="left">
+        <Typography variant="p" type="regular" align="left">
           {`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
               minim veniam, quis nostrud exercitation ullamco laboris nisi ut
