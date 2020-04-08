@@ -52,7 +52,7 @@ export default function ExpandDetail({ data = [1, 2, 3] }) {
                 : styles.bodyExpand
             }
           >
-            <Typography variant="p" type="reguler">
+            <Typography variant="p" type="regular">
               100% Cotton Light Weight Machine wash cold. Wash with similar
               colors Medium iron temperature
             </Typography>

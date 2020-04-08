@@ -7,7 +7,7 @@ const ImageSlide = ({ src = "", link = "#", height = "100%" }) => {
     backgroundImage: `url(${src})`,
     height,
     "backgroundPosition": "center",
-    "backgroundRepeat": "no-repeat",
+    "backgroundRepeat": "repeat",
     "backgroundSize": "cover"
   };
   return (

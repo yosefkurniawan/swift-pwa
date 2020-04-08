@@ -54,7 +54,7 @@ const EditDrawer = ({t, open,toggleOpen}) => {
             onOpen={toggleDrawer("bottom", true)}
         >
             <div className={styles.container}>
-                <Typography variant="title" type="reguler" align="center">
+                <Typography variant="title" type="regular" align="center">
                     Product Name
                 </Typography>
 

@@ -11,7 +11,9 @@ const Header = ({
     CenterComponent,
     RightComponent,
     className = {},
-    pageConfig
+    pageConfig = {
+        header : 'relative'
+    }
 }) => {
     const styles = useStyles();
     const route = useRouter();

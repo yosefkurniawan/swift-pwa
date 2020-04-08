@@ -36,12 +36,12 @@ const getVariant = variant => {
 };
 
 const CustomTypography = ({
-  variant,
-  type,
+  variant = "h1",
+  type = "regular",
   className = {},
   children,
   align = "left",
-  letter = "",
+  letter = "lowercase",
   decoration = ''
 }) => {
   const styles = useStyles();
@@ -67,14 +67,19 @@ CustomTypography.propTypes = {
     "h1",
     "h2",
     "h3",
+    "h4",
+    "h5",
     "h6",
     "p",
     "span",
     "title",
     "label"
   ]),
-  type: PropTypes.oneOf(["bold", "italic", "semiBold", "reguler"]),
-  className: PropTypes.string
+  type: PropTypes.oneOf(["bold", "italic", "semiBold", "regular"]),
+  letter : PropTypes.oneOf(["uppercase", "capitalize", "lowercase"]),
+  align : PropTypes.oneOf(["top","bottom", "center", "left"]),
+  decoration : PropTypes.oneOf(["underline"]),
+  className: PropTypes.any
 };
 
 export default CustomTypography;

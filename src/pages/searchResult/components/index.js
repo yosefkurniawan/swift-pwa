@@ -2,20 +2,12 @@ import Button from "@components/Button";
 import FilterDialog from "@components/FilterDialog";
 import GridList from "@components/GridList";
 import ProductItem from "@components/ProductItem";
-import Banner from "@components/Slider/Banner";
 import CustomTabs from "@components/Tabs";
 import Typography from "@components/Typography";
 import { Box } from "@material-ui/core";
 import { Tune } from "@material-ui/icons";
 import React from "react";
 import useStyles from "../style";
-
-const data = [
-  {
-    img: "/assets/img/sample/category-banner.png",
-    link: "/",
-  },
-];
 
 const product = [1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -51,17 +43,12 @@ const CategoryPage = () => {
         itemProps={{
           selectBrandData: brandData,
           shortByData: radioData,
-          selectSizeData: ["m", "l", "xl"],
-          selectColorData: ["#ff0000", "#ababce"],
-          priceRangeMaxValue: 1500000,
-          priceRangeValue: [100000, 1000000],
+          selectSize: false,
+          selectColor: false,
         }}
         getValue={(v) => console.log(v)}
       />
       <Box className={styles.container}>
-        <div className={styles.headContainer}>
-          <Banner data={data} height="40vh" />
-        </div>
         <div>
           <CustomTabs data={category} onChange={handleChange} value={value} />
         </div>
@@ -93,8 +80,6 @@ const CategoryPage = () => {
             itemProps={{
               color: ["#343434", "#6E6E6E", "#989898", "#C9C9C9"],
               showListColor: true,
-              showListSize: true,
-              size: ["s", "m", "l", "xl"],
             }}
             gridItemProps={{ xs: 6, sm: 4, md: 3 }}
           />
