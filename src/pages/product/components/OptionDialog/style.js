@@ -6,23 +6,27 @@ import {
   CreatePadding,
   FlexColumn,
   CreateMargin,
-  FlexRow
+  FlexRow,
+  Centering
 } from "@theme/mixins";
 
-export default makeStyles(theme => ({
+export default makeStyles((theme) => ({
   root: {
     width: "100%",
     height: "100%",
-    position: "relative"
+    position: "relative",
   },
   bannerContainer: {
     height: "70vh",
-    width: "100%",
-    backgroundColor: GRAY_PRIMARY
+    "backgroundPosition": "center",
+    "backgroundRepeat": "repeat",
+    "backgroundSize": "cover",
+    backgroundColor: 'red',
   },
-  img : {
-    width : '100%',
-    height : '100%'
+  img: {
+    display: "block",
+    height : '70vh',
+    width: 'auto',
   },
   optionContainer: {
     position: "absolute",
@@ -37,17 +41,17 @@ export default makeStyles(theme => ({
     ...CreatePadding(28, 14, 60, 14),
     ...FlexColumn,
     alignItems: "center",
-    justifyContent : 'space-around'
+    justifyContent: "space-around",
   },
   label: {
-    alignItems: "center"
+    alignItems: "center",
   },
   sizeContainer: {
     alignItems: "center",
-    ...CreateMargin(20, 0, 10, 0)
+    ...CreateMargin(20, 0, 10, 0),
   },
   center: {
-    justifyContent: "center"
+    justifyContent: "center",
   },
   footer: {
     ...FlexRow,
@@ -59,13 +63,13 @@ export default makeStyles(theme => ({
     left: 0,
     ...CenterAbsolute,
     background: "rgba(255,255,255,0.7)",
-    ...CreatePadding(0, 20, 20, 20)
+    ...CreatePadding(0, 20, 20, 20),
   },
   btnAddToCard: {
     ...CreateMargin(0, 8, 0, 0),
     width: "100%",
     [theme.breakpoints.up("sm")]: {
-      width: 316
+      width: 316,
     },
     height: 41,
     bottom: 0,
@@ -73,13 +77,13 @@ export default makeStyles(theme => ({
     opacity: "none",
     ...CenterAbsolute,
     color: WHITE,
-    borderRadius : 100
+    borderRadius: 100,
   },
   textBtnAddToCard: {
     fontSize: 16,
-    color: `${WHITE} !important`
+    color: `${WHITE} !important`,
   },
-  error : {
-    color : RED
-  }
+  error: {
+    color: RED,
+  },
 }));

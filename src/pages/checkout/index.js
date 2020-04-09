@@ -7,7 +7,8 @@ const Page = props => {
     const pageConfig = {
         title: t("checkout:pageTitle"),
         header: "relative", // available values: "absolute", "relative", false (default)
-        headerTitle: t("checkout:pageTitle")
+        headerTitle: t("checkout:pageTitle"),
+        bottomNav : false
     };
     return (
         <Layout pageConfig={pageConfig}>

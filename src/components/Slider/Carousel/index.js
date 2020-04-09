@@ -30,7 +30,7 @@ const Caraousel = ({ data = [1, 2, 3], title = "" }) => {
 
       >
         {data.map((item, index) => (
-          <Item key={index} />
+          <Item {...item} key={index} />
         ))}
       </SwipeableViews>
     </div>

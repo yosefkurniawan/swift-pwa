@@ -1,3 +1,8 @@
 {
-    "pageTitle": "Checkout"
+    "pageTitle": "Checkout",
+    "shippingAddress" : "Alamat Pengiriman",
+    "deliveryMethod" : "metode pengiriman",
+    "payment" : "pembayaran",
+    "placeOrder" : "buat pesanan",
+    "paymentSubtitle" : "Select your payment method"
 }

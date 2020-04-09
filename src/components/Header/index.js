@@ -11,7 +11,9 @@ const Header = ({
     CenterComponent,
     RightComponent,
     className = {},
-    pageConfig
+    pageConfig = {
+        header : 'relative'
+    }
 }) => {
     const styles = useStyles();
     const route = useRouter();
@@ -58,10 +60,11 @@ const Header = ({
                     <>
                         {pageConfig.headerTitle ? (
                             <Typography
-                                variant="title"
+                                variant="h1"
                                 type="bold"
                                 letter="uppercase"
                                 align="center"
+                                className={styles.title}
                             >
                                 {pageConfig.headerTitle}
                             </Typography>
