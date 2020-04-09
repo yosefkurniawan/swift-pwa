@@ -23,7 +23,11 @@ const certificate = "/etc/letsencrypt/live/swiftpwa.testingnow.me/cert.pem";
 
     server.get("*", (req, res) => handle(req, res));
 
-    if (process.env.NODE_ENV == "production" && fs.existsSync(privateKey) && fs.existsSync(certificate)) {
+    if (
+        process.env.NODE_ENV == "production" &&
+        fs.existsSync(privateKey) &&
+        fs.existsSync(certificate)
+    ) {
         const credentials = {
             key: fs.readFileSync(privateKey),
             cert: fs.readFileSync(certificate),
@@ -31,13 +35,13 @@ const certificate = "/etc/letsencrypt/live/swiftpwa.testingnow.me/cert.pem";
 
         // https
         const httpsServer = https.createServer(credentials, server);
-        await httpsServer.listen(3000);
-        console.log(`> Ready on https://localhost:3000`); // eslint-disable-line no-console
+        await httpsServer.listen(3030);
+        console.log(`> Ready on https://localhost:3030`); // eslint-disable-line no-console
 
         // http
         const httpServer = http.createServer(server);
-        await httpServer.listen(3030);
-        console.log(`> Ready on http://localhost:3030`); // eslint-disable-line no-console
+        await httpServer.listen(3000);
+        console.log(`> Ready on http://localhost:3000`); // eslint-disable-line no-console
     } else {
         // http
         const httpServer = http.createServer(server);
