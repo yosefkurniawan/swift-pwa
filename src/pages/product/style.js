@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
   },
   btnAddToCard: {
     ...CreateMargin(0, 8, 0, 0),
-    width: "80%",
+    width: "90%",
     [theme.breakpoints.up("sm")]: {
         width: 316
       },

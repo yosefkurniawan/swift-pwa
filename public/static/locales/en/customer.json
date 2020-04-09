@@ -3,9 +3,21 @@
         "pageTitle": "Customer Dashboard"
     },
     "register": {
-        "pageTitle": "Create New Account"
+        "pageTitle": "Create New Account",
+        "title" : "Register",
+        "button": "Create an Account"
     },
     "login": {
-        "pageTitle": "Login"
+        "pageTitle": "Sign In",
+        "forgotPassword" : "forgot password",
+        "notHaveAccount" : "Don't have an account?"
+    },
+    "otp" : {
+        "pageTitle" : "Verification Phone Number",
+        "title" : "Verification",
+        "label" : "Input your code",
+        "button" : "Veirify OTP",
+        "sendOtp" : "Send OTP",
+        "wait" : "Wait a times for new request OTP :"
     }
 }

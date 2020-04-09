@@ -39,7 +39,7 @@ const CheckoutDrawer = ({editMode, t}) => {
                         className={styles.goToCheckout}
                         onClick={handleOnCheckoutClicked}
                     >
-                        {t("cart:button:checkout")}
+                        {t("common:button:checkout")}
                     </Button>
                 </Box>
             </Box>

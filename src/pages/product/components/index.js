@@ -135,7 +135,6 @@ const ProductPage = props => {
               align="center"
               variant="p"
               type="regular"
-              letter="default"
             >
               {lorem}
             </Typography>

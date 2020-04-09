@@ -4,7 +4,7 @@ import { PRIMARY } from "@theme/colors";
 const useStyles = makeStyles(theme => ({
   root: {
     margin: 5,
-    color: PRIMARY,
+    // color: PRIMARY,
   },
   p: {
     fontSize: 10,

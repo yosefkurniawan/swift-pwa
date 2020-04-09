@@ -33,6 +33,7 @@ const ProductItem = ({
             <img
               src="/assets/img/sample/product.png"
               className={styles.imgProduct}
+              alt="product"
             />
           </a>
         </Link>

@@ -5,10 +5,9 @@ import { withTranslation } from "@i18n";
 const Page = props => {
     const { t } = props;
     const pageConfig = {
-        title: t("customer:login:pageTitle"),
+        title: t("customer:otp:pageTitle"),
         header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle : t("customer:login:pageTitle") ,
-        headerBackIcon :'close',
+        headerTitle : t("customer:otp:title") ,
         bottomNav: false
     };
     return (
