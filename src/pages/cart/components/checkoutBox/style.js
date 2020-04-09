@@ -13,6 +13,7 @@ const useStyles = makeStyles(theme => ({
     },
     subtotal: {
         fontSize: 16,
+        textAlign: 'center',
         ...CreateMargin(10, 0, 10, 0)
     }
 }));

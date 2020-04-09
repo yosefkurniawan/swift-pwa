@@ -10,6 +10,7 @@
         "text": "Your cart is empty"
     },
     "button": {
-        "saveEdit": "Save and Conitnue"
+        "saveEdit": "Save and Conitnue",
+        "checkout": "Checkout"
     }
 }

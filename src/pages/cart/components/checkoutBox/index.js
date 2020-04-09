@@ -23,11 +23,12 @@ const CheckoutDrawer = ({editMode, t}) => {
                 justifyContent="center"
                 className={styles.checkoutBox}
             >
-                <Box>
+                <Box align="center" padding={1}>
                     <Typography
                         variant="span"
                         type="bold"
                         align="center"
+                        letter="capitalize"
                         className={styles.subtotal}
                     >
                         {`${t("common:subtotal")} IDR 1.999.000`}

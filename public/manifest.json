@@ -4,8 +4,13 @@
     "description": "PWA version of Icube Swift",
     "icons": [
         {
-            "src": "/assets/img/pwa.png",
+            "src": "/assets/img/swiftpwa_192.png",
             "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/assets/img/swiftpwa_512.png",
+            "sizes": "512x512",
             "type": "image/png"
         }
     ],
