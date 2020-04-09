@@ -1,4 +1,9 @@
-export const BASE_URL = 'https://swiftpwa-be.testingnow.me'
+/* --------------------------------------- */
+/* STORE CONFIGURATION 
+/* --------------------------------------- */
+
+/* Base URL */
+export const BASE_URL = 'https://swiftpwa-be.testingnow.me/'
 
 /* Magento GraphQL Endpoint */
 export const graphqlEndpoint = {
@@ -6,8 +11,11 @@ export const graphqlEndpoint = {
     prod: "https://swiftpwa-be.testingnow.me/graphql"
 };
 
-// Share Icon
+/* --------------------------------------- */
+/* FEATURES CONFIGURATION 
+/* --------------------------------------- */
 
+/* Social Sharing */
 export const shareIcon = {
     facebook : true,
     twitter : true,
