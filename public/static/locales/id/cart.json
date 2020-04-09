@@ -10,6 +10,7 @@
         "text": "Keranjang belanja kosong"
     },
     "button": {
-        "saveEdit": "Simpan"
+        "saveEdit": "Simpan",
+        "checkout": "Checkout"
     }
 }
