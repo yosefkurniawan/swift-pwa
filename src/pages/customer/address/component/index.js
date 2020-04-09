@@ -1,5 +1,5 @@
 // Library
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { AppBar, IconButton, Toolbar, Typography, Box, Button, TextField, Dialog } from "@material-ui/core";
 import { ArrowBack, Add, Close, PinDrop } from "@material-ui/icons";
 import IcubeMaps from "@components/GoogleMaps/Maps"
@@ -9,11 +9,23 @@ import useStyles from "./style.js";
 const Content = (props) => {
     const styles = useStyles();
     const [drawer, setDrawer] = useState(false);
+    const [mapPosition, setMapPosition] = useState({
+        lat: -7.709487,
+        lng: 110.304564
+    })
 
     const handleDraweClick = () => {
         console.log("trigered")
         setDrawer(!drawer);
     }
+
+    const handleDragPosition = (value) => {
+        setMapPosition(value)
+    }
+
+    useEffect(() => {
+        console.log(mapPosition)
+    });
 
     return (
         <Fragment>
@@ -190,7 +202,8 @@ const Content = (props) => {
                             <Box style={{width:`100%`, height:`500px`}}>
                                 <IcubeMaps
                                     height='300px'
-                                    isMarkerShown
+                                    mapPosition={mapPosition}
+                                    dragMarkerDone={handleDragPosition}
                                 />
                             </Box>
                         </form>
