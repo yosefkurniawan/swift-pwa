@@ -60,10 +60,11 @@ const Header = ({
                     <>
                         {pageConfig.headerTitle ? (
                             <Typography
-                                variant="title"
+                                variant="h1"
                                 type="bold"
                                 letter="uppercase"
                                 align="center"
+                                className={styles.title}
                             >
                                 {pageConfig.headerTitle}
                             </Typography>

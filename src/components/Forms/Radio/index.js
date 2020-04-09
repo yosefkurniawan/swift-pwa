@@ -4,15 +4,16 @@ import useStyles from "./style";
 import Typography from "@components/Typography";
 import classNames from "classnames";
 
-const RadioItem = props => {
+const RadioItem = (props) => {
   const styles = useStyles();
-  const { value, label } = props;
+  const { value, label, className } = props;
+  const customStyle = classNames(styles.radioContainer, className);
   return (
     <FormControlLabel
       value={value || ""}
       control={<Radio color="default" size="small" />}
       label={label || ""}
-      className={styles.radioContainer}
+      className={customStyle}
     />
   );
 };
@@ -28,20 +29,22 @@ function CustomRadio({
   CustomItem,
   className = {},
   classContainer = {},
-  flex = "column"
+  classItem = {},
+  flex = "column",
+  propsItem = {}
 }) {
   const styles = useStyles();
 
   const rootStyle = classNames(styles.root, className);
   const containerStyle = classNames(styles[flex], classContainer);
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     onChange(event.target.value);
   };
 
-  const handleChangeCustom = val => {
-    onChange(val)
-  }
+  const handleChangeCustom = (val) => {
+    onChange(val);
+  };
 
   return (
     <div className={rootStyle}>
@@ -55,16 +58,18 @@ function CustomRadio({
         onChange={handleChange}
         className={containerStyle}
       >
-         {valueData.map((item, index) =>
+        {valueData.map((item, index) =>
           CustomItem ? (
             <CustomItem
               key={index}
               {...item}
-              selected={value === item.value ? true : false}
+              selected={JSON.stringify(value) === JSON.stringify(item.value) ? true : false}
               onChange={handleChangeCustom}
+              className={classItem}
+              {...propsItem}
             />
           ) : (
-            <RadioItem key={index} {...item} />
+            <RadioItem key={index} {...item} {...propsItem} className={classItem} />
           )
         )}
       </RadioGroup>

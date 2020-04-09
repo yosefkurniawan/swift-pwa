@@ -41,6 +41,9 @@ const useStyles = makeStyles(theme => ({
     },
     headerRelative: {
         position: "relative"
+    },
+    title : {
+        fontSize : 12
     }
 }));
 
