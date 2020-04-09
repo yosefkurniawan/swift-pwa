@@ -52,6 +52,7 @@ const IcubeMaps = compose(
             <GoogleMap
                 defaultZoom={17}
                 defaultCenter={mapPosition}
+                center={mapPosition}
             >
                 {props.isMarkerShown &&
                     <Marker
