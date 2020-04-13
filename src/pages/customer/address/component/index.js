@@ -9,13 +9,23 @@ import useStyles from "./style.js";
 const Content = (props) => {
     const styles = useStyles();
     const [drawer, setDrawer] = useState(false);
+    // const geolocation} = navigator;
     const [mapPosition, setMapPosition] = useState({
-        lat: -7.709487,
-        lng: 110.304564
+        lat: -6.197361,
+        lng: 106.774535
     })
 
+    const displayLocationInfo = (position) => {
+        const lng = position.coords.longitude;
+        const lat = position.coords.latitude;
+
+        setMapPosition({
+            lat: lat,
+            lng: lng
+        })
+    }
+
     const handleDraweClick = () => {
-        console.log("trigered")
         setDrawer(!drawer);
     }
 
@@ -24,8 +34,10 @@ const Content = (props) => {
     }
 
     useEffect(() => {
-        console.log(mapPosition)
-    });
+        if(navigator.geolocation){
+            return navigator.geolocation.getCurrentPosition(displayLocationInfo);
+        }
+    },[]);
 
     return (
         <Fragment>

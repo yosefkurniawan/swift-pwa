@@ -34,7 +34,6 @@ const IcubeMaps = compose(
                 },
                 onPlacesChanged: () => {
                     const { location } = refs.searchBox.getPlaces()[0].geometry;
-                    console.log(this.props)
                     this.props.dragMarkerDone({
                         lat: location.lat(),
                         lng: location.lng()
