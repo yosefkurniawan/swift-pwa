@@ -125,7 +125,7 @@ const Content = (props) => {
                         onClick={() => { return handleDraweClick() }}>
                         <span style={{ marginRight: "15px" }}>
                             Add New Address
-                    </span>
+                        </span>
                         <Add />
                     </Button>
                 </Box>
@@ -211,15 +211,23 @@ const Content = (props) => {
                                 fullWidth
                                 className={[styles.form_input].join(' ')}
                             />
-                            <Box style={{width:`100%`, height:`500px`}}>
+                            <Box style={{width:`100%`, height:`450px`}}>
                                 <IcubeMaps
                                     height='300px'
                                     mapPosition={mapPosition}
                                     dragMarkerDone={handleDragPosition}
                                 />
                             </Box>
+                            <Button variant="contained"
+                                className={[styles.address_save].join(' ')}
+                                onClick={() => { return handleDraweClick() }}>
+                                <span style={{ marginRight: "15px" }}>
+                                    SAVE
+                                </span>
+                            </Button>
                         </form>
                     </Box>
+                    
                 </div>
             </Dialog>
         </Fragment>

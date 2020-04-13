@@ -12,6 +12,11 @@ const useStyles = makeStyles(theme => ({
         borderBottom: `1px solid ${GRAY_PRIMARY}`,
         flexGrow: 1
     },
+    appBarBottom: {
+        bottom: 0,
+        top: 'auto',
+        backgroundColor: "white",
+    },
     pageTitle:{
         fontWeight: 700,
         textAlign: "center",
@@ -54,6 +59,12 @@ const useStyles = makeStyles(theme => ({
         boxShadow: "none",
         border: "1px solid black",
         fontSize: "12px"
+    },
+    address_save:{
+        width: "100%",
+        backgroundColor: PRIMARY,
+        color: "white",
+        textTransform: "uppercase"
     },
     address_drawer:{
         backgroundColor: "white",
