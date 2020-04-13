@@ -1,14 +1,14 @@
-import useStyles from "./style";
 import Button from "@components/Button";
 import Typography from "@components/Typography";
+import currency from "@helpers/currency";
 import {
+  ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
-  ExpansionPanel,
 } from "@material-ui/core";
-import { ExpandMore, ExpandLess } from "@material-ui/icons";
-import currency from '@helpers/currency'
-import classNames from 'classnames'
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import useStyles from "./style";
+import Routes from "next/router";
 
 const Summary = ({ t, data = [1, 2, 3, 4, 5] }) => {
   const styles = useStyles();
@@ -40,7 +40,7 @@ const Summary = ({ t, data = [1, 2, 3, 4, 5] }) => {
                 {list.item}
               </Typography>
               <Typography variant="span" letter="uppercase">
-                {currency({currency : 'idr', value : list.value})}
+                {currency({ currency: "idr", value: list.value })}
               </Typography>
             </div>
           ))}
@@ -52,15 +52,17 @@ const Summary = ({ t, data = [1, 2, 3, 4, 5] }) => {
           Total
         </Typography>
         <Typography variant="title" type="bold" letter="uppercase">
-          {     
-              data.map(item => {
-                  totalSummary += item.value
-              }),
-              currency({currency : 'idr', value : totalSummary})
+          {
+            (data.map((item) => {
+              totalSummary += item.value;
+            }),
+            currency({ currency: "idr", value: totalSummary }))
           }
         </Typography>
       </div>
-      <Button className={styles.btnSave}>{t("checkout:placeOrder")}</Button>
+      <Button onClick={() => Routes.push("/thanks")} className={styles.btnSave}>
+        {t("checkout:placeOrder")}
+      </Button>
     </div>
   );
 };

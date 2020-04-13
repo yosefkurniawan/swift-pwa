@@ -4,5 +4,9 @@
     "deliveryMethod" : "metode pengiriman",
     "payment" : "pembayaran",
     "placeOrder" : "buat pesanan",
-    "paymentSubtitle" : "Select your payment method"
+    "paymentSubtitle" : "Pilh metode pembayaranmu",
+    "thanks" : "Terima kasih",
+    "toOrder" : "untuk pembelian kamu",
+    "thanksDetail" : "Kamai akan mengirimkan email detail pesanan dan infromasi pengiriman",
+    "continue" : "Lanjutkan Pembayaran"
 }

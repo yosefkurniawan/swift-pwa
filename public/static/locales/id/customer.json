@@ -1,11 +1,22 @@
 {
-    "dashboard": {
-        "pageTitle": "Beranda Pelanggan"
-    },
-    "register": {
-        "pageTitle": "Daftar Akun Baru"
-    },
-    "login": {
-        "pageTitle": "Login"
-    }
+  "dashboard": {
+    "pageTitle": "Beranda Pelanggan"
+  },
+  "register": {
+    "pageTitle": "Daftar Akun Baru",
+    "title": "Daftar",
+    "button": "Buat Akun"
+  },
+  "login": {
+    "pageTitle": "Masuk",
+    "forgotPassword": "Lupa Password",
+    "notHaveAccount": "Belum mempunyai akun ?"
+  },
+  "otp": {
+    "pageTitle": "Vrifikasi Nomor Telephon",
+    "title": "Verifikasi",
+    "label": "Masukan kode kamu",
+    "sendOtp": "Kirim OTP",
+    "wait": "Batas waktu kirim ulang OTP :"
+  }
 }

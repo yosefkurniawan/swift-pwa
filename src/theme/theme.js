@@ -70,9 +70,9 @@ const theme = createMuiTheme({
         },
         MuiButton : {
            root : {
-            borderRadius : 100
-           }
-        }
+            borderRadius : 100,
+           },
+        },
     }
 });
 

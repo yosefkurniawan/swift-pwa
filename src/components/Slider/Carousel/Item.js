@@ -19,10 +19,10 @@ const Item = ({}) => {
           <div className={styles.detailItem}>
               <Link href="/product/[id]" as={`/product/${dummyProductUrlKey}`}>
                   <a>
-                      <Typography variant="span">Product Name</Typography>
+                      <Typography variant="span" >Product Name</Typography>
                   </a>
               </Link>
-              <Typography variant="span" type="bold">
+              <Typography variant="span" type="bold" letter="uppercase">
                   {currency({
                       value: 90000,
                       currency: "IDR"
