@@ -42,7 +42,7 @@ const Navigation = ({ active = true }) => {
                                 Router.push("/cart");
                                 return;
                             case "account":
-                                Router.push("/customer/account");
+                                Router.push("/customer/account/login");
                                 return;
                             default:
                                 return;

@@ -15,6 +15,7 @@ export default makeStyles(theme => ({
         ...CreateMargin(16,0,10,0)
     },
     footer : {
+        zIndex : 0,
         width : '100%',
         ...CreatePadding(30,30,30,30),
         ...Centering,

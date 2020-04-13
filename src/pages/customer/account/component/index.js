@@ -72,7 +72,7 @@ const Content = (props) => {
                 <div className={styles.account_block}>
                     <ul className={styles.account_navigation}>
                         <li className={styles.account_navigation_item}>
-                            <a className={styles.account_navigation_link} href="#">Logout</a>
+                            <a className={styles.account_navigation_link} href="/customer/account/login">Logout</a>
                         </li>
                     </ul>
                 </div>
