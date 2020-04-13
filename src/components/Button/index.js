@@ -2,6 +2,7 @@ import Image from "material-ui-image";
 import classNames from "classnames";
 import useStyles from "./style";
 import Button from "@material-ui/core/Button";
+import Link from 'next/link'
 
 const CustomButton = ({
   className = {},
@@ -9,10 +10,16 @@ const CustomButton = ({
   color = "primary",
   children,
   disabled = false,
-  onClick = () => {}
+  fullWidth = false,
+  onClick = () => {},
+  ...other
 }) => {
   const styles = useStyles();
-  const customClass = classNames(styles.container, className);
+  const customClass = classNames(
+    styles.container, 
+    fullWidth && styles.fullWidth,
+    className
+  );
   return (
     <Button
       onClick={onClick}
@@ -20,6 +27,7 @@ const CustomButton = ({
       color={color}
       className={customClass}
       disabled={disabled}
+      {...other}
     >
       {children}
     </Button>

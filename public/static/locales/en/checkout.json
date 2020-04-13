@@ -4,5 +4,9 @@
     "deliveryMethod" : "delivery Method",
     "payment" : "payment",
     "placeOrder" : "place Order",
-    "paymentSubtitle" : "Pilh metode pembayaranmu"
+    "paymentSubtitle" : "Select your payment method",
+    "thanks" : "Thank you",
+    "forOrder" : "for your order",
+    "thanksDetail" : "We'll send you a confirmation email with details & tracking info.",
+    "continue" : "Continue Shopping"
 }

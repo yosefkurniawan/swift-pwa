@@ -7,7 +7,7 @@ main {
   max-width: 900px;
   display: block;
   left: 0;
-  margin: 0 auto 60px;
+  margin: 0 auto;
 }
 
 .clear-margin-padding  {
@@ -39,6 +39,9 @@ a {
   flex-direction: row;
 }
 
+.row center {
+  align-items: center;
+}
 .column {
   display: flex;
   flex-direction: column;

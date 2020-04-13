@@ -14,6 +14,7 @@ export default class MyDocument extends Document {
                         content={theme.palette.primary.main}
                     />
                     <link rel="manifest" href="/manifest.json" />
+                    <link rel="apple-touch-icon" href="/assets/img/swiftpwa_apple_touch.png" />
                     <link
                         rel="stylesheet"
                         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"

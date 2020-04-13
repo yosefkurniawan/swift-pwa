@@ -11,7 +11,10 @@ export default makeStyles(theme => ({
         padding : 0
     },
     icon : {
-        color : GRAY_PRIMARY
+        color : GRAY_PRIMARY,
+        '&:hover' : {
+            color : PRIMARY
+        }
     },
     iconActive : {
         color : PRIMARY
