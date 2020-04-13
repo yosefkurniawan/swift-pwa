@@ -9,7 +9,7 @@ import useStyles from "./style.js";
 const Content = (props) => {
     const styles = useStyles();
     const [drawer, setDrawer] = useState(false);
-    // const geolocation} = navigator;
+    
     const [mapPosition, setMapPosition] = useState({
         lat: -6.197361,
         lng: 106.774535
@@ -18,7 +18,7 @@ const Content = (props) => {
     const displayLocationInfo = (position) => {
         const lng = position.coords.longitude;
         const lat = position.coords.latitude;
-
+        console.log(lng, lat);
         setMapPosition({
             lat: lat,
             lng: lng
