@@ -26,11 +26,11 @@ const Content = (props) => {
     return (
         <Fragment>
             <div className={styles.account_wrapper}>
-                <div className={[styles.account_block, styles.border_bottom].join(' ')}>
+                <div className={[styles.account_block, styles.padding_vertical_40, styles.border_bottom].join(' ')}>
                     <h3 className={styles.account_username}>Diasty Hardhikaputri</h3>
                     <p className={styles.account_email}>hardhikaputri@gmail.com</p>
                 </div>
-                <div className={styles.account_block}>
+                <div className={[styles.account_block, styles.padding_vertical_40].join(' ')}>
                     <div className={styles.account_point}>
                         <p className={styles.account_point_title}>My Point</p>
                         <h3 className={styles.account_point_summary}>100.000</h3>
@@ -48,7 +48,7 @@ const Content = (props) => {
                                 </Link>
                             </li>
                             <li className={styles.account_navigation_item}>
-                                <Link href="#">
+                                <Link href="/customer/account/address">
                                     <a className={styles.account_navigation_link} >Address Book</a>
                                 </Link>
                             </li>

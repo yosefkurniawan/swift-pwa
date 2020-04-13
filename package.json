@@ -34,6 +34,7 @@
     "next-with-apollo": "^5.0.0",
     "react": "16.13.0",
     "react-dom": "16.13.0",
+    "react-google-maps": "^9.4.5",
     "react-share": "^4.1.0",
     "react-swipeable-views": "^0.13.9",
     "react-swipeable-views-utils": "^0.13.9",
