@@ -8,3 +8,5 @@ export const GRAY_THIRD = '#6E6E6E'
 export const WHITE = '#FFFFFF'
 
 export const RED = '#ff0000'
+export const ORANGE = '#FE5D26'
+export const GREEN = '#46954D'

@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 
-import { CreatePadding, FlexColumn, CreateMargin, CenterAbsolute, Centering } from '@theme/mixins'
-import { GRAY_PRIMARY } from '@theme/colors'
+import { CreatePadding, FlexColumn, CreateMargin, CenterAbsolute, Centering, FlexRow } from '@theme/mixins'
+import { GRAY_PRIMARY, RED, GREEN, ORANGE } from '@theme/colors'
 
 export default makeStyles(theme => ({
     container : {
@@ -26,7 +26,48 @@ export default makeStyles(theme => ({
         background : GRAY_PRIMARY,
         width : '100%',
         height : 30,
-        display : 'flex',
-        alignItems : 'center'
+        ...FlexRow
+    },
+    passwdStrPrgsCtr : {
+        background : 'transparent',
+        height : 30
+    },
+    zero : {
+        width : 0
+    },
+    per3 : {
+        width : '30%',
+    },
+    half : {
+        width : '50%',
+    },
+    per7 : {
+        width : '75%',
+    },
+    full : {
+        width : '100%',
+    },
+    passwdStrPrgsBar : {
+        height : 30,
+        background : GREEN,
+        opacity : 0.4
+    },
+    per3Bar : {
+        width : '30%',
+        background : RED,
+        opacity : 0.3
+    },
+    halfBar : {
+        background : ORANGE,
+        width : '50%',
+        opacity : 0.5
+    },
+    txtPasswdStr : {
+        position : 'absolute',
+        width : '100%',
+        ...CenterAbsolute,
+    },
+    checkWa : {
+        ...CreateMargin(0,0,10,-10)
     }
 }))

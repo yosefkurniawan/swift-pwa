@@ -1,8 +1,7 @@
-import Image from "material-ui-image";
+import Button from "@material-ui/core/Button";
 import classNames from "classnames";
 import useStyles from "./style";
-import Button from "@material-ui/core/Button";
-import Link from 'next/link'
+import Router from "next/router";
 
 const CustomButton = ({
   className = {},
@@ -12,17 +11,18 @@ const CustomButton = ({
   disabled = false,
   fullWidth = false,
   onClick = () => {},
+  href = "",
   ...other
 }) => {
   const styles = useStyles();
   const customClass = classNames(
-    styles.container, 
+    styles.container,
     fullWidth && styles.fullWidth,
     className
   );
   return (
     <Button
-      onClick={onClick}
+      onClick={href !== "" && href ? () => Router.push(href) : onClick}
       variant={variant}
       color={color}
       className={customClass}

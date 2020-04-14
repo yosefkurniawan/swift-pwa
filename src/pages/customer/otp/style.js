@@ -6,7 +6,7 @@ import {  } from '@theme/colors'
 export default makeStyles(theme => ({
     container : {
         width: "100%",
-        height: "80vh",
+        height: "100%",
         ...Centering,
         position: "relative",
         ...CreatePadding(30, 30, 30, 30),
@@ -23,14 +23,17 @@ export default makeStyles(theme => ({
         alignItems : 'center'
     },
     fieldOtp : {
-        // ...CreateMargin(10,10,10,10),
-        // width : 50,
-        // height : 50,
         width : 120,
         fontSize : 24,
         textAlign : 'center'
     },
     inputField : {
         textAlign : 'center'
+    },
+    methodContainer : {
+        height : 55,
+        ...Centering,
+        width : '85%',
+        ...CreateMargin(15,0,15,0)
     }
 }))

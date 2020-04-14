@@ -13,10 +13,17 @@
     "notHaveAccount": "Belum mempunyai akun ?"
   },
   "otp": {
-    "pageTitle": "Vrifikasi Nomor Telephon",
+    "pageTitle": "Verifikasi Nomor Telephon",
+    "button" : "Kirim OTP",
     "title": "Verifikasi",
     "label": "Masukan kode kamu",
     "sendOtp": "Kirim OTP",
-    "wait": "Batas waktu kirim ulang OTP :"
+    "wait": "Kode verfikasi sudah terkirim. Silahkan tunggu ",
+    "resend": "detik untuk mengirim kode kembali.",
+    "sendTimes": "Otp sudah terkirim sebanyak",
+    "time": "kali",
+    "note": "Note : maks 3 kali kirim kode verifikasi",
+    "choseMethod": "Pilih salah satu metode untuk mendapatkan kode verifikasi",
+    "sms": "Via sms ke "
   }
 }
