@@ -16,7 +16,8 @@
         "continueShopping": "Lanjut Berbelanja",
         "cancel": "Batal",
         "checkout": "Checkout",
-        "change" : "Ubah"
+        "change" : "Ubah",
+        "send" : "kirim"
     },
     "subtotal": "Subtotal"
 }

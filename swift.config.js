@@ -25,3 +25,14 @@ export const shareIcon = {
     pinterest : false,
     linkedin : false
 }
+
+export const passwordStrength = {
+    minValue : 8,
+    maxValue : 20,
+    numberOfRequiredClass : 3 // Lowercase + Uppercse + Dgits + spesial caracter = 4
+}
+
+export const languagesLabel = {
+    id : "Bahasa Indonesia",
+    en : "English"
+}

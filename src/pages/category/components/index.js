@@ -39,6 +39,7 @@ const CategoryPage = () => {
   const styles = useStyles();
   const [value, setValue] = React.useState(0);
   const [openFilter, setOpenFilter] = React.useState(false);
+  const [priceRange, setPriceRange] = React.useState([450000, 999000])
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -54,7 +55,8 @@ const CategoryPage = () => {
           selectSizeData: ["m", "l", "xl"],
           selectColorData: ["#ff0000", "#ababce"],
           priceRangeMaxValue: 1500000,
-          priceRangeValue: [100000, 1000000],
+          priceRangeValue: priceRange,
+          priceRangeChange: setPriceRange
         }}
         getValue={(v) => console.log(v)}
       />

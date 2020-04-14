@@ -1,70 +1,81 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { FONT_12, FONT_24 } from "@theme/typography";
-import { PRIMARY } from "@theme/colors";
-const useStyles = makeStyles(theme => ({
+import { PRIMARY, RED, GREEN, ORANGE } from "@theme/colors";
+const useStyles = makeStyles((theme) => ({
+  default: {
+    color: PRIMARY,
+  },
+  red: {
+    color: RED,
+  },
+  green: {
+    color: GREEN,
+  },
+  orange: {
+    color: ORANGE,
+  },
   root: {
     margin: 5,
     // color: PRIMARY,
   },
   p: {
     fontSize: 10,
-    fontWeight: "400"
+    fontWeight: "400",
   },
   h1: {
     fontWeight: "bold",
-    'text-transform' : 'uppercase',
-    ...FONT_24
+    "text-transform": "uppercase",
+    ...FONT_24,
   },
   span: {
     ...FONT_12,
     fontWeight: "400",
     margin: 5,
-    'text-transform' : 'capitalize'
+    "text-transform": "capitalize",
   },
-  capitalize : {
-    'text-transform' : 'capitalize'
+  capitalize: {
+    "text-transform": "capitalize",
   },
-  uppercase : {
-    'text-transform' : 'uppercase'
+  uppercase: {
+    "text-transform": "uppercase",
   },
-  lowercase : {
-    'text-transform' : 'lowercase'
+  lowercase: {
+    "text-transform": "lowercase",
   },
   title: {
-    fontSize: 16
+    fontSize: 16,
   },
   bold: {
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   semiBold: {
-    fontWeight: "500"
+    fontWeight: "500",
   },
-  regular : {
-    fontWeight : '300'
+  regular: {
+    fontWeight: "300",
   },
   italic: {
-    fontStyle: "italic"
+    fontStyle: "italic",
   },
-  label : {
+  label: {
     ...FONT_12,
-    margin : 0
+    margin: 0,
   },
-  left : {
-    textAlign: 'left'
+  left: {
+    textAlign: "left",
   },
-  right : {
-    textAlign: 'right'
+  right: {
+    textAlign: "right",
   },
-  center : {
-    textAlign: 'center'
+  center: {
+    textAlign: "center",
   },
-  underline : {
-    textDecoration : 'underline'
+  underline: {
+    textDecoration: "underline",
   },
-  italic : {
-    fontStyle : 'italic'
-  }
-  
+  italic: {
+    fontStyle: "italic",
+  },
 }));
 
 export default useStyles;

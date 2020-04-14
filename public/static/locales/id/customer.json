@@ -13,10 +13,33 @@
     "notHaveAccount": "Belum mempunyai akun ?"
   },
   "otp": {
-    "pageTitle": "Vrifikasi Nomor Telephon",
+    "pageTitle": "Verifikasi Nomor Telephon",
+    "button": "Kirim OTP",
     "title": "Verifikasi",
     "label": "Masukan kode kamu",
     "sendOtp": "Kirim OTP",
-    "wait": "Batas waktu kirim ulang OTP :"
+    "wait": "Kode verfikasi sudah terkirim. Silahkan tunggu ",
+    "resend": "detik untuk mengirim kode kembali.",
+    "sendTimes": "Otp sudah terkirim sebanyak",
+    "time": "kali",
+    "note": "Note : maks 3 kali kirim kode verifikasi",
+    "choseMethod": "Pilih salah satu metode untuk mendapatkan kode verifikasi",
+    "sms": "Via sms ke "
+  },
+  "forgotPassword": {
+    "title": "ganti password",
+    "content": "Dapatkan instruksi ke email kamu untuk mengganti password.",
+    "success": "Kirim reset password sukses."
+  },
+  "button": {
+    "logout": "Keluar"
+  },
+  "setting" : {
+    "title" : "Pengaturan",
+    "newslater" : "subribe newslater",
+    "language" : "Bahasa"
+  },
+  "profile" : {
+    "title" : "akun saya"
   }
 }

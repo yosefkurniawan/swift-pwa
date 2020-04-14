@@ -1,4 +1,5 @@
 import Button from "@components/Button";
+import PasswordField from "@components/Forms/Password";
 import TextField from "@components/Forms/TextField";
 import Typography from "@components/Typography";
 import { Checkbox, FormControlLabel } from "@material-ui/core/";
@@ -21,25 +22,32 @@ const LabelTos = () => {
 
 const Register = ({ t }) => {
   const styles = useStyles();
+  const [password, setPassword] = React.useState("");
+  const [phoneIsWa, setPhoneIsWa] = React.useState(false);
+
+  const handleWa = (event) => {
+    setPhoneIsWa(!phoneIsWa)
+  };
+
   return (
     <div className={styles.container}>
       <TextField label="First Name" />
       <TextField label="Last Name" />
       <TextField label="Email" type="email" />
-      <TextField
+      <PasswordField
         label="Password"
-        type="password"
-        footer={
-          <div className={styles.passwordStrength}>
-            <Typography variant="p">Password Strength: No Password</Typography>
-          </div>
-        }
+        showVisible={true}
+        value={password}
+        onChange={setPassword}
+        showPasswordMeter={true}
       />
       <TextField label="Confirm Password" type="password" />
       <TextField
         label="Phone Number"
         footer={
           <FormControlLabel
+            onChange={handleWa}
+            className={styles.checkWa}
             control={
               <Checkbox name="whastapptrue" color="primary" size="small" />
             }
@@ -51,6 +59,7 @@ const Register = ({ t }) => {
           />
         }
       />
+      {!phoneIsWa && <TextField label="Whatsapp Phone Number" />}
       <div className={styles.footer}>
         <FormControlLabel
           control={<Checkbox name="termservice" color="primary" size="small" />}
@@ -64,7 +73,11 @@ const Register = ({ t }) => {
             </Typography>
           }
         />
-        <Button fullWidth={true} className={styles.btnSigin} href="/customer/account/otp">
+        <Button
+          fullWidth={true}
+          className={styles.btnSigin}
+          href="/customer/account/otp"
+        >
           <Typography variant="title" type="regular" letter="capitalize">
             {t("customer:register:button")}
           </Typography>

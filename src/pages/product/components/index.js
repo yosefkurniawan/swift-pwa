@@ -7,7 +7,7 @@ import { Box, IconButton } from "@material-ui/core";
 import {
   FavoriteBorderOutlined,
   ShareOutlined,
-  Favorite
+  Favorite,
 } from "@material-ui/icons";
 import classNames from "classnames";
 import React from "react";
@@ -19,20 +19,21 @@ import RatingStar from "./RatingStar";
 import RightDrawer from "./RightDrawer";
 import SharePopup from "./SharePopup";
 import AddReviewDialog from "./AddReviewDialog";
+import { useRouter } from "next/router";
 
 const data = [
   {
     img: "/assets/img/sample/product.png",
-    link: "#"
+    link: "#",
   },
   {
     img: "/assets/img/sample/product.png",
-    link: "#"
+    link: "#",
   },
   {
     img: "/assets/img/sample/product.png",
-    link: "#"
-  }
+    link: "#",
+  },
 ];
 
 const lorem = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -40,9 +41,10 @@ eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
 enim ad minim veniam, quis nostrud exercitation ullamco laboris
 nisi ut aliquip ex ea commodo consequat.`;
 
-const ProductPage = props => {
-  const { t, i18n } = props;
+const ProductPage = (props) => {
+  const { t, i18n, url } = props;
   const styles = useStyles();
+  const route = useRouter()
   const [openOption, setOpenOption] = React.useState(false);
   const [openDrawer, setOpenDrawer] = React.useState(false);
   const [openShare, setOpenShare] = React.useState(false);
@@ -69,6 +71,7 @@ const ProductPage = props => {
       <SharePopup
         open={openShare}
         setOpen={() => setOpenShare(!openShare)}
+        link={url+route.asPath}
         {...props}
       />
       <AddReviewDialog
@@ -103,7 +106,7 @@ const ProductPage = props => {
               >
                 {currency({
                   currency: "idr",
-                  value: 900000
+                  value: 900000,
                 })}
               </Typography>
             </div>
@@ -131,11 +134,7 @@ const ProductPage = props => {
             </Typography>
           </div>
           <div className={styles.desc}>
-            <Typography
-              align="center"
-              variant="p"
-              type="regular"
-            >
+            <Typography align="center" variant="p" type="regular">
               {lorem}
             </Typography>
           </div>
@@ -164,7 +163,9 @@ const ProductPage = props => {
               </Typography>
             </div>
             <div className={styles.shareContainer}>
-              <Button onClick={() => setOpenReview(true)} variant="outlined">{t("product:writeReview")}</Button>
+              <Button onClick={() => setOpenReview(true)} variant="outlined">
+                {t("product:writeReview")}
+              </Button>
             </div>
           </div>
           <div className={styles.reviewContainer}>
