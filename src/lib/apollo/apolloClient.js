@@ -2,7 +2,7 @@ import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import fetch from "isomorphic-unfetch";
-import { graphqlEndpoint } from "../../../swift.config.js";
+import { graphqlEndpoint } from "@root/swift.config.js";
 
 const uri =
     process.env.NODE_ENV === "production"
@@ -20,5 +20,6 @@ export default function createApolloClient(initialState, ctx) {
             fetch,
         }),
         cache: new InMemoryCache().restore(initialState),
+        connectToDevTools: true,
     });
 }
