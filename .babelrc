@@ -10,6 +10,7 @@
                     "."
                 ],
                 "alias": {
+                    "@root": "./",
                     "@components": "./src/components",
                     "@i18n": "./i18n",
                     "@pages": "./src/pages",
