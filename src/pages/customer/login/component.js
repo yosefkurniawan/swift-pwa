@@ -9,12 +9,16 @@ const Login = ({ t }) => {
     <div className={styles.container}>
       <TextField label="Email/Phone Number" placeholder="+6281234xxxx" />
       <TextField label="Password" placeholder="*******" type="password" />
-      <Button fullWidth={true} className={styles.btnSigin} href="/customer/account">
+      <Button
+        fullWidth={true}
+        className={styles.btnSigin}
+        href="/customer/account"
+      >
         <Typography variant="title" type="regular" letter="capitalize">
           {t("customer:login:pageTitle")}
         </Typography>
       </Button>
-      <Button variant="text">
+      <Button variant="text" href="/customer/account/forgot-password">
         <Typography
           variant="p"
           type="regular"

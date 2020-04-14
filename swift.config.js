@@ -31,3 +31,8 @@ export const passwordStrength = {
     maxValue : 20,
     numberOfRequiredClass : 3 // Lowercase + Uppercse + Dgits + spesial caracter = 4
 }
+
+export const languagesLabel = {
+    id : "Bahasa Indonesia",
+    en : "English"
+}

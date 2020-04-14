@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import SwipeableViews from "react-swipeable-views";
 import Item from "./Item";
 import useStyles from "./style";
+import classNames from "classnames";
 
-const Caraousel = ({ data = [1, 2, 3], title = "" }) => {
+const Caraousel = ({ data = [1, 2, 3], title = "", className = "" }) => {
   const styles = useStyles();
   const [index, setIndex] = useState(parseInt(data.length / 2));
   return (
-    <div className={styles.container}>
+    <div className={classNames(styles.container, className)}>
       {title && title !== "" && (
         <Typography
           align="center"

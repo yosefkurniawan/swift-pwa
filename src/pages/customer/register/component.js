@@ -31,7 +31,7 @@ const Register = ({ t }) => {
 
   return (
     <div className={styles.container}>
-      <TextField label="First Name" error={true} errorMessage="error" />
+      <TextField label="First Name" />
       <TextField label="Last Name" />
       <TextField label="Email" type="email" />
       <PasswordField

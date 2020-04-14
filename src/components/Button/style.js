@@ -4,7 +4,11 @@ const useStyles = makeStyles(theme => ({
     borderRadius : 100
   },
   fullWidth : {
-    width : '90%'
+    width : '100%',
+    margin : 'auto',
+    [theme.breakpoints.up('sm')] : {
+      maxWidth : 375
+    }
   }
 }));
 

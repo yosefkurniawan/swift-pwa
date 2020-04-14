@@ -35,7 +35,7 @@ const CustomTextField = ({
       variant={variant}
       className={customClass}
     >
-      <InputLabel shrink={shrink} htmlFor={label}>
+      <InputLabel shrink={shrink} htmlFor={label} className={styles.label}>
         {label}
       </InputLabel>
       <Input
@@ -48,7 +48,7 @@ const CustomTextField = ({
       {React.isValidElement(footer) ? (
         footer
       ) : (
-        <Typography variant="p" color={error ? "red" : "default" }>
+        <Typography variant="p" color={error ? "red" : "default"}>
           {errorMessage}
         </Typography>
       )}
