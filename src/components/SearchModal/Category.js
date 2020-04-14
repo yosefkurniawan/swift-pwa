@@ -1,5 +1,5 @@
 import React from "react";
-import useStyles from "../style";
+import useStyles from "./style";
 import Typography from "@components/Typography";
 import Button from "@components/Button";
 import { Slide } from "@material-ui/core";

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useStyles from "../style";
+import useStyles from "./style";
 import Typography from "@components/Typography";
 import Button from "@components/Button";
 import { Slide, IconButton } from "@material-ui/core";
@@ -12,7 +12,7 @@ const SubCategory = ({ open, data, category, onBack }) => {
         <Slide
             direction="left"
             in={open}
-            timeout={1000}
+            timeout={300}
             mountOnEnter
             unmountOnExit
         >

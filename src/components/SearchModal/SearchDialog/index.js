@@ -5,7 +5,6 @@ import { Close as CloseIcon } from "@material-ui/icons";
 import Typography from "@components/Typography";
 import TextField from "@components/Forms/TextField";
 import classNames from "classnames";
-import Link from "next/link";
 import Router from "next/router";
 
 const data = [
