@@ -49,7 +49,7 @@ const Content = ({t}) => {
           <div className={styles.account_block}>
             <ul className={styles.account_navigation}>
               <li className={styles.account_navigation_item}>
-                <Link href="#">
+                <Link href="/order/history">
                   <a className={styles.account_navigation_link}>My Order</a>
                 </Link>
               </li>
