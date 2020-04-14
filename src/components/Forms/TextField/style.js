@@ -7,6 +7,9 @@ const useStyles = makeStyles(theme => ({
     maxHeight : 100,
     ...CreateMargin(10,0,20,0)
   },
+  label : {
+    textTransform : 'capitalize'
+  }
 }));
 
 export default useStyles;
