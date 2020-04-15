@@ -1,0 +1,32 @@
+{
+  "email": {
+    "required": "Email tidak boleh kosong",
+    "wrong": "Email tidak sesuai"
+  },
+  "phoneNumber": {
+    "required": "Nomor telepon tidak boleh kosong",
+    "wrong": "Nomor telepon tidak sesuai"
+  },
+  "password": {
+    "required": "Password tidak boleh kosong",
+    "wrong": "Password tidak sesuai"
+  },
+  "firstName": {
+    "required": "Nama depan tidak boleh kosong"
+  },
+  "lastName": {
+    "required": "Nama belakang tidak boleh kosong"
+  },
+  "confirmPassword": {
+    "required": "Konfirmasi password tidak boleh kosong",
+    "wrong": "Konfirmasi password tidak sama"
+  },
+  "whatsappNumber": {
+    "required": "Nomor whatsapp tidak boleh kosong",
+    "wrong": "Nomor whatsapp tidak sesuai"
+  },
+  "emailPhone": "Email atau nomor telepon tidak boleh kosong",
+  "tos" : {
+    "required" : "Setujui kebijakan kami"
+}
+}

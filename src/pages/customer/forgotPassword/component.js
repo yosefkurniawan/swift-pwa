@@ -4,6 +4,8 @@ import Button from "@components/Button";
 import TextField from "@components/Forms/TextField";
 import { Snackbar, IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const ForgotPassword = ({ t }) => {
   const styles = useStyles();
@@ -15,8 +17,21 @@ const ForgotPassword = ({ t }) => {
 
     setOpen(false);
   };
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+    },
+    validationSchema: Yup.object().shape({
+      email: Yup.string()
+        .email(t("validate:email:wrong"))
+        .required(t("validate:email:required")),
+    }),
+    onSubmit: (values) => {
+      setOpen(!open);
+    },
+  });
   return (
-    <div className={styles.container}>
+    <form className={styles.container} onSubmit={formik.handleSubmit}>
       <Snackbar
         anchorOrigin={{
           vertical: "bottom",
@@ -42,15 +57,23 @@ const ForgotPassword = ({ t }) => {
       <Typography variant="span" align="left">
         {t("customer:forgotPassword:content")}
       </Typography>
-      <TextField label="Email" className={styles.email} />
+      <TextField
+        label="Email"
+        className={styles.email}
+        name="email"
+        value={formik.values.email}
+        onChange={formik.handleChange}
+        error={formik.errors.email ? true : false}
+        errorMessage={formik.errors.email || null}
+      />
       <Button
         className={styles.btn}
         fullWidth={true}
-        onClick={() => setOpen(!open)}
+        type="submit"
       >
         {t("common:button:send")}
       </Button>
-    </div>
+    </form>
   );
 };
 

@@ -24,7 +24,7 @@ const CustomTextField = ({
   const onChangeText = (event) => {
     const { value } = event.target;
     setValue(value);
-    onChange(value);
+    onChange(event);
   };
   const customClass = classNames(styles.container, className);
   return (

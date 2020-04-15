@@ -1,0 +1,32 @@
+{
+  "email": {
+    "required": "Email is required",
+    "wrong": "Email is not valid"
+  },
+  "phoneNumber": {
+    "required": "Phone number is required",
+    "wrong": "Phone number is not valid"
+  },
+  "password": {
+    "required": "Password is required",
+    "wrong": "Password is not valid"
+  },
+  "firstName": {
+    "required": "First name is required"
+  },
+  "lastName": {
+    "required": "Last name is required"
+  },
+  "confirmPassword": {
+    "required": "Confirm password is required",
+    "wrong": "Confirm password is not match"
+  },
+  "whatsappNumber": {
+    "required": "Whatsapp Number is required",
+    "wrong": "whatssapp Number is not valid"
+  },
+  "emailPhone": "Email or phone number is required",
+  "tos" : {
+      "required" : "Please aggre terms of use"
+  }
+}
