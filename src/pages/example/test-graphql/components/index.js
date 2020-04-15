@@ -1,4 +1,4 @@
-import { GraphExample } from "@services/graphql";
+import sampleModel from "../model";
 
 /* no need these two here if these are already implemented in _app.js */
 // import { getDataFromTree } from "@apollo/react-ssr";
@@ -42,7 +42,7 @@ import { GraphExample } from "@services/graphql";
 
 const TestGraphql = props => {
     // const { loading, data } = useQuery(QUERY);
-    const { loading, data, error } = GraphExample.getCategories();
+    const { loading, data, error } = sampleModel.getSampleCategories();
 
     if (loading || !data) {
         return <h1>loading...</h1>;

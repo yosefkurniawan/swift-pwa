@@ -7,7 +7,7 @@ import {
     Person as PersonIcon
 } from "@material-ui/icons";
 import Router from "next/router";
-import SearchModal from "@pages/search";
+import BrowseModal from "@components/SearchModal";
 import useStyles from "./style";
 import { withApollo } from "@lib/apollo";
 
@@ -21,7 +21,7 @@ const Navigation = ({ active = true }) => {
     if (active) {
         return (
             <>
-                <SearchModal
+                <BrowseModal
                     open={openModal}
                     setOpenModal={handleOpenModal}
                 />

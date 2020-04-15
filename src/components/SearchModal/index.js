@@ -1,12 +1,13 @@
 import { AppBar, Dialog, IconButton, Slide, Toolbar } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
 import React, { useState } from "react";
-import useStyles from "../style";
+import useStyles from "./style";
 import ButtonField from "./ButtonField";
 import Category from "./Category";
 import SubCategory from "./SubCategory";
 import SearchDialog from "./SearchDialog";
 import { GraphCategory } from "@services/graphql";
+import { withTranslation } from "@i18n";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
@@ -103,4 +104,4 @@ const SearchPage = props => {
     );
 };
 
-export default SearchPage;
+export default withTranslation()(SearchPage);
