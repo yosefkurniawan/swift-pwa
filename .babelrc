@@ -18,7 +18,8 @@
                     "@helpers": "./src/helpers",
                     "@services": "./src/services",
                     "@config" : "./swift.config.js",
-                    "@lib": "./src/lib"
+                    "@lib": "./src/lib",
+                    "@stores": "./src/stores"
                 }
             }
         ]
