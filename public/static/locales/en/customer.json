@@ -41,5 +41,13 @@
   },
   "profile" : {
       "title" : "my account"
+  },
+  "address": {
+    "pageTitle": "Address",
+    "title" : "Create Address"
+  },
+  "wishlist": {
+    "pageTitle": "Wishlist",
+    "title" : "Wishlist"
   }
 }
