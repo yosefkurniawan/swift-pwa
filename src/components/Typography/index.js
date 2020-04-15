@@ -43,6 +43,7 @@ const CustomTypography = ({
   align = "left",
   letter = "",
   decoration = '',
+  color = "",
   ...other
 }) => {
   const styles = useStyles();
@@ -53,6 +54,7 @@ const CustomTypography = ({
     styles[type],
     styles[align],
     styles[decoration],
+    styles[color],
     className
   );
   let variantType = getVariant(variant);
@@ -79,7 +81,8 @@ CustomTypography.propTypes = {
   type: PropTypes.oneOf(["bold", "italic", "semiBold", "regular"]),
   letter : PropTypes.oneOf(["uppercase", "capitalize", "lowercase"]),
   align : PropTypes.oneOf(["top","bottom", "center", "left"]),
-  decoration : PropTypes.oneOf(["underline"])
+  decoration : PropTypes.oneOf(["underline"]),
+  color : PropTypes.oneOf(['red','green','orange','default'])
 };
 
 export default CustomTypography;

@@ -5,7 +5,7 @@ const http = require("http");
 const https = require("https");
 
 const nextI18NextMiddleware = require("next-i18next/middleware").default;
-const nextI18next = require("./i18n");
+const nextI18next = require("./src/lib/i18n");
 
 const app = next({ dev: process.env.NODE_ENV !== "production" });
 const handle = app.getRequestHandler();

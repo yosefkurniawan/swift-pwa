@@ -16,7 +16,8 @@
         "continueShopping": "Continue Shopping",
         "cancel": "Cancel",
         "checkout": "Checkout",
-        "change" : "Change"
+        "change" : "Change",
+        "send" : "send"
     },
     "subtotal": "Subtotal"
 }

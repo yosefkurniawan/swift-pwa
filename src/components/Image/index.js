@@ -2,7 +2,7 @@ import Image from 'material-ui-image'
 import classNames from 'classnames'
 import useStyles from './style';
 
-const ImgIcon = () => <img src="assets/img/noun_Image.svg" />;
+const ImgIcon = () => <img src="/assets/img/noun_Image.svg" />;
 
 const ImageCustom = ({ className = {}, src = '' }) => {
     const styles = useStyles();

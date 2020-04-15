@@ -1,6 +1,7 @@
 import { FormControl, Input, InputLabel } from "@material-ui/core";
 import classNames from "classnames";
 import React, { useState } from "react";
+import Typography from "@components/Typography";
 import useStyles from "./style";
 
 const CustomTextField = ({
@@ -13,6 +14,7 @@ const CustomTextField = ({
   fullWidth = true,
   shrink = true,
   error = false,
+  errorMessage = "",
   variant = "standard",
   footer,
   ...other
@@ -33,7 +35,7 @@ const CustomTextField = ({
       variant={variant}
       className={customClass}
     >
-      <InputLabel shrink={shrink} htmlFor={label}>
+      <InputLabel shrink={shrink} htmlFor={label} className={styles.label}>
         {label}
       </InputLabel>
       <Input
@@ -43,7 +45,13 @@ const CustomTextField = ({
         placeholder={placeholder}
         {...other}
       />
-      {React.isValidElement(footer) && footer}
+      {React.isValidElement(footer) ? (
+        footer
+      ) : (
+        <Typography variant="p" color={error ? "red" : "default"}>
+          {errorMessage}
+        </Typography>
+      )}
     </FormControl>
   );
 };
