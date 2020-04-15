@@ -51,6 +51,14 @@ a {
   flex-grow: 1;
 }
 
+.space-between {
+  justify-content: space-between;
+}
+
+.space-around {
+  justify-content: space-around;
+}
+
 @media (max-width: 500px) {
   main {
     max-width: 100vw;
