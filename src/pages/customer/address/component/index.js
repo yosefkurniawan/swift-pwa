@@ -42,21 +42,6 @@ const Content = (props) => {
     return (
         <Fragment>
             <Box>
-                <AppBar
-                    position="static"
-                    className={[styles.appBar, styles.colorPrimary].join(' ')}>
-                    <Toolbar>
-                        <IconButton
-                            edge="start"
-                            aria-label="close"
-                        >
-                            <ArrowBack className={[styles.colorPrimary].join(' ')} />
-                        </IconButton>
-                        <Typography component="h4" className={[styles.pageTitle].join(' ')}>
-                            Address Book
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
                 <Box>
                     <Box className={[styles.address_shipping].join(' ')}>
                         <Typography

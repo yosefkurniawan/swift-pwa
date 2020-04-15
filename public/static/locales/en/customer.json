@@ -7,6 +7,10 @@
         "title" : "Register",
         "button": "Create an Account"
     },
+    "address": {
+        "pageTitle": "Save Address",
+        "title": "Add New Address"
+    },
     "login": {
         "pageTitle": "Sign In",
         "forgotPassword" : "forgot password",
@@ -19,5 +23,8 @@
         "button" : "Veirify OTP",
         "sendOtp" : "Send OTP",
         "wait" : "Wait a times for new request OTP :"
+    },
+    "wishlist": {
+        "pageTitle": "Wishlist"
     }
 }

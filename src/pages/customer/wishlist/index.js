@@ -5,10 +5,10 @@ import Content from "./component"
 const Page = props => {
     const { t } = props;
     const pageConfig = {
-        title: t("customer:address:pageTitle"),
+        title: t("customer:wishlist:pageTitle"),
         header: "relative", // available values: "absolute", "relative", false (default)
-        headerTitle: t("customer:address:title"),
-        bottomNav: "account"
+        headerTitle: t("customer:wishlist:pageTitle"),
+        bottomNav: false
     };
     return (
         <Layout pageConfig={pageConfig}>

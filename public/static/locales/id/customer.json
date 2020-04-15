@@ -7,6 +7,10 @@
     "title": "Daftar",
     "button": "Buat Akun"
   },
+  "address": {
+    "pageTitle": "Simpan Alamat",
+    "title": "Buat Alamat Baru"
+  },
   "login": {
     "pageTitle": "Masuk",
     "forgotPassword": "Lupa Password",
@@ -18,5 +22,8 @@
     "label": "Masukan kode kamu",
     "sendOtp": "Kirim OTP",
     "wait": "Batas waktu kirim ulang OTP :"
+  },
+  "wishlist": {
+      "pageTitle": "Wishlist"
   }
 }
