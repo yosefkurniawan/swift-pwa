@@ -75,13 +75,18 @@ const SearchDialog = ({ open, setOpen }) => {
       ? classNames(styles.body, styles.hide)
       : classNames(styles.body, styles.show);
   const handleSearch = (ev) => {
-    if (ev.key === 'Enter') {
+    if (ev.key === "Enter") {
       Router.push({
-        pathname: '/catalogsearch/result',
-        query: { q: value }
-    })
+        pathname: "/catalogsearch/result",
+        query: { q: value },
+      });
     }
-  }
+  };
+
+  const handleAutoComplete = (event) => {
+    setValue(event.target.value);
+  };
+
   return (
     <Dialog
       fullScreen
@@ -97,7 +102,7 @@ const SearchDialog = ({ open, setOpen }) => {
           <TextField
             placeholder="Search ..."
             value={value}
-            onChange={setValue}
+            onChange={handleAutoComplete}
             onKeyPress={handleSearch}
           />
         </Toolbar>
@@ -114,6 +119,7 @@ const SearchDialog = ({ open, setOpen }) => {
         <div className={styles.result}>
           {data.map((dt, idx) => (
             <a
+              key={idx}
               onClick={() => {
                 Router.push(
                   "/product/[id]",
@@ -136,8 +142,12 @@ const SearchDialog = ({ open, setOpen }) => {
         <div className={styles.result}>
           {category.map((dt, idx) => (
             <a
+              key={idx}
               onClick={() =>
-                Router.push("/category/[id]", "/category/" + dt.cat.toLowerCase())
+                Router.push(
+                  "/category/[id]",
+                  "/category/" + dt.cat.toLowerCase()
+                )
               }
             >
               <TextSearch

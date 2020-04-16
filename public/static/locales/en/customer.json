@@ -42,12 +42,13 @@
   "profile" : {
       "title" : "my account"
   },
-  "address": {
-    "pageTitle": "Address",
-    "title" : "Create Address"
-  },
   "wishlist": {
     "pageTitle": "Wishlist",
     "title" : "Wishlist"
+  },
+  "address" : {
+    "pageTitle" : "Address Book",
+    "addTitle" : "Add new address",
+    "editTitle" : "Edit address"
   }
 }

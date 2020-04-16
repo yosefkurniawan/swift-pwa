@@ -1,25 +1,21 @@
 import Button from "@components/Button";
+import PriceFormat from "@components/PriceFormat";
 import Banner from "@components/Slider/Banner";
 import Caraousel from "@components/Slider/Carousel";
 import Typography from "@components/Typography";
-import currency from "@helpers/currency";
 import { Box, IconButton } from "@material-ui/core";
-import {
-  FavoriteBorderOutlined,
-  ShareOutlined,
-  Favorite,
-} from "@material-ui/icons";
+import { Favorite, FavoriteBorderOutlined, ShareOutlined } from "@material-ui/icons";
 import classNames from "classnames";
+import { useRouter } from "next/router";
 import React from "react";
 import useStyles from "../style";
+import AddReviewDialog from "./AddReviewDialog";
 import CustomerReview from "./CustomerReview";
 import ExpandDetail from "./ExpandDetail";
 import OptionDialog from "./OptionDialog";
 import RatingStar from "./RatingStar";
 import RightDrawer from "./RightDrawer";
 import SharePopup from "./SharePopup";
-import AddReviewDialog from "./AddReviewDialog";
-import { useRouter } from "next/router";
 
 const data = [
   {
@@ -44,7 +40,7 @@ nisi ut aliquip ex ea commodo consequat.`;
 const ProductPage = (props) => {
   const { t, i18n, url } = props;
   const styles = useStyles();
-  const route = useRouter()
+  const route = useRouter();
   const [openOption, setOpenOption] = React.useState(false);
   const [openDrawer, setOpenDrawer] = React.useState(false);
   const [openShare, setOpenShare] = React.useState(false);
@@ -71,7 +67,7 @@ const ProductPage = (props) => {
       <SharePopup
         open={openShare}
         setOpen={() => setOpenShare(!openShare)}
-        link={url+route.asPath}
+        link={url + route.asPath}
         {...props}
       />
       <AddReviewDialog
@@ -98,17 +94,13 @@ const ProductPage = (props) => {
               >
                 Product Name
               </Typography>
-              <Typography
+              <PriceFormat
+                value={999000}
                 type="regular"
                 variant="span"
                 letter="uppercase"
                 className="clear-margin-padding"
-              >
-                {currency({
-                  currency: "idr",
-                  value: 900000,
-                })}
-              </Typography>
+              />
             </div>
             <div className={styles.shareContainer}>
               <IconButton className={styles.btnShare} onClick={handleFeed}>

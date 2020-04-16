@@ -28,5 +28,28 @@
   "emailPhone": "Email or phone number is required",
   "tos" : {
       "required" : "Please aggre terms of use"
+  },
+  "street" : {
+    "required" : "Street address is required",
+    "wrong" : "Street address is not valid"
+  },
+  "postal" : {
+    "required" : "postal code is required",
+    "wrong" : "postal code is not valid"
+  },
+  "country" : {
+    "required" : "country is required"
+  },
+  "state" : {
+    "required" : "state/province is required"
+  },
+  "city" : {
+    "required" : "city is required"
+  },
+  "district" :{
+    "required" : "district/kecamatan is required"
+  },
+  "maps" : {
+    "required" : "maps location is required"
   }
 }

@@ -26,7 +26,30 @@
     "wrong": "Nomor whatsapp tidak sesuai"
   },
   "emailPhone": "Email atau nomor telepon tidak boleh kosong",
-  "tos" : {
-    "required" : "Setujui kebijakan kami"
-}
+  "tos": {
+    "required": "Setujui kebijakan kami"
+  },
+  "street" : {
+    "required" : "Alamat jalan tidak boleh kosong",
+    "wrong" : "Alamat belum sesuai"
+  },
+  "postal" : {
+    "required" : "code post tidak boleh kosong",
+    "wrong" : "Code pos belum sesuai"
+  },
+  "country" : {
+    "required" : "Country tidak boleh kosong"
+  },
+  "state" : {
+    "required" : "state/ provinsi tidak boleh kosong"
+  },
+  "city" : {
+    "required" : "kota tidak boleh kosong"
+  },
+  "district" :{
+    "required" : "district/kecamatan tidak boleh kosong"
+  },
+  "maps" : {
+    "required" : "lokasi maps tidak boleh kosong"
+  }
 }

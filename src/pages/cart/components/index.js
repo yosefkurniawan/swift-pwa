@@ -63,7 +63,7 @@ const Cart = props => {
                         />
                     </div>
                 </Box>
-                <CrossSell {...props} />
+                <CrossSell {...props} editMode={editMode} />
                 <EditDrawer
                     open={openEditDrawer}
                     toggleOpen={toggleEditDrawer}

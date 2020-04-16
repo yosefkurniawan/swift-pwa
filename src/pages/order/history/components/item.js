@@ -1,7 +1,8 @@
 import useStyles from "./style";
 import Typography from "@components/Typography";
-import Image from "@components/Image";
+import PriceFormat from "@components/PriceFormat";
 import moment from "moment";
+import Link from "next/link";
 
 const ItemOrder = ({ order_number, status }) => {
   const styles = useStyles();
@@ -12,9 +13,13 @@ const ItemOrder = ({ order_number, status }) => {
         <Typography variant="p" type="bold">
           {status}
         </Typography>
-        <Typography variant="title" type="regular">
-          {order_number}
-        </Typography>
+        <Link href="/order/detail/[id]" as={`/order/detail/${order_number}`}>
+          <a>
+            <Typography variant="title" type="regular">
+              #{order_number}
+            </Typography>
+          </a>
+        </Link>
         <div className={styles.detailItem}>
           <div className="column">
             <Typography
@@ -54,13 +59,14 @@ const ItemOrder = ({ order_number, status }) => {
             >
               3
             </Typography>
-            <Typography
+            <PriceFormat
+              value={999000}
+              defautlSet={true}
               variant="span"
+              type="regular"
               letter="capitalize"
               className="clear-margin-padding"
-            >
-              Rp. 1.558.000
-            </Typography>
+            />
           </div>
         </div>
       </div>

@@ -20,12 +20,6 @@ const CustomTextField = ({
   ...other
 }) => {
   const styles = useStyles();
-  const [localValue, setValue] = useState(value);
-  const onChangeText = (event) => {
-    const { value } = event.target;
-    setValue(value);
-    onChange(event);
-  };
   const customClass = classNames(styles.container, className);
   return (
     <FormControl
@@ -40,8 +34,8 @@ const CustomTextField = ({
       </InputLabel>
       <Input
         id={label}
-        value={localValue}
-        onChange={onChangeText}
+        value={value}
+        onChange={onChange}
         placeholder={placeholder}
         {...other}
       />
