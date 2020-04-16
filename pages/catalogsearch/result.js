@@ -1,7 +1,7 @@
-import Page from "@pages/searchResult";
+import Page from '@pages/searchResult';
 
 Page.getInitialProps = async () => ({
-    namespacesRequired: ["common", "search"]
+    namespacesRequired: ['common', 'search'],
 });
 
 export default Page;

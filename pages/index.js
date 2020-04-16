@@ -1,7 +1,7 @@
-import Page from "@pages/home";
+import Page from '@pages/home';
 
 Page.getInitialProps = async () => ({
-    namespacesRequired: ["common", "home"]
+    namespacesRequired: ['common', 'home'],
 });
 
 export default Page;

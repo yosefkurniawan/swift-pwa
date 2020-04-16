@@ -1,7 +1,7 @@
-import Page from "@pages/cart";
+import Page from '@pages/cart';
 
 Page.getInitialProps = async () => ({
-    namespacesRequired: ["common", "cart"]
+    namespacesRequired: ['common', 'cart'],
 });
 
 export default Page;

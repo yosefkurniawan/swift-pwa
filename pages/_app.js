@@ -1,16 +1,16 @@
-import React from "react";
-import App from "next/app";
-import Head from "next/head";
-import { ThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import theme from "@theme/theme";
-import { appWithTranslation } from '@i18n'
-import "../src/styles/index.css";
+import React from 'react';
+import App from 'next/app';
+import Head from 'next/head';
+import { ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import theme from '@theme/theme';
+import { appWithTranslation } from '@i18n';
+import '../src/styles/index.css';
 
 class MyApp extends App {
     componentDidMount() {
-        // Remove the server-side injected CSS.
-        const jssStyles = document.querySelector("#jss-server-side");
+    // Remove the server-side injected CSS.
+        const jssStyles = document.querySelector('#jss-server-side');
         if (jssStyles) {
             jssStyles.parentElement.removeChild(jssStyles);
         }
@@ -18,7 +18,7 @@ class MyApp extends App {
 
     render() {
         const { Component, pageProps } = this.props;
-        
+
         return (
             <>
                 <Head>

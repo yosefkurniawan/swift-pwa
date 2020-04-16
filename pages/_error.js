@@ -17,9 +17,7 @@
 
 // export default Error;
 
-
-import Page from "@pages/error";
-
+import Page from '@pages/error';
 
 // const Page = ({ t, statusCode }) => {
 //     return (
@@ -32,7 +30,8 @@ import Page from "@pages/error";
 // };
 
 Page.getInitialProps = ({ res, err }) => {
-    const namespacesRequired = ["error"];
+    const namespacesRequired = ['error'];
+    // eslint-disable-next-line no-nested-ternary
     const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
     return { statusCode, namespacesRequired };
 };
