@@ -7,6 +7,10 @@
     "title": "Daftar",
     "button": "Buat Akun"
   },
+  "address": {
+    "pageTitle": "Simpan Alamat",
+    "title": "Buat Alamat Baru"
+  },
   "login": {
     "pageTitle": "Masuk",
     "forgotPassword": "Lupa Password",
@@ -41,5 +45,13 @@
   },
   "profile" : {
     "title" : "akun saya"
+  },
+  "address": {
+    "pageTitle": "Address",
+    "title" : "Create Address"
+  },
+  "wishlist": {
+    "pageTitle": "Wishlist",
+    "title" : "Wishlist"
   }
 }

@@ -42,21 +42,6 @@ const Content = (props) => {
     return (
         <Fragment>
             <Box>
-                <AppBar
-                    position="static"
-                    className={[styles.appBar, styles.colorPrimary].join(' ')}>
-                    <Toolbar>
-                        <IconButton
-                            edge="start"
-                            aria-label="close"
-                        >
-                            <ArrowBack className={[styles.colorPrimary].join(' ')} />
-                        </IconButton>
-                        <Typography component="h4" className={[styles.pageTitle].join(' ')}>
-                            Address Book
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
                 <Box>
                     <Box className={[styles.address_shipping].join(' ')}>
                         <Typography
@@ -125,7 +110,7 @@ const Content = (props) => {
                         onClick={() => { return handleDraweClick() }}>
                         <span style={{ marginRight: "15px" }}>
                             Add New Address
-                    </span>
+                        </span>
                         <Add />
                     </Button>
                 </Box>
@@ -211,15 +196,23 @@ const Content = (props) => {
                                 fullWidth
                                 className={[styles.form_input].join(' ')}
                             />
-                            <Box style={{width:`100%`, height:`500px`}}>
+                            <Box style={{width:`100%`, height:`450px`}}>
                                 <IcubeMaps
                                     height='300px'
                                     mapPosition={mapPosition}
                                     dragMarkerDone={handleDragPosition}
                                 />
                             </Box>
+                            <Button variant="contained"
+                                className={[styles.address_save].join(' ')}
+                                onClick={() => { return handleDraweClick() }}>
+                                <span style={{ marginRight: "15px" }}>
+                                    SAVE
+                                </span>
+                            </Button>
                         </form>
                     </Box>
+                    
                 </div>
             </Dialog>
         </Fragment>
