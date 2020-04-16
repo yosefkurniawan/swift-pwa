@@ -1,18 +1,18 @@
-import Page from "@pages/category";
+import Page from '@pages/category';
 
 Page.getInitialProps = async () => ({
-    namespacesRequired: ["common", "category"]
+    namespacesRequired: ['common', 'category'],
 });
 
 // export async function getServerSideProps() {
-    
-    // @TODO: get category data by id then provide the data into props
 
-    // return {
-    //     props: {
-    //         // ...
-    //     }
-    // };
+// @TODO: get category data by id then provide the data into props
+
+// return {
+//     props: {
+//         // ...
+//     }
+// };
 // }
 
 export default Page;

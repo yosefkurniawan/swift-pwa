@@ -1,7 +1,7 @@
-import Page from "@pages/order/history";
+import Page from '@pages/order/history';
 
 Page.getInitialProps = async () => ({
-    namespacesRequired: ["common", "order"]
+    namespacesRequired: ['common', 'order'],
 });
 
 export default Page;

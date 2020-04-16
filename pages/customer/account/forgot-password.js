@@ -1,7 +1,7 @@
-import Page from "@pages/forgotPassword";
+import Page from '@pages/forgotPassword';
 
 Page.getInitialProps = async () => ({
-    namespacesRequired: ["common", "customer"]
+    namespacesRequired: ['common', 'customer'],
 });
 
 export default Page;

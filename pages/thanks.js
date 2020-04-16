@@ -1,7 +1,7 @@
-import Page from "@pages/thanks";
+import Page from '@pages/thanks';
 
 Page.getInitialProps = async () => ({
-    namespacesRequired: ["common", "checkout"]
+    namespacesRequired: ['common', 'checkout'],
 });
 
 export default Page;
