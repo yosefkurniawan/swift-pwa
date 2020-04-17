@@ -1,44 +1,46 @@
-import { makeStyles } from "@material-ui/core/styles";
-import { WHITE, PRIMARY } from "@theme/colors";
-import { CreateMargin, CreatePadding, FlexRow, FlexColumn, showHide } from "@theme/mixins";
-import { FONT_BIG} from "@theme/typography";
+import { makeStyles } from '@material-ui/core/styles';
+import { WHITE, PRIMARY } from '@theme/colors';
+import {
+    CreateMargin, CreatePadding, FlexRow, FlexColumn, showHide,
+} from '@theme/mixins';
+import { FONT_BIG } from '@theme/typography';
 
-const useStyles = makeStyles(theme => ({
-    appBar : {
-        position : 'relative',
-        backgroundColor : WHITE,
-        boxShadow : 'none'
+const useStyles = makeStyles(() => ({
+    appBar: {
+        position: 'relative',
+        backgroundColor: WHITE,
+        boxShadow: 'none',
     },
-    header : {
-        height : '10vh',
+    header: {
+        height: '10vh',
         ...FlexRow,
     },
-    iconClose : {
+    iconClose: {
         ...FONT_BIG,
-        color : PRIMARY
+        color: PRIMARY,
     },
-    body : {
-        ...CreatePadding(0,10,10,'15%'),
-       ...FlexColumn,
+    body: {
+        ...CreatePadding(0, 10, 10, '15%'),
+        ...FlexColumn,
     },
-    textSearch : {
+    textSearch: {
         ...FlexRow,
-        justifyContent : 'space-between',
-        ...CreatePadding(0,'15%',0,0)
+        justifyContent: 'space-between',
+        ...CreatePadding(0, '15%', 0, 0),
     },
-    title : {
-        ...CreateMargin(16,0,16,0)
+    title: {
+        ...CreateMargin(16, 0, 16, 0),
     },
-    rmMargin : {
-        ...CreateMargin(0,0,0,0)
+    rmMargin: {
+        ...CreateMargin(0, 0, 0, 0),
     },
-    result : {
+    result: {
         ...FlexColumn,
-        ...CreateMargin(16,0,30,0)
+        ...CreateMargin(16, 0, 30, 0),
     },
-    textValue : {
+    textValue: {
         ...FlexColumn,
-        ...CreateMargin(10,0,10,0)
+        ...CreateMargin(10, 0, 10, 0),
     },
     ...showHide,
 

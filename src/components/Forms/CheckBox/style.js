@@ -1,18 +1,18 @@
-import { makeStyles } from "@material-ui/core";
-import { FlexColumn, FlexRow, CreatePadding } from "@theme/mixins";
+import { makeStyles } from '@material-ui/core';
+import { FlexColumn, FlexRow, CreatePadding } from '@theme/mixins';
 
-export default makeStyles(theme => ({
-    row : {
-        ...FlexRow
+export default makeStyles(() => ({
+    row: {
+        ...FlexRow,
     },
-    column : {
-        ...FlexColumn
+    column: {
+        ...FlexColumn,
     },
     container: {
-        ...FlexColumn
+        ...FlexColumn,
     },
-    checkboxContainer : {
-        justifyContent : 'space-between',
-        ...CreatePadding(10,10,10,0)
-    }
-}))
+    checkboxContainer: {
+        justifyContent: 'space-between',
+        ...CreatePadding(10, 10, 10, 0),
+    },
+}));

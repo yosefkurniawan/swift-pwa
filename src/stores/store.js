@@ -1,7 +1,10 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import reduxLogger from "redux-logger";
-import { exampleReducer, initExampleState } from "@pages/example/test-apollo-redux/redux/reducers";
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import reduxLogger from 'redux-logger';
+import {
+    exampleReducer,
+    initExampleState,
+} from '@pages/example/test-apollo-redux/redux/reducers';
 
 const initialStates = {
     ...initExampleState,
@@ -15,10 +18,9 @@ const reducers = combineReducers({
 
 const middlewares = applyMiddleware(reduxLogger);
 
-export const initializeStore = (preloadedState = initialStates) => {
-    return createStore(
-        reducers,
-        preloadedState,
-        composeWithDevTools(middlewares)
-    );
-};
+// eslint-disable-next-line import/prefer-default-export
+export const initializeStore = (preloadedState = initialStates) => createStore(
+    reducers,
+    preloadedState,
+    composeWithDevTools(middlewares),
+);

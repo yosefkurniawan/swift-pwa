@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { BottomNavigation, BottomNavigationAction } from "@material-ui/core";
+import { useState } from 'react';
+import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import {
     Home as HomeIcon,
     Search as SearchIcon,
     LocalMall as LocalMallIcon,
-    Person as PersonIcon
-} from "@material-ui/icons";
-import Router from "next/router";
-import BrowseModal from "@components/SearchModal";
-import useStyles from "./style";
-import { withApollo } from "@lib/apollo";
+    Person as PersonIcon,
+} from '@material-ui/icons';
+import Router from 'next/router';
+import BrowseModal from '@components/SearchModal';
+import { withApollo } from '@lib/apollo';
+import useStyles from './style';
 
 // active: true (default), "home", "browse", "cart", "account"
 const Navigation = ({ active = true }) => {
@@ -30,22 +30,20 @@ const Navigation = ({ active = true }) => {
                     value={active}
                     showLabels={false}
                     onChange={(event, newValue) => {
-                        // setActive(newValue);
                         switch (newValue) {
-                            case "home":
-                                Router.push("/");
-                                return;
-                            case "browse":
-                                handleOpenModal(true);
-                                return;
-                            case "cart":
-                                Router.push("/cart");
-                                return;
-                            case "account":
-                                Router.push("/customer/account/login");
-                                return;
-                            default:
-                                return;
+                        case 'home':
+                            Router.push('/');
+                            return;
+                        case 'browse':
+                            handleOpenModal(true);
+                            return;
+                        case 'cart':
+                            Router.push('/cart');
+                            return;
+                        case 'account':
+                            Router.push('/customer/account/login');
+                            break;
+                        default:
                         }
                     }}
                 >
@@ -54,8 +52,8 @@ const Navigation = ({ active = true }) => {
                         value="home"
                         icon={<HomeIcon />}
                         classes={{
-                            label: "hide",
-                            root: styles.navAction
+                            label: 'hide',
+                            root: styles.navAction,
                         }}
                     />
                     <BottomNavigationAction
@@ -63,8 +61,8 @@ const Navigation = ({ active = true }) => {
                         value="browse"
                         icon={<SearchIcon />}
                         classes={{
-                            label: "hide",
-                            root: styles.navAction
+                            label: 'hide',
+                            root: styles.navAction,
                         }}
                     />
                     <BottomNavigationAction
@@ -72,8 +70,8 @@ const Navigation = ({ active = true }) => {
                         value="cart"
                         icon={<LocalMallIcon />}
                         classes={{
-                            label: "hide",
-                            root: styles.navAction
+                            label: 'hide',
+                            root: styles.navAction,
                         }}
                     />
                     <BottomNavigationAction
@@ -81,16 +79,15 @@ const Navigation = ({ active = true }) => {
                         value="account"
                         icon={<PersonIcon />}
                         classes={{
-                            label: "hide",
-                            root: styles.navAction
+                            label: 'hide',
+                            root: styles.navAction,
                         }}
                     />
                 </BottomNavigation>
             </>
         );
-    }else{
-        return null;
     }
+    return null;
 };
 
 export default withApollo({ ssr: true })(Navigation);
