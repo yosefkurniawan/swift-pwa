@@ -11,6 +11,7 @@ module.exports = {
     globals: {
         Atomics: 'readonly',
         SharedArrayBuffer: 'readonly',
+        React: 'writable',
     },
     parserOptions: {
         ecmaFeatures: {
@@ -21,17 +22,28 @@ module.exports = {
     },
     plugins: ['react'],
     rules: {
-        'indent': ['error', 4],
+        indent: ['error', 4],
+        'react/react-in-jsx-scope': 'off',
         'react/jsx-indent': ['error', 4],
         'react/jsx-indent-props': ['error', 4],
         'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
         'react/jsx-props-no-spreading': 'off',
-        "react/prop-types": 0,
+        'react/prop-types': 0,
         'react/no-array-index-key': 0,
+        'import/no-named-as-default': 0,
         'max-len': ['error', { code: 150, ignoreComments: true }],
+        'jsx-a11y/anchor-is-valid': [
+            'error',
+            {
+                components: ['Link'],
+                specialLink: ['hrefLeft', 'hrefRight'],
+                aspects: ['invalidHref', 'preferButton'],
+            },
+        ],
     },
     settings: {
         'import/parser': 'babel-eslint',
         'import/resolver': 'eslint-import-resolver-babel-module',
+        'import/ignore': 'node_modules',
     },
 };
