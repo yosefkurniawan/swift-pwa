@@ -1,7 +1,5 @@
-import React from 'react';
+import PriceFormat from '@components/PriceFormat';
 import Typography from '@components/Typography';
-import currency from '@helpers/currency';
-// import Link from "@components/Link";
 import Link from 'next/link';
 import useStyles from './style';
 
@@ -23,12 +21,7 @@ const Item = () => {
                         <Typography variant="span">Product Name</Typography>
                     </a>
                 </Link>
-                <Typography variant="span" type="bold" letter="uppercase">
-                    {currency({
-                        value: 90000,
-                        currency: 'IDR',
-                    })}
-                </Typography>
+                <PriceFormat value={99000} />
             </div>
         </div>
     );

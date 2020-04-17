@@ -43,6 +43,7 @@ const CustomTypography = ({
     letter = '',
     decoration = '',
     color = '',
+    ...other
 }) => {
     const styles = useStyles();
     const customStyle = classNames(
@@ -57,7 +58,7 @@ const CustomTypography = ({
     );
     const variantType = getVariant(variant);
     return (
-        <Typography variant={variantType} className={customStyle} align={align}>
+        <Typography variant={variantType} className={customStyle} align={align} {...other}>
             {children}
         </Typography>
     );

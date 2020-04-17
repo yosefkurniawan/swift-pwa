@@ -1,13 +1,13 @@
 import Button from '@components/Button';
 import Typography from '@components/Typography';
-import currency from '@helpers/currency';
 import { Favorite, FavoriteBorderOutlined } from '@material-ui/icons';
 import classNames from 'classnames';
 import Link from 'next/link';
 import React from 'react';
+import PriceFormat from '@components/PriceFormat';
+import useStyles from './style';
 import ListSize from './ListSize';
 import ListColor from './ListColor';
-import useStyles from './style';
 
 const ProductItem = ({
     showListColor = false,
@@ -51,34 +51,33 @@ const ProductItem = ({
                             </Typography>
                         </a>
                     </Link>
-                    <Typography
+                    <PriceFormat
+                        value={999000}
                         variant="p"
                         className={styles.clearMarginPadding}
                         letter="uppercase"
-                    >
-                        {currency({ value: 90000, currency: 'idr' })}
-                    </Typography>
+                    />
                     <div className={styles.colorContainer}>
                         {showListColor
-              && color.map((clr, index) => (
-                  <ListColor
-                      key={index}
-                      color={clr}
-                      size={16}
-                      className={styles.btnColor}
-                  />
-              ))}
+                            && color.map((clr, index) => (
+                                <ListColor
+                                    key={index}
+                                    color={clr}
+                                    size={16}
+                                    className={styles.btnColor}
+                                />
+                            ))}
                     </div>
                     <div className={styles.colorContainer}>
                         {showListSize
-              && size.map((sz, index) => (
-                  <ListSize
-                      data={sz}
-                      key={index}
-                      width={16}
-                      className={styles.btnColor}
-                  />
-              ))}
+                            && size.map((sz, index) => (
+                                <ListSize
+                                    data={sz}
+                                    key={index}
+                                    width={16}
+                                    className={styles.btnColor}
+                                />
+                            ))}
                     </div>
                 </div>
                 {showFeed && (

@@ -18,21 +18,25 @@ const Category = ({
             <div className={styles.item}>
                 {data.length
                     ? data.map((catlvl1, index) => (
-                        <>
-                            <Typography key={index} variant="h1" align="center">
+                        <div key={index} className="column">
+                            <Typography variant="h1" align="center">
                                 {catlvl1.name}
                             </Typography>
                             {catlvl1.children.map((catlvl2, indx) => (
                                 <Button
-                                    key={indx}
                                     variant="text"
-                                    capitalize
                                     onClick={() => onClick(catlvl2)}
+                                    key={indx}
                                 >
-                                    <Typography variant="span">{catlvl2.name}</Typography>
+                                    <Typography
+                                        variant="span"
+                                        letter="capitalize"
+                                    >
+                                        {catlvl2.name}
+                                    </Typography>
                                 </Button>
                             ))}
-                        </>
+                        </div>
                     ))
                     : null}
             </div>
@@ -52,6 +56,7 @@ const Category = ({
             </Slide>
         );
     }
+
     return <>{content()}</>;
 };
 

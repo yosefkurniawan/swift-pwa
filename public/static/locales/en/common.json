@@ -8,7 +8,8 @@
     },
     "search": {
         "mainTitle": "New in Collection",
-        "backTitle": "back in stock sale"
+        "backTitle": "back in stock sale",
+        "location" : "Search Location"
     },
     "button": {
         "edit": "Edit",

@@ -1,23 +1,23 @@
-import useStyles from './style'
-import Item from './item'
+import useStyles from './style';
+import Item from './item';
 
 const data = [
     {
-        order_number : "#ID01234567890",
-        status : "shipping"
+        order_number: 'ID01234567890',
+        status: 'shipping',
     },
     {
-        order_number : "#ID01234567890",
-        status : "pending"
+        order_number: 'ID01234567890',
+        status: 'pending',
     },
     {
-        order_number : "#ID01234567890",
-        status : "complete"
-    }
-]
+        order_number: 'ID01234567890',
+        status: 'complete',
+    },
+];
 
-const OrderPage = ({ t, }) => {
-    const styles = useStyles()
+const OrderPage = () => {
+    const styles = useStyles();
     return (
         <div className={styles.container}>
             {
@@ -26,7 +26,7 @@ const OrderPage = ({ t, }) => {
                 ))
             }
         </div>
-    )
-}
+    );
+};
 
-export default OrderPage
+export default OrderPage;

@@ -16,6 +16,7 @@ const PasswordField = ({
     showVisible = false,
     error = false,
     errorMessage = '',
+    ...other
 }) => {
     const styles = useStyles();
     const [show, setShow] = React.useState(false);
@@ -28,9 +29,11 @@ const PasswordField = ({
     };
 
     const handleChange = (event) => {
-        onChange(event.target.value);
-        const strength = checkPassword(event.target.value);
-        setErrorPasswd(strength);
+        onChange(event);
+        if (showPasswordMeter) {
+            const strength = checkPassword(event.target.value);
+            setErrorPasswd(strength);
+        }
     };
     return (
         <TextField
@@ -56,13 +59,17 @@ const PasswordField = ({
                             <div
                                 className={classNames(
                                     styles.passwdStrPrgsBar,
-                                    errorPaswd.status.toLocaleLowerCase() === 'no password'
+                                    errorPaswd.status.toLocaleLowerCase()
+                                        === 'no password'
                                         ? styles.zeroBar
-                                        : errorPaswd.status.toLocaleLowerCase() === 'weak'
+                                        : errorPaswd.status.toLocaleLowerCase()
+                                          === 'weak'
                                             ? styles.per3Bar
-                                            : errorPaswd.status.toLocaleLowerCase() === 'medium'
+                                            : errorPaswd.status.toLocaleLowerCase()
+                                          === 'medium'
                                                 ? styles.halfBar
-                                                : errorPaswd.status.toLocaleLowerCase() === 'strong'
+                                                : errorPaswd.status.toLocaleLowerCase()
+                                          === 'strong'
                                                     ? styles.per7
                                                     : styles.full,
                                 )}
@@ -70,13 +77,17 @@ const PasswordField = ({
                             <div
                                 className={classNames(
                                     styles.passwdStrPrgsCtr,
-                                    errorPaswd.status.toLocaleLowerCase() === 'no password'
+                                    errorPaswd.status.toLocaleLowerCase()
+                                        === 'no password'
                                         ? styles.full
-                                        : errorPaswd.status.toLocaleLowerCase() === 'weak'
+                                        : errorPaswd.status.toLocaleLowerCase()
+                                          === 'weak'
                                             ? styles.per7
-                                            : errorPaswd.status.toLocaleLowerCase() === 'medium'
+                                            : errorPaswd.status.toLocaleLowerCase()
+                                          === 'medium'
                                                 ? styles.half
-                                                : errorPaswd.status.toLocaleLowerCase() === 'strong'
+                                                : errorPaswd.status.toLocaleLowerCase()
+                                          === 'strong'
                                                     ? styles.per3
                                                     : styles.zero,
                                 )}
@@ -101,6 +112,7 @@ const PasswordField = ({
                     </InputAdornment>
                 )
             }
+            {...other}
         />
     );
 };

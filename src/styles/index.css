@@ -39,7 +39,7 @@ a {
   flex-direction: row;
 }
 
-.row center {
+.row-center {
   align-items: center;
 }
 .column {

@@ -84,6 +84,11 @@ const SearchDialog = ({ open, setOpen }) => {
             });
         }
     };
+
+    const handleAutoComplete = (event) => {
+        setValue(event.target.value);
+    };
+
     return (
         <Dialog
             fullScreen
@@ -99,7 +104,7 @@ const SearchDialog = ({ open, setOpen }) => {
                     <TextField
                         placeholder="Search ..."
                         value={value}
-                        onChange={setValue}
+                        onChange={handleAutoComplete}
                         onKeyPress={handleSearch}
                     />
                 </Toolbar>
@@ -114,8 +119,9 @@ const SearchDialog = ({ open, setOpen }) => {
                     Brand
                 </Typography>
                 <div className={styles.result}>
-                    {data.map((dt) => (
+                    {data.map((dt, idx) => (
                         <a
+                            key={idx}
                             onClick={() => {
                                 Router.push(
                                     '/product/[id]',
@@ -123,7 +129,11 @@ const SearchDialog = ({ open, setOpen }) => {
                                 );
                             }}
                         >
-                            <TextSearch text={dt.text} searchValue={value} value={dt.value} />
+                            <TextSearch
+                                text={dt.text}
+                                searchValue={value}
+                                value={dt.value}
+                            />
                         </a>
                     ))}
                 </div>
@@ -136,9 +146,13 @@ const SearchDialog = ({ open, setOpen }) => {
                     Category
                 </Typography>
                 <div className={styles.result}>
-                    {category.map((dt) => (
+                    {category.map((dt, idx) => (
                         <a
-                            onClick={() => Router.push('/category/[id]', `/category/${dt.cat.toLowerCase()}`)}
+                            key={idx}
+                            onClick={() => Router.push(
+                                '/category/[id]',
+                                `/category/${dt.cat.toLowerCase()}`,
+                            )}
                         >
                             <TextSearch
                                 text={dt.text}

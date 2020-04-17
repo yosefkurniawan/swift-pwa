@@ -1,6 +1,5 @@
 import { FormControl, Input, InputLabel } from '@material-ui/core';
 import classNames from 'classnames';
-import React, { useState } from 'react';
 import Typography from '@components/Typography';
 import useStyles from './style';
 
@@ -20,12 +19,6 @@ const CustomTextField = ({
     ...other
 }) => {
     const styles = useStyles();
-    const [localValue, setValue] = useState(value);
-    const onChangeText = (event) => {
-        const { target } = event;
-        setValue(target.value);
-        onChange(target.value);
-    };
     const customClass = classNames(styles.container, className);
     return (
         <FormControl
@@ -35,13 +28,17 @@ const CustomTextField = ({
             variant={variant}
             className={customClass}
         >
-            <InputLabel shrink={shrink} htmlFor={label} className={styles.label}>
+            <InputLabel
+                shrink={shrink}
+                htmlFor={label}
+                className={styles.label}
+            >
                 {label}
             </InputLabel>
             <Input
                 id={label}
-                value={localValue}
-                onChange={onChangeText}
+                value={value}
+                onChange={onChange}
                 placeholder={placeholder}
                 {...other}
             />
