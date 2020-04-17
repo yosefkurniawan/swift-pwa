@@ -28,7 +28,9 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.0",
+    "currency-formatter": "^1.5.5",
     "express": "^4.17.1",
+    "formik": "^2.1.4",
     "graphql": "^14.6.0",
     "husky": "^4.2.5",
     "i18next": "^19.3.3",
@@ -52,7 +54,8 @@
     "react-typed": "^1.2.0",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "yup": "^0.28.3"
   },
   "devDependencies": {
     "babel-plugin-module-resolver": "^4.0.0",

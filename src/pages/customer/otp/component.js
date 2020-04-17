@@ -3,9 +3,11 @@ import Typography from "@components/Typography";
 import useStyles from "./style";
 import { Input, Paper } from "@material-ui/core";
 import { MailOutline } from "@material-ui/icons";
+import { useRouter } from "next/router";
 
 const Otp = ({ t, length = 4 }) => {
-  const phone = "+628586868121";
+  const router = useRouter();
+  const phone = router.query.phoneNumber;
   const styles = useStyles();
   const [otp, setOtp] = React.useState("");
   const [time, setTime] = React.useState(0);
@@ -19,7 +21,7 @@ const Otp = ({ t, length = 4 }) => {
     if (time <= 0) {
       setManySend(manySend + 1);
       const countdown =
-      manySend >= 3 ? 320 : manySend <= 1 ? 60 : manySend * 30;
+        manySend >= 3 ? 320 : manySend <= 1 ? 60 : manySend * 30;
       setTime(countdown);
     }
   };
@@ -32,6 +34,10 @@ const Otp = ({ t, length = 4 }) => {
 
     return () => clearInterval(intervalId);
   }, [time]);
+
+  const handleOtp = () => {
+    router.push('/customer/account')
+  }
 
   return (
     <div className={styles.container}>
@@ -63,7 +69,7 @@ const Otp = ({ t, length = 4 }) => {
         <Input
           value={otp}
           onChange={handleChange}
-          inputProps={{ max: length, maxLength : length }}
+          inputProps={{ max: length, maxLength: length }}
           classes={{
             input: styles.inputField,
           }}
@@ -74,8 +80,8 @@ const Otp = ({ t, length = 4 }) => {
       <Button
         fullWidth={true}
         className={styles.btnSigin}
-        href="/customer/account"
-        disabled={otp === "" || !otp || otp.length <4}
+        onClick={handleOtp}
+        disabled={otp === "" || !otp || otp.length < 4}
       >
         <Typography variant="title" type="regular" letter="capitalize">
           {t("customer:otp:button")}

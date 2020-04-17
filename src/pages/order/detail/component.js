@@ -3,6 +3,7 @@ import Typography from "@components/Typography";
 import moment from "moment";
 import classNames from "classnames";
 import currency from "@helpers/currency";
+import PriceFormat from "@components/PriceFormat";
 
 const dataSummary = [
   { item: "Sub total", value: 1998000 },
@@ -24,9 +25,7 @@ const ItemProduct = ({}) => {
           Size : M
         </Typography>
         <div className="flex-grow"></div>
-        <Typography variant="span" type="bold">
-          IDR 999.000
-        </Typography>
+        <PriceFormat value={999000} />
       </div>
     </div>
   );
@@ -35,6 +34,9 @@ const ItemProduct = ({}) => {
 const DetailOrder = ({ t, data = [1, 2] }) => {
   const styles = useStyles();
   let totalSummary = 0;
+  dataSummary.map((item) => {
+    totalSummary += item.value;
+  });
   return (
     <div className="column">
       <div className={classNames(styles.block, styles.detail)}>
@@ -79,23 +81,24 @@ const DetailOrder = ({ t, data = [1, 2] }) => {
             <Typography variant="span" letter="capitalize">
               {list.item}
             </Typography>
-            <Typography variant="span" letter="uppercase">
-              {currency({ currency: "idr", value: list.value })}
-            </Typography>
+            <PriceFormat
+              variant="span"
+              letter="uppercase"
+              type="regular"
+              value={list.value}
+            />
           </div>
         ))}
         <div className={styles.listSummary}>
           <Typography variant="title" type="bold" letter="capitalize">
             Total
           </Typography>
-          <Typography variant="title" type="bold" letter="uppercase">
-            {
-              (dataSummary.map((item) => {
-                totalSummary += item.value;
-              }),
-              currency({ currency: "idr", value: totalSummary }))
-            }
-          </Typography>
+
+          <PriceFormat
+            variant="title"
+            letter="uppercase"
+            value={totalSummary || 0}
+          />
         </div>
       </div>
     </div>

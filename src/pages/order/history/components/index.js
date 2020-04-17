@@ -3,15 +3,15 @@ import Item from './item'
 
 const data = [
     {
-        order_number : "#ID01234567890",
+        order_number : "ID01234567890",
         status : "shipping"
     },
     {
-        order_number : "#ID01234567890",
+        order_number : "ID01234567890",
         status : "pending"
     },
     {
-        order_number : "#ID01234567890",
+        order_number : "ID01234567890",
         status : "complete"
     }
 ]

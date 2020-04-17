@@ -15,6 +15,7 @@ const PasswordField = ({
   showVisible = false,
   error = false,
   errorMessage = "",
+  ...other
 }) => {
   const styles = useStyles();
   const [show, setShow] = React.useState(false);
@@ -26,10 +27,12 @@ const PasswordField = ({
     event.preventDefault();
   };
 
-  const handleChange = (value) => {
-    onChange(value);
-    const strength = checkPassword(value);
-    setErrorPasswd(strength);
+  const handleChange = (event) => {
+    onChange(event);
+    if (showPasswordMeter) {
+      const strength = checkPassword(event.target.value);
+      setErrorPasswd(strength);
+    }
   };
   return (
     <TextField
@@ -98,6 +101,7 @@ const PasswordField = ({
           </InputAdornment>
         )
       }
+      {...other}
     />
   );
 };

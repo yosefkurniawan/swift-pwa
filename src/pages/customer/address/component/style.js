@@ -27,8 +27,10 @@ const useStyles = makeStyles(theme => ({
         right: "50px"
     },
     address_shipping: {
-        padding: "20px 15px",
-        borderBottom: `1px solid ${GRAY_PRIMARY}`
+        ...CreatePadding(15,15,15,15),
+        width : '100%',
+        borderBottom: `1px solid ${GRAY_PRIMARY}`,
+        margin : 0
     },
     address_billing:{
         padding: "20px 15px",
@@ -76,6 +78,9 @@ const useStyles = makeStyles(theme => ({
     },
     form_input:{
         marginBottom: "25px"
+    },
+    addBtn : {
+        ...CreateMargin(30,0,30,0)
     }
 }));
 

@@ -9,34 +9,36 @@ const Category = ({
   data,
   onClick,
   direction = "left",
-  slide = false
+  slide = false,
 }) => {
   const styles = useStyles();
 
   const content = () => (
-  <div className={styles.body}>
-    <div className={styles.item}>
-      {data.length ? 
-        data.map((cat_lvl1, index) => (
-          <>
-            <Typography key={index} variant="h1" align="center">
-              {cat_lvl1.name}
-            </Typography>
-            {cat_lvl1.children.map((cat_lvl2, indx) => (
-              <Button
-                key={indx}
-                variant="text"
-                capitalize={true}
-                onClick={() => onClick(cat_lvl2)}
-              >
-                <Typography variant="span">{cat_lvl2.name}</Typography>
-              </Button>
-            ))}
-          </>
-        ))
-       : null}
+    <div className={styles.body}>
+      <div className={styles.item}>
+        {data.length
+          ? data.map((cat_lvl1, index) => (
+              <div key={index} className="column">
+                <Typography variant="h1" align="center">
+                  {cat_lvl1.name}
+                </Typography>
+                {cat_lvl1.children.map((cat_lvl2, indx) => (
+                  <Button
+                    variant="text"
+                    onClick={() => onClick(cat_lvl2)}
+                    key={indx}
+                  >
+                    <Typography variant="span" letter="capitalize">
+                      {cat_lvl2.name}
+                    </Typography>
+                  </Button>
+                ))}
+              </div>
+            ))
+          : null}
+      </div>
     </div>
-  </div>);
+  );
 
   if (slide === true) {
     return (
@@ -51,7 +53,7 @@ const Category = ({
       </Slide>
     );
   } else {
-    return <>{content()}</>
+    return <>{content()}</>;
   }
 };
 

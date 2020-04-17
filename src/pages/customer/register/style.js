@@ -69,5 +69,8 @@ export default makeStyles(theme => ({
     },
     checkWa : {
         ...CreateMargin(0,0,10,-10)
+    },
+    checkTos : {
+        ...CreateMargin(0,0,0,-10)
     }
 }))

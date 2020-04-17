@@ -2,19 +2,19 @@ import Button from "@components/Button";
 import ListColor from "./ListColor";
 import ListSize from "./ListSize";
 import Typography from "@components/Typography";
-import currency from "@helpers/currency";
 import { Favorite, FavoriteBorderOutlined } from "@material-ui/icons";
 import classNames from "classnames";
 import Link from "next/link";
 import React from "react";
 import useStyles from "./style";
+import PriceFormat from "@components/PriceFormat";
 
 const ProductItem = ({
   showListColor = false,
   color = [],
   showListSize = false,
   size = [],
-  showFeed = true
+  showFeed = true,
 }) => {
   const styles = useStyles();
   const [feed, setFeed] = React.useState(false);
@@ -51,13 +51,12 @@ const ProductItem = ({
               </Typography>
             </a>
           </Link>
-          <Typography
+          <PriceFormat
+            value={999000}
             variant="p"
             className={styles.clearMarginPadding}
             letter="uppercase"
-          >
-            {currency({ value: 90000, currency: "idr" })}
-          </Typography>
+          />
           <div className={styles.colorContainer}>
             {showListColor &&
               color.map((clr, index) => (
