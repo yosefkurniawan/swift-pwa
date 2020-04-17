@@ -1,34 +1,33 @@
-import React from "react";
-import Navigation from "@components/Navigation";
-import Header from "@components/Header";
-import Head from "next/head";
+import React from 'react';
+import Navigation from '@components/Navigation';
+import Header from '@components/Header';
+import Head from 'next/head';
 
 // Layout params:
 // - pageConfig
 // - CustomHeader (optional)
 const Layout = (props) => {
-    const pageConfig = props.pageConfig;
+    const { pageConfig, children, CustomHeader } = props;
     return (
         <>
             <Head>
-                <title>{props.pageConfig.title}</title>
+                <title>{pageConfig.title}</title>
             </Head>
 
-            {React.isValidElement(props.CustomHeader) ? (
-                <>{React.cloneElement(props.CustomHeader, { pageConfig })}</>
+            {React.isValidElement(CustomHeader) ? (
+                <>{React.cloneElement(CustomHeader, { pageConfig })}</>
             ) : (
-                <Header pageConfig={props.pageConfig} />
+                <Header pageConfig={pageConfig} />
             )}
 
             <main>
-                {props.children}
+                {children}
             </main>
             <footer>
-                {<Navigation active={props.pageConfig.bottomNav} />}
+                <Navigation active={pageConfig.bottomNav} />
             </footer>
         </>
     );
 };
 
 export default Layout;
-

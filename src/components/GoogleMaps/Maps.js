@@ -1,64 +1,72 @@
-import React, { Fragment } from "react"
-import { compose, withProps, withHandlers, withState, lifecycle } from "recompose"
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
-const { StandaloneSearchBox } = require("react-google-maps/lib/components/places/StandaloneSearchBox");
+/* eslint-disable import/no-extraneous-dependencies */
+import React from 'react';
+import {
+    compose, withProps, withHandlers, lifecycle,
+} from 'recompose';
+import {
+    withScriptjs, withGoogleMap, GoogleMap, Marker,
+} from 'react-google-maps';
 
-// const GoogleMaps = 
+const { StandaloneSearchBox } = require('react-google-maps/lib/components/places/StandaloneSearchBox');
+
+// const GoogleMaps =
 
 
 const IcubeMaps = compose(
     withProps({
-        googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyBW4WSlBcEfik1qxqv3YGcDxD41Lo4we6c&libraries=geometry,drawing,places",
-        loadingElement: <div style={{ height: `100%` }} />,
-        containerElement: <div style={{ height: `200px` }} />,
-        mapElement: <div style={{ height: `100%` }} />,
-        isMarkerShown: true
+        googleMapURL: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBW4WSlBcEfik1qxqv3YGcDxD41Lo4we6c&libraries=geometry,drawing,places',
+        loadingElement: <div style={{ height: '100%' }} />,
+        containerElement: <div style={{ height: '200px' }} />,
+        mapElement: <div style={{ height: '100%' }} />,
+        isMarkerShown: true,
     }),
     withHandlers({
         handleDragEnd: ({ dragMarkerDone }) => (event) => {
             const newPosition = {
                 lat: event.latLng.lat(),
-                lng: event.latLng.lng()
+                lng: event.latLng.lng(),
             };
-            dragMarkerDone(newPosition)
-        }
+            dragMarkerDone(newPosition);
+        },
     }),
     lifecycle({
         componentWillMount() {
-            const refs = {}
+            const refs = {};
 
             this.setState({
                 places: [],
-                onSearchBoxMounted: ref => {
+                onSearchBoxMounted: (ref) => {
                     refs.searchBox = ref;
                 },
                 onPlacesChanged: () => {
                     const { location } = refs.searchBox.getPlaces()[0].geometry;
                     this.props.dragMarkerDone({
                         lat: location.lat(),
-                        lng: location.lng()
-                    })
+                        lng: location.lng(),
+                    });
                 },
-            })
+            });
         },
     }),
     withScriptjs,
-    withGoogleMap
+    withGoogleMap,
 )((props) => {
     const { mapPosition } = props;
     return (
-        <Fragment>
+        <>
             <GoogleMap
                 defaultZoom={17}
                 defaultCenter={mapPosition}
                 center={mapPosition}
             >
-                {props.isMarkerShown &&
-                    <Marker
-                        draggable={true}
-                        onDragEnd={(event) => props.handleDragEnd(event)}
-                        position={mapPosition}
-                    />}
+                {props.isMarkerShown
+                    && (
+                        <Marker
+                            draggable
+                            onDragEnd={(event) => props.handleDragEnd(event)}
+                            position={mapPosition}
+                        />
+                    )}
             </GoogleMap>
             <div data-standalone-searchbox="">
                 <StandaloneSearchBox
@@ -70,22 +78,22 @@ const IcubeMaps = compose(
                         type="text"
                         placeholder="Customized your placeholder"
                         style={{
-                            boxSizing: `border-box`,
-                            border: `1px solid transparent`,
-                            width: `100%`,
-                            height: `32px`,
-                            padding: `0 12px`,
-                            borderRadius: `3px`,
-                            boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-                            fontSize: `14px`,
-                            outline: `none`,
-                            textOverflow: `ellipses`
+                            boxSizing: 'border-box',
+                            border: '1px solid transparent',
+                            width: '100%',
+                            height: '32px',
+                            padding: '0 12px',
+                            borderRadius: '3px',
+                            boxShadow: '0 2px 6px rgba(0, 0, 0, 0.3)',
+                            fontSize: '14px',
+                            outline: 'none',
+                            textOverflow: 'ellipses',
                         }}
                     />
                 </StandaloneSearchBox>
             </div>
-        </Fragment>
+        </>
     );
-})
+});
 
-export default IcubeMaps
+export default IcubeMaps;

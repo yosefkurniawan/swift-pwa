@@ -1,19 +1,19 @@
-import { AppBar, Dialog, IconButton, Slide, Toolbar } from "@material-ui/core";
-import { ArrowBack } from "@material-ui/icons";
-import React, { useState } from "react";
-import useStyles from "./style";
-import ButtonField from "./ButtonField";
-import Category from "./Category";
-import SubCategory from "./SubCategory";
-import SearchDialog from "./SearchDialog";
-import { GraphCategory } from "@services/graphql";
-import { withTranslation } from "@i18n";
+import {
+    AppBar, Dialog, IconButton, Slide, Toolbar,
+} from '@material-ui/core';
+import { ArrowBack } from '@material-ui/icons';
+import React, { useState } from 'react';
+import { GraphCategory } from '@services/graphql';
+import { withTranslation } from '@i18n';
+import useStyles from './style';
+import ButtonField from './ButtonField';
+import Category from './Category';
+import SubCategory from './SubCategory';
+import SearchDialog from './SearchDialog';
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="left" ref={ref} {...props} />;
-});
+const Transition = React.forwardRef((props, ref) => <Slide direction="left" ref={ref} {...props} />);
 
-const SearchPage = props => {
+const SearchPage = (props) => {
     const styles = useStyles();
     const [openedCategory, setOpenedCategory] = useState([]);
     const [showCat, setShowCat] = useState(true);
@@ -26,12 +26,17 @@ const SearchPage = props => {
     if (loading && !data) {
         return <div>Loading...</div>;
     }
-    
+
     if (error) {
-        return <div>Error: {JSON.stringify(error)}</div>;
+        return (
+            <div>
+                Error:
+                {JSON.stringify(error)}
+            </div>
+        );
     }
 
-    const openSub = cat => {
+    const openSub = (cat) => {
         setOpenedCategory([cat]);
         setShowSubCat(true);
         setShowCat(false);
@@ -44,7 +49,7 @@ const SearchPage = props => {
         setSlideCat(true);
     };
 
-    const open = props.open;
+    const { open } = props;
     const handleCloseModal = () => {
         closeSub();
         setSlideCat(false);
@@ -86,7 +91,7 @@ const SearchPage = props => {
                                 open={showCat}
                                 {...props}
                                 onClick={openSub}
-                                direction={"right"}
+                                direction="right"
                                 slide={slideCat}
                             />
                         ) : (

@@ -1,12 +1,14 @@
-import React, { useState } from "react";
-import useStyles from "./style";
-import Typography from "@components/Typography";
-import Button from "@components/Button";
-import { Slide, IconButton } from "@material-ui/core";
-import { ArrowBack } from "@material-ui/icons";
-import Router from "next/router";
+import React from 'react';
+import Typography from '@components/Typography';
+import Button from '@components/Button';
+import { Slide, IconButton } from '@material-ui/core';
+import { ArrowBack } from '@material-ui/icons';
+import Router from 'next/router';
+import useStyles from './style';
 
-const SubCategory = ({ open, data, category, onBack }) => {
+const SubCategory = ({
+    open, data, onBack,
+}) => {
     const styles = useStyles();
     return (
         <Slide
@@ -25,11 +27,11 @@ const SubCategory = ({ open, data, category, onBack }) => {
                         <Button
                             key={indx}
                             variant="text"
-                            capitalize={true}
+                            capitalize
                             onClick={() => {
                                 Router.push(
-                                    "/category/[id]",
-                                    "/category/" + item.url_key.toLowerCase()
+                                    '/category/[id]',
+                                    `/category/${item.url_key.toLowerCase()}`,
                                 );
                             }}
                         >

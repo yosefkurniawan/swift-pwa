@@ -1,50 +1,50 @@
-import { makeStyles } from "@material-ui/core/styles";
-import { CreatePadding, CreateMargin, CenterAbsolute } from '@theme/mixins'
-import { GRAY_PRIMARY } from "@theme/colors";
+import { makeStyles } from '@material-ui/core/styles';
+import { CreatePadding, CreateMargin, CenterAbsolute } from '@theme/mixins';
+import { GRAY_PRIMARY } from '@theme/colors';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     container: {
         ...CreatePadding(10, 10, 10, 10),
-        width: "100%",
+        width: '100%',
         height: 50,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
         ...CreateMargin(0, 0, 18, 0),
-        borderBottom: "1px solid " + GRAY_PRIMARY,
-        [theme.breakpoints.up('md')] : {
-            maxWidth : 900,
-            ...CenterAbsolute
+        borderBottom: `1px solid ${GRAY_PRIMARY}`,
+        [theme.breakpoints.up('md')]: {
+            maxWidth: 900,
+            ...CenterAbsolute,
         },
     },
     leftContainer: {
-        position: "absolute",
-        left: 0
+        position: 'absolute',
+        left: 0,
     },
     rightContainer: {
-        position: "absolute",
-        right: 0
+        position: 'absolute',
+        right: 0,
     },
     centerContainer: {
-        alignItems: "center",
-        textAlign: "center",
+        alignItems: 'center',
+        textAlign: 'center',
         flexGrow: 1,
-        ...CreatePadding(0, "20%", 0, "20%")
+        ...CreatePadding(0, '20%', 0, '20%'),
     },
     backIcon: {
-        fontSize: 30
+        fontSize: 30,
     },
     headerAbsolute: {
-        position: "absolute",
+        position: 'absolute',
         zIndex: 1,
-        borderBottom: "none"
+        borderBottom: 'none',
     },
     headerRelative: {
-        position: "relative"
+        position: 'relative',
     },
-    title : {
-        fontSize : 12
-    }
+    title: {
+        fontSize: 12,
+    },
 }));
 
 export default useStyles;

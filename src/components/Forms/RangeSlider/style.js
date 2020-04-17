@@ -1,46 +1,48 @@
-import { makeStyles } from "@material-ui/core";
-import { PRIMARY, GRAY_THIRD } from "@theme/colors";
-import { FlexColumn, FlexRow, CreateMargin, CreatePadding } from "@theme/mixins";
+import { makeStyles } from '@material-ui/core';
+import { PRIMARY, GRAY_THIRD } from '@theme/colors';
+import {
+    FlexColumn, FlexRow, CreateMargin, CreatePadding,
+} from '@theme/mixins';
 
-export const useStyles = makeStyles(theme => ({
-    container : {
+export const useStyles = makeStyles(() => ({
+    container: {
         ...FlexColumn,
-        ...CreatePadding(0,15,0,0)
+        ...CreatePadding(0, 15, 0, 0),
     },
-    spanLabelPrice : {
+    spanLabelPrice: {
         ...FlexRow,
-        justifyContent : 'space-between',
-        ...CreateMargin(17,0,0,0)
-    }
+        justifyContent: 'space-between',
+        ...CreateMargin(17, 0, 0, 0),
+    },
 }));
 
 export const sliderStyle = {
-  root: {
-    color: GRAY_THIRD,
-    height: 8,
-    width : '100%',
-  },
-  thumb: {
-    height: 17,
-    width: 17,
-    backgroundColor: PRIMARY,
-    border: `2px solid ${PRIMARY}`,
-    marginTop: -5,
-    marginLeft: -12,
-    "&:focus, &:hover, &$active": {
-      boxShadow: "primary"
-    }
-  },
-  active: {},
-  valueLabel: {
-    left: "calc(-50% + 4px)"
-  },
-  track: {
-    height: 8,
-    borderRadius: 0
-  },
-  rail: {
-    height: 8,
-    borderRadius: 0
-  }
+    root: {
+        color: GRAY_THIRD,
+        height: 8,
+        width: '100%',
+    },
+    thumb: {
+        height: 17,
+        width: 17,
+        backgroundColor: PRIMARY,
+        border: `2px solid ${PRIMARY}`,
+        marginTop: -5,
+        marginLeft: -12,
+        '&:focus, &:hover, &$active': {
+            boxShadow: 'primary',
+        },
+    },
+    active: {},
+    valueLabel: {
+        left: 'calc(-50% + 4px)',
+    },
+    track: {
+        height: 8,
+        borderRadius: 0,
+    },
+    rail: {
+        height: 8,
+        borderRadius: 0,
+    },
 };
