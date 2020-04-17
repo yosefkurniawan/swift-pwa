@@ -19,6 +19,8 @@ module.exports = {
         },
         ecmaVersion: 2018,
         sourceType: 'module',
+        allowImportExportEverywhere: false,
+        codeFrame: false,
     },
     plugins: ['react'],
     rules: {

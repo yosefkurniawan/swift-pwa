@@ -1,14 +1,14 @@
-import Content from "./component";
-import Layout from "@components/Layouts";
-import { withTranslation } from "@i18n";
+import Layout from '@components/Layouts';
+import { withTranslation } from '@i18n';
+import Content from './component';
 
-const Page = props => {
+const Page = (props) => {
     const { t } = props;
     const pageConfig = {
-        title: t("customer:otp:pageTitle"),
+        title: t('customer:otp:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle : t("customer:otp:title") ,
-        bottomNav: false
+        headerTitle: t('customer:otp:title'),
+        bottomNav: false,
     };
     return (
         <Layout pageConfig={pageConfig}>

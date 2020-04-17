@@ -1,8 +1,6 @@
-import { useQuery } from "@apollo/react-hooks";
-import * as ExampleSchema from "./schema";
+import { useQuery } from '@apollo/react-hooks';
+import * as ExampleSchema from './schema';
 
-export const getSampleCategories = () => {
-    return useQuery(ExampleSchema.sampleCategories);
-};
+export const getSampleCategories = () => useQuery(ExampleSchema.sampleCategories);
 
 export default { getSampleCategories };

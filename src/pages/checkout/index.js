@@ -1,14 +1,14 @@
-import Content from "./components";
-import Layout from "@components/Layouts";
-import { withTranslation } from "@i18n";
+import Layout from '@components/Layouts';
+import { withTranslation } from '@i18n';
+import Content from './components';
 
-const Page = props => {
+const Page = (props) => {
     const { t } = props;
     const pageConfig = {
-        title: t("checkout:pageTitle"),
-        header: "relative", // available values: "absolute", "relative", false (default)
-        headerTitle: t("checkout:pageTitle"),
-        bottomNav : false
+        title: t('checkout:pageTitle'),
+        header: 'relative', // available values: "absolute", "relative", false (default)
+        headerTitle: t('checkout:pageTitle'),
+        bottomNav: false,
     };
     return (
         <Layout pageConfig={pageConfig}>

@@ -1,28 +1,28 @@
-import Layout from "@components/Layouts";
-import { withTranslation } from "@i18n";
-import useStyles from "./style";
-import Link from "next/link";
-import Button from "@components/Button";
+import Layout from '@components/Layouts';
+import { withTranslation } from '@i18n';
+import Link from 'next/link';
+import Button from '@components/Button';
+import useStyles from './style';
 
 const Error = (props) => {
     const styles = useStyles();
     const { statusCode, t } = props;
 
     const statusCodes = {
-        400: t("error:400:title"),
-        404: t("error:404:title"),
-        405: t("error:405:title"),
-        500: t("error:500:title")
+        400: t('error:400:title'),
+        404: t('error:404:title'),
+        405: t('error:405:title'),
+        500: t('error:500:title'),
     };
 
-    const title =
-        props.title ||
-        statusCodes[statusCode] ||
-        "An unexpected error has occurred";
+    // eslint-disable-next-line react/destructuring-assignment
+    const title = props.title
+        || statusCodes[statusCode]
+        || 'An unexpected error has occurred';
 
     const pageConfig = {
-        title: title,
-        className: styles.body
+        title,
+        className: styles.body,
     };
     return (
         <Layout pageConfig={pageConfig}>
@@ -39,7 +39,7 @@ const Error = (props) => {
                     <div className={styles.actions}>
                         <Link href="/">
                             <Button className={styles.toolbarButton}>
-                                {t("error:actions:back")}
+                                {t('error:actions:back')}
                             </Button>
                         </Link>
                     </div>
@@ -47,7 +47,7 @@ const Error = (props) => {
             </div>
         </Layout>
     );
-}
+};
 
 
 export default withTranslation()(Error);

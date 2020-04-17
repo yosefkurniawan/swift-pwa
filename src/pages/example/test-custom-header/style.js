@@ -1,9 +1,9 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     iconClose: {
-        fontSize: 30
-    }
+        fontSize: 30,
+    },
 }));
 
 export default useStyles;
