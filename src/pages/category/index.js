@@ -1,12 +1,12 @@
-import Component from './components'
-import { withTranslation } from '@i18n'
-import Layout from "@components/Layouts";
+import { withTranslation } from '@i18n';
+import Layout from '@components/Layouts';
+import Component from './components';
 
-const Page = props => {
+const Page = (props) => {
     const pageConfig = {
-        title: "[Category Name]",
-        header: "absolute", // available values: "absolute", "relative", false (default)
-        bottomNav: "browse"
+        title: '[Category Name]',
+        header: 'absolute', // available values: "absolute", "relative", false (default)
+        bottomNav: 'browse',
     };
     return (
         <Layout pageConfig={pageConfig}>

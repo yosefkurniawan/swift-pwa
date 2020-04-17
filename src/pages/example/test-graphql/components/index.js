@@ -1,4 +1,4 @@
-import sampleModel from "../model";
+import sampleModel from '../model';
 
 /* no need these two here if these are already implemented in _app.js */
 // import { getDataFromTree } from "@apollo/react-ssr";
@@ -40,9 +40,9 @@ import sampleModel from "../model";
 //     }
 // `;
 
-const TestGraphql = props => {
+const TestGraphql = ({ pageConfig }) => {
     // const { loading, data } = useQuery(QUERY);
-    const { loading, data, error } = sampleModel.getSampleCategories();
+    const { loading, data } = sampleModel.getSampleCategories();
 
     if (loading || !data) {
         return <h1>loading...</h1>;
@@ -50,20 +50,23 @@ const TestGraphql = props => {
 
     return (
         <>
-            <h1>{props.pageConfig.title}</h1>
-            total categories: {data.categoryList[0].children_count}
-            {data.categoryList[0].children.map((cat, idx) => {
-                return (
-                    <div key={idx}>
-                        <div>{cat.name}</div>
-                        {cat.children.length
-                            ? cat.children.map((subcat, idx) => {
-                                  return <div key={idx}>--{subcat.name}</div>;
-                              })
-                            : null}
-                    </div>
-                );
-            })}
+            <h1>{pageConfig.title}</h1>
+            total categories:
+            {' '}
+            {data.categoryList[0].children_count}
+            {data.categoryList[0].children.map((cat, idx) => (
+                <div key={idx}>
+                    <div>{cat.name}</div>
+                    {cat.children.length
+                        ? cat.children.map((subcat, indx) => (
+                            <div key={indx}>
+                                --
+                                {subcat.name}
+                            </div>
+                        ))
+                        : null}
+                </div>
+            ))}
         </>
     );
 };

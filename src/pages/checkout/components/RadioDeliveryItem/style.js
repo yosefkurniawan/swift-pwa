@@ -1,29 +1,26 @@
-import { makeStyles } from "@material-ui/core";
-import { PRIMARY, GRAY_PRIMARY } from "@theme/colors";
+import { makeStyles } from '@material-ui/core';
+import { PRIMARY } from '@theme/colors';
 import {
-  CreateMargin,
-  CreatePadding,
-  CreateBorder,
-  FlexRow,
-  FlexColumn,
-} from "@theme/mixins";
+    CreateBorder,
+    FlexRow,
+} from '@theme/mixins';
 
-export default makeStyles(theme => ({
+export default makeStyles(() => ({
     root: {
         ...CreateBorder(0, 0, '1px', 0, PRIMARY),
-        ...FlexRow
-    },
-    rootRmBorder : {
         ...FlexRow,
-        border : 'none'
     },
-    labelContainer : {
+    rootRmBorder: {
         ...FlexRow,
-        justifyContent : 'space-between',
-        width : '100%',
-        alignItems : 'center'
+        border: 'none',
     },
-    labelContainerActive : {
-        fontWeight : 'bold'
-    }
-}))
+    labelContainer: {
+        ...FlexRow,
+        justifyContent: 'space-between',
+        width: '100%',
+        alignItems: 'center',
+    },
+    labelContainerActive: {
+        fontWeight: 'bold',
+    },
+}));

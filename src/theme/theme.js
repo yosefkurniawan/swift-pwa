@@ -1,79 +1,81 @@
-import { red } from "@material-ui/core/colors";
-import { createMuiTheme } from "@material-ui/core/styles";
-import { GRAY_SECONDARY, PRIMARY, SECONDARY, WHITE } from "./colors";
-import { FONT_24, FONT_DEFAULT, FONT_REGULER } from "./typography";
+import { red } from '@material-ui/core/colors';
+import { createMuiTheme } from '@material-ui/core/styles';
+import {
+    GRAY_SECONDARY, PRIMARY, SECONDARY, WHITE,
+} from './colors';
+import { FONT_24, FONT_DEFAULT, FONT_REGULER } from './typography';
 
 // Create a theme instance.
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: PRIMARY
+            main: PRIMARY,
         },
         secondary: {
-            main: SECONDARY
+            main: SECONDARY,
         },
         error: {
-            main: red.A400
+            main: red.A400,
         },
         background: {
-            default: WHITE
-        }
+            default: WHITE,
+        },
     },
     overrides: {
         MuiGrid: {
             root: {
                 padding: 0,
-                margin: 0
-            }
+                margin: 0,
+            },
         },
         MuiTextField: {
             root: {
-                ...FONT_REGULER
+                ...FONT_REGULER,
             },
         },
         MuiTypography: {
             h1: {
                 ...FONT_24,
-                ...FONT_DEFAULT
+                ...FONT_DEFAULT,
             },
             root: {
-                ...FONT_DEFAULT
-            }
+                ...FONT_DEFAULT,
+            },
         },
         MuiRadio: {
             root: {
                 color: GRAY_SECONDARY,
-                "&$checked": {
-                    color: PRIMARY
-                }
-            }
+                '&$checked': {
+                    color: PRIMARY,
+                },
+            },
         },
         MuiFormControlLabel: {
             label: {
                 ...FONT_REGULER,
-                "text-transform": "capitalize"
+                'text-transform': 'capitalize',
             },
             root: {
-                marginBottom: -15
-            }
+                marginBottom: -15,
+            },
         },
         MuiDrawer: {
             paperAnchorRight: {
-                background: "transparent",
-                boxShadow: "none"
-            }
+                background: 'transparent',
+                boxShadow: 'none',
+            },
         },
         MuiIcon: {
             root: {
-                color: PRIMARY
-            }
+                color: PRIMARY,
+            },
         },
-        MuiButton : {
-           root : {
-            borderRadius : 100,
-           },
+        MuiButton: {
+            root: {
+                borderRadius: 100,
+            },
         },
-    }
+    },
 });
 
 export default theme;

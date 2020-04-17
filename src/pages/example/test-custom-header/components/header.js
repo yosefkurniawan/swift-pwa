@@ -1,9 +1,9 @@
-import Header from "@components/Header";
-import useStyles from "../style";
-import Typography from "@components/Typography";
-import { useRouter } from "next/router";
-import { Button } from "@material-ui/core";
-import { Close as CloseIcon } from "@material-ui/icons";
+import Header from '@components/Header';
+import Typography from '@components/Typography';
+import { useRouter } from 'next/router';
+import { Button } from '@material-ui/core';
+import { Close as CloseIcon } from '@material-ui/icons';
+import useStyles from '../style';
 
 const HeaderLeftComponent = () => {
     const styles = useStyles();
@@ -18,24 +18,17 @@ const HeaderLeftComponent = () => {
     );
 };
 
-const HeaderCenterComponent = ({ title }) => {
+const HeaderCenterComponent = () => (
+    <Typography variant="title" type="bold" letter="uppercase">
+        Custom Header
+    </Typography>
+);
 
-    return (
-        <Typography variant="title" type="bold" letter="uppercase">
-            Custom Header
-        </Typography>
-    );
-};
-
-const CustomHeader = ({ pageConfig }) => {
-    const styles = useStyles();
-
-    return (
-        <Header
-            LeftComponent={<HeaderLeftComponent />}
-            CenterComponent={<HeaderCenterComponent />}
-        />
-    );
-};
+const CustomHeader = () => (
+    <Header
+        LeftComponent={<HeaderLeftComponent />}
+        CenterComponent={<HeaderCenterComponent />}
+    />
+);
 
 export default CustomHeader;
