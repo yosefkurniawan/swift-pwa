@@ -18,4 +18,8 @@ const Page = (props) => {
     );
 };
 
+Page.getInitialProps = async () => ({
+    namespacesRequired: ['common', 'cart'],
+});
+
 export default withTranslation()(Page);
