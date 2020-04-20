@@ -14,4 +14,8 @@ const Page = ({ t }) => {
     );
 };
 
+Page.getInitialProps = async () => ({
+    namespacesRequired: ['common', 'example'],
+});
+
 export default withTranslation()(Page);
