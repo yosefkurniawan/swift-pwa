@@ -2,7 +2,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { PRIMARY, GRAY_PRIMARY } from '@theme/colors';
 import { CreateMargin, CreatePadding } from '@theme/mixins';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
+    container: {
+        [theme.breakpoints.up('sm')]: {
+            maxWidht: 900,
+        },
+        width: ' 100%',
+    },
     colorPrimary: {
         color: PRIMARY,
     },
@@ -81,6 +87,10 @@ const useStyles = makeStyles(() => ({
     },
     addBtn: {
         ...CreateMargin(30, 0, 30, 0),
+    },
+    boxMap: {
+        ...CreateMargin(30, 0, 60, 0),
+        height: 'auto',
     },
 }));
 

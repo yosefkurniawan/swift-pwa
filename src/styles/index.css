@@ -59,6 +59,10 @@ a {
   justify-content: space-around;
 }
 
+.relative {
+  position: relative;
+}
+
 @media (max-width: 500px) {
   main {
     max-width: 100vw;

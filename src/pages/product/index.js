@@ -1,5 +1,8 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
+import { withApollo } from '@lib/apollo';
+import { withRedux } from '@lib/redux';
+import { compose } from 'redux';
 import Content from './components';
 import CustomHeader from './components/header';
 
@@ -27,4 +30,4 @@ Page.getInitialProps = async ({ req }) => ({
         }${window.location.port ? `:${window.location.port}` : ''}`,
 });
 
-export default withTranslation()(Page);
+export default compose(withApollo({ ssr: true }), withRedux)(withTranslation()(Page));

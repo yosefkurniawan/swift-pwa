@@ -1,26 +1,19 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable import/prefer-default-export */
+import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import reduxLogger from 'redux-logger';
-import {
-    exampleReducer,
-    initExampleState,
-} from '@pages/example/test-apollo-redux/redux/reducers';
+
+import reducers from './reducers';
 
 const initialStates = {
-    ...initExampleState,
     // put another initial states here
 };
 
-const reducers = combineReducers({
-    exampleReducer,
-    // put another reducers here
-});
-
 const middlewares = applyMiddleware(reduxLogger);
 
-// eslint-disable-next-line import/prefer-default-export
-export const initializeStore = (preloadedState = initialStates) => createStore(
-    reducers,
+export const initializeStore = (preloadedState = initialStates, customReducer = reducers) => createStore(
+    customReducer,
     preloadedState,
     composeWithDevTools(middlewares),
 );

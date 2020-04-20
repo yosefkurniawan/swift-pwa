@@ -1,16 +1,19 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-unused-expressions */
-import React, { useState, useEffect } from 'react';
-import TextField from '@components/Forms/TextField';
-import Typography from '@components/Typography';
-import IcubeMaps from '@components/GoogleMaps/Maps';
+/* eslint-disable consistent-return */
 import Button from '@components/Button';
+import TextField from '@components/Forms/TextField';
+import IcubeMaps from '@components/GoogleMaps/Maps';
 import Header from '@components/Header';
-import { Box, Dialog } from '@material-ui/core';
+import Typography from '@components/Typography';
+import Select from '@components/Forms/Select';
 import { regexPhone } from '@helpers/regex';
+import {
+    Box, Dialog, FormControlLabel, Checkbox,
+} from '@material-ui/core';
 import { useFormik } from 'formik';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import useStyles from './style';
+import { getCountries } from '../services/graphql';
 
 const AddAddressDialog = (props) => {
     const {
@@ -21,7 +24,6 @@ const AddAddressDialog = (props) => {
         country = '',
         state = '',
         city = '',
-        district = '',
         phoneNumber = '',
         maps = '',
         open,
@@ -39,8 +41,6 @@ const AddAddressDialog = (props) => {
         lat: -6.197361,
         lng: 106.774535,
     });
-
-    const [location, setLocation] = useState(null);
 
     const displayLocationInfo = (position) => {
         const lng = position.coords.longitude;
@@ -72,7 +72,6 @@ const AddAddressDialog = (props) => {
         country: Yup.string().required(t('validate:country:required')),
         state: Yup.string().required(t('validate:state:required')),
         city: Yup.string().required(t('validate:city:required')),
-        district: Yup.string().required(t('validate:district:required')),
     });
 
     const formik = useFormik({
@@ -84,9 +83,10 @@ const AddAddressDialog = (props) => {
             country: country || '',
             state: state || '',
             city: city || '',
-            district: district || '',
             posCode: posCode || '',
             maps: maps || '',
+            defaultBilling: false,
+            defaultShipping: false,
         },
         validationSchema: AddressSchema,
         onSubmit: () => {
@@ -94,51 +94,18 @@ const AddAddressDialog = (props) => {
         },
     });
 
-    const handlePin = () => {
-        if (location) {
-            location[0].address_components
-                // eslint-disable-next-line array-callback-return
-                && location[0].address_components.map((item) => {
-                    item.types.length > 0 && item.types[0] === 'country'
-                        ? formik.setFieldValue('country', item.long_name || '')
-                        : item.types[0] === 'postal_code'
-                            ? formik.setFieldValue('posCode', item.long_name || '')
-                            : item.types[0] === 'administrative_area_level_1'
-                                ? formik.setFieldValue('state', item.long_name || '')
-                                : item.types[0] === 'administrative_area_level_2'
-                                    ? formik.setFieldValue('city', item.long_name || '')
-                                    : item.types[0] === 'administrative_area_level_3'
-                          && formik.setFieldValue(
-                              'district',
-                              item.long_name || '',
-                          );
-                });
-            location[0].formatted_address
-                && formik.setFieldValue('street', location[0].formatted_address);
-            location[0].formatted_phone_number
-                && formik.setFieldValue(
-                    'phoneNumber',
-                    location[0].formatted_phone_number,
-                );
-        }
-    };
-
-    // eslint-disable-next-line consistent-return
     useEffect(() => {
         if (navigator.geolocation) {
-            return navigator.geolocation.getCurrentPosition(
-                displayLocationInfo,
-            );
+            return navigator.geolocation.getCurrentPosition(displayLocationInfo);
         }
     }, []);
-
     return (
         <Dialog
             fullScreen
             open={open}
             className={[styles.address_drawer].join(' ')}
         >
-            <div style={{ width: '100%' }}>
+            <div className={styles.container}>
                 <Header
                     pageConfig={headerConfig}
                     LeftComponent={{
@@ -152,14 +119,9 @@ const AddAddressDialog = (props) => {
                             name="firstName"
                             value={formik.values.firstName}
                             onChange={formik.handleChange}
-                            error={
-                                !!(formik.touched.firstName
-                                && formik.errors.firstName)
-                            }
+                            error={!!(formik.touched.firstName && formik.errors.firstName)}
                             errorMessage={
-                                (formik.touched.firstName
-                                    && formik.errors.firstName)
-                                || null
+                                (formik.touched.firstName && formik.errors.firstName) || null
                             }
                         />
                         <TextField
@@ -167,14 +129,9 @@ const AddAddressDialog = (props) => {
                             name="lastName"
                             value={formik.values.lastName}
                             onChange={formik.handleChange}
-                            error={
-                                !!(formik.touched.lastName
-                                && formik.errors.lastName)
-                            }
+                            error={!!(formik.touched.lastName && formik.errors.lastName)}
                             errorMessage={
-                                (formik.touched.lastName
-                                    && formik.errors.lastName)
-                                || null
+                                (formik.touched.lastName && formik.errors.lastName) || null
                             }
                         />
                         <TextField
@@ -182,27 +139,22 @@ const AddAddressDialog = (props) => {
                             name="street"
                             value={formik.values.street}
                             onChange={formik.handleChange}
-                            error={
-                                !!(formik.touched.street && formik.errors.street)
-                            }
+                            error={!!(formik.touched.street && formik.errors.street)}
                             errorMessage={
-                                (formik.touched.street
-                                    && formik.errors.street)
-                                || null
+                                (formik.touched.street && formik.errors.street) || null
                             }
                         />
-                        <TextField
+                        <Select
                             label="Country"
                             name="country"
-                            value={formik.values.country}
-                            onChange={formik.handleChange}
-                            error={
-                                !!(formik.touched.country && formik.errors.country)
-                            }
+                            graphql={getCountries}
+                            initialOption={{
+                                value: 'id',
+                                label: 'full_name_locale',
+                            }}
+                            error={!!(formik.touched.country && formik.errors.country)}
                             errorMessage={
-                                (formik.touched.country
-                                    && formik.errors.country)
-                                || null
+                                (formik.touched.country && formik.errors.country) || null
                             }
                         />
                         <TextField
@@ -210,12 +162,9 @@ const AddAddressDialog = (props) => {
                             name="state"
                             value={formik.values.state}
                             onChange={formik.handleChange}
-                            error={
-                                !!(formik.touched.state && formik.errors.state)
-                            }
+                            error={!!(formik.touched.state && formik.errors.state)}
                             errorMessage={
-                                (formik.touched.state && formik.errors.state)
-                                || null
+                                (formik.touched.state && formik.errors.state) || null
                             }
                         />
                         <TextField
@@ -223,41 +172,17 @@ const AddAddressDialog = (props) => {
                             name="city"
                             value={formik.values.city}
                             onChange={formik.handleChange}
-                            error={
-                                !!(formik.touched.city && formik.errors.city)
-                            }
-                            errorMessage={
-                                (formik.touched.city && formik.errors.city)
-                                || null
-                            }
-                        />
-                        <TextField
-                            label="District/Kecamatan"
-                            name="district"
-                            value={formik.values.district}
-                            onChange={formik.handleChange}
-                            error={
-                                !!(formik.touched.district
-                                && formik.errors.district)
-                            }
-                            errorMessage={
-                                (formik.touched.district
-                                    && formik.errors.district)
-                                || null
-                            }
+                            error={!!(formik.touched.city && formik.errors.city)}
+                            errorMessage={(formik.touched.city && formik.errors.city) || null}
                         />
                         <TextField
                             label="Postal Code"
                             name="posCode"
                             value={formik.values.posCode}
                             onChange={formik.handleChange}
-                            error={
-                                !!(formik.touched.posCode && formik.errors.posCode)
-                            }
+                            error={!!(formik.touched.posCode && formik.errors.posCode)}
                             errorMessage={
-                                (formik.touched.posCode
-                                    && formik.errors.posCode)
-                                || null
+                                (formik.touched.posCode && formik.errors.posCode) || null
                             }
                         />
                         <TextField
@@ -266,42 +191,46 @@ const AddAddressDialog = (props) => {
                             value={formik.values.phoneNumber}
                             onChange={formik.handleChange}
                             error={
-                                !!(formik.touched.phoneNumber
-                                && formik.errors.phoneNumber)
+                                !!(formik.touched.phoneNumber && formik.errors.phoneNumber)
                             }
                             errorMessage={
-                                (formik.touched.phoneNumber
-                                    && formik.errors.phoneNumber)
-                                || null
+                                (formik.touched.phoneNumber && formik.errors.phoneNumber) || null
                             }
                         />
-                        <Box style={{ width: '100%', height: '230px' }}>
+                        <Box className={styles.boxMap}>
                             <IcubeMaps
                                 height="230px"
                                 mapPosition={mapPosition}
                                 dragMarkerDone={handleDragPosition}
-                                getLocation={setLocation}
                             />
                         </Box>
-                        <Button
-                            className={styles.addBtn}
-                            onClick={handlePin}
-                            variant="outlined"
-                            size="small"
-                        >
-                            pin location
-                        </Button>
 
-                        <Button
-                            className={styles.addBtn}
-                            fullWidth
-                            type="submit"
-                        >
-                            <Typography
-                                variant="title"
-                                type="regular"
-                                letter="capitalize"
-                            >
+                        <FormControlLabel
+                            value={formik.values.defaultBilling}
+                            onChange={formik.handleChange}
+                            name="defaultBilling"
+                            control={<Checkbox name="newslater" color="primary" size="small" />}
+                            label={(
+                                <Typography variant="p" letter="capitalize" className="row center">
+                                    {t('customer:address:useBilling')}
+                                </Typography>
+                            )}
+                        />
+
+                        <FormControlLabel
+                            value={formik.values.defaultShipping}
+                            onChange={formik.handleChange}
+                            name="defaultShipping"
+                            control={<Checkbox name="newslater" color="primary" size="small" />}
+                            label={(
+                                <Typography variant="p" letter="capitalize" className="row center">
+                                    {t('customer:address:useShipping')}
+                                </Typography>
+                            )}
+                        />
+
+                        <Button className={styles.addBtn} fullWidth type="submit">
+                            <Typography variant="title" type="regular" letter="capitalize">
                                 {t('common:button:save')}
                             </Typography>
                         </Button>
