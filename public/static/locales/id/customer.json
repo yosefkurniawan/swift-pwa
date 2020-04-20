@@ -7,10 +7,6 @@
     "title": "Daftar",
     "button": "Buat Akun"
   },
-  "address": {
-    "pageTitle": "Simpan Alamat",
-    "title": "Buat Alamat Baru"
-  },
   "login": {
     "pageTitle": "Masuk",
     "forgotPassword": "Lupa Password",
@@ -53,6 +49,8 @@
   "address" : {
     "pageTitle" : "Daftar alamat",
     "addTitle" : "Tambah alamat baru",
-    "editTitle" : "Ubah alamat"
+    "editTitle" : "Ubah alamat",
+    "useBilling" : "gunakan sebagai alamat default pembayaran",
+    "useShipping" : "gunakan sebagai alamat default pengiriman"
   }
 }

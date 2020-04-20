@@ -1,14 +1,12 @@
+import React from 'react';
 import Typography from '@components/Typography';
-// eslint-disable-next-line import/no-unresolved
+
 const currencyFormatter = require('currency-formatter');
 
 const dummyCode = 'IDR';
 
 export default ({
-    value = 0,
-    code = dummyCode,
-    defaultSet = false,
-    ...other
+    value = 0, code = dummyCode, defaultSet = false, ...other
 }) => {
     let format = {
         code,

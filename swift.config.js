@@ -7,7 +7,7 @@ export const BASE_URL = 'https://swiftpwa-be.testingnow.me/';
 
 /* Magento GraphQL Endpoint */
 export const graphqlEndpoint = {
-    dev: 'https://swiftpwa-be.testingnow.me/graphql',
+    dev: 'http://lottemart.testingnow.me/graphql',
     prod: 'https://swiftpwa-be.testingnow.me/graphql',
 };
 

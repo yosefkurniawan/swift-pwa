@@ -49,6 +49,8 @@
   "address" : {
     "pageTitle" : "Address Book",
     "addTitle" : "Add new address",
-    "editTitle" : "Edit address"
+    "editTitle" : "Edit address",
+    "useBilling" : "use as my default billing address",
+    "useShipping" : "use as my default shipping address"
   }
 }

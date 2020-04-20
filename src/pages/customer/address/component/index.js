@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 // Library
 import Button from '@components/Button';
 import { Box, RadioGroup } from '@material-ui/core';
@@ -10,8 +11,7 @@ import useStyles from './style';
 // Main Render Page
 const Content = (props) => {
     const styles = useStyles();
-    // eslint-disable-next-line no-unused-vars
-    const [address, setAddress] = useState([
+    const [address] = useState([
         {
             firstname: 'John',
             lastname: 'Doe',
@@ -26,10 +26,9 @@ const Content = (props) => {
             telephone: '512 555-1212',
         },
     ]);
-    const [drawer, setDrawer] = useState(false);
+    const [drawer, setDrawer] = useState(true);
 
-    // eslint-disable-next-line no-unused-vars
-    const [mapPosition, setMapPosition] = useState({
+    const [, setMapPosition] = useState({
         lat: -6.197361,
         lng: 106.774535,
     });
@@ -47,7 +46,6 @@ const Content = (props) => {
         setDrawer(!drawer);
     };
 
-    // eslint-disable-next-line consistent-return
     useEffect(() => {
         if (navigator.geolocation) {
             return navigator.geolocation.getCurrentPosition(displayLocationInfo);

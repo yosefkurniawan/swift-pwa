@@ -82,6 +82,10 @@ const useStyles = makeStyles(() => ({
     addBtn: {
         ...CreateMargin(30, 0, 30, 0),
     },
+    boxMap: {
+        ...CreateMargin(30, 0, 60, 0),
+        height: 'auto',
+    },
 }));
 
 export default useStyles;

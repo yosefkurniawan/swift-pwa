@@ -1,5 +1,6 @@
-/* eslint-disable no-use-before-define */
 /* eslint-disable import/prefer-default-export */
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-param-reassign */
 import React from 'react';
 import { Provider } from 'react-redux';
 import { initializeStore } from '@stores/store';

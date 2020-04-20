@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
@@ -5,8 +6,8 @@ import fetch from 'isomorphic-unfetch';
 import { graphqlEndpoint } from '@root/swift.config.js';
 
 const uri = process.env.NODE_ENV === 'production'
-    ? graphqlEndpoint.dev
-    : graphqlEndpoint.prod;
+    ? graphqlEndpoint.prod
+    : graphqlEndpoint.dev;
 
 export default function createApolloClient(initialState, ctx) {
     // The `ctx` (NextPageContext) will only be present on the server.
