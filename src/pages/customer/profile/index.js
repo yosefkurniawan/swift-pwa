@@ -17,4 +17,8 @@ const Page = (props) => {
     );
 };
 
+Page.getInitialProps = async () => ({
+    namespacesRequired: ['common', 'customer', 'validate'],
+});
+
 export default withTranslation()(Page);

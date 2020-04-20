@@ -18,4 +18,8 @@ const Page = (props) => {
     );
 };
 
+Page.getInitialProps = async () => ({
+    namespacesRequired: ['common', 'search'],
+});
+
 export default withTranslation()(Page);
