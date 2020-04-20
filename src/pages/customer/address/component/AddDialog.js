@@ -99,17 +99,13 @@ const AddAddressDialog = (props) => {
             return navigator.geolocation.getCurrentPosition(displayLocationInfo);
         }
     }, []);
-    let dataCountry = [];
-    const { loading, data, error } = getCountries();
-    if (error) console.log(error);
-    if (data) dataCountry = data.countries;
     return (
         <Dialog
             fullScreen
             open={open}
             className={[styles.address_drawer].join(' ')}
         >
-            <div style={{ width: '100%' }}>
+            <div className={styles.container}>
                 <Header
                     pageConfig={headerConfig}
                     LeftComponent={{
@@ -151,8 +147,6 @@ const AddAddressDialog = (props) => {
                         <Select
                             label="Country"
                             name="country"
-                            loading={loading}
-                            data={dataCountry}
                             graphql={getCountries}
                             initialOption={{
                                 value: 'id',

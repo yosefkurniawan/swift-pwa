@@ -4,14 +4,24 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { initializeStore } from '@stores/store';
+import reducers from '@stores/reducers';
+import { persistStore, persistReducer } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
+import storage from 'redux-persist/lib/storage';
+import Loading from '@material-ui/core/LinearProgress';
 import App from 'next/app';
 
-export const withRedux = (PageComponent, { ssr = true } = {}) => {
+export const withRedux = (PageComponent, { ssr = true, LoadComponent = Loading } = {}) => {
     const WithRedux = ({ initialReduxState, ...props }) => {
         const store = getOrInitializeStore(initialReduxState);
         return (
             <Provider store={store}>
-                <PageComponent {...props} />
+                <PersistGate
+                    loading={<LoadComponent {...props} />}
+                    persistor={persistStore(store)}
+                >
+                    <PageComponent {...props} />
+                </PersistGate>
             </Provider>
         );
     };
@@ -57,6 +67,12 @@ export const withRedux = (PageComponent, { ssr = true } = {}) => {
     return WithRedux;
 };
 
+const persistConfig = {
+    key: 'nextjs',
+    whitelist: ['config'],
+    storage,
+};
+
 let reduxStore;
 const getOrInitializeStore = (initialState) => {
     // Always make a new store if server, otherwise state is shared between requests
@@ -66,7 +82,7 @@ const getOrInitializeStore = (initialState) => {
 
     // Create store if unavailable on the client and set it on the window object
     if (!reduxStore) {
-        reduxStore = initializeStore(initialState);
+        reduxStore = initializeStore(initialState, persistReducer(persistConfig, reducers));
     }
 
     return reduxStore;

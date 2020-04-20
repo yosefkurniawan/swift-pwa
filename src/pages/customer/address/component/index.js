@@ -26,7 +26,7 @@ const Content = (props) => {
             telephone: '512 555-1212',
         },
     ]);
-    const [drawer, setDrawer] = useState(true);
+    const [drawer, setDrawer] = useState(false);
 
     const [, setMapPosition] = useState({
         lat: -6.197361,

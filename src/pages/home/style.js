@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { GRAY_PRIMARY, WHITE } from '@theme/colors';
-import { CreateMargin, CreatePadding } from '@theme/mixins';
+import { CreateMargin, CreatePadding, CenterAbsolute } from '@theme/mixins';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -35,11 +35,19 @@ const useStyles = makeStyles((theme) => ({
     logo: {
         position: 'absolute',
         zIndex: 99,
+        ...CenterAbsolute,
     },
     titleLogo: {
         fontWeight: 'bold',
         fontFamily: 'Playfair Display',
         color: WHITE,
+    },
+    imgLogo: {
+        ...CreateMargin(15),
+        [theme.breakpoints.down('sm')]: {
+            width: 100,
+            height: '100%',
+        },
     },
 }));
 

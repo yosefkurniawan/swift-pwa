@@ -1,5 +1,8 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
+import { withApollo } from '@lib/apollo';
+import { withRedux } from '@lib/redux';
+import { compose } from 'redux';
 import Content from './components';
 import CustomHeader from './components/header';
 
@@ -17,4 +20,14 @@ const Page = (props) => {
     );
 };
 
-export default withTranslation()(Page);
+Page.getInitialProps = async ({ req }) => ({
+    namespacesRequired: ['common', 'product'],
+    url: req
+        ? `${req.protocol}://${req.get('host')}`
+        : `${window.location.protocol
+        }//${
+            window.location.hostname
+        }${window.location.port ? `:${window.location.port}` : ''}`,
+});
+
+export default compose(withApollo({ ssr: true }), withRedux)(withTranslation()(Page));
