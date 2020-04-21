@@ -1,11 +1,13 @@
 import Error from 'next/error';
 import { getResolver } from '../services/graphql';
+import Category from '../pages/category';
+import Product from '../pages/product';
 
-const generateContent = (resolver) => {
+const generateContent = (slug, resolver) => {
     if (resolver.type === 'CATEGORY') {
-        return <div>ini halaman category</div>;
+        return <Category slug={slug} />;
     } if (resolver.type === 'PRODUCT') {
-        return <div>ini halaman product</div>;
+        return <Product slug={slug} />;
     }
     return <Error statusCode={404} />;
 };
@@ -23,7 +25,7 @@ const Content = ({ slug }) => {
         return <span />;
     }
 
-    return generateContent(data.urlResolver ? data.urlResolver : {});
+    return generateContent(slug, data.urlResolver ? data.urlResolver : {});
 };
 
 export default Content;
