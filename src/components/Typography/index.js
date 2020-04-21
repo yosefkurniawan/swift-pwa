@@ -35,6 +35,7 @@ const getVariant = (variant) => {
 };
 
 const CustomTypography = ({
+    size = '10',
     variant = 'span',
     type = 'regular',
     className = {},
@@ -54,6 +55,7 @@ const CustomTypography = ({
         styles[align],
         styles[decoration],
         styles[color],
+        styles[`size${size}`],
         className,
     );
     const variantType = getVariant(variant);
@@ -78,19 +80,21 @@ CustomTypography.propTypes = {
         'label',
     ]),
     type: PropTypes.oneOf(['bold', 'italic', 'semiBold', 'regular']),
-    letter: PropTypes.oneOf(['uppercase', 'capitalize', 'lowercase']),
+    letter: PropTypes.oneOf(['uppercase', 'capitalize', 'lowercase', 'none']),
     align: PropTypes.oneOf(['top', 'bottom', 'center', 'left']),
-    decoration: PropTypes.oneOf(['underline']),
+    decoration: PropTypes.oneOf(['underline', 'none']),
     color: PropTypes.oneOf(['red', 'green', 'orange', 'default']),
+    size: PropTypes.oneOf(['10', '12', '14', '16', '0']),
 };
 
 CustomTypography.defaultProps = {
     variant: 'span',
     type: 'regular',
     align: 'left',
-    letter: '',
-    decoration: '',
-    color: '',
+    letter: 'none',
+    decoration: 'none',
+    color: 'default',
+    size: '0',
 };
 
 export default CustomTypography;

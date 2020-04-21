@@ -2,10 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 import useStyles from './style';
 
-const ImageSlide = ({ src = '', link = '#', height = '100%' }) => {
+const ImageSlide = ({ url = '', link = '#', height = '100%' }) => {
     const styles = useStyles();
     const bgImg = {
-        backgroundImage: `url(${src})`,
+        backgroundImage: `url(${url})`,
         height,
         backgroundPosition: 'center',
         backgroundRepeat: 'repeat',

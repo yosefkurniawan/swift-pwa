@@ -1,5 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { FONT_12, FONT_24 } from '@theme/typography';
+import {
+    FONT_12, FONT_24, FONT_10, FONT_14, FONT_16,
+} from '@theme/typography';
 import {
     PRIMARY, RED, GREEN, ORANGE,
 } from '@theme/colors';
@@ -75,6 +77,18 @@ const useStyles = makeStyles(() => ({
     },
     underline: {
         textDecoration: 'underline',
+    },
+    size10: {
+        ...FONT_10,
+    },
+    size12: {
+        ...FONT_12,
+    },
+    size14: {
+        ...FONT_14,
+    },
+    size16: {
+        ...FONT_16,
     },
 }));
 

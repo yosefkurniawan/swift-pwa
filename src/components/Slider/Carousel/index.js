@@ -5,7 +5,9 @@ import classNames from 'classnames';
 import Item from './Item';
 import useStyles from './style';
 
-const Caraousel = ({ data = [1, 2, 3], title = '', className = '' }) => {
+const Caraousel = ({
+    data = [1, 2, 3], title = '', className = '', storeConfig, initial,
+}) => {
     const styles = useStyles();
     const [index, setIndex] = useState(parseInt(data.length / 2, 10));
     return (
@@ -29,7 +31,13 @@ const Caraousel = ({ data = [1, 2, 3], title = '', className = '' }) => {
                 enableMouseEvents
             >
                 {data.map((item, y) => (
-                    <Item {...item} key={y} />
+                    <Item
+                        key={y}
+                        storeConfig={storeConfig}
+                        initial={initial}
+                        item={item}
+
+                    />
                 ))}
             </SwipeableViews>
         </div>

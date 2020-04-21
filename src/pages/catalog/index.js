@@ -10,9 +10,15 @@ const CatalogPage = (props) => (
  * get slug from query
  * namespacesRequired empty because Catalog page using product and category so only on component
 */
-CatalogPage.getInitialProps = async ({ query }) => ({
+CatalogPage.getInitialProps = async ({ query, req }) => ({
     slug: query.slug,
-    namespacesRequired: [],
+    namespacesRequired: ['common', 'product', 'category'],
+    url: req
+        ? `${req.protocol}://${req.get('host')}`
+        : `${window.location.protocol
+        }//${
+            window.location.hostname
+        }${window.location.port ? `:${window.location.port}` : ''}`,
 });
 
 
