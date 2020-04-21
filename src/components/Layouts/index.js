@@ -2,20 +2,22 @@ import React from 'react';
 import Navigation from '@components/Navigation';
 import Header from '@components/Header';
 import Head from 'next/head';
-import { withRedux } from '@lib/redux';
-import { compose } from 'redux';
-import { useSelector } from 'react-redux';
 // Layout params:
 // - pageConfig
 // - CustomHeader (optional)
 const Layout = (props) => {
-    const { pageConfig, children, CustomHeader } = props;
-    const storeConfig = useSelector((state) => state.config.storeConfig);
+    const {
+        pageConfig, children, CustomHeader,
+    } = props;
     return (
         <>
-            <Head>
-                <title>{pageConfig.title || (storeConfig.default_title && storeConfig.default_title)}</title>
-            </Head>
+            {pageConfig.title && (
+                <Head>
+                    <title>
+                        {pageConfig.title}
+                    </title>
+                </Head>
+            )}
 
             {React.isValidElement(CustomHeader) ? (
                 <>{React.cloneElement(CustomHeader, { pageConfig })}</>
@@ -23,9 +25,7 @@ const Layout = (props) => {
                 <Header pageConfig={pageConfig} />
             )}
 
-            <main>
-                {children}
-            </main>
+            <main>{children}</main>
             <footer>
                 <Navigation active={pageConfig.bottomNav} />
             </footer>
@@ -33,4 +33,4 @@ const Layout = (props) => {
     );
 };
 
-export default compose(withRedux)(Layout);
+export default Layout;

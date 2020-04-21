@@ -78,9 +78,9 @@ CustomTypography.propTypes = {
         'label',
     ]),
     type: PropTypes.oneOf(['bold', 'italic', 'semiBold', 'regular']),
-    letter: PropTypes.oneOf(['uppercase', 'capitalize', 'lowercase']),
+    letter: PropTypes.oneOf(['uppercase', 'capitalize', 'lowercase', 'none']),
     align: PropTypes.oneOf(['top', 'bottom', 'center', 'left']),
-    decoration: PropTypes.oneOf(['underline']),
+    decoration: PropTypes.oneOf(['underline', 'none']),
     color: PropTypes.oneOf(['red', 'green', 'orange', 'default']),
 };
 
@@ -88,9 +88,9 @@ CustomTypography.defaultProps = {
     variant: 'span',
     type: 'regular',
     align: 'left',
-    letter: '',
-    decoration: '',
-    color: '',
+    letter: 'none',
+    decoration: 'none',
+    color: 'default',
 };
 
 export default CustomTypography;

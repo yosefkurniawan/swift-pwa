@@ -5,7 +5,7 @@ import useStyles from './style';
 
 const dummyProductUrlKey = 'product-123';
 
-const Item = () => {
+const Item = ({ storeConfig }) => {
     const styles = useStyles();
 
     return (
@@ -21,7 +21,7 @@ const Item = () => {
                         <Typography variant="span">Product Name</Typography>
                     </a>
                 </Link>
-                <PriceFormat value={99000} />
+                <PriceFormat value={99000} storeConfig={storeConfig} />
             </div>
         </div>
     );

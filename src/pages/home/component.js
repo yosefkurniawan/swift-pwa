@@ -2,7 +2,6 @@ import Banner from '@components/Slider/Banner';
 import Carousel from '@components/Slider/Carousel';
 import Span from '@components/Span';
 import SpanProduct from '@components/SpanProduct';
-import { useSelector } from 'react-redux';
 import useStyles from './style';
 
 const banner = [
@@ -23,9 +22,9 @@ const banner = [
 
 const carouselData = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const HomePage = () => {
+const HomePage = (props) => {
     const styles = useStyles();
-    const storeConfig = useSelector((state) => state.config.storeConfig);
+    const { storeConfig } = props;
     const logoUrl = `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`;
     return (
         <div className={styles.container}>
@@ -36,19 +35,19 @@ const HomePage = () => {
                 <Banner data={banner} height="95vh" />
             </div>
             <div className={styles.slider}>
-                <Carousel data={carouselData} />
+                <Carousel data={carouselData} storeConfig={storeConfig} />
             </div>
             <Span>
                 <img src="assets/img/noun_Image.svg" alt="label" />
             </Span>
             <div className={styles.slider}>
-                <Carousel data={carouselData} />
+                <Carousel data={carouselData} storeConfig={storeConfig} />
             </div>
             <div className={styles.slider}>
-                <SpanProduct />
+                <SpanProduct storeConfig={storeConfig} />
             </div>
             <div className={styles.slider}>
-                <SpanProduct />
+                <SpanProduct storeConfig={storeConfig} />
             </div>
         </div>
     );
