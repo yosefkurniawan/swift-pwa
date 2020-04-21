@@ -47,11 +47,11 @@ class MyApp extends App {
         if (!storeCokie) {
             Cookie.set(storConfigNameCokie, pageProps.storeConfig, { path: '', expires: expiredCokies });
         }
-
+        const title = (pageProps.storeConfig && pageProps.storeConfig.default_title) ? pageProps.storeConfig.default_title : 'Icube Swift PWA';
         return (
             <>
                 <Head>
-                    <title>{ pageProps.storeConfig.default_title || 'Icube Swift PWA' }</title>
+                    <title>{ title }</title>
                     <meta
                         name="viewport"
                         content="minimum-scale=1, initial-scale=1, width=device-width"

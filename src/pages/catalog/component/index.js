@@ -3,16 +3,17 @@ import { getResolver } from '../services/graphql';
 import Category from '../pages/category';
 import Product from '../pages/product';
 
-const generateContent = (slug, resolver) => {
+const generateContent = (props, resolver) => {
     if (resolver.type === 'CATEGORY') {
-        return <Category slug={slug} />;
+        return <Category {...props} />;
     } if (resolver.type === 'PRODUCT') {
-        return <Product slug={slug} />;
+        return <Product {...props} />;
     }
     return <Error statusCode={404} />;
 };
 
-const Content = ({ slug }) => {
+const Content = (props) => {
+    const { slug } = props;
     let url = '';
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < slug.length; index++) {
@@ -25,7 +26,7 @@ const Content = ({ slug }) => {
         return <span />;
     }
 
-    return generateContent(slug, data.urlResolver ? data.urlResolver : {});
+    return generateContent(props, data.urlResolver ? data.urlResolver : {});
 };
 
 export default Content;

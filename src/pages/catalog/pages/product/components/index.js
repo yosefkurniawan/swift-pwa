@@ -8,6 +8,7 @@ import { Favorite, FavoriteBorderOutlined, ShareOutlined } from '@material-ui/ic
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import React from 'react';
+import HtmlParser from 'react-html-parser';
 import useStyles from '../style';
 import AddReviewDialog from './AddReviewDialog';
 import CustomerReview from './CustomerReview';
@@ -17,28 +18,11 @@ import RatingStar from './RatingStar';
 import RightDrawer from './RightDrawer';
 import SharePopup from './SharePopup';
 
-const data = [
-    {
-        img: '/assets/img/sample/product.png',
-        link: '#',
-    },
-    {
-        img: '/assets/img/sample/product.png',
-        link: '#',
-    },
-    {
-        img: '/assets/img/sample/product.png',
-        link: '#',
-    },
-];
-
-const lorem = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-enim ad minim veniam, quis nostrud exercitation ullamco laboris
-nisi ut aliquip ex ea commodo consequat.`;
 
 const ProductPage = (props) => {
-    const { t, url } = props;
+    const {
+        t, url, data, storeConfig,
+    } = props;
     const styles = useStyles();
     const route = useRouter();
     const [openOption, setOpenOption] = React.useState(false);
@@ -77,7 +61,7 @@ const ProductPage = (props) => {
             />
             <Box className={styles.container}>
                 <div className={styles.headContainer}>
-                    <Banner data={data} height="70vh" />
+                    <Banner data={data.media_gallery} inital={{ url: 'url', link: '', alt: 'label' }} height="70vh" />
                     <RightDrawer
                         open={openDrawer}
                         setOpen={() => setOpenDrawer(!openDrawer)}
@@ -92,7 +76,7 @@ const ProductPage = (props) => {
                                 letter="capitalize"
                                 className="clear-margin-padding"
                             >
-                                Product Name
+                                { data.name }
                             </Typography>
                             <PriceFormat
                                 value={999000}
@@ -100,6 +84,7 @@ const ProductPage = (props) => {
                                 variant="span"
                                 letter="uppercase"
                                 className="clear-margin-padding"
+                                storeConfig={storeConfig}
                             />
                         </div>
                         <div className={styles.shareContainer}>
@@ -124,14 +109,14 @@ const ProductPage = (props) => {
                             </Typography>
                         </div>
                         <Typography variant="p" type="regular" letter="lowercase">
-                            3
+                            { data.color || 0 }
                             {' '}
                             {t('product:colorOption')}
                         </Typography>
                     </div>
                     <div className={styles.desc}>
-                        <Typography align="center" variant="p" type="regular">
-                            {lorem}
+                        <Typography variant="span" type="regular" size="10">
+                            {HtmlParser(data.description.html)}
                         </Typography>
                     </div>
                     <div>
@@ -184,7 +169,13 @@ const ProductPage = (props) => {
                     </div>
                 </div>
                 <div className={styles.carouselContainer}>
-                    <Caraousel data={data} title={t('product:recomendedTitle')} />
+                    <Caraousel
+                        data={data.related_products}
+                        initial={{
+                            name: 'name', price: '', url: 'url_key', thumbnail: 'thumbnail',
+                        }}
+                        title={t('product:recomendedTitle')}
+                    />
                 </div>
                 <div className={styles.footer}>
                     <Button

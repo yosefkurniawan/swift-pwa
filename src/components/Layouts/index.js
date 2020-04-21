@@ -11,7 +11,7 @@ const Layout = (props) => {
     } = props;
     return (
         <>
-            {pageConfig.title && (
+            {pageConfig.title && pageConfig.title !== '' && (
                 <Head>
                     <title>
                         {pageConfig.title}

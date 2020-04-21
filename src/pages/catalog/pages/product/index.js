@@ -1,33 +1,31 @@
 import Layout from '@components/Layouts';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { withTranslation } from '@i18n';
-import { withApollo } from '@lib/apollo';
-import { withRedux } from '@lib/redux';
-import { compose } from 'redux';
+import { getProduct } from './services/graphql';
 import Content from './components';
 import CustomHeader from './components/header';
 
+const Loading = () => (
+    <div className="full-center"><CircularProgress size="25rem" /></div>
+);
+
 const Page = (props) => {
-    const { t } = props;
+    let product = {};
+    const { slug } = props;
+    const { loading, data, error } = getProduct(slug[0]);
+    if (loading || !data) return <Loading />;
+    if (data) product = data.products;
+    if (error) return <Loading />;
     const pageConfig = {
-        title: t('example:testLayout:title'),
+        title: product.items[0].name || '',
         bottomNav: false,
         header: 'absolute', // available values: "absolute", "relative", false (default)
     };
     return (
         <Layout pageConfig={pageConfig} CustomHeader={<CustomHeader />}>
-            <Content {...props} />
+            <Content {...props} data={product.items[0]} />
         </Layout>
     );
 };
 
-Page.getInitialProps = async ({ req }) => ({
-    namespacesRequired: ['common', 'product'],
-    url: req
-        ? `${req.protocol}://${req.get('host')}`
-        : `${window.location.protocol
-        }//${
-            window.location.hostname
-        }${window.location.port ? `:${window.location.port}` : ''}`,
-});
-
-export default compose(withApollo({ ssr: true }), withRedux)(withTranslation()(Page));
+export default withTranslation()(Page);
