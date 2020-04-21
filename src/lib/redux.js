@@ -4,24 +4,14 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { initializeStore } from '@stores/store';
-import reducers from '@stores/reducers';
-import { persistStore, persistReducer } from 'redux-persist';
-import { PersistGate } from 'redux-persist/integration/react';
-import storage from 'redux-persist/lib/storage';
-import Loading from '@material-ui/core/LinearProgress';
 import App from 'next/app';
 
-export const withRedux = (PageComponent, { ssr = true, LoadComponent = Loading } = {}) => {
+export const withRedux = (PageComponent, { ssr = true } = {}) => {
     const WithRedux = ({ initialReduxState, ...props }) => {
         const store = getOrInitializeStore(initialReduxState);
         return (
             <Provider store={store}>
-                <PersistGate
-                    loading={<LoadComponent {...props} />}
-                    persistor={persistStore(store)}
-                >
-                    <PageComponent {...props} />
-                </PersistGate>
+                <PageComponent {...props} />
             </Provider>
         );
     };
@@ -48,7 +38,6 @@ export const withRedux = (PageComponent, { ssr = true, LoadComponent = Loading }
             const reduxStore = getOrInitializeStore();
 
             // Provide the store to getInitialProps of pages
-            // eslint-disable-next-line no-param-reassign
             context.reduxStore = reduxStore;
 
             // Run getInitialProps from HOCed PageComponent
@@ -67,12 +56,6 @@ export const withRedux = (PageComponent, { ssr = true, LoadComponent = Loading }
     return WithRedux;
 };
 
-const persistConfig = {
-    key: 'nextjs',
-    whitelist: ['config'],
-    storage,
-};
-
 let reduxStore;
 const getOrInitializeStore = (initialState) => {
     // Always make a new store if server, otherwise state is shared between requests
@@ -82,7 +65,7 @@ const getOrInitializeStore = (initialState) => {
 
     // Create store if unavailable on the client and set it on the window object
     if (!reduxStore) {
-        reduxStore = initializeStore(initialState, persistReducer(persistConfig, reducers));
+        reduxStore = initializeStore(initialState);
     }
 
     return reduxStore;

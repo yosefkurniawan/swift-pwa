@@ -41,3 +41,13 @@ export const languagesLabel = {
     id: 'Bahasa Indonesia',
     en: 'English',
 };
+
+export const defaultCurrencyCode = 'IDR';
+
+
+/* --------------------------------------- */
+/* LOCAD DATA CACHE & COKIES
+/* --------------------------------------- */
+
+export const expiredCokies = new Date(Date.now() + 60000);
+export const storConfigNameCokie = 'storeConfig';

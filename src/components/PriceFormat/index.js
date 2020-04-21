@@ -1,19 +1,14 @@
 import React from 'react';
 import Typography from '@components/Typography';
-import { withRedux } from '@lib/redux';
-import { compose } from 'redux';
-import { useSelector } from 'react-redux';
+import { defaultCurrencyCode } from '@config';
 
 const currencyFormatter = require('currency-formatter');
 
-const dummyCode = 'IDR';
-
 const PriceFormat = ({
-    value = 0, code = dummyCode, ...other
+    value = 0, code = defaultCurrencyCode, storeConfig, ...other
 }) => {
-    const storeConfig = useSelector((state) => state.config.storeConfig);
     const format = {
-        code: (storeConfig.base_currency_code) ? storeConfig.base_currency_code : code,
+        code: (storeConfig && storeConfig.base_currency_code) ? storeConfig.base_currency_code : code,
         decimal: ',',
         thousand: '.',
         precision: 0,
@@ -27,4 +22,4 @@ const PriceFormat = ({
     );
 };
 
-export default compose(withRedux)(PriceFormat);
+export default PriceFormat;
