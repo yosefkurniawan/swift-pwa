@@ -7,9 +7,8 @@ import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import useStyles from './style';
 
-const BannerSlider = (props) => {
+const BannerSlider = ({ storeConfig }) => {
     const styles = useStyles();
-    const { storeConfig } = props;
     const logoUrl = `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`;
 
     const getBannerSlider = gql`
@@ -106,9 +105,8 @@ const FeaturedProducts = () => {
     );
 };
 
-const HomePage = (props) => {
+const HomePage = ({ storeConfig }) => {
     const styles = useStyles();
-    const { storeConfig } = props;
 
     return (
         <div className={styles.container}>
