@@ -28,7 +28,7 @@ const ProductItem = ({
     return (
         <div className={styles.itemContainer}>
             <div className={styles.imgItem}>
-                <Link href="/product/[id]" as="/product/product-123">
+                <Link href="/[...slug]" as="/strive-shoulder-pack">
                     <a>
                         <img
                             src="/assets/img/sample/product.png"
@@ -40,7 +40,7 @@ const ProductItem = ({
             </div>
             <div className={styles.detailItem}>
                 <div className={styles.descItem}>
-                    <Link href="/product/[id]" as="/product/product-123">
+                    <Link href="/[...slug]" as="/strive-shoulder-pack">
                         <a>
                             <Typography
                                 variant="p"
