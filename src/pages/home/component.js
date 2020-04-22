@@ -10,7 +10,6 @@ import useStyles from './style';
 const BannerSlider = ({ storeConfig }) => {
     const styles = useStyles();
     const logoUrl = `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`;
-
     const getBannerSlider = gql`
         {
             getHomepageSlider {
@@ -110,7 +109,7 @@ const HomePage = ({ storeConfig }) => {
 
     return (
         <div className={styles.container}>
-            <BannerSlider />
+            <BannerSlider storeConfig={storeConfig} />
             <FeaturedProducts />
 
             <div className={styles.slider}>
