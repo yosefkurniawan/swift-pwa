@@ -1,5 +1,6 @@
 import { withTranslation } from '@i18n';
 import Layout from '@components/Layouts';
+import PropTypes from 'prop-types';
 import Component from './components';
 
 const Page = (props) => {
@@ -13,6 +14,10 @@ const Page = (props) => {
             <Component {...props} />
         </Layout>
     );
+};
+
+Page.propTypes = {
+    categoryId: PropTypes.number.isRequired,
 };
 
 Page.getInitialProps = async () => ({
