@@ -38,7 +38,7 @@ const BannerSlider = ({ storeConfig }) => {
     if (!data) return <p>Not found</p>;
 
     const bannerImages = data.getHomepageSlider.images.map((image) => ({
-        img: image.mobile_image_url || image.image_url,
+        url: image.mobile_image_url || image.image_url,
         link: '/',
     }));
     return (
@@ -69,6 +69,16 @@ const FeaturedProducts = () => {
                         image {
                             url
                         }
+                        thumbnail {
+                            url
+                        }
+                        price_range {
+                            minimum_price {
+                                regular_price {
+                                    value
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -90,6 +100,12 @@ const FeaturedProducts = () => {
     }
     if (!data) return <p>Not found</p>;
 
+    const products = data.categoryList[0].products.items.map((product) => ({
+        name: product.name,
+        link: product.url_key,
+        imageSrc: product.image.url,
+        price: product.price_range.minimum_price.regular_price.value,
+    }));
     return (
         <>
             {data.categoryList.image && (
@@ -98,10 +114,16 @@ const FeaturedProducts = () => {
                 </Span>
             )}
             <div className={styles.slider}>
-                <Carousel data={data.categoryList[0].products.items} />
+                <Carousel data={products} />
             </div>
         </>
     );
+};
+
+const CategoryList = () => {
+    const styles = useStyles();
+
+    return <div className={styles.slider}>CategoryList</div>;
 };
 
 const HomePage = ({ storeConfig }) => {
@@ -111,7 +133,7 @@ const HomePage = ({ storeConfig }) => {
         <div className={styles.container}>
             <BannerSlider storeConfig={storeConfig} />
             <FeaturedProducts />
-
+            <CategoryList />
             <div className={styles.slider}>
                 <SpanProduct storeConfig={storeConfig} />
             </div>
