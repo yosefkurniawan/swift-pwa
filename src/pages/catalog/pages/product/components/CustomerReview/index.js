@@ -1,17 +1,28 @@
+/* eslint-disable camelcase */
 import Typography from '@components/Typography';
 import moment from 'moment';
+import Avatar from 'react-avatar';
 import useStyles from './style';
 import RatingStar from '../RatingStar';
 
-const CustomerReview = () => {
+const CustomerReview = (props) => {
     const styles = useStyles();
-
+    const {
+        nickname, created_at, detail, ratings,
+    } = props;
+    const date = created_at || Date.now();
+    const valueRate = ratings && ratings.length > 0 && ratings[0].value ? ratings[0].value : 0;
     return (
         <div className={styles.container}>
             <div className={styles.header}>
                 <div className={styles.customerContainer}>
                     <div className={styles.imgContainer}>
-                        <img src="/assets/img/noun_Image.svg" alt="[name]" />
+                        <Avatar
+                            name={nickname || 'A'}
+                            className={styles.imgContainer}
+                            size={43}
+                            round
+                        />
                     </div>
                     <div className={styles.customerProfile}>
                         <Typography
@@ -20,7 +31,7 @@ const CustomerReview = () => {
                             letter="uppercase"
                             className="clear-margin-padding"
                         >
-                            Customer Name
+                            {nickname || 'Anonymouse' }
                         </Typography>
                         <Typography
                             type="regular"
@@ -28,21 +39,18 @@ const CustomerReview = () => {
                             letter="capitalize"
                             className="clear-margin-padding"
                         >
-                            {moment().format('DD/M/YYYY')}
+                            {moment(date).format('DD/M/YYYY')}
                         </Typography>
                     </div>
                 </div>
 
                 <div>
-                    <RatingStar value={4} />
+                    <RatingStar value={valueRate} />
                 </div>
             </div>
             <div className={styles.content}>
                 <Typography variant="p" type="regular" align="left">
-                    {`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-              minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat.`}
+                    { detail || '-' }
                 </Typography>
             </div>
         </div>

@@ -19,7 +19,7 @@ export default makeStyles((theme) => ({
     },
 
     btnOpen: {
-        width: 144,
+        width: 164,
         height: 33,
         ...Centering,
         borderRadius: '10px 10px 0px 0px',
@@ -27,7 +27,7 @@ export default makeStyles((theme) => ({
         transform: 'rotate(-90deg)',
         position: 'absolute',
         top: '35vh',
-        right: -55,
+        right: -65,
     },
     btnOpeActive: {
         right: 120,
@@ -48,13 +48,13 @@ export default makeStyles((theme) => ({
 
     btnOpenInDrawer: {
         backgroundColor: WHITE,
-        right: -56,
+        right: -66,
         height: 33,
         transform: 'rotate(-90deg)',
         borderRadius: '10px 10px 0px 0px',
         position: 'absolute',
         top: '35vh',
-        width: 144,
+        width: 164,
         ...Centering,
     },
 

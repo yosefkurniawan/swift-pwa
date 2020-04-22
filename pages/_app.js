@@ -13,6 +13,7 @@ import Cookie from 'js-cookie';
 import cookies from 'next-cookies';
 import { expiredCokies, storConfigNameCokie } from '@config';
 import '../src/styles/index.css';
+import '../src/styles/mage.css';
 
 class MyApp extends App {
     componentDidMount() {

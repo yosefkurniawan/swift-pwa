@@ -9,6 +9,16 @@ import { gql } from 'apollo-boost';
  */
 
 export const getProduct = (url) => {
+    const productDetail = `
+    name
+    sku
+    stock_status
+    url_key
+    thumbnail {
+      label
+      url
+    }
+    `;
     const query = gql`{
         products(
             search: "" ,filter: {
@@ -18,10 +28,7 @@ export const getProduct = (url) => {
             }
           ) {
             items {
-              name
-              sku
-              stock_status
-              url_key
+              ${productDetail}
               price_range {
                 minimum_price {
                   discount {
@@ -83,10 +90,6 @@ export const getProduct = (url) => {
               short_description {
                 html
               }
-              thumbnail {
-                label
-                url
-              }
               image {
                 label
                 url
@@ -112,29 +115,47 @@ export const getProduct = (url) => {
               special_to_date
               special_price
               special_to_date
-                    upsell_products {
-                id
-                name
-                thumbnail {
-                  url
-                }
+              upsell_products {
+                ${productDetail}
               }
               media_gallery {
                 label,
                 url
               }
               related_products {
-                id
-                name
-                thumbnail {
-                  url
-                }
-                url_key
+               ${productDetail}
               }
               
             }
             total_count
           }
     }`;
+    return query;
+};
+
+export const getReview = (params) => {
+    const { sku, pageSize, currentPage } = params;
+    const query = gql`
+  {
+    getProductReviews(sku: "${sku}", pageSize:${pageSize}, currentPage:${currentPage}) {
+      items {
+        id
+        nickname
+        ratings {
+          rating_name
+          value
+        }
+        review_entity
+        review_type
+        review_status
+        title
+        detail
+        created_at
+      }
+      message
+      totalCount
+    }
+  }
+  `;
     return query;
 };

@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core';
 import { CreateBorder, CreateMargin, CreatePadding } from '@theme/mixins';
 import { PRIMARY } from '@theme/colors';
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     root: {
         width: '100%',
         ...CreateMargin(15, 0, 15, 0),
@@ -31,5 +31,47 @@ export default makeStyles(() => ({
     icon: {
         fontSize: 16,
         color: PRIMARY,
+    },
+    descriptionHtml: {
+        fontFamily: 'Montserrat',
+        fontSize: 10,
+        [theme.breakpoints.up('md')]: {
+            width: 850,
+            height: '100%',
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: 700,
+            height: '100%',
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: 320,
+            height: '100%',
+        },
+        '& img': {
+            width: '100%',
+            height: '100%',
+            [theme.breakpoints.up('md')]: {
+                maxWidth: 800,
+            },
+            [theme.breakpoints.up('sm')]: {
+                maxWidth: 650,
+            },
+            [theme.breakpoints.down('sm')]: {
+                maxWidth: 300,
+            },
+        },
+        '& iframe': {
+            width: '100%',
+            height: '100%',
+            [theme.breakpoints.up('md')]: {
+                maxWidth: 800,
+            },
+            [theme.breakpoints.up('sm')]: {
+                maxWidth: 650,
+            },
+            [theme.breakpoints.down('sm')]: {
+                maxWidth: 300,
+            },
+        },
     },
 }));

@@ -6,6 +6,7 @@ import Typography from '@components/Typography';
 import ExpandMoreIcon from '@material-ui/icons/Add';
 import Minimize from '@material-ui/icons/Minimize';
 import classNames from 'classnames';
+import HtmlParser from 'react-html-parser';
 import useStyles from './style';
 
 export default function ExpandDetail({ data = [1, 2, 3] }) {
@@ -18,16 +19,16 @@ export default function ExpandDetail({ data = [1, 2, 3] }) {
 
     return (
         <div className={styles.root}>
-            {data.map((item) => (
+            {data.map((item, index) => (
                 <ExpansionPanel
-                    key={item}
-                    expanded={expanded === item}
-                    onChange={handleChange(item)}
+                    key={index}
+                    expanded={expanded === index}
+                    onChange={handleChange(index)}
                     className={styles.expandContainer}
                 >
                     <ExpansionPanelSummary
                         expandIcon={
-                            expanded === item ? (
+                            expanded === index ? (
                                 <Minimize className={styles.icon} />
                             ) : (
                                 <ExpandMoreIcon className={styles.icon} />
@@ -36,26 +37,36 @@ export default function ExpandDetail({ data = [1, 2, 3] }) {
                         aria-controls="panel1bh-content"
                         id="panel1bh-header"
                         className={
-                            expanded === item
+                            expanded === index
                                 ? classNames(styles.headerExpand, styles.headerOpen)
                                 : styles.headerExpand
                         }
                     >
                         <Typography letter="uppercase" variant="span" type="bold">
-                            Size & Fit
+                            { item.title || '' }
                         </Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails
                         className={
-                            expanded === item
+                            expanded === index
                                 ? classNames(styles.bodyExpand, styles.bodyOpen)
                                 : styles.bodyExpand
                         }
                     >
-                        <Typography variant="p" type="regular">
-                            100% Cotton Light Weight Machine wash cold. Wash with similar
-                            colors Medium iron temperature
-                        </Typography>
+                        {
+                            item.type === 'html'
+                                ? (
+                                    <div className={styles.descriptionHtml}>
+                                        {item.content && HtmlParser(item.content)}
+                                    </div>
+                                )
+                                : (
+                                    <Typography variant="p" type="regular">
+                                        100% Cotton Light Weight Machine wash cold. Wash with similar
+                                        colors Medium iron temperature
+                                    </Typography>
+                                )
+                        }
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             ))}
