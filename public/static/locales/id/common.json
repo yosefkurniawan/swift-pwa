@@ -20,5 +20,8 @@
         "change" : "Ubah",
         "send" : "kirim"
     },
-    "subtotal": "Subtotal"
+    "subtotal": "Subtotal",
+    "price": {
+        "asLowAs": "Termurah"
+    }
 }

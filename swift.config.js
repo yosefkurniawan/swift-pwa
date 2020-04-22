@@ -42,9 +42,6 @@ export const languagesLabel = {
     en: 'English',
 };
 
-export const defaultCurrencyCode = 'IDR';
-
-
 /* --------------------------------------- */
 /* LOCAD DATA CACHE & COKIES
 /* --------------------------------------- */

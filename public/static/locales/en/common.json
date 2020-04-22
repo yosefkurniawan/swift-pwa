@@ -20,5 +20,8 @@
         "change" : "Change",
         "send" : "send"
     },
-    "subtotal": "Subtotal"
+    "subtotal": "Subtotal",
+    "price": {
+        "asLowAs": "As low as"
+    }
 }
