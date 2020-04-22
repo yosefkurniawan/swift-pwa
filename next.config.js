@@ -1,16 +1,16 @@
-const withOffline = require("next-offline");
+const withOffline = require('next-offline');
 
 module.exports = withOffline({
     workboxOpts: {
         swDest: process.env.NEXT_EXPORT
-            ? "service-worker.js"
-            : "static/service-worker.js",
+            ? 'service-worker.js'
+            : 'static/service-worker.js',
         runtimeCaching: [
             {
                 urlPattern: /^https?.*/,
-                handler: "NetworkFirst",
+                handler: 'NetworkFirst',
                 options: {
-                    cacheName: "offlineCache",
+                    cacheName: 'offlineCache',
                     expiration: {
                         maxEntries: 200,
                     },
@@ -22,8 +22,8 @@ module.exports = withOffline({
         async rewrites() {
             return [
                 {
-                    source: "/service-worker.js",
-                    destination: "/_next/static/service-worker.js",
+                    source: '/service-worker.js',
+                    destination: '/_next/static/service-worker.js',
                 },
             ];
         },
