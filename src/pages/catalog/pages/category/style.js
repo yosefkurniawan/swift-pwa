@@ -15,11 +15,12 @@ const useStyles = makeStyles(() => ({
         backgroundColor: GRAY_PRIMARY,
     },
     header: {
+        left: '50%',
+        right: '50%',
+        top: '11px',
         position: 'absolute',
-        top: 0,
-        left: 0,
-        zIndex: 3,
         borderBottom: 'none',
+        fontWeight: 'bold',
     },
     filterContainer: {
         ...FlexRow,

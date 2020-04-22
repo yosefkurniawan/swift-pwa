@@ -1,17 +1,28 @@
 import { withTranslation } from '@i18n';
 import Layout from '@components/Layouts';
 import PropTypes from 'prop-types';
+import Loading from '@components/Loaders';
 import Component from './components';
+import { getCategory } from './services';
 
 const Page = (props) => {
+    const { categoryId } = props;
+    const { loading, data } = getCategory({
+        productSize: 20,
+        id: categoryId,
+    });
+
+    if (loading) {
+        return <Loading />;
+    }
     const pageConfig = {
-        title: '[Category Name]',
+        title: data.categoryList[0].name,
         header: 'absolute', // available values: "absolute", "relative", false (default)
         bottomNav: 'browse',
     };
     return (
         <Layout pageConfig={pageConfig}>
-            <Component {...props} />
+            <Component {...props} data={data} />
         </Layout>
     );
 };

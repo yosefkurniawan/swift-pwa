@@ -22,14 +22,14 @@ const FilterDialog = ({
     getValue = () => {},
 }) => {
     const styles = useStyles();
-    const [short, setShort] = React.useState('');
-    const [priceRange, setPriceRange] = React.useState([0, 0]);
+    const [sort, setSort] = React.useState('');
+    const [priceRange, setPriceRange] = React.useState(itemProps.priceRangeValue || [0, 0]);
     const [size, setSize] = React.useState([]);
     const [color, setColor] = React.useState([]);
     const [brand, setbrand] = React.useState([]);
 
     const handleClear = () => {
-        setShort('');
+        setSort('');
         setPriceRange([0, 0]);
         setSize([]);
         setColor([]);
@@ -38,7 +38,7 @@ const FilterDialog = ({
 
     const handleSave = () => {
         getValue({
-            short,
+            sort,
             priceRange,
             size,
             color,
@@ -70,18 +70,18 @@ const FilterDialog = ({
                     letter="uppercase"
                     className={styles.title}
                 >
-                    Filter & Short
+                    Filter & Sort
                     {' '}
                 </Typography>
             </AppBar>
             <div className={styles.body}>
-                {itemProps && itemProps.shortBy === false ? null : (
+                {itemProps && itemProps.sortBy === false ? null : (
                     <div className={styles.fieldContainer}>
                         <RadioGroup
-                            label={itemProps.labelShortBy || 'Sort By'}
-                            valueData={itemProps.shortByData || []}
-                            value={itemProps.shortByValue || short}
-                            onChange={itemProps.shortByChange || setShort}
+                            label={itemProps.labelSortBy || 'Sort By'}
+                            valueData={itemProps.sortByData || []}
+                            value={itemProps.sortByValue || sort}
+                            onChange={itemProps.sortByChange || setSort}
                         />
                     </div>
                 )}
@@ -90,7 +90,7 @@ const FilterDialog = ({
                         <RangeSlider
                             label={itemProps.labelPriceRange || 'Price Range'}
                             maxValue={itemProps.priceRangeMaxValue || 100}
-                            value={itemProps.priceRangeValue || priceRange}
+                            value={priceRange}
                             onChange={itemProps.priceRangeChange || setPriceRange}
                         />
                     </div>

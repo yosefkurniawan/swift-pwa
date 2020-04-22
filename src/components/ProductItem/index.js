@@ -9,13 +9,18 @@ import useStyles from './style';
 import ListSize from './ListSize';
 import ListColor from './ListColor';
 
-const ProductItem = ({
-    showListColor = false,
-    color = [],
-    showListSize = false,
-    size = [],
-    showFeed = true,
-}) => {
+const ProductItem = (props) => {
+    const {
+        name,
+        image,
+        // eslint-disable-next-line camelcase
+        price_range,
+        showListColor = false,
+        color = [],
+        showListSize = false,
+        size = [],
+        showFeed = true,
+    } = props;
     const styles = useStyles();
     const [feed, setFeed] = React.useState(false);
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
@@ -31,9 +36,9 @@ const ProductItem = ({
                 <Link href="/[...slug]" as="/strive-shoulder-pack">
                     <a>
                         <img
-                            src="/assets/img/sample/product.png"
+                            src={image && image.url ? image.url : '/assets/img/sample/product.png'}
                             className={styles.imgProduct}
-                            alt="product"
+                            alt={image && image.url ? image.label : 'Product'}
                         />
                     </a>
                 </Link>
@@ -47,12 +52,13 @@ const ProductItem = ({
                                 className={styles.clearMarginPadding}
                                 letter="capitalize"
                             >
-                                Product
+                                {name}
                             </Typography>
                         </a>
                     </Link>
                     <PriceFormat
-                        value={999000}
+                        value={price_range.maximum_price.final_price.value}
+                        code="USD"
                         variant="p"
                         className={styles.clearMarginPadding}
                         letter="uppercase"
