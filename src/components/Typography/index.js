@@ -84,7 +84,7 @@ CustomTypography.propTypes = {
     align: PropTypes.oneOf(['top', 'bottom', 'center', 'left']),
     decoration: PropTypes.oneOf(['underline', 'none']),
     color: PropTypes.oneOf(['red', 'green', 'orange', 'default']),
-    size: PropTypes.oneOf(['10', '12', '14', '16', '0']),
+    size: PropTypes.oneOf(['6', '8', '10', '12', '14', '16', '0']),
 };
 
 CustomTypography.defaultProps = {

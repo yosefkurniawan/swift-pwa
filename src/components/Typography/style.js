@@ -1,6 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles';
 import {
-    FONT_12, FONT_24, FONT_10, FONT_14, FONT_16,
+    FONT_6,
+    FONT_8,
+    FONT_10,
+    FONT_12,
+    FONT_14,
+    FONT_16,
+    FONT_24,
 } from '@theme/typography';
 import {
     PRIMARY, RED, GREEN, ORANGE,
@@ -21,7 +27,7 @@ const useStyles = makeStyles(() => ({
     },
     root: {
         margin: 5,
-    // color: PRIMARY,
+        // color: PRIMARY,
     },
     p: {
         fontSize: 10,
@@ -77,6 +83,12 @@ const useStyles = makeStyles(() => ({
     },
     underline: {
         textDecoration: 'underline',
+    },
+    size6: {
+        ...FONT_6,
+    },
+    size8: {
+        ...FONT_8,
     },
     size10: {
         ...FONT_10,
