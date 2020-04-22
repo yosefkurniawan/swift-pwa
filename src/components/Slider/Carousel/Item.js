@@ -3,28 +3,15 @@ import Typography from '@components/Typography';
 import Link from 'next/link';
 import useStyles from './style';
 
-
 const Item = ({
-    storeConfig,
-    item,
-    initial = {
-        name: '',
-        url: '',
-        price: '',
-        thumbnail: '',
-    },
+    storeConfig, url, imageSrc, name, price,
 }) => {
     const styles = useStyles();
-    const url = item[initial.url] ? item[initial.url] : '';
-    const image = (item[initial.thumbnail] && item[initial.thumbnail].url) ? item[initial.thumbnail].url : '/assets/img/noun_Image.svg';
-    const name = item[initial.name] ? item[initial.name] : 'Product';
-    const price = item[initial.price] ? item[initial.price] : 0;
-
     return (
         <div className={styles.itemContainer}>
             <div className={styles.imgItem}>
                 <Link href="[...slug]" as={`${url}`}>
-                    <img src={image} alt={name} className={styles.imgItem} />
+                    <img src={imageSrc} alt={name} className={styles.imgItem} />
                 </Link>
             </div>
             <div className={styles.detailItem}>
