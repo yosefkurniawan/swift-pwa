@@ -53,7 +53,7 @@ const BannerSlider = ({ storeConfig }) => {
     );
 };
 
-const FeaturedProducts = () => {
+const FeaturedProducts = ({ storeConfig }) => {
     const styles = useStyles();
 
     const getFeaturedProducts = gql`
@@ -116,14 +116,19 @@ const FeaturedProducts = () => {
             <div className={styles.slider}>
                 <Carousel data={products} />
             </div>
+
+            {data.categoryList.map((category) => (
+                <div className={styles.slider}>
+                    <SpanProduct
+                        storeConfig={storeConfig}
+                        imageSrc={category.image}
+                        name={category.name}
+                        description={category.description}
+                    />
+                </div>
+            ))}
         </>
     );
-};
-
-const CategoryList = () => {
-    const styles = useStyles();
-
-    return <div className={styles.slider}>CategoryList</div>;
 };
 
 const HomePage = ({ storeConfig }) => {
@@ -132,14 +137,7 @@ const HomePage = ({ storeConfig }) => {
     return (
         <div className={styles.container}>
             <BannerSlider storeConfig={storeConfig} />
-            <FeaturedProducts />
-            <CategoryList />
-            <div className={styles.slider}>
-                <SpanProduct storeConfig={storeConfig} />
-            </div>
-            <div className={styles.slider}>
-                <SpanProduct storeConfig={storeConfig} />
-            </div>
+            <FeaturedProducts storeConfig={storeConfig} />
         </div>
     );
 };
