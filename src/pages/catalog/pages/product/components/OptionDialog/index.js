@@ -11,6 +11,7 @@ import CustomRadio from '@components/Forms/Radio';
 import SelectColor from '@components/Forms/SelectColor';
 import SelectSize from '@components/Forms/SelectSize';
 import Router from 'next/router';
+import ProductByVariant from '@helpers/productByVariant';
 import { getConfigurableProduct } from '../../services/graphql';
 import useStyles from './style';
 
@@ -21,22 +22,12 @@ const Transition = React.forwardRef((props, ref) => (
 const OptionDialog = (props) => {
     const {
         open, setOpen, t, data: { sku },
+        setBanner, setPrice,
     } = props;
     const styles = useStyles();
-    const [color, setColor] = React.useState('');
-    const [size, setSize] = React.useState('');
-    const [, setSizeOptions] = React.useState('');
+    const [selected, setSelected] = React.useState({});
 
     const { data } = getConfigurableProduct(sku);
-
-    const handleChangeColor = (val) => {
-        if (val === '#c1c1c1') {
-            setSizeOptions([]);
-        } else {
-            setSizeOptions('');
-        }
-        setColor(val);
-    };
 
     let optionData = [];
     if (data) {
@@ -52,11 +43,31 @@ const OptionDialog = (props) => {
         });
     }
 
+    const handleSelect = (value, key) => {
+        const options = selected;
+        options[key] = value;
+        setSelected({
+            ...selected,
+            [key]: value,
+        });
+        const product = ProductByVariant(options, data.products.items[0].variants);
+        const bannerData = product.media_gallery.map((media) => ({
+            link: '#',
+            imageUrl: media.url,
+        }));
+        setBanner(bannerData);
+        setPrice({
+            priceRange: product.price_range,
+            priceTiers: product.price_tiers,
+            // eslint-disable-next-line no-underscore-dangle
+            productType: product.__typename,
+        });
+    };
+
     return (
         <Dialog
             fullScreen
             open={open}
-            hideBackdrop
             TransitionComponent={Transition}
             onClose={setOpen}
             PaperProps={{
@@ -80,9 +91,9 @@ const OptionDialog = (props) => {
                                     label="Select color"
                                     flex="row"
                                     CustomItem={SelectColor}
-                                    value={color}
+                                    value={selected[option.attribute_code]}
                                     valueData={option.values}
-                                    onChange={handleChangeColor}
+                                    onChange={(val) => handleSelect(val, option.attribute_code)}
                                     className={styles.label}
                                     classContainer={styles.center}
                                 />
@@ -94,9 +105,9 @@ const OptionDialog = (props) => {
                                         label="Select size"
                                         flex="row"
                                         CustomItem={SelectSize}
-                                        value={size}
+                                        value={selected[option.attribute_code]}
                                         valueData={option.values}
-                                        onChange={setSize}
+                                        onChange={(val) => handleSelect(val, option.attribute_code)}
                                         className={styles.sizeContainer}
                                         classContainer={styles.center}
                                     />

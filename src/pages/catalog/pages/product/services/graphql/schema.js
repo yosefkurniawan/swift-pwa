@@ -163,6 +163,10 @@ export const getConfigurableProduct = (sku) => {
                 ${productDetail}
                 ${priceRange}
                 ${priceTiers}
+                media_gallery {
+                  label,
+                  url
+                }
               }
               attributes {
                 label
