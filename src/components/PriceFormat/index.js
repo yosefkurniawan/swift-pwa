@@ -182,18 +182,30 @@ const SimpleProductTypePrice = ({ priceRange, priceTiers }) => {
 };
 
 const OtherProductTypePrice = ({ priceRange }) => {
+    const styles = useStyles();
     const regularPrice = priceRange.minimum_price.regular_price;
     const finalPrice = priceRange.minimum_price.final_price;
 
     if (regularPrice.value === finalPrice.value) {
-        return <div>{finalPrice}</div>;
+        return (
+            <>
+                <Typography variant="span" type="bold" letter="uppercase" className={styles.noMargin}>
+                    {formatPrice(finalPrice.value, finalPrice.currency)}
+                </Typography>
+            </>
+        );
     }
 
     return (
-        <div>
-            <strike>{regularPrice.value}</strike>
-            {finalPrice.value}
-        </div>
+        <>
+            {/* case 9 */}
+            <Typography variant="span" letter="uppercase" className={styles.noMargin}>
+                <strike>{formatPrice(regularPrice.value, regularPrice.currency)}</strike>
+            </Typography>
+            <Typography variant="span" type="bold" letter="uppercase" className={styles.noMargin}>
+                {formatPrice(finalPrice.value, finalPrice.currency)}
+            </Typography>
+        </>
     );
 };
 
