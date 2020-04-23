@@ -79,6 +79,17 @@ const FeaturedProducts = ({ storeConfig }) => {
                                 }
                             }
                         }
+                        price_tiers {
+                            discount {
+                                amount_off
+                                percent_off
+                            }
+                            final_price {
+                                currency
+                                value
+                            }
+                            quantity
+                        }
                     }
                 }
                 children {
@@ -113,6 +124,7 @@ const FeaturedProducts = ({ storeConfig }) => {
         imageSrc: product.image.url,
         price: product.price_range.minimum_price.regular_price.value,
     }));
+
     return (
         <>
             {data.categoryList.image && (
