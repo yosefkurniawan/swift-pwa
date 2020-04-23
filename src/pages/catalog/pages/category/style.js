@@ -54,6 +54,15 @@ const useStyles = makeStyles(() => ({
         overflow: 'hidden',
         ...CreatePadding(0, 0, 50, 0),
     },
+    btnLoadmore: {
+        cursor: 'pointer',
+        width: '100%',
+        padding: '20px',
+        fontSize: '12px',
+        background: '#fff',
+        border: 'none',
+        color: '#B4B4B4',
+    },
 }));
 
 export default useStyles;

@@ -16,7 +16,15 @@ const Product = ({ catId }) => {
     const styles = useStyles();
     const [openFilter, setOpenFilter] = React.useState(false);
     const [page, setPage] = React.useState(1);
+    const [loadmore, setLoadmore] = React.useState(false);
     const [filter, setFilter] = React.useState({});
+    const [prevProduct, setPrevProduct] = React.useState({});
+
+    const setFiltervalue = (v) => {
+        setPrevProduct({});
+        setFilter(v);
+    };
+
     const config = {
         pageSize: 20,
         currentPage: 1,
@@ -37,14 +45,19 @@ const Product = ({ catId }) => {
     if (loading) {
         return <Loading size="50px" />;
     }
-    const { products } = data;
+    let products = {};
+    if (prevProduct.total_count) {
+        products = prevProduct;
+    } else {
+        products = data.products;
+    }
     return (
         <>
             <Filter
                 openFilter={openFilter}
                 setOpenFilter={setOpenFilter}
                 catId={catId}
-                setFilter={setFilter}
+                setFilter={setFiltervalue}
             />
             <div className={styles.filterContainer}>
                 <Typography
@@ -82,33 +95,63 @@ const Product = ({ catId }) => {
                     }}
                     gridItemProps={{ xs: 6, sm: 4, md: 3 }}
                 />
-                <button
-                    type="button"
-                    onClick={() => {
-                        setPage(page + 1);
-                        return fetchMore({
-                            query: Schema.getProductByCategory(catId, {
-                                pageSize: 20,
-                                currentPage: page + 1,
-                                filter: [],
-                            }),
-                            updateQuery: (previousResult, { fetchMoreResult }) => {
-                                const previousEntry = previousResult.products;
-                                const newItems = fetchMoreResult.products.items;
-                                return {
-                                    products: {
-                                    // eslint-disable-next-line no-underscore-dangle
-                                        __typename: previousEntry.__typename,
-                                        total_count: previousEntry.total_count,
-                                        items: [...previousEntry.items, ...newItems],
-                                    },
-                                };
-                            },
-                        });
-                    }}
-                >
-                    loadmore
-                </button>
+                {products.items.length === products.total_count ? null : (
+                    <button
+                        className={styles.btnLoadmore}
+                        type="button"
+                        onClick={() => {
+                            setLoadmore(true);
+                            setPage(page + 1);
+                            return fetchMore({
+                                query: Schema.getProductByCategory(catId, {
+                                    pageSize: config.pageSize,
+                                    currentPage: page + 1,
+                                    filter: config.filter,
+                                }),
+                                updateQuery: (
+                                    previousResult,
+                                    { fetchMoreResult },
+                                ) => {
+                                    setLoadmore(false);
+                                    const previousEntry = previousResult.products;
+                                    let previousState = prevProduct;
+                                    if (!previousState.total_count) {
+                                        previousState = previousEntry;
+                                    }
+                                    const newItems = fetchMoreResult.products.items;
+                                    setPrevProduct({
+                                        // eslint-disable-next-line no-underscore-dangle
+                                        __typename:
+                                            // eslint-disable-next-line no-underscore-dangle
+                                            previousState.__typename,
+                                        total_count:
+                                        previousState.total_count,
+                                        items: [
+                                            ...previousState.items,
+                                            ...newItems,
+                                        ],
+                                    });
+                                    return {
+                                        products: {
+                                            // eslint-disable-next-line no-underscore-dangle
+                                            __typename:
+                                                // eslint-disable-next-line no-underscore-dangle
+                                                previousEntry.__typename,
+                                            total_count:
+                                                previousEntry.total_count,
+                                            items: [
+                                                ...previousEntry.items,
+                                                ...newItems,
+                                            ],
+                                        },
+                                    };
+                                },
+                            });
+                        }}
+                    >
+                        {loadmore ? 'loading' : 'loadmore'}
+                    </button>
+                )}
             </div>
         </>
     );

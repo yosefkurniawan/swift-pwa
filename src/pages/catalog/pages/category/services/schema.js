@@ -105,6 +105,12 @@ export const getProductByCategory = (catID, config = {}) => gql`
                 label
                 value_index
               }
+              product{
+                image {
+                  url
+                  label
+                }
+              }
             }
           }
         }

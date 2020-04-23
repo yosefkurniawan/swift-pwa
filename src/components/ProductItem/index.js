@@ -18,10 +18,10 @@ const ProductItem = (props) => {
         // eslint-disable-next-line camelcase
         price_tiers,
         __typename,
+        variants = [],
         showListColor = false,
         color = [],
         showListSize = false,
-        size = [],
         showFeed = true,
     } = props;
     const styles = useStyles();
@@ -32,6 +32,12 @@ const ProductItem = (props) => {
     ) : (
         <FavoriteBorderOutlined className={styles.iconFeed} />
     );
+    const size = [];
+
+    // eslint-disable-next-line no-plusplus
+    // for (let index = 0; index < variants.length; index++) {
+    //     const attributes = variants[index].attributes;
+    // }
 
     return (
         <div className={styles.itemContainer}>
