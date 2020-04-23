@@ -15,17 +15,23 @@ const ListColor = ({
     color = '#000',
     size = 20,
     className = {},
+    value = '',
 }) => {
     const classes = useStyles();
     const styles = {
+        cursor: 'pointer',
         width: size,
         height: size,
         backgroundColor: color,
     };
 
+    if (value === color) {
+        styles.border = '1px solid #000';
+    }
+
     const customClass = classNames(classes.root, className);
 
-    return <span className={customClass} style={styles} onClick={onClick} />;
+    return <span className={customClass} style={styles} onClick={() => onClick('color', color)} />;
 };
 
 export default ListColor;

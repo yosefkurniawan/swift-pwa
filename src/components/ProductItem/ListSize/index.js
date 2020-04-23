@@ -23,18 +23,33 @@ const ListSize = ({
     data = 'm',
     width = 20,
     className = {},
+    code = 'size',
+    value = '',
 }) => {
     const classes = useStyles();
     const styles = {
+        cursor: 'pointer',
         width,
         height: width,
     };
 
+    if (value === data) {
+        styles.border = '1px solid #000';
+    }
+
     const customClass = classNames(classes.root, className);
 
     return (
-        <span className={customClass} style={styles} onClick={onClick}>
-            <Typography variant="label" letter="uppercase" className={classes.label}>
+        <span
+            className={customClass}
+            style={styles}
+            onClick={() => onClick(code, data)}
+        >
+            <Typography
+                variant="label"
+                letter="uppercase"
+                className={classes.label}
+            >
                 {data}
             </Typography>
         </span>
