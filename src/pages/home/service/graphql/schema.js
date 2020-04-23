@@ -24,6 +24,8 @@ export const getCategoryList = gql`
             products {
                 items {
                     name
+                    url_path
+                    url_key
                     image {
                         url
                     }
@@ -53,7 +55,9 @@ export const getCategoryList = gql`
             children {
                 id
                 name
+                description
                 url_key
+                url_path
                 image
             }
         }
