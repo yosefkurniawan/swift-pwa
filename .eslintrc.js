@@ -24,6 +24,7 @@ module.exports = {
     },
     plugins: ['react'],
     rules: {
+        'camelcase': 'off',
         indent: ['error', 4],
         'react/react-in-jsx-scope': 'off',
         'react/jsx-indent': ['error', 4],

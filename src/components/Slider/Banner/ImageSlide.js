@@ -1,11 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 import useStyles from './style';
+import setDefaultWhenEmpty from '../../../helpers/checkImageSrc';
 
 const ImageSlide = ({ url = '', link = '#', height = '100%' }) => {
     const styles = useStyles();
     const bgImg = {
-        backgroundImage: `url(${url})`,
+        backgroundImage: `url(${setDefaultWhenEmpty(url)})`,
         height,
         backgroundPosition: 'center',
         backgroundRepeat: 'repeat',

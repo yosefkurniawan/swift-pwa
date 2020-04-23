@@ -2,29 +2,23 @@ import PriceFormat from '@components/PriceFormat';
 import Typography from '@components/Typography';
 import Link from 'next/link';
 import useStyles from './style';
-
+import setDefaultWhenEmpty from '../../../helpers/checkImageSrc';
 
 const Item = ({
     storeConfig,
-    item,
-    initial = {
-        name: '',
-        url: '',
-        price: '',
-        thumbnail: '',
-    },
+    price_range,
+    price_tiers,
+    __typename,
+    url,
+    imageSrc,
+    name,
 }) => {
     const styles = useStyles();
-    const url = item[initial.url] ? item[initial.url] : '';
-    const image = (item[initial.thumbnail] && item[initial.thumbnail].url) ? item[initial.thumbnail].url : '/assets/img/noun_Image.svg';
-    const name = item[initial.name] ? item[initial.name] : 'Product';
-    const price = item[initial.price] ? item[initial.price] : 0;
-
     return (
         <div className={styles.itemContainer}>
             <div className={styles.imgItem}>
                 <Link href="[...slug]" as={`${url}`}>
-                    <img src={image} alt={name} className={styles.imgItem} />
+                    <img src={setDefaultWhenEmpty(imageSrc)} alt={name} className={styles.imgItem} />
                 </Link>
             </div>
             <div className={styles.detailItem}>
@@ -33,7 +27,7 @@ const Item = ({
                         <Typography variant="span">{name}</Typography>
                     </a>
                 </Link>
-                <PriceFormat value={price} storeConfig={storeConfig} />
+                <PriceFormat priceRange={price_range} priceTiers={price_tiers} productType={__typename} storeConfig={storeConfig} />
             </div>
         </div>
     );
