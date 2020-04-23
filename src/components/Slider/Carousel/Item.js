@@ -1,15 +1,16 @@
-import PriceFormat from '@components/PriceFormat';
+// import PriceFormat from '@components/PriceFormat';
 import Typography from '@components/Typography';
 import Link from 'next/link';
 import useStyles from './style';
 
 const Item = ({
-    storeConfig,
-    // item,
+    // storeConfig,
+    // price_range,
+    // price_tiers,
+    // __typename,
     url,
     imageSrc,
     name,
-    price,
 }) => {
     const styles = useStyles();
     return (
@@ -25,7 +26,7 @@ const Item = ({
                         <Typography variant="span">{name}</Typography>
                     </a>
                 </Link>
-                <PriceFormat value={price} storeConfig={storeConfig} />
+                {/* <PriceFormat priceRange={price_range} priceTiers={price_tiers} productType={__typename} storeConfig={storeConfig} /> */}
             </div>
         </div>
     );
