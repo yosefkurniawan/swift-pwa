@@ -55,6 +55,18 @@ export const getProductByCategory = (catID, config = {}) => gql`
             url
             label
           }
+          __typename
+          price_tiers {
+            discount {
+              percent_off
+              amount_off
+            }
+            final_price {
+              currency
+              value
+            }
+            quantity
+          }
           price_range {
             maximum_price {
               discount{
@@ -85,15 +97,7 @@ export const getProductByCategory = (catID, config = {}) => gql`
               }
             }
           }
-          ... on ConfigurableProduct {
-            variants {
-              attributes {
-                code
-                label
-                value_index
-              }
-            }
-          }
+          
         }
       }
     }

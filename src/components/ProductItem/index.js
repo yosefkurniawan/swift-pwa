@@ -15,6 +15,9 @@ const ProductItem = (props) => {
         image,
         // eslint-disable-next-line camelcase
         price_range,
+        // eslint-disable-next-line camelcase
+        price_tiers,
+        __typename,
         showListColor = false,
         color = [],
         showListSize = false,
@@ -57,11 +60,11 @@ const ProductItem = (props) => {
                         </a>
                     </Link>
                     <PriceFormat
-                        value={price_range.maximum_price.final_price.value}
-                        code="USD"
-                        variant="p"
-                        className={styles.clearMarginPadding}
-                        letter="uppercase"
+                        // eslint-disable-next-line camelcase
+                        priceRange={price_range}
+                        // eslint-disable-next-line camelcase
+                        priceTiers={price_tiers}
+                        productType={__typename}
                     />
                     <div className={styles.colorContainer}>
                         {showListColor

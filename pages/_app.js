@@ -17,7 +17,7 @@ import '../src/styles/mage.css';
 
 class MyApp extends App {
     componentDidMount() {
-    // Remove the server-side injected CSS.
+        // Remove the server-side injected CSS.
         const jssStyles = document.querySelector('#jss-server-side');
         if (jssStyles) {
             jssStyles.parentElement.removeChild(jssStyles);
@@ -35,7 +35,9 @@ class MyApp extends App {
 
         let storeConfig;
         if (!allcookie[storConfigNameCokie]) {
-            storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
+            storeConfig = await apolloClient
+                .query({ query: ConfigSchema })
+                .then(({ data }) => data.storeConfig);
         } else {
             storeConfig = allcookie[storConfigNameCokie];
         }
@@ -46,13 +48,21 @@ class MyApp extends App {
         const { Component, pageProps } = this.props;
         const storeCokie = Cookie.get(storConfigNameCokie);
         if (!storeCokie) {
-            Cookie.set(storConfigNameCokie, pageProps.storeConfig, { path: '', expires: expiredCokies });
+            Cookie.set(storConfigNameCokie, pageProps.storeConfig, {
+                path: '',
+                expires: expiredCokies,
+            });
         }
 
         return (
             <>
                 <Head>
-                    <title>{ pageProps.storeConfig.default_title || 'Icube Swift PWA' }</title>
+                    <title>
+                        {pageProps.storeConfig
+                        && pageProps.storeConfig.default_title
+                            ? pageProps.storeConfig.default_title
+                            : 'Icube Swift PWA'}
+                    </title>
                     <meta
                         name="viewport"
                         content="minimum-scale=1, initial-scale=1, width=device-width"
@@ -68,5 +78,7 @@ class MyApp extends App {
     }
 }
 
-
-export default compose(withApollo({ ssr: true }), withRedux)(appWithTranslation(MyApp));
+export default compose(
+    withApollo({ ssr: true }),
+    withRedux,
+)(appWithTranslation(MyApp));

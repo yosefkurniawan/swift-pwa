@@ -135,7 +135,7 @@ const FilterDialog = ({
                             selectColorData.push(itemFilter.value[index].label);
                         }
                         return (
-                            <div className={styles.fieldContainer}>
+                            <div className={styles.fieldContainer} key={idx}>
                                 <CheckBox
                                     label={itemFilter.label || 'Color'}
                                     data={selectColorData || []}
@@ -153,7 +153,7 @@ const FilterDialog = ({
                             selectBrandData.push(itemFilter.value[index].label);
                         }
                         return (
-                            <div className={classNames(styles.fieldContainer, styles.last)}>
+                            <div className={classNames(styles.fieldContainer, styles.last)} key={idx}>
                                 <CheckBox
                                     label={itemFilter.label || 'Brand'}
                                     data={selectBrandData || []}
@@ -165,7 +165,7 @@ const FilterDialog = ({
                         );
                     }
                     return (
-                        <div className={styles.fieldContainer}>
+                        <div className={styles.fieldContainer} key={idx}>
                             <RadioGroup
                                 label={itemFilter.label || ''}
                                 valueData={itemFilter.value || []}

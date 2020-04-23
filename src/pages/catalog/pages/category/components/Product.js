@@ -42,6 +42,7 @@ const Product = ({ catId }) => {
         return <Loading size="50px" />;
     }
 
+
     const { products } = data;
     return (
         <>
