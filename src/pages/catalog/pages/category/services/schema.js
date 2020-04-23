@@ -2,6 +2,13 @@
 
 import { gql } from 'apollo-boost';
 
+
+/**
+ * generate dynamic filter query
+ * @param catId number
+ * @param filter array of filter value
+ * @returns string query to generate on grapql tag
+ */
 const filterProduct = (catID, filter) => {
     let queryFilter = `{ category_id: { eq: "${catID}" }`;
     // eslint-disable-next-line no-plusplus
@@ -108,9 +115,11 @@ export const getCategory = (
           id
           name
           url_path
+          image
           children {
             id
             name
+            image
             url_path
           }
         }

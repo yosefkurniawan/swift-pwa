@@ -11,7 +11,6 @@ import { getProductByCategory } from '../services';
 
 const getProduct = (catId, config = {}) => {
     const { loading, data } = getProductByCategory(catId, config);
-
     return {
         loading,
         data,
@@ -30,8 +29,7 @@ const Product = ({ catId }) => {
     if (filter.sort) {
         config.sort = JSON.parse(filter.sort);
     }
-
-    if (filter.priceRange) {
+    if (filter.priceRange && filter.priceRange[1] !== 0) {
         config.filter.push({
             type: 'price',
             from: filter.priceRange[0],

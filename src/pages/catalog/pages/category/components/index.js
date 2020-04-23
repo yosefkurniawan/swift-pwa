@@ -6,7 +6,7 @@ import Router from 'next/router';
 import useStyles from '../style';
 import Product from './Product';
 
-const dataBanner = [
+let dataBanner = [
     {
         img: '/assets/img/sample/category-banner.png',
         link: '/',
@@ -33,12 +33,21 @@ const CategoryPage = ({ data }) => {
         );
     };
 
+    if (categoryList.image) {
+        dataBanner = [
+            {
+                img: categoryList.image,
+                link: categoryList.url_path,
+            },
+        ];
+    }
+
     return (
         <>
             <Box className={styles.container}>
                 <div className={styles.headContainer}>
                     <div className={styles.header}>{categoryList.name}</div>
-                    <Banner data={dataBanner} height="40vh" />
+                    <Banner data={dataBanner} initial={{ url: 'img', link: 'link' }} height="40vh" />
                 </div>
                 <div>
                     <CustomTabs

@@ -11,19 +11,25 @@ import CheckBoxSize from '@components/Forms/CheckBoxSize';
 import CheckBoxColor from '@components/Forms/CheckBoxColor';
 import Button from '@components/Button';
 import classNames from 'classnames';
+import Loading from '@components/Loaders';
 import useStyles from './style';
 
-const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
+const Transition = React.forwardRef((props, ref) => (
+    <Slide direction="up" ref={ref} {...props} />
+));
 
 const FilterDialog = ({
     open,
     setOpen,
     itemProps = {},
+    data = {},
+    loading = false,
+    sortByData = [],
     getValue = () => {},
 }) => {
     const styles = useStyles();
     const [sort, setSort] = React.useState('');
-    const [priceRange, setPriceRange] = React.useState(itemProps.priceRangeValue || [0, 0]);
+    const [priceRange, setPriceRange] = React.useState([0, 0]);
     const [size, setSize] = React.useState([]);
     const [color, setColor] = React.useState([]);
     const [brand, setbrand] = React.useState([]);
@@ -46,7 +52,10 @@ const FilterDialog = ({
         });
         setOpen();
     };
-
+    let filter = [];
+    if (data.getFilterAttributeOptions) {
+        filter = data.getFilterAttributeOptions.data;
+    }
     return (
         <Dialog
             fullScreen
@@ -79,57 +88,93 @@ const FilterDialog = ({
                     <div className={styles.fieldContainer}>
                         <RadioGroup
                             label={itemProps.labelSortBy || 'Sort By'}
-                            valueData={itemProps.sortByData || []}
+                            valueData={sortByData || []}
                             value={itemProps.sortByValue || sort}
                             onChange={itemProps.sortByChange || setSort}
                         />
                     </div>
                 )}
-                {itemProps && itemProps.priceRange === false ? null : (
-                    <div className={styles.fieldContainer}>
-                        <RangeSlider
-                            label={itemProps.labelPriceRange || 'Price Range'}
-                            maxValue={itemProps.priceRangeMaxValue || 100}
-                            value={priceRange}
-                            onChange={itemProps.priceRangeChange || setPriceRange}
-                        />
-                    </div>
-                )}
-                {itemProps && itemProps.selectSize === false ? null : (
-                    <div className={styles.fieldContainer}>
-                        <CheckBox
-                            label={itemProps.selectSize || 'Size'}
-                            data={itemProps.selectSizeData || []}
-                            value={itemProps.selectSizeValue || size}
-                            flex={itemProps.selectSizeFlex || 'row'}
-                            CustomItem={itemProps.selectSizeItem || CheckBoxSize}
-                            onChange={itemProps.selectSizeChange || setSize}
-                        />
-                    </div>
-                )}
-                {itemProps && itemProps.selectColor === false ? null : (
-                    <div className={styles.fieldContainer}>
-                        <CheckBox
-                            label={itemProps.selectColor || 'Color'}
-                            data={itemProps.selectColorData || []}
-                            value={itemProps.selectColorValue || color}
-                            flex={itemProps.selectColorFlex || 'row'}
-                            CustomItem={itemProps.selectColorItem || CheckBoxColor}
-                            onChange={itemProps.selectColorChange || setColor}
-                        />
-                    </div>
-                )}
-                {itemProps && itemProps.selectBrand === false ? null : (
-                    <div className={classNames(styles.fieldContainer, styles.last)}>
-                        <CheckBox
-                            label={itemProps.selectBrand || 'Brand'}
-                            data={itemProps.selectBrandData || []}
-                            value={itemProps.selectBrandValue || brand}
-                            flex={itemProps.selectBrandFlex || 'column'}
-                            onChange={itemProps.selectBrandChange || setbrand}
-                        />
-                    </div>
-                )}
+                {loading ? <Loading size="20px" /> : null}
+                {filter.map((itemFilter, idx) => {
+                    if (itemFilter.field === 'price') {
+                        return (
+                            <div className={styles.fieldContainer} key={idx}>
+                                <RangeSlider
+                                    label={itemFilter.label}
+                                    maxValue={itemFilter.maxprice}
+                                    value={priceRange}
+                                    onChange={
+                                        itemProps.priceRangeChange
+                                        || setPriceRange
+                                    }
+                                />
+                            </div>
+                        );
+                    } if (itemFilter.field === 'size') {
+                        const selectSizeData = [];
+                        // eslint-disable-next-line no-plusplus
+                        for (let index = 0; index < itemFilter.value.length; index++) {
+                            selectSizeData.push(itemFilter.value[index].label);
+                        }
+                        return (
+                            <div className={styles.fieldContainer} key={idx}>
+                                <CheckBox
+                                    label={itemFilter.label || 'Size'}
+                                    data={selectSizeData || []}
+                                    value={itemProps.selectSizeValue || size}
+                                    flex={itemProps.selectSizeFlex || 'row'}
+                                    CustomItem={itemProps.selectSizeItem || CheckBoxSize}
+                                    onChange={itemProps.selectSizeChange || setSize}
+                                />
+                            </div>
+                        );
+                    } if (itemFilter.field === 'color') {
+                        const selectColorData = [];
+                        // eslint-disable-next-line no-plusplus
+                        for (let index = 0; index < itemFilter.value.length; index++) {
+                            selectColorData.push(itemFilter.value[index].label);
+                        }
+                        return (
+                            <div className={styles.fieldContainer}>
+                                <CheckBox
+                                    label={itemFilter.label || 'Color'}
+                                    data={selectColorData || []}
+                                    value={itemProps.selectColorValue || color}
+                                    flex={itemProps.selectColorFlex || 'row'}
+                                    CustomItem={itemProps.selectColorItem || CheckBoxColor}
+                                    onChange={itemProps.selectColorChange || setColor}
+                                />
+                            </div>
+                        );
+                    } if (itemFilter.field === 'brand') {
+                        const selectBrandData = [];
+                        // eslint-disable-next-line no-plusplus
+                        for (let index = 0; index < itemFilter.value.length; index++) {
+                            selectBrandData.push(itemFilter.value[index].label);
+                        }
+                        return (
+                            <div className={classNames(styles.fieldContainer, styles.last)}>
+                                <CheckBox
+                                    label={itemFilter.label || 'Brand'}
+                                    data={selectBrandData || []}
+                                    value={itemProps.selectBrandValue || brand}
+                                    flex={itemProps.selectBrandFlex || 'column'}
+                                    onChange={itemProps.selectBrandChange || setbrand}
+                                />
+                            </div>
+                        );
+                    }
+                    return (
+                        <div className={styles.fieldContainer}>
+                            <RadioGroup
+                                label={itemFilter.label || ''}
+                                valueData={itemFilter.value || []}
+                                value={itemProps.filterValue ? itemProps.filterValue[itemFilter.field] : ''}
+                                onChange={() => {}}
+                            />
+                        </div>
+                    );
+                })}
             </div>
 
             <div className={styles.footer}>

@@ -18,7 +18,17 @@ const SubCategory = ({ open, data, onBack }) => {
         >
             <div className={styles.body}>
                 <Typography variant="h1" align="center">
-                    {data[0].name}
+                    <Button
+                        variant="text"
+                        onClick={() => {
+                            Router.push(
+                                '/[...slug]',
+                                `/${data[0].url_path}`,
+                            );
+                        }}
+                    >
+                        {data[0].name}
+                    </Button>
                 </Typography>
                 <div className={styles.item}>
                     {data[0].children.map((item, indx) => (
