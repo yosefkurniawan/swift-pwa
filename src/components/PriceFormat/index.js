@@ -210,10 +210,10 @@ const OtherProductTypePrice = ({ priceRange }) => {
 };
 
 /**
- * Component Price
+ * Price Generator Component
  * @component
- * @param priceRange array
- * @returns priceTiers onject
+ * @param {array} priceRange - price range from magento GQL including regluar price and final price
+ * @returns {object} [priceTiers] - tier prices from magento GQL
  */
 
 const Price = ({
