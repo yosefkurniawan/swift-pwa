@@ -9,13 +9,21 @@ import useStyles from './style';
 import ListSize from './ListSize';
 import ListColor from './ListColor';
 
-const ProductItem = ({
-    showListColor = false,
-    color = [],
-    showListSize = false,
-    size = [],
-    showFeed = true,
-}) => {
+const ProductItem = (props) => {
+    const {
+        name,
+        image,
+        // eslint-disable-next-line camelcase
+        price_range,
+        // eslint-disable-next-line camelcase
+        price_tiers,
+        __typename,
+        variants = [],
+        showListColor = false,
+        color = [],
+        showListSize = false,
+        showFeed = true,
+    } = props;
     const styles = useStyles();
     const [feed, setFeed] = React.useState(false);
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
@@ -24,6 +32,12 @@ const ProductItem = ({
     ) : (
         <FavoriteBorderOutlined className={styles.iconFeed} />
     );
+    const size = [];
+
+    // eslint-disable-next-line no-plusplus
+    // for (let index = 0; index < variants.length; index++) {
+    //     const attributes = variants[index].attributes;
+    // }
 
     return (
         <div className={styles.itemContainer}>
@@ -31,9 +45,9 @@ const ProductItem = ({
                 <Link href="/[...slug]" as="/strive-shoulder-pack">
                     <a>
                         <img
-                            src="/assets/img/sample/product.png"
+                            src={image && image.url ? image.url : '/assets/img/sample/product.png'}
                             className={styles.imgProduct}
-                            alt="product"
+                            alt={image && image.url ? image.label : 'Product'}
                         />
                     </a>
                 </Link>
@@ -47,15 +61,16 @@ const ProductItem = ({
                                 className={styles.clearMarginPadding}
                                 letter="capitalize"
                             >
-                                Product
+                                {name}
                             </Typography>
                         </a>
                     </Link>
                     <PriceFormat
-                        value={999000}
-                        variant="p"
-                        className={styles.clearMarginPadding}
-                        letter="uppercase"
+                        // eslint-disable-next-line camelcase
+                        priceRange={price_range}
+                        // eslint-disable-next-line camelcase
+                        priceTiers={price_tiers}
+                        productType={__typename}
                     />
                     <div className={styles.colorContainer}>
                         {showListColor

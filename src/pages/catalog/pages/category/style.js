@@ -15,11 +15,12 @@ const useStyles = makeStyles(() => ({
         backgroundColor: GRAY_PRIMARY,
     },
     header: {
+        left: '50%',
+        right: '50%',
+        top: '11px',
         position: 'absolute',
-        top: 0,
-        left: 0,
-        zIndex: 3,
         borderBottom: 'none',
+        fontWeight: 'bold',
     },
     filterContainer: {
         ...FlexRow,
@@ -52,6 +53,15 @@ const useStyles = makeStyles(() => ({
     productContainer: {
         overflow: 'hidden',
         ...CreatePadding(0, 0, 50, 0),
+    },
+    btnLoadmore: {
+        cursor: 'pointer',
+        width: '100%',
+        padding: '20px',
+        fontSize: '12px',
+        background: '#fff',
+        border: 'none',
+        color: '#B4B4B4',
     },
 }));
 

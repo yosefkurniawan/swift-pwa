@@ -7,7 +7,7 @@ import {
     ClearMarginPadding,
     FlexRow,
 } from '@theme/mixins';
-import { GRAY_PRIMARY, PRIMARY } from '@theme/colors';
+import { GRAY_PRIMARY, PRIMARY, WHITE } from '@theme/colors';
 
 export default makeStyles((theme) => ({
     container: {},
@@ -22,7 +22,7 @@ export default makeStyles((theme) => ({
         width: '100%',
         ...Centering,
         height: 288,
-        backgroundColor: GRAY_PRIMARY,
+        backgroundColor: WHITE,
     },
     imgProduct: {
         width: '100%',

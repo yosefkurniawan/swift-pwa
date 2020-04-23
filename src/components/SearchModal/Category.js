@@ -2,6 +2,7 @@ import React from 'react';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
 import { Slide } from '@material-ui/core';
+import Router from 'next/router';
 import useStyles from './style';
 
 const Category = ({
@@ -20,7 +21,15 @@ const Category = ({
                     ? data.map((catlvl1, index) => (
                         <div key={index} className="column">
                             <Typography variant="h1" align="center">
-                                {catlvl1.name}
+                                <Button
+                                    variant="text"
+                                    onClick={() => Router.push(
+                                        '/[...slug]',
+                                        `/${catlvl1.url_key}`,
+                                    )}
+                                >
+                                    {catlvl1.name}
+                                </Button>
                             </Typography>
                             {catlvl1.children.map((catlvl2, indx) => (
                                 <Button
