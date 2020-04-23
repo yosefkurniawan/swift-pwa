@@ -81,6 +81,12 @@ const FeaturedProducts = ({ storeConfig }) => {
                         }
                     }
                 }
+                children {
+                    id
+                    name
+                    url_key
+                    image
+                }
             }
         }
     `;
@@ -101,6 +107,7 @@ const FeaturedProducts = ({ storeConfig }) => {
     if (!data) return <p>Not found</p>;
 
     const products = data.categoryList[0].products.items.map((product) => ({
+        ...product,
         name: product.name,
         link: product.url_key,
         imageSrc: product.image.url,

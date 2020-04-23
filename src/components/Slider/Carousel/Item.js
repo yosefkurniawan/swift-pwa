@@ -4,7 +4,12 @@ import Link from 'next/link';
 import useStyles from './style';
 
 const Item = ({
-    storeConfig, url, imageSrc, name, price,
+    storeConfig,
+    // item,
+    url,
+    imageSrc,
+    name,
+    price,
 }) => {
     const styles = useStyles();
     return (
