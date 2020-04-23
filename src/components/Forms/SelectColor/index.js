@@ -6,7 +6,8 @@ import useStyles from './style';
 const SelectColor = ({ value, selected, onChange }) => {
     const styles = useStyles();
     const containerStyle = selected
-        ? classNames(styles.container, styles.bordered)
+        ? classNames(styles.container, value.toLowerCase() === 'black' || value.toLowerCase() === '#000000'
+            ? styles.borderedSecondary : styles.bordered)
         : styles.container;
     const customStyle = {
         backgroundColor: value,
