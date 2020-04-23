@@ -11,5 +11,6 @@
     "summary" : "summary",
     "nickname" : "nickname",
     "submitReview" : "Submit Review" ,
-    "rate" : "Rate"
+    "rate" : "Rate",
+    "upsellTitle": "You might also like"
 }

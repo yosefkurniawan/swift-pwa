@@ -11,5 +11,6 @@
     "summary" : "Ringkasan",
     "nickname" : "Nama",
     "submitReview" : "Kirim Review" ,
-    "rate" : "Rating"
+    "rate" : "Rating",
+    "upsellTitle": "Mungkin kamu juga suka"
 }

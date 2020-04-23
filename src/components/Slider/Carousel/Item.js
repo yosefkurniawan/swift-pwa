@@ -23,12 +23,12 @@ const Item = ({
     return (
         <div className={styles.itemContainer}>
             <div className={styles.imgItem}>
-                <Link href="/product/[id]" as={`/product/${url}`}>
+                <Link href="[...slug]" as={`${url}`}>
                     <img src={image} alt={name} className={styles.imgItem} />
                 </Link>
             </div>
             <div className={styles.detailItem}>
-                <Link href="/product/[id]" as={`/product/${url}`}>
+                <Link href="[...slug]" as={`${url}`}>
                     <a>
                         <Typography variant="span">{name}</Typography>
                     </a>

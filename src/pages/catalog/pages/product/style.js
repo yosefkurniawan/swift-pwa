@@ -103,7 +103,9 @@ const useStyles = makeStyles((theme) => ({
     textLoadReview: {
         color: `${GRAY_SECONDARY} !important`,
     },
-
+    sku: {
+        alignItems: 'center',
+    },
 }));
 
 export default useStyles;
