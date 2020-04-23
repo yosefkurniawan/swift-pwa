@@ -2,29 +2,13 @@ import Banner from '@components/Slider/Banner';
 import Carousel from '@components/Slider/Carousel';
 import Span from '@components/Span';
 import SpanProduct from '@components/SpanProduct';
-import { useQuery } from '@apollo/react-hooks';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import gql from 'graphql-tag';
+import gqlService from './service/graphql';
 import useStyles from './style';
 
 const BannerSlider = ({ storeConfig }) => {
     const styles = useStyles();
     const logoUrl = `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`;
-    const getBannerSlider = gql`
-        {
-            getHomepageSlider {
-                slider_id
-                images {
-                    image_id
-                    image_url
-                    mobile_image_url
-                    thumb_image_url
-                }
-            }
-        }
-    `;
-
-    const { loading, data, error } = useQuery(getBannerSlider);
+    const { loading, data, error } = gqlService.getBannerSlider();
 
     if (loading) return <p>Loading . . .</p>;
     if (error) {
@@ -53,58 +37,11 @@ const BannerSlider = ({ storeConfig }) => {
     );
 };
 
-const FeaturedProducts = ({ storeConfig }) => {
+const FeaturedProducts = () => {
     const styles = useStyles();
-
-    const getFeaturedProducts = gql`
-        query($url_key: String!) {
-            categoryList(filters: { url_key: { eq: $url_key } }) {
-                id
-                name
-                url_key
-                image
-                products {
-                    items {
-                        name
-                        image {
-                            url
-                        }
-                        thumbnail {
-                            url
-                        }
-                        price_range {
-                            minimum_price {
-                                regular_price {
-                                    value
-                                }
-                            }
-                        }
-                        price_tiers {
-                            discount {
-                                amount_off
-                                percent_off
-                            }
-                            final_price {
-                                currency
-                                value
-                            }
-                            quantity
-                        }
-                    }
-                }
-                children {
-                    id
-                    name
-                    url_key
-                    image
-                }
-            }
-        }
-    `;
-
-    const { loading, data, error } = useQuery(getFeaturedProducts, {
-        variables: { url_key: 'homepage-featured-products' },
-    });
+    const { loading, data, error } = gqlService.getCategoryList(
+        { url_key: 'homepage-featured-products' },
+    );
 
     if (loading) return <p>Loading . . .</p>;
     if (error) {
@@ -135,8 +72,30 @@ const FeaturedProducts = ({ storeConfig }) => {
             <div className={styles.slider}>
                 <Carousel data={products} />
             </div>
+        </>
+    );
+};
 
-            {data.categoryList.map((category) => (
+const CategoryList = ({ storeConfig }) => {
+    const styles = useStyles();
+    const { loading, data, error } = gqlService.getCategoryList(
+        { url_key: 'homepage-featured-categories' },
+    );
+
+    if (loading) return <p>Loading . . .</p>;
+    if (error) {
+        return (
+            <p>
+                ERROR:
+                {error.message}
+            </p>
+        );
+    }
+    if (!data) return <p>Not found</p>;
+
+    return (
+        <>
+            {data.categoryList[0].children.map((category) => (
                 <div className={styles.slider}>
                     <SpanProduct
                         storeConfig={storeConfig}
@@ -152,11 +111,11 @@ const FeaturedProducts = ({ storeConfig }) => {
 
 const HomePage = ({ storeConfig }) => {
     const styles = useStyles();
-
     return (
         <div className={styles.container}>
             <BannerSlider storeConfig={storeConfig} />
             <FeaturedProducts storeConfig={storeConfig} />
+            <CategoryList storeConfig={storeConfig} />
         </div>
     );
 };
