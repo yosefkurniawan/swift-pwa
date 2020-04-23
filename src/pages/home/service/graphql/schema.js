@@ -35,6 +35,11 @@ export const getCategoryList = gql`
                     price_range {
                         minimum_price {
                             regular_price {
+                                currency
+                                value
+                            }
+                            final_price {
+                                currency
                                 value
                             }
                         }
