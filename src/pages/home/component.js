@@ -4,6 +4,7 @@ import Span from '@components/Span';
 import SpanProduct from '@components/SpanProduct';
 import gqlService from './service/graphql';
 import useStyles from './style';
+import setDefaultWhenEmpty from '../../helpers/checkImageSrc';
 
 const BannerSlider = ({ storeConfig }) => {
     const styles = useStyles();
@@ -64,11 +65,9 @@ const FeaturedProducts = () => {
 
     return (
         <>
-            {data.categoryList.image && (
-                <Span>
-                    <img src={data.categoryList.image} alt="label" />
-                </Span>
-            )}
+            <Span>
+                <img src={setDefaultWhenEmpty(data.categoryList.image)} alt="label" style={{ maxHeight: '100%' }} />
+            </Span>
             <div className={styles.slider}>
                 <Carousel data={products} />
             </div>

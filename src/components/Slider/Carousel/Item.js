@@ -2,6 +2,7 @@
 import Typography from '@components/Typography';
 import Link from 'next/link';
 import useStyles from './style';
+import setDefaultWhenEmpty from '../../../helpers/checkImageSrc';
 
 const Item = ({
     // storeConfig,
@@ -17,7 +18,7 @@ const Item = ({
         <div className={styles.itemContainer}>
             <div className={styles.imgItem}>
                 <Link href="[...slug]" as={`${url}`}>
-                    <img src={imageSrc} alt={name} className={styles.imgItem} />
+                    <img src={setDefaultWhenEmpty(imageSrc)} alt={name} className={styles.imgItem} />
                 </Link>
             </div>
             <div className={styles.detailItem}>
