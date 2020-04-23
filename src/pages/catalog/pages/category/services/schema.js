@@ -47,6 +47,7 @@ export const getProductByCategory = (catID, config = {}) => gql`
 }
       ) {
         total_count
+        __typename
         items {
           id
           name
@@ -97,7 +98,15 @@ export const getProductByCategory = (catID, config = {}) => gql`
               }
             }
           }
-          
+          ... on ConfigurableProduct {
+            variants {
+              attributes {
+                code
+                label
+                value_index
+              }
+            }
+          }
         }
       }
     }

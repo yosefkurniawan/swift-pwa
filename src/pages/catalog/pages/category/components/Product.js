@@ -8,18 +8,14 @@ import Loading from '@components/Loaders';
 import useStyles from '../style';
 import Filter from './Filter';
 import { getProductByCategory } from '../services';
+import * as Schema from '../services/schema';
 
-const getProduct = (catId, config = {}) => {
-    const { loading, data } = getProductByCategory(catId, config);
-    return {
-        loading,
-        data,
-    };
-};
+const getProduct = (catId, config = {}) => getProductByCategory(catId, config);
 
 const Product = ({ catId }) => {
     const styles = useStyles();
     const [openFilter, setOpenFilter] = React.useState(false);
+    const [page, setPage] = React.useState(1);
     const [filter, setFilter] = React.useState({});
     const config = {
         pageSize: 20,
@@ -37,12 +33,10 @@ const Product = ({ catId }) => {
         });
     }
 
-    const { loading, data } = getProduct(catId, config);
+    const { loading, data, fetchMore } = getProduct(catId, config);
     if (loading) {
         return <Loading size="50px" />;
     }
-
-
     const { products } = data;
     return (
         <>
@@ -88,6 +82,33 @@ const Product = ({ catId }) => {
                     }}
                     gridItemProps={{ xs: 6, sm: 4, md: 3 }}
                 />
+                <button
+                    type="button"
+                    onClick={() => {
+                        setPage(page + 1);
+                        return fetchMore({
+                            query: Schema.getProductByCategory(catId, {
+                                pageSize: 20,
+                                currentPage: page + 1,
+                                filter: [],
+                            }),
+                            updateQuery: (previousResult, { fetchMoreResult }) => {
+                                const previousEntry = previousResult.products;
+                                const newItems = fetchMoreResult.products.items;
+                                return {
+                                    products: {
+                                    // eslint-disable-next-line no-underscore-dangle
+                                        __typename: previousEntry.__typename,
+                                        total_count: previousEntry.total_count,
+                                        items: [...previousEntry.items, ...newItems],
+                                    },
+                                };
+                            },
+                        });
+                    }}
+                >
+                    loadmore
+                </button>
             </div>
         </>
     );
