@@ -27,8 +27,8 @@ const SubCategory = ({ open, data, onBack }) => {
                             variant="text"
                             onClick={() => {
                                 Router.push(
-                                    '/category/[id]',
-                                    `/category/${item.url_key.toLowerCase()}`,
+                                    '/[...slug]',
+                                    `/${item.url_path}`,
                                 );
                             }}
                         >
