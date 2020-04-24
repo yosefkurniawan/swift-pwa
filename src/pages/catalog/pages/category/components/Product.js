@@ -14,6 +14,11 @@ import * as Schema from '../services/schema';
 
 const getProduct = (catId, config = {}) => getProductByCategory(catId, config);
 
+/**
+ * function to get query from path
+ * @param Object
+ * @returns object
+ */
 const getQuery = (router) => {
     let { asPath } = router;
     let path = '';
@@ -39,6 +44,13 @@ const getQuery = (router) => {
         query,
     };
 };
+
+/**
+ * function to generate config product
+ * @param Object query
+ * @param Object configuration
+ * @returns object
+ */
 
 const generateConfig = (query, config) => {
     const resolveConfig = config;
@@ -96,6 +108,8 @@ const Product = ({ catId }) => {
         });
         Router.push('/[...slug]', encodeURI(`${path}?${queryParams}`));
     };
+
+
     config = generateConfig(query, config);
     const { loading, data, fetchMore } = getProduct(query.cat ? query.cat : catId, config);
     if (loading) {
