@@ -10,17 +10,19 @@ import {
 } from '@theme/mixins';
 
 export default makeStyles((theme) => ({
+    dialog: {
+        background: 'transparent',
+    },
     root: {
         width: '100%',
         height: '100%',
         position: 'relative',
+        background: 'transparent',
     },
     bannerContainer: {
         height: '70vh',
         backgroundPosition: 'center',
-        backgroundRepeat: 'repeat',
-        backgroundSize: 'cover',
-        backgroundColor: 'red',
+        background: 'transparent',
     },
     img: {
         display: 'block',
@@ -37,10 +39,13 @@ export default makeStyles((theme) => ({
         borderRadius: 10,
         bottom: 0,
         ...CreateBorder('1px', '1px', 0, '1px', GRAY_PRIMARY),
-        ...CreatePadding(28, 14, 60, 14),
+        ...CreatePadding(15, 14, 60, 14),
         ...FlexColumn,
         alignItems: 'center',
         justifyContent: 'space-around',
+    },
+    btnClose: {
+        ...CreateMargin(0, 0, 15, 0),
     },
     label: {
         alignItems: 'center',

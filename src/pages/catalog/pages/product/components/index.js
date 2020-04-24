@@ -1,7 +1,7 @@
 import Button from '@components/Button';
 import PriceFormat from '@components/PriceFormat';
 import Banner from '@components/Slider/Banner';
-import Caraousel from '@components/Slider/Carousel';
+// import Caraousel from '@components/Slider/Carousel';
 import Typography from '@components/Typography';
 import { Box, IconButton } from '@material-ui/core';
 import {
@@ -23,14 +23,26 @@ import SharePopup from './SharePopup';
 
 const ProductPage = (props) => {
     const {
-        t, url, data, storeConfig,
+        t, url, data,
     } = props;
-    console.log(data);
     const styles = useStyles();
     const route = useRouter();
+
+    const bannerData = data.media_gallery.map((media) => ({
+        link: '#',
+        imageUrl: media.url,
+    }));
+
     const [openOption, setOpenOption] = React.useState(false);
     const [openDrawer, setOpenDrawer] = React.useState(false);
     const [openShare, setOpenShare] = React.useState(false);
+    const [banner, setBanner] = React.useState(bannerData);
+    const [price, setPrice] = React.useState({
+        priceRange: data.price_range,
+        priceTiers: data.price_tiers,
+        // eslint-disable-next-line no-underscore-dangle
+        productType: data.__typename,
+    });
     const [feed, setFeed] = React.useState(false);
 
     const favoritIcon = feed ? (
@@ -54,12 +66,22 @@ const ProductPage = (props) => {
             },
         ];
     }
+
+    // const relateData = data.related_products.map((item) => ({
+    //     link: item.url_key,
+    //     imageSrc: item.thumbnail.url,
+    //     name: item.name,
+    //     price: item.minimum_price.final_price.value,
+    // }));
+
     return (
         <>
             <OptionDialog
                 {...props}
                 open={openOption}
                 setOpen={() => setOpenOption(!openOption)}
+                setBanner={setBanner}
+                setPrice={setPrice}
             />
             <SharePopup
                 open={openShare}
@@ -70,8 +92,7 @@ const ProductPage = (props) => {
             <Box className={styles.container}>
                 <div className={styles.headContainer}>
                     <Banner
-                        data={data.media_gallery}
-                        inital={{ url: 'url', link: '', alt: 'label' }}
+                        data={banner}
                         height="70vh"
                     />
                     <RightDrawer
@@ -92,12 +113,7 @@ const ProductPage = (props) => {
                                 {data.name}
                             </Typography>
                             <PriceFormat
-                                value={999000}
-                                type="regular"
-                                variant="span"
-                                letter="uppercase"
-                                className="clear-margin-padding"
-                                storeConfig={storeConfig}
+                                {...price}
                             />
                         </div>
                         <div className={styles.shareContainer}>
@@ -173,21 +189,10 @@ const ProductPage = (props) => {
                 </div>
                 <ListReviews {...props} />
                 <div className={styles.carouselContainer}>
-                    <Caraousel
-                        data={
-                            data.related_products
-                            && data.related_products.length > 0
-                                ? data.related_products
-                                : []
-                        }
-                        initial={{
-                            name: 'name',
-                            price: '',
-                            url: 'url_key',
-                            thumbnail: 'thumbnail',
-                        }}
+                    {/* <Caraousel
+                        data={relateData}
                         title={t('product:recomendedTitle')}
-                    />
+                    /> */}
                 </div>
                 <div className={styles.footer}>
                     <Button

@@ -1,4 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-undef */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { Dialog, Fade } from '@material-ui/core';
 import React from 'react';
@@ -8,48 +11,57 @@ import CustomRadio from '@components/Forms/Radio';
 import SelectColor from '@components/Forms/SelectColor';
 import SelectSize from '@components/Forms/SelectSize';
 import Router from 'next/router';
+import ProductByVariant from '@helpers/productByVariant';
+import { getConfigurableProduct } from '../../services/graphql';
 import useStyles from './style';
 
 const Transition = React.forwardRef((props, ref) => (
     <Fade ref={ref} {...props} />
 ));
 
-const colorData = [
-    { value: '#717171', label: 'One' },
-    { value: '#9b9b9b', label: ' two' },
-    { value: '#c1c1c1', label: ' three' },
-];
-
-const sizeData = [
-    { value: 's', label: 'S' },
-    { value: 'm', label: 'M' },
-    { value: 'l', label: 'L' },
-    { value: 'xl', label: 'XL' },
-    { value: 'xxl', label: 'XXL' },
-];
-
 const OptionDialog = (props) => {
-    const { open, setOpen, t } = props;
+    const {
+        open, setOpen, t, data: { sku },
+        setBanner, setPrice,
+    } = props;
     const styles = useStyles();
-    const [color, setColor] = React.useState(colorData[0].value);
-    const [size, setSize] = React.useState(sizeData[0].value);
-    const [sizeOptions, setSizeOptions] = React.useState(sizeData);
-    // eslint-disable-next-line no-unused-vars
-    const [banner, setBanner] = React.useState(
-        '/assets/img/sample/product.png',
-    );
+    const [selected, setSelected] = React.useState({});
 
-    const handleChangeColor = (val) => {
-        if (val === '#c1c1c1') {
-            setSizeOptions([]);
-        } else {
-            setSizeOptions(sizeData);
-        }
-        setColor(val);
-    };
+    const { data } = getConfigurableProduct(sku);
 
-    const bannerStyles = {
-        backgroundImage: `url(${banner})`,
+    let optionData = [];
+    if (data) {
+        optionData = data.products.items[0].configurable_options.map((config) => {
+            const values = config.values.map((val) => ({
+                label: val.label,
+                value: val.label,
+            }));
+            return {
+                ...config,
+                values,
+            };
+        });
+    }
+
+    const handleSelect = (value, key) => {
+        const options = selected;
+        options[key] = value;
+        setSelected({
+            ...selected,
+            [key]: value,
+        });
+        const product = ProductByVariant(options, data.products.items[0].variants);
+        const bannerData = product.media_gallery.map((media) => ({
+            link: '#',
+            imageUrl: media.url,
+        }));
+        setBanner(bannerData);
+        setPrice({
+            priceRange: product.price_range,
+            priceTiers: product.price_tiers,
+            // eslint-disable-next-line no-underscore-dangle
+            productType: product.__typename,
+        });
     };
 
     return (
@@ -58,15 +70,51 @@ const OptionDialog = (props) => {
             open={open}
             TransitionComponent={Transition}
             onClose={setOpen}
+            PaperProps={{
+                className: styles.dialog,
+            }}
         >
             <div className={styles.root}>
                 <div
                     className={styles.bannerContainer}
-                    style={bannerStyles}
                     onClick={() => setOpen()}
                 />
                 <div className={styles.optionContainer}>
-                    <CustomRadio
+                    <Button variant="text" onClick={setOpen} className={styles.btnClose}>
+                        <Typography variant="p">Close</Typography>
+                    </Button>
+                    { optionData.map((option, index) => (
+                        option.attribute_code === 'color'
+                            ? (
+                                <CustomRadio
+                                    key={index}
+                                    label="Select color"
+                                    flex="row"
+                                    CustomItem={SelectColor}
+                                    value={selected[option.attribute_code]}
+                                    valueData={option.values}
+                                    onChange={(val) => handleSelect(val, option.attribute_code)}
+                                    className={styles.label}
+                                    classContainer={styles.center}
+                                />
+                            )
+                            : option.attribute_code === 'size'
+                                ? (
+                                    <CustomRadio
+                                        key={index}
+                                        label="Select size"
+                                        flex="row"
+                                        CustomItem={SelectSize}
+                                        value={selected[option.attribute_code]}
+                                        valueData={option.values}
+                                        onChange={(val) => handleSelect(val, option.attribute_code)}
+                                        className={styles.sizeContainer}
+                                        classContainer={styles.center}
+                                    />
+                                )
+                                : (<React.Fragment key={index} />)
+                    ))}
+                    {/* <CustomRadio
                         label="Select color"
                         flex="row"
                         CustomItem={SelectColor}
@@ -114,7 +162,7 @@ const OptionDialog = (props) => {
                                     </Typography>
                                 </Button>
                             </>
-                        )}
+                        )} */}
 
                     <div className={styles.footer}>
                         <Button

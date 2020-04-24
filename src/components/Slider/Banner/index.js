@@ -10,7 +10,6 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 const Banner = ({
     data = [],
     height = '100%',
-    initial = { url: 'url', link: '' },
 }) => {
     const styles = useStyles();
     const [index, setIndex] = useState(0);
@@ -31,8 +30,7 @@ const Banner = ({
                     <ImageSlide
                         height={height}
                         key={key}
-                        url={item[initial.url]}
-                        link={item[initial.link]}
+                        {...item}
                     />
                 ))}
             </AutoPlaySwipeableViews>
