@@ -1,10 +1,10 @@
 import Banner from '@components/Slider/Banner';
 import Carousel from '@components/Slider/Carousel';
-import Span from '@components/Span';
 import SpanProduct from '@components/SpanProduct';
+import { Fragment } from 'react';
+import Link from 'next/link';
 import gqlService from './service/graphql';
 import useStyles from './style';
-import setDefaultWhenEmpty from '../../helpers/checkImageSrc';
 
 const BannerSlider = ({ storeConfig }) => {
     const styles = useStyles();
@@ -41,7 +41,7 @@ const BannerSlider = ({ storeConfig }) => {
 
 const FeaturedProducts = () => {
     const styles = useStyles();
-    const { loading, data, error } = gqlService.getCategoryList(
+    const { loading, data, error } = gqlService.getFeaturedProducts(
         { url_key: 'homepage-featured-products' },
     );
 
@@ -56,22 +56,29 @@ const FeaturedProducts = () => {
     }
     if (!data) return <p>Not found</p>;
 
-    const products = data.categoryList[0].products.items.map((product) => ({
-        ...product,
-        name: product.name,
-        link: product.url_key,
-        imageSrc: product.image.url,
-        price: product.price_range.minimum_price.regular_price.value,
-    }));
-
     return (
         <>
-            <Span>
-                <img src={setDefaultWhenEmpty(data.categoryList.image)} alt="label" style={{ maxHeight: '100%' }} />
-            </Span>
-            <div className={styles.slider}>
-                <Carousel data={products} />
-            </div>
+            {data.categoryList[0].children.map((category, i) => {
+                const products = category.products.items.map((product) => ({
+                    ...product,
+                    name: product.name,
+                    link: product.url_key,
+                    imageSrc: product.image.url,
+                    price: product.price_range.minimum_price.regular_price.value,
+                }));
+                return (
+                    <Fragment key={i}>
+                        {category.image && (
+                            <Link href="[...slug]" as={category.url_path}>
+                                <img src={category.image} alt={category.name} style={{ maxHeight: '100%' }} />
+                            </Link>
+                        )}
+                        <div className={styles.slider}>
+                            <Carousel data={products} />
+                        </div>
+                    </Fragment>
+                );
+            })}
         </>
     );
 };
@@ -95,8 +102,8 @@ const CategoryList = ({ storeConfig }) => {
 
     return (
         <>
-            {data.categoryList[0].children.map((category) => (
-                <div className={styles.slider}>
+            {data.categoryList[0].children.map((category, i) => (
+                <div className={styles.slider} key={i}>
                     <SpanProduct
                         storeConfig={storeConfig}
                         imageSrc={category.image}
