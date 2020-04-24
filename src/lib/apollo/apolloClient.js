@@ -1,9 +1,17 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import fetch from 'isomorphic-unfetch';
 import { graphqlEndpoint } from '@root/swift.config.js';
+import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
+
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+    introspectionQueryResultData: {
+        __schema: {
+            types: [],
+        },
+    },
+});
 
 const uri = process.env.NODE_ENV === 'production'
     ? graphqlEndpoint.prod
@@ -19,7 +27,7 @@ export default function createApolloClient(initialState, ctx) {
             credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
             fetch,
         }),
-        cache: new InMemoryCache().restore(initialState),
+        cache: new InMemoryCache({ fragmentMatcher }).restore(initialState),
         connectToDevTools: true,
     });
 }
