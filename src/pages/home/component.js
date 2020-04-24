@@ -23,9 +23,10 @@ const BannerSlider = ({ storeConfig }) => {
     if (!data) return <p>Not found</p>;
 
     const bannerImages = data.getHomepageSlider.images.map((image) => ({
-        url: image.mobile_image_url || image.image_url,
-        link: '/',
+        imageUrl: image.mobile_image_url || image.image_url,
+        link: '/ChangeUrl',
     }));
+
     return (
         <div className={styles.header}>
             <div className={styles.logo}>
