@@ -1,6 +1,6 @@
 import Banner from '@components/Slider/Banner';
 import Carousel from '@components/Slider/Carousel';
-import SpanProduct from '@components/SpanProduct';
+import SpanCategory from '@components/SpanCategory';
 import { Fragment } from 'react';
 import Link from 'next/link';
 import gqlService from './service/graphql';
@@ -83,7 +83,7 @@ const CategoryList = ({ storeConfig }) => {
         <>
             {data.categoryList[0].children.map((category, i) => (
                 <div className={styles.slider} key={i}>
-                    <SpanProduct
+                    <SpanCategory
                         storeConfig={storeConfig}
                         imageSrc={category.image}
                         name={category.name}

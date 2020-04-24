@@ -5,7 +5,7 @@ import Link from 'next/link';
 import useStyles from './style';
 import setDefaultWhenEmpty from '../../helpers/checkImageSrc';
 
-const SpanProduct = ({
+const SpanCategory = ({
     imageSrc, name, description, url,
 }) => {
     const styles = useStyles();
@@ -44,4 +44,4 @@ const SpanProduct = ({
     );
 };
 
-export default SpanProduct;
+export default SpanCategory;
