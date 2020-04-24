@@ -88,6 +88,7 @@ const CategoryList = ({ storeConfig }) => {
                         imageSrc={category.image}
                         name={category.name}
                         description={category.description}
+                        url={category.url_path}
                     />
                 </div>
             ))}
