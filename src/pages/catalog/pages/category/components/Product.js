@@ -18,10 +18,8 @@ const Product = ({ catId }) => {
     const [page, setPage] = React.useState(1);
     const [loadmore, setLoadmore] = React.useState(false);
     const [filter, setFilter] = React.useState({});
-    const [prevProduct, setPrevProduct] = React.useState({});
 
     const setFiltervalue = (v) => {
-        setPrevProduct({});
         setFilter(v);
     };
 
@@ -46,11 +44,10 @@ const Product = ({ catId }) => {
         return <Loading size="50px" />;
     }
     let products = {};
-    if (prevProduct.total_count) {
-        products = prevProduct;
-    } else {
-        products = data.products;
-    }
+    products = data && data.products ? data.products : {
+        total_count: 0,
+        items: [],
+    };
     return (
         <>
             <Filter
@@ -114,23 +111,7 @@ const Product = ({ catId }) => {
                                 ) => {
                                     setLoadmore(false);
                                     const previousEntry = previousResult.products;
-                                    let previousState = prevProduct;
-                                    if (!previousState.total_count) {
-                                        previousState = previousEntry;
-                                    }
                                     const newItems = fetchMoreResult.products.items;
-                                    setPrevProduct({
-                                        // eslint-disable-next-line no-underscore-dangle
-                                        __typename:
-                                            // eslint-disable-next-line no-underscore-dangle
-                                            previousState.__typename,
-                                        total_count:
-                                        previousState.total_count,
-                                        items: [
-                                            ...previousState.items,
-                                            ...newItems,
-                                        ],
-                                    });
                                     return {
                                         products: {
                                             // eslint-disable-next-line no-underscore-dangle
@@ -149,7 +130,7 @@ const Product = ({ catId }) => {
                             });
                         }}
                     >
-                        {loadmore ? 'loading' : 'loadmore'}
+                        {loadmore ? 'Loading' : 'Load More Items'}
                     </button>
                 )}
             </div>
