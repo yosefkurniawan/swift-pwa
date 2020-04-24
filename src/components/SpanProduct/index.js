@@ -1,18 +1,22 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 import Typography from '@components/Typography';
-import Button from '@components/Button';
+import Link from 'next/link';
 import useStyles from './style';
 import setDefaultWhenEmpty from '../../helpers/checkImageSrc';
 
-const SpanProduct = ({ imageSrc, name, description }) => {
+const SpanProduct = ({
+    imageSrc, name, description, url,
+}) => {
     const styles = useStyles();
     return (
         <div className={styles.container}>
             <Grid container justify="center">
                 <Grid item sm={12} md={12} lg={12}>
                     <div className={styles.imageContainer}>
-                        <img src={setDefaultWhenEmpty(imageSrc)} alt={name} />
+                        <Link href="[...slug]" as={url}>
+                            <img src={setDefaultWhenEmpty(imageSrc)} alt={name} />
+                        </Link>
                     </div>
                 </Grid>
                 <Grid item sm={12} md={12} lg={12}>
@@ -20,11 +24,11 @@ const SpanProduct = ({ imageSrc, name, description }) => {
                         <Typography variant="title" type="bold" align="center">
                             {name}
                         </Typography>
-                        <Typography variant="p">
+                        <Typography variant="p" size="12" align="center">
                             { /* eslint-disable-next-line react/no-danger */ }
-                            <span dangerouslySetInnerHTML={{ __html: description }} />
+                            <div dangerouslySetInnerHTML={{ __html: description }} />
                         </Typography>
-                        <Button variant="text">
+                        <Link href="[...slug]" as={url}>
                             <Typography
                                 variant="span"
                                 type="bold"
@@ -32,7 +36,7 @@ const SpanProduct = ({ imageSrc, name, description }) => {
                             >
                                 SHOP NOW
                             </Typography>
-                        </Button>
+                        </Link>
                     </div>
                 </Grid>
             </Grid>
