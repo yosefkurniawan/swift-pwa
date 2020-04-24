@@ -17,12 +17,12 @@ const Item = ({
     return (
         <div className={styles.itemContainer}>
             <div className={styles.imgItem}>
-                <Link href="[...slug]" as={`${url}`}>
+                <Link href="[...slug]" as={url}>
                     <img src={setDefaultWhenEmpty(imageSrc)} alt={name} className={styles.imgItem} />
                 </Link>
             </div>
             <div className={styles.detailItem}>
-                <Link href="[...slug]" as={`${url}`}>
+                <Link href="[...slug]" as={url}>
                     <a>
                         <Typography variant="span">{name}</Typography>
                     </a>

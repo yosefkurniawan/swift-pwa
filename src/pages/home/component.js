@@ -48,7 +48,7 @@ const FeaturedProducts = () => {
                 const products = category.products.items.map((product) => ({
                     ...product,
                     name: product.name,
-                    link: product.url_key,
+                    url: product.url_key,
                     imageSrc: product.image.url,
                     price: product.price_range.minimum_price.regular_price.value,
                 }));
