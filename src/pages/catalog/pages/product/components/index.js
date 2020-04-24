@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import Button from '@components/Button';
 import PriceFormat from '@components/PriceFormat';
 import Banner from '@components/Slider/Banner';
@@ -73,6 +74,11 @@ const ProductPage = (props) => {
     //     name: item.name,
     //     price: item.minimum_price.final_price.value,
     // }));
+
+    const handleAddCart = () => {
+        if (data.__typename === 'ConfigurableProduct') setOpenOption(true);
+        else console.log('cart');
+    };
 
     return (
         <>
@@ -198,7 +204,7 @@ const ProductPage = (props) => {
                     <Button
                         className={styles.btnAddToCard}
                         color="primary"
-                        onClick={() => setOpenOption(true)}
+                        onClick={handleAddCart}
                     >
                         <Typography
                             align="center"

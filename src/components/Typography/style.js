@@ -9,12 +9,15 @@ import {
     FONT_24,
 } from '@theme/typography';
 import {
-    PRIMARY, RED, GREEN, ORANGE,
+    PRIMARY, RED, GREEN, ORANGE, WHITE,
 } from '@theme/colors';
 
 const useStyles = makeStyles(() => ({
     default: {
         color: PRIMARY,
+    },
+    white: {
+        color: WHITE,
     },
     red: {
         color: RED,

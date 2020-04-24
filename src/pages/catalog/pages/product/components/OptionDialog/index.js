@@ -3,7 +3,9 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { Dialog, Fade } from '@material-ui/core';
+import {
+    Dialog, Fade, Select, MenuItem, FormControl, InputLabel,
+} from '@material-ui/core';
 import React from 'react';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
@@ -19,6 +21,15 @@ const Transition = React.forwardRef((props, ref) => (
     <Fade ref={ref} {...props} />
 ));
 
+const renderQty = () => {
+    const options = [];
+    // eslint-disable-next-line no-plusplus
+    for (let item = 1; item <= 10; item++) {
+        options.push(<MenuItem key={item} value={item}>{item}</MenuItem>);
+    }
+    return options;
+};
+
 const OptionDialog = (props) => {
     const {
         open, setOpen, t, data: { sku },
@@ -26,6 +37,7 @@ const OptionDialog = (props) => {
     } = props;
     const styles = useStyles();
     const [selected, setSelected] = React.useState({});
+    const [qty, setQty] = React.useState(1);
 
     const { data } = getConfigurableProduct(sku);
 
@@ -62,6 +74,11 @@ const OptionDialog = (props) => {
             // eslint-disable-next-line no-underscore-dangle
             productType: product.__typename,
         });
+    };
+
+    const dataQty = renderQty(qty);
+    const handleQty = (event) => {
+        setQty(event.target.value);
     };
 
     return (
@@ -112,58 +129,34 @@ const OptionDialog = (props) => {
                                         classContainer={styles.center}
                                     />
                                 )
-                                : (<React.Fragment key={index} />)
+                                : (
+                                    <FormControl key={index} className={styles.select}>
+                                        <InputLabel htmlFor={`select-${option.label}`}>{`Select ${option.label}`}</InputLabel>
+                                        <Select
+                                            id={`select-${option.label}`}
+                                            value={selected[option.attribute_code]}
+                                            onChange={(val) => handleSelect(val, option.attribute_code)}
+                                            label={`Select ${option.label}`}
+                                        >
+                                            {
+                                                option.values.map((val, key) => (<MenuItem key={key} value={val.label}>{val.label}</MenuItem>))
+                                            }
+                                        </Select>
+                                    </FormControl>
+                                )
                     ))}
-                    {/* <CustomRadio
-                        label="Select color"
-                        flex="row"
-                        CustomItem={SelectColor}
-                        value={color}
-                        valueData={colorData}
-                        onChange={handleChangeColor}
-                        className={styles.label}
-                        classContainer={styles.center}
-                    />
-                    {sizeOptions === ''
-                    || sizeOptions.length <= 0
-                    || !sizeOptions ? (
-                            // eslint-disable-next-line react/jsx-indent
-                            <>
-                                <Typography
-                                    variant="label"
-                                    type="bold"
-                                    letter="uppercase"
-                                >
-                                    Select Size
-                                </Typography>
-                                <Typography variant="p" className={styles.error}>
-                                    Sorry! This item is out of stock.
-                                </Typography>
-                            </>
-                        ) : (
-                            <>
-                                <CustomRadio
-                                    label="Select size"
-                                    flex="row"
-                                    CustomItem={SelectSize}
-                                    value={size}
-                                    valueData={sizeOptions}
-                                    onChange={setSize}
-                                    className={styles.sizeContainer}
-                                    classContainer={styles.center}
-                                />
-                                <Button variant="text">
-                                    <Typography
-                                        variant="p"
-                                        letter="capitalize"
-                                        decoration="underline"
-                                    >
-                                        {t('product:viewGuide')}
-                                    </Typography>
-                                </Button>
-                            </>
-                        )} */}
 
+                    <div className={styles.qty}>
+                        <Typography variant="span">
+                            Qty
+                        </Typography>
+                        <Select defaultValue={1} value={qty} onChange={handleQty} variant="outlined">
+                            {
+                                dataQty
+                            }
+                        </Select>
+
+                    </div>
                     <div className={styles.footer}>
                         <Button
                             className={styles.btnAddToCard}

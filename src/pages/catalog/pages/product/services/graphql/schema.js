@@ -3,6 +3,7 @@
 import { gql } from 'apollo-boost';
 
 const productDetail = `
+    id
     name
     sku
     stock_status
@@ -178,32 +179,5 @@ export const getConfigurableProduct = (sku) => {
         }
       }
     }`;
-    return query;
-};
-
-export const getReview = (params) => {
-    const { sku, pageSize, currentPage } = params;
-    const query = gql`
-  {
-    getProductReviews(sku: "${sku}", pageSize:${pageSize}, currentPage:${currentPage}) {
-      items {
-        id
-        nickname
-        ratings {
-          rating_name
-          value
-        }
-        review_entity
-        review_type
-        review_status
-        title
-        detail
-        created_at
-      }
-      message
-      totalCount
-    }
-  }
-  `;
     return query;
 };

@@ -13,7 +13,7 @@ export default makeStyles(() => ({
     icon: {
         color: GRAY_PRIMARY,
         '&:hover': {
-            color: PRIMARY,
+            color: `${PRIMARY} !important`,
         },
     },
     iconActive: {

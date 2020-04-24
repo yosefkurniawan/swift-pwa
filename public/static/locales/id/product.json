@@ -8,9 +8,16 @@
     "moreReview" : "Lihat ulasan lainya",
     "viewGuide" : "view site guide",
     "shareTitle" : "Bagikan",
-    "summary" : "Ringkasan",
+    "title" : "title",
     "nickname" : "Nama",
     "submitReview" : "Kirim Review" ,
     "rate" : "Rating",
-    "upsellTitle": "Mungkin kamu juga suka"
+    "upsellTitle": "Mungkin kamu juga suka",
+    "validate": {
+        "nickname": "Nickname tidak boleh kosong",
+        "rating": "Rating tidak boleh kosong",
+        "title": "Title tidak boleh kosong",
+        "detail": "Detail tidak boleh kosong"
+    },
+    "addRateSuccess": "Terimakasih atas ulasannya."
 }

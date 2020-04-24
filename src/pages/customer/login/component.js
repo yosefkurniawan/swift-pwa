@@ -67,6 +67,7 @@ const Login = ({ t }) => {
                         variant="title"
                         type="regular"
                         letter="capitalize"
+                        color="white"
                     >
                         {t('customer:login:pageTitle')}
                     </Typography>

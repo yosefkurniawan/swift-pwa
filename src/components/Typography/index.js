@@ -83,7 +83,7 @@ CustomTypography.propTypes = {
     letter: PropTypes.oneOf(['uppercase', 'capitalize', 'lowercase', 'none']),
     align: PropTypes.oneOf(['top', 'bottom', 'center', 'left']),
     decoration: PropTypes.oneOf(['underline', 'none']),
-    color: PropTypes.oneOf(['red', 'green', 'orange', 'default']),
+    color: PropTypes.oneOf(['red', 'green', 'orange', 'white', 'default']),
     size: PropTypes.oneOf(['6', '8', '10', '12', '14', '16', '0']),
 };
 

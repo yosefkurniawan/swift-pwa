@@ -4,8 +4,11 @@ import Header from '@components/Header';
 import Typography from '@components/Typography';
 import { Dialog, IconButton, Slide } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
-import RatingStar from '../RatingStar';
+import { Rating } from '@material-ui/lab';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import useStyles from './style';
+import { addReview } from '../../services/graphql';
 
 const CustomHeader = ({ onClose }) => (
     <Header
@@ -22,12 +25,41 @@ const CustomHeader = ({ onClose }) => (
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
-const AddReviewDialog = ({ open = false, setOpen = () => {}, t }) => {
+const AddReviewDialog = ({
+    open = false, setOpen = () => {}, t, data,
+}) => {
     const styles = useStyles();
-    const [rating, setRating] = React.useState(0);
-    const handleRating = (val) => {
-        setRating(val);
-    };
+    const validationSchema = Yup.object().shape({
+        nickname: Yup.string()
+            .required(t('product:validate:nickname')),
+        title: Yup.string().required(t('validate:title:required')),
+        detail: Yup.string().required(t('validate:detail:required')),
+        rating: Yup.string().required(t('validate:rating:required')),
+    });
+
+    const [addProductReview] = addReview();
+
+    const Formik = useFormik({
+        initialValues: {
+            nickname: '',
+            rating: '',
+            title: '',
+            detail: '',
+            pkValue: data.id,
+        },
+        validationSchema,
+        onSubmit: (value) => {
+            addProductReview({
+                variables: {
+                    ...value,
+                },
+            }).then((res) => {
+                setOpen({
+                    message: res.data.addProductReview.message,
+                });
+            });
+        },
+    });
     return (
         <Dialog
             fullScreen
@@ -37,42 +69,63 @@ const AddReviewDialog = ({ open = false, setOpen = () => {}, t }) => {
         >
             <CustomHeader onClose={setOpen} />
             <div className={styles.root}>
-                <div className={styles.container}>
-                    <Typography variant="title" type="semiBold" align="center">
+                <form onSubmit={Formik.handleSubmit} className={styles.container}>
+                    <Typography variant="title" type="semiBold" align="center" letter="capitalize">
                         {t('product:writeReview')}
                     </Typography>
                     <TextField
+                        name="nickname"
+                        onChange={Formik.handleChange}
+                        value={Formik.values.nickname}
                         placeholder={t('product:nickname')}
                         label={t('product:nickname')}
                         className={styles.textField}
+                        error={!!Formik.errors.nickname}
+                        errorMessage={Formik.errors.nickname || null}
                     />
                     <TextField
-                        placeholder={t('product:summary')}
-                        label={t('product:summary')}
+                        name="title"
+                        onChange={Formik.handleChange}
+                        value={Formik.values.title}
+                        label={t('product:title')}
                         className={styles.textField}
+                        error={!!Formik.errors.title}
+                        errorMessage={Formik.errors.title || null}
                     />
                     <TextField
+                        name="detail"
+                        onChange={Formik.handleChange}
+                        value={Formik.values.detail}
                         placeholder={t('product:review')}
                         label={t('product:review')}
                         className={styles.textField}
                         multiline
                         row="4"
+                        error={!!Formik.errors.detail}
+                        errorMessage={Formik.errors.detail || null}
                     />
                     <div className={styles.ratingContainer}>
                         <Typography variant="p" type="semiBold">
                             {t('product:rate')}
                         </Typography>
-                        <RatingStar
-                            disabled={false}
-                            onChange={handleRating}
-                            value={rating}
-                            sizeIcon={30}
+                        <Rating
+                            name="rating"
+                            value={Formik.rating}
+                            onChange={(event, newValue) => {
+                                Formik.setFieldValue('rating', newValue);
+                            }}
                         />
+                        {
+                            Formik.errors.rating
+                            && (
+                                <Typography variant="p" color="red">{Formik.errors.rating || ''}</Typography>
+                            )
+                        }
                     </div>
-                    <Button color="primary" onClick={setOpen}>
+                    <Button type="submit" color="primary">
                         {t('product:submitReview')}
                     </Button>
-                </div>
+                </form>
             </div>
         </Dialog>
     );
