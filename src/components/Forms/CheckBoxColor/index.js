@@ -10,24 +10,17 @@ const ChecboxColor = ({
     onChange = () => {},
 }) => {
     const styles = useStyles();
-    const findVal = dataValues.find((element) => element.value === value);
-    const checked = !!((findVal !== '' && findVal !== undefined && findVal));
+    const checked = dataValues.indexOf(value) !== -1;
 
     const handleChange = () => {
-        let newValue = dataValues;
-        if (checked === true) {
-            newValue = newValue.filter((element) => element.value !== value);
-        } else {
-            newValue = [...newValue, { label, value }];
-        }
-        onChange(newValue);
+        onChange(value);
     };
 
     const containerStyle = checked
         ? classNames(styles.container, styles.active)
         : styles.container;
     const customStyle = {
-        backgroundColor: `${value || '#fff'}`,
+        backgroundColor: `${label || '#fff'}`,
     };
 
     return (

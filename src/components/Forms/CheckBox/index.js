@@ -12,7 +12,6 @@ const CheckDefault = ({
 }) => {
     const findVal = dataValues.find((element) => element.value === value);
     const checked = !!(findVal !== '' && findVal !== undefined && findVal);
-
     const handleChange = () => {
         let newValue = dataValues;
         if (checked === true) {
@@ -47,8 +46,19 @@ const CustomCheckbox = ({
     onChange = () => {},
 }) => {
     const styles = useStyles();
+    const [selected, setSelected] = React.useState(value);
     const checkStyle = classNames(styles[flex], styles.checkboxContainer);
 
+    // eslint-disable-next-line no-shadow
+    const setCheckedFilter = (value) => {
+        if (selected.indexOf(value) !== -1) {
+            selected.splice(selected.indexOf(value), 1);
+        } else {
+            selected.push(value);
+        }
+        onChange(selected);
+        setSelected([...selected]);
+    };
     return (
         <div className={styles.container}>
             <Typography variant="label" type="bold" letter="uppercase">
@@ -59,9 +69,9 @@ const CustomCheckbox = ({
                     <CustomItem
                         label={item.label ? item.label : item}
                         value={item.value ? item.value : item}
-                        dataValues={value}
+                        dataValues={selected}
                         key={index}
-                        onChange={onChange}
+                        onChange={(val) => setCheckedFilter(val)}
                     />
                 ) : (
                     <CheckDefault

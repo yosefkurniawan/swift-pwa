@@ -21,6 +21,10 @@ const filterProduct = (catID, filter) => {
             to: "${detailFilter.to}"
           }
         `;
+        } else {
+            queryFilter += `, ${detailFilter.type} : {
+            eq: "${detailFilter.value}"
+          }`;
         }
     }
     queryFilter += '}';

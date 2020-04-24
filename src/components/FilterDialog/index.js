@@ -10,8 +10,8 @@ import CheckBox from '@components/Forms/CheckBox';
 import CheckBoxSize from '@components/Forms/CheckBoxSize';
 import CheckBoxColor from '@components/Forms/CheckBoxColor';
 import Button from '@components/Button';
-import classNames from 'classnames';
 import Loading from '@components/Loaders';
+import { elastic } from '@config';
 import useStyles from './style';
 
 const Transition = React.forwardRef((props, ref) => (
@@ -26,36 +26,56 @@ const FilterDialog = ({
     loading = false,
     sortByData = [],
     getValue = () => {},
+    defaultValue = {},
 }) => {
     const styles = useStyles();
-    const [sort, setSort] = React.useState('');
-    const [priceRange, setPriceRange] = React.useState([0, 0]);
-    const [size, setSize] = React.useState([]);
-    const [color, setColor] = React.useState([]);
-    const [brand, setbrand] = React.useState([]);
-
+    const [selectedFilter, setFilter] = React.useState(defaultValue);
+    const [sort, setSort] = React.useState(defaultValue.sort ? defaultValue.sort : '');
+    const [priceRange, setPriceRange] = React.useState(defaultValue.priceRange ? defaultValue.priceRange.split(',') : [0, 0]);
     const handleClear = () => {
         setSort('');
         setPriceRange([0, 0]);
-        setSize([]);
-        setColor([]);
-        setbrand([]);
     };
 
     const handleSave = () => {
-        getValue({
-            sort,
-            priceRange,
-            size,
-            color,
-            brand,
-        });
+        if (selectedFilter.priceRange) {
+            delete selectedFilter.priceRange;
+        }
+
+        if (selectedFilter.sort) {
+            delete selectedFilter.sort;
+        }
+        const savedData = {
+            selectedFilter,
+        };
+        if (sort !== '') {
+            savedData.sort = sort;
+        }
+        if (priceRange[1] !== 0) {
+            savedData.priceRange = priceRange;
+        }
+        getValue(savedData);
         setOpen();
     };
     let filter = [];
     if (data.getFilterAttributeOptions) {
         filter = data.getFilterAttributeOptions.data;
     }
+
+    const setCheckedFilter = (name, value) => {
+        let selected = '';
+        // eslint-disable-next-line no-plusplus
+        for (let index = 0; index < value.length; index++) {
+            selected += `${index !== 0 ? ',' : ''}${value[index]}`;
+        }
+        selectedFilter[name] = selected;
+        setFilter({ ...selectedFilter });
+    };
+
+    const setSelectedFilter = (code, value) => {
+        selectedFilter[code] = value;
+        setFilter({ ...selectedFilter });
+    };
     return (
         <Dialog
             fullScreen
@@ -111,67 +131,55 @@ const FilterDialog = ({
                             </div>
                         );
                     } if (itemFilter.field === 'size') {
-                        const selectSizeData = [];
-                        // eslint-disable-next-line no-plusplus
-                        for (let index = 0; index < itemFilter.value.length; index++) {
-                            selectSizeData.push(itemFilter.value[index].label);
-                        }
                         return (
                             <div className={styles.fieldContainer} key={idx}>
                                 <CheckBox
+                                    name={itemFilter.field}
                                     label={itemFilter.label || 'Size'}
-                                    data={selectSizeData || []}
-                                    value={itemProps.selectSizeValue || size}
+                                    data={itemFilter.value}
+                                    value={defaultValue[itemFilter.field] ? defaultValue[itemFilter.field].split(',') : []}
                                     flex={itemProps.selectSizeFlex || 'row'}
                                     CustomItem={itemProps.selectSizeItem || CheckBoxSize}
-                                    onChange={itemProps.selectSizeChange || setSize}
+                                    onChange={(val) => setCheckedFilter(itemFilter.field, val)}
                                 />
                             </div>
                         );
                     } if (itemFilter.field === 'color') {
-                        const selectColorData = [];
-                        // eslint-disable-next-line no-plusplus
-                        for (let index = 0; index < itemFilter.value.length; index++) {
-                            selectColorData.push(itemFilter.value[index].label);
-                        }
                         return (
                             <div className={styles.fieldContainer} key={idx}>
                                 <CheckBox
-                                    label={itemFilter.label || 'Color'}
-                                    data={selectColorData || []}
-                                    value={itemProps.selectColorValue || color}
-                                    flex={itemProps.selectColorFlex || 'row'}
+                                    name={itemFilter.field}
+                                    label={itemFilter.label || 'COlor'}
+                                    data={itemFilter.value}
+                                    value={defaultValue[itemFilter.field] ? defaultValue[itemFilter.field].split(',') : []}
+                                    flex={itemProps.selectSizeFlex || 'row'}
                                     CustomItem={itemProps.selectColorItem || CheckBoxColor}
-                                    onChange={itemProps.selectColorChange || setColor}
-                                />
-                            </div>
-                        );
-                    } if (itemFilter.field === 'brand') {
-                        const selectBrandData = [];
-                        // eslint-disable-next-line no-plusplus
-                        for (let index = 0; index < itemFilter.value.length; index++) {
-                            selectBrandData.push(itemFilter.value[index].label);
-                        }
-                        return (
-                            <div className={classNames(styles.fieldContainer, styles.last)} key={idx}>
-                                <CheckBox
-                                    label={itemFilter.label || 'Brand'}
-                                    data={selectBrandData || []}
-                                    value={itemProps.selectBrandValue || brand}
-                                    flex={itemProps.selectBrandFlex || 'column'}
-                                    onChange={itemProps.selectBrandChange || setbrand}
+                                    onChange={(val) => setCheckedFilter(itemFilter.field, val)}
                                 />
                             </div>
                         );
                     }
                     return (
                         <div className={styles.fieldContainer} key={idx}>
-                            <RadioGroup
-                                label={itemFilter.label || ''}
-                                valueData={itemFilter.value || []}
-                                value={itemProps.filterValue ? itemProps.filterValue[itemFilter.field] : ''}
-                                onChange={() => {}}
-                            />
+                            {elastic ? (
+                                <CheckBox
+                                    field={itemFilter.field}
+                                    label={itemFilter.label || ''}
+                                    data={itemFilter.value || []}
+                                    value={itemProps.filterValue ? itemProps.filterValue[itemFilter.field] : []}
+                                    flex="column"
+                                    onChange={() => {}}
+                                />
+                            )
+                                : (
+                                    <RadioGroup
+                                        name={itemFilter.field}
+                                        label={itemFilter.label || ''}
+                                        valueData={itemFilter.value || []}
+                                        value={selectedFilter[itemFilter.field]}
+                                        onChange={(value) => setSelectedFilter(itemFilter.field, value)}
+                                    />
+                                )}
                         </div>
                     );
                 })}

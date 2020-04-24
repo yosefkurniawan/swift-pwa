@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 import Typography from '@components/Typography';
 import Button from '@components/Button';
 import { Tune } from '@material-ui/icons';
@@ -5,6 +6,7 @@ import PropTypes from 'prop-types';
 import GridList from '@components/GridList';
 import ProductItem from '@components/ProductItem';
 import Loading from '@components/Loaders';
+import Router, { useRouter } from 'next/router';
 import useStyles from '../style';
 import Filter from './Filter';
 import { getProductByCategory } from '../services';
@@ -12,34 +14,90 @@ import * as Schema from '../services/schema';
 
 const getProduct = (catId, config = {}) => getProductByCategory(catId, config);
 
+const getQuery = (router) => {
+    let { asPath } = router;
+    let path = '';
+    // eslint-disable-next-line no-plusplus
+    for (let index = 0; index < router.query.slug.length; index++) {
+        path += `/${router.query.slug[index]}`;
+    }
+    asPath = decodeURI(asPath);
+    asPath = asPath.replace(path, '').substr(1);
+    asPath = asPath.split('&');
+    const query = {};
+    // eslint-disable-next-line no-plusplus
+    for (let index = 0; index < asPath.length; index++) {
+        let tempQuery = asPath[index];
+        if (tempQuery !== '') {
+            tempQuery = tempQuery.split('=');
+            // eslint-disable-next-line prefer-destructuring
+            query[tempQuery[0]] = tempQuery[1];
+        }
+    }
+    return {
+        path,
+        query,
+    };
+};
+
+const generateConfig = (query, config) => {
+    const resolveConfig = config;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const q in query) {
+        if (q === 'sort' && query[q] !== '') {
+            resolveConfig.sort = JSON.parse(query[q]);
+        } else if (q === 'priceRange') {
+            const price = query[q].split(',');
+            // eslint-disable-next-line radix
+            if (parseInt(price[1]) !== 0) {
+                resolveConfig.filter.push({
+                    type: 'price',
+                    from: price[0],
+                    to: price[1],
+                });
+            }
+        } else if (q !== 'cat') {
+            resolveConfig.filter.push({
+                type: q,
+                value: query[q],
+            });
+        }
+    }
+    return resolveConfig;
+};
+
 const Product = ({ catId }) => {
+    const router = useRouter();
     const styles = useStyles();
     const [openFilter, setOpenFilter] = React.useState(false);
     const [page, setPage] = React.useState(1);
     const [loadmore, setLoadmore] = React.useState(false);
-    const [filter, setFilter] = React.useState({});
 
-    const setFiltervalue = (v) => {
-        setFilter(v);
-    };
-
-    const config = {
+    let config = {
         pageSize: 20,
         currentPage: 1,
         filter: [],
     };
-    if (filter.sort) {
-        config.sort = JSON.parse(filter.sort);
-    }
-    if (filter.priceRange && filter.priceRange[1] !== 0) {
-        config.filter.push({
-            type: 'price',
-            from: filter.priceRange[0],
-            to: filter.priceRange[1],
-        });
-    }
 
-    const { loading, data, fetchMore } = getProduct(catId, config);
+    const { path, query } = getQuery(router);
+
+    const setFiltervalue = (v) => {
+        let queryParams = '';
+        // eslint-disable-next-line array-callback-return
+        Object.keys(v).map((key) => {
+            if (key === 'selectedFilter') {
+                // eslint-disable-next-line no-restricted-syntax
+                for (const idx in v.selectedFilter) {
+                    queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
+                }
+            } else {
+                queryParams += `${queryParams !== '' ? '&' : ''}${key}=${v[key]}`;
+            }
+        });
+        Router.push('/[...slug]', encodeURI(`${path}?${queryParams}`));
+    };
+    config = generateConfig(query, config);
+    const { loading, data, fetchMore } = getProduct(query.cat ? query.cat : catId, config);
     if (loading) {
         return <Loading size="50px" />;
     }
@@ -51,6 +109,7 @@ const Product = ({ catId }) => {
     return (
         <>
             <Filter
+                defaultValue={query}
                 openFilter={openFilter}
                 setOpenFilter={setOpenFilter}
                 catId={catId}

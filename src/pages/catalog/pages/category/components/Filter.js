@@ -13,12 +13,13 @@ const sortByData = [
 const getFilterAttribute = (catId) => getFilter(catId);
 
 const Filter = ({
-    openFilter, catId, setOpenFilter, setFilter,
+    openFilter, catId, setOpenFilter, setFilter, defaultValue = {},
 }) => {
     // get filter value attribute
     const filter = getFilterAttribute(catId);
     return (
         <FilterDialog
+            defaultValue={defaultValue}
             open={openFilter}
             sortByData={sortByData}
             setOpen={() => setOpenFilter(!openFilter)}
