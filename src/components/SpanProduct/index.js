@@ -13,18 +13,18 @@ const SpanProduct = ({
         <div className={styles.container}>
             <Grid container justify="center">
                 <Grid item sm={12} md={12} lg={12}>
-                    <div className={styles.imageContainer}>
-                        <Link href="[...slug]" as={url}>
+                    <Link href="[...slug]" as={url}>
+                        <div className={styles.imageContainer}>
                             <img src={setDefaultWhenEmpty(imageSrc)} alt={name} />
-                        </Link>
-                    </div>
+                        </div>
+                    </Link>
                 </Grid>
                 <Grid item sm={12} md={12} lg={12}>
                     <div className={styles.contentContainer}>
                         <Typography variant="title" type="bold" align="center">
                             {name}
                         </Typography>
-                        <Typography variant="p" size="12" align="center">
+                        <Typography size="12" align="center">
                             { /* eslint-disable-next-line react/no-danger */ }
                             <div dangerouslySetInnerHTML={{ __html: description }} />
                         </Typography>
