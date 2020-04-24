@@ -12,14 +12,7 @@ const BannerSlider = ({ storeConfig }) => {
     const { loading, data, error } = gqlService.getBannerSlider();
 
     if (loading) return <p>Loading . . .</p>;
-    if (error) {
-        return (
-            <p>
-                ERROR:
-                {error.message}
-            </p>
-        );
-    }
+    if (error) return <p>{`Error: ${error.message}`}</p>;
     if (!data) return <p>Not found</p>;
 
     const bannerImages = data.getHomepageSlider.images.map((image) => ({
@@ -46,14 +39,7 @@ const FeaturedProducts = () => {
     );
 
     if (loading) return <p>Loading . . .</p>;
-    if (error) {
-        return (
-            <p>
-                ERROR:
-                {error.message}
-            </p>
-        );
-    }
+    if (error) return <p>{`Error: ${error.message}`}</p>;
     if (!data) return <p>Not found</p>;
 
     return (
@@ -90,14 +76,7 @@ const CategoryList = ({ storeConfig }) => {
     );
 
     if (loading) return <p>Loading . . .</p>;
-    if (error) {
-        return (
-            <p>
-                ERROR:
-                {error.message}
-            </p>
-        );
-    }
+    if (error) return <p>{`Error: ${error.message}`}</p>;
     if (!data) return <p>Not found</p>;
 
     return (
