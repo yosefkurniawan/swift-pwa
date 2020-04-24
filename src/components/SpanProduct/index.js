@@ -20,7 +20,10 @@ const SpanProduct = ({ imageSrc, name, description }) => {
                         <Typography variant="title" type="bold" align="center">
                             {name}
                         </Typography>
-                        <Typography variant="p">{description}</Typography>
+                        <Typography variant="p">
+                            { /* eslint-disable-next-line react/no-danger */ }
+                            <span dangerouslySetInnerHTML={{ __html: description }} />
+                        </Typography>
                         <Button variant="text">
                             <Typography
                                 variant="span"

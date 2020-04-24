@@ -77,57 +77,28 @@ export const getFeaturedProducts = gql`
     }
 `;
 
+
 export const getCategoryList = gql`
     query($url_key: String!) {
         categoryList(filters: { url_key: { eq: $url_key } }) {
-            id
+            description
             name
             url_key
             image
-            products {
-                items {
-                    name
-                    url_path
-                    url_key
-                    image {
-                        url
-                    }
-                    thumbnail {
-                        url
-                    }
-                    price_range {
-                        minimum_price {
-                            regular_price {
-                                currency
-                                value
-                            }
-                            final_price {
-                                currency
-                                value
-                            }
-                        }
-                    }
-                    price_tiers {
-                        discount {
-                            amount_off
-                            percent_off
-                        }
-                        final_price {
-                            currency
-                            value
-                        }
-                        quantity
-                    }
-                }
-            }
+            title_rewrite
+            meta_title
             children {
                 id
+                level
                 name
+                title_rewrite
+                path
                 description
-                url_key
-                url_path
                 image
+                url_path
+                url_key
             }
+            children_count
         }
     }
 `;
