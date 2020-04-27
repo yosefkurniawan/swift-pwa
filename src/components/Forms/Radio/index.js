@@ -54,7 +54,7 @@ function CustomRadio({
                 aria-label={ariaLabel}
                 name={name}
                 value={value}
-                onChange={handleChange}
+                // onChange={handleChange}
                 className={containerStyle}
             >
                 {valueData.map((item, index) => (CustomItem ? (
