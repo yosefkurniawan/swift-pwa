@@ -71,6 +71,10 @@ a {
   align-items: center;
 }
 
+.m-15 {
+  margin: 15;
+}
+
 @media (max-width: 500px) {
   main {
     max-width: 100vw;

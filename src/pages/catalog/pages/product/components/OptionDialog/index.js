@@ -3,65 +3,82 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { Dialog, Fade } from '@material-ui/core';
-import React from 'react';
-import Typography from '@components/Typography';
 import Button from '@components/Button';
-import CustomRadio from '@components/Forms/Radio';
-import SelectColor from '@components/Forms/SelectColor';
-import SelectSize from '@components/Forms/SelectSize';
-import Router from 'next/router';
-import ProductByVariant from '@helpers/productByVariant';
-import { getConfigurableProduct } from '../../services/graphql';
+import Typography from '@components/Typography';
+import {
+    Dialog, Fade, MenuItem, Select,
+} from '@material-ui/core';
+// import Router from 'next/router';
+import React from 'react';
+import { setCountCart } from '@stores/actions/cart';
+import { useDispatch } from 'react-redux';
+import Cookies from 'js-cookie';
+import { nameCartId } from '@config';
+import { GraphCart } from '@services/graphql';
+import { addSimpleProductsToCart } from '../../services/graphql';
+import ListConfigurableOption from './ListConfigurableOption';
 import useStyles from './style';
 
 const Transition = React.forwardRef((props, ref) => (
     <Fade ref={ref} {...props} />
 ));
 
+const renderQty = () => {
+    const options = [];
+    // eslint-disable-next-line no-plusplus
+    for (let item = 1; item <= 10; item++) {
+        options.push(
+            <MenuItem key={item} value={item}>
+                {item}
+            </MenuItem>,
+        );
+    }
+    return options;
+};
+
 const OptionDialog = (props) => {
     const {
-        open, setOpen, t, data: { sku },
-        setBanner, setPrice,
+        open,
+        setOpen,
+        t,
+        data: { __typename, sku },
     } = props;
     const styles = useStyles();
-    const [selected, setSelected] = React.useState({});
-
-    const { data } = getConfigurableProduct(sku);
-
-    let optionData = [];
-    if (data) {
-        optionData = data.products.items[0].configurable_options.map((config) => {
-            const values = config.values.map((val) => ({
-                label: val.label,
-                value: val.label,
-            }));
-            return {
-                ...config,
-                values,
-            };
-        });
-    }
-
-    const handleSelect = (value, key) => {
-        const options = selected;
-        options[key] = value;
-        setSelected({
-            ...selected,
-            [key]: value,
-        });
-        const product = ProductByVariant(options, data.products.items[0].variants);
-        const bannerData = product.media_gallery.map((media) => ({
-            link: '#',
-            imageUrl: media.url,
-        }));
-        setBanner(bannerData);
-        setPrice({
-            priceRange: product.price_range,
-            priceTiers: product.price_tiers,
-            // eslint-disable-next-line no-underscore-dangle
-            productType: product.__typename,
-        });
+    const [qty, setQty] = React.useState(1);
+    const dataQty = renderQty(qty);
+    const handleQty = (event) => {
+        setQty(event.target.value);
+    };
+    const dispatch = useDispatch();
+    const [addCartSimple] = addSimpleProductsToCart();
+    let cartId = Cookies.get(nameCartId);
+    const [getCartId] = GraphCart.getGuestCartId();
+    const handleAddToCart = () => {
+        if (!cartId) {
+            getCartId()
+                .then((res) => {
+                    const token = res.data.createEmptyCart;
+                    Cookies.set(nameCartId, token, { expires: 24 });
+                    cartId = token;
+                })
+                .catch((e) => console.log(e));
+        }
+        if (__typename === 'SimpleProduct') {
+            addCartSimple({
+                variables: {
+                    cartId,
+                    sku,
+                    qty: parseFloat(qty),
+                },
+            }).then((res) => {
+                dispatch(
+                    setCountCart(
+                        res.data.addSimpleProductsToCart.cart.total_quantity,
+                    ),
+                );
+                setOpen(false);
+            });
+        }
     };
 
     return (
@@ -80,97 +97,34 @@ const OptionDialog = (props) => {
                     onClick={() => setOpen()}
                 />
                 <div className={styles.optionContainer}>
-                    <Button variant="text" onClick={setOpen} className={styles.btnClose}>
+                    <Button
+                        variant="text"
+                        onClick={setOpen}
+                        className={styles.btnClose}
+                    >
                         <Typography variant="p">Close</Typography>
                     </Button>
-                    { optionData.map((option, index) => (
-                        option.attribute_code === 'color'
-                            ? (
-                                <CustomRadio
-                                    key={index}
-                                    label="Select color"
-                                    flex="row"
-                                    CustomItem={SelectColor}
-                                    value={selected[option.attribute_code]}
-                                    valueData={option.values}
-                                    onChange={(val) => handleSelect(val, option.attribute_code)}
-                                    className={styles.label}
-                                    classContainer={styles.center}
-                                />
-                            )
-                            : option.attribute_code === 'size'
-                                ? (
-                                    <CustomRadio
-                                        key={index}
-                                        label="Select size"
-                                        flex="row"
-                                        CustomItem={SelectSize}
-                                        value={selected[option.attribute_code]}
-                                        valueData={option.values}
-                                        onChange={(val) => handleSelect(val, option.attribute_code)}
-                                        className={styles.sizeContainer}
-                                        classContainer={styles.center}
-                                    />
-                                )
-                                : (<React.Fragment key={index} />)
-                    ))}
-                    {/* <CustomRadio
-                        label="Select color"
-                        flex="row"
-                        CustomItem={SelectColor}
-                        value={color}
-                        valueData={colorData}
-                        onChange={handleChangeColor}
-                        className={styles.label}
-                        classContainer={styles.center}
-                    />
-                    {sizeOptions === ''
-                    || sizeOptions.length <= 0
-                    || !sizeOptions ? (
-                            // eslint-disable-next-line react/jsx-indent
-                            <>
-                                <Typography
-                                    variant="label"
-                                    type="bold"
-                                    letter="uppercase"
-                                >
-                                    Select Size
-                                </Typography>
-                                <Typography variant="p" className={styles.error}>
-                                    Sorry! This item is out of stock.
-                                </Typography>
-                            </>
-                        ) : (
-                            <>
-                                <CustomRadio
-                                    label="Select size"
-                                    flex="row"
-                                    CustomItem={SelectSize}
-                                    value={size}
-                                    valueData={sizeOptions}
-                                    onChange={setSize}
-                                    className={styles.sizeContainer}
-                                    classContainer={styles.center}
-                                />
-                                <Button variant="text">
-                                    <Typography
-                                        variant="p"
-                                        letter="capitalize"
-                                        decoration="underline"
-                                    >
-                                        {t('product:viewGuide')}
-                                    </Typography>
-                                </Button>
-                            </>
-                        )} */}
 
+                    {__typename === 'ConfigurableProduct' && (
+                        <ListConfigurableOption {...props} />
+                    )}
+
+                    <div className={styles.qty}>
+                        <Typography variant="span">Qty</Typography>
+                        <Select
+                            defaultValue={1}
+                            value={qty}
+                            onChange={handleQty}
+                            variant="outlined"
+                        >
+                            {dataQty}
+                        </Select>
+                    </div>
                     <div className={styles.footer}>
                         <Button
                             className={styles.btnAddToCard}
                             color="primary"
-                            onClick={() => {
-                                Router.push('/cart');
-                            }}
+                            onClick={handleAddToCart}
                         >
                             <Typography
                                 align="center"

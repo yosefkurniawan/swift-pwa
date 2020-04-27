@@ -8,9 +8,16 @@
     "moreReview" : "Read more reviews",
     "viewGuide" : "view site guide",
     "shareTitle" : "Share",
-    "summary" : "summary",
+    "title" : "title",
     "nickname" : "nickname",
     "submitReview" : "Submit Review" ,
     "rate" : "Rate",
-    "upsellTitle": "You might also like"
+    "upsellTitle": "You might also like",
+    "validate": {
+        "nickname": "Nickname is required",
+        "rating": "Rating is required",
+        "title": "Title is required",
+        "detail": "Detail is required"
+    },
+    "addRateSuccess": "Thanks for review this product"
 }

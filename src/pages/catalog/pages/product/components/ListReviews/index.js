@@ -2,6 +2,7 @@ import Button from '@components/Button';
 import Typography from '@components/Typography';
 import classNames from 'classnames';
 import React from 'react';
+import SnackMessage from '@components/SnackMessage';
 import { getReviews } from '../../services/graphql';
 import useStyles from '../../style';
 import AddReviewDialog from '../AddReviewDialog';
@@ -11,6 +12,7 @@ export default (props) => {
     const styles = useStyles();
     const { t, data } = props;
     const [openReview, setOpenReview] = React.useState(false);
+    const [showMessage, setShowMessage] = React.useState(false);
     const [reviewParams, setReviewsParams] = React.useState({
         sku: data.sku || '',
         pageSize: 2,
@@ -30,13 +32,19 @@ export default (props) => {
         });
     };
 
+    const handleOpenReview = ({ message }) => {
+        setOpenReview(!openReview);
+        if (message && (message === 'success' || message.toLowerCase() === 'success')) setShowMessage(true);
+    };
+
     return (
         <>
             <AddReviewDialog
                 open={openReview}
-                setOpen={() => setOpenReview(!openReview)}
+                setOpen={handleOpenReview}
                 {...props}
             />
+            <SnackMessage open={showMessage} setOpen={setShowMessage} message={t('product:addRateSuccess')} />
             <div className={styles.body}>
                 <div className={styles.titleContainer}>
                     <div className={styles.titlePriceContainer}>

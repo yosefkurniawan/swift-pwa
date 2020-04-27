@@ -35,7 +35,8 @@ export default makeStyles((theme) => ({
         ...CenterAbsolute,
         backgroundColor: WHITE,
         width: '95%',
-        height: '50vh',
+        height: 'auto',
+        maxHeight: '60vh',
         borderRadius: 10,
         bottom: 0,
         ...CreateBorder('1px', '1px', 0, '1px', GRAY_PRIMARY),
@@ -89,5 +90,13 @@ export default makeStyles((theme) => ({
     },
     error: {
         color: RED,
+    },
+    qty: {
+        ...CreateMargin(15, 30, 15, 15),
+    },
+    select: {
+        minWidth: '30%',
+        width: 'auto',
+        maxWidth: '75%',
     },
 }));

@@ -1,13 +1,14 @@
 import { Badge, IconButton } from '@material-ui/core';
 import { LocalMall } from '@material-ui/icons';
 import Header from '@components/Header';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
+import { useSelector } from 'react-redux';
 
-const ShoppingBagIcon = ({ data = 0 }) => {
-    const Route = useRouter();
+const ShoppingBagIcon = () => {
+    const cartData = useSelector((state) => state.cart);
     return (
-        <IconButton onClick={() => Route.push('/cart')}>
-            <Badge badgeContent={data}>
+        <IconButton onClick={() => Router.push('/cart')}>
+            <Badge color="secondary" badgeContent={cartData.totalCart || 0}>
                 <LocalMall />
             </Badge>
         </IconButton>

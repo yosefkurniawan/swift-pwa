@@ -1,13 +1,9 @@
 import Layout from '@components/Layouts';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { withTranslation } from '@i18n';
+import Loading from '@components/Loaders';
 import { getProduct } from './services/graphql';
 import Content from './components';
 import CustomHeader from './components/header';
-
-const Loading = () => (
-    <div className="full-center"><CircularProgress size="25rem" /></div>
-);
 
 const Page = (props) => {
     let product = {};

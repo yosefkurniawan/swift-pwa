@@ -48,4 +48,4 @@ export const languagesLabel = {
 
 export const expiredCokies = 6;
 export const storConfigNameCokie = 'storeConfig';
-export const elastic = false;
+export const nameCartId = 'cartId';

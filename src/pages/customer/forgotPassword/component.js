@@ -1,8 +1,7 @@
 import Typography from '@components/Typography';
 import Button from '@components/Button';
 import TextField from '@components/Forms/TextField';
-import { Snackbar, IconButton } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import SnackMessage from '@components/SnackMessage';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import useStyles from './style';
@@ -10,13 +9,6 @@ import useStyles from './style';
 const ForgotPassword = ({ t }) => {
     const styles = useStyles();
     const [open, setOpen] = React.useState(false);
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setOpen(false);
-    };
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -27,33 +19,12 @@ const ForgotPassword = ({ t }) => {
                 .required(t('validate:email:required')),
         }),
         onSubmit: () => {
-            setOpen(!open);
+            setOpen(true);
         },
     });
     return (
         <form className={styles.container} onSubmit={formik.handleSubmit}>
-            <Snackbar
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                }}
-                open={open}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                message={t('customer:forgotPassword:success')}
-                action={(
-                    <>
-                        <IconButton
-                            size="small"
-                            aria-label="close"
-                            color="inherit"
-                            onClick={handleClose}
-                        >
-                            <CloseIcon fontSize="small" />
-                        </IconButton>
-                    </>
-                )}
-            />
+            <SnackMessage open={open} setOpen={setOpen} message={t('customer:forgotPassword:success')} />
             <Typography variant="span" align="left">
                 {t('customer:forgotPassword:content')}
             </Typography>

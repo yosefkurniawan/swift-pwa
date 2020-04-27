@@ -28,10 +28,21 @@ const ProductPage = (props) => {
     const styles = useStyles();
     const route = useRouter();
 
-    const bannerData = data.media_gallery.map((media) => ({
-        link: '#',
-        imageUrl: media.url,
-    }));
+    const bannerData = [];
+    if (data.media_gallery.length > 0) {
+        // eslint-disable-next-line array-callback-return
+        data.media_gallery.map((media) => {
+            bannerData.push({
+                link: '#',
+                imageUrl: media.url,
+            });
+        });
+    } else {
+        bannerData.push({
+            link: '#',
+            imageUrl: data.image.url,
+        });
+    }
 
     const [openOption, setOpenOption] = React.useState(false);
     const [openDrawer, setOpenDrawer] = React.useState(false);
@@ -66,14 +77,12 @@ const ProductPage = (props) => {
             },
         ];
     }
-
     // const relateData = data.related_products.map((item) => ({
     //     link: item.url_key,
     //     imageSrc: item.thumbnail.url,
     //     name: item.name,
     //     price: item.minimum_price.final_price.value,
     // }));
-
     return (
         <>
             <OptionDialog
