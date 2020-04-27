@@ -6,10 +6,10 @@ import Message from '@components/SnackMessage';
 import { FormControlLabel, Switch } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-// import Router from 'next/router';
+import Router from 'next/router';
 import OtpBlock from '@components/OtpBlock';
 import { regexPhone } from '@helpers/regex';
-import { setToken, getToken as token } from '@helpers/token';
+import { setToken } from '@helpers/token';
 import { getToken } from './service/graphql';
 
 import useStyles from './style';
@@ -67,12 +67,13 @@ const Login = ({ t }) => {
             }).then((res) => {
                 setToken(res.data.generateCustomerToken.token);
                 handleOpenMessage({ variant: 'success', text: 'Login Success!' });
+                Router.push('/customer/account');
             }).catch(() => {
                 handleOpenMessage({ variant: 'error', text: 'Login Failed!' });
             });
         },
     });
-    console.log(token());
+
     return (
         <div>
             <Message

@@ -56,3 +56,4 @@ export const algorithm = 'aes-256-cbc';
 
 export const nameToken = 'sk';
 export const expiredToken = 24;
+export const expiredDefault = 365;

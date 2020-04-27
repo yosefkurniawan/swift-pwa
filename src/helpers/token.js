@@ -9,8 +9,13 @@ export const setToken = (token) => {
 };
 
 export const getToken = () => {
-    const token = decrypt(cookies.get(nameToken));
+    const tokenCustomer = cookies.get(nameToken);
+    const token = !tokenCustomer || tokenCustomer === '' || tokenCustomer === undefined ? '' : decrypt(tokenCustomer);
     return token;
+};
+
+export const removeToken = () => {
+    cookies.remove(nameToken);
 };
 
 export default {
