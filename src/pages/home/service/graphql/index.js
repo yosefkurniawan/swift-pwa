@@ -1,8 +1,10 @@
 import { useQuery } from '@apollo/react-hooks';
 import * as Schema from './schema';
 
-let fetchPolicy = 'cache-first';
-fetchPolicy = 'network-only'; // comment this line to test loader/skeleton component
+let fetchPolicy = '';
+fetchPolicy = 'cache-first';
+// uncomment this line (set 'no-cache') to test loader/skeleton component
+// fetchPolicy = 'no-cache';
 
 export const getBannerSlider = () => useQuery(Schema.getBannerSlider, {
     fetchPolicy,
