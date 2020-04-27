@@ -22,8 +22,13 @@ const Page = (props) => {
     );
 };
 
-Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'customer', 'validate'],
-});
+Page.getInitialProps = async (ctx) => {
+    const token = ctx.query.token;
+    console.log(token)
+    return {
+        token: token,
+        namespacesRequired: ['common', 'customer', 'validate'],
+    };
+};
 
 export default compose(withApollo({ ssr: true }), withRedux)(withTranslation()(Page));

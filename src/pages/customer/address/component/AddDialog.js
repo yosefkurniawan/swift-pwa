@@ -152,6 +152,7 @@ const AddAddressDialog = (props) => {
                                 value: 'id',
                                 label: 'full_name_locale',
                             }}
+                            value={formik.values.country}
                             error={!!(formik.touched.country && formik.errors.country)}
                             errorMessage={
                                 (formik.touched.country && formik.errors.country) || null

@@ -11,3 +11,16 @@ export const getCountries = gql`
     }
   }
 `;
+
+export const updateCustomerAddress = gql`
+    mutation updateCustomerAddress($addressId: Int!){
+        updateCustomerAddress(
+            id: $addressId
+            input: { default_billing: true, default_shipping: true }
+        ) {
+            id
+            default_billing
+            default_shipping
+        }
+    }
+`;

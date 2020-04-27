@@ -15,6 +15,7 @@ const ItemAddress = (props) => {
         district = '',
         phoneNumber = '',
         value = '',
+        checked = false,
         // eslint-disable-next-line no-unused-vars
         openEdit = () => {},
     } = props;
@@ -26,6 +27,7 @@ const ItemAddress = (props) => {
             <FormControlLabel
                 className={[styles.address_shipping].join(' ')}
                 value={value}
+                checked={checked}
                 control={<Radio color="primary" size="small" />}
                 label={(
                     <Box className="column">
