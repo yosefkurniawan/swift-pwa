@@ -18,6 +18,7 @@ const ProductItem = (props) => {
         price_range,
         // eslint-disable-next-line camelcase
         price_tiers,
+        url_key = '',
         __typename,
         variants = [],
         configurable_options = [],
@@ -44,7 +45,7 @@ const ProductItem = (props) => {
     return (
         <div className={styles.itemContainer}>
             <div className={styles.imgItem}>
-                <Link href="/[...slug]" as="/strive-shoulder-pack">
+                <Link href="/[...slug]" as={`/${url_key}`}>
                     <a>
                         <img
                             // eslint-disable-next-line no-nested-ternary
@@ -61,7 +62,7 @@ const ProductItem = (props) => {
             </div>
             <div className={styles.detailItem}>
                 <div className={styles.descItem}>
-                    <Link href="/[...slug]" as="/strive-shoulder-pack">
+                    <Link href="/[...slug]" as={`/${url_key}`}>
                         <a>
                             <Typography
                                 variant="p"
