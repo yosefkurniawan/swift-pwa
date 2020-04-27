@@ -21,10 +21,19 @@ const filterProduct = (catID, filter) => {
             to: "${detailFilter.to}"
           }
         `;
+        } else if (typeof detailFilter.value === 'object') {
+            let inFilter = '';
+            // eslint-disable-next-line no-plusplus
+            for (let idx = 0; idx < detailFilter.value.length; idx++) {
+                inFilter += `${idx !== 0 ? ',' : ''}"${detailFilter.value[idx]}"`;
+            }
+            queryFilter += `, ${detailFilter.type} : {
+                in: [${inFilter}]
+              }`;
         } else {
             queryFilter += `, ${detailFilter.type} : {
-            eq: "${detailFilter.value}"
-          }`;
+                  eq: "${detailFilter.value}"
+                }`;
         }
     }
     queryFilter += '}';

@@ -11,6 +11,7 @@ export default gql`
       base_url
       base_currency_code
       code
+      catalog_search_engine
       copyright
       catalog_default_sort_by
       default_title

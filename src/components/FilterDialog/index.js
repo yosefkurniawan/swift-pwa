@@ -11,7 +11,6 @@ import CheckBoxSize from '@components/Forms/CheckBoxSize';
 import CheckBoxColor from '@components/Forms/CheckBoxColor';
 import Button from '@components/Button';
 import Loading from '@components/Loaders';
-import { elastic } from '@config';
 import useStyles from './style';
 
 const Transition = React.forwardRef((props, ref) => (
@@ -23,6 +22,7 @@ const FilterDialog = ({
     setOpen,
     itemProps = {},
     data = {},
+    elastic = false,
     loading = false,
     sortByData = [],
     getValue = () => {},
@@ -76,6 +76,7 @@ const FilterDialog = ({
         selectedFilter[code] = value;
         setFilter({ ...selectedFilter });
     };
+
     return (
         <Dialog
             fullScreen
@@ -116,6 +117,14 @@ const FilterDialog = ({
                 )}
                 {loading ? <Loading size="20px" /> : null}
                 {filter.map((itemFilter, idx) => {
+                    const ItemValueByLabel = [];
+                    // eslint-disable-next-line no-plusplus
+                    for (let index = 0; index < itemFilter.value.length; index++) {
+                        ItemValueByLabel.push({
+                            label: itemFilter.value[index].label,
+                            value: itemFilter.value[index].label,
+                        });
+                    }
                     if (itemFilter.field === 'price') {
                         return (
                             <div className={styles.fieldContainer} key={idx}>
@@ -136,7 +145,7 @@ const FilterDialog = ({
                                 <CheckBox
                                     name={itemFilter.field}
                                     label={itemFilter.label || 'Size'}
-                                    data={itemFilter.value}
+                                    data={ItemValueByLabel}
                                     value={defaultValue[itemFilter.field] ? defaultValue[itemFilter.field].split(',') : []}
                                     flex={itemProps.selectSizeFlex || 'row'}
                                     CustomItem={itemProps.selectSizeItem || CheckBoxSize}
@@ -149,8 +158,8 @@ const FilterDialog = ({
                             <div className={styles.fieldContainer} key={idx}>
                                 <CheckBox
                                     name={itemFilter.field}
-                                    label={itemFilter.label || 'COlor'}
-                                    data={itemFilter.value}
+                                    label={itemFilter.label || 'Color'}
+                                    data={ItemValueByLabel}
                                     value={defaultValue[itemFilter.field] ? defaultValue[itemFilter.field].split(',') : []}
                                     flex={itemProps.selectSizeFlex || 'row'}
                                     CustomItem={itemProps.selectColorItem || CheckBoxColor}
@@ -158,6 +167,8 @@ const FilterDialog = ({
                                 />
                             </div>
                         );
+                    } if (itemFilter.field === 'cat') {
+                        return <span key={idx} />;
                     }
                     return (
                         <div className={styles.fieldContainer} key={idx}>
@@ -165,10 +176,10 @@ const FilterDialog = ({
                                 <CheckBox
                                     field={itemFilter.field}
                                     label={itemFilter.label || ''}
-                                    data={itemFilter.value || []}
-                                    value={itemProps.filterValue ? itemProps.filterValue[itemFilter.field] : []}
+                                    data={ItemValueByLabel}
+                                    value={defaultValue[itemFilter.field] ? defaultValue[itemFilter.field].split(',') : []}
                                     flex="column"
-                                    onChange={() => {}}
+                                    onChange={(val) => setCheckedFilter(itemFilter.field, val)}
                                 />
                             )
                                 : (

@@ -10,16 +10,9 @@ const CheckDefault = ({
     dataValues = [],
     onChange = () => {},
 }) => {
-    const findVal = dataValues.find((element) => element.value === value);
-    const checked = !!(findVal !== '' && findVal !== undefined && findVal);
+    const checked = dataValues.indexOf(value) !== -1;
     const handleChange = () => {
-        let newValue = dataValues;
-        if (checked === true) {
-            newValue = newValue.filter((element) => element.value !== value);
-        } else {
-            newValue = [...newValue, { label, value }];
-        }
-        onChange(newValue);
+        onChange(value);
     };
     return (
         <FormControlLabel
@@ -77,9 +70,9 @@ const CustomCheckbox = ({
                     <CheckDefault
                         label={item.label ? item.label : item}
                         value={item.value ? item.value : item}
-                        dataValues={value}
+                        dataValues={selected}
                         key={index}
-                        onChange={onChange}
+                        onChange={(val) => setCheckedFilter(val)}
                     />
                 )))}
             </div>

@@ -13,7 +13,7 @@ const sortByData = [
 const getFilterAttribute = (catId) => getFilter(catId);
 
 const Filter = ({
-    openFilter, catId, setOpenFilter, setFilter, defaultValue = {},
+    openFilter, catId, setOpenFilter, setFilter, defaultValue = {}, elastic,
 }) => {
     // get filter value attribute
     const filter = getFilterAttribute(catId);
@@ -22,6 +22,7 @@ const Filter = ({
             defaultValue={defaultValue}
             open={openFilter}
             sortByData={sortByData}
+            elastic={elastic}
             setOpen={() => setOpenFilter(!openFilter)}
             loading={filter.loading}
             data={filter.data}

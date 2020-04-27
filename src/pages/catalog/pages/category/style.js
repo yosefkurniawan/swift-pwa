@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core';
-import { GRAY_PRIMARY, GRAY_SECONDARY } from '@theme/colors';
+import { GRAY_PRIMARY, GRAY_SECONDARY, WHITE } from '@theme/colors';
 import { FlexColumn, FlexRow, CreatePadding } from '@theme/mixins';
 import { FONT_10 } from '@theme/typography';
 
@@ -13,6 +13,10 @@ const useStyles = makeStyles(() => ({
         height: '40vh',
         position: 'relative',
         backgroundColor: GRAY_PRIMARY,
+    },
+    headContainerNoBanner: {
+        backgroundColor: WHITE,
+        height: '40vh',
     },
     header: {
         left: '50%',

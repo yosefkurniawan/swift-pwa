@@ -7,6 +7,7 @@ import GridList from '@components/GridList';
 import ProductItem from '@components/ProductItem';
 import Loading from '@components/Loaders';
 import Router, { useRouter } from 'next/router';
+import getQueryFromPath from '@helpers/generateQuery';
 import useStyles from '../style';
 import Filter from './Filter';
 import { getProductByCategory } from '../services';
@@ -15,44 +16,12 @@ import * as Schema from '../services/schema';
 const getProduct = (catId, config = {}) => getProductByCategory(catId, config);
 
 /**
- * function to get query from path
- * @param Object
- * @returns object
- */
-const getQuery = (router) => {
-    let { asPath } = router;
-    let path = '';
-    // eslint-disable-next-line no-plusplus
-    for (let index = 0; index < router.query.slug.length; index++) {
-        path += `/${router.query.slug[index]}`;
-    }
-    asPath = decodeURI(asPath);
-    asPath = asPath.replace(path, '').substr(1);
-    asPath = asPath.split('&');
-    const query = {};
-    // eslint-disable-next-line no-plusplus
-    for (let index = 0; index < asPath.length; index++) {
-        let tempQuery = asPath[index];
-        if (tempQuery !== '') {
-            tempQuery = tempQuery.split('=');
-            // eslint-disable-next-line prefer-destructuring
-            query[tempQuery[0]] = tempQuery[1];
-        }
-    }
-    return {
-        path,
-        query,
-    };
-};
-
-/**
  * function to generate config product
  * @param Object query
  * @param Object configuration
  * @returns object
  */
-
-const generateConfig = (query, config) => {
+const generateConfig = (query, config, elastic) => {
     const resolveConfig = config;
     // eslint-disable-next-line no-restricted-syntax
     for (const q in query) {
@@ -71,27 +40,27 @@ const generateConfig = (query, config) => {
         } else if (q !== 'cat') {
             resolveConfig.filter.push({
                 type: q,
-                value: query[q],
+                value: elastic ? query[q].split(',') : query[q],
             });
         }
     }
     return resolveConfig;
 };
 
-const Product = ({ catId }) => {
+const Product = ({ catId, catalog_search_engine }) => {
     const router = useRouter();
     const styles = useStyles();
     const [openFilter, setOpenFilter] = React.useState(false);
     const [page, setPage] = React.useState(1);
     const [loadmore, setLoadmore] = React.useState(false);
-
+    const elastic = catalog_search_engine === 'elasticsuite';
     let config = {
         pageSize: 20,
         currentPage: 1,
         filter: [],
     };
 
-    const { path, query } = getQuery(router);
+    const { path, query } = getQueryFromPath(router);
 
     const setFiltervalue = (v) => {
         let queryParams = '';
@@ -100,7 +69,9 @@ const Product = ({ catId }) => {
             if (key === 'selectedFilter') {
                 // eslint-disable-next-line no-restricted-syntax
                 for (const idx in v.selectedFilter) {
-                    queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
+                    if (v.selectedFilter[idx] !== '') {
+                        queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
+                    }
                 }
             } else {
                 queryParams += `${queryParams !== '' ? '&' : ''}${key}=${v[key]}`;
@@ -109,12 +80,9 @@ const Product = ({ catId }) => {
         Router.push('/[...slug]', encodeURI(`${path}?${queryParams}`));
     };
 
+    config = generateConfig(query, config, elastic);
 
-    config = generateConfig(query, config);
-    const { loading, data, fetchMore } = getProduct(query.cat ? query.cat : catId, config);
-    if (loading) {
-        return <Loading size="50px" />;
-    }
+    const { loading, data, fetchMore } = getProduct(catId, config);
     let products = {};
     products = data && data.products ? data.products : {
         total_count: 0,
@@ -127,6 +95,7 @@ const Product = ({ catId }) => {
                 openFilter={openFilter}
                 setOpenFilter={setOpenFilter}
                 catId={catId}
+                elastic={elastic}
                 setFilter={setFiltervalue}
             />
             <div className={styles.filterContainer}>
@@ -154,17 +123,20 @@ const Product = ({ catId }) => {
             </div>
 
             <div className={styles.productContainer}>
-                <GridList
-                    data={products.items}
-                    ItemComponent={ProductItem}
-                    itemProps={{
-                        color: ['#343434', '#6E6E6E', '#989898', '#C9C9C9'],
-                        showListColor: true,
-                        showListSize: true,
-                        size: ['s', 'm', 'l', 'xl'],
-                    }}
-                    gridItemProps={{ xs: 6, sm: 4, md: 3 }}
-                />
+                {loading ? <Loading size="50px" />
+                    : (
+                        <GridList
+                            data={products.items}
+                            ItemComponent={ProductItem}
+                            itemProps={{
+                                color: ['#343434', '#6E6E6E', '#989898', '#C9C9C9'],
+                                showListColor: true,
+                                showListSize: true,
+                                size: ['s', 'm', 'l', 'xl'],
+                            }}
+                            gridItemProps={{ xs: 6, sm: 4, md: 3 }}
+                        />
+                    )}
                 {products.items.length === products.total_count ? null : (
                     <button
                         className={styles.btnLoadmore}

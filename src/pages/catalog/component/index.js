@@ -25,7 +25,6 @@ const Content = (props) => {
     if (loading) {
         return <span />;
     }
-
     return generateContent(props, data.urlResolver ? data.urlResolver : {});
 };
 
