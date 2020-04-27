@@ -14,59 +14,98 @@ export const getBannerSlider = gql`
     }
 `;
 
-export const getCategoryList = gql`
+
+export const getFeaturedProducts = gql`
     query($url_key: String!) {
         categoryList(filters: { url_key: { eq: $url_key } }) {
-            id
+            description
             name
             url_key
             image
-            products {
-                items {
-                    name
-                    url_path
-                    url_key
-                    image {
-                        url
-                    }
-                    thumbnail {
-                        url
-                    }
-                    price_range {
-                        minimum_price {
-                            regular_price {
-                                currency
-                                value
+            title_rewrite
+            meta_title
+            children {
+                id
+                level
+                name
+                title_rewrite
+                path
+                description
+                image
+                image_path
+                url_path
+                url_key
+                products {
+                    items {
+                        __typename
+                        name
+                        url_key
+                        canonical_url
+                        small_image {
+                            url
+                        }
+                        image {
+                            url
+                        }
+                        thumbnail {
+                            url
+                        }
+                        price_tiers {
+                            discount {
+                                amount_off
+                                percent_off
                             }
                             final_price {
                                 currency
                                 value
                             }
+                            quantity
                         }
-                    }
-                    price_tiers {
-                        discount {
-                            amount_off
-                            percent_off
+                        price_range {
+                            minimum_price {
+                                regular_price {
+                                    currency
+                                    value
+                                }
+                                final_price {
+                                    currency
+                                    value
+                                }
+                            }
                         }
-                        final_price {
-                            currency
-                            value
-                        }
-                        quantity
                     }
                 }
             }
-            children {
-                id
-                name
-                description
-                url_key
-                url_path
-                image
-            }
+            children_count
         }
     }
 `;
 
-export default { getBannerSlider, getCategoryList };
+
+export const getCategoryList = gql`
+    query($url_key: String!) {
+        categoryList(filters: { url_key: { eq: $url_key } }) {
+            description
+            name
+            url_key
+            image
+            title_rewrite
+            meta_title
+            children {
+                id
+                level
+                name
+                title_rewrite
+                path
+                description
+                image
+                image_path
+                url_path
+                url_key
+            }
+            children_count
+        }
+    }
+`;
+
+export default { getBannerSlider, getCategoryList, getFeaturedProducts };

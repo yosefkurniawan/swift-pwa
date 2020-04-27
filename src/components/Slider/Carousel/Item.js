@@ -16,13 +16,13 @@ const Item = ({
     const styles = useStyles();
     return (
         <div className={styles.itemContainer}>
-            <div className={styles.imgItem}>
-                <Link href="[...slug]" as={`${url}`}>
+            <Link href="[...slug]" as={url}>
+                <div className={styles.imgItem}>
                     <img src={setDefaultWhenEmpty(imageSrc)} alt={name} className={styles.imgItem} />
-                </Link>
-            </div>
+                </div>
+            </Link>
             <div className={styles.detailItem}>
-                <Link href="[...slug]" as={`${url}`}>
+                <Link href="[...slug]" as={url}>
                     <a>
                         <Typography variant="span">{name}</Typography>
                     </a>
