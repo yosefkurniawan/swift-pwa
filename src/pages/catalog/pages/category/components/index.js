@@ -29,7 +29,7 @@ const CategoryPage = ({ data, storeConfig }) => {
     if (categoryList.image) {
         dataBanner = [
             {
-                img: categoryList.image,
+                imageUrl: categoryList.image,
                 link: categoryList.url_path,
             },
         ];
