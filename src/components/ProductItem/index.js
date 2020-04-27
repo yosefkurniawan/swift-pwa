@@ -51,8 +51,9 @@ const ProductItem = (props) => {
                             src={spesificProduct.id ? spesificProduct.image.url
                                 : image && image.url
                                     ? image.url
-                                    : '/assets/img/sample/product.png'}
+                                    : '/assets/img/placeholder.png'}
                             className={styles.imgProduct}
+                            onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
                             alt={image && image.url ? image.label : 'Product'}
                         />
                     </a>

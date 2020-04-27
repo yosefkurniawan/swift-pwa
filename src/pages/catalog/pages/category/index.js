@@ -13,11 +13,12 @@ const Page = (props) => {
     });
 
     if (loading) {
-        return <Loading />;
+        return <Loading size="50px" />;
     }
     const pageConfig = {
         title: data.categoryList[0].name,
-        header: 'absolute', // available values: "absolute", "relative", false (default)
+        headerTitle: data.categoryList[0].name,
+        header: data.categoryList[0].image ? 'absolute' : 'relative', // available values: "absolute", "relative", false (default)
         bottomNav: 'browse',
     };
     return (

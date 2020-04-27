@@ -6,13 +6,6 @@ import Router from 'next/router';
 import useStyles from '../style';
 import Product from './Product';
 
-let dataBanner = [
-    {
-        img: '/assets/img/sample/category-banner.png',
-        link: '/',
-    },
-];
-
 const categoryTabs = (category) => {
     const data = [];
     // eslint-disable-next-line no-plusplus
@@ -22,17 +15,17 @@ const categoryTabs = (category) => {
     return data;
 };
 
-const CategoryPage = ({ data }) => {
+const CategoryPage = ({ data, storeConfig }) => {
     const styles = useStyles();
     const [value] = React.useState(0);
     const categoryList = data.categoryList[0];
+    let dataBanner = [];
     const handleChange = (event, newValue) => {
         Router.push(
             '/[...slug]',
             `/${categoryList.children[newValue - 1].url_path}`,
         );
     };
-
     if (categoryList.image) {
         dataBanner = [
             {
@@ -45,10 +38,13 @@ const CategoryPage = ({ data }) => {
     return (
         <>
             <Box className={styles.container}>
-                <div className={styles.headContainer}>
-                    <div className={styles.header}>{categoryList.name}</div>
-                    <Banner data={dataBanner} initial={{ url: 'img', link: 'link' }} height="40vh" />
-                </div>
+                {dataBanner.length > 0
+                    ? (
+                        <div className={styles.headContainer}>
+                            <Banner data={dataBanner} initial={{ url: 'img', link: 'link' }} height="40vh" />
+                            {' '}
+                        </div>
+                    ) : null}
                 <div>
                     <CustomTabs
                         data={categoryTabs(categoryList.children)}
@@ -56,7 +52,7 @@ const CategoryPage = ({ data }) => {
                         value={value}
                     />
                 </div>
-                <Product catId={categoryList.id} />
+                <Product catId={categoryList.id} catalog_search_engine={storeConfig.catalog_search_engine} />
             </Box>
         </>
     );
