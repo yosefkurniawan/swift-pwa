@@ -45,7 +45,6 @@ function CustomRadio({
     const handleChangeCustom = (val) => {
         onChange(val);
     };
-
     return (
         <div className={rootStyle}>
             <Typography variant="label" type="bold" letter="uppercase">

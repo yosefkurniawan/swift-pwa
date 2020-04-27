@@ -5,7 +5,7 @@ import Product from '../pages/product';
 
 const generateContent = (props, resolver) => {
     if (resolver.type === 'CATEGORY') {
-        return <Category categoryId={resolver.id} />;
+        return <Category {...props} categoryId={resolver.id} />;
     } if (resolver.type === 'PRODUCT') {
         return <Product {...props} />;
     }
@@ -25,7 +25,6 @@ const Content = (props) => {
     if (loading) {
         return <span />;
     }
-
     return generateContent(props, data.urlResolver ? data.urlResolver : {});
 };
 
