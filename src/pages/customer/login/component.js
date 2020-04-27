@@ -120,7 +120,7 @@ const Login = ({ t }) => {
                         <TextField
                             name="email"
                             label="Email/Phone Number"
-                            placeholder="+6281234xxxx"
+                            placeholder="john.doe@gmail.com"
                             value={formik.values.email}
                             onChange={formik.handleChange}
                             error={!!formik.errors.email}
