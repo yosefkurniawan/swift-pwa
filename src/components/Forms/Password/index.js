@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-nested-ternary */
 import TextField from '@components/Forms/TextField';
 import Typography from '@components/Typography';
@@ -6,6 +7,8 @@ import { InputAdornment, IconButton } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import checkPassword from '@helpers/passwordStrength';
 import classNames from 'classnames';
+import Cookies from 'js-cookie';
+import { storConfigNameCokie, passwordStrength } from '@config';
 import useStyles from './style';
 
 const PasswordField = ({
@@ -28,13 +31,26 @@ const PasswordField = ({
         event.preventDefault();
     };
 
+    let { numberOfRequiredClass, minValue } = passwordStrength;
+
+    const config = Cookies.getJSON(storConfigNameCokie);
+
+    if (config && config.customer_password_minimum_password_length) {
+        minValue = config.customer_password_minimum_password_length;
+    }
+
+    if (config && config.customer_password_required_character_classes_number) {
+        numberOfRequiredClass = config.customer_password_required_character_classes_number;
+    }
+
     const handleChange = (event) => {
         onChange(event);
         if (showPasswordMeter) {
-            const strength = checkPassword(event.target.value);
+            const strength = checkPassword({ value: event.target.value, minValue, numberOfRequiredClass });
             setErrorPasswd(strength);
         }
     };
+
     return (
         <TextField
             label={label}

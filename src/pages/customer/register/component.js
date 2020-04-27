@@ -7,6 +7,7 @@ import { Checkbox, FormControl, FormControlLabel } from '@material-ui/core/';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/router';
+import OtpBlock from '@components/OtpBlock';
 import useStyles from './style';
 
 const Register = ({ t }) => {
@@ -39,6 +40,7 @@ const Register = ({ t }) => {
             .required(t('validate:whatsappNumber:required'))
             .matches(regexPhone, t('validate:whatsappNumber:wrong')),
         tos: Yup.boolean().oneOf([true], t('validate:tos:required')),
+        otp: Yup.number().required('Otp is required'),
     });
 
     const formik = useFormik({
@@ -52,6 +54,7 @@ const Register = ({ t }) => {
             whatsappNumber: '',
             tos: false,
             newslater: false,
+            otp: '',
         },
         validationSchema: RegisterSchema,
         onSubmit: (values) => {
@@ -121,31 +124,35 @@ const Register = ({ t }) => {
           || null
                 }
             />
-            <TextField
-                label="Phone Number"
-                name="phoneNumber"
-                value={formik.values.phoneNumber}
-                onChange={formik.handleChange}
-                error={
-                    !!(formik.touched.phoneNumber && formik.errors.phoneNumber)
-                }
-                errorMessage={
-                    (formik.touched.phoneNumber && formik.errors.phoneNumber) || null
-                }
-                footer={(
-                    <FormControlLabel
-                        onChange={handleWa}
-                        className={styles.checkWa}
-                        control={
-                            <Checkbox name="whastapptrue" color="primary" size="small" />
-                        }
-                        label={(
-                            <Typography variant="p">
-                                Phone Number is Registered in Whatsapp
-                            </Typography>
-                        )}
-                    />
-                )}
+            <OtpBlock
+                phoneProps={{
+                    name: 'phoneNumber',
+                    value: formik.values.phoneNumber,
+                    onChange: formik.handleChange,
+                    error: !!(formik.touched.phoneNumber && formik.errors.phoneNumber),
+                    errorMessage: (formik.touched.phoneNumber && formik.errors.phoneNumber) || null,
+                    footer: (
+                        <FormControlLabel
+                            onChange={handleWa}
+                            className={styles.checkWa}
+                            control={
+                                <Checkbox name="whastapptrue" color="primary" size="small" />
+                            }
+                            label={(
+                                <Typography variant="p">
+                                    Phone Number is Registered in Whatsapp
+                                </Typography>
+                            )}
+                        />
+                    ),
+                }}
+                codeProps={{
+                    name: 'otp',
+                    value: formik.values.otp,
+                    onChange: formik.handleChange,
+                    error: !!(formik.touched.otp && formik.errors.otp),
+                    errorMessage: (formik.touched.otp && formik.errors.otp) || null,
+                }}
             />
             {!phoneIsWa && (
                 <TextField
@@ -213,7 +220,7 @@ const Register = ({ t }) => {
                     )}
                 />
                 <Button fullWidth className={styles.btnSigin} type="submit">
-                    <Typography variant="title" type="regular" letter="capitalize">
+                    <Typography variant="title" type="regular" letter="capitalize" color="white">
                         {t('customer:register:button')}
                     </Typography>
                 </Button>

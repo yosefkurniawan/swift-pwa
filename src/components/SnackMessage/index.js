@@ -1,8 +1,12 @@
-import { Snackbar, IconButton } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import { Snackbar } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="standard" {...props} />;
+}
 
 export default ({
-    open, message, setOpen,
+    open, message, setOpen, variant = 'success',
 }) => {
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -20,19 +24,10 @@ export default ({
             open={open}
             autoHideDuration={6000}
             onClose={handleClose}
-            message={message}
-            action={(
-                <>
-                    <IconButton
-                        size="small"
-                        aria-label="close"
-                        color="inherit"
-                        onClick={handleClose}
-                    >
-                        <CloseIcon fontSize="small" />
-                    </IconButton>
-                </>
-            )}
-        />
+        >
+            <Alert onClose={handleClose} severity={variant}>
+                {message}
+            </Alert>
+        </Snackbar>
     );
 };

@@ -10,6 +10,7 @@ const Page = (props) => {
         headerTitle: t('customer:login:pageTitle'),
         headerBackIcon: 'close',
         bottomNav: false,
+        withAuth: true,
     };
     return (
         <Layout pageConfig={pageConfig}>

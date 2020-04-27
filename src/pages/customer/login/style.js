@@ -24,4 +24,8 @@ export default makeStyles(() => ({
         position: 'absolute',
         bottom: 0,
     },
+    selectLogin: {
+        width: '100%',
+        ...CreateMargin(0, 0, 15, -15),
+    },
 }));
