@@ -7,7 +7,7 @@ const useStyles = makeStyles(() => ({
         height: '100%',
         position: 'relative',
         backgroundColor: WHITE,
-        padding: 10,
+        padding: 0,
     },
     imageContainer: {
         minWidth: 345,

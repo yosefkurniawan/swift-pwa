@@ -15,7 +15,7 @@ const SpanCategory = ({
                 <Grid item sm={12} md={12} lg={12}>
                     <Link href="[...slug]" as={url}>
                         <div className={styles.imageContainer}>
-                            <img src={setDefaultWhenEmpty(imageSrc)} alt={name} />
+                            <img src={setDefaultWhenEmpty(imageSrc)} alt={name} style={{ maxWidth: '100%' }} />
                         </div>
                     </Link>
                 </Grid>

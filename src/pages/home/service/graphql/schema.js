@@ -32,6 +32,7 @@ export const getFeaturedProducts = gql`
                 path
                 description
                 image
+                image_path
                 url_path
                 url_key
                 products {
@@ -95,6 +96,7 @@ export const getCategoryList = gql`
                 path
                 description
                 image
+                image_path
                 url_path
                 url_key
             }

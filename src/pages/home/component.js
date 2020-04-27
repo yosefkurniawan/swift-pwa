@@ -74,9 +74,9 @@ const FeaturedProducts = () => {
                 }));
                 return (
                     <Fragment key={i}>
-                        {category.image && (
+                        {category.image_path && (
                             <Link href="[...slug]" as={category.url_path}>
-                                <img src={category.image} alt={category.name} style={{ maxHeight: '100%' }} />
+                                <img src={category.image_path} alt={category.name} style={{ maxWidth: '100%', maxHeight: '100%' }} />
                             </Link>
                         )}
                         <div className={styles.slider}>
@@ -113,7 +113,7 @@ const CategoryList = ({ storeConfig }) => {
                 <div className={styles.slider} key={i}>
                     <SpanCategory
                         storeConfig={storeConfig}
-                        imageSrc={category.image}
+                        imageSrc={category.image_path}
                         name={category.name}
                         description={category.description}
                         url={category.url_path}
