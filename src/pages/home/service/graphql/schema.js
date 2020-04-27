@@ -41,6 +41,9 @@ export const getFeaturedProducts = gql`
                         name
                         url_key
                         canonical_url
+                        small_image {
+                            url
+                        }
                         image {
                             url
                         }

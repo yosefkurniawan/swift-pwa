@@ -69,7 +69,7 @@ const FeaturedProducts = () => {
                     ...product,
                     name: product.name,
                     url: product.url_key,
-                    imageSrc: product.image.url,
+                    imageSrc: product.small_image.url,
                     price: product.price_range.minimum_price.regular_price.value,
                 }));
                 return (
