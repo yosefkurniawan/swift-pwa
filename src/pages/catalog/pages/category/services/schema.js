@@ -201,6 +201,7 @@ export const getCategory = (
           name
           url_path
           image
+          image_path
           children {
             id
             name
