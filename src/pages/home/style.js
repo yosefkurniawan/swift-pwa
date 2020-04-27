@@ -49,6 +49,14 @@ const useStyles = makeStyles((theme) => ({
             height: '100%',
         },
     },
+    skeletonWrapper: {
+        padding: '6px',
+        width: '100%',
+    },
+    skeleton: {
+        alignSelf: 'flex-start',
+        margin: '6px 0',
+    },
 }));
 
 export default useStyles;
