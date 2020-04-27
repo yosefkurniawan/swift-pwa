@@ -26,10 +26,10 @@ const CategoryPage = ({ data, storeConfig }) => {
             `/${categoryList.children[newValue - 1].url_path}`,
         );
     };
-    if (categoryList.image) {
+    if (categoryList.image_path) {
         dataBanner = [
             {
-                imageUrl: categoryList.image,
+                imageUrl: categoryList.image_path,
                 link: categoryList.url_path,
             },
         ];

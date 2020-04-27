@@ -65,7 +65,7 @@ export const getProductByCategory = (catID, config = {}) => gql`
           id
           name
           url_key
-          image {
+          small_image {
             url
             label
           }
@@ -172,6 +172,10 @@ export const getProductByCategory = (catID, config = {}) => gql`
                     }
                   }
                 }
+                small_image{
+                  url
+                  label
+                }
                 image {
                   url
                   label
@@ -201,6 +205,7 @@ export const getCategory = (
           name
           url_path
           image
+          image_path
           children {
             id
             name
