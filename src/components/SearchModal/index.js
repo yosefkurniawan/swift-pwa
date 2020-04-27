@@ -5,8 +5,10 @@ import { ArrowBack } from '@material-ui/icons';
 import React, { useState } from 'react';
 import { GraphCategory } from '@services/graphql';
 import { withTranslation } from '@i18n';
+import TextField from '@components/Forms/TextField';
+import Router from 'next/router';
+import SearchIcon from '@material-ui/icons/Search';
 import useStyles from './style';
-import ButtonField from './ButtonField';
 import Category from './Category';
 import SubCategory from './SubCategory';
 import SearchDialog from './SearchDialog';
@@ -20,7 +22,7 @@ const SearchPage = (props) => {
     const [showSubCat, setShowSubCat] = useState(false);
     const [openSearch, setOpenSearch] = useState(false);
     const [slideCat, setSlideCat] = useState(false);
-
+    const [value, setValue] = React.useState('');
     const { loading, data, error } = GraphCategory.getCategories();
 
     if (loading && !data) {
@@ -56,6 +58,24 @@ const SearchPage = (props) => {
         props.setOpenModal(false);
     };
 
+    const handleSearch = (ev) => {
+        if (ev.key === 'Enter' && ev.target.value !== '') {
+            Router.push({
+                pathname: '/catalogsearch/result',
+                query: { q: value },
+            });
+        }
+    };
+
+    const searchByClick = () => {
+        if (value !== '') {
+            Router.push({
+                pathname: '/catalogsearch/result',
+                query: { q: value },
+            });
+        }
+    };
+
     return (
         <>
             <SearchDialog
@@ -77,11 +97,20 @@ const SearchPage = (props) => {
                             >
                                 <ArrowBack className={styles.iconClose} />
                             </IconButton>
-                            <ButtonField
+                            <TextField
                                 placeholder="Search ..."
-                                onClick={() => setOpenSearch(true)}
-                                className={styles.searchButton}
+                                value={value}
+                                onChange={(e) => setValue(e.target.value)}
+                                onKeyPress={(e) => handleSearch(e)}
                             />
+                            <IconButton
+                                disabled={value === ''}
+                                edge="start"
+                                onClick={searchByClick}
+                                aria-label="close"
+                            >
+                                <SearchIcon className={styles.iconClose} />
+                            </IconButton>
                         </Toolbar>
                     </AppBar>
                     <>

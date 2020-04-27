@@ -13,7 +13,7 @@ import ListColor from './ListColor';
 const ProductItem = (props) => {
     const {
         name,
-        image,
+        small_image,
         // eslint-disable-next-line camelcase
         price_range,
         // eslint-disable-next-line camelcase
@@ -50,12 +50,12 @@ const ProductItem = (props) => {
                         <img
                             // eslint-disable-next-line no-nested-ternary
                             src={spesificProduct.id ? spesificProduct.image.url
-                                : image && image.url
-                                    ? image.url
+                                : small_image && small_image.url
+                                    ? small_image.url
                                     : '/assets/img/placeholder.png'}
                             className={styles.imgProduct}
                             onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
-                            alt={image && image.url ? image.label : 'Product'}
+                            alt={small_image && small_image.url ? small_image.label : 'Product'}
                         />
                     </a>
                 </Link>
