@@ -6,6 +6,8 @@ export default gql`
     storeConfig {
       secure_base_media_url
       secure_base_static_url
+      customer_password_minimum_password_length
+      customer_password_required_character_classes_number
       base_media_url
       base_static_url
       base_url

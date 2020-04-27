@@ -1,14 +1,15 @@
 import { passwordStrength } from '@config';
 import zxcvbn from './zxcvbn';
 
-const { minValue, numberOfRequiredClass } = passwordStrength;
+const defaultValue = passwordStrength.minValue;
+const defaultRequiredClass = passwordStrength.numberOfRequiredClass;
 
 const lower = '(?=.*[a-z])';
 const upper = '(?=.*[A-Z])';
 const number = '(?=.*[0-9])';
 const special = '(?=.*[!@#$%^&=?<>+.*_-])';
 
-const getScore = (password) => {
+const getScore = (password, minValue, numberOfRequiredClass) => {
     if (password === '' || !password) {
         return 0;
     }
@@ -53,11 +54,15 @@ const getScore = (password) => {
     }
 
     const zxcvbnScore = zxcvbn(password).score;
-    return (valid === true) && (zxcvbnScore > 0) ? zxcvbnScore : 1;
+    return valid === true && zxcvbnScore > 0 ? zxcvbnScore : 1;
 };
 
-export default (password) => {
-    const score = getScore(password);
+export default ({
+    value,
+    minValue = defaultValue,
+    numberOfRequiredClass = defaultRequiredClass,
+}) => {
+    const score = getScore(value, minValue, numberOfRequiredClass);
     switch (score) {
     case 0:
         return {

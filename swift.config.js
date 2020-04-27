@@ -49,3 +49,10 @@ export const languagesLabel = {
 export const expiredCokies = 6;
 export const storConfigNameCokie = 'storeConfig';
 export const nameCartId = 'cartId';
+
+
+export const keyEncrypt = 'I wrote code anything searching bug and coffe';
+export const algorithm = 'aes-256-cbc';
+
+export const nameToken = 'sk';
+export const expiredToken = 24;
