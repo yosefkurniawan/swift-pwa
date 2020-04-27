@@ -17,8 +17,13 @@ const Page = (props) => {
     );
 };
 
-Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'checkout'],
-});
+Page.getInitialProps = async (ctx) => {
+    const token = ctx.query.token;
+
+    return {
+        token: token,
+        namespacesRequired: ['common', 'checkout'],
+    }
+};
 
 export default withTranslation()(Page);

@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from 'react';
 /* eslint-disable no-unused-expressions */
 import Typography from '@components/Typography';
 import Button from '@components/Button';
@@ -9,7 +10,9 @@ import DeliveryItem from './RadioDeliveryItem';
 
 import useStyles from '../style';
 import Summary from './Summary';
-import PaymentList from './PaymentList';
+import gqlService from '../services/graphql';
+import Routes from 'next/router';
+import _ from 'lodash'
 
 const deliveryData = [
     { label: 'Standart', value: { name: 'standart', price: 20000 } },
@@ -36,19 +39,191 @@ const FieldPoint = ({
 };
 
 const Checkout = (props) => {
-    const { t } = props;
+    const { t, token } = props;
     const styles = useStyles();
-    const [delivery, setDelivery] = React.useState([]);
-    const [summary, setSummary] = React.useState([
+    const [delivery, setDelivery] = useState([]);
+    const [payment, setPayment] = React.useState([]);
+    const [summary, setSummary] = useState([
         { item: 'sub total', value: 300000 },
     ]);
+    const [point, setPoint] = useState(100000);
+    const [credit, setCredit] = useState(100000);
+    const getCustomer = gqlService.getCustomer(null, token);
+    const getCustomerCart = gqlService.getCustomerCart(null, token);
+    const [setShippingAddressById] = gqlService.setShippingAddress(null, token);
+    const [setShippingMethod] = gqlService.setShippingMethod(null, token);
+    const [setBillingAddressById] = gqlService.setBillingAddressById(null, token);
+    const [setPaymentMethod] = gqlService.setPaymentMethod(null, token);
+    const [placeOrder] = gqlService.placeOrder(null, token);
+    
+    const [checkout, setCheckout] = useState({
+        data: {
+            cart: null,
+            customer: null,
+            shippingMethods: [],
+            summary: [],
+            paymentMethod: [],
+            total: 0
+        },
+        selected: {
+            address: null,
+            shipping: {
+                name: { carrier_code: null, method_code: null },
+                price: null
+            },
+            payment: null,
+            billing: null
+        },
+        loading: {
+            addresses: false,
+            shipping: false,
+            payment: false,
+            billing: false,
+            order: false,
+            summary: false
+        }
+    });
+    
+    useEffect(() => {
+        if (!getCustomer.loading && !getCustomerCart.loading) {
+            const cart = getCustomerCart.data.customerCart;
 
-    const [point, setPoint] = React.useState(100000);
-    const [credit, setCredit] = React.useState(100000);
+            if(cart.items.length == 0){
+                return window.location = '/cart'
+            }
+            const customer = getCustomer.data.customer;
+            const [address] = customer.addresses.filter((address) => {
+                return address.default_shipping;
+            });
+            const summary = [
+                { item: 'sub total', value: cart.prices.grand_total.value },
+            ];
+            const shipping = cart.shipping_addresses[0];            
+            const state = { ...checkout };
+            state.data.customer = customer;
+            state.data.cart = cart;
+            state.data.summary = summary;
+            state.data.total = cart.prices.grand_total.value
+
+            if(shipping){
+                if(cart.billing_address){
+                    state.selected.address = {
+                        firstname: address.firstname, 
+                        lastname: address.lastname,
+                        city: address.city,
+                        region:{
+                            region: address.region.label
+                        },
+                        postcode: address.postcode,
+                        telephone: address.telephone,
+                        street: address.street
+                    }
+                }
+
+                if(shipping.available_shipping_methods){
+                    const availableShipping = shipping.available_shipping_methods.filter(x => x.available)
+                    state.data.shippingMethods = availableShipping.map((shipping) => {
+                        return {
+                            ...shipping,
+                            label: `${shipping.method_title} ${shipping.carrier_title}`,
+                            value: {
+                                name: { carrier_code: shipping.carrier_code, method_code: shipping.method_code },
+                                price: shipping.amount.value
+                            }
+                        }
+                    });
+                }
+
+                if(!_.isNull(shipping.selected_shipping_method)){
+                    const shippingMethod = shipping.selected_shipping_method
+                    state.selected.shipping = {
+                        name: { carrier_code: shippingMethod.carrier_code, method_code: shippingMethod.method_code },
+                        price: shippingMethod.amount.value
+                    }
+                    state.data.paymentMethod = cart.available_payment_methods.map((method) => ({
+                        ...method,
+                        label: method.title,
+                        value: method.code,
+                        image: null
+                    }))
+                }
+
+                if(cart.selected_payment_method){
+                    state.selected.payment = cart.selected_payment_method.code
+                }
+            }
+
+            setCheckout(state);
+
+            if(!shipping){
+                setAdrress(address, cart);
+            }
+        }
+    }, [getCustomer, getCustomerCart]);
+
+    const setAdrress = async (address, cart) => {
+        const state = { ...checkout };
+        const resultShippingAddress = await setShippingAddressById({
+            variables: {
+                cartId: cart.id,
+                addressId: address.id
+            }
+        });
+
+        await setBillingAddressById({
+            variables: {
+                cartId: cart.id,
+                addressId: address.id
+            }
+        });
+
+        const shippingMethods = resultShippingAddress.data.setShippingAddressesOnCart.cart
+            .shipping_addresses[0].available_shipping_methods.map((shipping) => {
+                return {
+                    ...shipping,
+                    label: `${shipping.method_title} ${shipping.carrier_title}`,
+                    value: {
+                        name: { carrier_code: shipping.carrier_code, method_code: shipping.method_code },
+                        price: shipping.amount.value
+                    }
+                }
+            });
+
+        state.data.shippingMethods = shippingMethods
+        state.selected.address = address
+
+        setCheckout(state)
+    }
 
     const handleAddres = () => {};
-    const handleShipping = (val) => {
-        setDelivery(val);
+    
+    const handleShipping = async (val) => {
+        const { cart, summary } = checkout.data;
+        const { carrier_code, method_code } = val.name
+        setCheckout({
+            ...checkout,
+            selected: {
+                ...checkout.selected,
+                shipping: val
+            }
+        })
+        const updatedCart = (
+            await setShippingMethod({
+                variables: {
+                    cartId: cart.id,
+                    carrierCode: carrier_code,
+                    methodCode: method_code
+                }
+            })
+        ).data.setShippingMethodsOnCart.cart
+
+        const paymentMethod = updatedCart.available_payment_methods.map((method) => ({
+            ...method,
+            label: method.title,
+            value: method.code,
+            image: null
+        }))
+
         let include = false;
         const newData = [];
         summary.forEach((item) => {
@@ -61,10 +236,47 @@ const Checkout = (props) => {
         });
 
         include === false
-            ? setSummary([...newData, { item: 'shipping', value: val.price }])
-            : setSummary(newData);
+            ? setCheckout({
+                ...checkout,
+                data: {
+                    ...checkout.data,
+                    summary: [...newData, { item: 'shipping', value: val.price }],
+                    paymentMethod,
+                    total: updatedCart.prices.grand_total.value
+                },
+                selected: {
+                    ...checkout.selected,
+                    shipping: val
+                }
+            })  
+            : setCheckout({
+                ...checkout,
+                data: {
+                    ...checkout.data,
+                    summary:newData,
+                    paymentMethod,
+                    total: updatedCart.prices.grand_total.value
+                },
+                selected: {
+                    ...checkout.selected,
+                    shipping: val
+                }
+            })  
     };
-    const handlePayment = () => {};
+
+    const handlePayment = async (val) => {
+        const { cart } = checkout.data
+        setCheckout({
+            ...checkout,
+            selected: {
+                ...checkout.selected,
+                payment: val
+            }
+        });
+
+        const result = await setPaymentMethod({variables: {cartId: cart.id, code: val}})
+    };
+
     const handlePromo = () => {
         let include = false;
         const newData = [];
@@ -81,6 +293,7 @@ const Checkout = (props) => {
             ? setSummary([...newData, { item: 'promo', value: -20000 }])
             : setSummary(newData);
     };
+
     const handleGift = () => {
         let include = false;
         const newData = [];
@@ -98,6 +311,7 @@ const Checkout = (props) => {
             : setSummary(newData);
     };
     const handleCheckBalance = () => {};
+
     const handleUsePoint = async () => {
         if (point !== 0) {
             let include = false;
@@ -118,6 +332,7 @@ const Checkout = (props) => {
             setPoint(0);
         }
     };
+
     const handleUseCredit = async () => {
         if (credit !== 0) {
             let include = false;
@@ -139,45 +354,83 @@ const Checkout = (props) => {
         }
     };
 
+    const handlePlaceOrder = async () => {
+        const { cart } = checkout.data;
+        const incrementId = await placeOrder({variables: {cartId: cart.id}})
+        console.log(incrementId);
+        Routes.push('/thanks')
+    }
+
+    const getRenderAddress = () => {
+        const { address } = checkout.selected;
+        const street = _.isNull(address) ? null: address.street.join(' ')
+
+        return (
+            <div className={styles.addressContainer}>
+                <div className={styles.addressText}>
+                    <Typography variant="title" type="bold" letter="uppercase">
+                        {t('checkout:shippingAddress')}
+                    </Typography>
+                    {_.isNull(address) ? (
+                        <Typography variant="p">
+                            loading
+                        </Typography>
+                    ) : (
+                        <Typography variant="p">
+                            {`${address.firstname} ${address.lastname} ${street} ${address.city} ${address.region.region} ${address.postcode} ${address.telephone}`}
+                        </Typography>
+                    )}
+                </div>
+                {_.isNull(address) ? null : (
+                    <Button variant="outlined" href={`/customer/account/address?token=${token}`}>
+                        <Typography variant="p" type="bold" letter="uppercase">
+                            {t('common:button:change')}
+                        </Typography>
+                    </Button>
+                )}
+            </div>
+        );
+    };
+
     return (
         <div className={styles.root}>
             <div className={styles.container}>
                 <div className={styles.block}>
-                    <div className={styles.addressContainer}>
-                        <div className={styles.addressText}>
-                            <Typography variant="title" type="bold" letter="uppercase">
-                                {t('checkout:shippingAddress')}
-                            </Typography>
-                            <Typography variant="p">
-                                Diasty Jl Kalibata Timur I no.1 rt.01/rw.01 Pancoran, Jakarta
-                                Selatan 12740 081234567890
-                            </Typography>
-                        </div>
-                        <Button variant="outlined">
-                            <Typography variant="p" type="bold" letter="uppercase">
-                                {t('common:button:change')}
-                            </Typography>
-                        </Button>
-                    </div>
+                    {getRenderAddress()}
                 </div>
                 <div className={styles.block}>
                     <Typography variant="title" type="bold" letter="uppercase">
                         {t('checkout:deliveryMethod')}
                     </Typography>
-                    <Radio
-                        value={delivery}
-                        onChange={handleShipping}
-                        classContainer={styles.listShipping}
-                        CustomItem={DeliveryItem}
-                        valueData={deliveryData}
-                    />
+                    {checkout.data.shippingMethods.length === 0 ? (
+                        'LOADING'
+                    ) : (
+                        <Radio
+                            value={checkout.selected.shipping}
+                            onChange={handleShipping}
+                            classContainer={styles.listShipping}
+                            CustomItem={DeliveryItem}
+                            valueData={checkout.data.shippingMethods}
+                        />
+                    )}
                 </div>
                 <div className={styles.block}>
                     <Typography variant="title" type="bold" letter="uppercase">
                         {t('checkout:payment')}
                     </Typography>
                     <Typography variant="p">{t('checkout:paymentSubtitle')}</Typography>
-                    <PaymentList />
+                    <div>
+                            <Radio
+                                value={checkout.selected.payment}
+                                onChange={handlePayment}
+                                valueData={checkout.data.paymentMethod}
+                                CustomItem={DeliveryItem}
+                                propsItem={{
+                                    borderBottom: false,
+                                    RightComponent: true,
+                                }}
+                            />
+                    </div>
                 </div>
                 <div className={classNames(styles.block, styles.rmBorder)}>
                     <FieldPoint placeholder="Promo Code" action={handlePromo} />
@@ -240,7 +493,7 @@ const Checkout = (props) => {
                     </div>
                 </div>
             </div>
-            <Summary {...props} data={summary} />
+            {<Summary {...props} data={checkout.data.summary} total={checkout.data.total} onClick={handlePlaceOrder} />}
         </div>
     );
 };

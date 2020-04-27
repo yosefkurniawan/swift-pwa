@@ -7,17 +7,16 @@ import {
     ExpansionPanelSummary,
 } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
-import Routes from 'next/router';
 import useStyles from './style';
 
-const Summary = ({ t, data = [1, 2, 3, 4, 5] }) => {
+const Summary = ({ t, data = [1, 2, 3, 4, 5], onClick, total }) => {
     const styles = useStyles();
     const [expanded, setExpanded] = React.useState(null);
 
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
     };
-    let totalSummary = 0;
+    const totalSummary = total ? total:0;
     return (
         <div className={styles.footer}>
             <ExpansionPanel
@@ -40,7 +39,8 @@ const Summary = ({ t, data = [1, 2, 3, 4, 5] }) => {
                                 {list.item}
                             </Typography>
                             <Typography variant="span" letter="uppercase">
-                                {currency({ currency: 'idr', value: list.value })}
+                                {list.value}
+                                {/* {currency({ currency: 'idr', value: list.value })} */}
                             </Typography>
                         </div>
                     ))}
@@ -53,14 +53,11 @@ const Summary = ({ t, data = [1, 2, 3, 4, 5] }) => {
                 </Typography>
                 <Typography variant="title" type="bold" letter="uppercase">
                     {
-                        (data.forEach((item) => {
-                            totalSummary += item.value;
-                        }),
-                        currency({ currency: 'idr', value: totalSummary }))
+                        totalSummary
                     }
                 </Typography>
             </div>
-            <Button onClick={() => Routes.push('/thanks')} className={styles.btnSave}>
+            <Button onClick={onClick} className={styles.btnSave}>
                 {t('checkout:placeOrder')}
             </Button>
         </div>
