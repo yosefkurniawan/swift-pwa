@@ -6,7 +6,7 @@
 /* eslint-disable no-param-reassign */
 import TextField from '@components/Forms/TextField';
 // import Autocomplete from '@material-ui/lab/Autocomplete';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Loading from '@material-ui/core/CircularProgress';
 import SelectIcon from '@material-ui/icons/ArrowDropDown';
 import List from '@material-ui/core/List';
@@ -18,13 +18,15 @@ import useStyles from './style';
 const Select = ({
     label = '',
     name = '',
+    value = null,
     // errorMessage = '',
     graphql,
     // optionsData = [],
     initialOption,
+    setSelectValue = null
 }) => {
     const styles = useStyles();
-    const [value, setValue] = React.useState('');
+    const [localValue, setLocalValue] = React.useState('');
     const [open, setOpen] = React.useState(false);
     let options = [];
     let loading = false;
@@ -33,6 +35,13 @@ const Select = ({
         if (load || !data) loading = true;
         if (error) return (loading = true);
         if (data) options = data.countries;
+        if(value){
+            useEffect(() => {
+                const dataSelected = data.countries.find(item => item.id === value)
+                setLocalValue(dataSelected[initialOption.label])
+    
+            },[data])   
+        }
     }
 
     const [optionData, setOptionData] = React.useState(options);
@@ -51,21 +60,22 @@ const Select = ({
         } else {
             newOptionFilter = options;
         }
-        setValue(values);
+        setLocalValue(values);
         setOptionData(newOptionFilter);
         setOpen(values !== '');
     };
 
     const handleSelect = (item) => {
         setOpen(false);
-        setValue(item[initialOption.label]);
+        console.log(item)
+        setLocalValue(item[initialOption.label]);
     };
     return (
         <div className="relative">
             <TextField
                 name={name}
                 label={label}
-                value={value}
+                value={localValue}
                 onChange={handleChange}
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
