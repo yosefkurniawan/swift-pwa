@@ -14,6 +14,13 @@ const productDetail = `
       label
       url
     }
+    small_image{
+      url
+    }
+    image{
+      url
+    }
+
     `;
 const priceRange = `
     price_range {
@@ -100,10 +107,6 @@ export const getProduct = (url) => {
               }
               short_description {
                 html
-              }
-              image {
-                label
-                url
               }
               canonical_url
               category_gear

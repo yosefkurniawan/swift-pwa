@@ -8,6 +8,11 @@ export const setToken = (token) => {
     return true;
 };
 
+export const getTokenFromServer = (tokenCustomer) => {
+    const token = !tokenCustomer || tokenCustomer === '' || tokenCustomer === undefined ? '' : decrypt(tokenCustomer);
+    return token;
+};
+
 export const getToken = () => {
     const tokenCustomer = cookies.get(nameToken);
     const token = !tokenCustomer || tokenCustomer === '' || tokenCustomer === undefined ? '' : decrypt(tokenCustomer);

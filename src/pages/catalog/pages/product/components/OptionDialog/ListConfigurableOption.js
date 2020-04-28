@@ -61,6 +61,8 @@ export default (props) => {
         });
     };
 
+    console.log(selected);
+
     return (
         <>
             {optionData.map((option, index) => (option.attribute_code === 'color' ? (
