@@ -6,8 +6,12 @@ import Product from '../pages/product';
 const generateContent = (props, resolver) => {
     if (resolver.type === 'CATEGORY') {
         return <Category {...props} categoryId={resolver.id} />;
-    } if (resolver.type === 'PRODUCT') {
+    }
+    if (resolver.type === 'PRODUCT') {
         return <Product {...props} />;
+    }
+    if (resolver.type === 'CMS_PAGE') {
+        return <div>test</div>;
     }
     return <Error statusCode={404} />;
 };
