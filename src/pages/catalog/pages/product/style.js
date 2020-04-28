@@ -71,10 +71,13 @@ const useStyles = makeStyles((theme) => ({
     },
     titlePriceContainer: {
         ...FlexColumn,
+        flex: 1,
     },
 
     shareContainer: {
+        ...FlexRow,
         justifyContent: 'flex-end',
+        flex: 1,
     },
 
     btnShare: {

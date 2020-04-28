@@ -1,7 +1,7 @@
 import Typography from '@components/Typography';
 import Button from '@components/Button';
 import TextField from '@components/Forms/TextField';
-import SnackMessage from '@components/SnackMessage';
+import Toast from '@components/Toast';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import useStyles from './style';
@@ -24,7 +24,7 @@ const ForgotPassword = ({ t }) => {
     });
     return (
         <form className={styles.container} onSubmit={formik.handleSubmit}>
-            <SnackMessage open={open} setOpen={setOpen} message={t('customer:forgotPassword:success')} />
+            <Toast open={open} setOpen={setOpen} message={t('customer:forgotPassword:success')} />
             <Typography variant="span" align="left">
                 {t('customer:forgotPassword:content')}
             </Typography>

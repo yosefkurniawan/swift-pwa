@@ -2,17 +2,19 @@ import TextField from '@components/Forms/TextField';
 import PasswordField from '@components/Forms/Password';
 import Button from '@components/Button';
 import Typography from '@components/Typography';
-import Message from '@components/SnackMessage';
+import Message from '@components/Toast';
 import { FormControlLabel, Switch } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/router';
 import OtpBlock from '@components/OtpBlock';
-import { regexPhone } from '@helpers/regex';
 import { setToken } from '@helpers/token';
+import { setCartId, getCartId } from '@helpers/cartId';
+import { GraphCart } from '@services/graphql';
 import { getToken } from './service/graphql';
 
 import useStyles from './style';
+
 
 const Login = ({ t }) => {
     const styles = useStyles();
@@ -22,6 +24,8 @@ const Login = ({ t }) => {
         text: '',
         variant: 'success',
     });
+    const [loading, setLoading] = React.useState(false);
+    const [cusToken, setCusToken] = React.useState('');
 
     const handleOpenMessage = ({ variant, text }) => {
         setMessage({
@@ -32,23 +36,19 @@ const Login = ({ t }) => {
         });
     };
 
-    const mailCheck = new RegExp(/^(?=.*[@])/);
+    let cartId = '';
+
+    if (typeof window !== 'undefined') {
+        cartId = getCartId();
+    }
 
     const [getCustomerToken] = getToken();
+    const [getCart, cartData] = GraphCart.getCustomerCartId(cusToken);
+    const [mergeCart] = GraphCart.mergeCart(cusToken);
 
     const LoginSchema = Yup.object().shape({
         email: Yup.string()
-            .email((val) => {
-                if (mailCheck.test(val.value)) {
-                    if (!val.regex.test(val.value)) {
-                        return t('validate:email:wrong');
-                    }
-                } else if (!regexPhone.test(val.value)) {
-                    return t('validate:phoneNumber:wrong');
-                }
-
-                return false;
-            })
+            .email(t('validate:email:wrong'))
             .required(t('validate:emailPhone')),
         password: Yup.string().required(t('validate:password:required')),
     });
@@ -59,20 +59,44 @@ const Login = ({ t }) => {
         },
         validationSchema: LoginSchema,
         onSubmit: ({ email, password }) => {
+            setLoading(true);
             getCustomerToken({
                 variables: {
                     email,
                     password,
                 },
-            }).then((res) => {
-                setToken(res.data.generateCustomerToken.token);
-                handleOpenMessage({ variant: 'success', text: 'Login Success!' });
-                Router.push('/customer/account');
+            }).then(async (res) => {
+                const { token } = res.data.generateCustomerToken;
+                await setCusToken(token);
+                getCart();
+                setLoading(false);
             }).catch(() => {
                 handleOpenMessage({ variant: 'error', text: 'Login Failed!' });
             });
         },
     });
+    if (cartData.data) {
+        const custCartId = cartData.data.customerCart.id;
+        if (cartId === '' || !cartId) {
+            setToken(cusToken);
+            setCartId(custCartId);
+            handleOpenMessage({ variant: 'success', text: 'Login Success!' });
+            Router.push('/customer/account');
+        }
+        mergeCart({
+            variables: {
+                sourceCartId: cartId,
+                destionationCartId: custCartId,
+            },
+        }).then(() => {
+            setToken(cusToken);
+            setCartId(custCartId);
+            handleOpenMessage({ variant: 'success', text: 'Login Success!' });
+            Router.push('/customer/account');
+        }).catch((e) => {
+            console.log(e);
+        });
+    }
 
     return (
         <div>
@@ -138,14 +162,14 @@ const Login = ({ t }) => {
                         />
                     </>
                 )}
-                <Button fullWidth className={styles.btnSigin} type="submit">
+                <Button fullWidth className={styles.btnSigin} type="submit" disabled={loading}>
                     <Typography
                         variant="title"
                         type="regular"
                         letter="capitalize"
                         color="white"
                     >
-                        {t('customer:login:pageTitle')}
+                        { loading ? 'Loading' : t('customer:login:pageTitle') }
                     </Typography>
                 </Button>
                 <Button variant="text" href="/customer/account/forgot-password">
@@ -171,13 +195,14 @@ const Login = ({ t }) => {
                         className={styles.btnSigin}
                         variant="outlined"
                         href="/customer/account/create"
+                        disabled={loading}
                     >
                         <Typography
                             variant="title"
                             type="regular"
                             letter="capitalize"
                         >
-                            {t('customer:register:title')}
+                            { t('customer:register:title') }
                         </Typography>
                     </Button>
                 </div>

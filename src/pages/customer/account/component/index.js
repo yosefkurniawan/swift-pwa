@@ -5,6 +5,7 @@ import Button from '@components/Button';
 import Loaders from '@components/Loaders';
 import Router from 'next/router';
 import { removeToken, getToken } from '@helpers/token';
+import { removeCartId } from '@helpers/cartId';
 import { getCustomer } from '../services/graphql';
 
 // Styling And Component
@@ -25,6 +26,7 @@ const Content = ({ t }) => {
 
     const handleLogout = () => {
         removeToken();
+        removeCartId();
         Router.push('/customer/account/login');
     };
 

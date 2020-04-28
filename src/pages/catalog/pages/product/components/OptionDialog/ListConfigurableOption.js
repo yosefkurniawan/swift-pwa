@@ -6,8 +6,10 @@ import {
     FormControl, InputLabel, MenuItem, Select,
 } from '@material-ui/core';
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import ProductByVariant from '@helpers/productByVariant';
 import { getConfigurableProduct } from '../../services/graphql';
+import { setConfigurable } from '../../redux/action';
 import useStyles from './style';
 
 export default (props) => {
@@ -17,7 +19,9 @@ export default (props) => {
         setPrice,
     } = props;
     const styles = useStyles();
-    const [selected, setSelected] = React.useState({});
+    const dispatch = useDispatch();
+
+    const productState = useSelector((state) => state.product);
 
     const { data } = getConfigurableProduct(sku);
 
@@ -37,13 +41,14 @@ export default (props) => {
         );
     }
 
+    const selected = productState.selectConfigurable;
+
     const handleSelect = (value, key) => {
         const options = selected;
         options[key] = value;
-        setSelected({
-            ...selected,
+        dispatch(setConfigurable({
             [key]: value,
-        });
+        }));
         const product = ProductByVariant(
             options,
             data.products.items[0].variants,
@@ -61,7 +66,6 @@ export default (props) => {
         });
     };
 
-    console.log(selected);
 
     return (
         <>

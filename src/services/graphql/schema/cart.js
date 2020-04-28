@@ -1,5 +1,20 @@
 import { gql } from 'apollo-boost';
 
+export const mergeCart = gql`
+mutation mergeCart(
+    $sourceCartId: String!,
+    $destionationCartId: String!
+) {
+    mergeCarts(
+      source_cart_id:$sourceCartId,
+      destination_cart_id: $destionationCartId
+    ) {
+      id
+      total_quantity
+    }
+  }
+`;
+
 export const createCartIdGuest = gql`
     mutation {
         createEmptyCart

@@ -3,7 +3,7 @@ import Button from '@components/Button';
 import Typography from '@components/Typography';
 import classNames from 'classnames';
 import React from 'react';
-import SnackMessage from '@components/SnackMessage';
+import Toast from '@components/Toast';
 import { getReviews } from '../../services/graphql';
 import * as Schema from '../../services/graphql/reviewSchema';
 import useStyles from '../../style';
@@ -75,7 +75,7 @@ export default (props) => {
                 setOpen={handleOpenReview}
                 {...props}
             />
-            <SnackMessage
+            <Toast
                 open={showMessage}
                 setOpen={setShowMessage}
                 message={props.t('product:addRateSuccess')}
