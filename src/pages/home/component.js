@@ -4,8 +4,18 @@ import SpanCategory from '@components/SpanCategory';
 import { Fragment } from 'react';
 import Link from 'next/link';
 import { Skeleton } from '@material-ui/lab';
+import { Grid } from '@material-ui/core';
 import gqlService from './service/graphql';
 import useStyles from './style';
+
+const BannerSliderSkeleteon = () => {
+    const styles = useStyles();
+    return (
+        <div className={styles.skeletonWrapper}>
+            <Skeleton variant="rect" width="100%" height="95vh" animation="wave" />
+        </div>
+    );
+};
 
 const BannerSlider = ({ storeConfig }) => {
     const styles = useStyles();
@@ -13,14 +23,7 @@ const BannerSlider = ({ storeConfig }) => {
     const { loading, data, error } = gqlService.getBannerSlider();
 
     if (loading) {
-        return (
-            <div className={styles.skeletonWrapper}>
-                <Skeleton className={styles.skeleton} variant="rect" width="30%" height={10} animation="wave" />
-                <Skeleton className={styles.skeleton} variant="rect" width="80%" height={10} animation="wave" />
-                <Skeleton className={styles.skeleton} variant="rect" width="45%" height={10} animation="wave" />
-                <Skeleton className={styles.skeleton} variant="rect" width="100%" height={250} animation="wave" />
-            </div>
-        );
+        return <BannerSliderSkeleteon />;
     }
     if (error) return <p>{`Error: ${error.message}`}</p>;
     if (!data) return <p>Not found</p>;
@@ -36,29 +39,45 @@ const BannerSlider = ({ storeConfig }) => {
                 <div className={styles.logo}>
                     <img src={logoUrl} alt="logo" className={styles.imgLogo} />
                 </div>
-                {bannerImages && bannerImages.length && (
-                    <Banner data={bannerImages} height="95vh" />
-                )}
+                {bannerImages && bannerImages.length && <Banner data={bannerImages} height="95vh" />}
             </div>
         </>
     );
 };
 
+const FeaturedProductsSkeleton = () => {
+    const styles = useStyles();
+    const SliderSkeleton = () => (
+        <>
+            <Skeleton className={styles.skeleton} variant="rect" width="100%" height={300} animation="wave" />
+            <Skeleton className={styles.skeleton} variant="rect" width="25%" height={10} animation="wave" />
+            <Skeleton className={styles.skeleton} variant="rect" width="75%" height={10} animation="wave" />
+        </>
+    );
+    return (
+        <div className={styles.skeletonWrapper}>
+            <Grid container spacing={2}>
+                <Grid item xs={2}>
+                    <SliderSkeleton />
+                </Grid>
+                <Grid item xs={8}>
+                    <SliderSkeleton />
+                </Grid>
+                <Grid item xs={2}>
+                    <SliderSkeleton />
+                </Grid>
+            </Grid>
+        </div>
+    );
+};
+
 const FeaturedProducts = () => {
     const styles = useStyles();
-    const { loading, data, error } = gqlService.getFeaturedProducts(
-        { url_key: 'homepage-featured-products' },
-    );
+    const { loading, data, error } = gqlService.getFeaturedProducts({
+        url_key: 'homepage-featured-products',
+    });
 
-    if (loading) {
-        return (
-            <div className={styles.skeletonWrapper}>
-                <Skeleton className={styles.skeleton} variant="rect" width="50%" height={10} animation="wave" />
-                <Skeleton className={styles.skeleton} variant="rect" width="95%" height={10} animation="wave" />
-                <Skeleton className={styles.skeleton} variant="rect" width="100%" height={125} animation="wave" />
-            </div>
-        );
-    }
+    if (loading) return <FeaturedProductsSkeleton />;
     if (error) return <p>{`Error: ${error.message}`}</p>;
     if (!data) return <p>Not found</p>;
 
@@ -76,7 +95,14 @@ const FeaturedProducts = () => {
                     <Fragment key={i}>
                         {category.image_path && (
                             <Link href="[...slug]" as={category.url_path}>
-                                <img src={category.image_path} alt={category.name} style={{ maxWidth: '100%', maxHeight: '100%' }} />
+                                <img
+                                    src={category.image_path}
+                                    alt={category.name}
+                                    style={{
+                                        maxWidth: '100%',
+                                        maxHeight: '100%',
+                                    }}
+                                />
                             </Link>
                         )}
                         <div className={styles.slider}>
@@ -89,21 +115,26 @@ const FeaturedProducts = () => {
     );
 };
 
+const CategoryListSkeleteon = () => {
+    const styles = useStyles();
+    return (
+        <div className={styles.skeletonWrapper}>
+            <Grid container spacing={2} direction="column" alignItems="center">
+                <Skeleton className={styles.skeleton} variant="rect" width="100%" height={300} animation="wave" />
+                <Skeleton className={styles.skeleton} style={{ alignSelf: 'center' }} variant="rect" width="35%" height={10} animation="wave" />
+                <Skeleton className={styles.skeleton} variant="rect" width="75%" height={10} animation="wave" />
+            </Grid>
+        </div>
+    );
+};
+
 const CategoryList = ({ storeConfig }) => {
     const styles = useStyles();
-    const { loading, data, error } = gqlService.getCategoryList(
-        { url_key: 'homepage-featured-categories' },
-    );
+    const { loading, data, error } = gqlService.getCategoryList({
+        url_key: 'homepage-featured-categories',
+    });
 
-    if (loading) {
-        return (
-            <div className={styles.skeletonWrapper}>
-                <Skeleton className={styles.skeleton} variant="rect" width="80%" height={10} animation="wave" />
-                <Skeleton className={styles.skeleton} variant="rect" width="60%" height={10} animation="wave" />
-                <Skeleton className={styles.skeleton} variant="rect" width="100%" height={200} animation="wave" />
-            </div>
-        );
-    }
+    if (loading) return <CategoryListSkeleteon />;
     if (error) return <p>{`Error: ${error.message}`}</p>;
     if (!data) return <p>Not found</p>;
 

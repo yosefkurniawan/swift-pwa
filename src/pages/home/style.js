@@ -50,12 +50,11 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     skeletonWrapper: {
-        padding: '6px',
+        padding: '12px',
         width: '100%',
     },
     skeleton: {
-        alignSelf: 'flex-start',
-        margin: '6px 0',
+        marginBottom: '8px',
     },
 }));
 
