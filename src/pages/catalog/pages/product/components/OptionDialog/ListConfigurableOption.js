@@ -9,7 +9,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ProductByVariant from '@helpers/productByVariant';
 import { getConfigurableProduct } from '../../services/graphql';
-import { setConfigurable } from '../../redux/action';
+import { setConfigurable, setProductSelected } from '../../redux/action';
 import useStyles from './style';
 
 export default (props) => {
@@ -53,6 +53,7 @@ export default (props) => {
             options,
             data.products.items[0].variants,
         );
+        dispatch(setProductSelected(product));
         const bannerData = product.media_gallery.map((media) => ({
             link: '#',
             imageUrl: media.url,

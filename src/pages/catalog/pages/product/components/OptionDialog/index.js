@@ -9,11 +9,11 @@ import {
 // import Router from 'next/router';
 import React from 'react';
 import { setCountCart } from '@stores/actions/cart';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GraphCart } from '@services/graphql';
 import { getToken } from '@helpers/token';
 import { getCartId, setCartId } from '@helpers/cartId';
-import { addSimpleProductsToCart } from '../../services/graphql';
+import { addSimpleProductsToCart, addConfigProductsToCart } from '../../services/graphql';
 import ListConfigurableOption from './ListConfigurableOption';
 import useStyles from './style';
 
@@ -48,6 +48,8 @@ const OptionDialog = (props) => {
         setQty(event.target.value);
     };
     const dispatch = useDispatch();
+    const productState = useSelector((state) => state.product);
+
     let cartId = '';
     let tokenCustomer = '';
 
@@ -63,6 +65,7 @@ const OptionDialog = (props) => {
     });
 
     const [addCartSimple] = addSimpleProductsToCart(tokenCustomer);
+    const [addCartConfig] = addConfigProductsToCart(tokenCustomer);
     const [getGuestCartId] = GraphCart.getGuestCartId();
 
     const handleAddToCart = async () => {
@@ -102,6 +105,26 @@ const OptionDialog = (props) => {
             }).catch(() => {
                 setMessage(errorMessage);
             });
+        }
+
+        if (__typename === 'ConfigurableProduct') {
+            const variables = {
+                cartId,
+                sku: productState.product.sku,
+                qty: parseFloat(qty),
+                parentSku: sku,
+            };
+            addCartConfig({
+                variables,
+            }).then((res) => {
+                dispatch(
+                    setCountCart(
+                        res.data.addConfigurableProductsToCart.cart.total_quantity,
+                    ),
+                );
+                setMessage({ variant: 'success', text: t('prodcut:successAddCart'), open: true });
+                setOpen(false);
+            }).catch(() => setMessage(errorMessage));
         }
     };
 
