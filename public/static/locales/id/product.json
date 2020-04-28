@@ -19,5 +19,7 @@
         "title": "Title tidak boleh kosong",
         "detail": "Detail tidak boleh kosong"
     },
-    "addRateSuccess": "Terimakasih atas ulasannya."
+    "addRateSuccess": "Terimakasih atas ulasannya.",
+    "successAddCart": "Sukses tambahkan ke keranjang",
+    "failedAddCart": "Gagal tambahkan ke keranjang"
 }

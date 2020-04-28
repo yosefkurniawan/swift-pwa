@@ -4,7 +4,7 @@ export const productState = {
     selectConfigurable: {},
 };
 
-export const addressReducer = (state = productState, action) => {
+export const productReducer = (state = productState, action) => {
     switch (action.type) {
     case SET_SELECT_CONFIGURABLE:
         return {
