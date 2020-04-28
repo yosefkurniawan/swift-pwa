@@ -1,7 +1,6 @@
 import { makeStyles } from '@material-ui/core';
-import { GRAY_PRIMARY, GRAY_SECONDARY, WHITE } from '@theme/colors';
-import { FlexColumn, FlexRow, CreatePadding } from '@theme/mixins';
-import { FONT_10 } from '@theme/typography';
+import { GRAY_PRIMARY, WHITE } from '@theme/colors';
+import { FlexColumn } from '@theme/mixins';
 
 const useStyles = makeStyles(() => ({
     container: {
@@ -25,47 +24,6 @@ const useStyles = makeStyles(() => ({
         position: 'absolute',
         borderBottom: 'none',
         fontWeight: 'bold',
-    },
-    filterContainer: {
-        ...FlexRow,
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        ...CreatePadding(15, 15, 15, 15),
-    },
-    countProductText: {
-        justifyContent: 'flex-start',
-        ...FONT_10,
-    },
-    filterBtnContainer: {
-        justifyContent: 'flex-end',
-        ...FlexRow,
-        alignItems: 'center',
-        fontSize: 12,
-    },
-    btnFilter: {
-        marginRight: -20,
-        padding: 0,
-    },
-    iconFilter: {
-        fontSize: 18,
-        fontWeight: 'reguler',
-    },
-    tabs: {
-        boxShadow: 'none',
-        borderBottom: `1px solid ${GRAY_SECONDARY}`,
-    },
-    productContainer: {
-        overflow: 'hidden',
-        ...CreatePadding(0, 0, 50, 0),
-    },
-    btnLoadmore: {
-        cursor: 'pointer',
-        width: '100%',
-        padding: '20px',
-        fontSize: '12px',
-        background: '#fff',
-        border: 'none',
-        color: '#B4B4B4',
     },
 }));
 

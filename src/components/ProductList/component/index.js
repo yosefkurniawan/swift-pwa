@@ -8,12 +8,25 @@ import ProductItem from '@components/ProductItem';
 import Loading from '@components/Loaders';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helpers/generateQuery';
+import CustomTabs from '@components/Tabs';
 import useStyles from '../style';
 import Filter from './Filter';
-import { getProductByCategory } from '../services';
+import { getProduct } from '../services';
 import * as Schema from '../services/schema';
 
-const getProduct = (catId, config = {}) => getProductByCategory(catId, config);
+const getCategoryFromAgregations = (agg) => {
+    const category = [];
+    // eslint-disable-next-line no-plusplus
+    for (let index = 0; index < agg.length; index++) {
+        if (agg[index].field === 'category_id') {
+            // eslint-disable-next-line no-plusplus
+            for (let catIdx = 0; catIdx < agg[index].value.length; catIdx++) {
+                category.push({ label: agg[index].value[catIdx].label, value: agg[index].value[catIdx].value });
+            }
+        }
+    }
+    return category;
+};
 
 /**
  * function to generate config product
@@ -25,7 +38,9 @@ const generateConfig = (query, config, elastic) => {
     const resolveConfig = config;
     // eslint-disable-next-line no-restricted-syntax
     for (const q in query) {
-        if (q === 'sort' && query[q] !== '') {
+        if (q === 'q') {
+            resolveConfig.search = query[q];
+        } else if (q === 'sort' && query[q] !== '') {
             resolveConfig.sort = JSON.parse(query[q]);
         } else if (q === 'priceRange') {
             const price = query[q].split(',');
@@ -46,8 +61,15 @@ const generateConfig = (query, config, elastic) => {
     }
     return resolveConfig;
 };
-
-const Product = ({ catId, catalog_search_engine }) => {
+/**
+ * add url_path if no redirect to slug router
+ * catId if need to by category
+ * catalog_search_engine props to use detect elastic in on or of
+ * customFilter have custom sort and filter
+ */
+const Product = ({
+    catId = 0, catalog_search_engine, customFilter, url_path, showTabs,
+}) => {
     const router = useRouter();
     const styles = useStyles();
     const [openFilter, setOpenFilter] = React.useState(false);
@@ -55,13 +77,14 @@ const Product = ({ catId, catalog_search_engine }) => {
     const [loadmore, setLoadmore] = React.useState(false);
     const elastic = catalog_search_engine === 'elasticsuite';
     let config = {
+        customFilter: typeof customFilter !== 'undefined',
+        search: '',
         pageSize: 20,
         currentPage: 1,
         filter: [],
     };
 
     const { path, query } = getQueryFromPath(router);
-
     const setFiltervalue = (v) => {
         let queryParams = '';
         // eslint-disable-next-line array-callback-return
@@ -73,28 +96,55 @@ const Product = ({ catId, catalog_search_engine }) => {
                         queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
                     }
                 }
-            } else {
+            } else if (v[key] !== 0 && v[key] !== '') {
                 queryParams += `${queryParams !== '' ? '&' : ''}${key}=${v[key]}`;
             }
         });
-        Router.push('/[...slug]', encodeURI(`${path}?${queryParams}`));
+        Router.push(`/${url_path || '[...slug]'}`, encodeURI(`${path}?${queryParams}`));
     };
-
+    if (catId !== 0) {
+        config.filter.push({
+            type: 'category_id',
+            value: catId,
+        });
+    }
     config = generateConfig(query, config, elastic);
 
-    const { loading, data, fetchMore } = getProduct(catId, config);
+    const { loading, data, fetchMore } = getProduct(config);
     let products = {};
     products = data && data.products ? data.products : {
         total_count: 0,
         items: [],
     };
+
+    // generate filter if donthave custom filter
+    const aggregations = [];
+    if (!customFilter && !loading && products.aggregations) {
+        // eslint-disable-next-line no-plusplus
+        for (let index = 0; index < products.aggregations.length; index++) {
+            aggregations.push({
+                field: products.aggregations[index].attribute_code,
+                label: products.aggregations[index].label,
+                value: products.aggregations[index].options,
+            });
+        }
+    }
+    const category = getCategoryFromAgregations(aggregations);
     return (
         <>
+            {showTabs && !loading ? (
+                <CustomTabs
+                    // eslint-disable-next-line radix
+                    value={query.category_id ? query.category_id : 0}
+                    data={category}
+                    onChange={(e, value) => setFiltervalue({ ...query, ...{ category_id: value } })}
+                />
+            ) : null}
             <Filter
+                filter={customFilter || aggregations}
                 defaultValue={query}
                 openFilter={openFilter}
                 setOpenFilter={setOpenFilter}
-                catId={catId}
                 elastic={elastic}
                 setFilter={setFiltervalue}
             />
@@ -145,7 +195,9 @@ const Product = ({ catId, catalog_search_engine }) => {
                             setLoadmore(true);
                             setPage(page + 1);
                             return fetchMore({
-                                query: Schema.getProductByCategory(catId, {
+                                query: Schema.getProduct({
+                                    customFilter: typeof customFilter !== 'undefined',
+                                    search: config.search,
                                     pageSize: config.pageSize,
                                     currentPage: page + 1,
                                     filter: config.filter,
@@ -184,7 +236,10 @@ const Product = ({ catId, catalog_search_engine }) => {
 };
 
 Product.propTypes = {
-    catId: PropTypes.number.isRequired,
+    // eslint-disable-next-line react/require-default-props
+    catId: PropTypes.number,
+    // eslint-disable-next-line react/require-default-props
+    catalog_search_engine: PropTypes.string,
 };
 
 export default Product;

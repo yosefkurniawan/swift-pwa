@@ -57,10 +57,6 @@ const FilterDialog = ({
         getValue(savedData);
         setOpen();
     };
-    let filter = [];
-    if (data.getFilterAttributeOptions) {
-        filter = data.getFilterAttributeOptions.data;
-    }
 
     const setCheckedFilter = (name, value) => {
         let selected = '';
@@ -116,7 +112,7 @@ const FilterDialog = ({
                     </div>
                 )}
                 {loading ? <Loading size="20px" /> : null}
-                {filter.map((itemFilter, idx) => {
+                {data.map((itemFilter, idx) => {
                     const ItemValueByLabel = [];
                     // eslint-disable-next-line no-plusplus
                     for (let index = 0; index < itemFilter.value.length; index++) {
@@ -167,7 +163,7 @@ const FilterDialog = ({
                                 />
                             </div>
                         );
-                    } if (itemFilter.field === 'cat') {
+                    } if (itemFilter.field === 'cat' || itemFilter.field === 'category_id') {
                         return <span key={idx} />;
                     }
                     return (

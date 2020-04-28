@@ -6,9 +6,13 @@
 const getQueryFromPath = (router) => {
     let { asPath } = router;
     let path = '';
-    // eslint-disable-next-line no-plusplus
-    for (let index = 0; index < router.query.slug.length; index++) {
-        path += `/${router.query.slug[index]}`;
+    if (router.query && router.query.slug) {
+        // eslint-disable-next-line no-plusplus
+        for (let index = 0; index < router.query.slug.length; index++) {
+            path += `/${router.query.slug[index]}`;
+        }
+    } else {
+        path = router.pathname;
     }
     asPath = decodeURI(asPath);
     asPath = asPath.replace(path, '').substr(1);
