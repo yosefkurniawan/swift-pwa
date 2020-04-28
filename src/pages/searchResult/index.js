@@ -6,7 +6,7 @@ import Component from './components';
 const Page = (props) => {
     const router = useRouter();
     const pageConfig = {
-        title: '[Search Result]',
+        title: `Search Result : ${router.query.q}`,
         header: 'relative', // available values: "absolute", "relative", false (default)
         headerTitle: `Search Result : ${router.query.q}`,
         bottomNav: 'browse',

@@ -3,8 +3,9 @@ import CustomTabs from '@components/Tabs';
 import { Box } from '@material-ui/core';
 import React from 'react';
 import Router from 'next/router';
+import Product from '@components/ProductList';
 import useStyles from '../style';
-import Product from './Product';
+import { getFilter } from '../services';
 
 const categoryTabs = (category) => {
     const data = [];
@@ -35,6 +36,8 @@ const CategoryPage = ({ data, storeConfig }) => {
         ];
     }
 
+    const customFilter = getFilter(categoryList.id);
+
     return (
         <>
             <Box className={styles.container}>
@@ -52,7 +55,11 @@ const CategoryPage = ({ data, storeConfig }) => {
                         value={value}
                     />
                 </div>
-                <Product catId={categoryList.id} catalog_search_engine={storeConfig.catalog_search_engine} />
+                <Product
+                    customFilter={customFilter.loading ? [] : customFilter.data.getFilterAttributeOptions.data}
+                    catId={categoryList.id}
+                    catalog_search_engine={storeConfig.catalog_search_engine}
+                />
             </Box>
         </>
     );

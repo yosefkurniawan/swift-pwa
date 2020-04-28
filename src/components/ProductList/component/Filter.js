@@ -1,7 +1,8 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import FilterDialog from '@components/FilterDialog';
 import PropTypes from 'prop-types';
-import { getFilter } from '../services';
+
 
 const sortByData = [
     { value: JSON.stringify({ key: 'relevance', value: 'DESC' }), label: 'Popularity' },
@@ -10,31 +11,24 @@ const sortByData = [
     { value: JSON.stringify({ key: 'price', value: 'ASC' }), label: 'Price (Low to Hight)' },
 ];
 
-const getFilterAttribute = (catId) => getFilter(catId);
-
 const Filter = ({
-    openFilter, catId, setOpenFilter, setFilter, defaultValue = {}, elastic,
-}) => {
-    // get filter value attribute
-    const filter = getFilterAttribute(catId);
-    return (
-        <FilterDialog
-            defaultValue={defaultValue}
-            open={openFilter}
-            sortByData={sortByData}
-            elastic={elastic}
-            setOpen={() => setOpenFilter(!openFilter)}
-            loading={filter.loading}
-            data={filter.data}
-            getValue={(v) => setFilter(v)}
-        />
-    );
-};
+    openFilter, setOpenFilter, setFilter, defaultValue = {}, elastic, filter,
+}) => (
+    <FilterDialog
+        defaultValue={defaultValue}
+        open={openFilter}
+        sortByData={sortByData}
+        elastic={elastic}
+        setOpen={() => setOpenFilter(!openFilter)}
+        loading={filter.loading}
+        data={filter}
+        getValue={(v) => setFilter(v)}
+    />
+);
 
 Filter.propTypes = {
     setFilter: PropTypes.func.isRequired,
     setOpenFilter: PropTypes.func.isRequired,
-    catId: PropTypes.number.isRequired,
     openFilter: PropTypes.bool.isRequired,
 };
 
