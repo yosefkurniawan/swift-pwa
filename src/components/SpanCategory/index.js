@@ -14,9 +14,15 @@ const SpanCategory = ({
             <Grid container justify="center">
                 <Grid item sm={12} md={12} lg={12}>
                     <Link href="[...slug]" as={url}>
-                        <div className={styles.imageContainer}>
-                            <img src={setDefaultWhenEmpty(imageSrc)} alt={name} style={{ maxWidth: '100%' }} />
-                        </div>
+                        <img
+                            src={setDefaultWhenEmpty(imageSrc)}
+                            alt={name}
+                            style={{
+                                width: '100%',
+                                maxWidth: '100%',
+                                maxHeight: '100%',
+                            }}
+                        />
                     </Link>
                 </Grid>
                 <Grid item sm={12} md={12} lg={12}>
@@ -25,15 +31,11 @@ const SpanCategory = ({
                             {name}
                         </Typography>
                         <Typography size="12" align="center">
-                            { /* eslint-disable-next-line react/no-danger */ }
+                            {/* eslint-disable-next-line react/no-danger */}
                             <div dangerouslySetInnerHTML={{ __html: description }} />
                         </Typography>
                         <Link href="[...slug]" as={url}>
-                            <Typography
-                                variant="span"
-                                type="bold"
-                                className={styles.textBtn}
-                            >
+                            <Typography variant="span" type="bold" className={styles.textBtn}>
                                 SHOP NOW
                             </Typography>
                         </Link>

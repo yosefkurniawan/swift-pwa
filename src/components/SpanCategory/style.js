@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: '45px 15px',
+        padding: '12px 15px',
     },
     textBtn: {
         paddingBottom: 5,
