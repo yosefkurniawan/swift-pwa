@@ -11,7 +11,8 @@ import { compose } from 'redux';
 import ConfigSchema from '@services/graphql/schema/config';
 import Cookie from 'js-cookie';
 import cookies from 'next-cookies';
-import { expiredCokies, storConfigNameCokie } from '@config';
+import { expiredCokies, storConfigNameCokie, nameToken } from '@config';
+import { getTokenFromServer } from '@helpers/token';
 import '../src/styles/index.css';
 import '../src/styles/mage.css';
 
@@ -31,7 +32,13 @@ class MyApp extends App {
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
         }
-        const { apolloClient } = ctx;
+        const { apolloClient, res, pathname } = ctx;
+        if (pageProps.withAuth) {
+            const token = getTokenFromServer(allcookie[nameToken]);
+            if (token === '' || !token) {
+                if (pathname !== '/customer/account/login') res.redirect('/customer/account/login');
+            } else if (pathname === '/customer/account/login') res.redirect('/customer/account');
+        }
 
         let storeConfig;
         if (!allcookie[storConfigNameCokie]) {

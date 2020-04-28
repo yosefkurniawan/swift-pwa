@@ -1,0 +1,5 @@
+export const SET_SELECT_CONFIGURABLE = 'SET_SELECT_CONFIGURABLE';
+
+export default {
+    SET_SELECT_CONFIGURABLE,
+};

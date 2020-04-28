@@ -8,7 +8,6 @@ const Page = (props) => {
         title: t('customer:dashboard:pageTitle'),
         header: false, // available values: "absolute", "relative", false (default)
         bottomNav: 'account',
-        withAuth: true,
     };
     return (
         <Layout pageConfig={pageConfig}>
@@ -19,6 +18,7 @@ const Page = (props) => {
 
 Page.getInitialProps = async () => ({
     namespacesRequired: ['common', 'customer'],
+    withAuth: true,
 });
 
 export default withTranslation()(Page);
