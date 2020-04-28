@@ -1,71 +1,60 @@
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import * as Schema from './schema';
+import helper from '@helpers/token'
 
-export const getCustomer = (options = null, token) =>
+const config = {
+    context: {
+        headers: {
+            authorization: `Bearer ${helper.getToken()}`,
+        },
+    },
+}
+
+export const getCustomer = (options = {}) =>
     useQuery(Schema.getCustomer, {
+        ...options,
+        ...config,
         fetchPolicy: 'no-cache',
         errorPolicy: 'all',
-        context: {
-            headers: {
-                authorization: `Bearer ${token}`,
-            },
-        },
+        
     });
 
-export const getCustomerCart = (options = null, token) =>
+export const getCustomerCart = (options = {}) =>
     useQuery(Schema.getCustomerCart, {
+        ...options,
+        ...config,
         fetchPolicy: 'no-cache',
         errorPolicy: 'all',
-        context: {
-            headers: {
-                authorization: `Bearer ${token}`,
-            },
-        },
     });
 
-export const setShippingAddress = (options = null, token) =>
+export const setShippingAddress = (options = {}) =>
     useMutation(Schema.setShippingAddressById, {
-        context: {
-            headers: {
-                authorization: `Bearer ${token}`,
-            },
-        },
+        ...options,
+        ...config,
     });
 
-export const setShippingMethod = (options = null, token) =>
+export const setShippingMethod = (options = {}) =>
     useMutation(Schema.setShippingMethod, {
-        context: {
-            headers: {
-                authorization: `Bearer ${token}`,
-            },
-        },
+        ...options,
+        ...config,
     });
 
-export const setBillingAddressById = (options = null, token) =>
+export const setBillingAddressById = (options = {}) =>
     useMutation(Schema.setBillingAddressById, {
-        context: {
-            headers: {
-                authorization: `Bearer ${token}`,
-            },
-        },
+        ...options,
+        ...config,
     });
 
-export const placeOrder = (options = null, token) =>
+export const placeOrder = (options = {}) =>
     useMutation(Schema.placeOrder, {
-        context: {
-            headers: {
-                authorization: `Bearer ${token}`,
-            },
-        },
+        ...options,
+        ...config,
     });
 
-export const setPaymentMethod = (options = null, token) =>
+export const setPaymentMethod = (options = {}) =>
     useMutation(Schema.setPaymentMethod, {
-        context: {
-            headers: {
-                authorization: `Bearer ${token}`,
-            },
-        },
+        ...options,
+        ...config,
     });
 
 export default {

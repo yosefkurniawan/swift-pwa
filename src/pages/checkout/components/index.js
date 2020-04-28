@@ -48,13 +48,13 @@ const Checkout = (props) => {
     ]);
     const [point, setPoint] = useState(100000);
     const [credit, setCredit] = useState(100000);
-    const getCustomer = gqlService.getCustomer(null, token);
-    const getCustomerCart = gqlService.getCustomerCart(null, token);
-    const [setShippingAddressById] = gqlService.setShippingAddress(null, token);
-    const [setShippingMethod] = gqlService.setShippingMethod(null, token);
-    const [setBillingAddressById] = gqlService.setBillingAddressById(null, token);
-    const [setPaymentMethod] = gqlService.setPaymentMethod(null, token);
-    const [placeOrder] = gqlService.placeOrder(null, token);
+    const getCustomer = gqlService.getCustomer();
+    const getCustomerCart = gqlService.getCustomerCartgetCustomer();
+    const [setShippingAddressById] = gqlService.setShippingAddressgetCustomer();
+    const [setShippingMethod] = gqlService.setShippingMethodgetCustomer();
+    const [setBillingAddressById] = gqlService.setBillingAddressByIdgetCustomer();
+    const [setPaymentMethod] = gqlService.setPaymentMethodgetCustomer();
+    const [placeOrder] = gqlService.placeOrdergetCustomer();
     
     const [checkout, setCheckout] = useState({
         data: {
@@ -382,7 +382,7 @@ const Checkout = (props) => {
                     )}
                 </div>
                 {_.isNull(address) ? null : (
-                    <Button variant="outlined" href={`/customer/account/address?token=${token}`}>
+                    <Button variant="outlined" href={`/customer/account/address`}>
                         <Typography variant="p" type="bold" letter="uppercase">
                             {t('common:button:change')}
                         </Typography>
