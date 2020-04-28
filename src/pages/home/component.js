@@ -99,6 +99,7 @@ const FeaturedProducts = () => {
                                     src={category.image_path}
                                     alt={category.name}
                                     style={{
+                                        width: '100%',
                                         maxWidth: '100%',
                                         maxHeight: '100%',
                                     }}
