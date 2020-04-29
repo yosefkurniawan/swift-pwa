@@ -9,15 +9,15 @@ import ItemAddress from './ItemAddress';
 import useStyles from './style';
 import gqlServiceCheckout from '../../../../pages/checkout/services/graphql';
 import gqlService from '../services/graphql';
-import _ from 'lodash'
+import _ from 'lodash';
 
 // Main Render Page
 const Content = (props) => {
     const getCustomer = gqlServiceCheckout.getCustomer();
-    const [updatedDefaultAddress] = gqlService.updatedDefaultAddress()
+    const [updatedDefaultAddress] = gqlService.updatedDefaultAddress();
     const styles = useStyles();
     const [address, setAddress] = useState([]);
-    const [selectedAddress, setSelectedAddress] = useState(0)
+    const [selectedAddress, setSelectedAddress] = useState(0);
     const [drawer, setDrawer] = useState(false);
 
     const [, setMapPosition] = useState({
@@ -41,9 +41,9 @@ const Content = (props) => {
     useEffect(() => {
         if (!getCustomer.loading && getCustomer.data) {
             const customer = getCustomer.data.customer;
-            const selectedAddress = customer.addresses.find(address => address.default_shipping)
-            setSelectedAddress(selectedAddress.id)
-            setAddress(customer.addresses)
+            const selectedAddress = customer.addresses.find((address) => address.default_shipping);
+            setSelectedAddress(selectedAddress.id);
+            setAddress(customer.addresses);
         }
 
         if (navigator.geolocation) {
@@ -57,44 +57,42 @@ const Content = (props) => {
         await updatedDefaultAddress({ variables: { addressId: addressId } });
         await getCustomer.refetch();
         setAddress(getCustomer.data.addresses);
-    }
+    };
 
     const handleDialogSubmit = async () => {
         await getCustomer.refetch();
         setAddress(getCustomer.data.customer.addresses);
-    }
+    };
 
     return (
         <>
             <Box>
                 <RadioGroup row aria-label="position" onChange={handleChange} name="position" value={selectedAddress}>
-                    { address.length == 0 ? null:address.map((item, index) => (
-                        <ItemAddress
-                            checked={item.id == selectedAddress}
-                            key={item.id}
-                            addressId={item.id}
-                            firstName={item.firstname}
-                            lastName={item.lastname}
-                            phoneNumber={item.telephone}
-                            posCode={item.postcode}
-                            region={item.region.region}
-                            city={item.city}
-                            country={item.country_code}
-                            street={item.street.join(' ')}
-                            value={item.id}
-                            defaultBilling={item.default_billing}
-                            defaultShipping={item.default_shipping}
-                            onSubmitAddress={handleDialogSubmit}
-                            {...props}
-                        />
-                    ))}
+                    {address.length == 0
+                        ? null
+                        : address.map((item, index) => (
+                              <ItemAddress
+                                  checked={item.id == selectedAddress}
+                                  key={item.id}
+                                  addressId={item.id}
+                                  firstName={item.firstname}
+                                  lastName={item.lastname}
+                                  phoneNumber={item.telephone}
+                                  posCode={item.postcode}
+                                  region={item.region.region}
+                                  city={item.city}
+                                  country={item.country_code}
+                                  street={item.street.join(' ')}
+                                  value={item.id}
+                                  defaultBilling={item.default_billing}
+                                  defaultShipping={item.default_shipping}
+                                  onSubmitAddress={handleDialogSubmit}
+                                  {...props}
+                              />
+                          ))}
                 </RadioGroup>
                 <Box className={[styles.address_action].join(' ')}>
-                    <Button
-                        variant="outlined"
-                        size="small"
-                        onClick={() => handleDraweClick()}
-                    >
+                    <Button variant="outlined" size="small" onClick={() => handleDraweClick()}>
                         <span style={{ marginRight: '15px' }}>Add New Address</span>
                         <Add />
                     </Button>
@@ -102,6 +100,10 @@ const Content = (props) => {
             </Box>
             <AddAddressDialog
                 {...props}
+                onSubmitAddress={() => {
+                    setDrawer(!drawer);
+                    handleDialogSubmit();
+                }}
                 open={drawer}
                 setOpen={() => setDrawer(!drawer)}
             />

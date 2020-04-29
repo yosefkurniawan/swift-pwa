@@ -11,7 +11,7 @@ import { useFormik } from 'formik';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { getCityByRegionId, getCountries as getAllCountries, updateCustomerAddress } from '../services/graphql';
+import { getCityByRegionId, getCountries as getAllCountries, updateCustomerAddress, createCustomerAddress } from '../services/graphql';
 import useStyles from './style';
 
 const AddAddressDialog = (props) => {
@@ -32,7 +32,7 @@ const AddAddressDialog = (props) => {
         defaultShipping = false,
         defaultBilling = false,
         addressId = null,
-        setOpen
+        setOpen,
     } = props;
 
     const styles = useStyles();
@@ -42,6 +42,7 @@ const AddAddressDialog = (props) => {
         headerBackIcon: 'close',
     };
     const [updateAddress] = updateCustomerAddress();
+    const [addAddress] = createCustomerAddress();
     const [getCountries, gqlCountries] = getAllCountries();
     const [getCities] = getCityByRegionId({
         onCompleted: (data) => {
@@ -52,9 +53,9 @@ const AddAddressDialog = (props) => {
                 formik.setFieldValue('city', getCityByLabel(city, state.dropdown.city));
             } else {
                 state.dropdown.city = null;
-                if(isFromUseEffect){
+                if (isFromUseEffect) {
                     formik.setFieldValue('city', city);
-                    setFromUseEffect(false)
+                    setFromUseEffect(false);
                 }
             }
 
@@ -162,20 +163,28 @@ const AddAddressDialog = (props) => {
                 ...values,
                 city: _.isObject(values.city) ? values.city.label : values.city,
                 countryCode: values.country.id,
-                region: _.isObject(values.region) ? values.region.name:values.region,
+                region: _.isObject(values.region) ? values.region.name : values.region,
                 regionCode: _.isObject(values.region) ? values.region.code : null,
-                regionId: _.isObject(values.region) ?values.region.id : null,
+                regionId: _.isObject(values.region) ? values.region.id : null,
                 addressId,
             };
 
-            await updateAddress({
-                variables: {
-                    ...data,
-                },
-            });
+            if (addressId) {
+                await updateAddress({
+                    variables: {
+                        ...data,
+                    },
+                });
+            } else {
+                await addAddress({
+                    variables: {
+                        ...data,
+                    },
+                });
+            }
 
-            if(onSubmitAddress){
-                onSubmitAddress()
+            if (onSubmitAddress) {
+                onSubmitAddress();
             }
         },
     });
@@ -211,13 +220,15 @@ const AddAddressDialog = (props) => {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
-                                onKeyUp={() => {
-                                    const state = {
-                                        ...addressState,
-                                    };
-                                    state.dropdown.city = null;
-                                    setAddressState(state);
-                                    formik.setFieldValue('city', null);
+                                onKeyDown={(event) => {
+                                    if (event.key != 'Enter' && event.key != 'Tab') {
+                                        const state = {
+                                            ...addressState,
+                                        };
+                                        state.dropdown.city = null;
+                                        setAddressState(state);
+                                        formik.setFieldValue('city', null);
+                                    }
                                 }}
                                 error={!!(formik.touched.region && formik.errors.region)}
                             />
@@ -318,7 +329,7 @@ const AddAddressDialog = (props) => {
                 getCities({ variables: { regionId: selectedRegion.id } });
             } else {
                 formik.setFieldValue('city', city);
-            }            
+            }
         }
 
         if (navigator.geolocation) {
@@ -397,20 +408,22 @@ const AddAddressDialog = (props) => {
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                            onKeyUp={() => {
-                                                const state = {
-                                                    ...addressState,
-                                                };
-                                                state.dropdown.region = null;
-                                                state.dropdown.city = null;
-                                                state.value.region = {
-                                                    id: '',
-                                                    label: '',
-                                                };
-                                                setAddressState(state);
+                                            onKeyDown={(event) => {
+                                                if (event.key != 'Enter' && event.key != 'Tab') {
+                                                    const state = {
+                                                        ...addressState,
+                                                    };
+                                                    state.dropdown.region = null;
+                                                    state.dropdown.city = null;
+                                                    state.value.region = {
+                                                        id: '',
+                                                        label: '',
+                                                    };
+                                                    setAddressState(state);
 
-                                                formik.setFieldValue('region', null);
-                                                formik.setFieldValue('city', null);
+                                                    formik.setFieldValue('region', null);
+                                                    formik.setFieldValue('city', null);
+                                                }
                                             }}
                                             error={!!(formik.touched.country && formik.errors.country)}
                                         />
