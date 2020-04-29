@@ -34,7 +34,7 @@ export const FONT_BIG = {
     fontSize: 30,
 };
 
-export const FONT_REGULER = {
+export const FONT_REGULAR = {
     ...FONT_DEFAULT,
     ...FONT_12,
     fontWeight: 'reguler',

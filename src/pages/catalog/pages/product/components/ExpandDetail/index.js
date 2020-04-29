@@ -1,7 +1,8 @@
 import React from 'react';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import {
+    ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails,
+    List, ListItem, ListItemText,
+} from '@material-ui/core';
 import Typography from '@components/Typography';
 import ExpandMoreIcon from '@material-ui/icons/Add';
 import Minimize from '@material-ui/icons/Minimize';
@@ -60,11 +61,23 @@ export default function ExpandDetail({ data = [1, 2, 3] }) {
                                         {item.content && HtmlParser(item.content)}
                                     </div>
                                 )
-                                : (
-                                    <Typography variant="p" type="regular">
-                                        100% Cotton Light Weight Machine wash cold. Wash with similar
-                                        colors Medium iron temperature
-                                    </Typography>
+                                : item.type === 'array' && (
+                                    <List>
+                                        {
+                                            item.content.map((content, idx) => (
+                                                <ListItem key={idx}>
+                                                    <ListItemText
+                                                        primary={content.label}
+                                                        secondary={content.value}
+                                                        classes={{
+                                                            primary: styles.listLabel,
+                                                            secondary: styles.listValue,
+                                                        }}
+                                                    />
+                                                </ListItem>
+                                            ))
+                                        }
+                                    </List>
                                 )
                         }
                     </ExpansionPanelDetails>

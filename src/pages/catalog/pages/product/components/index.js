@@ -13,6 +13,7 @@ import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import React from 'react';
 import HtmlParser from 'react-html-parser';
+import { useSelector } from 'react-redux';
 import useStyles from '../style';
 import ExpandDetail from './ExpandDetail';
 import ListReviews from './ListReviews';
@@ -44,6 +45,7 @@ const ProductPage = (props) => {
         });
     }
 
+    const productState = useSelector((state) => state.product);
     const [openOption, setOpenOption] = React.useState(false);
     const [openDrawer, setOpenDrawer] = React.useState(false);
     const [openShare, setOpenShare] = React.useState(false);
@@ -74,6 +76,16 @@ const ProductPage = (props) => {
                 title: 'Detail',
                 type: 'html',
                 content: data.description.html,
+            },
+        ];
+    }
+    if (data.more_info) {
+        expandData = [
+            ...expandData,
+            {
+                title: 'More Info',
+                type: 'array',
+                content: data.more_info,
             },
         ];
     }
@@ -161,18 +173,18 @@ const ProductPage = (props) => {
                             </Typography>
                         </div>
                         <Typography variant="p" type="bold" letter="uppercase">
-                            {data.stock_status || ''}
+                            {data.stock_status.replace('_', ' ') || ''}
                         </Typography>
                     </div>
                     <div className={styles.titleContainer}>
                         <div className={styles.ratingContainer}>
-                            <RatingStar value={3} />
+                            <RatingStar value={productState.review.rating || 0} />
                             <Typography
                                 variant="p"
                                 type="regular"
                                 letter="capitalize"
                             >
-                                5
+                                {productState.review.totalCount || 0}
                                 {' '}
                                 {t('product:review')}
                             </Typography>

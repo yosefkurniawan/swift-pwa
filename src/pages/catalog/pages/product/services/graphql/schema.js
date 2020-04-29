@@ -115,7 +115,11 @@ export const getProduct = (url) => {
               color
               country_of_manufacture
               format
-              gender
+              gender 
+              more_info {
+                label
+                value
+              }
               upsell_products {
                 ${productDetail}
                 ${priceRange}

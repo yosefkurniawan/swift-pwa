@@ -1,8 +1,12 @@
-import { SET_SELECT_CONFIGURABLE, SET_SELECT_CONFIG_PRODUCT } from './constan';
+import {
+    SET_SELECT_CONFIGURABLE, SET_SELECT_CONFIG_PRODUCT,
+    SET_COUNT_REVIEW,
+} from './constan';
 
 export const productState = {
     selectConfigurable: {},
     product: {},
+    review: {},
 };
 
 export const productReducer = (state = productState, action) => {
@@ -19,6 +23,11 @@ export const productReducer = (state = productState, action) => {
         return {
             ...state,
             product: action.data,
+        };
+    case SET_COUNT_REVIEW:
+        return {
+            ...state,
+            review: action.data,
         };
     default:
         return state;

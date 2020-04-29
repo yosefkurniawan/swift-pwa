@@ -43,13 +43,13 @@ export default (props) => {
 
     const selected = productState.selectConfigurable;
 
-    const handleSelect = (value, key) => {
-        const options = selected;
+    const handleSelect = async (value, key) => {
+        const options = productState.selectConfigurable;
         options[key] = value;
         dispatch(setConfigurable({
             [key]: value,
         }));
-        const product = ProductByVariant(
+        const product = await ProductByVariant(
             options,
             data.products.items[0].variants,
         );
