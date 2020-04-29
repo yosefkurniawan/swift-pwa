@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import { CreateBorder, CreateMargin, CreatePadding } from '@theme/mixins';
 import { PRIMARY } from '@theme/colors';
+import { FONT_DEFAULT, FONT_10, FONT_REGULAR } from '@theme/typography';
 
 export default makeStyles((theme) => ({
     root: {
@@ -73,5 +74,13 @@ export default makeStyles((theme) => ({
                 maxWidth: 300,
             },
         },
+    },
+
+    listLabel: {
+        ...FONT_REGULAR,
+    },
+    listValue: {
+        ...FONT_DEFAULT,
+        ...FONT_10,
     },
 }));

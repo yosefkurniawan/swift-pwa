@@ -10,7 +10,16 @@ export const getCustomerCartId = (token) => useLazyQuery(CartSchema.createCartId
     },
 });
 export const getCartData = () => useQuery(CartSchema.getCart);
-export const getCountCart = () => useQuery(CartSchema.getCountCart);
+export const getCountCart = (token, cartId) => useQuery(CartSchema.getCountCart, {
+    context: {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    },
+    variables: {
+        cartId,
+    },
+});
 export const mergeCart = (token) => useMutation(CartSchema.mergeCart, {
     context: {
         headers: {

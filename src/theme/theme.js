@@ -3,7 +3,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import {
     GRAY_SECONDARY, PRIMARY, SECONDARY, WHITE,
 } from './colors';
-import { FONT_24, FONT_DEFAULT, FONT_REGULER } from './typography';
+import { FONT_24, FONT_DEFAULT, FONT_REGULAR } from './typography';
 
 // Create a theme instance.
 const theme = createMuiTheme({
@@ -30,7 +30,7 @@ const theme = createMuiTheme({
         },
         MuiTextField: {
             root: {
-                ...FONT_REGULER,
+                ...FONT_REGULAR,
             },
         },
         MuiTypography: {
@@ -52,7 +52,7 @@ const theme = createMuiTheme({
         },
         MuiFormControlLabel: {
             label: {
-                ...FONT_REGULER,
+                ...FONT_REGULAR,
                 'text-transform': 'capitalize',
             },
             root: {

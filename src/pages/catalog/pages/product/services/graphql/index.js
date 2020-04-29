@@ -18,4 +18,12 @@ export const addSimpleProductsToCart = (token) => useMutation(cartSchema.addSimp
     },
 });
 
+export const addConfigProductsToCart = (token) => useMutation(cartSchema.addConfigProductsToCart, {
+    context: {
+        headers: token && token !== '' ? {
+            Authorization: `Bearer ${token}`,
+        } : {},
+    },
+});
+
 export default { getProduct };

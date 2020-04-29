@@ -11,7 +11,7 @@ export default (state = initalState, action) => {
     case SET_COUNT_CART:
         return {
             ...state,
-            totalCart: state.totalCart + action.data,
+            totalCart: action.data,
         };
     default:
         return state;
