@@ -1,6 +1,7 @@
 import Error from 'next/error';
 import { cmsPages } from '@root/swift.config.js';
-import { getResolver } from '../services/graphql';
+import Loading from '@components/Loaders';
+import { getResolver, getStoreConfig } from '../services/graphql';
 import Category from '../pages/category';
 import Product from '../pages/product';
 
@@ -17,17 +18,28 @@ const generateContent = (props, resolver) => {
     return <Error statusCode={404} />;
 };
 
+const GetResolver = (props) => {
+    const { url } = props;
+    const { error, loading, data } = getResolver(url);
+    if (error) return <p>error</p>;
+    if (loading) return <Loading size="40px" />;
+    return generateContent(props, data.urlResolver ? data.urlResolver : {});
+};
+
 const Content = (props) => {
     const { slug } = props;
     let url = slug.join('/');
-    url += cmsPages.find((cmsPage) => cmsPage === url) ? '' : '.html';
+    const { error, loading, data } = getStoreConfig();
+    if (error) return <p>error</p>;
+    if (loading) return <Loading size="40px" />;
 
-    const { loading, data } = getResolver(url);
-    if (loading) {
-        return <span />;
-    }
+    // suffix based on storeConfig
+    const suffix = data.storeConfig.category_url_suffix || '';
 
-    return generateContent(props, data.urlResolver ? data.urlResolver : {});
+    // for cms pages, no need to add suffix
+    url += cmsPages.find((cmsPage) => cmsPage === url) ? '' : suffix;
+
+    return <GetResolver {...props} url={url} />;
 };
 
 export default Content;

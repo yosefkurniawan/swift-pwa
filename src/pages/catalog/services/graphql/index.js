@@ -3,4 +3,6 @@ import * as Schema from './schema';
 
 export const getResolver = (urlpath) => useQuery(Schema.getResolver(urlpath));
 
-export default { getResolver };
+export const getStoreConfig = () => useQuery(Schema.getStoreConfig);
+
+export default { getResolver, getStoreConfig };
