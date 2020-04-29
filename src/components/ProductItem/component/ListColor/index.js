@@ -8,6 +8,15 @@ const useStyles = makeStyles(() => ({
     root: {
         borderRadius: 100,
     },
+    disabledBox: {
+        width: '6px',
+        height: '100%',
+        borderLeft: '2px solid #fff',
+        borderRight: '2px solid #fff',
+        background: 'red',
+        margin: '0 auto',
+        transform: 'rotate(45deg)',
+    },
 }));
 
 const ListColor = ({
@@ -16,10 +25,11 @@ const ListColor = ({
     size = 20,
     className = {},
     value = '',
+    disabled = false,
 }) => {
     const classes = useStyles();
     const styles = {
-        cursor: 'pointer',
+        cursor: disabled ? 'default' : 'pointer',
         width: size,
         height: size,
         backgroundColor: color,
@@ -31,7 +41,11 @@ const ListColor = ({
 
     const customClass = classNames(classes.root, className);
 
-    return <span className={customClass} style={styles} onClick={() => onClick('color', color)} />;
+    return (
+        <div className={customClass} style={styles} onClick={() => (!disabled ? onClick('color', color) : null)}>
+            {disabled ? <div className={classes.disabledBox} /> : null}
+        </div>
+    );
 };
 
 export default ListColor;

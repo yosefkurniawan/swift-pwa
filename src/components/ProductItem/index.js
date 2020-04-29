@@ -5,10 +5,8 @@ import classNames from 'classnames';
 import Link from 'next/link';
 import React from 'react';
 import PriceFormat from '@components/PriceFormat';
-import ProductByVariant from '@helpers/productByVariant';
 import useStyles from './style';
-import ListSize from './ListSize';
-import ListColor from './ListColor';
+import ConfigurableOpt from './component/configurable';
 
 const ProductItem = (props) => {
     const {
@@ -26,7 +24,6 @@ const ProductItem = (props) => {
     } = props;
     const styles = useStyles();
     const [feed, setFeed] = React.useState(false);
-    const [selected, setSelected] = React.useState({});
     const [spesificProduct, setSpesificProduct] = React.useState({});
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
     const FeedIcon = feed ? (
@@ -34,13 +31,6 @@ const ProductItem = (props) => {
     ) : (
         <FavoriteBorderOutlined className={styles.iconFeed} />
     );
-
-    const selectedVariant = (key, value) => {
-        const options = selected;
-        options[key] = value;
-        setSpesificProduct(ProductByVariant(options, variants));
-        setSelected(options);
-    };
 
     return (
         <div className={styles.itemContainer}>
@@ -80,51 +70,12 @@ const ProductItem = (props) => {
                         priceTiers={spesificProduct.price_tiers ? spesificProduct.price_tiers : price_tiers}
                         productType={__typename}
                     />
-                    {configurable_options.map((conf, idx) => {
-                        const value = [];
-                        for (
-                            let valIdx = 0;
-                            valIdx < conf.values.length;
-                            // eslint-disable-next-line no-plusplus
-                            valIdx++
-                        ) {
-                            if (value.indexOf(conf.values[valIdx].label) === -1) {
-                                value.push(conf.values[valIdx].label);
-                            }
-                        }
-                        if (conf.attribute_code === 'color') {
-                            return (
-                                <div className={styles.colorContainer} key={idx}>
-                                    {value.map((clr, index) => (
-                                        <ListColor
-                                            value={selected.color}
-                                            onClick={selectedVariant}
-                                            key={index}
-                                            color={clr}
-                                            size={16}
-                                            className={styles.btnColor}
-                                        />
-                                    ))}
-                                </div>
-                            );
-                        }
-                        return (
-                            <div className={styles.colorContainer} key={idx}>
-                                {value.map((sz, index) => (
-                                    <ListSize
-                                        value={selected[conf.attribute_code]}
-                                        code={conf.attribute_code}
-                                        onClick={selectedVariant}
-                                        data={sz}
-                                        key={index}
-                                        width={16}
-                                        className={styles.btnColor}
-                                    />
-                                ))}
-                            </div>
-                        );
-                    })}
                 </div>
+                <ConfigurableOpt
+                    configurable_options={configurable_options}
+                    variants={variants}
+                    setSpesificProduct={setSpesificProduct}
+                />
                 {showFeed && (
                     <Button
                         className={styles.btnFeed}
