@@ -13,6 +13,10 @@ import Button from '@components/Button';
 import Loading from '@components/Loaders';
 import useStyles from './style';
 
+
+// constanta to defined if query cannot deleted example "q" using on search
+const noClearQuery = ['q'];
+
 const Transition = React.forwardRef((props, ref) => (
     <Slide direction="up" ref={ref} {...props} />
 ));
@@ -35,6 +39,12 @@ const FilterDialog = ({
     const handleClear = () => {
         setSort('');
         setPriceRange([0, 0]);
+        const query = {};
+        // eslint-disable-next-line no-plusplus
+        for (let index = 0; index < noClearQuery.length; index++) {
+            query[noClearQuery[index]] = defaultValue[noClearQuery[index]];
+        }
+        setFilter({ ...query });
     };
 
     const handleSave = () => {
