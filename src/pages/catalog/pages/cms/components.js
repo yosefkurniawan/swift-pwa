@@ -1,11 +1,5 @@
-import Loading from '@components/Loaders';
-import { getCmsPage } from './services/graphql';
-
 const CmsPage = (props) => {
-    const { url } = props;
-    const { error, loading, data } = getCmsPage({ identifier: url });
-    if (error) return <p>error</p>;
-    if (loading) return <Loading size="40px" />;
+    const { content } = props;
 
     return (
         <>
@@ -24,7 +18,7 @@ const CmsPage = (props) => {
             </style>
 
             {/* eslint-disable-next-line react/no-danger */}
-            <div className="cms-container" dangerouslySetInnerHTML={{ __html: data.cmsPage.content }} />
+            <div className="cms-container" dangerouslySetInnerHTML={{ __html: content }} />
         </>
     );
 };
