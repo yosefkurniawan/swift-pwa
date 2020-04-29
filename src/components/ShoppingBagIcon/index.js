@@ -4,8 +4,8 @@ import { Badge, makeStyles } from '@material-ui/core';
 import { LocalMall } from '@material-ui/icons';
 import { GraphCart } from '@services/graphql';
 import { setCountCart } from '@stores/actions/cart';
-import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
+import Router from 'next/router';
 
 const useStyles = makeStyles({
     root: {
@@ -33,16 +33,11 @@ const ShoppingBagIcon = ({ bottomNav = false }) => {
     const cartData = useSelector((state) => state.cart);
     if (!bottomNav) {
         return (
-            <Link href="/cart">
-                <a className={styles.root}>
-                    <Badge
-                        color="secondary"
-                        badgeContent={cartData.totalCart || 0}
-                    >
-                        <LocalMall color="secondary" />
-                    </Badge>
-                </a>
-            </Link>
+            <div className={styles.root}>
+                <Badge color="secondary" badgeContent={cartData.totalCart || 0}>
+                    <LocalMall color="secondary" onClick={() => Router.push('/cart')} />
+                </Badge>
+            </div>
         );
     }
     return (

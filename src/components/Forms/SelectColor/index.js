@@ -3,12 +3,14 @@
 import classNames from 'classnames';
 import useStyles from './style';
 
-const SelectColor = ({ value, selected, onChange }) => {
+const SelectColor = ({
+    value, selected, onChange, className = '',
+}) => {
     const styles = useStyles();
     const containerStyle = selected
         ? classNames(styles.container, value.toLowerCase() === 'black' || value.toLowerCase() === '#000000'
-            ? styles.borderedSecondary : styles.bordered)
-        : styles.container;
+            ? styles.borderedSecondary : styles.bordered, className)
+        : classNames(styles.container, className);
     const customStyle = {
         backgroundColor: value,
     };

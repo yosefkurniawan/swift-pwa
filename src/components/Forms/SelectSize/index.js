@@ -8,6 +8,7 @@ const SelectSize = ({
     selected,
     value = '',
     label = '',
+    className = '',
     onChange = () => {},
 }) => {
     const styles = useStyles();
@@ -16,8 +17,8 @@ const SelectSize = ({
     };
 
     const containerStyle = selected
-        ? classNames(styles.container, styles.active)
-        : styles.container;
+        ? classNames(styles.container, styles.active, className)
+        : classNames(styles.container, className);
     const labelStyle = selected
         ? classNames(styles.label, styles.labelActive)
         : styles.label;

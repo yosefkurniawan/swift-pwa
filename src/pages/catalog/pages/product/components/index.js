@@ -116,6 +116,7 @@ const ProductPage = (props) => {
                     <Banner
                         data={banner}
                         height="70vh"
+                        autoPlay={false}
                     />
                     {
                         data && data.upsell_products && data.upsell_products.length > 0 && (
@@ -215,6 +216,7 @@ const ProductPage = (props) => {
                         className={styles.btnAddToCard}
                         color="primary"
                         onClick={() => setOpenOption(true)}
+                        disabled={data && data.stock_status === 'OUT_STOCK'}
                     >
                         <Typography
                             align="center"

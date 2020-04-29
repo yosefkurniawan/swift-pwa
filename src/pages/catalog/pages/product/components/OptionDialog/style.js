@@ -99,5 +99,11 @@ export default makeStyles((theme) => ({
         width: 'auto',
         maxWidth: '75%',
         marginBottom: 10,
+        ...FlexColumn,
+    },
+    stylesItemOption: {
+        width: 30,
+        height: 30,
+        margin: 10,
     },
 }));
