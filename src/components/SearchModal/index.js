@@ -60,6 +60,7 @@ const SearchPage = (props) => {
 
     const handleSearch = (ev) => {
         if (ev.key === 'Enter' && ev.target.value !== '') {
+            handleCloseModal();
             Router.push({
                 pathname: '/catalogsearch/result',
                 query: { q: value },
@@ -69,6 +70,7 @@ const SearchPage = (props) => {
 
     const searchByClick = () => {
         if (value !== '') {
+            handleCloseModal();
             Router.push({
                 pathname: '/catalogsearch/result',
                 query: { q: value },
