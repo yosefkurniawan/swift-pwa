@@ -10,10 +10,6 @@ const productDetail = `
     url_key
     __typename
     attribute_set_id
-    thumbnail {
-      label
-      url
-    }
     small_image{
       url
     }
@@ -108,14 +104,6 @@ export const getProduct = (url) => {
               short_description {
                 html
               }
-              canonical_url
-              category_gear
-              climate
-              collar
-              color
-              country_of_manufacture
-              format
-              gender 
               more_info {
                 label
                 value
@@ -134,7 +122,6 @@ export const getProduct = (url) => {
                ${priceRange}
                ${priceTiers}
               }
-              
             }
             total_count
           }

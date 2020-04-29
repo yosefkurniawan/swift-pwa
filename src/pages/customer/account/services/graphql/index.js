@@ -7,6 +7,7 @@ export const getCustomer = (token) => useQuery(Schema.getCustomer, {
             Authorization: `Bearer ${token}`,
         },
     },
+    skip: token === '' || !token,
 });
 
 export default {

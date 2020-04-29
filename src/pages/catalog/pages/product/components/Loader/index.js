@@ -5,7 +5,7 @@ export default () => {
     const styles = useStyles();
     return (
         <div className="column">
-            <Skeleton animation="wave" variant="react" width="100%" height="70vh" />
+            <Skeleton animation="wave" variant="rect" width="100%" height="70vh" />
             <div className={styles.container}>
                 <div className="row mr-15">
                     <Skeleton animation="wave" variant="text" width="70%" height={40} />

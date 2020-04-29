@@ -93,7 +93,7 @@ const ProductPage = (props) => {
         ...product,
         name: product.name,
         link: product.url_key,
-        imageSrc: product.thumbnail.url,
+        imageSrc: product.small_image.url,
         price: product.price_range.minimum_price.regular_price.value,
     }));
     return (
