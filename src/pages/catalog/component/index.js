@@ -23,7 +23,7 @@ const GetResolver = (props) => {
     const { url } = props;
     const { error, loading, data } = getResolver(url);
     if (error) return <p>error</p>;
-    if (loading) return <Loading size="40px" />;
+    if (loading) return <Loading size="50px" />;
     return generateContent(props, data.urlResolver ? data.urlResolver : {});
 };
 
@@ -32,7 +32,7 @@ const Content = (props) => {
     let url = slug.join('/');
     const { error, loading, data } = getStoreConfig();
     if (error) return <p>error</p>;
-    if (loading) return <Loading size="40px" />;
+    if (loading) return <Loading size="50px" />;
 
     // suffix based on storeConfig
     const suffix = data.storeConfig.category_url_suffix || '';
