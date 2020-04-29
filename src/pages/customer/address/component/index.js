@@ -7,47 +7,23 @@ import React, { useEffect, useState } from 'react';
 import AddAddressDialog from './AddDialog';
 import ItemAddress from './ItemAddress';
 import useStyles from './style';
-import gqlService from '../../../../pages/checkout/services/graphql';
-import gqlServiceLocal from '../services/graphql';
+import gqlServiceCheckout from '../../../../pages/checkout/services/graphql';
+import gqlService from '../services/graphql';
+import _ from 'lodash'
 
 // Main Render Page
 const Content = (props) => {
-    const { token } = props;
-    const getCustomer = gqlService.getCustomer(null, token);
-    const [updateCustomerAddress] = gqlServiceLocal.updateCustomerAddress(null, token)
+    const getCustomer = gqlServiceCheckout.getCustomer();
+    const [updatedDefaultAddress] = gqlService.updatedDefaultAddress()
     const styles = useStyles();
-    const [address, setAddress] = useState([
-        // {
-        //     firstname: 'John',
-        //     lastname: 'Doe',
-        //     street: ['123 Elm Street'],
-        //     city: 'Anytown',
-        //     region: {
-        //         region_code: 'MI',
-        //         region: 'Michigan',
-        //     },
-        //     postcode: '78758',
-        //     country_code: 'US',
-        //     telephone: '512 555-1212',
-        // },
-    ]);
-    const [selectedAddress, setSelectedAddress] = useState(null)
+    const [address, setAddress] = useState([]);
+    const [selectedAddress, setSelectedAddress] = useState(0)
     const [drawer, setDrawer] = useState(false);
 
     const [, setMapPosition] = useState({
         lat: -6.197361,
         lng: 106.774535,
     });
-
-    useEffect(() => {
-        console.log(getCustomer.data)
-        if (!getCustomer.loading && getCustomer.data) {
-            const customer = getCustomer.data.customer;
-            const selectedAddress = customer.addresses.find(address => address.default_shipping)
-            setSelectedAddress(selectedAddress.id)
-            setAddress(customer.addresses)
-        }
-    }, [getCustomer]);
 
     const displayLocationInfo = (position) => {
         const lng = position.coords.longitude;
@@ -63,35 +39,52 @@ const Content = (props) => {
     };
 
     useEffect(() => {
+        if (!getCustomer.loading && getCustomer.data) {
+            const customer = getCustomer.data.customer;
+            const selectedAddress = customer.addresses.find(address => address.default_shipping)
+            setSelectedAddress(selectedAddress.id)
+            setAddress(customer.addresses)
+        }
+
         if (navigator.geolocation) {
             return navigator.geolocation.getCurrentPosition(displayLocationInfo);
         }
-    }, []);
+    }, [getCustomer]);
 
     const handleChange = async (event) => {
         const addressId = event.target.value;
-        console.log(addressId)
-        await updateCustomerAddress({variables:{addressId: addressId}})
-        setSelectedAddress(addressId)
+        setSelectedAddress(addressId);
+        await updatedDefaultAddress({ variables: { addressId: addressId } });
+        await getCustomer.refetch();
+        setAddress(getCustomer.data.addresses);
+    }
+
+    const handleDialogSubmit = async () => {
+        await getCustomer.refetch();
+        setAddress(getCustomer.data.customer.addresses);
     }
 
     return (
         <>
             <Box>
                 <RadioGroup row aria-label="position" onChange={handleChange} name="position" value={selectedAddress}>
-                    {address.length == 0 ? null:address.map((item, index) => (
+                    { address.length == 0 ? null:address.map((item, index) => (
                         <ItemAddress
                             checked={item.id == selectedAddress}
                             key={item.id}
+                            addressId={item.id}
                             firstName={item.firstname}
                             lastName={item.lastname}
                             phoneNumber={item.telephone}
                             posCode={item.postcode}
-                            state={item.region.region}
+                            region={item.region.region}
                             city={item.city}
                             country={item.country_code}
                             street={item.street.join(' ')}
                             value={item.id}
+                            defaultBilling={item.default_billing}
+                            defaultShipping={item.default_shipping}
+                            onSubmitAddress={handleDialogSubmit}
                             {...props}
                         />
                     ))}

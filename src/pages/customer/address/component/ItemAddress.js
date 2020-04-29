@@ -10,71 +10,79 @@ const ItemAddress = (props) => {
         street = '',
         posCode = '',
         country = '',
-        state = '',
+        region = '',
         city = '',
         district = '',
         phoneNumber = '',
         value = '',
         checked = false,
+        onSubmitAddress
         // eslint-disable-next-line no-unused-vars
-        openEdit = () => {},
     } = props;
     const [open, setOpen] = React.useState(false);
     const styles = useStyles();
     return (
         <>
-            <AddDialog {...props} open={open} setOpen={() => setOpen(!open)} />
-            <FormControlLabel
-                className={[styles.address_shipping].join(' ')}
-                value={value}
-                checked={checked}
-                control={<Radio color="primary" size="small" />}
-                label={(
-                    <Box className="column">
-                        <Box className={[styles.address_content].join(' ')}>
-                            <Typography
-                                className={[styles.address_text].join(' ')}
-                                variant="p"
-                            >
-                                {firstName}
-                                {' '}
-                                {lastName}
-                            </Typography>
-                            <Typography
-                                className={[styles.address_text].join(' ')}
-                                variant="p"
-                            >
-                                {street}
-                                ,
-                            </Typography>
-                            <Typography
-                                className={[styles.address_text].join(' ')}
-                                variant="p"
-                            >
-                                {district !== '' && `${district}, `}
-                                {city !== '' && `${city}, `}
-                                {state !== '' && `${state}, `}
-                                {country !== '' && `${country}, `}
-                                {posCode !== '' && posCode}
-                            </Typography>
-                            <Typography
-                                className={[styles.address_text].join(' ')}
-                                variant="p"
-                            >
-                                {phoneNumber}
-                            </Typography>
-                        </Box>
-                        <Typography
-                            className={[styles.address_edit].join(' ')}
-                            variant="span"
-                            onClick={() => setOpen(!open)}
-                        >
-                            Edit Address
-                        </Typography>
-                    </Box>
-                )}
-                labelPlacement="end"
+            <AddDialog
+                {...props}
+                isSelectedValue={true}
+                open={open}
+                onSubmitAddress={() => {
+                    setOpen(!open)
+                    onSubmitAddress()
+                }}
+                setOpen={() => setOpen(!open)}
             />
+            <Box className="column">
+                <Box className={[styles.address_content].join(' ')}>
+                    <FormControlLabel
+                        className={[styles.address_shipping].join(' ')}
+                        value={value}
+                        checked={checked}
+                        control={<Radio color="primary" size="small" />}
+                        label={
+                            <>
+                                <Typography
+                                    className={[styles.address_text].join(' ')}
+                                    variant="p"
+                                >
+                                    {firstName} {lastName}
+                                </Typography>
+                                <Typography
+                                    className={[styles.address_text].join(' ')}
+                                    variant="p"
+                                >
+                                    {street},
+                                </Typography>
+                                <Typography
+                                    className={[styles.address_text].join(' ')}
+                                    variant="p"
+                                >
+                                    {district !== '' && `${district}, `}
+                                    {city !== '' && `${city}, `}
+                                    {region !== '' && `${region}, `}
+                                    {country !== '' && `${country}, `}
+                                    {posCode !== '' && posCode}
+                                </Typography>
+                                <Typography
+                                    className={[styles.address_text].join(' ')}
+                                    variant="p"
+                                >
+                                    {phoneNumber}
+                                </Typography>
+                            </>
+                        }
+                        labelPlacement="end"
+                    />
+                    <Typography
+                        className={[styles.address_edit].join(' ')}
+                        variant="span"
+                        onClick={() => setOpen(!open)}
+                    >
+                        Edit Address
+                    </Typography>
+                </Box>
+            </Box>
         </>
     );
 };

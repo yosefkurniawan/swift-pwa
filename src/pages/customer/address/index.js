@@ -22,11 +22,8 @@ const Page = (props) => {
     );
 };
 
-Page.getInitialProps = async (ctx) => {
-    const token = ctx.query.token;
-    console.log(token)
+Page.getInitialProps = async () => {
     return {
-        token: token,
         namespacesRequired: ['common', 'customer', 'validate'],
     };
 };

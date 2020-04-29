@@ -49,12 +49,12 @@ const Checkout = (props) => {
     const [point, setPoint] = useState(100000);
     const [credit, setCredit] = useState(100000);
     const getCustomer = gqlService.getCustomer();
-    const getCustomerCart = gqlService.getCustomerCartgetCustomer();
-    const [setShippingAddressById] = gqlService.setShippingAddressgetCustomer();
-    const [setShippingMethod] = gqlService.setShippingMethodgetCustomer();
-    const [setBillingAddressById] = gqlService.setBillingAddressByIdgetCustomer();
-    const [setPaymentMethod] = gqlService.setPaymentMethodgetCustomer();
-    const [placeOrder] = gqlService.placeOrdergetCustomer();
+    const getCustomerCart = gqlService.getCustomerCart();
+    const [setShippingAddressById] = gqlService.setShippingAddress();
+    const [setShippingMethod] = gqlService.setShippingMethod();
+    const [setBillingAddressById] = gqlService.setBillingAddressById();
+    const [setPaymentMethod] = gqlService.setPaymentMethod();
+    const [placeOrder] = gqlService.placeOrder();
     
     const [checkout, setCheckout] = useState({
         data: {

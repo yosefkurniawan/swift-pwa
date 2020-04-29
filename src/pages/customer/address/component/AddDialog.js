@@ -1,40 +1,112 @@
 /* eslint-disable consistent-return */
 import Button from '@components/Button';
-import TextField from '@components/Forms/TextField';
+import CustomTextField from '@components/Forms/TextField';
 import IcubeMaps from '@components/GoogleMaps/Maps';
 import Header from '@components/Header';
 import Typography from '@components/Typography';
-import Select from '@components/Forms/Select';
 import { regexPhone } from '@helpers/regex';
-import {
-    Box, Dialog, FormControlLabel, Checkbox,
-} from '@material-ui/core';
+import { Box, Checkbox, Dialog, FormControlLabel, TextField } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useFormik } from 'formik';
+import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
+import { getCityByRegionId, getCountries as getAllCountries, updateCustomerAddress } from '../services/graphql';
 import useStyles from './style';
-import { getCountries } from '../services/graphql';
 
 const AddAddressDialog = (props) => {
-    const {
+    let {
         firstName = '',
         lastName = '',
         street = '',
         posCode = '',
-        country = '',
-        state = '',
-        city = '',
+        country = null,
+        region = null,
+        city = null,
         phoneNumber = '',
         maps = '',
         open,
         t,
-        setOpen,
+        onSubmitAddress,
+        isSelectedValue = false,
+        defaultShipping = false,
+        defaultBilling = false,
+        addressId = null,
+        setOpen
     } = props;
+
     const styles = useStyles();
     const headerConfig = {
         headerTitle: t('customer:address:addTitle'),
         header: 'relative',
         headerBackIcon: 'close',
+    };
+    const [updateAddress] = updateCustomerAddress();
+    const [getCountries, gqlCountries] = getAllCountries();
+    const [getCities] = getCityByRegionId({
+        onCompleted: (data) => {
+            const state = { ...addressState };
+
+            if (data.getCityByRegionId.item.length != 0) {
+                state.dropdown.city = data.getCityByRegionId.item.map((item) => ({ ...item, id: item.id, label: item.city }));
+                formik.setFieldValue('city', getCityByLabel(city, state.dropdown.city));
+            } else {
+                state.dropdown.city = null;
+                if(isFromUseEffect){
+                    formik.setFieldValue('city', city);
+                    setFromUseEffect(false)
+                }
+            }
+
+            setAddressState(state);
+        },
+    });
+    const [addressState, setAddressState] = useState({
+        countries: null,
+        dropdown: {
+            countries: null,
+            region: null,
+            city: null,
+        },
+        value: {
+            country: { id: '', label: '' },
+            region: { id: '', label: '' },
+            city: { id: '', label: '' },
+        },
+    });
+
+    const [isFromUseEffect, setFromUseEffect] = useState(false);
+
+    const getRegionByLabel = (label, region = null) => {
+        let data = region ? region : addressState.dropdown.region;
+        return data.find((item) => item.label === label) ? data.find((item) => item.label === label) : null;
+    };
+
+    const getRegionByCountry = (country, countries = null) => {
+        let data = countries ? countries : addressState.countries;
+        data = data.find((item) => item.id === country);
+
+        if (data) {
+            if (data.available_regions) {
+                return data.available_regions.map((item) => ({
+                    ...item,
+                    label: item.name,
+                }));
+            }
+        }
+
+        return null;
+    };
+
+    const getCountryByCode = (code, countries = null) => {
+        let data = countries ? countries : addressState.dropdown.countries;
+        data = data.find((item) => item.id === code);
+        return data ? data : null;
+    };
+
+    const getCityByLabel = (label, city = null) => {
+        let data = city ? city : addressState.dropdown.city;
+        return data.find((item) => item.label === label) ? data.find((item) => item.label === label) : null;
     };
 
     const [mapPosition, setMapPosition] = useState({
@@ -45,7 +117,7 @@ const AddAddressDialog = (props) => {
     const displayLocationInfo = (position) => {
         const lng = position.coords.longitude;
         const lat = position.coords.latitude;
-        // console.log(lng, lat);
+
         setMapPosition({
             lat,
             lng,
@@ -57,181 +129,348 @@ const AddAddressDialog = (props) => {
     };
 
     const AddressSchema = Yup.object().shape({
-        firstName: Yup.string().required(t('validate:firstName:required')),
-        lastName: Yup.string().required(t('validate:lastName:required')),
-        phoneNumber: Yup.string()
-            .required(t('validate:phoneNumber:required'))
-            .matches(regexPhone, t('validate:phoneNumber:wrong')),
-        street: Yup.string()
-            .required(t('validate:street:required'))
-            .min(10, t('validate:street:wrong')),
-        posCode: Yup.string()
-            .required(t('validate:postal:required'))
-            .min(3, t('validate:postal:wrong'))
-            .max(20, t('validate:postal:wrong')),
-        country: Yup.string().required(t('validate:country:required')),
-        state: Yup.string().required(t('validate:state:required')),
-        city: Yup.string().required(t('validate:city:required')),
+        firstname: Yup.string().required(t('validate:firstName:required')),
+        lastname: Yup.string().required(t('validate:lastName:required')),
+        telephone: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
+        street: Yup.string().required(t('validate:street:required')).min(10, t('validate:street:wrong')),
+        postcode: Yup.string().required(t('validate:postal:required')).min(3, t('validate:postal:wrong')).max(20, t('validate:postal:wrong')),
+        country: Yup.string().nullable().required(t('validate:country:required')),
+        region: Yup.string().nullable().required(t('validate:state:required')),
+        city: Yup.string().nullable().required(t('validate:city:required')),
     });
 
     const formik = useFormik({
+        enableReinitialize: true,
         initialValues: {
-            firstName: firstName || '',
-            lastName: lastName || '',
-            phoneNumber: phoneNumber || '',
+            firstname: firstName || '',
+            lastname: lastName || '',
+            telephone: phoneNumber || '',
             street: street || '',
-            country: country || '',
-            state: state || '',
-            city: city || '',
-            posCode: posCode || '',
+            country: '',
+            region: '',
+            city: '',
+            postcode: posCode || '',
             maps: maps || '',
-            defaultBilling: false,
-            defaultShipping: false,
+            defaultBilling: defaultBilling || false,
+            defaultShipping: defaultShipping || false,
+            regionCode: '',
+            regionId: '',
         },
         validationSchema: AddressSchema,
-        onSubmit: () => {
-            setOpen();
+        onSubmit: async (values) => {
+            const data = {
+                ...values,
+                city: _.isObject(values.city) ? values.city.label : values.city,
+                countryCode: values.country.id,
+                region: _.isObject(values.region) ? values.region.name:values.region,
+                regionCode: _.isObject(values.region) ? values.region.code : null,
+                regionId: _.isObject(values.region) ?values.region.id : null,
+                addressId,
+            };
+
+            await updateAddress({
+                variables: {
+                    ...data,
+                },
+            });
+
+            if(onSubmitAddress){
+                onSubmitAddress()
+            }
         },
     });
 
+    const getRegionRender = () => {
+        if (_.isArray(addressState.dropdown.region) && open) {
+            return (
+                <Autocomplete
+                    options={addressState.dropdown.region}
+                    getOptionLabel={(option) => (option.label ? option.label : '')}
+                    id="controlled-region"
+                    value={_.isEmpty(formik.values.region) ? null : formik.values.region}
+                    onClose={(event, newValue) => {
+                        formik.setFieldValue('city', null);
+                    }}
+                    onChange={async (event, newValue) => {
+                        formik.setFieldValue('region', newValue);
+                        if (newValue) {
+                            getCities({ variables: { regionId: newValue.id } });
+                        }
+                    }}
+                    renderInput={(params) => (
+                        <div
+                            style={{
+                                marginTop: '10px',
+                                marginBottom: '20px',
+                            }}
+                        >
+                            <TextField
+                                {...params}
+                                name="state"
+                                label="State/Province"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                onKeyUp={() => {
+                                    const state = {
+                                        ...addressState,
+                                    };
+                                    state.dropdown.city = null;
+                                    setAddressState(state);
+                                    formik.setFieldValue('city', null);
+                                }}
+                                error={!!(formik.touched.region && formik.errors.region)}
+                            />
+                            <Typography variant="p" color={!!(formik.touched.region && formik.errors.region) ? 'red' : 'default'}>
+                                {formik.touched.region && formik.errors.region}
+                            </Typography>
+                        </div>
+                    )}
+                />
+            );
+        }
+
+        return (
+            <CustomTextField
+                label="State/Province"
+                name="region"
+                value={formik.values.region || ''}
+                onChange={formik.handleChange}
+                error={!!(formik.touched.region && formik.errors.region)}
+                errorMessage={(formik.touched.region && formik.errors.region) || null}
+            />
+        );
+    };
+
+    const getCityRender = () => {
+        if (_.isArray(addressState.dropdown.city) && open) {
+            return (
+                <Autocomplete
+                    options={addressState.dropdown.city}
+                    getOptionLabel={(option) => (option.label ? option.label : '')}
+                    id="controlled-city"
+                    value={_.isEmpty(formik.values.city) ? null : formik.values.city}
+                    onChange={(event, newValue) => {
+                        formik.setFieldValue('city', newValue);
+                    }}
+                    renderInput={(params) => (
+                        <div
+                            style={{
+                                marginTop: '10px',
+                                marginBottom: '20px',
+                            }}
+                        >
+                            <TextField
+                                {...params}
+                                name="city"
+                                label="City"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                error={!!(formik.touched.city && formik.errors.city)}
+                            />
+                            <Typography variant="p" color={!!(formik.touched.city && formik.errors.city) ? 'red' : 'default'}>
+                                {formik.touched.city && formik.errors.city}
+                            </Typography>
+                        </div>
+                    )}
+                />
+            );
+        }
+
+        return (
+            <CustomTextField
+                label="City"
+                name="city"
+                value={formik.values.city || ''}
+                onChange={formik.handleChange}
+                error={!!(formik.touched.city && formik.errors.city)}
+                errorMessage={(formik.touched.city && formik.errors.city) || null}
+            />
+        );
+    };
+
     useEffect(() => {
+        const state = { ...addressState };
+
+        formik.setFieldValue('country', country);
+        formik.setFieldValue('region', region);
+
+        getCountries();
+        if (gqlCountries.data && open) {
+            state.countries = gqlCountries.data.countries;
+            state.dropdown.countries = state.countries.map((item) => ({
+                id: item.id,
+                label: item.full_name_locale,
+                available_regions: item.available_regions,
+            }));
+
+            if (country) {
+                state.dropdown.region = getRegionByCountry(country, gqlCountries.data.countries);
+                formik.setFieldValue('country', getCountryByCode(country, state.dropdown.countries));
+            }
+            setAddressState(state);
+
+            if (_.isArray(state.dropdown.region)) {
+                const selectedRegion = getRegionByLabel(region);
+                formik.setFieldValue('region', selectedRegion);
+                setFromUseEffect(true);
+                getCities({ variables: { regionId: selectedRegion.id } });
+            } else {
+                formik.setFieldValue('city', city);
+            }            
+        }
+
         if (navigator.geolocation) {
             return navigator.geolocation.getCurrentPosition(displayLocationInfo);
         }
-    }, []);
+    }, [open]);
+
     return (
-        <Dialog
-            fullScreen
-            open={open}
-            className={[styles.address_drawer].join(' ')}
-        >
+        <Dialog fullScreen open={open} className={[styles.address_drawer].join(' ')}>
             <div className={styles.container}>
                 <Header
                     pageConfig={headerConfig}
                     LeftComponent={{
-                        onClick: setOpen,
+                        onClick: () => {
+                            formik.resetForm();
+                            setOpen();
+                        },
                     }}
                 />
                 <Box className={[styles.address_form].join(' ')}>
                     <form onSubmit={formik.handleSubmit}>
-                        <TextField
+                        <CustomTextField
                             label="First Name"
-                            name="firstName"
-                            value={formik.values.firstName}
+                            name="firstname"
+                            value={formik.values.firstname}
                             onChange={formik.handleChange}
-                            error={!!(formik.touched.firstName && formik.errors.firstName)}
-                            errorMessage={
-                                (formik.touched.firstName && formik.errors.firstName) || null
-                            }
+                            error={!!(formik.touched.firstname && formik.errors.firstname)}
+                            errorMessage={(formik.touched.firstname && formik.errors.firstname) || null}
                         />
-                        <TextField
+                        <CustomTextField
                             label="Last Name"
-                            name="lastName"
-                            value={formik.values.lastName}
+                            name="lastname"
+                            value={formik.values.lastname}
                             onChange={formik.handleChange}
-                            error={!!(formik.touched.lastName && formik.errors.lastName)}
-                            errorMessage={
-                                (formik.touched.lastName && formik.errors.lastName) || null
-                            }
+                            error={!!(formik.touched.lastname && formik.errors.lastname)}
+                            errorMessage={(formik.touched.lastname && formik.errors.lastname) || null}
                         />
-                        <TextField
+                        <CustomTextField
                             label="Street Address"
                             name="street"
                             value={formik.values.street}
                             onChange={formik.handleChange}
                             error={!!(formik.touched.street && formik.errors.street)}
-                            errorMessage={
-                                (formik.touched.street && formik.errors.street) || null
-                            }
+                            errorMessage={(formik.touched.street && formik.errors.street) || null}
                         />
-                        <Select
-                            label="Country"
-                            name="country"
-                            graphql={getCountries}
-                            initialOption={{
-                                value: 'id',
-                                label: 'full_name_locale',
-                            }}
-                            value={formik.values.country}
-                            error={!!(formik.touched.country && formik.errors.country)}
-                            errorMessage={
-                                (formik.touched.country && formik.errors.country) || null
-                            }
-                        />
-                        <TextField
-                            label="State/Province"
-                            name="state"
-                            value={formik.values.state}
-                            onChange={formik.handleChange}
-                            error={!!(formik.touched.state && formik.errors.state)}
-                            errorMessage={
-                                (formik.touched.state && formik.errors.state) || null
-                            }
-                        />
-                        <TextField
-                            label="City"
-                            name="city"
-                            value={formik.values.city}
-                            onChange={formik.handleChange}
-                            error={!!(formik.touched.city && formik.errors.city)}
-                            errorMessage={(formik.touched.city && formik.errors.city) || null}
-                        />
-                        <TextField
+                        {_.isArray(addressState.dropdown.countries) && open ? (
+                            <Autocomplete
+                                options={addressState.dropdown.countries}
+                                getOptionLabel={(option) => (option.label ? option.label : '')}
+                                id="controlled-demo"
+                                value={formik.values.country}
+                                onClose={(event, newValue) => {
+                                    formik.setFieldValue('region', null);
+                                    formik.setFieldValue('city', null);
+                                }}
+                                onChange={(event, newValue) => {
+                                    const state = { ...addressState };
+                                    state.dropdown.region = newValue ? newValue.available_regions : null;
+                                    state.dropdown.region = !state.dropdown.region || state.dropdown.region.map((item) => ({ ...item, label: item.name }));
+                                    state.dropdown.city = null;
+
+                                    setAddressState(state);
+                                    formik.setFieldValue('country', newValue);
+                                }}
+                                renderInput={(params) => (
+                                    <div
+                                        style={{
+                                            marginTop: '10px',
+                                            marginBottom: '20px',
+                                        }}
+                                    >
+                                        <TextField
+                                            {...params}
+                                            name="country"
+                                            label="Country"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            onKeyUp={() => {
+                                                const state = {
+                                                    ...addressState,
+                                                };
+                                                state.dropdown.region = null;
+                                                state.dropdown.city = null;
+                                                state.value.region = {
+                                                    id: '',
+                                                    label: '',
+                                                };
+                                                setAddressState(state);
+
+                                                formik.setFieldValue('region', null);
+                                                formik.setFieldValue('city', null);
+                                            }}
+                                            error={!!(formik.touched.country && formik.errors.country)}
+                                        />
+                                        <Typography variant="p" color={!!(formik.touched.country && formik.errors.country) ? 'red' : 'default'}>
+                                            {formik.touched.country && formik.errors.country}
+                                        </Typography>
+                                    </div>
+                                )}
+                            />
+                        ) : null}
+                        {getRegionRender()}
+                        {getCityRender()}
+                        <CustomTextField
                             label="Postal Code"
-                            name="posCode"
-                            value={formik.values.posCode}
+                            name="postcode"
+                            value={formik.values.postcode}
                             onChange={formik.handleChange}
-                            error={!!(formik.touched.posCode && formik.errors.posCode)}
-                            errorMessage={
-                                (formik.touched.posCode && formik.errors.posCode) || null
-                            }
+                            error={!!(formik.touched.postcode && formik.errors.postcode)}
+                            errorMessage={(formik.touched.postcode && formik.errors.postcode) || null}
                         />
-                        <TextField
+                        <CustomTextField
                             label="Phone Number"
-                            name="phoneNumber"
-                            value={formik.values.phoneNumber}
+                            name="telephone"
+                            value={formik.values.telephone}
                             onChange={formik.handleChange}
-                            error={
-                                !!(formik.touched.phoneNumber && formik.errors.phoneNumber)
-                            }
-                            errorMessage={
-                                (formik.touched.phoneNumber && formik.errors.phoneNumber) || null
-                            }
+                            error={!!(formik.touched.telephone && formik.errors.telephone)}
+                            errorMessage={(formik.touched.telephone && formik.errors.telephone) || null}
                         />
                         <Box className={styles.boxMap}>
-                            <IcubeMaps
-                                height="230px"
-                                mapPosition={mapPosition}
-                                dragMarkerDone={handleDragPosition}
-                            />
+                            <IcubeMaps height="230px" mapPosition={mapPosition} dragMarkerDone={handleDragPosition} />
                         </Box>
 
                         <FormControlLabel
                             value={formik.values.defaultBilling}
-                            onChange={formik.handleChange}
+                            checked={formik.values.defaultBilling}
+                            onChange={() => formik.setFieldValue('defaultBilling', !formik.values.defaultBilling)}
                             name="defaultBilling"
                             control={<Checkbox name="newslater" color="primary" size="small" />}
-                            label={(
+                            label={
                                 <Typography variant="p" letter="capitalize" className="row center">
                                     {t('customer:address:useBilling')}
                                 </Typography>
-                            )}
+                            }
                         />
 
                         <FormControlLabel
                             value={formik.values.defaultShipping}
-                            onChange={formik.handleChange}
+                            checked={formik.values.defaultShipping}
+                            onChange={() => formik.setFieldValue('defaultShipping', !formik.values.defaultShipping)}
                             name="defaultShipping"
                             control={<Checkbox name="newslater" color="primary" size="small" />}
-                            label={(
+                            label={
                                 <Typography variant="p" letter="capitalize" className="row center">
                                     {t('customer:address:useShipping')}
                                 </Typography>
-                            )}
+                            }
                         />
 
                         <Button className={styles.addBtn} fullWidth type="submit">
-                            <Typography variant="title" type="regular" letter="capitalize">
+                            <Typography className={styles.fontWhite} variant="title" type="regular" letter="capitalize">
                                 {t('common:button:save')}
                             </Typography>
                         </Button>

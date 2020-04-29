@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
     address_shipping: {
         ...CreatePadding(15, 15, 15, 15),
         width: '100%',
-        borderBottom: `1px solid ${GRAY_PRIMARY}`,
         margin: 0,
     },
     address_billing: {
@@ -50,12 +49,15 @@ const useStyles = makeStyles((theme) => ({
     },
     address_content: {
         fontSize: '12px',
-        marginBottom: '15px',
+        borderBottom: `1px solid ${GRAY_PRIMARY}`,
+        paddingBottom: '15px',
     },
     address_text: {
         fontSize: '12px',
     },
     address_edit: {
+        cursor: 'pointer',
+        marginLeft: '57.99px',
         textDecoration: 'underline',
         fontSize: '12px',
     },
@@ -92,6 +94,9 @@ const useStyles = makeStyles((theme) => ({
         ...CreateMargin(30, 0, 60, 0),
         height: 'auto',
     },
+    fontWhite: {
+        color: 'white'
+    }
 }));
 
 export default useStyles;
