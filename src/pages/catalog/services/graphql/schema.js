@@ -20,11 +20,3 @@ export const getResolver = (url) => {
   `;
     return query;
 };
-
-export const getStoreConfig = gql`
-    {
-        storeConfig {
-            category_url_suffix
-        }
-    }
-`;

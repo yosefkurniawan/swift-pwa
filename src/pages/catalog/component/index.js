@@ -1,7 +1,7 @@
 import Error from 'next/error';
 import { cmsPages } from '@root/swift.config.js';
 import Loading from '@components/Loaders';
-import { getResolver, getStoreConfig } from '../services/graphql';
+import { getResolver } from '../services/graphql';
 import Category from '../pages/category';
 import Product from '../pages/product';
 import Cms from '../pages/cms';
@@ -28,18 +28,14 @@ const GetResolver = (props) => {
 };
 
 const Content = (props) => {
-    const { slug } = props;
+    const { slug, storeConfig } = props;
     let url = slug.join('/');
-    const { error, loading, data } = getStoreConfig();
-    if (error) return <p>error</p>;
-    if (loading) return <Loading size="50px" />;
 
     // suffix based on storeConfig
-    const suffix = data.storeConfig.category_url_suffix || '';
+    const suffix = storeConfig.category_url_suffix || '';
 
     // for cms pages, no need to add suffix
     url += cmsPages.find((cmsPage) => cmsPage === url) ? '' : suffix;
-
     return <GetResolver {...props} url={url} />;
 };
 
