@@ -193,15 +193,6 @@ const ProductPage = (props) => {
                                 {t('product:review')}
                             </Typography>
                         </div>
-                        <Typography
-                            variant="p"
-                            type="regular"
-                            letter="lowercase"
-                        >
-                            {data.color || 0}
-                            {' '}
-                            {t('product:colorOption')}
-                        </Typography>
                     </div>
                     <div className={styles.desc}>
                         <Typography variant="span" type="regular" size="10">
