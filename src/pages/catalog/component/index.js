@@ -4,7 +4,7 @@ import Loading from '@components/Loaders';
 import { getResolver, getStoreConfig } from '../services/graphql';
 import Category from '../pages/category';
 import Product from '../pages/product';
-import AboutUs from '../pages/aboutUs';
+import Cms from '../pages/cms';
 
 const generateContent = (props, resolver) => {
     if (resolver.type === 'CATEGORY') {
@@ -14,7 +14,7 @@ const generateContent = (props, resolver) => {
         return <Product {...props} />;
     }
     if (resolver.type === 'CMS_PAGE') {
-        return <AboutUs {...props} />;
+        return <Cms {...props} />;
     }
     return <Error statusCode={404} />;
 };

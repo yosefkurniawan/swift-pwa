@@ -58,4 +58,4 @@ export const expiredToken = 24;
 export const expiredDefault = 365;
 
 /* List Of CMS Pages: [url-1, url-2, ..., url-n] */
-export const cmsPages = ['about-us', 'contact-us'];
+export const cmsPages = ['about-us'];

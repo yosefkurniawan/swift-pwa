@@ -1,8 +1,9 @@
 import Loading from '@components/Loaders';
 import { getCmsPage } from './services/graphql';
 
-const AboutUsPage = () => {
-    const { error, loading, data } = getCmsPage({ identifier: 'about-us' });
+const CmsPage = (props) => {
+    const { url } = props;
+    const { error, loading, data } = getCmsPage({ identifier: url });
     if (error) return <p>error</p>;
     if (loading) return <Loading size="40px" />;
 
@@ -28,4 +29,4 @@ const AboutUsPage = () => {
     );
 };
 
-export default AboutUsPage;
+export default CmsPage;
