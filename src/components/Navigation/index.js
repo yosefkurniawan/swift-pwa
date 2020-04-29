@@ -1,19 +1,14 @@
-import { useState } from 'react';
-import {
-    BottomNavigation,
-    BottomNavigationAction,
-    Badge,
-} from '@material-ui/core';
+import BrowseModal from '@components/SearchModal';
+import ShoppingBagIcon from '@components/ShoppingBagIcon';
+import { withApollo } from '@lib/apollo';
+import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import {
     Home as HomeIcon,
-    Search as SearchIcon,
-    LocalMall as LocalMallIcon,
     Person as PersonIcon,
+    Search as SearchIcon,
 } from '@material-ui/icons';
 import Router from 'next/router';
-import BrowseModal from '@components/SearchModal';
-import { withApollo } from '@lib/apollo';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import useStyles from './style';
 
 // active: true (default), "home", "browse", "cart", "account"
@@ -23,7 +18,6 @@ const Navigation = ({ active = true }) => {
     const handleOpenModal = (val) => {
         setOpenModal(val);
     };
-    const cartData = useSelector((state) => state.cart);
     if (active) {
         return (
             <>
@@ -71,11 +65,7 @@ const Navigation = ({ active = true }) => {
                     <BottomNavigationAction
                         label="Cart"
                         value="cart"
-                        icon={(
-                            <Badge color="secondary" badgeContent={cartData.totalCart || 0}>
-                                <LocalMallIcon />
-                            </Badge>
-                        )}
+                        icon={<ShoppingBagIcon bottomNav />}
                         classes={{
                             label: 'hide',
                             root: styles.navAction,

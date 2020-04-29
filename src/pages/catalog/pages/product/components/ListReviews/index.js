@@ -69,9 +69,9 @@ export default (props) => {
     };
 
     React.useEffect(() => {
-        if (!productState.review.rating || !productState.review.totalCount
+        if (!loading && data.getProductReviews && (!productState.review.rating || !productState.review.totalCount
             || productState.review.totalCount !== data.getProductReviews.totalCount
-            || productState.review.rating !== data.getProductReviews.items.length
+            || productState.review.rating !== data.getProductReviews.items.length)
         ) {
             let rating = 0;
             let qtyRate = 0;

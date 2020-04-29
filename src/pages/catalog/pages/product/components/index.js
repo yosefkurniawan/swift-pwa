@@ -117,11 +117,15 @@ const ProductPage = (props) => {
                         data={banner}
                         height="70vh"
                     />
-                    <RightDrawer
-                        open={openDrawer}
-                        setOpen={() => setOpenDrawer(!openDrawer)}
-                        {...props}
-                    />
+                    {
+                        data && data.upsell_products && data.upsell_products.length > 0 && (
+                            <RightDrawer
+                                open={openDrawer}
+                                setOpen={() => setOpenDrawer(!openDrawer)}
+                                {...props}
+                            />
+                        )
+                    }
                 </div>
                 <div className={styles.body}>
                     <div className={styles.titleContainer}>
@@ -167,7 +171,7 @@ const ProductPage = (props) => {
                             <Typography
                                 variant="p"
                                 type="bold"
-                                letter="capitalize"
+                                letter="none"
                             >
                                 {data.sku || ''}
                             </Typography>
