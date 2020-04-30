@@ -9,10 +9,16 @@ const CmsPage = (props) => {
                         padding: 0 16px;
                         text-align: justify;
                     }
-                    .cms-content-important {
+                    .cms-container .cms-content-important {
                         background: #f5f5f5;
                         padding: 16px;
                         border-radius: 8px;
+                    }
+                    .cms-container li a {
+                        color: #006bb4
+                    }
+                    .cms-container li a:hover, .cms-container li a:active {
+                        color: #444
                     }
                 `}
             </style>
