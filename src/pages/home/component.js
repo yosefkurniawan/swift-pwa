@@ -30,7 +30,7 @@ const BannerSlider = ({ storeConfig }) => {
 
     const bannerImages = data.getHomepageSlider.images.map((image) => ({
         imageUrl: image.mobile_image_url || image.image_url,
-        link: '/ChangeUrl',
+        link: image.url_redirection,
     }));
 
     return (
