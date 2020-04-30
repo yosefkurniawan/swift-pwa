@@ -26,8 +26,8 @@ const ExpansionPanelDetails = withStyles(ExpanDetailStyle)(
 );
 
 const paymentsData = [
-    { label: 'Gopay', value: 'gopay' },
-    { label: 'Bank', value: 'bank' },
+    { label: 'Gopay', value: 'gopay', image: '/assets/img/sample/cimb.png' },
+    { label: 'Bank', value: 'bank', image: '/assets/img/sample/cimb.png' },
 ];
 
 export default function CustomizedExpansionPanels({ data = [1, 2, 3, 5] }) {
@@ -64,7 +64,7 @@ export default function CustomizedExpansionPanels({ data = [1, 2, 3, 5] }) {
                             CustomItem={RadioItem}
                             propsItem={{
                                 borderBottom: false,
-                                RightComponent: <img src="/assets/img/sample/cimb.png" className={styles.imgList} alt="cimb" />,
+                                RightComponent: true,
                             }}
                         />
                     </ExpansionPanelDetails>

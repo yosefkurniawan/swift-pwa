@@ -26,8 +26,8 @@ const RadioDeliveryItem = (props) => {
                 <Typography variant="p" type={labelType}>
                     {label}
                 </Typography>
-                {React.isValidElement(RightComponent) ? (
-                    RightComponent
+                {value.image ? (
+                    <img src={value.image} className={styles.imgList} alt="cimb" />
                 ) : (
                     <Typography variant="p" type={labelType}>
                         {value.price}

@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { PRIMARY, GRAY_PRIMARY } from '@theme/colors';
+import { PRIMARY, GRAY_PRIMARY, GREEN } from '@theme/colors';
 import { CreateMargin, CreatePadding } from '@theme/mixins';
+import { grey,  } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -35,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
     address_shipping: {
         ...CreatePadding(15, 15, 15, 15),
         width: '100%',
-        borderBottom: `1px solid ${GRAY_PRIMARY}`,
         margin: 0,
     },
     address_billing: {
@@ -50,12 +50,15 @@ const useStyles = makeStyles((theme) => ({
     },
     address_content: {
         fontSize: '12px',
-        marginBottom: '15px',
+        borderBottom: `1px solid ${GRAY_PRIMARY}`,
+        paddingBottom: '15px',
     },
     address_text: {
         fontSize: '12px',
     },
     address_edit: {
+        cursor: 'pointer',
+        marginLeft: '57.99px',
         textDecoration: 'underline',
         fontSize: '12px',
     },
@@ -91,6 +94,28 @@ const useStyles = makeStyles((theme) => ({
     boxMap: {
         ...CreateMargin(30, 0, 60, 0),
         height: 'auto',
+    },
+    fontWhite: {
+        color: 'white',
+    },
+    wrapper: {
+        margin: theme.spacing(1),
+        position: 'relative',
+    },
+    buttonProgress: {
+        color: PRIMARY,
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+    },
+    addBtnSuccess: {
+        backgroundColor: GREEN,
+        '&:hover': {
+            backgroundColor: GREEN,
+        },
+        ...CreateMargin(30, 0, 30, 0),
     },
 }));
 

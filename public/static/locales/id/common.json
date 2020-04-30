@@ -14,11 +14,13 @@
     "button": {
         "edit": "Edit",
         "save": "Simpan",
+        "saved": "Tersimpan",
         "continueShopping": "Lanjut Berbelanja",
         "cancel": "Batal",
         "checkout": "Checkout",
         "change" : "Ubah",
-        "send" : "kirim"
+        "send" : "kirim",
+        "manage": "Manage"
     },
     "subtotal": "Subtotal",
     "price": {

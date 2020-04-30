@@ -17,8 +17,10 @@ const Page = (props) => {
     );
 };
 
-Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'checkout'],
-});
+Page.getInitialProps = async () => {
+    return {
+        namespacesRequired: ['common', 'checkout'],
+    }
+};
 
 export default withTranslation()(Page);
