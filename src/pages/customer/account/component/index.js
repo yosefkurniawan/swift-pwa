@@ -137,6 +137,11 @@ const Content = ({ t }) => {
                             </Link>
                         </li>
                         <li className={styles.account_navigation_item}>
+                            <Link href="/contact">
+                                <a className={styles.account_navigation_link}>Contact Us</a>
+                            </Link>
+                        </li>
+                        <li className={styles.account_navigation_item}>
                             <Button
                                 className={styles.account_navigation_link}
                                 onClick={handleLogout}

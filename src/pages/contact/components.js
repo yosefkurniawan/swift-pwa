@@ -7,11 +7,10 @@ const ContactPage = () => {
     if (loading) return <Loading size="50px" />;
 
     return (
-        <div className="container">
-            <h1>Contact US</h1>
+        <>
             {/* eslint-disable-next-line react/no-danger */}
             <div className="cms-container" dangerouslySetInnerHTML={{ __html: data.cmsBlocks.items[0].content }} />
-        </div>
+        </>
     );
 };
 
