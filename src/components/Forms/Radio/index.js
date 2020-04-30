@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React from 'react';
 import { Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import Typography from '@components/Typography';
@@ -34,6 +35,7 @@ function CustomRadio({
     error = false,
     errorMessage = '',
     propsItem = {},
+    disabled = false,
 }) {
     const styles = useStyles();
 
@@ -41,11 +43,11 @@ function CustomRadio({
     const containerStyle = classNames(styles[flex], classContainer, styles.error);
 
     const handleChange = (event) => {
-        onChange(event.target.value);
+        !disabled && onChange(event.target.value);
     };
 
     const handleChangeCustom = (val) => {
-        onChange(val);
+        !disabled && onChange(val);
     };
     return (
         <div className={rootStyle}>

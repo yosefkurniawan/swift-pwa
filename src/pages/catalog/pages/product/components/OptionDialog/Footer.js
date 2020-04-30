@@ -1,6 +1,8 @@
 import Button from '@components/Button';
 import Typography from '@components/Typography';
-import { MenuItem, Select } from '@material-ui/core';
+import {
+    MenuItem, Select,
+} from '@material-ui/core';
 // import Router from 'next/router';
 import React from 'react';
 import useStyles from './style';
@@ -23,7 +25,7 @@ export default ({
     handleQty = () => {},
     handleAddToCart = () => {},
     t,
-    disabled = false,
+    loading = false,
 }) => {
     const styles = useStyles();
     const dataQty = renderQty(qty);
@@ -36,6 +38,7 @@ export default ({
                     value={qty}
                     onChange={handleQty}
                     variant="outlined"
+                    disabled={loading}
                 >
                     {dataQty}
                 </Select>
@@ -45,7 +48,7 @@ export default ({
                     className={styles.btnAddToCard}
                     color="primary"
                     onClick={handleAddToCart}
-                    disabled={disabled}
+                    loading={loading}
                 >
                     <Typography
                         align="center"

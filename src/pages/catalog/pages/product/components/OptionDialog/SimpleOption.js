@@ -13,6 +13,8 @@ export default ({
     t,
     data: { __typename, sku },
     setMessage,
+    loading,
+    setLoading,
 }) => {
     const [qty, setQty] = React.useState(1);
     const handleQty = (event) => {
@@ -32,6 +34,7 @@ export default ({
     const [getGuestCartId] = GraphCart.getGuestCartId();
 
     const handleAddToCart = async () => {
+        setLoading(true);
         const errorMessage = {
             variant: 'error',
             text: t('product:failedAddCart'),
@@ -46,6 +49,7 @@ export default ({
                         setCartId(token);
                     })
                     .catch(() => {
+                        setLoading(false);
                         setMessage(errorMessage);
                     });
             }
@@ -67,9 +71,11 @@ export default ({
                         text: t('product:successAddCart'),
                         open: true,
                     });
+                    setLoading(false);
                     setOpen(false);
                 })
                 .catch(() => {
+                    setLoading(false);
                     setMessage(errorMessage);
                 });
         }
@@ -81,6 +87,7 @@ export default ({
             handleQty={handleQty}
             handleAddToCart={handleAddToCart}
             t={t}
+            loading={loading}
         />
     );
 };

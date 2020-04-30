@@ -25,6 +25,7 @@ const OptionDialog = (props) => {
         open: false,
         text: t('product:successAddCart'),
     });
+    const [loading, setLoading] = React.useState(false);
 
 
     return (
@@ -39,7 +40,6 @@ const OptionDialog = (props) => {
                 fullScreen
                 open={open}
                 TransitionComponent={Transition}
-                onClose={setOpen}
                 PaperProps={{
                     className: styles.dialog,
                 }}
@@ -47,18 +47,25 @@ const OptionDialog = (props) => {
                 <div className={styles.root}>
                     <div
                         className={styles.bannerContainer}
-                        onClick={() => setOpen()}
+                        onClick={() => !loading && setOpen()}
                     />
                     <div className={styles.optionContainer}>
                         {__typename === 'ConfigurableProduct' && (
                             <ConfigurableOption
                                 setMessage={setMessage}
+                                loading={loading}
+                                setLoading={setLoading}
                                 {...props}
                             />
                         )}
 
                         {__typename === 'SimpleProduct' && (
-                            <SimpleOption setMessage={setMessage} {...props} />
+                            <SimpleOption
+                                setMessage={setMessage}
+                                {...props}
+                                loading={loading}
+                                setLoading={setLoading}
+                            />
                         )}
                     </div>
                 </div>

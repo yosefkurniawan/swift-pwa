@@ -1,4 +1,4 @@
-import Button from '@material-ui/core/Button';
+import { CircularProgress, Button } from '@material-ui/core';
 import classNames from 'classnames';
 import Router from 'next/router';
 import useStyles from './style';
@@ -11,6 +11,7 @@ const CustomButton = ({
     disabled = false,
     fullWidth = false,
     onClick = () => {},
+    loading = false,
     href = '',
     ...other
 }) => {
@@ -21,16 +22,28 @@ const CustomButton = ({
         className,
     );
     return (
-        <Button
-            onClick={href !== '' && href ? () => Router.push(href) : onClick}
-            variant={variant}
-            color={color}
-            className={customClass}
-            disabled={disabled}
-            {...other}
-        >
-            {children}
-        </Button>
+        <div className={styles.loadRoot}>
+            <div className={styles.wrapper}>
+                <Button
+                    onClick={
+                        href !== '' && href ? () => Router.push(href) : onClick
+                    }
+                    variant={variant}
+                    color={color}
+                    className={customClass}
+                    disabled={disabled || loading}
+                    {...other}
+                >
+                    {children}
+                </Button>
+                {loading && (
+                    <CircularProgress
+                        size={24}
+                        className={styles.buttonProgress}
+                    />
+                )}
+            </div>
+        </div>
     );
 };
 

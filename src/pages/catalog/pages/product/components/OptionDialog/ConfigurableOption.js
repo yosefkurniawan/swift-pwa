@@ -26,6 +26,8 @@ export default (props) => {
         data: { __typename, sku },
         setMessage,
         setOpen,
+        loading,
+        setLoading,
     } = props;
     const styles = useStyles();
     const dispatch = useDispatch();
@@ -95,6 +97,7 @@ export default (props) => {
     const [error, setError] = React.useState({});
 
     const handleAddToCart = async () => {
+        setLoading(true);
         const errorMessage = {
             variant: 'error',
             text: t('product:failedAddCart'),
@@ -118,6 +121,7 @@ export default (props) => {
                             setCartId(token);
                         })
                         .catch(() => {
+                            setLoading(false);
                             setMessage(errorMessage);
                         });
                 }
@@ -139,8 +143,12 @@ export default (props) => {
                         ),
                     );
                     setMessage({ variant: 'success', text: t('product:successAddCart'), open: true });
+                    setLoading(false);
                     setOpen(false);
-                }).catch(() => setMessage(errorMessage));
+                }).catch(() => {
+                    setLoading(false);
+                    setMessage(errorMessage);
+                });
             }
         }
     };
@@ -163,6 +171,7 @@ export default (props) => {
                     classItem={classItem}
                     error={!!error[option.attribute_code] && !selected[option.attribute_code]}
                     errorMessage={error[option.attribute_code] ? error[option.attribute_code] : ''}
+                    disabled={loading}
                 />
             ) : option.attribute_code === 'size' ? (
                 <CustomRadio
@@ -178,6 +187,7 @@ export default (props) => {
                     classItem={classItem}
                     error={!!error[option.attribute_code] && !selected[option.attribute_code]}
                     errorMessage={error[option.attribute_code] ? error[option.attribute_code] : ''}
+                    disabled={loading}
                 />
             ) : (
                 <div key={index} className={styles.select}>
@@ -187,6 +197,7 @@ export default (props) => {
                     <Select
                         value={selected[option.attribute_code] || ''}
                         onChange={(val) => handleSelect(val.target.value, option.attribute_code)}
+                        disabled={loading}
                     >
                         {option.values.map((val, key) => (
                             <MenuItem key={key} value={val.label}>
@@ -208,6 +219,7 @@ export default (props) => {
                 handleAddToCart={handleAddToCart}
                 handleQty={handleQty}
                 t={t}
+                loading={loading}
             />
         </>
     );
