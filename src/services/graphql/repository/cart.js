@@ -8,6 +8,7 @@ export const getCustomerCartId = (token) => useLazyQuery(CartSchema.createCartId
             Authorization: `Bearer ${token}`,
         },
     },
+    skip: token === '' || !token,
 });
 export const getCartData = () => useQuery(CartSchema.getCart);
 export const getCountCart = (token, cartId) => useQuery(CartSchema.getCountCart, {
@@ -19,6 +20,7 @@ export const getCountCart = (token, cartId) => useQuery(CartSchema.getCountCart,
     variables: {
         cartId,
     },
+    skip: cartId === '' || !cartId,
 });
 export const mergeCart = (token) => useMutation(CartSchema.mergeCart, {
     context: {
@@ -26,6 +28,7 @@ export const mergeCart = (token) => useMutation(CartSchema.mergeCart, {
             Authorization: `Bearer ${token}`,
         },
     },
+    skip: token === '' || !token,
 });
 
 export default {

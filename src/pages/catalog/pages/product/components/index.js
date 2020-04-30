@@ -93,7 +93,7 @@ const ProductPage = (props) => {
         ...product,
         name: product.name,
         link: product.url_key,
-        imageSrc: product.thumbnail.url,
+        imageSrc: product.small_image.url,
         price: product.price_range.minimum_price.regular_price.value,
     }));
     return (
@@ -116,6 +116,7 @@ const ProductPage = (props) => {
                     <Banner
                         data={banner}
                         height="70vh"
+                        autoPlay={false}
                     />
                     {
                         data && data.upsell_products && data.upsell_products.length > 0 && (
@@ -193,15 +194,6 @@ const ProductPage = (props) => {
                                 {t('product:review')}
                             </Typography>
                         </div>
-                        <Typography
-                            variant="p"
-                            type="regular"
-                            letter="lowercase"
-                        >
-                            {data.color || 0}
-                            {' '}
-                            {t('product:colorOption')}
-                        </Typography>
                     </div>
                     <div className={styles.desc}>
                         <Typography variant="span" type="regular" size="10">
@@ -224,6 +216,7 @@ const ProductPage = (props) => {
                         className={styles.btnAddToCard}
                         color="primary"
                         onClick={() => setOpenOption(true)}
+                        disabled={data && data.stock_status === 'OUT_STOCK'}
                     >
                         <Typography
                             align="center"

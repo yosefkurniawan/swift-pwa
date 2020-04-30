@@ -51,5 +51,6 @@
   },
   "maps" : {
     "required" : "lokasi maps tidak boleh kosong"
-  }
+  },
+  "required": "tidak boleh kosong"
 }

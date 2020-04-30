@@ -51,5 +51,6 @@
   },
   "maps" : {
     "required" : "maps location is required"
-  }
+  },
+  "required": "is required"
 }

@@ -1,6 +1,6 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
-import Loading from '@components/Loaders';
+import Loading from './components/Loader';
 import { getProduct } from './services/graphql';
 import Content from './components';
 import CustomHeader from './components/header';

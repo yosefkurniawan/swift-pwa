@@ -1,13 +1,13 @@
 import Cookies from 'js-cookie';
-import { nameCartId } from '@config';
+import { nameCartId, expiredDefault } from '@config';
 
 export const getCartId = () => {
     const cartId = Cookies.get(nameCartId);
     return cartId;
 };
 
-export const setCartId = (token) => {
-    Cookies.set(nameCartId, token);
+export const setCartId = (token, expired) => {
+    Cookies.set(nameCartId, token, { expires: expired || expiredDefault });
     return true;
 };
 

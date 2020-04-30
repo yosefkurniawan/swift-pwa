@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
+import { autoPlay as swipeAuto } from 'react-swipeable-views-utils';
 import ImageSlide from './ImageSlide';
 import useStyles from './style';
 
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+const AutoPlaySwipeableViews = swipeAuto(SwipeableViews);
 
 const Banner = ({
     data = [],
     height = '100%',
+    autoPlay = true,
 }) => {
     const styles = useStyles();
     const [index, setIndex] = useState(0);
@@ -25,6 +26,7 @@ const Banner = ({
                 index={index}
                 onChangeIndex={(i) => setIndex(i)}
                 enableMouseEvents
+                autoplay={autoPlay}
             >
                 {data.map((item, key) => (
                     <ImageSlide

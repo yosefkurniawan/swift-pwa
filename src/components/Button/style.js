@@ -11,6 +11,22 @@ const useStyles = makeStyles((theme) => ({
             maxWidth: 375,
         },
     },
+    loadRoot: {
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+    },
+    wrapper: {
+        width: '100%',
+        position: 'relative',
+    },
+    buttonProgress: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+    },
 }));
 
 export default useStyles;

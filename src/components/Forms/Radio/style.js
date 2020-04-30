@@ -1,9 +1,10 @@
 import { makeStyles } from '@material-ui/core';
-import { CreateMargin, FlexColumn, FlexRow } from '@theme/mixins';
+import { FlexColumn, FlexRow } from '@theme/mixins';
 
 const useStyles = makeStyles({
     root: {
-        ...CreateMargin(0, 0, 0, 0),
+        margin: 0,
+        marginBottom: 10,
         ...FlexColumn,
     },
     column: {
@@ -11,6 +12,9 @@ const useStyles = makeStyles({
     },
     row: {
         ...FlexRow,
+    },
+    error: {
+        marginBottom: 0,
     },
 });
 

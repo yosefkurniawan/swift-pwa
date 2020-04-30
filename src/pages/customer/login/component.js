@@ -11,6 +11,7 @@ import OtpBlock from '@components/OtpBlock';
 import { setToken } from '@helpers/token';
 import { setCartId, getCartId } from '@helpers/cartId';
 import { GraphCart } from '@services/graphql';
+import { expiredToken } from '@config';
 import { getToken } from './service/graphql';
 
 import useStyles from './style';
@@ -78,24 +79,25 @@ const Login = ({ t }) => {
     if (cartData.data) {
         const custCartId = cartData.data.customerCart.id;
         if (cartId === '' || !cartId) {
-            setToken(cusToken);
-            setCartId(custCartId);
+            setToken(cusToken, expiredToken);
+            setCartId(custCartId, expiredToken);
             handleOpenMessage({ variant: 'success', text: 'Login Success!' });
             Router.push('/customer/account');
+        } else {
+            mergeCart({
+                variables: {
+                    sourceCartId: cartId,
+                    destionationCartId: custCartId,
+                },
+            }).then(() => {
+                setToken(cusToken, expiredToken);
+                setCartId(custCartId, expiredToken);
+                handleOpenMessage({ variant: 'success', text: 'Login Success!' });
+                Router.push('/customer/account');
+            }).catch((e) => {
+                console.log(e);
+            });
         }
-        mergeCart({
-            variables: {
-                sourceCartId: cartId,
-                destionationCartId: custCartId,
-            },
-        }).then(() => {
-            setToken(cusToken);
-            setCartId(custCartId);
-            handleOpenMessage({ variant: 'success', text: 'Login Success!' });
-            Router.push('/customer/account');
-        }).catch((e) => {
-            console.log(e);
-        });
     }
 
     return (

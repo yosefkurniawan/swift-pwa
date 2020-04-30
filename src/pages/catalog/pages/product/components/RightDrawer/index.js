@@ -8,7 +8,7 @@ import Link from 'next/link';
 import useStyles from './style';
 
 const ItemLook = (props) => {
-    const { url_key, thumbnail: { url, label } } = props;
+    const { url_key, small_image: { url, label } } = props;
     const img = url || '/assets/img/noun_Image.svg';
     const styles = useStyles();
     return (
