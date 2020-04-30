@@ -6,7 +6,8 @@ const Page = (props) => {
     const { t } = props;
     const pageConfig = {
         title: t('contact:pageTitle'),
-        header: false, // available values: "absolute", "relative", false (default)
+        headerTitle: t('contact:pageTitle'),
+        header: 'relative', // available values: "absolute", "relative", false (default)
         bottomNav: false,
     };
     return (
