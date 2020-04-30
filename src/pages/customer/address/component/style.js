@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { PRIMARY, GRAY_PRIMARY } from '@theme/colors';
+import { PRIMARY, GRAY_PRIMARY, GREEN } from '@theme/colors';
 import { CreateMargin, CreatePadding } from '@theme/mixins';
+import { grey,  } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -95,8 +96,27 @@ const useStyles = makeStyles((theme) => ({
         height: 'auto',
     },
     fontWhite: {
-        color: 'white'
-    }
+        color: 'white',
+    },
+    wrapper: {
+        margin: theme.spacing(1),
+        position: 'relative',
+    },
+    buttonProgress: {
+        color: PRIMARY,
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+    },
+    addBtnSuccess: {
+        backgroundColor: GREEN,
+        '&:hover': {
+            backgroundColor: GREEN,
+        },
+        ...CreateMargin(30, 0, 30, 0),
+    },
 }));
 
 export default useStyles;

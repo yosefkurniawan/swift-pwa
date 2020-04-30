@@ -17,11 +17,8 @@ const Page = (props) => {
     );
 };
 
-Page.getInitialProps = async (ctx) => {
-    const token = ctx.query.token;
-
+Page.getInitialProps = async () => {
     return {
-        token: token,
         namespacesRequired: ['common', 'checkout'],
     }
 };

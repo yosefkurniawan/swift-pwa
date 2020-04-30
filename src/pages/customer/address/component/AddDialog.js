@@ -5,14 +5,15 @@ import IcubeMaps from '@components/GoogleMaps/Maps';
 import Header from '@components/Header';
 import Typography from '@components/Typography';
 import { regexPhone } from '@helpers/regex';
-import { Box, Checkbox, Dialog, FormControlLabel, TextField } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import { Box, Checkbox, CircularProgress, Dialog, FormControlLabel, TextField } from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
 import { useFormik } from 'formik';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { getCityByRegionId, getCountries as getAllCountries, updateCustomerAddress, createCustomerAddress } from '../services/graphql';
+import { createCustomerAddress, getCityByRegionId, getCountries as getAllCountries, updateCustomerAddress } from '../services/graphql';
 import useStyles from './style';
+import clsx from 'clsx';
 
 const AddAddressDialog = (props) => {
     let {
@@ -33,11 +34,12 @@ const AddAddressDialog = (props) => {
         defaultBilling = false,
         addressId = null,
         setOpen,
+        pageTitle = 'addTitle',
     } = props;
 
     const styles = useStyles();
     const headerConfig = {
-        headerTitle: t('customer:address:addTitle'),
+        headerTitle: t(`customer:address:${pageTitle}`),
         header: 'relative',
         headerBackIcon: 'close',
     };
@@ -53,6 +55,7 @@ const AddAddressDialog = (props) => {
                 formik.setFieldValue('city', getCityByLabel(city, state.dropdown.city));
             } else {
                 state.dropdown.city = null;
+                formik.setFieldValue('city', null);
                 if (isFromUseEffect) {
                     formik.setFieldValue('city', city);
                     setFromUseEffect(false);
@@ -62,6 +65,9 @@ const AddAddressDialog = (props) => {
             setAddressState(state);
         },
     });
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [isFromUseEffect, setFromUseEffect] = useState(false);
     const [addressState, setAddressState] = useState({
         countries: null,
         dropdown: {
@@ -76,7 +82,10 @@ const AddAddressDialog = (props) => {
         },
     });
 
-    const [isFromUseEffect, setFromUseEffect] = useState(false);
+    const addBtn = clsx({
+        [styles.addBtnSuccess]: success,
+        [styles.addBtn]: !success,
+    });
 
     const getRegionByLabel = (label, region = null) => {
         let data = region ? region : addressState.dropdown.region;
@@ -140,6 +149,7 @@ const AddAddressDialog = (props) => {
         city: Yup.string().nullable().required(t('validate:city:required')),
     });
 
+    const timer = React.useRef();
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -169,19 +179,26 @@ const AddAddressDialog = (props) => {
                 addressId,
             };
 
-            if (addressId) {
-                await updateAddress({
-                    variables: {
-                        ...data,
-                    },
-                });
-            } else {
-                await addAddress({
-                    variables: {
-                        ...data,
-                    },
-                });
+            setLoading(true);
+
+            if (!success) {
+                if (addressId) {
+                    await updateAddress({
+                        variables: {
+                            ...data,
+                        },
+                    });
+                } else {
+                    await addAddress({
+                        variables: {
+                            ...data,
+                        },
+                    });
+                }
             }
+
+            setSuccess(true);
+            setLoading(false);
 
             if (onSubmitAddress) {
                 onSubmitAddress();
@@ -203,6 +220,7 @@ const AddAddressDialog = (props) => {
                     onChange={async (event, newValue) => {
                         formik.setFieldValue('region', newValue);
                         if (newValue) {
+                            setFromUseEffect(false);
                             getCities({ variables: { regionId: newValue.id } });
                         }
                     }}
@@ -304,6 +322,11 @@ const AddAddressDialog = (props) => {
     useEffect(() => {
         const state = { ...addressState };
 
+        _.delay(() => {
+            setSuccess(false);
+            setLoading(false);
+        }, 250);
+
         formik.setFieldValue('country', country);
         formik.setFieldValue('region', region);
 
@@ -388,7 +411,8 @@ const AddAddressDialog = (props) => {
                                 onChange={(event, newValue) => {
                                     const state = { ...addressState };
                                     state.dropdown.region = newValue ? newValue.available_regions : null;
-                                    state.dropdown.region = !state.dropdown.region || state.dropdown.region.map((item) => ({ ...item, label: item.name }));
+                                    state.dropdown.region =
+                                        !state.dropdown.region || state.dropdown.region.map((item) => ({ ...item, label: item.name }));
                                     state.dropdown.city = null;
 
                                     setAddressState(state);
@@ -482,11 +506,14 @@ const AddAddressDialog = (props) => {
                             }
                         />
 
-                        <Button className={styles.addBtn} fullWidth type="submit">
-                            <Typography className={styles.fontWhite} variant="title" type="regular" letter="capitalize">
-                                {t('common:button:save')}
-                            </Typography>
-                        </Button>
+                        <div className={styles.wrapper}>
+                            <Button className={addBtn} fullWidth type="submit" disabled={loading}>
+                                <Typography className={styles.fontWhite} variant="title" type="regular" letter="capitalize">
+                                    {t(success ? 'common:button:saved' : 'common:button:save')}
+                                </Typography>
+                            </Button>
+                            {loading && <CircularProgress size={24} className={styles.buttonProgress} />}
+                        </div>
                     </form>
                 </Box>
             </div>

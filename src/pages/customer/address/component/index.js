@@ -17,7 +17,8 @@ const Content = (props) => {
     const [updatedDefaultAddress] = gqlService.updatedDefaultAddress();
     const styles = useStyles();
     const [address, setAddress] = useState([]);
-    const [selectedAddress, setSelectedAddress] = useState(0);
+    const [selectedAddress, setSelectedAddress] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [drawer, setDrawer] = useState(false);
 
     const [, setMapPosition] = useState({
@@ -39,12 +40,18 @@ const Content = (props) => {
     };
 
     useEffect(() => {
+        setLoading(true)
         if (!getCustomer.loading && getCustomer.data) {
             const customer = getCustomer.data.customer;
             const selectedAddress = customer.addresses.find((address) => address.default_shipping);
-            setSelectedAddress(selectedAddress.id);
+
+            if (selectedAddress) {
+                setSelectedAddress(selectedAddress.id);
+            }
+
             setAddress(customer.addresses);
         }
+        setLoading(false);
 
         if (navigator.geolocation) {
             return navigator.geolocation.getCurrentPosition(displayLocationInfo);
@@ -60,15 +67,21 @@ const Content = (props) => {
     };
 
     const handleDialogSubmit = async () => {
+        setLoading(true)
         await getCustomer.refetch();
         setAddress(getCustomer.data.customer.addresses);
+        setLoading(false)
     };
 
     return (
         <>
             <Box>
                 <RadioGroup row aria-label="position" onChange={handleChange} name="position" value={selectedAddress}>
-                    {address.length == 0
+                    {loading
+                        ? null
+                        : !address
+                        ? null
+                        : address.length == 0
                         ? null
                         : address.map((item, index) => (
                               <ItemAddress

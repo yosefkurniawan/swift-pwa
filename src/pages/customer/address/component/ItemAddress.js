@@ -16,7 +16,7 @@ const ItemAddress = (props) => {
         phoneNumber = '',
         value = '',
         checked = false,
-        onSubmitAddress
+        onSubmitAddress,
         // eslint-disable-next-line no-unused-vars
     } = props;
     const [open, setOpen] = React.useState(false);
@@ -28,10 +28,13 @@ const ItemAddress = (props) => {
                 isSelectedValue={true}
                 open={open}
                 onSubmitAddress={() => {
-                    setOpen(!open)
-                    onSubmitAddress()
+                    onSubmitAddress();
+                    _.delay(() => {
+                        setOpen(!open);
+                    }, 1500);
                 }}
                 setOpen={() => setOpen(!open)}
+                pageTitle={'editTitle'}
             />
             <Box className="column">
                 <Box className={[styles.address_content].join(' ')}>
@@ -42,43 +45,27 @@ const ItemAddress = (props) => {
                         control={<Radio color="primary" size="small" />}
                         label={
                             <>
-                                <Typography
-                                    className={[styles.address_text].join(' ')}
-                                    variant="p"
-                                >
+                                <Typography className={[styles.address_text].join(' ')} variant="p">
                                     {firstName} {lastName}
                                 </Typography>
-                                <Typography
-                                    className={[styles.address_text].join(' ')}
-                                    variant="p"
-                                >
+                                <Typography className={[styles.address_text].join(' ')} variant="p">
                                     {street},
                                 </Typography>
-                                <Typography
-                                    className={[styles.address_text].join(' ')}
-                                    variant="p"
-                                >
+                                <Typography className={[styles.address_text].join(' ')} variant="p">
                                     {district !== '' && `${district}, `}
                                     {city !== '' && `${city}, `}
                                     {region !== '' && `${region}, `}
                                     {country !== '' && `${country}, `}
                                     {posCode !== '' && posCode}
                                 </Typography>
-                                <Typography
-                                    className={[styles.address_text].join(' ')}
-                                    variant="p"
-                                >
+                                <Typography className={[styles.address_text].join(' ')} variant="p">
                                     {phoneNumber}
                                 </Typography>
                             </>
                         }
                         labelPlacement="end"
                     />
-                    <Typography
-                        className={[styles.address_edit].join(' ')}
-                        variant="span"
-                        onClick={() => setOpen(!open)}
-                    >
+                    <Typography className={[styles.address_edit].join(' ')} variant="span" onClick={() => setOpen(!open)}>
                         Edit Address
                     </Typography>
                 </Box>

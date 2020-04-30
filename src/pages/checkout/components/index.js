@@ -85,6 +85,14 @@ const Checkout = (props) => {
     });
     
     useEffect(() => {
+        setCheckout({
+            ...checkout,
+            loading: {
+                ...checkout.loading,
+                addresses: true
+            }
+        })
+        
         if (!getCustomer.loading && !getCustomerCart.loading) {
             const cart = getCustomerCart.data.customerCart;
 
@@ -106,7 +114,7 @@ const Checkout = (props) => {
             state.data.total = cart.prices.grand_total.value
 
             if(shipping){
-                if(cart.billing_address){
+                if(cart.billing_address && address){
                     state.selected.address = {
                         firstname: address.firstname, 
                         lastname: address.lastname,
@@ -151,6 +159,8 @@ const Checkout = (props) => {
                 if(cart.selected_payment_method){
                     state.selected.payment = cart.selected_payment_method.code
                 }
+
+                state.loading.addresses = false;
             }
 
             setCheckout(state);
@@ -363,6 +373,7 @@ const Checkout = (props) => {
 
     const getRenderAddress = () => {
         const { address } = checkout.selected;
+        const { loading } = checkout;
         const street = _.isNull(address) ? null: address.street.join(' ')
 
         return (
@@ -371,23 +382,19 @@ const Checkout = (props) => {
                     <Typography variant="title" type="bold" letter="uppercase">
                         {t('checkout:shippingAddress')}
                     </Typography>
-                    {_.isNull(address) ? (
-                        <Typography variant="p">
-                            loading
-                        </Typography>
-                    ) : (
+                    {loading.addresses ? (
+                        <Typography variant="p">loading</Typography>
+                    ) : address ? (
                         <Typography variant="p">
                             {`${address.firstname} ${address.lastname} ${street} ${address.city} ${address.region.region} ${address.postcode} ${address.telephone}`}
                         </Typography>
-                    )}
+                    ) : <Typography variant="p">No Default Address</Typography>}
                 </div>
-                {_.isNull(address) ? null : (
-                    <Button variant="outlined" href={`/customer/account/address`}>
-                        <Typography variant="p" type="bold" letter="uppercase">
-                            {t('common:button:change')}
-                        </Typography>
-                    </Button>
-                )}
+                <Button variant="outlined" href={`/customer/account/address`}>
+                    <Typography variant="p" type="bold" letter="uppercase">
+                        {t(_.isNull(address) ? 'common:button:manage':'common:button:change')}
+                    </Typography>
+                </Button>
             </div>
         );
     };
