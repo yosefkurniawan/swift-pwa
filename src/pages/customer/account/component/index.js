@@ -132,6 +132,11 @@ const Content = ({ t }) => {
                 <div className={styles.account_block}>
                     <ul className={styles.account_navigation}>
                         <li className={styles.account_navigation_item}>
+                            <Link href="/about-us">
+                                <a className={styles.account_navigation_link}>About Us</a>
+                            </Link>
+                        </li>
+                        <li className={styles.account_navigation_item}>
                             <Button
                                 className={styles.account_navigation_link}
                                 onClick={handleLogout}
