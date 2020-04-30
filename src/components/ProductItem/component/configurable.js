@@ -1,21 +1,8 @@
 
-import ProductByVariant, { getCombinationVariants } from '@helpers/productByVariant';
+import ProductByVariant, { getCombinationVariants, CheckAvailableOptions } from '@helpers/productByVariant';
 import ListSize from './ListSize';
 import ListColor from './ListColor';
 import useStyles from '../style';
-
-const CheckAvailableOptions = (availableCombination = [], value) => {
-    let available = false;
-    // eslint-disable-next-line no-plusplus
-    for (let index = 0; index < availableCombination.length; index++) {
-        if (availableCombination[index].label === value || availableCombination[index].value_index === value) {
-            available = true;
-            break;
-        }
-    }
-    return available;
-};
-
 
 const ConfigurableOpt = ({ variants = [], configurable_options = [], setSpesificProduct }) => {
     const styles = useStyles();

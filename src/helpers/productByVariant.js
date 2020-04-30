@@ -33,6 +33,18 @@ export const getCombinationVariants = (selected = {}, variants = []) => {
     return combination;
 };
 
+export const CheckAvailableOptions = (availableCombination = [], value) => {
+    let available = false;
+    // eslint-disable-next-line no-plusplus
+    for (let index = 0; index < availableCombination.length; index++) {
+        if (availableCombination[index].label === value || availableCombination[index].value_index === value) {
+            available = true;
+            break;
+        }
+    }
+    return available;
+};
+
 /**
  * function to get product by spesific variant
  * @param options object
