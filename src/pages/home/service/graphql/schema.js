@@ -9,11 +9,11 @@ export const getBannerSlider = gql`
                 image_url
                 mobile_image_url
                 thumb_image_url
+                url_redirection
             }
         }
     }
 `;
-
 
 export const getFeaturedProducts = gql`
     query($url_key: String!) {
@@ -80,7 +80,6 @@ export const getFeaturedProducts = gql`
         }
     }
 `;
-
 
 export const getCategoryList = gql`
     query($url_key: String!) {
