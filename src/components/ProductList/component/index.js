@@ -5,10 +5,11 @@ import { Tune } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import GridList from '@components/GridList';
 import ProductItem from '@components/ProductItem';
-import Loading from '@components/Loaders';
+import ProductItemLoading from '@components/ProductItem/component/Skeleton';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helpers/generateQuery';
 import CustomTabs from '@components/Tabs';
+import Skeleton from '@material-ui/lab/Skeleton';
 import useStyles from '../style';
 import Filter from './Filter';
 import { getProduct } from '../services';
@@ -135,62 +136,64 @@ const Product = ({
     const category = getCategoryFromAgregations(aggregations);
     return (
         <>
-            {showTabs && !loading ? (
+            {showTabs && loading ? <Skeleton variant="rect" height={50} style={{ marginBottom: 20 }} /> : null}
+            {showTabs ? (
                 <CustomTabs
                     // eslint-disable-next-line radix
                     value={query.category_id ? query.category_id : 0}
                     data={category}
                     onChange={(e, value) => setFiltervalue({ ...query, ...{ category_id: value } })}
                 />
-            ) : null}
-            <Filter
-                filter={customFilter || aggregations}
-                defaultValue={query}
-                openFilter={openFilter}
-                setOpenFilter={setOpenFilter}
-                elastic={elastic}
-                setFilter={setFiltervalue}
-            />
-            <div className={styles.filterContainer}>
-                <Typography
-                    variant="p"
-                    type="regular"
-                    className={styles.countProductText}
-                >
-                    {products.total_count}
-                    {' '}
-                    Product
-                </Typography>
-                <div className={styles.filterBtnContainer}>
-                    <Button
-                        variant="text"
-                        className={styles.btnFilter}
-                        onClick={() => setOpenFilter(true)}
-                    >
-                        <Tune className={styles.iconFilter} />
-                    </Button>
-                    <Typography type="bold" variant="span" letter="capitalize">
-                        Filter & Sort
-                    </Typography>
-                </div>
-            </div>
+            ) : null }
+            {loading ? <Skeleton variant="text" style={{ marginBottom: 20, marginTop: 10 }} /> : (
+                <>
+                    <Filter
+                        filter={customFilter || aggregations}
+                        defaultValue={query}
+                        openFilter={openFilter}
+                        setOpenFilter={setOpenFilter}
+                        elastic={elastic}
+                        setFilter={setFiltervalue}
+                    />
+                    <div className={styles.filterContainer}>
+                        <Typography
+                            variant="p"
+                            type="regular"
+                            className={styles.countProductText}
+                        >
+                            {products.total_count}
+                            {' '}
+                            Product
+                        </Typography>
+                        <div className={styles.filterBtnContainer}>
+                            <Button
+                                variant="text"
+                                className={styles.btnFilter}
+                                onClick={() => setOpenFilter(true)}
+                            >
+                                <Tune className={styles.iconFilter} />
+                            </Button>
+                            <Typography type="bold" variant="span" letter="capitalize">
+                                Filter & Sort
+                            </Typography>
+                        </div>
+                    </div>
+                </>
+            )}
 
             <div className={styles.productContainer}>
-                {loading ? <Loading size="50px" />
-                    : (
-                        <GridList
-                            data={products.items}
-                            ItemComponent={ProductItem}
-                            itemProps={{
-                                color: ['#343434', '#6E6E6E', '#989898', '#C9C9C9'],
-                                showListColor: true,
-                                showListSize: true,
-                                size: ['s', 'm', 'l', 'xl'],
-                            }}
-                            gridItemProps={{ xs: 6, sm: 4, md: 3 }}
-                        />
-                    )}
-                {products.items.length === products.total_count ? null : (
+                <GridList
+                    data={loading ? [1, 1, 1, 1] : products.items}
+                    ItemComponent={loading ? ProductItemLoading : ProductItem}
+                    itemProps={{
+                        color: ['#343434', '#6E6E6E', '#989898', '#C9C9C9'],
+                        showListColor: true,
+                        showListSize: true,
+                        size: ['s', 'm', 'l', 'xl'],
+                    }}
+                    gridItemProps={{ xs: 6, sm: 4, md: 3 }}
+                />
+                {(products.items.length === products.total_count) || loading ? null : (
                     <button
                         className={styles.btnLoadmore}
                         type="button"
