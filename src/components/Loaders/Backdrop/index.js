@@ -8,18 +8,43 @@ const useStyles = makeStyles((theme) => ({
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
     },
+    '@keyframes spiner': {
+        '0%': { transform: 'rotate(0deg)' },
+        '100%': { transform: 'rotate(360deg)' },
+    },
+    loader: {
+        width: 70,
+        height: 70,
+        animationName: '$spiner',
+        animation: '1.5s linear infinite',
+    },
 }));
 
 const CustomBackdrop = ({ open, className }) => {
     const styles = useStyles();
     const backdroptStyle = classNames(styles.backdrop, className);
+    let image;
+    const extention = loaderImage.split('.').pop();
+    if (extention === '' || !extention) {
+        image = <img src={loaderImage} alt={loaderImage} />;
+    } else if (
+        extention === 'png'
+        || extention === 'jpg'
+        || extention === 'jpeg'
+    ) {
+        image = (
+            <img
+                className={styles.loader}
+                src={loaderImage}
+                alt={loaderImage}
+            />
+        );
+    } else {
+        image = <img src={loaderImage} alt={loaderImage} />;
+    }
     return (
         <Backdrop className={backdroptStyle} open={open}>
-            {!loaderImage || loaderImage === '' ? (
-                <CircularProgress />
-            ) : (
-                <img src={loaderImage} alt={loaderImage} />
-            )}
+            {!loaderImage || loaderImage === '' ? <CircularProgress /> : image}
         </Backdrop>
     );
 };
