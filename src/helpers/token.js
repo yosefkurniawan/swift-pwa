@@ -3,8 +3,8 @@ import cookies from 'js-cookie';
 import { nameToken, expiredToken } from '@config';
 import { encrypt, decrypt } from './encryption';
 
-export const setToken = (token) => {
-    cookies.set(nameToken, encrypt(token), { expires: expiredToken });
+export const setToken = (token, expired) => {
+    cookies.set(nameToken, encrypt(token), { expires: expired || expiredToken });
     return true;
 };
 
