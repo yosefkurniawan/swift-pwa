@@ -32,18 +32,25 @@ const Category = ({
                                 </Button>
                             </Typography>
                             {catlvl1.children.map((catlvl2, indx) => (
-                                <Button
-                                    variant="text"
-                                    onClick={() => onClick(catlvl2)}
+                                <Typography
+                                    variant="span"
+                                    align="center"
                                     key={indx}
                                 >
-                                    <Typography
-                                        variant="span"
-                                        letter="capitalize"
+                                    <Button
+                                        variant="text"
+                                        onClick={() => onClick(catlvl2)}
                                     >
-                                        {catlvl2.name}
-                                    </Typography>
-                                </Button>
+                                        <Typography
+                                            variant="span"
+                                            letter="capitalize"
+                                        >
+                                            {catlvl2.name}
+                                        </Typography>
+
+
+                                    </Button>
+                                </Typography>
                             ))}
                         </div>
                     ))

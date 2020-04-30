@@ -145,7 +145,7 @@ const Product = ({
                     onChange={(e, value) => setFiltervalue({ ...query, ...{ category_id: value } })}
                 />
             ) : null }
-            {loading ? <Skeleton variant="text" style={{ marginBottom: 20, marginTop: 10 }} /> : (
+            {loading ? <Skeleton variant="rect" width="100%" height={50} style={{ marginBottom: 10 }} /> : (
                 <>
                     <Filter
                         filter={customFilter || aggregations}
@@ -168,6 +168,7 @@ const Product = ({
                         <div className={styles.filterBtnContainer}>
                             <Button
                                 variant="text"
+                                customRootStyle={{ width: 'fit-content' }}
                                 className={styles.btnFilter}
                                 onClick={() => setOpenFilter(true)}
                             >

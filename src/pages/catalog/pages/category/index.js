@@ -1,9 +1,9 @@
 import { withTranslation } from '@i18n';
 import Layout from '@components/Layouts';
 import PropTypes from 'prop-types';
-import Loading from '@components/Loaders';
 import Component from './components';
 import { getCategory } from './services';
+import SkeletonCategory from './components/Skeleton';
 
 const Page = (props) => {
     const { categoryId } = props;
@@ -12,18 +12,15 @@ const Page = (props) => {
         id: categoryId,
     });
 
-    if (loading) {
-        return <Loading size="50px" />;
-    }
     const pageConfig = {
-        title: data.categoryList[0].name,
-        headerTitle: !data.categoryList[0].image_path ? data.categoryList[0].name : '',
-        header: data.categoryList[0].image_path ? 'absolute' : 'relative', // available values: "absolute", "relative", false (default)
+        title: loading ? '' : data.categoryList[0].name,
+        headerTitle: data && !data.categoryList[0].image_path ? data.categoryList[0].name : '',
+        header: data && data.categoryList[0].image_path ? 'absolute' : 'relative', // available values: "absolute", "relative", false (default)
         bottomNav: 'browse',
     };
     return (
         <Layout pageConfig={pageConfig}>
-            <Component {...props} data={data} />
+            {loading ? <SkeletonCategory /> : <Component {...props} data={data} />}
         </Layout>
     );
 };

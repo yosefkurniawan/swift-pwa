@@ -100,14 +100,13 @@ const FilterDialog = ({
                     <CloseIcon className={styles.iconClose} />
                 </IconButton>
                 <Typography
-                    variant="span"
+                    variant="div"
                     type="bold"
                     align="center"
                     letter="uppercase"
                     className={styles.title}
                 >
-                    Filter & Sort
-                    {' '}
+                    Filter & Sorts
                 </Typography>
             </AppBar>
             <div className={styles.body}>

@@ -39,29 +39,27 @@ const CategoryPage = ({ data, storeConfig }) => {
     const customFilter = getFilter(categoryList.id);
 
     return (
-        <>
-            <Box className={styles.container}>
-                {dataBanner.length > 0
-                    ? (
-                        <div className={styles.headContainer}>
-                            <Banner data={dataBanner} initial={{ url: 'img', link: 'link' }} height="40vh" />
-                            {' '}
-                        </div>
-                    ) : null}
-                <div>
-                    <CustomTabs
-                        data={categoryTabs(categoryList.children)}
-                        onChange={handleChange}
-                        value={value}
-                    />
-                </div>
-                <Product
-                    customFilter={customFilter.loading ? [] : customFilter.data.getFilterAttributeOptions.data}
-                    catId={categoryList.id}
-                    catalog_search_engine={storeConfig.catalog_search_engine}
+        <Box className={styles.container}>
+            {dataBanner.length > 0
+                ? (
+                    <div className={styles.headContainer}>
+                        <Banner data={dataBanner} initial={{ url: 'img', link: 'link' }} height="40vh" />
+                        {' '}
+                    </div>
+                ) : null}
+            <div>
+                <CustomTabs
+                    data={categoryTabs(categoryList.children)}
+                    onChange={handleChange}
+                    value={value}
                 />
-            </Box>
-        </>
+            </div>
+            <Product
+                customFilter={customFilter.loading ? [] : customFilter.data.getFilterAttributeOptions.data}
+                catId={categoryList.id}
+                catalog_search_engine={storeConfig.catalog_search_engine}
+            />
+        </Box>
     );
 };
 

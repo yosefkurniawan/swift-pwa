@@ -12,6 +12,7 @@ const CustomButton = ({
     fullWidth = false,
     onClick = () => {},
     loading = false,
+    customRootStyle = {},
     href = '',
     ...other
 }) => {
@@ -22,7 +23,7 @@ const CustomButton = ({
         className,
     );
     return (
-        <div className={styles.loadRoot}>
+        <div className={styles.loadRoot} style={customRootStyle}>
             <div className={styles.wrapper}>
                 <Button
                     onClick={
