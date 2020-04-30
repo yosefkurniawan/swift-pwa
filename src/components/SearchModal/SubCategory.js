@@ -32,20 +32,21 @@ const SubCategory = ({ open, data, onBack }) => {
                 </Typography>
                 <div className={styles.item}>
                     {data[0].children.map((item, indx) => (
-                        <Button
-                            key={indx}
-                            variant="text"
-                            onClick={() => {
-                                Router.push(
-                                    '/[...slug]',
-                                    `/${item.url_path}`,
-                                );
-                            }}
-                        >
-                            <Typography variant="span" letter="capitalize">
-                                {item.name}
-                            </Typography>
-                        </Button>
+                        <Typography variant="span" letter="capitalize" align="center" key={indx}>
+                            <Button
+                                variant="text"
+                                onClick={() => {
+                                    Router.push(
+                                        '/[...slug]',
+                                        `/${item.url_path}`,
+                                    );
+                                }}
+                            >
+                                <Typography variant="span" letter="capitalize">
+                                    {item.name}
+                                </Typography>
+                            </Button>
+                        </Typography>
                     ))}
                 </div>
                 <IconButton onClick={() => onBack()}>

@@ -34,13 +34,12 @@ const Category = ({
                             {catlvl1.children.map((catlvl2, indx) => (
                                 <Typography
                                     variant="span"
-                                    letter="capitalize"
                                     align="center"
+                                    key={indx}
                                 >
                                     <Button
                                         variant="text"
                                         onClick={() => onClick(catlvl2)}
-                                        key={indx}
                                     >
                                         <Typography
                                             variant="span"
