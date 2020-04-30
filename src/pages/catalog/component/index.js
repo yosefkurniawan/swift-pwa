@@ -32,7 +32,7 @@ const Content = (props) => {
     let url = slug.join('/');
 
     // suffix based on storeConfig
-    const suffix = storeConfig.category_url_suffix || '';
+    const suffix = (storeConfig || {}).category_url_suffix || '';
 
     // for cms pages, no need to add suffix
     url += cmsPages.find((cmsPage) => cmsPage === url) ? '' : suffix;
