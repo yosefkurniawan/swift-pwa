@@ -4,7 +4,7 @@ import Product from '@components/ProductList';
 import useStyles from '../style';
 
 
-const SearchResult = ({ catalog_search_engine }) => {
+const SearchResult = ({ storeConfig }) => {
     const styles = useStyles();
     return (
         <Box className={styles.container}>
@@ -13,15 +13,11 @@ const SearchResult = ({ catalog_search_engine }) => {
                 url_path="catalogsearch/result"
                 showTabs
                 catalog_search_engine={
-                    catalog_search_engine
+                    storeConfig.catalog_search_engine
                 }
             />
         </Box>
     );
 };
-
-SearchResult.getInitialProps = async ({ storeConfig }) => ({
-    catalog_search_engine: storeConfig.catalog_search_engine,
-});
 
 export default SearchResult;

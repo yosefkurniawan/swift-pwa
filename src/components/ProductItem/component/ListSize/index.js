@@ -3,7 +3,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import Typography from '@components/Typography';
-import { GRAY_SECONDARY } from '@theme/colors';
+import { GRAY_SECONDARY, WHITE, GRAY_PRIMARY } from '@theme/colors';
 import { Centering, CreateBorder } from '@theme/mixins';
 import { makeStyles } from '@material-ui/core';
 
@@ -25,12 +25,14 @@ const ListSize = ({
     className = {},
     code = 'size',
     value = '',
+    disabled = false,
 }) => {
     const classes = useStyles();
     const styles = {
-        cursor: 'pointer',
+        cursor: disabled ? 'default' : 'pointer',
         width,
         height: width,
+        background: disabled ? GRAY_PRIMARY : WHITE,
     };
 
     if (value === data) {
@@ -43,7 +45,7 @@ const ListSize = ({
         <span
             className={customClass}
             style={styles}
-            onClick={() => onClick(code, data)}
+            onClick={() => (!disabled ? onClick(code, data) : null)}
         >
             <Typography
                 variant="label"
