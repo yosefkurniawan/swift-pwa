@@ -9,12 +9,23 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
     root: {
+        position: 'relative',
         borderRadius: 100,
         ...CreateBorder('1px', '1px', '1px', '1px', GRAY_SECONDARY),
         ...Centering,
     },
     label: {
         fontSize: 8,
+    },
+    disabledBox: {
+        position: 'absolute',
+        width: '6px',
+        height: '100%',
+        borderLeft: '2px solid #fff',
+        borderRight: '2px solid #fff',
+        background: 'red',
+        margin: '0 auto',
+        transform: 'rotate(45deg)',
     },
 }));
 
@@ -47,6 +58,7 @@ const ListSize = ({
             style={styles}
             onClick={() => (!disabled ? onClick(code, data) : null)}
         >
+            {disabled ? <div className={classes.disabledBox} /> : null}
             <Typography
                 variant="label"
                 letter="uppercase"
