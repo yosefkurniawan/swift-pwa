@@ -61,3 +61,6 @@ export const expiredDefault = 365;
 export const cmsPages = ['about-us'];
 
 export const loaderImage = 'https://pngimage.net/wp-content/uploads/2018/06/loading-png-transparent-5.png';
+
+/* identifiers for cmsBlocks in contact page */
+export const cmsContactIdentifiers = 'weltpixel_contact_page';

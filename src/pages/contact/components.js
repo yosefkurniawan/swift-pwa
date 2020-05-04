@@ -5,6 +5,7 @@ import TextField from '@components/Forms/TextField';
 // import Toast from '@components/Toast';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { cmsContactIdentifiers } from '@root/swift.config.js';
 import { getContactPage } from './services/graphql';
 import useStyles from './style';
 
@@ -19,7 +20,9 @@ const ContactForm = ({ t }) => {
             name: Yup.string().required(t('validate:firstName:required')),
             email: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
         }),
-        onSubmit: () => {},
+        onSubmit: () => {
+            console.log(new Date());
+        },
     });
 
     return (
@@ -53,7 +56,7 @@ const ContactForm = ({ t }) => {
 };
 
 const ContactPage = (props) => {
-    const { error, loading, data } = getContactPage();
+    const { error, loading, data } = getContactPage({ identifiers: cmsContactIdentifiers });
     if (error) return <p>error</p>;
     if (loading) return <Loading size="50px" />;
 
