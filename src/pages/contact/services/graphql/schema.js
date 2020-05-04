@@ -1,8 +1,8 @@
 import { gql } from 'apollo-boost';
 
 export const getContactPage = gql`
-    {
-        cmsBlocks(identifiers: "weltpixel_contact_page") {
+    query($identifiers: String!) {
+        cmsBlocks(identifiers: $identifiers) {
             items {
                 identifier
                 title
