@@ -9,7 +9,7 @@ import { appWithTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import { withRedux } from '@lib/redux';
 import { compose } from 'redux';
-import ConfigSchema from '@services/graphql/schema/config';
+import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import Cookie from 'js-cookie';
 import cookies from 'next-cookies';
 import { expiredCokies, storConfigNameCokie, nameToken } from '@config';
