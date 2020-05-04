@@ -17,6 +17,9 @@
     "fullName": {
         "required": "Full Name is required"
     },
+    "message": {
+        "required": "Message is required"
+    },
     "lastName": {
         "required": "Last name is required"
     },

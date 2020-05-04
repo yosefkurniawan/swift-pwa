@@ -15,10 +15,14 @@ const ContactForm = ({ t }) => {
         initialValues: {
             fullName: '',
             email: '',
+            message: '',
+            telephone: '',
         },
         validationSchema: Yup.object().shape({
             fullName: Yup.string().required(t('validate:fullName:required')),
             email: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
+            message: Yup.string().required(t('validate:message:required')),
+            telephone: Yup.string(),
         }),
         onSubmit: () => {
             console.log(new Date());
@@ -27,9 +31,11 @@ const ContactForm = ({ t }) => {
 
     return (
         <form className={styles.container} onSubmit={formik.handleSubmit}>
-            <Typography variant="h6" type="bold" align="left">
-                Contact Us
-            </Typography>
+            <span style={{ margin: '0 0 10px -5px' }}>
+                <Typography variant="h6" type="bold" align="left">
+                    Contact Us
+                </Typography>
+            </span>
             <TextField
                 label="Full Name"
                 className={styles.fullName}
@@ -47,6 +53,24 @@ const ContactForm = ({ t }) => {
                 onChange={formik.handleChange}
                 error={!!formik.errors.email}
                 errorMessage={formik.errors.email || null}
+            />
+            <TextField
+                label="Message"
+                className={styles.message}
+                name="message"
+                value={formik.values.message}
+                onChange={formik.handleChange}
+                error={!!formik.errors.message}
+                errorMessage={formik.errors.message || null}
+            />
+            <TextField
+                label="Telephone"
+                className={styles.telephone}
+                name="telephone"
+                value={formik.values.telephone}
+                onChange={formik.handleChange}
+                error={!!formik.errors.telephone}
+                errorMessage={formik.errors.telephone || null}
             />
             <Button className={styles.btn} fullWidth type="submit">
                 {t('common:button:send')}

@@ -1,19 +1,13 @@
 import { makeStyles } from '@material-ui/core';
-import { CreatePadding, FlexColumn, CreateMargin } from '@theme/mixins';
+import { CreatePadding, FlexColumn } from '@theme/mixins';
 
 export default makeStyles(() => ({
     container: {
         ...FlexColumn,
-        ...CreatePadding(30, 20, 10, 10),
+        ...CreatePadding(30, 20, 20, 20),
     },
     btn: {
         display: 'flex',
         alignSelf: 'center',
-    },
-    fullName: {
-        ...CreateMargin(15, 5, 15, 5),
-    },
-    email: {
-        ...CreateMargin(15, 5, 15, 5),
     },
 }));
