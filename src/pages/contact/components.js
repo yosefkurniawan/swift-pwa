@@ -55,11 +55,11 @@ const ContactForm = ({ t }) => {
             <Toast open={message.open} setOpen={() => setMessage({ ...message, open: false })} message={message.text} variant={message.variant} />
             <span style={{ margin: '0 0 10px -5px' }}>
                 <Typography variant="h6" type="bold" align="left">
-                    Contact Us
+                    {t('contact:contactUs')}
                 </Typography>
             </span>
             <TextField
-                label="Full Name"
+                label={t('contact:fullName')}
                 className={styles.fullName}
                 name="fullName"
                 value={formik.values.fullName}
@@ -68,7 +68,7 @@ const ContactForm = ({ t }) => {
                 errorMessage={formik.errors.fullName || null}
             />
             <TextField
-                label="Email"
+                label={t('contact:email')}
                 className={styles.email}
                 name="email"
                 value={formik.values.email}
@@ -77,7 +77,7 @@ const ContactForm = ({ t }) => {
                 errorMessage={formik.errors.email || null}
             />
             <TextField
-                label="Message"
+                label={t('contact:message')}
                 className={styles.message}
                 name="message"
                 value={formik.values.message}
@@ -86,7 +86,7 @@ const ContactForm = ({ t }) => {
                 errorMessage={formik.errors.message || null}
             />
             <TextField
-                label="Telephone"
+                label={t('contact:telephone')}
                 className={styles.telephone}
                 name="telephone"
                 value={formik.values.telephone}
