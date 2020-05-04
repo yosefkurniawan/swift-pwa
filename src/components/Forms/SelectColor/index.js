@@ -3,26 +3,29 @@
 import classNames from 'classnames';
 import useStyles from './style';
 
-const SelectColor = ({
-    value, selected, onChange, className = '',
-}) => {
+const SelectColor = (props) => {
+    const {
+        value, selected, onChange, className = '', disabled = false,
+    } = props;
     const styles = useStyles();
-    const containerStyle = selected
-        ? classNames(styles.container, value.toLowerCase() === 'black' || value.toLowerCase() === '#000000'
-            ? styles.borderedSecondary : styles.bordered, className)
+    const containerStyle = selected && !disabled
+        ? classNames(
+            styles.container,
+            value.toLowerCase() === 'black' || value.toLowerCase() === '#000000' ? styles.borderedSecondary : styles.bordered,
+            className,
+        )
         : classNames(styles.container, className);
     const customStyle = {
         backgroundColor: value,
     };
     const handleChange = () => {
-        onChange(value);
+        // eslint-disable-next-line no-unused-expressions
+        !disabled && onChange(value);
     };
     return (
-        <div
-            className={containerStyle}
-            style={customStyle}
-            onClick={handleChange}
-        />
+        <div className={containerStyle} style={customStyle} onClick={handleChange}>
+            {disabled ? <div className={styles.disabledBox} /> : null}
+        </div>
     );
 };
 

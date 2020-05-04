@@ -15,4 +15,13 @@ export default makeStyles(() => ({
     borderedSecondary: {
         ...CreateBorder('3px', '3px', '3px', '3px', SECONDARY),
     },
+    disabledBox: {
+        width: '6px',
+        height: '100%',
+        borderLeft: '2px solid #fff',
+        borderRight: '2px solid #fff',
+        background: 'red',
+        margin: '0 auto',
+        transform: 'rotate(45deg)',
+    },
 }));

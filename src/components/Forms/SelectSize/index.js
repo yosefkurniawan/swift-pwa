@@ -10,13 +10,15 @@ const SelectSize = ({
     label = '',
     className = '',
     onChange = () => {},
+    disabled = false,
 }) => {
     const styles = useStyles();
     const handleChange = () => {
-        onChange(value);
+        // eslint-disable-next-line no-unused-expressions
+        !disabled && onChange(value);
     };
 
-    const containerStyle = selected
+    const containerStyle = selected && !disabled
         ? classNames(styles.container, styles.active, className)
         : classNames(styles.container, className);
     const labelStyle = selected
@@ -26,6 +28,7 @@ const SelectSize = ({
     return (
         <div className={containerStyle} onClick={handleChange}>
             <Typograpy className={labelStyle}>{label}</Typograpy>
+            { disabled && <div className={styles.disabled} /> }
         </div>
     );
 };
