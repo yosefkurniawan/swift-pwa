@@ -10,7 +10,7 @@ export default makeStyles(() => ({
         display: 'flex',
         alignSelf: 'center',
     },
-    name: {
+    fullName: {
         ...CreateMargin(15, 5, 15, 5),
     },
     email: {

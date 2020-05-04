@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost';
 
 export const getContactPage = gql`
-    query($identifiers: String!) {
+    query($identifiers: [String]) {
         cmsBlocks(identifiers: $identifiers) {
             items {
                 identifier

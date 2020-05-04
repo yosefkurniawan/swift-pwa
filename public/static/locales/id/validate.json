@@ -11,11 +11,11 @@
         "required": "Password tidak boleh kosong",
         "wrong": "Password tidak sesuai"
     },
-    "name": {
-        "required": "Nama tidak boleh kosong"
-    },
     "firstName": {
         "required": "Nama depan tidak boleh kosong"
+    },
+    "fullName": {
+        "required": "Nama tidak boleh kosong"
     },
     "lastName": {
         "required": "Nama belakang tidak boleh kosong"
