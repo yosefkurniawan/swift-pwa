@@ -1,56 +1,59 @@
 {
-  "email": {
-    "required": "Email is required",
-    "wrong": "Email is not valid"
-  },
-  "phoneNumber": {
-    "required": "Phone number is required",
-    "wrong": "Phone number is not valid"
-  },
-  "password": {
-    "required": "Password is required",
-    "wrong": "Password is not valid"
-  },
-  "firstName": {
-    "required": "First name is required"
-  },
-  "lastName": {
-    "required": "Last name is required"
-  },
-  "confirmPassword": {
-    "required": "Confirm password is required",
-    "wrong": "Confirm password is not match"
-  },
-  "whatsappNumber": {
-    "required": "Whatsapp Number is required",
-    "wrong": "whatssapp Number is not valid"
-  },
-  "emailPhone": "Email or phone number is required",
-  "tos" : {
-      "required" : "Please aggre terms of use"
-  },
-  "street" : {
-    "required" : "Street address is required",
-    "wrong" : "Street address is not valid"
-  },
-  "postal" : {
-    "required" : "postal code is required",
-    "wrong" : "postal code is not valid"
-  },
-  "country" : {
-    "required" : "country is required"
-  },
-  "state" : {
-    "required" : "state/province is required"
-  },
-  "city" : {
-    "required" : "city is required"
-  },
-  "district" :{
-    "required" : "district/kecamatan is required"
-  },
-  "maps" : {
-    "required" : "maps location is required"
-  },
-  "required": "is required"
+    "email": {
+        "required": "Email is required",
+        "wrong": "Email is not valid"
+    },
+    "phoneNumber": {
+        "required": "Phone number is required",
+        "wrong": "Phone number is not valid"
+    },
+    "password": {
+        "required": "Password is required",
+        "wrong": "Password is not valid"
+    },
+    "name": {
+        "required": "Name is required"
+    },
+    "firstName": {
+        "required": "First name is required"
+    },
+    "lastName": {
+        "required": "Last name is required"
+    },
+    "confirmPassword": {
+        "required": "Confirm password is required",
+        "wrong": "Confirm password is not match"
+    },
+    "whatsappNumber": {
+        "required": "Whatsapp Number is required",
+        "wrong": "whatssapp Number is not valid"
+    },
+    "emailPhone": "Email or phone number is required",
+    "tos": {
+        "required": "Please aggre terms of use"
+    },
+    "street": {
+        "required": "Street address is required",
+        "wrong": "Street address is not valid"
+    },
+    "postal": {
+        "required": "postal code is required",
+        "wrong": "postal code is not valid"
+    },
+    "country": {
+        "required": "country is required"
+    },
+    "state": {
+        "required": "state/province is required"
+    },
+    "city": {
+        "required": "city is required"
+    },
+    "district": {
+        "required": "district/kecamatan is required"
+    },
+    "maps": {
+        "required": "maps location is required"
+    },
+    "required": "is required"
 }
