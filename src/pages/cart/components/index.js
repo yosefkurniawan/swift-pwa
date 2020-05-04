@@ -3,18 +3,29 @@ import { Box } from '@material-ui/core';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
 import Link from 'next/link';
+import { getCartId } from '@helpers/cartId';
 import Item from './item';
 import CrossSell from './crosssell';
 import useStyles from '../style';
 import EditDrawer from './editDrawer';
 import CheckoutDrawer from './checkoutBox';
+import { getCartData } from "../services"
 
 const Cart = (props) => {
     const { t } = props;
     const styles = useStyles();
     const [editMode, setEditMode] = useState(false);
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
+    let cartId = '';
+    if (typeof window !== 'undefined') {
+        cartId = getCartId();
+    }
 
+    const { loading, data } = getCartData(cartId);
+
+    if (loading) {
+        return <div>loading</div>;
+    }
     const toggleEditMode = () => {
         setEditMode(!editMode);
     };
@@ -23,17 +34,16 @@ const Cart = (props) => {
         setOpenEditDrawer(!openEditDrawer);
     };
 
-    // @TODO: get the real cart data
-    const data = [1, 2, 3];
-
-    if (data.length) {
+    const { cart } = data;
+    console.log(cart)
+    if (cart && data.cart.id) {
         return (
             <>
                 <Box className={styles.container}>
                     <div className={styles.toolbar}>
                         <div className={styles.toolbarCounter}>
                             <Typography variant="p" type="regular">
-                                <span>2</span>
+                                <span>{cart.total_quantity}</span>
                                 {' '}
                                 {t('cart:counter:text')}
                             </Typography>
@@ -65,13 +75,13 @@ const Cart = (props) => {
                         />
                     </div>
                 </Box>
-                <CrossSell {...props} editMode={editMode} />
+                {/* <CrossSell {...props} editMode={editMode} /> */}
                 <EditDrawer
                     open={openEditDrawer}
                     toggleOpen={toggleEditDrawer}
                     {...props}
                 />
-                <CheckoutDrawer editMode={editMode} t={t} />
+                {/* <CheckoutDrawer editMode={editMode} t={t} /> */}
             </>
         );
     }

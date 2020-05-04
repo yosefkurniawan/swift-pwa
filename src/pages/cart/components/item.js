@@ -31,7 +31,7 @@ const Item = ({ t, editMode, toggleEditDrawer }) => {
                     <div>Color : Black</div>
                     <div>Size : S</div>
                 </div>
-                <PriceFormat value={990000} className={styles.itemPrice} />
+                {/* <PriceFormat value={990000} className={styles.itemPrice} /> */}
             </div>
 
             <div className={styles.itemActions}>
