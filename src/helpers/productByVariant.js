@@ -54,26 +54,28 @@ export const CheckAvailableOptions = (availableCombination = [], value) => {
  * @returns object product
  *  */
 export default function productByVariant(options = {}, variants = []) {
-    let product = {};
+    let spesificProduct = {};
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < variants.length; index++) {
-        const { attributes } = variants[index];
+        const { attributes, product } = variants[index];
         let isSpesific = false;
-        // eslint-disable-next-line no-plusplus
-        for (let idxAtt = 0; idxAtt < attributes.length; idxAtt++) {
-            if (typeof options[attributes[idxAtt].code] !== 'undefined') {
-                if (options[attributes[idxAtt].code] === attributes[idxAtt].label) {
-                    isSpesific = true;
-                } else {
-                    isSpesific = false;
-                    break;
+        if (product.stock_status === 'IN_STOCK') {
+            // eslint-disable-next-line no-plusplus
+            for (let idxAtt = 0; idxAtt < attributes.length; idxAtt++) {
+                if (typeof options[attributes[idxAtt].code] !== 'undefined') {
+                    if (options[attributes[idxAtt].code] === attributes[idxAtt].label) {
+                        isSpesific = true;
+                    } else {
+                        isSpesific = false;
+                        break;
+                    }
                 }
             }
         }
         if (isSpesific) {
-            product = variants[index].product;
+            spesificProduct = variants[index].product;
             break;
         }
     }
-    return product;
+    return spesificProduct;
 }
