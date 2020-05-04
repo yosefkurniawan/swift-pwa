@@ -13,11 +13,11 @@ const ContactForm = ({ t }) => {
     const styles = useStyles();
     const formik = useFormik({
         initialValues: {
-            name: '',
+            fullName: '',
             email: '',
         },
         validationSchema: Yup.object().shape({
-            name: Yup.string().required(t('validate:firstName:required')),
+            fullName: Yup.string().required(t('validate:fullName:required')),
             email: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
         }),
         onSubmit: () => {
@@ -31,13 +31,13 @@ const ContactForm = ({ t }) => {
                 Contact Us
             </Typography>
             <TextField
-                label="Name"
-                className={styles.name}
-                name="name"
-                value={formik.values.name}
+                label="Full Name"
+                className={styles.fullName}
+                name="fullName"
+                value={formik.values.fullName}
                 onChange={formik.handleChange}
-                error={!!formik.errors.name}
-                errorMessage={formik.errors.name || null}
+                error={!!formik.errors.fullName}
+                errorMessage={formik.errors.fullName || null}
             />
             <TextField
                 label="Email"
@@ -56,7 +56,7 @@ const ContactForm = ({ t }) => {
 };
 
 const ContactPage = (props) => {
-    const { error, loading, data } = getContactPage({ identifiers: cmsContactIdentifiers });
+    const { error, loading, data } = getContactPage({ identifiers: [cmsContactIdentifiers] });
     if (error) return <p>error</p>;
     if (loading) return <Loading size="50px" />;
 
