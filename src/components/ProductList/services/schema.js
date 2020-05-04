@@ -141,6 +141,7 @@ export const getProduct = (config = {}) => gql`
               }
               product {
                 id
+                stock_status
                 price_tiers {
                   discount {
                     percent_off

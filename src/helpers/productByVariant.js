@@ -14,18 +14,20 @@ export const getCombinationVariants = (selected = {}, variants = []) => {
     if (selected.code) {
         // eslint-disable-next-line no-plusplus
         for (let index = 0; index < variants.length; index++) {
-            const { attributes } = variants[index];
-            let isSameFirstCode = false;
-            // eslint-disable-next-line no-plusplus
-            for (let idxAtt = 0; idxAtt < attributes.length; idxAtt++) {
-                if (selected.code === attributes[idxAtt].code) {
-                    isSameFirstCode = attributes[idxAtt].label === selected.value || attributes[idxAtt].value_index === selected.value;
+            if (variants[index].product.stock_status === 'IN_STOCK') {
+                const { attributes } = variants[index];
+                let isSameFirstCode = false;
+                // eslint-disable-next-line no-plusplus
+                for (let idxAtt = 0; idxAtt < attributes.length; idxAtt++) {
+                    if (selected.code === attributes[idxAtt].code) {
+                        isSameFirstCode = attributes[idxAtt].label === selected.value || attributes[idxAtt].value_index === selected.value;
+                    }
                 }
-            }
-            // eslint-disable-next-line no-plusplus
-            for (let idxAtt = 0; idxAtt < attributes.length; idxAtt++) {
-                if (selected.code !== attributes[idxAtt].code && isSameFirstCode) {
-                    combination.available_combination.push(attributes[idxAtt]);
+                // eslint-disable-next-line no-plusplus
+                for (let idxAtt = 0; idxAtt < attributes.length; idxAtt++) {
+                    if (selected.code !== attributes[idxAtt].code && isSameFirstCode) {
+                        combination.available_combination.push(attributes[idxAtt]);
+                    }
                 }
             }
         }
