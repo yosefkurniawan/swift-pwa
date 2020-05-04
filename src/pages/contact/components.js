@@ -2,6 +2,7 @@ import Loading from '@components/Loaders';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
 import TextField from '@components/Forms/TextField';
+import Toast from '@components/Toast';
 // import Toast from '@components/Toast';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -11,6 +12,13 @@ import useStyles from './style';
 
 const ContactForm = ({ t }) => {
     const styles = useStyles();
+
+    const [message, setMessage] = React.useState({
+        variant: 'success',
+        open: false,
+        text: '',
+    });
+
     const [contactusFormSubmit] = gqlService.contactusFormSubmit();
     const formik = useFormik({
         initialValues: {
@@ -25,18 +33,26 @@ const ContactForm = ({ t }) => {
             message: Yup.string().required(t('validate:message:required')),
             telephone: Yup.string(),
         }),
-        onSubmit: (values) => {
-            contactusFormSubmit({
-                email: values.email,
-                fullname: values.fullName,
-                message: values.message,
-                telephone: values.telephone,
+        onSubmit: async (values) => {
+            const response = await contactusFormSubmit({
+                variables: {
+                    email: values.email,
+                    fullname: values.fullName,
+                    message: values.message,
+                    telephone: values.telephone,
+                },
+            });
+            setMessage({
+                variant: 'success',
+                open: true,
+                text: response.data.contactusFormSubmit.success_message,
             });
         },
     });
 
     return (
         <form className={styles.container} onSubmit={formik.handleSubmit}>
+            <Toast open={message.open} setOpen={() => setMessage({ ...message, open: false })} message={message.text} variant={message.variant} />
             <span style={{ margin: '0 0 10px -5px' }}>
                 <Typography variant="h6" type="bold" align="left">
                     Contact Us
