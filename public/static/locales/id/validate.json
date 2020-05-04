@@ -17,6 +17,9 @@
     "fullName": {
         "required": "Nama tidak boleh kosong"
     },
+    "message": {
+        "required": "Pesan tidak boleh kosong"
+    },
     "lastName": {
         "required": "Nama belakang tidak boleh kosong"
     },
