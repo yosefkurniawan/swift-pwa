@@ -26,7 +26,6 @@ const ConfigurableOpt = ({ variants = [], configurable_options = [], setSpesific
 
     // get combination from helpers
     const combination = getCombinationVariants(firstSelected, variants);
-
     return configurable_options.map((conf, idx) => {
         const value = [];
         for (
@@ -44,8 +43,12 @@ const ConfigurableOpt = ({ variants = [], configurable_options = [], setSpesific
                 <div className={styles.colorContainer} key={idx}>
                     {value.map((clr, index) => {
                         let available = true;
-                        if (combination.available_combination.length > 0 && combination.code !== conf.attribute_code) {
-                            available = CheckAvailableOptions(combination.available_combination, clr);
+                        if (combination.code && combination.code !== conf.attribute_code) {
+                            if (combination.available_combination.length > 0) {
+                                available = CheckAvailableOptions(combination.available_combination, clr);
+                            } else {
+                                available = false;
+                            }
                         }
                         return (
                             <ListColor
@@ -66,8 +69,12 @@ const ConfigurableOpt = ({ variants = [], configurable_options = [], setSpesific
             <div className={styles.colorContainer} key={idx}>
                 {value.map((sz, index) => {
                     let available = true;
-                    if (combination.available_combination.length > 0 && combination.code !== conf.attribute_code) {
-                        available = CheckAvailableOptions(combination.available_combination, sz);
+                    if (combination.code && combination.code !== conf.attribute_code) {
+                        if (combination.available_combination.length > 0) {
+                            available = CheckAvailableOptions(combination.available_combination, sz);
+                        } else {
+                            available = false;
+                        }
                     }
                     return (
                         <ListSize
