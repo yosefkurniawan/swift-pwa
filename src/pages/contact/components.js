@@ -6,11 +6,12 @@ import TextField from '@components/Forms/TextField';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { cmsContactIdentifiers } from '@root/swift.config.js';
-import { getContactPage } from './services/graphql';
+import gqlService from './services/graphql';
 import useStyles from './style';
 
 const ContactForm = ({ t }) => {
     const styles = useStyles();
+    const [contactusFormSubmit] = gqlService.contactusFormSubmit();
     const formik = useFormik({
         initialValues: {
             fullName: '',
@@ -24,8 +25,13 @@ const ContactForm = ({ t }) => {
             message: Yup.string().required(t('validate:message:required')),
             telephone: Yup.string(),
         }),
-        onSubmit: () => {
-            console.log(new Date());
+        onSubmit: (values) => {
+            contactusFormSubmit({
+                email: values.email,
+                fullname: values.fullName,
+                message: values.message,
+                telephone: values.telephone,
+            });
         },
     });
 
@@ -80,7 +86,7 @@ const ContactForm = ({ t }) => {
 };
 
 const ContactPage = (props) => {
-    const { error, loading, data } = getContactPage({ identifiers: [cmsContactIdentifiers] });
+    const { error, loading, data } = gqlService.getContactPage({ identifiers: [cmsContactIdentifiers] });
     if (error) return <p>error</p>;
     if (loading) return <Loading size="50px" />;
 
