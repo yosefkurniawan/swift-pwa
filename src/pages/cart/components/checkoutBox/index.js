@@ -2,13 +2,12 @@ import { Box, Slide } from '@material-ui/core';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
 import Router from 'next/router';
-
-import PriceFormat from '@components/PriceFormat';
+import { formatPrice } from '@helpers/currency';
 import useStyles from './style';
 
-const CheckoutDrawer = ({ editMode, t }) => {
+const CheckoutDrawer = ({ editMode, t, data }) => {
     const styles = useStyles();
-
+    const { prices } = data;
     const handleOnCheckoutClicked = () => {
         Router.push('/checkout');
     };
@@ -35,17 +34,19 @@ const CheckoutDrawer = ({ editMode, t }) => {
                         {t('common:subtotal')}
                     </Typography>
           &nbsp;
-                    <PriceFormat
-                        value={9999000}
+                    <Typography
                         variant="span"
                         type="bold"
                         align="center"
                         letter="capitalize"
                         className={styles.subtotal}
-                    />
+                    >
+                        {formatPrice(prices.grand_total.value, prices.grand_total.currency)}
+                    </Typography>
                 </Box>
                 <Box justifyContent="center" display="flex">
                     <Button
+                        customRootStyle={{ width: 'fit-content' }}
                         className={styles.goToCheckout}
                         onClick={handleOnCheckoutClicked}
                     >

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import Link from 'next/link';
 import { IconButton, Zoom } from '@material-ui/core';
 import {
@@ -8,15 +9,18 @@ import {
 import PriceFormat from '@components/PriceFormat';
 import useStyles from '../style';
 
-const Item = ({ t, editMode, toggleEditDrawer }) => {
+const Item = ({
+    t, editMode, toggleEditDrawer, product, quantity,
+}) => {
     const styles = useStyles();
     return (
         <div className={styles.item}>
             <div className={styles.itemImgWrapper}>
                 <img
-                    src="/assets/img/sample/product.png"
+                    src={product.thumbnail.url}
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
                     className={styles.itemImg}
-                    alt="[product name]"
+                    alt={product.name}
                 />
             </div>
             <div className={styles.itemInfo}>
@@ -30,8 +34,20 @@ const Item = ({ t, editMode, toggleEditDrawer }) => {
                     <div>{t('common:variant')}</div>
                     <div>Color : Black</div>
                     <div>Size : S</div>
+                    <div>
+                        Qty :
+                        {' '}
+                        {quantity}
+                    </div>
                 </div>
-                {/* <PriceFormat value={990000} className={styles.itemPrice} /> */}
+                <div className={styles.itemPrice}>
+                    <PriceFormat
+                        priceRange={product.price_range}
+                        priceTiers={product.price_tiers}
+                        // eslint-disable-next-line camelcase
+                        productType={product.__typename}
+                    />
+                </div>
             </div>
 
             <div className={styles.itemActions}>
