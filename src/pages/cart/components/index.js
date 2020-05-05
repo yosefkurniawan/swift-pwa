@@ -36,6 +36,7 @@ const Cart = (props) => {
     };
     let loadingCart = true;
     let crosssell = [];
+
     if (typeof window !== 'undefined') {
         cartId = getCartId();
         const { loading, data } = getCartData(cartId);
@@ -56,7 +57,7 @@ const Cart = (props) => {
     };
 
     crosssell = getCrossSellProduct(dataCart.items);
-    if (dataCart.id) {
+    if (dataCart.id && dataCart.items.length > 0) {
         return (
             <>
                 <Box className={styles.container}>
@@ -105,14 +106,16 @@ const Cart = (props) => {
         );
     }
     return (
-        <Box className={styles.container}>
+        <Box className={styles.container} style={{ justifyContent: 'center', alignItems: 'center' }}>
             <Typography variant="span" type="regular" align="center">
                 <span className={styles.emptyCart}>{t('cart:empty:text')}</span>
             </Typography>
             <Link href="/">
-                <Button className={styles.toolbarButton}>
-                    {t('common:button:continueShopping')}
-                </Button>
+                <a>
+                    <Button className={styles.toolbarButton} customRootStyle={{ width: 'fit-content' }}>
+                        {t('common:button:continueShopping')}
+                    </Button>
+                </a>
             </Link>
         </Box>
     );
