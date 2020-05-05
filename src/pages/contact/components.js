@@ -3,6 +3,7 @@ import Typography from '@components/Typography';
 import Button from '@components/Button';
 import TextField from '@components/Forms/TextField';
 import Toast from '@components/Toast';
+import { regexPhone } from '@helpers/regex';
 // import Toast from '@components/Toast';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -31,7 +32,7 @@ const ContactForm = ({ t }) => {
             fullName: Yup.string().required(t('validate:fullName:required')),
             email: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
             message: Yup.string().required(t('validate:message:required')),
-            telephone: Yup.string(),
+            telephone: Yup.string().matches(regexPhone, t('validate:phoneNumber:wrong')),
         }),
         onSubmit: async (values) => {
             const response = await contactusFormSubmit({
@@ -90,7 +91,7 @@ const ContactForm = ({ t }) => {
                 className={styles.message}
                 name="message"
                 multiline
-                row="4"
+                rows="4"
                 value={formik.values.message}
                 onChange={formik.handleChange}
                 error={!!formik.errors.message}
