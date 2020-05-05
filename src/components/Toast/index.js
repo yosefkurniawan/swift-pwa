@@ -6,7 +6,7 @@ function Alert(props) {
 }
 
 export default ({
-    open, message, setOpen, variant = 'success',
+    open, message, setOpen, variant = 'info',
 }) => {
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -22,7 +22,7 @@ export default ({
                 horizontal: 'center',
             }}
             open={open}
-            autoHideDuration={6000}
+            autoHideDuration={2000}
             onClose={handleClose}
         >
             <Alert onClose={handleClose} severity={variant}>

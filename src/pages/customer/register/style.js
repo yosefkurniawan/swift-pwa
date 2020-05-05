@@ -72,9 +72,18 @@ export default makeStyles(() => ({
         ...CenterAbsolute,
     },
     checkWa: {
-        ...CreateMargin(0, 0, 10, -10),
+        ...CreateMargin(0, 0, -10, -10),
     },
     checkTos: {
         ...CreateMargin(0, 0, 0, -10),
+    },
+    tos: {
+        ...FlexRow,
+        alignItems: 'center',
+        width: '100%',
+        justifyContent: 'space-between',
+        '& p': {
+            width: 80,
+        },
     },
 }));

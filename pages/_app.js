@@ -1,6 +1,7 @@
 import React from 'react';
 import App from 'next/app';
 import Head from 'next/head';
+import Router from 'next/router';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '@theme/theme';
@@ -8,11 +9,11 @@ import { appWithTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import { withRedux } from '@lib/redux';
 import { compose } from 'redux';
-import ConfigSchema from '@services/graphql/schema/config';
+import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import Cookie from 'js-cookie';
 import cookies from 'next-cookies';
 import { expiredCokies, storConfigNameCokie, nameToken } from '@config';
-import { getTokenFromServer } from '@helpers/token';
+import { getTokenFromServer, getToken } from '@helpers/token';
 import '../src/styles/index.css';
 import '../src/styles/mage.css';
 
@@ -32,19 +33,38 @@ class MyApp extends App {
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
         }
-        const { apolloClient, res, pathname } = ctx;
+        const {
+            apolloClient, res, pathname, query,
+        } = ctx;
         if (pageProps.withAuth) {
-            const token = getTokenFromServer(allcookie[nameToken]);
-            if (token === '' || !token) {
-                if (pathname !== '/customer/account/login') res.redirect('/customer/account/login');
-            } else if (pathname === '/customer/account/login') res.redirect('/customer/account');
+            if (typeof window !== 'undefined') {
+                const token = getToken(nameToken);
+                if (token === '' || !token) {
+                    if (pathname !== '/customer/account/login') Router.push('/customer/account/login');
+                } else if (pathname === '/customer/account/login') {
+                    if (query.redirect && query.redirect !== '') {
+                        Router.push(query.redirect);
+                    } else {
+                        Router.push('/customer/account');
+                    }
+                }
+            } else {
+                const token = getTokenFromServer(allcookie[nameToken]);
+                if (token === '' || !token) {
+                    if (pathname !== '/customer/account/login') res.redirect('/customer/account/login');
+                } else if (pathname === '/customer/account/login') {
+                    if (query.redirect && query.redirect !== '') {
+                        res.redirect(query.redirect);
+                    } else {
+                        res.redirect('/customer/account');
+                    }
+                }
+            }
         }
 
         let storeConfig;
         if (!allcookie[storConfigNameCokie]) {
-            storeConfig = await apolloClient
-                .query({ query: ConfigSchema })
-                .then(({ data }) => data.storeConfig);
+            storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
         } else {
             storeConfig = allcookie[storConfigNameCokie];
         }
@@ -65,15 +85,9 @@ class MyApp extends App {
             <>
                 <Head>
                     <title>
-                        {pageProps.storeConfig
-                        && pageProps.storeConfig.default_title
-                            ? pageProps.storeConfig.default_title
-                            : 'Icube Swift PWA'}
+                        {pageProps.storeConfig && pageProps.storeConfig.default_title ? pageProps.storeConfig.default_title : 'Icube Swift PWA'}
                     </title>
-                    <meta
-                        name="viewport"
-                        content="minimum-scale=1, initial-scale=1, width=device-width"
-                    />
+                    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
                 </Head>
                 <ThemeProvider theme={theme}>
                     {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
@@ -85,7 +99,4 @@ class MyApp extends App {
     }
 }
 
-export default compose(
-    withApollo({ ssr: true }),
-    withRedux,
-)(appWithTranslation(MyApp));
+export default compose(withApollo({ ssr: true }), withRedux)(appWithTranslation(MyApp));
