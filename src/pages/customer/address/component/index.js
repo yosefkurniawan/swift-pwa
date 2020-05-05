@@ -1,31 +1,61 @@
 /* eslint-disable consistent-return */
 // Library
+import AddressFormDialog from '@components/AddressFormDialog';
 import Button from '@components/Button';
 import { Box, RadioGroup } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
+import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
-import AddAddressDialog from './AddDialog';
+import { getCustomer as gqlGetCustomer } from '../../../../pages/checkout/services/graphql';
+import { createCustomerAddress, updateCustomerAddress, updatedDefaultAddress as gqlUpdateDefaulAddress } from '../services/graphql';
 import ItemAddress from './ItemAddress';
 import useStyles from './style';
-import gqlServiceCheckout from '../../../../pages/checkout/services/graphql';
-import gqlService from '../services/graphql';
-import _ from 'lodash';
 
 // Main Render Page
 const Content = (props) => {
-    const getCustomer = gqlServiceCheckout.getCustomer();
-    const [updatedDefaultAddress] = gqlService.updatedDefaultAddress();
+    // style
     const styles = useStyles();
+    // graphql
+    const getCustomer = gqlGetCustomer();
+    const [updatedDefaultAddress] = gqlUpdateDefaulAddress();
+    const [updateAddress] = updateCustomerAddress();
+    const [addAddress] = createCustomerAddress();
+    // state
     const [address, setAddress] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState(null);
+    const [loadingAddress, setLoadingAddress] = useState(false);
+    const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
     const [drawer, setDrawer] = useState(false);
-
     const [, setMapPosition] = useState({
         lat: -6.197361,
         lng: 106.774535,
     });
 
+    // didmount
+    useEffect(() => {
+        setLoading(true);
+        if (!getCustomer.loading && getCustomer.data) {
+            const customer = getCustomer.data.customer;
+
+            if (customer) {
+                const selectedAddress = customer.addresses.find((address) => address.default_shipping);
+
+                if (selectedAddress) {
+                    setSelectedAddress(selectedAddress.id);
+                }
+
+                setAddress(customer.addresses);
+            }
+        }
+        setLoading(false);
+
+        if (navigator.geolocation) {
+            return navigator.geolocation.getCurrentPosition(displayLocationInfo);
+        }
+    }, [getCustomer]);
+
+    // method
     const displayLocationInfo = (position) => {
         const lng = position.coords.longitude;
         const lat = position.coords.latitude;
@@ -35,29 +65,12 @@ const Content = (props) => {
         });
     };
 
+    // handle open modal add adress button
     const handleDraweClick = () => {
         setDrawer(!drawer);
     };
 
-    useEffect(() => {
-        setLoading(true)
-        if (!getCustomer.loading && getCustomer.data) {
-            const customer = getCustomer.data.customer;
-            const selectedAddress = customer.addresses.find((address) => address.default_shipping);
-
-            if (selectedAddress) {
-                setSelectedAddress(selectedAddress.id);
-            }
-
-            setAddress(customer.addresses);
-        }
-        setLoading(false);
-
-        if (navigator.geolocation) {
-            return navigator.geolocation.getCurrentPosition(displayLocationInfo);
-        }
-    }, [getCustomer]);
-
+    // handle change selected address
     const handleChange = async (event) => {
         const addressId = event.target.value;
         setSelectedAddress(addressId);
@@ -66,11 +79,41 @@ const Content = (props) => {
         setAddress(getCustomer.data.addresses);
     };
 
+    // handle add address
+    const handleAddress = async (data, type) => {
+        setLoadingAddress(true);
+
+        if (!success) {
+            if (type == 'update') {
+                await updateAddress({
+                    variables: {
+                        ...data,
+                    },
+                });
+            } else {
+                await addAddress({
+                    variables: {
+                        ...data,
+                    },
+                });
+            }
+        }
+
+        setSuccess(true);
+        setLoadingAddress(false);
+
+        _.delay(() => {
+            setDrawer(!drawer);
+            handleDialogSubmit();
+        }, 1000);
+    };
+
+    // handle edit address
     const handleDialogSubmit = async () => {
-        setLoading(true)
+        setLoading(true);
         await getCustomer.refetch();
         setAddress(getCustomer.data.customer.addresses);
-        setLoading(false)
+        setLoading(false);
     };
 
     return (
@@ -111,12 +154,13 @@ const Content = (props) => {
                     </Button>
                 </Box>
             </Box>
-            <AddAddressDialog
+            <AddressFormDialog
                 {...props}
-                onSubmitAddress={() => {
-                    setDrawer(!drawer);
-                    handleDialogSubmit();
+                onSubmitAddress={(data, type) => {
+                    handleAddress(data, type);
                 }}
+                loading={loadingAddress}
+                success={success}
                 open={drawer}
                 setOpen={() => setDrawer(!drawer)}
             />

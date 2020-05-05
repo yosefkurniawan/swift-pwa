@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import * as Schema from './schema';
 import helper from '@helpers/token';
 
@@ -9,8 +9,6 @@ const config = {
         },
     },
 };
-
-export const getCountries = () => useLazyQuery(Schema.getCountries);
 
 export const updatedDefaultAddress = (options = {}) =>
     useMutation(Schema.updatedDefaultAddress, {
@@ -30,6 +28,4 @@ export const createCustomerAddress = (options = {}) =>
         ...config,
     });
 
-export const getCityByRegionId = (options = {}) => useLazyQuery(Schema.getCityByRegionId, { ...options, fetchPolicy: 'network-only' });
-
-export default { getCountries, updatedDefaultAddress, updateCustomerAddress, getCityByRegionId, createCustomerAddress };
+export default { updatedDefaultAddress, updateCustomerAddress, createCustomerAddress };

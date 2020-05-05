@@ -1,7 +1,9 @@
 import { FormControlLabel, Box, Radio } from '@material-ui/core';
 import Typography from '@components/Typography';
 import useStyles from './style';
-import AddDialog from './AddDialog';
+import AddressFormDialog from '@components/AddressFormDialog';
+import React, { useState } from 'react';
+import { createCustomerAddress, updateCustomerAddress, updatedDefaultAddress } from '../services/graphql';
 
 const ItemAddress = (props) => {
     const {
@@ -19,20 +21,47 @@ const ItemAddress = (props) => {
         onSubmitAddress,
         // eslint-disable-next-line no-unused-vars
     } = props;
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
     const styles = useStyles();
+    const [updateAddress] = updateCustomerAddress();
+    const [addAddress] = createCustomerAddress();
     return (
         <>
-            <AddDialog
+            <AddressFormDialog
                 {...props}
                 isSelectedValue={true}
                 open={open}
-                onSubmitAddress={() => {
-                    onSubmitAddress();
+                onSubmitAddress={async (data, type) => {
+                    setLoading(true);
+
+                    if (!success) {
+                        if (type == 'update') {
+                            await updateAddress({
+                                variables: {
+                                    ...data,
+                                },
+                            });
+                        } else {
+                            await addAddress({
+                                variables: {
+                                    ...data,
+                                },
+                            });
+                        }
+                    }
+
+                    setSuccess(true);
+                    setLoading(false);
+
                     _.delay(() => {
                         setOpen(!open);
-                    }, 1500);
+                        onSubmitAddress();
+                    }, 1000);
                 }}
+                loading = {loading}
+                success = {success}
                 setOpen={() => setOpen(!open)}
                 pageTitle={'editTitle'}
             />

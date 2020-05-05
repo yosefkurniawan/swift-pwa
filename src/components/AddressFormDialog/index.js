@@ -11,11 +11,11 @@ import { useFormik } from 'formik';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { createCustomerAddress, getCityByRegionId, getCountries as getAllCountries, updateCustomerAddress } from '../services/graphql';
+import { getCityByRegionId, getCountries as getAllCountries } from './services/graphql';
 import useStyles from './style';
 import clsx from 'clsx';
 
-const AddAddressDialog = (props) => {
+const AddressFormDialog = (props) => {
     let {
         firstName = '',
         lastName = '',
@@ -29,7 +29,8 @@ const AddAddressDialog = (props) => {
         open,
         t,
         onSubmitAddress,
-        isSelectedValue = false,
+        loading = false,
+        success = false,
         defaultShipping = false,
         defaultBilling = false,
         addressId = null,
@@ -43,8 +44,7 @@ const AddAddressDialog = (props) => {
         header: 'relative',
         headerBackIcon: 'close',
     };
-    const [updateAddress] = updateCustomerAddress();
-    const [addAddress] = createCustomerAddress();
+
     const [getCountries, gqlCountries] = getAllCountries();
     const [getCities] = getCityByRegionId({
         onCompleted: (data) => {
@@ -65,8 +65,7 @@ const AddAddressDialog = (props) => {
             setAddressState(state);
         },
     });
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
+
     const [isFromUseEffect, setFromUseEffect] = useState(false);
     const [addressState, setAddressState] = useState({
         countries: null,
@@ -179,29 +178,10 @@ const AddAddressDialog = (props) => {
                 addressId,
             };
 
-            setLoading(true);
-
-            if (!success) {
-                if (addressId) {
-                    await updateAddress({
-                        variables: {
-                            ...data,
-                        },
-                    });
-                } else {
-                    await addAddress({
-                        variables: {
-                            ...data,
-                        },
-                    });
-                }
-            }
-
-            setSuccess(true);
-            setLoading(false);
+            const type = addressId ? 'update':'add'
 
             if (onSubmitAddress) {
-                onSubmitAddress();
+                onSubmitAddress(data, type);
             }
         },
     });
@@ -321,11 +301,6 @@ const AddAddressDialog = (props) => {
 
     useEffect(() => {
         const state = { ...addressState };
-
-        _.delay(() => {
-            setSuccess(false);
-            setLoading(false);
-        }, 250);
 
         formik.setFieldValue('country', country);
         formik.setFieldValue('region', region);
@@ -521,4 +496,4 @@ const AddAddressDialog = (props) => {
     );
 };
 
-export default AddAddressDialog;
+export default AddressFormDialog;
