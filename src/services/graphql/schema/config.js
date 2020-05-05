@@ -34,6 +34,7 @@ export const storeConfig = gql`
             title_separator
             website_id
             weight_unit
+            oauth_access_token_lifetime_customer
         }
     }
 `;

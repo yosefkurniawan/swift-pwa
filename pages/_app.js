@@ -39,26 +39,18 @@ class MyApp extends App {
         if (pageProps.withAuth) {
             if (typeof window !== 'undefined') {
                 const token = getToken(nameToken);
-                if (token === '' || !token) {
-                    if (pathname !== '/customer/account/login') Router.push('/customer/account/login');
-                } else if (pathname === '/customer/account/login') {
-                    if (query.redirect && query.redirect !== '') {
+                if (token && token !== '') {
+                    if (pathname === '/customer/account/login' && query.redirect && query.redirect !== '') {
                         Router.push(query.redirect);
-                    } else {
-                        Router.push('/customer/account');
-                    }
-                }
+                    } else if (pathname !== '/customer/account') Router.push('/customer/account');
+                } else if (pathname !== '/customer/account/login') Router.push('/customer/account/login');
             } else {
                 const token = getTokenFromServer(allcookie[nameToken]);
-                if (token === '' || !token) {
-                    if (pathname !== '/customer/account/login') res.redirect('/customer/account/login');
-                } else if (pathname === '/customer/account/login') {
-                    if (query.redirect && query.redirect !== '') {
+                if (token && token !== '') {
+                    if (pathname === '/customer/account/login' && query.redirect && query.redirect !== '') {
                         res.redirect(query.redirect);
-                    } else {
-                        res.redirect('/customer/account');
-                    }
-                }
+                    } else if (pathname !== '/customer/account') res.redirect('/customer/account');
+                } else if (pathname !== '/customer/account/login') res.redirect('/customer/account/login');
             }
         }
 
