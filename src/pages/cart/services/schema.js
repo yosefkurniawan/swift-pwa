@@ -24,6 +24,14 @@ export const getCart = gql`
                 }
             }
             items {
+              ... on  ConfigurableCartItem {
+                configurable_options {
+                  id
+                  option_label
+                  value_id
+                  value_label
+                }
+              }
               product {
                   id
                   name

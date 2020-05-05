@@ -11,6 +11,7 @@ import useStyles from '../style';
 import EditDrawer from './editDrawer';
 import CheckoutDrawer from './checkoutBox';
 import { getCartData } from '../services';
+import SkeletonCart from './skeleton';
 
 const getCrossSellProduct = (items) => {
     let crosssell = [];
@@ -44,7 +45,7 @@ const Cart = (props) => {
         }
     }
     if (loadingCart) {
-        return <div>loading</div>;
+        return <SkeletonCart />;
     }
     const toggleEditMode = () => {
         setEditMode(!editMode);

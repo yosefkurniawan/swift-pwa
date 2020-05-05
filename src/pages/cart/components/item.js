@@ -10,7 +10,7 @@ import PriceFormat from '@components/PriceFormat';
 import useStyles from '../style';
 
 const Item = ({
-    t, editMode, toggleEditDrawer, product, quantity,
+    t, editMode, toggleEditDrawer, product, quantity, configurable_options = [],
 }) => {
     const styles = useStyles();
     return (
@@ -32,8 +32,16 @@ const Item = ({
                 </Link>
                 <div className={styles.itemVariant}>
                     <div>{t('common:variant')}</div>
-                    <div>Color : Black</div>
-                    <div>Size : S</div>
+                    {configurable_options.map((item, idx) => (
+                        <div key={idx}>
+                            {item.option_label}
+                            {' '}
+                            :
+                            {' '}
+                            {item.value_label}
+                        </div>
+                    ))}
+
                     <div>
                         Qty :
                         {' '}
