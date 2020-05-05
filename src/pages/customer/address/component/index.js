@@ -1,15 +1,20 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable no-nested-ternary */
 /* eslint-disable consistent-return */
 // Library
 import Button from '@components/Button';
 import { Box, RadioGroup } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
+// import _ from 'lodash';
+// import Loading from '@components/Loaders';
+import Backdrop from '@components/Loaders/Backdrop';
 import AddAddressDialog from './AddDialog';
 import ItemAddress from './ItemAddress';
 import useStyles from './style';
-import gqlServiceCheckout from '../../../../pages/checkout/services/graphql';
+import gqlServiceCheckout from '../../../checkout/services/graphql';
 import gqlService from '../services/graphql';
-import _ from 'lodash';
 
 // Main Render Page
 const Content = (props) => {
@@ -19,6 +24,7 @@ const Content = (props) => {
     const [address, setAddress] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [showBackdrop, setShowBackdrop] = useState(false);
     const [drawer, setDrawer] = useState(false);
 
     const [, setMapPosition] = useState({
@@ -40,9 +46,10 @@ const Content = (props) => {
     };
 
     useEffect(() => {
-        setLoading(true)
+        setLoading(true);
         if (!getCustomer.loading && getCustomer.data) {
-            const customer = getCustomer.data.customer;
+            const { customer } = getCustomer.data;
+            // eslint-disable-next-line no-shadow
             const selectedAddress = customer.addresses.find((address) => address.default_shipping);
 
             if (selectedAddress) {
@@ -59,50 +66,53 @@ const Content = (props) => {
     }, [getCustomer]);
 
     const handleChange = async (event) => {
+        setShowBackdrop(true);
         const addressId = event.target.value;
         setSelectedAddress(addressId);
-        await updatedDefaultAddress({ variables: { addressId: addressId } });
+        await updatedDefaultAddress({ variables: { addressId } });
         await getCustomer.refetch();
-        setAddress(getCustomer.data.addresses);
+        // setAddress(getCustomer.data.customer.addresses);
+        setShowBackdrop(false);
     };
 
     const handleDialogSubmit = async () => {
-        setLoading(true)
+        setLoading(true);
         await getCustomer.refetch();
-        setAddress(getCustomer.data.customer.addresses);
-        setLoading(false)
+        // setAddress(getCustomer.data.customer.addresses);
+        setLoading(false);
     };
 
     return (
         <>
+            <Backdrop open={showBackdrop} />
             <Box>
                 <RadioGroup row aria-label="position" onChange={handleChange} name="position" value={selectedAddress}>
                     {loading
                         ? null
                         : !address
-                        ? null
-                        : address.length == 0
-                        ? null
-                        : address.map((item, index) => (
-                              <ItemAddress
-                                  checked={item.id == selectedAddress}
-                                  key={item.id}
-                                  addressId={item.id}
-                                  firstName={item.firstname}
-                                  lastName={item.lastname}
-                                  phoneNumber={item.telephone}
-                                  posCode={item.postcode}
-                                  region={item.region.region}
-                                  city={item.city}
-                                  country={item.country_code}
-                                  street={item.street.join(' ')}
-                                  value={item.id}
-                                  defaultBilling={item.default_billing}
-                                  defaultShipping={item.default_shipping}
-                                  onSubmitAddress={handleDialogSubmit}
-                                  {...props}
-                              />
-                          ))}
+                            ? null
+                            : address.length == 0
+                                ? null
+                                : address.map((item) => (
+                                    <ItemAddress
+                                        checked={item.id == selectedAddress}
+                                        key={item.id}
+                                        addressId={item.id}
+                                        firstName={item.firstname}
+                                        lastName={item.lastname}
+                                        phoneNumber={item.telephone}
+                                        posCode={item.postcode}
+                                        region={item.region.region}
+                                        city={item.city}
+                                        country={item.country_code}
+                                        street={item.street.join(' ')}
+                                        value={item.id}
+                                        defaultBilling={item.default_billing}
+                                        defaultShipping={item.default_shipping}
+                                        onSubmitAddress={handleDialogSubmit}
+                                        {...props}
+                                    />
+                                ))}
                 </RadioGroup>
                 <Box className={[styles.address_action].join(' ')}>
                     <Button variant="outlined" size="small" onClick={() => handleDraweClick()}>
