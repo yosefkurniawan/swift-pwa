@@ -40,11 +40,21 @@ const Content = (props) => {
         lng: 106.774535,
     });
 
+    // method
+    const displayLocationInfo = (position) => {
+        const lng = position.coords.longitude;
+        const lat = position.coords.latitude;
+        setMapPosition({
+            lat,
+            lng,
+        });
+    };
+
     // didmount
     useEffect(() => {
         setLoading(true);
         if (!getCustomer.loading && getCustomer.data) {
-            const customer = getCustomer.data.customer;
+            const { customer } = getCustomer.data;
 
             if (customer) {
                 const selectedAddress = customer.addresses.find((address) => address.default_shipping);
@@ -58,16 +68,6 @@ const Content = (props) => {
             return navigator.geolocation.getCurrentPosition(displayLocationInfo);
         }
     }, [getCustomer]);
-
-    // method
-    const displayLocationInfo = (position) => {
-        const lng = position.coords.longitude;
-        const lat = position.coords.latitude;
-        setMapPosition({
-            lat,
-            lng,
-        });
-    };
 
     // handle open modal add adress button
     const handleDraweClick = () => {
@@ -84,12 +84,20 @@ const Content = (props) => {
         setShowBackdrop(false);
     };
 
+    // handle edit address
+    const handleDialogSubmit = async () => {
+        setLoading(true);
+        await getCustomer.refetch();
+        setAddress(getCustomer.data.customer.addresses);
+        setLoading(false);
+    };
+
     // handle add address
     const handleAddress = async (data, type) => {
         setLoadingAddress(true);
 
         if (!success) {
-            if (type == 'update') {
+            if (type === 'update') {
                 await updateAddress({
                     variables: {
                         ...data,
@@ -113,11 +121,39 @@ const Content = (props) => {
         }, 1000);
     };
 
-    // handle edit address
-    const handleDialogSubmit = async () => {
-        setLoading(true);
-        await getCustomer.refetch();
-        setLoading(false);
+    const getItemAddress = () => {
+        let content;
+
+        if (loading) {
+            content = null;
+        } else if (!address) {
+            content = null;
+        } else if (address.length === 0) {
+            content = null;
+        } else {
+            content = address.map((item) => (
+                <ItemAddress
+                    checked={item.id == selectedAddressId}
+                    key={item.id}
+                    addressId={item.id}
+                    firstName={item.firstname}
+                    lastName={item.lastname}
+                    phoneNumber={item.telephone}
+                    posCode={item.postcode}
+                    region={item.region.region}
+                    city={item.city}
+                    country={item.country_code}
+                    street={item.street.join(' ')}
+                    value={item.id}
+                    defaultBilling={item.default_billing}
+                    defaultShipping={item.default_shipping}
+                    onSubmitAddress={handleDialogSubmit}
+                    {...props}
+                />
+            ));
+        }
+
+        return content;
     };
 
     return (
@@ -125,32 +161,7 @@ const Content = (props) => {
             <Backdrop open={showBackdrop} />
             <Box>
                 <RadioGroup row aria-label="position" onChange={handleChange} name="position" value={selectedAddressId}>
-                    {loading
-                        ? null
-                        : !address
-                            ? null
-                            : address.length == 0
-                                ? null
-                                : address.map((item) => (
-                                    <ItemAddress
-                                        checked={item.id == selectedAddressId}
-                                        key={item.id}
-                                        addressId={item.id}
-                                        firstName={item.firstname}
-                                        lastName={item.lastname}
-                                        phoneNumber={item.telephone}
-                                        posCode={item.postcode}
-                                        region={item.region.region}
-                                        city={item.city}
-                                        country={item.country_code}
-                                        street={item.street.join(' ')}
-                                        value={item.id}
-                                        defaultBilling={item.default_billing}
-                                        defaultShipping={item.default_shipping}
-                                        onSubmitAddress={handleDialogSubmit}
-                                        {...props}
-                                    />
-                                ))}
+                    {getItemAddress()}
                 </RadioGroup>
                 <Box className={[styles.address_action].join(' ')}>
                     <Button variant="outlined" size="small" onClick={() => handleDraweClick()}>
