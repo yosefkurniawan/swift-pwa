@@ -24,6 +24,7 @@ export const getCart = gql`
                 }
             }
             items {
+              id
               ... on  ConfigurableCartItem {
                 configurable_options {
                   id
@@ -139,5 +140,18 @@ export const getCart = gql`
                 quantity
             }
         }
+    }
+`;
+
+export const deleteCartitem = gql`
+    mutation deleteCartItem($cartId: String!, $cart_item_id: Int!) {
+      removeItemFromCart(
+        input: { cart_id: $cartId, cart_item_id: $cart_item_id }
+      ) {
+        cart {
+          id
+          total_quantity
+        }
+      }
     }
 `;

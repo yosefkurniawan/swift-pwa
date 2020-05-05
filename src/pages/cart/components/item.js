@@ -10,7 +10,7 @@ import PriceFormat from '@components/PriceFormat';
 import useStyles from '../style';
 
 const Item = ({
-    t, editMode, toggleEditDrawer, product, quantity, configurable_options = [],
+    t, editMode, id, toggleEditDrawer, product, quantity, configurable_options = [], deleteItem,
 }) => {
     const styles = useStyles();
     return (
@@ -80,6 +80,7 @@ const Item = ({
                 </Zoom>
                 <Zoom
                     in={editMode}
+                    onClick={() => deleteItem(id)}
                     style={{ transitionDelay: editMode ? '100ms' : '0ms' }}
                 >
                     <IconButton className={styles.iconBtn}>

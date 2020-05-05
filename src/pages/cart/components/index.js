@@ -5,6 +5,9 @@ import Typography from '@components/Typography';
 import Button from '@components/Button';
 import Link from 'next/link';
 import { getCartId } from '@helpers/cartId';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { useMutation } from '@apollo/react-hooks';
 import Item from './item';
 import CrossSell from './crosssell';
 import useStyles from '../style';
@@ -12,6 +15,7 @@ import EditDrawer from './editDrawer';
 import CheckoutDrawer from './checkoutBox';
 import { getCartData } from '../services';
 import SkeletonCart from './skeleton';
+import * as Schema from '../services/schema';
 
 const getCrossSellProduct = (items) => {
     let crosssell = [];
@@ -26,6 +30,7 @@ const Cart = (props) => {
     const styles = useStyles();
     const [editMode, setEditMode] = useState(false);
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
+    const [backdrop, setBackdrop] = React.useState(false);
     let cartId = '';
     let dataCart = {
         id: null,
@@ -37,6 +42,29 @@ const Cart = (props) => {
     let loadingCart = true;
     let crosssell = [];
 
+    // delete item from cart
+    const [actDeleteItem, resultDelete] = useMutation(Schema.deleteCartitem);
+    const deleteItem = (itemId) => {
+        setBackdrop(true);
+        actDeleteItem({
+            variables: {
+                cartId,
+                cart_item_id: itemId,
+            },
+            refetchQueries: [
+                {
+                    query: Schema.getCart,
+                    variables: { cartId },
+                    fetchPolicy: 'cache-and-network',
+                },
+            ],
+        });
+        setEditMode(false);
+    };
+    if (resultDelete.data && backdrop) {
+        setBackdrop(false);
+    }
+
     if (typeof window !== 'undefined') {
         cartId = getCartId();
         const { loading, data } = getCartData(cartId);
@@ -45,6 +73,7 @@ const Cart = (props) => {
             dataCart = data.cart;
         }
     }
+
     if (loadingCart) {
         return <SkeletonCart />;
     }
@@ -57,9 +86,13 @@ const Cart = (props) => {
     };
 
     crosssell = getCrossSellProduct(dataCart.items);
+
     if (dataCart.id && dataCart.items.length > 0) {
         return (
             <>
+                <Backdrop className={styles.backdrop} open={backdrop}>
+                    <CircularProgress color="inherit" />
+                </Backdrop>
                 <Box className={styles.container}>
                     <div className={styles.toolbar}>
                         <div className={styles.toolbarCounter}>
@@ -89,6 +122,7 @@ const Cart = (props) => {
                                 key={idx}
                                 editMode={editMode}
                                 toggleEditDrawer={toggleEditDrawer}
+                                deleteItem={deleteItem}
                                 {...props}
                                 {...item}
                             />
