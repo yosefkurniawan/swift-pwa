@@ -1,5 +1,9 @@
 import Layout from '@components/Layouts';
+import { nameToken } from '@config';
+import { getTokenFromServer } from '@helpers/token';
 import { withTranslation } from '@i18n';
+import cookies from 'next-cookies';
+import Router from 'next/router';
 import Content from './component';
 
 const Page = (props) => {
@@ -17,8 +21,16 @@ const Page = (props) => {
     );
 };
 
-Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'customer', 'validate'],
-});
+Page.getInitialProps = async (ctx) => {
+    const allcookie = cookies(ctx);
+    const token = getTokenFromServer(allcookie[nameToken]);
+    if (token !== '' && token) {
+        if (typeof window !== 'undefined') Router.push('/customer/account');
+        else ctx.res.redirect('/customer/account');
+    }
+    return {
+        namespacesRequired: ['common', 'customer', 'validate'],
+    };
+};
 
 export default withTranslation()(Page);

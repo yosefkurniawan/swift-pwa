@@ -7,10 +7,12 @@ import Typography from '@components/Typography';
 import Toast from '@components/Toast';
 import { GraphOtp, GraphConfig } from '@services/graphql';
 import PropTypes from 'prop-types';
+import { useTranslation } from '@i18n';
 
 import useStyles from './style';
 
 const OtpBlock = ({ phoneProps, codeProps, type }) => {
+    const { t } = useTranslation(['customer']);
     const styles = useStyles();
     const [time, setTime] = React.useState(0);
     const [manySend, setManySend] = React.useState(1);
@@ -65,10 +67,9 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
                     variant: 'success',
                 });
             }).catch((e) => {
-                console.log(e);
                 setMessage({
                     open: true,
-                    text: 'Otp is not sending',
+                    text: e.message.split(':')[1] || 'Otp failed to send',
                     variant: 'error',
                 });
             });
@@ -154,24 +155,43 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
     }, [time, data]);
 
     return (
-        <>
+        <div className="column">
             <Toast open={message.open} message={message.text} variant={message.variant} setOpen={() => setMessage({ ...message, open: false })} />
             <div className={styles.componentContainer}>
                 <div className={styles.input}>
                     <TextField label="Phone Number" fullWidth {...phoneProps} onChange={handlePhone} />
                 </div>
                 <div className={styles.button}>
-                    <Button fullWidth onClick={handleSend} disabled={!!((!phoneProps.value || phoneProps.value === '' || phoneProps.error))}>
+                    <Button fullWidth onClick={handleSend} disabled={!!(!phoneProps.value || phoneProps.value === '' || phoneProps.error)}>
                         <Typography variant="p" color="white" align="center">
                             Send Otp
                         </Typography>
                     </Button>
                 </div>
             </div>
+            <>
+                {time > 0 && (
+                    <Typography variant="p">
+                        {t('customer:otp:wait')}
+                        {' '}
+                        {time}
+                        {' '}
+                        {t('customer:otp:resend')}
+                    </Typography>
+                )}
+                {manySend > 1 && (
+                    <Typography variant="p">
+                        {t('customer:otp:sendTimes')}
+                        {' '}
+                        {manySend - 1}
+                        {' '}
+                        {t('customer:otp:time')}
+                    </Typography>
+                )}
+            </>
             <div className={styles.componentContainer}>
                 <div className={styles.input}>
                     <Password
-
                         label="Code Otp"
                         showVisible={false}
                         showPasswordMeter={false}
@@ -191,7 +211,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
                     </Button>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
