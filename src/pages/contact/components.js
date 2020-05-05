@@ -3,6 +3,7 @@ import Typography from '@components/Typography';
 import Button from '@components/Button';
 import TextField from '@components/Forms/TextField';
 import Toast from '@components/Toast';
+import { regexPhone } from '@helpers/regex';
 // import Toast from '@components/Toast';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -31,7 +32,7 @@ const ContactForm = ({ t }) => {
             fullName: Yup.string().required(t('validate:fullName:required')),
             email: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
             message: Yup.string().required(t('validate:message:required')),
-            telephone: Yup.string(),
+            telephone: Yup.string().matches(regexPhone, t('validate:phoneNumber:wrong')),
         }),
         onSubmit: async (values) => {
             const response = await contactusFormSubmit({
@@ -77,15 +78,6 @@ const ContactForm = ({ t }) => {
                 errorMessage={formik.errors.email || null}
             />
             <TextField
-                label={t('contact:message')}
-                className={styles.message}
-                name="message"
-                value={formik.values.message}
-                onChange={formik.handleChange}
-                error={!!formik.errors.message}
-                errorMessage={formik.errors.message || null}
-            />
-            <TextField
                 label={t('contact:telephone')}
                 className={styles.telephone}
                 name="telephone"
@@ -93,6 +85,17 @@ const ContactForm = ({ t }) => {
                 onChange={formik.handleChange}
                 error={!!formik.errors.telephone}
                 errorMessage={formik.errors.telephone || null}
+            />
+            <TextField
+                label={t('contact:message')}
+                className={styles.message}
+                name="message"
+                multiline
+                rows="4"
+                value={formik.values.message}
+                onChange={formik.handleChange}
+                error={!!formik.errors.message}
+                errorMessage={formik.errors.message || null}
             />
             <Button className={styles.btn} fullWidth type="submit">
                 {t('common:button:send')}
