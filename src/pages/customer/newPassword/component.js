@@ -35,14 +35,16 @@ const ForgotPassword = ({ t, token }) => {
             setLoading(true);
             setNewPassword({
                 variables: values,
-            }).then(() => {
+            }).then(async () => {
                 setLoading(false);
                 setToast({
                     open: true,
                     variant: 'success',
                     text: t('customer:newPassword:success'),
                 });
-                Router.push('/customer/account/login');
+                setInterval(() => {
+                    Router.push('/customer/account/login');
+                }, 3000);
             }).catch(() => {
                 setLoading(false);
                 setToast({

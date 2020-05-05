@@ -42,12 +42,22 @@ const ForgotPassword = ({ t }) => {
             }).then((res) => {
                 setLoad(false);
                 const { token } = res.data.requestLinkForgotPassword;
-                if (token) Router.push(`/customer/account/newPassword?token=${token}`);
-                setToast({
-                    open: true,
-                    variant: 'success',
-                    text: t('customer:forgotPassword:success'),
-                });
+                if (token) {
+                    setToast({
+                        open: true,
+                        variant: 'success',
+                        text: t('customer:forgotPassword:success'),
+                    });
+                    setInterval(() => {
+                        Router.push(`/customer/account/newPassword?token=${token}`);
+                    }, 3000);
+                } else {
+                    setToast({
+                        open: true,
+                        variant: 'error',
+                        text: t('customer:forgotPassword:failed'),
+                    });
+                }
             }).catch(() => {
                 setToast({
                     open: true,

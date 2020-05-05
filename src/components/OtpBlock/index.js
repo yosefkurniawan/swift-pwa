@@ -57,14 +57,14 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
                 variant: 'warning',
             });
         } else if (time <= 0) {
-            setManySend(manySend + 1);
-            // eslint-disable-next-line no-nested-ternary
-            setTime(config && config.expired ? config.expired : 60);
             sendOtp({
                 variables: {
                     phoneNumber,
                 },
             }).then(() => {
+                setManySend(manySend + 1);
+                // eslint-disable-next-line no-nested-ternary
+                setTime(config && config.expired ? config.expired : 60);
                 setMessage({
                     open: true,
                     text: 'Otp is sending',
