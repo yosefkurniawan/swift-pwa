@@ -190,6 +190,13 @@ const Register = ({ t }) => {
                             onChange: formik.handleChange,
                             error: !!formik.errors.phoneNumber,
                             errorMessage: (formik.touched.phoneNumber && formik.errors.phoneNumber) || null,
+                        }}
+                        codeProps={{
+                            name: 'otp',
+                            value: formik.values.otp,
+                            onChange: formik.handleChange,
+                            error: !!(formik.touched.otp && formik.errors.otp),
+                            errorMessage: (formik.touched.otp && formik.errors.otp) || null,
                             footer: (
                                 <FormControlLabel
                                     onChange={handleWa}
@@ -198,13 +205,6 @@ const Register = ({ t }) => {
                                     label={<Typography variant="p">Phone Number is Registered in Whatsapp</Typography>}
                                 />
                             ),
-                        }}
-                        codeProps={{
-                            name: 'otp',
-                            value: formik.values.otp,
-                            onChange: formik.handleChange,
-                            error: !!(formik.touched.otp && formik.errors.otp),
-                            errorMessage: (formik.touched.otp && formik.errors.otp) || null,
                         }}
                     />
                 ) : (

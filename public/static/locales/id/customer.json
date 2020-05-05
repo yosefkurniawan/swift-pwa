@@ -27,9 +27,15 @@
     "sms": "Via sms ke "
   },
   "forgotPassword": {
-    "title": "ganti password",
+    "title": "Lupa password",
     "content": "Dapatkan instruksi ke email kamu untuk mengganti password.",
-    "success": "Kirim reset password sukses."
+    "success": "Kirim reset password sukses.",
+    "failed": "Kirim reset password gagal!"
+  },
+  "newPassword": {
+    "title": "Ubah password",
+    "success": "password berhasil di rubah",
+    "failed": "Ubah password gagal!"
   },
   "button": {
     "logout": "Keluar"

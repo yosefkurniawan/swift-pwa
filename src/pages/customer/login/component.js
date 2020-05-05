@@ -17,7 +17,7 @@ import { getToken } from './service/graphql';
 import useStyles from './style';
 
 
-const Login = ({ t }) => {
+const Login = ({ t, storeConfig, query }) => {
     const styles = useStyles();
     const [isOtp, setIsOtp] = React.useState(false);
     const [message, setMessage] = React.useState({
@@ -38,6 +38,7 @@ const Login = ({ t }) => {
     };
 
     let cartId = '';
+    const expired = parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) || expiredToken;
 
     if (typeof window !== 'undefined') {
         cartId = getCartId();
@@ -72,6 +73,7 @@ const Login = ({ t }) => {
                 getCart();
                 setLoading(false);
             }).catch(() => {
+                setLoading(false);
                 handleOpenMessage({ variant: 'error', text: 'Login Failed!' });
             });
         },
@@ -79,10 +81,14 @@ const Login = ({ t }) => {
     if (cartData.data) {
         const custCartId = cartData.data.customerCart.id;
         if (cartId === '' || !cartId) {
-            setToken(cusToken, expiredToken);
-            setCartId(custCartId, expiredToken);
+            setToken(cusToken, expired);
+            setCartId(custCartId, expired);
             handleOpenMessage({ variant: 'success', text: 'Login Success!' });
-            Router.push('/customer/account');
+            if (query && query.redirect) {
+                Router.push(query.redirect);
+            } else {
+                Router.push('/customer/account');
+            }
         } else {
             mergeCart({
                 variables: {
@@ -90,10 +96,14 @@ const Login = ({ t }) => {
                     destionationCartId: custCartId,
                 },
             }).then(() => {
-                setToken(cusToken, expiredToken);
-                setCartId(custCartId, expiredToken);
+                setToken(cusToken, expired);
+                setCartId(custCartId, expired);
                 handleOpenMessage({ variant: 'success', text: 'Login Success!' });
-                Router.push('/customer/account');
+                if (query && query.redirect) {
+                    Router.push(query.redirect);
+                } else {
+                    Router.push('/customer/account');
+                }
             }).catch((e) => {
                 console.log(e);
             });
@@ -174,7 +184,7 @@ const Login = ({ t }) => {
                         { loading ? 'Loading' : t('customer:login:pageTitle') }
                     </Typography>
                 </Button>
-                <Button variant="text" href="/customer/account/forgot-password">
+                <Button variant="text" href="/customer/account/forgotPassword">
                     <Typography
                         variant="p"
                         type="regular"
