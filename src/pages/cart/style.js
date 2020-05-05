@@ -61,7 +61,7 @@ const useStyles = makeStyles(() => ({
     },
     itemPrice: {
         position: 'absolute',
-        bottom: 5,
+        bottom: 0,
         left: 12,
         fontWeight: 'bold',
     },
@@ -90,6 +90,10 @@ const useStyles = makeStyles(() => ({
     },
     emptyCart: {
         ...CreateMargin(20, 0, 20, 0),
+    },
+    backdrop: {
+        zIndex: 99,
+        color: '#fff',
     },
 }));
 

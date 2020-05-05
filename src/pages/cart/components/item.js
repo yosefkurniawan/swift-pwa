@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import Link from 'next/link';
 import { IconButton, Zoom } from '@material-ui/core';
 import {
@@ -8,15 +9,18 @@ import {
 import PriceFormat from '@components/PriceFormat';
 import useStyles from '../style';
 
-const Item = ({ t, editMode, toggleEditDrawer }) => {
+const Item = ({
+    t, editMode, id, toggleEditDrawer, product, quantity, configurable_options = [], deleteItem,
+}) => {
     const styles = useStyles();
     return (
         <div className={styles.item}>
             <div className={styles.itemImgWrapper}>
                 <img
-                    src="/assets/img/sample/product.png"
+                    src={product.thumbnail.url}
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
                     className={styles.itemImg}
-                    alt="[product name]"
+                    alt={product.name}
                 />
             </div>
             <div className={styles.itemInfo}>
@@ -28,10 +32,30 @@ const Item = ({ t, editMode, toggleEditDrawer }) => {
                 </Link>
                 <div className={styles.itemVariant}>
                     <div>{t('common:variant')}</div>
-                    <div>Color : Black</div>
-                    <div>Size : S</div>
+                    {configurable_options.map((item, idx) => (
+                        <div key={idx}>
+                            {item.option_label}
+                            {' '}
+                            :
+                            {' '}
+                            {item.value_label}
+                        </div>
+                    ))}
+
+                    <div>
+                        Qty :
+                        {' '}
+                        {quantity}
+                    </div>
                 </div>
-                <PriceFormat value={990000} className={styles.itemPrice} />
+                <div className={styles.itemPrice}>
+                    <PriceFormat
+                        priceRange={product.price_range}
+                        priceTiers={product.price_tiers}
+                        // eslint-disable-next-line camelcase
+                        productType={product.__typename}
+                    />
+                </div>
             </div>
 
             <div className={styles.itemActions}>
@@ -56,6 +80,7 @@ const Item = ({ t, editMode, toggleEditDrawer }) => {
                 </Zoom>
                 <Zoom
                     in={editMode}
+                    onClick={() => deleteItem(id)}
                     style={{ transitionDelay: editMode ? '100ms' : '0ms' }}
                 >
                     <IconButton className={styles.iconBtn}>
