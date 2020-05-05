@@ -61,7 +61,7 @@ const useStyles = makeStyles(() => ({
     },
     itemPrice: {
         position: 'absolute',
-        bottom: 5,
+        bottom: 0,
         left: 12,
         fontWeight: 'bold',
     },

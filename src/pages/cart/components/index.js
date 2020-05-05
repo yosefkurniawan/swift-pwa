@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import { useState } from 'react';
 import { Box } from '@material-ui/core';
 import Typography from '@components/Typography';
@@ -9,7 +10,15 @@ import CrossSell from './crosssell';
 import useStyles from '../style';
 import EditDrawer from './editDrawer';
 import CheckoutDrawer from './checkoutBox';
-import { getCartData } from "../services"
+import { getCartData } from '../services';
+
+const getCrossSellProduct = (items) => {
+    let crosssell = [];
+    for (let index = 0; index < items.length; index++) {
+        crosssell = crosssell.concat(items[index].product.crosssell_products);
+    }
+    return crosssell;
+};
 
 const Cart = (props) => {
     const { t } = props;
@@ -17,13 +26,24 @@ const Cart = (props) => {
     const [editMode, setEditMode] = useState(false);
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
     let cartId = '';
+    let dataCart = {
+        id: null,
+        total_quantity: 0,
+        applied_coupons: null,
+        prices: {},
+        items: [],
+    };
+    let loadingCart = true;
+    let crosssell = [];
     if (typeof window !== 'undefined') {
         cartId = getCartId();
+        const { loading, data } = getCartData(cartId);
+        loadingCart = loading;
+        if (!loading) {
+            dataCart = data.cart;
+        }
     }
-
-    const { loading, data } = getCartData(cartId);
-
-    if (loading) {
+    if (loadingCart) {
         return <div>loading</div>;
     }
     const toggleEditMode = () => {
@@ -34,16 +54,15 @@ const Cart = (props) => {
         setOpenEditDrawer(!openEditDrawer);
     };
 
-    const { cart } = data;
-    console.log(cart)
-    if (cart && data.cart.id) {
+    crosssell = getCrossSellProduct(dataCart.items);
+    if (dataCart.id) {
         return (
             <>
                 <Box className={styles.container}>
                     <div className={styles.toolbar}>
                         <div className={styles.toolbarCounter}>
                             <Typography variant="p" type="regular">
-                                <span>{cart.total_quantity}</span>
+                                <span>{dataCart.total_quantity}</span>
                                 {' '}
                                 {t('cart:counter:text')}
                             </Typography>
@@ -63,25 +82,24 @@ const Cart = (props) => {
                         </div>
                     </div>
                     <div className={styles.items}>
-                        <Item
-                            editMode={editMode}
-                            toggleEditDrawer={toggleEditDrawer}
-                            {...props}
-                        />
-                        <Item
-                            editMode={editMode}
-                            toggleEditDrawer={toggleEditDrawer}
-                            {...props}
-                        />
+                        {dataCart.items.map((item, idx) => (
+                            <Item
+                                key={idx}
+                                editMode={editMode}
+                                toggleEditDrawer={toggleEditDrawer}
+                                {...props}
+                                {...item}
+                            />
+                        ))}
                     </div>
                 </Box>
-                {/* <CrossSell {...props} editMode={editMode} /> */}
+                <CrossSell {...props} editMode={editMode} data={crosssell} />
                 <EditDrawer
                     open={openEditDrawer}
                     toggleOpen={toggleEditDrawer}
                     {...props}
                 />
-                {/* <CheckoutDrawer editMode={editMode} t={t} /> */}
+                <CheckoutDrawer editMode={editMode} t={t} data={dataCart} />
             </>
         );
     }

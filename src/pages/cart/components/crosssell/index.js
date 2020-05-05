@@ -3,7 +3,7 @@ import Typography from '@components/Typography';
 import useStyles from './style';
 
 const CrossSell = (props) => {
-    const { t, editMode = false } = props;
+    const { t, editMode = false, data = [] } = props;
     const styles = useStyles();
     const customStyle = !editMode ? styles.margin : '';
     return (
@@ -19,7 +19,7 @@ const CrossSell = (props) => {
                     {t('cart:crossell:title')}
                 </Typography>
                 <div className={styles.slider}>
-                    <Carousel />
+                    <Carousel data={data} />
                 </div>
             </div>
         </>
