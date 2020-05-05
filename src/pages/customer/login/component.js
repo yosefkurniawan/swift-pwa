@@ -72,9 +72,12 @@ const Login = ({ t, storeConfig, query }) => {
                 const { token } = res.data.generateCustomerToken;
                 await setCusToken(token);
                 getCart();
-            }).catch(() => {
+            }).catch((e) => {
                 setLoading(false);
-                handleOpenMessage({ variant: 'error', text: 'Login Failed!' });
+                handleOpenMessage({
+                    variant: 'error',
+                    text: e.message.split(':')[1] || 'Login Failed!',
+                });
             });
         },
     });

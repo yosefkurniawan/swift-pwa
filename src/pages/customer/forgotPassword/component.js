@@ -41,7 +41,7 @@ const ForgotPassword = ({ t }) => {
                 variables: values,
             }).then((res) => {
                 setLoad(false);
-                const { token } = res.data.requestLinkForgotPassword;
+                const { token, message } = res.data.requestLinkForgotPassword;
                 if (token) {
                     setToast({
                         open: true,
@@ -54,15 +54,15 @@ const ForgotPassword = ({ t }) => {
                 } else {
                     setToast({
                         open: true,
-                        variant: 'error',
-                        text: t('customer:forgotPassword:failed'),
+                        variant: 'success',
+                        text: message || t('customer:forgotPassword:success'),
                     });
                 }
-            }).catch(() => {
+            }).catch((e) => {
                 setToast({
                     open: true,
                     variant: 'error',
-                    text: t('customer:forgotPassword:failed'),
+                    text: e.message.split(':')[1] || t('customer:forgotPassword:failed'),
                 });
                 setLoad(false);
             });
