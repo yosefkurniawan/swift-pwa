@@ -42,7 +42,7 @@ const ForgotPassword = ({ t }) => {
             }).then((res) => {
                 setLoad(false);
                 const { token } = res.data.requestLinkForgotPassword;
-                if (token) Router.push(`/customer/account/new-password?token=${token}`);
+                if (token) Router.push(`/customer/account/newPassword?token=${token}`);
                 setToast({
                     open: true,
                     variant: 'success',
