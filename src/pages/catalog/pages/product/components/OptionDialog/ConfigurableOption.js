@@ -176,10 +176,15 @@ export default (props) => {
                                 value: option.values[valIdx].label,
                                 disabled: false,
                             };
-                            if (combination.available_combination.length > 0 && combination.code !== option.attribute_code) {
-                                const available = CheckAvailableOptions(combination.available_combination, option.values[valIdx].label);
-                                if (!available) initValue.disabled = true;
+                            let available = true;
+                            if (combination.code && combination.code !== option.attribute_code) {
+                                if (combination.available_combination.length > 0) {
+                                    available = CheckAvailableOptions(combination.available_combination, option);
+                                } else {
+                                    available = false;
+                                }
                             }
+                            if (!available) initValue.disabled = true;
                             value.push(initValue);
                         }
                     }
