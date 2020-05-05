@@ -8,6 +8,7 @@ export const getCustomer = (token) => useQuery(Schema.getCustomer, {
         },
     },
     skip: token === '' || !token,
+    fetchPolicy: 'no-cache',
 });
 
 export default {

@@ -2,6 +2,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { GRAY_PRIMARY, GRAY_LIGHT } from '@theme/colors';
 
 const useStyles = makeStyles(() => ({
+    root: {
+        width: '100%',
+        height: '100%',
+    },
     padding_vertical_40: {
         paddingTop: '40px',
         paddingBottom: '40px',
