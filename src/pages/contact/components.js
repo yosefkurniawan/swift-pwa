@@ -77,15 +77,6 @@ const ContactForm = ({ t }) => {
                 errorMessage={formik.errors.email || null}
             />
             <TextField
-                label={t('contact:message')}
-                className={styles.message}
-                name="message"
-                value={formik.values.message}
-                onChange={formik.handleChange}
-                error={!!formik.errors.message}
-                errorMessage={formik.errors.message || null}
-            />
-            <TextField
                 label={t('contact:telephone')}
                 className={styles.telephone}
                 name="telephone"
@@ -93,6 +84,17 @@ const ContactForm = ({ t }) => {
                 onChange={formik.handleChange}
                 error={!!formik.errors.telephone}
                 errorMessage={formik.errors.telephone || null}
+            />
+            <TextField
+                label={t('contact:message')}
+                className={styles.message}
+                name="message"
+                multiline
+                row="4"
+                value={formik.values.message}
+                onChange={formik.handleChange}
+                error={!!formik.errors.message}
+                errorMessage={formik.errors.message || null}
             />
             <Button className={styles.btn} fullWidth type="submit">
                 {t('common:button:send')}
