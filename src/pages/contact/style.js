@@ -7,6 +7,8 @@ export default makeStyles(() => ({
         ...CreatePadding(30, 20, 20, 20),
     },
     btn: {
+        marginTop: '22px',
+        marginBottom: '44px',
         display: 'flex',
         alignSelf: 'center',
     },
