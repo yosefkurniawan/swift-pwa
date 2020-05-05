@@ -21,7 +21,10 @@ export default (props) => {
         setBanner,
         setPrice,
         t,
-        data: { __typename, sku },
+        data: {
+            __typename, sku, media_gallery, image,
+            price_range, price_tiers,
+        },
         setMessage,
         setOpen,
         loading,
@@ -54,10 +57,21 @@ export default (props) => {
         const product = await ProductByVariant(options, data.products.items[0].variants);
         if (product && JSON.stringify(product) !== '{}') {
             dispatch(setProductSelected(product));
-            const bannerData = product.media_gallery.map((media) => ({
-                link: '#',
-                imageUrl: media.url,
-            }));
+            const bannerData = [];
+            if (product.media_gallery.length > 0) {
+                // eslint-disable-next-line array-callback-return
+                product.media_gallery.map((media) => {
+                    bannerData.push({
+                        link: '#',
+                        imageUrl: media.url,
+                    });
+                });
+            } else {
+                bannerData.push({
+                    link: '#',
+                    imageUrl: product.image.url,
+                });
+            }
             setBanner(bannerData);
             setPrice({
                 priceRange: product.price_range,
@@ -66,16 +80,27 @@ export default (props) => {
                 productType: product.__typename,
             });
         } else {
-            const bannerData = data.media_gallery.map((media) => ({
-                link: '#',
-                imageUrl: media.url,
-            }));
+            const bannerData = [];
+            if (media_gallery.length > 0) {
+                // eslint-disable-next-line array-callback-return
+                media_gallery.map((media) => {
+                    bannerData.push({
+                        link: '#',
+                        imageUrl: media.url,
+                    });
+                });
+            } else {
+                bannerData.push({
+                    link: '#',
+                    imageUrl: image.url,
+                });
+            }
             setBanner(bannerData);
             setPrice({
-                priceRange: data.price_range,
-                priceTiers: product.price_tiers,
+                priceRange: price_range,
+                priceTiers: price_tiers,
                 // eslint-disable-next-line no-underscore-dangle
-                productType: data.__typename,
+                productType: __typename,
             });
         }
 
@@ -179,7 +204,7 @@ export default (props) => {
                             let available = true;
                             if (combination.code && combination.code !== option.attribute_code) {
                                 if (combination.available_combination.length > 0) {
-                                    available = CheckAvailableOptions(combination.available_combination, option);
+                                    available = CheckAvailableOptions(combination.available_combination, option.values[valIdx].label);
                                 } else {
                                     available = false;
                                 }
