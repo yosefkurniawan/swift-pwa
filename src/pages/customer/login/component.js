@@ -8,6 +8,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/router';
 import OtpBlock from '@components/OtpBlock';
+import Loading from '@components/Loaders/Backdrop';
 import { setToken } from '@helpers/token';
 import { setCartId, getCartId } from '@helpers/cartId';
 import { GraphCart } from '@services/graphql';
@@ -71,10 +72,12 @@ const Login = ({ t, storeConfig, query }) => {
                 const { token } = res.data.generateCustomerToken;
                 await setCusToken(token);
                 getCart();
+            }).catch((e) => {
                 setLoading(false);
-            }).catch(() => {
-                setLoading(false);
-                handleOpenMessage({ variant: 'error', text: 'Login Failed!' });
+                handleOpenMessage({
+                    variant: 'error',
+                    text: e.message.split(':')[1] || 'Login Failed!',
+                });
             });
         },
     });
@@ -83,6 +86,7 @@ const Login = ({ t, storeConfig, query }) => {
         if (cartId === '' || !cartId) {
             setToken(cusToken, expired);
             setCartId(custCartId, expired);
+            setLoading(false);
             handleOpenMessage({ variant: 'success', text: 'Login Success!' });
             if (query && query.redirect) {
                 Router.push(query.redirect);
@@ -98,6 +102,7 @@ const Login = ({ t, storeConfig, query }) => {
             }).then(() => {
                 setToken(cusToken, expired);
                 setCartId(custCartId, expired);
+                setLoading(false);
                 handleOpenMessage({ variant: 'success', text: 'Login Success!' });
                 if (query && query.redirect) {
                     Router.push(query.redirect);
@@ -112,6 +117,7 @@ const Login = ({ t, storeConfig, query }) => {
 
     return (
         <div>
+            <Loading open={loading} />
             <Message
                 open={message.open}
                 variant={message.variant}

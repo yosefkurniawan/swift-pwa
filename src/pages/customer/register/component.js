@@ -87,11 +87,11 @@ const Register = ({ t }) => {
                     getCart();
                     setLoading(false);
                 })
-                .catch(() => {
+                .catch((e) => {
                     setLoading(false);
                     setMessage({
                         open: true,
-                        text: 'Register failed!',
+                        text: e.message.split(':')[1] || 'Register failed!',
                         variant: 'error',
                     });
                 });
