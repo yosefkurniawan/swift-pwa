@@ -135,7 +135,7 @@ const Content = (props) => {
                     checked={item.id == selectedAddressId}
                     key={item.id}
                     addressId={item.id}
-                    fristname={item.firstname}
+                    firstname={item.firstname}
                     lastname={item.lastname}
                     telephone={item.telephone}
                     postcode={item.postcode}

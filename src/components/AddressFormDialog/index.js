@@ -339,7 +339,8 @@ const AddressFormDialog = (props) => {
             }
         }
 
-        if (navigator.geolocation) {
+        // only set current location for add mode
+        if (navigator.geolocation && !addressId) {
             return navigator.geolocation.getCurrentPosition(displayLocationInfo);
         }
     }, [open]);
