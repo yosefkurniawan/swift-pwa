@@ -1,14 +1,5 @@
-import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { useLazyQuery } from '@apollo/react-hooks';
 import * as Schema from './schema';
-import helper from '@helpers/token';
-
-const config = {
-    context: {
-        headers: {
-            authorization: `Bearer ${helper.getToken()}`,
-        },
-    },
-};
 
 export const getCountries = () => useLazyQuery(Schema.getCountries);
 

@@ -1,21 +1,21 @@
 import { FormControlLabel, Box, Radio } from '@material-ui/core';
 import Typography from '@components/Typography';
-import useStyles from './style';
 import AddressFormDialog from '@components/AddressFormDialog';
 import React, { useState } from 'react';
-import { createCustomerAddress, updateCustomerAddress, updatedDefaultAddress } from '../services/graphql';
+import _ from 'lodash';
+import useStyles from './style';
+import { createCustomerAddress, updateCustomerAddress } from '../services/graphql';
 
 const ItemAddress = (props) => {
     const {
-        firstName = '',
-        lastName = '',
+        firstname = '',
+        lastname = '',
         street = '',
-        posCode = '',
+        postcode = '',
         country = '',
         region = '',
         city = '',
-        district = '',
-        phoneNumber = '',
+        telephone = '',
         value = '',
         checked = false,
         onSubmitAddress,
@@ -31,13 +31,12 @@ const ItemAddress = (props) => {
         <>
             <AddressFormDialog
                 {...props}
-                isSelectedValue={true}
                 open={open}
                 onSubmitAddress={async (data, type) => {
                     setLoading(true);
 
                     if (!success) {
-                        if (type == 'update') {
+                        if (type === 'update') {
                             await updateAddress({
                                 variables: {
                                     ...data,
@@ -60,10 +59,10 @@ const ItemAddress = (props) => {
                         onSubmitAddress();
                     }, 1000);
                 }}
-                loading = {loading}
-                success = {success}
+                loading={loading}
+                success={success}
                 setOpen={() => setOpen(!open)}
-                pageTitle={'editTitle'}
+                pageTitle="editTitle"
             />
             <Box className="column">
                 <Box className={[styles.address_content].join(' ')}>
@@ -72,26 +71,26 @@ const ItemAddress = (props) => {
                         value={value}
                         checked={checked}
                         control={<Radio color="primary" size="small" />}
-                        label={
+                        label={(
                             <>
                                 <Typography className={[styles.address_text].join(' ')} variant="p">
-                                    {firstName} {lastName}
+                                    {`${firstname} ${lastname}`}
                                 </Typography>
                                 <Typography className={[styles.address_text].join(' ')} variant="p">
-                                    {street},
+                                    {street}
+                                    ,
                                 </Typography>
                                 <Typography className={[styles.address_text].join(' ')} variant="p">
-                                    {district !== '' && `${district}, `}
                                     {city !== '' && `${city}, `}
                                     {region !== '' && `${region}, `}
                                     {country !== '' && `${country}, `}
-                                    {posCode !== '' && posCode}
+                                    {postcode !== '' && postcode}
                                 </Typography>
                                 <Typography className={[styles.address_text].join(' ')} variant="p">
-                                    {phoneNumber}
+                                    {telephone}
                                 </Typography>
                             </>
-                        }
+                        )}
                         labelPlacement="end"
                     />
                     <Typography className={[styles.address_edit].join(' ')} variant="span" onClick={() => setOpen(!open)}>

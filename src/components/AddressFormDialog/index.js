@@ -5,26 +5,28 @@ import IcubeMaps from '@components/GoogleMaps/Maps';
 import Header from '@components/Header';
 import Typography from '@components/Typography';
 import { regexPhone } from '@helpers/regex';
-import { Box, Checkbox, CircularProgress, Dialog, FormControlLabel, TextField } from '@material-ui/core';
+import {
+    Box, Checkbox, CircularProgress, Dialog, FormControlLabel, TextField,
+} from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { useFormik } from 'formik';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
+import clsx from 'clsx';
 import { getCityByRegionId, getCountries as getAllCountries } from './services/graphql';
 import useStyles from './style';
-import clsx from 'clsx';
 
 const AddressFormDialog = (props) => {
-    let {
-        firstName = '',
-        lastName = '',
+    const {
+        firstname = '',
+        lastname = '',
         street = '',
-        posCode = '',
+        postcode = '',
         country = null,
         region = null,
         city = null,
-        phoneNumber = '',
+        telephone = '',
         maps = '',
         open,
         t,
@@ -46,27 +48,6 @@ const AddressFormDialog = (props) => {
     };
 
     const [getCountries, gqlCountries] = getAllCountries();
-    const [getCities] = getCityByRegionId({
-        onCompleted: (data) => {
-            const state = { ...addressState };
-
-            if (data.getCityByRegionId.item.length != 0) {
-                state.dropdown.city = data.getCityByRegionId.item.map((item) => ({ ...item, id: item.id, label: item.city }));
-                formik.setFieldValue('city', getCityByLabel(city, state.dropdown.city));
-            } else {
-                state.dropdown.city = null;
-                formik.setFieldValue('city', null);
-                if (isFromUseEffect) {
-                    formik.setFieldValue('city', city);
-                    setFromUseEffect(false);
-                }
-            }
-
-            setAddressState(state);
-        },
-    });
-
-    const [isFromUseEffect, setFromUseEffect] = useState(false);
     const [addressState, setAddressState] = useState({
         countries: null,
         dropdown: {
@@ -81,19 +62,21 @@ const AddressFormDialog = (props) => {
         },
     });
 
+    const [isFromUseEffect, setFromUseEffect] = useState(false);
+
     const addBtn = clsx({
         [styles.addBtnSuccess]: success,
         [styles.addBtn]: !success,
     });
 
-    const getRegionByLabel = (label, region = null) => {
-        let data = region ? region : addressState.dropdown.region;
+    const getRegionByLabel = (label, dataRegion = null) => {
+        const data = dataRegion || addressState.dropdown.region;
         return data.find((item) => item.label === label) ? data.find((item) => item.label === label) : null;
     };
 
-    const getRegionByCountry = (country, countries = null) => {
-        let data = countries ? countries : addressState.countries;
-        data = data.find((item) => item.id === country);
+    const getRegionByCountry = (dataCountry, countries = null) => {
+        let data = countries || addressState.countries;
+        data = data.find((item) => item.id === dataCountry);
 
         if (data) {
             if (data.available_regions) {
@@ -108,13 +91,13 @@ const AddressFormDialog = (props) => {
     };
 
     const getCountryByCode = (code, countries = null) => {
-        let data = countries ? countries : addressState.dropdown.countries;
+        let data = countries || addressState.dropdown.countries;
         data = data.find((item) => item.id === code);
-        return data ? data : null;
+        return data || null;
     };
 
-    const getCityByLabel = (label, city = null) => {
-        let data = city ? city : addressState.dropdown.city;
+    const getCityByLabel = (label, dataCity = null) => {
+        const data = dataCity || addressState.dropdown.city;
         return data.find((item) => item.label === label) ? data.find((item) => item.label === label) : null;
     };
 
@@ -138,28 +121,27 @@ const AddressFormDialog = (props) => {
     };
 
     const AddressSchema = Yup.object().shape({
-        firstname: Yup.string().required(t('validate:firstName:required')),
-        lastname: Yup.string().required(t('validate:lastName:required')),
-        telephone: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
+        firstname: Yup.string().required(t('validate:firstname:required')),
+        lastname: Yup.string().required(t('validate:lastname:required')),
+        telephone: Yup.string().required(t('validate:telephone:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
         street: Yup.string().required(t('validate:street:required')).min(10, t('validate:street:wrong')),
-        postcode: Yup.string().required(t('validate:postal:required')).min(3, t('validate:postal:wrong')).max(20, t('validate:postal:wrong')),
+        postcode: Yup.string().required(t('validate:postcode:required')).min(3, t('validate:postcode:wrong')).max(20, t('validate:postcode:wrong')),
         country: Yup.string().nullable().required(t('validate:country:required')),
         region: Yup.string().nullable().required(t('validate:state:required')),
         city: Yup.string().nullable().required(t('validate:city:required')),
     });
 
-    const timer = React.useRef();
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            firstname: firstName || '',
-            lastname: lastName || '',
-            telephone: phoneNumber || '',
+            firstname: firstname || '',
+            lastname: lastname || '',
+            telephone: telephone || '',
             street: street || '',
             country: '',
             region: '',
             city: '',
-            postcode: posCode || '',
+            postcode: postcode || '',
             maps: maps || '',
             defaultBilling: defaultBilling || false,
             defaultShipping: defaultShipping || false,
@@ -178,11 +160,31 @@ const AddressFormDialog = (props) => {
                 addressId,
             };
 
-            const type = addressId ? 'update':'add'
+            const type = addressId ? 'update' : 'add';
 
             if (onSubmitAddress) {
                 onSubmitAddress(data, type);
             }
+        },
+    });
+
+    const [getCities] = getCityByRegionId({
+        onCompleted: (data) => {
+            const state = { ...addressState };
+
+            if (data.getCityByRegionId.item.length !== 0) {
+                state.dropdown.city = data.getCityByRegionId.item.map((item) => ({ ...item, id: item.id, label: item.city }));
+                formik.setFieldValue('city', getCityByLabel(city, state.dropdown.city));
+            } else {
+                state.dropdown.city = null;
+                formik.setFieldValue('city', null);
+                if (isFromUseEffect) {
+                    formik.setFieldValue('city', city);
+                    setFromUseEffect(false);
+                }
+            }
+
+            setAddressState(state);
         },
     });
 
@@ -194,7 +196,7 @@ const AddressFormDialog = (props) => {
                     getOptionLabel={(option) => (option.label ? option.label : '')}
                     id="controlled-region"
                     value={_.isEmpty(formik.values.region) ? null : formik.values.region}
-                    onClose={(event, newValue) => {
+                    onClose={() => {
                         formik.setFieldValue('city', null);
                     }}
                     onChange={async (event, newValue) => {
@@ -219,7 +221,7 @@ const AddressFormDialog = (props) => {
                                     shrink: true,
                                 }}
                                 onKeyDown={(event) => {
-                                    if (event.key != 'Enter' && event.key != 'Tab') {
+                                    if (event.key !== 'Enter' && event.key !== 'Tab') {
                                         const state = {
                                             ...addressState,
                                         };
@@ -230,7 +232,7 @@ const AddressFormDialog = (props) => {
                                 }}
                                 error={!!(formik.touched.region && formik.errors.region)}
                             />
-                            <Typography variant="p" color={!!(formik.touched.region && formik.errors.region) ? 'red' : 'default'}>
+                            <Typography variant="p" color={formik.touched.region && formik.errors.region ? 'red' : 'default'}>
                                 {formik.touched.region && formik.errors.region}
                             </Typography>
                         </div>
@@ -278,7 +280,7 @@ const AddressFormDialog = (props) => {
                                 }}
                                 error={!!(formik.touched.city && formik.errors.city)}
                             />
-                            <Typography variant="p" color={!!(formik.touched.city && formik.errors.city) ? 'red' : 'default'}>
+                            <Typography variant="p" color={formik.touched.city && formik.errors.city ? 'red' : 'default'}>
                                 {formik.touched.city && formik.errors.city}
                             </Typography>
                         </div>
@@ -320,11 +322,13 @@ const AddressFormDialog = (props) => {
             }
             setAddressState(state);
 
-            if (_.isArray(state.dropdown.region)) {
+            if (_.isArray(state.dropdown.region) && !region) {
                 const selectedRegion = getRegionByLabel(region);
                 formik.setFieldValue('region', selectedRegion);
-                setFromUseEffect(true);
-                getCities({ variables: { regionId: selectedRegion.id } });
+                if (selectedRegion) {
+                    setFromUseEffect(true);
+                    getCities({ variables: { regionId: selectedRegion.id } });
+                }
             } else {
                 formik.setFieldValue('city', city);
             }
@@ -379,15 +383,15 @@ const AddressFormDialog = (props) => {
                                 getOptionLabel={(option) => (option.label ? option.label : '')}
                                 id="controlled-demo"
                                 value={formik.values.country}
-                                onClose={(event, newValue) => {
+                                onClose={() => {
                                     formik.setFieldValue('region', null);
                                     formik.setFieldValue('city', null);
                                 }}
                                 onChange={(event, newValue) => {
                                     const state = { ...addressState };
                                     state.dropdown.region = newValue ? newValue.available_regions : null;
-                                    state.dropdown.region =
-                                        !state.dropdown.region || state.dropdown.region.map((item) => ({ ...item, label: item.name }));
+                                    state.dropdown.region = !state.dropdown.region
+                                        || state.dropdown.region.map((item) => ({ ...item, label: item.name }));
                                     state.dropdown.city = null;
 
                                     setAddressState(state);
@@ -408,7 +412,7 @@ const AddressFormDialog = (props) => {
                                                 shrink: true,
                                             }}
                                             onKeyDown={(event) => {
-                                                if (event.key != 'Enter' && event.key != 'Tab') {
+                                                if (event.key !== 'Enter' && event.key !== 'Tab') {
                                                     const state = {
                                                         ...addressState,
                                                     };
@@ -426,7 +430,7 @@ const AddressFormDialog = (props) => {
                                             }}
                                             error={!!(formik.touched.country && formik.errors.country)}
                                         />
-                                        <Typography variant="p" color={!!(formik.touched.country && formik.errors.country) ? 'red' : 'default'}>
+                                        <Typography variant="p" color={formik.touched.country && formik.errors.country ? 'red' : 'default'}>
                                             {formik.touched.country && formik.errors.country}
                                         </Typography>
                                     </div>
@@ -461,11 +465,11 @@ const AddressFormDialog = (props) => {
                             onChange={() => formik.setFieldValue('defaultBilling', !formik.values.defaultBilling)}
                             name="defaultBilling"
                             control={<Checkbox name="newslater" color="primary" size="small" />}
-                            label={
+                            label={(
                                 <Typography variant="p" letter="capitalize" className="row center">
                                     {t('customer:address:useBilling')}
                                 </Typography>
-                            }
+                            )}
                         />
 
                         <FormControlLabel
@@ -474,11 +478,11 @@ const AddressFormDialog = (props) => {
                             onChange={() => formik.setFieldValue('defaultShipping', !formik.values.defaultShipping)}
                             name="defaultShipping"
                             control={<Checkbox name="newslater" color="primary" size="small" />}
-                            label={
+                            label={(
                                 <Typography variant="p" letter="capitalize" className="row center">
                                     {t('customer:address:useShipping')}
                                 </Typography>
-                            }
+                            )}
                         />
 
                         <div className={styles.wrapper}>

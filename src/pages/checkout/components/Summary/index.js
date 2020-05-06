@@ -1,6 +1,6 @@
 import Button from '@components/Button';
 import Typography from '@components/Typography';
-import currency from '@helpers/currency';
+// import currency from '@helpers/currency';
 import {
     ExpansionPanel,
     ExpansionPanelDetails,
@@ -9,14 +9,16 @@ import {
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import useStyles from './style';
 
-const Summary = ({ t, data = [1, 2, 3, 4, 5], onClick, total }) => {
+const Summary = ({
+    t, data = [1, 2, 3, 4, 5], onClick, total = 0,
+}) => {
     const styles = useStyles();
     const [expanded, setExpanded] = React.useState(null);
 
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
     };
-    const totalSummary = total ? total:0;
+
     return (
         <div className={styles.footer}>
             <ExpansionPanel
@@ -53,7 +55,7 @@ const Summary = ({ t, data = [1, 2, 3, 4, 5], onClick, total }) => {
                 </Typography>
                 <Typography variant="title" type="bold" letter="uppercase">
                     {
-                        totalSummary
+                        total
                     }
                 </Typography>
             </div>

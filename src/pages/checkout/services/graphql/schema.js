@@ -30,9 +30,9 @@ export const getCustomer = gql`
     }
 `;
 
-export const getCustomerCart = gql`
-    query {
-        customerCart {
+export const getCart = gql`
+    query Cart($cartId: String!){
+        cart(cart_id: $cartId){
             id
             prices {
                 grand_total {
@@ -126,14 +126,18 @@ export const getCustomerCart = gql`
             prices {
                 discounts {
                     amount {
-                        currency
                         value
+                        currency
                     }
                     label
                 }
-                grand_total {
-                    currency
+                subtotal_excluding_tax {
                     value
+                    currency
+                }
+                grand_total {
+                    value
+                    currency
                 }
             }
         }
@@ -151,6 +155,15 @@ export const setShippingAddressById = gql`
             cart {
                 id
                 shipping_addresses {
+                    firstname
+                    lastname
+                    street
+                    city
+                    postcode
+                    telephone
+                    region {
+                        label
+                    }
                     available_shipping_methods {
                         amount {
                             currency
@@ -170,13 +183,51 @@ export const setShippingAddressById = gql`
 `;
 
 export const setShippingAddressByInput = gql`
-    mutation setShippingAddressByInput($address: Object!, $cartId: String!) {
+    mutation setShippingAddressByInput(
+        $cartId: String!
+        $city: String!
+        $countryCode: String!
+        $firstname: String!
+        $lastname: String!
+        $telephone: String!
+        $postcode: String!
+        $street: String!
+        $region: String!
+    ) {
         setShippingAddressesOnCart(
-            input: { cart_id: $cartId, shipping_addresses: $address }
+            input: { 
+                cart_id: $cartId
+                shipping_addresses: {
+                    address: {
+                        city: $city
+                        country_code: $countryCode
+                        firstname: $firstname
+                        lastname: $lastname
+                        telephone: $telephone
+                        region: $region
+                        street: [$street]
+                        postcode: $postcode
+                        save_in_address_book: true
+                    }
+                } 
+            }
         ) {
             cart {
                 id
                 shipping_addresses {
+                    firstname
+                    lastname
+                    street
+                    city
+                    country {
+                        code
+                        label
+                    }
+                    postcode
+                    telephone
+                    region {
+                        label
+                    }
                     available_shipping_methods {
                         amount {
                             currency
@@ -223,17 +274,32 @@ export const setShippingMethod = gql`
                         }
                     }
                 }
+                items {
+                    prices {
+                        row_total {
+                            currency
+                            value
+                        }
+                        discounts {
+                            amount {
+                                currency
+                                value
+                            }
+                            label
+                        }
+                    }
+                }
                 prices {
                     discounts {
                         amount {
-                            currency
                             value
+                            currency
                         }
                         label
                     }
                     grand_total {
-                        currency
                         value
+                        currency
                     }
                 }
             }
@@ -249,6 +315,53 @@ export const setBillingAddressById = gql`
                 billing_address: {
                     same_as_shipping: true
                     customer_address_id: $addressId
+                }
+            }
+        ) {
+            cart {
+                selected_payment_method {
+                    code
+                    title
+                }
+                shipping_addresses {
+                    selected_shipping_method {
+                        carrier_code
+                        carrier_title
+                    }
+                }
+            }
+        }
+    }
+`;
+
+export const setBillingAddressByInput = gql`
+    mutation setBillingAddressByInput(
+        $cartId: String!
+        $city: String!
+        $countryCode: String!
+        $firstname: String!
+        $lastname: String!
+        $telephone: String!
+        $postcode: String!
+        $street: String!
+        $region: String!
+    ) {
+        setBillingAddressOnCart(
+            input: {
+                cart_id: $cartId
+                billing_address: {
+                    same_as_shipping: true
+                    address: {
+                        city: $city
+                        country_code: $countryCode
+                        firstname: $firstname
+                        lastname: $lastname
+                        telephone: $telephone
+                        region: $region
+                        street: [$street]
+                        postcode: $postcode
+                        save_in_address_book: true
+                    }
                 }
             }
         ) {
@@ -328,14 +441,18 @@ export const setPaymentMethod = gql`
                 prices {
                     discounts {
                         amount {
-                            currency
                             value
+                            currency
                         }
                         label
                     }
-                    grand_total {
-                        currency
+                    subtotal_excluding_tax {
                         value
+                        currency
+                    }
+                    grand_total {
+                        value
+                        currency
                     }
                 }
             }
@@ -343,11 +460,138 @@ export const setPaymentMethod = gql`
     }
 `;
 
+export const setGuestEmailAddressOnCart = gql`
+           mutation($cartId: String!, $email: String!) {
+               setGuestEmailOnCart(input: { cart_id: $cartId, email: $email }) {
+                   cart {
+                       email
+                   }
+               }
+           }
+       `;
+
 export const placeOrder = gql`
     mutation($cartId: String!) {
         placeOrder(input: { cart_id: $cartId }) {
             order {
                 order_number
+            }
+        }
+    }
+`;
+
+export const applyCouponToCart = gql`
+    mutation ($cartId: String!, $coupon: String!) {
+        applyCouponToCart(input: { cart_id: $cartId, coupon_code: $coupon }) {
+            cart {
+                items {
+                    prices {
+                        row_total {
+                            currency
+                            value
+                        }
+                        discounts {
+                            amount {
+                                currency
+                                value
+                            }
+                            label
+                        }
+                    }
+                }
+                applied_coupons {
+                    code
+                }
+                shipping_addresses {
+                    selected_shipping_method {
+                        amount {
+                            value
+                        }
+                    }
+                }
+                prices {
+                    discounts {
+                        amount {
+                            value
+                            currency
+                        }
+                        label
+                    }
+                    subtotal_excluding_tax {
+                        value
+                        currency
+                    }
+                    grand_total {
+                        value
+                        currency
+                    }
+                }
+            }
+        }
+    }
+`;
+
+export const removeCouponFromCart = gql`
+    mutation ($cartId: String!) {
+        removeCouponFromCart(input: { cart_id: $cartId }) {
+            cart {
+                items {
+                    prices {
+                        row_total {
+                            currency
+                            value
+                        }
+                        discounts {
+                            amount {
+                                currency
+                                value
+                            }
+                            label
+                        }
+                    }
+                }
+                applied_coupons {
+                    code
+                }
+                shipping_addresses {
+                    selected_shipping_method {
+                        amount {
+                            value
+                        }
+                    }
+                }
+                items {
+                    prices {
+                        row_total {
+                            currency
+                            value
+                        }
+                        discounts {
+                            amount {
+                                currency
+                                value
+                            }
+                            label
+                        }
+                    }
+                }
+                prices {
+                    discounts {
+                        amount {
+                            value
+                            currency
+                        }
+                        label
+                    }
+                    subtotal_excluding_tax {
+                        value
+                        currency
+                    }
+                    grand_total {
+                        value
+                        currency
+                    }
+                }
             }
         }
     }
