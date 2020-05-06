@@ -19,6 +19,8 @@
         "cancel": "Cancel",
         "checkout": "Checkout",
         "change" : "Change",
+        "login": "Login",
+        "register": "Register",
         "send" : "send"
     },
     "subtotal": "Subtotal",

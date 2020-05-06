@@ -1,36 +1,23 @@
 // Library
-import React from 'react';
 import Link from 'next/link';
-import Button from '@components/Button';
-import Router from 'next/router';
-import { removeToken, getToken } from '@helpers/token';
-import { removeCartId } from '@helpers/cartId';
-import { useDispatch } from 'react-redux';
-import { setCountCart } from '@stores/actions/cart';
-import { getCustomer } from '../services/graphql';
-import Loaders from './Loader';
-
+import React from 'react';
+import { getCustomer } from '../../services/graphql';
+import Footer from '../Footer';
+import Loaders from '../Loader';
 // Styling And Component
 // import Carousel from '@components/Slider/Carousel';
 import useStyles from './style';
 
-const Content = ({ t }) => {
+
+const WithToken = (props) => {
+    const { token } = props;
     const styles = useStyles();
     let userData = {};
-    const token = getToken();
-    const dispatch = useDispatch();
     const { data, loading, error } = getCustomer(token);
 
     if (!data || loading) return <Loaders />;
     if (data) userData = data;
     if (error) console.log(error);
-
-    const handleLogout = () => {
-        removeToken();
-        removeCartId();
-        dispatch(setCountCart(0));
-        Router.push('/customer/account/login');
-    };
 
     return (
         <div className={styles.root}>
@@ -83,28 +70,10 @@ const Content = ({ t }) => {
                         /> */}
                     </div>
                 </div>
-                <div className={styles.account_block}>
-                    <ul className={styles.account_navigation}>
-                        <li className={styles.account_navigation_item}>
-                            <Link href="/about-us">
-                                <a className={styles.account_navigation_link}>About Us</a>
-                            </Link>
-                        </li>
-                        <li className={styles.account_navigation_item}>
-                            <Link href="/contact">
-                                <a className={styles.account_navigation_link}>Contact Us</a>
-                            </Link>
-                        </li>
-                        <li className={styles.account_navigation_item}>
-                            <Button className={styles.account_navigation_link} onClick={handleLogout} variant="text">
-                                {t('customer:button:logout')}
-                            </Button>
-                        </li>
-                    </ul>
-                </div>
+                <Footer {...props} />
             </div>
         </div>
     );
 };
 
-export default Content;
+export default WithToken;

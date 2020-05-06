@@ -75,7 +75,7 @@ const useStyles = makeStyles(() => ({
         color: 'black',
         textTransform: 'uppercase',
         textDecoration: 'none',
-        fontSize: '28px',
+        fontSize: 24,
         fontWeight: '700',
     },
     wishlistBlock: {
@@ -83,6 +83,12 @@ const useStyles = makeStyles(() => ({
     },
     margin20: {
         paddingBottom: 20,
+    },
+    authBlock: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '100%',
     },
 }));
 

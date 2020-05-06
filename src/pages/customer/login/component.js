@@ -73,6 +73,7 @@ const Login = ({ t, storeConfig, query }) => {
                 const { token } = res.data.generateCustomerToken;
                 await setCusToken(token);
                 getCart();
+                setLoading(false);
             }).catch((e) => {
                 setLoading(false);
                 handleOpenMessage({
@@ -87,7 +88,6 @@ const Login = ({ t, storeConfig, query }) => {
         if (cartId === '' || !cartId) {
             setToken(cusToken, expired);
             setCartId(custCartId, expired);
-            setLoading(false);
             handleOpenMessage({ variant: 'success', text: 'Login Success!' });
             if (query && query.redirect) {
                 Router.push(query.redirect);
@@ -103,15 +103,13 @@ const Login = ({ t, storeConfig, query }) => {
             }).then(() => {
                 setToken(cusToken, expired);
                 setCartId(custCartId, expired);
-                setLoading(false);
                 handleOpenMessage({ variant: 'success', text: 'Login Success!' });
                 if (query && query.redirect) {
                     Router.push(query.redirect);
                 } else {
                     Router.push('/customer/account');
                 }
-            }).catch((e) => {
-                console.log(e);
+            }).catch(() => {
             });
         }
     }
