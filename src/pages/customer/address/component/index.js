@@ -144,6 +144,7 @@ const Content = (props) => {
                     country={item.country_code}
                     street={item.street.join(' ')}
                     value={item.id}
+                    customAttributes={item.custom_attributes}
                     defaultBilling={item.default_billing}
                     defaultShipping={item.default_shipping}
                     onSubmitAddress={handleDialogSubmit}
