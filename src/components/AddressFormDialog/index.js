@@ -160,8 +160,8 @@ const AddressFormDialog = (props) => {
                 regionId: _.isObject(values.region) ? values.region.id : null,
                 addressId,
                 customAttributes: [
-                    { attribute_code: 'lat', value: mapPosition.lat },
-                    { attribute_code: 'lng', value: mapPosition.lng },
+                    { attribute_code: 'latitude', value: mapPosition.lat },
+                    { attribute_code: 'longitude', value: mapPosition.lng },
                 ],
             };
 
