@@ -47,7 +47,7 @@ export const languagesLabel = {
 /* --------------------------------------- */
 
 export const expiredCokies = 6;
-export const storConfigNameCokie = 'storeConfig';
+export const storeConfigNameCokie = 'storeConfig';
 export const nameCartId = 'nci';
 
 export const keyEncrypt = 'I wrote code anything searching bug and coffe';
