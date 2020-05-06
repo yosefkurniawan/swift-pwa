@@ -14,11 +14,14 @@ import {
 import { InputAdornment, TextField } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/SearchOutlined';
 import { useTranslation } from '@i18n';
-import { gmapKey } from '@config';
+import Cookies from 'js-cookie';
+import { storeConfigNameCokie } from '@config';
 
 const {
     StandaloneSearchBox,
 } = require('react-google-maps/lib/components/places/StandaloneSearchBox');
+
+const gmapKey = (Cookies.getJSON(storeConfigNameCokie) || {}).icube_pinlocation_gmap_key;
 
 const IcubeMaps = compose(
     withProps({

@@ -37,6 +37,7 @@ const AddressFormDialog = (props) => {
         defaultBilling = false,
         addressId = null,
         setOpen,
+        customAttributes,
         pageTitle = 'addTitle',
     } = props;
 
@@ -102,8 +103,8 @@ const AddressFormDialog = (props) => {
     };
 
     const [mapPosition, setMapPosition] = useState({
-        lat: -6.197361,
-        lng: 106.774535,
+        lat: customAttributes ? Number((customAttributes.find((el) => el.attribute_code === 'latitude') || {}).value) : -6.197361,
+        lng: customAttributes ? Number((customAttributes.find((el) => el.attribute_code === 'longitude') || {}).value) : 106.774535,
     });
 
     const displayLocationInfo = (position) => {
@@ -158,6 +159,10 @@ const AddressFormDialog = (props) => {
                 regionCode: _.isObject(values.region) ? values.region.code : null,
                 regionId: _.isObject(values.region) ? values.region.id : null,
                 addressId,
+                customAttributes: [
+                    { attribute_code: 'latitude', value: mapPosition.lat },
+                    { attribute_code: 'longitude', value: mapPosition.lng },
+                ],
             };
 
             const type = addressId ? 'update' : 'add';
@@ -334,7 +339,8 @@ const AddressFormDialog = (props) => {
             }
         }
 
-        if (navigator.geolocation) {
+        // only set current location for add mode
+        if (navigator.geolocation && !addressId) {
             return navigator.geolocation.getCurrentPosition(displayLocationInfo);
         }
     }, [open]);

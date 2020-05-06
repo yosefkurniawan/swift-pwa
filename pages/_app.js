@@ -12,7 +12,7 @@ import { compose } from 'redux';
 import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import Cookie from 'js-cookie';
 import cookies from 'next-cookies';
-import { expiredCokies, storConfigNameCokie, nameToken } from '@config';
+import { expiredCokies, storeConfigNameCokie, nameToken } from '@config';
 import { getTokenFromServer, getToken } from '@helpers/token';
 import '../src/styles/index.css';
 import '../src/styles/mage.css';
@@ -55,19 +55,19 @@ class MyApp extends App {
         }
 
         let storeConfig;
-        if (!allcookie[storConfigNameCokie]) {
+        if (!allcookie[storeConfigNameCokie]) {
             storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
         } else {
-            storeConfig = allcookie[storConfigNameCokie];
+            storeConfig = allcookie[storeConfigNameCokie];
         }
         return { pageProps: { ...pageProps, storeConfig } };
     }
 
     render() {
         const { Component, pageProps } = this.props;
-        const storeCokie = Cookie.get(storConfigNameCokie);
+        const storeCokie = Cookie.get(storeConfigNameCokie);
         if (!storeCokie) {
-            Cookie.set(storConfigNameCokie, pageProps.storeConfig, {
+            Cookie.set(storeConfigNameCokie, pageProps.storeConfig, {
                 path: '',
                 expires: expiredCokies,
             });

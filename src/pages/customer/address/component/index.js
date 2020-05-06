@@ -135,7 +135,7 @@ const Content = (props) => {
                     checked={item.id == selectedAddressId}
                     key={item.id}
                     addressId={item.id}
-                    fristname={item.firstname}
+                    firstname={item.firstname}
                     lastname={item.lastname}
                     telephone={item.telephone}
                     postcode={item.postcode}
@@ -144,6 +144,7 @@ const Content = (props) => {
                     country={item.country_code}
                     street={item.street.join(' ')}
                     value={item.id}
+                    customAttributes={item.custom_attributes}
                     defaultBilling={item.default_billing}
                     defaultShipping={item.default_shipping}
                     onSubmitAddress={handleDialogSubmit}
