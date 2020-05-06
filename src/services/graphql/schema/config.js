@@ -23,6 +23,7 @@ export const storeConfig = gql`
             default_display_currency_code
             header_logo_src
             head_shortcut_icon
+            icube_pinlocation_gmap_key
             logo_alt
             logo_width
             logo_height
