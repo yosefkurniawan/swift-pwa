@@ -11,11 +11,7 @@ export const graphqlEndpoint = {
     prod: 'https://swiftpwa-be.testingnow.me/graphql',
 };
 
-/* --------------------------------------- */
-/* KEYS
-/* --------------------------------------- */
 
-export const gmapKey = 'AIzaSyBW4WSlBcEfik1qxqv3YGcDxD41Lo4we6c';
 /* --------------------------------------- */
 /* FEATURES CONFIGURATION
 /* --------------------------------------- */
