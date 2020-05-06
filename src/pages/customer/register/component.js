@@ -34,7 +34,7 @@ const Register = ({ t }) => {
     }
 
     const [getCart, cartData] = GraphCart.getCustomerCartId(cusToken);
-    const [mergeCart] = GraphCart.mergeCart(cusToken);
+    const [mergeCart, { called }] = GraphCart.mergeCart(cusToken);
     const otpConfig = GraphConfig.otpConfig();
 
     const [sendRegister] = register();
@@ -85,7 +85,6 @@ const Register = ({ t }) => {
                     const { token } = res.data.createCustomerCustom;
                     await setCusToken(token);
                     getCart();
-                    setLoading(false);
                 })
                 .catch((e) => {
                     setLoading(false);
@@ -103,13 +102,14 @@ const Register = ({ t }) => {
         if (cartId === '' || !cartId) {
             setToken(cusToken, expiredToken);
             setCartId(custCartId, expiredToken);
+            setLoading(false);
             setMessage({
                 open: true,
                 text: 'Register success',
                 variant: 'success',
             });
             Router.push('/customer/account');
-        } else {
+        } else if (!called) {
             mergeCart({
                 variables: {
                     sourceCartId: cartId,
@@ -119,6 +119,7 @@ const Register = ({ t }) => {
                 .then(() => {
                     setToken(cusToken, expiredToken);
                     setCartId(custCartId, expiredToken);
+                    setLoading(false);
                     setMessage({
                         open: true,
                         text: 'Register success',

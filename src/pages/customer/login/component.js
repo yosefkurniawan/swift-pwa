@@ -39,7 +39,8 @@ const Login = ({ t, storeConfig, query }) => {
     };
 
     let cartId = '';
-    const expired = parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) || expiredToken;
+    const expired = storeConfig.oauth_access_token_lifetime_customer
+        ? new Date(Date.now() + parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) * 3600000) : expiredToken;
 
     if (typeof window !== 'undefined') {
         cartId = getCartId();
@@ -47,7 +48,7 @@ const Login = ({ t, storeConfig, query }) => {
 
     const [getCustomerToken] = getToken();
     const [getCart, cartData] = GraphCart.getCustomerCartId(cusToken);
-    const [mergeCart] = GraphCart.mergeCart(cusToken);
+    const [mergeCart, { called }] = GraphCart.mergeCart(cusToken);
 
     const LoginSchema = Yup.object().shape({
         email: Yup.string()
@@ -93,7 +94,7 @@ const Login = ({ t, storeConfig, query }) => {
             } else {
                 Router.push('/customer/account');
             }
-        } else {
+        } else if (!called) {
             mergeCart({
                 variables: {
                     sourceCartId: cartId,
