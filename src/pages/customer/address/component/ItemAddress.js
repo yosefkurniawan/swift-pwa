@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { FormControlLabel, Box, Radio } from '@material-ui/core';
 import Typography from '@components/Typography';
 import AddressFormDialog from '@components/AddressFormDialog';
@@ -19,6 +20,7 @@ const ItemAddress = (props) => {
         value = '',
         checked = false,
         onSubmitAddress,
+        customAttributes,
         // eslint-disable-next-line no-unused-vars
     } = props;
     const [open, setOpen] = useState(false);
