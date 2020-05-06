@@ -8,15 +8,14 @@ import { createCustomerAddress, updateCustomerAddress } from '../services/graphq
 
 const ItemAddress = (props) => {
     const {
-        firstName = '',
-        lastName = '',
+        firstname = '',
+        lastname = '',
         street = '',
-        posCode = '',
+        postcode = '',
         country = '',
         region = '',
         city = '',
-        district = '',
-        phoneNumber = '',
+        telephone = '',
         value = '',
         checked = false,
         onSubmitAddress,
@@ -75,21 +74,20 @@ const ItemAddress = (props) => {
                         label={(
                             <>
                                 <Typography className={[styles.address_text].join(' ')} variant="p">
-                                    {`${firstName} ${lastName}`}
+                                    {`${firstname} ${lastname}`}
                                 </Typography>
                                 <Typography className={[styles.address_text].join(' ')} variant="p">
                                     {street}
                                     ,
                                 </Typography>
                                 <Typography className={[styles.address_text].join(' ')} variant="p">
-                                    {district !== '' && `${district}, `}
                                     {city !== '' && `${city}, `}
                                     {region !== '' && `${region}, `}
                                     {country !== '' && `${country}, `}
-                                    {posCode !== '' && posCode}
+                                    {postcode !== '' && postcode}
                                 </Typography>
                                 <Typography className={[styles.address_text].join(' ')} variant="p">
-                                    {phoneNumber}
+                                    {telephone}
                                 </Typography>
                             </>
                         )}

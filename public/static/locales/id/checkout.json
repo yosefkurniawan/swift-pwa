@@ -8,5 +8,6 @@
     "thanks" : "Terima kasih",
     "toOrder" : "untuk pembelian kamu",
     "thanksDetail" : "Kamai akan mengirimkan email detail pesanan dan infromasi pengiriman",
-    "continue" : "Lanjutkan Pembayaran"
+    "continue" : "Lanjutkan Pembayaran",
+    "emailAddress": "Alamat Email"
 }

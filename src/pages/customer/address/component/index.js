@@ -40,7 +40,6 @@ const Content = (props) => {
         lng: 106.774535,
     });
 
-    // method
     const displayLocationInfo = (position) => {
         const lng = position.coords.longitude;
         const lat = position.coords.latitude;
@@ -136,10 +135,10 @@ const Content = (props) => {
                     checked={item.id == selectedAddressId}
                     key={item.id}
                     addressId={item.id}
-                    firstName={item.firstname}
-                    lastName={item.lastname}
-                    phoneNumber={item.telephone}
-                    posCode={item.postcode}
+                    fristname={item.firstname}
+                    lastname={item.lastname}
+                    telephone={item.telephone}
+                    postcode={item.postcode}
                     region={item.region.region}
                     city={item.city}
                     country={item.country_code}
