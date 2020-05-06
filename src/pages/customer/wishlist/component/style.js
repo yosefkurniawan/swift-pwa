@@ -2,6 +2,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { WHITE, PRIMARY, GRAY_PRIMARY } from '@theme/colors';
 
 const useStyles = makeStyles(() => ({
+    root: {
+        width: '100%',
+        height: '100vh',
+    },
     colorPrimary: {
         color: PRIMARY,
     },

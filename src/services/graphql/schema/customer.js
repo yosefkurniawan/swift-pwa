@@ -1,5 +1,13 @@
 import { gql } from 'apollo-boost';
 
+export const addWishlist = gql`
+    mutation addWishlist($productId: Int!) {
+        addProductToWishlist(productId: $productId) {
+            info
+        }
+    }
+`;
+
 const productDetail = `
     id
     name
@@ -98,5 +106,5 @@ export const getCustomer = gql`
 `;
 
 export default {
-    getCustomer,
+    addWishlist,
 };
