@@ -17,6 +17,7 @@
         "saved": "Saved",
         "continueShopping": "Continue Shopping",
         "cancel": "Cancel",
+        "yes": "Ya",
         "checkout": "Checkout",
         "change" : "Change",
         "login": "Login",
@@ -26,5 +27,6 @@
     "subtotal": "Subtotal",
     "price": {
         "asLowAs": "As low as"
-    }
+    },
+    "qty": "Qty"
 }

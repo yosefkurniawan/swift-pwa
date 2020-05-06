@@ -17,6 +17,7 @@
         "saved": "Tersimpan",
         "continueShopping": "Lanjut Berbelanja",
         "cancel": "Batal",
+        "yes": "Ya",
         "checkout": "Checkout",
         "change" : "Ubah",
         "send" : "kirim",
@@ -25,5 +26,6 @@
     "subtotal": "Subtotal",
     "price": {
         "asLowAs": "Termurah"
-    }
+    },
+    "qty": "Jumlah"
 }

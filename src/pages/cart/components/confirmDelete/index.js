@@ -20,10 +20,10 @@ const ConfirmationDelete = ({
         </DialogContent>
         <DialogActions>
             <Button onClick={handleCancel} color="primary">
-                {t('confirmation:cancel')}
+                {t('common:button:cancel')}
             </Button>
             <Button onClick={handleDelete} color="primary" autoFocus>
-                {t('confirmation:yes')}
+                {t('common:button:yes')}
             </Button>
         </DialogActions>
     </Dialog>
