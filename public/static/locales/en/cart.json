@@ -12,5 +12,6 @@
     "button": {
         "saveEdit": "Save and Conitnue",
         "checkout": "Checkout"
-    }
+    },
+    "confirmDelete": "Are you sure want to delete this item?"
 }
