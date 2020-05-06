@@ -17,7 +17,7 @@ import { expiredToken } from '@config';
 import { register } from './services/graphql';
 import useStyles from './style';
 
-const Register = ({ t }) => {
+const Register = ({ t, storeConfig }) => {
     const styles = useStyles();
     const [phoneIsWa, setPhoneIsWa] = React.useState(false);
     const [message, setMessage] = React.useState({
@@ -28,6 +28,9 @@ const Register = ({ t }) => {
     const [cusToken, setCusToken] = React.useState('');
     const [loading, setLoading] = React.useState(false);
     let cartId = '';
+
+    const expired = storeConfig.oauth_access_token_lifetime_customer
+        ? new Date(Date.now() + parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) * 3600000) : expiredToken;
 
     if (typeof window !== 'undefined') {
         cartId = getCartId();
@@ -100,8 +103,8 @@ const Register = ({ t }) => {
     if (cartData.data) {
         const custCartId = cartData.data.customerCart.id;
         if (cartId === '' || !cartId) {
-            setToken(cusToken, expiredToken);
-            setCartId(custCartId, expiredToken);
+            setToken(cusToken, expired);
+            setCartId(custCartId, expired);
             setLoading(false);
             setMessage({
                 open: true,
@@ -117,8 +120,8 @@ const Register = ({ t }) => {
                 },
             })
                 .then(() => {
-                    setToken(cusToken, expiredToken);
-                    setCartId(custCartId, expiredToken);
+                    setToken(cusToken, expired);
+                    setCartId(custCartId, expired);
                     setLoading(false);
                     setMessage({
                         open: true,
@@ -127,8 +130,8 @@ const Register = ({ t }) => {
                     });
                     Router.push('/customer/account');
                 })
-                .catch((e) => {
-                    console.log(e);
+                .catch(() => {
+                    setLoading(false);
                 });
         }
     }

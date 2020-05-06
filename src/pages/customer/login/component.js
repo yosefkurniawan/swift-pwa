@@ -110,8 +110,8 @@ const Login = ({ t, storeConfig, query }) => {
                 } else {
                     Router.push('/customer/account');
                 }
-            }).catch((e) => {
-                console.log(e);
+            }).catch(() => {
+                setLoading(false);
             });
         }
     }
