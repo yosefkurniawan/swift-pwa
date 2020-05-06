@@ -1,11 +1,11 @@
 // Library
 import Link from 'next/link';
 import React from 'react';
+import Carousel from '@components/Slider/Carousel';
 import { getCustomer } from '../../services/graphql';
 import Footer from '../Footer';
 import Loaders from '../Loader';
 // Styling And Component
-// import Carousel from '@components/Slider/Carousel';
 import useStyles from './style';
 
 
@@ -13,10 +13,20 @@ const WithToken = (props) => {
     const { token } = props;
     const styles = useStyles();
     let userData = {};
+    let wishlist = [];
     const { data, loading, error } = getCustomer(token);
 
     if (!data || loading) return <Loaders />;
-    if (data) userData = data;
+    if (data) {
+        userData = data;
+        wishlist = data.customer.wishlist.items.map(({ product }) => ({
+            ...product,
+            name: product.name,
+            link: product.url_key,
+            imageSrc: product.small_image.url,
+            price: product.price_range.minimum_price.regular_price.value,
+        }));
+    }
     if (error) console.log(error);
 
     return (
@@ -64,10 +74,10 @@ const WithToken = (props) => {
                         <h5 className={styles.account_wishlist_read_more}>Read More</h5>
                     </div>
                     <div className={styles.account_clearfix}>
-                        {/* <Carousel
-                            data={data}
+                        <Carousel
+                            data={wishlist}
                             className={[styles.wishlistBlock, styles.margin20].join(' ')}
-                        /> */}
+                        />
                     </div>
                 </div>
                 <Footer {...props} />
