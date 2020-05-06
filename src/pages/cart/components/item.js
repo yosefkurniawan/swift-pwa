@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import { useState } from 'react';
 import Link from 'next/link';
 import { IconButton, Zoom } from '@material-ui/core';
 import {
@@ -8,13 +9,28 @@ import {
 } from '@material-ui/icons';
 import PriceFormat from '@components/PriceFormat';
 import useStyles from '../style';
+import ConfirmationDelete from './confirmDelete';
+
 
 const Item = ({
     t, editMode, id, toggleEditDrawer, product, quantity, configurable_options = [], deleteItem,
 }) => {
     const styles = useStyles();
+    const [confirmDel, setConfirmDel] = useState(false);
+
+    const handleDelete = () => {
+        setConfirmDel(false);
+        deleteItem(id);
+    };
+
     return (
         <div className={styles.item}>
+            <ConfirmationDelete
+                t={t}
+                open={confirmDel}
+                handleDelete={handleDelete}
+                handleCancel={() => setConfirmDel(false)}
+            />
             <div className={styles.itemImgWrapper}>
                 <img
                     src={product.thumbnail.url}
@@ -28,7 +44,7 @@ const Item = ({
                     href="/product/[id]"
                     as="/product/product-123"
                 >
-                    <a className={styles.itemName}>Product Name</a>
+                    <a className={styles.itemName}>{product.name}</a>
                 </Link>
                 <div className={styles.itemVariant}>
                     <div>{t('common:variant')}</div>
@@ -80,7 +96,7 @@ const Item = ({
                 </Zoom>
                 <Zoom
                     in={editMode}
-                    onClick={() => deleteItem(id)}
+                    onClick={() => setConfirmDel(true)}
                     style={{ transitionDelay: editMode ? '100ms' : '0ms' }}
                 >
                     <IconButton className={styles.iconBtn}>

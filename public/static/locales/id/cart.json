@@ -12,5 +12,6 @@
     "button": {
         "saveEdit": "Simpan",
         "checkout": "Checkout"
-    }
+    },
+    "confirmDelete": "Apakah Anda yakin menghapus item ini?"
 }

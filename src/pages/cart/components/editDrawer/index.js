@@ -1,40 +1,36 @@
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
-import CustomRadio from '@components/Forms/Radio';
-import SelectColor from '@components/Forms/SelectColor';
-import SelectSize from '@components/Forms/SelectSize';
+import {
+    MenuItem, Select,
+} from '@material-ui/core';
 import useStyles from './style';
 
-/* dummy color & size data */
-const colorData = [
-    { value: '#717171', label: 'One' },
-    { value: '#9b9b9b', label: ' two' },
-    { value: '#c1c1c1', label: ' three' },
-];
-const sizeData = [
-    { value: 's', label: 'S' },
-    { value: 'm', label: 'M' },
-    { value: 'l', label: 'L' },
-    { value: 'xl', label: 'XL' },
-    { value: 'xxl', label: 'XXL' },
-];
 
-const EditDrawer = ({ t, open, toggleOpen }) => {
+const renderQty = () => {
+    const options = [];
+    // eslint-disable-next-line no-plusplus
+    for (let item = 1; item <= 10; item++) {
+        options.push(
+            <MenuItem key={item} value={item}>
+                {item}
+            </MenuItem>,
+        );
+    }
+    return options;
+};
+
+
+const EditDrawer = ({
+    t, open, toggleOpen, id, quantity = 1, product_name = '', updateItem,
+}) => {
     const styles = useStyles();
-    const [color, setColor] = React.useState(colorData[0].value);
-    const [size, setSize] = React.useState(sizeData[0].value);
-    const [sizeOptions, setSizeOptions] = React.useState(sizeData);
+    const dataQty = renderQty();
+    const [qty, setQty] = React.useState(quantity);
 
-    const handleChangeColor = (val) => {
-        if (val === '#c1c1c1') {
-            setSizeOptions([]);
-        } else {
-            setSizeOptions(sizeData);
-        }
-        setColor(val);
-    };
-
+    React.useEffect(() => {
+        setQty(quantity);
+    }, [quantity]);
     const toggleDrawer = (anchor, _open) => (event) => {
         if (
             event
@@ -55,62 +51,29 @@ const EditDrawer = ({ t, open, toggleOpen }) => {
         >
             <div className={styles.container}>
                 <Typography variant="title" type="regular" align="center">
-                    Product Name
+                    {product_name}
                 </Typography>
-
-                <CustomRadio
-                    label="Select color"
-                    flex="row"
-                    CustomItem={SelectColor}
-                    value={color}
-                    valueData={colorData}
-                    onChange={handleChangeColor}
-                    className={styles.selector}
-                    classContainer={styles.center}
-                />
-                {sizeOptions === ''
-                || sizeOptions.length <= 0
-                || !sizeOptions ? (
-                        // eslint-disable-next-line react/jsx-indent
-                        <div className={styles.selector}>
-                            <Typography
-                                variant="label"
-                                type="bold"
-                                letter="uppercase"
-                            >
-                                Select Size
-                            </Typography>
-                            <Typography variant="p" className={styles.error}>
-                                Sorry! This item is out of stock.
-                            </Typography>
-                        </div>
-                    ) : (
-                        <>
-                            <CustomRadio
-                                label="Select size"
-                                flex="row"
-                                CustomItem={SelectSize}
-                                value={size}
-                                valueData={sizeOptions}
-                                onChange={setSize}
-                                className={styles.selector}
-                                classContainer={styles.center}
-                            />
-                            <Button variant="text">
-                                <Typography
-                                    variant="p"
-                                    letter="capitalize"
-                                    decoration="underline"
-                                >
-                                    {t('product:viewGuide')}
-                                </Typography>
-                            </Button>
-                        </>
-                    )}
-
+                <div className={styles.qty}>
+                    <Typography variant="span">{t('common:qty')}</Typography>
+                    <Select
+                        defaultValue={1}
+                        value={qty}
+                        onChange={(e) => { setQty(e.target.value); }}
+                        variant="outlined"
+                    >
+                        {dataQty}
+                    </Select>
+                </div>
                 <Button
                     className={styles.toolbarButton}
-                    onClick={toggleDrawer('bottom', false)}
+                    onClick={() => {
+                        toggleOpen(false);
+                        updateItem({
+                            cart_item_id: id,
+                            quantity: qty,
+                        });
+                    }}
+                    customRootStyle={{ width: 'fit-content' }}
                 >
                     {t('cart:button:saveEdit')}
                 </Button>

@@ -29,6 +29,7 @@ const Cart = (props) => {
     const { t } = props;
     const styles = useStyles();
     const [editMode, setEditMode] = useState(false);
+    const [editItem, setEditItem] = useState({});
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
     const [backdrop, setBackdrop] = React.useState(false);
     let cartId = '';
@@ -42,8 +43,23 @@ const Cart = (props) => {
     let loadingCart = true;
     let crosssell = [];
 
+    const toggleEditMode = () => {
+        setEditMode(!editMode);
+    };
+
+    const toggleEditDrawer = (item) => {
+        setEditItem(item);
+        setOpenEditDrawer(!openEditDrawer);
+    };
+
     // delete item from cart
     const [actDeleteItem, resultDelete] = useMutation(Schema.deleteCartitem);
+    const [actUpdateItem, resultUpdate] = useMutation(Schema.updateCartitem);
+    if (resultDelete.data && backdrop) {
+        setBackdrop(false);
+    }
+
+    // delete items
     const deleteItem = (itemId) => {
         setBackdrop(true);
         actDeleteItem({
@@ -61,7 +77,27 @@ const Cart = (props) => {
         });
         setEditMode(false);
     };
-    if (resultDelete.data && backdrop) {
+
+    // update items
+    const updateItem = (itemData) => {
+        setBackdrop(true);
+        actUpdateItem({
+            variables: {
+                cartId,
+                cart_item_id: itemData.cart_item_id,
+                quantity: itemData.quantity,
+            },
+            refetchQueries: [
+                {
+                    query: Schema.getCart,
+                    variables: { cartId },
+                    fetchPolicy: 'cache-and-network',
+                },
+            ],
+        });
+    };
+    if (resultUpdate.data && backdrop) {
+        toggleEditMode();
         setBackdrop(false);
     }
 
@@ -77,16 +113,8 @@ const Cart = (props) => {
     if (loadingCart) {
         return <SkeletonCart />;
     }
-    const toggleEditMode = () => {
-        setEditMode(!editMode);
-    };
-
-    const toggleEditDrawer = () => {
-        setOpenEditDrawer(!openEditDrawer);
-    };
 
     crosssell = getCrossSellProduct(dataCart.items);
-
     if (dataCart.id && dataCart.items.length > 0) {
         return (
             <>
@@ -121,7 +149,11 @@ const Cart = (props) => {
                             <Item
                                 key={idx}
                                 editMode={editMode}
-                                toggleEditDrawer={toggleEditDrawer}
+                                toggleEditDrawer={() => toggleEditDrawer({
+                                    id: item.id,
+                                    quantity: item.quantity,
+                                    product_name: item.product.name,
+                                })}
                                 deleteItem={deleteItem}
                                 {...props}
                                 {...item}
@@ -130,11 +162,16 @@ const Cart = (props) => {
                     </div>
                 </Box>
                 <CrossSell {...props} editMode={editMode} data={crosssell} />
-                <EditDrawer
-                    open={openEditDrawer}
-                    toggleOpen={toggleEditDrawer}
-                    {...props}
-                />
+                {editItem.id ? (
+                    <EditDrawer
+                        open={openEditDrawer}
+                        toggleOpen={toggleEditDrawer}
+                        updateItem={updateItem}
+                        {...props}
+                        {...editItem}
+                    />
+                ) : null}
+
                 <CheckoutDrawer editMode={editMode} t={t} data={dataCart} />
             </>
         );

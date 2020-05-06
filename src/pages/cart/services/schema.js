@@ -155,3 +155,20 @@ export const deleteCartitem = gql`
       }
     }
 `;
+
+
+export const updateCartitem = gql`
+    mutation updateCartItems($cartId: String!, $cart_item_id: Int!, $quantity: Float!) {
+      updateCartItems(
+        input: { 
+          cart_id: $cartId,
+          cart_items: {cart_item_id: $cart_item_id, quantity: $quantity }
+        }
+      ) {
+        cart {
+          id
+          total_quantity
+        }
+      }
+    }
+`;
