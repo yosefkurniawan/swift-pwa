@@ -8,6 +8,7 @@
     "button": "Create an Account"
   },
   "login": {
+    "haveAccount": "If you have an account",
     "pageTitle": "Sign In",
     "forgotPassword": "forgot password",
     "notHaveAccount": "Don't have an account?"

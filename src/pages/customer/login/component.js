@@ -39,7 +39,8 @@ const Login = ({ t, storeConfig, query }) => {
     };
 
     let cartId = '';
-    const expired = parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) || expiredToken;
+    const expired = storeConfig.oauth_access_token_lifetime_customer
+        ? new Date(Date.now() + parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) * 3600000) : expiredToken;
 
     if (typeof window !== 'undefined') {
         cartId = getCartId();
@@ -47,7 +48,7 @@ const Login = ({ t, storeConfig, query }) => {
 
     const [getCustomerToken] = getToken();
     const [getCart, cartData] = GraphCart.getCustomerCartId(cusToken);
-    const [mergeCart] = GraphCart.mergeCart(cusToken);
+    const [mergeCart, { called }] = GraphCart.mergeCart(cusToken);
 
     const LoginSchema = Yup.object().shape({
         email: Yup.string()
@@ -72,6 +73,7 @@ const Login = ({ t, storeConfig, query }) => {
                 const { token } = res.data.generateCustomerToken;
                 await setCusToken(token);
                 getCart();
+                setLoading(false);
             }).catch((e) => {
                 setLoading(false);
                 handleOpenMessage({
@@ -86,14 +88,13 @@ const Login = ({ t, storeConfig, query }) => {
         if (cartId === '' || !cartId) {
             setToken(cusToken, expired);
             setCartId(custCartId, expired);
-            setLoading(false);
             handleOpenMessage({ variant: 'success', text: 'Login Success!' });
             if (query && query.redirect) {
                 Router.push(query.redirect);
             } else {
                 Router.push('/customer/account');
             }
-        } else {
+        } else if (!called) {
             mergeCart({
                 variables: {
                     sourceCartId: cartId,
@@ -102,15 +103,13 @@ const Login = ({ t, storeConfig, query }) => {
             }).then(() => {
                 setToken(cusToken, expired);
                 setCartId(custCartId, expired);
-                setLoading(false);
                 handleOpenMessage({ variant: 'success', text: 'Login Success!' });
                 if (query && query.redirect) {
                     Router.push(query.redirect);
                 } else {
                     Router.push('/customer/account');
                 }
-            }).catch((e) => {
-                console.log(e);
+            }).catch(() => {
             });
         }
     }
