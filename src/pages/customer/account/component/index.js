@@ -5,6 +5,8 @@ import Button from '@components/Button';
 import Router from 'next/router';
 import { removeToken, getToken } from '@helpers/token';
 import { removeCartId } from '@helpers/cartId';
+import { useDispatch } from 'react-redux';
+import { setCountCart } from '@stores/actions/cart';
 import { getCustomer } from '../services/graphql';
 import Loaders from './Loader';
 
@@ -16,6 +18,7 @@ const Content = ({ t }) => {
     const styles = useStyles();
     let userData = {};
     const token = getToken();
+    const dispatch = useDispatch();
     const { data, loading, error } = getCustomer(token);
 
     if (!data || loading) return <Loaders />;
@@ -25,6 +28,7 @@ const Content = ({ t }) => {
     const handleLogout = () => {
         removeToken();
         removeCartId();
+        dispatch(setCountCart(0));
         Router.push('/customer/account/login');
     };
 
