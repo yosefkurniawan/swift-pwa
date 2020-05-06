@@ -38,6 +38,7 @@ export const getCart = gql`
     query Cart($cartId: String!) {
         cart(cart_id: $cartId) {
             id
+            email
             prices {
                 grand_total {
                     value

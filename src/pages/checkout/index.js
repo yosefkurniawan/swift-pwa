@@ -36,7 +36,7 @@ Page.getInitialProps = async (ctx) => {
     }
 
     return {
-        namespacesRequired: ['common', 'checkout'],
+        namespacesRequired: ['common', 'checkout', 'validate'],
         cartId,
         token,
     };

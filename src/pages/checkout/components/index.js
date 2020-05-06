@@ -26,12 +26,21 @@ const deliveryData = [
 ];
 
 const FieldPoint = ({
-    onChange = () => {}, value = '', placeholder = '', action, disabled, id = null, name = null,
+    onChange = () => {}, value = '', placeholder = '', action, disabled, id = null, name = null, error, errorMessage = 'error',
 }) => {
     const styles = useStyles();
     return (
         <div className={styles.fieldPoinContainer}>
-            <TextField id={id} name={name} disabled={disabled} value={value} onChange={onChange} placeholder={placeholder} />
+            <TextField
+                id={id}
+                name={name}
+                disabled={disabled}
+                value={value}
+                onChange={onChange}
+                placeholder={placeholder}
+                error={error}
+                errorMessage={error ? errorMessage : null}
+            />
             <div>
                 <Button variant="outlined" className={styles.btnAplly} onClick={action}>
                     <Typography variant="p" type="bold" letter="uppercase">
@@ -46,39 +55,6 @@ const FieldPoint = ({
 const Checkout = (props) => {
     const { t, cartId, token } = props;
     const styles = useStyles();
-    const [delivery, setDelivery] = useState([]);
-    const [payment, setPayment] = React.useState([]);
-    const [summary, setSummary] = useState([{ item: 'sub total', value: 300000 }]);
-    const [point, setPoint] = useState(100000);
-    const [credit, setCredit] = useState(100000);
-    const getCustomer = gqlService.getCustomer();
-    const [setGuestEmailAddressOnCart] = gqlService.setGuestEmailAddressOnCart();
-    const [applyCouponTocart] = gqlService.applyCouponToCart();
-    const [removeCouponFromCart] = gqlService.removeCouponFromCart();
-    const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
-    const [setShippingAddressById] = gqlService.setShippingAddress();
-    const [setShippingAddressByInput] = gqlService.setShippingAddressByInput();
-    const [setShippingMethod] = gqlService.setShippingMethod();
-    const [setBillingAddressById] = gqlService.setBillingAddressById();
-    const [setBillingAddressByInput] = gqlService.setBillingAddressByInput();
-    const [setPaymentMethod] = gqlService.setPaymentMethod();
-    const [placeOrder] = gqlService.placeOrder();
-    const [drawer, setDrawer] = useState(false);
-    const [loadingAddress, setLoadingAddress] = useState(false);
-    const [success, setSuccess] = useState(false);
-
-    const CheckoutSchema = Yup.object().shape({
-        email: Yup.string().email(t('validate:email:wrong')).required(t('validate:emailPhone')),
-    });
-
-    const formik = useFormik({
-        initialValues: {
-            email: '',
-            coupon: '',
-        },
-        validationSchema: CheckoutSchema,
-    });
-
     const [checkout, setCheckout] = useState({
         data: {
             cart: null,
@@ -108,6 +84,41 @@ const Checkout = (props) => {
             summary: false,
             coupon: false,
         },
+    });
+    const [summary, setSummary] = useState([{ item: 'sub total', value: 300000 }]);
+    const [point, setPoint] = useState(100000);
+    const [credit, setCredit] = useState(100000);
+    const getCustomer = gqlService.getCustomer();
+    const [setGuestEmailAddressOnCart] = gqlService.setGuestEmailAddressOnCart();
+    const [applyCouponTocart] = gqlService.applyCouponToCart({
+        onError: (errors) => {},
+    });
+    const [removeCouponFromCart] = gqlService.removeCouponFromCart();
+    const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
+    const [setShippingAddressById] = gqlService.setShippingAddress();
+    const [setShippingAddressByInput] = gqlService.setShippingAddressByInput();
+    const [setShippingMethod] = gqlService.setShippingMethod();
+    const [setBillingAddressById] = gqlService.setBillingAddressById();
+    const [setBillingAddressByInput] = gqlService.setBillingAddressByInput();
+    const [setPaymentMethod] = gqlService.setPaymentMethod();
+    const [placeOrder] = gqlService.placeOrder({
+        onError: (errors) => {},
+    });
+    const [drawer, setDrawer] = useState(false);
+    const [loadingAddress, setLoadingAddress] = useState(false);
+    const [success, setSuccess] = useState(false);
+
+    const CheckoutSchema = Yup.object().shape({
+        email: Yup.string().email(t('validate:email:wrong')).required(t('validate:email.required')),
+    });
+
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            coupon: '',
+        },
+        validationSchema: CheckoutSchema,
+        onSubmit: () => {},
     });
 
     const setAdrress = async (address, cart) => {
@@ -221,8 +232,13 @@ const Checkout = (props) => {
         // init coupon
         if (cart.applied_coupons) {
             const [coupon] = cart.applied_coupons;
-            formik.values.coupon = coupon.code;
+            formik.setFieldValue('coupon', coupon.code);
             state.data.isCouponAppliedToCart = true;
+        }
+
+        // init email
+        if (cart.email && state.data.isGuest) {
+            formik.setFieldValue('email', cart.email || '');
         }
 
         // init shipping address
@@ -370,29 +386,28 @@ const Checkout = (props) => {
     };
 
     const handlePromo = async () => {
-        setCheckout({
-            ...checkout,
-            loading: {
-                ...checkout.loading,
-                coupon: true,
-            },
-        });
-
-        const state = { ...checkout };
         let cart;
+        const state = { ...checkout };
+        state.loading.coupon = true;
+        setCheckout(state);
+        const isApplied = !state.data.isCouponAppliedToCart;
 
-        state.data.isCouponAppliedToCart = !state.data.isCouponAppliedToCart;
-
-        if (state.data.isCouponAppliedToCart) {
-            const { data } = await applyCouponTocart({ variables: { cartId: checkout.data.cart.id, coupon: formik.values.coupon } });
-            cart = data.applyCouponToCart.cart;
+        if (isApplied) {
+            const result = await applyCouponTocart({ variables: { cartId: checkout.data.cart.id, coupon: formik.values.coupon } });
+            cart = result && result.data.applyCouponToCart.cart;
         } else {
-            const { data } = await removeCouponFromCart({ variables: { cartId: checkout.data.cart.id } });
-            cart = data.removeCouponFromCart.cart;
+            const result = await removeCouponFromCart({ variables: { cartId: checkout.data.cart.id } });
+            cart = result && result.data.removeCouponFromCart.cart;
         }
 
-        manageSummary(cart);
         state.loading.coupon = false;
+
+        if (cart) {
+            manageSummary(cart);
+            state.data.isCouponAppliedToCart = !state.data.isCouponAppliedToCart;
+        } else {
+            await formik.setFieldError('coupon', "The coupon code isn't valid. Verify the code and try again.");
+        }
 
         setCheckout(state);
     };
@@ -453,12 +468,24 @@ const Checkout = (props) => {
 
     const handlePlaceOrder = async () => {
         const { cart, isGuest } = checkout.data;
-        if (isGuest && !formik.errors.email) {
+        let formValidation = {};
+
+        if (isGuest) {
+            await formik.submitForm();
+            formValidation = await formik.validateForm();
+        }
+
+        if (isGuest && _.isEmpty(formValidation)) {
             const setEmailAddress = await setGuestEmailAddressOnCart({ variables: { cartId: cart.id, email: formik.values.email } });
         }
 
-        const incrementId = await placeOrder({ variables: { cartId: cart.id } });
-        Routes.push('/thanks');
+        if (_.isEmpty(formValidation)) {
+            const data = await placeOrder({ variables: { cartId: cart.id } });
+
+            if (data) {
+                Routes.push('/thanks');
+            }
+        }
     };
 
     const getRenderAddress = () => {
@@ -517,6 +544,7 @@ const Checkout = (props) => {
                         loading={loadingAddress}
                         success={success}
                         open={drawer}
+                        disableDefaultAddress
                         setOpen={() => setDrawer(!drawer)}
                     />
                     {loading.addresses ? null : (
@@ -550,7 +578,11 @@ const Checkout = (props) => {
                             {t('checkout:emailAddress')}
                         </Typography>
                         <div style={{ margin: '5px' }}>
-                            <FormControl fullWidth error={!!formik.errors.email} style={{ marginTop: '10px', marginBottom: '20px' }}>
+                            <FormControl
+                                fullWidth
+                                error={!!(formik.touched.email && formik.errors.email)}
+                                style={{ marginTop: '10px', marginBottom: '20px' }}
+                            >
                                 <Input
                                     name="email"
                                     placeholder="john.doe@gmail.com"
@@ -564,7 +596,9 @@ const Checkout = (props) => {
                                         </InputAdornment>
                                     )}
                                 />
-                                <FormHelperText>{formik.errors.email || null}</FormHelperText>
+                                {(formik.touched.email && formik.errors.email) ? (
+                                    <FormHelperText>{formik.errors.email || null}</FormHelperText>
+                                ) : null}
                             </FormControl>
                         </div>
                         <Typography variant="p" type="regular" decoration="underline">
@@ -616,6 +650,8 @@ const Checkout = (props) => {
                         onChange={formik.handleChange}
                         value={formik.values.coupon}
                         disabled={checkout.data.isCouponAppliedToCart}
+                        error={!!(formik.errors.coupon)}
+                        errorMessage={formik.errors.coupon}
                     />
                     <FieldPoint placeholder="Gift Card Number" action={handleGift} />
                     <Button variant="text" className={styles.btnBalanceGift}>
