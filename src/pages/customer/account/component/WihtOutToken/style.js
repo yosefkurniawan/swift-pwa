@@ -19,6 +19,7 @@ export default makeStyles({
         height: '65vh',
         ...CreatePadding(15, 30, 15, 30),
         ...Centering,
+        textAlign: 'center',
     },
     btnSigin: {
         ...CreateMargin(5, 0, 35, 0),

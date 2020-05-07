@@ -3,7 +3,7 @@ import PasswordField from '@components/Forms/Password';
 import TextField from '@components/Forms/TextField';
 import Typography from '@components/Typography';
 import { regexPhone } from '@helpers/regex';
-import { Checkbox, FormControl, FormControlLabel } from '@material-ui/core/';
+import { Checkbox, FormControlLabel } from '@material-ui/core/';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/router';
@@ -61,7 +61,6 @@ const Register = ({ t, storeConfig }) => {
             .test('check-pass', t('validate:confirmPassword.wrong'), (input) => input === formik.values.password),
         phoneNumber: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
         whatsappNumber: Yup.string().required(t('validate:whatsappNumber:required')).matches(regexPhone, t('validate:whatsappNumber:wrong')),
-        tos: Yup.boolean().oneOf([true], t('validate:tos:required')),
         otp: otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_register && Yup.number().required('Otp is required'),
     });
 
@@ -74,7 +73,6 @@ const Register = ({ t, storeConfig }) => {
             confirmPassword: '',
             phoneNumber: '',
             whatsappNumber: '',
-            tos: false,
             subscribe: false,
             otp: '',
         },
@@ -238,36 +236,6 @@ const Register = ({ t, storeConfig }) => {
                     />
                 )}
                 <div className={styles.footer}>
-                    <FormControl>
-                        <div className={styles.tos}>
-                            <Checkbox
-                                value={formik.values.tos}
-                                name="tos"
-                                color="primary"
-                                size="small"
-                                onChange={formik.handleChange}
-                                className={styles.checkTos}
-                            />
-                            <Typography variant="p" letter="capitalize" onClick={() => formik.setFieldValue('tos', !formik.values.tos)}>
-                                I accept
-                            </Typography>
-                            <Button
-                                variant="text"
-                                // eslint-disable-next-line no-console
-                                onClick={() => console.log('tos')}
-                                className="clear-margin-padding"
-                            >
-                                <Typography variant="p" letter="capitalize" decoration="underline">
-                                    Terms of Use
-                                </Typography>
-                            </Button>
-                        </div>
-                        {formik.touched.tos && formik.errors.tos && (
-                            <Typography color="red" className="clear-margin-padding">
-                                {formik.errors.tos}
-                            </Typography>
-                        )}
-                    </FormControl>
                     <FormControlLabel
                         value={formik.values.subscribe}
                         onChange={formik.handleChange}

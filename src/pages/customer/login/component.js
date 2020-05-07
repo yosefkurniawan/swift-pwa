@@ -11,12 +11,11 @@ import OtpBlock from '@components/OtpBlock';
 import Loading from '@components/Loaders/Backdrop';
 import { setToken } from '@helpers/token';
 import { setCartId, getCartId } from '@helpers/cartId';
-import { GraphCart } from '@services/graphql';
+import { GraphCart, GraphConfig } from '@services/graphql';
 import { expiredToken } from '@config';
 import { getToken } from './service/graphql';
 
 import useStyles from './style';
-
 
 const Login = ({ t, storeConfig, query }) => {
     const styles = useStyles();
@@ -40,7 +39,8 @@ const Login = ({ t, storeConfig, query }) => {
 
     let cartId = '';
     const expired = storeConfig.oauth_access_token_lifetime_customer
-        ? new Date(Date.now() + parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) * 3600000) : expiredToken;
+        ? new Date(Date.now() + parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) * 3600000)
+        : expiredToken;
 
     if (typeof window !== 'undefined') {
         cartId = getCartId();
@@ -49,38 +49,38 @@ const Login = ({ t, storeConfig, query }) => {
     const [getCustomerToken] = getToken();
     const [getCart, cartData] = GraphCart.getCustomerCartId(cusToken);
     const [mergeCart, { called }] = GraphCart.mergeCart(cusToken);
+    const otpConfig = GraphConfig.otpConfig();
 
     const LoginSchema = Yup.object().shape({
-        email: Yup.string()
-            .email(t('validate:email:wrong'))
-            .required(t('validate:emailPhone')),
+        email: Yup.string().email(t('validate:email:wrong')).required(t('validate:emailPhone')),
         password: Yup.string().required(t('validate:password:required')),
+        otp: otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login && Yup.number().required('Otp is required'),
     });
     const formik = useFormik({
         initialValues: {
             email: '',
             password: '',
+            otp: '',
         },
         validationSchema: LoginSchema,
-        onSubmit: ({ email, password }) => {
+        onSubmit: (values) => {
             setLoading(true);
             getCustomerToken({
-                variables: {
-                    email,
-                    password,
-                },
-            }).then(async (res) => {
-                const { token } = res.data.generateCustomerToken;
-                await setCusToken(token);
-                getCart();
-                setLoading(false);
-            }).catch((e) => {
-                setLoading(false);
-                handleOpenMessage({
-                    variant: 'error',
-                    text: e.message.split(':')[1] || 'Login Failed!',
+                variables: values,
+            })
+                .then(async (res) => {
+                    const { token } = res.data.generateCustomerToken;
+                    await setCusToken(token);
+                    getCart();
+                    setLoading(false);
+                })
+                .catch((e) => {
+                    setLoading(false);
+                    handleOpenMessage({
+                        variant: 'error',
+                        text: e.message.split(':')[1] || 'Login Failed!',
+                    });
                 });
-            });
         },
     });
     if (cartData.data) {
@@ -100,42 +100,33 @@ const Login = ({ t, storeConfig, query }) => {
                     sourceCartId: cartId,
                     destionationCartId: custCartId,
                 },
-            }).then(() => {
-                setToken(cusToken, expired);
-                setCartId(custCartId, expired);
-                handleOpenMessage({ variant: 'success', text: 'Login Success!' });
-                if (query && query.redirect) {
-                    Router.push(query.redirect);
-                } else {
-                    Router.push('/customer/account');
-                }
-            }).catch(() => {
-            });
+            })
+                .then(() => {
+                    setToken(cusToken, expired);
+                    setCartId(custCartId, expired);
+                    handleOpenMessage({ variant: 'success', text: 'Login Success!' });
+                    if (query && query.redirect) {
+                        Router.push(query.redirect);
+                    } else {
+                        Router.push('/customer/account');
+                    }
+                })
+                .catch(() => {});
         }
     }
 
     return (
         <div>
             <Loading open={loading} />
-            <Message
-                open={message.open}
-                variant={message.variant}
-                setOpen={handleOpenMessage}
-                message={message.text}
-            />
+            <Message open={message.open} variant={message.variant} setOpen={handleOpenMessage} message={message.text} />
             <form onSubmit={formik.handleSubmit} className={styles.container}>
-                <FormControlLabel
-                    control={(
-                        <Switch
-                            checked={isOtp}
-                            onChange={() => setIsOtp(!isOtp)}
-                            name="useOtp"
-                            color="primary"
-                        />
-                    )}
-                    className={styles.selectLogin}
-                    label="Signin with Phone number"
-                />
+                {otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login && (
+                    <FormControlLabel
+                        control={<Switch checked={isOtp} onChange={() => setIsOtp(!isOtp)} name="useOtp" color="primary" />}
+                        className={styles.selectLogin}
+                        label="Signin with Phone number"
+                    />
+                )}
                 {isOtp ? (
                     <OtpBlock
                         phoneProps={{
@@ -151,9 +142,7 @@ const Login = ({ t, storeConfig, query }) => {
                             value: formik.values.otp,
                             onChange: formik.handleChange,
                             error: !!(formik.touched.otp && formik.errors.otp),
-                            errorMessage:
-                                (formik.touched.otp && formik.errors.otp)
-                                || null,
+                            errorMessage: (formik.touched.otp && formik.errors.otp) || null,
                         }}
                     />
                 ) : (
@@ -179,47 +168,25 @@ const Login = ({ t, storeConfig, query }) => {
                         />
                     </>
                 )}
-                <Button fullWidth className={styles.btnSigin} type="submit" disabled={loading}>
-                    <Typography
-                        variant="title"
-                        type="regular"
-                        letter="capitalize"
-                        color="white"
-                    >
-                        { loading ? 'Loading' : t('customer:login:pageTitle') }
-                    </Typography>
-                </Button>
-                <Button variant="text" href="/customer/account/forgotPassword">
-                    <Typography
-                        variant="p"
-                        type="regular"
-                        letter="capitalize"
-                        decoration="underline"
-                    >
-                        {t('customer:login:forgotPassword')}
-                    </Typography>
-                </Button>
+                <div className={styles.rowCenter}>
+                    <Button fullWidth className={styles.btnSigin} type="submit" disabled={loading}>
+                        <Typography variant="title" type="regular" letter="capitalize" color="white">
+                            {loading ? 'Loading' : t('customer:login:pageTitle')}
+                        </Typography>
+                    </Button>
+                    <Button variant="text" href="/customer/account/forgotPassword">
+                        <Typography variant="p" type="regular" letter="capitalize" decoration="underline">
+                            {t('customer:login:forgotPassword')}
+                        </Typography>
+                    </Button>
+                </div>
                 <div className={styles.footer}>
-                    <Typography
-                        variant="span"
-                        letter="capitalize"
-                        align="center"
-                    >
+                    <Typography variant="span" letter="capitalize" align="center">
                         {t('customer:login:notHaveAccount')}
                     </Typography>
-                    <Button
-                        fullWidth
-                        className={styles.btnSigin}
-                        variant="outlined"
-                        href="/customer/account/create"
-                        disabled={loading}
-                    >
-                        <Typography
-                            variant="title"
-                            type="regular"
-                            letter="capitalize"
-                        >
-                            { t('customer:register:title') }
+                    <Button fullWidth className={styles.btnSigin} variant="outlined" href="/customer/account/create" disabled={loading}>
+                        <Typography variant="title" type="regular" letter="capitalize">
+                            {t('customer:register:title')}
                         </Typography>
                     </Button>
                 </div>

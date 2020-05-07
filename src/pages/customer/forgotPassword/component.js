@@ -9,6 +9,7 @@ import { useFormik } from 'formik';
 import { regexPhone } from '@helpers/regex';
 import * as Yup from 'yup';
 import Router from 'next/router';
+import { FormControlLabel, Switch } from '@material-ui/core';
 import { requestLinkToken } from './services/graphql';
 import useStyles from './style';
 
@@ -19,6 +20,7 @@ const ForgotPassword = ({ t }) => {
         variant: 'success',
         text: '',
     });
+    const [useEmail, setUseEmail] = React.useState(false);
     const { loading, data } = GraphConfig.otpConfig();
     const [load, setLoad] = React.useState(false);
     const [getToken] = requestLinkToken();
@@ -29,43 +31,47 @@ const ForgotPassword = ({ t }) => {
             phoneNumber: '',
         },
         validationSchema: Yup.object().shape({
-            email: data && !data.otpConfig.otp_enable[0].enable_otp_forgot_password && Yup.string()
-                .required(t('validate:email:required')),
-            phoneNumber: data && data.otpConfig.otp_enable[0].enable_otp_forgot_password
+            email: (useEmail || (data && !data.otpConfig.otp_enable[0].enable_otp_forgot_password))
+                && Yup.string().required(t('validate:email:required')),
+            phoneNumber:
+                !useEmail && data
+                && data.otpConfig.otp_enable[0].enable_otp_forgot_password
                 && Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
-            otp: data && data.otpConfig.otp_enable[0].enable_otp_forgot_password && Yup.string().required('Otp is required'),
+            otp: !useEmail && data && data.otpConfig.otp_enable[0].enable_otp_forgot_password && Yup.string().required('Otp is required'),
         }),
         onSubmit: (values) => {
             setLoad(true);
             getToken({
                 variables: values,
-            }).then((res) => {
-                setLoad(false);
-                const { token, message } = res.data.requestLinkForgotPassword;
-                if (token) {
+            })
+                .then((res) => {
+                    setLoad(false);
+                    const { token, message } = res.data.requestLinkForgotPassword;
+                    if (token) {
+                        setToast({
+                            open: true,
+                            variant: 'success',
+                            text: t('customer:forgotPassword:success'),
+                        });
+                        setInterval(() => {
+                            Router.push(`/customer/account/newPassword?token=${token}`);
+                        }, 3000);
+                    } else {
+                        setToast({
+                            open: true,
+                            variant: 'success',
+                            text: message || t('customer:forgotPassword:success'),
+                        });
+                    }
+                })
+                .catch((e) => {
                     setToast({
                         open: true,
-                        variant: 'success',
-                        text: t('customer:forgotPassword:success'),
+                        variant: 'error',
+                        text: e.message.split(':')[1] || t('customer:forgotPassword:failed'),
                     });
-                    setInterval(() => {
-                        Router.push(`/customer/account/newPassword?token=${token}`);
-                    }, 3000);
-                } else {
-                    setToast({
-                        open: true,
-                        variant: 'success',
-                        text: message || t('customer:forgotPassword:success'),
-                    });
-                }
-            }).catch((e) => {
-                setToast({
-                    open: true,
-                    variant: 'error',
-                    text: e.message.split(':')[1] || t('customer:forgotPassword:failed'),
+                    setLoad(false);
                 });
-                setLoad(false);
-            });
         },
     });
 
@@ -75,41 +81,47 @@ const ForgotPassword = ({ t }) => {
         <form className={styles.container} onSubmit={formik.handleSubmit}>
             <Loading open={load} />
             <Toast open={toast.open} setOpen={() => setToast({ ...toast, open: false })} message={toast.text} variant={toast.variant} />
-            {
-                data && data.otpConfig.otp_enable[0].enable_otp_forgot_password ? (
-                    <OtpBlock
-                        type="forgotPassword"
-                        phoneProps={{
-                            name: 'phoneNumber',
-                            value: formik.values.phoneNumber,
-                            onChange: formik.handleChange,
-                            error: !!formik.errors.phoneNumber,
-                            errorMessage: (formik.touched.phoneNumber && formik.errors.phoneNumber) || null,
-                        }}
-                        codeProps={{
-                            name: 'otp',
-                            value: formik.values.otp,
-                            onChange: formik.handleChange,
-                            error: !!(formik.touched.otp && formik.errors.otp),
-                            errorMessage: (formik.touched.otp && formik.errors.otp) || null,
-                        }}
+            {data && data.otpConfig.otp_enable[0].enable_otp_forgot_password && (
+                <FormControlLabel
+                    control={<Switch checked={useEmail} onChange={() => setUseEmail(!useEmail)} name="useOtp" color="primary" />}
+                    className={styles.switch}
+                    label={t('customer:forgotPassword:useEmail')}
+                />
+            )}
+            {(useEmail || (data && !data.otpConfig.otp_enable[0].enable_otp_forgot_password)) && (
+                <>
+                    <Typography variant="span" align="left">
+                        {t('customer:forgotPassword:content')}
+                    </Typography>
+                    <TextField
+                        label="Email"
+                        name="email"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        error={!!formik.errors.email}
+                        errorMessage={formik.errors.email || null}
                     />
-                ) : (
-                    <>
-                        <Typography variant="span" align="left">
-                            {t('customer:forgotPassword:content')}
-                        </Typography>
-                        <TextField
-                            label="Email"
-                            name="email"
-                            value={formik.values.email}
-                            onChange={formik.handleChange}
-                            error={!!formik.errors.email}
-                            errorMessage={formik.errors.email || null}
-                        />
-                    </>
-                )
-            }
+                </>
+            )}
+            {(data && data.otpConfig.otp_enable[0].enable_otp_forgot_password && !useEmail) && (
+                <OtpBlock
+                    type="forgotPassword"
+                    phoneProps={{
+                        name: 'phoneNumber',
+                        value: formik.values.phoneNumber,
+                        onChange: formik.handleChange,
+                        error: !!formik.errors.phoneNumber,
+                        errorMessage: (formik.touched.phoneNumber && formik.errors.phoneNumber) || null,
+                    }}
+                    codeProps={{
+                        name: 'otp',
+                        value: formik.values.otp,
+                        onChange: formik.handleChange,
+                        error: !!(formik.touched.otp && formik.errors.otp),
+                        errorMessage: (formik.touched.otp && formik.errors.otp) || null,
+                    }}
+                />
+            )}
             <Button disabled={load} className={styles.btn} fullWidth type="submit">
                 {t('common:button:send')}
             </Button>
