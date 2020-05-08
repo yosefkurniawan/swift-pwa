@@ -72,7 +72,7 @@ const generateConfig = (query, config, elastic) => {
  * customFilter have custom sort and filter
  */
 const Product = ({
-    catId = 0, catalog_search_engine, customFilter, url_path, showTabs,
+    catId = 0, catalog_search_engine, customFilter, url_path, showTabs, defaultSort,
 }) => {
     const router = useRouter();
     const styles = useStyles();
@@ -89,6 +89,12 @@ const Product = ({
     };
 
     const { path, query } = getQueryFromPath(router);
+
+    // set default sort when there is no sort in query
+    if (defaultSort && !query.sort) {
+        query.sort = JSON.stringify(defaultSort);
+    }
+
     const setFiltervalue = (v) => {
         let queryParams = '';
         // eslint-disable-next-line array-callback-return
@@ -134,6 +140,14 @@ const Product = ({
         }
     }
     const category = getCategoryFromAgregations(aggregations);
+
+    // eslint-disable-next-line eqeqeq
+    const renderMessage = (count) => (count == 0
+        // eslint-disable-next-line react/no-unescaped-entities
+        ? <div style={{ padding: '20px' }}>We can't find products matching the selection.</div>
+        : null
+    );
+
     return (
         <>
             {showTabs && loading ? <Skeleton variant="rect" height={50} style={{ marginBottom: 20 }} /> : null}
@@ -194,49 +208,51 @@ const Product = ({
                     }}
                     gridItemProps={{ xs: 6, sm: 4, md: 3 }}
                 />
-                {(products.items.length === products.total_count) || loading ? null : (
-                    <button
-                        className={styles.btnLoadmore}
-                        type="button"
-                        onClick={() => {
-                            setLoadmore(true);
-                            setPage(page + 1);
-                            return fetchMore({
-                                query: Schema.getProduct({
-                                    customFilter: typeof customFilter !== 'undefined',
-                                    search: config.search,
-                                    pageSize: config.pageSize,
-                                    currentPage: page + 1,
-                                    filter: config.filter,
-                                }),
-                                updateQuery: (
-                                    previousResult,
-                                    { fetchMoreResult },
-                                ) => {
-                                    setLoadmore(false);
-                                    const previousEntry = previousResult.products;
-                                    const newItems = fetchMoreResult.products.items;
-                                    return {
-                                        products: {
-                                            // eslint-disable-next-line no-underscore-dangle
-                                            __typename:
+                {(products.items.length === products.total_count) || loading
+                    ? renderMessage(products.items.length)
+                    : (
+                        <button
+                            className={styles.btnLoadmore}
+                            type="button"
+                            onClick={() => {
+                                setLoadmore(true);
+                                setPage(page + 1);
+                                return fetchMore({
+                                    query: Schema.getProduct({
+                                        customFilter: typeof customFilter !== 'undefined',
+                                        search: config.search,
+                                        pageSize: config.pageSize,
+                                        currentPage: page + 1,
+                                        filter: config.filter,
+                                    }),
+                                    updateQuery: (
+                                        previousResult,
+                                        { fetchMoreResult },
+                                    ) => {
+                                        setLoadmore(false);
+                                        const previousEntry = previousResult.products;
+                                        const newItems = fetchMoreResult.products.items;
+                                        return {
+                                            products: {
                                                 // eslint-disable-next-line no-underscore-dangle
-                                                previousEntry.__typename,
-                                            total_count:
-                                                previousEntry.total_count,
-                                            items: [
-                                                ...previousEntry.items,
-                                                ...newItems,
-                                            ],
-                                        },
-                                    };
-                                },
-                            });
-                        }}
-                    >
-                        {loadmore ? 'Loading' : 'Load More Items'}
-                    </button>
-                )}
+                                                __typename:
+                                                    // eslint-disable-next-line no-underscore-dangle
+                                                    previousEntry.__typename,
+                                                total_count:
+                                                    previousEntry.total_count,
+                                                items: [
+                                                    ...previousEntry.items,
+                                                    ...newItems,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                });
+                            }}
+                        >
+                            {loadmore ? 'Loading' : 'Load More Items'}
+                        </button>
+                    )}
             </div>
         </>
     );
