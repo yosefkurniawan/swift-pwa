@@ -4,8 +4,7 @@ import Button from '@components/Button';
 import { languagesLabel } from '@config';
 import { getToken } from '@helpers/token';
 import { useMutation } from '@apollo/react-hooks';
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Backdrop from '@components/Loaders/Backdrop';
 import useStyles from './style';
 import * as Schema from './services/schema';
 
@@ -50,9 +49,7 @@ const SettingPage = ({ t, i18n }) => {
     };
     return (
         <div className={styles.container}>
-            <Backdrop className={styles.backdrop} open={backdrop}>
-                <CircularProgress color="inherit" />
-            </Backdrop>
+            <Backdrop open={backdrop} />
             <div className={styles.block}>
                 <Checkbox
                     label={t('customer:setting:newslater')}
