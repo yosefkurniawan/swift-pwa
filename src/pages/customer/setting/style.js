@@ -23,5 +23,8 @@ export default makeStyles(() => ({
         ...CenterAbsolute,
         ...CreatePadding(16, 16, 16, 16),
     },
-
+    backdrop: {
+        zIndex: 99,
+        color: '#fff',
+    },
 }));

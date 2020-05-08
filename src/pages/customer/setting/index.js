@@ -5,9 +5,9 @@ import Content from './component';
 const Page = (props) => {
     const { t } = props;
     const pageConfig = {
-        title: t('customer:forgotPassword:title'),
+        title: t('customer:setting:title'),
         header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle: t('customer:forgotPassword:title'),
+        headerTitle: t('customer:setting:title'),
         bottomNav: false,
     };
     return (
