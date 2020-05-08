@@ -134,6 +134,14 @@ const Product = ({
         }
     }
     const category = getCategoryFromAgregations(aggregations);
+
+    // eslint-disable-next-line eqeqeq
+    const renderMessage = (count) => (count == 0
+        // eslint-disable-next-line react/no-unescaped-entities
+        ? <div style={{ padding: '20px' }}>We can't find products matching the selection.</div>
+        : null
+    );
+
     return (
         <>
             {showTabs && loading ? <Skeleton variant="rect" height={50} style={{ marginBottom: 20 }} /> : null}
@@ -195,8 +203,7 @@ const Product = ({
                     gridItemProps={{ xs: 6, sm: 4, md: 3 }}
                 />
                 {(products.items.length === products.total_count) || loading
-                    // eslint-disable-next-line react/no-unescaped-entities
-                    ? <div style={{ padding: '20px' }}>We can't find products matching the selection.</div>
+                    ? renderMessage(products.items.length)
                     : (
                         <button
                             className={styles.btnLoadmore}
