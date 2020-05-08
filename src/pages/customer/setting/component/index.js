@@ -1,14 +1,17 @@
-import Checkbox from '@components/Forms/CheckBox';
+
 import Radio from '@components/Forms/Radio';
 import Button from '@components/Button';
 import { languagesLabel } from '@config';
 import { getToken } from '@helpers/token';
 import { useMutation } from '@apollo/react-hooks';
 import Backdrop from '@components/Loaders/Backdrop';
-import useStyles from './style';
-import * as Schema from './services/schema';
+import Skeleton from '@material-ui/lab/Skeleton';
+import useStyles from '../style';
+import { getCustomer } from '../services/index';
+import * as Schema from '../services/schema';
+import CheckboxSettings from './checkbox';
 
-const subData = [{ value: 'general', label: 'Subscribtion' }];
+const subData = [{ value: 'subscribed', label: 'Subscribtion' }];
 
 const SettingPage = ({ t, i18n }) => {
     const { languages, language } = i18n;
@@ -24,9 +27,11 @@ const SettingPage = ({ t, i18n }) => {
     if (typeof window !== 'undefined') {
         tokenCustomer = getToken();
     }
-    const [backdrop, setBackdrop] = React.useState(false);
+    const [backdrop, setBackdrop] = React.useState(true);
+    const [settings, setSettings] = React.useState({
+        is_subscribed: false,
+    });
     const styles = useStyles();
-    const [subcribe, setSubcribe] = React.useState([]);
     const [lang, setLang] = React.useState(language);
 
     const [actUpdateCustomer, resultUpdate] = useMutation(Schema.updateCustomer);
@@ -37,7 +42,7 @@ const SettingPage = ({ t, i18n }) => {
         setBackdrop(true);
         actUpdateCustomer({
             variables: {
-                isSubscribed: true,
+                isSubscribed: settings.is_subscribed,
             },
             context: {
                 headers: tokenCustomer && tokenCustomer !== '' ? {
@@ -47,17 +52,36 @@ const SettingPage = ({ t, i18n }) => {
         });
         i18n.changeLanguage(lang);
     };
+    let customer = {};
+    if (typeof window !== 'undefined') {
+        const { data } = getCustomer(tokenCustomer);
+        if (data && data.customer) {
+            customer = data.customer;
+        }
+    }
+    React.useEffect(() => {
+        if (customer.is_subscribed) {
+            setSettings({
+                ...{
+                    is_subscribed: true,
+                },
+            });
+        }
+    }, [customer]);
     return (
         <div className={styles.container}>
             <Backdrop open={backdrop} />
             <div className={styles.block}>
-                <Checkbox
-                    label={t('customer:setting:newslater')}
-                    flex="column"
-                    data={subData}
-                    value={subcribe}
-                    onChange={setSubcribe}
-                />
+                {typeof customer.is_subscribed !== 'undefined' ? (
+                    <CheckboxSettings
+                        name="is_subscribed"
+                        t={t}
+                        value={customer.is_subscribed ? ['subscribed'] : []}
+                        setSettings={setSettings}
+                        data={subData}
+                    />
+                ) : <Skeleton variant="rect" height={80} />}
+
             </div>
             <div className={styles.block}>
                 <Radio
