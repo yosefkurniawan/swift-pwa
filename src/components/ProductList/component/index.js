@@ -194,49 +194,52 @@ const Product = ({
                     }}
                     gridItemProps={{ xs: 6, sm: 4, md: 3 }}
                 />
-                {(products.items.length === products.total_count) || loading ? null : (
-                    <button
-                        className={styles.btnLoadmore}
-                        type="button"
-                        onClick={() => {
-                            setLoadmore(true);
-                            setPage(page + 1);
-                            return fetchMore({
-                                query: Schema.getProduct({
-                                    customFilter: typeof customFilter !== 'undefined',
-                                    search: config.search,
-                                    pageSize: config.pageSize,
-                                    currentPage: page + 1,
-                                    filter: config.filter,
-                                }),
-                                updateQuery: (
-                                    previousResult,
-                                    { fetchMoreResult },
-                                ) => {
-                                    setLoadmore(false);
-                                    const previousEntry = previousResult.products;
-                                    const newItems = fetchMoreResult.products.items;
-                                    return {
-                                        products: {
-                                            // eslint-disable-next-line no-underscore-dangle
-                                            __typename:
+                {(products.items.length === products.total_count) || loading
+                    // eslint-disable-next-line react/no-unescaped-entities
+                    ? <div style={{ padding: '20px' }}>We can't find products matching the selection.</div>
+                    : (
+                        <button
+                            className={styles.btnLoadmore}
+                            type="button"
+                            onClick={() => {
+                                setLoadmore(true);
+                                setPage(page + 1);
+                                return fetchMore({
+                                    query: Schema.getProduct({
+                                        customFilter: typeof customFilter !== 'undefined',
+                                        search: config.search,
+                                        pageSize: config.pageSize,
+                                        currentPage: page + 1,
+                                        filter: config.filter,
+                                    }),
+                                    updateQuery: (
+                                        previousResult,
+                                        { fetchMoreResult },
+                                    ) => {
+                                        setLoadmore(false);
+                                        const previousEntry = previousResult.products;
+                                        const newItems = fetchMoreResult.products.items;
+                                        return {
+                                            products: {
                                                 // eslint-disable-next-line no-underscore-dangle
-                                                previousEntry.__typename,
-                                            total_count:
-                                                previousEntry.total_count,
-                                            items: [
-                                                ...previousEntry.items,
-                                                ...newItems,
-                                            ],
-                                        },
-                                    };
-                                },
-                            });
-                        }}
-                    >
-                        {loadmore ? 'Loading' : 'Load More Items'}
-                    </button>
-                )}
+                                                __typename:
+                                                    // eslint-disable-next-line no-underscore-dangle
+                                                    previousEntry.__typename,
+                                                total_count:
+                                                    previousEntry.total_count,
+                                                items: [
+                                                    ...previousEntry.items,
+                                                    ...newItems,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                });
+                            }}
+                        >
+                            {loadmore ? 'Loading' : 'Load More Items'}
+                        </button>
+                    )}
             </div>
         </>
     );
