@@ -7,13 +7,13 @@ import {
     FavoriteBorderOutlined,
     DeleteOutlineOutlined,
 } from '@material-ui/icons';
-import PriceFormat from '@components/PriceFormat';
+import { formatPrice } from '@helpers/currency';
 import useStyles from '../style';
 import ConfirmationDelete from './confirmDelete';
 
 
 const Item = ({
-    t, editMode, id, toggleEditDrawer, product, quantity, configurable_options = [], deleteItem,
+    t, editMode, id, toggleEditDrawer, product, quantity, configurable_options = [], deleteItem, prices,
 }) => {
     const styles = useStyles();
     const [confirmDel, setConfirmDel] = useState(false);
@@ -22,7 +22,6 @@ const Item = ({
         setConfirmDel(false);
         deleteItem(id);
     };
-
     return (
         <div className={styles.item}>
             <ConfirmationDelete
@@ -41,8 +40,8 @@ const Item = ({
             </div>
             <div className={styles.itemInfo}>
                 <Link
-                    href="/product/[id]"
-                    as="/product/product-123"
+                    href="/[...slug]"
+                    as={`/${product.url_key}`}
                 >
                     <a className={styles.itemName}>{product.name}</a>
                 </Link>
@@ -65,12 +64,7 @@ const Item = ({
                     </div>
                 </div>
                 <div className={styles.itemPrice}>
-                    <PriceFormat
-                        priceRange={product.price_range}
-                        priceTiers={product.price_tiers}
-                        // eslint-disable-next-line camelcase
-                        productType={product.__typename}
-                    />
+                    {formatPrice(prices.price.value, prices.price.currency)}
                 </div>
             </div>
 

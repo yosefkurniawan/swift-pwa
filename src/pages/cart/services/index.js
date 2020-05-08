@@ -2,4 +2,13 @@
 import { useQuery } from '@apollo/react-hooks';
 import * as Schema from './schema';
 
-export const getCartData = (cartId) => useQuery(Schema.getCart, { variables: { cartId }, fetchPolicy: 'cache-and-network' });
+export const getCartData = (token, cartId) => useQuery(Schema.getCart,
+    {
+        variables: { cartId },
+        fetchPolicy: 'cache-and-network',
+        context: {
+            headers: token && token !== '' ? {
+                Authorization: `Bearer ${token}`,
+            } : {},
+        },
+    });

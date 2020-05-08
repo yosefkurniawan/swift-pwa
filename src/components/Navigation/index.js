@@ -35,7 +35,7 @@ const Navigation = ({ active = true }) => {
                             handleOpenModal(true);
                             return;
                         case 'cart':
-                            Router.push('/cart');
+                            Router.push('/checkout/cart');
                             return;
                         case 'account':
                             Router.push('/customer/account/login');

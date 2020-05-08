@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */
 import { getCartId } from '@helpers/cartId';
 import { getToken } from '@helpers/token';
 import { Badge, makeStyles } from '@material-ui/core';
@@ -33,9 +36,9 @@ const ShoppingBagIcon = ({ bottomNav = false }) => {
     const cartData = useSelector((state) => state.cart);
     if (!bottomNav) {
         return (
-            <div className={styles.root}>
+            <div className={styles.root} onClick={() => Router.push('/checkout/cart')}>
                 <Badge color="secondary" badgeContent={cartData.totalCart || 0}>
-                    <LocalMall color="secondary" onClick={() => Router.push('/cart')} />
+                    <LocalMall color="secondary" />
                 </Badge>
             </div>
         );

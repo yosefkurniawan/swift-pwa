@@ -8,6 +8,7 @@ import { getCartId } from '@helpers/cartId';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useMutation } from '@apollo/react-hooks';
+import { getToken } from '@helpers/token';
 import Item from './item';
 import CrossSell from './crosssell';
 import useStyles from '../style';
@@ -33,6 +34,8 @@ const Cart = (props) => {
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
     const [backdrop, setBackdrop] = React.useState(false);
     let cartId = '';
+    let tokenCustomer = '';
+
     let dataCart = {
         id: null,
         total_quantity: 0,
@@ -103,9 +106,10 @@ const Cart = (props) => {
 
     if (typeof window !== 'undefined') {
         cartId = getCartId();
-        const { loading, data } = getCartData(cartId);
+        tokenCustomer = getToken();
+        const { loading, data } = getCartData(tokenCustomer, cartId);
         loadingCart = loading;
-        if (!loading) {
+        if (!loading && data && data.cart) {
             dataCart = data.cart;
         }
     }

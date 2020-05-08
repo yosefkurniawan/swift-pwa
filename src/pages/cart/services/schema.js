@@ -42,47 +42,6 @@ export const getCart = gql`
                   url_key
                   sku
                   stock_status
-                  price_tiers {
-                    discount {
-                      percent_off
-                      amount_off
-                    }
-                    final_price {
-                      currency
-                      value
-                    }
-                    quantity
-                  }
-                  price_range {
-                    maximum_price {
-                      discount {
-                        amount_off
-                        percent_off
-                      }
-                      final_price {
-                        currency
-                        value
-                      }
-                      regular_price {
-                        currency
-                        value
-                      }
-                    }
-                    minimum_price {
-                      discount {
-                        amount_off
-                        percent_off
-                      }
-                      final_price {
-                        currency
-                        value
-                      }
-                      regular_price {
-                        currency
-                        value
-                      }
-                    }
-                  }
                   crosssell_products {
                     id
                     name
@@ -138,6 +97,26 @@ export const getCart = gql`
                   }
                 }
                 quantity
+                prices {
+                  discounts {
+                    amount {
+                      currency
+                      value
+                    }
+                  }
+                  price {
+                    value
+                    currency
+                  }
+                  row_total {
+                    currency
+                    value
+                  }
+                  total_item_discount {
+                    currency
+                    value
+                  }
+                }
             }
         }
     }
