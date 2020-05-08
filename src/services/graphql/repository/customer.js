@@ -1,7 +1,16 @@
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import * as Schema from '../schema/customer';
 
-export const addWishList = (token) => useMutation(Schema.addWishlist, {
+export const addWishlist = (token) => useMutation(Schema.addWishlist, {
+    context: {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    },
+    skip: !token || token === '',
+});
+
+export const removeWishlist = (token) => useMutation(Schema.removeWishlist, {
     context: {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -20,5 +29,7 @@ export const getCustomer = (token) => useQuery(Schema.getCustomer, {
 });
 
 export default {
-    addWishList,
+    addWishlist,
+    removeWishlist,
+    getCustomer,
 };

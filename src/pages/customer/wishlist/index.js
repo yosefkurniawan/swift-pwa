@@ -18,7 +18,7 @@ const Page = (props) => {
 };
 
 Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'customer'],
+    namespacesRequired: ['common', 'customer', 'product'],
     withAuth: true,
 });
 

@@ -52,7 +52,13 @@
   },
   "wishlist": {
     "pageTitle": "Wishlist",
-    "title" : "Wishlist"
+    "title" : "Wishlist",
+    "removeSucess": "hapus wishlist sukses",
+    "removeFailed": "hapus wishlist gagal",
+    "addSucess": "tambah wishlist sukses",
+    "addFailed": "tambah wishlist gagal",
+    "addToBag": "tambah ke keranjang",
+    "addAllToBag": "tambah semua ke keranjang"
   },
   "address" : {
     "pageTitle" : "Daftar alamat",

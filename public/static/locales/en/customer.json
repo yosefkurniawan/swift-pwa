@@ -52,7 +52,13 @@
   },
   "wishlist": {
     "pageTitle": "Wishlist",
-    "title" : "Wishlist"
+    "title" : "Wishlist",
+    "removeSucess": "remove wishlist success",
+    "removeFailed": "remove wishlist failed",
+    "addToBag": "add to bag",
+    "addAllToBag": "add all to bag",
+    "addSucess": "add wishlist success",
+    "addFailed": "add wishlist failed"
   },
   "address" : {
     "pageTitle" : "Address Book",

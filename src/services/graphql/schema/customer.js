@@ -8,6 +8,16 @@ export const addWishlist = gql`
     }
 `;
 
+export const removeWishlist = gql`
+mutation removeWishlist(
+  $wishlistId: Int!
+) {
+  removeItemWishlist(wishlistItemId: $wishlistId){
+    info
+  }
+}
+`;
+
 const productDetail = `
     id
     name
@@ -94,6 +104,7 @@ export const getCustomer = gql`
      wishlist {
       id
       items {
+        id
         product {
           ${productDetail}
           ${priceRange}
