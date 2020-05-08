@@ -72,7 +72,7 @@ const generateConfig = (query, config, elastic) => {
  * customFilter have custom sort and filter
  */
 const Product = ({
-    catId = 0, catalog_search_engine, customFilter, url_path, showTabs,
+    catId = 0, catalog_search_engine, customFilter, url_path, showTabs, defaultSort,
 }) => {
     const router = useRouter();
     const styles = useStyles();
@@ -89,6 +89,12 @@ const Product = ({
     };
 
     const { path, query } = getQueryFromPath(router);
+
+    // set default sort when there is no sort in query
+    if (defaultSort && !query.sort) {
+        query.sort = JSON.stringify(defaultSort);
+    }
+
     const setFiltervalue = (v) => {
         let queryParams = '';
         // eslint-disable-next-line array-callback-return
