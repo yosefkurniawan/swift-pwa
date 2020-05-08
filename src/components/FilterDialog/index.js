@@ -100,7 +100,7 @@ const FilterDialog = ({
                     <CloseIcon className={styles.iconClose} />
                 </IconButton>
                 <Typography
-                    variant="div"
+                    variant="label"
                     type="bold"
                     align="center"
                     letter="uppercase"
