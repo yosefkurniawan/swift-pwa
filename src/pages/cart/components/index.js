@@ -5,8 +5,7 @@ import Typography from '@components/Typography';
 import Button from '@components/Button';
 import Link from 'next/link';
 import { getCartId } from '@helpers/cartId';
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Backdrop from '@components/Loaders/Backdrop';
 import { useMutation } from '@apollo/react-hooks';
 import { getToken } from '@helpers/token';
 import Item from './item';
@@ -70,11 +69,21 @@ const Cart = (props) => {
                 cartId,
                 cart_item_id: itemId,
             },
+            context: {
+                headers: tokenCustomer && tokenCustomer !== '' ? {
+                    Authorization: `Bearer ${tokenCustomer}`,
+                } : {},
+            },
             refetchQueries: [
                 {
                     query: Schema.getCart,
                     variables: { cartId },
                     fetchPolicy: 'cache-and-network',
+                    context: {
+                        headers: tokenCustomer && tokenCustomer !== '' ? {
+                            Authorization: `Bearer ${tokenCustomer}`,
+                        } : {},
+                    },
                 },
             ],
         });
@@ -90,10 +99,20 @@ const Cart = (props) => {
                 cart_item_id: itemData.cart_item_id,
                 quantity: itemData.quantity,
             },
+            context: {
+                headers: tokenCustomer && tokenCustomer !== '' ? {
+                    Authorization: `Bearer ${tokenCustomer}`,
+                } : {},
+            },
             refetchQueries: [
                 {
                     query: Schema.getCart,
                     variables: { cartId },
+                    context: {
+                        headers: tokenCustomer && tokenCustomer !== '' ? {
+                            Authorization: `Bearer ${tokenCustomer}`,
+                        } : {},
+                    },
                     fetchPolicy: 'cache-and-network',
                 },
             ],
@@ -122,9 +141,7 @@ const Cart = (props) => {
     if (dataCart.id && dataCart.items.length > 0) {
         return (
             <>
-                <Backdrop className={styles.backdrop} open={backdrop}>
-                    <CircularProgress color="inherit" />
-                </Backdrop>
+                <Backdrop open={backdrop} />
                 <Box className={styles.container}>
                     <div className={styles.toolbar}>
                         <div className={styles.toolbarCounter}>

@@ -91,10 +91,6 @@ const useStyles = makeStyles(() => ({
     emptyCart: {
         ...CreateMargin(20, 0, 20, 0),
     },
-    backdrop: {
-        zIndex: 99,
-        color: '#fff',
-    },
 }));
 
 export default useStyles;
