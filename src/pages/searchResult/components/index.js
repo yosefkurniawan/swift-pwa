@@ -10,6 +10,7 @@ const SearchResult = ({ storeConfig }) => {
         <Box className={styles.container}>
             {/* add url path if no redirect to slug */}
             <Product
+                defaultSort={{ key: 'relevance', value: 'DESC' }}
                 url_path="catalogsearch/result"
                 showTabs
                 catalog_search_engine={

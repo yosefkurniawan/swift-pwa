@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 
 const sortByData = [
-    { value: JSON.stringify({ key: 'relevance', value: 'DESC' }), label: 'Popularity' },
+    { value: JSON.stringify({ key: 'relevance', value: 'DESC' }), label: 'Relevance' },
     { value: JSON.stringify({ key: 'position', value: 'DESC' }), label: 'New Item' },
     { value: JSON.stringify({ key: 'price', value: 'DESC' }), label: 'price (Hight to Low)' },
     { value: JSON.stringify({ key: 'price', value: 'ASC' }), label: 'Price (Low to Hight)' },
