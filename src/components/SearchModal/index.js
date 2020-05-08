@@ -118,7 +118,7 @@ const SearchPage = (props) => {
                     <>
                         {!openedCategory.length ? (
                             <Category
-                                data={data.categoryList[0].children}
+                                data={data.categoryList[0].children.filter((el) => el.include_in_menu)}
                                 open={showCat}
                                 {...props}
                                 onClick={openSub}
