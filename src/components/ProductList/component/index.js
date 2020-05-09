@@ -10,6 +10,7 @@ import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helpers/generateQuery';
 import CustomTabs from '@components/Tabs';
 import Skeleton from '@material-ui/lab/Skeleton';
+import { Alert } from '@material-ui/lab';
 import useStyles from '../style';
 import Filter from './Filter';
 import { getProduct } from '../services';
@@ -144,7 +145,7 @@ const Product = ({
     // eslint-disable-next-line eqeqeq
     const renderMessage = (count) => (count == 0
         // eslint-disable-next-line react/no-unescaped-entities
-        ? <div style={{ padding: '20px' }}>We can't find products matching the selection.</div>
+        ? <Alert style={{ margin: '18px' }} severity="warning">We can't find products matching the selection.</Alert>
         : null
     );
 
