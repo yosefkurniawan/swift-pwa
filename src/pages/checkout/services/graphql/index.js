@@ -14,6 +14,7 @@ const config = () => {
         : {};
 
     return {
+        notifyOnNetworkStatusChange: true,
         context,
     };
 };

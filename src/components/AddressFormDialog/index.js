@@ -39,6 +39,7 @@ const AddressFormDialog = (props) => {
         setOpen,
         customAttributes,
         pageTitle = 'addTitle',
+        disableDefaultAddress = false,
     } = props;
 
     const styles = useStyles();
@@ -327,7 +328,7 @@ const AddressFormDialog = (props) => {
             }
             setAddressState(state);
 
-            if (_.isArray(state.dropdown.region) && !region) {
+            if (_.isArray(state.dropdown.region) && region) {
                 const selectedRegion = getRegionByLabel(region);
                 formik.setFieldValue('region', selectedRegion);
                 if (selectedRegion) {
@@ -465,31 +466,35 @@ const AddressFormDialog = (props) => {
                             <IcubeMaps height="230px" mapPosition={mapPosition} dragMarkerDone={handleDragPosition} />
                         </Box>
 
-                        <FormControlLabel
-                            value={formik.values.defaultBilling}
-                            checked={formik.values.defaultBilling}
-                            onChange={() => formik.setFieldValue('defaultBilling', !formik.values.defaultBilling)}
-                            name="defaultBilling"
-                            control={<Checkbox name="newslater" color="primary" size="small" />}
-                            label={(
-                                <Typography variant="p" letter="capitalize" className="row center">
-                                    {t('customer:address:useBilling')}
-                                </Typography>
-                            )}
-                        />
+                        {disableDefaultAddress ? null : (
+                            <div>
+                                <FormControlLabel
+                                    value={formik.values.defaultBilling}
+                                    checked={formik.values.defaultBilling}
+                                    onChange={() => formik.setFieldValue('defaultBilling', !formik.values.defaultBilling)}
+                                    name="defaultBilling"
+                                    control={<Checkbox name="newslater" color="primary" size="small" />}
+                                    label={(
+                                        <Typography variant="p" letter="capitalize" className="row center">
+                                            {t('customer:address:useBilling')}
+                                        </Typography>
+                                    )}
+                                />
 
-                        <FormControlLabel
-                            value={formik.values.defaultShipping}
-                            checked={formik.values.defaultShipping}
-                            onChange={() => formik.setFieldValue('defaultShipping', !formik.values.defaultShipping)}
-                            name="defaultShipping"
-                            control={<Checkbox name="newslater" color="primary" size="small" />}
-                            label={(
-                                <Typography variant="p" letter="capitalize" className="row center">
-                                    {t('customer:address:useShipping')}
-                                </Typography>
-                            )}
-                        />
+                                <FormControlLabel
+                                    value={formik.values.defaultShipping}
+                                    checked={formik.values.defaultShipping}
+                                    onChange={() => formik.setFieldValue('defaultShipping', !formik.values.defaultShipping)}
+                                    name="defaultShipping"
+                                    control={<Checkbox name="newslater" color="primary" size="small" />}
+                                    label={(
+                                        <Typography variant="p" letter="capitalize" className="row center">
+                                            {t('customer:address:useShipping')}
+                                        </Typography>
+                                    )}
+                                />
+                            </div>
+                        )}
 
                         <div className={styles.wrapper}>
                             <Button className={addBtn} fullWidth type="submit" disabled={loading}>

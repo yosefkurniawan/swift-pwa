@@ -38,9 +38,11 @@ export const getCart = gql`
     query Cart($cartId: String!) {
         cart(cart_id: $cartId) {
             id
+            email
             prices {
                 grand_total {
                     value
+                    currency
                 }
             }
             applied_coupons {
@@ -110,6 +112,7 @@ export const getCart = gql`
                     carrier_title
                     amount {
                         value
+                        currency
                     }
                 }
                 selected_shipping_method {
@@ -117,6 +120,7 @@ export const getCart = gql`
                     carrier_code
                     amount {
                         value
+                        currency
                     }
                 }
             }
@@ -258,8 +262,12 @@ export const setShippingMethod = gql`
                     selected_shipping_method {
                         amount {
                             value
+                            currency
                         }
                     }
+                }
+                applied_coupons {
+                    code
                 }
                 items {
                     prices {
@@ -483,6 +491,7 @@ export const applyCouponToCart = gql`
                     selected_shipping_method {
                         amount {
                             value
+                            currency
                         }
                     }
                 }
@@ -534,6 +543,7 @@ export const removeCouponFromCart = gql`
                     selected_shipping_method {
                         amount {
                             value
+                            currency
                         }
                     }
                 }
