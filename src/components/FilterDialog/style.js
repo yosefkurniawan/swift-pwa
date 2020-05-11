@@ -60,6 +60,12 @@ const useStyles = makeStyles(() => ({
         paddingBottom: 18,
         borderBottom: `1px solid ${GRAY_PRIMARY}`,
     },
+    fieldContainerLast: {
+        ...CreatePadding(10, 30, 10, 30),
+        paddingBottom: 18,
+        borderBottom: `1px solid ${GRAY_PRIMARY}`,
+        marginBottom: 80,
+    },
     last: {
         marginBottom: 70,
     },
