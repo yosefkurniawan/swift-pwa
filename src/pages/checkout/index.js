@@ -1,7 +1,6 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
 import cookies from 'next-cookies';
-import nookies from 'nookies';
 import redirect from 'next-redirect';
 import Content from './components';
 
@@ -21,18 +20,11 @@ const Page = (props) => {
 };
 
 Page.getInitialProps = async (ctx) => {
-    const { query } = ctx;
     const token = cookies(ctx).sk || null;
-    const cartId = query.cart || null;
+    const cartId = cookies(ctx).nci || null;
 
     if (!token && !cartId) {
-        redirect(ctx, '/');
-    }
-
-    if (cartId) {
-        nookies.set(ctx, 'cid', cartId, {
-            path: '/',
-        });
+        redirect(ctx, '/cart');
     }
 
     return {
