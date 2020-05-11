@@ -18,6 +18,7 @@ export default makeStyles(() => ({
         fontWeight: 'bold',
         fontSize: 11,
         color: GRAY_PRIMARY,
+        textAlign: 'center',
     },
     labelActive: {
         color: PRIMARY,
