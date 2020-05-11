@@ -36,22 +36,20 @@ class MyApp extends App {
         const {
             apolloClient, res, pathname, query,
         } = ctx;
+        let token = '';
+        if (typeof window !== 'undefined') token = getToken(nameToken); else token = getTokenFromServer(allcookie[nameToken]);
         if (pageProps.withAuth) {
             if (typeof window !== 'undefined') {
-                const token = getToken(nameToken);
                 if (token && token !== '') {
                     if (pathname === '/customer/account/login' && query.redirect && query.redirect !== '') {
                         Router.push(query.redirect);
-                    } else if (pathname !== '/customer/account') Router.push('/customer/account');
+                    } else if (pathname === '/customer/account/login') Router.push('/customer/account');
                 } else if (pathname !== '/customer/account/login') Router.push('/customer/account/login');
-            } else {
-                const token = getTokenFromServer(allcookie[nameToken]);
-                if (token && token !== '') {
-                    if (pathname === '/customer/account/login' && query.redirect && query.redirect !== '') {
-                        res.redirect(query.redirect);
-                    } else if (pathname !== '/customer/account') res.redirect('/customer/account');
-                } else if (pathname !== '/customer/account/login') res.redirect('/customer/account/login');
-            }
+            } else if (token && token !== '') {
+                if (pathname === '/customer/account/login' && query.redirect && query.redirect !== '') {
+                    res.redirect(query.redirect);
+                } else if (pathname === '/customer/account/login') res.redirect('/customer/account');
+            } else if (pathname !== '/customer/account/login') res.redirect('/customer/account/login');
         }
 
         let storeConfig;
@@ -60,7 +58,7 @@ class MyApp extends App {
         } else {
             storeConfig = allcookie[storeConfigNameCokie];
         }
-        return { pageProps: { ...pageProps, storeConfig } };
+        return { pageProps: { ...pageProps, storeConfig, token } };
     }
 
     render() {

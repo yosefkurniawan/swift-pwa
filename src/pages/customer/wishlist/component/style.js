@@ -1,7 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { WHITE, PRIMARY, GRAY_PRIMARY } from '@theme/colors';
+import { GRAY_PRIMARY, PRIMARY } from '@theme/colors';
+import { CreatePadding } from '@theme/mixins';
 
 const useStyles = makeStyles(() => ({
+    root: {
+        width: '100%',
+        height: '100%',
+    },
     colorPrimary: {
         color: PRIMARY,
     },
@@ -23,42 +28,12 @@ const useStyles = makeStyles(() => ({
     wishlistWrapper: {
         // paddingTop: "50px"
     },
-    card: {
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        minHeight: '180px',
-        borderRadius: '0',
-        boxShadow: 'none',
-    },
-    cardImage: {
-        flex: '0 0 35%',
-    },
-    cardContent: {
-        flex: '0 0 65%',
-        alignSelf: 'center',
-        display: 'flex',
-        textAlign: 'center',
-        justifyContent: 'center',
-    },
-    cardProductDetails: {
-        flex: '0 0 70%',
-    },
-    cardProductAction: {
-        flex: '0 0 30%',
-        alignSelf: 'center',
-        justifyContent: 'center',
-    },
-    productAddToCart: {
-        background: PRIMARY,
-        color: WHITE,
-        fontSize: '12px',
-    },
-    productAddAllToCart: {
+    footer: {
+        position: 'absolute',
+        bottom: 15,
         width: '100%',
-        backgroundColor: PRIMARY,
-        color: 'white',
-        textTransform: 'uppercase',
+        ...CreatePadding(0, 15, 0, 15),
+        textAlign: 'center',
     },
 }));
 

@@ -1,6 +1,5 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
-import cookies from 'next-cookies';
 import Content from './component';
 
 const Page = (props) => {
@@ -19,14 +18,10 @@ const Page = (props) => {
     );
 };
 
-Page.getInitialProps = async (ctx) => {
-    const { storeConfig } = cookies(ctx);
-    return {
-        namespacesRequired: ['common', 'customer', 'validate'],
-        withAuth: true,
-        storeConfig,
-        query: ctx.query,
-    };
-};
+Page.getInitialProps = async (ctx) => ({
+    namespacesRequired: ['common', 'customer', 'validate'],
+    withAuth: true,
+    query: ctx.query,
+});
 
 export default withTranslation()(Page);

@@ -31,7 +31,8 @@
     "title": "Lupa password",
     "content": "Dapatkan instruksi ke email kamu untuk mengganti password.",
     "success": "Kirim reset password sukses.",
-    "failed": "Kirim reset password gagal!"
+    "failed": "Kirim reset password gagal!",
+    "useEmail": "kirim reset password dengan email"
   },
   "newPassword": {
     "title": "Ubah password",
@@ -51,7 +52,13 @@
   },
   "wishlist": {
     "pageTitle": "Wishlist",
-    "title" : "Wishlist"
+    "title" : "Wishlist",
+    "removeSucess": "hapus wishlist sukses",
+    "removeFailed": "hapus wishlist gagal",
+    "addSucess": "tambah wishlist sukses",
+    "addFailed": "tambah wishlist gagal",
+    "addToBag": "tambah ke keranjang",
+    "addAllToBag": "tambah semua ke keranjang"
   },
   "address" : {
     "pageTitle" : "Daftar alamat",

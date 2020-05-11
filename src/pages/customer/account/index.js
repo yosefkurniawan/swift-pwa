@@ -1,10 +1,7 @@
-import { withTranslation } from '@i18n';
 import Layout from '@components/Layouts';
-import cookies from 'next-cookies';
-import { nameToken } from '@config';
-import { getTokenFromServer } from '@helpers/token';
-import WithToken from './component/WithToken';
+import { withTranslation } from '@i18n';
 import WihtOutToken from './component/WihtOutToken';
+import WithToken from './component/WithToken';
 
 const Page = (props) => {
     const { t, token } = props;
@@ -27,14 +24,8 @@ const Page = (props) => {
     );
 };
 
-Page.getInitialProps = async (ctx) => {
-    const allCookies = cookies(ctx);
-    const token = getTokenFromServer(allCookies[nameToken]);
-    return {
-        token,
-        storeConfig: allCookies.storeConfig,
-        namespacesRequired: ['common', 'customer'],
-    };
-};
+Page.getInitialProps = async () => ({
+    namespacesRequired: ['common', 'customer'],
+});
 
 export default withTranslation()(Page);

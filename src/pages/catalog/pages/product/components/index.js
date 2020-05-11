@@ -3,6 +3,7 @@ import PriceFormat from '@components/PriceFormat';
 import Banner from '@components/Slider/Banner';
 import Caraousel from '@components/Slider/Carousel';
 import Typography from '@components/Typography';
+import Toast from '@components/Toast';
 import { Box, IconButton } from '@material-ui/core';
 import {
     Favorite,
@@ -14,6 +15,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import HtmlParser from 'react-html-parser';
 import { useSelector } from 'react-redux';
+import { GraphCustomer } from '@services/graphql';
 import useStyles from '../style';
 import ExpandDetail from './ExpandDetail';
 import ListReviews from './ListReviews';
@@ -24,7 +26,7 @@ import SharePopup from './SharePopup';
 
 const ProductPage = (props) => {
     const {
-        t, url, data,
+        t, url, data, token,
     } = props;
     const styles = useStyles();
     const route = useRouter();
@@ -49,6 +51,9 @@ const ProductPage = (props) => {
     const [openOption, setOpenOption] = React.useState(false);
     const [openDrawer, setOpenDrawer] = React.useState(false);
     const [openShare, setOpenShare] = React.useState(false);
+    const [message, setMessage] = React.useState({
+        open: false, text: '', variant: 'success',
+    });
     const [banner, setBanner] = React.useState(bannerData);
     const [price, setPrice] = React.useState({
         priceRange: data.price_range,
@@ -56,16 +61,36 @@ const ProductPage = (props) => {
         // eslint-disable-next-line no-underscore-dangle
         productType: data.__typename,
     });
-    const [feed, setFeed] = React.useState(false);
+    const [wishlist, setWishlist] = React.useState(false);
 
-    const favoritIcon = feed ? (
+    const favoritIcon = wishlist ? (
         <Favorite className={styles.iconShare} />
     ) : (
         <FavoriteBorderOutlined className={styles.iconShare} />
     );
 
-    const handleFeed = () => {
-        setFeed(!feed);
+    const [addWishlist] = GraphCustomer.addWishlist(token);
+
+    const handleWishlist = () => {
+        if (token && token !== '') {
+            addWishlist({
+                variables: {
+                    productId: data.id,
+                },
+            }).then(() => {
+                setMessage({ open: true, variant: 'success', text: 'add wishlist success' });
+                setInterval(() => {
+                    route.push('/customer/account/wishlist');
+                }, 3000);
+            }).catch((e) => {
+                setMessage({
+                    open: true,
+                    variant: 'error',
+                    text: e.message.split(':')[1] || 'add wishlist failed',
+                });
+            });
+        }
+        setWishlist(!wishlist);
     };
 
     let expandData = [];
@@ -98,6 +123,12 @@ const ProductPage = (props) => {
     }));
     return (
         <>
+            <Toast
+                open={message.open}
+                setOpen={() => setMessage({ ...message, open: false })}
+                message={message.text}
+                variant={message.variant}
+            />
             <OptionDialog
                 {...props}
                 open={openOption}
@@ -146,7 +177,7 @@ const ProductPage = (props) => {
                         <div className={styles.shareContainer}>
                             <IconButton
                                 className={styles.btnShare}
-                                onClick={handleFeed}
+                                onClick={handleWishlist}
                             >
                                 {favoritIcon}
                             </IconButton>
