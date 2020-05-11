@@ -32,6 +32,7 @@ const CategoryPage = ({ data, storeConfig }) => {
             {
                 imageUrl: categoryList.image_path,
                 link: categoryList.url_path,
+                description: categoryList.description,
             },
         ];
     }
@@ -47,6 +48,10 @@ const CategoryPage = ({ data, storeConfig }) => {
                         {' '}
                     </div>
                 ) : null}
+            {dataBanner[0] && dataBanner[0].description && (
+                /* eslint-disable-next-line react/no-danger */
+                <div className="cms-container" dangerouslySetInnerHTML={{ __html: dataBanner[0].description }} />
+            )}
             <div>
                 <CustomTabs
                     data={categoryTabs(categoryList.children)}

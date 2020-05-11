@@ -15,6 +15,7 @@ export const getCategory = (
         categoryList(filters: { ids: { eq: "${variables.id}" } }) {
           id
           name
+          description
           url_path
           image
           image_path
