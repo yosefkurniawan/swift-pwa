@@ -75,8 +75,9 @@ const useStyles = makeStyles(() => ({
         ...CreatePadding(20, 20, 20, 20),
     },
     btnSave: {
-        ...CreateMargin(0, 8, 0, 0),
-        width: '50%',
+        display: 'block',
+        margin: 'auto',
+        width: 'calc(100% - 12px)',
         height: 41,
     },
 }));
