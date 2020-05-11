@@ -1,3 +1,8 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-unused-vars */
+
+const { ApolloServer, gql } = require('apollo-server-express');
+const session = require('express-session');
 const express = require('express');
 const next = require('next');
 const fs = require('fs');
@@ -14,12 +19,47 @@ const handle = app.getRequestHandler();
 const privateKey = '/etc/letsencrypt/live/swiftpwa.testingnow.me/privkey.pem';
 const certificate = '/etc/letsencrypt/live/swiftpwa.testingnow.me/cert.pem';
 
+const schema = require('./src/api');
+const root = require('./src/api/root');
+
+const SESSION_SECRET = 'asdklfjqo31';
+
+
+// handle server graphql endpoint use `/graphql`
+const serverGraph = new ApolloServer({
+    schema,
+    rootValue: root,
+    context: ({ req }) => req,
+    playground: {
+        endpoint: '/graphql',
+        settings: {
+            'editor.theme': 'light',
+        },
+    },
+});
+
 (async () => {
     await app.prepare();
     const server = express();
 
     await nextI18next.initPromise;
     server.use(nextI18NextMiddleware(nextI18next));
+    server.use(
+        session({
+            name: 'qid',
+            secret: SESSION_SECRET,
+            resave: false,
+            saveUninitialized: false,
+            cookie: {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+            },
+        }),
+    );
+
+    serverGraph.applyMiddleware({ app: server });
+
 
     server.get('*', (req, res) => handle(req, res));
 
