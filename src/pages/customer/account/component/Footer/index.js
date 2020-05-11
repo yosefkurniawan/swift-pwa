@@ -5,16 +5,22 @@ import { removeToken } from '@helpers/token';
 import { removeCartId } from '@helpers/cartId';
 import { useDispatch } from 'react-redux';
 import { setCountCart } from '@stores/actions/cart';
+import { removeToken as deleteToken } from '../../services/graphql';
 import useStyles from './style';
 
 export default ({ t, token }) => {
     const styles = useStyles();
     const dispatch = useDispatch();
+    const [deleteTokenGql] = deleteToken(token);
     const handleLogout = () => {
-        removeToken();
-        removeCartId();
-        dispatch(setCountCart(0));
-        Router.push('/customer/account/login');
+        deleteTokenGql().then(() => {
+            removeToken();
+            removeCartId();
+            dispatch(setCountCart(0));
+            Router.push('/customer/account/login');
+        }).catch(() => {
+            //
+        });
     };
     return (
         <div className={styles.account_block}>

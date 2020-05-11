@@ -2,7 +2,9 @@
 import Link from 'next/link';
 import React from 'react';
 import Carousel from '@components/Slider/Carousel';
-import { getCustomer } from '../../services/graphql';
+import Button from '@components/Button';
+import Typography from '@components/Typography';
+import { GraphCustomer } from '@services/graphql';
 import Footer from '../Footer';
 import Loaders from '../Loader';
 // Styling And Component
@@ -14,7 +16,7 @@ const WithToken = (props) => {
     const styles = useStyles();
     let userData = {};
     let wishlist = [];
-    const { data, loading, error } = getCustomer(token);
+    const { data, loading, error } = GraphCustomer.getCustomer(token);
 
     if (!data || loading) return <Loaders />;
     if (data) {
@@ -70,8 +72,16 @@ const WithToken = (props) => {
                 </div>
                 <div className={[styles.account_block, styles.wishlistBlock].join(' ')}>
                     <div className={styles.account_clearfix}>
-                        <h4 className={styles.account_wishlist_title}>Wishlist</h4>
-                        <h5 className={styles.account_wishlist_read_more}>Read More</h5>
+                        <div className={styles.spanWishlist}>
+                            <Typography variant="span" type="bold" letter="capitalize" className={styles.account_wishlist_title}>Wishlist</Typography>
+                            <Button
+                                href="/customer/account/wishlist"
+                                className={[styles.account_wishlist_read_more].join(' ')}
+                                variant="text"
+                            >
+                                <Typography variant="span" type="bold" letter="capitalize">Read More</Typography>
+                            </Button>
+                        </div>
                     </div>
                     <div className={styles.account_clearfix}>
                         <Carousel

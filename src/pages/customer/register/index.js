@@ -30,7 +30,6 @@ Page.getInitialProps = async (ctx) => {
     }
     return {
         namespacesRequired: ['common', 'customer', 'validate'],
-        storeConfig: allcookie.storeConfig,
     };
 };
 

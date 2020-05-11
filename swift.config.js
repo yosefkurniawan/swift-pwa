@@ -56,7 +56,7 @@ export const expiredDefault = 365;
 /* List Of CMS Pages: [url-1, url-2, ..., url-n] */
 export const cmsPages = ['about-us'];
 
-export const loaderImage = 'https://pngimage.net/wp-content/uploads/2018/06/loading-png-transparent-5.png';
+export const loaderImage = '/assets/img/sample/spinner.svg';
 
 /* identifiers for cmsBlocks in contact page */
 export const cmsContactIdentifiers = 'weltpixel_contact_page';

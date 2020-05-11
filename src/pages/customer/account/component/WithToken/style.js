@@ -90,6 +90,11 @@ const useStyles = makeStyles(() => ({
         alignItems: 'center',
         width: '100%',
     },
+    spanWishlist: {
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: 15,
+    },
 }));
 
 export default useStyles;

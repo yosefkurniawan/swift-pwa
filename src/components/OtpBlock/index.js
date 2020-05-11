@@ -164,7 +164,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
     }, [time, data]);
 
     return (
-        <div className="column">
+        <div className={styles.root}>
             <Toast open={message.open} message={message.text} variant={message.variant} setOpen={() => setMessage({ ...message, open: false })} />
             <div className={styles.componentContainer}>
                 <div className={styles.input}>

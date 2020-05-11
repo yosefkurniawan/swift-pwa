@@ -23,9 +23,16 @@ export default makeStyles(() => ({
         ...Centering,
         position: 'absolute',
         bottom: 0,
+        textAlign: 'center',
     },
     selectLogin: {
         width: '100%',
         ...CreateMargin(0, 0, 15, -15),
+    },
+    rowCenter: {
+        ...FlexColumn,
+        width: '100%',
+        height: '100%',
+        textAlign: 'center',
     },
 }));

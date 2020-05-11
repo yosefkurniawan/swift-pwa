@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/react-hooks';
 import * as Schema from './schema';
 
 
-export const removeToken = (token) => useMutation(Schema.removeToken, {
+export const addSimpleProductsToCart = (token) => useMutation(Schema.addSimpleProductsToCart, {
     context: {
         headers: token && token !== '' ? {
             Authorization: `Bearer ${token}`,
@@ -12,4 +12,4 @@ export const removeToken = (token) => useMutation(Schema.removeToken, {
 });
 
 
-export default { removeToken };
+export default { addSimpleProductsToCart };
