@@ -38,7 +38,7 @@ const Navigation = ({ active = true }) => {
                             Router.push('/checkout/cart');
                             return;
                         case 'account':
-                            Router.push('/customer/account/login');
+                            Router.push('/customer/account');
                             break;
                         default:
                         }
