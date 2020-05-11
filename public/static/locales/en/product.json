@@ -21,5 +21,6 @@
     },
     "addRateSuccess": "Thanks for review this product",
     "successAddCart": "Success add to bag",
-    "failedAddCart": "Failed add to bag"
+    "failedAddCart": "Failed add to bag",
+    "emptyProductSearchResult": "We can't find products matching the selection."
 }

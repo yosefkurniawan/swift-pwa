@@ -4,7 +4,7 @@ import Product from '@components/ProductList';
 import useStyles from '../style';
 
 
-const SearchResult = ({ storeConfig }) => {
+const SearchResult = ({ storeConfig, t }) => {
     const styles = useStyles();
     return (
         <Box className={styles.container}>
@@ -16,6 +16,7 @@ const SearchResult = ({ storeConfig }) => {
                 catalog_search_engine={
                     storeConfig.catalog_search_engine
                 }
+                t={t}
             />
         </Box>
     );

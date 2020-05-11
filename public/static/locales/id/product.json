@@ -21,5 +21,6 @@
     },
     "addRateSuccess": "Terimakasih atas ulasannya.",
     "successAddCart": "Sukses tambahkan ke keranjang",
-    "failedAddCart": "Gagal tambahkan ke keranjang"
+    "failedAddCart": "Gagal tambahkan ke keranjang",
+    "emptyProductSearchResult": "Kami tidak dapat menemukan produk yang sesuai dengan pilihan."
 }
