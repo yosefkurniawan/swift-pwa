@@ -41,9 +41,10 @@ const ListSize = ({
     const classes = useStyles();
     const styles = {
         cursor: disabled ? 'default' : 'pointer',
-        width,
+        minWidth: width,
         height: width,
         background: disabled ? GRAY_PRIMARY : WHITE,
+        padding: '4px',
     };
 
     if (value === data) {
