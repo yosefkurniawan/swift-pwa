@@ -4,8 +4,9 @@ import { Centering } from '@theme/mixins';
 
 export default makeStyles(() => ({
     container: {
-        width: 53,
-        height: 53,
+        minWidth: 65,
+        height: 65,
+        marginRight: 8,
         borderRadius: 100,
         border: `1px solid ${GRAY_PRIMARY}`,
         ...Centering,
@@ -15,7 +16,7 @@ export default makeStyles(() => ({
     },
     label: {
         fontWeight: 'bold',
-        fontSize: 13,
+        fontSize: 11,
         color: GRAY_PRIMARY,
     },
     labelActive: {
