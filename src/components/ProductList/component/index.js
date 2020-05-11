@@ -73,7 +73,7 @@ const generateConfig = (query, config, elastic) => {
  * customFilter have custom sort and filter
  */
 const Product = ({
-    catId = 0, catalog_search_engine, customFilter, url_path, showTabs, defaultSort,
+    catId = 0, catalog_search_engine, customFilter, url_path, showTabs, defaultSort, t,
 }) => {
     const router = useRouter();
     const styles = useStyles();
@@ -145,7 +145,7 @@ const Product = ({
     // eslint-disable-next-line eqeqeq
     const renderMessage = (count) => (count == 0
         // eslint-disable-next-line react/no-unescaped-entities
-        ? <Alert style={{ margin: '18px' }} severity="warning">We can't find products matching the selection.</Alert>
+        ? <Alert style={{ margin: '18px' }} severity="warning">{t('product:emptyProductSearchResult')}</Alert>
         : null
     );
 

@@ -21,7 +21,7 @@ const Page = (props) => {
 };
 
 Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'search'],
+    namespacesRequired: ['common', 'search', 'product'],
 });
 
 export default withTranslation()(Page);
