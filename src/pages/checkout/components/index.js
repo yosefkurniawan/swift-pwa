@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import AddressFormDialog from '@components/AddressFormDialog';
 import Button from '@components/Button';
+import { formatPrice } from '@helpers/currency';
 import Radio from '@components/Forms/Radio';
 import TextField from '@components/Forms/TextField';
 import Message from '@components/Toast';
@@ -86,13 +87,18 @@ const Checkout = (props) => {
             shippingMethods: [],
             summary: [],
             paymentMethod: [],
-            total: 0,
+            total: {
+                value: 0,
+                currency: null,
+            },
             isGuest: false,
             isCouponAppliedToCart: false,
+            point: 0,
+            credit: 0,
             message: {
                 open: false,
                 text: '',
-                variant: 'success',
+                variant: '',
             },
         },
         selected: {
@@ -123,9 +129,7 @@ const Checkout = (props) => {
     const buttonClassname = clsx({
         [styles.buttonSuccess]: checkout.loading.coupon,
     });
-    const [summary, setSummary] = useState([{ item: 'sub total', value: 300000 }]);
-    const [point, setPoint] = useState(100000);
-    const [credit, setCredit] = useState(100000);
+
     const getCustomer = gqlService.getCustomer();
     const [setGuestEmailAddressOnCart] = gqlService.setGuestEmailAddressOnCart();
     const [applyCouponTocart] = gqlService.applyCouponToCart({
@@ -135,10 +139,14 @@ const Checkout = (props) => {
     const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
     const [setShippingAddressById] = gqlService.setShippingAddress();
     const [setShippingAddressByInput] = gqlService.setShippingAddressByInput();
-    const [setShippingMethod] = gqlService.setShippingMethod();
+    const [setShippingMethod] = gqlService.setShippingMethod({
+        onError: (errors) => {},
+    });
     const [setBillingAddressById] = gqlService.setBillingAddressById();
     const [setBillingAddressByInput] = gqlService.setBillingAddressByInput();
-    const [setPaymentMethod] = gqlService.setPaymentMethod();
+    const [setPaymentMethod] = gqlService.setPaymentMethod({
+        onError: (errors) => {},
+    });
     const [placeOrder, networkStatus] = gqlService.placeOrder({
         onError: (errors) => {},
     });
@@ -175,7 +183,7 @@ const Checkout = (props) => {
             label: `${shipping.method_title} ${shipping.carrier_title}`,
             value: {
                 name: { carrier_code: shipping.carrier_code, method_code: shipping.method_code },
-                price: shipping.amount.value,
+                price: formatPrice(shipping.amount.value, shipping.amount.currency),
             },
         }));
 
@@ -250,20 +258,32 @@ const Checkout = (props) => {
         const {
             prices, applied_coupons, items, shipping_addresses,
         } = cart;
-        const subtotal = items.reduce((prev, curr) => prev + curr.prices.row_total.value, 0);
-        const total = prices.grand_total.value;
+
+        const sumTotalItem = items.reduce((prev, curr) => ({
+            value: prev.value + curr.prices.row_total.value,
+            currency: curr.prices.row_total.currency,
+        }), { value: 0 });
+        const subtotal = formatPrice(sumTotalItem.value, sumTotalItem.currency);
+        const total = prices.grand_total;
         const [shipping] = shipping_addresses;
+
+        const index = {
+            subtotal: data.findIndex((sum) => sum.item === 'sub total'),
+            shipping: data.findIndex((sum) => sum.item === 'shipping'),
+            coupon: data.findIndex((sum) => sum.item === 'promo'),
+        };
 
         data.push({ item: 'sub total', value: subtotal });
 
         if (shipping && shipping.selected_shipping_method) {
             const shippingMethod = shipping.selected_shipping_method;
-            data.push({ item: 'shipping', value: shippingMethod.amount.value });
+            const price = formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency);
+            data.push({ item: 'shipping', value: price });
         }
 
         if (applied_coupons) {
-            const coupon = prices.discounts[0].amount.value;
-            data.push({ item: 'promo', value: -(coupon) });
+            const coupon = formatPrice(prices.discounts[0].amount.value, prices.discounts[0].amount.currency);
+            data.push({ item: 'promo', value: `-${coupon}` });
         }
 
         state.data.total = total;
@@ -294,7 +314,7 @@ const Checkout = (props) => {
 
         // init subtotal & summary
         const itemSubtotal = cart.items.reduce((prev, curr) => prev + curr.prices.row_total.value, 0);
-        state.data.total = cart.prices.grand_total.value;
+        state.data.total = cart.prices.grand_total;
 
         // init coupon
         if (cart.applied_coupons) {
@@ -365,7 +385,7 @@ const Checkout = (props) => {
                 label: `${item.method_title} ${item.carrier_title}`,
                 value: {
                     name: { carrier_code: item.carrier_code, method_code: item.method_code },
-                    price: item.amount.value,
+                    price: formatPrice(item.amount.value, item.amount.currency),
                 },
             }));
         }
@@ -452,13 +472,13 @@ const Checkout = (props) => {
         if (val) {
             const { cart, summary: dataSummary } = checkout.data;
             const { carrier_code, method_code } = val.name;
-            const state = { ...checkout };
+            let state = { ...checkout };
             state.selected.shipping = val;
             state.status.backdrop = true;
             formik.setFieldValue('shipping', val);
             setCheckout(state);
 
-            const updatedCart = (
+            let updatedCart = (
                 await setShippingMethod({
                     variables: {
                         cartId: cart.id,
@@ -466,27 +486,40 @@ const Checkout = (props) => {
                         methodCode: method_code,
                     },
                 })
-            ).data.setShippingMethodsOnCart.cart;
+            );
 
-            const paymentMethod = updatedCart.available_payment_methods.map((method) => ({
-                ...method,
-                label: method.title,
-                value: method.code,
-                image: null,
-            }));
-
-            state.data.paymentMethod = paymentMethod;
+            state = { ...checkout };
             state.status.backdrop = false;
             setCheckout(state);
 
-            manageSummary(updatedCart);
+            if (updatedCart) {
+                updatedCart = updatedCart.data.setShippingMethodsOnCart.cart;
+
+                const paymentMethod = updatedCart.available_payment_methods.map((method) => ({
+                    ...method,
+                    label: method.title,
+                    value: method.code,
+                    image: null,
+                }));
+
+                state = { ...checkout };
+                state.data.paymentMethod = paymentMethod;
+                setCheckout(state);
+
+                manageSummary(updatedCart);
+            } else {
+                handleOpenMessage({
+                    variant: 'error',
+                    text: 'There is a problem with your connection',
+                });
+            }
         }
     };
 
     const handlePayment = async (val) => {
         const { cart } = checkout.data;
         formik.setFieldValue('payment', val);
-        setCheckout({
+        await setCheckout({
             ...checkout,
             selected: {
                 ...checkout.selected,
@@ -502,6 +535,13 @@ const Checkout = (props) => {
         const state = { ...checkout };
         state.status.backdrop = false;
         setCheckout(state);
+
+        if (!result) {
+            handleOpenMessage({
+                variant: 'error',
+                text: 'There is a problem with your connection',
+            });
+        }
     };
 
     const handlePromo = async () => {
@@ -532,57 +572,16 @@ const Checkout = (props) => {
     };
 
     const handleGift = () => {
-        let include = false;
-        const newData = [];
-        summary.forEach((item) => {
-            if (item.item === 'gift') {
-                include = true;
-                // eslint-disable-next-line no-param-reassign
-                item.value = -30000;
-            }
-            newData.push(item);
-        });
 
-        include === false ? setSummary([...newData, { item: 'gift', value: -30000 }]) : setSummary(newData);
     };
     const handleCheckBalance = () => {};
 
     const handleUsePoint = async () => {
-        if (point !== 0) {
-            let include = false;
-            const newData = [];
-            summary.forEach((item) => {
-                if (item.item === 'point') {
-                    include = true;
-                    // eslint-disable-next-line no-param-reassign
-                    item.value = -point;
-                }
-                newData.push(item);
-            });
 
-            include === false ? await setSummary([...newData, { item: 'point', value: -point }]) : await setSummary(newData);
-
-            setPoint(0);
-        }
     };
 
     const handleUseCredit = async () => {
-        if (credit !== 0) {
-            let include = false;
-            const newData = [];
-            summary.forEach((item) => {
-                if (item.item === 'credit') {
-                    include = true;
-                    // eslint-disable-next-line no-param-reassign
-                    item.value = -credit;
-                }
-                newData.push(item);
-            });
 
-            include === false ? await setSummary([...newData, { item: 'credit', value: -credit }]) : await setSummary(newData);
-
-            setCredit(0);
-        }
     };
 
     const handlePlaceOrder = async () => {
@@ -618,7 +617,7 @@ const Checkout = (props) => {
             } else {
                 handleOpenMessage({
                     variant: 'error',
-                    text: 'There is a problem on the server, try again later',
+                    text: 'There is a problem on the server or your connection, try again later',
                 });
             }
         } else {
@@ -864,7 +863,7 @@ const Checkout = (props) => {
                                 My Point
                             </Typography>
                             <Typography variant="title" type="bold" className={styles.pointText}>
-                                {point.toLocaleString(undefined, { minimumFractionDigits: 0 })}
+                                {checkout.data.point.toLocaleString(undefined, { minimumFractionDigits: 0 })}
                             </Typography>
                         </div>
                         <div>
@@ -881,7 +880,7 @@ const Checkout = (props) => {
                                 My Credit
                             </Typography>
                             <Typography variant="title" type="bold" className={styles.pointText}>
-                                {credit.toLocaleString(undefined, { minimumFractionDigits: 0 })}
+                                {checkout.data.credit.toLocaleString(undefined, { minimumFractionDigits: 0 })}
                             </Typography>
                         </div>
                         <div>

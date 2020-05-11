@@ -8,6 +8,7 @@ import {
     CircularProgress,
 } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
+import { formatPrice } from '@helpers/currency';
 import useStyles from './style';
 
 const Summary = ({
@@ -51,7 +52,7 @@ const Summary = ({
                     Total
                 </Typography>
                 <Typography variant="title" type="bold" letter="uppercase">
-                    {total}
+                    {total.currency ? formatPrice(total.value, total.currency) : null}
                 </Typography>
             </div>
             <Button onClick={onClick} className={styles.btnSave} disabled={loading || disabled}>
