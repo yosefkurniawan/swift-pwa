@@ -25,19 +25,39 @@ export const getCart = gql`
             }
             items {
               id
+              quantity
+                prices {
+                  discounts {
+                    amount {
+                      currency
+                      value
+                    }
+                  }
+                  price {
+                    value
+                    currency
+                  }
+                  row_total {
+                    currency
+                    value
+                  }
+                  total_item_discount {
+                    currency
+                    value
+                  }
+              }
               ... on  ConfigurableCartItem {
                 configurable_options {
-                  id
                   option_label
-                  value_id
                   value_label
                 }
               }
               product {
                   id
                   name
-                  thumbnail {
-                      url
+                  small_image {
+                    url
+                    label
                   }
                   url_key
                   sku
@@ -94,27 +114,6 @@ export const getCart = gql`
                         }
                       }
                     }
-                  }
-                }
-                quantity
-                prices {
-                  discounts {
-                    amount {
-                      currency
-                      value
-                    }
-                  }
-                  price {
-                    value
-                    currency
-                  }
-                  row_total {
-                    currency
-                    value
-                  }
-                  total_item_discount {
-                    currency
-                    value
                   }
                 }
             }
