@@ -2,6 +2,7 @@ import Button from '@components/Button';
 import Typography from '@components/Typography';
 import TextField from '@components/Forms/TextField';
 import PasswordField from '@components/Forms/Password';
+import { regexPhone } from '@helpers/regex';
 import {
     FormControlLabel, Checkbox, Grid,
 } from '@material-ui/core';
@@ -25,6 +26,8 @@ const ProfileForm = ({ t, data }) => {
             .required(t('validate:email:required')),
         firstName: Yup.string().required(t('validate:firstName:required')),
         lastName: Yup.string().required(t('validate:lastName:required')),
+        telephone: Yup.string().required(t('validate:telephone:required'))
+            .matches(regexPhone, t('validate:phoneNumber:wrong')),
         currentPassword:
             editPass && Yup.string().required(t('validate:password:required')),
         password:
@@ -45,13 +48,15 @@ const ProfileForm = ({ t, data }) => {
         initialValues: {
             firstName: data.firstName,
             lastName: data.lastName,
+            telephone: data.telephone,
             email: data.email,
             currentPassword: '',
             password: '',
             confirmPassword: '',
         },
         validationSchema: ProfileSchema,
-        onSubmit: (value, { setSubmitting }) => {
+        onSubmit: (values, { setSubmitting }) => {
+            console.log(values);
             setEdit(false);
             setEditPass(false);
             setEditEmail(false);
@@ -102,7 +107,6 @@ const ProfileForm = ({ t, data }) => {
                 }
                 disabled={!editEmail}
             />
-
             <FormControlLabel
                 className={styles.checkboxLabel}
                 onChange={() => setEditEmail(!editEmail)}
@@ -123,7 +127,6 @@ const ProfileForm = ({ t, data }) => {
                     </Typography>
                 )}
             />
-
             <FormControlLabel
                 className={styles.checkboxLabel}
                 onChange={() => setEditPass(!editPass)}
@@ -143,6 +146,19 @@ const ProfileForm = ({ t, data }) => {
                         Password
                     </Typography>
                 )}
+            />
+            <TextField
+                label="Telephone"
+                name="telephone"
+                value={formik.values.telephone}
+                onChange={formik.handleChange}
+                error={
+                    !!(formik.touched.telephone && formik.errors.telephone)
+                }
+                errorMessage={
+                    (formik.touched.telephone && formik.errors.telephone) || null
+                }
+                disabled={!edit}
             />
 
             <div
@@ -273,6 +289,7 @@ const ProfilePage = (props) => {
                 firstName: data.customer.firstname,
                 lastName: data.customer.lastname,
                 email: data.customer.email,
+                telephone: '081234567890',
             }}
         />
     );
