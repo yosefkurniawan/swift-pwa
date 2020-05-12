@@ -16,4 +16,14 @@ export default makeStyles(() => ({
     bottomButtons: {
         ...CreatePadding(20, 0, 0, 0),
     },
+    skeletonContainer: {
+        padding: '16px',
+        width: '100%',
+    },
+    skeletonField: {
+        marginBottom: '24px',
+    },
+    skeleton: {
+        margin: '6px',
+    },
 }));
