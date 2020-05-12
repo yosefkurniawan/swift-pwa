@@ -18,6 +18,11 @@ import '../src/styles/index.css';
 import '../src/styles/mage.css';
 
 class MyApp extends App {
+    constructor(props) {
+        super(props);
+        this.isLogin = false;
+    }
+
     componentDidMount() {
         // Remove the server-side injected CSS.
         const jssStyles = document.querySelector('#jss-server-side');
@@ -34,8 +39,11 @@ class MyApp extends App {
             pageProps = await Component.getInitialProps(ctx);
         }
         const {
-            apolloClient, res, pathname, query,
+            apolloClient, res, pathname, query, req,
         } = ctx;
+
+        // check if login from server
+
         let token = '';
         if (typeof window !== 'undefined') token = getToken(nameToken); else token = getTokenFromServer(allcookie[nameToken]);
         if (pageProps.withAuth) {
@@ -58,11 +66,14 @@ class MyApp extends App {
         } else {
             storeConfig = allcookie[storeConfigNameCokie];
         }
-        return { pageProps: { ...pageProps, storeConfig, token } };
+        return { pageProps: { ...pageProps, storeConfig, token }, isLogin: req && typeof req.session.token !== 'undefined' };
     }
 
     render() {
-        const { Component, pageProps } = this.props;
+        const { Component, pageProps, isLogin } = this.props;
+        if (!this.isLogin && isLogin) {
+            this.isLogin = isLogin;
+        }
         const storeCokie = Cookie.get(storeConfigNameCokie);
         if (!storeCokie) {
             Cookie.set(storeConfigNameCokie, pageProps.storeConfig, {
@@ -82,7 +93,7 @@ class MyApp extends App {
                 <ThemeProvider theme={theme}>
                     {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                     <CssBaseline />
-                    <Component {...pageProps} />
+                    <Component {...pageProps} isLogin={this.isLogin} />
                 </ThemeProvider>
             </>
         );

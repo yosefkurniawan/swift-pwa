@@ -22,6 +22,15 @@ query getCartData($cartId: String!) {
         items {
             id
             quantity
+            ... on ConfigurableCartItem {
+              configurable_options {
+                id
+                option_label
+                value_id
+                value_label
+                __typename
+              }
+            }
             prices {
                 price { 
                     currency

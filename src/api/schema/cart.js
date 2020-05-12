@@ -28,8 +28,20 @@ const cartSchema = makeExecutableSchema({
         price: Money
       }
 
-      type CartItemInterface {
+      type SelectedConfigurableOptions {
+        id: Int
+        option_label: String
+        value_id: Int
+        value_label: String
+      }
+
+      interface ConfigurableCartItem {
+        configurable_options: [SelectedConfigurableOptions]
+      }
+
+      type CartItemInterface implements ConfigurableCartItem {
         id: String
+        configurable_options: [SelectedConfigurableOptions]
         product: Product
         quantity: Float
         prices: CartItemPrices
