@@ -10,6 +10,7 @@ import { regexPhone } from '@helpers/regex';
 import * as Yup from 'yup';
 import Router from 'next/router';
 import { FormControlLabel, Switch } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import { requestLinkToken } from './services/graphql';
 import useStyles from './style';
 
@@ -60,7 +61,7 @@ const ForgotPassword = ({ t }) => {
                         setToast({
                             open: true,
                             variant: 'success',
-                            text: message || t('customer:forgotPassword:success'),
+                            text: message || t('customer:forgotPassword:successEmail1') + values.email + t('customer:forgotPassword:successEmail2'),
                         });
                     }
                 })
@@ -80,7 +81,6 @@ const ForgotPassword = ({ t }) => {
     return (
         <form className={styles.container} onSubmit={formik.handleSubmit}>
             <Loading open={load} />
-            <Toast open={toast.open} setOpen={() => setToast({ ...toast, open: false })} message={toast.text} variant={toast.variant} />
             {data && data.otpConfig.otp_enable[0].enable_otp_forgot_password && (
                 <FormControlLabel
                     control={<Switch checked={useEmail} onChange={() => setUseEmail(!useEmail)} name="useOtp" color="primary" />}
@@ -88,6 +88,14 @@ const ForgotPassword = ({ t }) => {
                     label={t('customer:forgotPassword:useEmail')}
                 />
             )}
+            {
+                useEmail ? toast.open && (
+                    <Alert className="m-15" severity={toast.variant}>{toast.text}</Alert>
+                )
+                    : (
+                        <Toast open={toast.open} setOpen={() => setToast({ ...toast, open: false })} message={toast.text} variant={toast.variant} />
+                    )
+            }
             {(useEmail || (data && !data.otpConfig.otp_enable[0].enable_otp_forgot_password)) && (
                 <>
                     <Typography variant="span" align="left">

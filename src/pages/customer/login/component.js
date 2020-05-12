@@ -174,7 +174,7 @@ const Login = ({ t, storeConfig, query }) => {
                             {loading ? 'Loading' : t('customer:login:pageTitle')}
                         </Typography>
                     </Button>
-                    <Button variant="text" href="/customer/account/forgotPassword">
+                    <Button variant="text" href="/customer/account/forgotpassword">
                         <Typography variant="p" type="regular" letter="capitalize" decoration="underline">
                             {t('customer:login:forgotPassword')}
                         </Typography>

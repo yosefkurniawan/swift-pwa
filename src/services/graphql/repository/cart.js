@@ -2,7 +2,7 @@ import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
 import * as CartSchema from '../schema/cart';
 
 export const getGuestCartId = () => useMutation(CartSchema.createCartIdGuest);
-export const getCustomerCartId = (token) => useLazyQuery(CartSchema.createCartIdUser, {
+export const getCustomerCartId = (token) => useLazyQuery(CartSchema.getCartIdUser, {
     context: {
         headers: {
             Authorization: `Bearer ${token}`,

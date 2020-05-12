@@ -22,7 +22,8 @@
         "change" : "Ubah",
         "send" : "kirim",
         "manage": "Manage",
-        "addAddress": "Tambah Alamat"
+        "addAddress": "Tambah Alamat",
+        "loadMore": "Lihat lagi"
     },
     "subtotal": "Subtotal",
     "price": {

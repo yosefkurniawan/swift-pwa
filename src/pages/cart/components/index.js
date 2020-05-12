@@ -7,7 +7,8 @@ import Link from 'next/link';
 import { getCartId } from '@helpers/cartId';
 import Backdrop from '@components/Loaders/Backdrop';
 import { useMutation } from '@apollo/react-hooks';
-import { getToken } from '@helpers/token';
+import Toast from '@components/Toast';
+import { GraphCustomer } from '@services/graphql';
 import Item from './item';
 import CrossSell from './crosssell';
 import useStyles from '../style';
@@ -26,14 +27,17 @@ const getCrossSellProduct = (items) => {
 };
 
 const Cart = (props) => {
-    const { t } = props;
+    const { t, token } = props;
     const styles = useStyles();
     const [editMode, setEditMode] = useState(false);
     const [editItem, setEditItem] = useState({});
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
     const [backdrop, setBackdrop] = React.useState(false);
+
+    const [message, setMessage] = React.useState({
+        open: false, text: '', variant: 'success',
+    });
     let cartId = '';
-    let tokenCustomer = '';
 
     let dataCart = {
         id: null,
@@ -54,6 +58,7 @@ const Cart = (props) => {
         setOpenEditDrawer(!openEditDrawer);
     };
 
+
     // delete item from cart
     const [actDeleteItem, resultDelete] = useMutation(Schema.deleteCartitem);
     const [actUpdateItem, resultUpdate] = useMutation(Schema.updateCartitem);
@@ -70,8 +75,8 @@ const Cart = (props) => {
                 cart_item_id: itemId,
             },
             context: {
-                headers: tokenCustomer && tokenCustomer !== '' ? {
-                    Authorization: `Bearer ${tokenCustomer}`,
+                headers: token && token !== '' ? {
+                    Authorization: `Bearer ${token}`,
                 } : {},
             },
             refetchQueries: [
@@ -80,8 +85,8 @@ const Cart = (props) => {
                     variables: { cartId },
                     fetchPolicy: 'cache-and-network',
                     context: {
-                        headers: tokenCustomer && tokenCustomer !== '' ? {
-                            Authorization: `Bearer ${tokenCustomer}`,
+                        headers: token && token !== '' ? {
+                            Authorization: `Bearer ${token}`,
                         } : {},
                     },
                 },
@@ -100,8 +105,8 @@ const Cart = (props) => {
                 quantity: itemData.quantity,
             },
             context: {
-                headers: tokenCustomer && tokenCustomer !== '' ? {
-                    Authorization: `Bearer ${tokenCustomer}`,
+                headers: token && token !== '' ? {
+                    Authorization: `Bearer ${token}`,
                 } : {},
             },
             refetchQueries: [
@@ -109,8 +114,8 @@ const Cart = (props) => {
                     query: Schema.getCart,
                     variables: { cartId },
                     context: {
-                        headers: tokenCustomer && tokenCustomer !== '' ? {
-                            Authorization: `Bearer ${tokenCustomer}`,
+                        headers: token && token !== '' ? {
+                            Authorization: `Bearer ${token}`,
                         } : {},
                     },
                     fetchPolicy: 'cache-and-network',
@@ -125,13 +130,35 @@ const Cart = (props) => {
 
     if (typeof window !== 'undefined') {
         cartId = getCartId();
-        tokenCustomer = getToken();
-        const { loading, data } = getCartData(tokenCustomer, cartId);
+        const { loading, data } = getCartData(token, cartId);
         loadingCart = loading;
         if (!loading && data && data.cart) {
             dataCart = data.cart;
         }
     }
+
+    // add to wishlist
+    const [addWishlist] = GraphCustomer.addWishlist(token);
+    const handleFeed = (id, itemId) => {
+        if (token && token !== '') {
+            setBackdrop(true);
+            addWishlist({
+                variables: {
+                    productId: id,
+                },
+            }).then(async () => {
+                deleteItem(itemId);
+                await setMessage({ open: true, variant: 'success', text: 'add wishlist success' });
+            }).catch((e) => {
+                setMessage({
+                    open: true,
+                    variant: 'error',
+                    text: e.message.split(':')[1] || 'add wishlist failed',
+                });
+                setBackdrop(false);
+            });
+        }
+    };
 
     if (loadingCart) {
         return <SkeletonCart />;
@@ -141,6 +168,13 @@ const Cart = (props) => {
     if (dataCart.id && dataCart.items.length > 0) {
         return (
             <>
+
+                <Toast
+                    open={message.open}
+                    setOpen={() => setMessage({ ...message, open: false })}
+                    message={message.text}
+                    variant={message.variant}
+                />
                 <Backdrop open={backdrop} />
                 <Box className={styles.container}>
                     <div className={styles.toolbar}>
@@ -178,6 +212,7 @@ const Cart = (props) => {
                                 deleteItem={deleteItem}
                                 {...props}
                                 {...item}
+                                handleFeed={handleFeed}
                             />
                         ))}
                     </div>

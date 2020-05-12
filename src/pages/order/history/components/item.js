@@ -1,73 +1,49 @@
 import Typography from '@components/Typography';
-import PriceFormat from '@components/PriceFormat';
 import moment from 'moment';
 import Link from 'next/link';
+import { formatPrice } from '@helpers/currency';
 import useStyles from './style';
 
-const ItemOrder = ({ orderNumber, status }) => {
+const ItemOrder = ({
+    status_label, order_number, detail, id,
+}) => {
     const styles = useStyles();
     return (
         <div className={styles.itemContainer}>
-            <img src="/assets/img/sample/product.png" className={styles.imageItem} alt="[product name]" />
             <div className={styles.contentItem}>
                 <Typography variant="p" type="bold">
-                    {status}
+                    {status_label}
                 </Typography>
-                <Link href="/order/detail/[id]" as={`/order/detail/${orderNumber}`}>
+                <Link href="/sales/order/view/order_id/[id]" as={`/sales/order/view/order_id/${id}`}>
                     <a>
                         <Typography variant="title" type="regular">
                             #
-                            {orderNumber}
+                            {order_number}
                         </Typography>
                     </a>
                 </Link>
                 <div className={styles.detailItem}>
                     <div className="column">
-                        <Typography
-                            variant="span"
-                            letter="capitalize"
-                            className="clear-margin-padding"
-                        >
+                        <Typography variant="span" letter="capitalize" className="clear-margin-padding">
                             Date
                         </Typography>
-                        <Typography
-                            variant="span"
-                            letter="capitalize"
-                            className="clear-margin-padding"
-                        >
+                        <Typography variant="span" letter="capitalize" className="clear-margin-padding">
                             No of Items
                         </Typography>
-                        <Typography
-                            variant="span"
-                            letter="capitalize"
-                            className="clear-margin-padding"
-                        >
+                        <Typography variant="span" letter="capitalize" className="clear-margin-padding">
                             Total
                         </Typography>
                     </div>
                     <div className={styles.detailContent}>
-                        <Typography
-                            variant="span"
-                            letter="capitalize"
-                            className="clear-margin-padding"
-                        >
+                        <Typography variant="span" letter="capitalize" className="clear-margin-padding">
                             {moment().format('DD/M/YYYY')}
                         </Typography>
-                        <Typography
-                            variant="span"
-                            letter="capitalize"
-                            className="clear-margin-padding"
-                        >
-                            3
+                        <Typography variant="span" letter="capitalize" className="clear-margin-padding">
+                            { detail[0].items.length }
                         </Typography>
-                        <PriceFormat
-                            value={999000}
-                            defautlSet
-                            variant="span"
-                            type="regular"
-                            letter="capitalize"
-                            className="clear-margin-padding"
-                        />
+                        <Typography variant="span" letter="capitalize" className="clear-margin-padding">
+                            { formatPrice(detail[0].grand_total, detail[0].global_currency_code) }
+                        </Typography>
                     </div>
                 </div>
             </div>

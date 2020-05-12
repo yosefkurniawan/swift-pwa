@@ -10,7 +10,7 @@ export default makeStyles(() => ({
     },
     itemContainer: {
         ...FlexRow,
-        ...CreatePadding(30, 30, 30, 30),
+        ...CreatePadding(15, 30, 15, 30),
         ...CreateBorder(0, 0, '1px', 0, GRAY_PRIMARY),
     },
 

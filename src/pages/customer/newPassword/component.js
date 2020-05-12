@@ -29,7 +29,6 @@ const ForgotPassword = ({ t, token }) => {
                 .required(t('validate:confirmPassword:required'))
                 // eslint-disable-next-line no-use-before-define
                 .test('check-pass', t('validate:confirmPassword.wrong'), (input) => input === formik.values.password),
-            token: Yup.string().required('token is required'),
         }),
         onSubmit: (values) => {
             setLoading(true);
@@ -45,12 +44,12 @@ const ForgotPassword = ({ t, token }) => {
                 setInterval(() => {
                     Router.push('/customer/account/login');
                 }, 3000);
-            }).catch(() => {
+            }).catch((e) => {
                 setLoading(false);
                 setToast({
                     open: true,
                     variant: 'error',
-                    text: t('customer:newPassword:failed'),
+                    text: e.message.split(':')[1] || t('customer:newPassword:failed'),
                 });
             });
         },

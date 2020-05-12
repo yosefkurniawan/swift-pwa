@@ -18,7 +18,7 @@ const WithToken = (props) => {
     let wishlist = [];
     const { data, loading, error } = GraphCustomer.getCustomer(token);
 
-    if (!data || loading) return <Loaders />;
+    if (!data || loading || error) return <Loaders />;
     if (data) {
         userData = data;
         wishlist = data.customer.wishlist.items.map(({ product }) => ({
@@ -29,7 +29,6 @@ const WithToken = (props) => {
             price: product.price_range.minimum_price.regular_price.value,
         }));
     }
-    if (error) console.log(error);
 
     return (
         <div className={styles.root}>
@@ -48,7 +47,7 @@ const WithToken = (props) => {
                     <div className={styles.account_block}>
                         <ul className={styles.account_navigation}>
                             <li className={styles.account_navigation_item}>
-                                <Link href="/order/history">
+                                <Link href="/sales/order/history">
                                     <a className={styles.account_navigation_link}>My Order</a>
                                 </Link>
                             </li>
@@ -67,29 +66,46 @@ const WithToken = (props) => {
                                     <a className={styles.account_navigation_link}>Settings</a>
                                 </Link>
                             </li>
+                            {
+                                wishlist.length <= 0 && (
+                                    <li className={styles.account_navigation_item}>
+                                        <Link href="/wishlist">
+                                            <a className={styles.account_navigation_link}>Wishlist</a>
+                                        </Link>
+                                    </li>
+                                )
+                            }
                         </ul>
                     </div>
                 </div>
-                <div className={[styles.account_block, styles.wishlistBlock].join(' ')}>
-                    <div className={styles.account_clearfix}>
-                        <div className={styles.spanWishlist}>
-                            <Typography variant="span" type="bold" letter="capitalize" className={styles.account_wishlist_title}>Wishlist</Typography>
-                            <Button
-                                href="/customer/account/wishlist"
-                                className={[styles.account_wishlist_read_more].join(' ')}
-                                variant="text"
-                            >
-                                <Typography variant="span" type="bold" letter="capitalize">Read More</Typography>
-                            </Button>
+                {
+                    wishlist.length > 0 ? (
+                        <div className={[styles.account_block, styles.wishlistBlock].join(' ')}>
+                            <div className={styles.account_clearfix}>
+                                <div className={styles.spanWishlist}>
+                                    <Typography variant="span" type="bold" letter="capitalize" className={styles.account_wishlist_title}>
+                                        Wishlist
+                                    </Typography>
+                                    <Button
+                                        href="/wishlist"
+                                        className={[styles.account_wishlist_read_more].join(' ')}
+                                        variant="text"
+                                    >
+                                        <Typography variant="span" type="bold" letter="capitalize">Read More</Typography>
+                                    </Button>
+                                </div>
+                            </div>
+                            <div className={styles.account_clearfix}>
+                                <Carousel
+                                    data={wishlist}
+                                    className={[styles.wishlistBlock, styles.margin20].join(' ')}
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <div className={styles.account_clearfix}>
-                        <Carousel
-                            data={wishlist}
-                            className={[styles.wishlistBlock, styles.margin20].join(' ')}
-                        />
-                    </div>
-                </div>
+                    ) : (
+                        <span className={styles.span} />
+                    )
+                }
                 <Footer {...props} />
             </div>
         </div>

@@ -21,7 +21,7 @@ export const createCartIdGuest = gql`
     }
 `;
 
-export const createCartIdUser = gql`
+export const getCartIdUser = gql`
     {
         customerCart {
             id
@@ -77,6 +77,6 @@ export const getCart = gql`
 
 export default {
     createCartIdGuest,
-    createCartIdUser,
+    getCartIdUser,
     // guestGetCart,
 };

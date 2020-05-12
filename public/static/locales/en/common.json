@@ -23,7 +23,8 @@
         "login": "Login",
         "register": "Register",
         "send" : "send",
-        "addAddress": "Add Address"
+        "addAddress": "Add Address",
+        "loadMore": "Load more"
     },
     "subtotal": "Subtotal",
     "price": {

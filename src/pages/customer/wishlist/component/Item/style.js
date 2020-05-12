@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { GRAY_PRIMARY } from '@theme/colors';
-import { FlexColumn, FlexRow } from '@theme/mixins';
+import { GRAY_PRIMARY, WHITE } from '@theme/colors';
+import { FlexColumn, FlexRow, Centering } from '@theme/mixins';
 
 const useStyles = makeStyles(() => ({
     card: {
@@ -9,9 +9,15 @@ const useStyles = makeStyles(() => ({
         alignItems: 'center',
         borderBottom: `1px solid ${GRAY_PRIMARY}`,
     },
-    cardImage: {
+    imgItem: {
         width: 127,
+        ...Centering,
         height: 156,
+        backgroundColor: WHITE,
+    },
+    imgProduct: {
+        width: '100%',
+        height: '100%',
     },
     content: {
         ...FlexColumn,

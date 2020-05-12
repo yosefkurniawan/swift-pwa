@@ -5,9 +5,13 @@ import { GraphCustomer } from '@services/graphql';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
 import Message from '@components/Toast';
+import Alert from '@material-ui/lab/Alert';
 import Loading from '@components/Loaders/Backdrop';
-import { getCartId } from '@helpers/cartId';
+import { getCartId, setCartId } from '@helpers/cartId';
+import { getCartIdUser } from '@services/graphql/schema/cart';
+import { useQuery } from '@apollo/react-hooks';
 import React from 'react';
+import Router from 'next/router';
 import useStyles from './style';
 import Loaders from './Loader';
 import Item from './Item';
@@ -18,9 +22,18 @@ const Content = (props) => {
     const styles = useStyles();
     const { token, t } = props;
     let wishlist = [];
+
+    const [addToCart] = addSimpleProductsToCart(token);
+    const [removeWishlist] = GraphCustomer.removeWishlist(token);
     const {
         data, loading, error, refetch,
     } = GraphCustomer.getCustomer(token);
+    const cartUser = useQuery(getCartIdUser, {
+        context: {
+            headers: { Authorization: `Bearer ${token}` },
+        },
+        skip: token === '' || !token,
+    });
 
     const [state, setState] = React.useState({
         loading: false,
@@ -29,7 +42,7 @@ const Content = (props) => {
         variantMessage: 'success',
     });
 
-    if (!data || loading) return <Loaders />;
+    if (!data || loading || error) return <Loaders />;
     if (data) {
         wishlist = data.customer.wishlist.items.map(({ id, product }) => ({
             ...product,
@@ -40,19 +53,96 @@ const Content = (props) => {
             price: product.price_range.minimum_price.regular_price.value,
         }));
     }
-    if (error) console.log(error);
     let cartId = '';
 
     if (typeof window !== 'undefined') {
         cartId = getCartId();
     }
 
-    const [addToCart] = addSimpleProductsToCart(token);
-    const [removeWishlist] = GraphCustomer.removeWishlist(token);
+    const handleToCart = ({ sku, url_key, wishlistId }) => {
+        setState({
+            ...state,
+            loading: true,
+        });
+        if (cartId === '' || !cartId) {
+            const cartToken = cartUser.data.customerCart.id || '';
+            cartId = cartToken;
+            setCartId(cartToken);
+        }
+        addToCart({
+            variables: {
+                cartId,
+                sku,
+                qty: parseFloat(1),
+            },
+        }).then(() => {
+            removeWishlist({
+                variables: {
+                    wishlistId,
+                },
+            }).then(() => {
+                setState({
+                    ...state,
+                    loading: false,
+                    openMessage: true,
+                    variantMessage: 'success',
+                    textMessage: t('product:successAddCart'),
+                });
+                refetch();
+            });
+        }).catch(async (e) => {
+            await setState({
+                ...state,
+                loading: false,
+                openMessage: true,
+                variantMessage: 'error',
+                textMessage: e.message.split(':')[1] || t('product:failedAddCart'),
+            });
+            if (e.message.split(':')[1].includes('choose option')) {
+                Router.push('/[...slug]', `/${url_key}`);
+            }
+        });
+    };
+
+    const handleRemove = ({ wishlistId }) => {
+        setState({
+            ...state,
+            loading: true,
+        });
+        removeWishlist({
+            variables: {
+                wishlistId,
+            },
+        })
+            .then(() => {
+                setState({
+                    ...state,
+                    loading: false,
+                    openMessage: true,
+                    variantMessage: 'success',
+                    textMessage: t('customer:wishlist:removeSuccess'),
+                });
+                refetch();
+            })
+            .catch((e) => {
+                setState({
+                    ...state,
+                    loading: false,
+                    openMessage: true,
+                    variantMessage: 'error',
+                    textMessage: e.message.split(':')[1] || t('customer:wishlist:removeFailed'),
+                });
+            });
+    };
 
     const handleAddAlltoBag = async () => {
         await setState({ ...state, loading: true });
         let errorCart = false;
+        if (cartId === '' || !cartId) {
+            const cartToken = cartUser.data.customerCart.id || '';
+            cartId = cartToken;
+            setCartId(cartToken);
+        }
         await wishlist.map((item) => {
             if (item.__typename === 'SimpleProduct') {
                 addToCart({
@@ -98,11 +188,16 @@ const Content = (props) => {
             <Loading open={state.loading} />
             <Message open={state.openMessage} variant={state.variantMessage} setOpen={handleClose} message={state.textMessage} />
             <div className={styles.root}>
+                {
+                    wishlist.length === 0 && (
+                        <Alert className="m-15" severity="warning">{t('customer:wishlist:notFound')}</Alert>
+                    )
+                }
                 {wishlist.map((item, index) => (
-                    <Item key={index} {...item} {...props} refetch={refetch} />
+                    <Item key={index} {...item} {...props} refetch={refetch} handleRemove={handleRemove} handleToCart={handleToCart} />
                 ))}
                 <div className={styles.footer}>
-                    <Button onClick={handleAddAlltoBag} disabled={loading} fullWidth className={styles.btnSigin}>
+                    <Button onClick={handleAddAlltoBag} disabled={loading || wishlist.length === 0} fullWidth className={styles.btnSigin}>
                         <Typography variant="title" type="regular" letter="capitalize" color="white">
                             {t('customer:wishlist:addAllToBag')}
                         </Typography>
