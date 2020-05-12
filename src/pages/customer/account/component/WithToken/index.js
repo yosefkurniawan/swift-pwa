@@ -67,29 +67,46 @@ const WithToken = (props) => {
                                     <a className={styles.account_navigation_link}>Settings</a>
                                 </Link>
                             </li>
+                            {
+                                wishlist.length <= 0 && (
+                                    <li className={styles.account_navigation_item}>
+                                        <Link href="/customer/account/wishlist">
+                                            <a className={styles.account_navigation_link}>Wishlist</a>
+                                        </Link>
+                                    </li>
+                                )
+                            }
                         </ul>
                     </div>
                 </div>
-                <div className={[styles.account_block, styles.wishlistBlock].join(' ')}>
-                    <div className={styles.account_clearfix}>
-                        <div className={styles.spanWishlist}>
-                            <Typography variant="span" type="bold" letter="capitalize" className={styles.account_wishlist_title}>Wishlist</Typography>
-                            <Button
-                                href="/customer/account/wishlist"
-                                className={[styles.account_wishlist_read_more].join(' ')}
-                                variant="text"
-                            >
-                                <Typography variant="span" type="bold" letter="capitalize">Read More</Typography>
-                            </Button>
+                {
+                    wishlist.length > 0 ? (
+                        <div className={[styles.account_block, styles.wishlistBlock].join(' ')}>
+                            <div className={styles.account_clearfix}>
+                                <div className={styles.spanWishlist}>
+                                    <Typography variant="span" type="bold" letter="capitalize" className={styles.account_wishlist_title}>
+                                        Wishlist
+                                    </Typography>
+                                    <Button
+                                        href="/customer/account/wishlist"
+                                        className={[styles.account_wishlist_read_more].join(' ')}
+                                        variant="text"
+                                    >
+                                        <Typography variant="span" type="bold" letter="capitalize">Read More</Typography>
+                                    </Button>
+                                </div>
+                            </div>
+                            <div className={styles.account_clearfix}>
+                                <Carousel
+                                    data={wishlist}
+                                    className={[styles.wishlistBlock, styles.margin20].join(' ')}
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <div className={styles.account_clearfix}>
-                        <Carousel
-                            data={wishlist}
-                            className={[styles.wishlistBlock, styles.margin20].join(' ')}
-                        />
-                    </div>
-                </div>
+                    ) : (
+                        <span className={styles.span} />
+                    )
+                }
                 <Footer {...props} />
             </div>
         </div>

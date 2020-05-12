@@ -26,6 +26,7 @@ export const getCustomer = (token) => useQuery(Schema.getCustomer, {
         },
     },
     skip: token === '' || !token,
+    fetchPolicy: 'network-only',
 });
 
 export default {

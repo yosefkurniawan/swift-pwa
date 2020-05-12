@@ -77,11 +77,10 @@ const ProductPage = (props) => {
                 variables: {
                     productId: data.id,
                 },
-            }).then(() => {
-                setMessage({ open: true, variant: 'success', text: 'add wishlist success' });
-                setInterval(() => {
-                    route.push('/customer/account/wishlist');
-                }, 3000);
+            }).then(async () => {
+                await setWishlist(!wishlist);
+                await setMessage({ open: true, variant: 'success', text: 'add wishlist success' });
+                route.push('/customer/account/wishlist');
             }).catch((e) => {
                 setMessage({
                     open: true,
@@ -90,7 +89,6 @@ const ProductPage = (props) => {
                 });
             });
         }
-        setWishlist(!wishlist);
     };
 
     let expandData = [];

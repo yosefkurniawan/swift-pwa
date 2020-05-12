@@ -8,12 +8,14 @@ import {
     DeleteOutlineOutlined,
 } from '@material-ui/icons';
 import { formatPrice } from '@helpers/currency';
+
 import useStyles from '../style';
 import ConfirmationDelete from './confirmDelete';
 
 
 const Item = ({
     t, editMode, id, toggleEditDrawer, product, quantity, configurable_options = [], deleteItem, prices,
+    handleFeed,
 }) => {
     const styles = useStyles();
     const [confirmDel, setConfirmDel] = useState(false);
@@ -21,6 +23,10 @@ const Item = ({
     const handleDelete = () => {
         setConfirmDel(false);
         deleteItem(id);
+    };
+
+    const handleAddWishlist = () => {
+        handleFeed(product.id, id);
     };
     return (
         <div className={styles.item}>
@@ -84,7 +90,7 @@ const Item = ({
                     in={editMode}
                     style={{ transitionDelay: editMode ? '50ms' : '50ms' }}
                 >
-                    <IconButton className={styles.iconBtn}>
+                    <IconButton className={styles.iconBtn} onClick={handleAddWishlist}>
                         <FavoriteBorderOutlined className={styles.icon} />
                     </IconButton>
                 </Zoom>

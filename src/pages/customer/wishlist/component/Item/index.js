@@ -1,124 +1,55 @@
+import Button from '@components/Button';
 import PriceFormat from '@components/PriceFormat';
 import Typography from '@components/Typography';
-import Button from '@components/Button';
+import { ConfirmationDelete } from '@components/ConfirmDialog';
 import { IconButton } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
-import { GraphCustomer } from '@services/graphql';
-import Message from '@components/Toast';
-import Loading from '@components/Loaders/Backdrop';
-import { getCartId } from '@helpers/cartId';
 import useStyles from './style';
-import { addSimpleProductsToCart } from '../../services/graphql';
 
 export default ({
     price_range, price_tiers, __typename, imageSrc,
-    name, wishlistId, token, t, refetch, sku,
+    name, wishlistId, t, sku, url_key,
+    handleRemove, handleToCart,
 }) => {
     const styles = useStyles();
-    const [state, setState] = React.useState({
-        loading: false,
-        openMessage: false,
-        textMessage: '',
-        variantMessage: 'success',
-    });
-    const [removeWishlist] = GraphCustomer.removeWishlist(token);
-    const [addToCart] = addSimpleProductsToCart(token);
-    let cartId = '';
-
-    if (typeof window !== 'undefined') {
-        cartId = getCartId();
-    }
-    const handleToCart = () => {
-        setState({
-            ...state,
-            loading: true,
-        });
-        addToCart({
-            variables: {
-                cartId,
-                sku,
-                qty: parseFloat(1),
-            },
-        }).then(() => {
-            setState({
-                ...state,
-                loading: false,
-                openMessage: true,
-                variantMessage: 'success',
-                textMessage: t('product:successAddCart'),
-            });
-            refetch();
-        }).catch((e) => {
-            setState({
-                ...state,
-                loading: false,
-                openMessage: true,
-                variantMessage: 'error',
-                textMessage: e.message.split(':')[1] || t('product:failedAddCart'),
-            });
-        });
+    const [openDelete, setOpenDelete] = React.useState(false);
+    const handleDelete = () => {
+        handleRemove({ wishlistId });
+        setOpenDelete(!openDelete);
     };
-
-    const handleRemove = () => {
-        setState({
-            ...state,
-            loading: true,
-        });
-        removeWishlist({
-            variables: {
-                wishlistId,
-            },
-        })
-            .then(() => {
-                setState({
-                    ...state,
-                    loading: false,
-                    openMessage: true,
-                    variantMessage: 'success',
-                    textMessage: t('customer:wishlist:removeSuccess'),
-                });
-                refetch();
-            })
-            .catch((e) => {
-                setState({
-                    ...state,
-                    loading: false,
-                    openMessage: true,
-                    variantMessage: 'error',
-                    textMessage: e.message.split(':')[1] || t('customer:wishlist:removeFailed'),
-                });
-            });
-    };
-    const handleOpenMessage = () => {
-        setState({
-            ...state,
-            openMessage: false,
-        });
+    const handleAddToCart = () => {
+        handleToCart({ sku, url_key, wishlistId });
     };
     return (
         <>
-            <Loading open={state.loading} />
-            <Message open={state.openMessage} variant={state.variantMessage} setOpen={handleOpenMessage} message={state.textMessage} />
+            <ConfirmationDelete
+                open={openDelete}
+                handleCancel={() => setOpenDelete(!openDelete)}
+                handleDelete={handleDelete}
+                message={t('customer:wishlist:warningDelete')}
+            />
             <div className={styles.card}>
-                <img
-                    src={imageSrc}
-                    className={styles.cardImage}
-                    alt={name}
-                    onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = '/assets/img/placeholder.png';
-                    }}
-                />
+                <div className={styles.imgItem}>
+                    <img
+                        src={imageSrc}
+                        className={styles.imgProduct}
+                        alt={name}
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = '/assets/img/placeholder.png';
+                        }}
+                    />
+                </div>
                 <div className={styles.content}>
                     <Typography variant="p">{name}</Typography>
                     <PriceFormat variant="p" priceRange={price_range} priceTiers={price_tiers} productType={__typename} />
-                    <Button className={styles.btnAdd} onClick={handleToCart}>
+                    <Button className={styles.btnAdd} onClick={handleAddToCart}>
                         <Typography variant="p" type="bold" letter="uppercase" color="white">
                             {t('customer:wishlist:addToBag')}
                         </Typography>
                     </Button>
                 </div>
-                <IconButton onClick={handleRemove}>
+                <IconButton onClick={() => setOpenDelete(!openDelete)}>
                     <Delete />
                 </IconButton>
             </div>

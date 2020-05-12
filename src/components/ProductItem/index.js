@@ -8,7 +8,6 @@ import React from 'react';
 import PriceFormat from '@components/PriceFormat';
 import Toast from '@components/Toast';
 import { GraphCustomer } from '@services/graphql';
-import { nameToken } from '@config';
 import { getToken } from '@helpers/token';
 import useStyles from './style';
 import ConfigurableOpt from './component/configurable';
@@ -42,7 +41,7 @@ const ProductItem = (props) => {
     );
 
     let token = '';
-    if (typeof window !== 'undefined') token = getToken(nameToken);
+    if (typeof window !== 'undefined') token = getToken();
 
     const [addWishlist] = GraphCustomer.addWishlist(token);
 
@@ -52,11 +51,11 @@ const ProductItem = (props) => {
                 variables: {
                     productId: id,
                 },
-            }).then(() => {
-                setMessage({ open: true, variant: 'success', text: 'add wishlist success' });
+            }).then(async () => {
+                await setMessage({ open: true, variant: 'success', text: 'add wishlist success' });
                 setInterval(() => {
                     route.push('/customer/account/wishlist');
-                }, 3000);
+                }, 1500);
             }).catch((e) => {
                 setMessage({
                     open: true,

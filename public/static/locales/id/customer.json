@@ -58,7 +58,9 @@
     "addSucess": "tambah wishlist sukses",
     "addFailed": "tambah wishlist gagal",
     "addToBag": "tambah ke keranjang",
-    "addAllToBag": "tambah semua ke keranjang"
+    "addAllToBag": "tambah semua ke keranjang",
+    "notFound": "Kamu tidak memiliki items wish list",
+    "warningDelete": "Yakin mau hapus item ini dari wish list ?"
   },
   "address" : {
     "pageTitle" : "Daftar alamat",

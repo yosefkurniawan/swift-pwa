@@ -95,6 +95,11 @@ const useStyles = makeStyles(() => ({
         alignItems: 'center',
         marginBottom: 15,
     },
+    span: {
+        width: '100%',
+        height: 20,
+        background: GRAY_LIGHT,
+    },
 }));
 
 export default useStyles;
