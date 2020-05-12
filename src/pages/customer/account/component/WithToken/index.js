@@ -18,7 +18,7 @@ const WithToken = (props) => {
     let wishlist = [];
     const { data, loading, error } = GraphCustomer.getCustomer(token);
 
-    if (!data || loading) return <Loaders />;
+    if (!data || loading || error) return <Loaders />;
     if (data) {
         userData = data;
         wishlist = data.customer.wishlist.items.map(({ product }) => ({
@@ -29,7 +29,6 @@ const WithToken = (props) => {
             price: product.price_range.minimum_price.regular_price.value,
         }));
     }
-    if (error) console.log(error);
 
     return (
         <div className={styles.root}>
@@ -48,7 +47,7 @@ const WithToken = (props) => {
                     <div className={styles.account_block}>
                         <ul className={styles.account_navigation}>
                             <li className={styles.account_navigation_item}>
-                                <Link href="/order/history">
+                                <Link href="/sales/order/history">
                                     <a className={styles.account_navigation_link}>My Order</a>
                                 </Link>
                             </li>
@@ -70,7 +69,7 @@ const WithToken = (props) => {
                             {
                                 wishlist.length <= 0 && (
                                     <li className={styles.account_navigation_item}>
-                                        <Link href="/customer/account/wishlist">
+                                        <Link href="/wishlist">
                                             <a className={styles.account_navigation_link}>Wishlist</a>
                                         </Link>
                                     </li>
@@ -88,7 +87,7 @@ const WithToken = (props) => {
                                         Wishlist
                                     </Typography>
                                     <Button
-                                        href="/customer/account/wishlist"
+                                        href="/wishlist"
                                         className={[styles.account_wishlist_read_more].join(' ')}
                                         variant="text"
                                     >

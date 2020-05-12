@@ -4,7 +4,9 @@ import Link from 'next/link';
 import { formatPrice } from '@helpers/currency';
 import useStyles from './style';
 
-const ItemOrder = ({ status_label, order_number, detail }) => {
+const ItemOrder = ({
+    status_label, order_number, detail, id,
+}) => {
     const styles = useStyles();
     return (
         <div className={styles.itemContainer}>
@@ -12,7 +14,7 @@ const ItemOrder = ({ status_label, order_number, detail }) => {
                 <Typography variant="p" type="bold">
                     {status_label}
                 </Typography>
-                <Link href="/order/detail/[id]" as={`/order/detail/${order_number}`}>
+                <Link href="/sales/order/view/order_id/[id]" as={`/sales/order/view/order_id/${id}`}>
                     <a>
                         <Typography variant="title" type="regular">
                             #
