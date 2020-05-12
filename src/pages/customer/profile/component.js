@@ -3,7 +3,6 @@ import Typography from '@components/Typography';
 import TextField from '@components/Forms/TextField';
 import PasswordField from '@components/Forms/Password';
 import { FormControlLabel, Checkbox } from '@material-ui/core';
-import classNames from 'classnames';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import useStyles from './style';
@@ -99,11 +98,53 @@ const ProfilePage = ({ t }) => {
                 disabled={!editEmail}
             />
 
+            <FormControlLabel
+                className={styles.checkboxLabel}
+                onChange={() => setEditEmail(!editEmail)}
+                disabled={!edit}
+                control={(
+                    <Checkbox
+                        checked={editEmail}
+                        name="whastapptrue"
+                        color="primary"
+                        size="medium"
+                    />
+                )}
+                label={(
+                    <Typography variant="span">
+                        {t('common:button:change')}
+                        {' '}
+                        Email
+                    </Typography>
+                )}
+            />
+
+            <FormControlLabel
+                className={styles.checkboxLabel}
+                onChange={() => setEditPass(!editPass)}
+                disabled={!edit}
+                control={(
+                    <Checkbox
+                        checked={editPass}
+                        name="whastapptrue"
+                        color="primary"
+                        size="medium"
+                    />
+                )}
+                label={(
+                    <Typography variant="span">
+                        {t('common:button:change')}
+                        {' '}
+                        Password
+                    </Typography>
+                )}
+            />
+
             <div
-                className={classNames(
+                className={[
                     styles.editContainer,
                     edit ? 'show' : 'hide',
-                )}
+                ]}
             >
                 <div className={editPass ? 'show' : 'hide'}>
                     <PasswordField
@@ -158,54 +199,21 @@ const ProfilePage = ({ t }) => {
                         disabled={!editPass}
                     />
                 </div>
-                <FormControlLabel
-                    onChange={() => setEditPass(!editPass)}
-                    control={(
-                        <Checkbox
-                            checked={editPass}
-                            name="whastapptrue"
-                            color="primary"
-                            size="medium"
-                        />
-                    )}
-                    label={(
-                        <Typography variant="span">
-                            {t('common:button:change')}
-                            {' '}
-                            Password
-                        </Typography>
-                    )}
-                />
-                <FormControlLabel
-                    onChange={() => setEditEmail(!editEmail)}
-                    control={(
-                        <Checkbox
-                            checked={editEmail}
-                            name="whastapptrue"
-                            color="primary"
-                            size="medium"
-                        />
-                    )}
-                    label={(
-                        <Typography variant="span">
-                            {t('common:button:change')}
-                            {' '}
-                            Email
-                        </Typography>
-                    )}
-                />
             </div>
 
-            <div>
+            <div className={styles.bottomButtons}>
                 <Button
                     variant="outlined"
+                    fullWidth
                     className={edit ? 'hide' : 'show'}
                     onClick={() => setEdit(!edit)}
                 >
                     {t('common:button:change')}
+                    {' '}
+                    Data
                 </Button>
                 <Button
-                    variant="outlined"
+                    fullWidth
                     className={edit ? 'show' : 'hide'}
                     type="submit"
                 >
