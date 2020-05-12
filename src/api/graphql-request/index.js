@@ -8,6 +8,7 @@ function requestGraph(query, variables = {}, context = {}) {
         const client = new GraphQLClient('https://swiftpwa-be.testingnow.me/graphql', {
             headers,
         });
+        console.log(client)
         client.request(query, variables).then((data) => resolve(data)).catch((err) => resolve(err));
     });
 }
