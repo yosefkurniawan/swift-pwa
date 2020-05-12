@@ -7,7 +7,9 @@ import Button from '@components/Button';
 import Message from '@components/Toast';
 import Alert from '@material-ui/lab/Alert';
 import Loading from '@components/Loaders/Backdrop';
-import { getCartId } from '@helpers/cartId';
+import { getCartId, setCartId } from '@helpers/cartId';
+import { getCartIdUser } from '@services/graphql/schema/cart';
+import { useQuery } from '@apollo/react-hooks';
 import React from 'react';
 import Router from 'next/router';
 import useStyles from './style';
@@ -26,6 +28,12 @@ const Content = (props) => {
     const {
         data, loading, error, refetch,
     } = GraphCustomer.getCustomer(token);
+    const cartUser = useQuery(getCartIdUser, {
+        context: {
+            headers: { Authorization: `Bearer ${token}` },
+        },
+        skip: token === '' || !token,
+    });
 
     const [state, setState] = React.useState({
         loading: false,
@@ -51,12 +59,16 @@ const Content = (props) => {
         cartId = getCartId();
     }
 
-
     const handleToCart = ({ sku, url_key, wishlistId }) => {
         setState({
             ...state,
             loading: true,
         });
+        if (cartId === '' || !cartId) {
+            const cartToken = cartUser.data.customerCart.id || '';
+            cartId = cartToken;
+            setCartId(cartToken);
+        }
         addToCart({
             variables: {
                 cartId,
@@ -126,6 +138,11 @@ const Content = (props) => {
     const handleAddAlltoBag = async () => {
         await setState({ ...state, loading: true });
         let errorCart = false;
+        if (cartId === '' || !cartId) {
+            const cartToken = cartUser.data.customerCart.id || '';
+            cartId = cartToken;
+            setCartId(cartToken);
+        }
         await wishlist.map((item) => {
             if (item.__typename === 'SimpleProduct') {
                 addToCart({
