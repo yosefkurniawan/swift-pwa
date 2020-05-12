@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 const Filter = ({
     openFilter, setOpenFilter, setFilter, defaultValue = {}, elastic, filter, isSearch = false,
 }) => {
-    console.log('qweqe');
-    console.log(isSearch);
     let sortByData;
 
     if (isSearch) {
