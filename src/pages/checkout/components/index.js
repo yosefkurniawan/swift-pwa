@@ -22,11 +22,10 @@ import {
 import { Help } from '@material-ui/icons';
 import { setCountCart } from '@stores/actions/cart';
 import classNames from 'classnames';
-import clsx from 'clsx';
 import { useFormik } from 'formik';
 import _ from 'lodash';
 import Routes from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import gqlService from '../services/graphql';
@@ -130,11 +129,11 @@ const Checkout = (props) => {
             backdrop: false,
         },
     });
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const buttonClassname = clsx({
-        [styles.buttonSuccess]: checkout.loading.coupon,
-    });
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const id = open ? 'email-helper' : undefined;
 
+    // start init graphql
     const getCustomer = gqlService.getCustomer();
     const [setGuestEmailAddressOnCart] = gqlService.setGuestEmailAddressOnCart();
     const [applyCouponTocart] = gqlService.applyCouponToCart({
@@ -152,10 +151,10 @@ const Checkout = (props) => {
     const [setPaymentMethod] = gqlService.setPaymentMethod({
         onError: (errors) => {},
     });
-    const [placeOrder, networkStatus] = gqlService.placeOrder({
+    const [placeOrder] = gqlService.placeOrder({
         onError: (errors) => {},
     });
-    const [drawer, setDrawer] = useState(false);
+    // end init graphql
 
     const CheckoutSchema = Yup.object().shape({
         email: checkout.data.isGuest ? Yup.string().nullable().email(t('validate:email:wrong')).required(t('validate:email.required')) : null,
@@ -276,7 +275,7 @@ const Checkout = (props) => {
 
     const manageSummary = async (cart) => {
         const state = { ...checkout };
-        const data = [];
+        let data = [];
         const {
             prices, applied_coupons, items, shipping_addresses,
         } = cart;
@@ -289,12 +288,6 @@ const Checkout = (props) => {
         const total = prices.grand_total;
         const [shipping] = shipping_addresses;
 
-        const index = {
-            subtotal: data.findIndex((sum) => sum.item === 'sub total'),
-            shipping: data.findIndex((sum) => sum.item === 'shipping'),
-            coupon: data.findIndex((sum) => sum.item === 'promo'),
-        };
-
         data.push({ item: 'sub total', value: subtotal });
 
         if (shipping && shipping.selected_shipping_method) {
@@ -303,9 +296,12 @@ const Checkout = (props) => {
             data.push({ item: 'shipping', value: price });
         }
 
-        if (applied_coupons) {
-            const coupon = formatPrice(prices.discounts[0].amount.value, prices.discounts[0].amount.currency);
-            data.push({ item: 'promo', value: `-${coupon}` });
+        if (_.isArray(prices.discounts)) {
+            const discounts = prices.discounts.map((disc) => {
+                const price = formatPrice(disc.amount.value, disc.amount.currency);
+                return { item: `${disc.label} - ${price}`, value: `-${price}` };
+            });
+            data = data.concat(discounts);
         }
 
         state.data.total = total;
@@ -313,12 +309,12 @@ const Checkout = (props) => {
         setCheckout(state);
     };
 
-    const initData = useCallback(() => {
+    const initData = () => {
         const { cart } = dataCart;
         const state = { ...checkout };
 
         if (cart.items.length === 0) {
-            window.location = '/cart';
+            window.location = 'checkout/cart';
         }
 
         const { customer } = getCustomer.data;
@@ -335,7 +331,6 @@ const Checkout = (props) => {
         state.data.cart = cart;
 
         // init subtotal & summary
-        const itemSubtotal = cart.items.reduce((prev, curr) => prev + curr.prices.row_total.value, 0);
         state.data.total = cart.prices.grand_total;
 
         // init coupon
@@ -420,7 +415,7 @@ const Checkout = (props) => {
             });
             state.selected.shipping = {
                 name: { carrier_code: shippingMethod.carrier_code, method_code: shippingMethod.method_code },
-                price: shippingMethod.amount.value,
+                price: formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency),
             };
         }
 
@@ -447,10 +442,10 @@ const Checkout = (props) => {
         manageSummary(cart);
 
         // init billing address for logged in customer with default address
-        if (address) {
+        if (!cart.billing_address || !shipping) {
             setAddress(address, cart);
         }
-    }, [dataCart]);
+    };
 
     useEffect(() => {
         setCheckout({
@@ -806,9 +801,6 @@ const Checkout = (props) => {
 
         return content;
     };
-
-    const open = Boolean(anchorEl);
-    const id = open ? 'simple-popover' : undefined;
 
     return (
         <div className={styles.root}>
