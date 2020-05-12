@@ -170,6 +170,7 @@ const Product = ({
                         setOpenFilter={setOpenFilter}
                         elastic={elastic}
                         setFilter={setFiltervalue}
+                        isSearch={!!config.search}
                     />
                     <div className={styles.filterContainer}>
                         <Typography
