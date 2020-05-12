@@ -16,7 +16,7 @@ const categoryTabs = (category) => {
     return data;
 };
 
-const CategoryPage = ({ data, storeConfig }) => {
+const CategoryPage = ({ data, storeConfig, t }) => {
     const styles = useStyles();
     const [value] = React.useState(0);
     const categoryList = data.categoryList[0];
@@ -63,6 +63,7 @@ const CategoryPage = ({ data, storeConfig }) => {
                 customFilter={customFilter.loading ? [] : customFilter.data.getFilterAttributeOptions.data}
                 catId={categoryList.id}
                 catalog_search_engine={storeConfig.catalog_search_engine}
+                t={t}
             />
         </Box>
     );
