@@ -41,7 +41,6 @@ class MyApp extends App {
         const {
             apolloClient, res, pathname, query, req,
         } = ctx;
-
         // check if login from server
 
         let token = '';
@@ -66,6 +65,8 @@ class MyApp extends App {
         } else {
             storeConfig = allcookie[storeConfigNameCokie];
         }
+
+        // add get session from server
         return { pageProps: { ...pageProps, storeConfig, token }, isLogin: req && typeof req.session.token !== 'undefined' };
     }
 

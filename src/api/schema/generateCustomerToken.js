@@ -9,6 +9,7 @@ const { gql } = require('apollo-server-express');
 const cartSchema = makeExecutableSchema({
     typeDefs: gql`
       type Token {
+        originalToken: String,
         token: String,
         message: String
       }
