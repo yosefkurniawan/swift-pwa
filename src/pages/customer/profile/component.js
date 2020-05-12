@@ -2,10 +2,13 @@ import Button from '@components/Button';
 import Typography from '@components/Typography';
 import TextField from '@components/Forms/TextField';
 import PasswordField from '@components/Forms/Password';
-import { FormControlLabel, Checkbox } from '@material-ui/core';
+import {
+    FormControlLabel, Checkbox, Grid,
+} from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import helper from '@helpers/token';
+import { Skeleton } from '@material-ui/lab';
 import useStyles from './style';
 import { getCustomer } from '../../../services/graphql/repository/customer';
 
@@ -226,11 +229,40 @@ const ProfileForm = ({ t, data }) => {
     );
 };
 
+const ProfilePageSkeleton = () => {
+    const styles = useStyles();
+    const TextFieldSkeleton = () => (
+        <Grid container className={styles.skeletonField} spacing={2} direction="column">
+            <Skeleton className={styles.skeleton} variant="rect" width="25%" height={18} animation="wave" />
+            <Skeleton className={styles.skeleton} variant="rect" width="80%" height={18} animation="wave" />
+        </Grid>
+    );
+    const CheckboxSkeleton = () => (
+        <Grid container className={styles.skeletonField} spacing={1} direction="row">
+            <Skeleton className={styles.skeleton} variant="rect" width="20px" height={18} animation="wave" />
+            <Skeleton className={styles.skeleton} variant="rect" width="30%" height={18} animation="wave" />
+        </Grid>
+    );
+    return (
+        <div className={styles.skeletonContainer}>
+            <TextFieldSkeleton />
+            <TextFieldSkeleton />
+            <TextFieldSkeleton />
+            <CheckboxSkeleton />
+            <CheckboxSkeleton />
+            <TextFieldSkeleton />
+            <Grid container className={styles.skeletonField} alignItems="center" direction="column">
+                <Skeleton className={styles.skeleton} variant="rect" width="90%" height={32} animation="wave" />
+            </Grid>
+        </div>
+    );
+};
+
 const ProfilePage = (props) => {
     const token = helper.getToken();
     const { error, loading, data } = getCustomer(token);
 
-    if (loading) return <p>loading...</p>;
+    if (loading) return <ProfilePageSkeleton />;
     if (error) return <p>{`Error: ${error.message}`}</p>;
     if (!data) return null;
 
