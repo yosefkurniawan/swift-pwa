@@ -43,8 +43,8 @@ const cartSchema = makeExecutableSchema({
       }
   
       type Query {
-          cart(cartId: String!): Cart!
-        }
+        cart(cartId: String!): Cart!
+      }
     `,
 });
 

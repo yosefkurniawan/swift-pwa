@@ -24,20 +24,6 @@ const root = require('./src/api/root');
 
 const SESSION_SECRET = 'asdklfjqo31';
 
-
-// handle server graphql endpoint use `/graphql`
-const serverGraph = new ApolloServer({
-    schema,
-    rootValue: root,
-    context: ({ req }) => req,
-    playground: {
-        endpoint: '/graphql',
-        settings: {
-            'editor.theme': 'light',
-        },
-    },
-});
-
 (async () => {
     await app.prepare();
     const server = express();
@@ -46,10 +32,10 @@ const serverGraph = new ApolloServer({
     server.use(nextI18NextMiddleware(nextI18next));
     server.use(
         session({
-            name: 'qid',
+            name: 'qid-swift',
             secret: SESSION_SECRET,
-            resave: false,
-            saveUninitialized: false,
+            resave: true,
+            saveUninitialized: true,
             cookie: {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
@@ -58,6 +44,18 @@ const serverGraph = new ApolloServer({
         }),
     );
 
+    // handle server graphql endpoint use `/graphql`
+    const serverGraph = new ApolloServer({
+        schema,
+        rootValue: root,
+        context: ({ req }) => req,
+        playground: {
+            endpoint: '/graphql',
+            settings: {
+                'editor.theme': 'light',
+            },
+        },
+    });
     serverGraph.applyMiddleware({ app: server });
 
 
