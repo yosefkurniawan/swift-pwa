@@ -157,6 +157,7 @@ export const setShippingAddressById = gql`
         setShippingAddressesOnCart(input: { cart_id: $cartId, shipping_addresses: { customer_address_id: $addressId } }) {
             cart {
                 id
+                email
                 shipping_addresses {
                     firstname
                     lastname
@@ -179,6 +180,24 @@ export const setShippingAddressById = gql`
                         method_code
                         method_title
                     }
+                    selected_shipping_method {
+                        amount {
+                            value
+                            currency
+                        }
+                    }
+                }
+                applied_coupons {
+                    code
+                }
+                billing_address {
+                    country {
+                        code
+                        label
+                    }
+                }
+                selected_payment_method {
+                    code
                 }
             }
         }
@@ -217,6 +236,7 @@ export const setShippingAddressByInput = gql`
         ) {
             cart {
                 id
+                email
                 shipping_addresses {
                     firstname
                     lastname
@@ -243,6 +263,24 @@ export const setShippingAddressByInput = gql`
                         method_code
                         method_title
                     }
+                    selected_shipping_method {
+                        amount {
+                            value
+                            currency
+                        }
+                    }
+                }
+                applied_coupons {
+                    code
+                }
+                billing_address {
+                    country {
+                        code
+                        label
+                    }
+                }
+                selected_payment_method {
+                    code
                 }
             }
         }
@@ -254,6 +292,7 @@ export const setShippingMethod = gql`
         setShippingMethodsOnCart(input: { cart_id: $cartId, shipping_methods: { carrier_code: $carrierCode, method_code: $methodCode } }) {
             cart {
                 id
+                email
                 available_payment_methods {
                     code
                     title
@@ -267,6 +306,15 @@ export const setShippingMethod = gql`
                     }
                 }
                 applied_coupons {
+                    code
+                }
+                billing_address {
+                    country {
+                        code
+                        label
+                    }
+                }
+                selected_payment_method {
                     code
                 }
                 items {
@@ -372,73 +420,27 @@ export const setPaymentMethod = gql`
     mutation setPaymentMethod($cartId: String!, $code: String!) {
         setPaymentMethodOnCart(input: { cart_id: $cartId, payment_method: { code: $code } }) {
             cart {
-                applied_coupons {
-                    code
-                }
-                billing_address {
-                    city
-                    country {
-                        code
-                        label
-                    }
-                    firstname
-                    lastname
-                    postcode
-                    region {
-                        code
-                        label
-                    }
-                    street
-                    telephone
-                }
+                id
+                email
                 shipping_addresses {
                     selected_shipping_method {
-                        carrier_code
-                        method_code
-                    }
-                }
-                selected_payment_method {
-                    code
-                }
-                items {
-                    id
-                    product {
-                        name
-                        image {
-                            url
-                            label
-                        }
-                    }
-                    prices {
-                        row_total {
-                            currency
-                            value
-                        }
-                        discounts {
-                            amount {
-                                currency
-                                value
-                            }
-                            label
-                        }
-                    }
-                }
-                prices {
-                    discounts {
                         amount {
                             value
                             currency
                         }
+                    }
+                }
+                applied_coupons {
+                    code
+                }
+                billing_address {
+                    country {
+                        code
                         label
                     }
-                    subtotal_excluding_tax {
-                        value
-                        currency
-                    }
-                    grand_total {
-                        value
-                        currency
-                    }
+                }
+                selected_payment_method {
+                    code
                 }
             }
         }
@@ -450,6 +452,26 @@ export const setGuestEmailAddressOnCart = gql`
         setGuestEmailOnCart(input: { cart_id: $cartId, email: $email }) {
             cart {
                 email
+                shipping_addresses {
+                    selected_shipping_method {
+                        amount {
+                            value
+                            currency
+                        }
+                    }
+                }
+                applied_coupons {
+                    code
+                }
+                billing_address {
+                    country {
+                        code
+                        label
+                    }
+                }
+                selected_payment_method {
+                    code
+                }
             }
         }
     }

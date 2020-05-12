@@ -1,13 +1,14 @@
 /* eslint-disable no-unused-vars */
 import AddressFormDialog from '@components/AddressFormDialog';
 import Button from '@components/Button';
-import { formatPrice } from '@helpers/currency';
 import Radio from '@components/Forms/Radio';
 import TextField from '@components/Forms/TextField';
+import Backdrop from '@components/Loaders/Backdrop';
 import Message from '@components/Toast';
 /* eslint-disable no-unused-expressions */
 import Typography from '@components/Typography';
 import { removeCartId } from '@helpers/cartId';
+import { formatPrice } from '@helpers/currency';
 import {
     CircularProgress,
     FormControl,
@@ -16,16 +17,18 @@ import {
     Input,
     InputAdornment,
     Link,
+    Popover,
 } from '@material-ui/core';
 import { Help } from '@material-ui/icons';
+import { setCountCart } from '@stores/actions/cart';
 import classNames from 'classnames';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
 import _ from 'lodash';
 import Routes from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-import Backdrop from '@components/Loaders/Backdrop';
 import gqlService from '../services/graphql';
 import useStyles from '../style';
 import DeliveryItem from './RadioDeliveryItem';
@@ -80,6 +83,7 @@ const FieldPoint = ({
 const Checkout = (props) => {
     const { t, cartId, token } = props;
     const styles = useStyles();
+    const dispatch = useDispatch();
     const [checkout, setCheckout] = useState({
         data: {
             cart: null,
@@ -126,6 +130,7 @@ const Checkout = (props) => {
             backdrop: false,
         },
     });
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const buttonClassname = clsx({
         [styles.buttonSuccess]: checkout.loading.coupon,
     });
@@ -153,11 +158,11 @@ const Checkout = (props) => {
     const [drawer, setDrawer] = useState(false);
 
     const CheckoutSchema = Yup.object().shape({
-        email: checkout.data.isGuest ? Yup.string().email(t('validate:email:wrong')).required(t('validate:email.required')) : null,
-        address: Yup.object().nullable().required(t('validate:email.required')),
-        shipping: Yup.object().nullable().required(t('validate:email.required')),
-        payment: Yup.string().nullable().required(t('validate:email.required')),
-        billing: Yup.object().nullable().required(t('validate:email.required')),
+        email: checkout.data.isGuest ? Yup.string().nullable().email(t('validate:email:wrong')).required(t('validate:email.required')) : null,
+        address: Yup.object().nullable().required(t('validate:required')),
+        shipping: Yup.object().nullable().required(t('validate:required')),
+        payment: Yup.string().nullable().required(t('validate:required')),
+        billing: Yup.object().nullable().required(t('validate:required')),
     });
 
     const formik = useFormik({
@@ -172,6 +177,23 @@ const Checkout = (props) => {
         validationSchema: CheckoutSchema,
         onSubmit: () => {},
     });
+
+    const updateFormik = (cart) => {
+        const [address] = cart.shipping_addresses ? cart.shipping_addresses : null;
+        const shipping = address.selected_shipping_method;
+        const { email } = cart;
+        const payment = cart.selected_payment_method && cart.selected_payment_method.code;
+        const billing = cart.billing_address;
+
+        if (!email && _.isEmpty(formik.values.email)) {
+            formik.setFieldValue('email', email);
+        }
+
+        formik.setFieldValue('address', address);
+        formik.setFieldValue('shipping', shipping);
+        formik.setFieldValue('payment', payment);
+        formik.setFieldValue('billing', billing);
+    };
 
     const updateAddressState = (resultShippingAddress) => {
         const state = { ...checkout };
@@ -192,12 +214,12 @@ const Checkout = (props) => {
         const dataAddress = _.pick(shippingAddress, allowedKeys);
 
         state.data.shippingMethods = shippingMethods;
-        formik.setFieldValue('address', dataAddress);
-        formik.setFieldValue('billing', dataAddress);
         state.selected.address = dataAddress;
         state.loading.addresses = false;
 
         setCheckout(state);
+
+        updateFormik(resultShippingAddress.data.setShippingAddressesOnCart.cart);
     };
 
     const setAddress = (address, cart) => new Promise((resolve, reject) => {
@@ -453,17 +475,11 @@ const Checkout = (props) => {
     }, [getCustomer, dataCart]);
 
     const handleOpenMessage = ({ variant, text }) => {
-        setCheckout({
-            ...checkout,
-            data: {
-                ...checkout.data,
-                message: {
-                    variant,
-                    text,
-                    open: !checkout.data.message.open,
-                },
-            },
-        });
+        const state = { ...checkout };
+        state.data.message.variant = variant;
+        state.data.message.text = text;
+        state.data.message.open = !checkout.data.message.open;
+        setCheckout(state);
     };
 
     const handleAddres = () => {};
@@ -475,7 +491,6 @@ const Checkout = (props) => {
             let state = { ...checkout };
             state.selected.shipping = val;
             state.status.backdrop = true;
-            formik.setFieldValue('shipping', val);
             setCheckout(state);
 
             let updatedCart = (
@@ -494,6 +509,7 @@ const Checkout = (props) => {
 
             if (updatedCart) {
                 updatedCart = updatedCart.data.setShippingMethodsOnCart.cart;
+                updateFormik(updatedCart);
 
                 const paymentMethod = updatedCart.available_payment_methods.map((method) => ({
                     ...method,
@@ -510,7 +526,7 @@ const Checkout = (props) => {
             } else {
                 handleOpenMessage({
                     variant: 'error',
-                    text: 'There is a problem with your connection',
+                    text: t('checkout:message:problemConnection'),
                 });
             }
         }
@@ -518,28 +534,23 @@ const Checkout = (props) => {
 
     const handlePayment = async (val) => {
         const { cart } = checkout.data;
-        formik.setFieldValue('payment', val);
-        await setCheckout({
-            ...checkout,
-            selected: {
-                ...checkout.selected,
-                payment: val,
-            },
-            status: {
-                backdrop: true,
-            },
-        });
+        let state = { ...checkout };
+        state.selected.payment = val;
+        state.status.backdrop = true;
+        setCheckout(state);
 
         const result = await setPaymentMethod({ variables: { cartId: cart.id, code: val } });
 
-        const state = { ...checkout };
+        state = { ...checkout };
         state.status.backdrop = false;
         setCheckout(state);
 
-        if (!result) {
+        if (result) {
+            updateFormik(result.data.setPaymentMethodOnCart.cart);
+        } else {
             handleOpenMessage({
                 variant: 'error',
-                text: 'There is a problem with your connection',
+                text: t('checkout:message:problemConnection'),
             });
         }
     };
@@ -554,9 +565,17 @@ const Checkout = (props) => {
         if (isApplied) {
             const result = await applyCouponTocart({ variables: { cartId: checkout.data.cart.id, coupon: formik.values.coupon } });
             cart = result && result.data.applyCouponToCart.cart;
+            handleOpenMessage({
+                variant: 'success',
+                text: t('checkout:message:couponApplied'),
+            });
         } else {
             const result = await removeCouponFromCart({ variables: { cartId: checkout.data.cart.id } });
             cart = result && result.data.removeCouponFromCart.cart;
+            handleOpenMessage({
+                variant: 'success',
+                text: t('checkout:message:couponRemoved'),
+            });
         }
 
         state.loading.coupon = false;
@@ -565,7 +584,7 @@ const Checkout = (props) => {
             manageSummary(cart);
             state.data.isCouponAppliedToCart = !state.data.isCouponAppliedToCart;
         } else {
-            await formik.setFieldError('coupon', "The coupon code isn't valid. Verify the code and try again.");
+            await formik.setFieldError('coupon', t('checkout:message:couponError'));
         }
 
         setCheckout(state);
@@ -608,22 +627,26 @@ const Checkout = (props) => {
             setCheckout(state);
 
             if (data) {
+                dispatch(setCountCart(0));
+                await removeCartId();
                 handleOpenMessage({
                     variant: 'success',
-                    text: 'Your order has been placed',
+                    text: t('checkout:message:placeOrder'),
                 });
-                await removeCartId();
                 Routes.push('/thanks');
             } else {
                 handleOpenMessage({
                     variant: 'error',
-                    text: 'There is a problem on the server or your connection, try again later',
+                    text: t('checkout:message:serverError'),
                 });
             }
         } else {
+            const msg = checkout.data.isGuest
+                ? t('checkout:message:guestFormValidation')
+                : t('checkout:message:customerFormValidation');
             handleOpenMessage({
                 variant: 'error',
-                text: 'Please select addresss, shipping, and payment before place order.',
+                text: msg,
             });
         }
     };
@@ -654,12 +677,12 @@ const Checkout = (props) => {
         if (loading.addresses || loading.all) {
             content = 'Loading';
         } else if (data.isGuest && !address) {
-            content = 'Please add shipping address';
+            content = t('checkout:message:address:add');
         } else if (address) {
             content = `${address.firstname} ${address.lastname} ${street} 
             ${address.city} ${address.region.label} ${address.postcode} ${address.telephone}`;
         } else {
-            content = 'No Default Address';
+            content = t('checkout:message:address:default');
         }
 
         return (
@@ -668,9 +691,7 @@ const Checkout = (props) => {
                     <Typography variant="title" type="bold" letter="uppercase">
                         {t('checkout:shippingAddress')}
                     </Typography>
-                    <Typography variant="p">
-                        {content}
-                    </Typography>
+                    <Typography variant="p">{content}</Typography>
                 </div>
                 <div>
                     <AddressFormDialog
@@ -723,7 +744,9 @@ const Checkout = (props) => {
                             }
                         >
                             <Typography variant="p" type="bold" letter="uppercase">
-                                {data.isGuest && !address ? 'Add Address' : t(_.isNull(address) ? 'common:button:manage' : 'common:button:change')}
+                                {data.isGuest && !address
+                                    ? t('common:button:addAddress')
+                                    : t(_.isNull(address) ? 'common:button:manage' : 'common:button:change')}
                             </Typography>
                         </Button>
                     )}
@@ -749,7 +772,7 @@ const Checkout = (props) => {
                 />
             );
         } else {
-            content = <Typography variant="p">There is no delivery method available for selected address</Typography>;
+            content = <Typography variant="p">{t('checkout:noShipping')}</Typography>;
         }
 
         return content;
@@ -778,11 +801,14 @@ const Checkout = (props) => {
                 </>
             );
         } else {
-            content = <Typography variant="p">There is no payment method available. Please set address and shipping method.</Typography>;
+            content = <Typography variant="p">{t('checkout:noPayment')}</Typography>;
         }
 
         return content;
     };
+
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
 
     return (
         <div className={styles.root}>
@@ -812,9 +838,35 @@ const Checkout = (props) => {
                                     onChange={formik.handleChange}
                                     endAdornment={(
                                         <InputAdornment position="end">
-                                            <IconButton aria-label="toggle password visibility">
+                                            <IconButton
+                                                aria-describedby={id}
+                                                aria-label="toggle password visibility"
+                                                onClick={(event) => {
+                                                    setAnchorEl(event.currentTarget);
+                                                }}
+                                            >
                                                 <Help />
                                             </IconButton>
+                                            <Popover
+                                                id={id}
+                                                open={open}
+                                                anchorEl={anchorEl}
+                                                anchorOrigin={{
+                                                    vertical: 'center',
+                                                    horizontal: 'left',
+                                                }}
+                                                transformOrigin={{
+                                                    vertical: 'center',
+                                                    horizontal: 'right',
+                                                }}
+                                                onClose={() => {
+                                                    setAnchorEl(null);
+                                                }}
+                                            >
+                                                <Typography variant="p">
+                                                    {t('checkout:emailHelper')}
+                                                </Typography>
+                                            </Popover>
                                         </InputAdornment>
                                     )}
                                 />
@@ -822,7 +874,7 @@ const Checkout = (props) => {
                             </FormControl>
                         </div>
                         <Typography variant="p" type="regular" decoration="underline">
-                            <Link href="/customer/account/login">Already have an account? Login Here</Link>
+                            <Link href="/customer/account/login">{t('checkout:haveAccount')}</Link>
                         </Typography>
                     </div>
                 ) : null}

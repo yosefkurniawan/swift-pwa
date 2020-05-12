@@ -22,7 +22,8 @@
         "change" : "Change",
         "login": "Login",
         "register": "Register",
-        "send" : "send"
+        "send" : "send",
+        "addAddress": "Add Address"
     },
     "subtotal": "Subtotal",
     "price": {

@@ -21,7 +21,8 @@
         "checkout": "Checkout",
         "change" : "Ubah",
         "send" : "kirim",
-        "manage": "Manage"
+        "manage": "Manage",
+        "addAddress": "Tambah Alamat"
     },
     "subtotal": "Subtotal",
     "price": {
