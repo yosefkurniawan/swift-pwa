@@ -32,7 +32,7 @@ const Item = ({
             />
             <div className={styles.itemImgWrapper}>
                 <img
-                    src={product.thumbnail.url}
+                    src={product.small_image.url}
                     onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
                     className={styles.itemImg}
                     alt={product.name}
