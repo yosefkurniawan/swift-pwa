@@ -14,6 +14,6 @@ export default makeStyles(() => ({
         marginBottom: '12px',
     },
     bottomButtons: {
-        ...CreatePadding(30, 0, 0, 0),
+        ...CreatePadding(20, 0, 0, 0),
     },
 }));

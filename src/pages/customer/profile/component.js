@@ -5,9 +5,11 @@ import PasswordField from '@components/Forms/Password';
 import { FormControlLabel, Checkbox } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import helper from '@helpers/token';
 import useStyles from './style';
+import { getCustomer } from '../../../services/graphql/repository/customer';
 
-const ProfilePage = ({ t }) => {
+const ProfileForm = ({ t, data }) => {
     const styles = useStyles();
 
     const [edit, setEdit] = React.useState(false);
@@ -38,9 +40,9 @@ const ProfilePage = ({ t }) => {
 
     const formik = useFormik({
         initialValues: {
-            firstName: 'Diasty',
-            lastName: 'Hardika putri',
-            email: 'hardikaputri@icube.us',
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
             currentPassword: '',
             password: '',
             confirmPassword: '',
@@ -221,6 +223,26 @@ const ProfilePage = ({ t }) => {
                 </Button>
             </div>
         </form>
+    );
+};
+
+const ProfilePage = (props) => {
+    const token = helper.getToken();
+    const { error, loading, data } = getCustomer(token);
+
+    if (loading) return <p>loading...</p>;
+    if (error) return <p>{`Error: ${error.message}`}</p>;
+    if (!data) return null;
+
+    return (
+        <ProfileForm
+            {...props}
+            data={{
+                firstName: data.customer.firstname,
+                lastName: data.customer.lastname,
+                email: data.customer.email,
+            }}
+        />
     );
 };
 
