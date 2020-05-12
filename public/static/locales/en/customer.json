@@ -32,7 +32,9 @@
     "content": "Get instruction sent to this email that explain how to reset your password.",
     "success": "Send forgot password success.",
     "failed": "Send forgot password failed",
-    "useEmail": "send reser password with email"
+    "useEmail": "send reser password with email",
+    "successEmail1": "if there is an account associated with",
+    "successEmail2": " you will receive an email with a link to reset your password"
   },
   "newPassword": {
     "title": "Change new password",
