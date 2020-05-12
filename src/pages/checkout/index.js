@@ -24,7 +24,7 @@ Page.getInitialProps = async (ctx) => {
     const cartId = cookies(ctx).nci || null;
 
     if (!token && !cartId) {
-        redirect(ctx, '/cart');
+        redirect(ctx, '/checkout/cart');
     }
 
     return {

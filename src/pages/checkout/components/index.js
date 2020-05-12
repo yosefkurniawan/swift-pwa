@@ -314,7 +314,7 @@ const Checkout = (props) => {
         const state = { ...checkout };
 
         if (cart.items.length === 0) {
-            window.location = 'checkout/cart';
+            window.location = '/checkout/cart';
         }
 
         const { customer } = getCustomer.data;
@@ -461,7 +461,7 @@ const Checkout = (props) => {
         }
 
         if (errorCart) {
-            window.location = '/cart';
+            window.location = '/checkout/cart';
         }
 
         if (dataCart) {
