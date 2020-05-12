@@ -142,12 +142,13 @@ const Product = ({
     }
     const category = getCategoryFromAgregations(aggregations);
 
-    // eslint-disable-next-line eqeqeq
-    const renderMessage = (count) => (count == 0
-        // eslint-disable-next-line react/no-unescaped-entities
-        ? <Alert style={{ margin: '18px' }} severity="warning">{t('product:emptyProductSearchResult')}</Alert>
-        : null
-    );
+    // eslint-disable-next-line no-shadow
+    const renderEmptyMessage = (count, loading) => {
+        if (count || loading) {
+            return null;
+        }
+        return <Alert style={{ margin: '18px' }} severity="warning">{t('product:emptyProductSearchResult')}</Alert>;
+    };
 
     return (
         <>
@@ -210,7 +211,7 @@ const Product = ({
                     gridItemProps={{ xs: 6, sm: 4, md: 3 }}
                 />
                 {(products.items.length === products.total_count) || loading
-                    ? renderMessage(products.items.length)
+                    ? renderEmptyMessage(products.items.length, loading)
                     : (
                         <button
                             className={styles.btnLoadmore}

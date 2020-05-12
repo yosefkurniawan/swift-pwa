@@ -56,9 +56,15 @@ const useStyles = makeStyles(() => ({
     },
     ...showHide,
     fieldContainer: {
-        ...CreatePadding(10, 10, 10, 30),
+        ...CreatePadding(10, 30, 10, 30),
         paddingBottom: 18,
         borderBottom: `1px solid ${GRAY_PRIMARY}`,
+    },
+    fieldContainerLast: {
+        ...CreatePadding(10, 30, 10, 30),
+        paddingBottom: 18,
+        borderBottom: `1px solid ${GRAY_PRIMARY}`,
+        marginBottom: 80,
     },
     last: {
         marginBottom: 70,
@@ -75,8 +81,9 @@ const useStyles = makeStyles(() => ({
         ...CreatePadding(20, 20, 20, 20),
     },
     btnSave: {
-        ...CreateMargin(0, 8, 0, 0),
-        width: '50%',
+        display: 'block',
+        margin: 'auto',
+        width: 'calc(100% - 12px)',
         height: 41,
     },
 }));

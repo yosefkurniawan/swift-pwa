@@ -132,7 +132,7 @@ const FilterDialog = ({
                     }
                     if (itemFilter.field === 'price') {
                         return (
-                            <div className={styles.fieldContainer} key={idx}>
+                            <div className={styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']} key={idx}>
                                 <RangeSlider
                                     label={itemFilter.label}
                                     maxValue={itemFilter.maxprice}
@@ -146,7 +146,7 @@ const FilterDialog = ({
                         );
                     } if (itemFilter.field === 'size') {
                         return (
-                            <div className={styles.fieldContainer} key={idx}>
+                            <div className={styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']} key={idx}>
                                 <CheckBox
                                     name={itemFilter.field}
                                     label={itemFilter.label || 'Size'}
@@ -160,7 +160,7 @@ const FilterDialog = ({
                         );
                     } if (itemFilter.field === 'color') {
                         return (
-                            <div className={styles.fieldContainer} key={idx}>
+                            <div className={styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']} key={idx}>
                                 <CheckBox
                                     name={itemFilter.field}
                                     label={itemFilter.label || 'Color'}
@@ -176,7 +176,7 @@ const FilterDialog = ({
                         return <span key={idx} />;
                     }
                     return (
-                        <div className={styles.fieldContainer} key={idx}>
+                        <div className={styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']} key={idx}>
                             {elastic ? (
                                 <CheckBox
                                     field={itemFilter.field}

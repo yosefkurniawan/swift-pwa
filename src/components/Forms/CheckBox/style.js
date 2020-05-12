@@ -12,6 +12,8 @@ export default makeStyles(() => ({
         ...FlexColumn,
     },
     checkboxContainer: {
+        overflowY: 'hidden',
+        overflowX: 'auto',
         justifyContent: 'space-between',
         ...CreatePadding(10, 10, 10, 0),
     },

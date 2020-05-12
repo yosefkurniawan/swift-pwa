@@ -4,7 +4,8 @@ import { Centering } from '@theme/mixins';
 
 export default makeStyles(() => ({
     container: {
-        width: 53,
+        marginRight: '6px',
+        minWidth: 53,
         height: 53,
         borderRadius: 100,
         border: `1px solid ${GRAY_PRIMARY}`,
