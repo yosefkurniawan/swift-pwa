@@ -10,4 +10,10 @@ export default makeStyles(() => ({
         ...FlexColumn,
         ...CreatePadding(0, 0, 30, 0),
     },
+    checkboxLabel: {
+        marginBottom: '12px',
+    },
+    bottomButtons: {
+        ...CreatePadding(30, 0, 0, 0),
+    },
 }));
