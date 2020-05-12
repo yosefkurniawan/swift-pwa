@@ -9,5 +9,23 @@
     "forOrder" : "for your order",
     "thanksDetail" : "We'll send you a confirmation email with details & tracking info.",
     "continue" : "Continue Shopping",
-    "emailAddress": "Email Address"
+    "emailAddress": "Email Address",
+    "emailHelper": "We'll send your order confirmation here.",
+    "haveAccount": "Already have an account? Login Here",
+    "noPayment": "There is no payment method available. Please set address and shipping method.",
+    "noShipping": "There is no delivery method available for selected address",
+    "message": {
+        "problemConnection": "There is a problem with your connection",
+        "couponRemoved": "Coupon has been removed",
+        "couponApplied": "Coupon has been applied",
+        "couponError": "The coupon code isn't valid. Verify the code and try again.",
+        "placeOrder": "Your order has been placed",
+        "serverError": "There is a problem on the server or your connection, try again later",
+        "guestFormValidation": "Please provide email information, address, select shipping, and payment before place order.",
+        "customerFormValidation": "Please select addresss, shipping, and payment before place order.",
+        "address": {
+            "add": "Please add shipping address",
+            "default": "No Default Address"
+        }
+    }
 }
