@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import Button from '@components/Button';
 import Typography from '@components/Typography';
 import TextField from '@components/Forms/TextField';
@@ -13,12 +14,18 @@ import { Skeleton } from '@material-ui/lab';
 import useStyles from './style';
 import { getCustomer } from '../../../services/graphql/repository/customer';
 
-const ProfileForm = ({ t, data }) => {
+const ProfileForm = ({ t, data, refetchData }) => {
     const styles = useStyles();
 
     const [edit, setEdit] = React.useState(false);
-    const [editPass, setEditPass] = React.useState(false);
     const [editEmail, setEditEmail] = React.useState(false);
+    const [editPass, setEditPass] = React.useState(false);
+
+    React.useEffect(() => {
+        if (!editEmail) {
+            formik.setFieldValue('email', data.email);
+        }
+    }, [editEmail]);
 
     const ProfileSchema = Yup.object().shape({
         email: editEmail && Yup.string()
@@ -55,13 +62,15 @@ const ProfileForm = ({ t, data }) => {
             confirmPassword: '',
         },
         validationSchema: ProfileSchema,
-        onSubmit: (values, { setSubmitting }) => {
+        onSubmit: async (values, { setSubmitting, resetForm }) => {
             // eslint-disable-next-line no-console
             console.log(values);
             setEdit(false);
             setEditPass(false);
             setEditEmail(false);
             setSubmitting(false);
+            await refetchData();
+            resetForm();
         },
     });
 
@@ -275,7 +284,8 @@ const ProfilePageSkeleton = () => {
 
 const ProfilePage = (props) => {
     const token = helper.getToken();
-    const { error, loading, data } = getCustomer(token);
+    const customerQuery = getCustomer(token);
+    const { error, loading, data } = customerQuery;
 
     if (loading) return <ProfilePageSkeleton />;
     if (error) return <p>{`Error: ${error.message}`}</p>;
@@ -290,6 +300,7 @@ const ProfilePage = (props) => {
                 email: data.customer.email,
                 telephone: '081234567890',
             }}
+            refetchData={() => customerQuery.refetch()}
         />
     );
 };
