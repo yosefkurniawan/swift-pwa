@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import App from 'next/app';
 import Head from 'next/head';
@@ -13,11 +14,18 @@ import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import Cookie from 'js-cookie';
 import cookies from 'next-cookies';
 import { expiredCokies, storeConfigNameCokie, nameToken } from '@config';
-import { getTokenFromServer, getToken } from '@helpers/token';
+import {
+    getTokenFromServer, getToken, getOriginalTokenFromServer, getOriginalToken,
+} from '@helpers/token';
 import '../src/styles/index.css';
 import '../src/styles/mage.css';
 
 class MyApp extends App {
+    constructor(props) {
+        super(props);
+        this.isLogin = false;
+    }
+
     componentDidMount() {
         // Remove the server-side injected CSS.
         const jssStyles = document.querySelector('#jss-server-side');
@@ -34,10 +42,13 @@ class MyApp extends App {
             pageProps = await Component.getInitialProps(ctx);
         }
         const {
-            apolloClient, res, pathname, query,
+            apolloClient, res, pathname, query, req,
         } = ctx;
+        // check if login from server
         let token = '';
+        let originalToken = '';
         if (typeof window !== 'undefined') token = getToken(nameToken); else token = getTokenFromServer(allcookie[nameToken]);
+        if (typeof window !== 'undefined') originalToken = getOriginalToken(nameToken); else originalToken = getOriginalTokenFromServer(allcookie[nameToken]);
         if (pageProps.withAuth) {
             if (typeof window !== 'undefined') {
                 if (token && token !== '') {
@@ -51,18 +62,28 @@ class MyApp extends App {
                 } else if (pathname === '/customer/account/login') res.redirect('/customer/account');
             } else if (pathname !== '/customer/account/login') res.redirect('/customer/account/login');
         }
-
+        if (req) {
+            // save token if token on server gone
+            if ((originalToken && !req.session.token) || (req.session.token && (originalToken !== req.session.token))) {
+                req.session.token = originalToken;
+            }
+        }
         let storeConfig;
         if (!allcookie[storeConfigNameCokie]) {
             storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
         } else {
             storeConfig = allcookie[storeConfigNameCokie];
         }
-        return { pageProps: { ...pageProps, storeConfig, token } };
+
+        // add get session from server
+        return { pageProps: { ...pageProps, storeConfig, token }, isLogin: req && typeof req.session.token !== 'undefined' };
     }
 
     render() {
-        const { Component, pageProps } = this.props;
+        const { Component, pageProps, isLogin } = this.props;
+        if (!this.isLogin && isLogin) {
+            this.isLogin = isLogin;
+        }
         const storeCokie = Cookie.get(storeConfigNameCokie);
         if (!storeCokie) {
             Cookie.set(storeConfigNameCokie, pageProps.storeConfig, {
@@ -82,7 +103,7 @@ class MyApp extends App {
                 <ThemeProvider theme={theme}>
                     {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                     <CssBaseline />
-                    <Component {...pageProps} />
+                    <Component {...pageProps} isLogin={this.isLogin} />
                 </ThemeProvider>
             </>
         );

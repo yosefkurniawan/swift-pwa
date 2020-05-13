@@ -130,10 +130,14 @@ const Cart = (props) => {
 
     if (typeof window !== 'undefined') {
         cartId = getCartId();
-        const { loading, data } = getCartData(token, cartId);
-        loadingCart = loading;
-        if (!loading && data && data.cart) {
-            dataCart = data.cart;
+        if (cartId) {
+            const { loading, data } = getCartData(token, cartId);
+            loadingCart = loading;
+            if (!loading && data && data.cart) {
+                dataCart = data.cart;
+            }
+        } else {
+            loadingCart = false;
         }
     }
 

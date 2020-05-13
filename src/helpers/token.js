@@ -1,15 +1,28 @@
 
 import cookies from 'js-cookie';
 import { nameToken, expiredToken } from '@config';
-import { encrypt, decrypt } from './encryption';
+import { decrypt } from './encryption';
+
 
 export const setToken = (token, expired) => {
-    cookies.set(nameToken, encrypt(token), { expires: expired || expiredToken });
+    cookies.set(nameToken, token, { expires: expired || expiredToken });
     return true;
 };
 
+// akan di renaeme jika sudah selesai migrasi
 export const getTokenFromServer = (tokenCustomer) => {
     const token = !tokenCustomer || tokenCustomer === '' || tokenCustomer === undefined ? '' : decrypt(tokenCustomer);
+    return token;
+};
+
+export const getOriginalTokenFromServer = (tokenCustomer) => {
+    const token = !tokenCustomer || tokenCustomer === '' || tokenCustomer === undefined ? '' : tokenCustomer;
+    return token;
+};
+
+export const getOriginalToken = () => {
+    const tokenCustomer = cookies.get(nameToken);
+    const token = !tokenCustomer || tokenCustomer === '' || tokenCustomer === undefined ? '' : tokenCustomer;
     return token;
 };
 
