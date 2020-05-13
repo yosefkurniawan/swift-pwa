@@ -56,6 +56,7 @@ const ProfileForm = ({ t, data }) => {
         },
         validationSchema: ProfileSchema,
         onSubmit: (values, { setSubmitting }) => {
+            // eslint-disable-next-line no-console
             console.log(values);
             setEdit(false);
             setEditPass(false);
