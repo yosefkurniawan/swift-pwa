@@ -16,7 +16,7 @@ import useStyles from './style';
 import { getCustomer } from '../../../services/graphql/repository/customer';
 import gqlServices from './services/graphql';
 
-const ProfileForm = ({ t, data, refetchData }) => {
+const ProfileForm = ({ t, data }) => {
     const styles = useStyles();
 
     const [updateCustomer, updateCustomerStatus] = gqlServices.updateCustomer();
@@ -59,8 +59,8 @@ const ProfileForm = ({ t, data, refetchData }) => {
             confirmPassword: '',
         },
         validationSchema: ProfileSchema,
-        onSubmit: async (values, { setSubmitting, resetForm }) => {
-            const tes = await updateCustomer({
+        onSubmit: async (values, { setSubmitting }) => {
+            await updateCustomer({
                 variables: {
                     firstname: values.firstName,
                     lastname: values.lastName,
@@ -68,13 +68,10 @@ const ProfileForm = ({ t, data, refetchData }) => {
                     password: values.currentPassword,
                 },
             });
-            console.log({ tes });
-            await refetchData();
             setEdit(false);
             setEditEmail(false);
             setEditPass(false);
             setSubmitting(false);
-            resetForm();
         },
     });
 
@@ -289,8 +286,7 @@ const ProfilePageSkeleton = () => {
 
 const ProfilePage = (props) => {
     const token = helper.getToken();
-    const customerQuery = getCustomer(token);
-    const { error, loading, data } = customerQuery;
+    const { error, loading, data } = getCustomer(token);
 
     if (loading) return <ProfilePageSkeleton />;
     if (error) return <p>{`Error: ${error.message}`}</p>;
@@ -305,7 +301,6 @@ const ProfilePage = (props) => {
                 email: data.customer.email,
                 telephone: '081234567890',
             }}
-            refetchData={() => customerQuery.refetch()}
         />
     );
 };
