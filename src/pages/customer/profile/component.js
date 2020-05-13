@@ -21,7 +21,7 @@ const ProfileForm = ({ t, data }) => {
     const [editEmail, setEditEmail] = React.useState(false);
 
     const ProfileSchema = Yup.object().shape({
-        email: Yup.string()
+        email: editEmail && Yup.string()
             .email(t('validate:email:wrong'))
             .required(t('validate:email:required')),
         firstName: Yup.string().required(t('validate:firstName:required')),
@@ -29,7 +29,7 @@ const ProfileForm = ({ t, data }) => {
         // telephone: Yup.string().required(t('validate:telephone:required'))
         //     .matches(regexPhone, t('validate:phoneNumber:wrong')),
         currentPassword:
-            editPass && Yup.string().required(t('validate:password:required')),
+            (editEmail || editPass) && Yup.string().required(t('validate:password:required')),
         password:
             editPass && Yup.string().required(t('validate:password:required')),
         confirmPassword:
@@ -94,60 +94,7 @@ const ProfileForm = ({ t, data }) => {
                 }
                 disabled={!edit}
             />
-            <TextField
-                label="Email"
-                type="email"
-                name="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={
-                    !!(formik.touched.email && formik.errors.email)
-                }
-                errorMessage={
-                    (formik.touched.email && formik.errors.email) || null
-                }
-                disabled={!editEmail}
-            />
-            <FormControlLabel
-                className={styles.checkboxLabel}
-                onChange={() => setEditEmail(!editEmail)}
-                disabled={!edit}
-                control={(
-                    <Checkbox
-                        checked={editEmail}
-                        name="whastapptrue"
-                        color="primary"
-                        size="medium"
-                    />
-                )}
-                label={(
-                    <Typography variant="span">
-                        {t('common:button:change')}
-                        {' '}
-                        Email
-                    </Typography>
-                )}
-            />
-            <FormControlLabel
-                className={styles.checkboxLabel}
-                onChange={() => setEditPass(!editPass)}
-                disabled={!edit}
-                control={(
-                    <Checkbox
-                        checked={editPass}
-                        name="whastapptrue"
-                        color="primary"
-                        size="medium"
-                    />
-                )}
-                label={(
-                    <Typography variant="span">
-                        {t('common:button:change')}
-                        {' '}
-                        Password
-                    </Typography>
-                )}
-            />
+
             {/* <TextField
                 label="Telephone"
                 name="telephone"
@@ -162,13 +109,65 @@ const ProfileForm = ({ t, data }) => {
                 disabled={!edit}
             /> */}
 
-            <div
-                className={[
-                    styles.editContainer,
-                    edit ? 'show' : 'hide',
-                ]}
-            >
-                <div className={editPass ? 'show' : 'hide'}>
+            <FormControlLabel
+                className={styles.checkboxLabel}
+                onChange={() => setEditEmail(!editEmail)}
+                disabled={!edit}
+                control={(
+                    <Checkbox
+                        checked={editEmail}
+                        name="emailCheckbox"
+                        color="primary"
+                        size="medium"
+                    />
+                )}
+                label={(
+                    <Typography variant="span">
+                        {t('common:button:change')}
+                        {' '}
+                        Email
+                    </Typography>
+                )}
+            />
+
+            <FormControlLabel
+                className={styles.checkboxLabel}
+                onChange={() => setEditPass(!editPass)}
+                disabled={!edit}
+                control={(
+                    <Checkbox
+                        checked={editPass}
+                        name="passwordCheckbox"
+                        color="primary"
+                        size="medium"
+                    />
+                )}
+                label={(
+                    <Typography variant="span">
+                        {t('common:button:change')}
+                        {' '}
+                        Password
+                    </Typography>
+                )}
+            />
+
+            <div className={[styles.editContainer, edit ? 'show' : 'hide']}>
+                <div className={editEmail ? 'show' : 'hide'}>
+                    <TextField
+                        label="Email"
+                        type="email"
+                        name="email"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        error={
+                            !!(formik.touched.email && formik.errors.email)
+                        }
+                        errorMessage={
+                            (formik.touched.email && formik.errors.email) || null
+                        }
+                    />
+                </div>
+                <div className={editEmail || editPass ? 'show' : 'hide'}>
                     <PasswordField
                         label="Current Password"
                         showVisible
@@ -184,8 +183,9 @@ const ProfileForm = ({ t, data }) => {
                                 && formik.errors.currentPassword)
                             || null
                         }
-                        disabled={!editPass}
                     />
+                </div>
+                <div className={editPass ? 'show' : 'hide'}>
                     <PasswordField
                         label="Password"
                         showVisible
@@ -201,7 +201,6 @@ const ProfileForm = ({ t, data }) => {
                                 && formik.errors.password)
                             || null
                         }
-                        disabled={!editPass}
                     />
                     <TextField
                         label="Confirm Password"
@@ -218,7 +217,6 @@ const ProfileForm = ({ t, data }) => {
                                 && formik.errors.confirmPassword)
                             || null
                         }
-                        disabled={!editPass}
                     />
                 </div>
             </div>
