@@ -605,3 +605,13 @@ export const removeCouponFromCart = gql`
         }
     }
 `;
+
+export const getSnapToken = gql`
+    query($orderId: String!) {
+        getSnapTokenByOrderId(
+            order_id: $orderId
+        ) {
+            snap_token
+        }
+    }
+`;

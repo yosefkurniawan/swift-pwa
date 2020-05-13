@@ -12,6 +12,7 @@ module.exports = {
         Atomics: 'readonly',
         SharedArrayBuffer: 'readonly',
         React: 'writable',
+        snap: true,
     },
     parserOptions: {
         ecmaFeatures: {
