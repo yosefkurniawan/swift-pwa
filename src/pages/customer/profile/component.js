@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-use-before-define */
 import Button from '@components/Button';
 import Typography from '@components/Typography';
@@ -5,7 +6,7 @@ import TextField from '@components/Forms/TextField';
 import PasswordField from '@components/Forms/Password';
 // import { regexPhone } from '@helpers/regex';
 import {
-    FormControlLabel, Checkbox, Grid,
+    FormControlLabel, Checkbox, Grid, CircularProgress,
 } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -13,19 +14,15 @@ import helper from '@helpers/token';
 import { Skeleton } from '@material-ui/lab';
 import useStyles from './style';
 import { getCustomer } from '../../../services/graphql/repository/customer';
+import gqlServices from './services/graphql';
 
 const ProfileForm = ({ t, data, refetchData }) => {
     const styles = useStyles();
 
+    const [updateCustomer, updateCustomerStatus] = gqlServices.updateCustomer();
     const [edit, setEdit] = React.useState(false);
     const [editEmail, setEditEmail] = React.useState(false);
     const [editPass, setEditPass] = React.useState(false);
-
-    React.useEffect(() => {
-        if (!editEmail) {
-            formik.setFieldValue('email', data.email);
-        }
-    }, [editEmail]);
 
     const ProfileSchema = Yup.object().shape({
         email: editEmail && Yup.string()
@@ -63,13 +60,20 @@ const ProfileForm = ({ t, data, refetchData }) => {
         },
         validationSchema: ProfileSchema,
         onSubmit: async (values, { setSubmitting, resetForm }) => {
-            // eslint-disable-next-line no-console
-            console.log(values);
-            setEdit(false);
-            setEditPass(false);
-            setEditEmail(false);
-            setSubmitting(false);
+            const tes = await updateCustomer({
+                variables: {
+                    firstname: values.firstName,
+                    lastname: values.lastName,
+                    email: editEmail ? values.email : data.email,
+                    password: values.currentPassword,
+                },
+            });
+            console.log({ tes });
             await refetchData();
+            setEdit(false);
+            setEditEmail(false);
+            setEditPass(false);
+            setSubmitting(false);
             resetForm();
         },
     });
@@ -245,6 +249,7 @@ const ProfileForm = ({ t, data, refetchData }) => {
                     fullWidth
                     className={edit ? 'show' : 'hide'}
                     type="submit"
+                    endIcon={updateCustomerStatus.loading ? <CircularProgress size={18} color="secondary" /> : null}
                 >
                     {t('common:button:save')}
                 </Button>
