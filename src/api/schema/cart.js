@@ -83,13 +83,13 @@ const cartSchema = makeExecutableSchema({
 
       input  CartItemUpdateInput {
         cart_item_id: Int!
-        customizable_options: CustomizableOptionInput!
-        quantity: Float!
+        customizable_options: CustomizableOptionInput
+        quantity: Float
       }
 
       input UpdateCartItemsInput {
         cart_id: String!
-        cart_items: CartItemUpdateInput!
+        cart_items: CartItemUpdateInput
       }
 
       type UpdateCartItemsOutput {
