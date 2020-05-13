@@ -2,89 +2,125 @@
 const requestGraph = require('../graphql-request');
 
 const query = `
-query getCartData($cartId: String!) {
-    cart(cart_id: $cartId) {
+query getCartData($cart_id: String!) {
+    cart(cart_id: $cart_id) {
+      id
+      total_quantity
+      applied_coupons {
+          code
+      }
+      prices {
+          discounts {
+              amount {
+                  currency
+                  value
+              }
+              label
+          }
+          grand_total {
+              currency
+              value
+          }
+      }
+      items {
         id
-        total_quantity
-        prices {
-            grand_total {
+        quantity
+          prices {
+            discounts {
+              amount {
                 currency
                 value
+              }
             }
-            discounts {
-                amount {
+            price {
+              value
+              currency
+            }
+            row_total {
+              currency
+              value
+            }
+            total_item_discount {
+              currency
+              value
+            }
+        }
+        ... on  ConfigurableCartItem {
+          configurable_options {
+            option_label
+            value_label
+          }
+        }
+        product {
+          id
+          name
+          small_image {
+            url
+            label
+          }
+          url_key
+          sku
+          stock_status
+          crosssell_products {
+            id
+            name
+            url_key
+            thumbnail {
+              url
+            }
+            small_image {
+              url,
+              label
+            }
+            price_tiers {
+              discount {
+                percent_off
+                amount_off
+              }
+              final_price {
+                currency
+                value
+              }
+              quantity
+            }
+            price_range {
+              maximum_price {
+                discount {
+                  amount_off
+                  percent_off
+                }
+                final_price {
                   currency
                   value
                 }
-                label
-            }
-        }
-        items {
-            id
-            quantity
-            ... on ConfigurableCartItem {
-              configurable_options {
-                id
-                option_label
-                value_id
-                value_label
-                __typename
-              }
-            }
-            prices {
-                price { 
-                    currency
-                    value
-                }
-            }
-            product {
-              id
-              name
-              url_key
-              price_range {
-                maximum_price {
-                  final_price {
-                    currency
-                    value
-                  }
-                  regular_price {
-                    currency
-                    value
-                  }
+                regular_price {
+                  currency
+                  value
                 }
               }
-              small_image {
-                url
-                label
-              }
-              crosssell_products {
-                id
-                name
-                url_key
-                price_range {
-                  maximum_price {
-                    regular_price {
-                      currency
-                      value
-                    }
-                    final_price {
-                      value
-                      currency
-                    }
-                  }
+              minimum_price {
+                discount {
+                  amount_off
+                  percent_off
                 }
-                small_image {
-                  url
-                  label
+                final_price {
+                  currency
+                  value
+                }
+                regular_price {
+                  currency
+                  value
                 }
               }
             }
           }
+        }
+      }
     }   
 }
 `;
-async function cart(parent, { cartId }, context) {
-    const res = await requestGraph(query, { cartId }, context);
+async function cart(parent, { cart_id }, context) {
+    const res = await requestGraph(query, { cart_id }, context);
     if (res.cart && res.cart) {
         return res.cart;
     }

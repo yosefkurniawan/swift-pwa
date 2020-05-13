@@ -4,7 +4,7 @@ import Content from './components';
 
 const Page = (props) => {
     const { t } = props;
-    console.log(props);
+    // console.log(props);
     const pageConfig = {
         title: t('cart:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)

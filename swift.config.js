@@ -11,6 +11,11 @@ export const graphqlEndpoint = {
     prod: 'https://swiftpwa-be.testingnow.me/graphql',
 };
 
+export const graphqlInternalEndpoint = {
+    dev: 'http://localhost:3000/graphql',
+    prod: 'https://swiftpwa.testingnow.me//graphql',
+};
+
 
 /* --------------------------------------- */
 /* FEATURES CONFIGURATION

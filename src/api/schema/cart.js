@@ -14,18 +14,21 @@ const cartSchema = makeExecutableSchema({
         value: Float
       }
 
-      type discount {
-        currency: String
-        value: Int
+      type Discounts {
+        amount: Money
+        label: Int
       }
 
       type prices {
         grand_total: grand_total
-        discount: discount
+        discounts: Discounts
       }
 
       type CartItemPrices {
         price: Money
+        discounts: Discounts
+        row_total: Money
+        total_item_discount: Money
       }
 
       type SelectedConfigurableOptions {
@@ -47,15 +50,20 @@ const cartSchema = makeExecutableSchema({
         prices: CartItemPrices
       }
 
+      type AppliedCoupon {
+        code: String
+      }
+
       type Cart {
         id: String,
         total_quantity: Int
+        applied_coupons: AppliedCoupon
         prices: prices
         items: [CartItemInterface]!
       }
   
       type Query {
-        cart(cartId: String!): Cart!
+        cart(cart_id: String!): Cart!
       }
     `,
 });
