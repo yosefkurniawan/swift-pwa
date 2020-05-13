@@ -20,6 +20,7 @@ const ProfileForm = ({ t, data }) => {
     const styles = useStyles();
 
     const [updateCustomer, updateCustomerStatus] = gqlServices.updateCustomer();
+    const [changeCustomerPassword, changeCustomerPasswordStatus] = gqlServices.changeCustomerPassword();
     const [edit, setEdit] = React.useState(false);
     const [editEmail, setEditEmail] = React.useState(false);
     const [editPass, setEditPass] = React.useState(false);
@@ -59,7 +60,7 @@ const ProfileForm = ({ t, data }) => {
             confirmPassword: '',
         },
         validationSchema: ProfileSchema,
-        onSubmit: async (values, { setSubmitting }) => {
+        onSubmit: async (values, { setSubmitting, setFieldValue }) => {
             await updateCustomer({
                 variables: {
                     firstname: values.firstName,
@@ -68,6 +69,17 @@ const ProfileForm = ({ t, data }) => {
                     password: values.currentPassword,
                 },
             });
+            if (editPass) {
+                await changeCustomerPassword({
+                    variables: {
+                        currentPassword: values.currentPassword,
+                        newPassword: values.password,
+                    },
+                });
+                setFieldValue('currentPassword', '', false);
+                setFieldValue('password', '', false);
+                setFieldValue('confirmPassword', '', false);
+            }
             setEdit(false);
             setEditEmail(false);
             setEditPass(false);
@@ -246,7 +258,11 @@ const ProfileForm = ({ t, data }) => {
                     fullWidth
                     className={edit ? 'show' : 'hide'}
                     type="submit"
-                    endIcon={updateCustomerStatus.loading ? <CircularProgress size={18} color="secondary" /> : null}
+                    endIcon={
+                        updateCustomerStatus.loading || changeCustomerPasswordStatus.loading
+                            ? <CircularProgress size={18} color="secondary" />
+                            : null
+                    }
                 >
                     {t('common:button:save')}
                 </Button>

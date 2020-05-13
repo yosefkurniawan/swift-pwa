@@ -13,4 +13,14 @@ export const updateCustomer = gql`
     }
 `;
 
-export default { updateCustomer };
+export const changeCustomerPassword = gql`
+    mutation changeCustomerPassword($currentPassword: String!, $newPassword: String!) {
+        changeCustomerPassword(currentPassword: $currentPassword, newPassword: $newPassword) {
+            firstname
+            lastname
+            email
+        }
+    }
+`;
+
+export default { updateCustomer, changeCustomerPassword };

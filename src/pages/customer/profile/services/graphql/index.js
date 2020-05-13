@@ -15,4 +15,10 @@ export const updateCustomer = (options = {}) => useMutation(Schema.updateCustome
     ...config,
 });
 
-export default { updateCustomer };
+
+export const changeCustomerPassword = (options = {}) => useMutation(Schema.changeCustomerPassword, {
+    ...options,
+    ...config,
+});
+
+export default { updateCustomer, changeCustomerPassword };
