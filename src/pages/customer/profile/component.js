@@ -187,6 +187,59 @@ const ProfileForm = ({ t, data }) => {
                     </Typography>
                 )}
             />
+            <FormControlLabel
+                className={styles.checkboxLabel}
+                onChange={() => setEditEmail(!editEmail)}
+                disabled={!edit}
+                control={(
+                    <Checkbox
+                        checked={editEmail}
+                        name="whastapptrue"
+                        color="primary"
+                        size="medium"
+                    />
+                )}
+                label={(
+                    <Typography variant="span">
+                        {t('common:button:change')}
+                        {' '}
+                        Email
+                    </Typography>
+                )}
+            />
+            <FormControlLabel
+                className={styles.checkboxLabel}
+                onChange={() => setEditPass(!editPass)}
+                disabled={!edit}
+                control={(
+                    <Checkbox
+                        checked={editPass}
+                        name="whastapptrue"
+                        color="primary"
+                        size="medium"
+                    />
+                )}
+                label={(
+                    <Typography variant="span">
+                        {t('common:button:change')}
+                        {' '}
+                        Password
+                    </Typography>
+                )}
+            />
+            <TextField
+                label="Telephone"
+                name="telephone"
+                value={formik.values.telephone}
+                onChange={formik.handleChange}
+                error={
+                    !!(formik.touched.telephone && formik.errors.telephone)
+                }
+                errorMessage={
+                    (formik.touched.telephone && formik.errors.telephone) || null
+                }
+                disabled={!edit}
+            />
 
             <FormControlLabel
                 className={styles.checkboxLabel}
