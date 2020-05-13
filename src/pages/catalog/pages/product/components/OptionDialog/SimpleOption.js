@@ -56,9 +56,12 @@ export default ({
                         cartId = token;
                         setCartId(token);
                     })
-                    .catch(() => {
+                    .catch((e) => {
                         setLoading(false);
-                        setMessage(errorMessage);
+                        setMessage({
+                            ...errorMessage,
+                            text: e.message.split(':')[1] || errorMessage.text,
+                        });
                     });
             } else {
                 const token = cartUser.data.customerCart.id || '';
@@ -86,9 +89,12 @@ export default ({
                     setLoading(false);
                     setOpen(false);
                 })
-                .catch(() => {
+                .catch((e) => {
                     setLoading(false);
-                    setMessage(errorMessage);
+                    setMessage({
+                        ...errorMessage,
+                        text: e.message.split(':')[1] || errorMessage.text,
+                    });
                 });
         }
     };

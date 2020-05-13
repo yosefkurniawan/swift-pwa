@@ -27,14 +27,18 @@ const useStyles = makeStyles((theme) => ({
         width: 233,
         display: 'inline-block',
         height: '100%',
-    // overflow: 'hidden',
+        overflow: 'hidden',
     // ...CreateMargin(0,10,0,10)
     },
-    imgItem: {
+    imgItemContainer: {
         width: '100%',
         ...Centering,
         height: 288,
         backgroundColor: GRAY_PRIMARY,
+    },
+    imgItem: {
+        width: 'auto',
+        height: '100%',
     },
     detailItem: {
         ...FlexColumn,

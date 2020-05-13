@@ -9,6 +9,7 @@ export const getCustomerCartId = (token) => useLazyQuery(CartSchema.getCartIdUse
         },
     },
     skip: token === '' || !token,
+    fetchPolicy: 'no-cache',
 });
 export const getCartData = () => useQuery(CartSchema.getCart);
 export const getCountCart = (token, cartId) => useQuery(CartSchema.getCountCart, {

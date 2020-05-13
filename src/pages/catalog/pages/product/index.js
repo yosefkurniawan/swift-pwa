@@ -1,5 +1,6 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
+import Error from 'next/error';
 import Loading from './components/Loader';
 import { getProduct } from './services/graphql';
 import Content from './components';
@@ -10,10 +11,13 @@ const Page = (props) => {
     const { slug } = props;
     const { loading, data, error } = getProduct(slug[0]);
     if (loading || !data) return <Loading />;
-    if (data) product = data.products;
+    if (data) {
+        product = data.products;
+        if (product.items.length === 0) return <Error statusCode={404} />;
+    }
     if (error) return <Loading />;
     const pageConfig = {
-        title: product.items[0].name || '',
+        title: product.items.length > 1 ? product.items[0].name : '',
         bottomNav: false,
         header: 'absolute', // available values: "absolute", "relative", false (default)
     };

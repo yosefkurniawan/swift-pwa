@@ -54,7 +54,7 @@ const ProductItem = (props) => {
             }).then(async () => {
                 await setMessage({ open: true, variant: 'success', text: 'add wishlist success' });
                 setInterval(() => {
-                    route.push('/customer/account/wishlist');
+                    route.push('/wishlist');
                 }, 1500);
             }).catch((e) => {
                 setMessage({

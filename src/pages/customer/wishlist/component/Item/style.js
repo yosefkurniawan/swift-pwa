@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
         backgroundColor: WHITE,
     },
     imgProduct: {
-        width: '100%',
+        width: 'auto',
         height: '100%',
     },
     content: {
