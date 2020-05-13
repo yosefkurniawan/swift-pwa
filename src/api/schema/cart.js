@@ -1,34 +1,25 @@
-const {
-    makeExecutableSchema,
-    addMockFunctionsToSchema,
-} = require('graphql-tools');
 
-const { gql } = require('apollo-server-express');
 const Product = require('./product');
 
-const cartSchema = makeExecutableSchema({
-    typeDefs: gql`
-      ${Product}
+const schema = `
+${Product}
       type grand_total {
         currency: String
         value: Float
       }
 
-      type Discounts {
-        amount: Money
-        label: Int
+      type discount {
+        currency: String
+        value: Int
       }
 
       type prices {
         grand_total: grand_total
-        discounts: Discounts
+        discount: discount
       }
 
       type CartItemPrices {
         price: Money
-        discounts: Discounts
-        row_total: Money
-        total_item_discount: Money
       }
 
       type SelectedConfigurableOptions {
@@ -50,59 +41,12 @@ const cartSchema = makeExecutableSchema({
         prices: CartItemPrices
       }
 
-      type AppliedCoupon {
-        code: String
-      }
-
       type Cart {
         id: String,
         total_quantity: Int
-        applied_coupons: AppliedCoupon
         prices: prices
         items: [CartItemInterface]!
       }
-  
-      type Query {
-        cart(cart_id: String!): Cart!
-      }
+`;
 
-      input RemoveItemFromCartInput {
-        cart_id: String!
-        cart_item_id: Int!
-      }
-
-      type RemoveItemFromCartOutput {
-        cart: Cart!
-      }
-      
-
-      input CustomizableOptionInput {
-        id: Int!
-        value_string: String!
-      }
-
-      input  CartItemUpdateInput {
-        cart_item_id: Int!
-        customizable_options: CustomizableOptionInput
-        quantity: Float
-      }
-
-      input UpdateCartItemsInput {
-        cart_id: String!
-        cart_items: CartItemUpdateInput
-      }
-
-      type UpdateCartItemsOutput {
-        cart: Cart!
-      }
-
-      type Mutation {
-        removeItemFromCart(input: RemoveItemFromCartInput): RemoveItemFromCartOutput
-        updateCartItems(input: UpdateCartItemsInput): UpdateCartItemsOutput
-      }
-    `,
-});
-
-addMockFunctionsToSchema({ schema: cartSchema });
-
-module.exports = cartSchema;
+module.exports = schema;
