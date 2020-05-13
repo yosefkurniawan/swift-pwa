@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon server.js",
+    "dev": "cross-env NODE_ENV=development node server.js",
     "dev:watch": "cross-env NODE_ENV=development nodemon server.js",
     "build": "next build",
     "export": "next export",
