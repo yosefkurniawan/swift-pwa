@@ -80,7 +80,7 @@ const ProductPage = (props) => {
             }).then(async () => {
                 await setWishlist(!wishlist);
                 await setMessage({ open: true, variant: 'success', text: 'add wishlist success' });
-                route.push('/customer/account/wishlist');
+                route.push('/wishlist');
             }).catch((e) => {
                 setMessage({
                     open: true,
