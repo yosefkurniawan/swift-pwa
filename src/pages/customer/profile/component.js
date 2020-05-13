@@ -9,6 +9,7 @@ import {
     FormControlLabel, Checkbox, Grid, CircularProgress,
 } from '@material-ui/core';
 import { useFormik } from 'formik';
+import Toast from '@components/Toast';
 import * as Yup from 'yup';
 import helper from '@helpers/token';
 import { Skeleton } from '@material-ui/lab';
@@ -24,6 +25,30 @@ const ProfileForm = ({ t, data }) => {
     const [edit, setEdit] = React.useState(false);
     const [editEmail, setEditEmail] = React.useState(false);
     const [editPass, setEditPass] = React.useState(false);
+    const [toast, setToast] = React.useState({
+        variant: 'success',
+        open: false,
+        message: '',
+    });
+
+    React.useEffect(() => {
+        showToast(updateCustomerStatus, 'Success update data profile!');
+    }, [updateCustomerStatus]);
+
+    React.useEffect(() => {
+        showToast(changeCustomerPasswordStatus, 'Success change password!');
+    }, [changeCustomerPasswordStatus]);
+
+    const showToast = (mutationStatus, successMessage) => {
+        const { error, loading, called } = mutationStatus;
+        if (!loading) {
+            if (error) {
+                setToast({ variant: 'error', open: true, message: error.message });
+            } else if (called) {
+                setToast({ variant: 'success', open: true, message: successMessage });
+            }
+        }
+    };
 
     const ProfileSchema = Yup.object().shape({
         email: editEmail && Yup.string()
@@ -61,34 +86,45 @@ const ProfileForm = ({ t, data }) => {
         },
         validationSchema: ProfileSchema,
         onSubmit: async (values, { setSubmitting, setFieldValue }) => {
-            await updateCustomer({
-                variables: {
-                    firstname: values.firstName,
-                    lastname: values.lastName,
-                    email: editEmail ? values.email : data.email,
-                    password: values.currentPassword,
-                },
-            });
-            if (editPass) {
-                await changeCustomerPassword({
+            if (!updateCustomerStatus.loading && !changeCustomerPasswordStatus.loading) {
+                await updateCustomer({
                     variables: {
-                        currentPassword: values.currentPassword,
-                        newPassword: values.password,
+                        firstname: values.firstName,
+                        lastname: values.lastName,
+                        email: editEmail ? values.email : data.email,
+                        password: values.currentPassword,
                     },
                 });
-                setFieldValue('currentPassword', '', false);
-                setFieldValue('password', '', false);
-                setFieldValue('confirmPassword', '', false);
+                if (editEmail) {
+                    setFieldValue('currentPassword', '', false);
+                }
+                if (editPass) {
+                    await changeCustomerPassword({
+                        variables: {
+                            currentPassword: values.currentPassword,
+                            newPassword: values.password,
+                        },
+                    });
+                    setFieldValue('currentPassword', '', false);
+                    setFieldValue('password', '', false);
+                    setFieldValue('confirmPassword', '', false);
+                }
+                setEdit(false);
+                setEditEmail(false);
+                setEditPass(false);
+                setSubmitting(false);
             }
-            setEdit(false);
-            setEditEmail(false);
-            setEditPass(false);
-            setSubmitting(false);
         },
     });
 
     return (
         <form className={styles.container} onSubmit={formik.handleSubmit}>
+            <Toast
+                variant={toast.variant}
+                open={toast.open}
+                message={toast.message}
+                setOpen={() => setToast({ ...toast, open: false })}
+            />
             <TextField
                 label="First Name"
                 name="firstName"
