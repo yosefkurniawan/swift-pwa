@@ -2,7 +2,7 @@ import Button from '@components/Button';
 import Typography from '@components/Typography';
 import TextField from '@components/Forms/TextField';
 import PasswordField from '@components/Forms/Password';
-import { regexPhone } from '@helpers/regex';
+// import { regexPhone } from '@helpers/regex';
 import {
     FormControlLabel, Checkbox, Grid,
 } from '@material-ui/core';
@@ -26,8 +26,8 @@ const ProfileForm = ({ t, data }) => {
             .required(t('validate:email:required')),
         firstName: Yup.string().required(t('validate:firstName:required')),
         lastName: Yup.string().required(t('validate:lastName:required')),
-        telephone: Yup.string().required(t('validate:telephone:required'))
-            .matches(regexPhone, t('validate:phoneNumber:wrong')),
+        // telephone: Yup.string().required(t('validate:telephone:required'))
+        //     .matches(regexPhone, t('validate:phoneNumber:wrong')),
         currentPassword:
             editPass && Yup.string().required(t('validate:password:required')),
         password:
@@ -48,7 +48,7 @@ const ProfileForm = ({ t, data }) => {
         initialValues: {
             firstName: data.firstName,
             lastName: data.lastName,
-            telephone: data.telephone,
+            // telephone: data.telephone,
             email: data.email,
             currentPassword: '',
             password: '',
@@ -147,7 +147,7 @@ const ProfileForm = ({ t, data }) => {
                     </Typography>
                 )}
             />
-            <TextField
+            {/* <TextField
                 label="Telephone"
                 name="telephone"
                 value={formik.values.telephone}
@@ -159,7 +159,7 @@ const ProfileForm = ({ t, data }) => {
                     (formik.touched.telephone && formik.errors.telephone) || null
                 }
                 disabled={!edit}
-            />
+            /> */}
 
             <div
                 className={[
