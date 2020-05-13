@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Button from '@components/Button';
-import Router from 'next/router';
 import { removeToken } from '@helpers/token';
 import { removeCartId } from '@helpers/cartId';
 import { useDispatch } from 'react-redux';
@@ -17,7 +16,7 @@ export default ({ t, token }) => {
             removeToken();
             removeCartId();
             dispatch(setCountCart(0));
-            Router.push('/customer/account/login');
+            window.location.href = '/customer/account/login';
         }).catch(() => {
             //
         });

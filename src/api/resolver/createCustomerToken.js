@@ -13,9 +13,17 @@ const query = `
     }
 `;
 
-async function createToken(parent, { email, password }, context) {
+const revokeToken = `
+    mutation {
+        revokeCustomerToken {
+            result
+        }
+    }
+`;
+
+async function generateCustomerToken(parent, { email, password }, context) {
     const res = await requestGraph(query, { email, password }, context);
-    context.session.destroy();
+    // context.session.destroy();
     if (res.generateCustomerToken) {
         context.session.token = encrypt(res.generateCustomerToken.token);
         return {
@@ -30,4 +38,18 @@ async function createToken(parent, { email, password }, context) {
     };
 }
 
-module.exports = createToken;
+async function revokeCustomerToken(parent, args, context) {
+    const res = await requestGraph(revokeToken, { }, context);
+    context.session.destroy();
+    context.session.token = '';
+    if (res.revokeCustomerToken) {
+        return {
+            result: true,
+        };
+    }
+    return {
+        result: false,
+    };
+}
+
+module.exports = { generateCustomerToken, revokeCustomerToken };
