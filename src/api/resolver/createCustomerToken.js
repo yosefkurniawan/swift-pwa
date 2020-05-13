@@ -13,9 +13,10 @@ const query = `
     }
 `;
 
-async function createToken(parent, { email, password }, context) {
+
+async function generateCustomerToken(parent, { email, password }, context) {
     const res = await requestGraph(query, { email, password }, context);
-    context.session.destroy();
+    // context.session.destroy();
     if (res.generateCustomerToken) {
         context.session.token = encrypt(res.generateCustomerToken.token);
         return {
@@ -30,4 +31,5 @@ async function createToken(parent, { email, password }, context) {
     };
 }
 
-module.exports = createToken;
+
+module.exports = generateCustomerToken;
