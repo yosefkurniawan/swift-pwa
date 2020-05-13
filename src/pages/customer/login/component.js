@@ -6,7 +6,6 @@ import Message from '@components/Toast';
 import { FormControlLabel, Switch } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import Router from 'next/router';
 import OtpBlock from '@components/OtpBlock';
 import Loading from '@components/Loaders/Backdrop';
 import { setToken } from '@helpers/token';
@@ -14,7 +13,7 @@ import { setCartId, getCartId } from '@helpers/cartId';
 import { GraphCart, GraphConfig } from '@services/graphql';
 import { expiredToken } from '@config';
 import { getToken } from './service/graphql';
-
+import { decrypt } from '../../../helpers/encryption';
 import useStyles from './style';
 
 const Login = ({ t, storeConfig, query }) => {
@@ -70,7 +69,8 @@ const Login = ({ t, storeConfig, query }) => {
             })
                 .then(async (res) => {
                     const { token } = res.data.generateCustomerToken;
-                    await setCusToken(token);
+                    setToken(token, expired);
+                    await setCusToken(decrypt(token));
                     getCart();
                     setLoading(false);
                 })
@@ -86,13 +86,12 @@ const Login = ({ t, storeConfig, query }) => {
     if (cartData.data) {
         const custCartId = cartData.data.customerCart.id;
         if (cartId === '' || !cartId) {
-            setToken(cusToken, expired);
             setCartId(custCartId, expired);
             handleOpenMessage({ variant: 'success', text: 'Login Success!' });
             if (query && query.redirect) {
-                Router.push(query.redirect);
+                window.location.href = query.redirect;
             } else {
-                Router.push('/customer/account');
+                window.location.href = '/customer/account';
             }
         } else if (!called) {
             mergeCart({
@@ -102,13 +101,12 @@ const Login = ({ t, storeConfig, query }) => {
                 },
             })
                 .then(() => {
-                    setToken(cusToken, expired);
                     setCartId(custCartId, expired);
                     handleOpenMessage({ variant: 'success', text: 'Login Success!' });
                     if (query && query.redirect) {
-                        Router.push(query.redirect);
+                        window.location.href = query.redirect;
                     } else {
-                        Router.push('/customer/account');
+                        window.location.href = '/customer/account';
                     }
                 })
                 .catch(() => {});

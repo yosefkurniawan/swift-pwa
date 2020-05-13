@@ -34,12 +34,12 @@ const SESSION_SECRET = 'asdklfjqo31';
         session({
             name: 'qid-swift',
             secret: SESSION_SECRET,
-            resave: true,
-            saveUninitialized: true,
+            resave: false,
+            saveUninitialized: false,
             cookie: {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+                maxAge: 1000 * 60 * 60 * 24 * 2, // 7 days
             },
         }),
     );

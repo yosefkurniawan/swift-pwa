@@ -1,5 +1,5 @@
 const { GraphQLClient } = require('graphql-request');
-const { decrypt } = require('../helper/encryption');
+const { decrypt } = require('../../helpers/encryption');
 
 function requestGraph(query, variables = {}, context = {}) {
     return new Promise((resolve) => {

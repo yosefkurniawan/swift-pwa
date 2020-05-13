@@ -65,6 +65,41 @@ const cartSchema = makeExecutableSchema({
       type Query {
         cart(cart_id: String!): Cart!
       }
+
+      input RemoveItemFromCartInput {
+        cart_id: String!
+        cart_item_id: Int!
+      }
+
+      type RemoveItemFromCartOutput {
+        cart: Cart!
+      }
+      
+
+      input CustomizableOptionInput {
+        id: Int!
+        value_string: String!
+      }
+
+      input  CartItemUpdateInput {
+        cart_item_id: Int!
+        customizable_options: CustomizableOptionInput!
+        quantity: Float!
+      }
+
+      input UpdateCartItemsInput {
+        cart_id: String!
+        cart_items: CartItemUpdateInput!
+      }
+
+      type UpdateCartItemsOutput {
+        cart: Cart!
+      }
+
+      type Mutation {
+        removeItemFromCart(input: RemoveItemFromCartInput): RemoveItemFromCartOutput
+        updateCartItems(input: UpdateCartItemsInput): UpdateCartItemsOutput
+      }
     `,
 });
 

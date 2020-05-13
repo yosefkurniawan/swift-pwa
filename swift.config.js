@@ -3,15 +3,15 @@
 /* --------------------------------------- */
 
 /* Base URL */
-export const BASE_URL = 'https://swiftpwa-be.testingnow.me/';
+const BASE_URL = 'https://swiftpwa-be.testingnow.me/';
 
 /* Magento GraphQL Endpoint */
-export const graphqlEndpoint = {
+const graphqlEndpoint = {
     dev: 'https://swiftpwa-be.testingnow.me/graphql',
     prod: 'https://swiftpwa-be.testingnow.me/graphql',
 };
 
-export const graphqlInternalEndpoint = {
+const graphqlInternalEndpoint = {
     dev: 'http://localhost:3000/graphql',
     prod: 'https://swiftpwa.testingnow.me//graphql',
 };
@@ -22,7 +22,7 @@ export const graphqlInternalEndpoint = {
 /* --------------------------------------- */
 
 /* Social Sharing */
-export const shareIcon = {
+const shareIcon = {
     facebook: true,
     twitter: true,
     line: true,
@@ -32,13 +32,13 @@ export const shareIcon = {
     linkedin: false,
 };
 
-export const passwordStrength = {
+const passwordStrength = {
     minValue: 8,
     maxValue: 20,
     numberOfRequiredClass: 3, // Lowercase + Uppercse + Dgits + spesial caracter = 4
 };
 
-export const languagesLabel = {
+const languagesLabel = {
     id: 'Bahasa Indonesia',
     en: 'English',
 };
@@ -47,21 +47,41 @@ export const languagesLabel = {
 /* LOCAD DATA CACHE & COKIES
 /* --------------------------------------- */
 
-export const expiredCokies = 6;
-export const storeConfigNameCokie = 'storeConfig';
-export const nameCartId = 'nci';
+const expiredCokies = 6;
+const storeConfigNameCokie = 'storeConfig';
+const nameCartId = 'nci';
 
-export const keyEncrypt = 'I wrote code anything searching bug and coffe';
-export const algorithm = 'aes-256-cbc';
+const keyEncrypt = 'I wrote code anything searching bug and coffe';
+const algorithm = 'aes-256-cbc';
 
-export const nameToken = 'sk';
-export const expiredToken = new Date(Date.now() + 1000 * 60 * 60);
-export const expiredDefault = 365;
+const nameToken = 'sk';
+const expiredToken = new Date(Date.now() + 1000 * 60 * 60);
+const expiredDefault = 365;
 
 /* List Of CMS Pages: [url-1, url-2, ..., url-n] */
-export const cmsPages = ['about-us'];
+const cmsPages = ['about-us'];
 
-export const loaderImage = '/assets/img/sample/spinner.svg';
+const loaderImage = '/assets/img/sample/spinner.svg';
 
 /* identifiers for cmsBlocks in contact page */
-export const cmsContactIdentifiers = 'weltpixel_contact_page';
+const cmsContactIdentifiers = 'weltpixel_contact_page';
+
+module.exports = {
+    BASE_URL,
+    graphqlEndpoint,
+    graphqlInternalEndpoint,
+    shareIcon,
+    passwordStrength,
+    languagesLabel,
+    expiredCokies,
+    storeConfigNameCokie,
+    nameCartId,
+    keyEncrypt,
+    algorithm,
+    nameToken,
+    expiredToken,
+    expiredDefault,
+    cmsPages,
+    loaderImage,
+    cmsContactIdentifiers,
+};

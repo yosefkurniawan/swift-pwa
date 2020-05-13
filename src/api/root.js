@@ -1,5 +1,5 @@
-const createCustomerToken = require('./resolver/createCustomerToken');
+const generateCustomerToken = require('./resolver/createCustomerToken');
 
 module.exports = {
-    createCustomerToken,
+    generateCustomerToken,
 };

@@ -8,8 +8,5 @@ export const getCartData = (token, cartId) => useQuery(Schema.getCart,
         fetchPolicy: 'cache-and-network',
         context: {
             request: 'internal',
-            headers: token && token !== '' ? {
-                Authorization: `Bearer ${token}`,
-            } : {},
         },
     });

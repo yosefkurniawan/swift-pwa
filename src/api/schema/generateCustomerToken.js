@@ -15,11 +15,11 @@ const cartSchema = makeExecutableSchema({
       }
       
       type Query {
-        generateCustomerToken: Token
+        getCustomerToken: Token
       }
       
       type Mutation {
-        createCustomerToken(email: String, password: String): Token
+        generateCustomerToken(email: String, password: String): Token
       }
     `,
 });
