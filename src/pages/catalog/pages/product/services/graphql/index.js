@@ -10,19 +10,15 @@ export const getConfigurableProduct = (sku) => useQuery(Schema.getConfigurablePr
 export const getReviews = (params) => useQuery(reviewSchema.getReview(params));
 export const addReview = () => useMutation(reviewSchema.addReview);
 
-export const addSimpleProductsToCart = (token) => useMutation(cartSchema.addSimpleProductsToCart, {
+export const addSimpleProductsToCart = () => useMutation(cartSchema.addSimpleProductsToCart, {
     context: {
-        headers: token && token !== '' ? {
-            Authorization: `Bearer ${token}`,
-        } : {},
+        request: 'internal',
     },
 });
 
-export const addConfigProductsToCart = (token) => useMutation(cartSchema.addConfigProductsToCart, {
+export const addConfigProductsToCart = () => useMutation(cartSchema.addConfigProductsToCart, {
     context: {
-        headers: token && token !== '' ? {
-            Authorization: `Bearer ${token}`,
-        } : {},
+        request: 'internal',
     },
 });
 

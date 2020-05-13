@@ -2,6 +2,7 @@ import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
 import cookies from 'next-cookies';
 import redirect from 'next-redirect';
+import Head from 'next/head';
 import Content from './components';
 
 const Page = (props) => {
@@ -14,6 +15,11 @@ const Page = (props) => {
     };
     return (
         <Layout pageConfig={pageConfig}>
+            <Head>
+                <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-KyvADD67-pyuS-I6" />
+                <title>My page title</title>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+            </Head>
             <Content {...props} />
         </Layout>
     );
@@ -24,7 +30,7 @@ Page.getInitialProps = async (ctx) => {
     const cartId = cookies(ctx).nci || null;
 
     if (!token && !cartId) {
-        redirect(ctx, '/cart');
+        redirect(ctx, '/checkout/cart');
     }
 
     return {

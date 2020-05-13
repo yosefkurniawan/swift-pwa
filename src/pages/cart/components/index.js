@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable no-plusplus */
 import { useState } from 'react';
 import { Box } from '@material-ui/core';
@@ -63,6 +64,12 @@ const Cart = (props) => {
     const [actDeleteItem, resultDelete] = useMutation(Schema.deleteCartitem);
     const [actUpdateItem, resultUpdate] = useMutation(Schema.updateCartitem);
     if (resultDelete.data && backdrop) {
+        toggleEditMode();
+        setBackdrop(false);
+    }
+
+    if (resultUpdate.data && backdrop) {
+        toggleEditMode();
         setBackdrop(false);
     }
 
@@ -72,12 +79,10 @@ const Cart = (props) => {
         actDeleteItem({
             variables: {
                 cartId,
-                cart_item_id: itemId,
+                cart_item_id: parseInt(itemId),
             },
             context: {
-                headers: token && token !== '' ? {
-                    Authorization: `Bearer ${token}`,
-                } : {},
+                request: 'internal',
             },
             refetchQueries: [
                 {
@@ -85,14 +90,11 @@ const Cart = (props) => {
                     variables: { cartId },
                     fetchPolicy: 'cache-and-network',
                     context: {
-                        headers: token && token !== '' ? {
-                            Authorization: `Bearer ${token}`,
-                        } : {},
+                        request: 'internal',
                     },
                 },
             ],
         });
-        setEditMode(false);
     };
 
     // update items
@@ -101,39 +103,35 @@ const Cart = (props) => {
         actUpdateItem({
             variables: {
                 cartId,
-                cart_item_id: itemData.cart_item_id,
+                cart_item_id: parseInt(itemData.cart_item_id),
                 quantity: itemData.quantity,
             },
             context: {
-                headers: token && token !== '' ? {
-                    Authorization: `Bearer ${token}`,
-                } : {},
+                request: 'internal',
             },
             refetchQueries: [
                 {
                     query: Schema.getCart,
                     variables: { cartId },
                     context: {
-                        headers: token && token !== '' ? {
-                            Authorization: `Bearer ${token}`,
-                        } : {},
+                        request: 'internal',
                     },
                     fetchPolicy: 'cache-and-network',
                 },
             ],
         });
     };
-    if (resultUpdate.data && backdrop) {
-        toggleEditMode();
-        setBackdrop(false);
-    }
 
     if (typeof window !== 'undefined') {
         cartId = getCartId();
-        const { loading, data } = getCartData(token, cartId);
-        loadingCart = loading;
-        if (!loading && data && data.cart) {
-            dataCart = data.cart;
+        if (cartId) {
+            const { loading, data } = getCartData(token, cartId);
+            loadingCart = loading;
+            if (!loading && data && data.cart) {
+                dataCart = data.cart;
+            }
+        } else {
+            loadingCart = false;
         }
     }
 

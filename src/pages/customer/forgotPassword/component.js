@@ -10,7 +10,6 @@ import { regexPhone } from '@helpers/regex';
 import * as Yup from 'yup';
 import Router from 'next/router';
 import { FormControlLabel, Switch } from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert';
 import { requestLinkToken } from './services/graphql';
 import useStyles from './style';
 
@@ -55,7 +54,7 @@ const ForgotPassword = ({ t }) => {
                             text: t('customer:forgotPassword:success'),
                         });
                         setInterval(() => {
-                            Router.push(`/customer/account/newPassword?token=${token}`);
+                            Router.push(`/customer/account/newpassword?token=${token}`);
                         }, 3000);
                     } else {
                         setToast({
@@ -76,6 +75,11 @@ const ForgotPassword = ({ t }) => {
         },
     });
 
+    const handleSwitch = () => {
+        setToast({ ...toast, open: false });
+        setUseEmail(!useEmail);
+    };
+
     if (loading || !data) return <Loading open />;
 
     return (
@@ -83,14 +87,21 @@ const ForgotPassword = ({ t }) => {
             <Loading open={load} />
             {data && data.otpConfig.otp_enable[0].enable_otp_forgot_password && (
                 <FormControlLabel
-                    control={<Switch checked={useEmail} onChange={() => setUseEmail(!useEmail)} name="useOtp" color="primary" />}
+                    control={<Switch checked={useEmail} onChange={handleSwitch} name="useOtp" color="primary" />}
                     className={styles.switch}
                     label={t('customer:forgotPassword:useEmail')}
                 />
             )}
             {
                 useEmail ? toast.open && (
-                    <Alert className="m-15" severity={toast.variant}>{toast.text}</Alert>
+                    <Toast
+                        autoHideDuration={null}
+                        open={toast.open}
+                        setOpen={() => setToast({ ...toast, open: false })}
+                        message={toast.text}
+                        variant={toast.variant}
+
+                    />
                 )
                     : (
                         <Toast open={toast.open} setOpen={() => setToast({ ...toast, open: false })} message={toast.text} variant={toast.variant} />

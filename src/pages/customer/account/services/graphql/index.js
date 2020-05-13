@@ -4,9 +4,7 @@ import * as Schema from './schema';
 
 export const removeToken = (token) => useMutation(Schema.removeToken, {
     context: {
-        headers: token && token !== '' ? {
-            Authorization: `Bearer ${token}`,
-        } : {},
+        request: 'internal',
     },
     skip: !token || token === '',
 });

@@ -15,7 +15,7 @@ const Item = ({
     return (
         <div className={styles.itemContainer}>
             <Link href="/[...slug]" as={`/${url_key}`}>
-                <div className={styles.imgItem}>
+                <div className={styles.imgItemContainer}>
                     <img
                         src={small_image.url}
                         alt={name}

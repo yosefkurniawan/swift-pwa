@@ -25,7 +25,7 @@ import classNames from 'classnames';
 import { useFormik } from 'formik';
 import _ from 'lodash';
 import Routes from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import gqlService from '../services/graphql';
@@ -149,6 +149,9 @@ const Checkout = (props) => {
     const [setBillingAddressById] = gqlService.setBillingAddressById();
     const [setBillingAddressByInput] = gqlService.setBillingAddressByInput();
     const [setPaymentMethod] = gqlService.setPaymentMethod({
+        onError: (errors) => {},
+    });
+    const [getSnapToken, { data: dataSnap, error: errorSnap }] = gqlService.getSnapToken({
         onError: (errors) => {},
     });
     const [placeOrder] = gqlService.placeOrder({
@@ -314,7 +317,7 @@ const Checkout = (props) => {
         const state = { ...checkout };
 
         if (cart.items.length === 0) {
-            window.location = 'checkout/cart';
+            window.location = '/checkout/cart';
         }
 
         const { customer } = getCustomer.data;
@@ -461,7 +464,7 @@ const Checkout = (props) => {
         }
 
         if (errorCart) {
-            window.location = '/cart';
+            window.location = '/checkout/cart';
         }
 
         if (dataCart) {
@@ -598,11 +601,40 @@ const Checkout = (props) => {
 
     };
 
+    const snapProcess = () => {
+        const snapToken = dataSnap.getSnapTokenByOrderId.snap_token;
+        snap.pay(snapToken, {
+            onSuccess(result) {
+                console.log('success');
+                console.log(result);
+                window.location = '/thanks';
+            },
+            onPending(result) {
+                console.log('pending');
+                console.log(result);
+                window.location = '/thanks';
+            },
+            onError(result) {
+                console.log('error');
+                console.log(result);
+                window.location = '/checkout/cart';
+            },
+            onClose() {
+                console.log('customer closed the popup without finishing the payment');
+                window.location = '/checkout/cart';
+            },
+        });
+    };
+
+    if (dataSnap) {
+        snapProcess();
+    }
+
     const handlePlaceOrder = async () => {
         const { cart, isGuest } = checkout.data;
         let state = { ...checkout };
         let formValidation = {};
-        let data;
+        let result;
 
         await formik.submitForm();
         formValidation = await formik.validateForm();
@@ -615,20 +647,26 @@ const Checkout = (props) => {
                 const setEmailAddress = await setGuestEmailAddressOnCart({ variables: { cartId: cart.id, email: formik.values.email } });
             }
 
-            data = await placeOrder({ variables: { cartId: cart.id } });
+            result = await placeOrder({ variables: { cartId: cart.id } });
 
             state = { ...checkout };
             state.loading.order = false;
             setCheckout(state);
 
-            if (data) {
+            if (result) {
                 dispatch(setCountCart(0));
                 await removeCartId();
-                handleOpenMessage({
-                    variant: 'success',
-                    text: t('checkout:message:placeOrder'),
-                });
-                Routes.push('/thanks');
+
+                if (checkout.selected.payment.match(/snap.*/)) {
+                    const orderId = result.data.placeOrder.order.order_number;
+                    await getSnapToken({ variables: { orderId } });
+                } else {
+                    handleOpenMessage({
+                        variant: 'success',
+                        text: t('checkout:message:placeOrder'),
+                    });
+                    Routes.push('/thanks');
+                }
             } else {
                 handleOpenMessage({
                     variant: 'error',

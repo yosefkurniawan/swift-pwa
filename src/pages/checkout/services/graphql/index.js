@@ -2,10 +2,13 @@ import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
 import helper from '@helpers/token';
 import * as Schema from './schema';
 
-const config = () => {
+const USING_TOKEN = true;
+const NOT_USING_TOKEN = false;
+
+const config = (isUsingToken) => {
     const token = helper.getToken();
 
-    const context = token
+    const context = token && isUsingToken
         ? {
             headers: {
                 authorization: `Bearer ${helper.getToken()}`,
@@ -21,66 +24,71 @@ const config = () => {
 
 export const getCustomer = (options = {}) => useQuery(Schema.getCustomer, {
     ...options,
-    ...config(),
+    ...config(USING_TOKEN),
     fetchPolicy: 'no-cache',
     errorPolicy: 'all',
 });
 
 export const getCart = (options = {}) => useLazyQuery(Schema.getCart, {
     ...options,
-    ...config(),
+    ...config(USING_TOKEN),
     fetchPolicy: 'no-cache',
     errorPolicy: 'all',
 });
 
 export const setShippingAddress = (options = {}) => useMutation(Schema.setShippingAddressById, {
     ...options,
-    ...config(),
+    ...config(USING_TOKEN),
 });
 
 export const setShippingMethod = (options = {}) => useMutation(Schema.setShippingMethod, {
     ...options,
-    ...config(),
+    ...config(USING_TOKEN),
 });
 
 export const setBillingAddressById = (options = {}) => useMutation(Schema.setBillingAddressById, {
     ...options,
-    ...config(),
+    ...config(USING_TOKEN),
 });
 
 export const setBillingAddressByInput = (options = {}) => useMutation(Schema.setBillingAddressByInput, {
     ...options,
-    ...config(),
+    ...config(USING_TOKEN),
 });
 
 export const setShippingAddressByInput = (options = {}) => useMutation(Schema.setShippingAddressByInput, {
     ...options,
-    ...config(),
+    ...config(USING_TOKEN),
 });
 
 export const placeOrder = (options = {}) => useMutation(Schema.placeOrder, {
     ...options,
-    ...config(),
+    ...config(USING_TOKEN),
 });
 
 export const setPaymentMethod = (options = {}) => useMutation(Schema.setPaymentMethod, {
     ...options,
-    ...config(),
+    ...config(USING_TOKEN),
 });
 
 export const setGuestEmailAddressOnCart = (options = {}) => useMutation(Schema.setGuestEmailAddressOnCart, {
     ...options,
-    ...config(),
+    ...config(USING_TOKEN),
 });
 
 export const applyCouponToCart = (options = {}) => useMutation(Schema.applyCouponToCart, {
     ...options,
-    ...config(),
+    ...config(USING_TOKEN),
 });
 
 export const removeCouponFromCart = (options = {}) => useMutation(Schema.removeCouponFromCart, {
     ...options,
-    ...config(),
+    ...config(USING_TOKEN),
+});
+
+export const getSnapToken = (options = {}) => useLazyQuery(Schema.getSnapToken, {
+    ...options,
+    ...config(NOT_USING_TOKEN),
 });
 
 export default {
@@ -96,4 +104,5 @@ export default {
     setGuestEmailAddressOnCart,
     applyCouponToCart,
     removeCouponFromCart,
+    getSnapToken,
 };
