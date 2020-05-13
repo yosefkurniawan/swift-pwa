@@ -32,6 +32,7 @@ const ShoppingBagIcon = ({ bottomNav = false }) => {
             headers: { Authorization: `Bearer ${token}` },
         },
         skip: token === '' || !token,
+        fetchPolicy: 'no-cache',
     });
 
     if (token !== '' && (cartId === '' || !cartId || cartId === undefined)) {
