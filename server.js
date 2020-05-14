@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 
 const { ApolloServer, gql } = require('apollo-server-express');
-const session = require('express-session');
+const cookieSession = require('cookie-session')
 const express = require('express');
 const next = require('next');
 const fs = require('fs');
@@ -21,6 +21,7 @@ const certificate = '/etc/letsencrypt/live/swiftpwa.testingnow.me/cert.pem';
 
 const schema = require('./src/api');
 const root = require('./src/api/root');
+const { expiredToken } = require('./swift.config');
 
 const SESSION_SECRET = 'asdklfjqo31';
 
@@ -30,19 +31,11 @@ const SESSION_SECRET = 'asdklfjqo31';
 
     await nextI18next.initPromise;
     server.use(nextI18NextMiddleware(nextI18next));
-    server.use(
-        session({
-            name: 'qid-swift',
-            secret: SESSION_SECRET,
-            resave: false,
-            saveUninitialized: false,
-            cookie: {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                maxAge: 1000 * 60 * 60 * 24 * 2, // 7 days
-            },
-        }),
-    );
+    server.use(cookieSession({
+        name: 'qwt-swift',
+        keys: [SESSION_SECRET],
+        maxAge: expiredToken,
+    }));
 
     // handle server graphql endpoint use `/graphql`
     const serverGraph = new ApolloServer({
