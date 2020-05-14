@@ -15,7 +15,6 @@ export default makeStyles(() => ({
     },
     bottomButtons: {
         textAlign: 'center',
-        ...CreatePadding(20, 0, 0, 0),
     },
     skeletonContainer: {
         padding: '16px',

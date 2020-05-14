@@ -22,7 +22,6 @@ const ProfileForm = ({ t, data }) => {
 
     const [updateCustomer, updateCustomerStatus] = gqlServices.updateCustomer();
     const [changeCustomerPassword, changeCustomerPasswordStatus] = gqlServices.changeCustomerPassword();
-    const [edit, setEdit] = React.useState(false);
     const [editEmail, setEditEmail] = React.useState(false);
     const [editPass, setEditPass] = React.useState(false);
     const [toast, setToast] = React.useState({
@@ -109,7 +108,6 @@ const ProfileForm = ({ t, data }) => {
                     setFieldValue('password', '', false);
                     setFieldValue('confirmPassword', '', false);
                 }
-                setEdit(false);
                 setEditEmail(false);
                 setEditPass(false);
                 setSubmitting(false);
@@ -137,7 +135,6 @@ const ProfileForm = ({ t, data }) => {
                     (formik.touched.firstName && formik.errors.firstName)
                     || null
                 }
-                disabled={!edit}
             />
             <TextField
                 label="Last Name"
@@ -150,7 +147,6 @@ const ProfileForm = ({ t, data }) => {
                 errorMessage={
                     (formik.touched.lastName && formik.errors.lastName) || null
                 }
-                disabled={!edit}
             />
 
             {/* <TextField
@@ -170,7 +166,6 @@ const ProfileForm = ({ t, data }) => {
             <FormControlLabel
                 className={styles.checkboxLabel}
                 onChange={() => setEditEmail(!editEmail)}
-                disabled={!edit}
                 control={(
                     <Checkbox
                         checked={editEmail}
@@ -191,7 +186,6 @@ const ProfileForm = ({ t, data }) => {
             <FormControlLabel
                 className={styles.checkboxLabel}
                 onChange={() => setEditPass(!editPass)}
-                disabled={!edit}
                 control={(
                     <Checkbox
                         checked={editPass}
@@ -209,7 +203,7 @@ const ProfileForm = ({ t, data }) => {
                 )}
             />
 
-            <div className={[styles.editContainer, edit ? 'show' : 'hide']}>
+            <div className={styles.editContainer}>
                 <div className={editEmail ? 'show' : 'hide'}>
                     <TextField
                         label="Email"
@@ -281,18 +275,7 @@ const ProfileForm = ({ t, data }) => {
 
             <div className={styles.bottomButtons}>
                 <Button
-                    variant="outlined"
                     fullWidth
-                    className={edit ? 'hide' : 'show'}
-                    onClick={() => setEdit(!edit)}
-                >
-                    {t('common:button:change')}
-                    {' '}
-                    Data
-                </Button>
-                <Button
-                    fullWidth
-                    className={edit ? 'show' : 'hide'}
                     type="submit"
                     endIcon={
                         updateCustomerStatus.loading || changeCustomerPasswordStatus.loading
