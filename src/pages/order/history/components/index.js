@@ -6,7 +6,7 @@ import { getOrder } from '../../services/graphql';
 import * as Schema from '../../services/graphql/schema';
 import Loader from './Loader';
 
-const OrderPage = ({ token, t }) => {
+const OrderPage = ({ t }) => {
     const styles = useStyles();
     const [params] = React.useState({
         pageSize: 5,
@@ -15,33 +15,30 @@ const OrderPage = ({ token, t }) => {
     const [loadMore, setLoadMore] = React.useState(false);
     const {
         loading, data, error, fetchMore,
-    } = getOrder(token, params);
-    if (loading || !data || error) return <Loader />;
+    } = getOrder(params);
+    if (loading || !data) return <Loader />;
+    if (error) console.log(error);
     const handleLoadMore = () => {
         setLoadMore(true);
         return fetchMore({
-            query: Schema.getOrder({
-                ...params,
-                currentPage:
-                    params.currentPage + 1,
-            }),
+            query: Schema.getOrder(),
             context: {
-                headers: { Authorization: `Bearer ${token}` },
+                request: 'internal',
             },
-            updateQuery: (
-                previousResult,
-                { fetchMoreResult },
-            ) => {
+
+            fetchPolicy: 'cache-and-network',
+            variables: {
+                currentPage: params.currentPage + 1,
+                pageSize: params.pageSize,
+            },
+            updateQuery: (previousResult, { fetchMoreResult }) => {
                 setLoadMore(false);
                 const prevItems = previousResult.customerOrders;
                 const newItems = fetchMoreResult.customerOrders;
                 return {
                     customerOrders: {
                         ...prevItems,
-                        items: [
-                            ...prevItems.items,
-                            ...newItems.items,
-                        ],
+                        items: [...prevItems.items, ...newItems.items],
                     },
                 };
             },
@@ -49,7 +46,7 @@ const OrderPage = ({ token, t }) => {
     };
     return (
         <div className={styles.container}>
-            {data && data.customerOrders.items.map((item, index) => <Item key={index} {...item} />)}
+            {data && data.customerOrders.items.length > 0 && data.customerOrders.items.map((item, index) => <Item key={index} {...item} />)}
             {data && data.customerOrders.total_count > data.customerOrders.items.length && (
                 <Button variant="text" onClick={handleLoadMore} disabled={loading || loadMore} fullWidth>
                     <Typography variant="span" type="regular" letter="capitalize">
