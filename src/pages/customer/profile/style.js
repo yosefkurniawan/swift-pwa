@@ -10,4 +10,20 @@ export default makeStyles(() => ({
         ...FlexColumn,
         ...CreatePadding(0, 0, 30, 0),
     },
+    checkboxLabel: {
+        marginBottom: '12px',
+    },
+    bottomButtons: {
+        textAlign: 'center',
+    },
+    skeletonContainer: {
+        padding: '16px',
+        width: '100%',
+    },
+    skeletonField: {
+        marginBottom: '24px',
+    },
+    skeleton: {
+        margin: '6px',
+    },
 }));
