@@ -1,8 +1,10 @@
+/* eslint-disable no-nested-ternary */
 const { GraphQLClient } = require('graphql-request');
 const { decrypt } = require('../../helpers/encryption');
 
 function requestGraph(query, variables = {}, context = {}) {
-    const token = context.session.token ? `Bearer ${decrypt(context.session.token)}` : '';
+    const token = context.session.token ? `Bearer ${decrypt(context.session.token)}`
+        : context.headers.authorization ? context.headers.authorization : '';
     return new Promise((resolve) => {
         const headers = {
             Authorization: token,
