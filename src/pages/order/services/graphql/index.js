@@ -1,13 +1,12 @@
 import { useQuery } from '@apollo/react-hooks';
 import * as Schema from './schema';
 
-export const getOrder = (token, params) => useQuery(Schema.getOrder(params), {
+export const getOrder = (params) => useQuery(Schema.getOrder(), {
     context: {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
+        request: 'internal',
     },
-    skip: token === '' || !token,
+    variables: params,
+    fetchPolicy: 'cache-and-network',
 });
 
 export default {
