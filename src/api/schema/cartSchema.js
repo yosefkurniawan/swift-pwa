@@ -9,10 +9,6 @@ const cart = require('./cart');
 const cartSchema = makeExecutableSchema({
     typeDefs: gql`
       ${cart}
-      type Query {
-        cart(cartId: String!): Cart!
-      }
-
       input RemoveItemFromCartInput {
         cart_id: String!
         cart_item_id: Int!
@@ -46,6 +42,7 @@ const cartSchema = makeExecutableSchema({
       type Mutation {
         removeItemFromCart(input: RemoveItemFromCartInput): RemoveItemFromCartOutput
         updateCartItems(input: UpdateCartItemsInput): UpdateCartItemsOutput
+        mergeCarts(source_cart_id: String!, destination_cart_id: String) : Cart!
       }
     `,
 });
