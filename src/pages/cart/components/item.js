@@ -52,8 +52,8 @@ const Item = ({
                     <a className={styles.itemName}>{product.name}</a>
                 </Link>
                 <div className={styles.itemVariant}>
-                    <div>{t('common:variant')}</div>
-                    {configurable_options.map((item, idx) => (
+                    {configurable_options ? <div>{t('common:variant')}</div> : null}
+                    { configurable_options ? configurable_options.map((item, idx) => (
                         <div key={idx}>
                             {item.option_label}
                             {' '}
@@ -61,7 +61,7 @@ const Item = ({
                             {' '}
                             {item.value_label}
                         </div>
-                    ))}
+                    )) : null}
 
                     <div>
                         Qty :

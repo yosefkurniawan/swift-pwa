@@ -26,97 +26,95 @@ export const getCart = gql`
             items {
               id
               quantity
-                prices {
-                  discounts {
-                    amount {
+              configurable_options {
+                option_label
+                value_label
+              }
+              prices {
+                discounts {
+                  amount {
+                    currency
+                    value
+                  }
+                }
+                price {
+                  value
+                  currency
+                }
+                row_total {
+                  currency
+                  value
+                }
+                total_item_discount {
+                  currency
+                  value
+                }
+            }
+            product {
+                id
+                name
+                small_image {
+                  url
+                  label
+                }
+                url_key
+                sku
+                stock_status
+                crosssell_products {
+                  id
+                  name
+                  url_key
+                  thumbnail {
+                    url
+                  }
+                  small_image {
+                    url,
+                    label
+                  }
+                  price_tiers {
+                    discount {
+                      percent_off
+                      amount_off
+                    }
+                    final_price {
                       currency
                       value
                     }
+                    quantity
                   }
-                  price {
-                    value
-                    currency
-                  }
-                  row_total {
-                    currency
-                    value
-                  }
-                  total_item_discount {
-                    currency
-                    value
-                  }
-              }
-              ... on  ConfigurableCartItem {
-                configurable_options {
-                  option_label
-                  value_label
-                }
-              }
-              product {
-                  id
-                  name
-                  small_image {
-                    url
-                    label
-                  }
-                  url_key
-                  sku
-                  stock_status
-                  crosssell_products {
-                    id
-                    name
-                    url_key
-                    thumbnail {
-                      url
-                    }
-                    small_image {
-                      url,
-                      label
-                    }
-                    price_tiers {
+                  price_range {
+                    maximum_price {
                       discount {
-                        percent_off
                         amount_off
+                        percent_off
                       }
                       final_price {
                         currency
                         value
                       }
-                      quantity
-                    }
-                    price_range {
-                      maximum_price {
-                        discount {
-                          amount_off
-                          percent_off
-                        }
-                        final_price {
-                          currency
-                          value
-                        }
-                        regular_price {
-                          currency
-                          value
-                        }
+                      regular_price {
+                        currency
+                        value
                       }
-                      minimum_price {
-                        discount {
-                          amount_off
-                          percent_off
-                        }
-                        final_price {
-                          currency
-                          value
-                        }
-                        regular_price {
-                          currency
-                          value
-                        }
+                    }
+                    minimum_price {
+                      discount {
+                        amount_off
+                        percent_off
+                      }
+                      final_price {
+                        currency
+                        value
+                      }
+                      regular_price {
+                        currency
+                        value
                       }
                     }
                   }
                 }
-            }
+              }
+          }
         }
     }
 `;
