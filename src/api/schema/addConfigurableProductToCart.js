@@ -5,6 +5,7 @@ const cart = require('./cart');
 
 const addConfigProductToCartSchema = makeExecutableSchema({
     typeDefs: gql`
+        ${cart}
         input CustomizableOptionInput {
             id: Int!,
             value_string: String!
@@ -26,13 +27,8 @@ const addConfigProductToCartSchema = makeExecutableSchema({
             cart_items: ConfigurableProductCartItemInput
         }
 
-        ${cart}
         type AddConfigurableProductsToCartOutput {
             cart: Cart!
-        }
-        
-        type Query {
-            getCart: Cart
         }
 
         type Mutation {

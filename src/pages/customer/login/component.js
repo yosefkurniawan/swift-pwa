@@ -103,11 +103,11 @@ const Login = ({ t, storeConfig, query }) => {
                 .then(() => {
                     setCartId(custCartId, expired);
                     handleOpenMessage({ variant: 'success', text: 'Login Success!' });
-                    if (query && query.redirect) {
-                        window.location.href = query.redirect;
-                    } else {
-                        window.location.href = '/customer/account';
-                    }
+                    // if (query && query.redirect) {
+                    //     window.location.href = query.redirect;
+                    // } else {
+                    //     window.location.href = '/customer/account';
+                    // }
                 })
                 .catch(() => {});
         }
