@@ -9,8 +9,8 @@ export const addWishlist = gql`
 `;
 
 export const removeWishlist = gql`
-    mutation removeWishlist($wishlistId: Int!) {
-        removeItemWishlist(wishlistItemId: $wishlistId) {
+    mutation removeWishlist($wishlistItemId: Int!) {
+        removeItemWishlist(wishlistItemId: $wishlistItemId) {
             info
         }
     }

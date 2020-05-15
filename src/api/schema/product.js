@@ -50,6 +50,7 @@ const schema = `
         thumbnail: ProductImage
         attribute_set_id: Int
         image: ProductImage
+        typename: String
     }
 
     type Product {

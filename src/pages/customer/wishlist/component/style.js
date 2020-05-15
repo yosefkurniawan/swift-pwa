@@ -1,11 +1,19 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { GRAY_PRIMARY, PRIMARY } from '@theme/colors';
-import { CreatePadding } from '@theme/mixins';
+import {
+    CreatePadding, FlexRow, CenterAbsolute, FlexColumn,
+} from '@theme/mixins';
 
 const useStyles = makeStyles(() => ({
     root: {
         width: '100%',
         height: '100%',
+        ...FlexColumn,
+        position: 'relative',
+    },
+    content: {
+        ...FlexColumn,
+        ...CreatePadding(0, 0, 70, 0),
     },
     colorPrimary: {
         color: PRIMARY,
@@ -29,11 +37,16 @@ const useStyles = makeStyles(() => ({
         // paddingTop: "50px"
     },
     footer: {
-        position: 'absolute',
-        bottom: 15,
+        ...FlexRow,
         width: '100%',
-        ...CreatePadding(0, 15, 0, 15),
-        textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'space-arround',
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        ...CenterAbsolute,
+        background: 'rgba(255,255,255,0.7)',
+        ...CreatePadding(20, 20, 20, 20),
     },
 }));
 

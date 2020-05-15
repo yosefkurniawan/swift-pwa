@@ -2,13 +2,10 @@ import { useMutation } from '@apollo/react-hooks';
 import * as Schema from './schema';
 
 
-export const addSimpleProductsToCart = (token) => useMutation(Schema.addSimpleProductsToCart, {
+export const addSimpleProductsToCart = () => useMutation(Schema.addSimpleProductsToCart, {
     context: {
-        headers: token && token !== '' ? {
-            Authorization: `Bearer ${token}`,
-        } : {},
+        request: 'internal',
     },
-    skip: !token || token === '',
 });
 
 

@@ -142,7 +142,7 @@ const Cart = (props) => {
             setBackdrop(true);
             addWishlist({
                 variables: {
-                    productId: id,
+                    productId: parseInt(id),
                 },
             }).then(async () => {
                 deleteItem(itemId);
