@@ -12,7 +12,7 @@ mutation {
 
 async function revokeCustomerToken(parent, args, context) {
     const res = await requestGraph(query, { }, context);
-    context.session = null;
+    context.session.token = null;
     if (res.revokeCustomerToken) {
         return {
             result: true,

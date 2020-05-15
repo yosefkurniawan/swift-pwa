@@ -2,7 +2,7 @@ const { makeExecutableSchema, addMockFunctionsToSchema } = require('graphql-tool
 
 const { gql } = require('apollo-server-express');
 const product = require('./product');
-const country = require('./reppository/countryCodeEnum');
+const country = require('./types/countryCodeEnum');
 
 const customerSchema = makeExecutableSchema({
     typeDefs: gql`

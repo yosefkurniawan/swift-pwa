@@ -5,6 +5,9 @@ import { RetryLink } from 'apollo-link-retry';
 import fetch from 'isomorphic-unfetch';
 import { graphqlEndpoint, graphqlInternalEndpoint } from '@root/swift.config.js';
 import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
+import { onError } from 'apollo-link-error';
+import { removeCartId } from '@helpers/cartId';
+import { removeToken } from '@helpers/token';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData: {
@@ -21,6 +24,15 @@ const uri = process.env.NODE_ENV === 'production'
 const uriInternal = process.env.NODE_ENV === 'production'
     ? graphqlInternalEndpoint.prod
     : graphqlInternalEndpoint.dev;
+
+// handle if token expired
+const logoutLink = onError(({ graphQLErrors }) => {
+    if (graphQLErrors && graphQLErrors[0] && graphQLErrors[0].status === 401 && typeof window !== 'undefined') {
+        removeCartId();
+        removeToken();
+        window.location.href = '/customer/account/login';
+    }
+});
 
 const link = new RetryLink().split(
     (operation) => operation.getContext().request === 'internal',
@@ -41,7 +53,7 @@ export default function createApolloClient(initialState, ctx) {
     // use it to extract auth headers (ctx.req) or similar.
     return new ApolloClient({
         ssrMode: Boolean(ctx),
-        link,
+        link: logoutLink.concat(link),
         cache: new InMemoryCache({ fragmentMatcher }).restore(initialState),
         connectToDevTools: true,
     });

@@ -67,9 +67,8 @@ class MyApp extends App {
         } else {
             storeConfig = allcookie[storeConfigNameCokie];
         }
-
         // add get session from server
-        return { pageProps: { ...pageProps, storeConfig, token }, isLogin: req && typeof req.session.token !== 'undefined' };
+        return { pageProps: { ...pageProps, storeConfig, token }, isLogin: req && req.session && req.session.token };
     }
 
     render() {

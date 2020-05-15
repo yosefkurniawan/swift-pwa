@@ -15,10 +15,12 @@ import { expiredToken } from '@config';
 import { getToken } from './service/graphql';
 import { decrypt } from '../../../helpers/encryption';
 import useStyles from './style';
+import { removeToken as deleteToken } from '../account/services/graphql';
 
 const Login = ({ t, storeConfig, query }) => {
     const styles = useStyles();
     const [isOtp, setIsOtp] = React.useState(false);
+    const [isRevokeToken, setRevokeToken] = React.useState(false);
     const [message, setMessage] = React.useState({
         open: false,
         text: '',
@@ -44,11 +46,20 @@ const Login = ({ t, storeConfig, query }) => {
     if (typeof window !== 'undefined') {
         cartId = getCartId();
     }
-
+    const [deleteTokenGql] = deleteToken();
     const [getCustomerToken] = getToken();
     const [getCart, cartData] = GraphCart.getCustomerCartId(cusToken);
     const [mergeCart, { called }] = GraphCart.mergeCart(cusToken);
     const otpConfig = GraphConfig.otpConfig();
+
+    // handle revoke token
+
+    React.useEffect(() => {
+        if (!isRevokeToken && typeof window !== 'undefined') {
+            setRevokeToken(true);
+            deleteTokenGql();
+        }
+    }, [isRevokeToken]);
 
     const LoginSchema = Yup.object().shape({
         email: Yup.string().email(t('validate:email:wrong')).required(t('validate:emailPhone')),
