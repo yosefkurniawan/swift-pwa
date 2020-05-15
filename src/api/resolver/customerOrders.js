@@ -64,7 +64,7 @@ async function customerOrders(parent, args, context) {
     if (res.customerOrders && res.customerOrders) {
         return res.customerOrders;
     }
-    return null;
+    return res;
 }
 
 module.exports = customerOrders;

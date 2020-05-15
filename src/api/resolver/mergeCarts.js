@@ -24,7 +24,7 @@ async function mergeCarts(parent, { source_cart_id, destination_cart_id }, conte
     if (res.mergeCarts) {
         return res.mergeCarts;
     }
-    return null;
+    return res;
 }
 
 module.exports = mergeCarts;

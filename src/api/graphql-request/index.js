@@ -1,6 +1,13 @@
 /* eslint-disable no-nested-ternary */
 const { GraphQLClient } = require('graphql-request');
+const { graphqlEndpoint } = require('../../../swift.config');
+
 const { decrypt } = require('../../helpers/encryption');
+
+
+const uri = process.env.NODE_ENV === 'production'
+    ? graphqlEndpoint.prod
+    : graphqlEndpoint.dev;
 
 function requestGraph(query, variables = {}, context = {}) {
     const token = context.session.token ? `Bearer ${decrypt(context.session.token)}`
@@ -9,9 +16,8 @@ function requestGraph(query, variables = {}, context = {}) {
         const headers = {
             Authorization: token,
         };
-        const client = new GraphQLClient('https://swiftpwa-be.testingnow.me/graphql', {
+        const client = new GraphQLClient(uri, {
             headers,
-            skip: token === '' || !token,
         });
         console.log(client);
         client.request(query, variables).then((data) => resolve(data)).catch((err) => resolve(err));
