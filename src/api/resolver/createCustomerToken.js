@@ -25,10 +25,7 @@ async function generateCustomerToken(parent, { email, password }, context) {
             message: 'welcome',
         };
     }
-    return {
-        token: '',
-        message: 'Error',
-    };
+    return res;
 }
 
 

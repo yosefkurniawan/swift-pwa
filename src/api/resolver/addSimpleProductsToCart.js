@@ -30,9 +30,7 @@ async function addSimpleProductsToCart(parent, args, context) {
     if (res.addSimpleProductsToCart) {
         return res.addSimpleProductsToCart;
     }
-    return {
-        message: 'Error',
-    };
+    return res;
 }
 
 module.exports = addSimpleProductsToCart;

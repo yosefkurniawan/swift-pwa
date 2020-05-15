@@ -26,7 +26,7 @@ async function updateCartItems(parent, args, context) {
     if (res.updateCartItems) {
         return res.updateCartItems;
     }
-    return null;
+    return res;
 }
 
 module.exports = updateCartItems;

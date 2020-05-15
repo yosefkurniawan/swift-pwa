@@ -38,9 +38,7 @@ async function addConfigurableProductsToCart(parent, args, context) {
     if (res.addConfigurableProductsToCart) {
         return res.addConfigurableProductsToCart;
     }
-    return {
-        message: 'Error',
-    };
+    return res;
 }
 
 module.exports = addConfigurableProductsToCart;

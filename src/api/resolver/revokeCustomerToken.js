@@ -18,9 +18,7 @@ async function revokeCustomerToken(parent, args, context) {
             result: true,
         };
     }
-    return {
-        result: false,
-    };
+    return res;
 }
 
 module.exports = revokeCustomerToken;

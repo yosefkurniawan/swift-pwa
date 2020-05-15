@@ -17,7 +17,6 @@ const WithToken = (props) => {
     let userData = {};
     let wishlist = [];
     const { data, loading, error } = GraphCustomer.getCustomer(token);
-
     if (!data || loading || error) return <Loaders />;
     if (data) {
         userData = data;
