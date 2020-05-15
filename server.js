@@ -46,6 +46,16 @@ const { expiredToken, SESSION_SECRET } = require('./swift.config');
                 'editor.theme': 'light',
             },
         },
+        formatError: (err) => {
+            const error = err.extensions.exception.response.errors[0];
+            return {
+                message: error.message,
+                extensions: error.extensions,
+                location: error.location,
+                path: error.path,
+                status: error.extensions.category === 'graphql-authorization' ? 401 : 200,
+            };
+        },
     });
     serverGraph.applyMiddleware({ app: server });
 
