@@ -8,22 +8,25 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import OtpBlock from '@components/OtpBlock';
 import Loading from '@components/Loaders/Backdrop';
-import { setToken } from '@helpers/token';
+import { setToken, getToken as getTokenSession } from '@helpers/token';
 import { setCartId, getCartId } from '@helpers/cartId';
 import { GraphCart, GraphConfig } from '@services/graphql';
 import { expiredToken } from '@config';
 import { getToken } from './service/graphql';
 import { decrypt } from '../../../helpers/encryption';
 import useStyles from './style';
+import { removeToken as deleteToken } from '../account/services/graphql';
 
 const Login = ({ t, storeConfig, query }) => {
     const styles = useStyles();
     const [isOtp, setIsOtp] = React.useState(false);
+    const [isRevokeToken, setRevokeToken] = React.useState(false);
     const [message, setMessage] = React.useState({
         open: false,
         text: '',
         variant: 'success',
     });
+    const tokenCustomer = getTokenSession();
     const [loading, setLoading] = React.useState(false);
     const [cusToken, setCusToken] = React.useState('');
 
@@ -44,11 +47,20 @@ const Login = ({ t, storeConfig, query }) => {
     if (typeof window !== 'undefined') {
         cartId = getCartId();
     }
-
+    const [deleteTokenGql] = deleteToken();
     const [getCustomerToken] = getToken();
     const [getCart, cartData] = GraphCart.getCustomerCartId(cusToken);
     const [mergeCart, { called }] = GraphCart.mergeCart(cusToken);
     const otpConfig = GraphConfig.otpConfig();
+
+    // handle revoke token
+
+    React.useEffect(() => {
+        if (!isRevokeToken && tokenCustomer && typeof window !== 'undefined') {
+            setRevokeToken(true);
+            deleteTokenGql();
+        }
+    }, [isRevokeToken]);
 
     const LoginSchema = Yup.object().shape({
         email: Yup.string().email(t('validate:email:wrong')).required(t('validate:emailPhone')),
