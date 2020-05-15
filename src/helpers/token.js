@@ -15,17 +15,6 @@ export const getTokenFromServer = (tokenCustomer) => {
     return token;
 };
 
-export const getOriginalTokenFromServer = (tokenCustomer) => {
-    const token = !tokenCustomer || tokenCustomer === '' || tokenCustomer === undefined ? '' : tokenCustomer;
-    return token;
-};
-
-export const getOriginalToken = () => {
-    const tokenCustomer = cookies.get(nameToken);
-    const token = !tokenCustomer || tokenCustomer === '' || tokenCustomer === undefined ? '' : tokenCustomer;
-    return token;
-};
-
 export const getToken = () => {
     const tokenCustomer = cookies.get(nameToken);
     const token = !tokenCustomer || tokenCustomer === '' || tokenCustomer === undefined ? '' : decrypt(tokenCustomer);

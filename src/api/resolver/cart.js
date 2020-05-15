@@ -121,10 +121,10 @@ query getCartData($cart_id: String!) {
 `;
 async function cart(parent, { cart_id }, context) {
     const res = await requestGraph(query, { cart_id }, context);
-    if (res.cart && res.cart) {
+    if (res.cart) {
         return res.cart;
     }
-    return null;
+    return res;
 }
 
 module.exports = cart;

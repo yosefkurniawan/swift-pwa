@@ -15,7 +15,7 @@ import Cookie from 'js-cookie';
 import cookies from 'next-cookies';
 import { expiredCokies, storeConfigNameCokie, nameToken } from '@config';
 import {
-    getTokenFromServer, getToken, getOriginalTokenFromServer, getOriginalToken,
+    getTokenFromServer, getToken,
 } from '@helpers/token';
 import '../src/styles/index.css';
 import '../src/styles/mage.css';
@@ -46,9 +46,7 @@ class MyApp extends App {
         } = ctx;
         // check if login from server
         let token = '';
-        let originalToken = '';
         if (typeof window !== 'undefined') token = getToken(nameToken); else token = getTokenFromServer(allcookie[nameToken]);
-        if (typeof window !== 'undefined') originalToken = getOriginalToken(nameToken); else originalToken = getOriginalTokenFromServer(allcookie[nameToken]);
         if (pageProps.withAuth) {
             if (typeof window !== 'undefined') {
                 if (token && token !== '') {
@@ -62,12 +60,7 @@ class MyApp extends App {
                 } else if (pathname === '/customer/account/login') res.redirect('/customer/account');
             } else if (pathname !== '/customer/account/login') res.redirect('/customer/account/login');
         }
-        if (req) {
-            // save token if token on server gone
-            if ((originalToken && !req.session.token) || (req.session.token && (originalToken !== req.session.token))) {
-                req.session.token = originalToken;
-            }
-        }
+
         let storeConfig;
         if (!allcookie[storeConfigNameCokie]) {
             storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
