@@ -12,6 +12,7 @@ import { setToken } from '@helpers/token';
 import { setCartId, getCartId } from '@helpers/cartId';
 import { GraphCart, GraphConfig } from '@services/graphql';
 import { expiredToken } from '@config';
+import Router from 'next/router';
 import { getToken } from './service/graphql';
 import { decrypt } from '../../../helpers/encryption';
 import useStyles from './style';
@@ -100,9 +101,9 @@ const Login = ({ t, storeConfig, query }) => {
             setCartId(custCartId, expired);
             handleOpenMessage({ variant: 'success', text: 'Login Success!' });
             if (query && query.redirect) {
-                window.location.href = query.redirect;
+                Router.push(query.redirect);
             } else {
-                window.location.href = '/customer/account';
+                Router.push('/customer/account');
             }
         } else if (!called) {
             mergeCart({
@@ -115,9 +116,9 @@ const Login = ({ t, storeConfig, query }) => {
                     setCartId(custCartId, expired);
                     handleOpenMessage({ variant: 'success', text: 'Login Success!' });
                     if (query && query.redirect) {
-                        window.location.href = query.redirect;
+                        Router.push(query.redirect);
                     } else {
-                        window.location.href = '/customer/account';
+                        Router.push('/customer/account');
                     }
                 })
                 .catch(() => {});
