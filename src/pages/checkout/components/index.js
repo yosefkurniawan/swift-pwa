@@ -605,22 +605,15 @@ const Checkout = (props) => {
         const snapToken = dataSnap.getSnapTokenByOrderId.snap_token;
         snap.pay(snapToken, {
             onSuccess(result) {
-                console.log('success');
-                console.log(result);
                 window.location = '/thanks';
             },
             onPending(result) {
-                console.log('pending');
-                console.log(result);
                 window.location = '/thanks';
             },
             onError(result) {
-                console.log('error');
-                console.log(result);
                 window.location = '/checkout/cart';
             },
             onClose() {
-                console.log('customer closed the popup without finishing the payment');
                 window.location = '/checkout/cart';
             },
         });
