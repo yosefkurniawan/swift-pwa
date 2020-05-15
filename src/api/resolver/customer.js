@@ -1,20 +1,5 @@
-import { gql } from 'apollo-boost';
-
-export const addWishlist = gql`
-    mutation addWishlist($productId: Int!) {
-        addProductToWishlist(productId: $productId) {
-            info
-        }
-    }
-`;
-
-export const removeWishlist = gql`
-    mutation removeWishlist($wishlistId: Int!) {
-        removeItemWishlist(wishlistItemId: $wishlistId) {
-            info
-        }
-    }
-`;
+/* eslint-disable no-unused-vars */
+const requestGraph = require('../graphql-request');
 
 const productDetail = `
     id
@@ -93,28 +78,33 @@ const priceTiers = `
     }
     `;
 
-export const getCustomer = gql`
+const query = `
 {
     customer {
      firstname
      lastname
      email
      wishlist {
-      id
-      items {
         id
-        product {
-          ${productDetail}
-          ${priceRange}
-          ${priceTiers}
+        items {
+            id
+            product {
+                ${productDetail}
+                ${priceRange}
+                ${priceTiers}
+            }
         }
       }
     }
-    }
   }
 `;
+async function customer(parent, args, context) {
+    const res = await requestGraph(query, {}, context);
+    console.log(JSON.stringify(res));
+    if (res && res.customer) {
+        return res.customer;
+    }
+    return null;
+}
 
-export default {
-    addWishlist,
-    getCustomer,
-};
+module.exports = customer;

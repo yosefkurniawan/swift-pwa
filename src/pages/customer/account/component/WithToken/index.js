@@ -14,20 +14,21 @@ import useStyles from './style';
 const WithToken = (props) => {
     const { token } = props;
     const styles = useStyles();
-    let userData = {};
-    let wishlist = [];
+    const userData = {};
+    const wishlist = [];
     const { data, loading, error } = GraphCustomer.getCustomer(token);
 
     if (!data || loading || error) return <Loaders />;
     if (data) {
-        userData = data;
-        wishlist = data.customer.wishlist.items.map(({ product }) => ({
-            ...product,
-            name: product.name,
-            link: product.url_key,
-            imageSrc: product.small_image.url,
-            price: product.price_range.minimum_price.regular_price.value,
-        }));
+        console.log(data);
+        // userData = data;
+        // wishlist = data.customer && data.customer.wishlist && data.customer.wishlist.items.map(({ product }) => ({
+        //     ...product,
+        //     name: product.name,
+        //     link: product.url_key,
+        //     imageSrc: product.small_image.url,
+        //     price: product.price_range.minimum_price.regular_price.value,
+        // }));
     }
 
     return (
