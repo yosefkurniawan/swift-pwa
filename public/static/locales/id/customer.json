@@ -62,7 +62,10 @@
     "addToBag": "tambah ke keranjang",
     "addAllToBag": "tambah semua ke keranjang",
     "notFound": "Kamu tidak memiliki items wish list",
-    "warningDelete": "Yakin mau hapus item ini dari wish list ?"
+    "warningDelete": "Yakin mau hapus item ini dari wish list ?",
+    "addAllToBagSuccess": "Sukses tambahkan semua wish list item ke keranjang",
+    "addPartToBagSuccess": "Sukses tambakan $ item wishlist ke keranjang, Tetapi tidak semua karena belum memilih bebrapa configurable produk ",
+    "failedAddToBagOption" : "Silahkan pilih opsi dahulu untuk beberapa produk"
   },
   "address" : {
     "pageTitle" : "Daftar alamat",

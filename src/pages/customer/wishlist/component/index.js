@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-underscore-dangle */
 // Library
@@ -46,7 +47,7 @@ const Content = (props) => {
     if (data) {
         wishlist = data.customer.wishlist.items.map(({ id, product }) => ({
             ...product,
-            wishlistId: id,
+            wishlistItemId: id,
             name: product.name,
             link: product.url_key,
             imageSrc: product.small_image.url || '/assets/img/placeholder.png',
@@ -59,7 +60,7 @@ const Content = (props) => {
         cartId = getCartId();
     }
 
-    const handleToCart = ({ sku, url_key, wishlistId }) => {
+    const handleToCart = ({ sku, url_key, wishlistItemId }) => {
         setState({
             ...state,
             loading: true,
@@ -75,43 +76,45 @@ const Content = (props) => {
                 sku,
                 qty: parseFloat(1),
             },
-        }).then(() => {
-            removeWishlist({
-                variables: {
-                    wishlistId,
-                },
-            }).then(() => {
-                setState({
+        })
+            .then(() => {
+                removeWishlist({
+                    variables: {
+                        wishlistItemId,
+                    },
+                }).then(() => {
+                    setState({
+                        ...state,
+                        loading: false,
+                        openMessage: true,
+                        variantMessage: 'success',
+                        textMessage: t('product:successAddCart'),
+                    });
+                    refetch();
+                });
+            })
+            .catch(async (e) => {
+                await setState({
                     ...state,
                     loading: false,
                     openMessage: true,
-                    variantMessage: 'success',
-                    textMessage: t('product:successAddCart'),
+                    variantMessage: 'error',
+                    textMessage: e.message.split(':')[1] || t('product:failedAddCart'),
                 });
-                refetch();
+                if (e.message.split(':')[1].includes('choose option')) {
+                    Router.push('/[...slug]', `/${url_key}`);
+                }
             });
-        }).catch(async (e) => {
-            await setState({
-                ...state,
-                loading: false,
-                openMessage: true,
-                variantMessage: 'error',
-                textMessage: e.message.split(':')[1] || t('product:failedAddCart'),
-            });
-            if (e.message.split(':')[1].includes('choose option')) {
-                Router.push('/[...slug]', `/${url_key}`);
-            }
-        });
     };
 
-    const handleRemove = ({ wishlistId }) => {
+    const handleRemove = ({ wishlistItemId }) => {
         setState({
             ...state,
             loading: true,
         });
         removeWishlist({
             variables: {
-                wishlistId,
+                wishlistItemId,
             },
         })
             .then(() => {
@@ -137,43 +140,48 @@ const Content = (props) => {
 
     const handleAddAlltoBag = async () => {
         await setState({ ...state, loading: true });
-        let errorCart = false;
+        let totalSucces = 0;
+        let errorCart = [false, ''];
         if (cartId === '' || !cartId) {
             const cartToken = cartUser.data.customerCart.id || '';
             cartId = cartToken;
             setCartId(cartToken);
         }
-        await wishlist.map((item) => {
-            if (item.__typename === 'SimpleProduct') {
-                addToCart({
-                    variables: {
-                        cartId,
-                        sku: item.sku,
-                        qty: parseFloat(1),
-                    },
-                }).then(() => {
+        await wishlist.map(async (item) => {
+            addToCart({
+                variables: {
+                    cartId,
+                    sku: item.sku,
+                    qty: parseFloat(1),
+                },
+            })
+                .then(async () => {
+                    totalSucces += 1;
                     removeWishlist({
                         variables: {
-                            wishlistId: item.wishlistId,
+                            wishlistItemId: item.wishlistItemId,
                         },
                     });
-                }).catch(() => {
-                    errorCart = true;
+                })
+                .catch((e) => {
+                    errorCart = [true, e.message.split(':')[1]];
                 });
-            } else {
-                errorCart = true;
-            }
         });
-        setTimeout(() => {
-            setState({
+        setTimeout(async () => {
+            refetch();
+            await setState({
                 ...state,
                 loading: false,
                 openMessage: true,
-                textMessage: errorCart ? 'All wishlist not added to cart, You must select config product' : 'Success add wishlist all to cart',
-                variantMessage: errorCart ? 'error' : 'success',
+                textMessage: errorCart[0]
+                    ? totalSucces > 0
+                        // eslint-disable-next-line max-len
+                        ? `${t('customer:wishlist:addPartToBagSuccess').split('$'[0])} ${totalSucces} ${t('customer:wishlist:addPartToBagSuccess').split('$'[1])}`
+                        : errorCart[1] || t('product:failedAddCart')
+                    : t('customer:wishlist:addAllToBagSuccess'),
+                variantMessage: errorCart[0] ? 'error' : 'success',
             });
-            refetch();
-        }, 2000);
+        }, 3000);
     };
 
     const handleClose = () => {
@@ -184,27 +192,27 @@ const Content = (props) => {
     };
 
     return (
-        <>
+        <div className={styles.root}>
             <Loading open={state.loading} />
             <Message open={state.openMessage} variant={state.variantMessage} setOpen={handleClose} message={state.textMessage} />
-            <div className={styles.root}>
-                {
-                    wishlist.length === 0 && (
-                        <Alert className="m-15" severity="warning">{t('customer:wishlist:notFound')}</Alert>
-                    )
-                }
+            {wishlist.length === 0 && (
+                <Alert className="m-15" severity="warning">
+                    {t('customer:wishlist:notFound')}
+                </Alert>
+            )}
+            <div className={styles.content}>
                 {wishlist.map((item, index) => (
                     <Item key={index} {...item} {...props} refetch={refetch} handleRemove={handleRemove} handleToCart={handleToCart} />
                 ))}
-                <div className={styles.footer}>
-                    <Button onClick={handleAddAlltoBag} disabled={loading || wishlist.length === 0} fullWidth className={styles.btnSigin}>
-                        <Typography variant="title" type="regular" letter="capitalize" color="white">
-                            {t('customer:wishlist:addAllToBag')}
-                        </Typography>
-                    </Button>
-                </div>
             </div>
-        </>
+            <div className={styles.footer}>
+                <Button onClick={handleAddAlltoBag} disabled={loading || wishlist.length === 0} fullWidth className={styles.btnSigin}>
+                    <Typography variant="title" type="regular" letter="capitalize" color="white">
+                        {t('customer:wishlist:addAllToBag')}
+                    </Typography>
+                </Button>
+            </div>
+        </div>
     );
 };
 

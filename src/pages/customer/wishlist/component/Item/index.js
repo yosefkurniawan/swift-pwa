@@ -4,21 +4,22 @@ import Typography from '@components/Typography';
 import { ConfirmationDelete } from '@components/ConfirmDialog';
 import { IconButton } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
+import Link from 'next/link';
 import useStyles from './style';
 
 export default ({
     price_range, price_tiers, __typename, imageSrc,
-    name, wishlistId, t, sku, url_key,
+    name, wishlistItemId, t, sku, url_key,
     handleRemove, handleToCart,
 }) => {
     const styles = useStyles();
     const [openDelete, setOpenDelete] = React.useState(false);
     const handleDelete = () => {
-        handleRemove({ wishlistId });
+        handleRemove({ wishlistItemId });
         setOpenDelete(!openDelete);
     };
     const handleAddToCart = () => {
-        handleToCart({ sku, url_key, wishlistId });
+        handleToCart({ sku, url_key, wishlistItemId });
     };
     return (
         <>
@@ -41,7 +42,11 @@ export default ({
                     />
                 </div>
                 <div className={styles.content}>
-                    <Typography variant="p">{name}</Typography>
+                    <Link href="/[...slug]" as={`/${url_key}`}>
+                        <a>
+                            <Typography variant="p">{name}</Typography>
+                        </a>
+                    </Link>
                     <PriceFormat variant="p" priceRange={price_range} priceTiers={price_tiers} productType={__typename} />
                     <Button className={styles.btnAdd} onClick={handleAddToCart}>
                         <Typography variant="p" type="bold" letter="uppercase" color="white">
