@@ -50,6 +50,7 @@ const schema = `
 
   type Query {
     cart(cart_id: String!): Cart!
+    customerCart: Cart!
   }
   
 `;

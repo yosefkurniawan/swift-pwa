@@ -28,7 +28,6 @@ const orderSchemar = makeExecutableSchema({
         }
         type OrderDetailPayment {
             additional_information: [String]
-            amount_paid: Int
             method: String
             payment_additional_info: PaymentAdditionalInfo
             shipping_amount: Int

@@ -29,9 +29,8 @@ const ShoppingBagIcon = ({ bottomNav = false }) => {
     }
     const cartUser = useQuery(getCartIdUser, {
         context: {
-            headers: { Authorization: `Bearer ${token}` },
+            request: 'internal',
         },
-        skip: token === '' || !token,
         fetchPolicy: 'no-cache',
     });
 

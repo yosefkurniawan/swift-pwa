@@ -2,13 +2,10 @@ import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
 import * as CartSchema from '../schema/cart';
 
 export const getGuestCartId = () => useMutation(CartSchema.createCartIdGuest);
-export const getCustomerCartId = (token) => useLazyQuery(CartSchema.getCartIdUser, {
+export const getCustomerCartId = () => useLazyQuery(CartSchema.getCartIdUser, {
     context: {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
+        request: 'internal',
     },
-    skip: token === '' || !token,
     fetchPolicy: 'no-cache',
 });
 export const getCartData = () => useQuery(CartSchema.getCart);
@@ -19,7 +16,6 @@ export const getCountCart = (token, cartId) => useQuery(CartSchema.getCountCart,
     variables: {
         cartId,
     },
-    skip: cartId === '' || !cartId,
 });
 export const mergeCart = (token) => useMutation(CartSchema.mergeCart, {
     context: {
