@@ -85,8 +85,7 @@ const customerSchema = makeExecutableSchema({
             info: String
         }
 
-        
-        input CustomerInput {
+        input UpdateCustomerInput {
             date_of_birth: String
             dob: String
             email: String
@@ -106,7 +105,8 @@ const customerSchema = makeExecutableSchema({
         }
 
         type Mutation {
-            updateCustomer(input: CustomerInput): Query
+            updateCustomer(input: UpdateCustomerInput): Query
+            changeCustomerPassword(currentPassword: String!, newPassword: String!): Customer
             addProductToWishlist(productId: Int!): AddProductToWishlistOutput
             removeItemWishlist(wishlistItemId: Int!): RemoveItemWishlistOutput
         }
