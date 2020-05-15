@@ -100,11 +100,10 @@ const query = `
 `;
 async function customer(parent, args, context) {
     const res = await requestGraph(query, {}, context);
-    console.log(JSON.stringify(res));
     if (res && res.customer) {
         return res.customer;
     }
-    return null;
+    return res;
 }
 
 module.exports = customer;
