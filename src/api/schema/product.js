@@ -9,16 +9,22 @@ const schema = `
         percent_off: Float
     }
 
+    type Taxes {
+        amount : Money
+        label: String
+      }
+
     type ProductPrice {
         discount: DiscountProduct
         regular_price: Money
         final_price: Money
+        fixed_product_taxes: Taxes
     }
 
     type PriceRange {
-        maximum_price : ProductPrice
-        minimum_price : ProductPrice
-        final_price : ProductPrice
+        maximum_price: ProductPrice
+        minimum_price: ProductPrice
+        final_price: ProductPrice
     }
 
     type PriceTiers {
@@ -42,6 +48,8 @@ const schema = `
         price_tiers: PriceTiers
         price_range:PriceRange
         thumbnail: ProductImage
+        attribute_set_id: Int
+        image: ProductImage
     }
 
     type Product {

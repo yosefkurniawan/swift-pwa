@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 
 const { ApolloServer, gql } = require('apollo-server-express');
-const cookieSession = require('cookie-session')
+const cookieSession = require('cookie-session');
 const express = require('express');
 const next = require('next');
 const fs = require('fs');
@@ -21,9 +21,7 @@ const certificate = '/etc/letsencrypt/live/swiftpwa.testingnow.me/cert.pem';
 
 const schema = require('./src/api');
 const root = require('./src/api/root');
-const { expiredToken } = require('./swift.config');
-
-const SESSION_SECRET = 'asdklfjqo31';
+const { expiredToken, SESSION_SECRET } = require('./swift.config');
 
 (async () => {
     await app.prepare();

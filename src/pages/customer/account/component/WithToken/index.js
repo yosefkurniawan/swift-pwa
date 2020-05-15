@@ -21,7 +21,7 @@ const WithToken = (props) => {
     if (!data || loading || error) return <Loaders />;
     if (data) {
         userData = data;
-        wishlist = data.customer.wishlist.items.map(({ product }) => ({
+        wishlist = data.customer && data.customer.wishlist && data.customer.wishlist.items.map(({ product }) => ({
             ...product,
             name: product.name,
             link: product.url_key,

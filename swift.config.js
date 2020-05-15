@@ -66,6 +66,8 @@ const loaderImage = '/assets/img/sample/spinner.svg';
 /* identifiers for cmsBlocks in contact page */
 const cmsContactIdentifiers = 'weltpixel_contact_page';
 
+const SESSION_SECRET = 'asdasdd1212ads12!!!@**DAD';
+
 module.exports = {
     BASE_URL,
     graphqlEndpoint,
@@ -84,4 +86,5 @@ module.exports = {
     cmsPages,
     loaderImage,
     cmsContactIdentifiers,
+    SESSION_SECRET,
 };
