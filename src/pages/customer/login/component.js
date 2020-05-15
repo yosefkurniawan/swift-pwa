@@ -8,7 +8,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import OtpBlock from '@components/OtpBlock';
 import Loading from '@components/Loaders/Backdrop';
-import { setToken, getToken as getTokenSession } from '@helpers/token';
+import { setToken } from '@helpers/token';
 import { setCartId, getCartId } from '@helpers/cartId';
 import { GraphCart, GraphConfig } from '@services/graphql';
 import { expiredToken } from '@config';
@@ -26,7 +26,6 @@ const Login = ({ t, storeConfig, query }) => {
         text: '',
         variant: 'success',
     });
-    const tokenCustomer = getTokenSession();
     const [loading, setLoading] = React.useState(false);
     const [cusToken, setCusToken] = React.useState('');
 
@@ -56,7 +55,7 @@ const Login = ({ t, storeConfig, query }) => {
     // handle revoke token
 
     React.useEffect(() => {
-        if (!isRevokeToken && tokenCustomer && typeof window !== 'undefined') {
+        if (!isRevokeToken && typeof window !== 'undefined') {
             setRevokeToken(true);
             deleteTokenGql();
         }

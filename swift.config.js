@@ -66,7 +66,7 @@ const loaderImage = '/assets/img/sample/spinner.svg';
 /* identifiers for cmsBlocks in contact page */
 const cmsContactIdentifiers = 'weltpixel_contact_page';
 
-const SESSION_SECRET = 'asdasdd1212ads12!!!@**DAD';
+const SESSION_SECRET = 'asdasdd1212ads12!!!@**DADxx1';
 
 module.exports = {
     BASE_URL,
