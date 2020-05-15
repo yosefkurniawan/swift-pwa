@@ -1,3 +1,4 @@
+
 const generateCustomerToken = require('./resolver/createCustomerToken');
 const revokeCustomerToken = require('./resolver/revokeCustomerToken');
 const updateCartItems = require('./resolver/updateCartItems');
@@ -7,6 +8,7 @@ const addSimpleProductsToCart = require('./resolver/addSimpleProductsToCart');
 const addConfigurableProductsToCart = require('./resolver/addConfigurableProductToCart');
 const addProductToWishlist = require('./resolver/addProductToWishlist');
 const removeItemWishlist = require('./resolver/removeItemWishlist');
+const updateCustomer = require('./resolver/customer/updateCustomer');
 
 module.exports = {
     generateCustomerToken,
@@ -18,4 +20,5 @@ module.exports = {
     mergeCarts,
     addProductToWishlist,
     removeItemWishlist,
+    updateCustomer,
 };

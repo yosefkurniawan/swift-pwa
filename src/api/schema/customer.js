@@ -85,11 +85,28 @@ const customerSchema = makeExecutableSchema({
             info: String
         }
 
+        
+        input CustomerInput {
+            date_of_birth: String
+            dob: String
+            email: String
+            firstname: String
+            gender: Int
+            is_subscribed: Boolean
+            lastname: String
+            middlename: String
+            password: String
+            prefix: String
+            suffix: String
+            taxvat: String
+        }
+
         type Query {
             customer: Customer
         }
 
         type Mutation {
+            updateCustomer(input: CustomerInput): Query
             addProductToWishlist(productId: Int!): AddProductToWishlistOutput
             removeItemWishlist(wishlistItemId: Int!): RemoveItemWishlistOutput
         }
