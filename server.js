@@ -47,7 +47,6 @@ const { expiredToken, SESSION_SECRET } = require('./swift.config');
             },
         },
         formatError: (err) => {
-            console.log('err123456789', err);
             const error = err.extensions.exception.response.errors[0];
             return {
                 message: error.message,

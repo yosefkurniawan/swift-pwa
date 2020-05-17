@@ -99,13 +99,17 @@ const customerSchema = makeExecutableSchema({
             suffix: String
             taxvat: String
         }
+        
+        type UpdateCustomerOutput {
+            customer: Customer
+        }
 
         type Query {
             customer: Customer
         }
 
         type Mutation {
-            updateCustomer(input: UpdateCustomerInput): Query
+            updateCustomer(input: UpdateCustomerInput): UpdateCustomerOutput
             changeCustomerPassword(currentPassword: String!, newPassword: String!): Customer
             addProductToWishlist(productId: Int!): AddProductToWishlistOutput
             removeItemWishlist(wishlistItemId: Int!): RemoveItemWishlistOutput
