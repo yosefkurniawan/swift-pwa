@@ -76,14 +76,13 @@ const priceTiers = `
     `;
 
 const customerOutput = `
-    customer {
-     firstname
-     middlename
-     suffix
-     prefix
-     lastname
-     email
-     wishlist {
+    firstname
+    middlename
+    suffix
+    prefix
+    lastname
+    email
+    wishlist {
         id
         items {
             id
@@ -93,7 +92,6 @@ const customerOutput = `
                 ${priceTiers}
             }
         }
-      }
     }
 `;
 
