@@ -126,7 +126,7 @@ const AddressFormDialog = (props) => {
         firstname: Yup.string().required(t('validate:firstname:required')),
         lastname: Yup.string().required(t('validate:lastname:required')),
         telephone: Yup.string().required(t('validate:telephone:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
-        street: Yup.string().required(t('validate:street:required')).min(10, t('validate:street:wrong')),
+        street: Yup.string().required(t('validate:street:required')),
         postcode: Yup.string().required(t('validate:postcode:required')).min(3, t('validate:postcode:wrong')).max(20, t('validate:postcode:wrong')),
         country: Yup.string().nullable().required(t('validate:country:required')),
         region: Yup.string().nullable().required(t('validate:state:required')),
