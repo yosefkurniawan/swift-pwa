@@ -10,8 +10,8 @@ const customerSchema = require('./schema/customer');
 
 const cart = require('./resolver/cart');
 const customerOrders = require('./resolver/customerOrders');
-const customer = require('./resolver/customer');
 const customerCart = require('./resolver/customerCart');
+const customer = require('./resolver/customer/customer');
 
 const schema = mergeSchemas({
     schemas: [

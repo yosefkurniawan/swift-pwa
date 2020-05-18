@@ -1,24 +1,15 @@
 import { useMutation } from '@apollo/react-hooks';
-import helper from '@helpers/token';
 import Schema from './schema';
-
-const config = {
-    context: {
-        headers: {
-            authorization: `Bearer ${helper.getToken()}`,
-        },
-    },
-};
 
 export const updateCustomer = (options = {}) => useMutation(Schema.updateCustomer, {
     ...options,
-    ...config,
+    context: { request: 'internal' },
 });
 
 
 export const changeCustomerPassword = (options = {}) => useMutation(Schema.changeCustomerPassword, {
     ...options,
-    ...config,
+    context: { request: 'internal' },
 });
 
 export default { updateCustomer, changeCustomerPassword };

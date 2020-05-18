@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-const requestGraph = require('../graphql-request');
-
 const productDetail = `
     id
     name
@@ -78,10 +75,12 @@ const priceTiers = `
     }
     `;
 
-const query = `
-{
+const customerOutput = `
     customer {
      firstname
+     middlename
+     suffix
+     prefix
      lastname
      email
      wishlist {
@@ -96,14 +95,6 @@ const query = `
         }
       }
     }
-  }
 `;
-async function customer(parent, args, context) {
-    const res = await requestGraph(query, {}, context);
-    if (res && res.customer) {
-        return res.customer;
-    }
-    return res;
-}
 
-module.exports = customer;
+module.exports = customerOutput;
