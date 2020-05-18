@@ -51,7 +51,8 @@ const IcubeMaps = compose(
                 },
                 onPlacesChanged: () => {
                     const { location } = refs.searchBox.getPlaces()[0].geometry;
-                    this.props.getLocation(refs.searchBox.getPlaces());
+                    // unconfirmed deletion, delete line below when it's confirmed unused codes
+                    // this.props.getLocation(refs.searchBox.getPlaces());
                     this.props.dragMarkerDone({
                         lat: location.lat(),
                         lng: location.lng(),

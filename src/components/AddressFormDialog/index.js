@@ -103,9 +103,11 @@ const AddressFormDialog = (props) => {
         return data.find((item) => item.label === label) ? data.find((item) => item.label === label) : null;
     };
 
+    const getCustomAttributesValue = (attribute_code) => Number((customAttributes.find((el) => el.attribute_code === attribute_code) || {}).value);
+
     const [mapPosition, setMapPosition] = useState({
-        lat: customAttributes ? Number((customAttributes.find((el) => el.attribute_code === 'latitude') || {}).value) : -6.197361,
-        lng: customAttributes ? Number((customAttributes.find((el) => el.attribute_code === 'longitude') || {}).value) : 106.774535,
+        lat: customAttributes ? getCustomAttributesValue('latitude') : -6.197361,
+        lng: customAttributes ? getCustomAttributesValue('longitude') : 106.774535,
     });
 
     const displayLocationInfo = (position) => {
@@ -126,7 +128,7 @@ const AddressFormDialog = (props) => {
         firstname: Yup.string().required(t('validate:firstname:required')),
         lastname: Yup.string().required(t('validate:lastname:required')),
         telephone: Yup.string().required(t('validate:telephone:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
-        street: Yup.string().required(t('validate:street:required')).min(10, t('validate:street:wrong')),
+        street: Yup.string().required(t('validate:street:required')),
         postcode: Yup.string().required(t('validate:postcode:required')).min(3, t('validate:postcode:wrong')).max(20, t('validate:postcode:wrong')),
         country: Yup.string().nullable().required(t('validate:country:required')),
         region: Yup.string().nullable().required(t('validate:state:required')),
@@ -343,6 +345,14 @@ const AddressFormDialog = (props) => {
         // only set current location for add mode
         if (navigator.geolocation && !addressId) {
             return navigator.geolocation.getCurrentPosition(displayLocationInfo);
+        }
+
+        // update map position after edit data
+        if (open && getCustomAttributesValue('latitude') && getCustomAttributesValue('longitude')) {
+            setMapPosition({
+                lat: getCustomAttributesValue('latitude'),
+                lng: getCustomAttributesValue('longitude'),
+            });
         }
     }, [open]);
 
