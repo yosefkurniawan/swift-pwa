@@ -23,14 +23,11 @@ const Content = (props) => {
     const { token } = props;
     // style
     const styles = useStyles();
-    let getCustomer = {};
     // graphql
     const [updatedDefaultAddress] = gqlUpdateDefaulAddress();
     const [updateAddress] = updateCustomerAddress();
     const [addAddress] = createCustomerAddress();
-    if (typeof window !== 'undefined') {
-        getCustomer = GraphCustomer.getCustomer(token);
-    }
+    const getCustomer = GraphCustomer.getCustomer(token);
     // state
     const [address, setAddress] = useState([]);
     const [selectedAddressId, setSelectedAddressId] = useState(null);
@@ -98,7 +95,6 @@ const Content = (props) => {
     // handle add address
     const handleAddress = async (data, type) => {
         setLoadingAddress(true);
-
         if (!success) {
             if (type === 'update') {
                 await updateAddress({

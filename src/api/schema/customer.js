@@ -108,6 +108,17 @@ const customerSchema = makeExecutableSchema({
             customer: Customer
         }
 
+        input CustomerAddressRegionInput {
+            region: String
+            region_code: String
+            region_id: Int
+        }
+
+        input CustomerAddressAttributeInput {
+            attribute_code: String!
+            value: Float!
+        }
+
         input CustomerAddressInput {
             city: String
             company: String
@@ -120,11 +131,13 @@ const customerSchema = makeExecutableSchema({
             default_billing: Boolean
             default_shipping: Boolean
             postcode: String
-            street: String
+            street: [String]
             prefix: String
             suffix: String
             telephone: String
             vat_id: String
+            custom_attributes: [CustomerAddressAttributeInput]
+            region: CustomerAddressRegionInput
         }
 
         type Mutation {

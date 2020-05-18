@@ -41,9 +41,23 @@ const query = `
     }
 `;
 
-async function createCustomerAddress(parent, variables, context) {
-    const res = await requestGraph(query, variables.input, context);
-    console.log(res);
+async function createCustomerAddress(parent, args, context) {
+    const variables = {
+        city: args.input.city,
+        countryCode: args.input.country_code,
+        defaultBilling: args.input.default_billing,
+        defaultShipping: args.input.default_shipping,
+        firstname: args.input.firstname,
+        lastname: args.input.lastname,
+        postcode: args.input.postcode,
+        telephone: args.input.telephone,
+        street: args.input.street[0],
+        region: args.input.region.region,
+        regionCode: args.input.region.region_code,
+        regionId: args.input.region.region_id,
+        customAttributes: args.input.custom_attributes,
+    };
+    const res = await requestGraph(query, variables, context);
     if (res.createCustomerAddress) {
         return res.createCustomerAddress;
     }
