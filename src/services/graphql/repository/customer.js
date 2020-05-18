@@ -18,7 +18,7 @@ export const getCustomer = (token) => useQuery(Schema.getCustomer, {
     context: {
         request: 'internal',
         headers: {
-            Authorization: typeof window === 'undefined' ? `Bearer ${token}` : '',
+            Authorization: typeof window === 'undefined' && token ? `Bearer ${token}` : '',
         },
     },
     fetchPolicy: 'cache-and-network',
