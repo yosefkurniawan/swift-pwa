@@ -17,7 +17,9 @@ const query = `
                 password: $password
             }
         ) {
-            ${customerOutput}
+            customer {
+                ${customerOutput}
+            }
         }
     }
 `;

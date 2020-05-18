@@ -4,7 +4,9 @@ const customerOutput = require('./schema/customerOutput');
 
 const query = `
     query customer {
-        ${customerOutput}
+        customer {
+            ${customerOutput}
+        }
     }
 `;
 
