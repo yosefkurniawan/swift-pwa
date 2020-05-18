@@ -49,12 +49,12 @@ const DetailOrder = ({ t, detail, currency }) => {
                     <Typography variant="span" align="center">
                         {detail[0].detail[0].shipping_address.firstname || ''}
                         <br />
-                        {' '}
                         {detail[0].detail[0].shipping_address.street || ''}
                         <br />
-                        {' '}
                         {detail[0].detail[0].shipping_address.city || ''}
+                        <br />
                         {detail[0].detail[0].shipping_address.region || ''}
+                        <br />
                         {detail[0].detail[0].shipping_address.country_id || ''}
                         <br />
                         {detail[0].detail[0].shipping_address.telephone || ''}

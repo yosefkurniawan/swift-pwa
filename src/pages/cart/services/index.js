@@ -11,4 +11,5 @@ export const getCartData = (token, cartId) => useQuery(Schema.getCart,
                 Authorization: typeof window === 'undefined' ? `Bearer ${token}` : '',
             },
         },
+        fetchPolicy: 'cache-and-network',
     });
