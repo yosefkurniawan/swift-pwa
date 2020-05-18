@@ -615,3 +615,15 @@ export const getSnapToken = gql`
         }
     }
 `;
+
+export const getSnapOrderStatusByOrderId = gql`
+    query($orderId: String!) {
+        getSnapOrderStatusByOrderId(
+            order_id: $orderId
+        ) {
+            order_id
+            status_message
+            success
+        }
+    }
+`;

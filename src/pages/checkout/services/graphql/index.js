@@ -91,6 +91,11 @@ export const getSnapToken = (options = {}) => useLazyQuery(Schema.getSnapToken, 
     ...config(NOT_USING_TOKEN),
 });
 
+export const getSnapOrderStatusByOrderId = (options = {}) => useLazyQuery(Schema.getSnapOrderStatusByOrderId, {
+    ...options,
+    ...config(NOT_USING_TOKEN),
+});
+
 export default {
     getCustomer,
     getCart,
@@ -105,4 +110,5 @@ export default {
     applyCouponToCart,
     removeCouponFromCart,
     getSnapToken,
+    getSnapOrderStatusByOrderId,
 };

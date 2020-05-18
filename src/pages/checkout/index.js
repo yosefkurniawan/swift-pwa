@@ -17,7 +17,6 @@ const Page = (props) => {
         <Layout pageConfig={pageConfig}>
             <Head>
                 <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-KyvADD67-pyuS-I6" />
-                <title>My page title</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <Content {...props} />

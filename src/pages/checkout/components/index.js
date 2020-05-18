@@ -154,6 +154,9 @@ const Checkout = (props) => {
     const [getSnapToken, { data: dataSnap, error: errorSnap }] = gqlService.getSnapToken({
         onError: (errors) => {},
     });
+    const [getSnapOrderStatusByOrderId, { data: statusSnap, error: errorStatusSnap }] = gqlService.getSnapOrderStatusByOrderId({
+        onError: () => {},
+    });
     const [placeOrder] = gqlService.placeOrder({
         onError: (errors) => {},
     });
@@ -445,7 +448,7 @@ const Checkout = (props) => {
         manageSummary(cart);
 
         // init billing address for logged in customer with default address
-        if (!cart.billing_address || !shipping) {
+        if (address && !state.data.isGuest) {
             setAddress(address, cart);
         }
     };
@@ -610,10 +613,20 @@ const Checkout = (props) => {
             onPending(result) {
                 window.location = '/thanks';
             },
-            onError(result) {
+            async onError(result) {
+                await getSnapOrderStatusByOrderId({
+                    variables: {
+                        orderId: checkout.data.orderId,
+                    },
+                });
                 window.location = '/checkout/cart';
             },
-            onClose() {
+            async onClose() {
+                await getSnapOrderStatusByOrderId({
+                    variables: {
+                        orderId: checkout.data.orderId,
+                    },
+                });
                 window.location = '/checkout/cart';
             },
         });
