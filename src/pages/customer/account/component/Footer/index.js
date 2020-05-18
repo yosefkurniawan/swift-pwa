@@ -27,12 +27,12 @@ export default ({ t, token }) => {
             <ul className={styles.account_navigation}>
                 <li className={styles.account_navigation_item}>
                     <Link href="/about-us">
-                        <a className={styles.account_navigation_link}>{t('customer:aboutUs')}</a>
+                        <a className={styles.account_navigation_link}>{t('customer:menu:aboutUs')}</a>
                     </Link>
                 </li>
                 <li className={styles.account_navigation_item}>
                     <Link href="/contact">
-                        <a className={styles.account_navigation_link}>{t('customer:contactUs')}</a>
+                        <a className={styles.account_navigation_link}>{t('customer:menu:contactUs')}</a>
                     </Link>
                 </li>
                 {token && token !== '' && (
