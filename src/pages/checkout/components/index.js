@@ -154,6 +154,9 @@ const Checkout = (props) => {
     const [getSnapToken, { data: dataSnap, error: errorSnap }] = gqlService.getSnapToken({
         onError: (errors) => {},
     });
+    const [getSnapOrderStatusByOrderId, { data: statusSnap, error: errorStatusSnap }] = gqlService.getSnapOrderStatusByOrderId({
+        onError: () => {},
+    });
     const [placeOrder] = gqlService.placeOrder({
         onError: (errors) => {},
     });
@@ -445,7 +448,7 @@ const Checkout = (props) => {
         manageSummary(cart);
 
         // init billing address for logged in customer with default address
-        if (!cart.billing_address || !shipping) {
+        if (address && !state.data.isGuest) {
             setAddress(address, cart);
         }
     };
@@ -605,22 +608,25 @@ const Checkout = (props) => {
         const snapToken = dataSnap.getSnapTokenByOrderId.snap_token;
         snap.pay(snapToken, {
             onSuccess(result) {
-                console.log('success');
-                console.log(result);
                 window.location = '/thanks';
             },
             onPending(result) {
-                console.log('pending');
-                console.log(result);
                 window.location = '/thanks';
             },
-            onError(result) {
-                console.log('error');
-                console.log(result);
+            async onError(result) {
+                await getSnapOrderStatusByOrderId({
+                    variables: {
+                        orderId: checkout.data.orderId,
+                    },
+                });
                 window.location = '/checkout/cart';
             },
-            onClose() {
-                console.log('customer closed the popup without finishing the payment');
+            async onClose() {
+                await getSnapOrderStatusByOrderId({
+                    variables: {
+                        orderId: checkout.data.orderId,
+                    },
+                });
                 window.location = '/checkout/cart';
             },
         });
