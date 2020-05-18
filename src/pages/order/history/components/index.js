@@ -6,7 +6,7 @@ import { getOrder } from '../../services/graphql';
 import * as Schema from '../../services/graphql/schema';
 import Loader from './Loader';
 
-const OrderPage = ({ t }) => {
+const OrderPage = ({ t, token }) => {
     const styles = useStyles();
     const [params] = React.useState({
         pageSize: 5,
@@ -15,7 +15,7 @@ const OrderPage = ({ t }) => {
     const [loadMore, setLoadMore] = React.useState(false);
     const {
         loading, data, error, fetchMore,
-    } = getOrder(params);
+    } = getOrder(params, token);
     if (loading || !data) return <Loader />;
     if (error) console.log(error);
     const handleLoadMore = () => {

@@ -27,7 +27,6 @@ export const getOrder = () => gql`
                     total_qty_ordered
                     payment {
                         additional_information
-                        amount_paid
                         method
                         shipping_amount
                         shipping_captured
