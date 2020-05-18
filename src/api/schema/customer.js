@@ -108,11 +108,31 @@ const customerSchema = makeExecutableSchema({
             customer: Customer
         }
 
+        input CustomerAddressInput {
+            city: String
+            company: String
+            country_code: CountryCodeEnum
+            country_id: CountryCodeEnum
+            fax: String
+            firstname: String
+            lastname: String
+            middlename: String
+            default_billing: Boolean
+            default_shipping: Boolean
+            postcode: String
+            street: String
+            prefix: String
+            suffix: String
+            telephone: String
+            vat_id: String
+        }
+
         type Mutation {
             updateCustomer(input: UpdateCustomerInput): UpdateCustomerOutput
             changeCustomerPassword(currentPassword: String!, newPassword: String!): Customer
             addProductToWishlist(productId: Int!): AddProductToWishlistOutput
             removeItemWishlist(wishlistItemId: Int!): RemoveItemWishlistOutput
+            createCustomerAddress(input: CustomerAddressInput) : CustomerAddress
         }
     `,
 });

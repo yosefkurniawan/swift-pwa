@@ -13,20 +13,24 @@ import { Add } from '@material-ui/icons';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import Backdrop from '@components/Loaders/Backdrop';
-import { getCustomer as gqlGetCustomer } from '../../../checkout/services/graphql';
+import { GraphCustomer } from '@services/graphql';
 import { createCustomerAddress, updateCustomerAddress, updatedDefaultAddress as gqlUpdateDefaulAddress } from '../services/graphql';
 import ItemAddress from './ItemAddress';
 import useStyles from './style';
 
 // Main Render Page
 const Content = (props) => {
+    const { token } = props;
     // style
     const styles = useStyles();
+    let getCustomer = {};
     // graphql
-    const getCustomer = gqlGetCustomer();
     const [updatedDefaultAddress] = gqlUpdateDefaulAddress();
     const [updateAddress] = updateCustomerAddress();
     const [addAddress] = createCustomerAddress();
+    if (typeof window !== 'undefined') {
+        getCustomer = GraphCustomer.getCustomer(token);
+    }
     // state
     const [address, setAddress] = useState([]);
     const [selectedAddressId, setSelectedAddressId] = useState(null);

@@ -82,6 +82,30 @@ const customerOutput = `
     prefix
     lastname
     email
+    addresses {
+      id
+      city
+      default_billing
+      default_shipping
+      custom_attributes {
+          attribute_code
+          value
+      }
+      extension_attributes {
+          attribute_code
+          value
+      }
+      firstname
+      lastname
+      postcode
+      country_code
+      region {
+          region
+          region_code
+      }
+      street
+      telephone
+    }
     wishlist {
         id
         items {
