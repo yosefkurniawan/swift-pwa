@@ -4,9 +4,11 @@
     "notFound": "Pesanan tidak di ketahui",
     "shippedTo": "Di kirim ke",
     "shippingMethod": "Metode pengiriman",
-    "paymentMenthod": "Metode pembayaran",
+    "paymentMethod": "Metode pembayaran",
     "shipping": "Pengiriman",
     "discount": "Potongan",
     "date": "Tanggal",
-    "totalItems": "Total Item"
+    "totalItems": "Total Item",
+    "paymentDate": "Tanggal Pembayaran",
+    "virtualAccount": ""
 }
