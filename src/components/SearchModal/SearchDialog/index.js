@@ -10,6 +10,7 @@ import Typography from '@components/Typography';
 import TextField from '@components/Forms/TextField';
 import classNames from 'classnames';
 import Router from 'next/router';
+import { useTranslation } from '@i18n';
 import useStyles from './style';
 
 const data = [
@@ -34,10 +35,7 @@ const category = [
 const Transition = React.forwardRef((props, ref) => <Grow ref={ref} {...props} timeout={600} />);
 
 const TextSearch = ({
-    text = '',
-    searchValue = '',
-    value = 3,
-    subText = '',
+    text = '', searchValue = '', value = 3, subText = '',
 }) => {
     const styles = useStyles();
     const textArray = text.split('');
@@ -45,19 +43,9 @@ const TextSearch = ({
     return (
         <div className={styles.textSearch}>
             <div className={styles.textValue}>
-                <Typography
-                    variant="span"
-                    type="bold"
-                    letter="capitalize"
-                    className={styles.rmMargin}
-                >
+                <Typography variant="span" type="bold" letter="capitalize" className={styles.rmMargin}>
                     {valueArray.map((txt, key) => textArray[key])}
-                    <Typography
-                        variant="span"
-                        letter="lowercase"
-                        className={styles.rmMargin}
-                        type="regular"
-                    >
+                    <Typography variant="span" letter="lowercase" className={styles.rmMargin} type="regular">
                         {textArray.map((txt, idx) => idx >= valueArray.length && txt)}
                     </Typography>
                 </Typography>
@@ -71,11 +59,10 @@ const TextSearch = ({
 };
 
 const SearchDialog = ({ open, setOpen }) => {
+    const { t } = useTranslation(['common']);
     const styles = useStyles();
     const [value, setValue] = React.useState('');
-    const classBody = value === ''
-        ? classNames(styles.body, styles.hide)
-        : classNames(styles.body, styles.show);
+    const classBody = value === '' ? classNames(styles.body, styles.hide) : classNames(styles.body, styles.show);
     const handleSearch = (ev) => {
         if (ev.key === 'Enter') {
             Router.push({
@@ -90,76 +77,38 @@ const SearchDialog = ({ open, setOpen }) => {
     };
 
     return (
-        <Dialog
-            fullScreen
-            open={open}
-            TransitionComponent={Transition}
-            onClose={setOpen}
-        >
+        <Dialog fullScreen open={open} TransitionComponent={Transition} onClose={setOpen}>
             <AppBar className={styles.appBar}>
                 <Toolbar>
                     <IconButton edge="start" onClick={setOpen} aria-label="close">
                         <CloseIcon className={styles.iconClose} />
                     </IconButton>
-                    <TextField
-                        placeholder="Search ..."
-                        value={value}
-                        onChange={handleAutoComplete}
-                        onKeyPress={handleSearch}
-                    />
+                    <TextField placeholder="Search ..." value={value} onChange={handleAutoComplete} onKeyPress={handleSearch} />
                 </Toolbar>
             </AppBar>
             <div className={classBody}>
-                <Typography
-                    variant="span"
-                    type="bold"
-                    letter="uppercase"
-                    className={styles.title}
-                >
-                    Brand
+                <Typography variant="span" type="bold" letter="uppercase" className={styles.title}>
+                    {t('common:title:brand')}
                 </Typography>
                 <div className={styles.result}>
                     {data.map((dt, idx) => (
                         <a
                             key={idx}
                             onClick={() => {
-                                Router.push(
-                                    '/product/[id]',
-                                    `/product/${dt.text.toLowerCase()}`,
-                                );
+                                Router.push('/product/[id]', `/product/${dt.text.toLowerCase()}`);
                             }}
                         >
-                            <TextSearch
-                                text={dt.text}
-                                searchValue={value}
-                                value={dt.value}
-                            />
+                            <TextSearch text={dt.text} searchValue={value} value={dt.value} />
                         </a>
                     ))}
                 </div>
-                <Typography
-                    variant="span"
-                    type="bold"
-                    letter="uppercase"
-                    className={styles.title}
-                >
-                    Category
+                <Typography variant="span" type="bold" letter="uppercase" className={styles.title}>
+                    {t('common:title:category')}
                 </Typography>
                 <div className={styles.result}>
                     {category.map((dt, idx) => (
-                        <a
-                            key={idx}
-                            onClick={() => Router.push(
-                                '/category/[id]',
-                                `/category/${dt.cat.toLowerCase()}`,
-                            )}
-                        >
-                            <TextSearch
-                                text={dt.text}
-                                searchValue={value}
-                                value={dt.value}
-                                subText={`in ${dt.cat}`}
-                            />
+                        <a key={idx} onClick={() => Router.push('/category/[id]', `/category/${dt.cat.toLowerCase()}`)}>
+                            <TextSearch text={dt.text} searchValue={value} value={dt.value} subText={`in ${dt.cat}`} />
                         </a>
                     ))}
                 </div>

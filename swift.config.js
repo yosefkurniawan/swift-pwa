@@ -16,7 +16,6 @@ const graphqlInternalEndpoint = {
     prod: 'https://swiftpwa.testingnow.me/graphql',
 };
 
-
 /* --------------------------------------- */
 /* FEATURES CONFIGURATION
 /* --------------------------------------- */
@@ -68,6 +67,11 @@ const cmsContactIdentifiers = 'weltpixel_contact_page';
 
 const SESSION_SECRET = 'asdasdd1212ads12!!!@**DADxx1';
 
+const productImageSize = {
+    width: 240,
+    height: 300,
+};
+
 module.exports = {
     BASE_URL,
     graphqlEndpoint,
@@ -87,4 +91,5 @@ module.exports = {
     loaderImage,
     cmsContactIdentifiers,
     SESSION_SECRET,
+    productImageSize,
 };

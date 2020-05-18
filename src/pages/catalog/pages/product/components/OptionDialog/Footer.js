@@ -32,7 +32,7 @@ export default ({
     return (
         <>
             <div className={styles.qty}>
-                <Typography variant="span">Qty</Typography>
+                <Typography variant="span">{t('common:title:qty')}</Typography>
                 <Select
                     defaultValue={1}
                     value={qty}

@@ -48,10 +48,10 @@ const Otp = ({ t, length = 4 }) => {
                 letter="capitalize"
                 align="center"
             >
-                {t('customer:otp:pageTitle')}
+                {t('otp:pageTitle')}
             </Typography>
             <Typography variant="p" letter="capitalize" align="center">
-                {t('customer:otp:choseMethod')}
+                {t('otp:choseMethod')}
             </Typography>
             <Paper
                 variant="outlined"
@@ -66,17 +66,17 @@ const Otp = ({ t, length = 4 }) => {
                         letter="capitalize"
                         align="center"
                     >
-                        {t('customer:otp:sms')}
+                        {t('otp:sms')}
                         {' '}
                         {phone}
                     </Typography>
                 </div>
             </Paper>
             <Typography variant="p" letter="capitalize" align="center">
-                {t('customer:otp:note')}
+                {t('otp:note')}
             </Typography>
             <Typography variant="span" letter="capitalize" align="center">
-                {t('customer:otp:label')}
+                {t('otp:label')}
             </Typography>
             <div className={styles.formOtp}>
                 <Input
@@ -97,24 +97,24 @@ const Otp = ({ t, length = 4 }) => {
                 disabled={otp === '' || !otp || otp.length < 4}
             >
                 <Typography variant="title" type="regular" letter="capitalize">
-                    {t('customer:otp:button')}
+                    {t('otp:button')}
                 </Typography>
             </Button>
             {time > 0 && (
                 <Typography variant="p" align="center">
-                    {t('customer:otp:wait')}
+                    {t('otp:wait')}
                     {' '}
                     {time}
                     {' '}
-                    {t('customer:otp:resend')}
+                    {t('otp:resend')}
                 </Typography>
             )}
             <Typography variant="p">
-                {t('customer:otp:sendTimes')}
+                {t('otp:sendTimes')}
                 {' '}
                 {manySend - 1}
                 {' '}
-                {t('customer:otp:time')}
+                {t('otp:time')}
             </Typography>
         </div>
     );

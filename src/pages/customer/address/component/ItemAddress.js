@@ -21,6 +21,7 @@ const ItemAddress = (props) => {
         checked = false,
         onSubmitAddress,
         customAttributes,
+        t,
         // eslint-disable-next-line no-unused-vars
     } = props;
     const [open, setOpen] = useState(false);
@@ -64,7 +65,7 @@ const ItemAddress = (props) => {
                 loading={loading}
                 success={success}
                 setOpen={() => setOpen(!open)}
-                pageTitle="editTitle"
+                pageTitle={t('customer:address:editTitle')}
             />
             <Box className="column">
                 <Box className={[styles.address_content].join(' ')}>
@@ -96,7 +97,7 @@ const ItemAddress = (props) => {
                         labelPlacement="end"
                     />
                     <Typography className={[styles.address_edit].join(' ')} variant="span" onClick={() => setOpen(!open)}>
-                        Edit Address
+                        {t('customer:address:editTitle')}
                     </Typography>
                 </Box>
             </Box>

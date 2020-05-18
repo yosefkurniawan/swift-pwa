@@ -11,8 +11,6 @@ import { setCountCart } from '@stores/actions/cart';
 import { GraphCart } from '@services/graphql';
 import { getToken } from '@helpers/token';
 import { getCartId, setCartId } from '@helpers/cartId';
-import { getCartIdUser } from '@services/graphql/schema/cart';
-import { useQuery } from '@apollo/react-hooks';
 import { addConfigProductsToCart, getConfigurableProduct } from '../../services/graphql';
 import { setConfigurable, setProductSelected } from '../../redux/action';
 import Footer from './Footer';
@@ -125,12 +123,7 @@ export default (props) => {
 
     const [addCartConfig] = addConfigProductsToCart(tokenCustomer);
     const [getGuestCartId] = GraphCart.getGuestCartId();
-    const cartUser = useQuery(getCartIdUser, {
-        context: {
-            headers: { Authorization: `Bearer ${tokenCustomer}` },
-        },
-        skip: tokenCustomer === '' || !tokenCustomer,
-    });
+    const cartUser = GraphCart.getCustomerCartId();
 
     const [error, setError] = React.useState({});
 

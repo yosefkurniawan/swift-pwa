@@ -5,27 +5,16 @@
   "register": {
     "pageTitle": "Create New Account",
     "title": "Register",
-    "button": "Create an Account"
+    "button": "Create an Account",
+    "subscribe": "Sign up for newslater",
+    "isWhatsapp": "Phone number is registered in whatsapp"
   },
   "login": {
     "haveAccount": "If you have an account",
     "pageTitle": "Sign In",
     "forgotPassword": "forgot password",
-    "notHaveAccount": "Don't have an account?"
-  },
-  "otp": {
-    "pageTitle": "Verification Phone Number",
-    "title": "Verification",
-    "label": "Input your code",
-    "button": "Veirify OTP",
-    "sendOtp": "Send OTP",
-    "wait": "Verification code has been send. Please wait ",
-    "resend": "seconds, to resend verification code.",
-    "sendTimes": "Otp has been send",
-    "time": "times",
-    "note": "Note : Max 3 times to send verification code",
-    "choseMethod": "Choose one of method(s) below to get verification code.",
-    "sms": "Via sms to "
+    "notHaveAccount": "Don't have an account?",
+    "switchPhone": "Login with phone number"
   },
   "forgotPassword": {
     "title": "reset password",
@@ -50,23 +39,9 @@
     "language": "Language"
   },
   "profile" : {
-      "title" : "my account"
-  },
-  "wishlist": {
-    "pageTitle": "Wishlist",
-    "title" : "Wishlist",
-    "removeSucess": "remove wishlist success",
-    "removeFailed": "remove wishlist failed",
-    "addToBag": "add to bag",
-    "addAllToBag": "add all to bag",
-    "addSucess": "add wishlist success",
-    "addFailed": "add wishlist failed",
-    "notFound": "You have no items in your wish list",
-    "warningDelete": "Are you sure delete this item from wish list?",
-    "addAllToBagSuccess": "Success add all wish list item to cart",
-    "addPartToBagSuccess": "Success add $ item wishlist to cart but not all item without selected configurable product",
-    "failedAddToBagOption" : "Please select option for some product"
-
+      "title" : "my account",
+      "successUpdate": "Update profile success",
+      "successChangePass": "Change password success"
   },
   "address" : {
     "pageTitle" : "Address Book",
@@ -74,5 +49,15 @@
     "editTitle" : "Edit address",
     "useBilling" : "use as my default billing address",
     "useShipping" : "use as my default shipping address"
+  },
+  "menu": {
+    "aboutUs": "About Us",
+    "contactUs": "Contact Us",
+    "myPoint": "My Point",
+    "myOrder": "My Order",
+    "myAccount": "My Account",
+    "address": "Address Book",
+    "setting": "Settings",
+    "readMore": "Read More"
   }
 }

@@ -54,7 +54,7 @@ const EditDrawer = ({
                     {product_name}
                 </Typography>
                 <div className={styles.qty}>
-                    <Typography variant="span">{t('common:qty')}</Typography>
+                    <Typography variant="span">{t('common:title:qty')}</Typography>
                     <Select
                         defaultValue={1}
                         value={qty}

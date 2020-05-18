@@ -2,12 +2,14 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 import Typography from '@components/Typography';
 import Link from 'next/link';
+import { useTranslation } from '@i18n';
 import useStyles from './style';
 import setDefaultWhenEmpty from '../../helpers/checkImageSrc';
 
 const SpanCategory = ({
     imageSrc, name, description, url,
 }) => {
+    const { t } = useTranslation(['common']);
     const styles = useStyles();
     return (
         <div className={styles.container}>
@@ -36,7 +38,7 @@ const SpanCategory = ({
                         </Typography>
                         <Link href="[...slug]" as={url}>
                             <Typography variant="span" type="bold" className={styles.textBtn}>
-                                SHOP NOW
+                                {t('common:button:shop')}
                             </Typography>
                         </Link>
                     </div>

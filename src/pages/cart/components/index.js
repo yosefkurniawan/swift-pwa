@@ -146,12 +146,12 @@ const Cart = (props) => {
                 },
             }).then(async () => {
                 deleteItem(itemId);
-                await setMessage({ open: true, variant: 'success', text: 'add wishlist success' });
+                await setMessage({ open: true, variant: 'success', text: t('wishlist:addSuccess') });
             }).catch((e) => {
                 setMessage({
                     open: true,
                     variant: 'error',
-                    text: e.message.split(':')[1] || 'add wishlist failed',
+                    text: e.message.split(':')[1] || t('wishlist:addFailed'),
                 });
                 setBackdrop(false);
             });

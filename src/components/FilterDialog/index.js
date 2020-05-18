@@ -11,6 +11,7 @@ import CheckBoxSize from '@components/Forms/CheckBoxSize';
 import CheckBoxColor from '@components/Forms/CheckBoxColor';
 import Button from '@components/Button';
 import Loading from '@components/Loaders';
+import { useTranslation } from '@i18n';
 import useStyles from './style';
 
 
@@ -32,6 +33,7 @@ const FilterDialog = ({
     getValue = () => {},
     defaultValue = {},
 }) => {
+    const { t } = useTranslation(['common']);
     const styles = useStyles();
     const [selectedFilter, setFilter] = React.useState(defaultValue);
     const [sort, setSort] = React.useState(defaultValue.sort ? defaultValue.sort : '');
@@ -106,14 +108,14 @@ const FilterDialog = ({
                     letter="uppercase"
                     className={styles.title}
                 >
-                    Filter & Sorts
+                    {t('common:title:shortFilter')}
                 </Typography>
             </AppBar>
             <div className={styles.body}>
                 {itemProps && itemProps.sortBy === false ? null : (
                     <div className={styles.fieldContainer}>
                         <RadioGroup
-                            label={itemProps.labelSortBy || 'Sort By'}
+                            label={itemProps.labelSortBy || t('common:title:short')}
                             valueData={sortByData || []}
                             value={itemProps.sortByValue || sort}
                             onChange={itemProps.sortByChange || setSort}
@@ -149,7 +151,7 @@ const FilterDialog = ({
                             <div className={styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']} key={idx}>
                                 <CheckBox
                                     name={itemFilter.field}
-                                    label={itemFilter.label || 'Size'}
+                                    label={itemFilter.label || t('common:title:size')}
                                     data={ItemValueByLabel}
                                     value={defaultValue[itemFilter.field] ? defaultValue[itemFilter.field].split(',') : []}
                                     flex={itemProps.selectSizeFlex || 'row'}
@@ -163,7 +165,7 @@ const FilterDialog = ({
                             <div className={styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']} key={idx}>
                                 <CheckBox
                                     name={itemFilter.field}
-                                    label={itemFilter.label || 'Color'}
+                                    label={itemFilter.label || t('common:title:color')}
                                     data={ItemValueByLabel}
                                     value={defaultValue[itemFilter.field] ? defaultValue[itemFilter.field].split(',') : []}
                                     flex={itemProps.selectSizeFlex || 'row'}
@@ -207,10 +209,10 @@ const FilterDialog = ({
                     className={styles.btnSave}
                     onClick={handleClear}
                 >
-                    Clear
+                    {t('common:button:clear')}
                 </Button>
                 <Button className={styles.btnSave} onClick={handleSave}>
-                    Save
+                    {t('common:button:save')}
                 </Button>
             </div>
         </Dialog>

@@ -12,7 +12,7 @@ const CatalogPage = (props) => (
 */
 CatalogPage.getInitialProps = async ({ query, req }) => ({
     slug: query.slug,
-    namespacesRequired: ['common', 'product', 'category', 'validate'],
+    namespacesRequired: ['common', 'product', 'category', 'validate', 'wishlist'],
     url: req
         ? `${req.protocol}://${req.get('host')}`
         : `${window.location.protocol

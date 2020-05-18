@@ -27,5 +27,16 @@
             "add": "Silahkan menambahkan alamat pengiriman",
             "default": "Tidak ada alamat pengiriman yang dipilih"
         }
-    }
+    },
+    "checkBalance": "Cek Sisa",
+    "myPoint": {
+        "title": "Point Saya",
+        "button": "Gunakan point"
+    },
+    "myCredit": {
+        "title": "Kredit Saya",
+        "button": "Gunakan Kredit"
+    },
+    "promoCodePlaceholder": "Kode Promo",
+    "giftCartPlaceholder": "Nomor kartu hadiah"
 }

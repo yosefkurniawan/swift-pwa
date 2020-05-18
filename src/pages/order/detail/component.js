@@ -6,7 +6,7 @@ import Alert from '@material-ui/lab/Alert';
 import useStyles from './style';
 
 const ItemProduct = ({
-    name, price, qty_ordered, currency,
+    name, price, qty_ordered, currency, t,
 }) => {
     const styles = useStyles();
     return (
@@ -16,13 +16,19 @@ const ItemProduct = ({
                 <Typography variant="label">{name || ''}</Typography>
                 <Typography variant="span">{formatPrice(price, currency)}</Typography>
                 <Typography variant="span" className={styles.textDetail}>
-                    Color : Black
+                    {t('common:title:color')}
+                    {' '}
+                    : Black
                 </Typography>
                 <Typography variant="span" className={styles.textDetail}>
-                    Size : M
+                    {t('common:title:size')}
+                    {' '}
+                    : M
                 </Typography>
                 <Typography variant="span" className={styles.textDetail}>
-                    Qty :
+                    {t('common:title:qty')}
+                    {' '}
+                    :
                     {qty_ordered || 0}
                 </Typography>
                 <div className="flex-grow" />
@@ -44,7 +50,7 @@ const DetailOrder = ({ t, detail, currency }) => {
                     </Typography>
                     <Typography variant="span">{moment().format('MMM DD, YYYY')}</Typography>
                     <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
-                        SHIPPED TO
+                        {t('order:shippedTo')}
                     </Typography>
                     <Typography variant="span" align="center">
                         {detail[0].detail[0].shipping_address.firstname || ''}
@@ -60,11 +66,11 @@ const DetailOrder = ({ t, detail, currency }) => {
                         {detail[0].detail[0].shipping_address.telephone || ''}
                     </Typography>
                     <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
-                        shipping method
+                        {t('order:shippingMethod')}
                     </Typography>
                     <Typography variant="span">{detail[0].detail[0].shipping_methods.shipping_description || ''}</Typography>
                     <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
-                        payment method
+                        {t('order:paymentMethod')}
                     </Typography>
                     <Typography variant="span">{detail[0].detail[0].payment.additional_information[0] || ''}</Typography>
                 </div>
@@ -72,7 +78,7 @@ const DetailOrder = ({ t, detail, currency }) => {
                     {detail.length > 0
                         && detail[0].detail[0].items.length > 0
                         && detail[0].detail[0].items.map((item, key) => (
-                            <ItemProduct key={key} {...item} currency={currency} />
+                            <ItemProduct t={t} key={key} {...item} currency={currency} />
                         ))}
                 </div>
                 <div className={styles.block}>
@@ -92,7 +98,7 @@ const DetailOrder = ({ t, detail, currency }) => {
                         detail[0].detail[0].payment && (
                             <div className={styles.listSummary}>
                                 <Typography variant="span" letter="capitalize">
-                                    Shipping
+                                    {t('order:shipping')}
                                 </Typography>
                                 <Typography variant="span" letter="capitalize">
                                     { formatPrice(detail[0].detail[0].payment.shipping_amount, currency) }
@@ -104,7 +110,7 @@ const DetailOrder = ({ t, detail, currency }) => {
                         detail[0].detail[0].discount_amount && (
                             <div className={styles.listSummary}>
                                 <Typography variant="span" letter="capitalize">
-                                    Discount
+                                    {t('order:discount')}
                                 </Typography>
                                 <Typography variant="span" letter="capitalize">
                                     { formatPrice(detail[0].detail[0].discount_amount, currency) }

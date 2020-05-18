@@ -5,9 +5,9 @@ import Content from './component';
 const Page = (props) => {
     const { t } = props;
     const pageConfig = {
-        title: t('customer:wishlist:pageTitle'),
+        title: t('wishlist:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle: t('customer:wishlist:pageTitle'),
+        headerTitle: t('wishlist:pageTitle'),
         bottomNav: false,
     };
     return (
@@ -18,7 +18,7 @@ const Page = (props) => {
 };
 
 Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'customer', 'product'],
+    namespacesRequired: ['common', 'wishlist'],
     withAuth: true,
 });
 

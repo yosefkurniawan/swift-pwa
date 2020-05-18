@@ -138,7 +138,7 @@ const Register = ({ t, storeConfig }) => {
             <Toast open={message.open} message={message.text} variant={message.variant} setOpen={() => setMessage({ ...message, open: false })} />
             <form className={styles.container} onSubmit={formik.handleSubmit}>
                 <TextField
-                    label="First Name"
+                    label={t('common:form:firstName')}
                     name="firstName"
                     value={formik.values.firstName}
                     onChange={formik.handleChange}
@@ -146,7 +146,7 @@ const Register = ({ t, storeConfig }) => {
                     errorMessage={(formik.touched.firstName && formik.errors.firstName) || null}
                 />
                 <TextField
-                    label="Last Name"
+                    label={t('common:form:lastName')}
                     name="lastName"
                     value={formik.values.lastName}
                     onChange={formik.handleChange}
@@ -173,7 +173,7 @@ const Register = ({ t, storeConfig }) => {
                     errorMessage={(formik.touched.password && formik.errors.password) || null}
                 />
                 <TextField
-                    label="Confirm Password"
+                    label={t('common:form:confirm')}
                     type="password"
                     name="confirmPassword"
                     value={formik.values.confirmPassword}
@@ -202,14 +202,14 @@ const Register = ({ t, storeConfig }) => {
                                     onChange={handleWa}
                                     className={styles.checkWa}
                                     control={<Checkbox name="whastapptrue" color="primary" size="small" />}
-                                    label={<Typography variant="p">Phone Number is Registered in Whatsapp</Typography>}
+                                    label={<Typography variant="p">{t('customer:register:isWhatsapp')}</Typography>}
                                 />
                             ),
                         }}
                     />
                 ) : (
                     <TextField
-                        label="Phone number"
+                        label={t('common:form:phoneNumber')}
                         name="phoneNumber"
                         value={formik.values.phoneNumber}
                         onChange={formik.handleChange}
@@ -220,14 +220,14 @@ const Register = ({ t, storeConfig }) => {
                                 onChange={handleWa}
                                 className={styles.checkWa}
                                 control={<Checkbox name="whastapptrue" color="primary" size="small" />}
-                                label={<Typography variant="p">Phone Number is Registered in Whatsapp</Typography>}
+                                label={<Typography variant="p">{t('customer:register:isWhatsapp')}</Typography>}
                             />
                         )}
                     />
                 )}
                 {!phoneIsWa && (
                     <TextField
-                        label="Whatsapp Phone Number"
+                        label={`${t('customer:form:phoneNumber')} Whatsapp`}
                         name="whatsappNumber"
                         value={formik.values.whatsappNumber}
                         onChange={formik.handleChange}
@@ -243,7 +243,7 @@ const Register = ({ t, storeConfig }) => {
                         control={<Checkbox name="subscribe" color="primary" size="small" />}
                         label={(
                             <Typography variant="p" letter="capitalize" className="row center">
-                                Sign up for Newsletter
+                                {t('customer:register:subscribe')}
                             </Typography>
                         )}
                     />

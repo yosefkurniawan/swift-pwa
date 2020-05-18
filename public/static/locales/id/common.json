@@ -4,12 +4,13 @@
         "logoName": "LOGO"
     },
     "product": {
-        "title_product": "Nama Produk"
+        "title_product": "Nama Produk",
+        "name": "Produk"
     },
     "search": {
         "mainTitle": "Koleksi terbaru",
         "backTitle": "kembali ke produk",
-        "location" : "Cari Lokasi"
+        "location": "Cari Lokasi"
     },
     "button": {
         "edit": "Edit",
@@ -19,15 +20,40 @@
         "cancel": "Batal",
         "yes": "Ya",
         "checkout": "Checkout",
-        "change" : "Ubah",
-        "send" : "kirim",
+        "change": "Ubah",
+        "send": "kirim",
         "manage": "Manage",
         "addAddress": "Tambah Alamat",
-        "loadMore": "Lihat lagi"
+        "loadMore": "Lihat lagi",
+        "clear": "Bersihkan",
+        "verify": "Verifikasi",
+        "shop": "Beli Sekarang"
     },
     "subtotal": "Subtotal",
     "price": {
         "asLowAs": "Termurah"
     },
-    "qty": "Jumlah"
+    "qty": "Jumlah",
+    "form": {
+        "firstName": "Nama Depan",
+        "lastName": "Nama Belakang",
+        "phoneNumber": "Nomor Telephon",
+        "confirm": "Konfirmasi Password",
+        "currentPasword": "Password Lama",
+        "state": "Bagian / Provinsi",
+        "region": "Negara",
+        "city": "Kota",
+        "street": "Alamat Jalan",
+        "postal": "Code Pos"
+    },
+    "title": {
+        "qty": "Jumlah",
+        "color": "Warna",
+        "size": "Ukuran",
+        "shortFilter": "Urutan & Filter",
+        "short": "Urutkan dari",
+        "search": "Pencarian ...",
+        "brand": "Brand",
+        "category": "Kategory"
+    }
 }

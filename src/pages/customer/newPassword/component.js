@@ -70,7 +70,7 @@ const ForgotPassword = ({ t, token }) => {
                 showPasswordMeter
             />
             <Password
-                label="Confirm Password"
+                label={t('common:form:confirm')}
                 className={styles.email}
                 name="confirmPassword"
                 value={formik.values.confirmPassword}

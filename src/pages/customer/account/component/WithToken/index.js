@@ -12,7 +12,7 @@ import useStyles from './style';
 
 
 const WithToken = (props) => {
-    const { token } = props;
+    const { token, t } = props;
     const styles = useStyles();
     let userData = {};
     let wishlist = [];
@@ -40,29 +40,29 @@ const WithToken = (props) => {
                 </div>
                 <div className={[styles.account_block, styles.padding_vertical_40].join(' ')}>
                     <div className={styles.account_point}>
-                        <p className={styles.account_point_title}>My Point</p>
+                        <p className={styles.account_point_title}>{t('customer:myPoint')}</p>
                         <h3 className={styles.account_point_summary}>100.000</h3>
                     </div>
                     <div className={styles.account_block}>
                         <ul className={styles.account_navigation}>
                             <li className={styles.account_navigation_item}>
                                 <Link href="/sales/order/history">
-                                    <a className={styles.account_navigation_link}>My Order</a>
+                                    <a className={styles.account_navigation_link}>{t('customer:myOrder')}</a>
                                 </Link>
                             </li>
                             <li className={styles.account_navigation_item}>
                                 <Link href="/customer/account/profile">
-                                    <a className={styles.account_navigation_link}>My Account</a>
+                                    <a className={styles.account_navigation_link}>{t('customer:myAccount')}</a>
                                 </Link>
                             </li>
                             <li className={styles.account_navigation_item}>
                                 <Link href="/customer/account/address">
-                                    <a className={styles.account_navigation_link}>Address Book</a>
+                                    <a className={styles.account_navigation_link}>{t('customer:address')}</a>
                                 </Link>
                             </li>
                             <li className={styles.account_navigation_item}>
                                 <Link href="/customer/setting">
-                                    <a className={styles.account_navigation_link}>Settings</a>
+                                    <a className={styles.account_navigation_link}>{t('customer:setting')}</a>
                                 </Link>
                             </li>
                             {
@@ -90,7 +90,7 @@ const WithToken = (props) => {
                                         className={[styles.account_wishlist_read_more].join(' ')}
                                         variant="text"
                                     >
-                                        <Typography variant="span" type="bold" letter="capitalize">Read More</Typography>
+                                        <Typography variant="span" type="bold" letter="capitalize">{t('customer:readMore')}</Typography>
                                     </Button>
                                 </div>
                             </div>

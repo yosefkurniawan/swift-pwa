@@ -930,7 +930,7 @@ const Checkout = (props) => {
                 <div className={classNames(styles.block, styles.rmBorder)}>
                     <FieldPoint
                         id="coupon"
-                        placeholder="Promo Code"
+                        placeholder={t('checkout:promoCodePlaceholder')}
                         action={handlePromo}
                         onChange={formik.handleChange}
                         value={formik.values.coupon}
@@ -939,16 +939,16 @@ const Checkout = (props) => {
                         error={!!formik.errors.coupon}
                         errorMessage={formik.errors.coupon}
                     />
-                    <FieldPoint placeholder="Gift Card Number" action={handleGift} />
+                    <FieldPoint placeholder={t('checkout:giftCartPlaceholder')} action={handleGift} />
                     <Button variant="text" className={styles.btnBalanceGift}>
                         <Typography variant="p" decoration="underline" letter="capitalize">
-                            Check Balance
+                            {t('checkout:checkBalance')}
                         </Typography>
                     </Button>
                     <div className={styles.cardPoint}>
                         <div className="column">
                             <Typography variant="span" letter="capitalize">
-                                My Point
+                                {t('checkout:myPoint:title')}
                             </Typography>
                             <Typography variant="title" type="bold" className={styles.pointText}>
                                 {checkout.data.point.toLocaleString(undefined, { minimumFractionDigits: 0 })}
@@ -957,7 +957,7 @@ const Checkout = (props) => {
                         <div>
                             <Button variant="outlined" className={styles.btnPoint} onClick={handleUsePoint}>
                                 <Typography variant="p" type="bold" letter="uppercase">
-                                    USE MY POIN
+                                    {t('checkout:myPoint:button')}
                                 </Typography>
                             </Button>
                         </div>
@@ -965,7 +965,7 @@ const Checkout = (props) => {
                     <div className={styles.cardPoint}>
                         <div className="column">
                             <Typography variant="span" letter="capitalize">
-                                My Credit
+                                {t('checkout:myCredit:title')}
                             </Typography>
                             <Typography variant="title" type="bold" className={styles.pointText}>
                                 {checkout.data.credit.toLocaleString(undefined, { minimumFractionDigits: 0 })}
@@ -974,7 +974,7 @@ const Checkout = (props) => {
                         <div>
                             <Button variant="outlined" className={styles.btnPoint} onClick={handleUseCredit}>
                                 <Typography variant="p" type="bold" letter="uppercase" align="center">
-                                    use my credit
+                                    {t('checkout:myCredit:button')}
                                 </Typography>
                             </Button>
                         </div>
