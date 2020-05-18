@@ -120,12 +120,19 @@ query getCartData($cart_id: String!) {
 }
 `;
 async function cart(parent, { cart_id }, context) {
-    console.log('cart data');
-    const res = await requestGraph(query, { cart_id }, context);
-    if (res.cart) {
-        return res.cart;
+    if (cart_id) {
+        const res = await requestGraph(query, { cart_id }, context);
+        if (res.cart) {
+            return res.cart;
+        }
+        return res;
     }
-    return res;
+    return {
+        message: 'Required parameter "cart_id" is missing',
+        extensions: { category: 'graphql-input' },
+        path: ['cart'],
+        status: 200,
+    };
 }
 
 module.exports = cart;

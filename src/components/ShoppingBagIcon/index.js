@@ -27,12 +27,15 @@ const ShoppingBagIcon = ({ bottomNav = false }) => {
         token = getToken();
         cartId = getCartId();
     }
-    const cartUser = useQuery(getCartIdUser, {
-        context: {
-            request: 'internal',
-        },
-        fetchPolicy: 'no-cache',
-    });
+    let cartUser = {};
+    if (token) {
+        cartUser = useQuery(getCartIdUser, {
+            context: {
+                request: 'internal',
+            },
+            fetchPolicy: 'no-cache',
+        });
+    }
 
     if (token !== '' && (cartId === '' || !cartId || cartId === undefined)) {
         if (cartUser.data) {
