@@ -10,7 +10,6 @@ const query = `
 `;
 
 async function customerCart(parent, args, context) {
-    console.log('cust cart id');
     const res = await requestGraph(query, {}, context);
     if (res.customerCart) {
         return res.customerCart;

@@ -16,6 +16,7 @@ export const getCountCart = (token, cartId) => useQuery(CartSchema.getCountCart,
     variables: {
         cartId,
     },
+    skip: cartId === '' || typeof cartId === 'undefined',
 });
 export const mergeCart = (token) => useMutation(CartSchema.mergeCart, {
     context: {
