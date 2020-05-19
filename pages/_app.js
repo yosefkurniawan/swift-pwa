@@ -19,6 +19,9 @@ import {
 } from '@helpers/token';
 import '../src/styles/index.css';
 import '../src/styles/mage.css';
+import * as gtag from '@lib/gtag';
+
+Router.events.on('routeChangeComplete', (url) => gtag.pageview(url));
 
 class MyApp extends App {
     constructor(props) {

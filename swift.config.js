@@ -72,7 +72,12 @@ const productImageSize = {
     height: 300,
 };
 
+// GTAG GA
+
+const GA_TRACKING_ID = 'UA-167092917-1';
+
 module.exports = {
+    GA_TRACKING_ID,
     BASE_URL,
     graphqlEndpoint,
     graphqlInternalEndpoint,
