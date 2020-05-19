@@ -8,6 +8,7 @@ const Page = (props) => {
         title: t('home:pageTitle'),
         header: false, // available values: "absolute", "relative", false (default)
         bottomNav: 'home',
+        pageType: 'home',
     };
     return (
         <Layout pageConfig={pageConfig} {...props}>

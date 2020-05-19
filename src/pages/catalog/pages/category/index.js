@@ -17,6 +17,7 @@ const Page = (props) => {
         headerTitle: data && !data.categoryList[0].image_path ? data.categoryList[0].name : '',
         header: data && data.categoryList[0].image_path ? 'absolute' : 'relative', // available values: "absolute", "relative", false (default)
         bottomNav: 'browse',
+        pageType: 'category',
     };
     return (
         <Layout pageConfig={pageConfig}>

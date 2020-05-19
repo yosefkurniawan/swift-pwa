@@ -37,9 +37,19 @@ const passwordStrength = {
     numberOfRequiredClass: 3, // Lowercase + Uppercse + Dgits + spesial caracter = 4
 };
 
+/* Translation */
 const languagesLabel = {
     id: 'Bahasa Indonesia',
     en: 'English',
+};
+
+/* Google Tag Manager */
+const GTM = {
+    enable: true,
+    gtmId: {
+        dev: 'GTM-N76V8KQ',
+        prod: 'GTM-N76V8KQ',
+    },
 };
 
 /* --------------------------------------- */
@@ -72,14 +82,8 @@ const productImageSize = {
     height: 300,
 };
 
-// GTAG GA
-
-const GA_TRACKING_ID = 'UA-167092917-1';
-const GTM_ID = 'GTM-N76V8KQ';
-
 module.exports = {
-    GA_TRACKING_ID,
-    GTM_ID,
+    GTM,
     BASE_URL,
     graphqlEndpoint,
     graphqlInternalEndpoint,

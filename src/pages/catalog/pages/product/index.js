@@ -20,6 +20,7 @@ const Page = (props) => {
         title: product.items.length > 1 ? product.items[0].name : '',
         bottomNav: false,
         header: 'absolute', // available values: "absolute", "relative", false (default)
+        pageType: 'product',
     };
     return (
         <Layout pageConfig={pageConfig} CustomHeader={<CustomHeader />}>

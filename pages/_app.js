@@ -13,15 +13,19 @@ import { compose } from 'redux';
 import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import Cookie from 'js-cookie';
 import cookies from 'next-cookies';
-import { expiredCokies, storeConfigNameCokie, nameToken } from '@config';
+import {
+    expiredCokies, storeConfigNameCokie, nameToken, GTM,
+} from '@config';
 import {
     getTokenFromServer, getToken,
 } from '@helpers/token';
 import '../src/styles/index.css';
 import '../src/styles/mage.css';
-import * as gtag from '@lib/gtag';
+import TagManager from 'react-gtm-module';
 
-Router.events.on('routeChangeComplete', (url) => gtag.pageview(url));
+const tagManagerArgs = {
+    gtmId: process.env.NODE_ENV === 'production' ? GTM.gtmId.prod : GTM.gtmId.dev,
+};
 
 class MyApp extends App {
     constructor(props) {
@@ -35,6 +39,8 @@ class MyApp extends App {
         if (jssStyles) {
             jssStyles.parentElement.removeChild(jssStyles);
         }
+
+        TagManager.initialize(tagManagerArgs);
     }
 
     static async getInitialProps({ Component, ctx }) {
