@@ -7,7 +7,11 @@ export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath));
 export const getConfigurableProduct = (sku) => useQuery(Schema.getConfigurableProduct(sku));
 
 
-export const getReviews = (params) => useQuery(reviewSchema.getReview(params));
+export const getReviews = (params) => useQuery(reviewSchema.getReview(), {
+    variables: {
+        ...params,
+    },
+});
 export const addReview = () => useMutation(reviewSchema.addReview);
 
 export const addSimpleProductsToCart = () => useMutation(cartSchema.addSimpleProductsToCart, {
