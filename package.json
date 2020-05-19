@@ -63,6 +63,7 @@
     "react-avatar": "^3.9.2",
     "react-dom": "16.13.0",
     "react-google-maps": "^9.4.5",
+    "react-gtm-module": "^2.0.8",
     "react-html-parser": "^2.0.2",
     "react-redux": "^7.2.0",
     "react-share": "^4.1.0",
