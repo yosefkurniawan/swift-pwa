@@ -158,6 +158,34 @@ export const setShippingAddressById = gql`
             cart {
                 id
                 email
+                items {
+                    prices {
+                        row_total {
+                            currency
+                            value
+                        }
+                        discounts {
+                            amount {
+                                currency
+                                value
+                            }
+                            label
+                        }
+                    }
+                }
+                prices {
+                    discounts {
+                        amount {
+                            value
+                            currency
+                        }
+                        label
+                    }
+                    grand_total {
+                        value
+                        currency
+                    }
+                }
                 shipping_addresses {
                     firstname
                     lastname
@@ -237,6 +265,34 @@ export const setShippingAddressByInput = gql`
             cart {
                 id
                 email
+                items {
+                    prices {
+                        row_total {
+                            currency
+                            value
+                        }
+                        discounts {
+                            amount {
+                                currency
+                                value
+                            }
+                            label
+                        }
+                    }
+                }
+                prices {
+                    discounts {
+                        amount {
+                            value
+                            currency
+                        }
+                        label
+                    }
+                    grand_total {
+                        value
+                        currency
+                    }
+                }
                 shipping_addresses {
                     firstname
                     lastname
