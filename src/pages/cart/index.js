@@ -10,6 +10,7 @@ const Page = (props) => {
         headerTitle: t('cart:pageTitle'),
         headerBackIcon: 'close', // available values: "close", "arrow"
         bottomNav: false,
+        pageType: 'cart',
     };
     return (
         <Layout pageConfig={pageConfig}>

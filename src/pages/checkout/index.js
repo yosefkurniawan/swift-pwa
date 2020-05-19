@@ -12,6 +12,7 @@ const Page = (props) => {
         header: 'relative', // available values: "absolute", "relative", false (default)
         headerTitle: t('checkout:pageTitle'),
         bottomNav: false,
+        pageType: 'checkout',
     };
     return (
         <Layout pageConfig={pageConfig}>

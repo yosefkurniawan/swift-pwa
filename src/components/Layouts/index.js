@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navigation from '@components/Navigation';
 import Header from '@components/Header';
 import Head from 'next/head';
-// Layout params:
-// - pageConfig
-// - CustomHeader (optional)
+import TagManager from 'react-gtm-module';
+
 const Layout = (props) => {
     const {
         pageConfig, children, CustomHeader = false,
     } = props;
+
+    useEffect(() => {
+        const tagManagerArgs = {
+            dataLayer: {
+                pageName: pageConfig.title,
+                pageType: pageConfig.pageType ? pageConfig.pageType : 'other',
+                customerId: '', // @TODO: send if login only, fill width customer ID
+                customerGroup: 'NOT LOGGED IN', // @TODO: fill width customer group from magento if logged in
+            },
+        };
+        TagManager.dataLayer(tagManagerArgs);
+    }, []);
 
     return (
         <>
