@@ -18,7 +18,8 @@ export const getCustomer = () => useQuery(Schema.getCustomer, {
     context: {
         request: 'internal',
     },
-    fetchPolicy: 'network-only',
+    skip: typeof window === 'undefined',
+    fetchPolicy: 'cache-and-network',
 });
 
 export default {
