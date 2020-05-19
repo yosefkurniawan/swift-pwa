@@ -26,7 +26,7 @@ const Layout = (props) => {
                 <Header pageConfig={pageConfig} />
             )}
 
-            <main>{children}</main>
+            <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0 }}>{children}</main>
             <footer>
                 <Navigation active={pageConfig.bottomNav} />
             </footer>
