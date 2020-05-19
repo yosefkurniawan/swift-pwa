@@ -1,10 +1,11 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import Document, {
     Html, Head, Main, NextScript,
 } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import theme from '@theme/theme';
-import { GA_TRACKING_ID } from '@config';
+import { GA_TRACKING_ID, GTM_ID } from '@config';
 
 export default class MyDocument extends Document {
     render() {
@@ -22,7 +23,6 @@ export default class MyDocument extends Document {
                     {/* Global Site Tag (gtag.js) - Google Analytics */}
                     <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
                     <script
-                        // eslint-disable-next-line react/no-danger
                         dangerouslySetInnerHTML={{
                             __html: `
                                     window.dataLayer = window.dataLayer || [];
@@ -34,8 +34,31 @@ export default class MyDocument extends Document {
                                 `,
                         }}
                     />
+                    <script
+                        dangerouslySetInnerHTML={{
+                            __html: `
+                                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                                })(window,document,'script','dataLayer','${GTM_ID}');
+                            `,
+                        }}
+                    />
                 </Head>
                 <body>
+                    <noscript
+                        dangerouslySetInnerHTML={{
+                            __html: `
+                                <iframe
+                                    src="https://www.googletagmanager.com/ns.html?id=${GTM_ID}"
+                                    height="0"
+                                    width="0"
+                                    style="display:none;visibility:hidden"
+                                />
+                            `,
+                        }}
+                    />
                     <Main />
                     <NextScript />
                 </body>

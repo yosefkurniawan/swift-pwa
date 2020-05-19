@@ -75,9 +75,11 @@ const productImageSize = {
 // GTAG GA
 
 const GA_TRACKING_ID = 'UA-167092917-1';
+const GTM_ID = 'GTM-N76V8KQ';
 
 module.exports = {
     GA_TRACKING_ID,
+    GTM_ID,
     BASE_URL,
     graphqlEndpoint,
     graphqlInternalEndpoint,

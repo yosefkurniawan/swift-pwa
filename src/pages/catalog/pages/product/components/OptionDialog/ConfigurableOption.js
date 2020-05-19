@@ -11,6 +11,7 @@ import { setCountCart } from '@stores/actions/cart';
 import { GraphCart } from '@services/graphql';
 import { getToken } from '@helpers/token';
 import { getCartId, setCartId } from '@helpers/cartId';
+import * as gtag from '@lib/gtag';
 import { addConfigProductsToCart, getConfigurableProduct } from '../../services/graphql';
 import { setConfigurable, setProductSelected } from '../../redux/action';
 import Footer from './Footer';
@@ -172,6 +173,12 @@ export default (props) => {
                     qty: parseFloat(qty),
                     parentSku: sku,
                 };
+                gtag.event({
+                    action: 'submit_form',
+                    category: 'AddToCart',
+                    label: productState.product.sku,
+                    value: JSON.stringify(variables),
+                });
                 addCartConfig({
                     variables,
                 })
