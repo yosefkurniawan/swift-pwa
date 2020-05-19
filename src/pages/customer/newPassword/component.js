@@ -8,7 +8,7 @@ import Router from 'next/router';
 import { newPassword } from './services/graphql';
 import useStyles from './style';
 
-const ForgotPassword = ({ t, token }) => {
+const ForgotPassword = ({ t, query: { token } }) => {
     const styles = useStyles();
     const [toast, setToast] = React.useState({
         open: false,
@@ -21,7 +21,6 @@ const ForgotPassword = ({ t, token }) => {
         initialValues: {
             password: '',
             confirmPassword: '',
-            token,
         },
         validationSchema: Yup.object().shape({
             password: Yup.string().required(t('validate:password:required')),
@@ -33,25 +32,30 @@ const ForgotPassword = ({ t, token }) => {
         onSubmit: (values) => {
             setLoading(true);
             setNewPassword({
-                variables: values,
-            }).then(async () => {
-                setLoading(false);
-                setToast({
-                    open: true,
-                    variant: 'success',
-                    text: t('customer:newPassword:success'),
+                variables: {
+                    ...values,
+                    token,
+                },
+            })
+                .then(async () => {
+                    setLoading(false);
+                    setToast({
+                        open: true,
+                        variant: 'success',
+                        text: t('customer:newPassword:success'),
+                    });
+                    setInterval(() => {
+                        Router.push('/customer/account/login');
+                    }, 3000);
+                })
+                .catch((e) => {
+                    setLoading(false);
+                    setToast({
+                        open: true,
+                        variant: 'error',
+                        text: e.message.split(':')[1] || t('customer:newPassword:failed'),
+                    });
                 });
-                setInterval(() => {
-                    Router.push('/customer/account/login');
-                }, 3000);
-            }).catch((e) => {
-                setLoading(false);
-                setToast({
-                    open: true,
-                    variant: 'error',
-                    text: e.message.split(':')[1] || t('customer:newPassword:failed'),
-                });
-            });
         },
     });
 
