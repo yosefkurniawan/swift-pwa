@@ -23,7 +23,7 @@ const AddressFormDialog = (props) => {
         lastname = '',
         street = '',
         postcode = '',
-        country = null,
+        country = 'ID',
         region = null,
         city = null,
         telephone = '',
