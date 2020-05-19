@@ -13,7 +13,15 @@ const ItemLook = (props) => {
     const styles = useStyles();
     return (
         <Link href="[...slug]" as={`${url_key}`}>
-            <img src={img} alt={label || 'name'} className={styles.itemLookContainer} />
+            <a>
+                <img
+                    // eslint-disable-next-line no-nested-ternary
+                    src={url || '/assets/img/placeholder.png'}
+                    className={styles.itemLookContainer}
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
+                    alt={label && url ? label : 'Product'}
+                />
+            </a>
         </Link>
     );
 };

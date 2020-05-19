@@ -1,4 +1,6 @@
 /* eslint-disable no-unused-vars */
+const { productImageSize } = require('../../../swift.config');
+
 const requestGraph = require('../graphql-request');
 
 const query = `
@@ -55,7 +57,7 @@ query getCartData($cart_id: String!) {
           id
           name
           small_image {
-            url
+            url(width: ${productImageSize.width}, height: ${productImageSize.height}),
             label
           }
           url_key
@@ -69,7 +71,7 @@ query getCartData($cart_id: String!) {
               url
             }
             small_image {
-              url,
+              url(width: ${productImageSize.width}, height: ${productImageSize.height}),
               label
             }
             price_tiers {
