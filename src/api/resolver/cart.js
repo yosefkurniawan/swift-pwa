@@ -8,6 +8,67 @@ query getCartData($cart_id: String!) {
     cart(cart_id: $cart_id) {
       id
       total_quantity
+      email
+      billing_address {
+        city
+        company
+        country {
+            code
+            label
+        }
+        firstname
+        lastname
+        postcode
+        region {
+            code
+            label
+        }
+        street
+        telephone
+      }
+      shipping_addresses {
+        city
+        company
+        country {
+            code
+            label
+        }
+        firstname
+        lastname
+        postcode
+        region {
+            code
+            label
+        }
+        street
+        telephone
+        available_shipping_methods {
+            available
+            method_code
+            carrier_code
+            method_title
+            carrier_title
+            amount {
+                value
+                currency
+            }
+        }
+        selected_shipping_method {
+            method_code
+            carrier_code
+            amount {
+                value
+                currency
+            }
+        }
+      }
+      selected_payment_method {
+        code
+      }
+      available_payment_methods {
+          code
+          title
+      }
       applied_coupons {
           code
       }
@@ -19,6 +80,10 @@ query getCartData($cart_id: String!) {
               }
               label
           }
+          subtotal_excluding_tax {
+            value
+            currency
+          }
           grand_total {
               currency
               value
@@ -26,6 +91,13 @@ query getCartData($cart_id: String!) {
       }
       items {
         id
+        product {
+          name
+          image {
+              url
+              label
+          }
+        }
         quantity
           prices {
             discounts {

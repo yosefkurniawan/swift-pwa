@@ -66,7 +66,7 @@ const Checkout = (props) => {
     });
 
     // start init graphql
-    const getCustomer = gqlService.getCustomer();
+    const getCustomer = token ? gqlService.getCustomer() : null;
     const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
     // end init graphql
 
@@ -116,16 +116,12 @@ const Checkout = (props) => {
             window.location = '/checkout/cart';
         }
 
-        const { customer } = getCustomer.data;
+        const { customer } = state.data.isGuest ? {} : getCustomer.data;
         const [address] = customer
             ? customer.addresses.filter((item) => item.default_shipping)
             : [null];
 
         state.data.defaultAddress = customer ? address : null;
-
-        if (!token) {
-            state.data.isGuest = true;
-        }
 
         // init cart & customer
         state.data.customer = customer;
@@ -249,9 +245,15 @@ const Checkout = (props) => {
                 ...checkout.loading,
                 all: true,
             },
+            data: {
+                ...checkout.data,
+                isGuest: !token,
+            },
         });
 
-        if (getCustomer.data && !dataCart) {
+        const loadCart = token ? getCustomer.data && !dataCart : !dataCart;
+
+        if (loadCart) {
             getCart({ variables: { cartId } });
         }
 

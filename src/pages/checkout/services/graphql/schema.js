@@ -1,5 +1,101 @@
 import { gql } from 'apollo-boost';
 
+const cartSubSelection = `
+    id
+    email
+    billing_address {
+        city
+        company
+        country {
+            code
+            label
+        }
+        firstname
+        lastname
+        postcode
+        region {
+            code
+            label
+        }
+        street
+        telephone
+    }
+    selected_payment_method {
+        code
+    }
+    applied_coupons {
+        code
+    }
+    shipping_addresses {
+        selected_shipping_method {
+            method_code
+            carrier_code
+            amount {
+                value
+                currency
+            }
+        }
+        firstname
+        lastname
+        street
+        city
+        postcode
+        telephone
+        region {
+            code
+            label
+        }
+        company
+        country {
+            code
+            label
+        }
+        available_shipping_methods {
+            available
+            method_code
+            carrier_code
+            method_title
+            carrier_title
+            amount {
+                value
+                currency
+            }
+        }
+    }
+    prices {
+        discounts {
+            amount {
+                value
+                currency
+            }
+            label
+        }
+        grand_total {
+            value
+            currency
+        }
+    }
+    items {
+        prices {
+            row_total {
+                currency
+                value
+            }
+            discounts {
+                amount {
+                    currency
+                    value
+                }
+                label
+            }
+        }
+    }
+    available_payment_methods {
+        code
+        title
+    }
+`;
+
 export const getCustomer = gql`
     query {
         customer {
@@ -37,117 +133,7 @@ export const getCustomer = gql`
 export const getCart = gql`
     query Cart($cartId: String!) {
         cart(cart_id: $cartId) {
-            id
-            email
-            prices {
-                grand_total {
-                    value
-                    currency
-                }
-            }
-            applied_coupons {
-                code
-            }
-            items {
-                id
-                product {
-                    name
-                    image {
-                        url
-                        label
-                    }
-                }
-                prices {
-                    row_total {
-                        currency
-                        value
-                    }
-                    discounts {
-                        amount {
-                            currency
-                            value
-                        }
-                        label
-                    }
-                }
-            }
-            billing_address {
-                city
-                company
-                country {
-                    code
-                    label
-                }
-                firstname
-                lastname
-                postcode
-                region {
-                    code
-                    label
-                }
-                street
-                telephone
-            }
-            shipping_addresses {
-                city
-                company
-                country {
-                    code
-                    label
-                }
-                firstname
-                lastname
-                postcode
-                region {
-                    code
-                    label
-                }
-                street
-                telephone
-                available_shipping_methods {
-                    available
-                    method_code
-                    carrier_code
-                    method_title
-                    carrier_title
-                    amount {
-                        value
-                        currency
-                    }
-                }
-                selected_shipping_method {
-                    method_code
-                    carrier_code
-                    amount {
-                        value
-                        currency
-                    }
-                }
-            }
-            selected_payment_method {
-                code
-            }
-            available_payment_methods {
-                code
-                title
-            }
-            prices {
-                discounts {
-                    amount {
-                        value
-                        currency
-                    }
-                    label
-                }
-                subtotal_excluding_tax {
-                    value
-                    currency
-                }
-                grand_total {
-                    value
-                    currency
-                }
-            }
+            ${cartSubSelection}
         }
     }
 `;
@@ -156,77 +142,7 @@ export const setShippingAddressById = gql`
     mutation setShippingAddressById($addressId: Int!, $cartId: String!) {
         setShippingAddressesOnCart(input: { cart_id: $cartId, shipping_addresses: { customer_address_id: $addressId } }) {
             cart {
-                id
-                email
-                items {
-                    prices {
-                        row_total {
-                            currency
-                            value
-                        }
-                        discounts {
-                            amount {
-                                currency
-                                value
-                            }
-                            label
-                        }
-                    }
-                }
-                prices {
-                    discounts {
-                        amount {
-                            value
-                            currency
-                        }
-                        label
-                    }
-                    grand_total {
-                        value
-                        currency
-                    }
-                }
-                shipping_addresses {
-                    firstname
-                    lastname
-                    street
-                    city
-                    postcode
-                    telephone
-                    region {
-                        label
-                    }
-                    available_shipping_methods {
-                        amount {
-                            currency
-                            value
-                        }
-                        available
-                        carrier_code
-                        carrier_title
-                        error_message
-                        method_code
-                        method_title
-                    }
-                    selected_shipping_method {
-                        amount {
-                            value
-                            currency
-                        }
-                    }
-                }
-                applied_coupons {
-                    code
-                }
-                billing_address {
-                    country {
-                        code
-                        label
-                    }
-                }
-                selected_payment_method {
-                    code
-                }
+                ${cartSubSelection}
             }
         }
     }
@@ -263,144 +179,7 @@ export const setShippingAddressByInput = gql`
             }
         ) {
             cart {
-                id
-                email
-                items {
-                    prices {
-                        row_total {
-                            currency
-                            value
-                        }
-                        discounts {
-                            amount {
-                                currency
-                                value
-                            }
-                            label
-                        }
-                    }
-                }
-                prices {
-                    discounts {
-                        amount {
-                            value
-                            currency
-                        }
-                        label
-                    }
-                    grand_total {
-                        value
-                        currency
-                    }
-                }
-                shipping_addresses {
-                    firstname
-                    lastname
-                    street
-                    city
-                    country {
-                        code
-                        label
-                    }
-                    postcode
-                    telephone
-                    region {
-                        label
-                    }
-                    available_shipping_methods {
-                        amount {
-                            currency
-                            value
-                        }
-                        available
-                        carrier_code
-                        carrier_title
-                        error_message
-                        method_code
-                        method_title
-                    }
-                    selected_shipping_method {
-                        amount {
-                            value
-                            currency
-                        }
-                    }
-                }
-                applied_coupons {
-                    code
-                }
-                billing_address {
-                    country {
-                        code
-                        label
-                    }
-                }
-                selected_payment_method {
-                    code
-                }
-            }
-        }
-    }
-`;
-
-export const setShippingMethod = gql`
-    mutation setShippingMethod($cartId: String!, $carrierCode: String!, $methodCode: String!) {
-        setShippingMethodsOnCart(input: { cart_id: $cartId, shipping_methods: { carrier_code: $carrierCode, method_code: $methodCode } }) {
-            cart {
-                id
-                email
-                available_payment_methods {
-                    code
-                    title
-                }
-                shipping_addresses {
-                    selected_shipping_method {
-                        amount {
-                            value
-                            currency
-                        }
-                    }
-                }
-                applied_coupons {
-                    code
-                }
-                billing_address {
-                    country {
-                        code
-                        label
-                    }
-                }
-                selected_payment_method {
-                    code
-                }
-                items {
-                    prices {
-                        row_total {
-                            currency
-                            value
-                        }
-                        discounts {
-                            amount {
-                                currency
-                                value
-                            }
-                            label
-                        }
-                    }
-                }
-                prices {
-                    discounts {
-                        amount {
-                            value
-                            currency
-                        }
-                        label
-                    }
-                    grand_total {
-                        value
-                        currency
-                    }
-                }
+                ${cartSubSelection}
             }
         }
     }
@@ -410,16 +189,7 @@ export const setBillingAddressById = gql`
     mutation setBillingAddressById($addressId: Int!, $cartId: String!) {
         setBillingAddressOnCart(input: { cart_id: $cartId, billing_address: { same_as_shipping: true, customer_address_id: $addressId } }) {
             cart {
-                selected_payment_method {
-                    code
-                    title
-                }
-                shipping_addresses {
-                    selected_shipping_method {
-                        carrier_code
-                        carrier_title
-                    }
-                }
+                id
             }
         }
     }
@@ -457,16 +227,17 @@ export const setBillingAddressByInput = gql`
             }
         ) {
             cart {
-                selected_payment_method {
-                    code
-                    title
-                }
-                shipping_addresses {
-                    selected_shipping_method {
-                        carrier_code
-                        carrier_title
-                    }
-                }
+                id
+            }
+        }
+    }
+`;
+
+export const setShippingMethod = gql`
+    mutation setShippingMethod($cartId: String!, $carrierCode: String!, $methodCode: String!) {
+        setShippingMethodsOnCart(input: { cart_id: $cartId, shipping_methods: { carrier_code: $carrierCode, method_code: $methodCode } }) {
+            cart {
+                ${cartSubSelection}
             }
         }
     }
@@ -476,28 +247,7 @@ export const setPaymentMethod = gql`
     mutation setPaymentMethod($cartId: String!, $code: String!) {
         setPaymentMethodOnCart(input: { cart_id: $cartId, payment_method: { code: $code } }) {
             cart {
-                id
-                email
-                shipping_addresses {
-                    selected_shipping_method {
-                        amount {
-                            value
-                            currency
-                        }
-                    }
-                }
-                applied_coupons {
-                    code
-                }
-                billing_address {
-                    country {
-                        code
-                        label
-                    }
-                }
-                selected_payment_method {
-                    code
-                }
+                ${cartSubSelection}
             }
         }
     }
@@ -507,27 +257,7 @@ export const setGuestEmailAddressOnCart = gql`
     mutation($cartId: String!, $email: String!) {
         setGuestEmailOnCart(input: { cart_id: $cartId, email: $email }) {
             cart {
-                email
-                shipping_addresses {
-                    selected_shipping_method {
-                        amount {
-                            value
-                            currency
-                        }
-                    }
-                }
-                applied_coupons {
-                    code
-                }
-                billing_address {
-                    country {
-                        code
-                        label
-                    }
-                }
-                selected_payment_method {
-                    code
-                }
+                ${cartSubSelection}
             }
         }
     }
@@ -547,49 +277,7 @@ export const applyCouponToCart = gql`
     mutation($cartId: String!, $coupon: String!) {
         applyCouponToCart(input: { cart_id: $cartId, coupon_code: $coupon }) {
             cart {
-                items {
-                    prices {
-                        row_total {
-                            currency
-                            value
-                        }
-                        discounts {
-                            amount {
-                                currency
-                                value
-                            }
-                            label
-                        }
-                    }
-                }
-                applied_coupons {
-                    code
-                }
-                shipping_addresses {
-                    selected_shipping_method {
-                        amount {
-                            value
-                            currency
-                        }
-                    }
-                }
-                prices {
-                    discounts {
-                        amount {
-                            value
-                            currency
-                        }
-                        label
-                    }
-                    subtotal_excluding_tax {
-                        value
-                        currency
-                    }
-                    grand_total {
-                        value
-                        currency
-                    }
-                }
+                ${cartSubSelection}
             }
         }
     }
@@ -599,64 +287,7 @@ export const removeCouponFromCart = gql`
     mutation($cartId: String!) {
         removeCouponFromCart(input: { cart_id: $cartId }) {
             cart {
-                items {
-                    prices {
-                        row_total {
-                            currency
-                            value
-                        }
-                        discounts {
-                            amount {
-                                currency
-                                value
-                            }
-                            label
-                        }
-                    }
-                }
-                applied_coupons {
-                    code
-                }
-                shipping_addresses {
-                    selected_shipping_method {
-                        amount {
-                            value
-                            currency
-                        }
-                    }
-                }
-                items {
-                    prices {
-                        row_total {
-                            currency
-                            value
-                        }
-                        discounts {
-                            amount {
-                                currency
-                                value
-                            }
-                            label
-                        }
-                    }
-                }
-                prices {
-                    discounts {
-                        amount {
-                            value
-                            currency
-                        }
-                        label
-                    }
-                    subtotal_excluding_tax {
-                        value
-                        currency
-                    }
-                    grand_total {
-                        value
-                        currency
-                    }
-                }
+                ${cartSubSelection}
             }
         }
     }

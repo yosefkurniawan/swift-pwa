@@ -7,6 +7,7 @@ const addSimpleProductsToCart = require('./schema/addSimpleProductsToCart');
 const addConfigurableProductsToCart = require('./schema/addConfigurableProductToCart');
 const customerOrdersSchema = require('./schema/customerOrders');
 const customerSchema = require('./schema/customer');
+const checkout = require('./schema/checkout');
 
 const cart = require('./resolver/cart');
 const customerOrders = require('./resolver/customerOrders');
@@ -16,7 +17,7 @@ const customer = require('./resolver/customer/customer');
 const schema = mergeSchemas({
     schemas: [
         cartSchema, generateCustomerTokenSchema, addSimpleProductsToCart, addConfigurableProductsToCart,
-        customerOrdersSchema, customerSchema,
+        customerOrdersSchema, customerSchema, checkout,
     ],
     resolvers: {
         Query: {
