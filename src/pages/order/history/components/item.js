@@ -5,7 +5,7 @@ import { formatPrice } from '@helpers/currency';
 import useStyles from './style';
 
 const ItemOrder = ({
-    status_label, order_number, detail, id,
+    status_label, order_number, detail, id, t,
 }) => {
     const styles = useStyles();
     return (
@@ -25,10 +25,10 @@ const ItemOrder = ({
                 <div className={styles.detailItem}>
                     <div className="column">
                         <Typography variant="span" letter="capitalize" className="clear-margin-padding">
-                            Date
+                            {t('order:date')}
                         </Typography>
                         <Typography variant="span" letter="capitalize" className="clear-margin-padding">
-                            No of Items
+                            {t('orde:totalItems')}
                         </Typography>
                         <Typography variant="span" letter="capitalize" className="clear-margin-padding">
                             Total

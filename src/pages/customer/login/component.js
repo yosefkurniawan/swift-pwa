@@ -134,7 +134,7 @@ const Login = ({ t, storeConfig, query }) => {
                     <FormControlLabel
                         control={<Switch checked={isOtp} onChange={() => setIsOtp(!isOtp)} name="useOtp" color="primary" />}
                         className={styles.selectLogin}
-                        label="Signin with Phone number"
+                        label={t('customer:login:switchPhone')}
                     />
                 )}
                 {isOtp ? (

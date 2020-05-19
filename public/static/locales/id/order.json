@@ -1,5 +1,14 @@
 {
     "title" : "pesanan saya",
     "order" : "pesanan",
-    "notFound": "Pesanan tidak di ketahui"
+    "notFound": "Pesanan tidak di ketahui",
+    "shippedTo": "Di kirim ke",
+    "shippingMethod": "Metode pengiriman",
+    "paymentMethod": "Metode pembayaran",
+    "shipping": "Pengiriman",
+    "discount": "Potongan",
+    "date": "Tanggal",
+    "totalItems": "Total Item",
+    "paymentDate": "Tanggal Pembayaran",
+    "virtualAccount": ""
 }

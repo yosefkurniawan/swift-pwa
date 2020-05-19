@@ -5,8 +5,6 @@ import { setCountCart } from '@stores/actions/cart';
 // import Router from 'next/router';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { getCartIdUser } from '@services/graphql/schema/cart';
-import { useQuery } from '@apollo/react-hooks';
 import { addSimpleProductsToCart } from '../../services/graphql';
 import Footer from './Footer';
 
@@ -34,12 +32,7 @@ export default ({
 
     const [addCartSimple] = addSimpleProductsToCart(tokenCustomer);
     const [getGuestCartId] = GraphCart.getGuestCartId();
-    const cartUser = useQuery(getCartIdUser, {
-        context: {
-            headers: { Authorization: `Bearer ${tokenCustomer}` },
-        },
-        skip: tokenCustomer === '' || !tokenCustomer,
-    });
+    const cartUser = GraphCart.getCustomerCartId();
 
     const handleAddToCart = async () => {
         setLoading(true);

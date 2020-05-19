@@ -5,9 +5,9 @@ import Content from './component';
 const Page = (props) => {
     const { t } = props;
     const pageConfig = {
-        title: t('customer:otp:pageTitle'),
+        title: t('otp:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle: t('customer:otp:title'),
+        headerTitle: t('otp:title'),
         bottomNav: false,
     };
     return (
@@ -18,7 +18,7 @@ const Page = (props) => {
 };
 
 Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'customer'],
+    namespacesRequired: ['common', 'otp'],
 });
 
 export default withTranslation()(Page);

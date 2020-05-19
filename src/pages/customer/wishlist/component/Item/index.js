@@ -27,7 +27,7 @@ export default ({
                 open={openDelete}
                 handleCancel={() => setOpenDelete(!openDelete)}
                 handleDelete={handleDelete}
-                message={t('customer:wishlist:warningDelete')}
+                message={t('wishlist:warningDelete')}
             />
             <div className={styles.card}>
                 <div className={styles.imgItem}>
@@ -50,7 +50,7 @@ export default ({
                     <PriceFormat variant="p" priceRange={price_range} priceTiers={price_tiers} productType={__typename} />
                     <Button className={styles.btnAdd} onClick={handleAddToCart}>
                         <Typography variant="p" type="bold" letter="uppercase" color="white">
-                            {t('customer:wishlist:addToBag')}
+                            {t('wishlist:addToBag')}
                         </Typography>
                     </Button>
                 </div>

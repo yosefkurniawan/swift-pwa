@@ -11,7 +11,6 @@ const RadioDeliveryItem = (props) => {
         label,
         selected,
         onChange,
-        RightComponent,
         borderBottom = true,
     } = props;
     const handleChange = () => {

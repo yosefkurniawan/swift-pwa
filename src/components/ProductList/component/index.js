@@ -180,7 +180,7 @@ const Product = ({
                         >
                             {products.total_count}
                             {' '}
-                            Product
+                            {t('common:product:name')}
                         </Typography>
                         <div className={styles.filterBtnContainer}>
                             <Button
@@ -192,7 +192,7 @@ const Product = ({
                                 <Tune className={styles.iconFilter} />
                             </Button>
                             <Typography type="bold" variant="span" letter="capitalize">
-                                Filter & Sort
+                                {t('common:title:shortFilter')}
                             </Typography>
                         </div>
                     </div>

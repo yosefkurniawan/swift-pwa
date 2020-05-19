@@ -156,6 +156,8 @@ const Content = (props) => {
         return content;
     };
 
+    const { t } = props;
+
     return (
         <>
             <Backdrop open={showBackdrop} />
@@ -165,7 +167,7 @@ const Content = (props) => {
                 </RadioGroup>
                 <Box className={[styles.address_action].join(' ')}>
                     <Button variant="outlined" size="small" onClick={() => handleDraweClick()}>
-                        <span style={{ marginRight: '15px' }}>Add New Address</span>
+                        <span style={{ marginRight: '15px' }}>{t('customer:address:addTitle')}</span>
                         <Add />
                     </Button>
                 </Box>

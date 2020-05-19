@@ -224,7 +224,7 @@ const AddressFormDialog = (props) => {
                             <TextField
                                 {...params}
                                 name="state"
-                                label="State/Province"
+                                label={t('common:form:state')}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -282,7 +282,7 @@ const AddressFormDialog = (props) => {
                             <TextField
                                 {...params}
                                 name="city"
-                                label="City"
+                                label={t('common:form:city')}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -371,7 +371,7 @@ const AddressFormDialog = (props) => {
                 <Box className={[styles.address_form].join(' ')}>
                     <form onSubmit={formik.handleSubmit}>
                         <CustomTextField
-                            label="First Name"
+                            label={t('common:form:firstName')}
                             name="firstname"
                             value={formik.values.firstname}
                             onChange={formik.handleChange}
@@ -379,7 +379,7 @@ const AddressFormDialog = (props) => {
                             errorMessage={(formik.touched.firstname && formik.errors.firstname) || null}
                         />
                         <CustomTextField
-                            label="Last Name"
+                            label={t('common:form:lastName')}
                             name="lastname"
                             value={formik.values.lastname}
                             onChange={formik.handleChange}
@@ -387,7 +387,7 @@ const AddressFormDialog = (props) => {
                             errorMessage={(formik.touched.lastname && formik.errors.lastname) || null}
                         />
                         <CustomTextField
-                            label="Street Address"
+                            label={t('common:form:street')}
                             name="street"
                             value={formik.values.street}
                             onChange={formik.handleChange}
@@ -424,7 +424,7 @@ const AddressFormDialog = (props) => {
                                         <TextField
                                             {...params}
                                             name="country"
-                                            label="Country"
+                                            label={t('common:form:country')}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -457,7 +457,7 @@ const AddressFormDialog = (props) => {
                         {getRegionRender()}
                         {getCityRender()}
                         <CustomTextField
-                            label="Postal Code"
+                            label={t('common:form:postal')}
                             name="postcode"
                             value={formik.values.postcode}
                             onChange={formik.handleChange}
@@ -465,7 +465,7 @@ const AddressFormDialog = (props) => {
                             errorMessage={(formik.touched.postcode && formik.errors.postcode) || null}
                         />
                         <CustomTextField
-                            label="Phone Number"
+                            label={t('common:form:phoneNumber')}
                             name="telephone"
                             value={formik.values.telephone}
                             onChange={formik.handleChange}

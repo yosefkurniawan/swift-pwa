@@ -65,7 +65,7 @@ const IcubeMaps = compose(
     withGoogleMap,
 )((props) => {
     const { mapPosition } = props;
-    const { t } = useTranslation();
+    const { t } = useTranslation(['common']);
     return (
         <>
             <GoogleMap

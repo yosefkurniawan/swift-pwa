@@ -1,0 +1,19 @@
+{
+    "pageTitle": "Verifikasi Nomor Telephon",
+    "button": "Kirim OTP",
+    "title": "Verifikasi",
+    "label": "Masukan kode kamu",
+    "sendOtp": "Kirim OTP",
+    "wait": "Kode verfikasi sudah terkirim. Silahkan tunggu ",
+    "resend": "detik untuk mengirim kode kembali.",
+    "sendTimes": "Otp sudah terkirim sebanyak",
+    "time": "kali",
+    "note": "Note : maks 3 kali kirim kode verifikasi",
+    "choseMethod": "Pilih salah satu metode untuk mendapatkan kode verifikasi",
+    "sms": "Via sms ke ",
+    "maxSend": "request pengiriman otp kamu sudah maksimal",
+    "sendSucces": "Otp berhasil terkirim",
+    "sendFailed": "Otp gagal terkirim",
+    "valid": "Otp benar",
+    "invalid": "Otp tidak benar"
+  }

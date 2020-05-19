@@ -1,0 +1,17 @@
+{
+    "pageTitle": "Wishlist",
+    "title" : "Wishlist",
+    "removeSucess": "remove wishlist success",
+    "removeFailed": "remove wishlist failed",
+    "addToBag": "add to bag",
+    "addAllToBag": "add all to bag",
+    "addSucess": "add wishlist success",
+    "addFailed": "add wishlist failed",
+    "notFound": "You have no items in your wish list",
+    "warningDelete": "Are you sure delete this item from wish list?",
+    "addAllToBagSuccess": "Success add all wish list item to cart",
+    "addPartToBagSuccess": "Success add $ item wishlist to cart but not all item without selected configurable product",
+    "failedAddToBagOption" : "Please select option for some product",
+    "successAddCart": "Success add to bag",
+    "failedAddCart": "Failed add to bag"
+}

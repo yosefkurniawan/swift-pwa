@@ -31,11 +31,11 @@ const ProfileForm = ({ t, data }) => {
     });
 
     React.useEffect(() => {
-        showToast(updateCustomerStatus, 'Success update data profile!');
+        showToast(updateCustomerStatus, t('customer:profile:successUpdate'));
     }, [updateCustomerStatus]);
 
     React.useEffect(() => {
-        showToast(changeCustomerPasswordStatus, 'Success change password!');
+        showToast(changeCustomerPasswordStatus, t('customer:progile:successChangePass'));
     }, [changeCustomerPasswordStatus]);
 
     const showToast = (mutationStatus, successMessage) => {
@@ -124,7 +124,7 @@ const ProfileForm = ({ t, data }) => {
                 setOpen={() => setToast({ ...toast, open: false })}
             />
             <TextField
-                label="First Name"
+                label={t('common:form:firstName')}
                 name="firstName"
                 value={formik.values.firstName}
                 onChange={formik.handleChange}
@@ -137,7 +137,7 @@ const ProfileForm = ({ t, data }) => {
                 }
             />
             <TextField
-                label="Last Name"
+                label={t('common:form:lastName')}
                 name="lastName"
                 value={formik.values.lastName}
                 onChange={formik.handleChange}
@@ -221,7 +221,7 @@ const ProfileForm = ({ t, data }) => {
                 </div>
                 <div className={editEmail || editPass ? 'show' : 'hide'}>
                     <PasswordField
-                        label="Current Password"
+                        label={t('common:form:currentPassword')}
                         showVisible
                         name="currentPassword"
                         value={formik.values.currentPassword}
@@ -255,7 +255,7 @@ const ProfileForm = ({ t, data }) => {
                         }
                     />
                     <TextField
-                        label="Confirm Password"
+                        label={t('common:form:confirm')}
                         type="password"
                         name="confirmPassword"
                         value={formik.values.confirmPassword}

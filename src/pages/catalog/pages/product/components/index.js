@@ -79,13 +79,13 @@ const ProductPage = (props) => {
                 },
             }).then(async () => {
                 await setWishlist(!wishlist);
-                await setMessage({ open: true, variant: 'success', text: 'add wishlist success' });
+                await setMessage({ open: true, variant: 'success', text: t('wishlist:addSuccess') });
                 route.push('/wishlist');
             }).catch((e) => {
                 setMessage({
                     open: true,
                     variant: 'error',
-                    text: e.message.split(':')[1] || 'add wishlist failed',
+                    text: e.message.split(':')[1] || t('wishlist:addFailed'),
                 });
             });
         }

@@ -46,7 +46,7 @@ const OrderPage = ({ t, token }) => {
     };
     return (
         <div className={styles.container}>
-            {data && data.customerOrders.items.length > 0 && data.customerOrders.items.map((item, index) => <Item key={index} {...item} />)}
+            {data && data.customerOrders.items.length > 0 && data.customerOrders.items.map((item, index) => <Item t={t} key={index} {...item} />)}
             {data && data.customerOrders.total_count > data.customerOrders.items.length && (
                 <Button variant="text" onClick={handleLoadMore} disabled={loading || loadMore} fullWidth>
                     <Typography variant="span" type="regular" letter="capitalize">

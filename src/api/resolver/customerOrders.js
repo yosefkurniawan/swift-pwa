@@ -28,6 +28,13 @@ query getCustomerOrder($pageSize: Int, $currentPage: Int){
                 total_qty_ordered
                 payment {
                     additional_information
+                    payment_additional_info {
+                        due_date
+                        method_title
+                        transaction_id
+                        transaction_time
+                        virtual_account
+                      }
                     method
                     shipping_amount
                     shipping_captured

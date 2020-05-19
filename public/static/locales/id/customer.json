@@ -5,27 +5,16 @@
   "register": {
     "pageTitle": "Daftar Akun Baru",
     "title": "Daftar",
-    "button": "Buat Akun"
+    "button": "Buat Akun",
+    "subscribe": "Daftar untuk berlangganan",
+    "isWhatsapp": "Nomor telephone telah terdaftar di Whatsapp"
   },
   "login": {
     "haveAccount": "Jika sudah punya akun",
     "pageTitle": "Masuk",
     "forgotPassword": "Lupa Password",
-    "notHaveAccount": "Belum mempunyai akun ?"
-  },
-  "otp": {
-    "pageTitle": "Verifikasi Nomor Telephon",
-    "button": "Kirim OTP",
-    "title": "Verifikasi",
-    "label": "Masukan kode kamu",
-    "sendOtp": "Kirim OTP",
-    "wait": "Kode verfikasi sudah terkirim. Silahkan tunggu ",
-    "resend": "detik untuk mengirim kode kembali.",
-    "sendTimes": "Otp sudah terkirim sebanyak",
-    "time": "kali",
-    "note": "Note : maks 3 kali kirim kode verifikasi",
-    "choseMethod": "Pilih salah satu metode untuk mendapatkan kode verifikasi",
-    "sms": "Via sms ke "
+    "notHaveAccount": "Belum mempunyai akun ?",
+    "switchPhone": "Login dengan nomor telepon"
   },
   "forgotPassword": {
     "title": "Lupa password",
@@ -50,22 +39,9 @@
     "language" : "Bahasa"
   },
   "profile" : {
-    "title" : "akun saya"
-  },
-  "wishlist": {
-    "pageTitle": "Wishlist",
-    "title" : "Wishlist",
-    "removeSucess": "hapus wishlist sukses",
-    "removeFailed": "hapus wishlist gagal",
-    "addSucess": "tambah wishlist sukses",
-    "addFailed": "tambah wishlist gagal",
-    "addToBag": "tambah ke keranjang",
-    "addAllToBag": "tambah semua ke keranjang",
-    "notFound": "Kamu tidak memiliki items wish list",
-    "warningDelete": "Yakin mau hapus item ini dari wish list ?",
-    "addAllToBagSuccess": "Sukses tambahkan semua wish list item ke keranjang",
-    "addPartToBagSuccess": "Sukses tambakan $ item wishlist ke keranjang, Tetapi tidak semua karena belum memilih bebrapa configurable produk ",
-    "failedAddToBagOption" : "Silahkan pilih opsi dahulu untuk beberapa produk"
+    "title" : "akun saya",
+    "successUpdate": "Ubah Profil Sukses",
+    "successChangePass": "Ganti password sukses"
   },
   "address" : {
     "pageTitle" : "Daftar alamat",
@@ -73,5 +49,15 @@
     "editTitle" : "Ubah alamat",
     "useBilling" : "gunakan sebagai alamat default pembayaran",
     "useShipping" : "gunakan sebagai alamat default pengiriman"
+  },
+  "menu": {
+    "aboutUs": "Tentang Kami",
+    "contactUs": "Hubungi Kami",
+    "myPoint": "Point Saya",
+    "myOrder": "Orderan Saya",
+    "myAccount": "Akun Saya",
+    "address": "Buku Alamat",
+    "setting": "Pengaturan",
+    "readMore": "Selengkapnya"
   }
 }

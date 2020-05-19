@@ -1,3 +1,7 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable array-callback-return */
+import React from 'react';
 import Typography from '@components/Typography';
 import classNames from 'classnames';
 import moment from 'moment';
@@ -6,7 +10,7 @@ import Alert from '@material-ui/lab/Alert';
 import useStyles from './style';
 
 const ItemProduct = ({
-    name, price, qty_ordered, currency,
+    name, price, qty_ordered, currency, t,
 }) => {
     const styles = useStyles();
     return (
@@ -16,13 +20,19 @@ const ItemProduct = ({
                 <Typography variant="label">{name || ''}</Typography>
                 <Typography variant="span">{formatPrice(price, currency)}</Typography>
                 <Typography variant="span" className={styles.textDetail}>
-                    Color : Black
+                    {t('common:title:color')}
+                    {' '}
+                    : Black
                 </Typography>
                 <Typography variant="span" className={styles.textDetail}>
-                    Size : M
+                    {t('common:title:size')}
+                    {' '}
+                    : M
                 </Typography>
                 <Typography variant="span" className={styles.textDetail}>
-                    Qty :
+                    {t('common:title:qty')}
+                    {' '}
+                    :
                     {qty_ordered || 0}
                 </Typography>
                 <div className="flex-grow" />
@@ -44,7 +54,7 @@ const DetailOrder = ({ t, detail, currency }) => {
                     </Typography>
                     <Typography variant="span">{moment().format('MMM DD, YYYY')}</Typography>
                     <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
-                        SHIPPED TO
+                        {t('order:shippedTo')}
                     </Typography>
                     <Typography variant="span" align="center">
                         {detail[0].detail[0].shipping_address.firstname || ''}
@@ -58,73 +68,83 @@ const DetailOrder = ({ t, detail, currency }) => {
                         {detail[0].detail[0].shipping_address.country_id || ''}
                         <br />
                         {detail[0].detail[0].shipping_address.telephone || ''}
+                        <br />
+                        {detail[0].detail[0].shipping_address.postcode || ''}
                     </Typography>
                     <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
-                        shipping method
+                        {t('order:shippingMethod')}
                     </Typography>
                     <Typography variant="span">{detail[0].detail[0].shipping_methods.shipping_description || ''}</Typography>
                     <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
-                        payment method
+                        {t('order:paymentMethod')}
                     </Typography>
-                    <Typography variant="span">{detail[0].detail[0].payment.additional_information[0] || ''}</Typography>
+                    {Object.keys(detail[0].detail[0].payment.payment_additional_info).map((item) => {
+                        if (item !== '__typename' && detail[0].detail[0].payment.payment_additional_info[item] !== ''
+                            && detail[0].detail[0].payment.payment_additional_info[item] !== null) {
+                            return (
+                                <React.Fragment key={item}>
+                                    <Typography variant="p" type="bold" letter="capitalize">
+                                        {item.replace('_', ' ')}
+                                    </Typography>
+                                    <Typography variant="span">{detail[0].detail[0].payment.payment_additional_info[item] || ''}</Typography>
+                                </React.Fragment>
+                            );
+                        }
+                    })}
                 </div>
                 <div className={styles.block}>
                     {detail.length > 0
                         && detail[0].detail[0].items.length > 0
-                        && detail[0].detail[0].items.map((item, key) => (
-                            <ItemProduct key={key} {...item} currency={currency} />
-                        ))}
+                        && detail[0].detail[0].items.map((item, key) => <ItemProduct t={t} key={key} {...item} currency={currency} />)}
                 </div>
                 <div className={styles.block}>
-                    {
-                        detail[0].detail[0].subtotal && (
-                            <div className={styles.listSummary}>
-                                <Typography variant="span" letter="capitalize">
-                                    Sub total
-                                </Typography>
-                                <Typography variant="span" letter="capitalize">
-                                    { formatPrice(detail[0].detail[0].subtotal, currency) }
-                                </Typography>
-                            </div>
-                        )
-                    }
-                    {
-                        detail[0].detail[0].payment && (
-                            <div className={styles.listSummary}>
-                                <Typography variant="span" letter="capitalize">
-                                    Shipping
-                                </Typography>
-                                <Typography variant="span" letter="capitalize">
-                                    { formatPrice(detail[0].detail[0].payment.shipping_amount, currency) }
-                                </Typography>
-                            </div>
-                        )
-                    }
-                    {
-                        detail[0].detail[0].discount_amount && (
-                            <div className={styles.listSummary}>
-                                <Typography variant="span" letter="capitalize">
-                                    Discount
-                                </Typography>
-                                <Typography variant="span" letter="capitalize">
-                                    { formatPrice(detail[0].detail[0].discount_amount, currency) }
-                                </Typography>
-                            </div>
-                        )
-                    }
+                    {detail[0].detail[0].subtotal && (
+                        <div className={styles.listSummary}>
+                            <Typography variant="span" letter="capitalize">
+                                Sub total
+                            </Typography>
+                            <Typography variant="span" letter="capitalize">
+                                {formatPrice(detail[0].detail[0].subtotal, currency)}
+                            </Typography>
+                        </div>
+                    )}
+                    {detail[0].detail[0].payment && (
+                        <div className={styles.listSummary}>
+                            <Typography variant="span" letter="capitalize">
+                                {t('order:shipping')}
+                            </Typography>
+                            <Typography variant="span" letter="capitalize">
+                                {formatPrice(detail[0].detail[0].payment.shipping_amount, currency)}
+                            </Typography>
+                        </div>
+                    )}
+                    {detail[0].detail[0].discount_amount && (
+                        <div className={styles.listSummary}>
+                            <Typography variant="span" letter="capitalize">
+                                {t('order:discount')}
+                            </Typography>
+                            <Typography variant="span" letter="capitalize">
+                                {formatPrice(detail[0].detail[0].discount_amount, currency)}
+                            </Typography>
+                        </div>
+                    )}
                     <div className={styles.listSummary}>
                         <Typography variant="title" type="bold" letter="capitalize">
                             Total
                         </Typography>
                         <Typography variant="title" type="bold" letter="capitalize">
-                            { detail[0].detail[0].grand_total && formatPrice(detail[0].detail[0].grand_total, currency) }
+                            {detail[0].detail[0].grand_total && formatPrice(detail[0].detail[0].grand_total, currency)}
                         </Typography>
                     </div>
                 </div>
             </div>
         );
     }
-    return <Alert className="m-15" severity="warning">{t('order:notFound')}</Alert>;
+    return (
+        <Alert className="m-15" severity="warning">
+            {t('order:notFound')}
+        </Alert>
+    );
 };
 
 export default DetailOrder;

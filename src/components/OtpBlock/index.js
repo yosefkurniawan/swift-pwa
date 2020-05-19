@@ -12,7 +12,7 @@ import { useTranslation } from '@i18n';
 import useStyles from './style';
 
 const OtpBlock = ({ phoneProps, codeProps, type }) => {
-    const { t } = useTranslation(['customer']);
+    const { t } = useTranslation(['otp', 'common']);
     const styles = useStyles();
     const [time, setTime] = React.useState(0);
     const [manySend, setManySend] = React.useState(1);
@@ -53,7 +53,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
         if (manySend > maxSend) {
             setMessage({
                 open: true,
-                text: 'Your have maximum request otp',
+                text: t('otp:maxSend'),
                 variant: 'warning',
             });
         } else if (time <= 0) {
@@ -67,20 +67,20 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
                 setTime(config && config.expired ? config.expired : 60);
                 setMessage({
                     open: true,
-                    text: 'Otp is sending',
+                    text: t('otp:sendSuccess'),
                     variant: 'success',
                 });
             }).catch((e) => {
                 setMessage({
                     open: true,
-                    text: e.message.split(':')[1] || 'Otp failed to send',
+                    text: e.message.split(':')[1] || t('customer:top:sendFailed'),
                     variant: 'error',
                 });
             });
         } else {
             setMessage({
                 open: true,
-                text: `Please wait for ${time} seconds`,
+                text: `${t('otp:wait')} ${time} ${t('otp:resend')}`,
             });
         }
     };
@@ -106,20 +106,20 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
                 setMessage({
                     variant: 'success',
                     open: true,
-                    text: 'Otp is valid',
+                    text: t('otp:valid'),
                 });
             } else {
                 setMessage({
                     variant: 'error',
                     open: true,
-                    text: 'Otp is not valid!',
+                    text: t('otpLinvalid'),
                 });
             }
         }).catch(() => {
             setMessage({
                 variant: 'error',
                 open: true,
-                text: 'Otp is not valid!',
+                text: t('otpLinvalid'),
             });
         });
     };
@@ -168,12 +168,12 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
             <Toast open={message.open} message={message.text} variant={message.variant} setOpen={() => setMessage({ ...message, open: false })} />
             <div className={styles.componentContainer}>
                 <div className={styles.input}>
-                    <TextField label="Phone Number" fullWidth {...phoneProps} onChange={handlePhone} />
+                    <TextField label={t('common:form:phoneNumber')} fullWidth {...phoneProps} onChange={handlePhone} />
                 </div>
                 <div className={styles.button}>
                     <Button fullWidth onClick={handleSend} disabled={!!(!phoneProps.value || phoneProps.value === '' || phoneProps.error)}>
                         <Typography variant="p" color="white" align="center">
-                            Send Otp
+                            {t('otp:sendOtp')}
                         </Typography>
                     </Button>
                 </div>
@@ -181,20 +181,20 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
             <>
                 {time > 0 && (
                     <Typography variant="p">
-                        {t('customer:otp:wait')}
+                        {t('otp:wait')}
                         {' '}
                         {time}
                         {' '}
-                        {t('customer:otp:resend')}
+                        {t('otp:resend')}
                     </Typography>
                 )}
                 {manySend > 1 && (
                     <Typography variant="p">
-                        {t('customer:otp:sendTimes')}
+                        {t('otp:sendTimes')}
                         {' '}
                         {manySend - 1}
                         {' '}
-                        {t('customer:otp:time')}
+                        {t('otp:time')}
                     </Typography>
                 )}
             </>
@@ -215,7 +215,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
                 <div className={styles.button}>
                     <Button fullWidth disabled={manySend <= 1} onClick={handleCheck}>
                         <Typography variant="p" color="white">
-                            Verify
+                            {t('common:button:verify')}
                         </Typography>
                     </Button>
                 </div>

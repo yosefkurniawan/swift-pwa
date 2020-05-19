@@ -21,7 +21,7 @@ export const getCustomer = (token) => useQuery(Schema.getCustomer, {
             Authorization: typeof window === 'undefined' && token ? `Bearer ${token}` : '',
         },
     },
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'network-only',
 });
 
 export default {

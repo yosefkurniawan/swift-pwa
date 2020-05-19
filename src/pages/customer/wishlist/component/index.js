@@ -88,7 +88,7 @@ const Content = (props) => {
                         loading: false,
                         openMessage: true,
                         variantMessage: 'success',
-                        textMessage: t('product:successAddCart'),
+                        textMessage: t('wishlist:successAddCart'),
                     });
                     refetch();
                 });
@@ -99,7 +99,7 @@ const Content = (props) => {
                     loading: false,
                     openMessage: true,
                     variantMessage: 'error',
-                    textMessage: e.message.split(':')[1] || t('product:failedAddCart'),
+                    textMessage: e.message.split(':')[1] || t('wishlist:failedAddCart'),
                 });
                 if (e.message.split(':')[1].includes('choose option')) {
                     Router.push('/[...slug]', `/${url_key}`);
@@ -123,7 +123,7 @@ const Content = (props) => {
                     loading: false,
                     openMessage: true,
                     variantMessage: 'success',
-                    textMessage: t('customer:wishlist:removeSuccess'),
+                    textMessage: t('wishlist:removeSuccess'),
                 });
                 refetch();
             })
@@ -133,7 +133,7 @@ const Content = (props) => {
                     loading: false,
                     openMessage: true,
                     variantMessage: 'error',
-                    textMessage: e.message.split(':')[1] || t('customer:wishlist:removeFailed'),
+                    textMessage: e.message.split(':')[1] || t('wishlist:removeFailed'),
                 });
             });
     };
@@ -176,9 +176,9 @@ const Content = (props) => {
                 textMessage: errorCart[0]
                     ? totalSucces > 0
                         // eslint-disable-next-line max-len
-                        ? `${t('customer:wishlist:addPartToBagSuccess').split('$'[0])} ${totalSucces} ${t('customer:wishlist:addPartToBagSuccess').split('$'[1])}`
+                        ? `${t('wishlist:addPartToBagSuccess').split('$'[0])} ${totalSucces} ${t('wishlist:addPartToBagSuccess').split('$'[1])}`
                         : errorCart[1] || t('product:failedAddCart')
-                    : t('customer:wishlist:addAllToBagSuccess'),
+                    : t('wishlist:addAllToBagSuccess'),
                 variantMessage: errorCart[0] ? 'error' : 'success',
             });
         }, 3000);
@@ -197,7 +197,7 @@ const Content = (props) => {
             <Message open={state.openMessage} variant={state.variantMessage} setOpen={handleClose} message={state.textMessage} />
             {wishlist.length === 0 && (
                 <Alert className="m-15" severity="warning">
-                    {t('customer:wishlist:notFound')}
+                    {t('wishlist:notFound')}
                 </Alert>
             )}
             <div className={styles.content}>
@@ -208,7 +208,7 @@ const Content = (props) => {
             <div className={styles.footer}>
                 <Button onClick={handleAddAlltoBag} disabled={loading || wishlist.length === 0} fullWidth className={styles.btnSigin}>
                     <Typography variant="title" type="regular" letter="capitalize" color="white">
-                        {t('customer:wishlist:addAllToBag')}
+                        {t('wishlist:addAllToBag')}
                     </Typography>
                 </Button>
             </div>
