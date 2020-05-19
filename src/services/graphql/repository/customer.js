@@ -13,13 +13,10 @@ export const removeWishlist = () => useMutation(Schema.removeWishlist, {
     },
 });
 
-export const getCustomer = (token) => useQuery(Schema.getCustomer, {
+export const getCustomer = () => useQuery(Schema.getCustomer, {
     variables: {},
     context: {
         request: 'internal',
-        headers: {
-            Authorization: typeof window === 'undefined' && token ? `Bearer ${token}` : '',
-        },
     },
     fetchPolicy: 'network-only',
 });
