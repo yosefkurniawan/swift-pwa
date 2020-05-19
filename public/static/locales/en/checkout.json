@@ -38,6 +38,8 @@
         "button": "Use my credit"
     },
     "promoCodePlaceholder": "Promo code",
-    "giftCartPlaceholder": "Gift Cart Number"
+    "giftCartPlaceholder": "Gift Cart Number",
+    "yourOrderId": "Your order number",
+    "checkOrder": "Check Order"
 
 }

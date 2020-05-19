@@ -15,7 +15,8 @@ const Page = (props) => {
     );
 };
 
-Page.getInitialProps = async () => ({
+Page.getInitialProps = async ({ query }) => ({
+    query,
     namespacesRequired: ['common', 'checkout'],
 });
 

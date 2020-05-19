@@ -84,6 +84,7 @@ const Checkout = (props) => {
     const styles = useStyles();
     const dispatch = useDispatch();
     const [checkout, setCheckout] = useState({
+        order_id: '',
         data: {
             cart: null,
             customer: null,
@@ -608,10 +609,10 @@ const Checkout = (props) => {
         const snapToken = dataSnap.getSnapTokenByOrderId.snap_token;
         snap.pay(snapToken, {
             onSuccess(result) {
-                window.location = '/thanks';
+                Routes.push(`/thanks?order_id=${checkout.order_id}`);
             },
             onPending(result) {
-                window.location = '/thanks';
+                Routes.push(`/thanks?order_id=${checkout.order_id}`);
             },
             async onError(result) {
                 await getSnapOrderStatusByOrderId({
@@ -665,13 +666,17 @@ const Checkout = (props) => {
 
                 if (checkout.selected.payment.match(/snap.*/)) {
                     const orderId = result.data.placeOrder.order.order_number;
+                    setCheckout({
+                        ...checkout,
+                        order_id: orderId,
+                    });
                     await getSnapToken({ variables: { orderId } });
                 } else {
                     handleOpenMessage({
                         variant: 'success',
                         text: t('checkout:message:placeOrder'),
                     });
-                    Routes.push('/thanks');
+                    Routes.push(`/thanks?order_id=${result.data.placeOrder.order.order_number}`);
                 }
             } else {
                 handleOpenMessage({

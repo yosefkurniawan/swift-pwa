@@ -6,9 +6,9 @@
     "placeOrder" : "buat pesanan",
     "paymentSubtitle" : "Pilh metode pembayaranmu",
     "thanks" : "Terima kasih",
-    "toOrder" : "untuk pembelian kamu",
-    "thanksDetail" : "Kamai akan mengirimkan email detail pesanan dan infromasi pengiriman",
-    "continue" : "Lanjutkan Pembayaran",
+    "forOrder" : "untuk pembelian kamu",
+    "thanksDetail" : "Kami akan mengirimkan email detail pesanan dan infromasi pengiriman",
+    "continue" : "Lanjutkan Belnaja",
     "emailAddress": "Alamat Email",
     "emailHelper": "Kami akan meingirimkan konfirmasi order pada email ini.",
     "haveAccount": "Anda sudah memiliki akun? Silahkan masuk disini",
@@ -38,5 +38,7 @@
         "button": "Gunakan Kredit"
     },
     "promoCodePlaceholder": "Kode Promo",
-    "giftCartPlaceholder": "Nomor kartu hadiah"
+    "giftCartPlaceholder": "Nomor kartu hadiah",
+    "yourOrderId": "Nomor Pesanan kamu",
+    "checkOrder": "Cek Pesanan"
 }
