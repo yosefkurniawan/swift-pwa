@@ -11,6 +11,7 @@ const removeItemWishlist = require('./resolver/removeItemWishlist');
 const updateCustomer = require('./resolver/customer/updateCustomer');
 const changeCustomerPassword = require('./resolver/customer/changeCustomerPassword');
 const createCustomerAddress = require('./resolver/customer/createCustomerAddress');
+const updateCustomerAddress = require('./resolver/customer/updateCustomerAddress');
 
 module.exports = {
     generateCustomerToken,
@@ -25,4 +26,5 @@ module.exports = {
     updateCustomer,
     changeCustomerPassword,
     createCustomerAddress,
+    updateCustomerAddress,
 };

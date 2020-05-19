@@ -96,10 +96,10 @@ const priceTiers = `
 export const getCustomer = gql`
 {
     customer {
-     firstname
-     lastname
-     email
-     addresses {
+      firstname
+      lastname
+      email
+      addresses {
         id
         city
         default_billing

@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable radix */
 /* eslint-disable no-use-before-define */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-shadow */
@@ -77,9 +79,20 @@ const Content = (props) => {
     // handle change selected address
     const handleChange = async (event) => {
         setShowBackdrop(true);
-        const addressId = event.target.value;
+        const addressId = parseInt(event.target.value);
         setSelectedAddressId(addressId);
-        await updatedDefaultAddress({ variables: { addressId } });
+        let detail = {};
+        for (let index = 0; index < address.length; index++) {
+            if (address[index].id === addressId) {
+                detail = address[index];
+            }
+        }
+        await updatedDefaultAddress({
+            variables: {
+                addressId,
+                street: detail.street[0],
+            },
+        });
         await getCustomer.refetch();
         setShowBackdrop(false);
     };
