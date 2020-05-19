@@ -146,6 +146,7 @@ const customerSchema = makeExecutableSchema({
             addProductToWishlist(productId: Int!): AddProductToWishlistOutput
             removeItemWishlist(wishlistItemId: Int!): RemoveItemWishlistOutput
             createCustomerAddress(input: CustomerAddressInput) : CustomerAddress
+            updateCustomerAddress(id: Int!, input: CustomerAddressInput) : CustomerAddress
         }
     `,
 });

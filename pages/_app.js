@@ -46,7 +46,7 @@ class MyApp extends App {
         } = ctx;
         // check if login from server
         let token = '';
-        if (typeof window !== 'undefined') token = getToken(nameToken); else token = getTokenFromServer(allcookie[nameToken]);
+        if (typeof window !== 'undefined') token = getToken(nameToken); else token = await getTokenFromServer(allcookie[nameToken]);
         if (pageProps.withAuth) {
             if (typeof window !== 'undefined') {
                 if (token && token !== '') {

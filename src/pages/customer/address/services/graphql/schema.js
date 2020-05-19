@@ -3,8 +3,8 @@
 import { gql } from 'apollo-boost';
 
 export const updatedDefaultAddress = gql`
-    mutation updatedDefaultAddress($addressId: Int!) {
-        updateCustomerAddress(id: $addressId, input: { default_billing: true, default_shipping: true }) {
+    mutation updatedDefaultAddress($addressId: Int!, $street: String!) {
+        updateCustomerAddress(id: $addressId, input: { default_billing: true, default_shipping: true, street: [$street] }) {
             id
             city
             default_billing
