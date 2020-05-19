@@ -30,7 +30,6 @@ const useStyles = makeStyles(() => ({
     },
     account_wrapper: {
         background: 'white',
-        marginBottom: 80,
     },
     account_block: {
         display: 'block',

@@ -34,7 +34,7 @@ const useStyles = makeStyles(() => ({
     },
     productContainer: {
         overflow: 'hidden',
-        ...CreatePadding(0, 0, 50, 0),
+        ...CreatePadding(0, 0, 20, 0),
     },
     btnLoadmore: {
         cursor: 'pointer',
