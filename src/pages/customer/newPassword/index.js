@@ -24,7 +24,7 @@ Page.getInitialProps = async ({ query, res }) => {
         else res.redirect('/');
     }
     return {
-        token: query.token || '',
+        query,
         namespacesRequired: ['common', 'customer', 'validate'],
     };
 };

@@ -1,3 +1,6 @@
+
+const { productImageSize } = require('../../../../../swift.config');
+
 const productDetail = `
     id
     name
@@ -7,7 +10,8 @@ const productDetail = `
     __typename
     attribute_set_id
     small_image{
-      url
+      url(width: ${productImageSize.width}, height: ${productImageSize.height}),
+      label
     }
     image{
       url

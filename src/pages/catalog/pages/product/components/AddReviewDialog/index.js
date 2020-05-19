@@ -30,11 +30,10 @@ const AddReviewDialog = ({
 }) => {
     const styles = useStyles();
     const validationSchema = Yup.object().shape({
-        nickname: Yup.string()
-            .required(t('product:validate:nickname')),
-        title: Yup.string().required(t('validate:title:required')),
-        detail: Yup.string().required(t('validate:detail:required')),
-        rating: Yup.string().required(t('validate:rating:required')),
+        nickname: Yup.string().required(t('product:validate:nickname')),
+        title: Yup.string().required(t('product:validate:title')),
+        detail: Yup.string().required(t('product:validate:detail')),
+        rating: Yup.string().required(t('product:validate:rating')).nullable(),
     });
 
     const [addProductReview] = addReview();
@@ -42,13 +41,14 @@ const AddReviewDialog = ({
     const Formik = useFormik({
         initialValues: {
             nickname: '',
-            rating: '',
+            rating: null,
             title: '',
             detail: '',
             pkValue: data.id,
         },
         validationSchema,
-        onSubmit: (value) => {
+        onSubmit: (value, { resetForm }) => {
+            resetForm({});
             addProductReview({
                 variables: {
                     ...value,
@@ -56,17 +56,18 @@ const AddReviewDialog = ({
             }).then((res) => {
                 setOpen({
                     message: res.data.addProductReview.message,
+                    variant: 'success',
+                });
+            }).catch((e) => {
+                setOpen({
+                    message: e.message.split(':')[1],
+                    variant: 'error',
                 });
             });
         },
     });
     return (
-        <Dialog
-            fullScreen
-            open={open}
-            onClose={setOpen}
-            TransitionComponent={Transition}
-        >
+        <Dialog fullScreen open={open} onClose={setOpen} TransitionComponent={Transition}>
             <CustomHeader onClose={setOpen} />
             <div className={styles.root}>
                 <form onSubmit={Formik.handleSubmit} className={styles.container}>
@@ -115,12 +116,11 @@ const AddReviewDialog = ({
                                 Formik.setFieldValue('rating', newValue);
                             }}
                         />
-                        {
-                            Formik.errors.rating
-                            && (
-                                <Typography variant="p" color="red">{Formik.errors.rating || ''}</Typography>
-                            )
-                        }
+                        {Formik.errors.rating && (
+                            <Typography variant="p" color="red">
+                                {Formik.errors.rating || ''}
+                            </Typography>
+                        )}
                     </div>
                     <Button type="submit" color="primary">
                         {t('product:submitReview')}

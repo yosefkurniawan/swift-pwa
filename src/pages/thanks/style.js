@@ -1,27 +1,43 @@
 import { makeStyles } from '@material-ui/core';
-import { Centering, CreatePadding, CenterAbsolute } from '@theme/mixins';
+import {
+    Centering, CreatePadding, CenterAbsolute, FlexColumn, CreateMargin,
+} from '@theme/mixins';
 import { WHITE } from '@theme/colors';
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     container: {
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
         width: '100%',
         height: '100vh',
         ...Centering,
-        position: 'relative',
         ...CreatePadding(30, 30, 30, 30),
+        ...FlexColumn,
         overflow: 'hidden',
     },
 
-    btnContinue: {
-        bottom: 30,
-        position: 'absolute',
+    footer: {
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'space-arround',
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
         ...CenterAbsolute,
+        background: 'rgba(255,255,255,0.7)',
+        ...CreatePadding(20, 20, 20, 20),
+    },
+    btnContinue: {
+        ...CreateMargin(0, 8, 0, 0),
         width: '90%',
-        maxWidth: 318,
-        overflow: 'hidden',
+        [theme.breakpoints.up('sm')]: {
+            width: 316,
+        },
+        height: 41,
+        bottom: 0,
+        left: 0,
+        opacity: 'none',
+        ...CenterAbsolute,
+        color: WHITE,
+        borderRadius: 100,
     },
     textBtn: {
         color: `${WHITE} !important`,

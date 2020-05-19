@@ -102,6 +102,7 @@ const useStyles = makeStyles((theme) => ({
     },
     btnLoadReview: {
         ...Centering,
+        textAlign: 'center',
     },
     textLoadReview: {
         color: `${GRAY_SECONDARY} !important`,

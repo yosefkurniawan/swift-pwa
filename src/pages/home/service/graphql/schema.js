@@ -1,4 +1,5 @@
 import { gql } from 'apollo-boost';
+import { productImageSize } from '@config';
 
 export const getBannerSlider = gql`
     {
@@ -42,7 +43,7 @@ export const getFeaturedProducts = gql`
                         url_key
                         canonical_url
                         small_image {
-                            url
+                            url(width: ${productImageSize.width}, height: ${productImageSize.height}),
                         }
                         image {
                             url
