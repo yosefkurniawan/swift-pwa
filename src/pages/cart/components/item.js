@@ -13,20 +13,21 @@ import useStyles from '../style';
 import ConfirmationDelete from './confirmDelete';
 
 
-const Item = ({
-    t, editMode, id, toggleEditDrawer, product, quantity, configurable_options = [], deleteItem, prices,
-    handleFeed,
-}) => {
+const Item = (props) => {
+    const {
+        t, editMode, toggleEditDrawer, product, quantity, configurable_options = [], deleteItem, prices,
+        handleFeed,
+    } = props;
     const styles = useStyles();
     const [confirmDel, setConfirmDel] = useState(false);
 
     const handleDelete = () => {
         setConfirmDel(false);
-        deleteItem(id);
+        deleteItem(props);
     };
 
     const handleAddWishlist = () => {
-        handleFeed(product.id, id);
+        handleFeed(props);
     };
     return (
         <div className={styles.item}>

@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import Button from '@components/Button';
 import PriceFormat from '@components/PriceFormat';
 import Banner from '@components/Slider/Banner';
@@ -34,6 +35,12 @@ const ProductPage = (props) => {
 
     React.useEffect(() => {
         let index = 0;
+        let categoryProduct = '';
+        // eslint-disable-next-line no-unused-expressions
+        data.categories.length > 0 && data.categories.map(({ name }, indx) => {
+            if (indx > 0) categoryProduct += `/${name}`;
+            else categoryProduct += name;
+        });
         const tagManagerArgs = {
             dataLayer: {
                 event: 'impression',
@@ -45,7 +52,7 @@ const ProductPage = (props) => {
                         name: data.name,
                         id: data.sku,
                         price: data.price_range.minimum_price.regular_price.value || 0,
-                        category: data.categories.length > 0 ? data.categories[0].name : '',
+                        category: categoryProduct,
                         dimensions4: data.stock_status,
                     }],
                     currencyCode: data.price_range.minimum_price.regular_price.currency || 'USD',
@@ -55,7 +62,7 @@ const ProductPage = (props) => {
                             return ({
                                 name: product.name,
                                 id: product.sku,
-                                category: product.categories.length > 0 ? data.categories[0].name : '',
+                                category: categoryProduct,
                                 price: product.price_range.minimum_price.regular_price.value,
                                 list: `Related Products From ${data.name}`,
                                 position: index,
@@ -66,7 +73,7 @@ const ProductPage = (props) => {
                             return ({
                                 name: product.name,
                                 id: product.sku,
-                                category: product.categories.length > 0 ? data.categories[0].name : '',
+                                category: categoryProduct,
                                 price: product.price_range.minimum_price.regular_price.value,
                                 list: `Related Products From ${data.name}`,
                                 position: index,
@@ -121,6 +128,26 @@ const ProductPage = (props) => {
 
     const handleWishlist = () => {
         if (token && token !== '') {
+            TagManager.dataLayer({
+                dataLayer: {
+                    event: 'addToWishlist',
+                    eventLabel: data.name,
+                    label: data.name,
+                    ecommerce: {
+                        currencyCode: data.price_range.minimum_price.regular_price.currency || 'USD',
+                        add: {
+                            products: [{
+                                name: data.name,
+                                id: data.sku,
+                                price: data.price_range.minimum_price.regular_price.value || 0,
+                                category: data.categories.length > 0 ? data.categories[0].name : '',
+                                list: data.categories.length > 0 ? data.categories[0].name : '',
+                                dimensions4: data.stock_status,
+                            }],
+                        },
+                    },
+                },
+            });
             addWishlist({
                 variables: {
                     productId: data.id,

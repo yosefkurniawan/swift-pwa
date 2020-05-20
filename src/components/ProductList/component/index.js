@@ -1,4 +1,6 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable guard-for-in */
+import React from 'react';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
 import { Tune } from '@material-ui/icons';
@@ -11,6 +13,9 @@ import getQueryFromPath from '@helpers/generateQuery';
 import CustomTabs from '@components/Tabs';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { Alert } from '@material-ui/lab';
+import TagManager from 'react-gtm-module';
+import { storeConfigNameCokie } from '@config';
+import cookies from 'js-cookie';
 import useStyles from '../style';
 import Filter from './Filter';
 import { getProduct } from '../services';
@@ -149,6 +154,44 @@ const Product = ({
         }
         return <Alert style={{ margin: '18px' }} severity="warning">{t('product:emptyProductSearchResult')}</Alert>;
     };
+
+    let storeConfig = {};
+    if (typeof window !== 'undefined') {
+        storeConfig = cookies.getJSON(storeConfigNameCokie);
+    }
+
+    React.useEffect(() => {
+        if (data) {
+            const tagManagerArgs = {
+                dataLayer: {
+                    event: 'impression',
+                    eventCategory: 'Ecommerce',
+                    eventAction: 'Impression',
+                    eventLabel: `category ${url_path}`,
+                    ecommerce: {
+                        currencyCode: storeConfig.base_currency_code || 'IDR',
+                        impressions: data.products.items.map((product, index) => {
+                            let categoryProduct = '';
+                            // eslint-disable-next-line no-unused-expressions
+                            product.categories.length > 0 && product.categories.map(({ name }, indx) => {
+                                if (indx > 0) categoryProduct += `/${name}`;
+                                else categoryProduct += name;
+                            });
+                            return {
+                                name: product.name,
+                                id: product.sku,
+                                category: categoryProduct,
+                                price: product.price_range.minimum_price.regular_price.value,
+                                list: categoryProduct,
+                                position: index,
+                            };
+                        }),
+                    },
+                },
+            };
+            TagManager.dataLayer(tagManagerArgs);
+        }
+    }, []);
 
     return (
         <>
