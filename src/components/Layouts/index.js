@@ -16,7 +16,7 @@ const Layout = (props) => {
     const router = useRouter();
     const ogData = {
         title: pageConfig.title ? pageConfig.title : 'Swift PWA',
-        image: '/assets/img/swift-logo.png',
+        image: `${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}/assets/img/swift-logo.png`,
         'image:type': 'image/png',
         url: `${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}${router.asPath}`,
         locale: i18n && i18n.language === 'id' ? 'id_ID' : 'en_US',
@@ -34,19 +34,23 @@ const Layout = (props) => {
         };
         TagManager.dataLayer(tagManagerArgs);
     }, []);
-
     return (
         <>
-            {pageConfig.title && pageConfig.title !== '' && (
-                <Head>
-                    <title>
-                        {pageConfig.title}
-                    </title>
-                    {Object.keys(ogData).map((key, idx) => (
-                        <meta property={`og:${key}`} content={ogData[key]} key={idx} />
-                    ))}
-                </Head>
-            )}
+            <Head>
+                <meta name="keywords" content={pageConfig.title ? pageConfig.title : 'Swift PWA'} />
+                <meta name="robots" content="INDEX,FOLLOW" />
+                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+                <meta name="format-detection" content="telephone=no" />
+                {Object.keys(ogData).map((key, idx) => {
+                    if (typeof ogData[key] === 'object' && ogData[key].type && ogData[key].type === 'meta') {
+                        return <meta name={`${key}`} content={ogData[key].value} key={idx} />;
+                    }
+                    return <meta property={`og:${key}`} content={ogData[key]} key={idx} />;
+                })}
+                <title>
+                    {pageConfig.title ? pageConfig.title : 'Swift PWA'}
+                </title>
+            </Head>
 
             {React.isValidElement(CustomHeader) ? (
                 <>{React.cloneElement(CustomHeader, { pageConfig })}</>

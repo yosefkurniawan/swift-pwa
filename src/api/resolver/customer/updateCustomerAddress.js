@@ -90,8 +90,7 @@ async function updateCustomerAddress(parent, args, context) {
             street: args.input.street[0],
         };
     }
-    console.log(variables);
-    const res = await requestGraph(args.input.firstname ? querySetDefault : query, variables, context);
+    const res = await requestGraph(args.input.firstname ? query : querySetDefault, variables, context);
     if (res.updateCustomerAddress) {
         return res.updateCustomerAddress;
     }
