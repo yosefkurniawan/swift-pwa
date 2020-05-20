@@ -20,13 +20,11 @@ export default makeStyles((theme) => ({
         background: 'transparent',
     },
     bannerContainer: {
-        height: '70vh',
         backgroundPosition: 'center',
         background: 'transparent',
     },
     img: {
         display: 'block',
-        height: '70vh',
         width: 'auto',
     },
     optionContainer: {
