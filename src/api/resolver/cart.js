@@ -97,6 +97,9 @@ query getCartData($cart_id: String!) {
               url
               label
           }
+          categories {
+            name
+          }
         }
         quantity
           prices {
@@ -131,6 +134,9 @@ query getCartData($cart_id: String!) {
           small_image {
             url(width: ${productImageSize.width}, height: ${productImageSize.height}),
             label
+          }
+          categories {
+            name
           }
           url_key
           sku
