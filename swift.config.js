@@ -5,6 +5,11 @@
 /* Base URL */
 const BASE_URL = 'https://swiftpwa-be.testingnow.me/';
 
+const HOST = {
+    dev: 'http://localhost:3000',
+    prod: 'https://swiftpwa-be.testingnow.me',
+};
+
 /* Magento GraphQL Endpoint */
 const graphqlEndpoint = {
     dev: 'https://swiftpwa-be.testingnow.me/graphql',
@@ -85,6 +90,7 @@ const productImageSize = {
 module.exports = {
     GTM,
     BASE_URL,
+    HOST,
     graphqlEndpoint,
     graphqlInternalEndpoint,
     shareIcon,

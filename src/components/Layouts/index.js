@@ -3,12 +3,26 @@ import Navigation from '@components/Navigation';
 import Header from '@components/Header';
 import Head from 'next/head';
 import TagManager from 'react-gtm-module';
+import { useRouter } from 'next/router';
+import { HOST } from '@config';
 
 const Layout = (props) => {
     const {
         pageConfig, children, CustomHeader = false,
+        i18n,
     } = props;
 
+    const { ogContent = {} } = pageConfig;
+    const router = useRouter();
+    const ogData = {
+        title: pageConfig.title ? pageConfig.title : 'Swift PWA',
+        image: '/assets/img/swift-logo.png',
+        'image:type': 'image/png',
+        url: `${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}${router.asPath}`,
+        locale: i18n && i18n.language === 'id' ? 'id_ID' : 'en_US',
+        type: 'website',
+        ...ogContent,
+    };
     useEffect(() => {
         const tagManagerArgs = {
             dataLayer: {
@@ -28,6 +42,9 @@ const Layout = (props) => {
                     <title>
                         {pageConfig.title}
                     </title>
+                    {Object.keys(ogData).map((key, idx) => (
+                        <meta property={`og:${key}`} content={ogData[key]} key={idx} />
+                    ))}
                 </Head>
             )}
 
