@@ -1,11 +1,12 @@
 const requestGraph = require('../../graphql-request');
+const cartOutput = require('./schema/cartOutput');
 
 const query = {
     addressId: `
         mutation($addressId: Int!, $cartId: String!) {
             setBillingAddressOnCart(input: { cart_id: $cartId, billing_address: { same_as_shipping: true, customer_address_id: $addressId } }) {
                 cart {
-                    id
+                    ${cartOutput}
                 }
             }
         }
@@ -42,7 +43,7 @@ const query = {
                 }
             ) {
                 cart {
-                    id
+                    ${cartOutput}
                 }
             }
         }

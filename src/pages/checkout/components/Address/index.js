@@ -56,10 +56,10 @@ const Address = (props) => {
         content = t('checkout:message:address:default');
     }
 
-    const updateAddressState = (resultShippingAddress) => {
+    const updateAddressState = (result) => {
         const state = { ...checkout };
 
-        const updatedCart = resultShippingAddress.data.setShippingAddressesOnCart.cart;
+        const updatedCart = result.data.setBillingAddressOnCart.cart;
         const [shippingAddress] = updatedCart.shipping_addresses;
 
         const shippingMethods = shippingAddress.available_shipping_methods.map((shipping) => ({
@@ -77,13 +77,14 @@ const Address = (props) => {
 
         state.data.shippingMethods = shippingMethods;
         state.selected.address = dataAddress;
+        state.selected.shipping = shippingAddress.selected_shipping_method;
         state.loading.addresses = false;
         state.data.summary.prices = updatedCart.prices;
         state.data.summary.items = updatedCart.items;
         state.data.summary.shipping_addresses = updatedCart.shipping_addresses;
         setCheckout(state);
 
-        updateFormik(resultShippingAddress.data.setShippingAddressesOnCart.cart);
+        updateFormik(updatedCart);
     };
 
     const setAddress = (selectedAddress, cart) => new Promise((resolve, reject) => {
@@ -97,14 +98,14 @@ const Address = (props) => {
                     cartId: cart.id,
                     ...selectedAddress,
                 },
-            }).then((resShipping) => {
+            }).then(() => {
                 setBillingAddressByInput({
                     variables: {
                         cartId: cart.id,
                         ...selectedAddress,
                     },
-                }).then(() => {
-                    updateAddressState(resShipping);
+                }).then((resBilling) => {
+                    updateAddressState(resBilling);
                     resolve();
                 }).catch(() => {
                     reject();
@@ -118,14 +119,14 @@ const Address = (props) => {
                     cartId: cart.id,
                     addressId: selectedAddress.id,
                 },
-            }).then((resShipping) => {
+            }).then(() => {
                 setBillingAddressById({
                     variables: {
                         cartId: cart.id,
                         addressId: selectedAddress.id,
                     },
-                }).then(() => {
-                    updateAddressState(resShipping);
+                }).then((resBilling) => {
+                    updateAddressState(resBilling);
                     resolve();
                 }).catch(() => {
                     reject();
@@ -136,9 +137,39 @@ const Address = (props) => {
         }
     });
 
+    const isAddressNotSame = (current = [], previous = []) => {
+        const currentStringfy = JSON.stringify({
+            city: current.city,
+            country_code: current.country_code,
+            firstname: current.firstname,
+            lastname: current.lastname,
+            postcode: current.postcode,
+            regionLabel: current.region.region,
+            street: current.street,
+            telephhone: current.telephone,
+        });
+
+        const previousStringfy = JSON.stringify({
+            city: previous.city,
+            country_code: previous.country.code,
+            firstname: previous.firstname,
+            lastname: previous.lastname,
+            postcode: previous.postcode,
+            regionLabel: previous.region.label,
+            street: previous.street,
+            telephhone: previous.telephone,
+        });
+
+        return currentStringfy !== previousStringfy;
+    };
+
     useEffect(() => {
         if (defaultAddress && !checkout.data.isGuest) {
-            setAddress(defaultAddress, checkout.data.cart);
+            const { cart } = checkout.data;
+            const [prevAddress] = cart.shipping_addresses;
+            if (isAddressNotSame(defaultAddress, prevAddress)) {
+                setAddress(defaultAddress, cart);
+            }
         }
     }, [defaultAddress]);
 

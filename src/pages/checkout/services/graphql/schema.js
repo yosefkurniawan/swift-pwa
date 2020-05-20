@@ -204,7 +204,7 @@ export const setBillingAddressById = gql`
     mutation setBillingAddressById($addressId: Int!, $cartId: String!) {
         setBillingAddressOnCart(input: { cart_id: $cartId, billing_address: { same_as_shipping: true, customer_address_id: $addressId } }) {
             cart {
-                id
+                ${cartSubSelection}
             }
         }
     }
@@ -242,7 +242,7 @@ export const setBillingAddressByInput = gql`
             }
         ) {
             cart {
-                id
+                ${cartSubSelection}
             }
         }
     }
