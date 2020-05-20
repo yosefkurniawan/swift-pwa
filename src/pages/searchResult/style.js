@@ -10,7 +10,6 @@ const useStyles = makeStyles(() => ({
         ...FlexColumn,
     },
     headContainer: {
-        height: '40vh',
         position: 'relative',
         backgroundColor: GRAY_PRIMARY,
     },

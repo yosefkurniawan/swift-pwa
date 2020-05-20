@@ -12,7 +12,7 @@ const BannerSliderSkeleteon = () => {
     const styles = useStyles();
     return (
         <div className={styles.skeletonWrapper}>
-            <Skeleton variant="rect" width="100%" height="95vh" animation="wave" />
+            <Skeleton variant="rect" width="100%" height="50vh" animation="wave" />
         </div>
     );
 };
@@ -39,7 +39,7 @@ const BannerSlider = ({ storeConfig }) => {
                 <div className={styles.logo}>
                     <img src={logoUrl} alt="logo" className={styles.imgLogo} />
                 </div>
-                {bannerImages && bannerImages.length && <Banner data={bannerImages} height="95vh" />}
+                {bannerImages && bannerImages.length && <Banner data={bannerImages} />}
             </div>
         </>
     );

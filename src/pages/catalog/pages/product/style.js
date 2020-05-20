@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
         position: 'relative',
     },
     headContainer: {
-        height: '70vh',
         position: 'relative',
         backgroundColor: GRAY_PRIMARY,
         width: '100%',

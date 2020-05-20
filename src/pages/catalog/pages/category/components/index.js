@@ -44,7 +44,7 @@ const CategoryPage = ({ data, storeConfig, t }) => {
             {dataBanner.length > 0
                 ? (
                     <div className={styles.headContainer}>
-                        <Banner data={dataBanner} initial={{ url: 'img', link: 'link' }} height="40vh" />
+                        <Banner data={dataBanner} />
                         {' '}
                     </div>
                 ) : null}
