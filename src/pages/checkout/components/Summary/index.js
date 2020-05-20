@@ -29,6 +29,7 @@ const Summary = ({
     const dispatch = useDispatch();
     const styles = useStyles();
     const [expanded, setExpanded] = useState(null);
+    const [orderId, setOrderId] = useState(null);
     const [setGuestEmailAddressOnCart] = gqlService.setGuestEmailAddressOnCart();
     const [getSnapToken, { data: dataSnap }] = gqlService.getSnapToken({ onError: () => {} });
     const [placeOrder] = gqlService.placeOrder({ onError: () => {} });
@@ -66,8 +67,9 @@ const Summary = ({
                 await removeCartId();
 
                 if (checkout.selected.payment.match(/snap.*/)) {
-                    const orderId = result.data.placeOrder.order.order_number;
-                    await getSnapToken({ variables: { orderId } });
+                    const orderNumber = result.data.placeOrder.order.order_number;
+                    setOrderId(orderNumber);
+                    await getSnapToken({ variables: { orderNumber } });
                 } else {
                     handleOpenMessage({
                         variant: 'success',
@@ -92,7 +94,7 @@ const Summary = ({
         }
     };
 
-    if (dataSnap) {
+    if (dataSnap && orderId) {
         const snapToken = dataSnap.getSnapTokenByOrderId.snap_token;
         snap.pay(snapToken, {
             onSuccess() {
@@ -104,23 +106,25 @@ const Summary = ({
             async onError() {
                 await getSnapOrderStatusByOrderId({
                     variables: {
-                        orderId: checkout.data.orderId,
+                        orderId,
                     },
                 });
+                setOrderId(null);
                 window.location = '/checkout/cart';
             },
             async onClose() {
                 await getSnapOrderStatusByOrderId({
                     variables: {
-                        orderId: checkout.data.orderId,
+                        orderId,
                     },
                 });
+                setOrderId(null);
                 window.location = '/checkout/cart';
             },
         });
     }
 
-    // ----
+    // Start - Manage Summary
     let data = [];
     let total = 0;
     const {
@@ -152,8 +156,7 @@ const Summary = ({
             data = data.concat(discounts);
         }
     }
-
-    // ----
+    // End - Manage Summary
 
     return (
         <div className={styles.footer}>
