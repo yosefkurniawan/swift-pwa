@@ -11,8 +11,11 @@ import Loading from '@components/Loaders/Backdrop';
 import { setToken } from '@helpers/token';
 import { setCartId, getCartId } from '@helpers/cartId';
 import { GraphCart, GraphConfig } from '@services/graphql';
+import { getCustomer } from '@services/graphql/schema/customer';
+import { useQuery } from '@apollo/react-hooks';
 import { expiredToken } from '@config';
 import Router from 'next/router';
+import Cookies from 'js-cookie';
 import { getToken } from './service/graphql';
 import { decrypt } from '../../../helpers/encryption';
 import useStyles from './style';
@@ -52,6 +55,12 @@ const Login = ({ t, storeConfig, query }) => {
     const [getCart, cartData] = GraphCart.getCustomerCartId(cusToken);
     const [mergeCart, { called }] = GraphCart.mergeCart(cusToken);
     const otpConfig = GraphConfig.otpConfig();
+    const custData = useQuery(getCustomer, {
+        context: {
+            request: 'internal',
+        },
+        skip: cusToken === '' || !cusToken,
+    });
 
     // handle revoke token
 
@@ -95,7 +104,8 @@ const Login = ({ t, storeConfig, query }) => {
                 });
         },
     });
-    if (cartData.data) {
+    if (cartData.data && custData.data) {
+        Cookies.set('cid', custData.data.customer.id);
         const custCartId = cartData.data.customerCart.id;
         if (cartId === '' || !cartId) {
             setCartId(custCartId, expired);

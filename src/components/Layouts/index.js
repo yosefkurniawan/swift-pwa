@@ -28,7 +28,7 @@ const Layout = (props) => {
             dataLayer: {
                 pageName: pageConfig.title,
                 pageType: pageConfig.pageType ? pageConfig.pageType : 'other',
-                customerId: '', // @TODO: send if login only, fill width customer ID
+                customerEntity: '', // @TODO: send if login only, fill width customer ID
                 customerGroup: 'NOT LOGGED IN', // @TODO: fill width customer group from magento if logged in
             },
         };

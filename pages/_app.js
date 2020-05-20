@@ -19,9 +19,10 @@ import {
 import {
     getTokenFromServer, getToken,
 } from '@helpers/token';
+
+import TagManager from 'react-gtm-module';
 import '../src/styles/index.css';
 import '../src/styles/mage.css';
-import TagManager from 'react-gtm-module';
 
 const tagManagerArgs = {
     gtmId: process.env.NODE_ENV === 'production' ? GTM.gtmId.prod : GTM.gtmId.dev,

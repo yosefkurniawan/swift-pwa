@@ -11,7 +11,7 @@ import { setCountCart } from '@stores/actions/cart';
 import { GraphCart } from '@services/graphql';
 import { getToken } from '@helpers/token';
 import { getCartId, setCartId } from '@helpers/cartId';
-import * as gtag from '@lib/gtag';
+import TagManager from 'react-gtm-module';
 import { addConfigProductsToCart, getConfigurableProduct } from '../../services/graphql';
 import { setConfigurable, setProductSelected } from '../../redux/action';
 import Footer from './Footer';
@@ -24,7 +24,8 @@ export default (props) => {
         t,
         data: {
             __typename, sku, media_gallery, image,
-            price_range, price_tiers,
+            price_range, price_tiers, name, categories,
+            stock_status,
         },
         setMessage,
         setOpen,
@@ -173,11 +174,25 @@ export default (props) => {
                     qty: parseFloat(qty),
                     parentSku: sku,
                 };
-                gtag.event({
-                    action: 'submit_form',
-                    category: 'AddToCart',
-                    label: productState.product.sku,
-                    value: JSON.stringify(variables),
+                TagManager.dataLayer({
+                    dataLayer: {
+                        event: 'addToCart',
+                        eventLabel: name,
+                        ecommerce: {
+                            currencyCode: price_range.minimum_price.regular_price.currency || 'USD',
+                            add: {
+                                products: [{
+                                    name,
+                                    id: sku,
+                                    price: price_range.minimum_price.regular_price.value || 0,
+                                    category: categories.length > 0 ? categories[0].name : '',
+                                    list: categories.length > 0 ? categories[0].name : '',
+                                    quantity: qty,
+                                    dimensions4: stock_status,
+                                }],
+                            },
+                        },
+                    },
                 });
                 addCartConfig({
                     variables,

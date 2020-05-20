@@ -96,6 +96,7 @@ const priceTiers = `
 export const getCustomer = gql`
 {
     customer {
+      id
       firstname
       lastname
       email
