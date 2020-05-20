@@ -12,6 +12,14 @@ const updateCustomer = require('./resolver/customer/updateCustomer');
 const changeCustomerPassword = require('./resolver/customer/changeCustomerPassword');
 const createCustomerAddress = require('./resolver/customer/createCustomerAddress');
 const updateCustomerAddress = require('./resolver/customer/updateCustomerAddress');
+const setShippingAddressesOnCart = require('./resolver/checkout/setShippingAddressesOnCart');
+const setBillingAddressOnCart = require('./resolver/checkout/setBillingAddressOnCart');
+const setGuestEmailOnCart = require('./resolver/checkout/setGuestEmailOnCart');
+const setPaymentMethodOnCart = require('./resolver/checkout/setPaymentMethodOnCart');
+const setShippingMethodsOnCart = require('./resolver/checkout/setShippingMethodsOnCart');
+const placeOrder = require('./resolver/checkout/placeOrder');
+const applyCouponToCart = require('./resolver/checkout/applyCouponToCart');
+const removeCouponFromCart = require('./resolver/checkout/removeCouponFromCart');
 
 module.exports = {
     generateCustomerToken,
@@ -27,4 +35,12 @@ module.exports = {
     changeCustomerPassword,
     createCustomerAddress,
     updateCustomerAddress,
+    setBillingAddressOnCart,
+    setGuestEmailOnCart,
+    setPaymentMethodOnCart,
+    setShippingAddressesOnCart,
+    setShippingMethodsOnCart,
+    placeOrder,
+    applyCouponToCart,
+    removeCouponFromCart,
 };

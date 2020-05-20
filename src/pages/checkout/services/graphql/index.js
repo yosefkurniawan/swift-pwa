@@ -1,20 +1,11 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
-import helper from '@helpers/token';
 import * as Schema from './schema';
 
-const USING_TOKEN = true;
-const NOT_USING_TOKEN = false;
+const NOT_USING_INTERNAL = false;
+const USING_INTERNAL = true;
 
-const config = (isUsingToken) => {
-    const token = helper.getToken();
-
-    const context = token && isUsingToken
-        ? {
-            headers: {
-                authorization: `Bearer ${helper.getToken()}`,
-            },
-        }
-        : {};
+const config = (isUsingInternal) => {
+    const context = isUsingInternal ? { request: 'internal' } : {};
 
     return {
         notifyOnNetworkStatusChange: true,
@@ -24,76 +15,76 @@ const config = (isUsingToken) => {
 
 export const getCustomer = (options = {}) => useQuery(Schema.getCustomer, {
     ...options,
-    ...config(USING_TOKEN),
+    ...config(USING_INTERNAL),
     fetchPolicy: 'no-cache',
     errorPolicy: 'all',
 });
 
 export const getCart = (options = {}) => useLazyQuery(Schema.getCart, {
     ...options,
-    ...config(USING_TOKEN),
+    ...config(USING_INTERNAL),
     fetchPolicy: 'no-cache',
     errorPolicy: 'all',
 });
 
 export const setShippingAddress = (options = {}) => useMutation(Schema.setShippingAddressById, {
     ...options,
-    ...config(USING_TOKEN),
-});
-
-export const setShippingMethod = (options = {}) => useMutation(Schema.setShippingMethod, {
-    ...options,
-    ...config(USING_TOKEN),
-});
-
-export const setBillingAddressById = (options = {}) => useMutation(Schema.setBillingAddressById, {
-    ...options,
-    ...config(USING_TOKEN),
-});
-
-export const setBillingAddressByInput = (options = {}) => useMutation(Schema.setBillingAddressByInput, {
-    ...options,
-    ...config(USING_TOKEN),
+    ...config(USING_INTERNAL),
 });
 
 export const setShippingAddressByInput = (options = {}) => useMutation(Schema.setShippingAddressByInput, {
     ...options,
-    ...config(USING_TOKEN),
+    ...config(USING_INTERNAL),
 });
 
-export const placeOrder = (options = {}) => useMutation(Schema.placeOrder, {
+export const setBillingAddressById = (options = {}) => useMutation(Schema.setBillingAddressById, {
     ...options,
-    ...config(USING_TOKEN),
+    ...config(USING_INTERNAL),
+});
+
+export const setBillingAddressByInput = (options = {}) => useMutation(Schema.setBillingAddressByInput, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
+export const setShippingMethod = (options = {}) => useMutation(Schema.setShippingMethod, {
+    ...options,
+    ...config(USING_INTERNAL),
 });
 
 export const setPaymentMethod = (options = {}) => useMutation(Schema.setPaymentMethod, {
     ...options,
-    ...config(USING_TOKEN),
-});
-
-export const setGuestEmailAddressOnCart = (options = {}) => useMutation(Schema.setGuestEmailAddressOnCart, {
-    ...options,
-    ...config(USING_TOKEN),
+    ...config(USING_INTERNAL),
 });
 
 export const applyCouponToCart = (options = {}) => useMutation(Schema.applyCouponToCart, {
     ...options,
-    ...config(USING_TOKEN),
+    ...config(USING_INTERNAL),
 });
 
 export const removeCouponFromCart = (options = {}) => useMutation(Schema.removeCouponFromCart, {
     ...options,
-    ...config(USING_TOKEN),
+    ...config(USING_INTERNAL),
+});
+
+export const setGuestEmailAddressOnCart = (options = {}) => useMutation(Schema.setGuestEmailAddressOnCart, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
+export const placeOrder = (options = {}) => useMutation(Schema.placeOrder, {
+    ...options,
+    ...config(USING_INTERNAL),
 });
 
 export const getSnapToken = (options = {}) => useLazyQuery(Schema.getSnapToken, {
     ...options,
-    ...config(NOT_USING_TOKEN),
+    ...config(NOT_USING_INTERNAL),
 });
 
 export const getSnapOrderStatusByOrderId = (options = {}) => useLazyQuery(Schema.getSnapOrderStatusByOrderId, {
     ...options,
-    ...config(NOT_USING_TOKEN),
+    ...config(NOT_USING_INTERNAL),
 });
 
 export default {
