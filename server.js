@@ -22,6 +22,7 @@ const certificate = '/etc/letsencrypt/live/swiftpwa.testingnow.me/cert.pem';
 const schema = require('./src/api');
 const root = require('./src/api/root');
 const { expiredToken, SESSION_SECRET } = require('./swift.config');
+const generateXml = require('./src/api/xml');
 
 (async () => {
     await app.prepare();
@@ -60,7 +61,7 @@ const { expiredToken, SESSION_SECRET } = require('./swift.config');
     });
     serverGraph.applyMiddleware({ app: server });
 
-
+    server.get('/sitemap.xml', generateXml);
     server.get('*', (req, res) => handle(req, res));
 
     if (
