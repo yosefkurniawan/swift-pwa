@@ -16,7 +16,7 @@ const Layout = (props) => {
     const router = useRouter();
     const ogData = {
         title: pageConfig.title ? pageConfig.title : 'Swift PWA',
-        image: '/assets/img/swift-logo.png',
+        image: `${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}/assets/img/swift-logo.png`,
         'image:type': 'image/png',
         url: `${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}${router.asPath}`,
         locale: i18n && i18n.language === 'id' ? 'id_ID' : 'en_US',
