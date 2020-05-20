@@ -102,6 +102,10 @@ export const getProduct = (url) => {
               description {
                 html
               }
+              categories {
+                id
+                name
+              }
               short_description {
                 html
               }
