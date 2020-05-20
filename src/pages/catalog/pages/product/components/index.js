@@ -144,7 +144,6 @@ const ProductPage = (props) => {
                 <div className={styles.headContainer}>
                     <Banner
                         data={banner}
-                        height="70vh"
                         autoPlay={false}
                     />
                     {
