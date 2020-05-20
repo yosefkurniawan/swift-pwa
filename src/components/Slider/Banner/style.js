@@ -34,9 +34,7 @@ const useStyles = makeStyles(() => ({
         display: 'none',
     },
     imageSlider: {
-        backgroundSize: 'auto',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
+        display: 'flex',
         width: '100%',
     },
 }));
