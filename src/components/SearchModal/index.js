@@ -15,6 +15,39 @@ import SearchDialog from './SearchDialog';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="left" ref={ref} {...props} />);
 
+const CategoryWrapper = (props) => {
+    const {
+        openedCategory, showCat, openSub, slideCat, showSubCat, closeSub,
+    } = props;
+    const { loading, data, error } = GraphCategory.getCategories();
+
+    if (loading) return <div>Loading... (need to change skeleton)</div>;
+    if (error) return <div>{`Error: ${JSON.stringify(error)}`}</div>;
+    if (!data) return <p>Not found</p>;
+
+    return (
+        <>
+            {!openedCategory.length ? (
+                <Category
+                    data={data.categoryList[0].children.filter((el) => el.include_in_menu)}
+                    open={showCat}
+                    {...props}
+                    onClick={openSub}
+                    direction="right"
+                    slide={slideCat}
+                />
+            ) : (
+                <SubCategory
+                    data={openedCategory}
+                    open={showSubCat}
+                    {...props}
+                    onBack={closeSub}
+                />
+            )}
+        </>
+    );
+};
+
 const SearchPage = (props) => {
     const styles = useStyles();
     const [openedCategory, setOpenedCategory] = useState([]);
@@ -23,20 +56,7 @@ const SearchPage = (props) => {
     const [openSearch, setOpenSearch] = useState(false);
     const [slideCat, setSlideCat] = useState(false);
     const [value, setValue] = React.useState('');
-    const { loading, data, error } = GraphCategory.getCategories();
-
-    if (loading && !data) {
-        return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return (
-            <div>
-                Error:
-                {JSON.stringify(error)}
-            </div>
-        );
-    }
+    const { open } = props;
 
     const openSub = (cat) => {
         setOpenedCategory([cat]);
@@ -51,7 +71,6 @@ const SearchPage = (props) => {
         setSlideCat(true);
     };
 
-    const { open } = props;
     const handleCloseModal = () => {
         closeSub();
         setSlideCat(false);
@@ -115,25 +134,17 @@ const SearchPage = (props) => {
                             </IconButton>
                         </Toolbar>
                     </AppBar>
-                    <>
-                        {!openedCategory.length ? (
-                            <Category
-                                data={data.categoryList[0].children.filter((el) => el.include_in_menu)}
-                                open={showCat}
-                                {...props}
-                                onClick={openSub}
-                                direction="right"
-                                slide={slideCat}
-                            />
-                        ) : (
-                            <SubCategory
-                                data={openedCategory}
-                                open={showSubCat}
-                                {...props}
-                                onBack={closeSub}
-                            />
-                        )}
-                    </>
+                    {open && (
+                        <CategoryWrapper
+                            {...props}
+                            openedCategory={openedCategory}
+                            showCat={showCat}
+                            openSub={openSub}
+                            slideCat={slideCat}
+                            showSubCat={showSubCat}
+                            closeSub={closeSub}
+                        />
+                    )}
                 </div>
             </Dialog>
         </>
