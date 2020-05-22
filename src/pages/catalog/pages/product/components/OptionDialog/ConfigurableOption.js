@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ProductByVariant, { getCombinationVariants, CheckAvailableOptions } from '@helpers/productByVariant';
 import { setCountCart } from '@stores/actions/cart';
 import { GraphCart } from '@services/graphql';
-import { getToken } from '@helpers/token';
+import { getLoginInfo } from '@helpers/auth';
 import { getCartId, setCartId } from '@helpers/cartId';
 import TagManager from 'react-gtm-module';
 import { addConfigProductsToCart, getConfigurableProduct } from '../../services/graphql';
@@ -116,14 +116,14 @@ export default (props) => {
     };
 
     let cartId = '';
-    let tokenCustomer = '';
+    let isLogin = 0;
 
     if (typeof window !== 'undefined') {
-        tokenCustomer = getToken();
+        isLogin = getLoginInfo();
         cartId = getCartId();
     }
 
-    const [addCartConfig] = addConfigProductsToCart(tokenCustomer);
+    const [addCartConfig] = addConfigProductsToCart();
     const [getGuestCartId] = GraphCart.getGuestCartId();
     const cartUser = GraphCart.getCustomerCartId();
 
@@ -146,7 +146,7 @@ export default (props) => {
         if (JSON.stringify(errorData) === '{}') {
             setLoading(true);
             if (!cartId || cartId === '' || cartId === undefined) {
-                if (tokenCustomer === '' || !tokenCustomer) {
+                if (!isLogin) {
                     await getGuestCartId()
                         .then((res) => {
                             const token = res.data.createEmptyCart;
