@@ -93,7 +93,6 @@ const Login = ({ t, storeConfig, query }) => {
                         setLogin(1, expired);
                         await setIsLogin(1);
                         getCart();
-                        setLoading(false);
                     }
                 })
                 .catch((e) => {
@@ -110,6 +109,7 @@ const Login = ({ t, storeConfig, query }) => {
         const custCartId = cartData.data.customerCart.id;
         if (cartId === '' || !cartId) {
             setCartId(custCartId, expired);
+            setLoading(false);
             handleOpenMessage({ variant: 'success', text: 'Login Success!' });
             if (query && query.redirect) {
                 Router.push(query.redirect);
@@ -125,6 +125,7 @@ const Login = ({ t, storeConfig, query }) => {
             })
                 .then(() => {
                     setCartId(custCartId, expired);
+                    setLoading(false);
                     handleOpenMessage({ variant: 'success', text: 'Login Success!' });
                     if (query && query.redirect) {
                         Router.push(query.redirect);
