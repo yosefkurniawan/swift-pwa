@@ -1,5 +1,6 @@
 import Radio from '@components/Forms/Radio';
 import Typography from '@components/Typography';
+import TagManager from 'react-gtm-module';
 import gqlService from '../../services/graphql';
 import DeliveryItem from '../RadioDeliveryItem';
 
@@ -9,6 +10,7 @@ const Payment = ({
     updateFormik,
     handleOpenMessage,
     t,
+    storeConfig,
     styles,
 }) => {
     const { loading, data, selected } = checkout;
@@ -36,6 +38,39 @@ const Payment = ({
                 text: t('checkout:message:problemConnection'),
             });
         }
+        const selectedPayment = data.paymentMethod.filter((item) => item.code === val);
+        const dataLayer = {
+            event: 'checkout',
+            ecommerce: {
+                checkout: {
+                    actionField: { step: 3, option: selectedPayment[0].title, action: 'checkout' },
+                    products: cart.items.map(({ quantity, product, prices }) => ({
+                        name: product.name,
+                        id: product.sku,
+                        price: prices.price.value,
+                        category: product.categories.length > 0 ? product.categories[0].name : '',
+                        list: product.categories.length > 0 ? product.categories[0].name : '',
+                        quantity,
+                    })),
+                },
+                currencyCode: storeConfig.base_currency_code || 'IDR',
+            },
+        };
+        const dataLayerOption = {
+            event: 'checkoutOption',
+            ecommerce: {
+                currencyCode: storeConfig.base_currency_code || 'IDR',
+                checkout_option: {
+                    actionField: { step: 3, option: selectedPayment[0].title, action: 'checkout_option' },
+                },
+            },
+        };
+        TagManager.dataLayer({
+            dataLayer,
+        });
+        TagManager.dataLayer({
+            dataLayer: dataLayerOption,
+        });
     };
 
     if (loading.payment || loading.shipping || loading.all) {
