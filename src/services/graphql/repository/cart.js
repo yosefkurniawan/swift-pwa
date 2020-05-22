@@ -9,7 +9,7 @@ export const getCustomerCartId = () => useLazyQuery(CartSchema.getCartIdUser, {
     fetchPolicy: 'no-cache',
 });
 export const getCartData = () => useQuery(CartSchema.getCart);
-export const getCountCart = (token, cartId) => useQuery(CartSchema.getCountCart, {
+export const getCountCart = (cartId) => useQuery(CartSchema.getCountCart, {
     context: {
         request: 'internal',
     },
@@ -18,13 +18,13 @@ export const getCountCart = (token, cartId) => useQuery(CartSchema.getCountCart,
     },
     skip: cartId === '' || typeof cartId === 'undefined',
 });
-export const mergeCart = (token) => useMutation(CartSchema.mergeCart, {
+export const mergeCart = () => useMutation(CartSchema.mergeCart, {
     context: {
         headers: {
-            Authorization: `Bearer ${token}`,
+            request: 'internal',
         },
     },
-    skip: token === '' || !token,
+    skip: typeof window === 'undefined',
 });
 
 export default {

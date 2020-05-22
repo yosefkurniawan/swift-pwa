@@ -10,7 +10,7 @@ import Router from 'next/router';
 import Toast from '@components/Toast';
 import Backdrop from '@components/Loaders/Backdrop';
 import OtpBlock from '@components/OtpBlock';
-import { setToken } from '@helpers/token';
+import { setLogin } from '@helpers/auth';
 import { setCartId, getCartId } from '@helpers/cartId';
 import { GraphCart, GraphConfig } from '@services/graphql';
 import { expiredToken } from '@config';
@@ -102,7 +102,7 @@ const Register = ({ t, storeConfig }) => {
     if (cartData.data) {
         const custCartId = cartData.data.customerCart.id;
         if (cartId === '' || !cartId) {
-            setToken(cusToken, expired);
+            setLogin(1, expired);
             setCartId(custCartId, expired);
             setMessage({
                 open: true,
@@ -118,7 +118,7 @@ const Register = ({ t, storeConfig }) => {
                 },
             })
                 .then(() => {
-                    setToken(cusToken, expired);
+                    setLogin(1, expired);
                     setCartId(custCartId, expired);
                     setMessage({
                         open: true,

@@ -4,13 +4,13 @@ import WihtOutToken from './component/WihtOutToken';
 import WithToken from './component/WithToken';
 
 const Page = (props) => {
-    const { t, token } = props;
+    const { t, isLogin } = props;
     const pageConfig = {
         title: t('customer:dashboard:pageTitle'),
         header: false, // available values: "absolute", "relative", false (default)
         bottomNav: 'account',
     };
-    if (token !== '' && token) {
+    if (isLogin) {
         return (
             <Layout pageConfig={pageConfig}>
                 <WithToken {...props} />

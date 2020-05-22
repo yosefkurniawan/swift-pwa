@@ -1,14 +1,11 @@
 import { useMutation } from '@apollo/react-hooks';
-import helper from '@helpers/token';
 import * as Schema from './schema';
 
 const config = {
     context: {
-        headers: {
-            authorization: `Bearer ${helper.getToken()}`,
-        },
         request: 'internal',
     },
+    skip: typeof window === 'undefined',
 };
 
 export const updatedDefaultAddress = (options = {}) => useMutation(Schema.updatedDefaultAddress, {

@@ -2,10 +2,8 @@
 import { useQuery } from '@apollo/react-hooks';
 import * as Schema from './schema';
 
-export const getCustomer = (token) => useQuery(Schema.getCustomer, {
+export const getCustomer = () => useQuery(Schema.getCustomer, {
     context: {
-        headers: token && token !== '' ? {
-            Authorization: `Bearer ${token}`,
-        } : {},
+        request: 'internal',
     },
 });

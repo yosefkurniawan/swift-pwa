@@ -11,7 +11,6 @@ import {
 import { useFormik } from 'formik';
 import Toast from '@components/Toast';
 import * as Yup from 'yup';
-import helper from '@helpers/token';
 import { Skeleton } from '@material-ui/lab';
 import useStyles from './style';
 import { getCustomer } from '../../../services/graphql/repository/customer';
@@ -320,8 +319,7 @@ const ProfilePageSkeleton = () => {
 };
 
 const ProfilePage = (props) => {
-    const token = helper.getToken();
-    const { error, loading, data } = getCustomer(token);
+    const { error, loading, data } = getCustomer();
 
     if (loading) return <ProfilePageSkeleton />;
     if (error) return <p>{`Error: ${error.message}`}</p>;

@@ -8,7 +8,7 @@ import React from 'react';
 import PriceFormat from '@components/PriceFormat';
 import Toast from '@components/Toast';
 import { GraphCustomer } from '@services/graphql';
-import { getToken } from '@helpers/token';
+import { getLoginInfo } from '@helpers/auth';
 import useStyles from './style';
 import ConfigurableOpt from './component/configurable';
 
@@ -40,13 +40,12 @@ const ProductItem = (props) => {
         <FavoriteBorderOutlined className={styles.iconFeed} />
     );
 
-    let token = '';
-    if (typeof window !== 'undefined') token = getToken();
-
-    const [addWishlist] = GraphCustomer.addWishlist(token);
+    let isLogin = '';
+    if (typeof window !== 'undefined') isLogin = getLoginInfo();
+    const [addWishlist] = GraphCustomer.addWishlist();
 
     const handleFeed = () => {
-        if (token && token !== '') {
+        if (isLogin) {
             addWishlist({
                 variables: {
                     productId: id,

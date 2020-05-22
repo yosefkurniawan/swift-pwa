@@ -7,7 +7,7 @@ import { graphqlEndpoint, graphqlInternalEndpoint } from '@root/swift.config.js'
 import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { removeCartId } from '@helpers/cartId';
-import { removeToken } from '@helpers/token';
+import { removeIsLoginFlagging } from '@helpers/auth';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData: {
@@ -29,7 +29,7 @@ const uriInternal = process.env.NODE_ENV === 'production'
 const logoutLink = onError(({ graphQLErrors }) => {
     if (graphQLErrors && graphQLErrors[0] && graphQLErrors[0].status === 401 && typeof window !== 'undefined') {
         removeCartId();
-        removeToken();
+        removeIsLoginFlagging();
         window.location.href = '/customer/account/login';
     }
 });

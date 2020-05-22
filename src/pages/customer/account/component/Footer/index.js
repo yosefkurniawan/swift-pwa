@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Button from '@components/Button';
-import { removeToken } from '@helpers/token';
+import { removeIsLoginFlagging } from '@helpers/auth';
 import { removeCartId } from '@helpers/cartId';
 import { useDispatch } from 'react-redux';
 import { setCountCart } from '@stores/actions/cart';
@@ -8,13 +8,13 @@ import Router from 'next/router';
 import { removeToken as deleteToken } from '../../services/graphql';
 import useStyles from './style';
 
-export default ({ t, token }) => {
+export default ({ t, isLogin }) => {
     const styles = useStyles();
     const dispatch = useDispatch();
     const [deleteTokenGql] = deleteToken();
     const handleLogout = () => {
         deleteTokenGql().then(() => {
-            removeToken();
+            removeIsLoginFlagging();
             removeCartId();
             dispatch(setCountCart(0));
             Router.push('/customer/account/login');
@@ -35,7 +35,7 @@ export default ({ t, token }) => {
                         <a className={styles.account_navigation_link}>{t('customer:menu:contactUs')}</a>
                     </Link>
                 </li>
-                {token && token !== '' && (
+                {isLogin && (
                     <li className={styles.account_navigation_item}>
                         <Button className={styles.account_navigation_link} onClick={handleLogout} variant="text">
                             {t('customer:button:logout')}

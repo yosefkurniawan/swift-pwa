@@ -22,14 +22,13 @@ import useStyles from './style';
 
 // Main Render Page
 const Content = (props) => {
-    const { token } = props;
     // style
     const styles = useStyles();
     // graphql
     const [updatedDefaultAddress] = gqlUpdateDefaulAddress();
     const [updateAddress] = updateCustomerAddress();
     const [addAddress] = createCustomerAddress();
-    const getCustomer = GraphCustomer.getCustomer(token);
+    const getCustomer = GraphCustomer.getCustomer();
     // state
     const [address, setAddress] = useState([]);
     const [selectedAddressId, setSelectedAddressId] = useState(null);
