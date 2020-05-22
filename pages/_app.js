@@ -79,7 +79,6 @@ class MyApp extends App {
         } else {
             storeConfig = allcookie[storeConfigNameCokie];
         }
-        console.log(isLogin);
         // add get session from server
         return { pageProps: { ...pageProps, storeConfig, isLogin } };
     }
