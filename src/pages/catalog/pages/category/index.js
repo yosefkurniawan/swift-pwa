@@ -25,7 +25,7 @@ const Page = (props) => {
         ogContent,
     };
     return (
-        <Layout pageConfig={pageConfig} {...props}>
+        <Layout {...props} pageConfig={pageConfig}>
             {loading ? <SkeletonCategory /> : <Component {...props} data={data} />}
         </Layout>
     );

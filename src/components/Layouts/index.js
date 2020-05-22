@@ -9,14 +9,14 @@ import { HOST } from '@config';
 const Layout = (props) => {
     const {
         pageConfig, children, CustomHeader = false,
-        i18n,
+        i18n, storeConfig = {},
     } = props;
-
     const { ogContent = {} } = pageConfig;
     const router = useRouter();
     const ogData = {
         'og:title': pageConfig.title ? pageConfig.title : 'Swift PWA',
-        'og:image': `${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}/assets/img/swift-logo.png`,
+        'og:image': storeConfig.header_logo_src ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
+            : `${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}/assets/img/swift-logo.png`,
         'og:image:type': 'image/png',
         'og:url': `${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}${router.asPath}`,
         'og:locale': i18n && i18n.language === 'id' ? 'id_ID' : 'en_US',

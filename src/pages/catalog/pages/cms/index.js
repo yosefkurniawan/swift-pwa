@@ -17,7 +17,7 @@ const Page = (props) => {
         header: 'relative', // available values: "absolute", "relative", false (default)
     };
     return (
-        <Layout pageConfig={pageConfig}>
+        <Layout {...props} pageConfig={pageConfig}>
             <Content {...props} content={data.cmsPage.content} />
         </Layout>
     );
