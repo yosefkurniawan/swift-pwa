@@ -17,7 +17,6 @@ import { expiredToken } from '@config';
 import Router from 'next/router';
 import Cookies from 'js-cookie';
 import { getToken } from './service/graphql';
-import { decrypt } from '../../../helpers/encryption';
 import useStyles from './style';
 import { removeToken as deleteToken } from '../account/services/graphql';
 
@@ -31,7 +30,7 @@ const Login = ({ t, storeConfig, query }) => {
         variant: 'success',
     });
     const [loading, setLoading] = React.useState(false);
-    const [cusToken, setCusToken] = React.useState('');
+    const [cusIsLogin, setIsLogin] = React.useState(0);
 
     const handleOpenMessage = ({ variant, text }) => {
         setMessage({
@@ -52,14 +51,14 @@ const Login = ({ t, storeConfig, query }) => {
     }
     const [deleteTokenGql] = deleteToken();
     const [getCustomerToken] = getToken();
-    const [getCart, cartData] = GraphCart.getCustomerCartId(cusToken);
-    const [mergeCart, { called }] = GraphCart.mergeCart(cusToken);
+    const [getCart, cartData] = GraphCart.getCustomerCartId();
+    const [mergeCart, { called }] = GraphCart.mergeCart();
     const otpConfig = GraphConfig.otpConfig();
     const custData = useQuery(getCustomer, {
         context: {
             request: 'internal',
         },
-        skip: cusToken === '' || !cusToken,
+        skip: !cusIsLogin,
     });
 
     // handle revoke token
@@ -90,10 +89,12 @@ const Login = ({ t, storeConfig, query }) => {
             })
                 .then(async (res) => {
                     const { token } = res.data.generateCustomerToken;
-                    setLogin(1, expired);
-                    await setCusToken(decrypt(token));
-                    getCart();
-                    setLoading(false);
+                    if (token) {
+                        setLogin(1, expired);
+                        await setIsLogin(1);
+                        getCart();
+                        setLoading(false);
+                    }
                 })
                 .catch((e) => {
                     setLoading(false);

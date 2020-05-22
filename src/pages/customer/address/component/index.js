@@ -22,7 +22,8 @@ import useStyles from './style';
 
 // Main Render Page
 const Content = (props) => {
-    const { token } = props;
+    const { token, isLogin } = props;
+    console.log(isLogin);
     // style
     const styles = useStyles();
     // graphql
