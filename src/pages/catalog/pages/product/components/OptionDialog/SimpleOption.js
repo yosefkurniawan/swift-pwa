@@ -5,13 +5,17 @@ import { setCountCart } from '@stores/actions/cart';
 // import Router from 'next/router';
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import TagManager from 'react-gtm-module';
 import { addSimpleProductsToCart } from '../../services/graphql';
 import Footer from './Footer';
 
 export default ({
     setOpen,
     t,
-    data: { __typename, sku },
+    data: {
+        __typename, sku, name, categories,
+        price_range, stock_status,
+    },
     setMessage,
     loading,
     setLoading,
@@ -63,6 +67,26 @@ export default ({
             }
         }
         if (__typename === 'SimpleProduct') {
+            TagManager.dataLayer({
+                dataLayer: {
+                    event: 'addToCart',
+                    eventLabel: name,
+                    ecommerce: {
+                        currencyCode: price_range.minimum_price.regular_price.currency || 'USD',
+                        add: {
+                            products: [{
+                                name,
+                                id: sku,
+                                price: price_range.minimum_price.regular_price.value || 0,
+                                category: categories.length > 0 ? categories[0].name : '',
+                                list: categories.length > 0 ? categories[0].name : '',
+                                quantity: qty,
+                                dimensions4: stock_status,
+                            }],
+                        },
+                    },
+                },
+            });
             addCartSimple({
                 variables: {
                     cartId,

@@ -68,6 +68,9 @@ export const getCart = gql`
                     }
                     url_key
                     sku
+                    categories {
+                        name
+                    }
                 }
                 quantity
             }

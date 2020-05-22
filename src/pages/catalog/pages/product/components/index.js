@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import Button from '@components/Button';
 import PriceFormat from '@components/PriceFormat';
 import Banner from '@components/Slider/Banner';
@@ -16,6 +17,7 @@ import React from 'react';
 import HtmlParser from 'react-html-parser';
 import { useSelector } from 'react-redux';
 import { GraphCustomer } from '@services/graphql';
+import TagManager from 'react-gtm-module';
 import useStyles from '../style';
 import ExpandDetail from './ExpandDetail';
 import ListReviews from './ListReviews';
@@ -30,6 +32,59 @@ const ProductPage = (props) => {
     } = props;
     const styles = useStyles();
     const route = useRouter();
+
+    React.useEffect(() => {
+        let index = 0;
+        let categoryProduct = '';
+        // eslint-disable-next-line no-unused-expressions
+        data.categories.length > 0 && data.categories.map(({ name }, indx) => {
+            if (indx > 0) categoryProduct += `/${name}`;
+            else categoryProduct += name;
+        });
+        const tagManagerArgs = {
+            dataLayer: {
+                event: 'impression',
+                eventCategory: 'Ecommerce',
+                eventAction: 'Impression',
+                eventLabel: 'product Push It Messenger bag',
+                ecommerce: {
+                    product: [{
+                        name: data.name,
+                        id: data.sku,
+                        price: data.price_range.minimum_price.regular_price.value || 0,
+                        category: categoryProduct,
+                        dimensions4: data.stock_status,
+                    }],
+                    currencyCode: data.price_range.minimum_price.regular_price.currency || 'USD',
+                    impressions: [
+                        ...data.related_products.map((product) => {
+                            index += 1;
+                            return ({
+                                name: product.name,
+                                id: product.sku,
+                                category: categoryProduct,
+                                price: product.price_range.minimum_price.regular_price.value,
+                                list: `Related Products From ${data.name}`,
+                                position: index,
+                            });
+                        }),
+                        ...data.upsell_products.map((product) => {
+                            index += 1;
+                            return ({
+                                name: product.name,
+                                id: product.sku,
+                                category: categoryProduct,
+                                price: product.price_range.minimum_price.regular_price.value,
+                                list: `Related Products From ${data.name}`,
+                                position: index,
+                            });
+                        }),
+                    ],
+                },
+            },
+        };
+        TagManager.dataLayer(tagManagerArgs);
+    }, []);
 
     const bannerData = [];
     if (data.media_gallery.length > 0) {
@@ -73,6 +128,26 @@ const ProductPage = (props) => {
 
     const handleWishlist = () => {
         if (token && token !== '') {
+            TagManager.dataLayer({
+                dataLayer: {
+                    event: 'addToWishlist',
+                    eventLabel: data.name,
+                    label: data.name,
+                    ecommerce: {
+                        currencyCode: data.price_range.minimum_price.regular_price.currency || 'USD',
+                        add: {
+                            products: [{
+                                name: data.name,
+                                id: data.sku,
+                                price: data.price_range.minimum_price.regular_price.value || 0,
+                                category: data.categories.length > 0 ? data.categories[0].name : '',
+                                list: data.categories.length > 0 ? data.categories[0].name : '',
+                                dimensions4: data.stock_status,
+                            }],
+                        },
+                    },
+                },
+            });
             addWishlist({
                 variables: {
                     productId: data.id,

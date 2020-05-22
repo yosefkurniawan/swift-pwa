@@ -38,6 +38,10 @@ const schema = `
         label: String
     }
     
+    type CategoryInterface {
+        name: String
+    }
+
     type ProductInterface {
         id: String
         name: String
@@ -51,6 +55,7 @@ const schema = `
         attribute_set_id: Int
         image: ProductImage
         typename: String
+        categories: CategoryInterface
     }
 
     type Product {
@@ -64,6 +69,7 @@ const schema = `
         price_range:PriceRange
         small_image: ProductImage
         thumbnail: ProductImage
+        categories: [CategoryInterface]
     }
 `;
 

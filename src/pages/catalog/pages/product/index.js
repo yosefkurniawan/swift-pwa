@@ -19,7 +19,7 @@ const Page = (props) => {
     if (error) return <Loading />;
 
     const pageConfig = {
-        title: product.items[0].name,
+        title: product.items.length > 0 ? product.items[0].name : '',
         bottomNav: false,
         header: 'absolute', // available values: "absolute", "relative", false (default)
         pageType: 'product',

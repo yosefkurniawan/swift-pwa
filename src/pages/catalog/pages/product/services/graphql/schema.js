@@ -17,6 +17,9 @@ const productDetail = `
     image{
       url
     }
+    categories {
+      name
+    }
 
     `;
 const priceRange = `

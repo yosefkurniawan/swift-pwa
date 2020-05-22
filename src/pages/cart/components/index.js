@@ -10,6 +10,7 @@ import Backdrop from '@components/Loaders/Backdrop';
 import { useMutation } from '@apollo/react-hooks';
 import Toast from '@components/Toast';
 import { GraphCustomer } from '@services/graphql';
+import TagManager from 'react-gtm-module';
 import Item from './item';
 import CrossSell from './crosssell';
 import useStyles from '../style';
@@ -36,7 +37,9 @@ const Cart = (props) => {
     const [backdrop, setBackdrop] = React.useState(false);
 
     const [message, setMessage] = React.useState({
-        open: false, text: '', variant: 'success',
+        open: false,
+        text: '',
+        variant: 'success',
     });
     let cartId = '';
 
@@ -59,7 +62,6 @@ const Cart = (props) => {
         setOpenEditDrawer(!openEditDrawer);
     };
 
-
     // delete item from cart
     const [actDeleteItem, resultDelete] = useMutation(Schema.deleteCartitem);
     const [actUpdateItem, resultUpdate] = useMutation(Schema.updateCartitem);
@@ -74,12 +76,32 @@ const Cart = (props) => {
     }
 
     // delete items
-    const deleteItem = (itemId) => {
+    const deleteItem = (itemProps) => {
+        const dataLayer = {
+            event: 'removeFromCart',
+            eventLabel: itemProps.product.name,
+            label: itemProps.product.name,
+            ecommerce: {
+                currencyCode: itemProps.prices.price.currency || 'USD',
+                remove: {
+                    cartItem: itemProps.id,
+                    quantity: itemProps.quantity,
+                    product: {
+                        name: itemProps.product.name,
+                        id: itemProps.product.sku,
+                        price: itemProps.prices.price.value || 0,
+                        dimensions4: itemProps.product.stock_status || '',
+                    },
+                },
+            },
+        };
+
+        TagManager.dataLayer({ dataLayer });
         setBackdrop(true);
         actDeleteItem({
             variables: {
                 cartId,
-                cart_item_id: parseInt(itemId),
+                cart_item_id: parseInt(itemProps.id),
             },
             context: {
                 request: 'internal',
@@ -137,24 +159,26 @@ const Cart = (props) => {
 
     // add to wishlist
     const [addWishlist] = GraphCustomer.addWishlist(token);
-    const handleFeed = (id, itemId) => {
+    const handleFeed = (itemProps) => {
         if (token && token !== '') {
             setBackdrop(true);
             addWishlist({
                 variables: {
-                    productId: parseInt(id),
+                    productId: parseInt(itemProps.product.id),
                 },
-            }).then(async () => {
-                deleteItem(itemId);
-                await setMessage({ open: true, variant: 'success', text: t('wishlist:addSuccess') });
-            }).catch((e) => {
-                setMessage({
-                    open: true,
-                    variant: 'error',
-                    text: e.message.split(':')[1] || t('wishlist:addFailed'),
+            })
+                .then(async () => {
+                    deleteItem(itemProps.id);
+                    await setMessage({ open: true, variant: 'success', text: t('wishlist:addSuccess') });
+                })
+                .catch((e) => {
+                    setMessage({
+                        open: true,
+                        variant: 'error',
+                        text: e.message.split(':')[1] || t('wishlist:addFailed'),
+                    });
+                    setBackdrop(false);
                 });
-                setBackdrop(false);
-            });
         }
     };
 
@@ -166,13 +190,7 @@ const Cart = (props) => {
     if (dataCart.id && dataCart.items.length > 0) {
         return (
             <>
-
-                <Toast
-                    open={message.open}
-                    setOpen={() => setMessage({ ...message, open: false })}
-                    message={message.text}
-                    variant={message.variant}
-                />
+                <Toast open={message.open} setOpen={() => setMessage({ ...message, open: false })} message={message.text} variant={message.variant} />
                 <Backdrop open={backdrop} />
                 <Box className={styles.container}>
                     <div className={styles.toolbar}>
@@ -184,16 +202,8 @@ const Cart = (props) => {
                             </Typography>
                         </div>
                         <div className={styles.toolbarActions}>
-                            <Button
-                                variant="outlined"
-                                className={styles.toolbarButton}
-                                onClick={toggleEditMode}
-                            >
-                                {editMode ? (
-                                    <>{t('common:button:save')}</>
-                                ) : (
-                                    <>{t('common:button:edit')}</>
-                                )}
+                            <Button variant="outlined" className={styles.toolbarButton} onClick={toggleEditMode}>
+                                {editMode ? <>{t('common:button:save')}</> : <>{t('common:button:edit')}</>}
                             </Button>
                         </div>
                     </div>
@@ -217,13 +227,7 @@ const Cart = (props) => {
                 </Box>
                 <CrossSell {...props} editMode={editMode} data={crosssell} />
                 {editItem.id ? (
-                    <EditDrawer
-                        open={openEditDrawer}
-                        toggleOpen={toggleEditDrawer}
-                        updateItem={updateItem}
-                        {...props}
-                        {...editItem}
-                    />
+                    <EditDrawer open={openEditDrawer} toggleOpen={toggleEditDrawer} updateItem={updateItem} {...props} {...editItem} />
                 ) : null}
 
                 <CheckoutDrawer editMode={editMode} t={t} data={dataCart} />

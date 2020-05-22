@@ -80,6 +80,7 @@ const priceTiers = `
     `;
 
 const customerOutput = `
+    id
     firstname
     middlename
     suffix

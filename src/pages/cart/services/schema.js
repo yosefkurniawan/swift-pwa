@@ -57,6 +57,9 @@ export const getCart = gql`
                   url
                   label
                 }
+                categories {
+                  name
+                }
                 url_key
                 sku
                 stock_status

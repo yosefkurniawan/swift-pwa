@@ -78,6 +78,9 @@ export const getProduct = (config = {}) => gql`
             url(width: ${productImageSize.width}, height: ${productImageSize.height}),
             label
           }
+          categories {
+            name
+          }
           __typename
           price_tiers {
             discount {
