@@ -15,12 +15,12 @@ const Layout = (props) => {
     const { ogContent = {} } = pageConfig;
     const router = useRouter();
     const ogData = {
-        title: pageConfig.title ? pageConfig.title : 'Swift PWA',
-        image: `${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}/assets/img/swift-logo.png`,
-        'image:type': 'image/png',
-        url: `${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}${router.asPath}`,
-        locale: i18n && i18n.language === 'id' ? 'id_ID' : 'en_US',
-        type: 'website',
+        'og:title': pageConfig.title ? pageConfig.title : 'Swift PWA',
+        'og:image': `${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}/assets/img/swift-logo.png`,
+        'og:image:type': 'image/png',
+        'og:url': `${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}${router.asPath}`,
+        'og:locale': i18n && i18n.language === 'id' ? 'id_ID' : 'en_US',
+        'og:type': 'website',
         ...ogContent,
     };
     useEffect(() => {
@@ -45,7 +45,7 @@ const Layout = (props) => {
                     if (typeof ogData[key] === 'object' && ogData[key].type && ogData[key].type === 'meta') {
                         return <meta name={`${key}`} content={ogData[key].value} key={idx} />;
                     }
-                    return <meta property={`og:${key}`} content={ogData[key]} key={idx} />;
+                    return <meta property={`${key}`} content={ogData[key]} key={idx} />;
                 })}
                 <title>
                     {pageConfig.title ? pageConfig.title : 'Swift PWA'}

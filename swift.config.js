@@ -3,11 +3,11 @@
 /* --------------------------------------- */
 
 /* Base URL */
-const BASE_URL = 'https://swiftpwa-be.testingnow.me/';
+const BASE_URL = 'https://swiftpwa.testingnow.me/';
 
 const HOST = {
     dev: 'http://localhost:3000',
-    prod: 'https://swiftpwa-be.testingnow.me',
+    prod: 'https://swiftpwa.testingnow.me',
 };
 
 /* Magento GraphQL Endpoint */
