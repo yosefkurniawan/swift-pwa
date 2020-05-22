@@ -7,6 +7,7 @@ import useStyles from './style';
 
 const Category = ({
     open,
+    setOpenModal,
     data,
     onClick,
     direction = 'left',
@@ -23,10 +24,15 @@ const Category = ({
                             <Typography variant="h1" align="center">
                                 <Button
                                     variant="text"
-                                    onClick={() => Router.push(
-                                        '/[...slug]',
-                                        `/${catlvl1.url_key}`,
-                                    )}
+                                    onClick={() => {
+                                        setOpenModal(false);
+                                        setTimeout(() => {
+                                            Router.push(
+                                                '/[...slug]',
+                                                `/${catlvl1.url_key}`,
+                                            );
+                                        }, 200);
+                                    }}
                                 >
                                     {catlvl1.name}
                                 </Button>

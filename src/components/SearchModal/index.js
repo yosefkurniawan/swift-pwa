@@ -1,5 +1,5 @@
 import {
-    AppBar, Dialog, IconButton, Slide, Toolbar,
+    AppBar, Dialog, IconButton, Slide, Toolbar, Grid,
 } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
 import React, { useState } from 'react';
@@ -8,12 +8,65 @@ import { withTranslation } from '@i18n';
 import TextField from '@components/Forms/TextField';
 import Router from 'next/router';
 import SearchIcon from '@material-ui/icons/Search';
+import { Skeleton } from '@material-ui/lab';
 import useStyles from './style';
 import Category from './Category';
 import SubCategory from './SubCategory';
 import SearchDialog from './SearchDialog';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="left" ref={ref} {...props} />);
+
+const CategoryWrapperSkeleteon = () => {
+    const SkeletonRect = ({ width }) => (
+        <Skeleton
+            style={{ alignSelf: 'center', marginBottom: '20px' }}
+            variant="rect"
+            width={width}
+            height={24}
+            animation="wave"
+        />
+    );
+    return (
+        <div style={{ width: '100%' }}>
+            <Grid container direction="column" alignItems="center">
+                {[100, 60, 180, 65, 150, 70, 80, 175, 70, 55, 115, 60, 155, 65, 80].map((width) => <SkeletonRect width={width} />)}
+            </Grid>
+        </div>
+    );
+};
+
+const CategoryWrapper = (props) => {
+    const {
+        openedCategory, showCat, openSub, slideCat, showSubCat, closeSub,
+    } = props;
+    const { loading, data, error } = GraphCategory.getCategories();
+
+    if (loading) return <CategoryWrapperSkeleteon />;
+    if (error) return <div>{`Error: ${JSON.stringify(error)}`}</div>;
+    if (!data) return <p>Not found</p>;
+
+    return (
+        <>
+            {!openedCategory.length ? (
+                <Category
+                    data={data.categoryList[0].children.filter((el) => el.include_in_menu)}
+                    open={showCat}
+                    {...props}
+                    onClick={openSub}
+                    direction="right"
+                    slide={slideCat}
+                />
+            ) : (
+                <SubCategory
+                    data={openedCategory}
+                    open={showSubCat}
+                    {...props}
+                    onBack={closeSub}
+                />
+            )}
+        </>
+    );
+};
 
 const SearchPage = (props) => {
     const styles = useStyles();
@@ -23,20 +76,7 @@ const SearchPage = (props) => {
     const [openSearch, setOpenSearch] = useState(false);
     const [slideCat, setSlideCat] = useState(false);
     const [value, setValue] = React.useState('');
-    const { loading, data, error } = GraphCategory.getCategories();
-
-    if (loading && !data) {
-        return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return (
-            <div>
-                Error:
-                {JSON.stringify(error)}
-            </div>
-        );
-    }
+    const { open } = props;
 
     const openSub = (cat) => {
         setOpenedCategory([cat]);
@@ -51,7 +91,6 @@ const SearchPage = (props) => {
         setSlideCat(true);
     };
 
-    const { open } = props;
     const handleCloseModal = () => {
         closeSub();
         setSlideCat(false);
@@ -115,25 +154,17 @@ const SearchPage = (props) => {
                             </IconButton>
                         </Toolbar>
                     </AppBar>
-                    <>
-                        {!openedCategory.length ? (
-                            <Category
-                                data={data.categoryList[0].children.filter((el) => el.include_in_menu)}
-                                open={showCat}
-                                {...props}
-                                onClick={openSub}
-                                direction="right"
-                                slide={slideCat}
-                            />
-                        ) : (
-                            <SubCategory
-                                data={openedCategory}
-                                open={showSubCat}
-                                {...props}
-                                onBack={closeSub}
-                            />
-                        )}
-                    </>
+                    {open && (
+                        <CategoryWrapper
+                            {...props}
+                            openedCategory={openedCategory}
+                            showCat={showCat}
+                            openSub={openSub}
+                            slideCat={slideCat}
+                            showSubCat={showSubCat}
+                            closeSub={closeSub}
+                        />
+                    )}
                 </div>
             </Dialog>
         </>
