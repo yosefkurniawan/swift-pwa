@@ -9,7 +9,7 @@ export const getCustomerCartId = () => useLazyQuery(CartSchema.getCartIdUser, {
     fetchPolicy: 'no-cache',
 });
 export const getCartData = () => useQuery(CartSchema.getCart);
-export const getCountCart = (token, cartId) => useQuery(CartSchema.getCountCart, {
+export const getCountCart = (cartId) => useQuery(CartSchema.getCountCart, {
     context: {
         request: 'internal',
     },

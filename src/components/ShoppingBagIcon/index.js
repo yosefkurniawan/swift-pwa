@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable-next-line jsx-a11y/click-events-have-key-events */
 import { getCartId, setCartId } from '@helpers/cartId';
-import { getToken } from '@helpers/token';
+import { getLoginInfo } from '@helpers/auth';
 import { Badge, makeStyles } from '@material-ui/core';
 import { LocalMall } from '@material-ui/icons';
 import { GraphCart } from '@services/graphql';
@@ -21,10 +21,10 @@ const useStyles = makeStyles({
 const ShoppingBagIcon = ({ bottomNav = false }) => {
     const dispatch = useDispatch();
     const styles = useStyles();
-    let token = '';
+    let isLogin = 0;
     let cartId = '';
     if (typeof window !== 'undefined') {
-        token = getToken();
+        isLogin = getLoginInfo();
         cartId = getCartId();
     }
     const cartUser = useQuery(getCartIdUser, {
@@ -32,17 +32,17 @@ const ShoppingBagIcon = ({ bottomNav = false }) => {
             request: 'internal',
         },
         fetchPolicy: 'no-cache',
-        skip: !token,
+        skip: !isLogin,
     });
 
-    if (token !== '' && (cartId === '' || !cartId || cartId === undefined)) {
+    if (isLogin && (cartId === '' || !cartId || cartId === undefined)) {
         if (cartUser.data) {
             const cartToken = cartUser.data.customerCart.id || '';
             cartId = cartToken;
             setCartId(cartToken);
         }
     }
-    const getQty = GraphCart.getCountCart(token, cartId);
+    const getQty = GraphCart.getCountCart(cartId);
 
     React.useEffect(() => {
         if (!getQty.loading && getQty.data) {
