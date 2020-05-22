@@ -1,6 +1,9 @@
 import Typography from '@components/Typography';
 import Button from '@components/Button';
 import Link from 'next/link';
+import TagManager from 'react-gtm-module';
+import { storeConfigNameCokie } from '@config';
+import cookies from 'js-cookie';
 import useStyles from './style';
 
 const ThanksPage = (props) => {
@@ -10,6 +13,23 @@ const ThanksPage = (props) => {
         token,
     } = props;
     const styles = useStyles();
+    React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const storeConfig = cookies.getJSON(storeConfigNameCokie);
+            TagManager.dataLayer({
+                dataLayer: {
+                    ecommerce: {
+                        purchase: {
+                            actionField: {
+                                id: order_id,
+                            },
+                        },
+                        currencyCode: storeConfig.base_currency_code || 'IDR',
+                    },
+                },
+            });
+        }
+    }, []);
     return (
         <div className={styles.container}>
             <Typography variant="h1" type="bold" align="center">

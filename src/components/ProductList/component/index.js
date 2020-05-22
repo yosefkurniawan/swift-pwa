@@ -77,9 +77,11 @@ const generateConfig = (query, config, elastic) => {
  * catalog_search_engine props to use detect elastic in on or of
  * customFilter have custom sort and filter
  */
-const Product = ({
-    catId = 0, catalog_search_engine, customFilter, url_path, showTabs, defaultSort, t,
-}) => {
+const Product = (props) => {
+    const {
+        catId = 0, catalog_search_engine, customFilter, url_path, showTabs, defaultSort, t,
+        categoryPath,
+    } = props;
     const router = useRouter();
     const styles = useStyles();
     const [openFilter, setOpenFilter] = React.useState(false);
@@ -161,13 +163,13 @@ const Product = ({
     }
 
     React.useEffect(() => {
-        if (data) {
+        if (data && data.products) {
             const tagManagerArgs = {
                 dataLayer: {
                     event: 'impression',
                     eventCategory: 'Ecommerce',
                     eventAction: 'Impression',
-                    eventLabel: `category ${url_path}`,
+                    eventLabel: categoryPath ? `category ${categoryPath}` : '',
                     ecommerce: {
                         currencyCode: storeConfig.base_currency_code || 'IDR',
                         impressions: data.products.items.map((product, index) => {
@@ -191,7 +193,7 @@ const Product = ({
             };
             TagManager.dataLayer(tagManagerArgs);
         }
-    }, []);
+    }, [data]);
 
     return (
         <>

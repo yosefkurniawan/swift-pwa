@@ -43,18 +43,20 @@ const ProductPage = (props) => {
         });
         const tagManagerArgs = {
             dataLayer: {
-                event: 'impression',
+                event: 'gtm.load',
                 eventCategory: 'Ecommerce',
                 eventAction: 'Impression',
                 eventLabel: 'product Push It Messenger bag',
                 ecommerce: {
-                    product: [{
-                        name: data.name,
-                        id: data.sku,
-                        price: data.price_range.minimum_price.regular_price.value || 0,
-                        category: categoryProduct,
-                        dimensions4: data.stock_status,
-                    }],
+                    detail: {
+                        product: [{
+                            name: data.name,
+                            id: data.sku,
+                            price: data.price_range.minimum_price.regular_price.value || 0,
+                            category: categoryProduct,
+                            dimensions4: data.stock_status,
+                        }],
+                    },
                     currencyCode: data.price_range.minimum_price.regular_price.currency || 'USD',
                     impressions: [
                         ...data.related_products.map((product) => {

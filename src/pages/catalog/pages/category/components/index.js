@@ -63,6 +63,7 @@ const CategoryPage = ({ data, storeConfig, t }) => {
                 defaultSort={{ key: 'position', value: 'ASC' }}
                 customFilter={customFilter.loading ? [] : customFilter.data.getFilterAttributeOptions.data}
                 catId={categoryList.id}
+                categoryPath={categoryList.url_path}
                 catalog_search_engine={storeConfig.catalog_search_engine}
                 t={t}
             />

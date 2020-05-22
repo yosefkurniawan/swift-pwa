@@ -64,6 +64,7 @@ const GTM = {
 const expiredCokies = 6;
 const storeConfigNameCokie = 'storeConfig';
 const nameCartId = 'nci';
+const custDataNameCookie = 'cdt';
 
 const keyEncrypt = 'I wrote code anything searching bug and coffe';
 const algorithm = 'aes-256-cbc';
@@ -109,4 +110,5 @@ module.exports = {
     cmsContactIdentifiers,
     SESSION_SECRET,
     productImageSize,
+    custDataNameCookie,
 };
