@@ -5,6 +5,8 @@ import { useFormik } from 'formik';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
+import { storeConfigNameCokie } from '@config';
+import cookies from 'js-cookie';
 import gqlService from '../services/graphql';
 import useStyles from '../style';
 import Address from './Address';
@@ -17,6 +19,10 @@ import Summary from './Summary';
 const Checkout = (props) => {
     const { t, cartId, token } = props;
     const styles = useStyles();
+    let storeConfig = {};
+    if (typeof window !== 'undefined') {
+        storeConfig = cookies.getJSON(storeConfigNameCokie);
+    }
     const [checkout, setCheckout] = useState({
         order_id: '',
         data: {
@@ -305,6 +311,7 @@ const Checkout = (props) => {
                     updateFormik={updateFormik}
                     handleOpenMessage={handleOpenMessage}
                     styles={styles}
+                    storeConfig={storeConfig}
                 />
                 <Payment
                     checkout={checkout}
@@ -313,6 +320,7 @@ const Checkout = (props) => {
                     handleOpenMessage={handleOpenMessage}
                     styles={styles}
                     t={t}
+                    storeConfig={storeConfig}
                 />
                 <DiscountSection
                     t={t}

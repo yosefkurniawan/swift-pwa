@@ -76,6 +76,7 @@ const cartSubSelection = `
         }
     }
     items {
+        quantity
         prices {
             row_total {
                 currency
@@ -88,7 +89,21 @@ const cartSubSelection = `
                 }
                 label
             }
+            price {
+                value
+                currency
+              }
         }
+        product {
+            id
+            name
+            categories {
+              name
+            }
+            url_key
+            sku
+            stock_status
+          }
     }
     available_payment_methods {
         code
@@ -295,9 +310,7 @@ export const removeCouponFromCart = gql`
 
 export const getSnapToken = gql`
     query($orderId: String!) {
-        getSnapTokenByOrderId(
-            order_id: $orderId
-        ) {
+        getSnapTokenByOrderId(order_id: $orderId) {
             snap_token
         }
     }
@@ -305,9 +318,7 @@ export const getSnapToken = gql`
 
 export const getSnapOrderStatusByOrderId = gql`
     query($orderId: String!) {
-        getSnapOrderStatusByOrderId(
-            order_id: $orderId
-        ) {
+        getSnapOrderStatusByOrderId(order_id: $orderId) {
             order_id
             status_message
             success

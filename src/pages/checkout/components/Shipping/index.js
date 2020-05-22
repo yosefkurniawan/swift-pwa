@@ -1,15 +1,12 @@
 import Radio from '@components/Forms/Radio';
 import Typography from '@components/Typography';
+import TagManager from 'react-gtm-module';
 import gqlService from '../../services/graphql';
 import DeliveryItem from '../RadioDeliveryItem';
 
 const Shipping = ({
-    t,
-    checkout,
-    setCheckout,
-    updateFormik,
-    handleOpenMessage,
-    styles,
+    t, checkout, setCheckout, updateFormik, handleOpenMessage, styles,
+    storeConfig,
 }) => {
     const { loading, data, selected } = checkout;
     const [setShippingMethod] = gqlService.setShippingMethod({ onError: () => {} });
@@ -24,15 +21,13 @@ const Shipping = ({
             state.status.backdrop = true;
             setCheckout(state);
 
-            let updatedCart = (
-                await setShippingMethod({
-                    variables: {
-                        cartId: cart.id,
-                        carrierCode: carrier_code,
-                        methodCode: method_code,
-                    },
-                })
-            );
+            let updatedCart = await setShippingMethod({
+                variables: {
+                    cartId: cart.id,
+                    carrierCode: carrier_code,
+                    methodCode: method_code,
+                },
+            });
 
             state = { ...checkout };
             state.status.backdrop = false;
@@ -55,6 +50,39 @@ const Shipping = ({
                 state.data.summary.items = updatedCart.items;
                 state.data.summary.shipping_addresses = updatedCart.shipping_addresses;
                 setCheckout(state);
+                const selectedShipping = data.shippingMethods.filter((item) => item.method_code === method_code);
+                const dataLayer = {
+                    event: 'checkout',
+                    ecommerce: {
+                        checkout: {
+                            actionField: { step: 2, option: selectedShipping[0].label, action: 'checkout' },
+                            products: cart.items.map(({ quantity, product, prices }) => ({
+                                name: product.name,
+                                id: product.sku,
+                                price: prices.price.value,
+                                category: product.categories.length > 0 ? product.categories[0].name : '',
+                                list: product.categories.length > 0 ? product.categories[0].name : '',
+                                quantity,
+                            })),
+                        },
+                        currencyCode: storeConfig.base_currency_code || 'IDR',
+                    },
+                };
+                const dataLayerOption = {
+                    event: 'checkoutOption',
+                    ecommerce: {
+                        currencyCode: storeConfig.base_currency_code || 'IDR',
+                        checkout_option: {
+                            actionField: { step: 2, option: selectedShipping[0].label, action: 'checkout_option' },
+                        },
+                    },
+                };
+                TagManager.dataLayer({
+                    dataLayer,
+                });
+                TagManager.dataLayer({
+                    dataLayer: dataLayerOption,
+                });
             } else {
                 handleOpenMessage({
                     variant: 'error',
