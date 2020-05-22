@@ -1,5 +1,5 @@
 import {
-    AppBar, Dialog, IconButton, Slide, Toolbar,
+    AppBar, Dialog, IconButton, Slide, Toolbar, Grid,
 } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
 import React, { useState } from 'react';
@@ -8,6 +8,7 @@ import { withTranslation } from '@i18n';
 import TextField from '@components/Forms/TextField';
 import Router from 'next/router';
 import SearchIcon from '@material-ui/icons/Search';
+import { Skeleton } from '@material-ui/lab';
 import useStyles from './style';
 import Category from './Category';
 import SubCategory from './SubCategory';
@@ -15,13 +16,32 @@ import SearchDialog from './SearchDialog';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="left" ref={ref} {...props} />);
 
+const CategoryWrapperSkeleteon = () => {
+    const SkeletonRect = ({ width }) => (
+        <Skeleton
+            style={{ alignSelf: 'center', marginBottom: '20px' }}
+            variant="rect"
+            width={width}
+            height={24}
+            animation="wave"
+        />
+    );
+    return (
+        <div style={{ width: '100%' }}>
+            <Grid container direction="column" alignItems="center">
+                {[100, 60, 180, 65, 150, 70, 80, 175, 70, 55, 115, 60, 155, 65, 80].map((width) => <SkeletonRect width={width} />)}
+            </Grid>
+        </div>
+    );
+};
+
 const CategoryWrapper = (props) => {
     const {
         openedCategory, showCat, openSub, slideCat, showSubCat, closeSub,
     } = props;
     const { loading, data, error } = GraphCategory.getCategories();
 
-    if (loading) return <div>Loading... (need to change skeleton)</div>;
+    if (loading) return <CategoryWrapperSkeleteon />;
     if (error) return <div>{`Error: ${JSON.stringify(error)}`}</div>;
     if (!data) return <p>Not found</p>;
 
