@@ -6,7 +6,9 @@ import { ArrowBack } from '@material-ui/icons';
 import Router from 'next/router';
 import useStyles from './style';
 
-const SubCategory = ({ open, data, onBack }) => {
+const SubCategory = ({
+    open, data, setOpenModal, onBack,
+}) => {
     const styles = useStyles();
     return (
         <Slide
@@ -21,10 +23,13 @@ const SubCategory = ({ open, data, onBack }) => {
                     <Button
                         variant="text"
                         onClick={() => {
-                            Router.push(
-                                '/[...slug]',
-                                `/${data[0].url_path}`,
-                            );
+                            setOpenModal(false);
+                            setTimeout(() => {
+                                Router.push(
+                                    '/[...slug]',
+                                    `/${data[0].url_path}`,
+                                );
+                            }, 300);
                         }}
                     >
                         {data[0].name}
@@ -36,10 +41,13 @@ const SubCategory = ({ open, data, onBack }) => {
                             <Button
                                 variant="text"
                                 onClick={() => {
-                                    Router.push(
-                                        '/[...slug]',
-                                        `/${item.url_path}`,
-                                    );
+                                    setOpenModal(false);
+                                    setTimeout(() => {
+                                        Router.push(
+                                            '/[...slug]',
+                                            `/${item.url_path}`,
+                                        );
+                                    }, 300);
                                 }}
                             >
                                 <Typography variant="span" letter="capitalize">
