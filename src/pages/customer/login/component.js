@@ -16,7 +16,8 @@ import { useQuery } from '@apollo/react-hooks';
 import { expiredToken, custDataNameCookie } from '@config';
 import Router from 'next/router';
 import Cookies from 'js-cookie';
-import { getToken } from './service/graphql';
+import { regexPhone } from '@helpers/regex';
+import { getToken, getTokenOtp } from './service/graphql';
 import useStyles from './style';
 import { removeToken as deleteToken } from '../account/services/graphql';
 
@@ -51,6 +52,7 @@ const Login = ({ t, storeConfig, query }) => {
     }
     const [deleteTokenGql] = deleteToken();
     const [getCustomerToken] = getToken();
+    const [getCustomerTokenOtp] = getTokenOtp();
     const [getCart, cartData] = GraphCart.getCustomerCartId();
     const [mergeCart, { called }] = GraphCart.mergeCart();
     const otpConfig = GraphConfig.otpConfig();
@@ -71,24 +73,46 @@ const Login = ({ t, storeConfig, query }) => {
     }, [isRevokeToken]);
 
     const LoginSchema = Yup.object().shape({
-        email: Yup.string().email(t('validate:email:wrong')).required(t('validate:emailPhone')),
-        password: Yup.string().required(t('validate:password:required')),
-        otp: otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login && Yup.number().required('Otp is required'),
+        username: isOtp ? Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong'))
+            : Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
+        password: (!otpConfig.data || !otpConfig.data.otpConfig.otp_enable[0].enable_otp_login || !isOtp)
+            && Yup.string().required(t('validate:password:required')),
+        otp: otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login && isOtp && Yup.number().required('Otp is required'),
     });
     const formik = useFormik({
         initialValues: {
-            email: '',
+            username: '',
             password: '',
             otp: '',
         },
         validationSchema: LoginSchema,
         onSubmit: (values) => {
+            let getTokenCustomer;
+            let variables;
+            if (isOtp) {
+                getTokenCustomer = getCustomerTokenOtp;
+                variables = {
+                    username: values.username,
+                    otp: values.otp,
+                };
+            } else {
+                getTokenCustomer = getCustomerToken;
+                variables = {
+                    username: values.username,
+                    password: values.password,
+                };
+            }
             setLoading(true);
-            getCustomerToken({
-                variables: values,
+            getTokenCustomer({
+                variables,
             })
                 .then(async (res) => {
-                    const { token } = res.data.generateCustomerToken;
+                    let token = '';
+                    if (isOtp) {
+                        token = res.data.generateCustomerTokenCustomOtp.token;
+                    } else {
+                        token = res.data.generateCustomerTokenCustom.token;
+                    }
                     if (token) {
                         setLogin(1, expired);
                         await setIsLogin(1);
@@ -153,13 +177,14 @@ const Login = ({ t, storeConfig, query }) => {
                 )}
                 {isOtp ? (
                     <OtpBlock
+                        type="login"
                         phoneProps={{
-                            name: 'email',
+                            name: 'username',
                             placeholder: '+6281234xxxx',
-                            value: formik.values.email,
+                            value: formik.values.username,
                             onChange: formik.handleChange,
-                            error: !!formik.errors.email,
-                            errorMessage: formik.errors.email || null,
+                            error: !!formik.errors.username,
+                            errorMessage: formik.errors.username || null,
                         }}
                         codeProps={{
                             name: 'otp',
@@ -172,13 +197,13 @@ const Login = ({ t, storeConfig, query }) => {
                 ) : (
                     <>
                         <TextField
-                            name="email"
+                            name="username"
                             label="Email"
                             placeholder="john.doe@gmail.com"
-                            value={formik.values.email}
+                            value={formik.values.username}
                             onChange={formik.handleChange}
-                            error={!!formik.errors.email}
-                            errorMessage={formik.errors.email || null}
+                            error={!!formik.errors.username}
+                            errorMessage={formik.errors.username || null}
                         />
                         <PasswordField
                             name="password"

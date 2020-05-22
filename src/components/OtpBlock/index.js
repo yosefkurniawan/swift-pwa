@@ -29,6 +29,8 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
     const [checkOtpRegister] = GraphOtp.checkOtpRegister();
     const [requestForgotPassword] = GraphOtp.requestOtpForgotPassword();
     const [checkOtpForgotPassword] = GraphOtp.checkOtpForgotPassword();
+    const [requestOtpLogin] = GraphOtp.requestOtpLogin();
+    const [checkOtpLogin] = GraphOtp.checkOtpLogin();
 
     const { loading, data } = GraphConfig.otpConfig();
 
@@ -48,6 +50,8 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
             sendOtp = requestOtpRegister;
         } else if (type === 'forgotPassword') {
             sendOtp = requestForgotPassword;
+        } else if (type === 'login') {
+            sendOtp = requestOtpLogin;
         }
         const maxSend = config && config.maxTry ? config.maxTry : 3;
         if (manySend > maxSend) {
@@ -91,6 +95,8 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
             checkOtp = checkOtpRegister;
         } else if (type === 'forgotPassword') {
             checkOtp = checkOtpForgotPassword;
+        } else if (type === 'login') {
+            checkOtp = checkOtpLogin;
         }
 
         checkOtp({
@@ -102,6 +108,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
             let isValid;
             if (type === 'register') isValid = res.data.checkOtpRegister.is_valid_otp;
             if (type === 'forgotPassword') isValid = res.data.checkOtpForgotPassword.is_valid_otp;
+            if (type === 'login') isValid = res.data.checkOtpLogin.is_valid_otp;
             if (isValid) {
                 setMessage({
                     variant: 'success',

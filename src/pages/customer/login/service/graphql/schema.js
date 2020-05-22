@@ -2,10 +2,23 @@ import { gql } from 'apollo-boost';
 
 export const getCustomerToken = gql`
 mutation getToken(
-    $email: String!,
+    $username: String!,
     $password: String!,
 ) {
-  generateCustomerToken(email: $email, password: $password){
+  generateCustomerTokenCustom(username: $username, password: $password){
+      originalToken
+      token
+      message
+    }
+  }
+`;
+
+export const getCustomerTokenOtp = gql`
+mutation getToken(
+    $username: String!,
+    $otp: String!,
+) {
+  generateCustomerTokenCustomOtp(username: $username, otp: $otp){
       originalToken
       token
       message
@@ -16,4 +29,5 @@ mutation getToken(
 
 export default {
     getCustomerToken,
+    getCustomerTokenOtp,
 };
