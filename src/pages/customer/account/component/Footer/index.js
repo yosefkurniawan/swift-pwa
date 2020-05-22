@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Button from '@components/Button';
-import { removeToken } from '@helpers/token';
+import { removeIsLoginFlagging } from '@helpers/auth';
 import { removeCartId } from '@helpers/cartId';
 import { useDispatch } from 'react-redux';
 import { setCountCart } from '@stores/actions/cart';
@@ -14,7 +14,7 @@ export default ({ t, token }) => {
     const [deleteTokenGql] = deleteToken();
     const handleLogout = () => {
         deleteTokenGql().then(() => {
-            removeToken();
+            removeIsLoginFlagging();
             removeCartId();
             dispatch(setCountCart(0));
             Router.push('/customer/account/login');

@@ -8,7 +8,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import OtpBlock from '@components/OtpBlock';
 import Loading from '@components/Loaders/Backdrop';
-import { setToken } from '@helpers/token';
+import { setLogin } from '@helpers/auth';
 import { setCartId, getCartId } from '@helpers/cartId';
 import { GraphCart, GraphConfig } from '@services/graphql';
 import { getCustomer } from '@services/graphql/schema/customer';
@@ -90,7 +90,7 @@ const Login = ({ t, storeConfig, query }) => {
             })
                 .then(async (res) => {
                     const { token } = res.data.generateCustomerToken;
-                    setToken(token, expired);
+                    setLogin(1, expired);
                     await setCusToken(decrypt(token));
                     getCart();
                     setLoading(false);

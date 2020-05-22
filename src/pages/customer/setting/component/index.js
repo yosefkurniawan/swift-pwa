@@ -2,7 +2,6 @@
 import Radio from '@components/Forms/Radio';
 import Button from '@components/Button';
 import { languagesLabel } from '@config';
-import { getToken } from '@helpers/token';
 import { useMutation } from '@apollo/react-hooks';
 import Backdrop from '@components/Loaders/Backdrop';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -22,11 +21,7 @@ const SettingPage = ({ t, i18n }) => {
             value: lang,
         });
     });
-    let tokenCustomer = '';
 
-    if (typeof window !== 'undefined') {
-        tokenCustomer = getToken();
-    }
     const [backdrop, setBackdrop] = React.useState(true);
     const [settings, setSettings] = React.useState({
         is_subscribed: false,
@@ -45,16 +40,14 @@ const SettingPage = ({ t, i18n }) => {
                 isSubscribed: settings.is_subscribed,
             },
             context: {
-                headers: tokenCustomer && tokenCustomer !== '' ? {
-                    Authorization: `Bearer ${tokenCustomer}`,
-                } : {},
+                request: 'internal',
             },
         });
         i18n.changeLanguage(lang);
     };
     let customer = {};
     if (typeof window !== 'undefined') {
-        const { data } = getCustomer(tokenCustomer);
+        const { data } = getCustomer();
         if (data && data.customer) {
             customer = data.customer;
         }
