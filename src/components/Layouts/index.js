@@ -4,18 +4,19 @@ import Header from '@components/Header';
 import Head from 'next/head';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
-import { HOST } from '@config';
+import Cookies from 'js-cookie';
+import { HOST, custDataNameCookie } from '@config';
 
 const Layout = (props) => {
     const {
-        pageConfig, children, CustomHeader = false,
-        i18n, storeConfig = {},
+        pageConfig, children, CustomHeader = false, i18n, storeConfig = {}, isLogin,
     } = props;
     const { ogContent = {} } = pageConfig;
     const router = useRouter();
     const ogData = {
         'og:title': pageConfig.title ? pageConfig.title : 'Swift PWA',
-        'og:image': storeConfig.header_logo_src ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
+        'og:image': storeConfig.header_logo_src
+            ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
             : `${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}/assets/img/swift-logo.png`,
         'og:image:type': 'image/png',
         'og:url': `${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}${router.asPath}`,
@@ -24,15 +25,18 @@ const Layout = (props) => {
         ...ogContent,
     };
     useEffect(() => {
-        const tagManagerArgs = {
-            dataLayer: {
-                pageName: pageConfig.title,
-                pageType: pageConfig.pageType ? pageConfig.pageType : 'other',
-                customerEntity: '', // @TODO: send if login only, fill width customer ID
-                customerGroup: 'NOT LOGGED IN', // @TODO: fill width customer group from magento if logged in
-            },
-        };
-        TagManager.dataLayer(tagManagerArgs);
+        if (typeof window !== 'undefined') {
+            const custData = Cookies.getJSON(custDataNameCookie);
+            const tagManagerArgs = {
+                dataLayer: {
+                    pageName: pageConfig.title,
+                    pageType: pageConfig.pageType ? pageConfig.pageType : 'other',
+                    customerEntity: custData && custData.email, // @TODO: send if login only, fill width customer ID
+                    customerGroup: isLogin === 1 ? 'GENERAL' : 'NOT LOGGED IN',
+                },
+            };
+            TagManager.dataLayer(tagManagerArgs);
+        }
     }, []);
     return (
         <>
@@ -47,16 +51,10 @@ const Layout = (props) => {
                     }
                     return <meta property={`${key}`} content={ogData[key]} key={idx} />;
                 })}
-                <title>
-                    {pageConfig.title ? pageConfig.title : 'Swift PWA'}
-                </title>
+                <title>{pageConfig.title ? pageConfig.title : 'Swift PWA'}</title>
             </Head>
 
-            {React.isValidElement(CustomHeader) ? (
-                <>{React.cloneElement(CustomHeader, { pageConfig })}</>
-            ) : (
-                <Header pageConfig={pageConfig} />
-            )}
+            {React.isValidElement(CustomHeader) ? <>{React.cloneElement(CustomHeader, { pageConfig })}</> : <Header pageConfig={pageConfig} />}
 
             <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0 }}>{children}</main>
             <footer>

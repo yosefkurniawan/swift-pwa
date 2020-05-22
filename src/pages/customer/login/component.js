@@ -13,7 +13,7 @@ import { setCartId, getCartId } from '@helpers/cartId';
 import { GraphCart, GraphConfig } from '@services/graphql';
 import { getCustomer } from '@services/graphql/schema/customer';
 import { useQuery } from '@apollo/react-hooks';
-import { expiredToken } from '@config';
+import { expiredToken, custDataNameCookie } from '@config';
 import Router from 'next/router';
 import Cookies from 'js-cookie';
 import { getToken } from './service/graphql';
@@ -105,7 +105,9 @@ const Login = ({ t, storeConfig, query }) => {
         },
     });
     if (cartData.data && custData.data) {
-        Cookies.set('cid', custData.data.customer.id);
+        Cookies.set(custDataNameCookie, {
+            email: custData.data.customer.email,
+        });
         const custCartId = cartData.data.customerCart.id;
         if (cartId === '' || !cartId) {
             setCartId(custCartId, expired);
