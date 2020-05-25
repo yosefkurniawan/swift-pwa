@@ -44,7 +44,7 @@ const ForgotPassword = ({ t, query: { token } }) => {
                         variant: 'success',
                         text: t('customer:newPassword:success'),
                     });
-                    setInterval(() => {
+                    setTimeout(() => {
                         Router.push('/customer/account/login');
                     }, 3000);
                 })
