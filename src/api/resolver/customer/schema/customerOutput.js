@@ -1,4 +1,3 @@
-
 const { productImageSize } = require('../../../../../swift.config');
 
 const productDetail = `
@@ -128,6 +127,10 @@ const customerOutput = `
           value
       }
       enabled
+    }
+    gift_card {
+      giftcard_code
+      giftcard_balance
     }
 `;
 
