@@ -9,17 +9,19 @@ const customerOrdersSchema = require('./schema/customerOrders');
 const customerSchema = require('./schema/customer');
 const checkout = require('./schema/checkout');
 const giftCardAccountSchema = require('./schema/giftCardAccount');
+const notification = require('./schema/notification');
 
 const cart = require('./resolver/cart');
 const customerOrders = require('./resolver/customerOrders');
 const customerCart = require('./resolver/customerCart');
 const customer = require('./resolver/customer/customer');
 const giftCardAccount = require('./resolver/getCardAccount');
+const customerNotificationList = require('./resolver/notification/customerNotificationList');
 
 const schema = mergeSchemas({
     schemas: [
         cartSchema, generateCustomerTokenSchema, addSimpleProductsToCart, addConfigurableProductsToCart,
-        customerOrdersSchema, customerSchema, checkout, giftCardAccountSchema,
+        customerOrdersSchema, customerSchema, checkout, giftCardAccountSchema, notification,
     ],
     resolvers: {
         Query: {
@@ -28,6 +30,7 @@ const schema = mergeSchemas({
             customer,
             customerCart,
             giftCardAccount,
+            customerNotificationList,
         },
     },
 });

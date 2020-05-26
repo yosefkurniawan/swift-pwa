@@ -25,6 +25,8 @@ const applyStoreCreditToCart = require('./resolver/checkout/applyStoreCreditToCa
 const removeStoreCreditFromCart = require('./resolver/checkout/removeStoreCreditFromCart');
 const applyGiftCardToCart = require('./resolver/checkout/applyGiftCardToCart');
 const removeGiftCardFromCart = require('./resolver/checkout/removeGiftCardFromCart');
+const readNotification = require('./resolver/notification/readNotification');
+
 
 module.exports = {
     generateCustomerTokenCustom,
@@ -53,4 +55,5 @@ module.exports = {
     removeStoreCreditFromCart,
     applyGiftCardToCart,
     removeGiftCardFromCart,
+    readNotification,
 };
