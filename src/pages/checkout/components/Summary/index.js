@@ -23,16 +23,35 @@ const Summary = ({
     setCheckout,
     handleOpenMessage,
     formik,
+    updateFormik,
 }) => {
     const { order: loading, all: disabled } = checkout.loading;
     const dispatch = useDispatch();
     const styles = useStyles();
     const [expanded, setExpanded] = useState(null);
     const [orderId, setOrderId] = useState(null);
-    const [setGuestEmailAddressOnCart] = gqlService.setGuestEmailAddressOnCart();
+    const [setGuestEmailAddressOnCart] = gqlService.setGuestEmailAddressOnCart(({ onError: () => {} }));
     const [getSnapToken, { data: dataSnap }] = gqlService.getSnapToken({ onError: () => {} });
+    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
     const [placeOrder] = gqlService.placeOrder({ onError: () => {} });
     const [getSnapOrderStatusByOrderId] = gqlService.getSnapOrderStatusByOrderId({ onError: () => {} });
+
+    const validateReponse = (response, parentState) => {
+        const state = parentState;
+        if ((response && response.errors) || !response) {
+            state.loading.order = false;
+            setCheckout(state);
+
+            handleOpenMessage({
+                variant: 'error',
+                text: t('checkout:message:serverError'),
+            });
+
+            return false;
+        }
+
+        return true;
+    };
 
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
@@ -44,15 +63,31 @@ const Summary = ({
         let formValidation = {};
         let result;
 
+        state.loading.order = true;
+        setCheckout(state);
+
+        if (cart.prices.grand_total.value === 0 && (cart.selected_payment_method && cart.selected_payment_method.code !== 'free')) {
+            result = await setPaymentMethod({ variables: { cartId: cart.id, code: 'free' } });
+
+            if (!validateReponse(result, state)) {
+                return;
+            }
+
+            state.data.cart = result.data.setPaymentMethodOnCart.cart;
+            setCheckout(state);
+            updateFormik(result.data.setPaymentMethodOnCart.cart);
+        }
+
         await formik.submitForm();
         formValidation = await formik.validateForm();
 
         if (_.isEmpty(formValidation)) {
-            state.loading.order = true;
-            setCheckout(state);
-
             if (isGuest) {
-                await setGuestEmailAddressOnCart({ variables: { cartId: cart.id, email: formik.values.email } });
+                result = await setGuestEmailAddressOnCart({ variables: { cartId: cart.id, email: formik.values.email } });
+
+                if (!validateReponse(result, state)) {
+                    return;
+                }
             }
 
             result = await placeOrder({ variables: { cartId: cart.id } });
@@ -61,31 +96,32 @@ const Summary = ({
             state.loading.order = false;
             setCheckout(state);
 
-            if (result) {
-                dispatch(setCountCart(0));
-                await removeCartId();
+            if (!validateReponse(result, state)) {
+                return;
+            }
 
-                if (checkout.selected.payment.match(/snap.*/)) {
-                    const orderNumber = result.data.placeOrder.order.order_number;
-                    setOrderId(orderNumber);
-                    await getSnapToken({ variables: { orderNumber } });
-                } else {
-                    handleOpenMessage({
-                        variant: 'success',
-                        text: t('checkout:message:placeOrder'),
-                    });
-                    Routes.push('/thanks');
-                }
+            dispatch(setCountCart(0));
+            await removeCartId();
+
+            if (checkout.selected.payment.match(/snap.*/)) {
+                const orderNumber = result.data.placeOrder.order.order_number;
+                setOrderId(orderNumber);
+                await getSnapToken({ variables: { orderId: orderNumber } });
             } else {
                 handleOpenMessage({
-                    variant: 'error',
-                    text: t('checkout:message:serverError'),
+                    variant: 'success',
+                    text: t('checkout:message:placeOrder'),
                 });
+                Routes.push('/thanks');
             }
         } else {
+            state.loading.order = false;
+            setCheckout(state);
+
             const msg = checkout.data.isGuest
                 ? t('checkout:message:guestFormValidation')
                 : t('checkout:message:customerFormValidation');
+
             handleOpenMessage({
                 variant: 'error',
                 text: msg,
@@ -97,10 +133,10 @@ const Summary = ({
         const snapToken = dataSnap.getSnapTokenByOrderId.snap_token;
         snap.pay(snapToken, {
             onSuccess() {
-                window.location = '/thanks';
+                Routes.push('/thanks');
             },
             onPending() {
-                window.location = '/thanks';
+                Routes.push('/thanks');
             },
             async onError() {
                 await getSnapOrderStatusByOrderId({

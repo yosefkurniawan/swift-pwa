@@ -12,7 +12,14 @@ const query = `
 `;
 
 async function setGuestEmailOnCart(parent, variables, context) {
-    const res = await requestGraph(query, variables.input, context);
+    const { cart_id, email } = variables.input;
+
+    const vars = {
+        cartId: cart_id,
+        email,
+    };
+
+    const res = await requestGraph(query, vars, context);
     if (res.setGuestEmailOnCart) {
         return res.setGuestEmailOnCart;
     }

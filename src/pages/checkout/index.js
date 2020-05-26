@@ -26,17 +26,15 @@ const Page = (props) => {
 };
 
 Page.getInitialProps = async (ctx) => {
-    const token = cookies(ctx).sk || null;
     const cartId = cookies(ctx).nci || null;
 
-    if (!token && !cartId) {
+    if (!cartId) {
         redirect(ctx, '/checkout/cart');
     }
 
     return {
         namespacesRequired: ['common', 'checkout', 'validate'],
         cartId,
-        token,
     };
 };
 

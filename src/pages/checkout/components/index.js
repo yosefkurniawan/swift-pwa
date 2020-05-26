@@ -101,13 +101,18 @@ const Checkout = (props) => {
 
     const updateFormik = (cart) => {
         const [address] = cart.shipping_addresses ? cart.shipping_addresses : null;
-        const shipping = address.selected_shipping_method;
+        const shipping = address && address.selected_shipping_method;
         const { email } = cart;
         const payment = cart.selected_payment_method && cart.selected_payment_method.code;
         const billing = cart.billing_address;
 
         if (!email && _.isEmpty(formik.values.email)) {
-            formik.setFieldValue('email', email);
+            formik.setFieldValue('email', email || '');
+        }
+
+        if (cart.applied_coupons) {
+            const [coupon] = cart.applied_coupons;
+            formik.setFieldValue('coupon', coupon.code);
         }
 
         formik.setFieldValue('address', address);
@@ -136,31 +141,12 @@ const Checkout = (props) => {
         state.data.cart = cart;
 
         // init coupon
-        if (cart.applied_coupons) {
-            const [coupon] = cart.applied_coupons;
-            formik.setFieldValue('coupon', coupon.code);
-            state.data.isCouponAppliedToCart = true;
-        }
-
-        // init email
-        if (cart.email && state.data.isGuest) {
-            formik.setFieldValue('email', cart.email || '');
-        }
+        state.data.isCouponAppliedToCart = cart.applied_coupons || false;
 
         // init shipping address
         const [shipping] = cart.shipping_addresses ? cart.shipping_addresses : null;
 
         if (shipping) {
-            formik.setFieldValue('address', {
-                firstname: shipping.firstname,
-                lastname: shipping.lastname,
-                city: shipping.city,
-                region: shipping.region,
-                country: shipping.country,
-                postcode: shipping.postcode,
-                telephone: shipping.telephone,
-                street: shipping.street,
-            });
             state.selected.address = {
                 firstname: shipping.firstname,
                 lastname: shipping.lastname,
@@ -172,17 +158,6 @@ const Checkout = (props) => {
                 street: shipping.street,
             };
         } else if (!state.data.isGuest && address) {
-            formik.setFieldValue('address', {
-                firstname: address.firstname,
-                lastname: address.lastname,
-                city: address.city,
-                region: {
-                    label: address.region.region,
-                },
-                postcode: address.postcode,
-                telephone: address.telephone,
-                street: address.street,
-            });
             state.selected.address = {
                 firstname: address.firstname,
                 lastname: address.lastname,
@@ -211,10 +186,6 @@ const Checkout = (props) => {
 
         if (shipping && shipping.selected_shipping_method) {
             const shippingMethod = shipping.selected_shipping_method;
-            formik.setFieldValue('shipping', {
-                name: { carrier_code: shippingMethod.carrier_code, method_code: shippingMethod.method_code },
-                price: shippingMethod.amount.value,
-            });
             state.selected.shipping = {
                 name: { carrier_code: shippingMethod.carrier_code, method_code: shippingMethod.method_code },
                 price: formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency),
@@ -232,14 +203,13 @@ const Checkout = (props) => {
         }
 
         if (cart.selected_payment_method) {
-            formik.setFieldValue('payment', cart.selected_payment_method.code);
-
             state.selected.payment = cart.selected_payment_method.code;
         }
 
         state.loading.all = false;
 
         setCheckout(state);
+        updateFormik(cart);
     };
 
     useEffect(() => {
@@ -334,6 +304,7 @@ const Checkout = (props) => {
                 loading={checkout.loading.order}
                 disabled={checkout.loading.all}
                 checkout={checkout}
+                updateFormik={updateFormik}
                 setCheckout={setCheckout}
                 handleOpenMessage={handleOpenMessage}
                 formik={formik}
