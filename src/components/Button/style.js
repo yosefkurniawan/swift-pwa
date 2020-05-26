@@ -19,8 +19,6 @@ const useStyles = makeStyles((theme) => ({
     wrapper: {
         width: '100%',
         position: 'relative',
-        display: 'flex',
-        alignItems: 'center',
     },
     buttonProgress: {
         position: 'absolute',
