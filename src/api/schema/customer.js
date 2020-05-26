@@ -82,6 +82,10 @@ const customerSchema = makeExecutableSchema({
             customer_id: Int
             region_id: Int
         }
+        type CustomerGiftCard {
+            giftcard_balance: Float
+            giftcard_code: String
+        }
         type Customer {
             addresses: [CustomerAddress]
             created_at: String
@@ -102,6 +106,7 @@ const customerSchema = makeExecutableSchema({
             group_id: Int
             id: Int
             store_credit: CustomerStoreCredit
+            gift_card: [CustomerGiftCard]
         }
 
         type AddProductToWishlistOutput {

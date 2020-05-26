@@ -13,7 +13,7 @@ export default makeStyles(() => ({
         alignItems: 'center',
         ...CreatePadding(10, 30, 30, 30),
     },
-    btnSigin: {
+    btnLogin: {
         ...CreateMargin(16, 0, 10, 0),
     },
     footer: {

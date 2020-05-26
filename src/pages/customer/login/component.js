@@ -218,12 +218,12 @@ const Login = ({ t, storeConfig, query }) => {
                     </>
                 )}
                 <div className={styles.rowCenter}>
-                    <Button fullWidth className={styles.btnSigin} type="submit" disabled={loading}>
+                    <Button fullWidth type="submit" disabled={loading}>
                         <Typography variant="title" type="regular" letter="capitalize" color="white">
                             {loading ? 'Loading' : t('customer:login:pageTitle')}
                         </Typography>
                     </Button>
-                    <Button variant="text" href="/customer/account/forgotpassword">
+                    <Button fullWidth variant="text" href="/customer/account/forgotpassword">
                         <Typography variant="p" type="regular" letter="capitalize" decoration="underline">
                             {t('customer:login:forgotPassword')}
                         </Typography>
@@ -233,7 +233,7 @@ const Login = ({ t, storeConfig, query }) => {
                     <Typography variant="span" letter="capitalize" align="center">
                         {t('customer:login:notHaveAccount')}
                     </Typography>
-                    <Button fullWidth className={styles.btnSigin} variant="outlined" href="/customer/account/create" disabled={loading}>
+                    <Button fullWidth variant="outlined" href="/customer/account/create" disabled={loading}>
                         <Typography variant="title" type="regular" letter="capitalize">
                             {t('customer:register:title')}
                         </Typography>

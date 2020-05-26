@@ -59,5 +59,11 @@
     "address": "Buku Alamat",
     "setting": "Pengaturan",
     "readMore": "Selengkapnya"
+  },
+  "giftCard": {
+    "notFound": "Kamu tidak memiliki gift card apapun",
+    "inputSearch": "Masukan kode gift card",
+    "buttonSearch": "Cek sisa dan status",
+    "required": "Code tidak boleh kosong"
   }
 }

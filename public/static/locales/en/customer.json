@@ -59,5 +59,11 @@
     "address": "Address Book",
     "setting": "Settings",
     "readMore": "Read More"
+  },
+  "giftCard": {
+    "notFound": "You not have gift card item",
+    "inputSearch": "Enter Gift Card code",
+    "buttonSearch": "Check status & balance",
+    "required": "Code is required"
   }
 }

@@ -21,12 +21,14 @@ const useStyles = makeStyles(() => ({
         display: 'block',
     },
     account_wishlist_title: {
-        float: 'left',
+        display: 'flex',
+        justifyContent: 'flex-start',
         paddingLeft: '15px',
     },
     account_wishlist_read_more: {
-        float: 'right',
         paddingRight: '15px',
+        display: 'flex',
+        justifyContent: 'flex-end',
     },
     account_wrapper: {
         background: 'white',
@@ -91,8 +93,11 @@ const useStyles = makeStyles(() => ({
     },
     spanWishlist: {
         display: 'flex',
+        flexDirection: 'row',
+        width: '100%',
         alignItems: 'center',
         marginBottom: 15,
+        justifyContent: 'space-between',
     },
     span: {
         width: '100%',

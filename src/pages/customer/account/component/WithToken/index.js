@@ -2,9 +2,9 @@
 import Link from 'next/link';
 import React from 'react';
 import Carousel from '@components/Slider/Carousel';
-import Button from '@components/Button';
 import Typography from '@components/Typography';
 import { GraphCustomer } from '@services/graphql';
+import { customerFeautres } from '@config';
 import Footer from '../Footer';
 import Loaders from '../Loader';
 // Styling And Component
@@ -29,6 +29,33 @@ const WithToken = (props) => {
         }));
     }
 
+    const menu = [
+        {
+            href: '/sales/order/history',
+            title: t('customer:menu:myOrder'),
+        }, {
+            href: '/customer/account/profile',
+            title: t('customer:menu:myAccount'),
+        }, {
+            href: '/customer/account/address',
+            title: t('customer:menu:address'),
+        }, {
+            href: '/customer/setting',
+            title: t('customer:menu:setting'),
+        },
+    ];
+    if (wishlist.length <= 0) {
+        menu.push({
+            href: '/wishlist',
+            title: 'Wishlist',
+        });
+    }
+    if (customerFeautres.giftCard) {
+        menu.push({
+            href: '/awgiftcard/card',
+            title: 'Gift Card',
+        });
+    }
     return (
         <div className={styles.root}>
             <div className={styles.account_wrapper}>
@@ -45,34 +72,14 @@ const WithToken = (props) => {
                     </div>
                     <div className={styles.account_block}>
                         <ul className={styles.account_navigation}>
-                            <li className={styles.account_navigation_item}>
-                                <Link href="/sales/order/history">
-                                    <a className={styles.account_navigation_link}>{t('customer:menu:myOrder')}</a>
-                                </Link>
-                            </li>
-                            <li className={styles.account_navigation_item}>
-                                <Link href="/customer/account/profile">
-                                    <a className={styles.account_navigation_link}>{t('customer:menu:myAccount')}</a>
-                                </Link>
-                            </li>
-                            <li className={styles.account_navigation_item}>
-                                <Link href="/customer/account/address">
-                                    <a className={styles.account_navigation_link}>{t('customer:menu:address')}</a>
-                                </Link>
-                            </li>
-                            <li className={styles.account_navigation_item}>
-                                <Link href="/customer/setting">
-                                    <a className={styles.account_navigation_link}>{t('customer:menu:setting')}</a>
-                                </Link>
-                            </li>
                             {
-                                wishlist.length <= 0 && (
-                                    <li className={styles.account_navigation_item}>
-                                        <Link href="/wishlist">
-                                            <a className={styles.account_navigation_link}>Wishlist</a>
+                                menu.map(({ href, title }, index) => (
+                                    <li className={styles.account_navigation_item} key={index}>
+                                        <Link href={href}>
+                                            <a className={styles.account_navigation_link}>{title}</a>
                                         </Link>
                                     </li>
-                                )
+                                ))
                             }
                         </ul>
                     </div>
@@ -85,13 +92,20 @@ const WithToken = (props) => {
                                     <Typography variant="span" type="bold" letter="capitalize" className={styles.account_wishlist_title}>
                                         Wishlist
                                     </Typography>
-                                    <Button
+                                    <Link
                                         href="/wishlist"
                                         className={[styles.account_wishlist_read_more].join(' ')}
-                                        variant="text"
                                     >
-                                        <Typography variant="span" type="bold" letter="capitalize">{t('customer:menu:readMore')}</Typography>
-                                    </Button>
+                                        <a>
+                                            <Typography
+                                                variant="span"
+                                                type="bold"
+                                                letter="capitalize"
+                                            >
+                                                {t('customer:menu:readMore')}
+                                            </Typography>
+                                        </a>
+                                    </Link>
                                 </div>
                             </div>
                             <div className={styles.account_clearfix}>

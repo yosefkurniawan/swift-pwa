@@ -8,16 +8,18 @@ const addConfigurableProductsToCart = require('./schema/addConfigurableProductTo
 const customerOrdersSchema = require('./schema/customerOrders');
 const customerSchema = require('./schema/customer');
 const checkout = require('./schema/checkout');
+const giftCardAccountSchema = require('./schema/giftCardAccount');
 
 const cart = require('./resolver/cart');
 const customerOrders = require('./resolver/customerOrders');
 const customerCart = require('./resolver/customerCart');
 const customer = require('./resolver/customer/customer');
+const giftCardAccount = require('./resolver/getCardAccount');
 
 const schema = mergeSchemas({
     schemas: [
         cartSchema, generateCustomerTokenSchema, addSimpleProductsToCart, addConfigurableProductsToCart,
-        customerOrdersSchema, customerSchema, checkout,
+        customerOrdersSchema, customerSchema, checkout, giftCardAccountSchema,
     ],
     resolvers: {
         Query: {
@@ -25,6 +27,7 @@ const schema = mergeSchemas({
             customerOrders,
             customer,
             customerCart,
+            giftCardAccount,
         },
     },
 });
