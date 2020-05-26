@@ -92,6 +92,10 @@ const cartOutput = `
         code
         title
     }
+    applied_store_credit {
+        is_use_store_credit
+        store_credit_amount
+    }
 `;
 
 module.exports = cartOutput;

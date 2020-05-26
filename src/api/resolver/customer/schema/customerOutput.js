@@ -122,6 +122,12 @@ const customerOutput = `
             }
         }
     }
+    store_credit {
+      current_balance {
+          value
+      }
+      enabled
+    }
 `;
 
 module.exports = customerOutput;

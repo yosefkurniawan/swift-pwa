@@ -87,6 +87,16 @@ export const getSnapOrderStatusByOrderId = (options = {}) => useLazyQuery(Schema
     ...config(NOT_USING_INTERNAL),
 });
 
+export const applyStoreCreditToCart = (options = {}) => useMutation(Schema.applyStoreCreditToCart, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
+export const removeStoreCreditFromCart = (options = {}) => useMutation(Schema.removeStoreCreditFromCart, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export default {
     getCustomer,
     getCart,
@@ -102,4 +112,6 @@ export default {
     removeCouponFromCart,
     getSnapToken,
     getSnapOrderStatusByOrderId,
+    applyStoreCreditToCart,
+    removeStoreCreditFromCart,
 };

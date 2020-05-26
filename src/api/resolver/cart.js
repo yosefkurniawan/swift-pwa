@@ -72,6 +72,10 @@ query getCartData($cart_id: String!) {
       applied_coupons {
           code
       }
+      applied_store_credit {
+        is_use_store_credit
+        store_credit_amount
+      }
       prices {
           discounts {
               amount {

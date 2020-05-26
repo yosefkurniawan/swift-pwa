@@ -44,6 +44,14 @@ const checkoutSchema = makeExecutableSchema({
             cart: Cart
         }
 
+        type ApplyStoreCreditToCartOutput {
+            cart: Cart!
+        }
+
+        type RemoveStoreCreditFromCartOutput {
+            cart: Cart
+        }
+
         input CartAddressInput {
             city: String!
             company: String
@@ -158,6 +166,14 @@ const checkoutSchema = makeExecutableSchema({
             cart_id: String!
         }
 
+        input ApplyStoreCreditToCartInput {
+            cart_id: String!
+        }
+
+        input RemoveStoreCreditFromCartInput {
+            cart_id: String!
+        }
+
         type Mutation {
             setBillingAddressOnCart(input: SetBillingAddressOnCartInput): SetBillingAddressOnCartOutput
             setGuestEmailOnCart(input: SetGuestEmailOnCartInput): SetGuestEmailOnCartOutput
@@ -167,6 +183,8 @@ const checkoutSchema = makeExecutableSchema({
             placeOrder(input: PlaceOrderInput): PlaceOrderOutput
             applyCouponToCart(input: ApplyCouponToCartInput): ApplyCouponToCartOutput
             removeCouponFromCart(input: RemoveCouponFromCartInput): RemoveCouponFromCartOutput
+            applyStoreCreditToCart(input: ApplyStoreCreditToCartInput): ApplyStoreCreditToCartOutput
+            removeStoreCreditFromCart(input: RemoveStoreCreditFromCartInput): RemoveStoreCreditFromCartOutput
         }
     `,
 });

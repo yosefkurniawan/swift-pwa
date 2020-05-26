@@ -75,6 +75,8 @@ const Payment = ({
 
     if (loading.payment || loading.shipping || loading.all) {
         content = <Typography variant="p">Loading</Typography>;
+    } else if (data.cart.prices.grand_total.value === 0) {
+        content = <Typography variant="p">{t('checkout:noNeedPayment')}</Typography>;
     } else if (data.paymentMethod.length !== 0) {
         content = (
             <>
