@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import * as Schema from './schema';
 
 const NOT_USING_INTERNAL = false;
@@ -13,7 +13,7 @@ const config = (isUsingInternal) => {
     };
 };
 
-export const getCustomer = (options = {}) => useQuery(Schema.getCustomer, {
+export const getCustomer = (options = {}) => useLazyQuery(Schema.getCustomer, {
     ...options,
     ...config(USING_INTERNAL),
     fetchPolicy: 'no-cache',
@@ -97,6 +97,16 @@ export const removeStoreCreditFromCart = (options = {}) => useMutation(Schema.re
     ...config(USING_INTERNAL),
 });
 
+export const applyGiftCardToCart = (options = {}) => useMutation(Schema.applyGiftCardToCart, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
+export const removeGiftCardFromCart = (options = {}) => useMutation(Schema.removeGiftCardFromCart, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export default {
     getCustomer,
     getCart,
@@ -114,4 +124,6 @@ export default {
     getSnapOrderStatusByOrderId,
     applyStoreCreditToCart,
     removeStoreCreditFromCart,
+    applyGiftCardToCart,
+    removeGiftCardFromCart,
 };

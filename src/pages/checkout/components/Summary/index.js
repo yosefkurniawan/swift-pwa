@@ -168,6 +168,7 @@ const Summary = ({
             items,
             shipping_addresses,
             applied_store_credit,
+            applied_giftcard,
         } = checkout.data.cart;
 
         const [firstItem] = items;
@@ -204,6 +205,14 @@ const Summary = ({
             if (applied_store_credit.is_use_store_credit) {
                 const price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency);
                 data.push({ item: `Store Credit - ${price}`, value: `-${price}` });
+            }
+
+            if (applied_giftcard) {
+                const giftCards = applied_giftcard.giftcard_detail.map((item) => {
+                    const price = formatPrice(Math.abs(item.giftcard_amount_used), globalCurrency);
+                    return { item: `Gift Card (${item.giftcard_code}) - ${price}`, value: `-${price}` };
+                });
+                data = data.concat(giftCards);
             }
         }
     }

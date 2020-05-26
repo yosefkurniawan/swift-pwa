@@ -65,6 +65,7 @@ const Checkout = (props) => {
             order: false,
             coupon: false,
             storeCredit: false,
+            giftCard: false,
         },
         status: {
             addresses: false,
@@ -74,9 +75,10 @@ const Checkout = (props) => {
     });
 
     // start init graphql
-    const getCustomer = getLoginInfo() ? gqlService.getCustomer() : null;
+    const [getCustomer, manageCustomer] = gqlService.getCustomer();
     const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
     // end init graphql
+
 
     const CheckoutSchema = Yup.object().shape({
         email: checkout.data.isGuest ? Yup.string().nullable().email(t('validate:email:wrong')).required(t('validate:email.required')) : null,
@@ -90,6 +92,7 @@ const Checkout = (props) => {
         initialValues: {
             email: '',
             coupon: '',
+            giftCard: '',
             address: null,
             shipping: null,
             payment: null,
@@ -129,7 +132,7 @@ const Checkout = (props) => {
             window.location = '/checkout/cart';
         }
 
-        const { customer } = state.data.isGuest ? {} : getCustomer.data;
+        const { customer } = state.data.isGuest ? {} : manageCustomer.data;
         const [address] = customer
             ? customer.addresses.filter((item) => item.default_shipping)
             : [null];
@@ -225,7 +228,11 @@ const Checkout = (props) => {
             },
         });
 
-        const loadCart = getLoginInfo() ? getCustomer.data && !dataCart : !dataCart;
+        if (!manageCustomer.data && getLoginInfo()) {
+            getCustomer();
+        }
+
+        const loadCart = getLoginInfo() ? manageCustomer.data && !dataCart : !dataCart;
 
         if (loadCart) {
             getCart({ variables: { cartId } });
@@ -238,7 +245,7 @@ const Checkout = (props) => {
         if (dataCart) {
             initData();
         }
-    }, [getCustomer, dataCart]);
+    }, [manageCustomer.data, dataCart]);
 
     const handleOpenMessage = ({ variant, text }) => {
         const state = { ...checkout };

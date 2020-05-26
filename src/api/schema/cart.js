@@ -121,6 +121,16 @@ const schema = `
     store_credit_amount: Float
   }
 
+  type AppliedGiftCardDetail {
+    giftcard_amount_used: Float
+    giftcard_code: String
+  }
+
+  type AppliedGiftCardForQuote {
+    giftcard_amount: Float
+    giftcard_detail: [AppliedGiftCardDetail]
+  }
+
   type Cart {
     id: String,
     email: String
@@ -133,6 +143,7 @@ const schema = `
     prices: prices
     items: [CartItemInterface]!
     applied_store_credit: AppliedStoreCreditOutput
+    applied_giftcard: AppliedGiftCardForQuote
   }
 
   type Query {

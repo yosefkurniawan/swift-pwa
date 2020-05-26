@@ -23,6 +23,8 @@ const applyCouponToCart = require('./resolver/checkout/applyCouponToCart');
 const removeCouponFromCart = require('./resolver/checkout/removeCouponFromCart');
 const applyStoreCreditToCart = require('./resolver/checkout/applyStoreCreditToCart');
 const removeStoreCreditFromCart = require('./resolver/checkout/removeStoreCreditFromCart');
+const applyGiftCardToCart = require('./resolver/checkout/applyGiftCardToCart');
+const removeGiftCardFromCart = require('./resolver/checkout/removeGiftCardFromCart');
 
 module.exports = {
     generateCustomerTokenCustom,
@@ -49,4 +51,6 @@ module.exports = {
     removeCouponFromCart,
     applyStoreCreditToCart,
     removeStoreCreditFromCart,
+    applyGiftCardToCart,
+    removeGiftCardFromCart,
 };
