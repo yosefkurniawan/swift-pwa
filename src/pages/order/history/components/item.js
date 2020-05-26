@@ -28,7 +28,7 @@ const ItemOrder = ({
                             {t('order:date')}
                         </Typography>
                         <Typography variant="span" letter="capitalize" className="clear-margin-padding">
-                            {t('orde:totalItems')}
+                            {t('order:totalItems')}
                         </Typography>
                         <Typography variant="span" letter="capitalize" className="clear-margin-padding">
                             Total

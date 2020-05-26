@@ -118,7 +118,7 @@ const DetailOrder = ({ t, detail, currency }) => {
                             </Typography>
                         </div>
                     )}
-                    {detail[0].detail[0].discount_amount && (
+                    {detail[0].detail[0].discount_amount ? (
                         <div className={styles.listSummary}>
                             <Typography variant="span" letter="capitalize">
                                 {t('order:discount')}
@@ -127,7 +127,7 @@ const DetailOrder = ({ t, detail, currency }) => {
                                 {formatPrice(detail[0].detail[0].discount_amount, currency)}
                             </Typography>
                         </div>
-                    )}
+                    ) : null}
                     <div className={styles.listSummary}>
                         <Typography variant="title" type="bold" letter="capitalize">
                             Total

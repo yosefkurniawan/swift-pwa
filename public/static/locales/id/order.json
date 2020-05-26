@@ -2,7 +2,7 @@
     "title" : "pesanan saya",
     "order" : "pesanan",
     "notFound": "Pesanan tidak di ketahui",
-    "shippedTo": "Di kirim ke",
+    "shippedTo": "Dikirim ke",
     "shippingMethod": "Metode pengiriman",
     "paymentMethod": "Metode pembayaran",
     "shipping": "Pengiriman",
