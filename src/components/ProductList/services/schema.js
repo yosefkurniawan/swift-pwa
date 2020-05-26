@@ -72,6 +72,7 @@ export const getProduct = (config = {}) => gql`
         __typename
         items {
           id
+          sku
           name
           url_key
           small_image {
@@ -143,6 +144,7 @@ export const getProduct = (config = {}) => gql`
               }
               product {
                 id
+                sku
                 stock_status
                 price_tiers {
                   discount {

@@ -46,7 +46,7 @@ const ProductPage = (props) => {
                 event: 'gtm.load',
                 eventCategory: 'Ecommerce',
                 eventAction: 'Impression',
-                eventLabel: 'product Push It Messenger bag',
+                eventLabel: data.name,
                 ecommerce: {
                     detail: {
                         product: [{
