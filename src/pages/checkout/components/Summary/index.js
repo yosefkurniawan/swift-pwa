@@ -100,11 +100,11 @@ const Summary = ({
                 return;
             }
 
+            const orderNumber = result.data.placeOrder.order.order_number;
             dispatch(setCountCart(0));
             await removeCartId();
 
-            if (checkout.selected.payment.match(/snap.*/)) {
-                const orderNumber = result.data.placeOrder.order.order_number;
+            if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {
                 setOrderId(orderNumber);
                 await getSnapToken({ variables: { orderId: orderNumber } });
             } else {
@@ -112,7 +112,7 @@ const Summary = ({
                     variant: 'success',
                     text: t('checkout:message:placeOrder'),
                 });
-                Routes.push('/thanks');
+                Routes.push({ pathname: '/thanks', query: { order_id: orderNumber } });
             }
         } else {
             state.loading.order = false;
@@ -133,10 +133,10 @@ const Summary = ({
         const snapToken = dataSnap.getSnapTokenByOrderId.snap_token;
         snap.pay(snapToken, {
             onSuccess() {
-                Routes.push('/thanks');
+                Routes.push({ pathname: '/thanks', query: { order_id: orderId } });
             },
             onPending() {
-                Routes.push('/thanks');
+                Routes.push({ pathname: '/thanks', query: { order_id: orderId } });
             },
             async onError() {
                 await getSnapOrderStatusByOrderId({
@@ -145,7 +145,7 @@ const Summary = ({
                     },
                 });
                 setOrderId(null);
-                window.location = '/checkout/cart';
+                Routes.push('/checkout/cart');
             },
             async onClose() {
                 await getSnapOrderStatusByOrderId({
@@ -154,7 +154,7 @@ const Summary = ({
                     },
                 });
                 setOrderId(null);
-                window.location = '/checkout/cart';
+                Routes.push('/checkout/cart');
             },
         });
     }
