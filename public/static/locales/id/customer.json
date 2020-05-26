@@ -50,6 +50,16 @@
     "useBilling" : "gunakan sebagai alamat default pembayaran",
     "useShipping" : "gunakan sebagai alamat default pengiriman"
   },
+  "storeCredit" : {
+    "balance" : "Saldo Anda saat ini adalah: ",
+    "transactionId" : "ID Transaksi",
+    "adjustment" : "Store Credit Tambahan",
+    "creditbalance" : "Store Credit Saldo",
+    "comment" : "Catatan",
+    "transactionDate" : "Tanggal Transalsi",
+    "editEmail" : "Ubah Pengaturan Email",
+    "item" : "Item"
+  },
   "menu": {
     "aboutUs": "Tentang Kami",
     "contactUs": "Hubungi Kami",
@@ -58,6 +68,7 @@
     "myAccount": "Akun Saya",
     "address": "Buku Alamat",
     "setting": "Pengaturan",
+    "storeCredit": "Store Credit & Refund",
     "readMore": "Selengkapnya"
   },
   "giftCard": {

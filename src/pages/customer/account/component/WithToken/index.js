@@ -43,6 +43,10 @@ const WithToken = (props) => {
             href: '/customer/setting',
             title: t('customer:menu:setting'),
         },
+        {
+            href: '/customer/account/storecredit',
+            title: t('customer:menu:storeCredit'),
+        },
     ];
     if (wishlist.length <= 0) {
         menu.push({
