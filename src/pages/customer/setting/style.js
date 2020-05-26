@@ -4,7 +4,7 @@ import {
 } from '@theme/mixins';
 import { GRAY_PRIMARY } from '@theme/colors';
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     container: {
         ...FlexColumn,
         width: '100%',
@@ -22,5 +22,11 @@ export default makeStyles(() => ({
         ...Centering,
         ...CenterAbsolute,
         ...CreatePadding(16, 16, 16, 16),
+    },
+    btnSave: {
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            width: 375,
+        },
     },
 }));

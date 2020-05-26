@@ -100,6 +100,7 @@ export const getCustomer = gql`
       firstname
       lastname
       email
+      is_subscribed
       addresses {
         id
         city

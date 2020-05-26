@@ -5,8 +5,8 @@ import { languagesLabel } from '@config';
 import { useMutation } from '@apollo/react-hooks';
 import Backdrop from '@components/Loaders/Backdrop';
 import Skeleton from '@material-ui/lab/Skeleton';
+import { GraphCustomer } from '@services/graphql';
 import useStyles from '../style';
-import { getCustomer } from '../services/index';
 import * as Schema from '../services/schema';
 import CheckboxSettings from './checkbox';
 
@@ -47,7 +47,7 @@ const SettingPage = ({ t, i18n }) => {
     };
     let customer = {};
     if (typeof window !== 'undefined') {
-        const { data } = getCustomer();
+        const { data } = GraphCustomer.getCustomer();
         if (data && data.customer) {
             customer = data.customer;
         }
@@ -87,8 +87,9 @@ const SettingPage = ({ t, i18n }) => {
             </div>
             <div className={styles.footer}>
                 <Button
+                    customRootStyle={{ width: 'fit-content' }}
+                    className={styles.btnSave}
                     onClick={handleSave}
-                    fullWidth
                 >
                     {t('common:button:save')}
                 </Button>

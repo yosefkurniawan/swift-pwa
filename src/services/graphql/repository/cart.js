@@ -20,9 +20,7 @@ export const getCountCart = (cartId) => useQuery(CartSchema.getCountCart, {
 });
 export const mergeCart = () => useMutation(CartSchema.mergeCart, {
     context: {
-        headers: {
-            request: 'internal',
-        },
+        request: 'internal',
     },
     skip: typeof window === 'undefined',
 });
