@@ -53,7 +53,7 @@ const ForgotPassword = ({ t }) => {
                             variant: 'success',
                             text: t('customer:forgotPassword:success'),
                         });
-                        setInterval(() => {
+                        setTimeout(() => {
                             Router.push(`/customer/account/newpassword?token=${token}`);
                         }, 3000);
                     } else {
