@@ -87,6 +87,7 @@ const customerOutput = `
     prefix
     lastname
     email
+    is_subscribed
     addresses {
       id
       city

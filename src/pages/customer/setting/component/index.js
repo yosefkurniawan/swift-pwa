@@ -86,7 +86,12 @@ const SettingPage = ({ t, i18n }) => {
                 />
             </div>
             <div className={styles.footer}>
-                <Button onClick={handleSave} fullWidth>{t('common:button:save')}</Button>
+                <Button
+                    onClick={handleSave}
+                    fullWidth
+                >
+                    {t('common:button:save')}
+                </Button>
             </div>
         </div>
     );
