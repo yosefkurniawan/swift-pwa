@@ -135,30 +135,34 @@ const Address = (props) => {
         }
     });
 
-    const isAddressNotSame = (current = [], previous = []) => {
-        const currentStringfy = JSON.stringify({
-            city: current.city,
-            country_code: current.country_code,
-            firstname: current.firstname,
-            lastname: current.lastname,
-            postcode: current.postcode,
-            regionLabel: current.region.region,
-            street: current.street,
-            telephhone: current.telephone,
-        });
+    const isAddressNotSame = (current = null, previous = null) => {
+        if (previous) {
+            const currentStringfy = JSON.stringify({
+                city: current.city,
+                country_code: current.country_code,
+                firstname: current.firstname,
+                lastname: current.lastname,
+                postcode: current.postcode,
+                regionLabel: current.region.region,
+                street: current.street,
+                telephhone: current.telephone,
+            });
 
-        const previousStringfy = JSON.stringify({
-            city: previous.city,
-            country_code: previous.country.code,
-            firstname: previous.firstname,
-            lastname: previous.lastname,
-            postcode: previous.postcode,
-            regionLabel: previous.region.label,
-            street: previous.street,
-            telephhone: previous.telephone,
-        });
+            const previousStringfy = JSON.stringify({
+                city: previous.city,
+                country_code: previous.country.code,
+                firstname: previous.firstname,
+                lastname: previous.lastname,
+                postcode: previous.postcode,
+                regionLabel: previous.region.label,
+                street: previous.street,
+                telephhone: previous.telephone,
+            });
 
-        return currentStringfy !== previousStringfy;
+            return currentStringfy !== previousStringfy;
+        }
+
+        return true;
     };
 
     useEffect(() => {
