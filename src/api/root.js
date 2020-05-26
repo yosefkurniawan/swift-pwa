@@ -1,5 +1,6 @@
 
-const generateCustomerToken = require('./resolver/createCustomerToken');
+const generateCustomerTokenCustom = require('./resolver/createCustomerTokenCustom');
+const generateCustomerTokenCustomOtp = require('./resolver/createCustomerTokenCustomOtp');
 const revokeCustomerToken = require('./resolver/revokeCustomerToken');
 const updateCartItems = require('./resolver/updateCartItems');
 const removeItemFromCart = require('./resolver/removeItemFromCart');
@@ -22,7 +23,8 @@ const applyCouponToCart = require('./resolver/checkout/applyCouponToCart');
 const removeCouponFromCart = require('./resolver/checkout/removeCouponFromCart');
 
 module.exports = {
-    generateCustomerToken,
+    generateCustomerTokenCustom,
+    generateCustomerTokenCustomOtp,
     addSimpleProductsToCart,
     addConfigurableProductsToCart,
     revokeCustomerToken,
