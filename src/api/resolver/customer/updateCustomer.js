@@ -24,8 +24,24 @@ const query = `
     }
 `;
 
+const querySettings = `
+    mutation updateCustomer(
+        $is_subscribed: Boolean!
+    ) {
+        updateCustomer(
+            input: {
+                is_subscribed: $is_subscribed,
+            }
+        ) {
+            customer {
+                ${customerOutput}
+            }
+        }
+    }
+`;
+
 async function updateCustomer(parent, variables, context) {
-    const res = await requestGraph(query, variables.input, context);
+    const res = await requestGraph(typeof variables.input.is_subscribed !== 'undefined' ? querySettings : query, variables.input, context);
     if (res.updateCustomer) {
         return res.updateCustomer;
     }

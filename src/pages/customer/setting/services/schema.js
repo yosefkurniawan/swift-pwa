@@ -8,7 +8,6 @@ export const updateCustomer = gql`
               is_subscribed: $isSubscribed
             }
           ) {
-            token
             customer {
                 is_subscribed
             }
