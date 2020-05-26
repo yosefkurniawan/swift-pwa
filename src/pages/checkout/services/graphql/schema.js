@@ -109,6 +109,38 @@ const cartSubSelection = `
         code
         title
     }
+    applied_store_credit {
+        store_credit_amount
+        is_use_store_credit
+    }
+`;
+
+export const applyStoreCreditToCart = gql`
+    mutation($cartId: String!) {
+        applyStoreCreditToCart(
+            input: {
+                cart_id: $cartId
+            }
+        ) {
+            cart {
+                ${cartSubSelection}
+            }
+        }
+    }
+`;
+
+export const removeStoreCreditFromCart = gql`
+    mutation($cartId: String!) {
+        removeStoreCreditFromCart(
+            input: {
+                cart_id: $cartId
+            }
+        ) {
+            cart {
+                ${cartSubSelection}
+            }
+        }
+    }
 `;
 
 export const getCustomer = gql`
@@ -140,6 +172,12 @@ export const getCustomer = gql`
                 }
                 street
                 telephone
+            }
+            store_credit {
+                current_balance {
+                    value
+                }
+                enabled
             }
         }
     }

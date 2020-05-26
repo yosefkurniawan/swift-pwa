@@ -116,6 +116,11 @@ const schema = `
     title: String
   }
 
+  type AppliedStoreCreditOutput {
+    is_use_store_credit: Int
+    store_credit_amount: Float
+  }
+
   type Cart {
     id: String,
     email: String
@@ -127,6 +132,7 @@ const schema = `
     applied_coupons: [AppliedCoupon]
     prices: prices
     items: [CartItemInterface]!
+    applied_store_credit: AppliedStoreCreditOutput
   }
 
   type Query {

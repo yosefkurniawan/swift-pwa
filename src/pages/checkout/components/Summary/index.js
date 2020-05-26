@@ -23,7 +23,6 @@ const Summary = ({
     setCheckout,
     handleOpenMessage,
     formik,
-    summary,
 }) => {
     const { order: loading, all: disabled } = checkout.loading;
     const dispatch = useDispatch();
@@ -127,33 +126,49 @@ const Summary = ({
     // Start - Manage Summary
     let data = [];
     let total = 0;
-    const {
-        prices, items, shipping_addresses,
-    } = summary;
+    if (checkout.data.cart) {
+        const {
+            prices,
+            items,
+            shipping_addresses,
+            applied_store_credit,
+        } = checkout.data.cart;
 
-    if (items) {
-        const sumTotalItem = items.reduce((prev, curr) => ({
-            value: prev.value + curr.prices.row_total.value,
-            currency: curr.prices.row_total.currency,
-        }), { value: 0 });
-        const subtotal = formatPrice(sumTotalItem.value, sumTotalItem.currency);
-        total = prices.grand_total;
-        const [shipping] = shipping_addresses;
+        const [firstItem] = items;
+        const globalCurrency = firstItem.prices.row_total.currency;
 
-        data.push({ item: 'sub total', value: subtotal });
+        if (items) {
+            const sumTotalItem = items.reduce(
+                (prev, curr) => ({
+                    value: prev.value + curr.prices.row_total.value,
+                    currency: curr.prices.row_total.currency,
+                }),
+                { value: 0 },
+            );
+            const subtotal = formatPrice(sumTotalItem.value, sumTotalItem.currency);
+            total = prices.grand_total;
+            const [shipping] = shipping_addresses;
 
-        if (shipping && shipping.selected_shipping_method) {
-            const shippingMethod = shipping.selected_shipping_method;
-            const price = formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency);
-            data.push({ item: 'shipping', value: price });
-        }
+            data.push({ item: 'sub total', value: subtotal });
 
-        if (_.isArray(prices.discounts)) {
-            const discounts = prices.discounts.map((disc) => {
-                const price = formatPrice(disc.amount.value, disc.amount.currency);
-                return { item: `${disc.label} - ${price}`, value: `-${price}` };
-            });
-            data = data.concat(discounts);
+            if (shipping && shipping.selected_shipping_method) {
+                const shippingMethod = shipping.selected_shipping_method;
+                const price = formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency);
+                data.push({ item: 'shipping', value: price });
+            }
+
+            if (_.isArray(prices.discounts)) {
+                const discounts = prices.discounts.map((disc) => {
+                    const price = formatPrice(disc.amount.value, disc.amount.currency);
+                    return { item: `${disc.label} - ${price}`, value: `-${price}` };
+                });
+                data = data.concat(discounts);
+            }
+
+            if (applied_store_credit.is_use_store_credit) {
+                const price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency);
+                data.push({ item: `Store Credit - ${price}`, value: `-${price}` });
+            }
         }
     }
     // End - Manage Summary

@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { storeConfigNameCokie } from '@config';
 import cookies from 'js-cookie';
+import { getLoginInfo } from '@helpers/auth';
 import gqlService from '../services/graphql';
 import useStyles from '../style';
 import Address from './Address';
@@ -17,7 +18,7 @@ import Shipping from './Shipping';
 import Summary from './Summary';
 
 const Checkout = (props) => {
-    const { t, cartId, token } = props;
+    const { t, cartId } = props;
     const styles = useStyles();
     let storeConfig = {};
     if (typeof window !== 'undefined') {
@@ -63,6 +64,7 @@ const Checkout = (props) => {
             billing: false,
             order: false,
             coupon: false,
+            storeCredit: false,
         },
         status: {
             addresses: false,
@@ -72,7 +74,7 @@ const Checkout = (props) => {
     });
 
     // start init graphql
-    const getCustomer = token ? gqlService.getCustomer() : null;
+    const getCustomer = getLoginInfo() ? gqlService.getCustomer() : null;
     const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
     // end init graphql
 
@@ -235,10 +237,6 @@ const Checkout = (props) => {
             state.selected.payment = cart.selected_payment_method.code;
         }
 
-        state.data.summary.prices = cart.prices;
-        state.data.summary.items = cart.items;
-        state.data.summary.shipping_addresses = cart.shipping_addresses;
-
         state.loading.all = false;
 
         setCheckout(state);
@@ -253,11 +251,11 @@ const Checkout = (props) => {
             },
             data: {
                 ...checkout.data,
-                isGuest: !token,
+                isGuest: !getLoginInfo(),
             },
         });
 
-        const loadCart = token ? getCustomer.data && !dataCart : !dataCart;
+        const loadCart = getLoginInfo() ? getCustomer.data && !dataCart : !dataCart;
 
         if (loadCart) {
             getCart({ variables: { cartId } });
@@ -338,7 +336,6 @@ const Checkout = (props) => {
                 checkout={checkout}
                 setCheckout={setCheckout}
                 handleOpenMessage={handleOpenMessage}
-                summary={checkout.data.summary}
                 formik={formik}
             />
         </div>

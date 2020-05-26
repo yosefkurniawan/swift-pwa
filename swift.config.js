@@ -57,6 +57,13 @@ const GTM = {
     },
 };
 
+/* Store Credit, Reward Point, Gift Card */
+const customerFeautres = {
+    storeCredit: true,
+    rewardPoint: true,
+    giftCard: true,
+};
+
 /* --------------------------------------- */
 /* LOCAD DATA CACHE & COKIES
 /* --------------------------------------- */
@@ -111,4 +118,5 @@ module.exports = {
     SESSION_SECRET,
     productImageSize,
     custDataNameCookie,
+    customerFeautres,
 };

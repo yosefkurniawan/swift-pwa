@@ -46,9 +46,7 @@ const Shipping = ({
 
                 state = { ...checkout };
                 state.data.paymentMethod = paymentMethod;
-                state.data.summary.prices = updatedCart.prices;
-                state.data.summary.items = updatedCart.items;
-                state.data.summary.shipping_addresses = updatedCart.shipping_addresses;
+                state.data.cart = updatedCart;
                 setCheckout(state);
                 const selectedShipping = data.shippingMethods.filter((item) => item.method_code === method_code);
                 const dataLayer = {

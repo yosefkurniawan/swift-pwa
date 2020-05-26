@@ -21,6 +21,8 @@ const setShippingMethodsOnCart = require('./resolver/checkout/setShippingMethods
 const placeOrder = require('./resolver/checkout/placeOrder');
 const applyCouponToCart = require('./resolver/checkout/applyCouponToCart');
 const removeCouponFromCart = require('./resolver/checkout/removeCouponFromCart');
+const applyStoreCreditToCart = require('./resolver/checkout/applyStoreCreditToCart');
+const removeStoreCreditFromCart = require('./resolver/checkout/removeStoreCreditFromCart');
 
 module.exports = {
     generateCustomerTokenCustom,
@@ -45,4 +47,6 @@ module.exports = {
     placeOrder,
     applyCouponToCart,
     removeCouponFromCart,
+    applyStoreCreditToCart,
+    removeStoreCreditFromCart,
 };

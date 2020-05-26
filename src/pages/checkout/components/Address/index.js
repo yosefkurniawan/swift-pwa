@@ -79,9 +79,7 @@ const Address = (props) => {
         state.selected.address = dataAddress;
         state.selected.shipping = shippingAddress.selected_shipping_method;
         state.loading.addresses = false;
-        state.data.summary.prices = updatedCart.prices;
-        state.data.summary.items = updatedCart.items;
-        state.data.summary.shipping_addresses = updatedCart.shipping_addresses;
+        state.data.cart = updatedCart;
         setCheckout(state);
 
         updateFormik(updatedCart);
