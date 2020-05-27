@@ -23,7 +23,7 @@ const ItemOrder = ({
                     </a>
                 </Link>
                 <div className={styles.detailItem}>
-                    <div className="column">
+                    <div className={`column ${styles.columnLabel}`}>
                         <Typography variant="span" letter="capitalize" className="clear-margin-padding">
                             {t('order:date')}
                         </Typography>

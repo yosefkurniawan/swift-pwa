@@ -12,15 +12,15 @@ export default () => {
                         <Skeleton variant="text" width={70} height={15} animation="wave" />
                         <Skeleton variant="text" width={120} height={20} animation="wave" />
                         <div className={styles.detailItem}>
-                            <div className="column">
-                                <Skeleton variant="text" width={60} height={15} animation="wave" />
-                                <Skeleton variant="text" width={60} height={15} animation="wave" />
-                                <Skeleton variant="text" width={60} height={15} animation="wave" />
+                            <div className={`column ${styles.columnLabel}`}>
+                                <Skeleton variant="text" width="80%" height={15} animation="wave" />
+                                <Skeleton variant="text" width="80%" height={15} animation="wave" />
+                                <Skeleton variant="text" width="80%" height={15} animation="wave" />
                             </div>
                             <div className={styles.detailContent}>
-                                <Skeleton variant="text" width={100} height={15} animation="wave" />
-                                <Skeleton variant="text" width={100} height={15} animation="wave" />
-                                <Skeleton variant="text" width={100} height={15} animation="wave" />
+                                <Skeleton variant="text" width="80%" height={15} animation="wave" />
+                                <Skeleton variant="text" width="80%" height={15} animation="wave" />
+                                <Skeleton variant="text" width="80%" height={15} animation="wave" />
                             </div>
                         </div>
                     </div>

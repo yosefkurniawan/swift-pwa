@@ -1,5 +1,6 @@
 import Button from '@components/Button';
 import Typography from '@components/Typography';
+import classNames from 'classnames';
 import useStyles from './style';
 import Item from './item';
 import { getOrder } from '../../services/graphql';
@@ -45,12 +46,12 @@ const OrderPage = ({ t, token }) => {
         });
     };
     return (
-        <div className={styles.container}>
+        <div className={classNames(styles.container, styles.rowCenter)}>
             {data && data.customerOrders.items.length > 0 && data.customerOrders.items.map((item, index) => <Item t={t} key={index} {...item} />)}
             {data && data.customerOrders.total_count > data.customerOrders.items.length && (
                 <Button variant="text" onClick={handleLoadMore} disabled={loading || loadMore} fullWidth>
                     <Typography variant="span" type="regular" letter="capitalize">
-                        {loadMore || loading ? 'Loading ...' : t('common:loadMore')}
+                        {loadMore || loading ? 'Loading ...' : t('common:button:loadMore')}
                     </Typography>
                 </Button>
             )}
