@@ -12,13 +12,13 @@ const Page = (props) => {
     };
     if (isLogin) {
         return (
-            <Layout pageConfig={pageConfig}>
+            <Layout pageConfig={pageConfig} {...props}>
                 <WithToken {...props} />
             </Layout>
         );
     }
     return (
-        <Layout pageConfig={pageConfig}>
+        <Layout pageConfig={pageConfig} {...props}>
             <WihtOutToken {...props} />
         </Layout>
     );

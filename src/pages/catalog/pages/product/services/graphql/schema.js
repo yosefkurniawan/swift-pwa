@@ -6,6 +6,7 @@ const productDetail = `
     id
     name
     sku
+    sale
     stock_status
     url_key
     __typename

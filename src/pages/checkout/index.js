@@ -15,7 +15,7 @@ const Page = (props) => {
         pageType: 'checkout',
     };
     return (
-        <Layout pageConfig={pageConfig}>
+        <Layout pageConfig={pageConfig} {...props}>
             <Head>
                 <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-KyvADD67-pyuS-I6" />
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />

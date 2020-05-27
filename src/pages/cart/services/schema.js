@@ -67,6 +67,7 @@ export const getCart = gql`
                   id
                   name
                   url_key
+                  sku
                   thumbnail {
                     url
                   }

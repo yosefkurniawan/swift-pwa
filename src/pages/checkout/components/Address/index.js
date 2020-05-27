@@ -4,6 +4,9 @@ import Typography from '@components/Typography';
 import _ from 'lodash';
 import { useEffect } from 'react';
 import { formatPrice } from '@helpers/currency';
+import TagManager from 'react-gtm-module';
+import { storeConfigNameCokie } from '@config';
+import cookies from 'js-cookie';
 import gqlService from '../../services/graphql';
 
 const CLOSE_ADDRESS_DIALOG = 750;
@@ -164,7 +167,10 @@ const Address = (props) => {
 
         return true;
     };
-
+    let storeConfig = {};
+    if (typeof window !== 'undefined') {
+        storeConfig = cookies.getJSON(storeConfigNameCokie);
+    }
     useEffect(() => {
         if (defaultAddress && !checkout.data.isGuest) {
             const { cart } = checkout.data;
@@ -174,6 +180,33 @@ const Address = (props) => {
             }
         }
     }, [defaultAddress]);
+
+    useEffect(() => {
+        if (address) {
+            const option = `${address.firstname} ${address.lastname} ${street} 
+            ${address.city} ${address.region.label} ${address.postcode} ${address.telephone}`;
+            const dataLayer = {
+                pageType: 'checkout',
+                pageName: 'Checkout',
+                event: 'checkout',
+                ecommerce: {
+                    actionField: { step: 1, option },
+                    products: checkout.data.cart.items.map(({ quantity, product, prices }) => ({
+                        name: product.name,
+                        id: product.sku,
+                        price: prices.price.value,
+                        category: product.categories.length > 0 ? product.categories[0].name : '',
+                        list: product.categories.length > 0 ? product.categories[0].name : '',
+                        quantity,
+                    })),
+                    currencyCode: storeConfig.base_currency_code || 'IDR',
+                },
+            };
+            TagManager.dataLayer({
+                dataLayer,
+            });
+        }
+    }, [loading.addresses, loading.all]);
 
     return (
         <div className={styles.block}>

@@ -43,10 +43,8 @@ const ProductPage = (props) => {
         });
         const tagManagerArgs = {
             dataLayer: {
-                event: 'gtm.load',
-                eventCategory: 'Ecommerce',
-                eventAction: 'Impression',
-                eventLabel: data.name,
+                pageName: data.name,
+                pageType: 'product',
                 ecommerce: {
                     detail: {
                         product: [{
@@ -55,6 +53,9 @@ const ProductPage = (props) => {
                             price: data.price_range.minimum_price.regular_price.value || 0,
                             category: categoryProduct,
                             dimensions4: data.stock_status,
+                            dimensions5: 0,
+                            dimensions6: 0,
+                            dimensions7: data.sale === 0 ? 'NO' : 'YES',
                         }],
                     },
                     currencyCode: data.price_range.minimum_price.regular_price.currency || 'USD',
@@ -83,6 +84,10 @@ const ProductPage = (props) => {
                         }),
                     ],
                 },
+                event: 'impression',
+                eventCategory: 'Ecommerce',
+                eventAction: 'Impression',
+                eventLabel: data.name,
             },
         };
         TagManager.dataLayer(tagManagerArgs);

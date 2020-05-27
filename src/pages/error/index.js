@@ -25,7 +25,7 @@ const Error = (props) => {
         className: styles.body,
     };
     return (
-        <Layout pageConfig={pageConfig}>
+        <Layout pageConfig={pageConfig} {...props}>
             <div className={styles.error}>
                 <div className={styles.wrapper}>
                     {statusCode ? (

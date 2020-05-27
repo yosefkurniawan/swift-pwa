@@ -1,4 +1,3 @@
-
 const Product = require('./product');
 
 const schema = `
@@ -41,17 +40,14 @@ const schema = `
   type AppliedCoupon {
     code: String
   }
-
   type CartAddressRegion {
     code: String
     label: String
   }
-
   type CartAddressCountry {
     code: String
     label: String
   }
-
   interface CartAddressInterface {
       firstname: String!
       lastname: String!
@@ -63,7 +59,6 @@ const schema = `
       country: CartAddressCountry!
       telephone: String!
   }
-
   type BillingCartAddress implements CartAddressInterface {
     firstname: String!
     lastname: String!
@@ -75,7 +70,6 @@ const schema = `
     country: CartAddressCountry!
     telephone: String!
   }
-
   type AvailableShippingMethod {
     available: Boolean
     method_code: String
@@ -84,13 +78,11 @@ const schema = `
     carrier_title: String
     amount: Money
   }
-
   type SelectedShippingMethod {
     method_code: String
     carrier_code: String
     amount: Money
   }
-
   type ShippingCartAddress implements CartAddressInterface{
     firstname: String!
     lastname: String!
@@ -104,33 +96,27 @@ const schema = `
     available_shipping_methods: [AvailableShippingMethod]
     selected_shipping_method: SelectedShippingMethod
   }
-
   type SelectedPaymentMethod {
     code: String
     purchase_order_number: String
     title: String
   }
-
   type AvailablePaymentMethod {
     code: String
     title: String
   }
-
   type AppliedStoreCreditOutput {
     is_use_store_credit: Int
     store_credit_amount: Float
   }
-
   type AppliedGiftCardDetail {
     giftcard_amount_used: Float
     giftcard_code: String
   }
-
   type AppliedGiftCardForQuote {
     giftcard_amount: Float
     giftcard_detail: [AppliedGiftCardDetail]
   }
-
   type Cart {
     id: String,
     email: String
@@ -145,7 +131,6 @@ const schema = `
     applied_store_credit: AppliedStoreCreditOutput
     applied_giftcard: AppliedGiftCardForQuote
   }
-
   type Query {
     cart(cart_id: String!): Cart!
     customerCart: Cart!

@@ -14,7 +14,7 @@ const Page = (props) => {
         bottomNav: 'browse',
     };
     return (
-        <Layout pageConfig={pageConfig}>
+        <Layout pageConfig={pageConfig} {...props}>
             <Component {...props} />
         </Layout>
     );

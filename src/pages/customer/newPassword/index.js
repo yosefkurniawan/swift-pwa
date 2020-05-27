@@ -12,7 +12,7 @@ const Page = (props) => {
         bottomNav: false,
     };
     return (
-        <Layout pageConfig={pageConfig}>
+        <Layout pageConfig={pageConfig} {...props}>
             <Content {...props} />
         </Layout>
     );
