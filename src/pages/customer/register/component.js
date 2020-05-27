@@ -110,7 +110,7 @@ const Register = ({ t, storeConfig }) => {
                 variant: 'success',
             });
             Router.push('/customer/account');
-        } else if (!called) {
+        } else if (!called && (cartId !== custCartId)) {
             mergeCart({
                 variables: {
                     sourceCartId: cartId,
@@ -129,6 +129,8 @@ const Register = ({ t, storeConfig }) => {
                 })
                 .catch(() => {
                 });
+        } else {
+            Router.push('/customer/account');
         }
     }
 
