@@ -1,3 +1,3 @@
-import Page from '@pages/customer/notification';
+import Page from '@pages/notification/notificationList';
 
 export default Page;
