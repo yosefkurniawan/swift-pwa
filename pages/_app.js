@@ -24,6 +24,7 @@ import {
 import TagManager from 'react-gtm-module';
 import '../src/styles/index.css';
 import '../src/styles/mage.css';
+import PageProgressLoader from '@components/Loaders/PageProgress';
 
 const tagManagerArgs = {
     gtmId: process.env.NODE_ENV === 'production' ? GTM.gtmId.prod : GTM.gtmId.dev,
@@ -104,6 +105,7 @@ class MyApp extends App {
                 <ThemeProvider theme={theme}>
                     {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                     <CssBaseline />
+                    <PageProgressLoader />
                     <Component {...pageProps} />
                 </ThemeProvider>
             </>
