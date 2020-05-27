@@ -25,8 +25,8 @@ const Email = ({
             <Typography variant="title" type="bold" letter="uppercase">
                 {t('checkout:emailAddress')}
             </Typography>
-            <div style={{ margin: '5px' }}>
-                <FormControl fullWidth error={!!(formik.touched.email && formik.errors.email)} style={{ marginTop: '10px', marginBottom: '20px' }}>
+            <div className={styles.emailContainer}>
+                <FormControl fullWidth error={!!(formik.touched.email && formik.errors.email)} className={styles.customFormControl}>
                     <Input
                         name="email"
                         placeholder="john.doe@gmail.com"

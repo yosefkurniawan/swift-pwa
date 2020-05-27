@@ -1,6 +1,6 @@
 import Button from '@components/Button';
 import Typography from '@components/Typography';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, Chip } from '@material-ui/core';
 import { customerFeautres } from '@config';
 import classNames from 'classnames';
 import gqlService from '../../services/graphql';
@@ -15,25 +15,89 @@ const DiscountSection = ({
     styles,
 }) => {
     const [applyCouponTocart] = gqlService.applyCouponToCart({ onError: () => {} });
-    const [removeCouponFromCart] = gqlService.removeCouponFromCart();
-    const [applyStoreCreditToCart] = gqlService.applyStoreCreditToCart();
-    const [removeStoreCreditFromCart] = gqlService.removeStoreCreditFromCart();
+    const [removeCouponFromCart] = gqlService.removeCouponFromCart({ onError: () => {} });
+    const [applyStoreCreditToCart] = gqlService.applyStoreCreditToCart({ onError: () => {} });
+    const [applyGiftCardToCart] = gqlService.applyGiftCardToCart({ onError: () => {} });
+    const [removeGiftCardFromCart] = gqlService.removeGiftCardFromCart({ onError: () => {} });
+    const [removeStoreCreditFromCart] = gqlService.removeStoreCreditFromCart({ onError: () => {} });
 
     let store_credit = null;
     let credit = 0;
+    let giftCards = [];
+    let appliedGiftCards = [];
 
     if (checkout.data.customer && checkout.data.cart) {
         store_credit = {
             ...checkout.data.customer.store_credit,
             ...checkout.data.cart.applied_store_credit,
         };
+
         credit = store_credit.current_balance.value || 0;
         credit = store_credit.is_use_store_credit ? store_credit.store_credit_amount : credit;
+        appliedGiftCards = checkout.data.cart.applied_giftcard.giftcard_detail.map((item) => item.giftcard_code);
+        giftCards = checkout.data.customer.gift_card.filter((item) => !appliedGiftCards.includes(item.giftcard_code));
     }
 
-    const handleGift = () => {};
-    const handleCheckBalance = () => {};
     const handleUsePoint = async () => {};
+
+    const handleApplyGift = async (code = null) => {
+        let state = { ...checkout };
+        state.loading.giftCard = true;
+        setCheckout(state);
+
+        const cartId = state.data.cart.id;
+        const finalCode = code || formik.values.giftCard;
+
+        const result = await applyGiftCardToCart({
+            variables: {
+                cartId,
+                code: finalCode,
+            },
+        });
+
+        state = { ...checkout };
+        if (result && result.data) {
+            const updatedCart = result.data.applyGiftCardToCart.cart;
+            state.data.cart = updatedCart;
+            formik.setFieldValue('giftCard', '');
+            handleOpenMessage({
+                variant: 'success',
+                text: t('checkout:message:giftCardApplied'),
+            });
+        } else {
+            formik.setFieldError('giftCard', t('checkout:message:giftCardError'));
+        }
+
+        state.loading.giftCard = false;
+        setCheckout(state);
+    };
+
+    const handleRemoveGift = async (code) => {
+        let state = { ...checkout };
+        state.loading.giftCard = true;
+        setCheckout(state);
+
+        const cartId = state.data.cart.id;
+        const result = await removeGiftCardFromCart({
+            variables: {
+                cartId,
+                code,
+            },
+        });
+
+        state = { ...checkout };
+        if (result && result.data) {
+            const updatedCart = result.data.removeGiftCardFromCart.cart;
+            state.data.cart = updatedCart;
+            handleOpenMessage({
+                variant: 'success',
+                text: t('checkout:message:giftCardRemoved'),
+            });
+        }
+
+        state.loading.giftCard = false;
+        setCheckout(state);
+    };
 
     const handleUseCredit = async () => {
         let cart;
@@ -111,77 +175,134 @@ const DiscountSection = ({
                 action={handlePromo}
                 onChange={formik.handleChange}
                 value={formik.values.coupon}
-                disabled={checkout.data.isCouponAppliedToCart || checkout.loading.coupon}
+                disabled={checkout.loading.coupon}
+                toggleField={checkout.data.isCouponAppliedToCart}
                 loading={checkout.loading.coupon}
                 error={!!formik.errors.coupon}
                 errorMessage={formik.errors.coupon}
                 styles={styles}
             />
-            {customerFeautres.giftCard ? <FieldPoint placeholder="Gift Card Number" action={handleGift} styles={styles} /> : null}
-            <div>
-                <Button variant="text" onClick={handleCheckBalance} className={styles.btnBalanceGift}>
-                    <Typography variant="p" decoration="underline" letter="capitalize">
-                        Check Balance
-                    </Typography>
-                </Button>
-                {customerFeautres.rewardPoint ? (
-                    <div className={styles.cardPoint}>
-                        <div className="column">
-                            <Typography variant="span" letter="capitalize">
-                                My Point
-                            </Typography>
-                            <Typography variant="title" type="bold" className={styles.pointText}>
-                                {checkout.data.point.toLocaleString(undefined, { minimumFractionDigits: 0 })}
-                            </Typography>
-                        </div>
-                        <div>
-                            <Button variant="outlined" className={styles.btnPoint} onClick={handleUsePoint}>
-                                <Typography variant="p" type="bold" letter="uppercase">
-                                    USE MY POIN
-                                </Typography>
-                            </Button>
-                        </div>
-                    </div>
-                ) : null}
-                {store_credit && (store_credit.enabled || customerFeautres.storeCredit) ? (
-                    <div className={styles.cardPoint}>
-                        <div className="column">
-                            <Typography variant="span" letter="capitalize">
-                                {store_credit.is_use_store_credit ? 'Used Credit' : 'My Credit'}
-                            </Typography>
-                            <Typography variant="title" type="bold" className={styles.pointText}>
-                                {credit.toLocaleString(undefined, { minimumFractionDigits: 0 })}
-                            </Typography>
-                        </div>
-                        <div>
-                            <Button variant="outlined" className={styles.btnPoint} disabled={checkout.loading.storeCredit} onClick={handleUseCredit}>
-                                <Typography
-                                    color={checkout.loading.storeCredit ? 'white' : 'default'}
-                                    variant="p"
-                                    type="bold"
-                                    letter="uppercase"
-                                    align="center"
-                                >
-                                    {store_credit.is_use_store_credit ? 'remove credit' : 'use my credit'}
-                                </Typography>
-                                {checkout.loading.storeCredit && (
-                                    <CircularProgress
-                                        style={{
-                                            position: 'absolute',
-                                            top: '50%',
-                                            left: '50%',
-                                            marginTop: -9,
-                                            marginLeft: -9,
-                                            color: 'black',
-                                        }}
-                                        size={18}
-                                    />
+            {customerFeautres.giftCard ? (
+                <div className={styles.giftCardContainer}>
+                    <FieldPoint
+                        id="giftCard"
+                        placeholder="Gift Card Code"
+                        action={() => {
+                            handleApplyGift();
+                        }}
+                        onChange={formik.handleChange}
+                        value={formik.values.giftCard}
+                        disabled={checkout.loading.giftCard}
+                        error={!!formik.errors.giftCard}
+                        errorMessage={formik.errors.giftCard}
+                        styles={styles}
+                    />
+                    {appliedGiftCards.length || giftCards.length
+                        ? (
+                            <div className={styles.giftCardInfoContainer}>
+                                {giftCards.length === 0 ? null : (
+                                    <div>
+                                        <Typography variant="p" letter="capitalize">
+                                            Your Gift Card
+                                        </Typography>
+                                        <div className={styles.giftCardItemContainer}>
+                                            {giftCards.map((item, index) => (
+                                                <Chip
+                                                    disabled={checkout.loading.giftCard}
+                                                    className={styles.giftCard}
+                                                    key={index}
+                                                    size="small"
+                                                    label={item.giftcard_code}
+                                                    onClick={() => {
+                                                        handleApplyGift(item.giftcard_code);
+                                                    }}
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
                                 )}
-                            </Button>
-                        </div>
+                                {appliedGiftCards.length === 0 ? null : (
+                                    <div>
+                                        <Typography variant="p" letter="capitalize">
+                                            Applied Gift Card
+                                        </Typography>
+                                        <div className={styles.giftCardItemContainer}>
+                                            {appliedGiftCards.map((item, index) => (
+                                                <Chip
+                                                    disabled={checkout.loading.giftCard}
+                                                    className={styles.giftCard}
+                                                    color="primary"
+                                                    key={index}
+                                                    size="small"
+                                                    label={item}
+                                                    onDelete={() => {
+                                                        handleRemoveGift(item);
+                                                    }}
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        ) : null}
+                    {checkout.loading.giftCard && (
+                        <CircularProgress
+                            className={styles.largeCircular}
+                            size={30}
+                        />
+                    )}
+                </div>
+            ) : null}
+            {customerFeautres.rewardPoint ? (
+                <div className={styles.cardPoint}>
+                    <div className="column">
+                        <Typography variant="span" letter="capitalize">
+                            My Point
+                        </Typography>
+                        <Typography variant="title" type="bold" className={styles.pointText}>
+                            {checkout.data.point.toLocaleString(undefined, { minimumFractionDigits: 0 })}
+                        </Typography>
                     </div>
-                ) : null}
-            </div>
+                    <div>
+                        <Button variant="outlined" className={styles.btnPoint} onClick={handleUsePoint}>
+                            <Typography variant="p" type="bold" letter="uppercase">
+                                USE MY POIN
+                            </Typography>
+                        </Button>
+                    </div>
+                </div>
+            ) : null}
+            {store_credit && (store_credit.enabled || customerFeautres.storeCredit) ? (
+                <div className={styles.cardPoint}>
+                    <div className="column">
+                        <Typography variant="span" letter="capitalize">
+                            {store_credit.is_use_store_credit ? 'Used Credit' : 'My Credit'}
+                        </Typography>
+                        <Typography variant="title" type="bold" className={styles.pointText}>
+                            {credit.toLocaleString(undefined, { minimumFractionDigits: 0 })}
+                        </Typography>
+                    </div>
+                    <div>
+                        <Button variant="outlined" className={styles.btnPoint} disabled={checkout.loading.storeCredit} onClick={handleUseCredit}>
+                            <Typography
+                                color={checkout.loading.storeCredit ? 'gray' : 'default'}
+                                variant="p"
+                                type="bold"
+                                letter="uppercase"
+                                align="center"
+                            >
+                                {store_credit.is_use_store_credit ? 'remove credit' : 'use my credit'}
+                            </Typography>
+                            {checkout.loading.storeCredit && (
+                                <CircularProgress
+                                    className={styles.smallCircular}
+                                    size={16}
+                                />
+                            )}
+                        </Button>
+                    </div>
+                </div>
+            ) : null}
         </div>
     );
 };

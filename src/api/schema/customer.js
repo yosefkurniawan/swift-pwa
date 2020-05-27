@@ -8,6 +8,11 @@ const customerSchema = makeExecutableSchema({
     typeDefs: gql`
         ${country}
         ${product}
+        type CustomerGiftCard {
+            giftcard_balance: Float
+            giftcard_code: String
+        }
+
         type WishlistItem {
             added_at: String
             description: String
@@ -15,6 +20,7 @@ const customerSchema = makeExecutableSchema({
             product: ProductInterface
             qty: Float
         }
+
         type Wishlist {
             id: ID
             items: [WishlistItem]
@@ -22,15 +28,47 @@ const customerSchema = makeExecutableSchema({
             sharing_code: String
             updated_at: String
         }
+
         type CustomerAddressAttribute {
             attribute_code: String
             value: String
         }
+
         type CustomerAddressRegion {
             region: String
             region_code: String
             region_id: Int
         }
+
+        type CustomerStoreCredit {
+            current_balance: Money
+            enabled: Boolean
+            transaction_history(
+              pageSize: Int
+              currentPage: Int = 1
+            ): CustomerStoreCreditHistory
+        }
+
+        type CustomerStoreCreditHistory {
+            items: [CustomerStoreCreditHistoryItem]
+            page_info: SearchResultPageInfo
+            total_count: Int
+        }
+
+        type CustomerStoreCreditHistoryItem {
+            comment: String
+            comment_placeholder: String
+            store_credit_adjustment: Money
+            store_credit_balance: Money
+            transaction_date_time: String
+            transaction_id: String
+        }
+
+        type SearchResultPageInfo {
+            current_page: Int
+            page_size: Int
+            total_pages: Int
+          }
 
         type CustomerAddress {
             city: String

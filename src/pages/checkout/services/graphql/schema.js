@@ -113,6 +113,43 @@ const cartSubSelection = `
         store_credit_amount
         is_use_store_credit
     }
+    applied_giftcard {
+        giftcard_amount
+        giftcard_detail {
+            giftcard_amount_used
+            giftcard_code
+        }
+    }
+`;
+
+export const applyGiftCardToCart = gql`
+    mutation($cartId: String! $code: String!) {
+        applyGiftCardToCart(
+            input: {
+                cart_id: $cartId,
+                giftcard_code: $code,
+            }
+        ) {
+            cart {
+                ${cartSubSelection}
+            }
+        }
+    }
+`;
+
+export const removeGiftCardFromCart = gql`
+    mutation($cartId: String! $code: String!) {
+        removeGiftCardFromCart(
+            input: {
+                cart_id: $cartId,
+                giftcard_code: $code,
+            }
+        ) {
+            cart {
+                ${cartSubSelection}
+            }
+        }
+    }
 `;
 
 export const applyStoreCreditToCart = gql`
@@ -178,6 +215,10 @@ export const getCustomer = gql`
                     value
                 }
                 enabled
+            }
+            gift_card {
+                giftcard_balance
+                giftcard_code
             }
         }
     }

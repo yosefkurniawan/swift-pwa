@@ -14,13 +14,14 @@ const FieldPoint = ({
     error,
     errorMessage = 'error',
     loading = false,
+    toggleField = false,
     styles,
 }) => (
     <div className={styles.fieldPoinContainer}>
         <TextField
             id={id}
             name={name}
-            disabled={disabled}
+            disabled={disabled || toggleField}
             value={value}
             onChange={onChange}
             placeholder={placeholder}
@@ -28,16 +29,14 @@ const FieldPoint = ({
             errorMessage={error ? errorMessage : null}
         />
         <div>
-            <Button variant="outlined" className={styles.btnAplly} onClick={action} disabled={loading}>
-                <Typography variant="p" color={loading ? 'white' : 'default'} type="bold" letter="uppercase">
-                    {disabled ? 'Remove' : 'Apply'}
+            <Button variant="outlined" className={styles.btnAplly} onClick={action} disabled={disabled || loading || value === ''}>
+                <Typography variant="p" color={loading || disabled || value === '' ? 'gray' : 'default'} type="bold" letter="uppercase">
+                    {toggleField ? 'Remove' : 'Apply'}
                 </Typography>
                 {loading && (
                     <CircularProgress
-                        style={{
-                            position: 'absolute', top: '50%', left: '50%', marginTop: -6, marginLeft: -6, color: 'black',
-                        }}
-                        size={12}
+                        className={styles.smallCircular}
+                        size={16}
                     />
                 )}
             </Button>

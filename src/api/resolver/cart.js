@@ -76,6 +76,13 @@ query getCartData($cart_id: String!) {
         is_use_store_credit
         store_credit_amount
       }
+      applied_giftcard {
+        giftcard_amount
+        giftcard_detail {
+            giftcard_amount_used
+            giftcard_code
+        }
+      }
       prices {
           discounts {
               amount {
