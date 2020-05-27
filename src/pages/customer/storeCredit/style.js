@@ -3,6 +3,8 @@ import {
     FlexColumn,
 } from '@theme/mixins';
 
+import { RED, GREEN } from '@theme/colors';
+
 export default makeStyles(() => ({
     container: {
         ...FlexColumn,
@@ -19,5 +21,11 @@ export default makeStyles(() => ({
     },
     editLink: {
         marginTop: 20,
+    },
+    textGreen: {
+        color: GREEN,
+    },
+    textRed: {
+        color: RED,
     },
 }));
