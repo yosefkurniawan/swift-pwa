@@ -5,7 +5,7 @@ import {
 
 import { RED, GREEN } from '@theme/colors';
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     container: {
         ...FlexColumn,
         width: '100%',
@@ -18,6 +18,27 @@ export default makeStyles(() => ({
     },
     table: {
         width: '100%',
+    },
+    tableRowHead: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'none !important',
+        },
+    },
+    tableRowResponsive: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'grid !important',
+        },
+    },
+    tableCellResponsive: {
+        [theme.breakpoints.down('sm')]: {
+            '&::before': {
+                paddingRight: '10px',
+                content: 'attr(data-th) \' : \'',
+                display: 'inline-block',
+                color: '#000',
+                fontWeight: 700,
+            },
+        },
     },
     editLink: {
         marginTop: 20,
