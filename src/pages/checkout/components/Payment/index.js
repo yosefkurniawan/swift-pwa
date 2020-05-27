@@ -66,10 +66,9 @@ const Payment = ({
                     },
                 },
             };
-            console.log(dataLayer);
-            // TagManager.dataLayer({
-            //     dataLayer,
-            // });
+            TagManager.dataLayer({
+                dataLayer,
+            });
             TagManager.dataLayer({
                 dataLayer: dataLayerOption,
             });

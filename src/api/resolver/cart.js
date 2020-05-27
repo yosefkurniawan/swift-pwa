@@ -146,7 +146,6 @@ query getCartData($cart_id: String!) {
             id
             name
             url_key
-            sku
             thumbnail {
               url
             }
