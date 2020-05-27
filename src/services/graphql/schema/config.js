@@ -36,6 +36,9 @@ export const storeConfig = gql`
             website_id
             weight_unit
             oauth_access_token_lifetime_customer
+            payments_configuration
+            snap_client_key
+            snap_is_production
         }
     }
 `;
