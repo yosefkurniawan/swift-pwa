@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import Typography from '@components/Typography';
 import gqlServices from './service/graphql';
 
 const NotificationData = () => {
@@ -31,9 +32,15 @@ const NotificationData = () => {
 
     return (
         <div className="container">
-            <div>{localDateString(item.createdAt)}</div>
-            <div>{item.subject}</div>
-            <div>{item.content}</div>
+            <Typography variant="p" style={{ marginBottom: 12 }} size="10" type="regular">
+                {localDateString(item.createdAt)}
+            </Typography>
+            <Typography variant="p" size="14" type="regular">
+                {item.subject}
+            </Typography>
+            <Typography variant="p" size="12" type="regular">
+                {item.content}
+            </Typography>
         </div>
     );
 };
