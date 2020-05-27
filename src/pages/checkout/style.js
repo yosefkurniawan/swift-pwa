@@ -70,4 +70,46 @@ export default makeStyles(() => ({
     rmBorder: {
         border: 'none',
     },
+    smallCircular: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -8,
+        marginLeft: -8,
+    },
+    mediumCircular: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+    },
+    largeCircular: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -15,
+        marginLeft: -15,
+    },
+    customFormControl: {
+        marginTop: '10px',
+        marginBottom: '20px',
+    },
+    emailContainer: {
+        margin: '5px',
+    },
+    giftCardContainer: {
+        position: 'relative',
+    },
+    giftcardInfoContainer: {
+        marginTop: '-30px',
+    },
+    giftCardItemContainer: {
+        paddingTop: '5px',
+        paddingBottom: '10px',
+    },
+    giftCard: {
+        marginLeft: '5px',
+        marginRight: '5px',
+    },
 }));
