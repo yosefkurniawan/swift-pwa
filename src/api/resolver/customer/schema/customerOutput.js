@@ -86,9 +86,7 @@ const customerOutput = `
     prefix
     lastname
     email
-<<<<<<< HEAD
     is_subscribed
-=======
     store_credit {
       current_balance {
         currency
@@ -118,7 +116,6 @@ const customerOutput = `
         }
       }
     }
->>>>>>> add store credits schema on internal request
     addresses {
       id
       city

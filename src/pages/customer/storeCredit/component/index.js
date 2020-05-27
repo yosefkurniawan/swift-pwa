@@ -9,6 +9,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import Link from 'next/link';
 import useStyles from '../style';
 import SkeletonStoreCredit from './skeleton';
+import { getStoreCredit } from '../services';
 
 const StoreCreditPage = ({ t }) => {
     const styles = useStyles();
@@ -24,7 +25,9 @@ const StoreCreditPage = ({ t }) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-    const loading = true;
+    const { data, loading } = getStoreCredit();
+    console.log(data);
+    console.log(loading);
     return (
         <div className={styles.container}>
             <p className={styles.textBalance}>
