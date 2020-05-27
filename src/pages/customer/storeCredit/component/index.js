@@ -17,7 +17,7 @@ const StoreCreditPage = ({ t }) => {
     const styles = useStyles();
 
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -32,12 +32,15 @@ const StoreCreditPage = ({ t }) => {
             items: [],
         },
     };
-    const { data, loading } = getStoreCredit();
+    const { data, loading } = getStoreCredit(
+        {
+            pageSizeStoreCredit: rowsPerPage,
+            currentPageStoreCredit: page + 1,
+        },
+    );
     if (data) {
         storeCredit = data.customer.store_credit;
     }
-    console.log(storeCredit);
-    console.log(loading);
     return (
         <div className={styles.container}>
             <p className={styles.textBalance}>
@@ -111,7 +114,7 @@ const StoreCreditPage = ({ t }) => {
 
                                     <TableRow>
                                         <TablePagination
-                                            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                            rowsPerPageOptions={[10, 20, 50, { label: 'All', value: -1 }]}
                                             colSpan={5}
                                             count={storeCredit.transaction_history.total_count}
                                             rowsPerPage={rowsPerPage}

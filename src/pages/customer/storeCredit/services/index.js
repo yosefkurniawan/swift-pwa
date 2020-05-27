@@ -2,7 +2,8 @@ import { useQuery } from '@apollo/react-hooks';
 import * as Schema from './schema';
 
 
-export const getStoreCredit = () => useQuery(Schema.getStoreCredit, {
+export const getStoreCredit = (variables) => useQuery(Schema.getStoreCredit, {
+    variables,
     context: {
         request: 'internal',
     },

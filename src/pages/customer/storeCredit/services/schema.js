@@ -2,8 +2,8 @@
 import { gql } from 'apollo-boost';
 
 export const getStoreCredit = gql`
-    {
-        customer {
+   query getStoreCredit($pageSizeStoreCredit: Int! , $currentPageStoreCredit: Int) {
+        customer (pageSizeStoreCredit: $pageSizeStoreCredit, currentPageStoreCredit: $currentPageStoreCredit){
             store_credit {
                 current_balance {
                     currency
