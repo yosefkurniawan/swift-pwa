@@ -46,7 +46,7 @@ const Page = (props) => {
         },
     };
     return (
-        <Layout pageConfig={pageConfig} CustomHeader={<CustomHeader />}>
+        <Layout pageConfig={pageConfig} CustomHeader={<CustomHeader />} {...props}>
             <Content {...props} data={product.items[0]} />
         </Layout>
     );

@@ -6,14 +6,14 @@ import { compose } from 'redux';
 import Content from './components';
 import { exampleAction } from './redux/actions';
 
-const Page = () => {
+const Page = (props) => {
     const pageConfig = {
         title: 'Test Apollo with Redux',
         header: 'relative', // available values: "absolute", "relative", false (default)
         headerTitle: 'Test Apollo with Redux',
     };
     return (
-        <Layout pageConfig={pageConfig}>
+        <Layout pageConfig={pageConfig} {...props}>
             <Content pageConfig={pageConfig} />
         </Layout>
     );

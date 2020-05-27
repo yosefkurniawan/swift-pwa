@@ -49,23 +49,28 @@ const Shipping = ({
                 state.data.cart = updatedCart;
                 setCheckout(state);
                 const selectedShipping = data.shippingMethods.filter((item) => item.method_code === method_code);
-                const dataLayer = {
-                    event: 'checkout',
-                    ecommerce: {
-                        checkout: {
-                            actionField: { step: 2, option: selectedShipping[0].label, action: 'checkout' },
-                            products: cart.items.map(({ quantity, product, prices }) => ({
-                                name: product.name,
-                                id: product.sku,
-                                price: prices.price.value,
-                                category: product.categories.length > 0 ? product.categories[0].name : '',
-                                list: product.categories.length > 0 ? product.categories[0].name : '',
-                                quantity,
-                            })),
+                if (cart) {
+                    console.log(cart);
+                    const dataLayer = {
+                        event: 'checkout',
+                        ecommerce: {
+                            checkout: {
+                                actionField: { step: 2, option: selectedShipping[0].label, action: 'checkout' },
+                                products: cart.items.map(({ quantity, product, prices }) => ({
+                                    name: product.name,
+                                    id: product.sku,
+                                    price: prices.price.value,
+                                    category: product.categories.length > 0 ? product.categories[0].name : '',
+                                    list: product.categories.length > 0 ? product.categories[0].name : '',
+                                    quantity,
+                                })),
+                            },
+                            currencyCode: storeConfig.base_currency_code || 'IDR',
                         },
-                        currencyCode: storeConfig.base_currency_code || 'IDR',
-                    },
-                };
+                    };
+                    console.log(dataLayer);
+                }
+
                 const dataLayerOption = {
                     event: 'checkoutOption',
                     ecommerce: {
@@ -75,9 +80,9 @@ const Shipping = ({
                         },
                     },
                 };
-                TagManager.dataLayer({
-                    dataLayer,
-                });
+                // await TagManager.dataLayer({
+                //     dataLayer,
+                // });
                 TagManager.dataLayer({
                     dataLayer: dataLayerOption,
                 });

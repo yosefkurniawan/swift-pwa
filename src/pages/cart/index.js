@@ -13,7 +13,7 @@ const Page = (props) => {
         pageType: 'cart',
     };
     return (
-        <Layout pageConfig={pageConfig}>
+        <Layout pageConfig={pageConfig} {...props}>
             <Content {...props} />
         </Layout>
     );

@@ -3,122 +3,197 @@ const Product = require('./product');
 
 const schema = `
   ${Product}
-  type grand_total {
-    currency: String
-    value: Float
+  interface CartAddressInterface {
+    city: String!
+    company: String
+    country: CartAddressCountry!
+    firstname: String!
+    lastname: String!
+    postcode: String
+    region: CartAddressRegion
+    street: [String]!
+    telephone: String!
   }
-  type Discounts {
-    amount: Money
-    label: String
+  type Discount {
+    amount: Money!
+    label: String!
   }
-  type prices {
-    grand_total: grand_total
-    discounts: [Discounts]
+
+  type CartTaxItem {
+    amount: Money!
+    label: String!
+  }
+
+  type CartDiscount {
+    amount: Money!
+    label: [String]!
+  }
+
+  type CartPrices {
+    applied_taxes: [CartTaxItem]
+    discounts: [Discount]
+    grand_total: Money
     subtotal_excluding_tax: Money
+    subtotal_including_tax: Money
+    subtotal_with_discount_excluding_tax: Money
+    discount: CartDiscount
   }
+
   type CartItemPrices {
-    price: Money
-    discounts: [Discounts]
-    row_total: Money
+    discounts: [Discount]
+    price: Money!
+    row_total: Money!
+    row_total_including_tax: Money!
     total_item_discount: Money
-  }
-  type SelectedConfigurableOptions {
-    id: Int
-    option_label: String
-    value_id: Int
-    value_label: String
-  }
-  interface ConfigurableCartItem {
-    configurable_options: [SelectedConfigurableOptions]
-  }
-  type CartItemInterface implements ConfigurableCartItem {
-    id: String
-    configurable_options: [SelectedConfigurableOptions]
-    product: Product
-    quantity: Float
-    prices: CartItemPrices
-  }
-  type AppliedCoupon {
-    code: String
   }
 
   type CartAddressRegion {
-    code: String
-    label: String
+    code: String!
+    label: String!
+  }
+
+  type SelectedConfigurableOption {
+    id: Int!
+    option_label: String!
+    value_id: Int!
+    value_label: String!
+  }
+  enum PriceTypeEnum {
+    FIXED
+    PERCENT
+    DYNAMIC
+  }
+
+  type CartItemSelectedOptionValuePrice {
+    type: PriceTypeEnum!
+    units: String!
+    value: Float!
+  }
+  type SelectedCustomizableOption {
+    id: Int!
+    is_required: Boolean!
+    label: String!
+    sort_order: Int!
+    values: [SelectedCustomizableOptionValue]!
+  }
+
+  type SelectedCustomizableOptionValue {
+    id: Int!
+    label: String!
+    price: CartItemSelectedOptionValuePrice!
+    value: String!
+  }
+  
+  type ConfigurableCartItem
+    implements CartItemInterface {
+    configurable_options: [SelectedConfigurableOption]!
+    customizable_options: [SelectedCustomizableOption]!
+    id: String!
+    prices: CartItemPrices
+    product: Product!
+    quantity: Float!
+  }
+
+  interface CartItemInterface {
+    id: String!
+    prices: CartItemPrices
+    product: Product!
+    quantity: Float!
   }
 
   type CartAddressCountry {
-    code: String
-    label: String
+    code: String!
+    label: String!
   }
 
-  interface CartAddressInterface {
-      firstname: String!
-      lastname: String!
-      company: String
-      street: [String!]!
-      city: String!
-      region: CartAddressRegion
-      postcode: String
-      country: CartAddressCountry!
-      telephone: String!
-  }
-
-  type BillingCartAddress implements CartAddressInterface {
+  type BillingCartAddress
+    implements CartAddressInterface {
+    city: String!
+    company: String
+    country: CartAddressCountry!
     firstname: String!
     lastname: String!
-    company: String
-    street: [String!]!
-    city: String!
-    region: CartAddressRegion
     postcode: String
-    country: CartAddressCountry!
-    telephone: String!
-  }
-
-  type AvailableShippingMethod {
-    available: Boolean
-    method_code: String
-    carrier_code: String
-    method_title: String
-    carrier_title: String
-    amount: Money
-  }
-
-  type SelectedShippingMethod {
-    method_code: String
-    carrier_code: String
-    amount: Money
-  }
-
-  type ShippingCartAddress implements CartAddressInterface{
-    firstname: String!
-    lastname: String!
-    company: String
-    street: [String!]!
-    city: String!
     region: CartAddressRegion
-    postcode: String
-    country: CartAddressCountry!
+    street: [String]!
     telephone: String!
-    available_shipping_methods: [AvailableShippingMethod]
-    selected_shipping_method: SelectedShippingMethod
-  }
-
-  type SelectedPaymentMethod {
-    code: String
-    purchase_order_number: String
-    title: String
+    customer_notes: String
   }
 
   type AvailablePaymentMethod {
-    code: String
-    title: String
+    code: String!
+    title: String!
   }
 
   type AppliedStoreCreditOutput {
     is_use_store_credit: Int
     store_credit_amount: Float
+  }
+
+  type AppliedGiftCardDetail {
+    giftcard_amount_used: Float
+    giftcard_code: String
+  }
+  
+  type AppliedGiftCardForQuote {
+    giftcard_amount: Float
+    giftcard_detail: [AppliedGiftCardDetail]
+  }
+
+  type AppliedCoupon {
+    code: String!
+  }
+
+  type SelectedPaymentMethod {
+    code: String!
+    purchase_order_number: String
+    title: String!
+  }
+
+  type AvailableShippingMethod {
+    amount: Money!
+    available: Boolean!
+    carrier_code: String!
+    carrier_title: String!
+    error_message: String
+    method_code: String
+    method_title: String
+    price_excl_tax: Money!
+    price_incl_tax: Money!
+    base_amount: Money
+  }
+  
+  type SelectedShippingMethod {
+    amount: Money!
+    carrier_code: String!
+    carrier_title: String!
+    method_code: String!
+    method_title: String!
+    base_amount: Money
+  }
+
+  type CartItemQuantity {
+    cart_item_id: Int!
+    quantity: Float!
+  }
+
+  type ShippingCartAddress
+    implements CartAddressInterface {
+    available_shipping_methods: [AvailableShippingMethod]
+    cart_items_v2: [CartItemInterface]
+    city: String!
+    company: String
+    country: CartAddressCountry!
+    customer_notes: String
+    firstname: String!
+    lastname: String!
+    postcode: String
+    region: CartAddressRegion
+    selected_shipping_method: SelectedShippingMethod
+    street: [String]!
+    telephone: String!
+    cart_items: [CartItemQuantity]
+    items_weight: Float
   }
 
   type AppliedGiftCardDetail {
@@ -132,18 +207,21 @@ const schema = `
   }
 
   type Cart {
-    id: String,
-    email: String
-    billing_address: BillingCartAddress
-    shipping_addresses: [ShippingCartAddress]
-    selected_payment_method: SelectedPaymentMethod
-    available_payment_methods: [AvailablePaymentMethod]
-    total_quantity: Int
     applied_coupons: [AppliedCoupon]
-    prices: prices
-    items: [CartItemInterface]!
+    applied_giftcard: AppliedGiftCardForQuote
     applied_store_credit: AppliedStoreCreditOutput
     applied_giftcard: AppliedGiftCardForQuote
+    available_payment_methods: [AvailablePaymentMethod]
+    billing_address: BillingCartAddress
+    email: String
+    id: ID!
+    is_virtual: Boolean!
+    items: [ConfigurableCartItem]
+    prices: CartPrices
+    selected_payment_method: SelectedPaymentMethod
+    shipping_addresses: [ShippingCartAddress]!
+    total_quantity: Float!
+    applied_coupon: AppliedCoupon
   }
 
   type Query {

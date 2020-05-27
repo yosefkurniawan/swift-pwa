@@ -1,6 +1,6 @@
 /* eslint-disable radix */
 /* eslint-disable no-plusplus */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box } from '@material-ui/core';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
@@ -11,6 +11,8 @@ import { useMutation } from '@apollo/react-hooks';
 import Toast from '@components/Toast';
 import { GraphCustomer } from '@services/graphql';
 import TagManager from 'react-gtm-module';
+import { storeConfigNameCokie } from '@config';
+import cookies from 'js-cookie';
 import Item from './item';
 import CrossSell from './crosssell';
 import useStyles from '../style';
@@ -23,7 +25,11 @@ import * as Schema from '../services/schema';
 const getCrossSellProduct = (items) => {
     let crosssell = [];
     for (let index = 0; index < items.length; index++) {
-        crosssell = crosssell.concat(items[index].product.crosssell_products);
+        const data = items[index].product.crosssell_products.map((product) => ({
+            ...product,
+            categories: items[index].product.categories,
+        }));
+        crosssell = crosssell.concat(data);
     }
     return crosssell;
 };
@@ -143,7 +149,7 @@ const Cart = (props) => {
             ],
         });
     };
-
+    let storeConfig = {};
     if (typeof window !== 'undefined') {
         cartId = getCartId();
         if (cartId) {
@@ -155,8 +161,33 @@ const Cart = (props) => {
         } else {
             loadingCart = false;
         }
+        storeConfig = cookies.getJSON(storeConfigNameCokie);
     }
-
+    useEffect(() => {
+        if (dataCart.items.length > 0) {
+            const crosssellData = getCrossSellProduct(dataCart.items);
+            const dataLayer = {
+                pageName: t('cart:pageTitle'),
+                pageType: 'cart',
+                ecommerce: {
+                    currency: storeConfig.base_currency_code || 'IDR',
+                    impressions: crosssellData.map((product, index) => ({
+                        name: product.name,
+                        id: product.sku,
+                        category: product.categories[0].name || '',
+                        price: product.price_range.minimum_price.regular_price.value,
+                        list: 'Crossel Products',
+                        position: index + 1,
+                    })),
+                },
+                event: 'impression',
+                eventCategory: 'Ecommerce',
+                eventAction: 'Impression',
+                eventLabel: 'cart',
+            };
+            TagManager.dataLayer({ dataLayer });
+        }
+    }, [dataCart]);
     // add to wishlist
     const [addWishlist] = GraphCustomer.addWishlist(token);
     const handleFeed = (itemProps) => {
@@ -187,6 +218,7 @@ const Cart = (props) => {
     }
 
     crosssell = getCrossSellProduct(dataCart.items);
+
     if (dataCart.id && dataCart.items.length > 0) {
         return (
             <>
