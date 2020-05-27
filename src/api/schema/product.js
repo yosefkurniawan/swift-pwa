@@ -228,7 +228,7 @@ const schema = `
         attribute_set_id: Int
         image: ProductImage
         typename: String
-        categories: CategoryInterface
+        categories: [CategoryInterface]
     }
 
     type Product {

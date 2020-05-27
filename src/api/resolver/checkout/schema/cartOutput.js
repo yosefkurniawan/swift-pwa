@@ -74,6 +74,7 @@ const cartOutput = `
         }
     }
     items {
+        quantity
         prices {
             row_total {
                 currency
@@ -86,6 +87,20 @@ const cartOutput = `
                 }
                 label
             }
+            price {
+                value
+                currency
+            }
+        }
+        product {
+            id
+            name
+            categories {
+            name
+            }
+            url_key
+            sku
+            stock_status
         }
     }
     available_payment_methods {
@@ -93,8 +108,8 @@ const cartOutput = `
         title
     }
     applied_store_credit {
-        is_use_store_credit
         store_credit_amount
+        is_use_store_credit
     }
     applied_giftcard {
         giftcard_amount

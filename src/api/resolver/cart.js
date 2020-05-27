@@ -102,16 +102,6 @@ query getCartData($cart_id: String!) {
       }
       items {
         id
-        product {
-          name
-          image {
-              url
-              label
-          }
-          categories {
-            name
-          }
-        }
         quantity
           prices {
             discounts {
