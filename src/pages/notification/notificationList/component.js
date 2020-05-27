@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { List, ListItem, ListItemText } from '@material-ui/core';
+import Router from 'next/router';
 import Typography from '@components/Typography';
 import gqlService from './service/graphql';
 
@@ -10,7 +11,6 @@ const NotificationList = () => {
     if (error) return <p>{`Error: ${error.message}`}</p>;
     if (!data) return <p>Not found</p>;
 
-    console.log(data);
     const localDateString = (stringTime) => new Date(stringTime).toLocaleDateString(
         {},
         {
@@ -20,6 +20,10 @@ const NotificationList = () => {
 
     const handleItemClick = (item) => {
         console.log(item);
+        Router.push({
+            pathname: '/inboxnotification/notification/data',
+            query: { notif: item.entityId },
+        });
     };
 
     return (
