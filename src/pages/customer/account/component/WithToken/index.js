@@ -56,6 +56,12 @@ const WithToken = (props) => {
             title: 'Gift Card',
         });
     }
+    if (customerFeautres.storeCredit) {
+        menu.push({
+            href: '/customer/account/storecredit',
+            title: t('customer:menu:storeCredit'),
+        });
+    }
     return (
         <div className={styles.root}>
             <div className={styles.account_wrapper}>

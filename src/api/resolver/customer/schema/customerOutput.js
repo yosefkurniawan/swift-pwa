@@ -87,6 +87,35 @@ const customerOutput = `
     lastname
     email
     is_subscribed
+    store_credit {
+      current_balance {
+        currency
+        value
+      }
+      enabled
+      transaction_history (pageSize:$pageSizeStoreCredit, currentPage:$currentPageStoreCredit) {
+        total_count
+        page_info {
+          current_page
+          page_size
+          total_pages
+        }
+        items {
+          comment
+          comment_placeholder
+          store_credit_adjustment {
+            currency
+            value
+          }
+          store_credit_balance {
+            currency
+            value
+          }
+          transaction_date_time
+          transaction_id
+        }
+      }
+    }
     addresses {
       id
       city

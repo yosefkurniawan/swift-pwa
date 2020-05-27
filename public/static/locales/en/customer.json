@@ -50,6 +50,17 @@
     "useBilling" : "use as my default billing address",
     "useShipping" : "use as my default shipping address"
   },
+  "storeCredit" : {
+    "balance" : "Your current balance is: ",
+    "transactionId" : "Transaction ID: ",
+    "adjustment" : "Store Credit Adjustment: ",
+    "creditbalance" : "Store Credit Balance",
+    "comment" : "Comment",
+    "transactionDate" : "Transaction Date",
+    "editEmail" : "Edit Email Preferences",
+    "emptyMessage" : "You have no transactions.",
+    "item" : "Item(s)"
+  },
   "menu": {
     "aboutUs": "About Us",
     "contactUs": "Contact Us",
@@ -58,6 +69,7 @@
     "myAccount": "My Account",
     "address": "Address Book",
     "setting": "Settings",
+    "storeCredit": "Store Credit & Refund",
     "readMore": "Read More"
   },
   "giftCard": {

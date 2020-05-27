@@ -31,32 +31,6 @@ const customerSchema = makeExecutableSchema({
             region_code: String
             region_id: Int
         }
-        type CustomerStoreCredit {
-            current_balance: Money
-            enabled: Boolean
-            transaction_history(
-              pageSize: Int
-              currentPage: Int = 1
-            ): CustomerStoreCreditHistory
-        }
-        type CustomerStoreCreditHistory {
-            items: [CustomerStoreCreditHistoryItem]
-            page_info: SearchResultPageInfo
-            total_count: Int
-        }
-        type CustomerStoreCreditHistoryItem {
-            comment: String
-            comment_placeholder: String
-            store_credit_adjustment: Money
-            store_credit_balance: Money
-            transaction_date_time: String
-            transaction_id: String
-        }
-        type SearchResultPageInfo {
-            current_page: Int
-            page_size: Int
-            total_pages: Int
-          }
 
         type CustomerAddress {
             city: String
@@ -86,6 +60,34 @@ const customerSchema = makeExecutableSchema({
             giftcard_balance: Float
             giftcard_code: String
         }
+
+        type CustomerStoreCreditHistoryItem {
+            comment: String
+            comment_placeholder: String
+            store_credit_adjustment: Money
+            store_credit_balance: Money
+            transaction_date_time: String
+            transaction_id: String
+        }
+
+        type CustomerStoreCreditHistory {
+            items: [CustomerStoreCreditHistoryItem]
+            page_info: SearchResultPageInfo
+            total_count: Int
+        }
+
+        type SearchResultPageInfo {
+            current_page: Int
+            page_size: Int
+            total_pages: Int
+        }
+
+        type CustomerStoreCredit {
+            current_balance: Money
+            enabled: Boolean
+            transaction_history: CustomerStoreCreditHistory
+        }
+
         type Customer {
             addresses: [CustomerAddress]
             created_at: String
@@ -137,7 +139,10 @@ const customerSchema = makeExecutableSchema({
         }
 
         type Query {
-            customer: Customer
+            customer (
+                pageSizeStoreCredit: Int = 10
+                currentPageStoreCredit: Int = 1
+            ): Customer
         }
 
         input CustomerAddressRegionInput {
