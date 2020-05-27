@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -6,6 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 import TableContainer from '@material-ui/core/TableContainer';
+import Alert from '@material-ui/lab/Alert';
 import Link from 'next/link';
 import { formatPrice } from '@helpers/currency';
 import formatDate from '@helpers/date';
@@ -66,69 +68,76 @@ const StoreCreditPage = ({ t }) => {
 
                         </TableHead>
                         <TableBody>
-                            {loading ? <SkeletonStoreCredit /> : (
-                                <>
-                                    {storeCredit.transaction_history.items.map((val, idx) => (
-                                        <TableRow key={idx} className={styles.tableRowResponsive}>
-                                            <TableCell
-                                                className={styles.tableCellResponsive}
-                                                align="left"
-                                                data-th={t('customer:storeCredit:transactionId')}
-                                            >
-                                                {val.transaction_id}
-                                            </TableCell>
-                                            <TableCell
-                                                className={styles.tableCellResponsive}
-                                                align="left"
-                                                data-th={t('customer:storeCredit:adjustment')}
-                                            >
-                                                <span className={val.store_credit_adjustment.value < 0
-                                                    ? styles.textRed : styles.textGreen}
+                            {loading ? <SkeletonStoreCredit />
+                                : storeCredit.transaction_history.items.length > 0 ? (
+                                    <>
+                                        {storeCredit.transaction_history.items.map((val, idx) => (
+                                            <TableRow key={idx} className={styles.tableRowResponsive}>
+                                                <TableCell
+                                                    className={styles.tableCellResponsive}
+                                                    align="left"
+                                                    data-th={t('customer:storeCredit:transactionId')}
                                                 >
-                                                    {formatPrice(val.store_credit_adjustment.value, val.store_credit_adjustment.currency)}
-                                                </span>
-                                            </TableCell>
-                                            <TableCell
-                                                className={styles.tableCellResponsive}
-                                                align="left"
-                                                data-th={t('customer:storeCredit:creditbalance')}
-                                            >
-                                                {formatPrice(val.store_credit_balance.value, val.store_credit_balance.currency)}
-                                            </TableCell>
-                                            <TableCell
-                                                className={styles.tableCellResponsive}
-                                                align="left"
-                                                data-th={t('customer:storeCredit:comment')}
-                                            >
-                                                {val.comment}
-                                            </TableCell>
-                                            <TableCell
-                                                className={styles.tableCellResponsive}
-                                                align="left"
-                                                data-th={t('customer:storeCredit:transactionDate')}
-                                            >
-                                                {formatDate(val.transaction_date_time)}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
+                                                    {val.transaction_id}
+                                                </TableCell>
+                                                <TableCell
+                                                    className={styles.tableCellResponsive}
+                                                    align="left"
+                                                    data-th={t('customer:storeCredit:adjustment')}
+                                                >
+                                                    <div className={val.store_credit_adjustment.value < 0
+                                                        ? styles.textRed : styles.textGreen}
+                                                    >
+                                                        {formatPrice(val.store_credit_adjustment.value, val.store_credit_adjustment.currency)}
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell
+                                                    className={styles.tableCellResponsive}
+                                                    align="left"
+                                                    data-th={t('customer:storeCredit:creditbalance')}
+                                                >
+                                                    {formatPrice(val.store_credit_balance.value, val.store_credit_balance.currency)}
+                                                </TableCell>
+                                                <TableCell
+                                                    className={styles.tableCellResponsive}
+                                                    align="left"
+                                                    data-th={t('customer:storeCredit:comment')}
+                                                >
+                                                    {val.comment}
+                                                </TableCell>
+                                                <TableCell
+                                                    className={styles.tableCellResponsive}
+                                                    align="left"
+                                                    data-th={t('customer:storeCredit:transactionDate')}
+                                                >
+                                                    {formatDate(val.transaction_date_time)}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
 
+                                        <TableRow>
+                                            <TablePagination
+                                                rowsPerPageOptions={[10, 20, 50, { label: 'All', value: -1 }]}
+                                                colSpan={5}
+                                                count={storeCredit.transaction_history.total_count}
+                                                rowsPerPage={rowsPerPage}
+                                                page={page}
+                                                SelectProps={{
+                                                    inputProps: { 'aria-label': 'rows per page' },
+                                                    native: true,
+                                                }}
+                                                onChangePage={handleChangePage}
+                                                onChangeRowsPerPage={handleChangeRowsPerPage}
+                                            />
+                                        </TableRow>
+                                    </>
+                                ) : (
                                     <TableRow>
-                                        <TablePagination
-                                            rowsPerPageOptions={[10, 20, 50, { label: 'All', value: -1 }]}
-                                            colSpan={5}
-                                            count={storeCredit.transaction_history.total_count}
-                                            rowsPerPage={rowsPerPage}
-                                            page={page}
-                                            SelectProps={{
-                                                inputProps: { 'aria-label': 'rows per page' },
-                                                native: true,
-                                            }}
-                                            onChangePage={handleChangePage}
-                                            onChangeRowsPerPage={handleChangeRowsPerPage}
-                                        />
+                                        <TableCell colSpan={5}>
+                                            <Alert severity="warning">{t('customer:storeCredit:emptyMessage')}</Alert>
+                                        </TableCell>
                                     </TableRow>
-                                </>
-                            )}
+                                )}
 
                         </TableBody>
                     </Table>

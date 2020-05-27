@@ -58,6 +58,7 @@
     "comment" : "Catatan",
     "transactionDate" : "Tanggal Transalsi",
     "editEmail" : "Ubah Pengaturan Email",
+    "emptyMessage" : "You have no transactions.",
     "item" : "Item"
   },
   "menu": {
