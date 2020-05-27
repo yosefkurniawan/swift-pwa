@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import TableContainer from '@material-ui/core/TableContainer';
 import Link from 'next/link';
 import { formatPrice } from '@helpers/currency';
+import formatDate from '@helpers/date';
 import useStyles from '../style';
 import SkeletonStoreCredit from './skeleton';
 import { getStoreCredit } from '../services';
@@ -103,7 +104,7 @@ const StoreCreditPage = ({ t }) => {
                                                 align="left"
                                                 data-th={t('customer:storeCredit:transactionDate')}
                                             >
-                                                {val.transaction_date_time}
+                                                {formatDate(val.transaction_date_time)}
                                             </TableCell>
                                         </TableRow>
                                     ))}
