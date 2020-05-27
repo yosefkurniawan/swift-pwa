@@ -1,13 +1,44 @@
 /* eslint-disable no-console */
-import { List, ListItem, ListItemText } from '@material-ui/core';
+import {
+    List, ListItem, ListItemText, Grid,
+} from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import Router from 'next/router';
 import Typography from '@components/Typography';
 import gqlService from './service/graphql';
 
+const NotificationListSkeleton = () => {
+    const SkeletonRect = ({ width, height }) => (
+        <Skeleton
+            style={{ margin: '8px 0' }}
+            variant="rect"
+            width={width}
+            height={height}
+            animation="wave"
+        />
+    );
+    const SkeletonItem = () => (
+        <Grid container direction="column">
+            <SkeletonRect width={250} height={16} />
+            <SkeletonRect width={90} height={10} />
+        </Grid>
+    );
+
+    return (
+        <div className="container">
+            {[0, 1, 2, 3, 4].map((i) => (
+                <ListItem key={i} divider>
+                    <SkeletonItem />
+                </ListItem>
+            ))}
+        </div>
+    );
+};
+
 const NotificationList = () => {
     const { loading, data, error } = gqlService.customerNotificationList();
 
-    if (loading) return <p> Loading......</p>;
+    if (loading) return <NotificationListSkeleton />;
     if (error) return <p>{`Error: ${error.message}`}</p>;
     if (!data) return <p>Not found</p>;
 
