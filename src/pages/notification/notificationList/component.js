@@ -3,7 +3,7 @@ import { List, ListItem, ListItemText } from '@material-ui/core';
 import Typography from '@components/Typography';
 import gqlService from './service/graphql';
 
-const Notification = () => {
+const NotificationList = () => {
     const { loading, data, error } = gqlService.customerNotificationList();
 
     if (loading) return <p> Loading......</p>;
@@ -46,4 +46,4 @@ const Notification = () => {
     );
 };
 
-export default Notification;
+export default NotificationList;
