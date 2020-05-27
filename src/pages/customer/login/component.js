@@ -142,7 +142,7 @@ const Login = ({ t, storeConfig, query }) => {
             } else {
                 Router.push('/customer/account');
             }
-        } else if (!called) {
+        } else if (!called && (cartId !== custCartId)) {
             mergeCart({
                 variables: {
                     sourceCartId: cartId,
@@ -160,6 +160,10 @@ const Login = ({ t, storeConfig, query }) => {
                     }
                 })
                 .catch(() => {});
+        } else if (query && query.redirect) {
+            Router.push(query.redirect);
+        } else {
+            Router.push('/customer/account');
         }
     }
 
