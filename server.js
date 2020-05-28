@@ -17,7 +17,7 @@ const fetch = require('cross-fetch');
 const { print } = require('graphql');
 const nextI18NextMiddleware = require('next-i18next/middleware').default;
 const { graphqlEndpoint } = require('./swift.config');
-const { decrypt } = require('./src/helpers/encryption');
+const { decrypt, encrypt } = require('./src/helpers/encryption');
 
 const nextI18next = require('./src/lib/i18n');
 
@@ -29,7 +29,7 @@ const privateKey = '/etc/letsencrypt/live/swiftpwa.testingnow.me/privkey.pem';
 const certificate = '/etc/letsencrypt/live/swiftpwa.testingnow.me/cert.pem';
 
 // const schema = require('./src/api');
-// const root = require('./src/api/root');
+const root = require('./src/api/root');
 
 const { expiredToken, SESSION_SECRET } = require('./swift.config');
 
@@ -52,6 +52,7 @@ const { expiredToken, SESSION_SECRET } = require('./swift.config');
         try {
             let token = '';
             if (context) {
+                console.log(context);
                 token = context.graphqlContext.session.token;
             }
             console.log('request token', token);
@@ -78,6 +79,13 @@ const { expiredToken, SESSION_SECRET } = require('./swift.config');
                         data: response.data,
                     };
                 }
+            }
+            // save token to context
+            if (response.data && response.data.generateCustomerTokenCustom) {
+                context.graphqlContext.session.token = encrypt(response.data.generateCustomerTokenCustom.token);
+            } else if (response.data && typeof response.data.revokeCustomerToken) {
+            // remove session from context
+                context.graphqlContext.session.token = '';
             }
             return response;
         } catch (error) {

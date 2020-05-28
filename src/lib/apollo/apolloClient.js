@@ -26,11 +26,13 @@ const uriInternal = process.env.NODE_ENV === 'production'
     : graphqlInternalEndpoint.dev;
 
 // handle if token expired
-const logoutLink = onError(({ graphQLErrors }) => {
+const logoutLink = onError((err) => {
+    const { graphQLErrors } = err;
+    console.log(err);
     if (graphQLErrors && graphQLErrors[0] && graphQLErrors[0].status === 401 && typeof window !== 'undefined') {
         removeCartId();
         removeIsLoginFlagging();
-        window.location.href = '/customer/account/login';
+        // window.location.href = '/customer/account/login';
     }
 });
 
