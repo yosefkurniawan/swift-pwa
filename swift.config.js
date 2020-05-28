@@ -81,7 +81,7 @@ const expiredToken = new Date(Date.now() + 1000 * 60 * 60);
 const expiredDefault = 365;
 
 /* List Of CMS Pages: [url-1, url-2, ..., url-n] */
-const cmsPages = ['about-us'];
+const cmsPages = ['about-us', 'aw-reward-points'];
 
 const loaderImage = '/assets/img/sample/spinner.svg';
 

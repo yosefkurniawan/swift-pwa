@@ -70,12 +70,18 @@
     "address": "Address Book",
     "setting": "Settings",
     "storeCredit": "Store Credit & Refund",
-    "readMore": "Read More"
+    "readMore": "Read More",
+    "rewardPoint": "Reward Points"
   },
   "giftCard": {
     "notFound": "You not have gift card item",
     "inputSearch": "Enter Gift Card code",
     "buttonSearch": "Check status & balance",
     "required": "Code is required"
+  },
+  "rewardPoint": {
+    "balanceTitle": "Your current balance is ",
+    "canbeTitle": "Total can be redeem at checkout is ",
+    "learnMore": "To learn abaout point reward program. $ Click here"
   }
 }

@@ -5,7 +5,7 @@ import { formatPrice } from '@helpers/currency';
 import useStyles from './style';
 
 const ItemOrder = ({
-    status_label, order_number, detail, id, t,
+    status_label, order_number, detail, id, t, created_at,
 }) => {
     const styles = useStyles();
     return (
@@ -36,7 +36,7 @@ const ItemOrder = ({
                     </div>
                     <div className={styles.detailContent}>
                         <Typography variant="span" letter="capitalize" className="clear-margin-padding">
-                            {moment().format('DD/M/YYYY')}
+                            {moment(created_at).format('DD/M/YYYY')}
                         </Typography>
                         <Typography variant="span" letter="capitalize" className="clear-margin-padding">
                             { detail[0].items.length }
