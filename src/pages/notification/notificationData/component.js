@@ -44,7 +44,8 @@ const NotificationData = () => {
     const {
         called, loading, data, error,
     } = readNotificationStatus;
-    if (loading || !called) return <NotificationDataSkeleton />;
+    if (!called) return null;
+    if (loading) return <NotificationDataSkeleton />;
     if (error) return <p>{`Error: ${error.message}`}</p>;
     if (!data) return <p>Not found</p>;
 
