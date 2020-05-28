@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {
     List, ListItem, ListItemText, Grid,
 } from '@material-ui/core';
@@ -50,7 +49,6 @@ const NotificationList = () => {
     );
 
     const handleItemClick = (item) => {
-        console.log(item);
         Router.push({
             pathname: '/inboxnotification/notification/data',
             query: { notif: item.entityId },
