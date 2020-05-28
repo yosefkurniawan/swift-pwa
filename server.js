@@ -1,15 +1,24 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 
-const { ApolloServer, gql } = require('apollo-server-express');
+const {
+    ApolloServer,
+    gql,
+    introspectSchema,
+    makeRemoteExecutableSchema,
+} = require('apollo-server-express');
 const cookieSession = require('cookie-session');
 const express = require('express');
 const next = require('next');
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
-
+const fetch = require('cross-fetch');
+const { print } = require('graphql');
 const nextI18NextMiddleware = require('next-i18next/middleware').default;
+const { graphqlEndpoint } = require('./swift.config');
+const { decrypt } = require('./src/helpers/encryption');
+
 const nextI18next = require('./src/lib/i18n');
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
@@ -19,8 +28,9 @@ const handle = app.getRequestHandler();
 const privateKey = '/etc/letsencrypt/live/swiftpwa.testingnow.me/privkey.pem';
 const certificate = '/etc/letsencrypt/live/swiftpwa.testingnow.me/cert.pem';
 
-const schema = require('./src/api');
-const root = require('./src/api/root');
+// const schema = require('./src/api');
+// const root = require('./src/api/root');
+
 const { expiredToken, SESSION_SECRET } = require('./swift.config');
 
 (async () => {
@@ -35,10 +45,54 @@ const { expiredToken, SESSION_SECRET } = require('./swift.config');
         maxAge: expiredToken,
     }));
 
+    // make remote schema
+    const fetcher = async ({
+        query: queryDocument, variables, operationName, context,
+    }) => {
+        try {
+            let token = '';
+            if (context) {
+                token = context.graphqlContext.session.token;
+            }
+            console.log('request token', token);
+            const query = print(queryDocument);
+            const fetchResult = await fetch(process.env.NODE_ENV === 'production' ? graphqlEndpoint.prod : graphqlEndpoint.dev, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: token ? `Bearer ${decrypt(token)}` : '',
+                },
+                body: JSON.stringify({ query, variables, operationName }),
+            });
+            const response = await fetchResult.json();
+            if (response.errors) {
+                const err = response.errors[0];
+                if (err.extensions.category === 'graphql-authorization') {
+                    return {
+                        errors: [
+                            {
+                                message: err.extensions.category,
+                                extensions: err.extensions,
+                            },
+                        ],
+                        data: response.data,
+                    };
+                }
+            }
+            return response;
+        } catch (error) {
+            return error;
+        }
+    };
+
+    const schema = makeRemoteExecutableSchema({
+        schema: await introspectSchema(fetcher),
+        fetcher,
+    });
+
     // handle server graphql endpoint use `/graphql`
     const serverGraph = new ApolloServer({
         schema,
-        rootValue: root,
         context: ({ req }) => req,
         playground: {
             endpoint: '/graphql',
@@ -47,15 +101,16 @@ const { expiredToken, SESSION_SECRET } = require('./swift.config');
             },
         },
         formatError: (err) => {
-            console.log(err);
-            const error = err.extensions.exception.response.errors[0];
-            return {
-                message: error.message,
-                extensions: error.extensions,
-                location: error.location,
-                path: error.path,
-                status: error.extensions.category === 'graphql-authorization' ? 401 : 200,
-            };
+            if (err.message === 'graphql-authorization') {
+                return {
+                    message: err.message,
+                    extensions: {
+                        category: 'graphql-authorization',
+                    },
+                    status: 401,
+                };
+            }
+            return err;
         },
     });
     serverGraph.applyMiddleware({ app: server });
