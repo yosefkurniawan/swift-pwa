@@ -35,20 +35,24 @@ export default ({ t, isLogin }) => {
                         <a className={styles.account_navigation_link}>{t('customer:menu:contactUs')}</a>
                     </Link>
                 </li>
-                {isLogin && (
-                    <>
-                        <li className={styles.account_navigation_item}>
-                            <Link href="/inboxnotification/notification">
-                                <a className={styles.account_navigation_link}>{t('notification:notification')}</a>
-                            </Link>
-                        </li>
-                        <li className={styles.account_navigation_item}>
-                            <Button className={styles.account_navigation_link} onClick={handleLogout} variant="text">
-                                {t('customer:button:logout')}
-                            </Button>
-                        </li>
-                    </>
-                )}
+                {
+                    isLogin
+                        ? (
+                            <>
+                                <li className={styles.account_navigation_item}>
+                                    <Link href="/inboxnotification/notification">
+                                        <a className={styles.account_navigation_link}>{t('notification:notification')}</a>
+                                    </Link>
+                                </li>
+                                <li className={styles.account_navigation_item}>
+                                    <Button className={styles.account_navigation_link} onClick={handleLogout} variant="text">
+                                        {t('customer:button:logout')}
+                                    </Button>
+                                </li>
+                            </>
+                        )
+                        : null
+                }
             </ul>
         </div>
     );
