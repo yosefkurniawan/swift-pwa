@@ -153,7 +153,10 @@ const Summary = ({
                     },
                 });
 
-                getCustCartId();
+                if (checkout.data.isGuest) {
+                    getCustCartId();
+                }
+
                 setSnapOpened(true);
             },
             onClose() {
@@ -163,7 +166,10 @@ const Summary = ({
                     },
                 });
 
-                getCustCartId();
+                if (checkout.data.isGuest) {
+                    getCustCartId();
+                }
+
                 setSnapOpened(true);
             },
         });
@@ -171,22 +177,29 @@ const Summary = ({
     // End - Manage Snap Pop Up When Opened (Waitinge Response From SnapToken)
 
     // Start - Process Snap Pop Up Close (Waitinge Response From Reorder)
-    if (snapStatus.data && manageCustCartId.data && !manageMergeCart.called) {
+    if (snapStatus.data && manageCustCartId.data && (checkout.data.isGuest ? !manageMergeCart.called : true)) {
         const { cart_id } = snapStatus.data.getSnapOrderStatusByOrderId;
-        const { id: customerCartId } = manageCustCartId.data.customerCart;
 
-        mergeCart({
-            variables: {
-                sourceCartId: cart_id,
-                destionationCartId: customerCartId,
-            },
-        }).then(() => {
-            setCartId(customerCartId);
+        if (checkout.data.isGuest) {
+            const { id: customerCartId } = manageCustCartId.data.customerCart;
+
+            mergeCart({
+                variables: {
+                    sourceCartId: cart_id,
+                    destionationCartId: customerCartId,
+                },
+            }).then(() => {
+                setCartId(customerCartId);
+                setOrderId(null);
+                Routes.push('/checkout/cart');
+            }).catch(() => {
+                Routes.push('/checkout/cart');
+            });
+        } else {
+            setCartId(cart_id);
             setOrderId(null);
             Routes.push('/checkout/cart');
-        }).catch(() => {
-            Routes.push('/checkout/cart');
-        });
+        }
     }
     // End - Process Snap Pop Up Close (Waitinge Response From Reorder)
 
