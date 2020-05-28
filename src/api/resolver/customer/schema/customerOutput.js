@@ -87,6 +87,62 @@ const customerOutput = `
     lastname
     email
     is_subscribed
+    addresses {
+      id
+      city
+      default_billing
+      default_shipping
+      custom_attributes {
+          attribute_code
+          value
+      }
+      extension_attributes {
+          attribute_code
+          value
+      }
+      firstname
+      lastname
+      postcode
+      country_code
+      region {
+          region
+          region_code
+      }
+      street
+      telephone
+    }
+    wishlist {
+        id
+        items {
+            id
+            product {
+                ${productDetail}
+                ${priceRange}
+                ${priceTiers}
+            }
+        }
+    }
+    store_credit {
+      current_balance {
+          value
+      }
+      enabled
+    }
+    gift_card {
+      giftcard_code
+      giftcard_balance
+    }
+`;
+
+const customerOutputComplete = `
+    id
+    firstname
+    middlename
+    suffix
+    prefix
+    lastname
+    email
+    is_subscribed
     store_credit {
       current_balance {
         currency
@@ -163,4 +219,4 @@ const customerOutput = `
     }
 `;
 
-module.exports = customerOutput;
+module.exports = { customerOutput, customerOutputComplete };

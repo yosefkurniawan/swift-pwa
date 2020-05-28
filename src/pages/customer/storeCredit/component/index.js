@@ -30,6 +30,10 @@ const StoreCreditPage = ({ t }) => {
         setPage(0);
     };
     let storeCredit = {
+        current_balance: {
+            value: 0,
+            currency: 'USD',
+        },
         transaction_history: {
             items: [],
         },
@@ -49,7 +53,7 @@ const StoreCreditPage = ({ t }) => {
                 {t('customer:storeCredit:balance')}
                 {' '}
                 <b>
-                    {storeCredit.current_balance && storeCredit.current_balance.value
+                    {storeCredit.current_balance && storeCredit.current_balance.value !== null
                         ? formatPrice(storeCredit.current_balance.value, storeCredit.current_balance.currency) : ''}
                 </b>
             </p>
@@ -74,43 +78,103 @@ const StoreCreditPage = ({ t }) => {
                                         {storeCredit.transaction_history.items.map((val, idx) => (
                                             <TableRow key={idx} className={styles.tableRowResponsive}>
                                                 <TableCell
-                                                    className={styles.tableCellResponsive}
                                                     align="left"
                                                     data-th={t('customer:storeCredit:transactionId')}
                                                 >
-                                                    {val.transaction_id}
+                                                    <table>
+                                                        <tr>
+                                                            <td className={styles.cellChildLeft}>
+                                                                <b>
+                                                                    {t('customer:storeCredit:transactionId')}
+                                                                </b>
+                                                            </td>
+                                                            <td className={styles.cellChildMiddle}>:</td>
+                                                            <td>
+                                                                {val.transaction_id}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
                                                 </TableCell>
                                                 <TableCell
-                                                    className={styles.tableCellResponsive}
                                                     align="left"
                                                     data-th={t('customer:storeCredit:adjustment')}
                                                 >
-                                                    <div className={val.store_credit_adjustment.value < 0
-                                                        ? styles.textRed : styles.textGreen}
-                                                    >
-                                                        {formatPrice(val.store_credit_adjustment.value, val.store_credit_adjustment.currency)}
-                                                    </div>
+                                                    <table>
+                                                        <tr>
+                                                            <td className={styles.cellChildLeft}>
+                                                                <b>
+                                                                    {t('customer:storeCredit:adjustment')}
+                                                                </b>
+                                                            </td>
+                                                            <td className={styles.cellChildMiddle}>:</td>
+                                                            <td>
+                                                                <div className={val.store_credit_adjustment.value < 0
+                                                                    ? styles.textRed : styles.textGreen}
+                                                                >
+                                                                    {
+                                                                        formatPrice(val.store_credit_adjustment.value,
+                                                                            val.store_credit_adjustment.currency)
+                                                                    }
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+
                                                 </TableCell>
                                                 <TableCell
-                                                    className={styles.tableCellResponsive}
                                                     align="left"
                                                     data-th={t('customer:storeCredit:creditbalance')}
                                                 >
-                                                    {formatPrice(val.store_credit_balance.value, val.store_credit_balance.currency)}
+                                                    <table>
+                                                        <tr>
+                                                            <td className={styles.cellChildLeft}>
+                                                                <b>
+                                                                    {t('customer:storeCredit:creditbalance')}
+                                                                </b>
+                                                            </td>
+                                                            <td className={styles.cellChildMiddle}>:</td>
+                                                            <td>
+                                                                {formatPrice(val.store_credit_balance.value, val.store_credit_balance.currency)}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
                                                 </TableCell>
                                                 <TableCell
-                                                    className={styles.tableCellResponsive}
                                                     align="left"
                                                     data-th={t('customer:storeCredit:comment')}
                                                 >
-                                                    {val.comment}
+                                                    <table>
+                                                        <tr>
+                                                            <td className={styles.cellChildLeft}>
+                                                                <b>
+                                                                    {t('customer:storeCredit:comment')}
+                                                                </b>
+                                                            </td>
+                                                            <td className={styles.cellChildMiddle}>:</td>
+                                                            <td>
+                                                                {val.comment}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
                                                 </TableCell>
                                                 <TableCell
-                                                    className={styles.tableCellResponsive}
                                                     align="left"
                                                     data-th={t('customer:storeCredit:transactionDate')}
                                                 >
-                                                    {formatDate(val.transaction_date_time)}
+                                                    <table>
+                                                        <tr>
+                                                            <td className={styles.cellChildLeft}>
+                                                                <b>
+                                                                    {t('customer:storeCredit:transactionDate')}
+                                                                </b>
+                                                            </td>
+                                                            <td className={styles.cellChildMiddle}>:</td>
+                                                            <td>
+                                                                {formatDate(val.transaction_date_time)}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+
                                                 </TableCell>
                                             </TableRow>
                                         ))}

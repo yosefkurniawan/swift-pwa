@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 const requestGraph = require('../../graphql-request');
-const customerOutput = require('./schema/customerOutput');
+const { customerOutput } = require('./schema/customerOutput');
 
 const query = `
     mutation updateCustomer(

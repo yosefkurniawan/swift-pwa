@@ -52,8 +52,8 @@
   },
   "storeCredit" : {
     "balance" : "Your current balance is: ",
-    "transactionId" : "Transaction ID: ",
-    "adjustment" : "Store Credit Adjustment: ",
+    "transactionId" : "Transaction ID ",
+    "adjustment" : "Store Credit Adjustment ",
     "creditbalance" : "Store Credit Balance",
     "comment" : "Comment",
     "transactionDate" : "Transaction Date",

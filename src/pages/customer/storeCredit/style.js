@@ -40,6 +40,17 @@ export default makeStyles((theme) => ({
             },
         },
     },
+    cellChildLeft: {
+        [theme.breakpoints.up('md')]: {
+            display: 'none',
+        },
+        width: '180px',
+    },
+    cellChildMiddle: {
+        [theme.breakpoints.up('md')]: {
+            display: 'none',
+        },
+    },
     editLink: {
         marginTop: 20,
     },
