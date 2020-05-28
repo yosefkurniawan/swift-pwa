@@ -77,8 +77,5 @@
     "inputSearch": "Enter Gift Card code",
     "buttonSearch": "Check status & balance",
     "required": "Code is required"
-  },
-  "notification": {
-    "pageTitle" : "Notification"
   }
 }

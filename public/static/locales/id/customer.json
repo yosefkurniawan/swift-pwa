@@ -77,8 +77,5 @@
     "inputSearch": "Masukan kode gift card",
     "buttonSearch": "Cek sisa dan status",
     "required": "Code tidak boleh kosong"
-  },
-  "notification": {
-    "pageTitle" : "Notification"
   }
 }
