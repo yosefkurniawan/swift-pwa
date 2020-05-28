@@ -1,7 +1,7 @@
 {
     "pageTitle": "Wishlist",
     "title" : "Wishlist",
-    "removeSucess": "remove wishlist success",
+    "removeSuccess": "remove wishlist success",
     "removeFailed": "remove wishlist failed",
     "addToBag": "add to bag",
     "addAllToBag": "add all to bag",

@@ -136,16 +136,13 @@ const customerSchema = makeExecutableSchema({
             suffix: String
             taxvat: String
         }
-        
+
         type UpdateCustomerOutput {
             customer: Customer
         }
 
         type Query {
-            customer (
-                pageSizeStoreCredit: Int = 10
-                currentPageStoreCredit: Int = 1
-            ): Customer
+            customer(pageSizeStoreCredit: Int = 10, currentPageStoreCredit: Int = 1): Customer
         }
 
         input CustomerAddressRegionInput {
@@ -180,13 +177,36 @@ const customerSchema = makeExecutableSchema({
             region: CustomerAddressRegionInput
         }
 
+        input CustomerCustomInput {
+            date_of_birth: String
+            dob: String
+            email: String
+            firstname: String
+            gender: Int
+            is_subscribed: Boolean
+            lastname: String
+            middlename: String
+            otp: String
+            password: String
+            phonenumber: String
+            prefix: String
+            suffix: String
+            taxvat: String
+        }
+
+        type CustomerOutput {
+            customer: Customer!
+            token: String
+        }
+
         type Mutation {
             updateCustomer(input: UpdateCustomerInput): UpdateCustomerOutput
             changeCustomerPassword(currentPassword: String!, newPassword: String!): Customer
             addProductToWishlist(productId: Int!): AddProductToWishlistOutput
             removeItemWishlist(wishlistItemId: Int!): RemoveItemWishlistOutput
-            createCustomerAddress(input: CustomerAddressInput) : CustomerAddress
-            updateCustomerAddress(id: Int!, input: CustomerAddressInput) : CustomerAddress
+            createCustomerAddress(input: CustomerAddressInput): CustomerAddress
+            updateCustomerAddress(id: Int!, input: CustomerAddressInput): CustomerAddress
+            createCustomerCustom(input: CustomerCustomInput!): CustomerOutput
         }
     `,
 });

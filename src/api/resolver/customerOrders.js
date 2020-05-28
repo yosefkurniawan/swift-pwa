@@ -14,6 +14,7 @@ query getCustomerOrder($pageSize: Int, $currentPage: Int){
             status
             status_label
             order_number
+            created_at
             detail {
                 customer_email
                 customer_firstname

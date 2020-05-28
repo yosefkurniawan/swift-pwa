@@ -140,6 +140,27 @@ export const getCustomer = gql`
   }
 `;
 
+export const getRewardPoint = gql`
+query {
+  customerRewardPoints {
+    balance
+    balanceCurrency
+    formatedBalanceCurrency 
+    formatedSpendRate
+    spendRate
+    transactionCount
+    transaction {
+      transactionId
+      balance
+      comment
+      expirationDate
+      points
+      transactionDate
+    }
+  }
+}
+`;
+
 export default {
     addWishlist,
     getCustomer,

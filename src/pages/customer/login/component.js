@@ -123,7 +123,7 @@ const Login = ({ t, storeConfig, query }) => {
                     setLoading(false);
                     handleOpenMessage({
                         variant: 'error',
-                        text: e.message.split(':')[1] || 'Login Failed!',
+                        text: e.message.split(':')[1] || t('customer:login:failed'),
                     });
                 });
         },
@@ -136,7 +136,7 @@ const Login = ({ t, storeConfig, query }) => {
         if (cartId === '' || !cartId) {
             setCartId(custCartId, expired);
             setLoading(false);
-            handleOpenMessage({ variant: 'success', text: 'Login Success!' });
+            handleOpenMessage({ variant: 'success', text: t('customer:login:success') });
             if (query && query.redirect) {
                 Router.push(query.redirect);
             } else {
@@ -152,7 +152,7 @@ const Login = ({ t, storeConfig, query }) => {
                 .then(() => {
                     setCartId(custCartId, expired);
                     setLoading(false);
-                    handleOpenMessage({ variant: 'success', text: 'Login Success!' });
+                    handleOpenMessage({ variant: 'success', text: t('customer:login:success') });
                     if (query && query.redirect) {
                         Router.push(query.redirect);
                     } else {

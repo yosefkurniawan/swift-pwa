@@ -13,6 +13,7 @@ export const getOrder = () => gql`
                 status
                 status_label
                 order_number
+                created_at
                 detail {
                     customer_email
                     customer_firstname

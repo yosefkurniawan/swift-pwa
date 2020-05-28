@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import Typography from '@components/Typography';
-import moment from 'moment';
+import formatDate from '@helpers/date';
 import Avatar from 'react-avatar';
 import useStyles from './style';
 import RatingStar from '../RatingStar';
@@ -39,7 +39,7 @@ const CustomerReview = (props) => {
                             letter="capitalize"
                             className="clear-margin-padding"
                         >
-                            {moment(date).format('DD/M/YYYY')}
+                            {formatDate(date)}
                         </Typography>
                     </div>
                 </div>

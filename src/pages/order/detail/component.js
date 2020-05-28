@@ -4,7 +4,7 @@
 import React from 'react';
 import Typography from '@components/Typography';
 import classNames from 'classnames';
-import moment from 'moment';
+import formatDate from '@helpers/date';
 import { formatPrice } from '@helpers/currency';
 import Alert from '@material-ui/lab/Alert';
 import useStyles from './style';
@@ -52,7 +52,7 @@ const DetailOrder = ({ t, detail, currency }) => {
                         {' '}
                         {detail[0].status_label || ''}
                     </Typography>
-                    <Typography variant="span">{moment().format('MMM DD, YYYY')}</Typography>
+                    <Typography variant="span">{formatDate(detail[0].created_at)}</Typography>
                     <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                         {t('order:shippedTo')}
                     </Typography>
