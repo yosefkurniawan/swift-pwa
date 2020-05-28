@@ -4,6 +4,7 @@ import Typography from '@components/Typography';
 import TagManager from 'react-gtm-module';
 import gqlService from '../../services/graphql';
 import DeliveryItem from '../RadioDeliveryItem';
+import { useEffect } from 'react';
 
 const Loader = () => (
     <>
@@ -25,6 +26,8 @@ const Payment = ({
     const { loading, data, selected } = checkout;
     const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
     let content;
+
+    useEffect(() => {}, data.paymentMethod);
 
     const handlePayment = async (val) => {
         const { cart } = checkout.data;
