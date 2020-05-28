@@ -29,39 +29,25 @@ const WithToken = (props) => {
         }));
     }
 
+    const pushIf = (condition, ...elements) => (condition ? elements : []);
+
     const menu = [
-        {
-            href: '/sales/order/history',
-            title: t('customer:menu:myOrder'),
-        }, {
-            href: '/customer/account/profile',
-            title: t('customer:menu:myAccount'),
-        }, {
-            href: '/customer/account/address',
-            title: t('customer:menu:address'),
-        }, {
-            href: '/customer/setting',
-            title: t('customer:menu:setting'),
-        },
+        { href: '/sales/order/history', title: t('customer:menu:myOrder') },
+        { href: '/customer/account/profile', title: t('customer:menu:myAccount') },
+        { href: '/customer/account/address', title: t('customer:menu:address') },
+        ...pushIf(wishlist.length <= 0, {
+            href: '/wishlist', title: 'Wishlist',
+        }),
+        ...pushIf(customerFeautres.giftCard, {
+            href: '/awgiftcard/card', title: 'Gift Card',
+        }),
+        ...pushIf(customerFeautres.storeCredit, {
+            href: '/customer/account/storecredit', title: t('customer:menu:storeCredit'),
+        }),
+        { href: '/inboxnotification/notification', title: t('notification:notification') },
+        { href: '/customer/setting', title: t('customer:menu:setting') },
     ];
-    if (wishlist.length <= 0) {
-        menu.push({
-            href: '/wishlist',
-            title: 'Wishlist',
-        });
-    }
-    if (customerFeautres.giftCard) {
-        menu.push({
-            href: '/awgiftcard/card',
-            title: 'Gift Card',
-        });
-    }
-    if (customerFeautres.storeCredit) {
-        menu.push({
-            href: '/customer/account/storecredit',
-            title: t('customer:menu:storeCredit'),
-        });
-    }
+
     return (
         <div className={styles.root}>
             <div className={styles.account_wrapper}>
