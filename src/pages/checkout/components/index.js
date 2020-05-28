@@ -13,7 +13,8 @@ import useStyles from '../style';
 import Address from './Address';
 import DiscountSection from './DiscountSection';
 import Email from './Email';
-import Payment from './Payment';
+// import Payment from './Payment';
+import PaymentList from './PaymentList';
 import Shipping from './Shipping';
 import Summary from './Summary';
 
@@ -22,7 +23,9 @@ const Checkout = (props) => {
     const styles = useStyles();
     let storeConfig = {};
     if (typeof window !== 'undefined') {
-        storeConfig = cookies.getJSON(storeConfigNameCokie);
+        storeConfig = {
+            ...cookies.getJSON(storeConfigNameCokie),
+        };
     }
     const [checkout, setCheckout] = useState({
         order_id: '',
@@ -37,7 +40,7 @@ const Checkout = (props) => {
             credit: 0,
             message: {
                 open: false,
-                text: '',
+                text: 'default',
                 variant: '',
             },
             defaultAddress: null,
@@ -247,11 +250,17 @@ const Checkout = (props) => {
         }
     }, [manageCustomer.data, dataCart]);
 
-    const handleOpenMessage = ({ variant, text }) => {
+    const handleCloseMessage = () => {
+        const state = { ...checkout };
+        state.data.message.open = false;
+        setCheckout(state);
+    };
+
+    const handleOpenMessage = async ({ variant, text }) => {
         const state = { ...checkout };
         state.data.message.variant = variant;
         state.data.message.text = text;
-        state.data.message.open = !checkout.data.message.open;
+        state.data.message.open = true;
         setCheckout(state);
     };
 
@@ -260,7 +269,7 @@ const Checkout = (props) => {
             <Message
                 open={checkout.data.message.open}
                 variant={checkout.data.message.variant}
-                setOpen={handleOpenMessage}
+                setOpen={handleCloseMessage}
                 message={checkout.data.message.text}
             />
             <Backdrop open={checkout.status.backdrop} />
@@ -288,7 +297,7 @@ const Checkout = (props) => {
                     styles={styles}
                     storeConfig={storeConfig}
                 />
-                <Payment
+                <PaymentList
                     checkout={checkout}
                     setCheckout={setCheckout}
                     updateFormik={updateFormik}
@@ -297,6 +306,15 @@ const Checkout = (props) => {
                     t={t}
                     storeConfig={storeConfig}
                 />
+                {/* <Payment
+                    checkout={checkout}
+                    setCheckout={setCheckout}
+                    updateFormik={updateFormik}
+                    handleOpenMessage={handleOpenMessage}
+                    styles={styles}
+                    t={t}
+                    storeConfig={storeConfig}
+                /> */}
                 <DiscountSection
                     t={t}
                     checkout={checkout}
@@ -304,6 +322,7 @@ const Checkout = (props) => {
                     handleOpenMessage={handleOpenMessage}
                     formik={formik}
                     styles={styles}
+                    storeConfig={storeConfig}
                 />
             </div>
             <Summary
@@ -314,7 +333,9 @@ const Checkout = (props) => {
                 updateFormik={updateFormik}
                 setCheckout={setCheckout}
                 handleOpenMessage={handleOpenMessage}
+                styles={styles}
                 formik={formik}
+                storeConfig={storeConfig}
             />
         </div>
     );

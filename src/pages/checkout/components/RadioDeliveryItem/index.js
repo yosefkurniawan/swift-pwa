@@ -12,12 +12,27 @@ const RadioDeliveryItem = (props) => {
         selected,
         onChange,
         borderBottom = true,
+        image = null,
     } = props;
     const handleChange = () => {
         onChange(value);
     };
     const labelType = selected ? 'bold' : 'regular';
     const rootStyle = borderBottom ? styles.root : styles.rootRmBorder;
+    let rightSide;
+
+    if (image) {
+        rightSide = <img src={image} className={styles.imgList} alt="cimb" />;
+    }
+
+    if (value && value.price) {
+        rightSide = (
+            <Typography variant="p" type={labelType}>
+                {value.price}
+            </Typography>
+        );
+    }
+
     return (
         <div className={rootStyle} onClick={handleChange}>
             <Radio color="default" size="small" checked={selected} />
@@ -25,13 +40,7 @@ const RadioDeliveryItem = (props) => {
                 <Typography variant="p" type={labelType}>
                     {label}
                 </Typography>
-                {value.image ? (
-                    <img src={value.image} className={styles.imgList} alt="cimb" />
-                ) : (
-                    <Typography variant="p" type={labelType}>
-                        {value.price}
-                    </Typography>
-                )}
+                {rightSide}
             </div>
         </div>
     );

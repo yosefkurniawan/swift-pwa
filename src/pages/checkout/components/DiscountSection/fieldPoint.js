@@ -8,7 +8,7 @@ const FieldPoint = ({
     value = '',
     placeholder = '',
     action,
-    disabled,
+    disabled = false,
     id = null,
     name = null,
     error,
@@ -21,7 +21,7 @@ const FieldPoint = ({
         <TextField
             id={id}
             name={name}
-            disabled={disabled || toggleField}
+            disabled={!!(disabled || toggleField)}
             value={value}
             onChange={onChange}
             placeholder={placeholder}
@@ -33,12 +33,7 @@ const FieldPoint = ({
                 <Typography variant="p" color={loading || disabled || value === '' ? 'gray' : 'default'} type="bold" letter="uppercase">
                     {toggleField ? 'Remove' : 'Apply'}
                 </Typography>
-                {loading && (
-                    <CircularProgress
-                        className={styles.smallCircular}
-                        size={16}
-                    />
-                )}
+                {loading && <CircularProgress className={styles.smallCircular} size={16} />}
             </Button>
         </div>
     </div>

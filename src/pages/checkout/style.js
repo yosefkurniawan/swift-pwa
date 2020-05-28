@@ -112,4 +112,7 @@ export default makeStyles(() => ({
         marginLeft: '5px',
         marginRight: '5px',
     },
+    paymentExpansionContainer: {
+        marginTop: '10px',
+    },
 }));

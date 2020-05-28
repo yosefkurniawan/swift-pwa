@@ -401,6 +401,7 @@ export const getSnapOrderStatusByOrderId = gql`
             order_id
             status_message
             success
+            cart_id
         }
     }
 `;

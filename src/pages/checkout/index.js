@@ -5,8 +5,14 @@ import redirect from 'next-redirect';
 import Head from 'next/head';
 import Content from './components';
 
+const snapUrl = {
+    dev: 'https://app.sandbox.midtrans.com/snap/snap.js',
+    prod: 'https://app.midtrans.com/snap/snap.js',
+};
+
 const Page = (props) => {
-    const { t } = props;
+    const { t, storeConfig } = props;
+    const { snap_is_production, snap_client_key } = storeConfig;
     const pageConfig = {
         title: t('checkout:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)
@@ -14,10 +20,17 @@ const Page = (props) => {
         bottomNav: false,
         pageType: 'checkout',
     };
+
+    const url = snap_is_production ? snapUrl.dev : snapUrl.prod;
+
     return (
         <Layout pageConfig={pageConfig} {...props}>
             <Head>
-                <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-KyvADD67-pyuS-I6" />
+                <script
+                    type="text/javascript"
+                    src={url}
+                    data-client-key={snap_client_key}
+                />
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <Content {...props} />
