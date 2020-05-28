@@ -1,11 +1,12 @@
 import { makeStyles } from '@material-ui/core';
-import {
-    FlexColumn,
-} from '@theme/mixins';
+import { FlexColumn, FlexRow } from '@theme/mixins';
 
 import { RED, GREEN } from '@theme/colors';
 
 export default makeStyles((theme) => ({
+    displayFlexRow: {
+        ...FlexRow,
+    },
     container: {
         ...FlexColumn,
         width: '100%',
@@ -13,10 +14,14 @@ export default makeStyles((theme) => ({
         fontSize: '12px',
         padding: 15,
     },
-    tableContainer: {
+    tableOuterContainer: {
         paddingTop: 10,
     },
+    tableContainer: {
+        boxShadow: 'none',
+    },
     table: {
+        borderTop: '1px solid rgba(224, 224, 224, 1)',
         width: '100%',
     },
     tableRowHead: {
@@ -27,23 +32,36 @@ export default makeStyles((theme) => ({
     tableRowResponsive: {
         [theme.breakpoints.down('sm')]: {
             display: 'grid !important',
-            border: '1px solid rgba(224, 224, 224, 1)',
+            borderBottom: '1px solid rgba(224, 224, 224, 1)',
+            padding: 10,
         },
     },
     tableCellResponsive: {
         [theme.breakpoints.down('sm')]: {
             border: 'none',
+            padding: '8px 0',
         },
     },
-    cellChildLeft: {
+    mobLabel: {
         [theme.breakpoints.up('md')]: {
             display: 'none',
         },
-        width: '180px',
+        width: '40%',
+        minWidth: '130px',
+        maxWidth: '200px',
+        position: 'relative',
+        paddingRight: 20,
+        '&::after': {
+            content: "':'",
+            display: 'block',
+            position: 'absolute',
+            right: '8px',
+            top: 0,
+        },
     },
-    cellChildMiddle: {
-        [theme.breakpoints.up('md')]: {
-            display: 'none',
+    value: {
+        [theme.breakpoints.down('sm')]: {
+            width: '60%',
         },
     },
     editLink: {
