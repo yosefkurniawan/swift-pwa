@@ -1,4 +1,5 @@
-{   
+{
+  "notification": "Pemberitahuan",
   "notificationList": {
     "pageTitle" : "Daftar Pemberitahuan"
   },

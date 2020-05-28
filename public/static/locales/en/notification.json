@@ -1,4 +1,5 @@
-{   
+{
+  "notification": "Notification",
   "notificationList": {
     "pageTitle" : "Notification List"
   },
