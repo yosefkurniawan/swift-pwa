@@ -1,8 +1,17 @@
 import Radio from '@components/Forms/Radio';
 import Typography from '@components/Typography';
 import TagManager from 'react-gtm-module';
+import Skeleton from '@material-ui/lab/Skeleton';
 import gqlService from '../../services/graphql';
 import DeliveryItem from '../RadioDeliveryItem';
+
+const Loader = () => (
+    <>
+        <Skeleton variant="rect" width="100%" height={20} animation="wave" style={{ marginBottom: 10 }} />
+        <Skeleton variant="rect" width="100%" height={20} animation="wave" style={{ marginBottom: 10 }} />
+        <Skeleton variant="rect" width="100%" height={20} animation="wave" style={{ marginBottom: 10 }} />
+    </>
+);
 
 const Shipping = ({
     t, checkout, setCheckout, updateFormik, handleOpenMessage, styles,
@@ -91,7 +100,7 @@ const Shipping = ({
     };
 
     if (loading.shipping || loading.addresses || loading.all) {
-        content = <Typography variant="p">Loading</Typography>;
+        content = <Loader />;
     } else if (data.shippingMethods.length !== 0) {
         content = (
             <Radio

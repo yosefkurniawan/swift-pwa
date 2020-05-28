@@ -1,3 +1,4 @@
+import Skeleton from '@material-ui/lab/Skeleton';
 import AddressFormDialog from '@components/AddressFormDialog';
 import Button from '@components/Button';
 import Typography from '@components/Typography';
@@ -10,6 +11,14 @@ import cookies from 'js-cookie';
 import gqlService from '../../services/graphql';
 
 const CLOSE_ADDRESS_DIALOG = 750;
+
+const Loader = () => (
+    <>
+        <Skeleton width="100%" variant="text" animation="wave" height={10} />
+        <Skeleton width="100%" variant="text" animation="wave" height={10} />
+        <Skeleton width="100%" variant="text" animation="wave" height={10} />
+    </>
+);
 
 const Address = (props) => {
     const {
@@ -49,7 +58,7 @@ const Address = (props) => {
     let content;
 
     if (loading.addresses || loading.all) {
-        content = 'Loading';
+        content = <Loader />;
     } else if (data.isGuest && !address) {
         content = t('checkout:message:address:add');
     } else if (address) {
