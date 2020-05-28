@@ -1,0 +1,59 @@
+{
+    "variant": "Variant",
+    "home": {
+        "logoName": "LOGO"
+    },
+    "product": {
+        "titleProduct": "Product Name",
+        "name": "Product"
+    },
+    "search": {
+        "mainTitle": "New in Collection",
+        "backTitle": "back in stock sale",
+        "location" : "Search Location"
+    },
+    "button": {
+        "edit": "Edit",
+        "save": "Save",
+        "saved": "Saved",
+        "continueShopping": "Continue Shopping",
+        "cancel": "Cancel",
+        "yes": "Ya",
+        "checkout": "Checkout",
+        "change" : "Change",
+        "login": "Login",
+        "register": "Register",
+        "send" : "send",
+        "addAddress": "Add Address",
+        "loadMore": "Load more",
+        "clear": "Clear",
+        "verify": "Verify",
+        "shop": "SHOP NOW"
+    },
+    "subtotal": "Subtotal",
+    "price": {
+        "asLowAs": "As low as"
+    },
+    "form": {
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "phoneNumber": "Phone Number",
+        "confirm": "Confirm Password",
+        "currentPassword": "Current Password",
+        "state": "State/Province",
+        "region": "Region",
+        "city": "City",
+        "street": "Street Address",
+        "postal": "Postal Code"
+    },
+    "title": {
+        "qty": "Jumlah",
+        "color": "Warna",
+        "size": "Ukuran",
+        "shortFilter": "Shorting & Filter",
+        "short": "Short By",
+        "search": "Search ...",
+        "brand": "Brand",
+        "category": "Category"
+    }
+}

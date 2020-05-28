@@ -1,7 +1,11 @@
 import fetch from "node-fetch";
-import Home from "../src/components/home";
-import Layout from "../src/theme/layout";
+import Home from "@pages/home";
+import Layout from "@components/Layout";
 
+
+Home.getInitialProps = async () => ({
+    namespacesRequired: ["common"]
+});
 
 // This function gets called at build time on server-side.
 // It won't be called on client-side, so you can even do
@@ -11,18 +15,11 @@ export async function getStaticProps() {
     let res = await fetch("https://cloudreports.net/sample/api/countries.json");
     const tests = await res.json();
 
-    const pageConfig = {
-        title: "Homepage"
+    return {
+        props: {
+            pageConfig
+        }
     };
-
-  // By returning { props: pageConfig }, the Page component
-  // will receive `pageConfig` as a prop at build time
-  return {
-      props: {
-          tests,
-          pageConfig
-      }
-  };
 }
 
 export default Layout(Home);

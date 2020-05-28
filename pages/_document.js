@@ -1,33 +1,34 @@
-import React from "react";
-import Document, { Head, Main, NextScript } from "next/document";
-import { ServerStyleSheets } from "@material-ui/core/styles";
-import theme from "../src/theme/theme";
+/* eslint-disable react/no-danger */
+import React from 'react';
+import Document, {
+    Html, Head, Main, NextScript,
+} from 'next/document';
+import { ServerStyleSheets } from '@material-ui/core/styles';
+import theme from '@theme/theme';
 
 export default class MyDocument extends Document {
     render() {
         return (
-            <html lang="en">
+            <Html lang="en">
                 <Head>
                     {/* PWA primary color */}
-                    <meta
-                        name="theme-color"
-                        content={theme.palette.primary.main}
-                    />
-                    <link
-                        rel="stylesheet"
-                        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-                    />
+                    <meta name="theme-color" content={theme.palette.primary.main} />
+                    <link rel="manifest" href="/manifest.json" />
+                    <link rel="apple-touch-icon" href="/assets/img/swiftpwa_apple_touch.png" />
+                    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+                    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,500,700&display=swap" rel="stylesheet" />
+                    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,500i,600,700,900&display=swap" rel="stylesheet" />
                 </Head>
                 <body>
                     <Main />
                     <NextScript />
                 </body>
-            </html>
+            </Html>
         );
     }
 }
 
-MyDocument.getInitialProps = async ctx => {
+MyDocument.getInitialProps = async (ctx) => {
     // Resolution order
     //
     // On the server:
@@ -54,19 +55,15 @@ MyDocument.getInitialProps = async ctx => {
     const sheets = new ServerStyleSheets();
     const originalRenderPage = ctx.renderPage;
 
-    ctx.renderPage = () =>
-        originalRenderPage({
-            enhanceApp: App => props => sheets.collect(<App {...props} />)
-        });
+    ctx.renderPage = () => originalRenderPage({
+        enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
+    });
 
     const initialProps = await Document.getInitialProps(ctx);
 
     return {
         ...initialProps,
         // Styles fragment is rendered after the app and page rendering finish.
-        styles: [
-            ...React.Children.toArray(initialProps.styles),
-            sheets.getStyleElement()
-        ]
+        styles: [...React.Children.toArray(initialProps.styles), sheets.getStyleElement()],
     };
 };

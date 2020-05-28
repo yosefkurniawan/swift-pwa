@@ -1,0 +1,91 @@
+{
+  "dashboard": {
+    "pageTitle": "Beranda Pelanggan"
+  },
+  "register": {
+    "pageTitle": "Daftar Akun Baru",
+    "title": "Daftar",
+    "button": "Buat Akun",
+    "subscribe": "Daftar untuk berlangganan",
+    "isWhatsapp": "Nomor telephone telah terdaftar di Whatsapp",
+    "success": "Pendaftaran berhasil",
+    "failed": "Pendaftaran gagal"
+  },
+  "login": {
+    "haveAccount": "Jika sudah punya akun",
+    "pageTitle": "Masuk",
+    "forgotPassword": "Lupa Password",
+    "notHaveAccount": "Belum mempunyai akun ?",
+    "switchPhone": "Login dengan nomor telepon",
+    "success": "Masuk berhasil",
+    "failed": "Masuk gagal"
+  },
+  "forgotPassword": {
+    "title": "Lupa password",
+    "content": "Dapatkan instruksi ke email kamu untuk mengganti password.",
+    "success": "Kirim reset password sukses.",
+    "failed": "Kirim reset password gagal!",
+    "useEmail": "kirim reset password dengan email",
+    "successEmail1": "Jika ada akun yang dikaitkan dengan ",
+    "successEmail2": " Anda akan menerima email dengan tautan untuk mereset kata sandi Anda"
+  },
+  "newPassword": {
+    "title": "Ubah password",
+    "success": "password berhasil di rubah",
+    "failed": "Ubah password gagal!"
+  },
+  "button": {
+    "logout": "Keluar"
+  },
+  "setting" : {
+    "title" : "Pengaturan",
+    "newslater" : "subribe newslater",
+    "language" : "Bahasa"
+  },
+  "profile" : {
+    "title" : "akun saya",
+    "successUpdate": "Ubah Profil Sukses",
+    "successChangePass": "Ganti password sukses"
+  },
+  "address" : {
+    "pageTitle" : "Daftar alamat",
+    "addTitle" : "Tambah alamat baru",
+    "editTitle" : "Ubah alamat",
+    "useBilling" : "gunakan sebagai alamat default pembayaran",
+    "useShipping" : "gunakan sebagai alamat default pengiriman"
+  },
+  "storeCredit" : {
+    "balance" : "Saldo Anda saat ini adalah: ",
+    "transactionId" : "ID Transaksi",
+    "adjustment" : "Store Credit Tambahan",
+    "creditbalance" : "Store Credit Saldo",
+    "comment" : "Catatan",
+    "transactionDate" : "Tanggal Transalsi",
+    "editEmail" : "Ubah Pengaturan Email",
+    "emptyMessage" : "You have no transactions.",
+    "item" : "Item"
+  },
+  "menu": {
+    "aboutUs": "Tentang Kami",
+    "contactUs": "Hubungi Kami",
+    "myPoint": "Point Saya",
+    "myOrder": "Pesanan Saya",
+    "myAccount": "Akun Saya",
+    "address": "Buku Alamat",
+    "setting": "Pengaturan",
+    "storeCredit": "Store Credit & Refund",
+    "readMore": "Selengkapnya",
+    "rewardPoint": "Reward Poin"
+  },
+  "giftCard": {
+    "notFound": "Kamu tidak memiliki gift card apapun",
+    "inputSearch": "Masukan kode gift card",
+    "buttonSearch": "Cek sisa dan status",
+    "required": "Code tidak boleh kosong"
+  },
+  "rewardPoint": {
+    "balanceTitle": "Sisa Poin kamu adalah  ",
+    "canbeTitle": "Total yang dapat di redeem saat checkout adalah ",
+    "learnMore": "Untuk mempelajari tentant reward poin. $ Klik disini"
+  }
+}

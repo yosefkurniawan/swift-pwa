@@ -1,0 +1,13 @@
+{
+    "title" : "my order",
+    "order" : "order",
+    "notFound": "Order not found",
+    "shippedTo": "Shipped To",
+    "shippingMethod": "Shipping Method",
+    "paymentMethod": "Payment Method",
+    "shipping": "Shipping",
+    "discount": "Discount",
+    "date": "Date",
+    "totalItems": "Total Items",
+    "paymentDate": "Payment Date"
+}
