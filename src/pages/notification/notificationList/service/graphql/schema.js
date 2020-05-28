@@ -19,16 +19,4 @@ const customerNotificationList = gql`
     }
 `;
 
-const readNotification = gql`
-    mutation readNotification (
-        $entityId: Int!
-    ) {
-        readNotification(
-            entityId: $entityId
-        ) {
-            ${notificationOutput}
-        }  
-    }
-`;
-
-export default { customerNotificationList, readNotification };
+export default { customerNotificationList };
