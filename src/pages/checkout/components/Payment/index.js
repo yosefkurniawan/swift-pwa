@@ -1,10 +1,10 @@
 import Radio from '@components/Forms/Radio';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Typography from '@components/Typography';
+import { useEffect } from 'react';
 import TagManager from 'react-gtm-module';
 import gqlService from '../../services/graphql';
 import DeliveryItem from '../RadioDeliveryItem';
-import { useEffect } from 'react';
 
 const Loader = () => (
     <>
