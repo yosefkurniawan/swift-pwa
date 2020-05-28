@@ -7,14 +7,18 @@
     "title": "Register",
     "button": "Create an Account",
     "subscribe": "Sign up for newslater",
-    "isWhatsapp": "Phone number is registered in whatsapp"
+    "isWhatsapp": "Phone number is registered in whatsapp",
+    "success": "Register success",
+    "failed": "Register failed"
   },
   "login": {
     "haveAccount": "If you have an account",
     "pageTitle": "Sign In",
     "forgotPassword": "forgot password",
     "notHaveAccount": "Don't have an account?",
-    "switchPhone": "Login with phone number"
+    "switchPhone": "Login with phone number",
+    "success": "Login success",
+    "failed": "Login failed"
   },
   "forgotPassword": {
     "title": "reset password",

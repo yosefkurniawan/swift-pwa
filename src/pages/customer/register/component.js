@@ -92,7 +92,7 @@ const Register = ({ t, storeConfig }) => {
                     setLoading(false);
                     setMessage({
                         open: true,
-                        text: e.message.split(':')[1] || 'Register failed!',
+                        text: e.message.split(':')[1] || t('customer:register:success'),
                         variant: 'error',
                     });
                 });
@@ -106,7 +106,7 @@ const Register = ({ t, storeConfig }) => {
             setCartId(custCartId, expired);
             setMessage({
                 open: true,
-                text: 'Register success',
+                text: t('customer:register:success'),
                 variant: 'success',
             });
             Router.push('/customer/account');
@@ -122,7 +122,7 @@ const Register = ({ t, storeConfig }) => {
                     setCartId(custCartId, expired);
                     setMessage({
                         open: true,
-                        text: 'Register success',
+                        text: t('customer:register:success'),
                         variant: 'success',
                     });
                     Router.push('/customer/account');

@@ -7,14 +7,18 @@
     "title": "Daftar",
     "button": "Buat Akun",
     "subscribe": "Daftar untuk berlangganan",
-    "isWhatsapp": "Nomor telephone telah terdaftar di Whatsapp"
+    "isWhatsapp": "Nomor telephone telah terdaftar di Whatsapp",
+    "success": "Pendaftaran berhasil",
+    "failed": "Pendaftaran gagal"
   },
   "login": {
     "haveAccount": "Jika sudah punya akun",
     "pageTitle": "Masuk",
     "forgotPassword": "Lupa Password",
     "notHaveAccount": "Belum mempunyai akun ?",
-    "switchPhone": "Login dengan nomor telepon"
+    "switchPhone": "Login dengan nomor telepon",
+    "success": "Masuk berhasil",
+    "failed": "Masuk gagal"
   },
   "forgotPassword": {
     "title": "Lupa password",
