@@ -8,6 +8,12 @@ mutation {
 }
 `;
 
-export default {
-    removeToken,
-};
+export const customerNotificationList = gql`
+    query customerNotificationList {
+        customerNotificationList {
+          totalUnread
+        }
+    }
+`;
+
+export default { removeToken, customerNotificationList };

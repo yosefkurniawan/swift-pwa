@@ -5,6 +5,8 @@ import Carousel from '@components/Slider/Carousel';
 import Typography from '@components/Typography';
 import { GraphCustomer } from '@services/graphql';
 import { customerFeautres } from '@config';
+import { Badge, withStyles } from '@material-ui/core';
+import gqlService from '../../services/graphql';
 import Footer from '../Footer';
 import Loaders from '../Loader';
 import PointCard from '../PointCard';
@@ -18,6 +20,11 @@ const WithToken = (props) => {
     let userData = {};
     let wishlist = [];
     const { data, loading, error } = GraphCustomer.getCustomer(token);
+    const { data: customerNotificationList } = gqlService.customerNotificationList();
+    const totalUnread = customerNotificationList
+        && customerNotificationList.customerNotificationList
+        && customerNotificationList.customerNotificationList.totalUnread;
+
     if (!data || loading || error) return <Loaders />;
     if (data) {
         userData = data;
@@ -49,6 +56,13 @@ const WithToken = (props) => {
         { href: '/customer/setting', title: t('customer:menu:setting') },
     ];
 
+    const StyledBadge = withStyles(() => ({
+        badge: {
+            right: -4,
+            top: 4,
+        },
+    }))(Badge);
+
     return (
         <div className={styles.root}>
             <div className={styles.account_wrapper}>
@@ -70,7 +84,16 @@ const WithToken = (props) => {
                                 menu.map(({ href, title }, index) => (
                                     <li className={styles.account_navigation_item} key={index}>
                                         <Link href={href}>
-                                            <a className={styles.account_navigation_link}>{title}</a>
+                                            <a className={styles.account_navigation_link}>
+                                                <StyledBadge
+                                                    color="secondary"
+                                                    max={99}
+                                                    invisible={!href.includes('notification') || !totalUnread}
+                                                    badgeContent={totalUnread}
+                                                >
+                                                    {title}
+                                                </StyledBadge>
+                                            </a>
                                         </Link>
                                     </li>
                                 ))

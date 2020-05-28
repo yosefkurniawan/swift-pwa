@@ -1,5 +1,5 @@
-import { useMutation } from '@apollo/react-hooks';
-import * as Schema from './schema';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+import Schema from './schema';
 
 
 export const removeToken = () => useMutation(Schema.removeToken, {
@@ -9,4 +9,11 @@ export const removeToken = () => useMutation(Schema.removeToken, {
 });
 
 
-export default { removeToken };
+export const customerNotificationList = () => useQuery(Schema.customerNotificationList, {
+    context: {
+        request: 'internal',
+    },
+    fetchPolicy: 'network-only',
+});
+
+export default { removeToken, customerNotificationList };
