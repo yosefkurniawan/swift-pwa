@@ -15,6 +15,10 @@ main {
     padding: 0 !important;
 }
 
+.half-width {
+    width: 50%;
+}
+
 .hide {
     display: none !important;
 }

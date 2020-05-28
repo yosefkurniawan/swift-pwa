@@ -34,13 +34,14 @@ const Summary = ({
     const [expanded, setExpanded] = useState(null);
     const [orderId, setOrderId] = useState(null);
     const [snapOpened, setSnapOpened] = useState(false);
+    const [snapClosed, setSnapClosed] = useState(false);
     const [setGuestEmailAddressOnCart] = gqlService.setGuestEmailAddressOnCart(({ onError: () => {} }));
     const [getSnapToken, manageSnapToken] = gqlService.getSnapToken({ onError: () => {} });
     const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
     const [placeOrder] = gqlService.placeOrder({ onError: () => {} });
     const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => {} });
     const [getCustCartId, manageCustCartId] = GraphCart.getCustomerCartId();
-    const [mergeCart, manageMergeCart] = GraphCart.mergeCart();
+    const [mergeCart] = GraphCart.mergeCart();
 
     const validateReponse = (response, parentState) => {
         const state = parentState;
@@ -136,15 +137,15 @@ const Summary = ({
         }
     };
 
-    // Start - Manage Snap Pop Up When Opened (Waitinge Response From SnapToken)
+    // Start - Manage Snap Pop Up When Opened (Waiting Response From SnapToken)
     if (manageSnapToken.data && orderId && !snapOpened) {
         const snapToken = manageSnapToken.data.getSnapTokenByOrderId.snap_token;
         snap.pay(snapToken, {
-            onSuccess() {
-                return Routes.push({ pathname: '/thanks', query: { order_id: orderId } });
+            async onSuccess() {
+                window.location.replace(`/thanks?order_id=${orderId}`);
             },
-            onPending() {
-                return Routes.push({ pathname: '/thanks', query: { order_id: orderId } });
+            async onPending() {
+                window.location.replace(`/thanks?order_id=${orderId}`);
             },
             async onError() {
                 getSnapOrderStatusByOrderId({
@@ -153,17 +154,23 @@ const Summary = ({
                     },
                 });
 
-                getCustCartId();
+                if (!checkout.data.isGuest) {
+                    getCustCartId();
+                }
+
                 setSnapOpened(true);
             },
-            onClose() {
+            async onClose() {
                 getSnapOrderStatusByOrderId({
                     variables: {
                         orderId,
                     },
                 });
 
-                getCustCartId();
+                if (!checkout.data.isGuest) {
+                    getCustCartId();
+                }
+
                 setSnapOpened(true);
             },
         });
@@ -171,22 +178,30 @@ const Summary = ({
     // End - Manage Snap Pop Up When Opened (Waitinge Response From SnapToken)
 
     // Start - Process Snap Pop Up Close (Waitinge Response From Reorder)
-    if (snapStatus.data && manageCustCartId.data && !manageMergeCart.called) {
+    if (snapStatus.data && !snapClosed) {
         const { cart_id } = snapStatus.data.getSnapOrderStatusByOrderId;
-        const { id: customerCartId } = manageCustCartId.data.customerCart;
+        setSnapClosed(true);
 
-        mergeCart({
-            variables: {
-                sourceCartId: cart_id,
-                destionationCartId: customerCartId,
-            },
-        }).then(() => {
-            setCartId(customerCartId);
+        if (!checkout.data.isGuest && manageCustCartId.data) {
+            const { id: customerCartId } = manageCustCartId.data.customerCart;
+
+            mergeCart({
+                variables: {
+                    sourceCartId: cart_id,
+                    destionationCartId: customerCartId,
+                },
+            }).then(async () => {
+                await setCartId(customerCartId);
+                setOrderId(null);
+                window.location.replace('/checkout/cart');
+            }).catch(() => {
+                window.location.replace('/checkout/cart');
+            });
+        } else {
+            setCartId(cart_id);
             setOrderId(null);
-            Routes.push('/checkout/cart');
-        }).catch(() => {
-            Routes.push('/checkout/cart');
-        });
+            window.location.replace('/checkout/cart');
+        }
     }
     // End - Process Snap Pop Up Close (Waitinge Response From Reorder)
 

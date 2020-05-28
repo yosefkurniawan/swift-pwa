@@ -1,8 +1,18 @@
 import Radio from '@components/Forms/Radio';
+import Skeleton from '@material-ui/lab/Skeleton';
 import Typography from '@components/Typography';
+import { useEffect } from 'react';
 import TagManager from 'react-gtm-module';
 import gqlService from '../../services/graphql';
 import DeliveryItem from '../RadioDeliveryItem';
+
+const Loader = () => (
+    <>
+        <Skeleton variant="rect" width="100%" height={20} animation="wave" style={{ marginBottom: 10 }} />
+        <Skeleton variant="rect" width="100%" height={20} animation="wave" style={{ marginBottom: 10 }} />
+        <Skeleton variant="rect" width="100%" height={20} animation="wave" style={{ marginBottom: 10 }} />
+    </>
+);
 
 const Payment = ({
     checkout,
@@ -16,6 +26,8 @@ const Payment = ({
     const { loading, data, selected } = checkout;
     const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
     let content;
+
+    useEffect(() => {}, data.paymentMethod);
 
     const handlePayment = async (val) => {
         const { cart } = checkout.data;
@@ -76,7 +88,7 @@ const Payment = ({
     };
 
     if (loading.payment || loading.shipping || loading.all) {
-        content = <Typography variant="p">Loading</Typography>;
+        content = <Loader />;
     } else if (data.cart.prices.grand_total.value === 0) {
         content = <Typography variant="p">{t('checkout:noNeedPayment')}</Typography>;
     } else if (data.paymentMethod.length !== 0) {

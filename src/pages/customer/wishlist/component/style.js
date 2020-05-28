@@ -47,6 +47,7 @@ const useStyles = makeStyles(() => ({
         ...CenterAbsolute,
         background: 'rgba(255,255,255,0.7)',
         ...CreatePadding(20, 20, 20, 20),
+        textAlign: 'center',
     },
 }));
 

@@ -9,6 +9,7 @@ import { Badge, withStyles } from '@material-ui/core';
 import gqlService from '../../services/graphql';
 import Footer from '../Footer';
 import Loaders from '../Loader';
+import PointCard from '../PointCard';
 // Styling And Component
 import useStyles from './style';
 
@@ -72,10 +73,11 @@ const WithToken = (props) => {
                     <p className={styles.account_email}>{userData && userData.customer && userData.customer.email}</p>
                 </div>
                 <div className={[styles.account_block, styles.padding_vertical_40].join(' ')}>
-                    <div className={styles.account_point}>
-                        <p className={styles.account_point_title}>{t('customer:menu:myPoint')}</p>
-                        <h3 className={styles.account_point_summary}>100.000</h3>
-                    </div>
+                    {
+                        customerFeautres.rewardPoint ? (
+                            <PointCard {...props} />
+                        ) : null
+                    }
                     <div className={styles.account_block}>
                         <ul className={styles.account_navigation}>
                             {

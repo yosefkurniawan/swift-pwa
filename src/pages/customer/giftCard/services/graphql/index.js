@@ -7,7 +7,7 @@ export const getGiftCard = () => useQuery(Schema.getGiftCard, {
         request: 'internal',
     },
     skip: typeof window === 'undefined',
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'no-cache',
 });
 
 export const checkBalance = (code) => useQuery(Schema.checkBalance, {

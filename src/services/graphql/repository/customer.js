@@ -13,6 +13,12 @@ export const removeWishlist = () => useMutation(Schema.removeWishlist, {
     },
 });
 
+export const getRewardPoint = () => useQuery(Schema.getRewardPoint, {
+    context: {
+        request: 'internal',
+    },
+});
+
 export const getCustomer = () => useQuery(Schema.getCustomer, {
     variables: {},
     context: {

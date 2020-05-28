@@ -7,6 +7,7 @@ import TagManager from 'react-gtm-module';
 import Typography from '@components/Typography';
 import Arrow from '@material-ui/icons/ArrowDropDown';
 import Radio from '@components/Forms/Radio';
+import Skeleton from '@material-ui/lab/Skeleton';
 import RadioItem from '../RadioDeliveryItem';
 import gqlService from '../../services/graphql';
 
@@ -24,6 +25,14 @@ const ExpansionPanelSummary = withStyles(ExpanSummaryStyle)(
 
 const ExpansionPanelDetails = withStyles(ExpanDetailStyle)(
     MuiExpansionPanelDetails,
+);
+
+const Loader = () => (
+    <>
+        <Skeleton variant="rect" width="100%" height={20} animation="wave" style={{ marginBottom: 10 }} />
+        <Skeleton variant="rect" width="100%" height={20} animation="wave" style={{ marginBottom: 10 }} />
+        <Skeleton variant="rect" width="100%" height={20} animation="wave" style={{ marginBottom: 10 }} />
+    </>
 );
 
 export default function CustomizedExpansionPanels({
@@ -104,7 +113,7 @@ export default function CustomizedExpansionPanels({
     };
 
     if (loading.payment || loading.shipping || loading.all) {
-        content = <Typography variant="p">Loading</Typography>;
+        content = <Loader />;
     } else if (data.cart.prices.grand_total.value === 0) {
         content = <Typography variant="p">{t('checkout:noNeedPayment')}</Typography>;
     } else if (data.paymentMethod.length !== 0 && storeConfig.payments_configuration) {

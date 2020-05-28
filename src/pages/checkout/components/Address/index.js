@@ -1,3 +1,4 @@
+import Skeleton from '@material-ui/lab/Skeleton';
 import AddressFormDialog from '@components/AddressFormDialog';
 import Button from '@components/Button';
 import Typography from '@components/Typography';
@@ -10,6 +11,14 @@ import cookies from 'js-cookie';
 import gqlService from '../../services/graphql';
 
 const CLOSE_ADDRESS_DIALOG = 750;
+
+const Loader = () => (
+    <>
+        <Skeleton width="100%" variant="text" animation="wave" height={10} />
+        <Skeleton width="100%" variant="text" animation="wave" height={10} />
+        <Skeleton width="100%" variant="text" animation="wave" height={10} />
+    </>
+);
 
 const Address = (props) => {
     const {
@@ -49,7 +58,7 @@ const Address = (props) => {
     let content;
 
     if (loading.addresses || loading.all) {
-        content = 'Loading';
+        content = <Loader />;
     } else if (data.isGuest && !address) {
         content = t('checkout:message:address:add');
     } else if (address) {
@@ -190,15 +199,17 @@ const Address = (props) => {
                 pageName: 'Checkout',
                 event: 'checkout',
                 ecommerce: {
-                    actionField: { step: 1, option },
-                    products: checkout.data.cart.items.map(({ quantity, product, prices }) => ({
-                        name: product.name,
-                        id: product.sku,
-                        price: prices.price.value,
-                        category: product.categories.length > 0 ? product.categories[0].name : '',
-                        list: product.categories.length > 0 ? product.categories[0].name : '',
-                        quantity,
-                    })),
+                    checkout: {
+                        actionField: { step: 1, option },
+                        products: checkout.data.cart.items.map(({ quantity, product, prices }) => ({
+                            name: product.name,
+                            id: product.sku,
+                            price: prices.price.value,
+                            category: product.categories.length > 0 ? product.categories[0].name : '',
+                            list: product.categories.length > 0 ? product.categories[0].name : '',
+                            quantity,
+                        })),
+                    },
                     currencyCode: storeConfig.base_currency_code || 'IDR',
                 },
             };

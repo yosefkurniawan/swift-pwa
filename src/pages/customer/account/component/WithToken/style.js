@@ -44,6 +44,7 @@ const useStyles = makeStyles(() => ({
     },
     account_email: {
         margin: 0,
+        marginBottom: 15,
     },
     account_point: {
         background: 'black',
