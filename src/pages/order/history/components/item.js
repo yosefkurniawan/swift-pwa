@@ -1,5 +1,5 @@
 import Typography from '@components/Typography';
-import moment from 'moment';
+import formatDate from '@helpers/date';
 import Link from 'next/link';
 import { formatPrice } from '@helpers/currency';
 import useStyles from './style';
@@ -36,7 +36,7 @@ const ItemOrder = ({
                     </div>
                     <div className={styles.detailContent}>
                         <Typography variant="span" letter="capitalize" className="clear-margin-padding">
-                            {moment(created_at).format('DD/M/YYYY')}
+                            {formatDate(created_at)}
                         </Typography>
                         <Typography variant="span" letter="capitalize" className="clear-margin-padding">
                             { detail[0].items.length }

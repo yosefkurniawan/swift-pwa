@@ -4,6 +4,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@components/Typography';
+import formatDate from '@helpers/date';
 import useStyles from '../style';
 
 const ItemOrder = ({ data }) => {
@@ -22,7 +23,12 @@ const ItemOrder = ({ data }) => {
                                                 {item.replace(/([A-Z]+)*([A-Z][a-z])/g, '$1 $2')}
                                             </Typography>
                                         </TableCell>
-                                        <TableCell align="right">{data[item]}</TableCell>
+                                        <TableCell align="right">
+                                            {
+                                                // eslint-disable-next-line no-nested-ternary
+                                                (item.toLowerCase().includes('date')) ? data[item] ? formatDate(data[item]) : null : data[item]
+                                            }
+                                        </TableCell>
                                     </TableRow>
                                 );
                             }
