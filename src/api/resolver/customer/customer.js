@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 const requestGraph = require('../../graphql-request');
-const customerOutput = require('./schema/customerOutput');
+const { customerOutputComplete } = require('./schema/customerOutput');
 
 const query = `
     query customer ($pageSizeStoreCredit: Int! , $currentPageStoreCredit: Int!) {
         customer {
-            ${customerOutput}
+            ${customerOutputComplete}
         }
     }
 `;
