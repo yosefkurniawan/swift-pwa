@@ -190,15 +190,17 @@ const Address = (props) => {
                 pageName: 'Checkout',
                 event: 'checkout',
                 ecommerce: {
-                    actionField: { step: 1, option },
-                    products: checkout.data.cart.items.map(({ quantity, product, prices }) => ({
-                        name: product.name,
-                        id: product.sku,
-                        price: prices.price.value,
-                        category: product.categories.length > 0 ? product.categories[0].name : '',
-                        list: product.categories.length > 0 ? product.categories[0].name : '',
-                        quantity,
-                    })),
+                    checkout: {
+                        actionField: { step: 1, option },
+                        products: checkout.data.cart.items.map(({ quantity, product, prices }) => ({
+                            name: product.name,
+                            id: product.sku,
+                            price: prices.price.value,
+                            category: product.categories.length > 0 ? product.categories[0].name : '',
+                            list: product.categories.length > 0 ? product.categories[0].name : '',
+                            quantity,
+                        })),
+                    },
                     currencyCode: storeConfig.base_currency_code || 'IDR',
                 },
             };
