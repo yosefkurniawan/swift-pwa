@@ -27,17 +27,12 @@ export default makeStyles((theme) => ({
     tableRowResponsive: {
         [theme.breakpoints.down('sm')]: {
             display: 'grid !important',
+            border: '1px solid rgba(224, 224, 224, 1)',
         },
     },
     tableCellResponsive: {
         [theme.breakpoints.down('sm')]: {
-            '&::before': {
-                paddingRight: '10px',
-                content: 'attr(data-th) \' : \'',
-                display: 'inline-block',
-                color: '#000',
-                fontWeight: 700,
-            },
+            border: 'none',
         },
     },
     cellChildLeft: {
