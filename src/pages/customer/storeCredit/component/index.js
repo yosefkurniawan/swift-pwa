@@ -78,6 +78,7 @@ const StoreCreditPage = ({ t }) => {
                                         {storeCredit.transaction_history.items.map((val, idx) => (
                                             <TableRow key={idx} className={styles.tableRowResponsive}>
                                                 <TableCell
+                                                    className={styles.tableCellResponsive}
                                                     align="left"
                                                     data-th={t('customer:storeCredit:transactionId')}
                                                 >
@@ -96,6 +97,7 @@ const StoreCreditPage = ({ t }) => {
                                                     </table>
                                                 </TableCell>
                                                 <TableCell
+                                                    className={styles.tableCellResponsive}
                                                     align="left"
                                                     data-th={t('customer:storeCredit:adjustment')}
                                                 >
@@ -122,6 +124,7 @@ const StoreCreditPage = ({ t }) => {
 
                                                 </TableCell>
                                                 <TableCell
+                                                    className={styles.tableCellResponsive}
                                                     align="left"
                                                     data-th={t('customer:storeCredit:creditbalance')}
                                                 >
@@ -140,6 +143,7 @@ const StoreCreditPage = ({ t }) => {
                                                     </table>
                                                 </TableCell>
                                                 <TableCell
+                                                    className={styles.tableCellResponsive}
                                                     align="left"
                                                     data-th={t('customer:storeCredit:comment')}
                                                 >
@@ -158,6 +162,7 @@ const StoreCreditPage = ({ t }) => {
                                                     </table>
                                                 </TableCell>
                                                 <TableCell
+                                                    className={styles.tableCellResponsive}
                                                     align="left"
                                                     data-th={t('customer:storeCredit:transactionDate')}
                                                 >
