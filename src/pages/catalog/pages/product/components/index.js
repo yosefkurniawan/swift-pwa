@@ -28,7 +28,7 @@ import SharePopup from './SharePopup';
 
 const ProductPage = (props) => {
     const {
-        t, url, data, token,
+        t, url, data, isLogin,
     } = props;
     const styles = useStyles();
     const route = useRouter();
@@ -131,10 +131,10 @@ const ProductPage = (props) => {
         <FavoriteBorderOutlined className={styles.iconShare} />
     );
 
-    const [addWishlist] = GraphCustomer.addWishlist(token);
+    const [addWishlist] = GraphCustomer.addWishlist();
 
     const handleWishlist = () => {
-        if (token && token !== '') {
+        if (isLogin && isLogin === 1) {
             TagManager.dataLayer({
                 dataLayer: {
                     event: 'addToWishlist',

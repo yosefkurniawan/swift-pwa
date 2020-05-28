@@ -206,7 +206,7 @@ const Content = (props) => {
                 ))}
             </div>
             <div className={styles.footer}>
-                <Button onClick={handleAddAlltoBag} disabled={loading || wishlist.length === 0} fullWidth className={styles.btnSigin}>
+                <Button onClick={handleAddAlltoBag} disabled={loading || wishlist.length === 0} fullWidth>
                     <Typography variant="title" type="regular" letter="capitalize" color="white">
                         {t('wishlist:addAllToBag')}
                     </Typography>

@@ -6,12 +6,14 @@ import React from 'react';
 import Alert from '@material-ui/lab/Alert';
 import Button from '@components/Button';
 import TextField from '@components/Forms/TextField';
+import { formatPrice } from '@helpers/currency';
 import { getGiftCard } from '../services/graphql';
 import ModalDetail from './ModalDetail';
 import Loader from './Loader';
 import useStyles from './style';
 
-const GiftCard = ({ t }) => {
+const GiftCard = (props) => {
+    const { t, storeConfig } = props;
     const styles = useStyles();
     const [open, setOpen] = React.useState(false);
     const [selectedCode, setSelectedCode] = React.useState('');
@@ -54,7 +56,7 @@ const GiftCard = ({ t }) => {
     };
     return (
         <div>
-            <ModalDetail open={open} setOpen={handleClose} code={selectedCode} />
+            <ModalDetail storeConfig={storeConfig} open={open} setOpen={handleClose} code={selectedCode} />
             {data && data.customer.gift_card.length === 0 && (
                 <Alert className="m-15" severity="warning">
                     {t('customer:giftCard:notFound')}
@@ -67,7 +69,7 @@ const GiftCard = ({ t }) => {
                             <ListItemText primary={item.giftcard_code} />
                             <ListItemSecondaryAction>
                                 <Typography variant="span" type="bold">
-                                    {item.giftcard_balance}
+                                    {formatPrice(item.giftcard_balance, storeConfig.base_currency_code)}
                                 </Typography>
                             </ListItemSecondaryAction>
                         </ListItem>

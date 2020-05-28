@@ -5,10 +5,13 @@ import {
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import React from 'react';
+import { formatPrice } from '@helpers/currency';
 import { checkBalance } from '../services/graphql';
 import Loader from './Loader';
 
-const ModalDetail = ({ open, setOpen, code }) => {
+const ModalDetail = ({
+    open, setOpen, code, storeConfig,
+}) => {
     let loading = false;
     let data = null;
     let error = null;
@@ -45,7 +48,11 @@ const ModalDetail = ({ open, setOpen, code }) => {
                                     />
                                     <ListItemSecondaryAction>
                                         <Typography variant="span" type="bold">
-                                            {data.giftCardAccount[item]}
+                                            {
+                                                // eslint-disable-next-line no-restricted-globals
+                                                isNaN(data.giftCardAccount[item]) ? data.giftCardAccount[item]
+                                                    : formatPrice(data.giftCardAccount[item], storeConfig.base_currency_code)
+                                            }
                                         </Typography>
                                     </ListItemSecondaryAction>
                                 </ListItem>

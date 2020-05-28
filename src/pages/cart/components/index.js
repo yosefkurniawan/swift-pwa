@@ -35,7 +35,7 @@ const getCrossSellProduct = (items) => {
 };
 
 const Cart = (props) => {
-    const { t, token } = props;
+    const { t, token, isLogin } = props;
     const styles = useStyles();
     const [editMode, setEditMode] = useState(false);
     const [editItem, setEditItem] = useState({});
@@ -88,7 +88,7 @@ const Cart = (props) => {
             eventLabel: itemProps.product.name,
             label: itemProps.product.name,
             ecommerce: {
-                currencyCode: itemProps.prices.price.currency || 'USD',
+                currencyCode: itemProps.prices.price.currency || 'IDR',
                 remove: {
                     cartItem: itemProps.id,
                     quantity: itemProps.quantity,
@@ -189,9 +189,29 @@ const Cart = (props) => {
         }
     }, [dataCart]);
     // add to wishlist
-    const [addWishlist] = GraphCustomer.addWishlist(token);
+    const [addWishlist] = GraphCustomer.addWishlist();
     const handleFeed = (itemProps) => {
-        if (token && token !== '') {
+        if (isLogin && isLogin === 1) {
+            TagManager.dataLayer({
+                dataLayer: {
+                    event: 'addToWishlist',
+                    eventLabel: itemProps.product.name,
+                    label: itemProps.product.name,
+                    ecommerce: {
+                        currencyCode: itemProps.prices.price.currency || 'IDR',
+                        add: {
+                            products: [{
+                                name: itemProps.product.name,
+                                id: itemProps.product.sku,
+                                price: itemProps.prices.price.value || 0,
+                                category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                                list: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                                dimensions4: itemProps.product.stock_status,
+                            }],
+                        },
+                    },
+                },
+            });
             setBackdrop(true);
             addWishlist({
                 variables: {
@@ -199,7 +219,7 @@ const Cart = (props) => {
                 },
             })
                 .then(async () => {
-                    deleteItem(itemProps.id);
+                    deleteItem(itemProps);
                     await setMessage({ open: true, variant: 'success', text: t('wishlist:addSuccess') });
                 })
                 .catch((e) => {
