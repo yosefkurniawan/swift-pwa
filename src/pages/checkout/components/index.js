@@ -132,7 +132,7 @@ const Checkout = (props) => {
         const state = { ...checkout };
 
         if (cart.items.length === 0) {
-            window.location = '/checkout/cart';
+            window.location.replace('/checkout/cart');
         }
 
         const { customer } = state.data.isGuest ? {} : manageCustomer.data;
@@ -242,7 +242,7 @@ const Checkout = (props) => {
         }
 
         if (errorCart) {
-            window.location = '/checkout/cart';
+            window.location.replace('/checkout/cart');
         }
 
         if (dataCart) {

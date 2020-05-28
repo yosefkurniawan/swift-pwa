@@ -142,10 +142,10 @@ const Summary = ({
         const snapToken = manageSnapToken.data.getSnapTokenByOrderId.snap_token;
         snap.pay(snapToken, {
             async onSuccess() {
-                window.location = `/thanks?order_id=${orderId}`;
+                window.location.replace(`/thanks?order_id=${orderId}`);
             },
             async onPending() {
-                window.location = `/thanks?order_id=${orderId}`;
+                window.location.replace(`/thanks?order_id=${orderId}`);
             },
             async onError() {
                 getSnapOrderStatusByOrderId({
@@ -193,14 +193,14 @@ const Summary = ({
             }).then(async () => {
                 await setCartId(customerCartId);
                 setOrderId(null);
-                window.location = '/checkout/cart';
+                window.location.replace('/checkout/cart');
             }).catch(() => {
-                window.location = '/checkout/cart';
+                window.location.replace('/checkout/cart');
             });
         } else {
             setCartId(cart_id);
             setOrderId(null);
-            window.location = '/checkout/cart';
+            window.location.replace('/checkout/cart');
         }
     }
     // End - Process Snap Pop Up Close (Waitinge Response From Reorder)
