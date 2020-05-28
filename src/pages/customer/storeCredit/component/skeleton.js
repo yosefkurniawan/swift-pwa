@@ -6,17 +6,29 @@ const SkeletonStoreCredit = () => (
     <>
         <TableRow>
             <TableCell colSpan={5}>
-                <Skeleton variant="rect" width="100%" height={20} />
+                <Skeleton variant="text" width="100%" height={30} />
+                <Skeleton variant="text" width="100%" height={30} />
+                <Skeleton variant="text" width="100%" height={30} />
+                <Skeleton variant="text" width="100%" height={30} />
+                <Skeleton variant="text" width="100%" height={30} />
             </TableCell>
         </TableRow>
         <TableRow>
             <TableCell colSpan={5}>
-                <Skeleton variant="rect" width="100%" height={20} />
+                <Skeleton variant="text" width="100%" height={30} />
+                <Skeleton variant="text" width="100%" height={30} />
+                <Skeleton variant="text" width="100%" height={30} />
+                <Skeleton variant="text" width="100%" height={30} />
+                <Skeleton variant="text" width="100%" height={30} />
             </TableCell>
         </TableRow>
         <TableRow>
             <TableCell colSpan={5}>
-                <Skeleton variant="rect" width="100%" height={20} />
+                <Skeleton variant="text" width="100%" height={30} />
+                <Skeleton variant="text" width="100%" height={30} />
+                <Skeleton variant="text" width="100%" height={30} />
+                <Skeleton variant="text" width="100%" height={30} />
+                <Skeleton variant="text" width="100%" height={30} />
             </TableCell>
         </TableRow>
     </>
