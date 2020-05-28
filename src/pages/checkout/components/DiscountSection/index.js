@@ -2,6 +2,7 @@ import Button from '@components/Button';
 import Typography from '@components/Typography';
 import { CircularProgress, Chip } from '@material-ui/core';
 import { customerFeautres } from '@config';
+import { formatPrice } from '@helpers/currency';
 import classNames from 'classnames';
 import gqlService from '../../services/graphql';
 import FieldPoint from './fieldPoint';
@@ -12,6 +13,7 @@ const DiscountSection = ({
     setCheckout,
     handleOpenMessage,
     formik,
+    storeConfig,
     styles,
 }) => {
     const [applyCouponTocart] = gqlService.applyCouponToCart({ onError: () => {} });
@@ -22,7 +24,8 @@ const DiscountSection = ({
     const [removeStoreCreditFromCart] = gqlService.removeStoreCreditFromCart({ onError: () => {} });
 
     let store_credit = null;
-    let credit = 0;
+    let credit = '0';
+    let total = 0;
     let giftCards = [];
     let appliedGiftCards = [];
 
@@ -33,9 +36,10 @@ const DiscountSection = ({
         };
 
         credit = store_credit.current_balance.value || 0;
-        credit = store_credit.is_use_store_credit ? store_credit.store_credit_amount : credit;
+        credit = store_credit.is_use_store_credit ? `${store_credit.store_credit_amount}` : credit;
         appliedGiftCards = checkout.data.cart.applied_giftcard.giftcard_detail.map((item) => item.giftcard_code);
         giftCards = checkout.data.customer.gift_card.filter((item) => !appliedGiftCards.includes(item.giftcard_code));
+        total = checkout.data.cart.prices.grand_total.value;
     }
 
     const handleUsePoint = async () => {};
@@ -197,60 +201,54 @@ const DiscountSection = ({
                         errorMessage={formik.errors.giftCard}
                         styles={styles}
                     />
-                    {appliedGiftCards.length || giftCards.length
-                        ? (
-                            <div className={styles.giftCardInfoContainer}>
-                                {giftCards.length === 0 ? null : (
-                                    <div>
-                                        <Typography variant="p" letter="capitalize">
-                                            Your Gift Card
-                                        </Typography>
-                                        <div className={styles.giftCardItemContainer}>
-                                            {giftCards.map((item, index) => (
-                                                <Chip
-                                                    disabled={checkout.loading.giftCard}
-                                                    className={styles.giftCard}
-                                                    key={index}
-                                                    size="small"
-                                                    label={item.giftcard_code}
-                                                    onClick={() => {
-                                                        handleApplyGift(item.giftcard_code);
-                                                    }}
-                                                />
-                                            ))}
-                                        </div>
+                    {appliedGiftCards.length || giftCards.length ? (
+                        <div className={styles.giftCardInfoContainer}>
+                            {giftCards.length === 0 ? null : (
+                                <div>
+                                    <Typography variant="p" letter="capitalize">
+                                        Your Gift Card
+                                    </Typography>
+                                    <div className={styles.giftCardItemContainer}>
+                                        {giftCards.map((item, index) => (
+                                            <Chip
+                                                disabled={checkout.loading.giftCard}
+                                                className={styles.giftCard}
+                                                key={index}
+                                                size="small"
+                                                label={item.giftcard_code}
+                                                onClick={() => {
+                                                    handleApplyGift(item.giftcard_code);
+                                                }}
+                                            />
+                                        ))}
                                     </div>
-                                )}
-                                {appliedGiftCards.length === 0 ? null : (
-                                    <div>
-                                        <Typography variant="p" letter="capitalize">
-                                            Applied Gift Card
-                                        </Typography>
-                                        <div className={styles.giftCardItemContainer}>
-                                            {appliedGiftCards.map((item, index) => (
-                                                <Chip
-                                                    disabled={checkout.loading.giftCard}
-                                                    className={styles.giftCard}
-                                                    color="primary"
-                                                    key={index}
-                                                    size="small"
-                                                    label={item}
-                                                    onDelete={() => {
-                                                        handleRemoveGift(item);
-                                                    }}
-                                                />
-                                            ))}
-                                        </div>
+                                </div>
+                            )}
+                            {appliedGiftCards.length === 0 ? null : (
+                                <div>
+                                    <Typography variant="p" letter="capitalize">
+                                        Applied Gift Card
+                                    </Typography>
+                                    <div className={styles.giftCardItemContainer}>
+                                        {appliedGiftCards.map((item, index) => (
+                                            <Chip
+                                                disabled={checkout.loading.giftCard}
+                                                className={styles.giftCard}
+                                                color="primary"
+                                                key={index}
+                                                size="small"
+                                                label={item}
+                                                onDelete={() => {
+                                                    handleRemoveGift(item);
+                                                }}
+                                            />
+                                        ))}
                                     </div>
-                                )}
-                            </div>
-                        ) : null}
-                    {checkout.loading.giftCard && (
-                        <CircularProgress
-                            className={styles.largeCircular}
-                            size={30}
-                        />
-                    )}
+                                </div>
+                            )}
+                        </div>
+                    ) : null}
+                    {checkout.loading.giftCard && <CircularProgress className={styles.largeCircular} size={30} />}
                 </div>
             ) : null}
             {customerFeautres.rewardPoint ? (
@@ -279,13 +277,21 @@ const DiscountSection = ({
                             {store_credit.is_use_store_credit ? 'Used Credit' : 'My Credit'}
                         </Typography>
                         <Typography variant="title" type="bold" className={styles.pointText}>
-                            {credit.toLocaleString(undefined, { minimumFractionDigits: 0 })}
+                            {formatPrice(
+                                `${credit}`.toLocaleString(undefined, { minimumFractionDigits: 0 }),
+                                storeConfig.default_display_currency_code,
+                            )}
                         </Typography>
                     </div>
                     <div>
-                        <Button variant="outlined" className={styles.btnPoint} disabled={checkout.loading.storeCredit} onClick={handleUseCredit}>
+                        <Button
+                            variant="outlined"
+                            className={styles.btnPoint}
+                            disabled={!!(checkout.loading.storeCredit || (!!(total === 0 && !store_credit.is_use_store_credit)))}
+                            onClick={handleUseCredit}
+                        >
                             <Typography
-                                color={checkout.loading.storeCredit ? 'gray' : 'default'}
+                                color={checkout.loading.storeCredit || (total === 0 && !store_credit.is_use_store_credit) ? 'gray' : 'default'}
                                 variant="p"
                                 type="bold"
                                 letter="uppercase"
@@ -293,12 +299,7 @@ const DiscountSection = ({
                             >
                                 {store_credit.is_use_store_credit ? 'remove credit' : 'use my credit'}
                             </Typography>
-                            {checkout.loading.storeCredit && (
-                                <CircularProgress
-                                    className={styles.smallCircular}
-                                    size={16}
-                                />
-                            )}
+                            {checkout.loading.storeCredit && <CircularProgress className={styles.smallCircular} size={16} />}
                         </Button>
                     </div>
                 </div>

@@ -3,7 +3,8 @@ import Button from '@components/Button';
 import Typography from '@components/Typography';
 import { useDispatch } from 'react-redux';
 import { setCountCart } from '@stores/actions/cart';
-import { removeCartId } from '@helpers/cartId';
+import { setCartId, removeCartId } from '@helpers/cartId';
+import { GraphCart } from '@services/graphql';
 import Routes from 'next/router';
 import _ from 'lodash';
 import {
@@ -24,17 +25,22 @@ const Summary = ({
     handleOpenMessage,
     formik,
     updateFormik,
+    storeConfig,
+    styles: checkoutStyles,
 }) => {
     const { order: loading, all: disabled } = checkout.loading;
     const dispatch = useDispatch();
     const styles = useStyles();
     const [expanded, setExpanded] = useState(null);
     const [orderId, setOrderId] = useState(null);
+    const [snapOpened, setSnapOpened] = useState(false);
     const [setGuestEmailAddressOnCart] = gqlService.setGuestEmailAddressOnCart(({ onError: () => {} }));
-    const [getSnapToken, { data: dataSnap }] = gqlService.getSnapToken({ onError: () => {} });
+    const [getSnapToken, manageSnapToken] = gqlService.getSnapToken({ onError: () => {} });
     const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
     const [placeOrder] = gqlService.placeOrder({ onError: () => {} });
-    const [getSnapOrderStatusByOrderId] = gqlService.getSnapOrderStatusByOrderId({ onError: () => {} });
+    const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => {} });
+    const [getCustCartId, manageCustCartId] = GraphCart.getCustomerCartId();
+    const [mergeCart, manageMergeCart] = GraphCart.mergeCart();
 
     const validateReponse = (response, parentState) => {
         const state = parentState;
@@ -67,6 +73,7 @@ const Summary = ({
         setCheckout(state);
 
         if (cart.prices.grand_total.value === 0 && (cart.selected_payment_method && cart.selected_payment_method.code !== 'free')) {
+            state = { ...checkout };
             result = await setPaymentMethod({ variables: { cartId: cart.id, code: 'free' } });
 
             if (!validateReponse(result, state)) {
@@ -129,35 +136,59 @@ const Summary = ({
         }
     };
 
-    if (dataSnap && orderId) {
-        const snapToken = dataSnap.getSnapTokenByOrderId.snap_token;
+    // Start - Manage Snap Pop Up When Opened (Waitinge Response From SnapToken)
+    if (manageSnapToken.data && orderId && !snapOpened) {
+        const snapToken = manageSnapToken.data.getSnapTokenByOrderId.snap_token;
         snap.pay(snapToken, {
             onSuccess() {
-                Routes.push({ pathname: '/thanks', query: { order_id: orderId } });
+                return Routes.push({ pathname: '/thanks', query: { order_id: orderId } });
             },
             onPending() {
-                Routes.push({ pathname: '/thanks', query: { order_id: orderId } });
+                return Routes.push({ pathname: '/thanks', query: { order_id: orderId } });
             },
             async onError() {
-                await getSnapOrderStatusByOrderId({
+                getSnapOrderStatusByOrderId({
                     variables: {
                         orderId,
                     },
                 });
-                setOrderId(null);
-                Routes.push('/checkout/cart');
+
+                getCustCartId();
+                setSnapOpened(true);
             },
-            async onClose() {
-                await getSnapOrderStatusByOrderId({
+            onClose() {
+                getSnapOrderStatusByOrderId({
                     variables: {
                         orderId,
                     },
                 });
-                setOrderId(null);
-                Routes.push('/checkout/cart');
+
+                getCustCartId();
+                setSnapOpened(true);
             },
         });
     }
+    // End - Manage Snap Pop Up When Opened (Waitinge Response From SnapToken)
+
+    // Start - Process Snap Pop Up Close (Waitinge Response From Reorder)
+    if (snapStatus.data && manageCustCartId.data && !manageMergeCart.called) {
+        const { cart_id } = snapStatus.data.getSnapOrderStatusByOrderId;
+        const { id: customerCartId } = manageCustCartId.data.customerCart;
+
+        mergeCart({
+            variables: {
+                sourceCartId: cart_id,
+                destionationCartId: customerCartId,
+            },
+        }).then(() => {
+            setCartId(customerCartId);
+            setOrderId(null);
+            Routes.push('/checkout/cart');
+        }).catch(() => {
+            Routes.push('/checkout/cart');
+        });
+    }
+    // End - Process Snap Pop Up Close (Waitinge Response From Reorder)
 
     // Start - Manage Summary
     let data = [];
@@ -171,8 +202,7 @@ const Summary = ({
             applied_giftcard,
         } = checkout.data.cart;
 
-        const [firstItem] = items;
-        const globalCurrency = firstItem.prices.row_total.currency;
+        const globalCurrency = storeConfig.default_display_currency_code;
 
         if (items) {
             const sumTotalItem = items.reduce(
@@ -255,7 +285,7 @@ const Summary = ({
                 {t('checkout:placeOrder')}
                 {loading && (
                     <CircularProgress
-                        className={styles.mediumCircular}
+                        className={checkoutStyles.mediumCircular}
                         size={24}
                     />
                 )}
