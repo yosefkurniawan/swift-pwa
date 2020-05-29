@@ -37,7 +37,7 @@
     "form": {
         "firstName": "Nama Depan",
         "lastName": "Nama Belakang",
-        "phoneNumber": "Nomor Telephon",
+        "phoneNumber": "Nomor Telepon",
         "confirm": "Konfirmasi Password",
         "currentPasword": "Password Lama",
         "state": "Bagian / Provinsi",
