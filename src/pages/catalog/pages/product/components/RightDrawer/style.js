@@ -10,7 +10,7 @@ export default makeStyles((theme) => ({
         right: '0',
         top: '0',
         height: '100vh',
-        zIndex: 5,
+        zIndex: 2,
         width: 35,
     },
 
