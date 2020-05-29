@@ -25,11 +25,7 @@ const internalCreateCustomerTokenOtp = async (parent, { username, otp }, context
             message: 'welcome',
         };
     }
-    return {
-        originalToken: '',
-        token: '',
-        message: 'failed to create customer token',
-    };
+    return res;
 };
 
 
