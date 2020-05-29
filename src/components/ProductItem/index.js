@@ -91,8 +91,26 @@ const ProductItem = (props) => {
                 </div>
                 <div className={styles.detailItem}>
                     <div className={styles.descItem}>
+                        {showFeed && (
+                            <div style={{
+                                position: 'absolute',
+                                width: '20px',
+                                top: '-4px',
+                                right: '14px',
+                                textAlign: 'right',
+                            }}
+                            >
+                                <Button
+                                    className={styles.btnFeed}
+                                    variant="text"
+                                    onClick={handleFeed}
+                                >
+                                    {FeedIcon}
+                                </Button>
+                            </div>
+                        )}
                         <Link href="/[...slug]" as={`/${url_key}`}>
-                            <a>
+                            <a style={{ maxWidth: 'calc(100% - 34px)' }}>
                                 <Typography
                                     variant="p"
                                     className={styles.clearMarginPadding}
@@ -115,15 +133,6 @@ const ProductItem = (props) => {
                         variants={variants}
                         setSpesificProduct={setSpesificProduct}
                     />
-                    {showFeed && (
-                        <Button
-                            className={styles.btnFeed}
-                            variant="text"
-                            onClick={handleFeed}
-                        >
-                            {FeedIcon}
-                        </Button>
-                    )}
                 </div>
             </div>
         </>
