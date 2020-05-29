@@ -13,13 +13,13 @@ const next = require('next');
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
-const fetch = require('cross-fetch');
-const { print } = require('graphql');
 const nextI18NextMiddleware = require('next-i18next/middleware').default;
-const { graphqlEndpoint } = require('./swift.config');
-const { decrypt, encrypt } = require('./src/helpers/encryption');
+const { mergeSchemas } = require('graphql-tools');
 
 const nextI18next = require('./src/lib/i18n');
+const fetcher = require('./src/graphql');
+const resolver = require('./src/graphql/resolver/index');
+const { AuthSchema } = require('./src/graphql/schema/index');
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
@@ -28,8 +28,6 @@ const handle = app.getRequestHandler();
 const privateKey = '/etc/letsencrypt/live/swiftpwa.testingnow.me/privkey.pem';
 const certificate = '/etc/letsencrypt/live/swiftpwa.testingnow.me/cert.pem';
 
-// const schema = require('./src/api');
-const root = require('./src/api/root');
 
 const { expiredToken, SESSION_SECRET } = require('./swift.config');
 
@@ -45,62 +43,20 @@ const { expiredToken, SESSION_SECRET } = require('./swift.config');
         maxAge: expiredToken,
     }));
 
-    // make remote schema
-    const fetcher = async ({
-        query: queryDocument, variables, operationName, context,
-    }) => {
-        try {
-            let token = '';
-            if (context) {
-                console.log(context);
-                token = context.graphqlContext.session.token;
-            }
-            console.log('request token', token);
-            const query = print(queryDocument);
-            const fetchResult = await fetch(process.env.NODE_ENV === 'production' ? graphqlEndpoint.prod : graphqlEndpoint.dev, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: token ? `Bearer ${decrypt(token)}` : '',
-                },
-                body: JSON.stringify({ query, variables, operationName }),
-            });
-            const response = await fetchResult.json();
-            if (response.errors) {
-                const err = response.errors[0];
-                if (err.extensions.category === 'graphql-authorization') {
-                    return {
-                        errors: [
-                            {
-                                message: err.extensions.category,
-                                extensions: err.extensions,
-                            },
-                        ],
-                        data: response.data,
-                    };
-                }
-            }
-            // save token to context
-            if (response.data && response.data.generateCustomerTokenCustom) {
-                context.graphqlContext.session.token = encrypt(response.data.generateCustomerTokenCustom.token);
-            } else if (response.data && typeof response.data.revokeCustomerToken) {
-            // remove session from context
-                context.graphqlContext.session.token = '';
-            }
-            return response;
-        } catch (error) {
-            return error;
-        }
-    };
 
     const schema = makeRemoteExecutableSchema({
         schema: await introspectSchema(fetcher),
         fetcher,
     });
 
+    const schemas = mergeSchemas({
+        schemas: [schema, AuthSchema],
+        resolvers: resolver,
+    });
+
     // handle server graphql endpoint use `/graphql`
     const serverGraph = new ApolloServer({
-        schema,
+        schema: schemas,
         context: ({ req }) => req,
         playground: {
             endpoint: '/graphql',
