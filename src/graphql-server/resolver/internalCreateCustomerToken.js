@@ -25,11 +25,7 @@ const internalCreateCustomerToken = async (parent, { username, password }, conte
             message: 'welcome',
         };
     }
-    return {
-        originalToken: '',
-        token: '',
-        message: 'failed to create customer token',
-    };
+    return res;
 };
 
 
