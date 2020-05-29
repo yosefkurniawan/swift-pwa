@@ -4,6 +4,7 @@ import Router from 'next/router';
 import useStyles from './style';
 
 const CustomButton = ({
+    rootClassName = '',
     className = {},
     variant = 'contained',
     color = 'primary',
@@ -22,8 +23,12 @@ const CustomButton = ({
         fullWidth && styles.fullWidth,
         className,
     );
+    const rootClass = classNames(
+        styles.loadRoot,
+        rootClassName,
+    );
     return (
-        <div className={styles.loadRoot} style={customRootStyle}>
+        <div className={rootClass} style={customRootStyle}>
             <div className={styles.wrapper}>
                 <Button
                     onClick={

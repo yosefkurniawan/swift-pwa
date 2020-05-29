@@ -29,4 +29,10 @@ export default makeStyles((theme) => ({
             width: 375,
         },
     },
+    btnContainer: {
+        width: 'fit-content',
+        [theme.breakpoints.down('xs')]: {
+            width: '100% !important',
+        },
+    },
 }));
