@@ -19,12 +19,12 @@ import Cookies from 'js-cookie';
 import { regexPhone } from '@helpers/regex';
 import { getToken, getTokenOtp } from './service/graphql';
 import useStyles from './style';
-// import { removeToken as deleteToken } from '../account/services/graphql';
+import { removeToken as deleteToken } from '../account/services/graphql';
 
 const Login = ({ t, storeConfig, query }) => {
     const styles = useStyles();
     const [isOtp, setIsOtp] = React.useState(false);
-    // const [isRevokeToken, setRevokeToken] = React.useState(false);
+    const [isRevokeToken, setRevokeToken] = React.useState(false);
     const [message, setMessage] = React.useState({
         open: false,
         text: '',
@@ -50,7 +50,7 @@ const Login = ({ t, storeConfig, query }) => {
     if (typeof window !== 'undefined') {
         cartId = getCartId();
     }
-    // const [deleteTokenGql] = deleteToken();
+    const [deleteTokenGql] = deleteToken();
     const [getCustomerToken] = getToken();
     const [getCustomerTokenOtp] = getTokenOtp();
     const [getCart, cartData] = GraphCart.getCustomerCartId();
@@ -64,13 +64,12 @@ const Login = ({ t, storeConfig, query }) => {
     });
 
     // handle revoke token
-    // sementara di comment dlu
-    // React.useEffect(() => {
-    //     if (!isRevokeToken && typeof window !== 'undefined') {
-    //         setRevokeToken(true);
-    //         deleteTokenGql();
-    //     }
-    // }, [isRevokeToken]);
+    React.useEffect(() => {
+        if (!isRevokeToken && typeof window !== 'undefined') {
+            setRevokeToken(true);
+            deleteTokenGql();
+        }
+    }, [isRevokeToken]);
 
     const LoginSchema = Yup.object().shape({
         username: isOtp ? Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong'))
