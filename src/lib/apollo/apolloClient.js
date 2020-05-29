@@ -28,7 +28,6 @@ const uriInternal = process.env.NODE_ENV === 'production'
 // handle if token expired
 const logoutLink = onError((err) => {
     const { graphQLErrors } = err;
-    console.log(err);
     if (graphQLErrors && graphQLErrors[0] && graphQLErrors[0].status === 401 && typeof window !== 'undefined') {
         removeCartId();
         removeIsLoginFlagging();
