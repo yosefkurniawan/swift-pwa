@@ -5,17 +5,17 @@ const { encrypt } = require('../../helpers/encryption');
 const query = `
     mutation getToken(
         $username: String!,
-        $password: String!,
+        $otp: String!,
     ) {
-        generateCustomerTokenCustom(username: $username, password: $password){
+        generateCustomerTokenCustom(username: $username, otp: $otp){
         token
         }
     }
 `;
 
 
-const createCustomerToken = async (parent, { username, password }, context) => {
-    const res = await requestGraph(query, { username, password }, context);
+const internalCreateCustomerTokenOtp = async (parent, { username, otp }, context) => {
+    const res = await requestGraph(query, { username, otp }, context);
     // context.session.destroy();
     if (res.generateCustomerTokenCustom) {
         context.session.token = encrypt(res.generateCustomerTokenCustom.token);
@@ -33,4 +33,4 @@ const createCustomerToken = async (parent, { username, password }, context) => {
 };
 
 
-module.exports = createCustomerToken;
+module.exports = internalCreateCustomerTokenOtp;

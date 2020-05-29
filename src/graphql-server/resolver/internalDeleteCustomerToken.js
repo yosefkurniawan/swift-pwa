@@ -9,7 +9,7 @@ mutation {
 }
 `;
 
-const createCustomerToken = async (parent, args, context) => {
+const internalDeleteCustomerToken = async (parent, args, context) => {
     const res = await requestGraph(query, { }, context);
     context.session.token = null;
     if (res.revokeCustomerToken) {
@@ -23,4 +23,4 @@ const createCustomerToken = async (parent, args, context) => {
 };
 
 
-module.exports = createCustomerToken;
+module.exports = internalDeleteCustomerToken;

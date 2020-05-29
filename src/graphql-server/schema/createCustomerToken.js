@@ -23,9 +23,9 @@ const customerSchema = makeExecutableSchema({
       }
       
       type Mutation {
-        createCustomerToken(username: String!, password: String!): Token
-        createCustomerTokenOtp(username: String!, otp: String!): Token
-        deleteCustomerToken: RevokeCustomerTokenOutput
+        internalCreateCustomerToken(username: String!, password: String!): Token
+        internalCreateCustomerTokenOtp(username: String!, otp: String!): Token
+        internalDeleteCustomerToken: RevokeCustomerTokenOutput
       }
     `,
 });
