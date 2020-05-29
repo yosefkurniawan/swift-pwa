@@ -13,6 +13,7 @@ export const customerNotificationList = () => useQuery(Schema.customerNotificati
     context: {
         request: 'internal',
     },
+    skip: typeof window === 'undefined',
     fetchPolicy: 'network-only',
 });
 
