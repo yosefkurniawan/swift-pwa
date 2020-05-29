@@ -26,9 +26,11 @@ export const getCart = gql`
             items {
               id
               quantity
-              configurable_options {
-                option_label
-                value_label
+              ... on ConfigurableCartItem {
+                configurable_options {
+                  option_label
+                  value_label
+                }
               }
               prices {
                 discounts {
