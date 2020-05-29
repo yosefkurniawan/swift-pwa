@@ -31,23 +31,32 @@ const FilterDialog = ({
     loading = false,
     sortByData = [],
     getValue = () => {},
-    defaultValue = {},
+    filterValue = {},
+    defaultSort,
 }) => {
     const { t } = useTranslation(['common']);
     const styles = useStyles();
-    const [selectedFilter, setFilter] = React.useState(defaultValue);
-    const [sort, setSort] = React.useState(defaultValue.sort ? defaultValue.sort : '');
-    const [priceRange, setPriceRange] = React.useState(defaultValue.priceRange ? defaultValue.priceRange.split(',') : [0, 0]);
+    const [selectedFilter, setFilter] = React.useState(filterValue);
+    const [sort, setSort] = React.useState(filterValue.sort ? filterValue.sort : '');
+    const [priceRange, setPriceRange] = React.useState(filterValue.priceRange ? filterValue.priceRange.split(',') : [0, 0]);
     const handleClear = () => {
-        setSort('');
+        setSort(defaultSort || '');
         setPriceRange([0, 0]);
         const query = {};
         // eslint-disable-next-line no-plusplus
         for (let index = 0; index < noClearQuery.length; index++) {
-            query[noClearQuery[index]] = defaultValue[noClearQuery[index]];
+            query[noClearQuery[index]] = filterValue[noClearQuery[index]];
         }
+        // delete empty params ...?q=undefined&...
+        Object.keys(query).forEach((key) => {
+            if (query[key] === undefined || query[key] === null || query[key] === '') {
+                delete query[key];
+            }
+        });
         setFilter({ ...query });
     };
+
+    // React.useEffect(() => { debugger; }, []);
 
     const handleSave = () => {
         if (selectedFilter.priceRange) {
@@ -153,7 +162,7 @@ const FilterDialog = ({
                                     name={itemFilter.field}
                                     label={itemFilter.label || t('common:title:size')}
                                     data={ItemValueByLabel}
-                                    value={defaultValue[itemFilter.field] ? defaultValue[itemFilter.field].split(',') : []}
+                                    value={filterValue[itemFilter.field] ? filterValue[itemFilter.field].split(',') : []}
                                     flex={itemProps.selectSizeFlex || 'row'}
                                     CustomItem={itemProps.selectSizeItem || CheckBoxSize}
                                     onChange={(val) => setCheckedFilter(itemFilter.field, val)}
@@ -167,7 +176,7 @@ const FilterDialog = ({
                                     name={itemFilter.field}
                                     label={itemFilter.label || t('common:title:color')}
                                     data={ItemValueByLabel}
-                                    value={defaultValue[itemFilter.field] ? defaultValue[itemFilter.field].split(',') : []}
+                                    value={filterValue[itemFilter.field] ? filterValue[itemFilter.field].split(',') : []}
                                     flex={itemProps.selectSizeFlex || 'row'}
                                     CustomItem={itemProps.selectColorItem || CheckBoxColor}
                                     onChange={(val) => setCheckedFilter(itemFilter.field, val)}
@@ -184,7 +193,7 @@ const FilterDialog = ({
                                     field={itemFilter.field}
                                     label={itemFilter.label || ''}
                                     data={ItemValueByLabel}
-                                    value={defaultValue[itemFilter.field] ? defaultValue[itemFilter.field].split(',') : []}
+                                    value={filterValue[itemFilter.field] ? filterValue[itemFilter.field].split(',') : []}
                                     flex="column"
                                     onChange={(val) => setCheckedFilter(itemFilter.field, val)}
                                 />
