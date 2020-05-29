@@ -8,7 +8,8 @@ import Router from 'next/router';
 import { removeToken as deleteToken } from '../../services/graphql';
 import useStyles from './style';
 
-export default ({ t, isLogin }) => {
+export default ({ t, isLogin, storeConfig }) => {
+    const { aw_blog_general_enabled: blog } = storeConfig;
     const styles = useStyles();
     const dispatch = useDispatch();
     const [deleteTokenGql] = deleteToken();
@@ -35,6 +36,16 @@ export default ({ t, isLogin }) => {
                         <a className={styles.account_navigation_link}>{t('customer:menu:contactUs')}</a>
                     </Link>
                 </li>
+                {
+                    (blog === '1' || blog === 1 || blog === true) ? (
+                        <li className={styles.account_navigation_item}>
+                            <Link href="/[..slug]" as="/blog">
+                                <a className={styles.account_navigation_link}>{t('customer:menu:blog')}</a>
+                            </Link>
+                        </li>
+                    ) : null
+
+                }
                 {
                     isLogin
                         ? (
