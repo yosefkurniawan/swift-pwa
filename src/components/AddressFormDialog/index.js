@@ -103,11 +103,11 @@ const AddressFormDialog = (props) => {
         return data.find((item) => item.label === label) ? data.find((item) => item.label === label) : null;
     };
 
-    const getCustomAttributesValue = (attribute_code) => Number((customAttributes.find((el) => el.attribute_code === attribute_code) || {}).value);
+    const getCustomAttributesValue = (attribute_code) => (customAttributes.find((el) => el.attribute_code === attribute_code) || {}).value;
 
     const [mapPosition, setMapPosition] = useState({
-        lat: customAttributes ? getCustomAttributesValue('latitude') : -6.197361,
-        lng: customAttributes ? getCustomAttributesValue('longitude') : 106.774535,
+        lat: customAttributes ? getCustomAttributesValue('latitude') : '-6.197361',
+        lng: customAttributes ? getCustomAttributesValue('longitude') : '106.774535',
     });
 
     const displayLocationInfo = (position) => {
