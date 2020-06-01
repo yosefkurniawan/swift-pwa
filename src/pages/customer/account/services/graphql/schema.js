@@ -2,7 +2,7 @@ import { gql } from 'apollo-boost';
 
 export const removeToken = gql`
 mutation {
-  revokeCustomerToken{
+  internalDeleteCustomerToken{
     result
   }
 }

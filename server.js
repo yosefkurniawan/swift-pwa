@@ -1,16 +1,25 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 
-const { ApolloServer, gql } = require('apollo-server-express');
+const {
+    ApolloServer,
+    gql,
+    introspectSchema,
+    makeRemoteExecutableSchema,
+} = require('apollo-server-express');
 const cookieSession = require('cookie-session');
 const express = require('express');
 const next = require('next');
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
-
 const nextI18NextMiddleware = require('next-i18next/middleware').default;
+const { mergeSchemas } = require('graphql-tools');
+
 const nextI18next = require('./src/lib/i18n');
+const fetcher = require('./src/graphql-server');
+const resolver = require('./src/graphql-server/resolver/index');
+const { AuthSchema } = require('./src/graphql-server/schema/index');
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
@@ -19,8 +28,7 @@ const handle = app.getRequestHandler();
 const privateKey = '/etc/letsencrypt/live/swiftpwa.testingnow.me/privkey.pem';
 const certificate = '/etc/letsencrypt/live/swiftpwa.testingnow.me/cert.pem';
 
-const schema = require('./src/api');
-const root = require('./src/api/root');
+
 const { expiredToken, SESSION_SECRET } = require('./swift.config');
 
 (async () => {
@@ -35,10 +43,20 @@ const { expiredToken, SESSION_SECRET } = require('./swift.config');
         maxAge: expiredToken,
     }));
 
+
+    const schema = makeRemoteExecutableSchema({
+        schema: await introspectSchema(fetcher),
+        fetcher,
+    });
+
+    const schemas = mergeSchemas({
+        schemas: [schema, AuthSchema],
+        resolvers: resolver,
+    });
+
     // handle server graphql endpoint use `/graphql`
     const serverGraph = new ApolloServer({
-        schema,
-        rootValue: root,
+        schema: schemas,
         context: ({ req }) => req,
         playground: {
             endpoint: '/graphql',
@@ -47,15 +65,16 @@ const { expiredToken, SESSION_SECRET } = require('./swift.config');
             },
         },
         formatError: (err) => {
-            console.log(err);
-            const error = err.extensions.exception.response.errors[0];
-            return {
-                message: error.message,
-                extensions: error.extensions,
-                location: error.location,
-                path: error.path,
-                status: error.extensions.category === 'graphql-authorization' ? 401 : 200,
-            };
+            if (err.message === 'graphql-authorization') {
+                return {
+                    message: err.message,
+                    extensions: {
+                        category: 'graphql-authorization',
+                    },
+                    status: 401,
+                };
+            }
+            return err;
         },
     });
     serverGraph.applyMiddleware({ app: server });

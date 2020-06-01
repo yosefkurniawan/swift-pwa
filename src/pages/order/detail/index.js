@@ -6,7 +6,7 @@ import { getOrder } from '../services/graphql';
 import Content from './component';
 
 const Page = (props) => {
-    const { t, token } = props;
+    const { t } = props;
     const router = useRouter();
     const { id } = router.query;
     let detail = [];
@@ -14,7 +14,7 @@ const Page = (props) => {
         pageSize: 999,
         currentPage: 1,
     });
-    const { loading, data, error } = getOrder(token, params);
+    const { loading, data, error } = getOrder(params);
     if (loading || !data || error) return <Loader />;
     if (!loading && data) {
         detail = data.customerOrders.items.filter((item) => item.id === parseInt(id, 0));

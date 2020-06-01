@@ -182,8 +182,10 @@ export default (props) => {
                                                             {t('customer:rewardPoint:point')}
                                                         </Typography>
                                                     </div>
-                                                    <div className={val.points < 0 ? styles.textRed : styles.textGreen}>
-                                                        {val.points < 0 ? `-${val.points}` : `+${val.points}`}
+                                                    <div className={styles.value}>
+                                                        <div className={val.points < 0 ? styles.textRed : styles.textGreen}>
+                                                            {val.points < 0 ? `-${val.points}` : `+${val.points}`}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </TableCell>
