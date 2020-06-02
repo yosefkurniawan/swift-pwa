@@ -14,10 +14,6 @@ import Loading from '@components/Loaders';
 import { useTranslation } from '@i18n';
 import useStyles from './style';
 
-
-// constanta to defined if query cannot deleted example "q" using on search
-const noClearQuery = ['q'];
-
 const Transition = React.forwardRef((props, ref) => (
     <Slide direction="up" ref={ref} {...props} />
 ));
@@ -31,22 +27,37 @@ const FilterDialog = ({
     loading = false,
     sortByData = [],
     getValue = () => {},
-    defaultValue = {},
+    filterValue = {},
+    defaultSort,
 }) => {
     const { t } = useTranslation(['common']);
     const styles = useStyles();
-    const [selectedFilter, setFilter] = React.useState(defaultValue);
-    const [sort, setSort] = React.useState(defaultValue.sort ? defaultValue.sort : '');
-    const [priceRange, setPriceRange] = React.useState(defaultValue.priceRange ? defaultValue.priceRange.split(',') : [0, 0]);
+    const [selectedFilter, setFilter] = React.useState(filterValue);
+    const [sort, setSort] = React.useState(filterValue.sort ? filterValue.sort : '');
+    const [priceRange, setPriceRange] = React.useState(filterValue.priceRange ? filterValue.priceRange.split(',') : [0, 0]);
     const handleClear = () => {
-        setSort('');
+        // reset value for sort component
+        setSort(defaultSort || '');
+
+        // reset value for price range component
         setPriceRange([0, 0]);
-        const query = {};
-        // eslint-disable-next-line no-plusplus
-        for (let index = 0; index < noClearQuery.length; index++) {
-            query[noClearQuery[index]] = defaultValue[noClearQuery[index]];
-        }
-        setFilter({ ...query });
+
+        // new filter with clear/reset value
+        const newFilter = {
+            q: selectedFilter.q,
+            sort: defaultSort,
+            priceRange: [0, 0],
+        };
+
+        // delete params when empty value, ex: ...?q=undefined...
+        Object.keys(newFilter).forEach((key) => {
+            const emptyValues = [undefined, null, '', 'undefined', 'null'];
+            if (emptyValues.includes(newFilter[key])) {
+                delete newFilter[key];
+            }
+        });
+
+        setFilter(newFilter);
     };
 
     const handleSave = () => {
@@ -153,7 +164,7 @@ const FilterDialog = ({
                                     name={itemFilter.field}
                                     label={itemFilter.label || t('common:title:size')}
                                     data={ItemValueByLabel}
-                                    value={defaultValue[itemFilter.field] ? defaultValue[itemFilter.field].split(',') : []}
+                                    value={selectedFilter[itemFilter.field] ? selectedFilter[itemFilter.field].split(',') : []}
                                     flex={itemProps.selectSizeFlex || 'row'}
                                     CustomItem={itemProps.selectSizeItem || CheckBoxSize}
                                     onChange={(val) => setCheckedFilter(itemFilter.field, val)}
@@ -167,7 +178,7 @@ const FilterDialog = ({
                                     name={itemFilter.field}
                                     label={itemFilter.label || t('common:title:color')}
                                     data={ItemValueByLabel}
-                                    value={defaultValue[itemFilter.field] ? defaultValue[itemFilter.field].split(',') : []}
+                                    value={selectedFilter[itemFilter.field] ? selectedFilter[itemFilter.field].split(',') : []}
                                     flex={itemProps.selectSizeFlex || 'row'}
                                     CustomItem={itemProps.selectColorItem || CheckBoxColor}
                                     onChange={(val) => setCheckedFilter(itemFilter.field, val)}
@@ -184,7 +195,7 @@ const FilterDialog = ({
                                     field={itemFilter.field}
                                     label={itemFilter.label || ''}
                                     data={ItemValueByLabel}
-                                    value={defaultValue[itemFilter.field] ? defaultValue[itemFilter.field].split(',') : []}
+                                    value={selectedFilter[itemFilter.field] ? selectedFilter[itemFilter.field].split(',') : []}
                                     flex="column"
                                     onChange={(val) => setCheckedFilter(itemFilter.field, val)}
                                 />

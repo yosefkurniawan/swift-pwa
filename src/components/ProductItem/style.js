@@ -21,7 +21,6 @@ export default makeStyles((theme) => ({
     imgItem: {
         width: '100%',
         ...Centering,
-        height: 288,
         backgroundColor: WHITE,
     },
     imgProduct: {
@@ -39,18 +38,20 @@ export default makeStyles((theme) => ({
     descItem: {
         ...FlexColumn,
         maxWidht: '80%',
+        position: 'relative',
     },
     clearMarginPadding: {
         ...ClearMarginPadding,
     },
     btnFeed: {
-        position: 'absolute',
-        right: 12,
-        top: 14,
         ...ClearMarginPadding,
+        minWidth: 'unset',
         width: 20,
         height: 20,
-        marginRight: -20,
+        justifyContent: 'flex-end',
+    },
+    productLinkButton: {
+        maxWidth: 'calc(100% - 34px)',
     },
     iconFeed: {
         fontSize: 18,

@@ -4,7 +4,7 @@ import FilterDialog from '@components/FilterDialog';
 import PropTypes from 'prop-types';
 
 const Filter = ({
-    openFilter, setOpenFilter, setFilter, defaultValue = {}, elastic, filter, isSearch = false,
+    openFilter, setOpenFilter, setFilter, filterValue = {}, elastic, defaultSort, filter, isSearch = false,
 }) => {
     let sortByData;
 
@@ -28,7 +28,8 @@ const Filter = ({
 
     return (
         <FilterDialog
-            defaultValue={defaultValue}
+            defaultSort={defaultSort}
+            filterValue={filterValue}
             open={openFilter}
             sortByData={sortByData}
             elastic={elastic}
