@@ -60,7 +60,7 @@
     "adjustment" : "Store Credit Tambahan",
     "creditbalance" : "Store Credit Saldo",
     "comment" : "Catatan",
-    "transactionDate" : "Tanggal Transalsi",
+    "transactionDate" : "Tanggal Transaksi",
     "editEmail" : "Ubah Pengaturan Email",
     "emptyMessage" : "You have no transactions.",
     "item" : "Item"
@@ -73,7 +73,7 @@
     "myAccount": "Akun Saya",
     "address": "Buku Alamat",
     "setting": "Pengaturan",
-    "storeCredit": "Store Credit & Refund",
+    "storeCredit": "Store Credit",
     "readMore": "Selengkapnya",
     "rewardPoint": "Reward Poin"
   },
@@ -86,6 +86,12 @@
   "rewardPoint": {
     "balanceTitle": "Sisa Poin kamu adalah  ",
     "canbeTitle": "Total yang dapat di redeem saat checkout adalah ",
-    "learnMore": "Untuk mempelajari tentant reward poin. $ Klik disini"
+    "learnMore": "Untuk mempelajari tentant reward poin. $ Klik disini",
+    "transactionId" : "ID Transaksi",
+    "balance": "Sisa saldo",
+    "comment": "Komentar",
+    "expired" : "Masa berlaku",
+    "point": "Poin",
+    "transactionDate": "Tanggal Transaksi"
   }
 }

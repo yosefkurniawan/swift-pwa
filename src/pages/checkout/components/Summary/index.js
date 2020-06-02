@@ -184,19 +184,24 @@ const Summary = ({
 
         if (!checkout.data.isGuest && manageCustCartId.data) {
             const { id: customerCartId } = manageCustCartId.data.customerCart;
-
-            mergeCart({
-                variables: {
-                    sourceCartId: cart_id,
-                    destionationCartId: customerCartId,
-                },
-            }).then(async () => {
-                await setCartId(customerCartId);
+            if (cart_id !== customerCartId) {
+                mergeCart({
+                    variables: {
+                        sourceCartId: cart_id,
+                        destionationCartId: customerCartId,
+                    },
+                }).then(async () => {
+                    await setCartId(customerCartId);
+                    setOrderId(null);
+                    window.location.replace('/checkout/cart');
+                }).catch(() => {
+                    window.location.replace('/checkout/cart');
+                });
+            } else {
+                setCartId(customerCartId);
                 setOrderId(null);
                 window.location.replace('/checkout/cart');
-            }).catch(() => {
-                window.location.replace('/checkout/cart');
-            });
+            }
         } else {
             setCartId(cart_id);
             setOrderId(null);

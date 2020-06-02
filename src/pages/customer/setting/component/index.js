@@ -87,7 +87,7 @@ const SettingPage = ({ t, i18n }) => {
             </div>
             <div className={styles.footer}>
                 <Button
-                    customRootStyle={{ width: 'fit-content' }}
+                    rootClassName={styles.btnContainer}
                     className={styles.btnSave}
                     onClick={handleSave}
                 >

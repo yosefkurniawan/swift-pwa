@@ -73,7 +73,7 @@
     "myAccount": "My Account",
     "address": "Address Book",
     "setting": "Settings",
-    "storeCredit": "Store Credit & Refund",
+    "storeCredit": "Store Credit",
     "readMore": "Read More",
     "rewardPoint": "Reward Points"
   },
@@ -86,6 +86,12 @@
   "rewardPoint": {
     "balanceTitle": "Your current balance is ",
     "canbeTitle": "Total can be redeem at checkout is ",
-    "learnMore": "To learn abaout point reward program. $ Click here"
+    "learnMore": "To learn abaout point reward program. $ Click here",
+    "transactionId" : "Transaction ID",
+    "balance": "Balance",
+    "comment": "Comment",
+    "expired" : "Expired Date",
+    "point": "Point",
+    "transactionDate": "Transaction Date"
   }
 }
