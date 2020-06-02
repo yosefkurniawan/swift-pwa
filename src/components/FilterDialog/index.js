@@ -36,13 +36,27 @@ const FilterDialog = ({
     const [sort, setSort] = React.useState(filterValue.sort ? filterValue.sort : '');
     const [priceRange, setPriceRange] = React.useState(filterValue.priceRange ? filterValue.priceRange.split(',') : [0, 0]);
     const handleClear = () => {
+        // reset value for sort component
         setSort(defaultSort || '');
+
+        // reset value for price range component
         setPriceRange([0, 0]);
-        setFilter({
+
+        // new filter with clear/reset value
+        const newFilter = {
             q: selectedFilter.q,
             sort: defaultSort,
             priceRange: [0, 0],
+        };
+
+        // delete when uempty value, ex: ...?q=undefined...
+        Object.keys(newFilter).forEach((key) => {
+            if (newFilter[key] === undefined || newFilter[key] === null || newFilter[key] === '') {
+                delete newFilter[key];
+            }
         });
+
+        setFilter(newFilter);
     };
 
     const handleSave = () => {
