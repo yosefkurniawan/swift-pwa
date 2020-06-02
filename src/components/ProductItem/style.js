@@ -50,6 +50,9 @@ export default makeStyles((theme) => ({
         height: 20,
         justifyContent: 'flex-end',
     },
+    productLinkButton: {
+        maxWidth: 'calc(100% - 34px)',
+    },
     iconFeed: {
         fontSize: 18,
         color: GRAY_PRIMARY,

@@ -14,10 +14,6 @@ import Loading from '@components/Loaders';
 import { useTranslation } from '@i18n';
 import useStyles from './style';
 
-
-// constanta to defined if query cannot deleted example "q" using on search
-const noClearQuery = ['q'];
-
 const Transition = React.forwardRef((props, ref) => (
     <Slide direction="up" ref={ref} {...props} />
 ));
@@ -42,21 +38,12 @@ const FilterDialog = ({
     const handleClear = () => {
         setSort(defaultSort || '');
         setPriceRange([0, 0]);
-        const query = {};
-        // eslint-disable-next-line no-plusplus
-        for (let index = 0; index < noClearQuery.length; index++) {
-            query[noClearQuery[index]] = filterValue[noClearQuery[index]];
-        }
-        // delete empty params ...?q=undefined&...
-        Object.keys(query).forEach((key) => {
-            if (query[key] === undefined || query[key] === null || query[key] === '') {
-                delete query[key];
-            }
+        setFilter({
+            q: selectedFilter.q,
+            sort: defaultSort,
+            priceRange: [0, 0],
         });
-        setFilter({ ...query });
     };
-
-    // React.useEffect(() => { debugger; }, []);
 
     const handleSave = () => {
         if (selectedFilter.priceRange) {
@@ -162,7 +149,7 @@ const FilterDialog = ({
                                     name={itemFilter.field}
                                     label={itemFilter.label || t('common:title:size')}
                                     data={ItemValueByLabel}
-                                    value={filterValue[itemFilter.field] ? filterValue[itemFilter.field].split(',') : []}
+                                    value={selectedFilter[itemFilter.field] ? selectedFilter[itemFilter.field].split(',') : []}
                                     flex={itemProps.selectSizeFlex || 'row'}
                                     CustomItem={itemProps.selectSizeItem || CheckBoxSize}
                                     onChange={(val) => setCheckedFilter(itemFilter.field, val)}
@@ -176,7 +163,7 @@ const FilterDialog = ({
                                     name={itemFilter.field}
                                     label={itemFilter.label || t('common:title:color')}
                                     data={ItemValueByLabel}
-                                    value={filterValue[itemFilter.field] ? filterValue[itemFilter.field].split(',') : []}
+                                    value={selectedFilter[itemFilter.field] ? selectedFilter[itemFilter.field].split(',') : []}
                                     flex={itemProps.selectSizeFlex || 'row'}
                                     CustomItem={itemProps.selectColorItem || CheckBoxColor}
                                     onChange={(val) => setCheckedFilter(itemFilter.field, val)}
@@ -193,7 +180,7 @@ const FilterDialog = ({
                                     field={itemFilter.field}
                                     label={itemFilter.label || ''}
                                     data={ItemValueByLabel}
-                                    value={filterValue[itemFilter.field] ? filterValue[itemFilter.field].split(',') : []}
+                                    value={selectedFilter[itemFilter.field] ? selectedFilter[itemFilter.field].split(',') : []}
                                     flex="column"
                                     onChange={(val) => setCheckedFilter(itemFilter.field, val)}
                                 />

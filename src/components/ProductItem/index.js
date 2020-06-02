@@ -110,7 +110,7 @@ const ProductItem = (props) => {
                             </div>
                         )}
                         <Link href="/[...slug]" as={`/${url_key}`}>
-                            <a style={{ maxWidth: 'calc(100% - 34px)' }}>
+                            <a className={styles.productLinkButton}>
                                 <Typography
                                     variant="p"
                                     className={styles.clearMarginPadding}
