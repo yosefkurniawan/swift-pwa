@@ -30,7 +30,7 @@ const GetResolver = (props) => {
 const Content = (props) => {
     const { slug, storeConfig } = props;
     let url = slug.join('/');
-    if (url.includes('blog')) return <Blog />;
+    if (url.includes('blog')) return <Blog {...props} />;
     // suffix based on storeConfig
     const suffix = (storeConfig || {}).category_url_suffix || '';
 

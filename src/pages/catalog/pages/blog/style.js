@@ -1,41 +1,59 @@
 import { makeStyles } from '@material-ui/core';
+import { Centering, CreateMargin } from '@theme/mixins';
 
-import {
-    CreatePadding, CreateMargin, FlexRow, Centering,
-} from '@theme/mixins';
-import { } from '@theme/colors';
-
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     container: {
         width: '100%',
         height: '100%',
-        ...Centering,
-        position: 'relative',
-        ...CreatePadding(30, 30, 30, 30),
-        overflow: 'hidden',
-
     },
-    btnSigin: {
-        ...CreateMargin(50, 0, 10, 0),
+    containerItemBlog: {
+        padding: 15,
     },
-
-    formOtp: {
-        ...FlexRow,
-        justifyContent: 'center',
+    itemTitle: {
+        fontSize: 20,
+        marginBottom: 15,
+    },
+    listShareIcon: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-arround',
+        marginLeft: 10,
+    },
+    dateShare: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginBottom: 15,
         alignItems: 'center',
     },
-    fieldOtp: {
-        width: 120,
-        fontSize: 24,
-        textAlign: 'center',
+    iconShare: {
+        marginRight: 10,
     },
-    inputField: {
-        textAlign: 'center',
-    },
-    methodContainer: {
-        height: 55,
+    imageBlogContainer: {
+        width: '100%',
         ...Centering,
-        width: '85%',
-        ...CreateMargin(15, 0, 15, 0),
+        ...CreateMargin(10, 0, 10, 0),
+        [theme.breakpoints.down('sm')]: {
+            maxHeight: 320,
+        },
+        [theme.breakpoints.up('sm')]: {
+            maxHeight: 800,
+        },
+    },
+    imageBlog: {
+        width: '100%',
+        height: 'auto',
+        [theme.breakpoints.down('sm')]: {
+            maxHeight: 320,
+        },
+        [theme.breakpoints.up('sm')]: {
+            maxHeight: 800,
+        },
+    },
+    shareBottom: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginBottom: 30,
+        alignItems: 'center',
+        marginTop: 30,
     },
 }));

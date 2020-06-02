@@ -95,7 +95,12 @@ const productImageSize = {
     height: 300,
 };
 
+const blog = {
+    urlPath: '/blog',
+};
+
 module.exports = {
+    blog,
     GTM,
     BASE_URL,
     HOST,

@@ -33,14 +33,14 @@ export const getAllPost = gql`
             data {
                 id
                 title
-                canonical_category_id
                 author_id
                 url_key
                 short_content
                 publish_date
                 featured_image_url
-                canonical_category_id
                 featured_image_alt
+                content
+                created_at
             }
         }
     }
@@ -52,13 +52,11 @@ export const getPostById = gql`
             data {
                 id
                 title
-                canonical_category_id
                 author_id
                 url_key
                 short_content
                 publish_date
                 featured_image_url
-                canonical_category_id
                 featured_image_alt
                 content
                 created_at
