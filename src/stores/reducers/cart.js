@@ -1,9 +1,10 @@
 import type from '../types/cart';
 
-const { SET_COUNT_CART } = type;
+const { SET_COUNT_CART, SET_CHECKOUT_DATA } = type;
 
 const initalState = {
     totalCart: 0,
+    checkoutData: {},
 };
 
 export default (state = initalState, action) => {
@@ -12,6 +13,11 @@ export default (state = initalState, action) => {
         return {
             ...state,
             totalCart: action.data,
+        };
+    case SET_CHECKOUT_DATA:
+        return {
+            ...state,
+            checkoutData: action.data,
         };
     default:
         return state;

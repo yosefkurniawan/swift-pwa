@@ -2,6 +2,7 @@ import Typography from '@components/Typography';
 import Button from '@components/Button';
 import Link from 'next/link';
 import TagManager from 'react-gtm-module';
+import { useSelector } from 'react-redux';
 import { storeConfigNameCokie } from '@config';
 import cookies from 'js-cookie';
 import useStyles from './style';
@@ -9,10 +10,10 @@ import useStyles from './style';
 const ThanksPage = (props) => {
     const {
         t,
-        query: { order_id },
-        token,
+        isLogin,
     } = props;
     const styles = useStyles();
+    const checkoutData = useSelector((state) => state.cart.checkoutData);
     React.useEffect(() => {
         if (typeof window !== 'undefined') {
             const storeConfig = cookies.getJSON(storeConfigNameCokie);
@@ -21,7 +22,7 @@ const ThanksPage = (props) => {
                     ecommerce: {
                         purchase: {
                             actionField: {
-                                id: order_id,
+                                id: checkoutData.order_number,
                             },
                         },
                         currencyCode: storeConfig.base_currency_code || 'IDR',
@@ -45,10 +46,10 @@ const ThanksPage = (props) => {
                 {t('checkout:yourOrderId')}
             </Typography>
             <Typography variant="title" type="bold" align="center">
-                {order_id}
+                {checkoutData.order_number}
             </Typography>
-            {token && token !== '' && typeof token !== 'undefined' && (
-                <Link href="/sales/order/view/order_id/[id]" as={`/sales/order/view/order_id/${parseInt(order_id, 0)}`}>
+            {isLogin && isLogin === 1 && (
+                <Link href="/sales/order/view/order_id/[id]" as={`/sales/order/view/order_id/${parseInt(checkoutData.order_id, 0)}`}>
                     <a>
                         <Typography variant="span" type="regular" letter="capitalize" decoration="underline">
                             {t('checkout:checkOrder')}
