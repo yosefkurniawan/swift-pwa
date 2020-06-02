@@ -39,7 +39,6 @@ const internalCreateCustomerToken = async (parent, args, context) => {
         subscribe: args.input.is_subscribe,
         otp: args.input.otp,
     };
-    console.log(variables);
     const res = await requestGraph(query, variables, context);
     // context.session.destroy();
     if (res.generateCustomerTokenCustom) {

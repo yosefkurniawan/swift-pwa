@@ -65,6 +65,7 @@ const { expiredToken, SESSION_SECRET } = require('./swift.config');
             },
         },
         formatError: (err) => {
+            console.log(err);
             if (err.message === 'graphql-authorization') {
                 return {
                     message: err.message,

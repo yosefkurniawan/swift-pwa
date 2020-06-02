@@ -25,7 +25,6 @@ const fetcher = async ({
             body: JSON.stringify({ query, variables, operationName }),
         });
         const response = await fetchResult.json();
-        // console.log(response);
         if (response.errors) {
             const err = response.errors[0];
             if (err.extensions.category === 'graphql-authorization') {
@@ -39,6 +38,15 @@ const fetcher = async ({
                     data: response.data,
                 };
             }
+            return {
+                errors: [
+                    {
+                        message: err.message,
+                        extensions: err.extensions,
+                    },
+                ],
+                data: response.data,
+            };
         }
         return response;
     } catch (error) {
