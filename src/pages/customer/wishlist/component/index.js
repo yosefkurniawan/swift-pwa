@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-underscore-dangle */
@@ -60,51 +61,55 @@ const Content = (props) => {
         cartId = getCartId();
     }
 
-    const handleToCart = ({ sku, url_key, wishlistItemId }) => {
-        setState({
-            ...state,
-            loading: true,
-        });
-        if (cartId === '' || !cartId) {
-            const cartToken = cartUser.data.customerCart.id || '';
-            cartId = cartToken;
-            setCartId(cartToken);
-        }
-        addToCart({
-            variables: {
-                cartId,
-                sku,
-                qty: parseFloat(1),
-            },
-        })
-            .then(() => {
-                removeWishlist({
-                    variables: {
-                        wishlistItemId,
-                    },
-                }).then(() => {
-                    setState({
+    const handleToCart = ({
+        sku, url_key, wishlistItemId, __typename,
+    }) => {
+        console.log(__typename);
+        if (__typename === 'ConfigurableProduct') {
+            Router.push('/[...slug]', `/${url_key}`);
+        } else {
+            setState({
+                ...state,
+                loading: true,
+            });
+            if (cartId === '' || !cartId) {
+                const cartToken = cartUser.data.customerCart.id || '';
+                cartId = cartToken;
+                setCartId(cartToken);
+            }
+            addToCart({
+                variables: {
+                    cartId,
+                    sku,
+                    qty: parseFloat(1),
+                },
+            })
+                .then(() => {
+                    removeWishlist({
+                        variables: {
+                            wishlistItemId,
+                        },
+                    }).then(() => {
+                        setState({
+                            ...state,
+                            loading: false,
+                            openMessage: true,
+                            variantMessage: 'success',
+                            textMessage: t('wishlist:successAddCart'),
+                        });
+                        refetch();
+                    });
+                })
+                .catch(async (e) => {
+                    await setState({
                         ...state,
                         loading: false,
                         openMessage: true,
-                        variantMessage: 'success',
-                        textMessage: t('wishlist:successAddCart'),
+                        variantMessage: 'error',
+                        textMessage: e.message.split(':')[1] || t('wishlist:failedAddCart'),
                     });
-                    refetch();
                 });
-            })
-            .catch(async (e) => {
-                await setState({
-                    ...state,
-                    loading: false,
-                    openMessage: true,
-                    variantMessage: 'error',
-                    textMessage: e.message.split(':')[1] || t('wishlist:failedAddCart'),
-                });
-                if (e.message.split(':')[1].includes('choose option')) {
-                    Router.push('/[...slug]', `/${url_key}`);
-                }
-            });
+        }
     };
 
     const handleRemove = ({ wishlistItemId }) => {

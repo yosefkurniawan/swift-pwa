@@ -19,7 +19,9 @@ export default ({
         setOpenDelete(!openDelete);
     };
     const handleAddToCart = () => {
-        handleToCart({ sku, url_key, wishlistItemId });
+        handleToCart({
+            sku, url_key, wishlistItemId, __typename,
+        });
     };
     return (
         <>
