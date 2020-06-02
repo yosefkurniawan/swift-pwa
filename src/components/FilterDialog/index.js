@@ -49,9 +49,10 @@ const FilterDialog = ({
             priceRange: [0, 0],
         };
 
-        // delete when uempty value, ex: ...?q=undefined...
+        // delete params when empty value, ex: ...?q=undefined...
         Object.keys(newFilter).forEach((key) => {
-            if (newFilter[key] === undefined || newFilter[key] === null || newFilter[key] === '') {
+            const emptyValues = [undefined, null, '', 'undefined', 'null'];
+            if (emptyValues.includes(newFilter[key])) {
                 delete newFilter[key];
             }
         });
