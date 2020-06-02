@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable radix */
 /* eslint-disable max-len */
 import React from 'react';
@@ -36,16 +37,6 @@ class MyApp extends App {
         this.isLogin = false;
     }
 
-    componentDidMount() {
-        // Remove the server-side injected CSS.
-        const jssStyles = document.querySelector('#jss-server-side');
-        if (jssStyles) {
-            jssStyles.parentElement.removeChild(jssStyles);
-        }
-
-        TagManager.initialize(tagManagerArgs);
-    }
-
     static async getInitialProps({ Component, ctx }) {
         let pageProps = {};
         const allcookie = cookies(ctx);
@@ -82,6 +73,22 @@ class MyApp extends App {
         }
         // add get session from server
         return { pageProps: { ...pageProps, storeConfig, isLogin } };
+    }
+
+    componentDidMount() {
+        // Remove the server-side injected CSS.
+        const jssStyles = document.querySelector('#jss-server-side');
+        if (jssStyles) {
+            jssStyles.parentElement.removeChild(jssStyles);
+        }
+        TagManager.initialize(tagManagerArgs);
+
+        // remove config cookie if page reload
+        if (typeof window !== 'undefined') {
+            window.onbeforeunload = function () {
+                Cookie.remove(storeConfigNameCokie);
+            };
+        }
     }
 
     render() {
