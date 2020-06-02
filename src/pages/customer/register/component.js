@@ -83,7 +83,7 @@ const Register = ({ t, storeConfig }) => {
                 variables: values,
             })
                 .then(async (res) => {
-                    const { token } = res.data.createCustomerCustom;
+                    const { token } = res.data.internalCreateCustomerToken;
                     await setCusToken(token);
                     getCart();
                     setLoading(false);
