@@ -1,9 +1,7 @@
 import { gql } from 'apollo-boost';
 
-export const getOrder = () => gql`
-    query getCustomerOrder($pageSize: Int, $currentPage: Int) {
-        customerOrders(pageSize: $pageSize, currentPage: $currentPage) {
-            current_page
+const orderOutput = `
+current_page
             page_size
             total_count
             total_pages
@@ -57,10 +55,37 @@ export const getOrder = () => gql`
                         price
                         discount_amount
                     }
+                    aw_giftcard {
+                        giftcard_amount
+                        giftcard_detail {
+                            giftcard_code
+                            giftcard_amount_used
+                        }
+                    }
+                    
+                    aw_store_credit {
+                        is_use_store_credit
+                        store_credit_amount
+                        store_credit_reimbursed
+                    }
                 }
             }
+`;
+
+export const getOrder = gql`
+    query getCustomerOrder($pageSize: Int, $currentPage: Int) {
+        customerOrders(pageSize: $pageSize, currentPage: $currentPage) {
+            ${orderOutput}
         }
     }
+`;
+
+export const getOrderDetail = gql`
+query getCustomerOrder($order_id: String) {
+    customerOrders(filters: { ids: { eq: $order_id } }) {
+        ${orderOutput}
+    }
+}
 `;
 
 export default {

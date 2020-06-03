@@ -128,6 +128,26 @@ const DetailOrder = ({ t, detail, currency }) => {
                             </Typography>
                         </div>
                     ) : null}
+                    {detail[0].detail[0].aw_store_credit.is_use_store_credit ? (
+                        <div className={styles.listSummary}>
+                            <Typography variant="span" letter="capitalize">
+                                {t('order:credit')}
+                            </Typography>
+                            <Typography variant="span" letter="capitalize">
+                                {formatPrice(detail[0].detail[0].aw_store_credit.store_credit_amount, currency)}
+                            </Typography>
+                        </div>
+                    ) : null}
+                    {detail[0].detail[0].aw_giftcard.giftcard_amount ? (
+                        <div className={styles.listSummary}>
+                            <Typography variant="span" letter="capitalize">
+                                {t('order:giftcard')}
+                            </Typography>
+                            <Typography variant="span" letter="capitalize">
+                                {formatPrice(detail[0].detail[0].aw_giftcard.giftcard_amount, currency)}
+                            </Typography>
+                        </div>
+                    ) : null}
                     <div className={styles.listSummary}>
                         <Typography variant="title" type="bold" letter="capitalize">
                             Total

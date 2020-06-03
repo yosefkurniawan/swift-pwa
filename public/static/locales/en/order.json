@@ -9,5 +9,7 @@
     "discount": "Discount",
     "date": "Date",
     "totalItems": "Total Items",
-    "paymentDate": "Payment Date"
+    "paymentDate": "Payment Date",
+    "credit": "Store Credit",
+    "giftcard": "Gift Card"
 }
