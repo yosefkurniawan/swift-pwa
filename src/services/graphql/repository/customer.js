@@ -35,4 +35,5 @@ export default {
     addWishlist,
     removeWishlist,
     getCustomer,
+    getRewardPoint,
 };

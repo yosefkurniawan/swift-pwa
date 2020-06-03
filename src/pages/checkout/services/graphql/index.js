@@ -27,6 +27,8 @@ export const getCart = (options = {}) => useLazyQuery(Schema.getCart, {
     errorPolicy: 'all',
 });
 
+export const getRewardPoint = () => useLazyQuery(Schema.getRewardPoint, { ...config(USING_INTERNAL) });
+
 export const setShippingAddress = (options = {}) => useMutation(Schema.setShippingAddressById, {
     ...options,
     ...config(USING_INTERNAL),
@@ -110,6 +112,7 @@ export const removeGiftCardFromCart = (options = {}) => useMutation(Schema.remov
 export default {
     getCustomer,
     getCart,
+    getRewardPoint,
     setShippingAddress,
     setShippingMethod,
     setBillingAddressById,

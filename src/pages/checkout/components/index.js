@@ -80,6 +80,7 @@ const Checkout = (props) => {
     // start init graphql
     const [getCustomer, manageCustomer] = gqlService.getCustomer();
     const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
+    const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
     // end init graphql
 
 
@@ -212,6 +213,10 @@ const Checkout = (props) => {
             state.selected.payment = cart.selected_payment_method.code;
         }
 
+        if (rewardPoint && rewardPoint.data && rewardPoint.data.customerRewardPoints) {
+            state.data.point = rewardPoint.data.customerRewardPoints.balance;
+        }
+
         state.loading.all = false;
 
         setCheckout(state);
@@ -233,6 +238,7 @@ const Checkout = (props) => {
 
         if (!manageCustomer.data && getLoginInfo()) {
             getCustomer();
+            getRewardPoint();
         }
 
         const loadCart = getLoginInfo() ? manageCustomer.data && !dataCart : !dataCart;

@@ -406,3 +406,32 @@ export const getSnapOrderStatusByOrderId = gql`
         }
     }
 `;
+
+
+export const getRewardPoint = gql`
+    query {
+    customerRewardPoints {
+        balance
+        balanceCurrency
+        formatedBalanceCurrency
+        formatedSpendRate
+        spendRate
+        transaction_history {
+        total_count
+        page_info {
+            current_page
+            page_size
+            total_pages
+        }
+        items {
+            balance
+            comment
+            expirationDate
+            points
+            transactionDate
+            transactionId
+        }
+        }
+    }
+    }
+`;
