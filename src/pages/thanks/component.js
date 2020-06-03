@@ -2,32 +2,57 @@ import Typography from '@components/Typography';
 import Button from '@components/Button';
 import Link from 'next/link';
 import TagManager from 'react-gtm-module';
-import { useSelector } from 'react-redux';
-import { storeConfigNameCokie } from '@config';
-import cookies from 'js-cookie';
+import { getOrder } from './services/graphql';
 import useStyles from './style';
 
 const ThanksPage = (props) => {
     const {
         t,
         isLogin,
+        storeConfig,
+        checkoutData,
     } = props;
     const styles = useStyles();
-    const checkoutData = useSelector((state) => state.cart.checkoutData);
+    let ordersFilter = {
+        data: [],
+    };
+    const { data, loading, error } = getOrder(checkoutData);
+
+    if (loading || !data) return <p>Loading</p>;
+    if (error) return <p>error</p>;
+    if (data && data.ordersFilter) ordersFilter = data.ordersFilter;
+
     React.useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const storeConfig = cookies.getJSON(storeConfigNameCokie);
-            TagManager.dataLayer({
-                dataLayer: {
-                    ecommerce: {
-                        purchase: {
-                            actionField: {
-                                id: checkoutData.order_number,
-                            },
+        if (ordersFilter.data.length > 0) {
+            const dataLayer = {
+                ecommerce: {
+                    purchase: {
+                        actionField: {
+                            id: checkoutData.order_number,
+                            affiliation: '',
+                            revenue: ordersFilter.data[0].detail[0].grand_total,
+                            coupon: '',
+                            tax: ordersFilter.data[0].detail[0].tax_amount,
+                            shipping: ordersFilter.data[0].detail[0].payment.shipping_amount,
+                            product: ordersFilter.data[0].detail[0].items.map((product) => ({
+                                name: product.name,
+                                id: product.sku,
+                                category: '',
+                                price: product.price,
+                                list: '',
+                                quantity: product.qty_ordered,
+                                dimension4: '',
+                                dimension5: '',
+                                dimension6: '',
+                                dimension7: '',
+                            })),
                         },
-                        currencyCode: storeConfig.base_currency_code || 'IDR',
                     },
+                    currencyCode: storeConfig.base_currency_code || 'IDR',
                 },
+            };
+            TagManager.dataLayer({
+                dataLayer,
             });
         }
     }, []);

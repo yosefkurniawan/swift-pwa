@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import Button from '@components/Button';
 import Typography from '@components/Typography';
 import { useDispatch } from 'react-redux';
-import { setCountCart, setCheckoutData } from '@stores/actions/cart';
+import { setCountCart } from '@stores/actions/cart';
 import { setCartId, removeCartId } from '@helpers/cartId';
+import { setCheckoutData } from '@helpers/cookies';
 import { GraphCart } from '@services/graphql';
 import Routes from 'next/router';
 import _ from 'lodash';
@@ -109,11 +110,11 @@ const Summary = ({
             }
 
             const orderNumber = result.data.placeOrder.order.order_number;
-            await dispatch(setCheckoutData({
+            setCheckoutData({
                 email: isGuest ? formik.values.email : cart.email,
                 order_number: orderNumber,
                 order_id: result.data.placeOrder.order.order_id,
-            }));
+            });
             dispatch(setCountCart(0));
             await removeCartId();
 

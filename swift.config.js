@@ -72,6 +72,7 @@ const expiredCokies = 6;
 const storeConfigNameCokie = 'storeConfig';
 const nameCartId = 'nci';
 const custDataNameCookie = 'cdt';
+const nameCheckoutCookie = 'ccdt';
 
 const keyEncrypt = 'I wrote code anything searching bug and coffe';
 const algorithm = 'aes-256-cbc';
@@ -124,4 +125,5 @@ module.exports = {
     productImageSize,
     custDataNameCookie,
     customerFeautres,
+    nameCheckoutCookie,
 };
