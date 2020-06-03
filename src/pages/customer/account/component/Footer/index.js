@@ -27,7 +27,7 @@ export default ({ t, isLogin, storeConfig }) => {
         <div className={styles.account_block}>
             <ul className={styles.account_navigation}>
                 <li className={styles.account_navigation_item}>
-                    <Link href="/about-us">
+                    <Link href="/[...slug]" as="/about-us">
                         <a className={styles.account_navigation_link}>{t('customer:menu:aboutUs')}</a>
                     </Link>
                 </li>
