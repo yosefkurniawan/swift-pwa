@@ -362,6 +362,7 @@ export const placeOrder = gql`
         placeOrder(input: { cart_id: $cartId }) {
             order {
                 order_number
+                order_id
             }
         }
     }

@@ -4,6 +4,7 @@ import Typography from '@components/Typography';
 import { useDispatch } from 'react-redux';
 import { setCountCart } from '@stores/actions/cart';
 import { setCartId, removeCartId } from '@helpers/cartId';
+import { setCheckoutData } from '@helpers/cookies';
 import { GraphCart } from '@services/graphql';
 import Routes from 'next/router';
 import _ from 'lodash';
@@ -109,6 +110,11 @@ const Summary = ({
             }
 
             const orderNumber = result.data.placeOrder.order.order_number;
+            setCheckoutData({
+                email: isGuest ? formik.values.email : cart.email,
+                order_number: orderNumber,
+                order_id: result.data.placeOrder.order.order_id,
+            });
             dispatch(setCountCart(0));
             await removeCartId();
 
@@ -120,7 +126,7 @@ const Summary = ({
                     variant: 'success',
                     text: t('checkout:message:placeOrder'),
                 });
-                Routes.push({ pathname: '/thanks', query: { order_id: orderNumber } });
+                Routes.push({ pathname: '/thanks' });
             }
         } else {
             state.loading.order = false;
@@ -142,10 +148,10 @@ const Summary = ({
         const snapToken = manageSnapToken.data.getSnapTokenByOrderId.snap_token;
         snap.pay(snapToken, {
             async onSuccess() {
-                window.location.replace(`/thanks?order_id=${orderId}`);
+                window.location.replace('/thanks');
             },
             async onPending() {
-                window.location.replace(`/thanks?order_id=${orderId}`);
+                window.location.replace('/thanks');
             },
             async onError() {
                 getSnapOrderStatusByOrderId({
