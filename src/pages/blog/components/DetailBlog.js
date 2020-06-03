@@ -3,14 +3,11 @@ import { BASE_URL, blog } from '@config';
 import formatDate from '@helpers/date';
 import Divider from '@material-ui/core/Divider';
 import React from 'react';
-import Link from 'next/link';
 import useStyles from '../style';
 import ShareIcons from './ShareIcons';
 
 export default ({
-    title, publish_date,
-    featured_image_url, featured_image_alt,
-    content, id,
+    title, publish_date, featured_image_url, featured_image_alt, content, id,
 }) => {
     const styles = useStyles();
     return (
@@ -23,26 +20,20 @@ export default ({
                 <Divider orientation="vertical" flexItem />
                 <ShareIcons url={`${BASE_URL + blog.urlPath}/${id}`} />
             </div>
-            <Link href="/[...slug]" as={`/blog/${id}`}>
-                <a>
-                    <div className={styles.imageBlogContainer}>
-                        <img
-                            src={featured_image_url}
-                            alt={featured_image_alt}
-                            className={styles.imageBlog}
-                            onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = '/assets/img/placeholder.png';
-                            }}
-                        />
-                    </div>
-                </a>
-            </Link>
+            <div className={styles.imageBlogContainer}>
+                <img
+                    src={featured_image_url}
+                    alt={featured_image_alt}
+                    className={styles.imageBlog}
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/assets/img/placeholder.png';
+                    }}
+                />
+            </div>
             <div dangerouslySetInnerHTML={{ __html: content }} />
             <div className={styles.shareBottom}>
-                <Typography>
-                    Share :
-                </Typography>
+                <Typography>Share :</Typography>
                 <ShareIcons url={`${BASE_URL + blog.urlPath}/${id}`} />
             </div>
         </div>

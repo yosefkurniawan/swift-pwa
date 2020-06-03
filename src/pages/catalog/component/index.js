@@ -4,7 +4,6 @@ import { getResolver } from '../services/graphql';
 import Category from '../pages/category';
 import Product from '../pages/product';
 import Cms from '../pages/cms';
-import Blog from '../pages/blog';
 
 const generateContent = (props, resolver) => {
     if (resolver.type === 'CATEGORY') {
@@ -30,7 +29,6 @@ const GetResolver = (props) => {
 const Content = (props) => {
     const { slug, storeConfig } = props;
     let url = slug.join('/');
-    if (url.includes('blog')) return <Blog {...props} />;
     // suffix based on storeConfig
     const suffix = (storeConfig || {}).category_url_suffix || '';
 
