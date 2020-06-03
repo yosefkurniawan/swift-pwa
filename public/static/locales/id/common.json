@@ -27,7 +27,8 @@
         "loadMore": "Lihat lagi",
         "clear": "Bersihkan",
         "verify": "Verifikasi",
-        "shop": "Beli Sekarang"
+        "shop": "Beli Sekarang",
+        "sendOtp": "Kirim Otp"
     },
     "subtotal": "Subtotal",
     "price": {

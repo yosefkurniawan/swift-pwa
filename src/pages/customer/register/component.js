@@ -13,7 +13,10 @@ import OtpBlock from '@components/OtpBlock';
 import { setLogin } from '@helpers/auth';
 import { setCartId, getCartId } from '@helpers/cartId';
 import { GraphCart, GraphConfig } from '@services/graphql';
-import { expiredToken } from '@config';
+import { expiredToken, custDataNameCookie } from '@config';
+import Cookies from 'js-cookie';
+import { getCustomer } from '@services/graphql/schema/customer';
+import { useQuery } from '@apollo/react-hooks';
 import { register } from './services/graphql';
 import useStyles from './style';
 
@@ -25,7 +28,7 @@ const Register = ({ t, storeConfig }) => {
         variant: 'success',
         text: '',
     });
-    const [cusToken, setCusToken] = React.useState('');
+    const [cusIsLogin, setIsLogin] = React.useState(0);
     const [loading, setLoading] = React.useState(false);
     let cartId = '';
 
@@ -36,8 +39,14 @@ const Register = ({ t, storeConfig }) => {
         cartId = getCartId();
     }
 
-    const [getCart, cartData] = GraphCart.getCustomerCartId(cusToken);
-    const [mergeCart, { called }] = GraphCart.mergeCart(cusToken);
+    const [getCart, cartData] = GraphCart.getCustomerCartId();
+    const [mergeCart, { called }] = GraphCart.mergeCart();
+    const custData = useQuery(getCustomer, {
+        context: {
+            request: 'internal',
+        },
+        skip: !cusIsLogin,
+    });
     const otpConfig = GraphConfig.otpConfig();
 
     const [sendRegister] = register();
@@ -82,9 +91,8 @@ const Register = ({ t, storeConfig }) => {
             sendRegister({
                 variables: values,
             })
-                .then(async (res) => {
-                    const { token } = res.data.internalCreateCustomerToken;
-                    await setCusToken(token);
+                .then(async () => {
+                    await setIsLogin(1);
                     getCart();
                     setLoading(false);
                 })
@@ -92,14 +100,17 @@ const Register = ({ t, storeConfig }) => {
                     setLoading(false);
                     setMessage({
                         open: true,
-                        text: e.message.split(':')[1] || t('customer:register:success'),
+                        text: e.message.split(':')[1] || t('customer:register:failed'),
                         variant: 'error',
                     });
                 });
         },
     });
 
-    if (cartData.data) {
+    if (cartData.data && custData.data) {
+        Cookies.set(custDataNameCookie, {
+            email: custData.data.customer.email,
+        });
         const custCartId = cartData.data.customerCart.id;
         if (cartId === '' || !cartId) {
             setLogin(1, expired);
@@ -127,7 +138,14 @@ const Register = ({ t, storeConfig }) => {
                     });
                     Router.push('/customer/account');
                 })
-                .catch(() => {
+                .catch((e) => {
+                    setLoading(false);
+                    setMessage({
+                        open: true,
+                        text: e.message.split(':')[1] || t('customer:register:failed'),
+                        variant: 'error',
+                    });
+                    console.log(e);
                 });
         } else {
             Router.push('/customer/account');
@@ -190,7 +208,7 @@ const Register = ({ t, storeConfig }) => {
                             name: 'phoneNumber',
                             value: formik.values.phoneNumber,
                             onChange: formik.handleChange,
-                            error: !!formik.errors.phoneNumber,
+                            error: !!(formik.errors.phoneNumber && formik.touched.phoneNumber),
                             errorMessage: (formik.touched.phoneNumber && formik.errors.phoneNumber) || null,
                         }}
                         codeProps={{

@@ -28,7 +28,8 @@
         "loadMore": "Load more",
         "clear": "Clear",
         "verify": "Verify",
-        "shop": "SHOP NOW"
+        "shop": "SHOP NOW",
+        "sendOtp": "Send Otp"
     },
     "subtotal": "Subtotal",
     "price": {
