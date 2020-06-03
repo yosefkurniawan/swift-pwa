@@ -225,6 +225,7 @@ const Summary = ({
             items,
             shipping_addresses,
             applied_store_credit,
+            applied_reward_points,
             applied_giftcard,
         } = checkout.data.cart;
 
@@ -261,6 +262,11 @@ const Summary = ({
             if (applied_store_credit.is_use_store_credit) {
                 const price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency);
                 data.push({ item: `Store Credit - ${price}`, value: `-${price}` });
+            }
+
+            if (applied_reward_points.is_use_reward_points) {
+                const price = formatPrice(Math.abs(applied_reward_points.reward_points_amount), globalCurrency);
+                data.push({ item: `Reward Point - ${price}`, value: `-${price}` });
             }
 
             if (applied_giftcard) {

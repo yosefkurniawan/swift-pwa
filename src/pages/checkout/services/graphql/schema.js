@@ -120,6 +120,10 @@ const cartSubSelection = `
             giftcard_code
         }
     }
+    applied_reward_points {
+        is_use_reward_points
+        reward_points_amount
+    }
 `;
 
 export const applyGiftCardToCart = gql`
@@ -388,6 +392,26 @@ export const removeCouponFromCart = gql`
     }
 `;
 
+export const applyRewardPointsToCart = gql`
+    mutation($cartId: String!) {
+        applyRewardPointsToCart(input: { cart_id: $cartId }) {
+            cart {
+                ${cartSubSelection}
+            }
+        }
+    }
+`;
+
+export const removeRewardPointsFromCart = gql`
+    mutation($cartId: String!) {
+        removeRewardPointsFromCart(input: { cart_id: $cartId }) {
+            cart {
+                ${cartSubSelection}
+            }
+        }
+    }
+`;
+
 export const getSnapToken = gql`
     query($orderId: String!) {
         getSnapTokenByOrderId(order_id: $orderId) {
@@ -404,5 +428,34 @@ export const getSnapOrderStatusByOrderId = gql`
             success
             cart_id
         }
+    }
+`;
+
+
+export const getRewardPoint = gql`
+    query {
+    customerRewardPoints {
+        balance
+        balanceCurrency
+        formatedBalanceCurrency
+        formatedSpendRate
+        spendRate
+        transaction_history {
+        total_count
+        page_info {
+            current_page
+            page_size
+            total_pages
+        }
+        items {
+            balance
+            comment
+            expirationDate
+            points
+            transactionDate
+            transactionId
+        }
+        }
+    }
     }
 `;

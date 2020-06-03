@@ -27,6 +27,8 @@ export const getCart = (options = {}) => useLazyQuery(Schema.getCart, {
     errorPolicy: 'all',
 });
 
+export const getRewardPoint = () => useLazyQuery(Schema.getRewardPoint, { ...config(USING_INTERNAL) });
+
 export const setShippingAddress = (options = {}) => useMutation(Schema.setShippingAddressById, {
     ...options,
     ...config(USING_INTERNAL),
@@ -63,6 +65,16 @@ export const applyCouponToCart = (options = {}) => useMutation(Schema.applyCoupo
 });
 
 export const removeCouponFromCart = (options = {}) => useMutation(Schema.removeCouponFromCart, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
+export const applyRewardPointsToCart = (options = {}) => useMutation(Schema.applyRewardPointsToCart, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
+export const removeRewardPointsFromCart = (options = {}) => useMutation(Schema.removeRewardPointsFromCart, {
     ...options,
     ...config(USING_INTERNAL),
 });
@@ -110,6 +122,7 @@ export const removeGiftCardFromCart = (options = {}) => useMutation(Schema.remov
 export default {
     getCustomer,
     getCart,
+    getRewardPoint,
     setShippingAddress,
     setShippingMethod,
     setBillingAddressById,
@@ -126,4 +139,6 @@ export default {
     removeStoreCreditFromCart,
     applyGiftCardToCart,
     removeGiftCardFromCart,
+    applyRewardPointsToCart,
+    removeRewardPointsFromCart,
 };

@@ -148,7 +148,7 @@ query getRewardPoint(
   customerRewardPoints {
     balance
     balanceCurrency
-    formatedBalanceCurrency 
+    formatedBalanceCurrency
     formatedSpendRate
     spendRate
     transaction_history(pageSize: $pageSize, currentPage: $currentPage) {
