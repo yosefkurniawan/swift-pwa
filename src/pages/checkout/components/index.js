@@ -36,7 +36,7 @@ const Checkout = (props) => {
             paymentMethod: [],
             isGuest: false,
             isCouponAppliedToCart: false,
-            point: 0,
+            rewardPoints: {},
             credit: 0,
             message: {
                 open: false,
@@ -214,9 +214,8 @@ const Checkout = (props) => {
         }
 
         if (rewardPoint && rewardPoint.data && rewardPoint.data.customerRewardPoints) {
-            state.data.point = rewardPoint.data.customerRewardPoints.balance;
+            state.data.rewardPoints = rewardPoint.data.customerRewardPoints;
         }
-
         state.loading.all = false;
 
         setCheckout(state);

@@ -77,7 +77,9 @@ const RewardPoint = ({
                     My Point
                 </Typography>
                 <Typography variant="title" type="bold" className={styles.pointText}>
-                    {checkout.data.point.toLocaleString(undefined, { minimumFractionDigits: 0 })}
+                    {checkout.data.rewardPoints.balance
+                        ? checkout.data.rewardPoints.balance.toLocaleString(undefined, { minimumFractionDigits: 0 }) : 0}
+                    {` (${checkout.data.rewardPoints.formatedBalanceCurrency})`}
                 </Typography>
             </div>
             <div>
