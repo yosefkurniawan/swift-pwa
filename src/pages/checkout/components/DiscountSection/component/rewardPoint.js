@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import Button from '@components/Button';
 import Typography from '@components/Typography';
+import { CircularProgress } from '@material-ui/core';
+import gqlService from '../../../services/graphql';
 
 const RewardPoint = ({
     t,
@@ -11,8 +13,62 @@ const RewardPoint = ({
     storeConfig,
     styles,
 }) => {
-    const handleUsePoint = () => {
-        console.log(1);
+    const [loading, setLoading] = React.useState(false);
+    const [removeRewardPointsFromCart, applRewardPoint] = gqlService.removeRewardPointsFromCart({
+        onError: (e) => {
+            const message = e.message.split(':');
+            handleOpenMessage({
+                variant: 'error',
+                text: message[1] ? message[1] : e.message,
+            });
+        },
+    });
+    const [applyRewardPointsToCart, removeRewardPoint] = gqlService.applyRewardPointsToCart({
+        onError: (e) => {
+            const message = e.message.split(':');
+            handleOpenMessage({
+                variant: 'error',
+                text: message[1] ? message[1] : e.message,
+            });
+        },
+    });
+
+    let reward_point = {};
+    let total = 0;
+    if (checkout.data.customer && checkout.data.cart) {
+        reward_point = checkout.data.cart.applied_reward_points;
+        total = checkout.data.cart.prices.grand_total.value;
+    }
+
+    const handleUsePoint = async () => {
+        let cart;
+        const state = { ...checkout };
+        const { id } = checkout.data.cart;
+        setLoading(true);
+        if (reward_point.is_use_reward_points) {
+            const result = await removeRewardPointsFromCart({ variables: { cartId: checkout.data.cart.id, coupon: formik.values.coupon } });
+            cart = result && result.data.removeRewardPointsFromCart.cart;
+            if (result) {
+                handleOpenMessage({
+                    variant: 'success',
+                    text: t('checkout:message:rewardPointsRemoved'),
+                });
+            }
+        } else {
+            const result = await applyRewardPointsToCart({ variables: { cartId: id } });
+            cart = result && result.data.applyRewardPointsToCart.cart;
+            if (result) {
+                handleOpenMessage({
+                    variant: 'success',
+                    text: t('checkout:message:rewardPointsApplied'),
+                });
+            }
+        }
+        if (cart) {
+            state.data.cart = cart;
+        }
+        setCheckout(state);
+        setLoading(false);
     };
     return (
         <div className={styles.cardPoint}>
@@ -25,10 +81,21 @@ const RewardPoint = ({
                 </Typography>
             </div>
             <div>
-                <Button variant="outlined" className={styles.btnPoint} onClick={handleUsePoint}>
-                    <Typography variant="p" type="bold" letter="uppercase">
-                        USE MY POIN
+                <Button
+                    variant="outlined"
+                    className={styles.btnPoint}
+                    onClick={handleUsePoint}
+                    disabled={loading || (!reward_point.is_use_reward_points && total === 0)}
+                >
+                    <Typography
+                        variant="p"
+                        type="bold"
+                        letter="uppercase"
+                        color={loading || (!reward_point.is_use_reward_points && total === 0) ? 'gray' : 'default'}
+                    >
+                        {reward_point.is_use_reward_points ? 'REMOVE MY POIN' : 'USE MY POIN' }
                     </Typography>
+                    {loading && <CircularProgress className={styles.smallCircular} size={16} />}
                 </Button>
             </div>
         </div>

@@ -69,6 +69,16 @@ export const removeCouponFromCart = (options = {}) => useMutation(Schema.removeC
     ...config(USING_INTERNAL),
 });
 
+export const applyRewardPointsToCart = (options = {}) => useMutation(Schema.applyRewardPointsToCart, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
+export const removeRewardPointsFromCart = (options = {}) => useMutation(Schema.removeRewardPointsFromCart, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export const setGuestEmailAddressOnCart = (options = {}) => useMutation(Schema.setGuestEmailAddressOnCart, {
     ...options,
     ...config(USING_INTERNAL),
@@ -129,4 +139,6 @@ export default {
     removeStoreCreditFromCart,
     applyGiftCardToCart,
     removeGiftCardFromCart,
+    applyRewardPointsToCart,
+    removeRewardPointsFromCart,
 };

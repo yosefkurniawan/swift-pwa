@@ -120,6 +120,10 @@ const cartSubSelection = `
             giftcard_code
         }
     }
+    applied_reward_points {
+        is_use_reward_points
+        reward_points_amount
+    }
 `;
 
 export const applyGiftCardToCart = gql`
@@ -381,6 +385,26 @@ export const applyCouponToCart = gql`
 export const removeCouponFromCart = gql`
     mutation($cartId: String!) {
         removeCouponFromCart(input: { cart_id: $cartId }) {
+            cart {
+                ${cartSubSelection}
+            }
+        }
+    }
+`;
+
+export const applyRewardPointsToCart = gql`
+    mutation($cartId: String!) {
+        applyRewardPointsToCart(input: { cart_id: $cartId }) {
+            cart {
+                ${cartSubSelection}
+            }
+        }
+    }
+`;
+
+export const removeRewardPointsFromCart = gql`
+    mutation($cartId: String!) {
+        removeRewardPointsFromCart(input: { cart_id: $cartId }) {
             cart {
                 ${cartSubSelection}
             }

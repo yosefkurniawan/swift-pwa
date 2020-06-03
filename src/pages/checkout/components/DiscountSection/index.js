@@ -171,7 +171,6 @@ const DiscountSection = (props) => {
 
         setCheckout(state);
     };
-
     return (
         <div className={classNames(styles.block, styles.rmBorder)}>
             <FieldPoint
@@ -252,7 +251,7 @@ const DiscountSection = (props) => {
                     {checkout.loading.giftCard && <CircularProgress className={styles.largeCircular} size={30} />}
                 </div>
             ) : null}
-            {customerFeautres.rewardPoint ? (
+            {customerFeautres.rewardPoint && checkout.data.cart && checkout.data.customer ? (
                 <RewardPoint {...props} />
             ) : null}
             {store_credit && (store_credit.enabled || customerFeautres.storeCredit) ? (
