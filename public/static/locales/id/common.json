@@ -56,5 +56,8 @@
         "search": "Pencarian ...",
         "brand": "Brand",
         "category": "Kategory"
+    },
+    "error": {
+        "notFound" : "Data tidak di temukan"
     }
 }

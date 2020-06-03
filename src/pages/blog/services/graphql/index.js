@@ -11,7 +11,6 @@ export const getDetailBlog = (id) => useQuery(schema.getPostById, {
     variables: {
         id,
     },
-    fetchPolicy: 'no-cache',
 });
 
 
