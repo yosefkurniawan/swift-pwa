@@ -73,7 +73,7 @@ const IcubeMaps = compose(
         lng: setZeroIfEmpty(props.mapPosition && props.mapPosition.lng),
     };
     const { t } = useTranslation(['common']);
-    React.useEffect(() => { console.log(mapPosition); }, []);
+
     return (
         <>
             <GoogleMap
