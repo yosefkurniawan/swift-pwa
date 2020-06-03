@@ -369,7 +369,7 @@ const AddressFormDialog = (props) => {
                     }}
                 />
                 <Box className={[styles.address_form].join(' ')}>
-                    <form onSubmit={formik.handleSubmit}>
+                    <form onSubmit={formik.handleSubmit} autoComplete="off">
                         <CustomTextField
                             label={t('common:form:firstName')}
                             name="firstname"
