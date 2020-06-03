@@ -6,16 +6,18 @@ import { formatPrice } from '@helpers/currency';
 import classNames from 'classnames';
 import gqlService from '../../services/graphql';
 import FieldPoint from './fieldPoint';
+import RewardPoint from './component/rewardPoint';
 
-const DiscountSection = ({
-    t,
-    checkout,
-    setCheckout,
-    handleOpenMessage,
-    formik,
-    storeConfig,
-    styles,
-}) => {
+const DiscountSection = (props) => {
+    const {
+        t,
+        checkout,
+        setCheckout,
+        handleOpenMessage,
+        formik,
+        storeConfig,
+        styles,
+    } = props;
     const [applyCouponTocart] = gqlService.applyCouponToCart({ onError: () => {} });
     const [removeCouponFromCart] = gqlService.removeCouponFromCart({ onError: () => {} });
     const [applyStoreCreditToCart] = gqlService.applyStoreCreditToCart({ onError: () => {} });
@@ -42,7 +44,6 @@ const DiscountSection = ({
         total = checkout.data.cart.prices.grand_total.value;
     }
 
-    const handleUsePoint = async () => {};
 
     const handleApplyGift = async (code = null) => {
         let state = { ...checkout };
@@ -252,23 +253,7 @@ const DiscountSection = ({
                 </div>
             ) : null}
             {customerFeautres.rewardPoint ? (
-                <div className={styles.cardPoint}>
-                    <div className="column">
-                        <Typography variant="span" letter="capitalize">
-                            My Point
-                        </Typography>
-                        <Typography variant="title" type="bold" className={styles.pointText}>
-                            {checkout.data.point.toLocaleString(undefined, { minimumFractionDigits: 0 })}
-                        </Typography>
-                    </div>
-                    <div>
-                        <Button variant="outlined" className={styles.btnPoint} onClick={handleUsePoint}>
-                            <Typography variant="p" type="bold" letter="uppercase">
-                                USE MY POIN
-                            </Typography>
-                        </Button>
-                    </div>
-                </div>
+                <RewardPoint {...props} />
             ) : null}
             {store_credit && (store_credit.enabled || customerFeautres.storeCredit) ? (
                 <div className={styles.cardPoint}>
