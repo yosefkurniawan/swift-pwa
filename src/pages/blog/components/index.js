@@ -3,6 +3,7 @@ import React from 'react';
 import { getBlog } from '../services/graphql';
 import useStyles from '../style';
 import ItemListBlog from './ItemListBlog';
+import Loader from './LoaderList';
 
 const Blog = () => {
     const styles = useStyles();
@@ -11,7 +12,7 @@ const Blog = () => {
     });
 
     const { loading, data, error } = getBlog(filter);
-    if (loading || !data) return <p>loading</p>;
+    if (loading || !data) return <Loader />;
     if (error) return <p>Error</p>;
     let blogs = [];
 

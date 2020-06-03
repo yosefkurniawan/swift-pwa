@@ -5,13 +5,14 @@ import { useRouter } from 'next/router';
 import Content from './components';
 import DetailContent from './components/DetailBlog';
 import { getDetailBlog } from './services/graphql';
+import Loader from './components/LoaderDetail';
 
 const Page = (props) => {
     const router = useRouter();
     const { id } = router.query;
     if (id) {
         const { loading, data, error } = getDetailBlog(id);
-        if (loading && !data) return <p>Loading</p>;
+        if (loading && !data) return <Loader />;
         if (error) return <p>Error</p>;
         if (data && data.getBlogByFilter.data.length > 0) {
             const blog = data.getBlogByFilter.data[0];
