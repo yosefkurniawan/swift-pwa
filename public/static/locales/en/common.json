@@ -44,6 +44,7 @@
         "state": "State/Province",
         "region": "Region",
         "city": "City",
+        "country": "Country",
         "street": "Street Address",
         "postal": "Postal Code"
     },
