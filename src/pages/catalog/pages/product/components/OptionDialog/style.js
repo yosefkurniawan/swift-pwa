@@ -22,6 +22,7 @@ export default makeStyles((theme) => ({
     bannerContainer: {
         backgroundPosition: 'center',
         background: 'transparent',
+        height: '100vh',
     },
     img: {
         display: 'block',
