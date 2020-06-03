@@ -10,5 +10,7 @@
     "date": "Tanggal",
     "totalItems": "Total Item",
     "paymentDate": "Tanggal Pembayaran",
-    "virtualAccount": ""
+    "virtualAccount": "",
+    "credit": "Kredit Toko",
+    "giftcard": "Gift Card"
 }

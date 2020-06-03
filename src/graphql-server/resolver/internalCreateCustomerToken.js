@@ -41,11 +41,11 @@ const internalCreateCustomerToken = async (parent, args, context) => {
     };
     const res = await requestGraph(query, variables, context);
     // context.session.destroy();
-    if (res.generateCustomerTokenCustom) {
-        context.session.token = encrypt(res.generateCustomerTokenCustom.token);
+    if (res.createCustomerCustom) {
+        context.session.token = encrypt(res.createCustomerCustom.token);
         return {
-            originalToken: res.generateCustomerTokenCustom.token,
-            token: encrypt(res.generateCustomerTokenCustom.token),
+            originalToken: res.createCustomerCustom.token,
+            token: encrypt(res.createCustomerCustom.token),
             message: 'welcome',
         };
     }

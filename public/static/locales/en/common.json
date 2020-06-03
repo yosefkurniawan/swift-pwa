@@ -28,7 +28,8 @@
         "loadMore": "Load more",
         "clear": "Clear",
         "verify": "Verify",
-        "shop": "SHOP NOW"
+        "shop": "SHOP NOW",
+        "sendOtp": "Send Otp"
     },
     "subtotal": "Subtotal",
     "price": {
@@ -48,12 +49,15 @@
     },
     "title": {
         "qty": "Jumlah",
-        "color": "Warna",
-        "size": "Ukuran",
+        "color": "Color",
+        "size": "Size",
         "shortFilter": "Shorting & Filter",
         "short": "Short By",
         "search": "Search ...",
         "brand": "Brand",
         "category": "Category"
+    },
+    "error": {
+        "notFound" : "Data not found"
     }
 }

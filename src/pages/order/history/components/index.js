@@ -33,7 +33,7 @@ const OrderPage = ({ t }) => {
         setPage(page + 1);
         setLoadMore(true);
         fetchMore({
-            query: Schema.getOrder(),
+            query: Schema.getOrder,
             context: {
                 request: 'internal',
             },

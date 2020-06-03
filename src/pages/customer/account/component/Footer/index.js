@@ -39,7 +39,7 @@ export default ({ t, isLogin, storeConfig }) => {
                 {
                     (blog === '1' || blog === 1 || blog === true) ? (
                         <li className={styles.account_navigation_item}>
-                            <Link href="/[..slug]" as="/blog">
+                            <Link href="/blog">
                                 <a className={styles.account_navigation_link}>{t('customer:menu:blog')}</a>
                             </Link>
                         </li>

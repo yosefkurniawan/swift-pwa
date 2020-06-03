@@ -14,7 +14,7 @@ export default ({
     const styles = useStyles();
     return (
         <div className={styles.containerItemBlog}>
-            <Link href="/[...slug]" as={`/blog/${id}`}>
+            <Link href="/blog/[id]" as={`/blog/${id}`}>
                 <a>
                     <Typography variant="h1" className={styles.itemTitle} letter="capitalize">
                         {title}
@@ -26,7 +26,7 @@ export default ({
                 <Divider orientation="vertical" flexItem />
                 <ShareIcons url={`${BASE_URL + blog.urlPath}/${id}`} />
             </div>
-            <Link href="/[...slug]" as={`/blog/${id}`}>
+            <Link href="/blog/[id]" as={`/blog/${id}`}>
                 <a>
                     <div className={styles.imageBlogContainer}>
                         <img
@@ -43,7 +43,7 @@ export default ({
             </Link>
             <div dangerouslySetInnerHTML={{ __html: short_content }} />
 
-            <Link href="/[...slug]" as={`/blog/${id}`}>
+            <Link href="/blog/[id]" as={`/blog/${id}`}>
                 <a>
                     <Button>
                         <Typography color="white" letter="capitalize" varinat="span" type="semiBold">

@@ -23,7 +23,7 @@ const customerRewardPoints = require('./resolver/customerRewarsPoints');
 const schema = mergeSchemas({
     schemas: [
         cartSchema, generateCustomerTokenSchema, addSimpleProductsToCart, addConfigurableProductsToCart,
-        customerOrdersSchema, customerSchema, checkout, giftCardAccountSchema, notification, rewardPointSchema
+        customerOrdersSchema, customerSchema, checkout, giftCardAccountSchema, notification, rewardPointSchema,
     ],
     resolvers: {
         Query: {

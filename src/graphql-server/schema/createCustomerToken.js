@@ -29,7 +29,7 @@ const customerSchema = makeExecutableSchema({
         password: String,
         phonenumber: String,
         is_subscribed: Boolean,
-        otp: String
+        otp: String,
       }
       
       type Mutation {

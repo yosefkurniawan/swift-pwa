@@ -27,7 +27,8 @@
         "loadMore": "Lihat lagi",
         "clear": "Bersihkan",
         "verify": "Verifikasi",
-        "shop": "Beli Sekarang"
+        "shop": "Beli Sekarang",
+        "sendOtp": "Kirim Otp"
     },
     "subtotal": "Subtotal",
     "price": {
@@ -55,5 +56,8 @@
         "search": "Pencarian ...",
         "brand": "Brand",
         "category": "Kategory"
+    },
+    "error": {
+        "notFound" : "Data tidak di temukan"
     }
 }
