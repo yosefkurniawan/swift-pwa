@@ -4,11 +4,11 @@
     "deliveryMethod" : "metode pengiriman",
     "payment" : "pembayaran",
     "placeOrder" : "buat pesanan",
-    "paymentSubtitle" : "Pilh metode pembayaranmu",
+    "paymentSubtitle" : "Pilih metode pembayaranmu",
     "thanks" : "Terima kasih",
     "forOrder" : "untuk pembelian kamu",
     "thanksDetail" : "Kami akan mengirimkan email detail pesanan dan infromasi pengiriman",
-    "continue" : "Lanjutkan Belnaja",
+    "continue" : "Lanjutkan Belanja",
     "emailAddress": "Alamat Email",
     "emailHelper": "Kami akan meingirimkan konfirmasi order pada email ini.",
     "haveAccount": "Anda sudah memiliki akun? Silahkan masuk disini",
@@ -38,12 +38,17 @@
     },
     "checkBalance": "Cek Sisa",
     "myPoint": {
-        "title": "Point Saya",
-        "button": "Gunakan point"
+        "title": "Poin Saya",
+        "button": "Gunakan poin",
+        "removeButton": "Hapus poin saya",
+        "used": "Menggunakan",
+        "rewardPoints": "Reward Point"
     },
     "myCredit": {
         "title": "Kredit Saya",
-        "button": "Gunakan Kredit"
+        "used" : "Kredit di Gunakan",
+        "button": "Gunakan Kredit",
+        "removeButton": "Hapus kredit saya"
     },
     "promoCodePlaceholder": "Kode Promo",
     "giftCartPlaceholder": "Nomor kartu hadiah",

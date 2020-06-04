@@ -76,7 +76,9 @@ const RewardPoint = ({
             <div className="column">
                 <Typography variant="span" letter="capitalize">
                     {checkout.data.cart.applied_reward_points.is_use_reward_points
-                        ? `Used ${checkout.data.cart.applied_reward_points.is_use_reward_points} Reward Points` : 'My Points' }
+                        ? `${t('checkout:myPoint:used')} 
+                        ${checkout.data.cart.applied_reward_points.is_use_reward_points} 
+                        ${t('checkout:myPoint:rewardPoints')}` : t('checkout:myPoint:title') }
                 </Typography>
                 <Typography variant="title" type="bold" className={styles.pointText}>
                     {checkout.data.cart.applied_reward_points.is_use_reward_points
@@ -99,7 +101,7 @@ const RewardPoint = ({
                         letter="uppercase"
                         color={loading || (!reward_point.is_use_reward_points && total === 0) ? 'gray' : 'default'}
                     >
-                        {reward_point.is_use_reward_points ? 'REMOVE MY POINTS' : 'USE MY POINTS' }
+                        {reward_point.is_use_reward_points ? t('checkout:myPoint:removeButton') : t('checkout:myPoint:button') }
                     </Typography>
                     {loading && <CircularProgress className={styles.smallCircular} size={16} />}
                 </Button>

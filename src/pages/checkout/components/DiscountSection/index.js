@@ -258,7 +258,7 @@ const DiscountSection = (props) => {
                 <div className={styles.cardPoint}>
                     <div className="column">
                         <Typography variant="span" letter="capitalize">
-                            {store_credit.is_use_store_credit ? 'Used Credit' : 'My Credit'}
+                            {store_credit.is_use_store_credit ? t('checkout:myCredit:used') : t('checkout:myCredit:title')}
                         </Typography>
                         <Typography variant="title" type="bold" className={styles.pointText}>
                             {formatPrice(
@@ -281,7 +281,7 @@ const DiscountSection = (props) => {
                                 letter="uppercase"
                                 align="center"
                             >
-                                {store_credit.is_use_store_credit ? 'remove credit' : 'use my credit'}
+                                {store_credit.is_use_store_credit ? t('checkout:myCredit:removeButton') : t('checkout:myCredit:button')}
                             </Typography>
                             {checkout.loading.storeCredit && <CircularProgress className={styles.smallCircular} size={16} />}
                         </Button>
