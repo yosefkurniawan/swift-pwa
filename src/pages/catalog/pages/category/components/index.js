@@ -4,6 +4,7 @@ import { Box } from '@material-ui/core';
 import React from 'react';
 import Router from 'next/router';
 import Product from '@components/ProductList';
+import Breadcrumb from '@components/Breadcrumb';
 import useStyles from '../style';
 import { getFilter } from '../services';
 
@@ -38,7 +39,21 @@ const CategoryPage = ({ data, storeConfig, t }) => {
     }
 
     const customFilter = getFilter(categoryList.id);
-
+    let breadcrumbsData = [];
+    if (categoryList.breadcrumbs && categoryList.breadcrumbs.length > 0) {
+        breadcrumbsData = categoryList.breadcrumbs.map((bc) => ({
+            label: bc.category_name,
+            link: `/${bc.category_url_path}`,
+            active: false,
+        }));
+    }
+    if (breadcrumbsData.length > 0) {
+        breadcrumbsData.push({
+            label: categoryList.name,
+            link: '#',
+            active: true,
+        });
+    }
     return (
         <Box className={styles.container}>
             {dataBanner.length > 0
@@ -58,6 +73,9 @@ const CategoryPage = ({ data, storeConfig, t }) => {
                     onChange={handleChange}
                     value={value}
                 />
+            </div>
+            <div className={styles.breadcrumbs}>
+                <Breadcrumb data={breadcrumbsData} />
             </div>
             <Product
                 defaultSort={{ key: 'position', value: 'ASC' }}

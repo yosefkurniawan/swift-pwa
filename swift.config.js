@@ -73,6 +73,7 @@ const storeConfigNameCokie = 'storeConfig';
 const nameCartId = 'nci';
 const custDataNameCookie = 'cdt';
 const nameCheckoutCookie = 'ccdt';
+const nameGlobalCookie = 'spwa';
 
 const keyEncrypt = 'I wrote code anything searching bug and coffe';
 const algorithm = 'aes-256-cbc';
@@ -126,4 +127,5 @@ module.exports = {
     custDataNameCookie,
     customerFeautres,
     nameCheckoutCookie,
+    nameGlobalCookie,
 };

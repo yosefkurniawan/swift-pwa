@@ -24,6 +24,9 @@ const useStyles = makeStyles(() => ({
         borderBottom: 'none',
         fontWeight: 'bold',
     },
+    breadcrumbs: {
+        padding: 15,
+    },
 }));
 
 export default useStyles;

@@ -18,6 +18,8 @@ import HtmlParser from 'react-html-parser';
 import { useSelector } from 'react-redux';
 import { GraphCustomer } from '@services/graphql';
 import TagManager from 'react-gtm-module';
+import { getCookies } from '@helpers/cookies';
+import Breadcrumb from '@components/Breadcrumb';
 import useStyles from '../style';
 import ExpandDetail from './ExpandDetail';
 import ListReviews from './ListReviews';
@@ -201,6 +203,30 @@ const ProductPage = (props) => {
         imageSrc: product.small_image.url,
         price: product.price_range.minimum_price.regular_price.value,
     }));
+    let breadcrumbsData = [];
+    if (typeof window !== 'undefined') {
+        const lastCategory = getCookies('lastCategory');
+        const cat = data.categories.filter(({ url_path }) => url_path === lastCategory);
+        if (cat.length > 0) {
+            if (cat[0].breadcrumbs && cat[0].breadcrumbs.length > 0) {
+                breadcrumbsData = cat[0].breadcrumbs.map((bc) => ({
+                    label: bc.category_name,
+                    link: `/${bc.category_url_path}`,
+                    active: false,
+                }));
+            }
+            breadcrumbsData.push({
+                label: cat[0].name,
+                link: `/${cat[0].url_path}`,
+                active: false,
+            });
+            breadcrumbsData.push({
+                label: data.name,
+                link: '#',
+                active: true,
+            });
+        }
+    }
     return (
         <>
             <Toast
@@ -267,6 +293,9 @@ const ProductPage = (props) => {
                                 <ShareOutlined className={styles.iconShare} />
                             </IconButton>
                         </div>
+                    </div>
+                    <div className={styles.titleContainer}>
+                        <Breadcrumb data={breadcrumbsData} variant="text" />
                     </div>
                     <div className={styles.titleContainer}>
                         <div className={classNames('row', styles.sku)}>
