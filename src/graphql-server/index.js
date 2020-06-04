@@ -13,7 +13,6 @@ const fetcher = async ({
         let token = '';
         if (context) {
             token = context.graphqlContext.session.token;
-            console.log('request token', decrypt(token));
         }
         const query = print(queryDocument);
         const fetchResult = await fetch(process.env.NODE_ENV === 'production' ? graphqlEndpoint.prod : graphqlEndpoint.dev, {
