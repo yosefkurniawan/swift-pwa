@@ -1,11 +1,21 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+import Router from 'next/router';
 import useStyles from './style';
 
 const ItemFeatured = (props) => {
     const styles = useStyles();
-    const { key } = props;
-    console.log(props);
+    const {
+        key, logo, name, category_url,
+    } = props;
     return (
-        <div key={key} className={styles.container}>ini item slider</div>
+        <div
+            key={key}
+            className={styles.container}
+            onClick={() => (category_url ? Router.push('/[...slug]', `/${category_url.replace('.html', '')}`) : null)}
+        >
+            <img className={styles.imgBrand} src={logo} alt={name} />
+        </div>
     );
 };
 

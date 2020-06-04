@@ -3,8 +3,15 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(() => ({
     container: {
         width: 233,
-        display: 'inline-block',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
         height: '100%',
+        cursor: 'pointer',
+    },
+    imgBrand: {
+        width: '100%',
+        height: 'auto',
     },
 }));
 
