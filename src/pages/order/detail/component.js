@@ -10,12 +10,19 @@ import Alert from '@material-ui/lab/Alert';
 import useStyles from './style';
 
 const ItemProduct = ({
-    name, price, qty_ordered, currency, t,
+    name, price, qty_ordered, currency, t, image_url,
 }) => {
     const styles = useStyles();
     return (
         <div className={styles.itemContainer}>
-            <img src="/assets/img/sample/product.png" className={styles.productImg} alt="[product name]" />
+            <div className={styles.productImgContainer}>
+                <img
+                    src={image_url || '/assets/img/placeholder.png'}
+                    className={styles.productImg}
+                    alt={name}
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
+                />
+            </div>
             <div className={styles.detailItem}>
                 <Typography variant="label">{name || ''}</Typography>
                 <Typography variant="span">{formatPrice(price, currency)}</Typography>
@@ -142,9 +149,13 @@ const DetailOrder = ({ t, detail, currency }) => {
                         <div className={styles.listSummary}>
                             <Typography variant="span" letter="capitalize">
                                 {t('order:giftcard')}
+                                {' '}
+                                (
+                                { detail[0].detail[0].aw_giftcard.giftcard_detail[0].giftcard_code }
+                                )
                             </Typography>
                             <Typography variant="span" letter="capitalize">
-                                {formatPrice(detail[0].detail[0].aw_giftcard.giftcard_amount, currency)}
+                                {formatPrice(-detail[0].detail[0].aw_giftcard.giftcard_amount, currency)}
                             </Typography>
                         </div>
                     ) : null}

@@ -29,9 +29,14 @@ export default makeStyles(() => ({
         ...CreateMargin(10, 0, 20, 0),
     },
 
-    productImg: {
+    productImgContainer: {
         width: 105,
         height: 130,
+    },
+
+    productImg: {
+        width: 105,
+        height: 'auto',
     },
 
     detailItem: {
