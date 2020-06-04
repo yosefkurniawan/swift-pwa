@@ -19,6 +19,7 @@ import Alert from '@material-ui/lab/Alert';
 import { GraphCustomer } from '@services/graphql';
 import Link from 'next/link';
 import formatDate from '@helpers/date';
+import urlParser from '@helpers/urlParser';
 import useStyles from '../style';
 import Loader from './skeleton';
 
@@ -171,7 +172,22 @@ export default (props) => {
                                                             {t('customer:rewardPoint:comment')}
                                                         </Typography>
                                                     </div>
-                                                    <div className={styles.value}>{val.comment}</div>
+                                                    {
+                                                        val.comment.split('<a').length > 1
+                                                            ? (
+                                                                <div
+                                                                    className={styles.value}
+                                                                    dangerouslySetInnerHTML={{
+                                                                        __html: `${val.comment.split('<a')[0]} 
+                                                                            <a href="${urlParser(val.comment, 'href').path}">#${
+                                                                    val.comment.split('#')[1].split('</a')[0]
+                                                                }</a>
+                                                                            `,
+                                                                    }}
+                                                                />
+                                                            )
+                                                            : (<div className={styles.value} dangerouslySetInnerHTML={{ __html: val.comment }} />)
+                                                    }
                                                 </div>
                                             </TableCell>
                                             <TableCell
@@ -209,7 +225,7 @@ export default (props) => {
                                                     </div>
                                                     <div className={styles.value}>
                                                         <div className={val.points < 0 ? styles.textRed : styles.textGreen}>
-                                                            {val.points < 0 ? `-${val.points}` : `+${val.points}`}
+                                                            {val.points < 0 ? `${val.points}` : `+${val.points}`}
                                                         </div>
                                                     </div>
                                                 </div>
