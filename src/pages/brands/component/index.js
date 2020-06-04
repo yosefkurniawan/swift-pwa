@@ -1,5 +1,6 @@
 import FeaturedBrands from './featured';
 import { getBrands } from '../services';
+import AllBrands from './all';
 
 const ComponentBrands = () => {
     const { data, loading } = getBrands({ pageSize: 100, currentPage: 1 });
@@ -8,10 +9,12 @@ const ComponentBrands = () => {
     }
 
     const { getBrandList } = data;
+
     return (
-        <div>
+        <>
             <FeaturedBrands data={getBrandList.featured} />
-        </div>
+            <AllBrands data={getBrandList.items} />
+        </>
     );
 };
 
