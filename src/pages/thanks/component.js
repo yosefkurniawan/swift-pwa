@@ -2,7 +2,9 @@ import Typography from '@components/Typography';
 import Button from '@components/Button';
 import Link from 'next/link';
 import TagManager from 'react-gtm-module';
+import Alert from '@material-ui/lab/Alert';
 import { getOrder } from './services/graphql';
+import Loader from './Loader';
 import useStyles from './style';
 
 const ThanksPage = (props) => {
@@ -18,10 +20,6 @@ const ThanksPage = (props) => {
     };
     const { data, loading, error } = getOrder(checkoutData);
 
-    if (loading || !data) return <p>Loading</p>;
-    if (error) return <p>error</p>;
-    if (data && data.ordersFilter) ordersFilter = data.ordersFilter;
-
     React.useEffect(() => {
         if (ordersFilter.data.length > 0) {
             const dataLayer = {
@@ -31,20 +29,20 @@ const ThanksPage = (props) => {
                             id: checkoutData.order_number,
                             affiliation: '',
                             revenue: ordersFilter.data[0].detail[0].grand_total,
-                            coupon: '',
+                            coupon: ordersFilter.data[0].detail[0].coupon.is_use_coupon ? ordersFilter.data[0].detail[0].coupon.code : '',
                             tax: ordersFilter.data[0].detail[0].tax_amount,
                             shipping: ordersFilter.data[0].detail[0].payment.shipping_amount,
                             product: ordersFilter.data[0].detail[0].items.map((product) => ({
                                 name: product.name,
                                 id: product.sku,
-                                category: '',
+                                category: product.categories[0].name || '',
                                 price: product.price,
-                                list: '',
+                                list: product.categories[0].name || '',
                                 quantity: product.qty_ordered,
-                                dimension4: '',
-                                dimension5: '',
-                                dimension6: '',
-                                dimension7: '',
+                                dimension4: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
+                                dimension5: JSON.stringify(product.rating.total),
+                                dimension6: JSON.stringify(product.rating.value),
+                                dimension7: ordersFilter.data[0].detail[0].discount_amount !== 0 ? 'YES' : 'NO',
                             })),
                         },
                     },
@@ -55,7 +53,19 @@ const ThanksPage = (props) => {
                 dataLayer,
             });
         }
-    }, []);
+    }, [ordersFilter]);
+
+    if (loading || !data) return <Loader />;
+    if (error) {
+        return (
+            <div className={styles.container}>
+                <Alert className="m-15" severity="error">
+                    {error.message.split(':')[1]}
+                </Alert>
+            </div>
+        );
+    }
+    if (data && data.ordersFilter) ordersFilter = data.ordersFilter;
     return (
         <div className={styles.container}>
             <Typography variant="h1" type="bold" align="center">
@@ -74,7 +84,7 @@ const ThanksPage = (props) => {
                 {checkoutData.order_number}
             </Typography>
             {isLogin && isLogin === 1 && (
-                <Link href="/sales/order/view/order_id/[id]" as={`/sales/order/view/order_id/${parseInt(checkoutData.order_id, 0)}`}>
+                <Link href="/sales/order/view/order_id/[id]" as={`/sales/order/view/order_id/${checkoutData.order_number}`}>
                     <a>
                         <Typography variant="span" type="regular" letter="capitalize" decoration="underline">
                             {t('checkout:checkOrder')}

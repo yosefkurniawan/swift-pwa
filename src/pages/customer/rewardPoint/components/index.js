@@ -19,6 +19,7 @@ import Alert from '@material-ui/lab/Alert';
 import { GraphCustomer } from '@services/graphql';
 import Link from 'next/link';
 import formatDate from '@helpers/date';
+import urlParser from '@helpers/urlParser';
 import useStyles from '../style';
 import Loader from './skeleton';
 
@@ -68,6 +69,16 @@ export default (props) => {
     }
     if (loading || !data) return <Loader />;
     if (data && data.customerRewardPoints) customerRewardPoints = data.customerRewardPoints;
+    const getId = (string) => string.split('#')[1].split('</a')[0];
+    const getPath = (string) => {
+        const path = urlParser(string, 'href').pathArray;
+        const id = getId(string);
+        let url = '';
+        for (let index = 1; index < path.length - 2; index += 1) {
+            url += `/${path[index]}`;
+        }
+        return `${url}/${id}`;
+    };
     return (
         <div className={styles.container}>
             <List>
@@ -171,7 +182,22 @@ export default (props) => {
                                                             {t('customer:rewardPoint:comment')}
                                                         </Typography>
                                                     </div>
-                                                    <div className={styles.value}>{val.comment}</div>
+                                                    {
+                                                        (val.comment.split('<a').length > 1 && val.comment.includes('/sales/order/view/order_id'))
+                                                            ? (
+                                                                <div
+                                                                    className={styles.value}
+                                                                    // eslint-disable-next-line react/no-danger
+                                                                    dangerouslySetInnerHTML={{
+                                                                        __html: `${val.comment.split('<a')[0]} 
+                                                                            <a href="${getPath(val.comment)}">#${getId(val.comment)}</a>
+                                                                            `,
+                                                                    }}
+                                                                />
+                                                            )
+                                                            // eslint-disable-next-line react/no-danger
+                                                            : (<div className={styles.value} dangerouslySetInnerHTML={{ __html: val.comment }} />)
+                                                    }
                                                 </div>
                                             </TableCell>
                                             <TableCell
@@ -209,7 +235,7 @@ export default (props) => {
                                                     </div>
                                                     <div className={styles.value}>
                                                         <div className={val.points < 0 ? styles.textRed : styles.textGreen}>
-                                                            {val.points < 0 ? `-${val.points}` : `+${val.points}`}
+                                                            {val.points < 0 ? `${val.points}` : `+${val.points}`}
                                                         </div>
                                                     </div>
                                                 </div>
