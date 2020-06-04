@@ -11,9 +11,16 @@ const Caraousel = ({
     className = '',
     storeConfig,
     customItem,
+    customSlideClass,
 }) => {
     const styles = useStyles();
     const [index, setIndex] = useState(parseInt(data.length / 2, 10));
+    let { slideContainer } = styles;
+
+    if (customSlideClass) {
+        slideContainer = classNames(styles.slideContainer, customSlideClass);
+    }
+
     return (
         <div className={classNames(styles.container, className)}>
             {title && title !== '' && (
@@ -29,7 +36,7 @@ const Caraousel = ({
             )}
             <SwipeableViews
                 className={styles.caraousel}
-                slideClassName={styles.slideContainer}
+                slideClassName={slideContainer}
                 index={index}
                 onChangeIndex={(i) => setIndex(i)}
                 enableMouseEvents
