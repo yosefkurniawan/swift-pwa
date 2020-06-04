@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import Button from '@components/Button';
 import Typography from '@components/Typography';
+import { formatPrice } from '@helpers/currency';
 import { CircularProgress } from '@material-ui/core';
 import gqlService from '../../../services/graphql';
 
@@ -74,12 +75,15 @@ const RewardPoint = ({
         <div className={styles.cardPoint}>
             <div className="column">
                 <Typography variant="span" letter="capitalize">
-                    My Point
+                    {checkout.data.cart.applied_reward_points.is_use_reward_points
+                        ? `Used ${checkout.data.cart.applied_reward_points.is_use_reward_points} Reward Points` : 'My Point' }
                 </Typography>
                 <Typography variant="title" type="bold" className={styles.pointText}>
-                    {checkout.data.rewardPoints.balance
-                        ? checkout.data.rewardPoints.balance.toLocaleString(undefined, { minimumFractionDigits: 0 }) : 0}
-                    {` (${checkout.data.rewardPoints.formatedBalanceCurrency})`}
+                    {checkout.data.cart.applied_reward_points.is_use_reward_points
+                        ? formatPrice(checkout.data.cart.applied_reward_points.reward_points_amount, 'USD')
+                        : `${checkout.data.rewardPoints.balance
+                            ? checkout.data.rewardPoints.balance.toLocaleString(undefined, { minimumFractionDigits: 0 }) : 0}
+                         (${checkout.data.rewardPoints.formatedBalanceCurrency})`}
                 </Typography>
             </div>
             <div>
