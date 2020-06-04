@@ -1,8 +1,8 @@
 import { gql } from 'apollo-boost';
 
 export const getOrder = () => gql`
-    query getOrder($email: String, $order_id: String) {
-        ordersFilter(filters: { email: $email, ids: { eq: $order_id } }) {
+    query getOrder($email: String, $order_number: String) {
+        ordersFilter(filters: { email: $email, ids: { eq: $order_number } }) {
             data {
                 order_number
                 id
@@ -15,12 +15,29 @@ export const getOrder = () => gql`
                     total_qty_ordered
                     global_currency_code
                     discount_amount
+                    coupon {
+                        code
+                        rule_name
+                        is_use_coupon
+                    }
                     items {
                         name
                         sku
                         price
                         qty_ordered
                         row_weight
+                        categories {
+                            entity_id
+                            name
+                        }
+                        rating {
+                            total
+                            value
+                        }
+                        quantity_and_stock_status {
+                            is_in_stock
+                            qty
+                        }
                     }
                 }
             }
