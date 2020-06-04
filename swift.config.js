@@ -101,6 +101,8 @@ const blog = {
     urlPath: '/blog',
 };
 
+const showBrandPage = true;
+
 module.exports = {
     blog,
     GTM,
@@ -128,4 +130,5 @@ module.exports = {
     customerFeautres,
     nameCheckoutCookie,
     nameGlobalCookie,
+    showBrandPage,
 };

@@ -3,6 +3,7 @@ import Typography from '@components/Typography';
 import Button from '@components/Button';
 import { Slide } from '@material-ui/core';
 import Router from 'next/router';
+import { showBrandPage } from '@config';
 import useStyles from './style';
 
 const Category = ({
@@ -61,6 +62,24 @@ const Category = ({
                         </div>
                     ))
                     : null}
+                {showBrandPage ? (
+                    <Typography variant="h1" align="center">
+                        <Button
+                            variant="text"
+                            onClick={() => {
+                                setOpenModal(false);
+                                setTimeout(() => {
+                                    Router.push(
+                                        '/brands',
+                                    );
+                                }, 200);
+                            }}
+                        >
+                            Brands
+                        </Button>
+                    </Typography>
+                ) : null }
+
             </div>
         </div>
     );
