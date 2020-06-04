@@ -163,8 +163,8 @@ const AddressFormDialog = (props) => {
                 regionId: _.isObject(values.region) ? values.region.id : null,
                 addressId,
                 customAttributes: [
-                    { attribute_code: 'latitude', value: mapPosition.lat },
-                    { attribute_code: 'longitude', value: mapPosition.lng },
+                    { attribute_code: 'latitude', value: String(mapPosition.lat) },
+                    { attribute_code: 'longitude', value: String(mapPosition.lng) },
                 ],
             };
 
@@ -369,7 +369,7 @@ const AddressFormDialog = (props) => {
                     }}
                 />
                 <Box className={[styles.address_form].join(' ')}>
-                    <form onSubmit={formik.handleSubmit}>
+                    <form onSubmit={formik.handleSubmit} autoComplete="off">
                         <CustomTextField
                             label={t('common:form:firstName')}
                             name="firstname"
