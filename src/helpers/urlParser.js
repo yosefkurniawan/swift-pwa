@@ -6,6 +6,7 @@ function urlParser(url, tag = 'href') {
         path: '',
         query: '',
         port: '',
+        pathArray: [],
     };
 
     if (tag === 'href') {
@@ -29,6 +30,7 @@ function urlParser(url, tag = 'href') {
         resObject.path = queryParser[0];
         resObject.query = queryParser[1];
         resObject.port = portParser[1];
+        resObject.pathArray = pathParser;
     }
 
     return resObject;

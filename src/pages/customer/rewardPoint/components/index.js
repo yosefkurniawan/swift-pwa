@@ -69,6 +69,16 @@ export default (props) => {
     }
     if (loading || !data) return <Loader />;
     if (data && data.customerRewardPoints) customerRewardPoints = data.customerRewardPoints;
+    const getId = (string) => string.split('#')[1].split('</a')[0];
+    const getPath = (string) => {
+        const path = urlParser(string, 'href').pathArray;
+        const id = getId(string);
+        let url = '';
+        for (let index = 1; index < path.length - 2; index += 1) {
+            url += `/${path[index]}`;
+        }
+        return `${url}/${id}`;
+    };
     return (
         <div className={styles.container}>
             <List>
@@ -173,19 +183,19 @@ export default (props) => {
                                                         </Typography>
                                                     </div>
                                                     {
-                                                        val.comment.split('<a').length > 1
+                                                        (val.comment.split('<a').length > 1 && val.comment.includes('/sales/order/view/order_id'))
                                                             ? (
                                                                 <div
                                                                     className={styles.value}
+                                                                    // eslint-disable-next-line react/no-danger
                                                                     dangerouslySetInnerHTML={{
                                                                         __html: `${val.comment.split('<a')[0]} 
-                                                                            <a href="${urlParser(val.comment, 'href').path}">#${
-                                                                    val.comment.split('#')[1].split('</a')[0]
-                                                                }</a>
+                                                                            <a href="${getPath(val.comment)}">#${getId(val.comment)}</a>
                                                                             `,
                                                                     }}
                                                                 />
                                                             )
+                                                            // eslint-disable-next-line react/no-danger
                                                             : (<div className={styles.value} dangerouslySetInnerHTML={{ __html: val.comment }} />)
                                                     }
                                                 </div>
