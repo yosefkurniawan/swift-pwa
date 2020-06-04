@@ -9,10 +9,14 @@ const encrypt = (text) => {
 };
 
 const decrypt = (text) => {
-    const decipher = crypto.createDecipher(algorithm, keyEncrypt);
-    let dec = decipher.update(text, 'hex', 'utf8');
-    dec += decipher.final('utf8');
-    return dec;
+    try {
+        const decipher = crypto.createDecipher(algorithm, keyEncrypt);
+        let dec = decipher.update(text, 'hex', 'utf8');
+        dec += decipher.final('utf8');
+        return dec;
+    } catch (error) {
+        return text;
+    }
 };
 
 module.exports = {
