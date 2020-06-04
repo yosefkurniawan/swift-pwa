@@ -12,7 +12,7 @@ const Item = () => ((
     </>
 ));
 
-const SkeletonBrands = () => {
+const SkeletonBrands = ({ t }) => {
     const styles = useStyles();
     return (
         <>
@@ -23,7 +23,7 @@ const SkeletonBrands = () => {
                 variant="span"
                 className={styles.title}
             >
-                Featured Brands
+                {t('brands:featuredBrands')}
             </Typography>
             <Skeleton variant="rect" width="100%" height={218} style={{ marginBottom: 20 }} />
             <Typography
@@ -33,7 +33,7 @@ const SkeletonBrands = () => {
                 variant="span"
                 className={styles.title}
             >
-                All Brands
+                {t('brands:allBrands')}
             </Typography>
             <GridList
                 data={[1, 2, 3, 4]}

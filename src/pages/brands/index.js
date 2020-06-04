@@ -1,11 +1,13 @@
 import Layout from '@components/Layouts';
+import { withTranslation } from '@i18n';
 import Content from './component';
 
 const BrandsPage = (props) => {
+    const { t } = props;
     const pageConfig = {
-        title: 'Brands',
+        title: t('brands:title'),
         header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle: 'Brands',
+        headerTitle: t('brands:title'),
         headerBackIcon: 'arrow', // available values: "close", "arrow"
         bottomNav: false,
         pageType: 'brands',
@@ -17,4 +19,8 @@ const BrandsPage = (props) => {
     );
 };
 
-export default BrandsPage;
+BrandsPage.getInitialProps = async () => ({
+    namespacesRequired: ['brands'],
+});
+
+export default withTranslation()(BrandsPage);

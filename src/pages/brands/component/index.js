@@ -3,18 +3,18 @@ import { getBrands } from '../services';
 import AllBrands from './all';
 import SkeletonBrands from './skeleton';
 
-const ComponentBrands = () => {
+const ComponentBrands = ({ t }) => {
     const { data, loading } = getBrands({ pageSize: 100, currentPage: 1 });
     if (loading) {
-        return <SkeletonBrands />;
+        return <SkeletonBrands t={t} />;
     }
 
     const { getBrandList } = data;
 
     return (
         <>
-            <FeaturedBrands data={getBrandList.featured} />
-            <AllBrands data={getBrandList.items} />
+            <FeaturedBrands t={t} data={getBrandList.featured} />
+            <AllBrands t={t} data={getBrandList.items} />
         </>
     );
 };

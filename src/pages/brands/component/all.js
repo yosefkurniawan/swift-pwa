@@ -8,7 +8,7 @@ const Item = (props) => {
     const styles = useStyles();
     const { group, children } = props;
     return (
-        <div>
+        <div className={styles.allContainer}>
             <Typography
                 align="center"
                 letter="uppercase"
@@ -33,7 +33,7 @@ const Item = (props) => {
     );
 };
 
-const AllBrands = ({ data = [] }) => {
+const AllBrands = ({ data = [], t }) => {
     const styles = useStyles();
     const compare = (a, b) => {
         // Use toUpperCase() to ignore character casing
@@ -71,7 +71,7 @@ const AllBrands = ({ data = [] }) => {
                 variant="span"
                 className={styles.title}
             >
-                All Brands
+                {t('brands:allBrands')}
             </Typography>
             <GridList
                 data={brands}

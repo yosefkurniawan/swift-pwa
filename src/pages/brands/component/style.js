@@ -3,7 +3,7 @@ import {
     Centering, CreateMargin,
 } from '@theme/mixins';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     title: {
         ...CreateMargin(0, 0, 15, 0),
         ...Centering,
@@ -11,6 +11,12 @@ const useStyles = makeStyles(() => ({
     listBrand: {
         textAlign: 'left',
         fontSize: '10px',
+    },
+    allContainer: {
+        [theme.breakpoints.down('sm')]: {
+            paddingLeft: 20,
+            paddingRight: 20,
+        },
     },
 }));
 
