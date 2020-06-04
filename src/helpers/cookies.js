@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import server from 'next-cookies';
-import { nameCheckoutCookie, expiredDefault } from '@config';
+import { nameCheckoutCookie, expiredDefault, nameGlobalCookie } from '@config';
 
 export const getCheckoutData = () => {
     const data = Cookies.getJSON(nameCheckoutCookie);
@@ -19,6 +19,32 @@ export const setCheckoutData = (data) => {
 
 export const removeCheckoutData = () => {
     Cookies.remove(nameCheckoutCookie);
+    return true;
+};
+
+export const getCookies = (key) => {
+    const data = Cookies.getJSON(nameGlobalCookie);
+    if (data && data[key]) {
+        return data[key];
+    }
+    return '';
+};
+
+export const getCookiesFromRequest = (ctx, key) => {
+    const data = server(ctx);
+    return data[nameGlobalCookie][key];
+};
+
+export const setCookies = (key, data) => {
+    const oldData = Cookies.getJSON(nameGlobalCookie);
+    Cookies.set(nameGlobalCookie, { ...oldData, [key]: data }, { expires: expiredDefault });
+    return true;
+};
+
+export const removeCookies = (key) => {
+    const data = Cookies.getJSON(nameGlobalCookie);
+    delete data[key];
+    Cookies.set(nameGlobalCookie, { ...data }, { expires: expiredDefault });
     return true;
 };
 

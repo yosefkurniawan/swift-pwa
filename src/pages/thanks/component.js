@@ -23,6 +23,8 @@ const ThanksPage = (props) => {
     React.useEffect(() => {
         if (ordersFilter.data.length > 0) {
             const dataLayer = {
+                title: t('checkout:thanks'),
+                pageType: 'purchase',
                 ecommerce: {
                     purchase: {
                         actionField: {

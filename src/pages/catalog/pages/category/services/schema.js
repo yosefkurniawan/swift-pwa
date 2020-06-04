@@ -19,6 +19,11 @@ export const getCategory = (
           url_path
           image
           image_path
+          breadcrumbs {
+            category_id
+            category_name
+            category_url_path
+          }
           children {
             id
             name

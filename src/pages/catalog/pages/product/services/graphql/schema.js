@@ -19,7 +19,13 @@ const productDetail = `
       url
     }
     categories {
+      id
       name
+      url_path
+      breadcrumbs {
+        category_url_path
+        category_name
+      }
     }
 
     `;
@@ -105,10 +111,6 @@ export const getProduct = (url) => {
               ${priceTiers}
               description {
                 html
-              }
-              categories {
-                id
-                name
               }
               short_description {
                 html

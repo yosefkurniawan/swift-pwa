@@ -48,12 +48,30 @@ current_page
                     shipping_methods {
                         shipping_description
                     }
+                    coupon {
+                        code
+                        rule_name
+                        is_use_coupon
+                    }
                     items {
                         sku
                         name
                         qty_ordered
                         price
                         discount_amount
+                        image_url
+                        categories {
+                            entity_id
+                            name
+                        }
+                        rating {
+                            total
+                            value
+                        }
+                        quantity_and_stock_status {
+                            is_in_stock
+                            qty
+                        }
                     }
                     aw_giftcard {
                         giftcard_amount

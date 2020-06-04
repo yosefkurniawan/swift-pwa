@@ -15,6 +15,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import { Alert } from '@material-ui/lab';
 import TagManager from 'react-gtm-module';
 import { storeConfigNameCokie } from '@config';
+import { setCookies } from '@helpers/cookies';
 import cookies from 'js-cookie';
 import useStyles from '../style';
 import Filter from './Filter';
@@ -163,6 +164,9 @@ const Product = (props) => {
     }
 
     React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            setCookies('lastCategory', categoryPath);
+        }
         if (data && data.products) {
             const tagManagerArgs = {
                 dataLayer: {

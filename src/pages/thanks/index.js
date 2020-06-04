@@ -9,6 +9,7 @@ const Page = (props) => {
     const pageConfig = {
         title: t('checkout:thanks'),
         bottomNav: false,
+        pageType: 'purchase',
     };
     return (
         <Layout pageConfig={pageConfig} {...props}>
