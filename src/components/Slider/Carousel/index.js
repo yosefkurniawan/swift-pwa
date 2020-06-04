@@ -10,6 +10,7 @@ const Caraousel = ({
     title = '',
     className = '',
     storeConfig,
+    customItem,
 }) => {
     const styles = useStyles();
     const [index, setIndex] = useState(parseInt(data.length / 2, 10));
@@ -34,7 +35,11 @@ const Caraousel = ({
                 enableMouseEvents
             >
                 {data.map((item, y) => (
-                    <Item {...item} key={y} storeConfig={storeConfig} />
+                    customItem ? customItem({
+                        ...item,
+                        storeConfig,
+                        key: y,
+                    }) : <Item {...item} key={y} storeConfig={storeConfig} />
                 ))}
             </SwipeableViews>
         </div>
