@@ -47,13 +47,11 @@ const CategoryPage = ({ data, storeConfig, t }) => {
             active: false,
         }));
     }
-    if (breadcrumbsData.length > 0) {
-        breadcrumbsData.push({
-            label: categoryList.name,
-            link: '#',
-            active: true,
-        });
-    }
+    breadcrumbsData.push({
+        label: categoryList.name,
+        link: '#',
+        active: true,
+    });
     return (
         <Box className={styles.container}>
             {dataBanner.length > 0
@@ -63,6 +61,9 @@ const CategoryPage = ({ data, storeConfig, t }) => {
                         {' '}
                     </div>
                 ) : null}
+            <div className={styles.breadcrumbs}>
+                <Breadcrumb data={breadcrumbsData} />
+            </div>
             {dataBanner[0] && dataBanner[0].description && (
                 /* eslint-disable-next-line react/no-danger */
                 <div className="cms-container" dangerouslySetInnerHTML={{ __html: dataBanner[0].description }} />
@@ -73,9 +74,6 @@ const CategoryPage = ({ data, storeConfig, t }) => {
                     onChange={handleChange}
                     value={value}
                 />
-            </div>
-            <div className={styles.breadcrumbs}>
-                <Breadcrumb data={breadcrumbsData} />
             </div>
             <Product
                 defaultSort={{ key: 'position', value: 'ASC' }}

@@ -220,12 +220,13 @@ const ProductPage = (props) => {
                 link: `/${cat[0].url_path}`,
                 active: false,
             });
-            breadcrumbsData.push({
-                label: data.name,
-                link: '#',
-                active: true,
-            });
         }
+
+        breadcrumbsData.push({
+            label: data.name,
+            link: '#',
+            active: true,
+        });
     }
     return (
         <>
@@ -266,6 +267,9 @@ const ProductPage = (props) => {
                 </div>
                 <div className={styles.body}>
                     <div className={styles.titleContainer}>
+                        <Breadcrumb data={breadcrumbsData} variant="text" />
+                    </div>
+                    <div className={styles.titleContainer}>
                         <div className={styles.titlePriceContainer}>
                             <Typography
                                 variant="title"
@@ -293,9 +297,6 @@ const ProductPage = (props) => {
                                 <ShareOutlined className={styles.iconShare} />
                             </IconButton>
                         </div>
-                    </div>
-                    <div className={styles.titleContainer}>
-                        <Breadcrumb data={breadcrumbsData} variant="text" />
                     </div>
                     <div className={styles.titleContainer}>
                         <div className={classNames('row', styles.sku)}>
