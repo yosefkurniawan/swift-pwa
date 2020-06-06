@@ -124,6 +124,10 @@ const cartSubSelection = `
         is_use_reward_points
         reward_points_amount
     }
+    gosend_location {
+        dest_latitude
+        dest_longitude
+    }
 `;
 
 export const applyGiftCardToCart = gql`

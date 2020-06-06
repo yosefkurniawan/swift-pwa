@@ -147,8 +147,25 @@ const Address = (props) => {
         }
     });
 
-    const isAddressNotSame = (current = null, previous = null) => {
+    const isAddressNotSame = (current = null, previous = null, prevDestLocation = null) => {
+        console.log('testttt');
         if (previous) {
+            console.log(current);
+            console.log(previous);
+
+            let currentDestLatitude = null;
+            let currentDestLongitude = null;
+
+            // eslint-disable-next-line array-callback-return
+            current.custom_attributes.map((item) => {
+                if (item.attribute_code === 'latitude') {
+                    currentDestLatitude = item.value;
+                }
+                if (item.attribute_code === 'longitude') {
+                    currentDestLongitude = item.value;
+                }
+            });
+
             const currentStringfy = JSON.stringify({
                 city: current.city,
                 country_code: current.country_code,
@@ -158,6 +175,8 @@ const Address = (props) => {
                 regionLabel: current.region.region,
                 street: current.street,
                 telephhone: current.telephone,
+                dest_latitude: currentDestLatitude,
+                dest_longitude: currentDestLongitude,
             });
 
             const previousStringfy = JSON.stringify({
@@ -169,7 +188,12 @@ const Address = (props) => {
                 regionLabel: previous.region.label,
                 street: previous.street,
                 telephhone: previous.telephone,
+                dest_latitude: typeof prevDestLocation.dest_latitude !== 'undefined' ? prevDestLocation.dest_latitude : null,
+                dest_longitude: typeof prevDestLocation.dest_longitude !== 'undefined' ? prevDestLocation.dest_longitude : null,
             });
+
+            console.log(currentStringfy);
+            console.log(previousStringfy);
 
             return currentStringfy !== previousStringfy;
         }
@@ -184,7 +208,12 @@ const Address = (props) => {
         if (defaultAddress && !checkout.data.isGuest) {
             const { cart } = checkout.data;
             const [prevAddress] = cart.shipping_addresses;
-            if (isAddressNotSame(defaultAddress, prevAddress)) {
+            let prevDestLocation = null;
+            if (typeof cart.gosend_location !== 'undefined') {
+                prevDestLocation = cart.gosend_location;
+            }
+            console.log(isAddressNotSame(defaultAddress, prevAddress, prevDestLocation));
+            if (isAddressNotSame(defaultAddress, prevAddress, prevDestLocation)) {
                 setAddress(defaultAddress, cart);
             }
         }
