@@ -11,6 +11,7 @@ import Message from '@components/Toast';
 import useStyles from '../style';
 import ItemProduct from './ItemProduct';
 import ListMessage from './ListMessage';
+import Loader from './Skeleton';
 
 const optionsResolution = [
     { label: 'Refund', value: 'refund' },
@@ -20,7 +21,7 @@ const optionsResolution = [
 const DetailReturn = (props) => {
     const { t } = props;
     const styles = useStyles();
-    const [loading, setLoading] = React.useState(false);
+    const [load, setLoad] = React.useState(false);
     const [message, setMessage] = React.useState({
         open: false,
         message: t('return:view:successUpdate'),
@@ -35,16 +36,18 @@ const DetailReturn = (props) => {
             files: [],
         },
         onSubmit: () => {
-            setLoading(true);
+            setLoad(true);
             setTimeout(() => {
-                setLoading(false);
+                setLoad(false);
                 setMessage({ ...message, open: true });
             }, 10000);
         },
     });
+    const loading = true;
+    if (loading) return <Loader />;
     return (
         <div className="column">
-            <Backdrop open={loading} />
+            <Backdrop open={load} />
             <Message
                 open={message.open}
                 setOpen={() => setMessage({ ...message, open: false })}
