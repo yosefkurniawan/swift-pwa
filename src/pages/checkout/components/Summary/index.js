@@ -126,7 +126,7 @@ const Summary = ({
                     variant: 'success',
                     text: t('checkout:message:placeOrder'),
                 });
-                Routes.push({ pathname: '/thanks' });
+                Routes.push({ pathname: '/checkout/onepage/success' });
             }
         } else {
             state.loading.order = false;
@@ -148,10 +148,10 @@ const Summary = ({
         const snapToken = manageSnapToken.data.getSnapTokenByOrderId.snap_token;
         snap.pay(snapToken, {
             async onSuccess() {
-                window.location.replace('/thanks');
+                window.location.replace('/checkout/onepage/success');
             },
             async onPending() {
-                window.location.replace('/thanks');
+                window.location.replace('/checkout/onepage/success');
             },
             async onError() {
                 getSnapOrderStatusByOrderId({
