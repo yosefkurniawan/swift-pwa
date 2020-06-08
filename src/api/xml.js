@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const requestGraph = require('./graphql-request');
+const { HOST } = require('../../swift.config');
 
 const baseDir = path.join(__dirname, '../../public/static/');
 
@@ -28,14 +29,49 @@ const queryProduct = `
   
 `;
 
+const queryCategory = `
+{
+    categoryList {
+      children_count
+      children {
+        id
+        name
+        url_key
+        url_path
+        updated_at
+        children {
+          id
+          name
+          url_key
+          url_path
+          updated_at
+          children {
+            id
+            name
+            url_key
+            url_path
+            updated_at
+          }
+        }
+      }
+    }
+}  
+`;
+
 const getXmlData = (res) => {
     const getProduct = new Promise((resolve) => {
         const response = requestGraph(queryProduct);
         resolve(response);
     });
 
-    Promise.all([getProduct]).then((values) => {
-        const products = values[0].products.items;
+    const getCategory = new Promise((resolve) => {
+        const response = requestGraph(queryCategory);
+        resolve(response);
+    });
+
+    Promise.all([getCategory, getProduct]).then((values) => {
+        const category = values[0].categoryList[0].children;
+        const products = values[1].products.items;
         res.set('Content-Type', 'text/xml');
         let content = `
         <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
@@ -45,6 +81,40 @@ const getXmlData = (res) => {
                 <loc>https://swiftpwa-be.testingnow.me/</loc>
             </url>
         `;
+
+        // generate category sitemap
+        for (let index = 0; index < category.length; index++) {
+            content += `
+                <url>
+                    <loc>${process.env === 'production' ? HOST.prod : HOST.dev}/${category[index].url_path}</loc>
+                    <lastmod>${category[index].updated_at}</lastmod>
+                    <changefreq>daily</changefreq>
+                    <priority>0.5</priority>
+                </url>
+            `;
+            for (let child1 = 0; child1 < category[index].children.length; child1++) {
+                const children1 = category[index].children[child1];
+                content += `
+                    <url>
+                        <loc>${process.env === 'production' ? HOST.prod : HOST.dev}/${children1.url_path}</loc>
+                        <lastmod>${children1.updated_at}</lastmod>
+                        <changefreq>daily</changefreq>
+                        <priority>0.5</priority>
+                    </url>
+                `;
+                for (let child2 = 0; child2 < children1.children.length; child2++) {
+                    const children2 = children1.children[child2];
+                    content += `
+                    <url>
+                        <loc>${process.env === 'production' ? HOST.prod : HOST.dev}/${children2.url_path}</loc>
+                        <lastmod>${children2.updated_at}</lastmod>
+                        <changefreq>daily</changefreq>
+                        <priority>0.5</priority>
+                    </url>
+                `;
+                }
+            }
+        }
 
         // generate product sitemap
         for (let index = 0; index < products.length; index++) {
