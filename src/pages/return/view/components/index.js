@@ -11,7 +11,7 @@ import Message from '@components/Toast';
 import useStyles from '../style';
 import ItemProduct from './ItemProduct';
 import ListMessage from './ListMessage';
-import Loader from './Skeleton';
+import Loader from './Loader';
 
 const optionsResolution = [
     { label: 'Refund', value: 'refund' },

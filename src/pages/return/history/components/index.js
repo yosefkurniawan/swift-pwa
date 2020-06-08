@@ -9,7 +9,7 @@ import {
 import Alert from '@material-ui/lab/Alert';
 import Router from 'next/router';
 import useStyles from '../style';
-import Loader from './skeleton';
+import Loader from './Loader';
 
 export default (props) => {
     const { t } = props;
