@@ -108,7 +108,7 @@ const Login = ({ t, storeConfig, query }) => {
                 .then(async (res) => {
                     let token = '';
                     if (isOtp) {
-                        token = res.data.internalGenerateCustomerToken.token;
+                        token = res.data.internalCreateCustomerTokenOtp.token;
                     } else {
                         token = res.data.internalGenerateCustomerToken.token;
                     }
