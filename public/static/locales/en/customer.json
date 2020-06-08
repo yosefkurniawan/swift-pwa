@@ -76,7 +76,8 @@
     "storeCredit": "Store Credit",
     "readMore": "Read More",
     "rewardPoint": "Reward Points",
-    "blog": "blog"
+    "blog": "blog",
+    "return": "My Returns"
   },
   "giftCard": {
     "notFound": "You not have gift card item",

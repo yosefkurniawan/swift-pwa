@@ -59,13 +59,13 @@ const ItemProduct = (props) => {
                         <Select
                             options={optionReason}
                             name="reason"
-                            label={t('order:formReturn:label:reason')}
+                            label={t('return:form:label:reason')}
                             value={reason}
                             onChange={(event) => setReason(event.target.value)}
                         />
                     )
                         : (
-                            <Typography>{t('order:formReturn:label:tickSelect')}</Typography>
+                            <Typography>{t('return:form:label:tickSelect')}</Typography>
                         )
                 }
             </div>
