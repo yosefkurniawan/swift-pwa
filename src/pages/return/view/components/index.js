@@ -43,7 +43,7 @@ const DetailReturn = (props) => {
             }, 10000);
         },
     });
-    const loading = true;
+    const loading = false;
     if (loading) return <Loader />;
     return (
         <div className="column">
