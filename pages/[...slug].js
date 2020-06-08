@@ -1,3 +1,3 @@
-import Page from '@pages/catalog';
+import Page from '@pages/slug';
 
 export default Page;
