@@ -5,8 +5,7 @@ import { useFormik } from 'formik';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { storeConfigNameCokie } from '@config';
-import cookies from 'js-cookie';
+import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import { getLoginInfo } from '@helpers/auth';
 import gqlService from '../services/graphql';
 import useStyles from '../style';
@@ -19,14 +18,8 @@ import Shipping from './Shipping';
 import Summary from './Summary';
 
 const Checkout = (props) => {
-    const { t, cartId } = props;
+    const { t, cartId, storeConfig } = props;
     const styles = useStyles();
-    let storeConfig = {};
-    if (typeof window !== 'undefined') {
-        storeConfig = {
-            ...cookies.getJSON(storeConfigNameCokie),
-        };
-    }
     const [checkout, setCheckout] = useState({
         order_id: '',
         data: {
@@ -221,6 +214,13 @@ const Checkout = (props) => {
         setCheckout(state);
         updateFormik(cart);
     };
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const cdt = getCheckoutData();
+            if (cdt) removeCheckoutData();
+        }
+    }, []);
 
     useEffect(() => {
         setCheckout({
