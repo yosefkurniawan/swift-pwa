@@ -59,6 +59,12 @@
         "category": "Category"
     },
     "error": {
-        "notFound" : "Data not found"
+        "notFound" : "Data not found",
+        "fileReject": "Cannot upload, Files must be a type "
+    },
+    "fileUpload": {
+        "reject": "Cannot upload, Files must be a type ",
+        "dragActive": "Drop the files here ...",
+        "dragNonActive": "Drag drop some files here, or click to select file"
     }
 }
