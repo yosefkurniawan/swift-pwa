@@ -7,48 +7,12 @@ import classNames from 'classnames';
 import formatDate from '@helpers/date';
 import { formatPrice } from '@helpers/currency';
 import Alert from '@material-ui/lab/Alert';
-import useStyles from './style';
+import useStyles from '../style';
+import ItemProduct from './ItemProduct';
+import Footer from './Footer';
 
-const ItemProduct = ({
-    name, price, qty_ordered, currency, t, image_url,
-}) => {
-    const styles = useStyles();
-    return (
-        <div className={styles.itemContainer}>
-            <div className={styles.productImgContainer}>
-                <img
-                    src={image_url || '/assets/img/placeholder.png'}
-                    className={styles.productImg}
-                    alt={name}
-                    onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
-                />
-            </div>
-            <div className={styles.detailItem}>
-                <Typography variant="label">{name || ''}</Typography>
-                <Typography variant="span">{formatPrice(price, currency)}</Typography>
-                <Typography variant="span" className={styles.textDetail}>
-                    {t('common:title:color')}
-                    {' '}
-                    : Black
-                </Typography>
-                <Typography variant="span" className={styles.textDetail}>
-                    {t('common:title:size')}
-                    {' '}
-                    : M
-                </Typography>
-                <Typography variant="span" className={styles.textDetail}>
-                    {t('common:title:qty')}
-                    {' '}
-                    :
-                    {qty_ordered || 0}
-                </Typography>
-                <div className="flex-grow" />
-            </div>
-        </div>
-    );
-};
-
-const DetailOrder = ({ t, detail, currency }) => {
+const DetailOrder = (props) => {
+    const { t, detail, currency } = props;
     const styles = useStyles();
     if (detail.length > 0) {
         return (
@@ -167,6 +131,9 @@ const DetailOrder = ({ t, detail, currency }) => {
                             {detail[0].detail[0].grand_total && formatPrice(detail[0].detail[0].grand_total, currency)}
                         </Typography>
                     </div>
+                </div>
+                <div className={styles.block}>
+                    <Footer {...props} />
                 </div>
             </div>
         );

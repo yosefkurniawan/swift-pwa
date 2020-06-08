@@ -90,13 +90,6 @@ const orderOutput = `
     }
 `;
 
-export const getOrder = gql`
-    query getCustomerOrder($pageSize: Int, $currentPage: Int) {
-        customerOrders(pageSize: $pageSize, currentPage: $currentPage) {
-            ${orderOutput}
-        }
-    }
-`;
 
 export const getOrderDetail = gql`
 query getCustomerOrder($order_id: String) {
@@ -107,5 +100,5 @@ query getCustomerOrder($order_id: String) {
 `;
 
 export default {
-    getOrder,
+    getOrderDetail,
 };

@@ -22,9 +22,9 @@ const Page = (props) => {
     const currency = detail.length > 0 ? detail[0].detail[0].global_currency_code : 'USD';
 
     const pageConfig = {
-        title: `${t('order:order')} ${router.query.id}`,
+        title: `${t('order:newReturn')} ${router.query.id}`,
         header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle: `${t('order:order')} #${detail.length > 0 ? detail[0].order_number : ''}`,
+        headerTitle: `${t('order:newReturn')} #${detail.length > 0 ? detail[0].order_number : ''}`,
         bottomNav: false,
     };
     return (

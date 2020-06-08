@@ -5,14 +5,26 @@ import {
     FlexColumn,
     FlexRow,
     CreateMargin,
+    Centering,
 } from '@theme/mixins';
-import { GRAY_PRIMARY } from '@theme/colors';
+import { GRAY_PRIMARY, GRAY_LIGHT } from '@theme/colors';
 
 export default makeStyles(() => ({
     block: {
-        ...CreateBorder(0, 0, '1px', 0, GRAY_PRIMARY),
         ...CreatePadding(30, 30, 30, 30),
         ...FlexColumn,
+    },
+    labelProduct: {
+        ...CreateBorder(0, 0, '1px', 0, GRAY_PRIMARY),
+        ...CreateMargin(15, 0, 15, 0),
+        ...CreatePadding(15, 15, 15, 15),
+    },
+    selectProductContainer: {
+        ...FlexRow,
+        ...CreatePadding(0, 30, 0, 30),
+        '&> *': {
+            marginRight: 15,
+        },
     },
     detail: {
         paddingTop: 0,
@@ -47,15 +59,12 @@ export default makeStyles(() => ({
         ...CreateMargin(0, 0, 0, 5),
         padding: 0,
     },
-
-    listSummary: {
-        ...FlexRow,
-        justifyContent: 'space-between',
-    },
-    footer: {
-        ...FlexColumn,
-        '&> *': {
-            margin: '15px auto',
-        },
+    selectItemBox: {
+        ...Centering,
+        backgroundColor: GRAY_LIGHT,
+        padding: 10,
+        height: 'auto',
+        minHeight: 50,
+        marginBottom: 20,
     },
 }));
