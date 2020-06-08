@@ -68,6 +68,7 @@ const CustomCheckbox = ({
                         dataValues={selected}
                         key={index}
                         onChange={(val) => setCheckedFilter(val)}
+                        {...item}
                     />
                 ) : (
                     <CheckDefault
