@@ -148,11 +148,7 @@ const Address = (props) => {
     });
 
     const isAddressNotSame = (current = null, previous = null, prevDestLocation = null) => {
-        console.log('testttt');
         if (previous) {
-            console.log(current);
-            console.log(previous);
-
             let currentDestLatitude = null;
             let currentDestLongitude = null;
 
@@ -192,9 +188,6 @@ const Address = (props) => {
                 dest_longitude: typeof prevDestLocation.dest_longitude !== 'undefined' ? prevDestLocation.dest_longitude : null,
             });
 
-            console.log(currentStringfy);
-            console.log(previousStringfy);
-
             return currentStringfy !== previousStringfy;
         }
 
@@ -209,10 +202,9 @@ const Address = (props) => {
             const { cart } = checkout.data;
             const [prevAddress] = cart.shipping_addresses;
             let prevDestLocation = null;
-            if (typeof cart.gosend_location !== 'undefined') {
-                prevDestLocation = cart.gosend_location;
+            if (typeof cart.dest_location !== 'undefined') {
+                prevDestLocation = cart.dest_location;
             }
-            console.log(isAddressNotSame(defaultAddress, prevAddress, prevDestLocation));
             if (isAddressNotSame(defaultAddress, prevAddress, prevDestLocation)) {
                 setAddress(defaultAddress, cart);
             }
