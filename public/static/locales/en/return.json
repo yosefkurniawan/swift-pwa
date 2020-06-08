@@ -1,0 +1,30 @@
+{
+    "new": "new return for order ",
+    "product": "Products to return",
+    "selectAll": "Select All",
+    "deselectAll" : "Deselect All",
+    "history" : "My Return",
+    "form": {
+        "submit": "Submit Request",
+        "label": {
+            "resolution": "Resolution",
+            "condition" : "Condition",
+            "message": "Message",
+            "tickSelect": "Tick checkbox to select.",
+            "reason": "Reason"
+        },
+        "placeholder": {
+            "message": "Type here to add a message to manager",
+            "uploadFile": "The following file types are allowed: zip, rar, jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx"
+        }
+    },
+    "table": {
+        "orderId": "Order ID",
+        "returnId" : "Return ID",
+        "products": "Product(s)",
+        "createdAt": "Crated At",
+        "updatedAt": "Updated At",
+        "view": "View Detail"
+    },
+    "empty": "Your not have returns request"
+}

@@ -1,3 +1,4 @@
+import React from 'react';
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
 import { useRouter } from 'next/router';
@@ -22,9 +23,9 @@ const Page = (props) => {
     const currency = detail.length > 0 ? detail[0].detail[0].global_currency_code : 'USD';
 
     const pageConfig = {
-        title: `${t('order:newReturn')} ${router.query.id}`,
+        title: `${t('return:new')} ${router.query.id}`,
         header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle: `${t('order:newReturn')} #${detail.length > 0 ? detail[0].order_number : ''}`,
+        headerTitle: `${t('return:new')} #${detail.length > 0 ? detail[0].order_number : ''}`,
         bottomNav: false,
     };
     return (
@@ -35,7 +36,7 @@ const Page = (props) => {
 };
 
 Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'order'],
+    namespacesRequired: ['common', 'return'],
 });
 
 export default withTranslation()(Page);

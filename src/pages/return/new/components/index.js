@@ -24,7 +24,7 @@ const optionCondition = [
     { label: 'Damaged', value: 'damaged' },
 ];
 
-const DetailOrder = (props) => {
+const Detailreturn = (props) => {
     const { t, detail, currency } = props;
     const styles = useStyles();
     const [dropFile, setDropFile] = React.useState([]);
@@ -63,26 +63,26 @@ const DetailOrder = (props) => {
         flexDirection: 'column',
         alignItems: 'center',
         padding: '20px',
-        borderWidth: 2,
-        borderRadius: 2,
-        borderColor: '#eeeeee',
-        borderStyle: 'dashed',
+        breturnWidth: 2,
+        breturnRadius: 2,
+        breturnColor: '#eeeeee',
+        breturnStyle: 'dashed',
         backgroundColor: '#fafafa',
         color: '#bdbdbd',
         outline: 'none',
-        transition: 'border .24s ease-in-out',
+        transition: 'breturn .24s ease-in-out',
     };
 
     const activeStyle = {
-        borderColor: '#2196f3',
+        breturnColor: '#2196f3',
     };
 
     const acceptStyle = {
-        borderColor: '#00e676',
+        breturnColor: '#00e676',
     };
 
     const rejectStyle = {
-        borderColor: '#ff1744',
+        breturnColor: '#ff1744',
     };
 
     const style = useMemo(() => ({
@@ -124,28 +124,28 @@ const DetailOrder = (props) => {
                         <Select
                             options={optionsResolution}
                             name="resolution"
-                            label={t('order:formReturn:label:resolution')}
+                            label={t('return:form:label:resolution')}
                             value={formik.values.resolution}
                             onChange={formik.handleChange}
                         />
                         <Select
                             options={optionCondition}
                             name="condition"
-                            label={t('order:formReturn:label:condition')}
+                            label={t('return:form:label:condition')}
                             value={formik.values.condition}
                             onChange={formik.handleChange}
                         />
                     </div>
                     <div className={styles.labelProduct}>
-                        <Typography variant="title">{t('order:productReturn')}</Typography>
+                        <Typography variant="title">{t('return:product')}</Typography>
                     </div>
                     <div className={styles.selectProductContainer}>
                         <a href="#" onClick={selectAll}>
-                            <Typography variant="label">{t('order:selectAll')}</Typography>
+                            <Typography variant="label">{t('return:selectAll')}</Typography>
                         </a>
                         <Divider orientation="vertical" flexItem />
                         <a href="#" onClick={deselectAll}>
-                            <Typography variant="label">{t('order:deselectAll')}</Typography>
+                            <Typography variant="label">{t('return:deselectAll')}</Typography>
                         </a>
                     </div>
                     <div className={styles.block}>
@@ -167,8 +167,8 @@ const DetailOrder = (props) => {
                             name="message"
                             onChange={formik.handleChange}
                             value={formik.values.message}
-                            placeholder={t('order:formReturn:placeholder:message')}
-                            label={t('order:formReturn:label:message')}
+                            placeholder={t('return:form:placeholder:message')}
+                            label={t('return:form:label:message')}
                             multiline
                             rows={4}
                         />
@@ -182,7 +182,7 @@ const DetailOrder = (props) => {
                                     : <p>Drag drop some files here, or click to select files</p>
                             }
                         </div>
-                        <Typography>{t('order:formReturn:placeholder:uploadFile')}</Typography>
+                        <Typography>{t('return:form:placeholder:uploadFile')}</Typography>
                     </div>
                     <div className={styles.block}>
                         {
@@ -191,7 +191,7 @@ const DetailOrder = (props) => {
                     </div>
                     <div className={styles.block}>
                         <Button fullWidth>
-                            <Typography letter="capitalize" color="white">{t('order:formReturn:submit')}</Typography>
+                            <Typography letter="capitalize" color="white">{t('return:form:submit')}</Typography>
                         </Button>
                     </div>
                 </form>
@@ -200,9 +200,9 @@ const DetailOrder = (props) => {
     }
     return (
         <Alert className="m-15" severity="warning">
-            {t('order:notFound')}
+            {t('return:notFound')}
         </Alert>
     );
 };
 
-export default DetailOrder;
+export default Detailreturn;

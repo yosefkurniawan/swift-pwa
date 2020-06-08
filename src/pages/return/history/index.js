@@ -3,21 +3,22 @@ import { withTranslation } from '@i18n';
 import Component from './components';
 
 const Page = (props) => {
+    const { t } = props;
     const pageConfig = {
-        title: 'My Reeturn',
+        title: t('return:history'),
         header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle: 'My Return',
+        headerTitle: t('return:history'),
         bottomNav: false,
     };
     return (
-        <Layout pageConfig={pageConfig} {...props}>
+        <Layout pageConfig={pageConfig}>
             <Component {...props} />
         </Layout>
     );
 };
 
 Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'search', 'product'],
+    namespacesRequired: ['common', 'return'],
 });
 
 export default withTranslation()(Page);

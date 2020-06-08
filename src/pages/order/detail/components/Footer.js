@@ -17,8 +17,8 @@ export default ({ t, detail }) => {
                             fullWidth
                             variant="outlined"
                             onClick={() => Router.push(
-                                '/aw_rma/customer/new/order_id/[id]',
-                                `/aw_rma/customer/new/order_id/${detail[0].order_number}`,
+                                '/rma/customer/new/order_id/[id]',
+                                `/rma/customer/new/order_id/${detail[0].order_number}`,
                             )}
                         >
                             <Typography variant="span">{t('order:return')}</Typography>
