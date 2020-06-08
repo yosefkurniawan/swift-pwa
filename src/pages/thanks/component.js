@@ -76,8 +76,10 @@ const ThanksPage = (props) => {
         Router.push('/');
     };
     React.useEffect(() => function cleanup() {
-        const cdt = getCheckoutData();
-        if (cdt) removeCheckoutData();
+        if (typeof window !== 'undefined') {
+            const cdt = getCheckoutData();
+            if (cdt) removeCheckoutData();
+        }
     }, []);
     return (
         <div className={styles.container}>
