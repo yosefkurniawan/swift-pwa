@@ -1,6 +1,10 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable func-names */
+const fs = require('fs');
+const path = require('path');
 const requestGraph = require('./graphql-request');
+
+const baseDir = path.join(__dirname, '../../public/static/');
 
 const queryProduct = `
 {
@@ -24,7 +28,7 @@ const queryProduct = `
   
 `;
 
-const generateXml = (req, res) => {
+const getXmlData = (res) => {
     const getProduct = new Promise((resolve) => {
         const response = requestGraph(queryProduct);
         resolve(response);
@@ -35,11 +39,11 @@ const generateXml = (req, res) => {
         res.set('Content-Type', 'text/xml');
         let content = `
         <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-            xmlns:content="http://www.google.com/schemas/sitemap-content/1.0" 
+            xmlns:content="http://www.google.com/schemas/sitemap-content/1.0"
             xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
             <url>
                 <loc>https://swiftpwa-be.testingnow.me/</loc>
-            </url>   
+            </url>
         `;
 
         // generate product sitemap
@@ -74,8 +78,34 @@ const generateXml = (req, res) => {
         }
 
         content += '</urlset>';
+        // write file to public
+        fs.writeFile(`${baseDir}sitemap.xml`, content, (err) => {
+            if (err) throw err;
+        });
         res.send(content);
     });
+};
+
+const generateXml = (req, res) => {
+    if (fs.existsSync(`${baseDir}sitemap.xml`)) {
+        const { birthtime } = fs.statSync(`${baseDir}sitemap.xml`);
+        const created = new Date(birthtime);
+        const dateCreated = created.getDate();
+        const now = new Date().getDate();
+        // if date not same, get latest
+        if (now !== dateCreated) {
+            getXmlData(res);
+        } else {
+            fs.readFile(`${baseDir}sitemap.xml`, { encoding: 'utf-8' }, (err, data) => {
+                if (!err) {
+                    res.set('Content-Type', 'text/xml');
+                    res.send(data);
+                }
+            });
+        }
+    } else {
+        getXmlData(res);
+    }
 };
 
 module.exports = generateXml;
