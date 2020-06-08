@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useCallback, useMemo } from 'react';
 import Select from '@components/Forms/Select';
 import TextField from '@components/Forms/TextField';
 import classNames from 'classnames';
@@ -8,7 +7,7 @@ import Button from '@components/Button';
 import Alert from '@material-ui/lab/Alert';
 import Divider from '@material-ui/core/Divider';
 import { useFormik } from 'formik';
-import { useDropzone } from 'react-dropzone';
+import DropFile from '@components/DropFile';
 import CheckBox from '@components/Forms/CheckBox';
 import useStyles from '../style';
 import ItemProduct from './ItemProduct';
@@ -27,7 +26,6 @@ const optionCondition = [
 const Detailreturn = (props) => {
     const { t, detail, currency } = props;
     const styles = useStyles();
-    const [dropFile, setDropFile] = React.useState([]);
 
     const formik = useFormik({
         initialValues: {
@@ -41,60 +39,6 @@ const Detailreturn = (props) => {
             console.log(values);
         },
     });
-
-    const onDrop = useCallback((param) => {
-        const files = dropFile;
-        files.push(param[0].name);
-        setDropFile(files);
-        // Do something with the files
-    }, []);
-    const {
-        getRootProps,
-        getInputProps,
-        isDragActive,
-        isDragAccept,
-        isDragReject,
-    } = useDropzone({ onDrop });
-
-
-    const baseStyle = {
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '20px',
-        breturnWidth: 2,
-        breturnRadius: 2,
-        breturnColor: '#eeeeee',
-        breturnStyle: 'dashed',
-        backgroundColor: '#fafafa',
-        color: '#bdbdbd',
-        outline: 'none',
-        transition: 'breturn .24s ease-in-out',
-    };
-
-    const activeStyle = {
-        breturnColor: '#2196f3',
-    };
-
-    const acceptStyle = {
-        breturnColor: '#00e676',
-    };
-
-    const rejectStyle = {
-        breturnColor: '#ff1744',
-    };
-
-    const style = useMemo(() => ({
-        ...baseStyle,
-        ...(isDragActive ? activeStyle : {}),
-        ...(isDragAccept ? acceptStyle : {}),
-        ...(isDragReject ? rejectStyle : {}),
-    }), [
-        isDragActive,
-        isDragReject,
-        isDragAccept,
-    ]);
 
     let products = [];
 
@@ -174,20 +118,7 @@ const Detailreturn = (props) => {
                         />
                     </div>
                     <div className={styles.block}>
-                        <div {...getRootProps({ style })}>
-                            <input {...getInputProps()} />
-                            {
-                                isDragActive
-                                    ? <p>Drop the files here ...</p>
-                                    : <p>Drag drop some files here, or click to select files</p>
-                            }
-                        </div>
-                        <Typography>{t('return:form:placeholder:uploadFile')}</Typography>
-                    </div>
-                    <div className={styles.block}>
-                        {
-                            dropFile.map((file, index) => (<Typography key={index}>{file}</Typography>))
-                        }
+                        <DropFile label={t('return:form:placeholder:uploadFile')} />
                     </div>
                     <div className={styles.block}>
                         <Button fullWidth>

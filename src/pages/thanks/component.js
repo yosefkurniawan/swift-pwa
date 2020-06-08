@@ -29,7 +29,7 @@ const ThanksPage = (props) => {
                     purchase: {
                         actionField: {
                             id: checkoutData.order_number,
-                            affiliation: '',
+                            affiliation: storeConfig.store_name || 'Swift PWA',
                             revenue: ordersFilter.data[0].detail[0].grand_total,
                             coupon: ordersFilter.data[0].detail[0].coupon.is_use_coupon ? ordersFilter.data[0].detail[0].coupon.code : '',
                             tax: ordersFilter.data[0].detail[0].tax_amount,
@@ -85,7 +85,7 @@ const ThanksPage = (props) => {
             <Typography variant="title" type="bold" align="center">
                 {checkoutData.order_number}
             </Typography>
-            {isLogin && isLogin === 1 && (
+            {isLogin && isLogin === 1 ? (
                 <Link href="/sales/order/view/order_id/[id]" as={`/sales/order/view/order_id/${checkoutData.order_number}`}>
                     <a>
                         <Typography variant="span" type="regular" letter="capitalize" decoration="underline">
@@ -93,7 +93,7 @@ const ThanksPage = (props) => {
                         </Typography>
                     </a>
                 </Link>
-            )}
+            ) : null}
             <div className={styles.footer}>
                 <Button className={styles.btnContinue} color="primary" href="/">
                     <Typography variant="title" type="regular" letter="capitalize" className={styles.textBtn}>

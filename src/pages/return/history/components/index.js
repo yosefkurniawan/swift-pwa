@@ -7,8 +7,9 @@ import {
     Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow,
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
+import Router from 'next/router';
 import useStyles from '../style';
-import Loader from './skeleton';
+import Loader from './Loader';
 
 export default (props) => {
     const { t } = props;
@@ -174,6 +175,10 @@ export default (props) => {
                                                 <Button
                                                     variant="text"
                                                     className="clear-margin-padding"
+                                                    onClick={() => Router.push(
+                                                        '/rma/customer/view/id/[id]',
+                                                        `/rma/customer/view/id/${12323}`,
+                                                    )}
                                                 >
                                                     <Typography
                                                         className="clear-margin-padding"

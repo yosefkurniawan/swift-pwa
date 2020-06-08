@@ -26,6 +26,16 @@
             "view": "Lihat Detail"
         },
 
-        "empty": "Kamu tidah mempunyai permintaan return"
+        "empty": "Kamu tidah mempunyai permintaan return",
+        "view": {
+            "label": "Mengelola permintaan RMA ",
+            "packageCondition": "Kondisi Paket",
+            "orderDate": "Tanggal Pemesanan",
+            "myAddress": "Alamat Saya",
+            "updateButton": "Perbarui Return",
+            "cancelButton": "Batalkan Return",
+            "successUpdate": "Return Berhasil di perbarui",
+            "failedUpdate": "Return gagal di perbarui"
+        }
     }
 }

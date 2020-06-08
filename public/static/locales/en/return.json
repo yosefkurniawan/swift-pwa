@@ -26,5 +26,15 @@
         "updatedAt": "Updated At",
         "view": "View Detail"
     },
-    "empty": "Your not have returns request"
+    "empty": "Your not have returns request",
+    "view": {
+        "label": "Manage RMA request ",
+        "packageCondition": "Package Condition",
+        "orderDate": "Order Date",
+        "myAddress": "My Address",
+        "updateButton": "Update Request",
+        "cancelButton": "Cancel Request",
+        "successUpdate": "Return has beed succesfully update",
+        "failedUpdate": "Return update failed"
+    }
 }

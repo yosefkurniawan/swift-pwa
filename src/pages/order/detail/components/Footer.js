@@ -7,9 +7,6 @@ export default ({ t, detail }) => {
     const styles = useStyles();
     return (
         <div className={styles.footer}>
-            <Button fullWidth variant="outlined">
-                <Typography variant="span">{t('order:reorder')}</Typography>
-            </Button>
             {
                 (detail[0].status_label === 'complete' || detail[0].status_label.toLowerCase() === 'complete')
                     && (
@@ -25,9 +22,6 @@ export default ({ t, detail }) => {
                         </Button>
                     )
             }
-            <Button fullWidth variant="outlined">
-                <Typography variant="span">{t('order:print')}</Typography>
-            </Button>
         </div>
     );
 };
