@@ -54,6 +54,8 @@ const orderOutput = `
                 is_use_coupon
             }
             items {
+                item_id
+                parent_item_id
                 sku
                 name
                 qty_ordered

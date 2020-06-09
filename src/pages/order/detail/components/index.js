@@ -14,6 +14,14 @@ import Footer from './Footer';
 const DetailOrder = (props) => {
     const { t, detail, currency } = props;
     const styles = useStyles();
+    let items = [];
+    if (detail.length > 0 && detail[0].detail[0].items.length) {
+        const itemsChild = detail[0].detail[0].items.filter((item) => {
+            if (item.parent_item_id !== null) return item;
+        });
+        const simpleData = detail[0].detail[0].items.filter((item) => !itemsChild.find(({ sku }) => item.sku === sku) && item);
+        items = [...itemsChild, ...simpleData];
+    }
     if (detail.length > 0) {
         return (
             <div className="column">
@@ -64,9 +72,8 @@ const DetailOrder = (props) => {
                     })}
                 </div>
                 <div className={styles.block}>
-                    {detail.length > 0
-                        && detail[0].detail[0].items.length > 0
-                        && detail[0].detail[0].items.map((item, key) => <ItemProduct t={t} key={key} {...item} currency={currency} />)}
+                    {items.length > 0
+                        && items.map((item, key) => <ItemProduct t={t} key={key} {...item} currency={currency} />)}
                 </div>
                 <div className={styles.block}>
                     {detail[0].detail[0].subtotal && (
