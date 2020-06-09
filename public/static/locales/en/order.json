@@ -33,5 +33,6 @@
             "uploadFile": "The following file types are allowed: zip, rar, jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx"
         }
     },
-    "trackingOrder": "Track Order"
+    "trackingOrder": "Track Order",
+    "orderId": "Order Id"
 }

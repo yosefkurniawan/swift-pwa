@@ -34,5 +34,6 @@
             "uploadFile": "Type file yang di bolehkan : zip, rar, jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx"
         }
     },
-    "trackingOrder": "Lacak Pesanan"
+    "trackingOrder": "Lacak Pesanan",
+    "orderId": "Id Pesanan"
 }
