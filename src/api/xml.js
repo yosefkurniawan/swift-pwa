@@ -150,6 +150,10 @@ const getXmlData = (res) => {
             content += '  </url>';
         }
 
+        content += `<url>
+            <loc>${process.env === 'production' ? HOST.prod : HOST.dev}/</loc>
+            <priority>0.5</priority>
+        </url>`;
         content += '</urlset>';
         // write file to public
         fs.writeFile(`${baseDir}sitemap.xml`, content, (err) => {
@@ -167,7 +171,9 @@ const generateXml = (req, res) => {
         const now = new Date().getDate();
         // if date not same, get latest
         if (now !== dateCreated) {
-            getXmlData(res);
+            fs.unlink(`${baseDir}sitemap.xml`, () => {
+                getXmlData(res);
+            });
         } else {
             fs.readFile(`${baseDir}sitemap.xml`, { encoding: 'utf-8' }, (err, data) => {
                 if (!err) {
