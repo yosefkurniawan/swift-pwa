@@ -11,6 +11,8 @@ const DropFile = ({
     acceptedFile = 'image/*,.pdf,.doc,.docx,xls,xlsx,.zip,.rar',
     maxSize = 2000000,
     multiple = true,
+    handleDrop = () => {},
+    error = false,
 }) => {
     const { t } = useTranslation(['common']);
     const [dropFile, setDropFile] = React.useState([]);
@@ -20,6 +22,7 @@ const DropFile = ({
             const files = multiple ? dropFile : [];
             files.push(param[0].name);
             setDropFile(files);
+            handleDrop(param);
         }
         // Do something with the files
     }, []);
@@ -81,7 +84,7 @@ const DropFile = ({
         <div className="column">
             <Message autoHideDuration={6000} open={openError} variant="error" setOpen={() => setOpenError(false)} message={messageError} />
             {
-                title && title !== '' ? (<Typography variant="label" type="semiBold">{title}</Typography>)
+                title && title !== '' ? (<Typography variant="label" type="semiBold" color={error ? 'red' : 'default'}>{title}</Typography>)
                     : null
             }
             <div {...getRootProps({ style })}>
@@ -92,7 +95,7 @@ const DropFile = ({
                         : <p>{t('common:fileUpload:dragNonActive')}</p>
                 }
             </div>
-            <Typography>{label}</Typography>
+            <Typography color={error ? 'red' : 'default'}>{label}</Typography>
             <div className="column">
                 {
                     showListFile && dropFile.map((file, index) => (<Typography key={index}>{file}</Typography>))
