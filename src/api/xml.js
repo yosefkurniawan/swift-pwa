@@ -39,6 +39,7 @@ const queryCategory = `
         url_key
         url_path
         updated_at
+        include_in_menu
         children {
           id
           name
@@ -84,7 +85,8 @@ const getXmlData = (res) => {
 
         // generate category sitemap
         for (let index = 0; index < category.length; index++) {
-            content += `
+            if (category[index].include_in_menu) {
+                content += `
                 <url>
                     <loc>${process.env === 'production' ? HOST.prod : HOST.dev}/${category[index].url_path}</loc>
                     <lastmod>${category[index].updated_at}</lastmod>
@@ -92,9 +94,9 @@ const getXmlData = (res) => {
                     <priority>0.5</priority>
                 </url>
             `;
-            for (let child1 = 0; child1 < category[index].children.length; child1++) {
-                const children1 = category[index].children[child1];
-                content += `
+                for (let child1 = 0; child1 < category[index].children.length; child1++) {
+                    const children1 = category[index].children[child1];
+                    content += `
                     <url>
                         <loc>${process.env === 'production' ? HOST.prod : HOST.dev}/${children1.url_path}</loc>
                         <lastmod>${children1.updated_at}</lastmod>
@@ -102,9 +104,9 @@ const getXmlData = (res) => {
                         <priority>0.5</priority>
                     </url>
                 `;
-                for (let child2 = 0; child2 < children1.children.length; child2++) {
-                    const children2 = children1.children[child2];
-                    content += `
+                    for (let child2 = 0; child2 < children1.children.length; child2++) {
+                        const children2 = children1.children[child2];
+                        content += `
                     <url>
                         <loc>${process.env === 'production' ? HOST.prod : HOST.dev}/${children2.url_path}</loc>
                         <lastmod>${children2.updated_at}</lastmod>
@@ -112,6 +114,7 @@ const getXmlData = (res) => {
                         <priority>0.5</priority>
                     </url>
                 `;
+                    }
                 }
             }
         }
