@@ -40,6 +40,7 @@ const Caraousel = ({
                 index={index}
                 onChangeIndex={(i) => setIndex(i)}
                 enableMouseEvents
+                resistance
             >
                 {data.map((item, y) => (
                     customItem ? customItem({
