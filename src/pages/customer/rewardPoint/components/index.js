@@ -125,9 +125,7 @@ export default (props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {loading ? (
-                                <Loader />
-                            ) : customerRewardPoints.transaction_history.items.length > 0 ? (
+                            {!loading && customerRewardPoints.transaction_history.items.length > 0 ? (
                                 <>
                                     {customerRewardPoints.transaction_history.items.map((val, idx) => (
                                         <TableRow key={idx} className={styles.tableRowResponsive}>
