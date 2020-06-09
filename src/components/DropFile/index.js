@@ -6,15 +6,18 @@ import { useTranslation } from '@i18n';
 
 const DropFile = ({
     label = 'Upload Files',
+    title = '',
     showListFile = true,
     acceptedFile = 'image/*,.pdf,.doc,.docx,xls,xlsx,.zip,.rar',
+    maxSize = 2000000,
+    multiple = true,
 }) => {
     const { t } = useTranslation(['common']);
     const [dropFile, setDropFile] = React.useState([]);
     const [openError, setOpenError] = React.useState(false);
     const onDrop = useCallback((param) => {
         if (param && param.length > 0) {
-            const files = dropFile;
+            const files = multiple ? dropFile : [];
             files.push(param[0].name);
             setDropFile(files);
         }
@@ -26,7 +29,12 @@ const DropFile = ({
         isDragActive,
         isDragAccept,
         isDragReject,
-    } = useDropzone({ onDrop, accept: acceptedFile, onDropRejected: () => setOpenError(true) });
+    } = useDropzone({
+        onDrop,
+        accept: acceptedFile,
+        onDropRejected: () => setOpenError(true),
+        maxSize,
+    });
 
     const baseStyle = {
         flex: 1,
@@ -67,11 +75,15 @@ const DropFile = ({
         isDragAccept,
     ]);
 
-    const messageError = t('common:fileUpload:reject') + acceptedFile;
+    const messageError = `${t('common:fileUpload:reject') + acceptedFile}& max file ${maxSize / 1000000}Mb`;
 
     return (
         <div className="column">
             <Message autoHideDuration={6000} open={openError} variant="error" setOpen={() => setOpenError(false)} message={messageError} />
+            {
+                title && title !== '' ? (<Typography variant="label" type="semiBold">{title}</Typography>)
+                    : null
+            }
             <div {...getRootProps({ style })}>
                 <input {...getInputProps()} />
                 {
