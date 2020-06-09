@@ -2,10 +2,10 @@
 /* eslint-disable func-names */
 const fs = require('fs');
 const path = require('path');
-const requestGraph = require('./graphql-request');
-const { HOST } = require('../../swift.config');
+const requestGraph = require('./graphql-server/request');
+const { HOST } = require('../swift.config');
 
-const baseDir = path.join(__dirname, '../../public/static/');
+const baseDir = path.join(__dirname, '../public/static/');
 
 const queryProduct = `
 {

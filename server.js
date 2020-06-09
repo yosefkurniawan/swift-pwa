@@ -30,7 +30,7 @@ const certificate = '/etc/letsencrypt/live/swiftpwa.testingnow.me/cert.pem';
 
 
 const { expiredToken, SESSION_SECRET } = require('./swift.config');
-const generateXml = require('./src/api/xml');
+const generateXml = require('./src/xml');
 
 (async () => {
     await app.prepare();
