@@ -14,4 +14,7 @@ export default makeStyles({
     button: {
         padding: 10,
     },
+    datePicker: {
+        marginBottom: 20,
+    },
 });
