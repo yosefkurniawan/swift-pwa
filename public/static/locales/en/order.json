@@ -34,5 +34,10 @@
         }
     },
     "trackingOrder": "Track Order",
-    "orderId": "Order Id"
+    "orderId": "Order Number",
+    "trackingInformation": "Tracking Information",
+    "orderStatus": "Order Status",
+    "status": "Status",
+    "orderTotal": "Order Total",
+    "orderNotFound": "Sorry, Your Order is not Available.."
 }
