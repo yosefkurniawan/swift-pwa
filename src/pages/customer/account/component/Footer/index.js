@@ -46,6 +46,11 @@ export default ({ t, isLogin, storeConfig }) => {
                     ) : null
 
                 }
+                <li className={styles.account_navigation_item}>
+                    <Link href="/confirmpayment">
+                        <a className={styles.account_navigation_link}>{t('customer:menu:confirmPayment')}</a>
+                    </Link>
+                </li>
                 {
                     isLogin
                         ? (
