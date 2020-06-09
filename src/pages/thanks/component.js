@@ -3,6 +3,8 @@ import Button from '@components/Button';
 import Link from 'next/link';
 import TagManager from 'react-gtm-module';
 import Alert from '@material-ui/lab/Alert';
+import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
+import Router from 'next/router';
 import { getOrder } from './services/graphql';
 import Loader from './Loader';
 import useStyles from './style';
@@ -68,6 +70,17 @@ const ThanksPage = (props) => {
         );
     }
     if (data && data.ordersFilter) ordersFilter = data.ordersFilter;
+    const handleCotinue = () => {
+        const cdt = getCheckoutData();
+        if (cdt) removeCheckoutData();
+        Router.push('/');
+    };
+    React.useEffect(() => function cleanup() {
+        if (typeof window !== 'undefined') {
+            const cdt = getCheckoutData();
+            if (cdt) removeCheckoutData();
+        }
+    }, []);
     return (
         <div className={styles.container}>
             <Typography variant="h1" type="bold" align="center">
@@ -95,7 +108,7 @@ const ThanksPage = (props) => {
                 </Link>
             ) : null}
             <div className={styles.footer}>
-                <Button className={styles.btnContinue} color="primary" href="/">
+                <Button className={styles.btnContinue} color="primary" onClick={handleCotinue}>
                     <Typography variant="title" type="regular" letter="capitalize" className={styles.textBtn}>
                         {t('checkout:continue')}
                     </Typography>
