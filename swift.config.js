@@ -63,6 +63,7 @@ const customerFeautres = {
     storeCredit: true,
     rewardPoint: true,
     giftCard: true,
+    confirmPayment: true,
 };
 
 /* Blog */

@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 import Typography from '@components/Typography';
 import Button from '@components/Button';
 import Link from 'next/link';
@@ -24,6 +26,12 @@ const ThanksPage = (props) => {
 
     React.useEffect(() => {
         if (ordersFilter.data.length > 0) {
+            let itemsProduct = [];
+            const itemsChild = ordersFilter.data[0].detail[0].items.filter((item) => {
+                if (item.parent_item_id !== null) return item;
+            });
+            const simpleData = ordersFilter.data[0].detail[0].items.filter((item) => !itemsChild.find(({ sku }) => item.sku === sku) && item);
+            itemsProduct = [...itemsChild, ...simpleData];
             const dataLayer = {
                 title: t('checkout:thanks'),
                 pageType: 'purchase',
@@ -36,7 +44,7 @@ const ThanksPage = (props) => {
                             coupon: ordersFilter.data[0].detail[0].coupon.is_use_coupon ? ordersFilter.data[0].detail[0].coupon.code : '',
                             tax: ordersFilter.data[0].detail[0].tax_amount,
                             shipping: ordersFilter.data[0].detail[0].payment.shipping_amount,
-                            product: ordersFilter.data[0].detail[0].items.map((product) => ({
+                            product: itemsProduct.map((product) => ({
                                 name: product.name,
                                 id: product.sku,
                                 category: product.categories[0].name || '',
@@ -59,6 +67,13 @@ const ThanksPage = (props) => {
         }
     }, [ordersFilter]);
 
+    React.useEffect(() => function cleanup() {
+        if (typeof window !== 'undefined') {
+            const cdt = getCheckoutData();
+            if (cdt) removeCheckoutData();
+        }
+    }, []);
+
     if (loading || !data) return <Loader />;
     if (error) {
         return (
@@ -75,12 +90,6 @@ const ThanksPage = (props) => {
         if (cdt) removeCheckoutData();
         Router.push('/');
     };
-    React.useEffect(() => function cleanup() {
-        if (typeof window !== 'undefined') {
-            const cdt = getCheckoutData();
-            if (cdt) removeCheckoutData();
-        }
-    }, []);
     return (
         <div className={styles.container}>
             <Typography variant="h1" type="bold" align="center">
