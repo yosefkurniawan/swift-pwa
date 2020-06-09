@@ -12,33 +12,35 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: WHITE,
     },
     caraousel: {
-        padding: '0 55px',
+        padding: '0 40px',
         [theme.breakpoints.up('sm')]: {
-            padding: '0 35vw',
+            padding: '0 25vw',
         },
-        [theme.breakpoints.up('lg')]: {
-            padding: '0 315px',
+        [theme.breakpoints.up('md')]: {
+            padding: '0 320px',
         },
     },
     slideContainer: {
-        padding: '0 15px',
     },
     itemContainer: {
-        width: 233,
-        display: 'inline-block',
+        width: '240px',
+        margin: 'auto',
         height: '100%',
         overflow: 'hidden',
-    // ...CreateMargin(0,10,0,10)
+        [theme.breakpoints.up('sm')]: {
+            width: '270px',
+        },
+        [theme.breakpoints.up('md')]: {
+            width: '320px',
+        },
     },
     imgItemContainer: {
         width: '100%',
         ...Centering,
-        height: 288,
         background: 'transparent',
     },
     imgItem: {
-        width: 'auto',
-        height: '100%',
+        width: '100%',
     },
     detailItem: {
         ...FlexColumn,
