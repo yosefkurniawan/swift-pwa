@@ -26,7 +26,7 @@ export default ({
             <div className={styles.dateShare}>
                 <Typography variant="p">{formatDate(publish_date || Date.now())}</Typography>
                 <Divider orientation="vertical" flexItem />
-                <ShareIcons url={`${getHost + blog.urlPath}/${id}`} />
+                <ShareIcons url={`${getHost() + blog.urlPath}/${id}`} />
             </div>
             <Link href="/blog/[id]" as={`/blog/${id}`}>
                 <a>
