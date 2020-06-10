@@ -5,6 +5,7 @@ import { removeCartId } from '@helpers/cartId';
 import { useDispatch } from 'react-redux';
 import { setCountCart } from '@stores/actions/cart';
 import Router from 'next/router';
+import { customerFeautres } from '@config';
 import { removeToken as deleteToken } from '../../services/graphql';
 import useStyles from './style';
 
@@ -46,11 +47,15 @@ export default ({ t, isLogin, storeConfig }) => {
                     ) : null
 
                 }
-                <li className={styles.account_navigation_item}>
-                    <Link href="/confirmpayment">
-                        <a className={styles.account_navigation_link}>{t('customer:menu:confirmPayment')}</a>
-                    </Link>
-                </li>
+                {
+                    customerFeautres.confirmPayment ? (
+                        <li className={styles.account_navigation_item}>
+                            <Link href="/confirmpayment">
+                                <a className={styles.account_navigation_link}>{t('customer:menu:confirmPayment')}</a>
+                            </Link>
+                        </li>
+                    ) : null
+                }
                 <li className={styles.account_navigation_item}>
                     <Link href="/sales/order/track">
                         <a className={styles.account_navigation_link}>{t('order:trackingOrder')}</a>
