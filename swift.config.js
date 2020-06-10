@@ -2,9 +2,6 @@
 /* STORE CONFIGURATION
 /* --------------------------------------- */
 
-/* Base URL */
-const BASE_URL = 'https://swiftpwa.testingnow.me/';
-
 const HOST = {
     dev: 'http://localhost:3000',
     prod: 'https://swiftpwa.testingnow.me',
@@ -113,7 +110,6 @@ const SESSION_SECRET = 'asdasdd1212ads12!!!@**DADxx1';
 module.exports = {
     blog,
     GTM,
-    BASE_URL,
     HOST,
     graphqlEndpoint,
     graphqlInternalEndpoint,

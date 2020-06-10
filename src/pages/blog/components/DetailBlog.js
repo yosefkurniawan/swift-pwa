@@ -1,6 +1,8 @@
+/* eslint-disable react/no-danger */
 import Typography from '@components/Typography';
-import { BASE_URL, blog } from '@config';
+import { HOST, blog } from '@config';
 import formatDate from '@helpers/date';
+import isProduction from '@helpers/config';
 import Divider from '@material-ui/core/Divider';
 import React from 'react';
 import useStyles from '../style';
@@ -18,7 +20,7 @@ export default ({
             <div className={styles.dateShare}>
                 <Typography variant="p">{formatDate(publish_date || Date.now())}</Typography>
                 <Divider orientation="vertical" flexItem />
-                <ShareIcons url={`${BASE_URL + blog.urlPath}/${id}`} />
+                <ShareIcons url={`${(isProduction ? HOST.prod : HOST.dev) + blog.urlPath}/${id}`} />
             </div>
             <div className={styles.imageBlogContainer}>
                 <img
@@ -34,7 +36,7 @@ export default ({
             <div dangerouslySetInnerHTML={{ __html: content }} />
             <div className={styles.shareBottom}>
                 <Typography>Share :</Typography>
-                <ShareIcons url={`${BASE_URL + blog.urlPath}/${id}`} />
+                <ShareIcons url={`${(isProduction ? HOST.prod : HOST.dev) + blog.urlPath}/${id}`} />
             </div>
         </div>
     );
