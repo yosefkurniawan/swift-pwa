@@ -34,6 +34,7 @@ const ThanksPage = (props) => {
             itemsProduct = [...itemsChild, ...simpleData];
             const dataLayer = {
                 pageType: 'purchase',
+                event: 'checkout',
                 ecommerce: {
                     purchase: {
                         actionField: {
