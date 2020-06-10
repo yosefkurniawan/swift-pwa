@@ -28,4 +28,7 @@ export default makeStyles((theme) => ({
     tColContent: {
         padding: '10px 0',
     },
+    skeletonForm: {
+        marginBottom: 20,
+    },
 }));
