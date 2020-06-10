@@ -90,13 +90,30 @@ const orderOutput = `
     }
 `;
 
-
 export const getOrderDetail = gql`
 query getCustomerOrder($order_id: String) {
     customerOrders(filters: { ids: { eq: $order_id } }) {
         ${orderOutput}
     }
 }
+`;
+
+export const getFormDataRma = gql`
+    query getFormDataRma($email: String!, $order_number: String!, $type: String!) {
+        getFormDataAwRma(email: $email, order_number: $order_number, type: $type) {
+            custom_field {
+                frontend_labels {
+                    store_id
+                    value
+                }
+                is_editable
+                is_required
+                name
+                refers
+                website_ids
+            }
+        }
+    }
 `;
 
 export default {

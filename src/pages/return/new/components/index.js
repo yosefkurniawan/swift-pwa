@@ -1,5 +1,5 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import Select from '@components/Forms/Select';
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import TextField from '@components/Forms/TextField';
 import classNames from 'classnames';
 import Typography from '@components/Typography';
@@ -11,11 +11,7 @@ import DropFile from '@components/DropFile';
 import CheckBox from '@components/Forms/CheckBox';
 import useStyles from '../style';
 import ItemProduct from './ItemProduct';
-
-const optionsResolution = [
-    { label: 'Refund', value: 'refund' },
-    { label: 'Replacement', value: 'replacement' },
-];
+import ItemField from './ItemField';
 
 const optionCondition = [
     { label: 'Openend', value: 'open' },
@@ -23,17 +19,16 @@ const optionCondition = [
     { label: 'Damaged', value: 'damaged' },
 ];
 
-const Detailreturn = (props) => {
-    const { t, detail, currency } = props;
-    const styles = useStyles();
 
+const Detailreturn = (props) => {
+    const { t, data: { detail, form }, currency } = props;
+    const styles = useStyles();
     const formik = useFormik({
         initialValues: {
-            resolution: '',
-            condition: '',
-            products: [],
+            requestForm: {},
+            itemForm: [],
             message: '',
-            files: [],
+            file: '',
         },
         onSubmit: (values) => {
             console.log(values);
@@ -60,37 +55,39 @@ const Detailreturn = (props) => {
             ...product,
             t,
             currency,
+            form,
         }));
         return (
             <div className="column">
                 <form onSubmit={formik.handleSubmit}>
                     <div className={classNames(styles.block)}>
-                        <Select
-                            options={optionsResolution}
-                            name="resolution"
-                            label={t('return:form:label:resolution')}
-                            value={formik.values.resolution}
-                            onChange={formik.handleChange}
-                        />
-                        <Select
-                            options={optionCondition}
-                            name="condition"
-                            label={t('return:form:label:condition')}
-                            value={formik.values.condition}
-                            onChange={formik.handleChange}
-                        />
+                        {
+                            form && form.length > 0 && form.map((item, index) => {
+                                if (item.refers === 'request') {
+                                    const name = item.name.split(' ').join('_').toLowerCase();
+                                    return (
+                                        <ItemField
+                                            key={index}
+                                            options={optionCondition}
+                                            name={name}
+                                            label={item.frontend_labels[0].value}
+                                        />
+                                    );
+                                } return null;
+                            })
+                        }
                     </div>
                     <div className={styles.labelProduct}>
                         <Typography variant="title">{t('return:product')}</Typography>
                     </div>
                     <div className={styles.selectProductContainer}>
-                        <a href="#" onClick={selectAll}>
+                        <span onClick={selectAll}>
                             <Typography variant="label">{t('return:selectAll')}</Typography>
-                        </a>
+                        </span>
                         <Divider orientation="vertical" flexItem />
-                        <a href="#" onClick={deselectAll}>
+                        <span onClick={deselectAll}>
                             <Typography variant="label">{t('return:deselectAll')}</Typography>
-                        </a>
+                        </span>
                     </div>
                     <div className={styles.block}>
                         {detail.length > 0

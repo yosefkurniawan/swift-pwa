@@ -2,8 +2,8 @@ import Typography from '@components/Typography';
 import { formatPrice } from '@helpers/currency';
 import React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
-import Select from '@components/Forms/Select';
 import useStyles from '../style';
+import ItemField from './ItemField';
 
 const optionReason = [
     { label: 'Wrong Size', value: 'wrong-size' },
@@ -16,14 +16,13 @@ const optionReason = [
 const ItemProduct = (props) => {
     const {
         name, price, qty_ordered, currency, t, image_url,
-        dataValues, value, onChange,
+        dataValues, value, onChange, form,
     } = props;
     const styles = useStyles();
     const checked = dataValues.indexOf(value) !== -1;
     const handleChange = () => {
         onChange(value);
     };
-    const [reason, setReason] = React.useState('');
     return (
         <div className="column">
             <div className={styles.itemContainer}>
@@ -55,15 +54,19 @@ const ItemProduct = (props) => {
 
             <div className={styles.selectItemBox}>
                 {
-                    checked ? (
-                        <Select
-                            options={optionReason}
-                            name="reason"
-                            label={t('return:form:label:reason')}
-                            value={reason}
-                            onChange={(event) => setReason(event.target.value)}
-                        />
-                    )
+                    checked ? form && form.length > 0 && form.map((item, index) => {
+                        if (item.refers === 'item') {
+                            const names = item.name.split(' ').join('_').toLowerCase();
+                            return (
+                                <ItemField
+                                    key={index}
+                                    options={optionReason}
+                                    name={names}
+                                    label={item.frontend_labels[0].value}
+                                />
+                            );
+                        } return null;
+                    })
                         : (
                             <Typography>{t('return:form:label:tickSelect')}</Typography>
                         )
