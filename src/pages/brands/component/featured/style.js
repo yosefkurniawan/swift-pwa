@@ -16,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         height: 'auto',
     },
-    featuredSlide: {
-        [theme.breakpoints.down('sm')]: {
-            width: '50% !important',
-        },
-    },
+    // featuredSlide: {
+    //     [theme.breakpoints.down('sm')]: {
+    //         width: '50% !important',
+    //     },
+    // },
 }));
 
 export default useStyles;
