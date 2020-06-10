@@ -30,11 +30,10 @@ const Layout = (props) => {
             const tagManagerArgs = {
                 dataLayer: {
                     pageName: pageConfig.title,
-                    pageType: pageConfig.pageType ? pageConfig.pageType : 'other',
-                    customerEntity: (custData && custData.email) ? custData.email : '', // @TODO: send if login only, fill width customer ID
                     customerGroup: isLogin === 1 ? 'GENERAL' : 'NOT LOGGED IN',
                 },
             };
+            if (custData && custData.email) tagManagerArgs.dataLayer.customerId = custData.email;
             TagManager.dataLayer(tagManagerArgs);
         }
     }, []);

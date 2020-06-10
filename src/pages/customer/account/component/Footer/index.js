@@ -5,7 +5,8 @@ import { removeCartId } from '@helpers/cartId';
 import { useDispatch } from 'react-redux';
 import { setCountCart } from '@stores/actions/cart';
 import Router from 'next/router';
-import { customerFeautres } from '@config';
+import { customerFeautres, custDataNameCookie } from '@config';
+import Cookies from 'js-cookie';
 import { removeToken as deleteToken } from '../../services/graphql';
 import useStyles from './style';
 
@@ -16,6 +17,7 @@ export default ({ t, isLogin, storeConfig }) => {
     const [deleteTokenGql] = deleteToken();
     const handleLogout = () => {
         deleteTokenGql().then(() => {
+            Cookies.remove(custDataNameCookie);
             removeIsLoginFlagging();
             removeCartId();
             dispatch(setCountCart(0));
