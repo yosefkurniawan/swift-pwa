@@ -36,6 +36,7 @@ const shareIcon = {
     linkedin: false,
 };
 
+/* Password Validator */
 const passwordStrength = {
     minValue: 8,
     maxValue: 20,
@@ -62,6 +63,31 @@ const customerFeautres = {
     storeCredit: true,
     rewardPoint: true,
     giftCard: true,
+    confirmPayment: true,
+};
+
+/* Blog */
+const blog = {
+    urlPath: '/blog',
+};
+
+/* Brand Page */
+const showBrandPage = true;
+
+/* List Of CMS Pages: [url-1, url-2, ..., url-n] */
+const cmsPages = ['about-us', 'aw-reward-points'];
+
+/* Contact Us */
+// identifiers for cmsBlocks in contact page
+const cmsContactIdentifiers = 'weltpixel_contact_page';
+
+/* Loader */
+const loaderImage = '/assets/img/sample/spinner.svg';
+
+/* Product Images */
+const productImageSize = {
+    width: 240,
+    height: 300,
 };
 
 /* --------------------------------------- */
@@ -82,26 +108,7 @@ const nameToken = 'sk';
 const expiredToken = new Date(Date.now() + 1000 * 60 * 60);
 const expiredDefault = 365;
 
-/* List Of CMS Pages: [url-1, url-2, ..., url-n] */
-const cmsPages = ['about-us', 'aw-reward-points'];
-
-const loaderImage = '/assets/img/sample/spinner.svg';
-
-/* identifiers for cmsBlocks in contact page */
-const cmsContactIdentifiers = 'weltpixel_contact_page';
-
 const SESSION_SECRET = 'asdasdd1212ads12!!!@**DADxx1';
-
-const productImageSize = {
-    width: 240,
-    height: 300,
-};
-
-const blog = {
-    urlPath: '/blog',
-};
-
-const showBrandPage = true;
 
 module.exports = {
     blog,
