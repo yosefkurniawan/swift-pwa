@@ -8,6 +8,7 @@
         "name": "Product"
     },
     "search": {
+        "title": "Search",
         "mainTitle": "New in Collection",
         "backTitle": "back in stock sale",
         "location" : "Search Location"

@@ -96,7 +96,10 @@ const ProductItem = (props) => {
                     </Link>
                 </div>
                 <div className={styles.detailItem}>
-                    <div className={styles.descItem}>
+                    <div
+                        className={styles.descItem}
+                        style={{ ...(showFeed ? {} : { alignItems: 'center' }) }}
+                    >
                         {showFeed && (
                             <div style={{
                                 position: 'absolute',

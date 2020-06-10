@@ -17,6 +17,14 @@ export const getOrderDetail = (params) => useQuery(Schema.getOrderDetail, {
     skip: typeof window === 'undefined',
 });
 
+export const getTrackingOrder = (params) => useQuery(Schema.getTrackingOrder, {
+    context: {
+        request: 'internal',
+    },
+    variables: params,
+    skip: typeof window === 'undefined',
+});
+
 export default {
     getOrder,
 };

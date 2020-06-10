@@ -4,6 +4,19 @@ import {
     Centering, FlexColumn, CreatePadding, CreateMargin,
 } from '@theme/mixins';
 
+const itemContainerWidth = {
+    xs: '60vw',
+    sm: '300px',
+    md: '270px',
+};
+
+const caraouselPadding = {
+    xs: `0 calc((100vw - ${itemContainerWidth.xs})/2)`,
+    sm: `0 calc((100vw - ${itemContainerWidth.sm})/2)`,
+    md: `0 calc((960px - ${itemContainerWidth.md})/2)`,
+};
+
+
 const useStyles = makeStyles((theme) => ({
     container: {
         width: '100%',
@@ -12,26 +25,27 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: WHITE,
     },
     caraousel: {
-        padding: '0 40px',
+        padding: caraouselPadding.xs,
         [theme.breakpoints.up('sm')]: {
-            padding: '0 25vw',
+            padding: caraouselPadding.sm,
         },
         [theme.breakpoints.up('md')]: {
-            padding: '0 320px',
+            padding: caraouselPadding.md,
         },
     },
     slideContainer: {
     },
     itemContainer: {
-        width: '240px',
+        padding: '0 8px',
         margin: 'auto',
         height: '100%',
         overflow: 'hidden',
+        width: itemContainerWidth.xs,
         [theme.breakpoints.up('sm')]: {
-            width: '270px',
+            width: itemContainerWidth.sm,
         },
         [theme.breakpoints.up('md')]: {
-            width: '320px',
+            width: itemContainerWidth.md,
         },
     },
     imgItemContainer: {
