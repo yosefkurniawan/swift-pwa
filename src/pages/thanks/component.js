@@ -33,30 +33,29 @@ const ThanksPage = (props) => {
             const simpleData = ordersFilter.data[0].detail[0].items.filter((item) => !itemsChild.find(({ sku }) => item.sku === sku) && item);
             itemsProduct = [...itemsChild, ...simpleData];
             const dataLayer = {
-                title: t('checkout:thanks'),
                 pageType: 'purchase',
                 ecommerce: {
                     purchase: {
                         actionField: {
                             id: checkoutData.order_number,
                             affiliation: storeConfig.store_name || 'Swift PWA',
-                            revenue: ordersFilter.data[0].detail[0].grand_total,
+                            revenue: JSON.stringify(ordersFilter.data[0].detail[0].grand_total),
                             coupon: ordersFilter.data[0].detail[0].coupon.is_use_coupon ? ordersFilter.data[0].detail[0].coupon.code : '',
-                            tax: ordersFilter.data[0].detail[0].tax_amount,
-                            shipping: ordersFilter.data[0].detail[0].payment.shipping_amount,
-                            product: itemsProduct.map((product) => ({
-                                name: product.name,
-                                id: product.sku,
-                                category: product.categories[0].name || '',
-                                price: product.price,
-                                list: product.categories[0].name || '',
-                                quantity: product.qty_ordered,
-                                dimension4: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
-                                dimension5: JSON.stringify(product.rating.total),
-                                dimension6: JSON.stringify(product.rating.value),
-                                dimension7: ordersFilter.data[0].detail[0].discount_amount !== 0 ? 'YES' : 'NO',
-                            })),
+                            tax: JSON.stringify(ordersFilter.data[0].detail[0].tax_amount),
+                            shipping: JSON.stringify(ordersFilter.data[0].detail[0].payment.shipping_amount),
                         },
+                        products: itemsProduct.map((product) => ({
+                            name: product.name,
+                            id: product.sku,
+                            category: product.categories[0].name || '',
+                            price: JSON.stringify(product.price),
+                            list: product.categories[0].name || '',
+                            quantity: JSON.stringify(product.qty_ordered),
+                            dimension4: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
+                            dimension5: JSON.stringify(product.rating.total),
+                            dimension6: JSON.stringify(product.rating.value),
+                            dimension7: ordersFilter.data[0].detail[0].discount_amount !== 0 ? 'YES' : 'NO',
+                        })),
                     },
                     currencyCode: storeConfig.base_currency_code || 'IDR',
                 },
