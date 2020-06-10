@@ -9,6 +9,14 @@ export const getOrderDetail = (params) => useQuery(Schema.getOrderDetail, {
     skip: typeof window === 'undefined',
 });
 
+export const getFormDataRma = (params) => useQuery(Schema.getFormDataRma, {
+    context: {
+        request: 'internal',
+    },
+    variables: params,
+    skip: typeof window === 'undefined',
+});
+
 export default {
     getOrderDetail,
 };

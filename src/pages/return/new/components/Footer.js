@@ -2,7 +2,7 @@ import Button from '@components/Button';
 import Typography from '@components/Typography';
 import useStyles from '../style';
 
-export default ({ t, detail }) => {
+export default ({ t, data: { detail } }) => {
     const styles = useStyles();
     return (
         <div className={styles.footer}>
