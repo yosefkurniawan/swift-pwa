@@ -56,6 +56,11 @@ export default ({ t, isLogin, storeConfig }) => {
                         </li>
                     ) : null
                 }
+                <li className={styles.account_navigation_item}>
+                    <Link href="/sales/order/track">
+                        <a className={styles.account_navigation_link}>{t('order:trackingOrder')}</a>
+                    </Link>
+                </li>
                 {
                     isLogin
                         ? (

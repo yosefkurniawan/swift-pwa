@@ -19,5 +19,26 @@
     "newReturn": "pengembalian baru untuk order  ",
     "productReturn": "Produk untuk kembalikan",
     "selectAll": "Pilih semua",
-    "deselectAll" : "Hapus semua"
+    "deselectAll" : "Hapus semua",
+    "formReturn": {
+        "submit": "Kirim Permintaan",
+        "label": {
+            "resolution": "Solusi",
+            "condition" : "Kondisi",
+            "message": "Pesan",
+            "tickSelect": "Centang untuk memilih",
+            "reason": "Alasan"
+        },
+        "placeholder": {
+            "message": "Tulis pesan disini untuk manager",
+            "uploadFile": "Type file yang di bolehkan : zip, rar, jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx"
+        }
+    },
+    "trackingOrder": "Lacak Pesanan",
+    "orderId": "Nomor Pesanan",
+    "trackingInformation": "Informasi Pesanan",
+    "orderStatus": "Status Pesanan",
+    "status": "Status",
+    "orderTotal": "Total Pesanan",
+    "orderNotFound": "Maaf, Pesanan Anda tidak ditemukan.."
 }
