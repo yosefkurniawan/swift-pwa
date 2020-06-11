@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { imageSize } from '@config';
 import useStyles from './style';
 import setDefaultWhenEmpty from '../../../helpers/checkImageSrc';
 import Thumbor from '../../Image/thumbor';
@@ -10,6 +11,7 @@ import Thumbor from '../../Image/thumbor';
  *isSlug == true => <link href="/[...slug]" as={link} />
  *isSlug == false => <link href={link} />
 */
+
 
 const ImageSlide = ({ imageUrl = '', link = '#', isSlug = true }) => {
     const styles = useStyles();
@@ -22,8 +24,9 @@ const ImageSlide = ({ imageUrl = '', link = '#', isSlug = true }) => {
             <Thumbor
                 src={setDefaultWhenEmpty(imageUrl)}
                 alt={href}
-                width={960}
-                height={1120}
+                width={imageSize.homeSlider.width}
+                height={imageSize.homeSlider.height}
+                quality={80}
                 className={styles.imageSlider}
             />
         </Link>
