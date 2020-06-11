@@ -5,7 +5,8 @@ import Head from 'next/head';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
-import { HOST, custDataNameCookie } from '@config';
+import { custDataNameCookie } from '@config';
+import { getHost } from '@helpers/config';
 
 const Layout = (props) => {
     const {
@@ -17,9 +18,9 @@ const Layout = (props) => {
         'og:title': pageConfig.title ? pageConfig.title : 'Swift PWA',
         'og:image': storeConfig.header_logo_src
             ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
-            : `${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}/assets/img/swift-logo.png`,
+            : `${getHost()}/assets/img/swift-logo.png`,
         'og:image:type': 'image/png',
-        'og:url': `${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}${router.asPath}`,
+        'og:url': `${getHost()}${router.asPath}`,
         'og:locale': i18n && i18n.language === 'id' ? 'id_ID' : 'en_US',
         'og:type': 'website',
         ...ogContent,

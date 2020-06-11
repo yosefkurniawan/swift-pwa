@@ -2,9 +2,6 @@
 /* STORE CONFIGURATION
 /* --------------------------------------- */
 
-/* Base URL */
-const BASE_URL = 'https://swiftpwa.testingnow.me/';
-
 const HOST = {
     dev: 'http://localhost:3000',
     prod: 'https://swiftpwa.testingnow.me',
@@ -49,12 +46,18 @@ const languagesLabel = {
     en: 'English',
 };
 
-/* Google Tag Manager */
+/* Google Tag Manager
+ * before enable this configuration, firstly you need to import the gtm tags json.
+ * gtm tags json need to be exported from Magento admin in Welpixel GTM configuration.
+ * adjust the tag name if you want before import into GTM dashboard setting.
+ * as reference you can find sample gtm tags in folder "sample/gtm" folder
+ * NOTE: this GTM functionality includes connecting to GA via GTM tag.
+ */
 const GTM = {
-    enable: true,
+    enable: false,
     gtmId: {
-        dev: 'GTM-N76V8KQ',
-        prod: 'GTM-N76V8KQ',
+        dev: '', // sample: GTM-N76V8KQ
+        prod: '', // sample: GTM-N76V8KQ
     },
 };
 
@@ -84,10 +87,20 @@ const cmsContactIdentifiers = 'weltpixel_contact_page';
 /* Loader */
 const loaderImage = '/assets/img/sample/spinner.svg';
 
-/* Product Images */
-const productImageSize = {
-    width: 240,
-    height: 300,
+/* config general size image used on frontend */
+const imageSize = {
+    product: {
+        width: 240,
+        height: 300,
+    },
+    homeSlider: {
+        width: 960,
+        height: 1120,
+    },
+    category: {
+        width: 960,
+        height: 577,
+    },
 };
 
 /* --------------------------------------- */
@@ -113,7 +126,6 @@ const SESSION_SECRET = 'asdasdd1212ads12!!!@**DADxx1';
 module.exports = {
     blog,
     GTM,
-    BASE_URL,
     HOST,
     graphqlEndpoint,
     graphqlInternalEndpoint,
@@ -132,7 +144,7 @@ module.exports = {
     loaderImage,
     cmsContactIdentifiers,
     SESSION_SECRET,
-    productImageSize,
+    imageSize,
     custDataNameCookie,
     customerFeautres,
     nameCheckoutCookie,

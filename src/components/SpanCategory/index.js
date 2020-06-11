@@ -3,8 +3,10 @@ import { Grid } from '@material-ui/core';
 import Typography from '@components/Typography';
 import Link from 'next/link';
 import { useTranslation } from '@i18n';
+import { imageSize } from '@config';
 import useStyles from './style';
 import setDefaultWhenEmpty from '../../helpers/checkImageSrc';
+import Thumbor from '../Image/thumbor';
 
 const SpanCategory = ({
     imageSrc, name, description, url,
@@ -16,7 +18,7 @@ const SpanCategory = ({
             <Grid container justify="center">
                 <Grid item sm={12} md={12} lg={12}>
                     <Link href="[...slug]" as={url}>
-                        <img
+                        <Thumbor
                             src={setDefaultWhenEmpty(imageSrc)}
                             alt={name}
                             style={{
@@ -24,6 +26,9 @@ const SpanCategory = ({
                                 maxWidth: '100%',
                                 maxHeight: '100%',
                             }}
+                            quality={80}
+                            width={imageSize.category.width}
+                            height={imageSize.category.height}
                         />
                     </Link>
                 </Grid>
