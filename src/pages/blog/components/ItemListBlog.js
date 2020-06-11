@@ -1,7 +1,9 @@
+/* eslint-disable react/no-danger */
 import Button from '@components/Button';
 import Typography from '@components/Typography';
-import { BASE_URL, blog } from '@config';
+import { blog } from '@config';
 import formatDate from '@helpers/date';
+import { getHost } from '@helpers/config';
 import Divider from '@material-ui/core/Divider';
 import React from 'react';
 import Link from 'next/link';
@@ -24,7 +26,7 @@ export default ({
             <div className={styles.dateShare}>
                 <Typography variant="p">{formatDate(publish_date || Date.now())}</Typography>
                 <Divider orientation="vertical" flexItem />
-                <ShareIcons url={`${BASE_URL + blog.urlPath}/${id}`} />
+                <ShareIcons url={`${getHost() + blog.urlPath}/${id}`} />
             </div>
             <Link href="/blog/[id]" as={`/blog/${id}`}>
                 <a>

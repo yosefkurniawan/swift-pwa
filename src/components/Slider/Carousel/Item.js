@@ -13,7 +13,6 @@ const Item = ({
     return (
         <div className={styles.itemContainer}>
             <ProductItem
-                // id
                 name={name}
                 small_image={small_image}
                 price_range={price_range}
@@ -23,7 +22,6 @@ const Item = ({
                 variants={[]}
                 configurable_options={[]}
                 showFeed={false}
-                // categorySelect
             />
         </div>
     );

@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
-import { BASE_URL, shareIcon } from '@config';
+import { shareIcon } from '@config';
+import { getHost } from '@helpers/config';
 import { Drawer } from '@material-ui/core';
 import Typogrphy from '@components/Typography';
 import Button from '@components/Button';
@@ -24,7 +25,7 @@ import useStyles from './style';
 const SharePopup = ({
     open = false,
     setOpen = () => {},
-    link = BASE_URL || '',
+    link = getHost(),
     t,
 }) => {
     const data = Object.entries(shareIcon);
