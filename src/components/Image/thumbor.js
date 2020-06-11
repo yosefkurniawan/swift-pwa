@@ -19,7 +19,7 @@ const ThumborImage = ({
             <img
                 style={style}
                 className={className}
-                src={`http://thumbor.sirclocdn.xyz/unsafe/${width}x${height}/filters:quality(${quality})/${src}`}
+                src={`https://thumbor.sirclocdn.xyz/unsafe/${width}x${height}/filters:quality(${quality})/${src}`}
                 alt={alt}
                 onLoad={() => setLoaded(true)}
                 onError={(e) => { setLoaded(true); e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
