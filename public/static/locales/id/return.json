@@ -36,6 +36,8 @@
             "cancelButton": "Batalkan Return",
             "successUpdate": "Return Berhasil di perbarui",
             "failedUpdate": "Return gagal di perbarui"
-        }
+        },
+        "otherRequestRma": "Other return request for this product",
+        "noItemReturn": "No items to return"
     }
 }

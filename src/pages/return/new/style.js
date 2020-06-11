@@ -5,7 +5,6 @@ import {
     FlexColumn,
     FlexRow,
     CreateMargin,
-    Centering,
 } from '@theme/mixins';
 import { GRAY_PRIMARY, GRAY_LIGHT } from '@theme/colors';
 
@@ -60,7 +59,8 @@ export default makeStyles(() => ({
         padding: 0,
     },
     selectItemBox: {
-        ...Centering,
+        ...FlexColumn,
+        justifyContent: 'center',
         backgroundColor: GRAY_LIGHT,
         padding: 10,
         height: 'auto',

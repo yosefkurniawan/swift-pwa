@@ -2,6 +2,7 @@ import Typography from '@components/Typography';
 import { formatPrice } from '@helpers/currency';
 import React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
+import { useTranslation } from '@i18n';
 import useStyles from '../style';
 import ItemField from './ItemField';
 
@@ -14,20 +15,32 @@ const optionReason = [
 ];
 
 const ItemProduct = (props) => {
+    const { t } = useTranslation(['return']);
     const {
-        name, price, qty_ordered, currency, t, image_url,
-        dataValues, value, onChange, form,
+        name, price, qty_returnable, currency, image_url,
+        dataValues, value, onChange, form, disabled,
+        other_rma_request,
     } = props;
     const styles = useStyles();
     const checked = dataValues.indexOf(value) !== -1;
     const handleChange = () => {
         onChange(value);
     };
+    const optionQty = [];
+    if (qty_returnable > 0) {
+        for (let index = 1; index <= qty_returnable; index += 1) {
+            optionQty.push({
+                label: index,
+                value: index,
+            });
+        }
+    }
     return (
         <div className="column">
             <div className={styles.itemContainer}>
                 <Checkbox
                     checked={checked}
+                    disabled={disabled}
                     onChange={handleChange}
                     inputProps={{ 'aria-label': name }}
                 />
@@ -40,19 +53,44 @@ const ItemProduct = (props) => {
                     />
                 </div>
                 <div className={styles.detailItem}>
-                    <Typography variant="label">{name || ''}</Typography>
+                    <Typography variant="span" type="semiBold">{name || ''}</Typography>
                     <Typography variant="span">{formatPrice(price, currency)}</Typography>
-                    <Typography variant="span" className={styles.textDetail}>
-                        {t('common:title:qty')}
-                        {' '}
-                        :
-                        {qty_ordered || 0}
-                    </Typography>
                     <div className="flex-grow" />
                 </div>
             </div>
 
             <div className={styles.selectItemBox}>
+                {
+                    disabled ? (
+                        <Typography color="red">{t('return:noItemReturn')}</Typography>
+                    ) : null
+                }
+                {
+                    other_rma_request && other_rma_request.length > 0 ? (
+                        <div className="column">
+                            <Typography color="red">{t('return:otherRequestRma')}</Typography>
+                            <div className="row">
+                                {
+                                    other_rma_request.map((number_rma, indx) => (
+                                        <Typography key={indx} type="semiBold">
+                                            #
+                                            {number_rma}
+                                        </Typography>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    ) : null
+                }
+                {
+                    checked && qty_returnable > 0 && (
+                        <ItemField
+                            options={optionQty}
+                            name="Qty"
+                            label="Qty"
+                        />
+                    )
+                }
                 {
                     checked ? form && form.length > 0 && form.map((item, index) => {
                         if (item.refers === 'item') {
@@ -67,8 +105,8 @@ const ItemProduct = (props) => {
                             );
                         } return null;
                     })
-                        : (
-                            <Typography>{t('return:form:label:tickSelect')}</Typography>
+                        : !disabled && (
+                            <Typography align="center">{t('return:form:label:tickSelect')}</Typography>
                         )
                 }
             </div>
