@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux';
 import { GraphCustomer } from '@services/graphql';
 import TagManager from 'react-gtm-module';
 import { getCookies } from '@helpers/cookies';
+import { getHost } from '@helpers/config';
 import Breadcrumb from '@components/Breadcrumb';
 import useStyles from '../style';
 import ExpandDetail from './ExpandDetail';
@@ -30,7 +31,7 @@ import SharePopup from './SharePopup';
 
 const ProductPage = (props) => {
     const {
-        t, url, data, isLogin,
+        t, data, isLogin,
     } = props;
     const styles = useStyles();
     const route = useRouter();
@@ -246,7 +247,7 @@ const ProductPage = (props) => {
             <SharePopup
                 open={openShare}
                 setOpen={() => setOpenShare(!openShare)}
-                link={url + route.asPath}
+                link={getHost() + route.asPath}
                 {...props}
             />
             <Box className={styles.container}>
