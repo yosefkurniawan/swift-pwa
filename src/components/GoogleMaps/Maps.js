@@ -64,8 +64,16 @@ const IcubeMaps = compose(
     withScriptjs,
     withGoogleMap,
 )((props) => {
-    const { mapPosition } = props;
+    const setZeroIfEmpty = (value) => {
+        const emptyValues = [undefined, null, '', 'undefined', 'null'];
+        return emptyValues.includes(value) ? 0 : Number(value);
+    };
+    const mapPosition = {
+        lat: setZeroIfEmpty(props.mapPosition && props.mapPosition.lat),
+        lng: setZeroIfEmpty(props.mapPosition && props.mapPosition.lng),
+    };
     const { t } = useTranslation(['common']);
+
     return (
         <>
             <GoogleMap

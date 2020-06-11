@@ -6,16 +6,18 @@ import { formatPrice } from '@helpers/currency';
 import classNames from 'classnames';
 import gqlService from '../../services/graphql';
 import FieldPoint from './fieldPoint';
+import RewardPoint from './component/rewardPoint';
 
-const DiscountSection = ({
-    t,
-    checkout,
-    setCheckout,
-    handleOpenMessage,
-    formik,
-    storeConfig,
-    styles,
-}) => {
+const DiscountSection = (props) => {
+    const {
+        t,
+        checkout,
+        setCheckout,
+        handleOpenMessage,
+        formik,
+        storeConfig,
+        styles,
+    } = props;
     const [applyCouponTocart] = gqlService.applyCouponToCart({ onError: () => {} });
     const [removeCouponFromCart] = gqlService.removeCouponFromCart({ onError: () => {} });
     const [applyStoreCreditToCart] = gqlService.applyStoreCreditToCart({ onError: () => {} });
@@ -42,7 +44,6 @@ const DiscountSection = ({
         total = checkout.data.cart.prices.grand_total.value;
     }
 
-    const handleUsePoint = async () => {};
 
     const handleApplyGift = async (code = null) => {
         let state = { ...checkout };
@@ -170,7 +171,6 @@ const DiscountSection = ({
 
         setCheckout(state);
     };
-
     return (
         <div className={classNames(styles.block, styles.rmBorder)}>
             <FieldPoint
@@ -251,30 +251,14 @@ const DiscountSection = ({
                     {checkout.loading.giftCard && <CircularProgress className={styles.largeCircular} size={30} />}
                 </div>
             ) : null}
-            {customerFeautres.rewardPoint ? (
-                <div className={styles.cardPoint}>
-                    <div className="column">
-                        <Typography variant="span" letter="capitalize">
-                            My Point
-                        </Typography>
-                        <Typography variant="title" type="bold" className={styles.pointText}>
-                            {checkout.data.point.toLocaleString(undefined, { minimumFractionDigits: 0 })}
-                        </Typography>
-                    </div>
-                    <div>
-                        <Button variant="outlined" className={styles.btnPoint} onClick={handleUsePoint}>
-                            <Typography variant="p" type="bold" letter="uppercase">
-                                USE MY POIN
-                            </Typography>
-                        </Button>
-                    </div>
-                </div>
+            {customerFeautres.rewardPoint && checkout.data.cart && checkout.data.customer ? (
+                <RewardPoint {...props} />
             ) : null}
             {store_credit && (store_credit.enabled || customerFeautres.storeCredit) ? (
                 <div className={styles.cardPoint}>
                     <div className="column">
                         <Typography variant="span" letter="capitalize">
-                            {store_credit.is_use_store_credit ? 'Used Credit' : 'My Credit'}
+                            {store_credit.is_use_store_credit ? t('checkout:myCredit:used') : t('checkout:myCredit:title')}
                         </Typography>
                         <Typography variant="title" type="bold" className={styles.pointText}>
                             {formatPrice(
@@ -297,7 +281,7 @@ const DiscountSection = ({
                                 letter="uppercase"
                                 align="center"
                             >
-                                {store_credit.is_use_store_credit ? 'remove credit' : 'use my credit'}
+                                {store_credit.is_use_store_credit ? t('checkout:myCredit:removeButton') : t('checkout:myCredit:button')}
                             </Typography>
                             {checkout.loading.storeCredit && <CircularProgress className={styles.smallCircular} size={16} />}
                         </Button>

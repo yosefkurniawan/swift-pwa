@@ -21,9 +21,20 @@ const customerSchema = makeExecutableSchema({
       type RevokeCustomerTokenOutput {
         result: Boolean
       }
+
+      input internalCreateCustomerTokenInput {
+        firstname: String, 
+        lastname: String,
+        email: String,
+        password: String,
+        phonenumber: String,
+        is_subscribed: Boolean,
+        otp: String,
+      }
       
       type Mutation {
-        internalCreateCustomerToken(username: String!, password: String!): Token
+        internalGenerateCustomerToken(username: String!, password: String!): Token
+        internalCreateCustomerToken(input: internalCreateCustomerTokenInput): Token
         internalCreateCustomerTokenOtp(username: String!, otp: String!): Token
         internalDeleteCustomerToken: RevokeCustomerTokenOutput
       }

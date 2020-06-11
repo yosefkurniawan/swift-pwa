@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert';
 import { GraphCustomer } from '@services/graphql';
 import Link from 'next/link';
 
@@ -25,13 +24,15 @@ const useStyles = makeStyles({
 
 export default ({ t }) => {
     const styles = useStyles();
-    const { data, loading, error } = GraphCustomer.getRewardPoint();
+    const { data, loading, error } = GraphCustomer.getRewardPoint({
+        pageSize: 1,
+        currentPage: 1,
+    });
     if (error) {
         return (
             <div className={styles.account_point}>
-                <Alert className="m-15" severity="error">
-                    {error.message.split(':')[1]}
-                </Alert>
+                <p className={styles.account_point_title}>{t('customer:menu:myPoint')}</p>
+                <h3 className={styles.account_point_summary}>{0}</h3>
             </div>
         );
     }

@@ -6,6 +6,7 @@ export const getCustomerCartId = () => useLazyQuery(CartSchema.getCartIdUser, {
     context: {
         request: 'internal',
     },
+    skip: typeof window === 'undefined',
     fetchPolicy: 'no-cache',
 });
 export const getCartData = () => useQuery(CartSchema.getCart);

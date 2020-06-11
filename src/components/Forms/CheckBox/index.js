@@ -42,6 +42,9 @@ const CustomCheckbox = ({
     const [selected, setSelected] = React.useState(value);
     const checkStyle = classNames(styles[flex], styles.checkboxContainer);
 
+    // change value from parent => change state selected
+    React.useEffect(() => { setSelected(value); }, [value]);
+
     // eslint-disable-next-line no-shadow
     const setCheckedFilter = (value) => {
         if (selected.indexOf(value) !== -1) {
@@ -65,6 +68,7 @@ const CustomCheckbox = ({
                         dataValues={selected}
                         key={index}
                         onChange={(val) => setCheckedFilter(val)}
+                        {...item}
                     />
                 ) : (
                     <CheckDefault

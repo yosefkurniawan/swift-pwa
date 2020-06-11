@@ -1,9 +1,9 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
 import { useRouter } from 'next/router';
-import Loader from './Loader';
-import { getOrder } from '../services/graphql';
-import Content from './component';
+import Loader from './components/Loader';
+import { getOrderDetail } from '../services/graphql';
+import Content from './components';
 
 const Page = (props) => {
     const { t } = props;
@@ -11,13 +11,13 @@ const Page = (props) => {
     const { id } = router.query;
     let detail = [];
     const [params] = React.useState({
-        pageSize: 999,
-        currentPage: 1,
+        order_id: id,
     });
-    const { loading, data, error } = getOrder(params);
+    const { loading, data, error } = getOrderDetail(params);
     if (loading || !data || error) return <Loader />;
-    if (!loading && data) {
-        detail = data.customerOrders.items.filter((item) => item.id === parseInt(id, 0));
+    if (!loading && data && data.customerOrders) {
+        // eslint-disable-next-line prefer-destructuring
+        detail = data.customerOrders.items;
     }
     const currency = detail.length > 0 ? detail[0].detail[0].global_currency_code : 'USD';
 

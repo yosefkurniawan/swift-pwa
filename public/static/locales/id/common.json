@@ -8,6 +8,7 @@
         "name": "Produk"
     },
     "search": {
+        "title": "Cari",
         "mainTitle": "Koleksi terbaru",
         "backTitle": "kembali ke produk",
         "location": "Cari Lokasi"
@@ -27,7 +28,8 @@
         "loadMore": "Lihat lagi",
         "clear": "Bersihkan",
         "verify": "Verifikasi",
-        "shop": "Beli Sekarang"
+        "shop": "Beli Sekarang",
+        "sendOtp": "Kirim Otp"
     },
     "subtotal": "Subtotal",
     "price": {
@@ -43,6 +45,7 @@
         "state": "Bagian / Provinsi",
         "region": "Negara",
         "city": "Kota",
+        "country": "Negara",
         "street": "Alamat Jalan",
         "postal": "Code Pos"
     },
@@ -55,5 +58,13 @@
         "search": "Pencarian ...",
         "brand": "Brand",
         "category": "Kategory"
+    },
+    "error": {
+        "notFound" : "Data tidak di temukan"
+    },
+    "fileUpload": {
+        "reject": "Tidak dapat mengupload, file harus ber type  ",
+        "dragActive": "Taruh file kesini ...",
+        "dragNonActive": "Tarik dan taruh file kesini, atau klik untuk pilih file"
     }
 }

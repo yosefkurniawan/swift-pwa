@@ -54,6 +54,7 @@ const WithToken = (props) => {
         }),
         { href: '/inboxnotification/notification', title: t('notification:notification') },
         { href: '/customer/setting', title: t('customer:menu:setting') },
+        { href: '/rma/customer', title: t('customer:menu:return') },
     ];
 
     const StyledBadge = withStyles(() => ({

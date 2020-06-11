@@ -5,8 +5,7 @@ import { useFormik } from 'formik';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { storeConfigNameCokie } from '@config';
-import cookies from 'js-cookie';
+import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import { getLoginInfo } from '@helpers/auth';
 import gqlService from '../services/graphql';
 import useStyles from '../style';
@@ -19,14 +18,8 @@ import Shipping from './Shipping';
 import Summary from './Summary';
 
 const Checkout = (props) => {
-    const { t, cartId } = props;
+    const { t, cartId, storeConfig } = props;
     const styles = useStyles();
-    let storeConfig = {};
-    if (typeof window !== 'undefined') {
-        storeConfig = {
-            ...cookies.getJSON(storeConfigNameCokie),
-        };
-    }
     const [checkout, setCheckout] = useState({
         order_id: '',
         data: {
@@ -36,7 +29,7 @@ const Checkout = (props) => {
             paymentMethod: [],
             isGuest: false,
             isCouponAppliedToCart: false,
-            point: 0,
+            rewardPoints: {},
             credit: 0,
             message: {
                 open: false,
@@ -80,6 +73,7 @@ const Checkout = (props) => {
     // start init graphql
     const [getCustomer, manageCustomer] = gqlService.getCustomer();
     const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
+    const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
     // end init graphql
 
 
@@ -212,11 +206,21 @@ const Checkout = (props) => {
             state.selected.payment = cart.selected_payment_method.code;
         }
 
+        if (rewardPoint && rewardPoint.data && rewardPoint.data.customerRewardPoints) {
+            state.data.rewardPoints = rewardPoint.data.customerRewardPoints;
+        }
         state.loading.all = false;
 
         setCheckout(state);
         updateFormik(cart);
     };
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const cdt = getCheckoutData();
+            if (cdt) removeCheckoutData();
+        }
+    }, []);
 
     useEffect(() => {
         setCheckout({
@@ -233,6 +237,7 @@ const Checkout = (props) => {
 
         if (!manageCustomer.data && getLoginInfo()) {
             getCustomer();
+            getRewardPoint();
         }
 
         const loadCart = getLoginInfo() ? manageCustomer.data && !dataCart : !dataCart;

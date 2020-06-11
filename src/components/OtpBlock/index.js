@@ -8,6 +8,7 @@ import Toast from '@components/Toast';
 import { GraphOtp, GraphConfig } from '@services/graphql';
 import PropTypes from 'prop-types';
 import { useTranslation } from '@i18n';
+import Backdrop from '@components/Loaders/Backdrop';
 
 import useStyles from './style';
 
@@ -24,6 +25,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
     const [config, setConfig] = React.useState(null);
     const [phoneNumber, setPhoneNumber] = React.useState('');
     const [otp, setOtp] = React.useState('');
+    const [load, setLoad] = React.useState(false);
 
     const [requestOtpRegister] = GraphOtp.requestOtpRegister();
     const [checkOtpRegister] = GraphOtp.checkOtpRegister();
@@ -45,6 +47,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
     };
 
     const handleSend = () => {
+        setLoad(true);
         let sendOtp = () => {};
         if (type === 'register') {
             sendOtp = requestOtpRegister;
@@ -66,6 +69,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
                     phoneNumber,
                 },
             }).then(() => {
+                setLoad(false);
                 setManySend(manySend + 1);
                 // eslint-disable-next-line no-nested-ternary
                 setTime(config && config.expired ? config.expired : 60);
@@ -75,6 +79,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
                     variant: 'success',
                 });
             }).catch((e) => {
+                setLoad(false);
                 setMessage({
                     open: true,
                     text: e.message.split(':')[1] || t('customer:top:sendFailed'),
@@ -90,6 +95,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
     };
 
     const handleCheck = () => {
+        setLoad(true);
         let checkOtp = () => {};
         if (type === 'register') {
             checkOtp = checkOtpRegister;
@@ -105,6 +111,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
                 otp,
             },
         }).then((res) => {
+            setLoad(false);
             let isValid;
             if (type === 'register') isValid = res.data.checkOtpRegister.is_valid_otp;
             if (type === 'forgotPassword') isValid = res.data.checkOtpForgotPassword.is_valid_otp;
@@ -123,6 +130,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
                 });
             }
         }).catch(() => {
+            setLoad(false);
             setMessage({
                 variant: 'error',
                 open: true,
@@ -172,6 +180,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
 
     return (
         <div className={styles.root}>
+            <Backdrop open={load} />
             <Toast open={message.open} message={message.text} variant={message.variant} setOpen={() => setMessage({ ...message, open: false })} />
             <div className={styles.componentContainer}>
                 <div className={styles.input}>
@@ -180,7 +189,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
                 <div className={styles.button}>
                     <Button fullWidth onClick={handleSend} disabled={!!(!phoneProps.value || phoneProps.value === '' || phoneProps.error)}>
                         <Typography variant="p" color="white" align="center">
-                            {t('otp:sendOtp')}
+                            {t('common:button:sendOtp')}
                         </Typography>
                     </Button>
                 </div>

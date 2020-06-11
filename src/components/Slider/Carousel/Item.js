@@ -1,6 +1,4 @@
-import PriceFormat from '@components/PriceFormat';
-import Typography from '@components/Typography';
-import Link from 'next/link';
+import ProductItem from '@components/ProductItem';
 import useStyles from './style';
 
 const Item = ({
@@ -14,24 +12,17 @@ const Item = ({
     const styles = useStyles();
     return (
         <div className={styles.itemContainer}>
-            <Link href="/[...slug]" as={`/${url_key}`}>
-                <div className={styles.imgItemContainer}>
-                    <img
-                        src={small_image.url}
-                        alt={name}
-                        className={styles.imgItem}
-                        onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
-                    />
-                </div>
-            </Link>
-            <div className={styles.detailItem}>
-                <Link href="/[...slug]" as={`/${url_key}`}>
-                    <a>
-                        <Typography variant="span">{name}</Typography>
-                    </a>
-                </Link>
-                <PriceFormat priceRange={price_range} priceTiers={price_tiers} productType={__typename} />
-            </div>
+            <ProductItem
+                name={name}
+                small_image={small_image}
+                price_range={price_range}
+                price_tiers={price_tiers}
+                url_key={url_key}
+                __typename={__typename}
+                variants={[]}
+                configurable_options={[]}
+                showFeed={false}
+            />
         </div>
     );
 };

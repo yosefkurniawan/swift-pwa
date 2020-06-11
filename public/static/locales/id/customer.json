@@ -75,7 +75,10 @@
     "setting": "Pengaturan",
     "storeCredit": "Store Credit",
     "readMore": "Selengkapnya",
-    "rewardPoint": "Reward Poin"
+    "rewardPoint": "Reward Poin",
+    "blog": "Artikel",
+    "return": "Return Saya",
+    "confirmPayment": "Konfirmasi Pembayaran"
   },
   "giftCard": {
     "notFound": "Kamu tidak memiliki gift card apapun",

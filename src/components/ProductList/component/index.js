@@ -210,7 +210,8 @@ const Product = (props) => {
                 <>
                     <Filter
                         filter={customFilter || aggregations}
-                        defaultValue={query}
+                        defaultSort={JSON.stringify(defaultSort)}
+                        filterValue={query}
                         openFilter={openFilter}
                         setOpenFilter={setOpenFilter}
                         elastic={elastic}
@@ -253,6 +254,7 @@ const Product = (props) => {
                         showListColor: true,
                         showListSize: true,
                         size: ['s', 'm', 'l', 'xl'],
+                        categorySelect: categoryPath,
                     }}
                     gridItemProps={{ xs: 6, sm: 4, md: 3 }}
                 />

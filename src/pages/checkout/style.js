@@ -47,7 +47,7 @@ export default makeStyles(() => ({
         marginLeft: 5,
     },
     btnPoint: {
-        maxWidth: 120,
+        maxWidth: 140,
         ...Centering,
         padding: 5,
     },

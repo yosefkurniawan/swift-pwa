@@ -10,19 +10,19 @@ export const register = gql`
         $subscribe: Boolean,
         $otp: String!,
     ) {
-        createCustomerCustom(
-            input: {
-              firstname: $firstName,
-              lastname: $lastName,
-              email: $email,
-              password: $password,
-              phonenumber: $phoneNumber,
-              is_subscribed: $subscribe,
-              otp: $otp,
-            }
-          ) {
-            token
-          }
+      internalCreateCustomerToken(
+        input: {
+          firstname: $firstName,
+          lastname: $lastName,
+          email: $email,
+          password: $password,
+          phonenumber: $phoneNumber,
+          is_subscribed: $subscribe,
+          otp: $otp,
+        }
+      ) {
+        token
+      }
     }
 `;
 

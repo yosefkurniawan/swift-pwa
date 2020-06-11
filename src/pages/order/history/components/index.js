@@ -1,6 +1,7 @@
 import Button from '@components/Button';
 import Typography from '@components/Typography';
 import classNames from 'classnames';
+import Alert from '@material-ui/lab/Alert';
 import useStyles from './style';
 import Item from './item';
 import { getOrder } from '../../services/graphql';
@@ -9,28 +10,38 @@ import Loader from './Loader';
 
 const OrderPage = ({ t }) => {
     const styles = useStyles();
-    const [params] = React.useState({
-        pageSize: 5,
-        currentPage: 1,
-    });
+    const [page, setPage] = React.useState(1);
+    const [pageSize] = React.useState(10);
     const [loadMore, setLoadMore] = React.useState(false);
     const {
         loading, data, error, fetchMore,
-    } = getOrder(params);
+    } = getOrder({
+        pageSize,
+        currentPage: 1,
+    });
     if (loading || !data) return <Loader />;
-    if (error) console.log(error);
+    if (error) {
+        return (
+            <div className={classNames(styles.container, styles.rowCenter)}>
+                <Alert className="m-15" severity="error">
+                    {error.message.split(':')[1]}
+                </Alert>
+            </div>
+        );
+    }
     const handleLoadMore = () => {
+        setPage(page + 1);
         setLoadMore(true);
-        return fetchMore({
-            query: Schema.getOrder(),
+        fetchMore({
+            query: Schema.getOrder,
             context: {
                 request: 'internal',
             },
             skip: typeof window === 'undefined',
             fetchPolicy: 'cache-and-network',
             variables: {
-                currentPage: params.currentPage + 1,
-                pageSize: params.pageSize,
+                currentPage: page + 1,
+                pageSize,
             },
             updateQuery: (previousResult, { fetchMoreResult }) => {
                 setLoadMore(false);
@@ -38,7 +49,12 @@ const OrderPage = ({ t }) => {
                 const newItems = fetchMoreResult.customerOrders;
                 return {
                     customerOrders: {
-                        ...prevItems,
+                        current_page: prevItems.current_page,
+                        page_size: prevItems.page_size,
+                        total_count: prevItems.total_count,
+                        total_pages: prevItems.total_pages,
+                        // eslint-disable-next-line no-underscore-dangle
+                        __typename: prevItems.__typename,
                         items: [...prevItems.items, ...newItems.items],
                     },
                 };
@@ -48,7 +64,8 @@ const OrderPage = ({ t }) => {
     return (
         <div className={classNames(styles.container, styles.rowCenter)}>
             {data && data.customerOrders.items.length > 0 && data.customerOrders.items.map((item, index) => <Item t={t} key={index} {...item} />)}
-            {data && data.customerOrders.total_count > data.customerOrders.items.length && (
+            {data && data.customerOrders.total_count > data.customerOrders.items.length
+                && data.customerOrders.total_pages > page && (
                 <Button variant="text" onClick={handleLoadMore} disabled={loading || loadMore} fullWidth>
                     <Typography variant="span" type="regular" letter="capitalize">
                         {loadMore || loading ? 'Loading ...' : t('common:button:loadMore')}

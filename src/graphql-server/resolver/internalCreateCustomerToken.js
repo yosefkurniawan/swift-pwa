@@ -3,25 +3,49 @@ const requestGraph = require('../request');
 const { encrypt } = require('../../helpers/encryption');
 
 const query = `
-    mutation getToken(
-        $username: String!,
+    mutation register(
+        $firstName: String!,
+        $lastName: String,
+        $email: String!,
         $password: String!,
+        $phoneNumber: String!,
+        $subscribe: Boolean,
+        $otp: String!,
     ) {
-        generateCustomerTokenCustom(username: $username, password: $password){
-        token
+        createCustomerCustom(
+            input: {
+              firstname: $firstName,
+              lastname: $lastName,
+              email: $email,
+              password: $password,
+              phonenumber: $phoneNumber,
+              is_subscribed: $subscribe,
+              otp: $otp,
+            }
+          ) {
+            token
         }
     }
 `;
 
 
-const internalCreateCustomerToken = async (parent, { username, password }, context) => {
-    const res = await requestGraph(query, { username, password }, context);
+const internalCreateCustomerToken = async (parent, args, context) => {
+    const variables = {
+        firstName: args.input.firstname,
+        lastName: args.input.lastname,
+        email: args.input.email,
+        password: args.input.password,
+        phoneNumber: args.input.phonenumber,
+        subscribe: args.input.is_subscribe,
+        otp: args.input.otp,
+    };
+    const res = await requestGraph(query, variables, context);
     // context.session.destroy();
-    if (res.generateCustomerTokenCustom) {
-        context.session.token = encrypt(res.generateCustomerTokenCustom.token);
+    if (res.createCustomerCustom) {
+        context.session.token = encrypt(res.createCustomerCustom.token);
         return {
-            originalToken: res.generateCustomerTokenCustom.token,
-            token: encrypt(res.generateCustomerTokenCustom.token),
+            originalToken: res.createCustomerCustom.token,
+            token: encrypt(res.createCustomerCustom.token),
             message: 'welcome',
         };
     }

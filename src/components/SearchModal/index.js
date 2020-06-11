@@ -29,7 +29,9 @@ const CategoryWrapperSkeleteon = () => {
     return (
         <div style={{ width: '100%' }}>
             <Grid container direction="column" alignItems="center">
-                {[100, 60, 180, 65, 150, 70, 80, 175, 70, 55, 115, 60, 155, 65, 80].map((width) => <SkeletonRect width={width} />)}
+                {[100, 60, 180, 65, 150, 70, 80, 175, 70, 55, 115, 60, 155, 65, 80].map((width, i) => (
+                    <SkeletonRect key={i} width={width} />
+                ))}
             </Grid>
         </div>
     );

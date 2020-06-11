@@ -1,0 +1,41 @@
+{
+    "new": "pengembalian baru untuk order  ",
+    "product": "Produk untuk kembalikan",
+    "selectAll": "Pilih semua",
+    "deselectAll" : "Hapus semua",
+    "history": "Return Saya",
+    "form": {
+        "submit": "Kirim Permintaan",
+        "label": {
+            "resolution": "Solusi",
+            "condition" : "Kondisi",
+            "message": "Pesan",
+            "tickSelect": "Centang untuk memilih",
+            "reason": "Alasan"
+        },
+        "placeholder": {
+            "message": "Tulis pesan disini untuk manager",
+            "uploadFile": "Type file yang di bolehkan : zip, rar, jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx"
+        },
+        "table": {
+            "orderId": "ID Order",
+            "returnId" : "ID Return",
+            "products": "Produk",
+            "createdAt": "Dibuat pada",
+            "updatedAt": "Diupdate pada",
+            "view": "Lihat Detail"
+        },
+
+        "empty": "Kamu tidah mempunyai permintaan return",
+        "view": {
+            "label": "Mengelola permintaan RMA ",
+            "packageCondition": "Kondisi Paket",
+            "orderDate": "Tanggal Pemesanan",
+            "myAddress": "Alamat Saya",
+            "updateButton": "Perbarui Return",
+            "cancelButton": "Batalkan Return",
+            "successUpdate": "Return Berhasil di perbarui",
+            "failedUpdate": "Return gagal di perbarui"
+        }
+    }
+}

@@ -5,7 +5,7 @@ import { formatPrice } from '@helpers/currency';
 import useStyles from './style';
 
 const ItemOrder = ({
-    status_label, order_number, detail, id, t, created_at,
+    status_label, order_number, detail, t, created_at,
 }) => {
     const styles = useStyles();
     return (
@@ -14,7 +14,7 @@ const ItemOrder = ({
                 <Typography variant="p" type="bold">
                     {status_label}
                 </Typography>
-                <Link href="/sales/order/view/order_id/[id]" as={`/sales/order/view/order_id/${id}`}>
+                <Link href="/sales/order/view/order_id/[id]" as={`/sales/order/view/order_id/${order_number}`}>
                     <a>
                         <Typography variant="title" type="regular">
                             #

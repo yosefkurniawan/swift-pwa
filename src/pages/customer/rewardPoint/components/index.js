@@ -12,19 +12,52 @@ import {
     TableHead,
     TableRow,
     TableCell,
+    TablePagination,
 } from '@material-ui/core';
 import Typography from '@components/Typography';
 import Alert from '@material-ui/lab/Alert';
 import { GraphCustomer } from '@services/graphql';
 import Link from 'next/link';
 import formatDate from '@helpers/date';
+import urlParser from '@helpers/urlParser';
 import useStyles from '../style';
 import Loader from './skeleton';
 
 export default (props) => {
     const { t } = props;
     const styles = useStyles();
-    const { data, loading, error } = GraphCustomer.getRewardPoint();
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+    const { data, loading, error } = GraphCustomer.getRewardPoint({
+        pageSize: rowsPerPage,
+        currentPage: page + 1,
+    });
+
+    let customerRewardPoints = {
+        balance: 0,
+        balanceCurrency: 0,
+        formatedBalanceCurrency: '$0.00',
+        formatedSpendRate: '$0.00',
+        spendRate: 1,
+        transaction_history: {
+            items: [],
+            page_info: {
+                current_page: 1,
+                page_size: 10,
+                total_pages: 0,
+            },
+            total_count: 0,
+        },
+    };
+
     if (error) {
         return (
             <div className={styles.account_point}>
@@ -35,6 +68,17 @@ export default (props) => {
         );
     }
     if (loading || !data) return <Loader />;
+    if (data && data.customerRewardPoints) customerRewardPoints = data.customerRewardPoints;
+    const getId = (string) => string.split('#')[1].split('</a')[0];
+    const getPath = (string) => {
+        const path = urlParser(string, 'href').pathArray;
+        const id = getId(string);
+        let url = '';
+        for (let index = 1; index < path.length - 2; index += 1) {
+            url += `/${path[index]}`;
+        }
+        return `${url}/${id}`;
+    };
     return (
         <div className={styles.container}>
             <List>
@@ -42,7 +86,7 @@ export default (props) => {
                     <ListItemText primary={<Typography variant="p">{t('customer:rewardPoint:balanceTitle')}</Typography>} />
                     <ListItemSecondaryAction>
                         <Typography variant="span" type="bold">
-                            {data.customerRewardPoints.balance || 0}
+                            {customerRewardPoints.balance || 0}
                         </Typography>
                     </ListItemSecondaryAction>
                 </ListItem>
@@ -50,7 +94,7 @@ export default (props) => {
                     <ListItemText primary={<Typography variant="p">{t('customer:rewardPoint:canbeTitle')}</Typography>} />
                     <ListItemSecondaryAction>
                         <Typography variant="span" type="bold">
-                            {data.customerRewardPoints.formatedBalanceCurrency || ''}
+                            {customerRewardPoints.formatedBalanceCurrency || ''}
                         </Typography>
                     </ListItemSecondaryAction>
                 </ListItem>
@@ -81,11 +125,9 @@ export default (props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {loading ? (
-                                <Loader />
-                            ) : data.customerRewardPoints.transaction.length > 0 ? (
+                            {!loading && customerRewardPoints.transaction_history.items.length > 0 ? (
                                 <>
-                                    {data.customerRewardPoints.transaction.map((val, idx) => (
+                                    {customerRewardPoints.transaction_history.items.map((val, idx) => (
                                         <TableRow key={idx} className={styles.tableRowResponsive}>
                                             <TableCell
                                                 className={styles.tableCellResponsive}
@@ -102,9 +144,7 @@ export default (props) => {
                                                             {t('customer:rewardPoint:transactionId')}
                                                         </Typography>
                                                     </div>
-                                                    <div className={styles.value}>
-                                                        {val.transactionId}
-                                                    </div>
+                                                    <div className={styles.value}>{val.transactionId}</div>
                                                 </div>
                                             </TableCell>
                                             <TableCell
@@ -122,9 +162,7 @@ export default (props) => {
                                                             {t('customer:rewardPoint:balance')}
                                                         </Typography>
                                                     </div>
-                                                    <div className={styles.value}>
-                                                        {val.balance}
-                                                    </div>
+                                                    <div className={styles.value}>{val.balance}</div>
                                                 </div>
                                             </TableCell>
                                             <TableCell
@@ -142,9 +180,22 @@ export default (props) => {
                                                             {t('customer:rewardPoint:comment')}
                                                         </Typography>
                                                     </div>
-                                                    <div className={styles.value}>
-                                                        {val.comment}
-                                                    </div>
+                                                    {
+                                                        (val.comment.split('<a').length > 1 && val.comment.includes('/sales/order/view/order_id'))
+                                                            ? (
+                                                                <div
+                                                                    className={styles.value}
+                                                                    // eslint-disable-next-line react/no-danger
+                                                                    dangerouslySetInnerHTML={{
+                                                                        __html: `${val.comment.split('<a')[0]} 
+                                                                            <a href="${getPath(val.comment)}">#${getId(val.comment)}</a>
+                                                                            `,
+                                                                    }}
+                                                                />
+                                                            )
+                                                            // eslint-disable-next-line react/no-danger
+                                                            : (<div className={styles.value} dangerouslySetInnerHTML={{ __html: val.comment }} />)
+                                                    }
                                                 </div>
                                             </TableCell>
                                             <TableCell
@@ -162,9 +213,7 @@ export default (props) => {
                                                             {t('customer:rewardPoint:expired')}
                                                         </Typography>
                                                     </div>
-                                                    <div className={styles.value}>
-                                                        {val.expirationDate ? formatDate(val.expirationDate) : '-'}
-                                                    </div>
+                                                    <div className={styles.value}>{val.expirationDate ? formatDate(val.expirationDate) : '-'}</div>
                                                 </div>
                                             </TableCell>
                                             <TableCell
@@ -184,7 +233,7 @@ export default (props) => {
                                                     </div>
                                                     <div className={styles.value}>
                                                         <div className={val.points < 0 ? styles.textRed : styles.textGreen}>
-                                                            {val.points < 0 ? `-${val.points}` : `+${val.points}`}
+                                                            {val.points < 0 ? `${val.points}` : `+${val.points}`}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -204,17 +253,32 @@ export default (props) => {
                                                             {t('customer:rewardPoint:transactionDate')}
                                                         </Typography>
                                                     </div>
-                                                    <div className={styles.value}>
-                                                        {val.transactionDate ? formatDate(val.transactionDate) : '-'}
-                                                    </div>
+                                                    <div className={styles.value}>{val.transactionDate ? formatDate(val.transactionDate) : '-'}</div>
                                                 </div>
                                             </TableCell>
                                         </TableRow>
                                     ))}
+
+                                    <TableRow>
+                                        <TablePagination
+                                            rowsPerPageOptions={[10, 20, 50, { label: 'All', value: -1 }]}
+                                            colSpan={6}
+                                            count={customerRewardPoints.transaction_history.total_count || 0}
+                                            rowsPerPage={rowsPerPage}
+                                            page={page}
+                                            labelRowsPerPage="Limit"
+                                            SelectProps={{
+                                                inputProps: { 'aria-label': 'rows per page' },
+                                                native: true,
+                                            }}
+                                            onChangePage={handleChangePage}
+                                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                                        />
+                                    </TableRow>
                                 </>
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={5}>
+                                    <TableCell colSpan={6}>
                                         <Alert severity="warning">{t('customer:storeCredit:emptyMessage')}</Alert>
                                     </TableCell>
                                 </TableRow>

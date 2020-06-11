@@ -5,7 +5,7 @@ mutation getToken(
     $username: String!,
     $password: String!,
 ) {
-  internalCreateCustomerToken(username: $username, password: $password){
+  internalGenerateCustomerToken(username: $username, password: $password){
       token
     }
   }

@@ -1,35 +1,95 @@
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 import Typography from '@components/Typography';
 import Button from '@components/Button';
 import Link from 'next/link';
 import TagManager from 'react-gtm-module';
-import { storeConfigNameCokie } from '@config';
-import cookies from 'js-cookie';
+import Alert from '@material-ui/lab/Alert';
+import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
+import Router from 'next/router';
+import { getOrder } from './services/graphql';
+import Loader from './Loader';
 import useStyles from './style';
 
 const ThanksPage = (props) => {
     const {
         t,
-        query: { order_id },
-        token,
+        isLogin,
+        storeConfig,
+        checkoutData,
     } = props;
     const styles = useStyles();
+    let ordersFilter = {
+        data: [],
+    };
+    const { data, loading, error } = getOrder(checkoutData);
+
     React.useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const storeConfig = cookies.getJSON(storeConfigNameCokie);
-            TagManager.dataLayer({
-                dataLayer: {
-                    ecommerce: {
-                        purchase: {
-                            actionField: {
-                                id: order_id,
-                            },
+        if (ordersFilter.data.length > 0) {
+            let itemsProduct = [];
+            const itemsChild = ordersFilter.data[0].detail[0].items.filter((item) => {
+                if (item.parent_item_id !== null) return item;
+            });
+            const simpleData = ordersFilter.data[0].detail[0].items.filter((item) => !itemsChild.find(({ sku }) => item.sku === sku) && item);
+            itemsProduct = [...itemsChild, ...simpleData];
+            const dataLayer = {
+                pageType: 'purchase',
+                event: 'checkout',
+                ecommerce: {
+                    purchase: {
+                        actionField: {
+                            id: checkoutData.order_number,
+                            affiliation: storeConfig.store_name || 'Swift PWA',
+                            revenue: JSON.stringify(ordersFilter.data[0].detail[0].grand_total),
+                            coupon: ordersFilter.data[0].detail[0].coupon.is_use_coupon ? ordersFilter.data[0].detail[0].coupon.code : '',
+                            tax: JSON.stringify(ordersFilter.data[0].detail[0].tax_amount),
+                            shipping: JSON.stringify(ordersFilter.data[0].detail[0].payment.shipping_amount),
                         },
-                        currencyCode: storeConfig.base_currency_code || 'IDR',
+                        products: itemsProduct.map((product) => ({
+                            name: product.name,
+                            id: product.sku,
+                            category: product.categories[0].name || '',
+                            price: JSON.stringify(product.price),
+                            list: product.categories[0].name || '',
+                            quantity: JSON.stringify(product.qty_ordered),
+                            dimension4: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
+                            dimension5: JSON.stringify(product.rating.total),
+                            dimension6: JSON.stringify(product.rating.value),
+                            dimension7: ordersFilter.data[0].detail[0].discount_amount !== 0 ? 'YES' : 'NO',
+                        })),
                     },
+                    currencyCode: storeConfig.base_currency_code || 'IDR',
                 },
+            };
+            TagManager.dataLayer({
+                dataLayer,
             });
         }
+    }, [ordersFilter]);
+
+    React.useEffect(() => function cleanup() {
+        if (typeof window !== 'undefined') {
+            const cdt = getCheckoutData();
+            if (cdt) removeCheckoutData();
+        }
     }, []);
+
+    if (loading || !data) return <Loader />;
+    if (error) {
+        return (
+            <div className={styles.container}>
+                <Alert className="m-15" severity="error">
+                    {error.message.split(':')[1]}
+                </Alert>
+            </div>
+        );
+    }
+    if (data && data.ordersFilter) ordersFilter = data.ordersFilter;
+    const handleCotinue = () => {
+        const cdt = getCheckoutData();
+        if (cdt) removeCheckoutData();
+        Router.push('/');
+    };
     return (
         <div className={styles.container}>
             <Typography variant="h1" type="bold" align="center">
@@ -45,19 +105,19 @@ const ThanksPage = (props) => {
                 {t('checkout:yourOrderId')}
             </Typography>
             <Typography variant="title" type="bold" align="center">
-                {order_id}
+                {checkoutData.order_number}
             </Typography>
-            {token && token !== '' && typeof token !== 'undefined' && (
-                <Link href="/sales/order/view/order_id/[id]" as={`/sales/order/view/order_id/${parseInt(order_id, 0)}`}>
+            {isLogin && isLogin === 1 ? (
+                <Link href="/sales/order/view/order_id/[id]" as={`/sales/order/view/order_id/${checkoutData.order_number}`}>
                     <a>
                         <Typography variant="span" type="regular" letter="capitalize" decoration="underline">
                             {t('checkout:checkOrder')}
                         </Typography>
                     </a>
                 </Link>
-            )}
+            ) : null}
             <div className={styles.footer}>
-                <Button className={styles.btnContinue} color="primary" href="/">
+                <Button className={styles.btnContinue} color="primary" onClick={handleCotinue}>
                     <Typography variant="title" type="regular" letter="capitalize" className={styles.textBtn}>
                         {t('checkout:continue')}
                     </Typography>

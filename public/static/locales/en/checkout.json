@@ -21,6 +21,8 @@
         "couponApplied": "Coupon has been applied",
         "giftCardApplied": "Coupon has been applied",
         "giftCardRemoved": "Coupon has been removed",
+        "rewardPointsApplied": "Reward points has been applied",
+        "rewardPointsRemoved": "Reward points has been removed",
         "storeCreditApplied": "Store credit has been applied",
         "storeCreditRemoved": "Store credit has been removed",
         "couponError": "The coupon code isn't valid. Verify the code and try again.",
@@ -36,12 +38,17 @@
     },
     "checkBalance": "Check balance",
     "myPoint": {
-        "title": "My Point",
-        "button": "Use my point"
+        "title": "My Points",
+        "button": "Use my points",
+        "removeButton": "Remove my points",
+        "used": "Used",
+        "rewardPoints": "Reward Points"
     },
     "myCredit": {
         "title": "My Credit",
-        "button": "Use my credit"
+        "used": "Used Credit",
+        "button": "Use my credit",
+        "removeButton": "Remove my credit"
     },
     "promoCodePlaceholder": "Promo code",
     "giftCartPlaceholder": "Gift Cart Number",
