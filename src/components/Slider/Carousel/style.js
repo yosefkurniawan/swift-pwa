@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { WHITE } from '@theme/colors';
 import {
-    Centering, FlexColumn, CreatePadding, CreateMargin,
+    Centering, CreateMargin,
 } from '@theme/mixins';
 
 const itemContainerWidth = {
@@ -47,22 +47,6 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('md')]: {
             width: itemContainerWidth.md,
         },
-    },
-    imgItemContainer: {
-        width: '100%',
-        ...Centering,
-        background: 'transparent',
-    },
-    imgItem: {
-        width: '100%',
-    },
-    detailItem: {
-        ...FlexColumn,
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 'auto',
-        ...CreatePadding(16, 0, 0, 0),
-
     },
     title: {
         ...CreateMargin(0, 0, 15, 0),
