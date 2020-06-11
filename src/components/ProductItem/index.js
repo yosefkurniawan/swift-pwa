@@ -11,8 +11,10 @@ import Toast from '@components/Toast';
 import { GraphCustomer } from '@services/graphql';
 import { getLoginInfo } from '@helpers/auth';
 import { setCookies } from '@helpers/cookies';
+import { productImageSize } from '@config';
 import useStyles from './style';
 import ConfigurableOpt from './component/configurable';
+import Thumbor from '../Image/thumbor';
 
 const ProductItem = (props) => {
     const {
@@ -83,15 +85,17 @@ const ProductItem = (props) => {
             <div className={styles.itemContainer}>
                 <div className={styles.imgItem}>
                     <Link onClick={handleClick}>
-                        <img
+                        <Thumbor
                             // eslint-disable-next-line no-nested-ternary
                             src={spesificProduct.id ? spesificProduct.image.url
                                 : small_image && small_image.url
                                     ? small_image.url
                                     : '/assets/img/placeholder.png'}
                             className={styles.imgProduct}
-                            onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
-                            alt={small_image && small_image.url ? small_image.label : 'Product'}
+                            width={productImageSize.width}
+                            height={productImageSize.height}
+                            quality={80}
+                            alt={small_image && small_image.url ? small_image.label : name}
                         />
                     </Link>
                 </div>
