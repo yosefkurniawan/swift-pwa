@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
 import { gql } from 'apollo-boost';
-import { productImageSize } from '@config';
+import { imageSize } from '@config';
 /**
  * generate dynamic filter query
  * @param catId number
@@ -76,7 +76,7 @@ export const getProduct = (config = {}) => gql`
           name
           url_key
           small_image {
-            url(width: ${productImageSize.width}, height: ${productImageSize.height}),
+            url(width: ${imageSize.product.width}, height: ${imageSize.product.height}),
             label
           }
           categories {
@@ -188,7 +188,7 @@ export const getProduct = (config = {}) => gql`
                   }
                 }
                 small_image{
-                  url(width: ${productImageSize.width}, height: ${productImageSize.height}),
+                  url(width: ${imageSize.product.width}, height: ${imageSize.product.height}),
                   label
                 }
                 image {

@@ -75,6 +75,10 @@ const orderOutput = `
                     qty
                 }
             }
+            aw_rma {
+                status
+            }
+            
             aw_giftcard {
                 giftcard_amount
                 giftcard_detail {

@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { productImageSize } from '@config';
+import { imageSize } from '@config';
 import { gql } from 'apollo-boost';
 
 const productDetail = `
@@ -12,7 +12,7 @@ const productDetail = `
     __typename
     attribute_set_id
     small_image{
-      url(width: ${productImageSize.width}, height: ${productImageSize.height}),
+      url(width: ${imageSize.product.width}, height: ${imageSize.product.height}),
       label
     }
     image{

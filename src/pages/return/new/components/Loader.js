@@ -25,6 +25,17 @@ export default () => {
                         <div className="flex-grow" />
                     </div>
                 </div>
+                <Skeleton animation="wave" variant="text" width="50%" height={30} />
+                <div className={styles.itemContainer}>
+                    <Skeleton animation="wave" variant="rect" width={105} height={130} />
+                    <div className={styles.detailItem}>
+                        <Skeleton animation="wave" variant="text" width={90} height={15} />
+                        <Skeleton animation="wave" variant="text" width={120} height={15} />
+                        <Skeleton animation="wave" variant="text" width={120} height={15} />
+                        <Skeleton animation="wave" variant="text" width={120} height={15} />
+                        <div className="flex-grow" />
+                    </div>
+                </div>
             </div>
         </>
     );

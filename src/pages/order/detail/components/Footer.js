@@ -8,7 +8,7 @@ export default ({ t, detail }) => {
     return (
         <div className={styles.footer}>
             {
-                (detail[0].status_label === 'complete' || detail[0].status_label.toLowerCase() === 'complete')
+                (detail[0].detail[0].aw_rma && detail[0].detail[0].aw_rma.status)
                     && (
                         <Button
                             fullWidth
