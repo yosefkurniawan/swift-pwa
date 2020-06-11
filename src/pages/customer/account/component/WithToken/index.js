@@ -112,9 +112,10 @@ const WithToken = (props) => {
                                     </Typography>
                                     <Link
                                         href="/wishlist"
-                                        className={[styles.account_wishlist_read_more].join(' ')}
                                     >
-                                        <a>
+                                        <a
+                                            className={[styles.account_wishlist_read_more].join(' ')}
+                                        >
                                             <Typography
                                                 variant="span"
                                                 type="bold"

@@ -112,6 +112,15 @@ export const getFormDataRma = gql`
                 refers
                 website_ids
             }
+            items {
+                is_returnable
+                item_id
+                name
+                other_rma_request
+                price
+                qty_returnable
+                sku
+              }
         }
     }
 `;

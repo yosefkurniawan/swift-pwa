@@ -36,5 +36,7 @@
         "cancelButton": "Cancel Request",
         "successUpdate": "Return has beed succesfully update",
         "failedUpdate": "Return update failed"
-    }
+    },
+    "otherRequestRma": "Other return request for this product",
+    "noItemReturn": "No items to return"
 }

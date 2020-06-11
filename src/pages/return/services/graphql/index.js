@@ -13,6 +13,7 @@ export const getFormDataRma = (params) => useQuery(Schema.getFormDataRma, {
     context: {
         request: 'internal',
     },
+    fetchPolicy: 'no-cache',
     variables: params,
     skip: typeof window === 'undefined',
 });
