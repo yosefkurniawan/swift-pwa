@@ -1,5 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Link, Breadcrumbs, makeStyles } from '@material-ui/core';
+import {
+    Link, Breadcrumbs, makeStyles, NoSsr,
+} from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import Typography from '@components/Typography';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -11,7 +13,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default ({ data = [], variant = 'text' }) => {
+const CustomBreadcrumb = ({ data = [], variant = 'text' }) => {
     const handleClick = (url) => {
         Router.push(
             '/[...slug]',
@@ -39,3 +41,9 @@ export default ({ data = [], variant = 'text' }) => {
         </Breadcrumbs>
     );
 };
+
+export default (props) => (
+    <NoSsr>
+        <CustomBreadcrumb {...props} />
+    </NoSsr>
+);

@@ -81,7 +81,8 @@ class MyApp extends App {
         if (jssStyles) {
             jssStyles.parentElement.removeChild(jssStyles);
         }
-        TagManager.initialize(tagManagerArgs);
+
+        if (GTM.enable) TagManager.initialize(tagManagerArgs);
 
         // remove config cookie if page reload
         if (typeof window !== 'undefined') {
