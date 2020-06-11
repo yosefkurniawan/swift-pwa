@@ -5,8 +5,10 @@ import { Fragment } from 'react';
 import Link from 'next/link';
 import { Skeleton } from '@material-ui/lab';
 import { Grid } from '@material-ui/core';
+import { imageSize } from '@config';
 import gqlService from './service/graphql';
 import useStyles from './style';
+import Thumbor from '../../components/Image/thumbor';
 
 const BannerSliderSkeleteon = () => {
     const styles = useStyles();
@@ -95,7 +97,7 @@ const FeaturedProducts = () => {
                     <Fragment key={i}>
                         {category.image_path && (
                             <Link href="[...slug]" as={category.url_path}>
-                                <img
+                                <Thumbor
                                     src={category.image_path}
                                     alt={category.name}
                                     style={{
@@ -103,6 +105,9 @@ const FeaturedProducts = () => {
                                         maxWidth: '100%',
                                         maxHeight: '100%',
                                     }}
+                                    width={imageSize.category.width}
+                                    height={imageSize.category.height}
+                                    quality={80}
                                 />
                             </Link>
                         )}

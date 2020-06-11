@@ -95,7 +95,7 @@ const imageSize = {
         height: 1120,
     },
     category: {
-        width: 860,
+        width: 960,
         height: 577,
     },
 };
