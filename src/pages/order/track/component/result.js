@@ -1,5 +1,9 @@
 /* eslint-disable prefer-destructuring */
 import Alert from '@material-ui/lab/Alert';
+import Typography from '@components/Typography';
+import {
+    List, ListItem, ListItemSecondaryAction, ListItemText,
+} from '@material-ui/core';
 import { formatPrice } from '@helpers/currency';
 import useStyles from './style';
 import SkeleteonTracking from './skeleton';
@@ -10,54 +14,34 @@ const generateData = (styles, t, orders) => {
     if (orders.data.length > 0) {
         let { detail } = data;
         detail = detail[0];
+        const items = [
+            { primary: t('order:orderStatus'), secondary: data.status_label },
+            { primary: t('order:shippedTo'), secondary: `${detail.shipping_address.firstname} ${detail.shipping_address.lastname}` },
+            { primary: t('order:orderId'), secondary: data.order_number },
+            { primary: t('order:status'), secondary: data.status },
+            { primary: t('order:orderTotal'), secondary: formatPrice(data.grand_total, 'USD') },
+            { primary: t('order:paymentMethod'), secondary: detail.payment.payment_additional_info.method_title },
+            { primary: t('order:shippingMethod'), secondary: detail.shipping_methods.shipping_description },
+        ];
         return (
-            <table style={{ width: '100%' }}>
-                <tbody>
-                    <tr>
-                        <td className={styles.tColContent} style={{ width: '50%' }}>{t('order:orderStatus')}</td>
-                        <td className={styles.tColContent} style={{ width: '2%' }}>:</td>
-                        <td className={styles.tColContent}>{data.status_label}</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.tColContent}>{t('order:shippedTo')}</td>
-                        <td className={styles.tColContent}>:</td>
-                        <td className={styles.tColContent}>
-                            {detail.shipping_address.firstname}
-                            {' '}
-                            {detail.shipping_address.lastname}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className={styles.tColContent}>{t('order:orderId')}</td>
-                        <td className={styles.tColContent}>:</td>
-                        <td className={styles.tColContent}>{data.order_number}</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.tColContent}>{t('order:status')}</td>
-                        <td className={styles.tColContent}>:</td>
-                        <td className={styles.tColContent}>{data.status}</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.tColContent}>{t('order:orderTotal')}</td>
-                        <td className={styles.tColContent}>:</td>
-                        <td className={styles.tColContent}>
-                            {formatPrice(
-                                data.grand_total, 'USD',
+            <List>
+                {items.map((item, i) => (
+                    <ListItem key={i}>
+                        <ListItemText
+                            primary={(
+                                <Typography letter="capitalize">
+                                    {item.primary}
+                                </Typography>
                             )}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className={styles.tColContent}>{t('order:paymentMethod')}</td>
-                        <td className={styles.tColContent}>:</td>
-                        <td className={styles.tColContent}>{detail.payment.payment_additional_info.method_title}</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.tColContent}>{t('order:shippingMethod')}</td>
-                        <td className={styles.tColContent}>:</td>
-                        <td className={styles.tColContent}>{detail.shipping_methods.shipping_description}</td>
-                    </tr>
-                </tbody>
-            </table>
+                        />
+                        <ListItemSecondaryAction>
+                            <Typography variant="span" type="bold">
+                                {item.secondary}
+                            </Typography>
+                        </ListItemSecondaryAction>
+                    </ListItem>
+                ))}
+            </List>
         );
     }
     return <Alert severity="warning">{t('order:orderNotFound')}</Alert>;
@@ -72,8 +56,6 @@ const Result = ({ t, orderField }) => {
             {loading ? <SkeleteonTracking /> : (
                 generateData(styles, t, data.ordersFilter)
             )}
-
-
         </>
     );
 };

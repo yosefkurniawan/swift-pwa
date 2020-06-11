@@ -23,6 +23,7 @@ export const getTrackingOrder = (params) => useQuery(Schema.getTrackingOrder, {
     },
     variables: params,
     skip: typeof window === 'undefined',
+    fetchPolicy: 'network-only',
 });
 
 export default {
