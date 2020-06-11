@@ -84,10 +84,20 @@ const cmsContactIdentifiers = 'weltpixel_contact_page';
 /* Loader */
 const loaderImage = '/assets/img/sample/spinner.svg';
 
-/* Product Images */
-const productImageSize = {
-    width: 240,
-    height: 300,
+/* config general size image used on frontend */
+const imageSize = {
+    product: {
+        width: 240,
+        height: 300,
+    },
+    homeSlider: {
+        width: 960,
+        height: 1120,
+    },
+    category: {
+        width: 860,
+        height: 577,
+    },
 };
 
 /* --------------------------------------- */
@@ -132,7 +142,7 @@ module.exports = {
     loaderImage,
     cmsContactIdentifiers,
     SESSION_SECRET,
-    productImageSize,
+    imageSize,
     custDataNameCookie,
     customerFeautres,
     nameCheckoutCookie,

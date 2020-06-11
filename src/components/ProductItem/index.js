@@ -11,7 +11,7 @@ import Toast from '@components/Toast';
 import { GraphCustomer } from '@services/graphql';
 import { getLoginInfo } from '@helpers/auth';
 import { setCookies } from '@helpers/cookies';
-import { productImageSize } from '@config';
+import { imageSize } from '@config';
 import useStyles from './style';
 import ConfigurableOpt from './component/configurable';
 import Thumbor from '../Image/thumbor';
@@ -92,8 +92,8 @@ const ProductItem = (props) => {
                                     ? small_image.url
                                     : '/assets/img/placeholder.png'}
                             className={styles.imgProduct}
-                            width={productImageSize.width}
-                            height={productImageSize.height}
+                            width={imageSize.product.width}
+                            height={imageSize.product.height}
                             quality={80}
                             alt={small_image && small_image.url ? small_image.label : name}
                         />
