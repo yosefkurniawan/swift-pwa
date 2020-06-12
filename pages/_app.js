@@ -3,7 +3,6 @@
 /* eslint-disable max-len */
 import React from 'react';
 import App from 'next/app';
-import Head from 'next/head';
 import Router from 'next/router';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -104,12 +103,6 @@ class MyApp extends App {
 
         return (
             <>
-                <Head>
-                    <title>
-                        {pageProps.storeConfig && pageProps.storeConfig.default_title ? pageProps.storeConfig.default_title : 'Icube Swift PWA'}
-                    </title>
-                    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-                </Head>
                 <ThemeProvider theme={theme}>
                     {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                     <CssBaseline />
