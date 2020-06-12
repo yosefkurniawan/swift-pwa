@@ -255,6 +255,8 @@ const ProductPage = (props) => {
                     <Banner
                         data={banner}
                         autoPlay={false}
+                        width={960}
+                        height={1120}
                     />
                     {
                         data && data.upsell_products && data.upsell_products.length > 0 && (
