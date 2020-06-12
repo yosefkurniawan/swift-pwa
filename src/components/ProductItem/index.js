@@ -12,6 +12,7 @@ import { GraphCustomer } from '@services/graphql';
 import { getLoginInfo } from '@helpers/auth';
 import { setCookies } from '@helpers/cookies';
 import { imageSize, productItem } from '@config';
+import { useTranslation } from '@i18n';
 import useStyles from './style';
 import ConfigurableOpt from './component/configurable';
 import Thumbor from '../Image';
@@ -32,6 +33,7 @@ const ProductItem = (props) => {
         categorySelect,
     } = props;
     const styles = useStyles();
+    const { t } = useTranslation(['wishlist']);
     const [feed, setFeed] = React.useState(false);
     const [spesificProduct, setSpesificProduct] = React.useState({});
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
@@ -56,6 +58,7 @@ const ProductItem = (props) => {
                     productId: id,
                 },
             }).then(async () => {
+                await setFeed(!feed);
                 await setMessage({ open: true, variant: 'success', text: 'add wishlist success' });
                 route.push('/wishlist');
             }).catch((e) => {
@@ -65,8 +68,14 @@ const ProductItem = (props) => {
                     text: e.message.split(':')[1] || 'add wishlist failed',
                 });
             });
+        } else {
+            setMessage({
+                ...message,
+                open: true,
+                variant: 'warning',
+                text: t('wishlist:addWithoutLogin'),
+            });
         }
-        setFeed(!feed);
     };
 
     const handleClick = () => {

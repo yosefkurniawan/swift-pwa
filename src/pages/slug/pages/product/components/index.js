@@ -173,6 +173,13 @@ const ProductPage = (props) => {
                     text: e.message.split(':')[1] || t('wishlist:addFailed'),
                 });
             });
+        } else {
+            setMessage({
+                ...message,
+                open: true,
+                variant: 'warning',
+                text: t('wishlist:addWithoutLogin'),
+            });
         }
     };
 
