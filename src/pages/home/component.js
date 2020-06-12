@@ -8,7 +8,7 @@ import { Grid } from '@material-ui/core';
 import { imageSize } from '@config';
 import gqlService from './service/graphql';
 import useStyles from './style';
-import Thumbor from '../../components/Image/thumbor';
+import Thumbor from '../../components/Image';
 
 const BannerSliderSkeleteon = () => {
     const styles = useStyles();
