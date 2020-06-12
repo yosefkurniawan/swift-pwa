@@ -11,7 +11,7 @@ import Toast from '@components/Toast';
 import { GraphCustomer } from '@services/graphql';
 import { getLoginInfo } from '@helpers/auth';
 import { setCookies } from '@helpers/cookies';
-import { imageSize } from '@config';
+import { imageSize, productItem } from '@config';
 import useStyles from './style';
 import ConfigurableOpt from './component/configurable';
 import Thumbor from '../Image/thumbor';
@@ -29,7 +29,6 @@ const ProductItem = (props) => {
         __typename,
         variants = [],
         configurable_options = [],
-        showFeed = true,
         categorySelect,
     } = props;
     const styles = useStyles();
@@ -44,6 +43,7 @@ const ProductItem = (props) => {
     ) : (
         <FavoriteBorderOutlined className={styles.iconFeed} />
     );
+    const { showWishlistAction } = productItem;
 
     let isLogin = '';
     if (typeof window !== 'undefined') isLogin = getLoginInfo();
@@ -102,9 +102,9 @@ const ProductItem = (props) => {
                 <div className={styles.detailItem}>
                     <div
                         className={styles.descItem}
-                        style={{ ...(showFeed ? {} : { alignItems: 'center' }) }}
+                        style={{ ...(showWishlistAction ? {} : { alignItems: 'center' }) }}
                     >
-                        {showFeed && (
+                        {showWishlistAction && (
                             <div style={{
                                 position: 'absolute',
                                 width: '20px',
