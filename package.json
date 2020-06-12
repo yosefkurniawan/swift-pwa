@@ -29,6 +29,7 @@
     "apollo-link-http": "^1.5.16",
     "apollo-link-retry": "^2.2.16",
     "apollo-server-express": "^2.13.0",
+    "babel-eslint": "^10.1.0",
     "classnames": "^2.2.6",
     "clsx": "^1.1.0",
     "cookie-session": "^1.4.0",

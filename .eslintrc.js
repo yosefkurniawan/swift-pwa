@@ -14,6 +14,7 @@ module.exports = {
         React: 'writable',
         snap: true,
     },
+    parser: "babel-eslint",
     parserOptions: {
         ecmaFeatures: {
             jsx: true,
