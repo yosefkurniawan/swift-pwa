@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { imageSize } from '@config';
 import useStyles from './style';
 import setDefaultWhenEmpty from '../../../helpers/checkImageSrc';
-import Thumbor from '../../Image/thumbor';
+import Thumbor from '../../Image';
 
 
 /**

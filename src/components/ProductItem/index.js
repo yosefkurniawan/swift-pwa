@@ -14,7 +14,7 @@ import { setCookies } from '@helpers/cookies';
 import { imageSize } from '@config';
 import useStyles from './style';
 import ConfigurableOpt from './component/configurable';
-import Thumbor from '../Image/thumbor';
+import Thumbor from '../Image';
 
 const ProductItem = (props) => {
     const {
