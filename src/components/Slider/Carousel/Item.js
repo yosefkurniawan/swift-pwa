@@ -21,7 +21,6 @@ const Item = ({
                 __typename={__typename}
                 variants={[]}
                 configurable_options={[]}
-                showFeed={false}
             />
         </div>
     );
