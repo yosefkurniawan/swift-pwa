@@ -230,6 +230,13 @@ const Cart = (props) => {
                     });
                     setBackdrop(false);
                 });
+        } else {
+            setMessage({
+                ...message,
+                open: true,
+                variant: 'warning',
+                text: t('wishlist:addWithoutLogin'),
+            });
         }
     };
 

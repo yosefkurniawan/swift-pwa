@@ -2,8 +2,8 @@
 import Typography from '@components/Typography';
 import formatDate from '@helpers/date';
 import Avatar from 'react-avatar';
+import RatingStar from '@components/RatingStar';
 import useStyles from './style';
-import RatingStar from '../RatingStar';
 
 const CustomerReview = (props) => {
     const styles = useStyles();

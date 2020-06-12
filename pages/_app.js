@@ -49,7 +49,7 @@ class MyApp extends App {
             pageProps = await Component.getInitialProps(ctx);
         }
         const {
-            apolloClient, res, pathname, query, req,
+            apolloClient, res, asPath, query, req,
         } = ctx;
         // check if login from server
         let isLogin = 0;
@@ -65,27 +65,33 @@ class MyApp extends App {
         if (pageProps.withAuth) {
             if (typeof window !== 'undefined') {
                 if (isLogin) {
-                    if (pathname === '/customer/account/login' && query.redirect && query.redirect !== '') {
+                    if (asPath !== '/customer/account/login') {
+                        removeLastPathWithoutLogin();
+                    }
+                    if (asPath === '/customer/account/login' && query.redirect && query.redirect !== '') {
                         removeLastPathWithoutLogin();
                         Router.push(query.redirect);
-                    } else if (pathname === '/customer/account/login') {
+                    } else if (asPath === '/customer/account/login') {
                         removeLastPathWithoutLogin();
                         Router.push(lastPathNoAuth);
                     }
-                } else if (pathname !== '/customer/account/login') {
-                    setLastPathWithoutLogin(pathname);
+                } else if (asPath !== '/customer/account/login') {
+                    setLastPathWithoutLogin(asPath);
                     Router.push('/customer/account/login');
                 }
             } else if (isLogin) {
-                if (pathname === '/customer/account/login' && query.redirect && query.redirect !== '') {
+                if (asPath !== '/customer/account/login') {
+                    req.session.lastPathNoAuth = '';
+                }
+                if (asPath === '/customer/account/login' && query.redirect && query.redirect !== '') {
                     req.session.lastPathNoAuth = '';
                     res.redirect(query.redirect);
-                } else if (pathname === '/customer/account/login') {
+                } else if (asPath === '/customer/account/login') {
                     req.session.lastPathNoAuth = '';
                     res.redirect(lastPathNoAuth);
                 }
-            } else if (pathname !== '/customer/account/login') {
-                req.session.lastPathNoAuth = pathname;
+            } else if (asPath !== '/customer/account/login') {
+                req.session.lastPathNoAuth = asPath;
                 res.redirect('/customer/account/login');
             }
         }
