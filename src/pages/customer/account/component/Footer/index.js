@@ -5,8 +5,9 @@ import { removeCartId } from '@helpers/cartId';
 import { useDispatch } from 'react-redux';
 import { setCountCart } from '@stores/actions/cart';
 import Router from 'next/router';
-import { customerFeautres, custDataNameCookie } from '@config';
+import { customerFeautres, custDataNameCookie, cmsSocialMediaLinkIdentifiers } from '@config';
 import Cookies from 'js-cookie';
+import { GraphCms } from '@services/graphql';
 import { removeToken as deleteToken } from '../../services/graphql';
 import useStyles from './style';
 
@@ -75,6 +76,20 @@ export default ({ t, isLogin, storeConfig }) => {
                         : null
                 }
             </ul>
+            <SocialMediaLink />
         </div>
+    );
+};
+
+const SocialMediaLink = () => {
+    const { error, loading, data } = GraphCms.getCmsBlocks({ identifiers: [cmsSocialMediaLinkIdentifiers] });
+    if (error) return <div>{`Error: ${JSON.stringify(error)}`}</div>;
+    if (loading) return <div>Loading</div>;
+
+    return (
+        <>
+            {/* eslint-disable-next-line react/no-danger */}
+            <div className="cms-container" dangerouslySetInnerHTML={{ __html: data.cmsBlocks.items[0].content }} />
+        </>
     );
 };
