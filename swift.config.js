@@ -94,6 +94,10 @@ const cmsContactIdentifiers = 'weltpixel_contact_page';
 // identifiers for cmsBlocks in contact page
 const cmsSocialMediaLinkIdentifiers = 'pwa_socmed_links';
 
+/* Social media link */
+// social media link in dashboard
+const enableSocialMediaLink = true;
+
 /* Loader */
 const loaderImage = '/assets/img/sample/spinner.svg';
 
@@ -162,4 +166,5 @@ module.exports = {
     nameGlobalCookie,
     showBrandPage,
     productItem,
+    enableSocialMediaLink,
 };
