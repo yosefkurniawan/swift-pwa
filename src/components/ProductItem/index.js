@@ -13,6 +13,7 @@ import { getLoginInfo } from '@helpers/auth';
 import { setCookies } from '@helpers/cookies';
 import { imageSize, productItem } from '@config';
 import { useTranslation } from '@i18n';
+import RatingStar from '@components/RatingStar';
 import useStyles from './style';
 import ConfigurableOpt from './component/configurable';
 import Thumbor from '../Image';
@@ -31,7 +32,9 @@ const ProductItem = (props) => {
         variants = [],
         configurable_options = [],
         categorySelect,
+        review,
     } = props;
+    let { showWishlistAction } = props;
     const styles = useStyles();
     const { t } = useTranslation(['wishlist']);
     const [feed, setFeed] = React.useState(false);
@@ -45,7 +48,7 @@ const ProductItem = (props) => {
     ) : (
         <FavoriteBorderOutlined className={styles.iconFeed} />
     );
-    const { showWishlistAction } = productItem;
+    if (typeof showWishlistAction === 'undefined') showWishlistAction = productItem.showWishlistAction;
 
     let isLogin = '';
     if (typeof window !== 'undefined') isLogin = getLoginInfo();
@@ -82,6 +85,8 @@ const ProductItem = (props) => {
         setCookies('lastCategory', categorySelect);
         route.push('/[...slug]', `/${url_key}`);
     };
+
+    const ratingValue = (review && review.rating_summary) ? parseInt(review.rating_summary, 0) / 20 : 0;
 
     return (
         <>
@@ -140,6 +145,11 @@ const ProductItem = (props) => {
                                 {name}
                             </Typography>
                         </Link>
+                        {
+                            productItem.showReviewValue && (
+                                <RatingStar value={ratingValue} />
+                            )
+                        }
                         <PriceFormat
                             // eslint-disable-next-line camelcase
                             priceRange={spesificProduct.price_range ? spesificProduct.price_range : price_range}
