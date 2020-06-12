@@ -5,6 +5,7 @@ import React from 'react';
 import Router from 'next/router';
 import Product from '@components/ProductList';
 import Breadcrumb from '@components/Breadcrumb';
+import { imageSize } from '@config';
 import useStyles from '../style';
 import { getFilter } from '../services';
 
@@ -57,7 +58,11 @@ const CategoryPage = ({ data, storeConfig, t }) => {
             {dataBanner.length > 0
                 ? (
                     <div className={styles.headContainer}>
-                        <Banner data={dataBanner} />
+                        <Banner
+                            data={dataBanner}
+                            width={imageSize.category.width}
+                            height={imageSize.category.height}
+                        />
                         {' '}
                     </div>
                 ) : null}
