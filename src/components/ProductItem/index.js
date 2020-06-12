@@ -11,10 +11,12 @@ import Toast from '@components/Toast';
 import { GraphCustomer } from '@services/graphql';
 import { getLoginInfo } from '@helpers/auth';
 import { setCookies } from '@helpers/cookies';
-import { imageSize } from '@config';
+import { imageSize, productItem } from '@config';
+import { useTranslation } from '@i18n';
+import RatingStar from '@components/RatingStar';
 import useStyles from './style';
 import ConfigurableOpt from './component/configurable';
-import Thumbor from '../Image/thumbor';
+import Thumbor from '../Image';
 
 const ProductItem = (props) => {
     const {
@@ -29,10 +31,12 @@ const ProductItem = (props) => {
         __typename,
         variants = [],
         configurable_options = [],
-        showFeed = true,
         categorySelect,
+        review,
     } = props;
+    let { showWishlistAction } = props;
     const styles = useStyles();
+    const { t } = useTranslation(['wishlist']);
     const [feed, setFeed] = React.useState(false);
     const [spesificProduct, setSpesificProduct] = React.useState({});
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
@@ -44,6 +48,7 @@ const ProductItem = (props) => {
     ) : (
         <FavoriteBorderOutlined className={styles.iconFeed} />
     );
+    if (typeof showWishlistAction === 'undefined') showWishlistAction = productItem.showWishlistAction;
 
     let isLogin = '';
     if (typeof window !== 'undefined') isLogin = getLoginInfo();
@@ -56,6 +61,7 @@ const ProductItem = (props) => {
                     productId: id,
                 },
             }).then(async () => {
+                await setFeed(!feed);
                 await setMessage({ open: true, variant: 'success', text: 'add wishlist success' });
                 route.push('/wishlist');
             }).catch((e) => {
@@ -65,14 +71,22 @@ const ProductItem = (props) => {
                     text: e.message.split(':')[1] || 'add wishlist failed',
                 });
             });
+        } else {
+            setMessage({
+                ...message,
+                open: true,
+                variant: 'warning',
+                text: t('wishlist:addWithoutLogin'),
+            });
         }
-        setFeed(!feed);
     };
 
     const handleClick = () => {
         setCookies('lastCategory', categorySelect);
         route.push('/[...slug]', `/${url_key}`);
     };
+
+    const ratingValue = (review && review.rating_summary) ? parseInt(review.rating_summary, 0) / 20 : 0;
 
     return (
         <>
@@ -102,9 +116,9 @@ const ProductItem = (props) => {
                 <div className={styles.detailItem}>
                     <div
                         className={styles.descItem}
-                        style={{ ...(showFeed ? {} : { alignItems: 'center' }) }}
+                        style={{ ...(showWishlistAction ? {} : { alignItems: 'center' }) }}
                     >
-                        {showFeed && (
+                        {showWishlistAction && (
                             <div style={{
                                 position: 'absolute',
                                 width: '20px',
@@ -131,6 +145,11 @@ const ProductItem = (props) => {
                                 {name}
                             </Typography>
                         </Link>
+                        {
+                            productItem.showReviewValue && (
+                                <RatingStar value={ratingValue} />
+                            )
+                        }
                         <PriceFormat
                             // eslint-disable-next-line camelcase
                             priceRange={spesificProduct.price_range ? spesificProduct.price_range : price_range}

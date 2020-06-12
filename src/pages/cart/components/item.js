@@ -9,8 +9,10 @@ import {
 } from '@material-ui/icons';
 import { formatPrice } from '@helpers/currency';
 
+import { imageSize } from '@config';
 import useStyles from '../style';
 import ConfirmationDelete from './confirmDelete';
+import Image from '../../../components/Image';
 
 
 const Item = (props) => {
@@ -38,11 +40,13 @@ const Item = (props) => {
                 handleCancel={() => setConfirmDel(false)}
             />
             <div className={styles.itemImgWrapper}>
-                <img
+                <Image
                     src={product.small_image.url}
-                    onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
                     className={styles.itemImg}
                     alt={product.name}
+                    width={imageSize.product.width}
+                    height={imageSize.product.height}
+                    quality={80}
                 />
             </div>
             <div className={styles.itemInfo}>

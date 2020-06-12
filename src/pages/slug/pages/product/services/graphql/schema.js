@@ -18,6 +18,10 @@ const productDetail = `
     image{
       url
     }
+    review {
+      rating_summary
+      reviews_count
+    }
     categories {
       id
       name

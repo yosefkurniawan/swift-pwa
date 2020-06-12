@@ -69,6 +69,13 @@ const customerFeautres = {
     confirmPayment: true,
 };
 
+/* Product Item */
+const productItem = {
+    showWishlistAction: true,
+    showReviewValue: true,
+    // other product item config will be added here later
+};
+
 /* Blog */
 const blog = {
     urlPath: '/blog',
@@ -150,4 +157,5 @@ module.exports = {
     nameCheckoutCookie,
     nameGlobalCookie,
     showBrandPage,
+    productItem,
 };

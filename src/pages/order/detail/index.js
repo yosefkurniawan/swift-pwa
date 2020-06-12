@@ -36,6 +36,7 @@ const Page = (props) => {
 
 Page.getInitialProps = async () => ({
     namespacesRequired: ['common', 'order'],
+    withAuth: true,
 });
 
 export default withTranslation()(Page);

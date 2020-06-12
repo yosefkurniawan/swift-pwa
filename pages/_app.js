@@ -19,6 +19,9 @@ import {
 } from '@config';
 import {
     getLoginInfo,
+    setLastPathWithoutLogin,
+    getLastPathWithoutLogin,
+    removeLastPathWithoutLogin,
 } from '@helpers/auth';
 
 import TagManager from 'react-gtm-module';
@@ -38,30 +41,58 @@ class MyApp extends App {
 
     static async getInitialProps({ Component, ctx }) {
         let pageProps = {};
+
         const allcookie = cookies(ctx);
 
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
         }
         const {
-            apolloClient, res, pathname, query,
+            apolloClient, res, asPath, query, req,
         } = ctx;
         // check if login from server
         let isLogin = 0;
-        if (typeof window !== 'undefined') isLogin = getLoginInfo(); else isLogin = allcookie.isLogin || 0;
+        let lastPathNoAuth = '';
+        if (typeof window !== 'undefined') {
+            isLogin = getLoginInfo();
+            lastPathNoAuth = getLastPathWithoutLogin();
+        } else {
+            isLogin = allcookie.isLogin || 0;
+            lastPathNoAuth = req.session.lastPathNoAuth || '/customer/account';
+        }
         isLogin = parseInt(isLogin);
         if (pageProps.withAuth) {
             if (typeof window !== 'undefined') {
                 if (isLogin) {
-                    if (pathname === '/customer/account/login' && query.redirect && query.redirect !== '') {
+                    if (asPath !== '/customer/account/login') {
+                        removeLastPathWithoutLogin();
+                    }
+                    if (asPath === '/customer/account/login' && query.redirect && query.redirect !== '') {
+                        removeLastPathWithoutLogin();
                         Router.push(query.redirect);
-                    } else if (pathname === '/customer/account/login') Router.push('/customer/account');
-                } else if (pathname !== '/customer/account/login') Router.push('/customer/account/login');
+                    } else if (asPath === '/customer/account/login') {
+                        removeLastPathWithoutLogin();
+                        Router.push(lastPathNoAuth);
+                    }
+                } else if (asPath !== '/customer/account/login') {
+                    setLastPathWithoutLogin(asPath);
+                    Router.push('/customer/account/login');
+                }
             } else if (isLogin) {
-                if (pathname === '/customer/account/login' && query.redirect && query.redirect !== '') {
+                if (asPath !== '/customer/account/login') {
+                    req.session.lastPathNoAuth = '';
+                }
+                if (asPath === '/customer/account/login' && query.redirect && query.redirect !== '') {
+                    req.session.lastPathNoAuth = '';
                     res.redirect(query.redirect);
-                } else if (pathname === '/customer/account/login') res.redirect('/customer/account');
-            } else if (pathname !== '/customer/account/login') res.redirect('/customer/account/login');
+                } else if (asPath === '/customer/account/login') {
+                    req.session.lastPathNoAuth = '';
+                    res.redirect(lastPathNoAuth);
+                }
+            } else if (asPath !== '/customer/account/login') {
+                req.session.lastPathNoAuth = asPath;
+                res.redirect('/customer/account/login');
+            }
         }
 
         let storeConfig;
@@ -71,7 +102,11 @@ class MyApp extends App {
             storeConfig = allcookie[storeConfigNameCokie];
         }
         // add get session from server
-        return { pageProps: { ...pageProps, storeConfig, isLogin } };
+        return {
+            pageProps: {
+                ...pageProps, storeConfig, isLogin, lastPathNoAuth,
+            },
+        };
     }
 
     componentDidMount() {
