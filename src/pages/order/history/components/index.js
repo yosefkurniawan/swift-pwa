@@ -29,6 +29,13 @@ const OrderPage = ({ t }) => {
             </div>
         );
     }
+    if (data && data.customerOrders.items && data.customerOrders.items.length <= 0) {
+        return (
+            <Alert className="m-15" severity="warning">
+                {t('order:notFound')}
+            </Alert>
+        );
+    }
     const handleLoadMore = () => {
         setPage(page + 1);
         setLoadMore(true);
