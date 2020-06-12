@@ -15,17 +15,16 @@ import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import React from 'react';
 import HtmlParser from 'react-html-parser';
-import { useSelector } from 'react-redux';
 import { GraphCustomer } from '@services/graphql';
 import TagManager from 'react-gtm-module';
 import { getCookies } from '@helpers/cookies';
 import { getHost } from '@helpers/config';
 import Breadcrumb from '@components/Breadcrumb';
+import RatingStar from '@components/RatingStar';
 import useStyles from '../style';
 import ExpandDetail from './ExpandDetail';
 import ListReviews from './ListReviews';
 import OptionDialog from './OptionDialog';
-import RatingStar from './RatingStar';
 import RightDrawer from './RightDrawer';
 import SharePopup from './SharePopup';
 
@@ -35,6 +34,8 @@ const ProductPage = (props) => {
     } = props;
     const styles = useStyles();
     const route = useRouter();
+
+    const reviewValue = parseInt(data.review.rating_summary, 0) / 20;
 
     React.useEffect(() => {
         let index = 0;
@@ -56,8 +57,8 @@ const ProductPage = (props) => {
                             price: data.price_range.minimum_price.regular_price.value || 0,
                             category: categoryProduct,
                             dimensions4: data.stock_status,
-                            dimensions5: 0,
-                            dimensions6: 0,
+                            dimensions5: reviewValue,
+                            dimensions6: data.review.reviews_count,
                             dimensions7: data.sale === 0 ? 'NO' : 'YES',
                         }],
                     },
@@ -112,7 +113,6 @@ const ProductPage = (props) => {
         });
     }
 
-    const productState = useSelector((state) => state.product);
     const [openOption, setOpenOption] = React.useState(false);
     const [openDrawer, setOpenDrawer] = React.useState(false);
     const [openShare, setOpenShare] = React.useState(false);
@@ -236,6 +236,7 @@ const ProductPage = (props) => {
             active: true,
         });
     }
+
     return (
         <>
             <Toast
@@ -333,13 +334,13 @@ const ProductPage = (props) => {
                     </div>
                     <div className={styles.titleContainer}>
                         <div className={styles.ratingContainer}>
-                            <RatingStar value={productState.review.rating || 0} />
+                            <RatingStar value={reviewValue || 0} />
                             <Typography
                                 variant="p"
                                 type="regular"
                                 letter="capitalize"
                             >
-                                {productState.review.totalCount || 0}
+                                {data.review.reviews_count || 0}
                                 {' '}
                                 {t('product:review')}
                             </Typography>
