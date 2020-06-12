@@ -8,15 +8,15 @@ const useStyles = makeStyles({
     },
 });
 
-const CustomHeader = ({ pageConfig }) => {
+const CustomHeader = (props) => {
     const styles = useStyles();
     return (
         <Header
-            pageConfig={pageConfig}
             RightComponent={(
                 <ShoppingBagIcon />
             )}
             className={styles.container}
+            {...props}
         />
     );
 };

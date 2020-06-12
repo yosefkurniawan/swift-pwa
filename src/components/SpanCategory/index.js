@@ -6,7 +6,7 @@ import { useTranslation } from '@i18n';
 import { imageSize } from '@config';
 import useStyles from './style';
 import setDefaultWhenEmpty from '../../helpers/checkImageSrc';
-import Thumbor from '../Image/thumbor';
+import Thumbor from '../Image';
 
 const SpanCategory = ({
     imageSrc, name, description, url,

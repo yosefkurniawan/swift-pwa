@@ -3,6 +3,20 @@
 import cookies from 'js-cookie';
 import { expiredToken } from '@config';
 
+export const setLastPathWithoutLogin = (path) => {
+    cookies.set('lastPathNoAuth', path);
+    return true;
+};
+
+export const getLastPathWithoutLogin = () => {
+    const path = cookies.get('lastPathNoAuth');
+    return path || '/customer/account';
+};
+
+export const removeLastPathWithoutLogin = () => {
+    cookies.remove('lastPathNoAuth');
+};
+
 export const setLogin = (isLogin = 0, expired) => {
     cookies.set('isLogin', isLogin, { expires: expired || expiredToken });
     return 0;

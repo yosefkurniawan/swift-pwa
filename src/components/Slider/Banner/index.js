@@ -9,7 +9,8 @@ const AutoPlaySwipeableViews = swipeAuto(SwipeableViews);
 
 const Banner = ({
     data = [],
-    height = '100%',
+    height,
+    width,
     autoPlay = true,
 }) => {
     const styles = useStyles();
@@ -31,6 +32,7 @@ const Banner = ({
                 {data.map((item, key) => (
                     <ImageSlide
                         height={height}
+                        width={width}
                         key={key}
                         {...item}
                     />

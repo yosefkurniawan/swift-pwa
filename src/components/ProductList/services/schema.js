@@ -75,6 +75,10 @@ export const getProduct = (config = {}) => gql`
           sku
           name
           url_key
+          review {
+            rating_summary
+            reviews_count
+          }
           small_image {
             url(width: ${imageSize.product.width}, height: ${imageSize.product.height}),
             label
@@ -146,6 +150,10 @@ export const getProduct = (config = {}) => gql`
                 id
                 sku
                 stock_status
+                review {
+                  rating_summary
+                  reviews_count
+                }
                 price_tiers {
                   discount {
                     percent_off
