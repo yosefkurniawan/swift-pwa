@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import Skeleton from '@material-ui/lab/Skeleton';
+import useStyles from './style';
 
 const ThumborImage = ({
     src, width = 500,
@@ -9,16 +10,14 @@ const ThumborImage = ({
     quality = 100,
     style = {},
 }) => {
-    const [loaded, setLoaded] = React.useState(false);
-    if (!loaded && typeof window !== 'undefined') {
-        style.display = 'none';
-    }
+    const styles = useStyles();
+    const [loaded, setLoaded] = React.useState(typeof window === 'undefined');
     return (
         <>
             <Skeleton variant="rect" width={width} height={height} style={{ display: loaded || typeof window === 'undefined' ? 'none' : 'block' }} />
             <img
                 style={style}
-                className={className}
+                className={!loaded && typeof window !== 'undefined' ? styles.hideImage : className}
                 src={`https://thumbor.sirclocdn.xyz/unsafe/${width}x${height}/filters:quality(${quality})/${src}`}
                 alt={alt}
                 onLoad={() => setLoaded(true)}

@@ -5,6 +5,9 @@ const useStyles = makeStyles(() => ({
         width: '100%',
         height: '100%',
     },
+    hideImage: {
+        display: 'none',
+    },
 }));
 
 export default useStyles;
