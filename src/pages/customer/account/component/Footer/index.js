@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable react/no-danger */
 import Link from 'next/link';
 import Button from '@components/Button';
 import { removeIsLoginFlagging } from '@helpers/auth';
@@ -5,7 +7,9 @@ import { removeCartId } from '@helpers/cartId';
 import { useDispatch } from 'react-redux';
 import { setCountCart } from '@stores/actions/cart';
 import Router from 'next/router';
-import { customerFeautres, custDataNameCookie, cmsSocialMediaLinkIdentifiers } from '@config';
+import {
+    customerFeautres, custDataNameCookie, cmsSocialMediaLinkIdentifiers, enableSocialMediaLink,
+} from '@config';
 import Cookies from 'js-cookie';
 import { GraphCms } from '@services/graphql';
 import { removeToken as deleteToken } from '../../services/graphql';
@@ -76,7 +80,7 @@ export default ({ t, isLogin, storeConfig }) => {
                         : null
                 }
             </ul>
-            <SocialMediaLink />
+            {enableSocialMediaLink && <SocialMediaLink />}
         </div>
     );
 };
@@ -88,8 +92,50 @@ const SocialMediaLink = () => {
 
     return (
         <>
-            {/* eslint-disable-next-line react/no-danger */}
-            <div className="cms-container" dangerouslySetInnerHTML={{ __html: data.cmsBlocks.items[0].content }} />
+            <style jsx>
+                {`
+                    .cms-container {
+                        text-align: center;
+                        padding: 48px;
+                        font-size: 24px;
+                    }
+                    .cms-container :global(.social-media-links) {
+                        display: inline-block;
+                        background-color: #f2f2f2;
+                        padding: 8px 12px;
+                        border-radius: 8px;
+                    }
+                    .cms-container :global(.social-icon) {
+                        padding: 0 6px;
+                        vertical-align: middle;
+                        display: inline-block;
+                    }
+                    .cms-container :global(.social-icon i:before){
+                        content: '';
+                        background-position: center;
+                        background-size: contain;
+                        width: 40px;
+                        height: 40px;
+                        display: block;
+                    }
+                    .cms-container :global(.social-icon .icon-facebook:before){
+                        background-image: url(/assets/img/facebook.png);
+                    }
+                    .cms-container :global(.social-icon .icon-twitter:before){
+                        background-image: url(/assets/img/twitter.png);
+                    }
+                    .cms-container :global(.social-icon .icon-instagram:before){
+                        background-image: url(/assets/img/instagram.png);
+                    }
+                    .cms-container :global(.social-icon .icon-pinterest:before){
+                        background-image: url(/assets/img/pinterest.png);
+                    }
+                `}
+            </style>
+            <div
+                className="cms-container"
+                dangerouslySetInnerHTML={{ __html: data.cmsBlocks.items[0].content }}
+            />
         </>
     );
 };
