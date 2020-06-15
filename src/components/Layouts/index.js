@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React, { useEffect } from 'react';
 import Navigation from '@components/Navigation';
 import Header from '@components/Header';
@@ -10,9 +11,13 @@ import { getHost } from '@helpers/config';
 
 const Layout = (props) => {
     const {
-        pageConfig, children, CustomHeader = false, i18n, storeConfig = {}, isLogin,
+        pageConfig,
+        children,
+        CustomHeader = false,
+        i18n, storeConfig = {},
+        isLogin,
     } = props;
-    const { ogContent = {} } = pageConfig;
+    const { ogContent = {}, schemaOrg = null } = pageConfig;
     const router = useRouter();
     const ogData = {
         'og:title': pageConfig.title ? pageConfig.title : 'Swift PWA',
@@ -52,6 +57,12 @@ const Layout = (props) => {
                     return <meta property={`${key}`} content={ogData[key]} key={idx} />;
                 })}
                 <title>{pageConfig.title ? pageConfig.title : 'Swift PWA'}</title>
+                {schemaOrg
+                    ? (
+                        schemaOrg.map((val) => (
+                            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} />
+                        ))
+                    ) : null}
             </Head>
 
             {React.isValidElement(CustomHeader) ? <>{React.cloneElement(CustomHeader, { pageConfig })}</> : <Header pageConfig={pageConfig} />}
