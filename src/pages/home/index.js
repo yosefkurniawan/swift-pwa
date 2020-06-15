@@ -4,14 +4,13 @@ import { getHost } from '@helpers/config';
 import Content from './component';
 
 const Page = (props) => {
-    const { t } = props;
-
+    const { t, storeConfig } = props;
     const schemaOrg = [
         {
             '@context': 'https://schema.org',
             '@type': 'Organization',
             url: `${getHost()}/`,
-            logo: 'https://swiftpwa-be.testingnow.me/media/logo/stores/1/swift-logo.png',
+            logo: `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`,
         },
         {
             '@context': 'https://schema.org',
