@@ -4,6 +4,13 @@ import React, { useCallback, useMemo } from 'react';
 import Message from '@components/Toast';
 import { useTranslation } from '@i18n';
 
+const toBase64 = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+});
+
 const DropFile = ({
     label = 'Upload Files',
     title = '',
@@ -12,20 +19,39 @@ const DropFile = ({
     maxSize = 2000000,
     multiple = true,
     handleDrop = () => {},
+    getBase64 = () => {},
     error = false,
 }) => {
     const { t } = useTranslation(['common']);
     const [dropFile, setDropFile] = React.useState([]);
     const [openError, setOpenError] = React.useState(false);
-    const onDrop = useCallback((param) => {
-        if (param && param.length > 0) {
-            const files = multiple ? dropFile : [];
-            files.push(param[0].name);
-            setDropFile(files);
-            handleDrop(param);
+    const onDrop = useCallback((files) => {
+        if (files && files.length > 0) {
+            if (multiple) {
+                setDropFile([...dropFile, ...files]);
+            } else {
+                setDropFile(files[0]);
+            }
+
+            handleDrop(files);
         }
         // Do something with the files
     }, []);
+    const onDropAccepted = async (files) => {
+        // eslint-disable-next-line array-callback-return
+        let filebase64 = [];
+        for (let ind = 0; ind < files.length; ind += 1) {
+            // eslint-disable-next-line no-await-in-loop
+            const baseCode = await toBase64(files[ind]);
+            if (baseCode) {
+                filebase64 = [...filebase64, {
+                    baseCode,
+                    file: files[ind],
+                }];
+            }
+        }
+        getBase64(filebase64);
+    };
     const {
         getRootProps,
         getInputProps,
@@ -35,6 +61,7 @@ const DropFile = ({
     } = useDropzone({
         onDrop,
         accept: acceptedFile,
+        onDropAccepted,
         onDropRejected: () => setOpenError(true),
         maxSize,
     });
@@ -79,7 +106,6 @@ const DropFile = ({
     ]);
 
     const messageError = `${t('common:fileUpload:reject') + acceptedFile}& max file ${maxSize / 1000000}Mb`;
-
     return (
         <div className="column">
             <Message autoHideDuration={6000} open={openError} variant="error" setOpen={() => setOpenError(false)} message={messageError} />
@@ -98,7 +124,7 @@ const DropFile = ({
             <Typography color={error ? 'red' : 'default'}>{label}</Typography>
             <div className="column">
                 {
-                    showListFile && dropFile.map((file, index) => (<Typography key={index}>{file}</Typography>))
+                    showListFile && dropFile.map((file, index) => (<Typography key={index}>{file.name}</Typography>))
                 }
             </div>
         </div>

@@ -1,107 +1,10 @@
 import { gql } from 'apollo-boost';
 
-const orderOutput = `
-    current_page
-    page_size
-    total_count
-    total_pages
-    items {
-        id
-        grand_total
-        status
-        status_label
-        order_number
-        created_at
-        detail {
-            customer_email
-            customer_firstname
-            grand_total
-            discount_amount
-            global_currency_code
-            state
-            status
-            subtotal
-            total_item_count
-            total_paid
-            total_qty_ordered
-            payment {
-                additional_information
-                payment_additional_info {
-                    method_title
-                    transaction_time
-                    virtual_account
-                    }
-                method
-                shipping_amount
-                shipping_captured
-            }
-            shipping_address {
-                firstname
-                email
-                street
-                city
-                region
-                country_id
-                telephone
-                postcode
-            }
-            shipping_methods {
-                shipping_description
-            }
-            coupon {
-                code
-                rule_name
-                is_use_coupon
-            }
-            items {
-                sku
-                name
-                qty_ordered
-                price
-                discount_amount
-                image_url
-                categories {
-                    entity_id
-                    name
-                }
-                rating {
-                    total
-                    value
-                }
-                quantity_and_stock_status {
-                    is_in_stock
-                    qty
-                }
-            }
-            aw_giftcard {
-                giftcard_amount
-                giftcard_detail {
-                    giftcard_code
-                    giftcard_amount_used
-                }
-            }
-            
-            aw_store_credit {
-                is_use_store_credit
-                store_credit_amount
-                store_credit_reimbursed
-            }
-        }
-    }
-`;
-
-export const getOrderDetail = gql`
-query getCustomerOrder($order_id: String) {
-    customerOrders(filters: { ids: { eq: $order_id } }) {
-        ${orderOutput}
-    }
-}
-`;
-
 export const getFormDataRma = gql`
-    query getFormDataRma($email: String!, $order_number: String!, $type: String!) {
-        getFormDataAwRma(email: $email, order_number: $order_number, type: $type) {
-            custom_field {
+    query getFormDataRma($email: String!, $order_number: String!) {
+        getFormDataAwRma(email: $email, order_number: $order_number) {
+            custom_fields {
+                id
                 frontend_labels {
                     store_id
                     value
@@ -111,6 +14,13 @@ export const getFormDataRma = gql`
                 name
                 refers
                 website_ids
+                options {
+                    frontend_labels {
+                      store_id
+                      value
+                    }
+                    id
+                  }
             }
             items {
                 is_returnable
@@ -120,11 +30,128 @@ export const getFormDataRma = gql`
                 price
                 qty_returnable
                 sku
+                image_url
+                parent_item_id
+                url_key
               }
         }
     }
 `;
 
+export const requestRma = gql`
+mutation requestNewRma (
+    $order_number: String!,
+    $customer_email: String!,
+    $customer_name: String!,
+    $custom_fields: [AwRmaCustomFieldInput],
+    $order_items: [AwRmaOrderItemsInput],
+    $mesage: String,
+    $attachments: [AwRmaAttachmentInput]
+) {
+    createNewRequestAwRma(
+        input: {
+            order_number: $order_number
+            customer_name: $customer_name
+            customer_email: $customer_email
+            custom_fields: []
+            order_items: []
+            thread_message: {
+                text: $message
+                attachments: $attachments
+            }
+        }
+    ) {
+        form_data {
+            custom_fields {
+                is_editable
+                type
+                refers
+                name
+                is_required
+                website_ids
+                frontend_labels {
+                    store_id
+                    value
+                }
+            }
+            status_list {
+                id
+                name
+            }
+        }
+        detail_rma {
+            confirm_shipping
+            aw_rma_id
+            aw_rma_increment_id
+            status {
+                id
+                name
+            }
+            custom_fields {
+                field {
+                    id
+                    frontend_labels {
+                        store_id
+                        value
+                    }
+                }
+                value {
+                    id
+                    frontend_labels {
+                        store_id
+                        value
+                    }
+                }
+            }
+            order_date
+            order_number
+            order_id
+            items {
+                id
+                item_id
+                name
+                price
+                sku
+                image_url
+                qty_rma
+                custom_fields {
+                    field {
+                        id
+                        frontend_labels {
+                            store_id
+                            value
+                        }
+                    }
+                    value {
+                        id
+                        frontend_labels {
+                            store_id
+                            value
+                        }
+                    }
+                }
+                url_key
+            }
+            thread_message {
+                id
+                request_id
+                created_at
+                text
+                owner_type
+                owner_name
+                owner_id
+                is_auto
+                is_internal
+                attachments {
+                    name
+                    file_name
+                }
+            }
+        }
+    }
+}
+`;
+
 export default {
-    getOrderDetail,
+    getFormDataRma,
 };

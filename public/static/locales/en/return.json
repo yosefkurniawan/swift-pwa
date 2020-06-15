@@ -6,6 +6,8 @@
     "history" : "My Return",
     "form": {
         "submit": "Submit Request",
+        "addSuccess": "New Request Rma has been sent successfully",
+        "addFailed": "New Request Rma failed to sent",
         "label": {
             "resolution": "Resolution",
             "condition" : "Condition",

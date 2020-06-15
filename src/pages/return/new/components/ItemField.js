@@ -5,9 +5,17 @@ const ItemField = ({
     options = [],
     name = 'select',
     label = 'Select',
+    onSelect = () => {},
+    propsValue = {},
 }) => {
     const [select, setSelect] = React.useState('');
-    const handleSelect = (event) => setSelect(event.target.value);
+    const handleSelect = (event) => {
+        setSelect(event.target.value);
+        onSelect({
+            ...propsValue,
+            value: event.target.value,
+        });
+    };
     return (
         <Select
             options={options}
