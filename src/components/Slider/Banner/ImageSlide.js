@@ -28,7 +28,7 @@ const ImageSlide = ({
                 alt={href}
                 width={width || imageSize.homeSlider.width}
                 height={height || imageSize.homeSlider.height}
-                quality={80}
+                quality={100}
                 className={styles.imageSlider}
             />
         </Link>
