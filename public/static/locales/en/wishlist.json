@@ -13,5 +13,6 @@
     "addPartToBagSuccess": "Success add $ item wishlist to cart but not all item without selected configurable product",
     "failedAddToBagOption" : "Please select option for some product",
     "successAddCart": "Success add to bag",
-    "failedAddCart": "Failed add to bag"
+    "failedAddCart": "Failed add to bag",
+    "addWithoutLogin": "Please login to add this item to your wishlist"
 }

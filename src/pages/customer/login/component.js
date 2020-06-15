@@ -8,7 +8,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import OtpBlock from '@components/OtpBlock';
 import Loading from '@components/Loaders/Backdrop';
-import { setLogin } from '@helpers/auth';
+import { setLogin, getLastPathWithoutLogin } from '@helpers/auth';
 import { setCartId, getCartId } from '@helpers/cartId';
 import { GraphCart, GraphConfig } from '@services/graphql';
 import { getCustomer } from '@services/graphql/schema/customer';
@@ -21,7 +21,9 @@ import { getToken, getTokenOtp } from './service/graphql';
 import useStyles from './style';
 import { removeToken as deleteToken } from '../account/services/graphql';
 
-const Login = ({ t, storeConfig, query }) => {
+const Login = ({
+    t, storeConfig, query, lastPathNoAuth,
+}) => {
     const styles = useStyles();
     const [isOtp, setIsOtp] = React.useState(false);
     const [isRevokeToken, setRevokeToken] = React.useState(false);
@@ -43,13 +45,18 @@ const Login = ({ t, storeConfig, query }) => {
     };
 
     let cartId = '';
+    let redirectLastPath = lastPathNoAuth;
     const expired = storeConfig.oauth_access_token_lifetime_customer
         ? new Date(Date.now() + parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) * 3600000)
         : expiredToken;
 
     if (typeof window !== 'undefined') {
         cartId = getCartId();
+        if (lastPathNoAuth === '' || !lastPathNoAuth) {
+            redirectLastPath = getLastPathWithoutLogin();
+        }
     }
+
     const [deleteTokenGql] = deleteToken();
     const [getCustomerToken] = getToken();
     const [getCustomerTokenOtp] = getTokenOtp();
@@ -138,6 +145,8 @@ const Login = ({ t, storeConfig, query }) => {
             handleOpenMessage({ variant: 'success', text: t('customer:login:success') });
             if (query && query.redirect) {
                 Router.push(query.redirect);
+            } else if (redirectLastPath && redirectLastPath !== '') {
+                Router.push(redirectLastPath);
             } else {
                 Router.push('/customer/account');
             }
@@ -154,6 +163,8 @@ const Login = ({ t, storeConfig, query }) => {
                     handleOpenMessage({ variant: 'success', text: t('customer:login:success') });
                     if (query && query.redirect) {
                         Router.push(query.redirect);
+                    } else if (redirectLastPath && redirectLastPath !== '') {
+                        Router.push(redirectLastPath);
                     } else {
                         Router.push('/customer/account');
                     }
@@ -161,8 +172,8 @@ const Login = ({ t, storeConfig, query }) => {
                 .catch(() => {});
         } else if (query && query.redirect) {
             Router.push(query.redirect);
-        } else {
-            Router.push('/customer/account');
+        } else if (redirectLastPath && redirectLastPath !== '') {
+            Router.push(redirectLastPath);
         }
     }
 

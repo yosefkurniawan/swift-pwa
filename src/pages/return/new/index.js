@@ -43,6 +43,7 @@ Page.getInitialProps = async (ctx) => {
     return {
         namespacesRequired: ['common', 'return'],
         customer: custData[custDataNameCookie],
+        withAuth: true,
     };
 };
 

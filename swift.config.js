@@ -72,6 +72,7 @@ const customerFeautres = {
 /* Product Item */
 const productItem = {
     showWishlistAction: true,
+    showReviewValue: true,
     // other product item config will be added here later
 };
 

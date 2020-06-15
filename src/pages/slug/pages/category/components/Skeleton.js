@@ -8,7 +8,7 @@ const SkeletonCategory = () => {
     const styles = useStyles();
     return (
         <Box className={styles.container}>
-            <Skeleton variant="rect" width="100%" height="40vh" />
+            <Skeleton variant="rect" width="100%" height={577} />
             <Skeleton variant="rect" width="100%" height={50} style={{ marginTop: 10, marginBottom: 10 }} />
             <Skeleton variant="rect" width="100%" height={50} style={{ marginBottom: 10 }} />
             <GridList

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { imageSize } from '@config';
 import useStyles from './style';
 import setDefaultWhenEmpty from '../../../helpers/checkImageSrc';
-import Thumbor from '../../Image/thumbor';
+import Thumbor from '../../Image';
 
 
 /**
@@ -13,7 +13,9 @@ import Thumbor from '../../Image/thumbor';
 */
 
 
-const ImageSlide = ({ imageUrl = '', link = '#', isSlug = true }) => {
+const ImageSlide = ({
+    imageUrl = '', link = '#', isSlug = true, width, height,
+}) => {
     const styles = useStyles();
     const href = link && link[0] === '/' ? link : `/${link}`;
     return (
@@ -24,9 +26,9 @@ const ImageSlide = ({ imageUrl = '', link = '#', isSlug = true }) => {
             <Thumbor
                 src={setDefaultWhenEmpty(imageUrl)}
                 alt={href}
-                width={imageSize.homeSlider.width}
-                height={imageSize.homeSlider.height}
-                quality={80}
+                width={width || imageSize.homeSlider.width}
+                height={height || imageSize.homeSlider.height}
+                quality={100}
                 className={styles.imageSlider}
             />
         </Link>
