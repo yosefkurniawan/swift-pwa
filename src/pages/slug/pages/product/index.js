@@ -12,12 +12,17 @@ const Page = (props) => {
     let product = {};
     const { slug } = props;
     const { loading, data, error } = getProduct(slug[0]);
-    if (loading || !data) return <Loading />;
+    if (error || loading || !data) {
+        return (
+            <Layout pageConfig={{}} CustomHeader={<CustomHeader />} {...props}>
+                <Loading />
+            </Layout>
+        );
+    }
     if (data) {
         product = data.products;
         if (product.items.length === 0) return <Error statusCode={404} />;
     }
-    if (error) return <Loading />;
 
     const pageConfig = {
         title: product.items.length > 0 ? product.items[0].name : '',
