@@ -1,11 +1,12 @@
 import Skeleton from '@material-ui/lab/Skeleton';
+import { imageSize } from '@config';
 import useStyles from './style';
 
 export default () => {
     const styles = useStyles();
     return (
         <div className="column">
-            <Skeleton animation="wave" variant="rect" width="100%" height="50vh" />
+            <Skeleton animation="wave" variant="rect" width="100%" height={imageSize.homeSlider.height} />
             <div className={styles.container}>
                 <div className="row mr-15">
                     <Skeleton animation="wave" variant="text" width="70%" height={40} />

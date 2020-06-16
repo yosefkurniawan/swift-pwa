@@ -14,7 +14,7 @@ const CustomButton = ({
     onClick = () => {},
     loading = false,
     customRootStyle = {},
-    href = '',
+    href = null,
     ...other
 }) => {
     const styles = useStyles();
@@ -39,6 +39,7 @@ const CustomButton = ({
                     className={customClass}
                     disabled={disabled || loading}
                     {...other}
+                    href={null}
                 >
                     {children}
                 </Button>

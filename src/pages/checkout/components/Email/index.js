@@ -5,10 +5,10 @@ import {
     IconButton,
     Input,
     InputAdornment,
-    Link,
     Popover,
 } from '@material-ui/core';
 import { Help } from '@material-ui/icons';
+import Button from '@components/Button';
 import React, { useState } from 'react';
 
 const Email = ({
@@ -67,9 +67,11 @@ const Email = ({
                     {formik.touched.email && formik.errors.email ? <FormHelperText>{formik.errors.email || null}</FormHelperText> : null}
                 </FormControl>
             </div>
-            <Typography variant="p" type="regular" decoration="underline">
-                <Link href="/customer/account/login">{t('checkout:haveAccount')}</Link>
-            </Typography>
+            <Button variant="text" href="/customer/account/login" className="clear-margin-padding">
+                <Typography variant="p" type="regular" decoration="underline" letter="capitalize">
+                    {t('checkout:haveAccount')}
+                </Typography>
+            </Button>
         </div>
     );
 
