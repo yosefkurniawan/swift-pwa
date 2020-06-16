@@ -3,14 +3,14 @@
 /* --------------------------------------- */
 
 const HOST = {
-    dev: 'http://localhost:3000',
-    prod: 'https://swiftpwa.testingnow.me',
+    dev: 'https://swiftpwa.testingnow.me',
+    prod: 'https://pwa.getswift.asia',
 };
 
 /* Magento GraphQL Endpoint */
 const graphqlEndpoint = {
     dev: 'https://swiftpwa-be.testingnow.me/graphql',
-    prod: 'https://swiftpwa-be.testingnow.me/graphql',
+    prod: 'https://b2cdemo.getswift.asia/graphql',
 };
 
 const graphqlInternalEndpoint = {
