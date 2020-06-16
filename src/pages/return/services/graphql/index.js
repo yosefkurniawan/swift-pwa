@@ -14,6 +14,7 @@ export const requestRma = () => useMutation(Schema.requestRma, {
     context: {
         request: 'internal',
     },
+    skip: typeof window === 'undefined',
 });
 
 export default {

@@ -21,6 +21,8 @@ const fetcher = require('./src/graphql-server');
 const resolver = require('./src/graphql-server/resolver/index');
 const { AuthSchema } = require('./src/graphql-server/schema/index');
 
+const { json } = express;
+
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
 
@@ -44,6 +46,7 @@ const generateXml = require('./src/xml');
         maxAge: expiredToken,
     }));
 
+    server.use(json({ limit: '2mb' }));
 
     const schema = makeRemoteExecutableSchema({
         schema: await introspectSchema(fetcher),

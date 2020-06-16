@@ -1,8 +1,9 @@
 import { gql } from 'apollo-boost';
 
 export const getFormDataRma = gql`
-    query getFormDataRma($email: String!, $order_number: String!) {
-        getFormDataAwRma(email: $email, order_number: $order_number) {
+    query getNewFormDataAwRma($email: String!, $order_number: String!) {
+        getNewFormDataAwRma(email: $email, order_number: $order_number) {
+            allowed_file_extensions
             custom_fields {
                 id
                 frontend_labels {
@@ -39,113 +40,32 @@ export const getFormDataRma = gql`
 `;
 
 export const requestRma = gql`
-mutation requestNewRma (
+mutation createRequestAwRma (
     $order_number: String!,
     $customer_email: String!,
     $customer_name: String!,
-    $custom_fields: [AwRmaCustomFieldInput],
-    $order_items: [AwRmaOrderItemsInput],
-    $mesage: String,
-    $attachments: [AwRmaAttachmentInput]
+    $custom_fields: [AwRmaCustomFieldInput]!,
+    $order_items: [AwRmaOrderItemsInput]!,
+    $thread_message: AwRmaThreadMessageInput
 ) {
-    createNewRequestAwRma(
+    createRequestAwRma(
         input: {
             order_number: $order_number
             customer_name: $customer_name
             customer_email: $customer_email
-            custom_fields: []
-            order_items: []
-            thread_message: {
-                text: $message
-                attachments: $attachments
-            }
+            custom_fields: $custom_fields
+            order_items: $order_items
+            thread_message: $thread_message
         }
     ) {
-        form_data {
-            custom_fields {
-                is_editable
-                type
-                refers
-                name
-                is_required
-                website_ids
-                frontend_labels {
-                    store_id
-                    value
-                }
-            }
-            status_list {
-                id
-                name
-            }
-        }
         detail_rma {
-            confirm_shipping
-            aw_rma_id
-            aw_rma_increment_id
-            status {
-                id
-                name
-            }
-            custom_fields {
-                field {
-                    id
-                    frontend_labels {
-                        store_id
-                        value
-                    }
-                }
-                value {
-                    id
-                    frontend_labels {
-                        store_id
-                        value
-                    }
-                }
-            }
-            order_date
-            order_number
+            id
+            increment_id
             order_id
-            items {
-                id
-                item_id
+            order_number
+            status {
                 name
-                price
-                sku
-                image_url
-                qty_rma
-                custom_fields {
-                    field {
-                        id
-                        frontend_labels {
-                            store_id
-                            value
-                        }
-                    }
-                    value {
-                        id
-                        frontend_labels {
-                            store_id
-                            value
-                        }
-                    }
-                }
-                url_key
-            }
-            thread_message {
                 id
-                request_id
-                created_at
-                text
-                owner_type
-                owner_name
-                owner_id
-                is_auto
-                is_internal
-                attachments {
-                    name
-                    file_name
-                }
             }
         }
     }

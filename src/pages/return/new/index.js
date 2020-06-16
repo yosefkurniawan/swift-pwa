@@ -17,9 +17,9 @@ const Page = (props) => {
     };
     const { loading, data, error } = getFormDataRma(paramsFormRma);
     if (loading || !data || error) return <Loader />;
-    if (!loading && data && data.getFormDataAwRma) {
+    if (!loading && data && data.getNewFormDataAwRma) {
         // eslint-disable-next-line prefer-destructuring
-        objectData = data.getFormDataAwRma;
+        objectData = data.getNewFormDataAwRma;
     }
 
     const pageConfig = {

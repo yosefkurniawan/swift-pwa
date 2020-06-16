@@ -20,7 +20,7 @@ import ItemField from './ItemField';
 
 const NewReturnRma = (props) => {
     const {
-        t, data: { custom_fields, items }, storeConfig, customerData,
+        t, data: { custom_fields, items, allowed_file_extensions }, storeConfig, customerData,
         order_number,
     } = props;
     const styles = useStyles();
@@ -107,7 +107,15 @@ const NewReturnRma = (props) => {
         setState({ ...state, loading: true });
         postRma({
             variables: {
-                ...formData,
+                order_number: formData.order_number,
+                customer_name: formData.customer_name,
+                customer_email: formData.customer_email,
+                custom_fields: formData.custom_fields,
+                order_items: formData.order_items,
+                thread_message: {
+                    text: formData.message,
+                    attachments: formData.attachments,
+                },
             },
         }).then(async (res) => {
             if (res.data) {
@@ -121,11 +129,11 @@ const NewReturnRma = (props) => {
                 setTimeout(() => {
                     Router.push(
                         '/rma/customer/view/id/[id]',
-                        `/rma/customer/view/id/${res.data.createNewRequestAwRma.detail_rma.aw_rma_increment_id}`,
+                        `/rma/customer/view/id/${res.data.createRequestAwRma.detail_rma.increment_id}`,
                     );
                 }, 1500);
             }
-        }).then((e) => {
+        }).catch((e) => {
             setState({
                 ...state,
                 loading: false,
@@ -135,6 +143,13 @@ const NewReturnRma = (props) => {
             });
         });
     };
+
+    let fileAccept = '';
+    if (allowed_file_extensions.length > 0) {
+        allowed_file_extensions.map((ext) => {
+            fileAccept += `.${ext},`;
+        });
+    }
 
     return (
         <div className="column">
@@ -207,7 +222,7 @@ const NewReturnRma = (props) => {
                 />
             </div>
             <div className={styles.block}>
-                <DropFile label={t('return:form:placeholder:uploadFile')} getBase64={handleGetBase64} />
+                <DropFile label={t('return:form:placeholder:uploadFile')} getBase64={handleGetBase64} acceptedFile={fileAccept} />
             </div>
             <div className={styles.block}>
                 <Button fullWidth onClick={handleSubmit}>
