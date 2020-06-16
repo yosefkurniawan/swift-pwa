@@ -14,8 +14,8 @@ const graphqlEndpoint = {
 };
 
 const graphqlInternalEndpoint = {
-    dev: 'http://localhost:3000/graphql',
-    prod: 'https://swiftpwa.testingnow.me/graphql',
+    dev: `${HOST.dev}/graphql`,
+    prod: `${HOST.prod}/graphql`,
 };
 
 /* --------------------------------------- */
