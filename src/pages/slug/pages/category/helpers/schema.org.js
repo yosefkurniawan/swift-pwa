@@ -12,20 +12,22 @@ const generate = (category, storeConfig) => {
             },
         },
     ];
-    for (let index = 0; index < category.breadcrumbs.length; index++) {
-        itemList.push({
-            '@type': 'ListItem',
-            position: index + 2,
-            item: {
-                '@id': `${getHost()}/${category.breadcrumbs[index].category_url_path}`,
-                name: category.breadcrumbs[index].category_name,
-            },
-        });
+    if (category.breadcrumbs) {
+        for (let index = 0; index < category.breadcrumbs.length; index++) {
+            itemList.push({
+                '@type': 'ListItem',
+                position: index + 2,
+                item: {
+                    '@id': `${getHost()}/${category.breadcrumbs[index].category_url_path}`,
+                    name: category.breadcrumbs[index].category_name,
+                },
+            });
+        }
     }
 
     itemList.push({
         '@type': 'ListItem',
-        position: category.breadcrumbs.length + 2,
+        position: category.breadcrumbs ? category.breadcrumbs.length + 2 : 2,
         item: {
             '@id': `${getHost()}/${category.url_path}`,
             name: category.name,

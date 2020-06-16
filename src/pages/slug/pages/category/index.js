@@ -15,11 +15,12 @@ const Page = (props) => {
     });
     const ogContent = {};
     let schemaOrg = null;
-    if (data && data.categoryList[0].description) {
+    if (data) {
         const category = data.categoryList[0];
-        console.log(category);
-        ogContent.description = StripHtmlTags(data.categoryList[0].description);
         schemaOrg = generateSchemaOrg(category, storeConfig);
+        if (data.categoryList[0].description) {
+            ogContent.description = StripHtmlTags(data.categoryList[0].description);
+        }
     }
     const pageConfig = {
         title: loading ? '' : data.categoryList[0].name,
