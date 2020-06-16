@@ -14,7 +14,7 @@ const query = `
 `;
 
 
-const internalCreateCustomerTokenOtp = async (parent, { username, otp }, context) => {
+const internalGenerateCustomerTokenOtp = async (parent, { username, otp }, context) => {
     const res = await requestGraph(query, { username, otp }, context);
     // context.session.destroy();
     if (res.generateCustomerTokenCustom) {
@@ -29,4 +29,4 @@ const internalCreateCustomerTokenOtp = async (parent, { username, otp }, context
 };
 
 
-module.exports = internalCreateCustomerTokenOtp;
+module.exports = internalGenerateCustomerTokenOtp;
