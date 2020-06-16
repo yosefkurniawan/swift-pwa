@@ -8,6 +8,7 @@ import { regexPhone } from '@helpers/regex';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { cmsContactIdentifiers } from '@root/swift.config.js';
+import { GraphCms } from '@services/graphql';
 import gqlService from './services/graphql';
 import useStyles from './style';
 
@@ -105,7 +106,7 @@ const ContactForm = ({ t }) => {
 };
 
 const ContactPage = (props) => {
-    const { error, loading, data } = gqlService.getContactPage({ identifiers: [cmsContactIdentifiers] });
+    const { error, loading, data } = GraphCms.getCmsBlocks({ identifiers: [cmsContactIdentifiers] });
     if (error) return <p>error</p>;
     if (loading) return <Loading size="50px" />;
 

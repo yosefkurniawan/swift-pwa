@@ -97,18 +97,20 @@ const FeaturedProducts = () => {
                     <Fragment key={i}>
                         {category.image_path && (
                             <Link href="[...slug]" as={category.url_path}>
-                                <Thumbor
-                                    src={category.image_path}
-                                    alt={category.name}
-                                    style={{
-                                        width: '100%',
-                                        maxWidth: '100%',
-                                        maxHeight: '100%',
-                                    }}
-                                    width={imageSize.category.width}
-                                    height={imageSize.category.height}
-                                    quality={80}
-                                />
+                                <a>
+                                    <Thumbor
+                                        src={category.image_path}
+                                        alt={category.name}
+                                        style={{
+                                            width: '100%',
+                                            maxWidth: '100%',
+                                            maxHeight: '100%',
+                                        }}
+                                        width={imageSize.category.width}
+                                        height={imageSize.category.height}
+                                        quality={80}
+                                    />
+                                </a>
                             </Link>
                         )}
                         <div className={styles.slider}>

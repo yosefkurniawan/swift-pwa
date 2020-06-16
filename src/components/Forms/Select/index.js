@@ -1,11 +1,13 @@
 import React from 'react';
 import { MenuItem, TextField } from '@material-ui/core';
+import Typography from '@components/Typography';
 import classNames from 'classnames';
 import useStyles from './style';
 
 const Select = ({
     label = '', name = '', value = null, onChange = () => {},
-    options = [], helperText = 'Please Select', className = '', ...other
+    options = [], helperText = 'Please Select', className = '',
+    error = false, errorMessage = '', ...other
 }) => {
     const styles = useStyles();
     const rootClasss = classNames(styles.root, className);
@@ -24,6 +26,12 @@ const Select = ({
             className={rootClasss}
             {...other}
             placeholder={helperText}
+            error={error}
+            helperText={error && (
+                <Typography variant="span" color={error ? 'red' : 'default'}>
+                    {errorMessage}
+                </Typography>
+            )}
         >
             <MenuItem disabled selected>
                 {helperText}

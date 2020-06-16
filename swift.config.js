@@ -14,8 +14,8 @@ const graphqlEndpoint = {
 };
 
 const graphqlInternalEndpoint = {
-    dev: 'http://localhost:3000/graphql',
-    prod: 'https://swiftpwa.testingnow.me/graphql',
+    dev: `${HOST.dev}/graphql`,
+    prod: `${HOST.prod}/graphql`,
 };
 
 /* --------------------------------------- */
@@ -91,6 +91,14 @@ const cmsPages = ['about-us', 'aw-reward-points'];
 // identifiers for cmsBlocks in contact page
 const cmsContactIdentifiers = 'weltpixel_contact_page';
 
+/* Dashboard */
+// identifiers for cmsBlocks in contact page
+const cmsSocialMediaLinkIdentifiers = 'pwa_socmed_links';
+
+/* Social media link */
+// social media link in dashboard
+const enableSocialMediaLink = true;
+
 /* Loader */
 const loaderImage = '/assets/img/sample/spinner.svg';
 
@@ -150,6 +158,7 @@ module.exports = {
     cmsPages,
     loaderImage,
     cmsContactIdentifiers,
+    cmsSocialMediaLinkIdentifiers,
     SESSION_SECRET,
     imageSize,
     custDataNameCookie,
@@ -158,4 +167,5 @@ module.exports = {
     nameGlobalCookie,
     showBrandPage,
     productItem,
+    enableSocialMediaLink,
 };

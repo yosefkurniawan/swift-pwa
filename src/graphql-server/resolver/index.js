@@ -1,14 +1,14 @@
 /* eslint-disable no-param-reassign */
 const internalGenerateCustomerToken = require('./internalGenerateCustomerToken');
 const internalCreateCustomerToken = require('./internalCreateCustomerToken');
-const internalCreateCustomerTokenOtp = require('./internalCreateCustomerTokenOtp');
+const internalGenerateCustomerTokenOtp = require('./internalGenerateCustomerTokenOtp');
 const internalDeleteCustomerToken = require('./internalDeleteCustomerToken');
 
 const resolver = {
     Mutation: {
         internalGenerateCustomerToken,
         internalCreateCustomerToken,
-        internalCreateCustomerTokenOtp,
+        internalGenerateCustomerTokenOtp,
         internalDeleteCustomerToken,
     },
 };

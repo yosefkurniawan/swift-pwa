@@ -6,6 +6,10 @@
     "history": "Return Saya",
     "form": {
         "submit": "Kirim Permintaan",
+        "addSuccess": "Permintaan RMA telah berhasil di kirim",
+        "addFailed": "Permintaan RMA gagal di kirim",
+        "required": "This field is required",
+        "itemNull": "Item pesanan harus di pilih minimal 1 item produk",
         "label": {
             "resolution": "Solusi",
             "condition" : "Kondisi",
