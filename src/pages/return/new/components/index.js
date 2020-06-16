@@ -39,6 +39,7 @@ const NewReturnRma = (props) => {
         openMessage: false,
         textMessage: '',
         variantMessage: 'success',
+        errorForm: false,
     });
 
     let products = [];
@@ -72,6 +73,7 @@ const NewReturnRma = (props) => {
             currency,
             formData,
             setFormData,
+            errorForm: state.errorForm,
             ...product,
         }));
     }
@@ -105,43 +107,63 @@ const NewReturnRma = (props) => {
 
     const handleSubmit = () => {
         setState({ ...state, loading: true });
-        postRma({
-            variables: {
-                order_number: formData.order_number,
-                customer_name: formData.customer_name,
-                customer_email: formData.customer_email,
-                custom_fields: formData.custom_fields,
-                order_items: formData.order_items,
-                thread_message: {
-                    text: formData.message,
-                    attachments: formData.attachments,
+        const fieldRequets = custom_fields.filter((field) => field.refers === 'request');
+        const fieldItem = custom_fields.filter((field) => field.refers === 'item');
+        const stateData = state;
+        stateData.errorForm = false;
+        if (formData.custom_fields.length < fieldRequets.length) stateData.errorForm = true;
+        if (selectItem.length > 0) {
+            formData.order_items.map((item) => {
+                if (item.custom_fields.length < fieldItem.length) stateData.errorForm = true;
+            });
+        } else {
+            stateData.errorForm = true;
+            stateData.textMessage = t('return:form:itemNull');
+            stateData.openMessage = true;
+            stateData.variantMessage = 'error';
+        }
+
+        if (stateData.errorForm === false) {
+            postRma({
+                variables: {
+                    order_number: formData.order_number,
+                    customer_name: formData.customer_name,
+                    customer_email: formData.customer_email,
+                    custom_fields: formData.custom_fields,
+                    order_items: formData.order_items,
+                    thread_message: {
+                        text: formData.message,
+                        attachments: formData.attachments,
+                    },
                 },
-            },
-        }).then(async (res) => {
-            if (res.data) {
-                await setState({
+            }).then(async (res) => {
+                if (res.data) {
+                    await setState({
+                        ...state,
+                        loading: false,
+                        openMessage: true,
+                        textMessage: t('return:form:addSuccess'),
+                        variantMessage: 'success',
+                    });
+                    setTimeout(() => {
+                        Router.push(
+                            '/rma/customer/view/id/[id]',
+                            `/rma/customer/view/id/${res.data.createRequestAwRma.detail_rma.increment_id}`,
+                        );
+                    }, 1500);
+                }
+            }).catch((e) => {
+                setState({
                     ...state,
                     loading: false,
                     openMessage: true,
-                    textMessage: t('return:form:addSuccess'),
-                    variantMessage: 'success',
+                    textMessage: e.message.split(':')[1] || t('return:form:addFailed'),
+                    variantMessage: 'error',
                 });
-                setTimeout(() => {
-                    Router.push(
-                        '/rma/customer/view/id/[id]',
-                        `/rma/customer/view/id/${res.data.createRequestAwRma.detail_rma.increment_id}`,
-                    );
-                }, 1500);
-            }
-        }).catch((e) => {
-            setState({
-                ...state,
-                loading: false,
-                openMessage: true,
-                textMessage: e.message.split(':')[1] || t('return:form:addFailed'),
-                variantMessage: 'error',
             });
-        });
+        } else {
+            setState({ ...stateData });
+        }
     };
 
     let fileAccept = '';
@@ -177,6 +199,7 @@ const NewReturnRma = (props) => {
                                     propsValue={{
                                         field_id: item.id,
                                     }}
+                                    errorForm={state.errorForm}
                                     onSelect={changeOptionCustomField}
                                     label={item.frontend_labels[0].value}
                                 />

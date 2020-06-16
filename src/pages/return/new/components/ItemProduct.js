@@ -12,13 +12,13 @@ const ItemProduct = (props) => {
     const { t } = useTranslation(['return']);
     const {
         name, price, qty_returnable, image_url, dataValues, value, onChange, form, disabled, other_rma_request,
-        currency = 'IDR', formData, setFormData,
+        currency = 'IDR', formData, setFormData, errorForm,
     } = props;
     const styles = useStyles();
     const checked = dataValues.indexOf(value) !== -1;
     const [selectedData, setSelectedData] = React.useState({
         item_id: '',
-        qty: '',
+        qty: 1,
         custom_fields: [],
     });
     const changeSelectedItem = (param) => {
@@ -164,6 +164,7 @@ const ItemProduct = (props) => {
                                       propsValue={{
                                           field_id: item.id,
                                       }}
+                                      errorForm={errorForm}
                                       onSelect={changeOptionCustomField}
                                   />
                               );
