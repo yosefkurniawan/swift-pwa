@@ -116,6 +116,7 @@ export const getProduct = (url) => {
               description {
                 html
               }
+              brand
               short_description {
                 html
               }

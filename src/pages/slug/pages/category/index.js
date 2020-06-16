@@ -5,16 +5,22 @@ import { StripHtmlTags } from '@helpers/text';
 import Component from './components';
 import { getCategory } from './services';
 import SkeletonCategory from './components/Skeleton';
+import generateSchemaOrg from './helpers/schema.org';
 
 const Page = (props) => {
-    const { categoryId } = props;
+    const { categoryId, storeConfig } = props;
     const { loading, data } = getCategory({
         productSize: 20,
         id: categoryId,
     });
     const ogContent = {};
-    if (data && data.categoryList[0].description) {
-        ogContent.description = StripHtmlTags(data.categoryList[0].description);
+    let schemaOrg = null;
+    if (data) {
+        const category = data.categoryList[0];
+        schemaOrg = generateSchemaOrg(category, storeConfig);
+        if (data.categoryList[0].description) {
+            ogContent.description = StripHtmlTags(data.categoryList[0].description);
+        }
     }
     const pageConfig = {
         title: loading ? '' : data.categoryList[0].name,
@@ -23,6 +29,7 @@ const Page = (props) => {
         bottomNav: 'browse',
         pageType: 'category',
         ogContent,
+        schemaOrg,
     };
     return (
         <Layout {...props} pageConfig={pageConfig}>
