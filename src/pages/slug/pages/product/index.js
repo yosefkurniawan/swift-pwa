@@ -7,6 +7,7 @@ import Loading from './components/Loader';
 import { getProduct } from './services/graphql';
 import Content from './components';
 import CustomHeader from './components/header';
+import generateSchemaOrg from './helpers/schema.org';
 
 const Page = (props) => {
     let product = {};
@@ -23,6 +24,8 @@ const Page = (props) => {
         product = data.products;
         if (product.items.length === 0) return <Error statusCode={404} />;
     }
+
+    const schemaOrg = generateSchemaOrg(product.items[0]);
 
     const pageConfig = {
         title: product.items.length > 0 ? product.items[0].name : '',
@@ -49,6 +52,7 @@ const Page = (props) => {
             'product:pretax_price:currency': product.items[0].price_range.minimum_price.final_price.currency,
             'product:pretax_price:amount': product.items[0].price_range.minimum_price.final_price.value,
         },
+        schemaOrg,
     };
     return (
         <Layout pageConfig={pageConfig} CustomHeader={<CustomHeader />} {...props}>
