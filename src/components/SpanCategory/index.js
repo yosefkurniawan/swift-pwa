@@ -18,18 +18,20 @@ const SpanCategory = ({
             <Grid container justify="center">
                 <Grid item sm={12} md={12} lg={12}>
                     <Link href="[...slug]" as={url}>
-                        <Thumbor
-                            src={setDefaultWhenEmpty(imageSrc)}
-                            alt={name}
-                            style={{
-                                width: '100%',
-                                maxWidth: '100%',
-                                maxHeight: '100%',
-                            }}
-                            quality={80}
-                            width={imageSize.category.width}
-                            height={imageSize.category.height}
-                        />
+                        <a>
+                            <Thumbor
+                                src={setDefaultWhenEmpty(imageSrc)}
+                                alt={name}
+                                style={{
+                                    width: '100%',
+                                    maxWidth: '100%',
+                                    maxHeight: '100%',
+                                }}
+                                quality={80}
+                                width={imageSize.category.width}
+                                height={imageSize.category.height}
+                            />
+                        </a>
                     </Link>
                 </Grid>
                 <Grid item sm={12} md={12} lg={12}>
@@ -42,9 +44,11 @@ const SpanCategory = ({
                             <div dangerouslySetInnerHTML={{ __html: description }} />
                         </Typography>
                         <Link href="[...slug]" as={url}>
-                            <Typography variant="span" type="bold" className={styles.textBtn}>
-                                {t('common:button:shop')}
-                            </Typography>
+                            <a>
+                                <Typography variant="span" type="bold" className={styles.textBtn}>
+                                    {t('common:button:shop')}
+                                </Typography>
+                            </a>
                         </Link>
                     </div>
                 </Grid>

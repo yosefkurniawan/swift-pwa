@@ -137,6 +137,7 @@ const Login = ({
     if (cartData.data && custData.data) {
         Cookies.set(custDataNameCookie, {
             email: custData.data.customer.email,
+            firstname: custData.data.customer.firstname,
         });
         const custCartId = cartData.data.customerCart.id;
         if (cartId === '' || !cartId) {

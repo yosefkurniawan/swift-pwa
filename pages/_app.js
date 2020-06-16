@@ -15,7 +15,7 @@ import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import Cookie from 'js-cookie';
 import cookies from 'next-cookies';
 import {
-    expiredCokies, storeConfigNameCokie, GTM,
+    expiredCokies, storeConfigNameCokie, GTM, custDataNameCookie,
 } from '@config';
 import {
     getLoginInfo,
@@ -53,11 +53,14 @@ class MyApp extends App {
         // check if login from server
         let isLogin = 0;
         let lastPathNoAuth = '';
+        let customerData = {};
         if (typeof window !== 'undefined') {
             isLogin = getLoginInfo();
             lastPathNoAuth = getLastPathWithoutLogin();
+            customerData = Cookie.getJSON(custDataNameCookie);
         } else {
             isLogin = allcookie.isLogin || 0;
+            customerData = allcookie[custDataNameCookie];
             lastPathNoAuth = req.session.lastPathNoAuth || '/customer/account';
         }
         isLogin = parseInt(isLogin);
@@ -104,7 +107,7 @@ class MyApp extends App {
         // add get session from server
         return {
             pageProps: {
-                ...pageProps, storeConfig, isLogin, lastPathNoAuth,
+                ...pageProps, storeConfig, isLogin, lastPathNoAuth, customerData,
             },
         };
     }

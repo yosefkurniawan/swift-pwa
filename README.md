@@ -1,30 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app).
+This is SwiftPWA base project bootstrapped with [Next.js](https://nextjs.org/).
 
-## Getting Started
+Demo: [https://pwa.getswift.asia/](https://pwa.getswift.asia/)
 
-First, run the development server:
+## Installation
 
+### Without Docker
+1. run the development server:
 ```bash
 npm run dev
 # or
 yarn dev
 ```
+2. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### With Docker
+1. to set running mode, edit file `dockerfile`. Edit this line `CMD [ "npm", "run", "dev" ]`
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+dev mode: 
+```
+[ "npm", "run", "dev" ]
+```
+prod mode:
+```
+[ "npm", "run", "build" ]
+[ "npm", "run", "start" ]
+```
 
-## Learn More
+2. to bind volume, edit file `docker-compose.yml`. Add this code under `services > frontend`:
+```
+volumes:
+            - [project path in local]:[project path in docker]
+```
 
-To learn more about Next.js, take a look at the following resources:
+3. to build: `docker-compose build`
+4. to run: `docker-composer up`
+5. to re-build and run: `docker-compose up --build`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/zeit/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on ZEIT Now
-
-The easiest way to deploy your Next.js app is to use the [ZEIT Now Platform](https://zeit.co/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Setup Host and Graphql Endpoint
+1. open file swift.config.js
+2. edit host at this line:
+```
+const HOST = {
+    dev: 'http://localhost:3000',
+    prod: 'https://swiftpwa.testingnow.me',
+};
+```
+3. Edit Gql endpoint at this line:
+```
+const graphqlEndpoint = {
+    dev: 'https://swiftpwa-be.testingnow.me/graphql',
+    prod: 'https://swiftpwa-be.testingnow.me/graphql',
+};
+```
