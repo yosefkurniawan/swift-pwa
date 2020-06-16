@@ -17,6 +17,15 @@ export const requestRma = () => useMutation(Schema.requestRma, {
     skip: typeof window === 'undefined',
 });
 
+export const getHistoryRma = (params) => useQuery(Schema.getHistoryRma, {
+    context: {
+        request: 'internal',
+    },
+    fetchPolicy: 'no-cache',
+    variables: params,
+    skip: typeof window === 'undefined',
+});
+
 export default {
     getFormDataRma,
 };

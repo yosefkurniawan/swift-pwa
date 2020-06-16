@@ -72,6 +72,35 @@ mutation createRequestAwRma (
 }
 `;
 
+export const getHistoryRma = gql`
+query getHistoryRma (
+    $page_size: Int,
+    $current_page: Int,
+){
+    getCustomerRequestAwRma(page_size: $page_size,current_page: $current_page) {
+      current_page
+      page_size
+      total_count
+      total_pages
+      items {
+        id
+        increment_id
+        order_date
+        order_number
+        order_id
+        confirm_shipping
+        items {
+          name
+        }
+        status {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
 export default {
     getFormDataRma,
 };
