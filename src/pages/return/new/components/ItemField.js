@@ -1,13 +1,29 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Select from '@components/Forms/Select';
+import { useTranslation } from '@i18n';
 
 const ItemField = ({
     options = [],
     name = 'select',
     label = 'Select',
+    onSelect = () => {},
+    propsValue = {},
+    errorForm = false,
+    errorMessage = '',
 }) => {
+    const { t } = useTranslation(['return']);
     const [select, setSelect] = React.useState('');
-    const handleSelect = (event) => setSelect(event.target.value);
+    const handleSelect = (event) => {
+        setSelect(event.target.value);
+        onSelect({
+            ...propsValue,
+            value: event.target.value,
+        });
+    };
+    let error = false;
+    if (errorForm) {
+        if (select === '' || select.length === 0) error = true;
+    }
     return (
         <Select
             options={options}
@@ -15,6 +31,8 @@ const ItemField = ({
             label={label}
             value={select}
             onChange={handleSelect}
+            error={error}
+            errorMessage={errorMessage || t('return:form:required')}
         />
     );
 };

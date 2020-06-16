@@ -5,13 +5,11 @@ import useStyles from './style';
 import setDefaultWhenEmpty from '../../../helpers/checkImageSrc';
 import Thumbor from '../../Image';
 
-
 /**
  slug page need props 'href' & 'as' to prevent browser reloading
  *isSlug == true => <link href="/[...slug]" as={link} />
  *isSlug == false => <link href={link} />
 */
-
 
 const ImageSlide = ({
     imageUrl = '', link = '#', isSlug = true, width, height,
@@ -23,14 +21,16 @@ const ImageSlide = ({
             href={isSlug ? '/[...slug]' : href}
             {...(isSlug && { as: href })}
         >
-            <Thumbor
-                src={setDefaultWhenEmpty(imageUrl)}
-                alt={href}
-                width={width || imageSize.homeSlider.width}
-                height={height || imageSize.homeSlider.height}
-                quality={100}
-                className={styles.imageSlider}
-            />
+            <a>
+                <Thumbor
+                    src={setDefaultWhenEmpty(imageUrl)}
+                    alt={href}
+                    width={width || imageSize.homeSlider.width}
+                    height={height || imageSize.homeSlider.height}
+                    quality={100}
+                    className={styles.imageSlider}
+                />
+            </a>
         </Link>
     );
 };

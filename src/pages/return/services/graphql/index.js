@@ -1,13 +1,5 @@
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import * as Schema from './schema';
-
-export const getOrderDetail = (params) => useQuery(Schema.getOrderDetail, {
-    context: {
-        request: 'internal',
-    },
-    variables: params,
-    skip: typeof window === 'undefined',
-});
 
 export const getFormDataRma = (params) => useQuery(Schema.getFormDataRma, {
     context: {
@@ -18,6 +10,13 @@ export const getFormDataRma = (params) => useQuery(Schema.getFormDataRma, {
     skip: typeof window === 'undefined',
 });
 
+export const requestRma = () => useMutation(Schema.requestRma, {
+    context: {
+        request: 'internal',
+    },
+    skip: typeof window === 'undefined',
+});
+
 export default {
-    getOrderDetail,
+    getFormDataRma,
 };
