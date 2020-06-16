@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import route from 'next/router';
 import React from 'react';
 import PriceFormat from '@components/PriceFormat';
-import Toast from '@components/Toast';
 import { GraphCustomer } from '@services/graphql';
 import { getLoginInfo } from '@helpers/auth';
 import { setCookies } from '@helpers/cookies';
@@ -40,9 +39,6 @@ const ProductItem = (props) => {
     const [feed, setFeed] = React.useState(false);
     const [spesificProduct, setSpesificProduct] = React.useState({});
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
-    const [message, setMessage] = React.useState({
-        open: false, text: '', variant: 'success',
-    });
     const FeedIcon = feed ? (
         <Favorite className={classFeedActive} />
     ) : (
@@ -55,25 +51,24 @@ const ProductItem = (props) => {
     const [addWishlist] = GraphCustomer.addWishlist();
 
     const handleFeed = () => {
-        if (isLogin) {
+        if (isLogin && isLogin !== '') {
             addWishlist({
                 variables: {
                     productId: id,
                 },
             }).then(async () => {
                 await setFeed(!feed);
-                await setMessage({ open: true, variant: 'success', text: 'add wishlist success' });
+                await window.toastMessage({ open: true, variant: 'success', text: 'add wishlist success' });
                 route.push('/wishlist');
             }).catch((e) => {
-                setMessage({
+                window.toastMessage({
                     open: true,
                     variant: 'error',
                     text: e.message.split(':')[1] || 'add wishlist failed',
                 });
             });
-        } else {
-            setMessage({
-                ...message,
+        } else if (typeof window.toastMessage !== 'undefined') {
+            window.toastMessage({
                 open: true,
                 variant: 'warning',
                 text: t('wishlist:addWithoutLogin'),
@@ -90,12 +85,6 @@ const ProductItem = (props) => {
 
     return (
         <>
-            <Toast
-                open={message.open}
-                setOpen={() => setMessage({ ...message, open: false })}
-                message={message.text}
-                variant={message.variant}
-            />
             <div className={styles.itemContainer}>
                 <div className={styles.imgItem}>
                     <Link onClick={handleClick}>

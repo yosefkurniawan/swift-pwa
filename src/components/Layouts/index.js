@@ -1,5 +1,5 @@
 /* eslint-disable react/no-danger */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navigation from '@components/Navigation';
 import Header from '@components/Header';
 import Head from 'next/head';
@@ -8,6 +8,8 @@ import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { custDataNameCookie } from '@config';
 import { getHost } from '@helpers/config';
+import Message from '@components/Toast';
+import Loading from '@components/Loaders/Backdrop';
 
 const Layout = (props) => {
     const {
@@ -19,6 +21,41 @@ const Layout = (props) => {
     } = props;
     const { ogContent = {}, schemaOrg = null } = pageConfig;
     const router = useRouter();
+    const [state, setState] = useState({
+        toastMessage: {
+            open: false,
+            variant: '',
+            text: '',
+        },
+        backdropLoader: false,
+    });
+
+    const handleSetToast = (message) => {
+        setState({
+            ...state,
+            toastMessage: {
+                ...state.toastMessage,
+                ...message,
+            },
+        });
+    };
+
+    const handleLoader = (status = false) => {
+        setState({
+            ...state,
+            backdropLoader: status,
+        });
+    };
+
+    const handleCloseMessage = () => {
+        setState({
+            ...state,
+            toastMessage: {
+                ...state.toastMessage,
+                open: false,
+            },
+        });
+    };
     const ogData = {
         'og:title': pageConfig.title ? pageConfig.title : 'Swift PWA',
         'og:image': storeConfig.header_logo_src
@@ -32,6 +69,8 @@ const Layout = (props) => {
     };
     useEffect(() => {
         if (typeof window !== 'undefined') {
+            window.toastMessage = handleSetToast;
+            window.backdropLoader = handleLoader;
             const custData = Cookies.getJSON(custDataNameCookie);
             const tagManagerArgs = {
                 dataLayer: {
@@ -67,7 +106,16 @@ const Layout = (props) => {
 
             {React.isValidElement(CustomHeader) ? <>{React.cloneElement(CustomHeader, { pageConfig })}</> : <Header pageConfig={pageConfig} />}
 
-            <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0 }}>{children}</main>
+            <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0 }}>
+                <Loading open={state.backdropLoader} />
+                <Message
+                    open={state.toastMessage.open}
+                    variant={state.toastMessage.variant}
+                    setOpen={handleCloseMessage}
+                    message={state.toastMessage.text}
+                />
+                {children}
+            </main>
             <footer>
                 <Navigation active={pageConfig.bottomNav} />
             </footer>
