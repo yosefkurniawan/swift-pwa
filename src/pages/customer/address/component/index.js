@@ -14,7 +14,6 @@ import { Box, RadioGroup } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
-import Backdrop from '@components/Loaders/Backdrop';
 import { GraphCustomer } from '@services/graphql';
 import { createCustomerAddress, updateCustomerAddress, updatedDefaultAddress as gqlUpdateDefaulAddress } from '../services/graphql';
 import ItemAddress from './ItemAddress';
@@ -35,7 +34,6 @@ const Content = (props) => {
     const [loadingAddress, setLoadingAddress] = useState(false);
     const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [showBackdrop, setShowBackdrop] = useState(false);
     const [drawer, setDrawer] = useState(false);
     const [, setMapPosition] = useState({
         lat: -6.197361,
@@ -77,7 +75,7 @@ const Content = (props) => {
 
     // handle change selected address
     const handleChange = async (event) => {
-        setShowBackdrop(true);
+        window.backdropLoader(true);
         const addressId = parseInt(event.target.value);
         setSelectedAddressId(addressId);
         let detail = {};
@@ -93,7 +91,7 @@ const Content = (props) => {
             },
         });
         await getCustomer.refetch();
-        setShowBackdrop(false);
+        window.backdropLoader(false);
     };
 
     // handle edit address
@@ -172,7 +170,6 @@ const Content = (props) => {
 
     return (
         <>
-            <Backdrop open={showBackdrop} />
             <Box>
                 <RadioGroup row aria-label="position" onChange={handleChange} name="position" value={selectedAddressId}>
                     {getItemAddress()}
