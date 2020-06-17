@@ -8,7 +8,6 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/router';
 import Toast from '@components/Toast';
-import Backdrop from '@components/Loaders/Backdrop';
 import OtpBlock from '@components/OtpBlock';
 import { setLogin } from '@helpers/auth';
 import { setCartId, getCartId } from '@helpers/cartId';
@@ -29,7 +28,7 @@ const Register = ({ t, storeConfig }) => {
         text: '',
     });
     const [cusIsLogin, setIsLogin] = React.useState(0);
-    const [loading, setLoading] = React.useState(false);
+    const [disabled, setdisabled] = React.useState(false);
     let cartId = '';
 
     const expired = storeConfig.oauth_access_token_lifetime_customer
@@ -87,17 +86,20 @@ const Register = ({ t, storeConfig }) => {
         },
         validationSchema: RegisterSchema,
         onSubmit: (values) => {
-            setLoading(true);
+            setdisabled(true);
+            window.backdropLoader(true);
             sendRegister({
                 variables: values,
             })
                 .then(async () => {
                     await setIsLogin(1);
                     getCart();
-                    setLoading(false);
+                    setdisabled(false);
+                    window.backdropLoader(false);
                 })
                 .catch((e) => {
-                    setLoading(false);
+                    setdisabled(false);
+                    window.backdropLoader(false);
                     setMessage({
                         open: true,
                         text: e.message.split(':')[1] || t('customer:register:failed'),
@@ -139,13 +141,13 @@ const Register = ({ t, storeConfig }) => {
                     Router.push('/customer/account');
                 })
                 .catch((e) => {
-                    setLoading(false);
+                    setdisabled(false);
+                    window.backdropLoader(false);
                     setMessage({
                         open: true,
                         text: e.message.split(':')[1] || t('customer:register:failed'),
                         variant: 'error',
                     });
-                    console.log(e);
                 });
         } else {
             Router.push('/customer/account');
@@ -154,7 +156,6 @@ const Register = ({ t, storeConfig }) => {
 
     return (
         <>
-            <Backdrop open={loading} />
             <Toast open={message.open} message={message.text} variant={message.variant} setOpen={() => setMessage({ ...message, open: false })} />
             <form className={styles.container} onSubmit={formik.handleSubmit}>
                 <TextField
@@ -267,7 +268,7 @@ const Register = ({ t, storeConfig }) => {
                             </Typography>
                         )}
                     />
-                    <Button disabled={loading} fullWidth className={styles.btnSigin} type="submit">
+                    <Button disabled={disabled} fullWidth className={styles.btnSigin} type="submit">
                         <Typography variant="title" type="regular" letter="capitalize" color="white">
                             {t('customer:register:button')}
                         </Typography>

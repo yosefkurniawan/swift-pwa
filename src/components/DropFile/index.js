@@ -30,7 +30,7 @@ const DropFile = ({
             if (multiple) {
                 setDropFile([...dropFile, ...files]);
             } else {
-                setDropFile(files[0]);
+                setDropFile([files[0]]);
             }
 
             handleDrop(files);
@@ -124,7 +124,7 @@ const DropFile = ({
             <Typography color={error ? 'red' : 'default'}>{label}</Typography>
             <div className="column">
                 {
-                    showListFile && dropFile.map((file, index) => (<Typography key={index}>{file.name}</Typography>))
+                    showListFile && dropFile.length > 0 && dropFile.map((file, index) => (<Typography key={index}>{file.name}</Typography>))
                 }
             </div>
         </div>

@@ -1,7 +1,6 @@
 import Button from '@components/Button';
 import Password from '@components/Forms/Password';
 import Toast from '@components/Toast';
-import Loading from '@components/Loaders/Backdrop';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/router';
@@ -15,7 +14,7 @@ const ForgotPassword = ({ t, query: { token } }) => {
         variant: 'success',
         text: '',
     });
-    const [loading, setLoading] = React.useState(false);
+    const [disabled, setdisabled] = React.useState(false);
     const [setNewPassword] = newPassword();
     const formik = useFormik({
         initialValues: {
@@ -30,7 +29,8 @@ const ForgotPassword = ({ t, query: { token } }) => {
                 .test('check-pass', t('validate:confirmPassword.wrong'), (input) => input === formik.values.password),
         }),
         onSubmit: (values) => {
-            setLoading(true);
+            setdisabled(true);
+            window.backdropLoader(true);
             setNewPassword({
                 variables: {
                     ...values,
@@ -38,7 +38,8 @@ const ForgotPassword = ({ t, query: { token } }) => {
                 },
             })
                 .then(async () => {
-                    setLoading(false);
+                    window.backdropLoader(false);
+                    setdisabled(false);
                     setToast({
                         open: true,
                         variant: 'success',
@@ -49,7 +50,8 @@ const ForgotPassword = ({ t, query: { token } }) => {
                     }, 3000);
                 })
                 .catch((e) => {
-                    setLoading(false);
+                    window.backdropLoader(false);
+                    setdisabled(false);
                     setToast({
                         open: true,
                         variant: 'error',
@@ -61,7 +63,6 @@ const ForgotPassword = ({ t, query: { token } }) => {
 
     return (
         <form className={styles.container} onSubmit={formik.handleSubmit}>
-            <Loading open={loading} />
             <Toast open={toast.open} setOpen={() => setToast({ ...toast, open: false })} message={toast.text} variant={toast.variant} />
             <Password
                 label="Password"
@@ -82,7 +83,7 @@ const ForgotPassword = ({ t, query: { token } }) => {
                 error={!!formik.errors.confirmPassword}
                 errorMessage={formik.errors.confirmPassword || null}
             />
-            <Button disabled={loading} className={styles.btn} fullWidth type="submit">
+            <Button disabled={disabled} className={styles.btn} fullWidth type="submit">
                 {t('common:button:send')}
             </Button>
         </form>

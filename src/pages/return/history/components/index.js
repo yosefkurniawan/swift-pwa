@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import Router from 'next/router';
+import { getHistoryRma } from '../../services/graphql';
 import useStyles from '../style';
 import Loader from './Loader';
 
@@ -24,9 +25,24 @@ export default (props) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-    const loading = false;
-    if (loading) return <Loader />;
-    const history = [];
+    const { data, loading, error } = getHistoryRma({
+        page_size: rowsPerPage,
+        current_page: page + 1,
+    });
+    if (loading || !data) return <Loader />;
+    if (error) {
+        return (
+            <div className={styles.account_point}>
+                <Alert className="m-15" severity="error">
+                    {error.message.split(':')[1]}
+                </Alert>
+            </div>
+        );
+    }
+    let history = [];
+    if (data && data.getCustomerRequestAwRma) {
+        history = data.getCustomerRequestAwRma.items;
+    }
     return (
         <div className={styles.tableOuterContainer}>
             <TableContainer component={Paper} className={styles.tableContainer}>
@@ -43,160 +59,168 @@ export default (props) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {history.length === 0 ? (
+                        {history.length > 0 ? (
                             <>
-                                <TableRow className={styles.tableRowResponsive}>
-                                    <TableCell
-                                        className={styles.tableCellResponsive}
-                                        align="left"
-                                        data-th={(
-                                            <Typography align="center" type="bold" letter="capitalize">
-                                                {t('return:table:returnId')}
-                                            </Typography>
-                                        )}
-                                    >
-                                        <div className={styles.displayFlexRow}>
-                                            <div className={styles.mobLabel}>
-                                                <Typography align="center" type="bold" letter="capitalize">
-                                                    {t('return:table:returnId')}
-                                                </Typography>
-                                            </div>
-                                            <div className={styles.value}>12313123</div>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell
-                                        className={styles.tableCellResponsive}
-                                        align="left"
-                                        data-th={(
-                                            <Typography align="center" type="bold" letter="capitalize">
-                                                {t('return:table:orderId')}
-                                            </Typography>
-                                        )}
-                                    >
-                                        <div className={styles.displayFlexRow}>
-                                            <div className={styles.mobLabel}>
-                                                <Typography align="center" type="bold" letter="capitalize">
-                                                    {t('return:table:orderId')}
-                                                </Typography>
-                                            </div>
-                                            <div className={styles.value}>12313123</div>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell
-                                        className={styles.tableCellResponsive}
-                                        align="left"
-                                        data-th={(
-                                            <Typography align="center" type="bold" letter="capitalize">
-                                                {t('return:table:products')}
-                                            </Typography>
-                                        )}
-                                    >
-                                        <div className={styles.displayFlexRow}>
-                                            <div className={styles.mobLabel}>
-                                                <Typography align="center" type="bold" letter="capitalize">
-                                                    {t('return:table:products')}
-                                                </Typography>
-                                            </div>
-                                            <div className={styles.value}>TShirs Okey</div>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell
-                                        className={styles.tableCellResponsive}
-                                        align="left"
-                                        data-th={(
-                                            <Typography align="center" type="bold" letter="capitalize">
-                                                Status
-                                            </Typography>
-                                        )}
-                                    >
-                                        <div className={styles.displayFlexRow}>
-                                            <div className={styles.mobLabel}>
-                                                <Typography align="center" type="bold" letter="capitalize">
-                                                    Status
-                                                </Typography>
-                                            </div>
-                                            <div className={styles.value}>Pending Approval</div>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell
-                                        className={styles.tableCellResponsive}
-                                        align="left"
-                                        data-th={(
-                                            <Typography align="center" type="bold" letter="capitalize">
-                                                {t('return:table:cratedAt')}
-                                            </Typography>
-                                        )}
-                                    >
-                                        <div className={styles.displayFlexRow}>
-                                            <div className={styles.mobLabel}>
-                                                <Typography align="center" type="bold" letter="capitalize">
-                                                    {t('return:table:cratedAt')}
-                                                </Typography>
-                                            </div>
-                                            <div className={styles.value}>{formatDate() }</div>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell
-                                        className={styles.tableCellResponsive}
-                                        align="left"
-                                        data-th={(
-                                            <Typography align="center" type="bold" letter="capitalize">
-                                                {t('return:table:updatedAt')}
-                                            </Typography>
-                                        )}
-                                    >
-                                        <div className={styles.displayFlexRow}>
-                                            <div className={styles.mobLabel}>
-                                                <Typography align="center" type="bold" letter="capitalize">
-                                                    {t('return:table:updatedAt')}
-                                                </Typography>
-                                            </div>
-                                            <div className={styles.value}>
-                                                {formatDate() }
-                                            </div>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell
-                                        className={styles.tableCellResponsive}
-                                        align="left"
-                                        data-th={(
-                                            <Typography align="center" type="bold" letter="capitalize">
-                                                Actions
-                                            </Typography>
-                                        )}
-                                    >
-                                        <div className={styles.displayFlexRow}>
-                                            <div className={styles.mobLabel}>
-                                                <Typography align="center" type="bold" letter="capitalize">
-                                                    Actions
-                                                </Typography>
-                                            </div>
-                                            <div className={styles.value}>
-                                                <Button
-                                                    variant="text"
-                                                    className="clear-margin-padding"
-                                                    onClick={() => Router.push(
-                                                        '/rma/customer/view/id/[id]',
-                                                        `/rma/customer/view/id/${12323}`,
-                                                    )}
-                                                >
-                                                    <Typography
-                                                        className="clear-margin-padding"
-                                                        variant="span"
-                                                    >
-                                                        {t('return:table:view')}
+                                {
+                                    history.map((val, index) => (
+                                        <TableRow className={styles.tableRowResponsive} key={index}>
+                                            <TableCell
+                                                className={styles.tableCellResponsive}
+                                                align="left"
+                                                data-th={(
+                                                    <Typography align="center" type="bold" letter="capitalize">
+                                                        {t('return:table:returnId')}
                                                     </Typography>
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
+                                                )}
+                                            >
+                                                <div className={styles.displayFlexRow}>
+                                                    <div className={styles.mobLabel}>
+                                                        <Typography align="center" type="bold" letter="capitalize">
+                                                            {t('return:table:returnId')}
+                                                        </Typography>
+                                                    </div>
+                                                    <div className={styles.value}>{val.increment_id}</div>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell
+                                                className={styles.tableCellResponsive}
+                                                align="left"
+                                                data-th={(
+                                                    <Typography align="center" type="bold" letter="capitalize">
+                                                        {t('return:table:orderId')}
+                                                    </Typography>
+                                                )}
+                                            >
+                                                <div className={styles.displayFlexRow}>
+                                                    <div className={styles.mobLabel}>
+                                                        <Typography align="center" type="bold" letter="capitalize">
+                                                            {t('return:table:orderId')}
+                                                        </Typography>
+                                                    </div>
+                                                    <div className={styles.value}>{val.order_number}</div>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell
+                                                className={styles.tableCellResponsive}
+                                                align="left"
+                                                data-th={(
+                                                    <Typography align="center" type="bold" letter="capitalize">
+                                                        {t('return:table:products')}
+                                                    </Typography>
+                                                )}
+                                            >
+                                                <div className={styles.displayFlexRow}>
+                                                    <div className={styles.mobLabel}>
+                                                        <Typography align="center" type="bold" letter="capitalize">
+                                                            {t('return:table:products')}
+                                                        </Typography>
+                                                    </div>
+                                                    <div className={styles.value}>
+                                                        {
+                                                            val.items.map((item) => `${item.name}, `)
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell
+                                                className={styles.tableCellResponsive}
+                                                align="left"
+                                                data-th={(
+                                                    <Typography align="center" type="bold" letter="capitalize">
+                                                        Status
+                                                    </Typography>
+                                                )}
+                                            >
+                                                <div className={styles.displayFlexRow}>
+                                                    <div className={styles.mobLabel}>
+                                                        <Typography align="center" type="bold" letter="capitalize">
+                                                            Status
+                                                        </Typography>
+                                                    </div>
+                                                    <div className={styles.value}>{val.status.name}</div>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell
+                                                className={styles.tableCellResponsive}
+                                                align="left"
+                                                data-th={(
+                                                    <Typography align="center" type="bold" letter="capitalize">
+                                                        {t('return:table:cratedAt')}
+                                                    </Typography>
+                                                )}
+                                            >
+                                                <div className={styles.displayFlexRow}>
+                                                    <div className={styles.mobLabel}>
+                                                        <Typography align="center" type="bold" letter="capitalize">
+                                                            {t('return:table:cratedAt')}
+                                                        </Typography>
+                                                    </div>
+                                                    <div className={styles.value}>{formatDate() }</div>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell
+                                                className={styles.tableCellResponsive}
+                                                align="left"
+                                                data-th={(
+                                                    <Typography align="center" type="bold" letter="capitalize">
+                                                        {t('return:table:updatedAt')}
+                                                    </Typography>
+                                                )}
+                                            >
+                                                <div className={styles.displayFlexRow}>
+                                                    <div className={styles.mobLabel}>
+                                                        <Typography align="center" type="bold" letter="capitalize">
+                                                            {t('return:table:updatedAt')}
+                                                        </Typography>
+                                                    </div>
+                                                    <div className={styles.value}>
+                                                        {formatDate() }
+                                                    </div>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell
+                                                className={styles.tableCellResponsive}
+                                                align="left"
+                                                data-th={(
+                                                    <Typography align="center" type="bold" letter="capitalize">
+                                                        Actions
+                                                    </Typography>
+                                                )}
+                                            >
+                                                <div className={styles.displayFlexRow}>
+                                                    <div className={styles.mobLabel}>
+                                                        <Typography align="center" type="bold" letter="capitalize">
+                                                            Actions
+                                                        </Typography>
+                                                    </div>
+                                                    <div className={styles.value}>
+                                                        <Button
+                                                            variant="text"
+                                                            className="clear-margin-padding"
+                                                            onClick={() => Router.push(
+                                                                '/rma/customer/view/id/[id]',
+                                                                `/rma/customer/view/id/${val.increment_id}`,
+                                                            )}
+                                                        >
+                                                            <Typography
+                                                                className="clear-margin-padding"
+                                                                variant="span"
+                                                            >
+                                                                {t('return:table:view')}
+                                                            </Typography>
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
 
+                                    ))
+                                }
                                 <TableRow>
                                     <TablePagination
                                         rowsPerPageOptions={[10, 20, 50, { label: 'All', value: -1 }]}
                                         colSpan={6}
-                                        count={0}
+                                        count={data.getCustomerRequestAwRma.total_count || 0}
                                         rowsPerPage={rowsPerPage}
                                         page={page}
                                         labelRowsPerPage="Limit"

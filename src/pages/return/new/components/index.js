@@ -10,7 +10,6 @@ import Divider from '@material-ui/core/Divider';
 import DropFile from '@components/DropFile';
 import CheckBox from '@components/Forms/CheckBox';
 import Message from '@components/Toast';
-import Loading from '@components/Loaders/Backdrop';
 import Router from 'next/router';
 import { requestRma } from '../../services/graphql';
 import useStyles from '../style';
@@ -106,7 +105,7 @@ const NewReturnRma = (props) => {
     };
 
     const handleSubmit = () => {
-        setState({ ...state, loading: true });
+        window.backdropLoader(true);
         const fieldRequets = custom_fields.filter((field) => field.refers === 'request');
         const fieldItem = custom_fields.filter((field) => field.refers === 'item');
         const stateData = state;
@@ -138,9 +137,9 @@ const NewReturnRma = (props) => {
                 },
             }).then(async (res) => {
                 if (res.data) {
+                    window.backdropLoader(false);
                     await setState({
                         ...state,
-                        loading: false,
                         openMessage: true,
                         textMessage: t('return:form:addSuccess'),
                         variantMessage: 'success',
@@ -153,9 +152,9 @@ const NewReturnRma = (props) => {
                     }, 1500);
                 }
             }).catch((e) => {
+                window.backdropLoader(false);
                 setState({
                     ...state,
-                    loading: false,
                     openMessage: true,
                     textMessage: e.message.split(':')[1] || t('return:form:addFailed'),
                     variantMessage: 'error',
@@ -175,7 +174,6 @@ const NewReturnRma = (props) => {
 
     return (
         <div className="column">
-            <Loading open={state.loading} />
             <Message
                 open={state.openMessage}
                 variant={state.variantMessage}

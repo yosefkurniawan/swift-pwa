@@ -12,6 +12,8 @@
             "labelFile": "*jpg/jpeg/png/gif file less than 2MB",
             "button": "confirm payment",
             "validation": "Field is required"
-        }
+        },
+        "confirmSuccess": "Send confirm payment successfully",
+        "confirmFailed": "Send confirm payment failed"
     }
 }

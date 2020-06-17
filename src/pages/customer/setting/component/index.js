@@ -3,7 +3,6 @@ import Radio from '@components/Forms/Radio';
 import Button from '@components/Button';
 import { languagesLabel } from '@config';
 import { useMutation } from '@apollo/react-hooks';
-import Backdrop from '@components/Loaders/Backdrop';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { GraphCustomer } from '@services/graphql';
 import useStyles from '../style';
@@ -22,7 +21,6 @@ const SettingPage = ({ t, i18n }) => {
         });
     });
 
-    const [backdrop, setBackdrop] = React.useState(true);
     const [settings, setSettings] = React.useState({
         is_subscribed: false,
     });
@@ -30,11 +28,11 @@ const SettingPage = ({ t, i18n }) => {
     const [lang, setLang] = React.useState(language);
 
     const [actUpdateCustomer, resultUpdate] = useMutation(Schema.updateCustomer);
-    if (!resultUpdate.loading && backdrop) {
-        setBackdrop(false);
+    if (!resultUpdate.loading) {
+        if (typeof window !== 'undefined') window.backdropLoader(false);
     }
     const handleSave = () => {
-        setBackdrop(true);
+        window.backdropLoader(true);
         actUpdateCustomer({
             variables: {
                 isSubscribed: settings.is_subscribed,
@@ -63,7 +61,6 @@ const SettingPage = ({ t, i18n }) => {
     }, [customer]);
     return (
         <div className={styles.container}>
-            <Backdrop open={backdrop} />
             <div className={styles.block}>
                 {typeof customer.is_subscribed !== 'undefined' ? (
                     <CheckboxSettings

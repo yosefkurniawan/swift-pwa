@@ -7,7 +7,6 @@ import { FormControlLabel, Switch } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import OtpBlock from '@components/OtpBlock';
-import Loading from '@components/Loaders/Backdrop';
 import { setLogin, getLastPathWithoutLogin } from '@helpers/auth';
 import { setCartId, getCartId } from '@helpers/cartId';
 import { GraphCart, GraphConfig } from '@services/graphql';
@@ -32,7 +31,7 @@ const Login = ({
         text: '',
         variant: 'success',
     });
-    const [loading, setLoading] = React.useState(false);
+    const [disabled, setdisabled] = React.useState(false);
     const [cusIsLogin, setIsLogin] = React.useState(0);
 
     const handleOpenMessage = ({ variant, text }) => {
@@ -108,7 +107,8 @@ const Login = ({
                     password: values.password,
                 };
             }
-            setLoading(true);
+            setdisabled(true);
+            window.backdropLoader(true);
             getTokenCustomer({
                 variables,
             })
@@ -126,7 +126,8 @@ const Login = ({
                     }
                 })
                 .catch((e) => {
-                    setLoading(false);
+                    setdisabled(false);
+                    window.backdropLoader(false);
                     handleOpenMessage({
                         variant: 'error',
                         text: e.message.split(':')[1] || t('customer:login:failed'),
@@ -142,7 +143,8 @@ const Login = ({
         const custCartId = cartData.data.customerCart.id;
         if (cartId === '' || !cartId) {
             setCartId(custCartId, expired);
-            setLoading(false);
+            setdisabled(false);
+            window.backdropLoader(false);
             handleOpenMessage({ variant: 'success', text: t('customer:login:success') });
             if (query && query.redirect) {
                 Router.push(query.redirect);
@@ -160,7 +162,8 @@ const Login = ({
             })
                 .then(() => {
                     setCartId(custCartId, expired);
-                    setLoading(false);
+                    setdisabled(false);
+                    window.backdropLoader(false);
                     handleOpenMessage({ variant: 'success', text: t('customer:login:success') });
                     if (query && query.redirect) {
                         Router.push(query.redirect);
@@ -180,7 +183,6 @@ const Login = ({
 
     return (
         <div>
-            <Loading open={loading} />
             <Message open={message.open} variant={message.variant} setOpen={handleOpenMessage} message={message.text} />
             <form onSubmit={formik.handleSubmit} className={styles.container}>
                 {otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login && (
@@ -233,9 +235,9 @@ const Login = ({
                     </>
                 )}
                 <div className={styles.rowCenter}>
-                    <Button fullWidth type="submit" disabled={loading}>
+                    <Button fullWidth type="submit" disabled={disabled}>
                         <Typography variant="title" type="regular" letter="capitalize" color="white">
-                            {loading ? 'Loading' : t('customer:login:pageTitle')}
+                            {disabled ? 'Loading' : t('customer:login:pageTitle')}
                         </Typography>
                     </Button>
                     <Button fullWidth variant="text" href="/customer/account/forgotpassword">
@@ -248,7 +250,7 @@ const Login = ({
                     <Typography variant="span" letter="capitalize" align="center">
                         {t('customer:login:notHaveAccount')}
                     </Typography>
-                    <Button fullWidth variant="outlined" href="/customer/account/create" disabled={loading}>
+                    <Button fullWidth variant="outlined" href="/customer/account/create" disabled={disabled}>
                         <Typography variant="title" type="regular" letter="capitalize">
                             {t('customer:register:title')}
                         </Typography>
