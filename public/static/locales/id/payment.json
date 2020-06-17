@@ -12,6 +12,9 @@
             "labelFile": "*jpg/jpeg/png/gif file maksimal 2MB",
             "button": "Konfirmasi Pembayaran",
             "validation": "Field tidak boleh kosong"
-        }
+        },
+
+        "confirmSuccess": "Konfirmasi pembayaran berhasil di kirim",
+        "confirmFailed": "Konfirmasi pembayaran gagal"
     }
 }
