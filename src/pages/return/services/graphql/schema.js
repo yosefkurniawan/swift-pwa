@@ -101,6 +101,143 @@ query getHistoryRma (
   }
 `;
 
+const responseRma = `
+detail_rma {
+    id
+    increment_id
+    order_number
+    order_date
+    status {
+        name
+    }
+    confirm_shipping
+    customer_address {
+      firstname
+      lastname
+      telephone
+      street
+      city
+      region
+      postcode
+      suffix
+      vat_id
+      fax 
+      
+    }
+    custom_fields {
+      field {
+        frontend_labels {
+          value
+        }
+        id
+      }
+      value {
+        id
+        frontend_labels {
+          value
+        }
+      }
+    }
+    items {
+        name
+        image_url
+        id
+        url_key
+        item_id
+        qty_rma 
+        price
+        
+        sku
+        custom_fields {
+            field {
+              id
+              frontend_labels {
+                value
+              }
+            }
+            value {
+              frontend_labels {
+                value
+              }
+              id
+            }
+        }
+    }
+    thread_message {
+        created_at
+        owner_name
+        owner_type
+        is_auto
+        is_internal
+        id
+        text
+        attachments {
+            file_name
+            image_url
+            name
+          }
+      }
+  }
+  form_data {
+    allowed_file_extensions
+    custom_fields {
+      name
+      frontend_labels {
+        value
+      }
+      is_editable
+      is_required
+      type
+      refers
+      id
+      options {
+        id
+        frontend_labels {
+          value
+        }
+      }
+    }
+    status_list {
+      name
+    }
+  }
+`;
+
+export const getUpdateFormRma = gql`
+query getUpdateFormRma(
+    $email: String!,
+    $increment_id: String!,
+){
+    getUpdateFormDataAwRma(email: $email, increment_id: $increment_id) {
+      ${responseRma}
+    }
+  }
+`;
+
+export const updateRma = gql`
+  mutation updateRma(
+    $custom_fields: [AwRmaCustomFieldInput]
+    $customer_email: String!
+    $increment_id: String!
+    $order_items: [AwRmaOrderItemsInput]
+    $print_label: AwRmaPrintLabelInput
+    $status_id: Int
+    $thread_message: AwRmaThreadMessageInput
+  ){
+    updateRequestAwRma(input: {
+        custom_fields: $custom_fields
+        customer_email: $customer_email
+        increment_id: $increment_id
+        order_items: $order_items
+        print_label: $print_label
+        status_id: $status_id
+        thread_message: $thread_message
+    }) {
+        ${responseRma}
+    }
+  }
+`;
+
 export default {
     getFormDataRma,
 };
