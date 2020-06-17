@@ -1,5 +1,6 @@
 import Banner from '@components/Slider/Banner';
 import Carousel from '@components/Slider/Carousel';
+import CarouselSkeleton from '@components/Slider/Carousel/Skeleton';
 import SpanCategory from '@components/SpanCategory';
 import { Fragment } from 'react';
 import Link from 'next/link';
@@ -52,53 +53,13 @@ const BannerSlider = ({ storeConfig }) => {
     );
 };
 
-const FeaturedProductsSkeleton = () => {
-    const styles = useStyles();
-    const SliderSkeleton = () => (
-        <>
-            <Skeleton
-                className={styles.skeleton}
-                variant="rect"
-                animation="wave"
-                width="100%"
-                xsStyle={{ height: '60vw' }}
-                smStyle={{ height: '42vw' }}
-                mdStyle={{ height: '375px' }}
-            />
-            <Skeleton className={styles.skeleton} variant="rect" width="25%" height={10} animation="wave" />
-            <Skeleton className={styles.skeleton} variant="rect" width="75%" height={10} animation="wave" />
-        </>
-    );
-    return (
-        <div className={styles.skeletonWrapper}>
-            <Grid container>
-                <Grid item md={1} display={{ xs: 'none', md: 'block' }}>
-                    <SliderSkeleton />
-                </Grid>
-                <Grid item xs={3} md={3} sm={4} style={{ padding: '0 6px 0 12px' }}>
-                    <SliderSkeleton />
-                </Grid>
-                <Grid item xs={6} md={4} sm={4} style={{ padding: '0 6px' }}>
-                    <SliderSkeleton />
-                </Grid>
-                <Grid item xs={3} md={3} sm={4} style={{ padding: '0 12px 0 6px' }}>
-                    <SliderSkeleton />
-                </Grid>
-                <Grid item md={1} display={{ xs: 'none', md: 'block' }}>
-                    <SliderSkeleton />
-                </Grid>
-            </Grid>
-        </div>
-    );
-};
-
 const FeaturedProducts = () => {
     const styles = useStyles();
     const { loading, data, error } = gqlService.getFeaturedProducts({
         url_key: 'homepage-featured-products',
     });
 
-    if (loading) return <FeaturedProductsSkeleton />;
+    if (loading) return <CarouselSkeleton />;
     if (error) return <p>{`Error: ${error.message}`}</p>;
     if (!data) return <p>Not found</p>;
 
