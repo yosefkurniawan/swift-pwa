@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     skeletonWrapper: {
-        padding: '12px',
+        padding: '12px 0',
         width: '100%',
     },
     skeleton: {
