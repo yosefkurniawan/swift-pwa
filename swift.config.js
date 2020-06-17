@@ -3,7 +3,7 @@
 /* --------------------------------------- */
 
 const HOST = {
-    dev: 'http://localhost:3000',
+    dev: 'https://swiftpwa.testingnow.me',
     prod: 'https://pwa.getswift.asia',
 };
 
