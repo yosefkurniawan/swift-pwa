@@ -5,15 +5,13 @@ import SelectSize from '@components/Forms/SelectSize';
 import Typography from '@components/Typography';
 import { MenuItem, Select } from '@material-ui/core';
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useApolloClient } from '@apollo/react-hooks';
 import ProductByVariant, { getCombinationVariants, CheckAvailableOptions } from '@helpers/productByVariant';
-import { setCountCart } from '@stores/actions/cart';
 import { GraphCart } from '@services/graphql';
 import { getLoginInfo } from '@helpers/auth';
 import { getCartId, setCartId } from '@helpers/cartId';
 import TagManager from 'react-gtm-module';
 import { addConfigProductsToCart, getConfigurableProduct } from '../../services/graphql';
-import { setConfigurable, setProductSelected } from '../../redux/action';
 import Footer from './Footer';
 import useStyles from './style';
 
@@ -33,10 +31,9 @@ export default (props) => {
         setLoading,
     } = props;
     const styles = useStyles();
-    const dispatch = useDispatch();
-
-    const productState = useSelector((state) => state.product);
-
+    const client = useApolloClient();
+    const [selectConfigurable, setSelectConfigurable] = React.useState({});
+    const [selectedProduct, setSelectedProduct] = React.useState({});
     const [qty, setQty] = React.useState(1);
     const handleQty = (event) => {
         setQty(event.target.value);
@@ -44,21 +41,19 @@ export default (props) => {
 
     const { data } = getConfigurableProduct(sku);
 
-    const selected = productState.selectConfigurable;
-
+    const selected = selectConfigurable;
     const [firstSelected, setFirstSelected] = React.useState({});
 
     const handleSelect = async (value, key) => {
         const options = firstSelected.code === key && firstSelected.value !== value ? {} : selected;
         options[key] = value;
-        dispatch(
-            setConfigurable({
-                [key]: value,
-            }),
-        );
+        selected[key] = value;
+        setSelectConfigurable({
+            ...selected,
+        });
         const product = await ProductByVariant(options, data.products.items[0].variants);
         if (product && JSON.stringify(product) !== '{}') {
-            dispatch(setProductSelected(product));
+            setSelectedProduct({ ...product });
             const bannerData = [];
             if (product.media_gallery.length > 0) {
                 // eslint-disable-next-line array-callback-return
@@ -166,11 +161,10 @@ export default (props) => {
                     setCartId(token);
                 }
             }
-
             if (__typename === 'ConfigurableProduct') {
                 const variables = {
                     cartId,
-                    sku: productState.product.sku,
+                    sku: selectedProduct.sku,
                     qty: parseFloat(qty),
                     parentSku: sku,
                 };
@@ -198,7 +192,7 @@ export default (props) => {
                     variables,
                 })
                     .then((res) => {
-                        dispatch(setCountCart(res.data.addConfigurableProductsToCart.cart.total_quantity));
+                        client.writeData({ data: { totalCart: res.data.addConfigurableProductsToCart.cart.total_quantity } });
                         setMessage({ variant: 'success', text: t('product:successAddCart'), open: true });
                         setLoading(false);
                         setOpen(false);

@@ -9,8 +9,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '@theme/theme';
 import { appWithTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import { withRedux } from '@lib/redux';
-import { compose } from 'redux';
 import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import Cookie from 'js-cookie';
 import cookies from 'next-cookies';
@@ -153,4 +151,4 @@ class MyApp extends App {
     }
 }
 
-export default compose(withApollo({ ssr: true }), withRedux)(appWithTranslation(MyApp));
+export default withApollo({ ssr: true })(appWithTranslation(MyApp));

@@ -1,10 +1,9 @@
 import { getCartId, setCartId } from '@helpers/cartId';
 import { getLoginInfo } from '@helpers/auth';
 import { GraphCart } from '@services/graphql';
-import { setCountCart } from '@stores/actions/cart';
+import { useApolloClient } from '@apollo/react-hooks';
 // import Router from 'next/router';
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import TagManager from 'react-gtm-module';
 import { addSimpleProductsToCart } from '../../services/graphql';
 import Footer from './Footer';
@@ -24,8 +23,7 @@ export default ({
     const handleQty = (event) => {
         setQty(event.target.value);
     };
-    const dispatch = useDispatch();
-
+    const client = useApolloClient();
     let cartId = '';
     let isLogin = '';
 
@@ -95,9 +93,7 @@ export default ({
                 },
             })
                 .then((res) => {
-                    dispatch(
-                        setCountCart(res.data.addSimpleProductsToCart.cart.total_quantity),
-                    );
+                    client.writeData({ data: { totalCart: res.data.addSimpleProductsToCart.cart.total_quantity } });
                     setMessage({
                         variant: 'success',
                         text: t('product:successAddCart'),
