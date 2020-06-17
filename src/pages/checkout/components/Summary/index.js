@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@components/Button';
 import Typography from '@components/Typography';
-import { useDispatch } from 'react-redux';
-import { setCountCart } from '@stores/actions/cart';
+import { useApolloClient } from '@apollo/react-hooks';
 import { setCartId, removeCartId } from '@helpers/cartId';
 import { setCheckoutData } from '@helpers/cookies';
 import { GraphCart } from '@services/graphql';
@@ -30,7 +29,7 @@ const Summary = ({
     styles: checkoutStyles,
 }) => {
     const { order: loading, all: disabled } = checkout.loading;
-    const dispatch = useDispatch();
+    const client = useApolloClient();
     const styles = useStyles();
     const [expanded, setExpanded] = useState(null);
     const [orderId, setOrderId] = useState(null);
@@ -115,7 +114,7 @@ const Summary = ({
                 order_number: orderNumber,
                 order_id: result.data.placeOrder.order.order_id,
             });
-            dispatch(setCountCart(0));
+            client.writeData({ data: { totalCart: 0 } });
             await removeCartId();
 
             if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {

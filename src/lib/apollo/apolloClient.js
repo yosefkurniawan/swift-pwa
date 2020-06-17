@@ -57,5 +57,6 @@ export default function createApolloClient(initialState, ctx) {
         link: logoutLink.concat(link),
         cache: new InMemoryCache({ fragmentMatcher }).restore(initialState),
         connectToDevTools: true,
+        resolvers: {},
     });
 }

@@ -6,8 +6,8 @@ import Typography from '@components/Typography';
 import { MenuItem, Select } from '@material-ui/core';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useApolloClient } from '@apollo/react-hooks';
 import ProductByVariant, { getCombinationVariants, CheckAvailableOptions } from '@helpers/productByVariant';
-import { setCountCart } from '@stores/actions/cart';
 import { GraphCart } from '@services/graphql';
 import { getLoginInfo } from '@helpers/auth';
 import { getCartId, setCartId } from '@helpers/cartId';
@@ -34,7 +34,7 @@ export default (props) => {
     } = props;
     const styles = useStyles();
     const dispatch = useDispatch();
-
+    const client = useApolloClient();
     const productState = useSelector((state) => state.product);
 
     const [qty, setQty] = React.useState(1);
@@ -198,7 +198,7 @@ export default (props) => {
                     variables,
                 })
                     .then((res) => {
-                        dispatch(setCountCart(res.data.addConfigurableProductsToCart.cart.total_quantity));
+                        client.writeData({ data: { totalCart: res.data.addConfigurableProductsToCart.cart.total_quantity } });
                         setMessage({ variant: 'success', text: t('product:successAddCart'), open: true });
                         setLoading(false);
                         setOpen(false);

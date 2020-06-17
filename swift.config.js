@@ -3,8 +3,8 @@
 /* --------------------------------------- */
 
 const HOST = {
-    dev: 'https://swiftpwa.testingnow.me',
-    prod: 'https://pwa.getswift.asia',
+    dev: 'http://localhost:3000',
+    prod: 'https://swiftpwa.testingnow.me',
 };
 
 /* Magento GraphQL Endpoint */

@@ -4,8 +4,7 @@ import Link from 'next/link';
 import Button from '@components/Button';
 import { removeIsLoginFlagging } from '@helpers/auth';
 import { removeCartId } from '@helpers/cartId';
-import { useDispatch } from 'react-redux';
-import { setCountCart } from '@stores/actions/cart';
+import { useApolloClient } from '@apollo/react-hooks';
 import Router from 'next/router';
 import {
     customerFeautres, custDataNameCookie, cmsSocialMediaLinkIdentifiers, enableSocialMediaLink,
@@ -18,14 +17,14 @@ import useStyles from './style';
 export default ({ t, isLogin, storeConfig }) => {
     const { aw_blog_general_enabled: blog } = storeConfig;
     const styles = useStyles();
-    const dispatch = useDispatch();
+    const client = useApolloClient();
     const [deleteTokenGql] = deleteToken();
     const handleLogout = () => {
         deleteTokenGql().then(() => {
             Cookies.remove(custDataNameCookie);
             removeIsLoginFlagging();
             removeCartId();
-            dispatch(setCountCart(0));
+            client.writeData({ data: { totalCart: 0 } });
             Router.push('/customer/account/login');
         }).catch(() => {
             //
