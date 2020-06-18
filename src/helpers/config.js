@@ -1,6 +1,9 @@
 /* eslint-disable import/prefer-default-export */
-import { HOST } from '@config';
+const { HOST } = require('../../swift.config');
 
-const isProduction = process.env.NODE_ENV === 'production';
+const getHost = () => {
+    const globalHost = HOST[process.env.APP_ENV] || HOST.dev;
+    return globalHost;
+};
 
-export const getHost = () => (isProduction ? HOST.prod : HOST.dev);
+module.exports = { getHost };

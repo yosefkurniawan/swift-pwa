@@ -1,13 +1,8 @@
 /* eslint-disable no-nested-ternary */
 const { GraphQLClient } = require('graphql-request');
-const { graphqlEndpoint } = require('../../../swift.config');
+const { getHost } = require('../../helpers/config');
 
 const { decrypt } = require('../../helpers/encryption');
-
-
-const uri = process.env.NODE_ENV === 'production'
-    ? graphqlEndpoint.prod
-    : graphqlEndpoint.dev;
 
 function requestGraph(query, variables = {}, context = {}) {
     let token = '';
@@ -19,7 +14,7 @@ function requestGraph(query, variables = {}, context = {}) {
         const headers = {
             Authorization: token,
         };
-        const client = new GraphQLClient(uri, {
+        const client = new GraphQLClient(`${getHost()}/graphql`, {
             headers,
         });
         console.log(client);
