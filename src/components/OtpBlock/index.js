@@ -10,7 +10,9 @@ import { useTranslation } from '@i18n';
 
 import useStyles from './style';
 
-const OtpBlock = ({ phoneProps, codeProps, type }) => {
+const OtpBlock = ({
+    phoneProps, codeProps, type, setDisabled,
+}) => {
     const { t } = useTranslation(['otp', 'common']);
     const styles = useStyles();
     const [time, setTime] = React.useState(0);
@@ -110,12 +112,14 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
             if (type === 'forgotPassword') isValid = res.data.checkOtpForgotPassword.is_valid_otp;
             if (type === 'login') isValid = res.data.checkOtpLogin.is_valid_otp;
             if (isValid) {
+                setDisabled(false);
                 window.toastMessage({
                     variant: 'success',
                     open: true,
                     text: t('otp:valid'),
                 });
             } else {
+                setDisabled(true);
                 window.toastMessage({
                     variant: 'error',
                     open: true,
@@ -123,6 +127,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
                 });
             }
         }).catch(() => {
+            setDisabled(true);
             window.backdropLoader(false);
             window.toastMessage({
                 variant: 'error',

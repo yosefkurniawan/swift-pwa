@@ -26,7 +26,6 @@ module.exports = {
     },
     plugins: ['react'],
     rules: {
-        'template-curly-spacing' : 'off',
         'camelcase': 'off',
         indent: ['error', 4],
         'react/react-in-jsx-scope': 'off',
