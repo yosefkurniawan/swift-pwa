@@ -10,6 +10,8 @@ const ItemField = ({
     propsValue = {},
     errorForm = false,
     errorMessage = '',
+    required = false,
+    ...other
 }) => {
     const { t } = useTranslation(['return']);
     const [select, setSelect] = React.useState('');
@@ -21,7 +23,7 @@ const ItemField = ({
         });
     };
     let error = false;
-    if (errorForm) {
+    if (errorForm && required) {
         if (select === '' || select.length === 0) error = true;
     }
     return (
@@ -33,6 +35,7 @@ const ItemField = ({
             onChange={handleSelect}
             error={error}
             errorMessage={errorMessage || t('return:form:required')}
+            {...other}
         />
     );
 };

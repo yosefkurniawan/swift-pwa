@@ -6,7 +6,6 @@
 import { GraphCustomer } from '@services/graphql';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
-import Message from '@components/Toast';
 import Alert from '@material-ui/lab/Alert';
 import { getCartId, setCartId } from '@helpers/cartId';
 import { getCartIdUser } from '@services/graphql/schema/cart';
@@ -36,13 +35,6 @@ const Content = (props) => {
         skip: token === '' || !token,
     });
 
-    const [state, setState] = React.useState({
-        loading: false,
-        openMessage: false,
-        textMessage: '',
-        variantMessage: 'success',
-    });
-
     if (!data || loading || error) return <Loaders />;
     if (data) {
         wishlist = data.customer.wishlist.items.map(({ id, product }) => ({
@@ -63,7 +55,6 @@ const Content = (props) => {
     const handleToCart = ({
         sku, url_key, wishlistItemId, __typename,
     }) => {
-        console.log(__typename);
         if (__typename === 'ConfigurableProduct') {
             Router.push('/[...slug]', `/${url_key}`);
         } else {
@@ -87,22 +78,20 @@ const Content = (props) => {
                         },
                     }).then(() => {
                         window.backdropLoader(false);
-                        setState({
-                            ...state,
-                            openMessage: true,
-                            variantMessage: 'success',
-                            textMessage: t('wishlist:successAddCart'),
+                        window.toastMessage({
+                            open: true,
+                            variant: 'success',
+                            text: t('wishlist:successAddCart'),
                         });
                         refetch();
                     });
                 })
                 .catch(async (e) => {
                     window.backdropLoader(false);
-                    await setState({
-                        ...state,
-                        openMessage: true,
-                        variantMessage: 'error',
-                        textMessage: e.message.split(':')[1] || t('wishlist:failedAddCart'),
+                    window.toastMessage({
+                        open: true,
+                        variant: 'error',
+                        text: e.message.split(':')[1] || t('wishlist:failedAddCart'),
                     });
                 });
         }
@@ -117,21 +106,19 @@ const Content = (props) => {
         })
             .then(() => {
                 window.backdropLoader(false);
-                setState({
-                    ...state,
-                    openMessage: true,
-                    variantMessage: 'success',
-                    textMessage: t('wishlist:removeSuccess'),
+                window.toastMessage({
+                    open: true,
+                    variant: 'success',
+                    text: t('wishlist:removeSuccess'),
                 });
                 refetch();
             })
             .catch((e) => {
                 window.backdropLoader(false);
-                setState({
-                    ...state,
-                    openMessage: true,
-                    variantMessage: 'error',
-                    textMessage: e.message.split(':')[1] || t('wishlist:removeFailed'),
+                window.toastMessage({
+                    open: true,
+                    variant: 'error',
+                    text: e.message.split(':')[1] || t('wishlist:removeFailed'),
                 });
             });
     };
@@ -168,30 +155,20 @@ const Content = (props) => {
         setTimeout(async () => {
             refetch();
             window.backdropLoader(false);
-            await setState({
-                ...state,
-                openMessage: true,
-                textMessage: errorCart[0]
+            window.toastMessage({
+                open: true,
+                text: errorCart[0]
                     ? totalSucces > 0
                         // eslint-disable-next-line max-len
                         ? `${t('wishlist:addPartToBagSuccess').split('$'[0])} ${totalSucces} ${t('wishlist:addPartToBagSuccess').split('$'[1])}`
                         : errorCart[1] || t('product:failedAddCart')
                     : t('wishlist:addAllToBagSuccess'),
-                variantMessage: errorCart[0] ? 'error' : 'success',
+                variant: errorCart[0] ? 'error' : 'success',
             });
         }, 3000);
     };
-
-    const handleClose = () => {
-        setState({
-            ...state,
-            openMessage: !state.openMessage,
-        });
-    };
-
     return (
         <div className={styles.root}>
-            <Message open={state.openMessage} variant={state.variantMessage} setOpen={handleClose} message={state.textMessage} />
             {wishlist.length === 0 && (
                 <Alert className="m-15" severity="warning">
                     {t('wishlist:notFound')}

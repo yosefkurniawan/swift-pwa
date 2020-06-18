@@ -1,5 +1,4 @@
 import Backdrop from '@components/Loaders/Backdrop';
-import Message from '@components/Toast';
 import { formatPrice } from '@helpers/currency';
 import { useFormik } from 'formik';
 import _ from 'lodash';
@@ -255,28 +254,19 @@ const Checkout = (props) => {
         }
     }, [manageCustomer.data, dataCart]);
 
-    const handleCloseMessage = () => {
-        const state = { ...checkout };
-        state.data.message.open = false;
-        setCheckout(state);
-    };
 
     const handleOpenMessage = async ({ variant, text }) => {
         const state = { ...checkout };
-        state.data.message.variant = variant;
-        state.data.message.text = text;
-        state.data.message.open = true;
+        window.toastMessage({
+            open: true,
+            variant,
+            text,
+        });
         setCheckout(state);
     };
 
     return (
         <div className={styles.root}>
-            <Message
-                open={checkout.data.message.open}
-                variant={checkout.data.message.variant}
-                setOpen={handleCloseMessage}
-                message={checkout.data.message.text}
-            />
             <Backdrop open={checkout.status.backdrop} />
             <div className={styles.container}>
                 <Email

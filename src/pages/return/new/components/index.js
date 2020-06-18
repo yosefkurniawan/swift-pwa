@@ -9,7 +9,6 @@ import Button from '@components/Button';
 import Divider from '@material-ui/core/Divider';
 import DropFile from '@components/DropFile';
 import CheckBox from '@components/Forms/CheckBox';
-import Message from '@components/Toast';
 import Router from 'next/router';
 import { requestRma } from '../../services/graphql';
 import useStyles from '../style';
@@ -105,7 +104,6 @@ const NewReturnRma = (props) => {
     };
 
     const handleSubmit = () => {
-        window.backdropLoader(true);
         const fieldRequets = custom_fields.filter((field) => field.refers === 'request');
         const fieldItem = custom_fields.filter((field) => field.refers === 'item');
         const stateData = state;
@@ -123,6 +121,7 @@ const NewReturnRma = (props) => {
         }
 
         if (stateData.errorForm === false) {
+            window.backdropLoader(true);
             postRma({
                 variables: {
                     order_number: formData.order_number,
@@ -138,11 +137,10 @@ const NewReturnRma = (props) => {
             }).then(async (res) => {
                 if (res.data) {
                     window.backdropLoader(false);
-                    await setState({
-                        ...state,
-                        openMessage: true,
-                        textMessage: t('return:form:addSuccess'),
-                        variantMessage: 'success',
+                    await window.toastMessage({
+                        open: true,
+                        text: t('return:form:addSuccess'),
+                        variant: 'success',
                     });
                     setTimeout(() => {
                         Router.push(
@@ -153,11 +151,10 @@ const NewReturnRma = (props) => {
                 }
             }).catch((e) => {
                 window.backdropLoader(false);
-                setState({
-                    ...state,
-                    openMessage: true,
-                    textMessage: e.message.split(':')[1] || t('return:form:addFailed'),
-                    variantMessage: 'error',
+                window.toastMessage({
+                    open: true,
+                    text: e.message.split(':')[1] || t('return:form:addFailed'),
+                    variant: 'error',
                 });
             });
         } else {
@@ -174,12 +171,6 @@ const NewReturnRma = (props) => {
 
     return (
         <div className="column">
-            <Message
-                open={state.openMessage}
-                variant={state.variantMessage}
-                setOpen={() => setState({ ...state, openMessage: false })}
-                message={state.textMessage}
-            />
             <div className={classNames(styles.block)}>
                 {
                     custom_fields && custom_fields.length > 0 && custom_fields.map((item, index) => {
@@ -200,6 +191,7 @@ const NewReturnRma = (props) => {
                                     errorForm={state.errorForm}
                                     onSelect={changeOptionCustomField}
                                     label={item.frontend_labels[0].value}
+                                    required={item.is_required}
                                 />
                             );
                         } return null;

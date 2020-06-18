@@ -2,7 +2,6 @@ import TextField from '@components/Forms/TextField';
 import PasswordField from '@components/Forms/Password';
 import Button from '@components/Button';
 import Typography from '@components/Typography';
-import Message from '@components/Toast';
 import { FormControlLabel, Switch } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -26,22 +25,9 @@ const Login = ({
     const styles = useStyles();
     const [isOtp, setIsOtp] = React.useState(false);
     const [isRevokeToken, setRevokeToken] = React.useState(false);
-    const [message, setMessage] = React.useState({
-        open: false,
-        text: '',
-        variant: 'success',
-    });
     const [disabled, setdisabled] = React.useState(false);
     const [cusIsLogin, setIsLogin] = React.useState(0);
 
-    const handleOpenMessage = ({ variant, text }) => {
-        setMessage({
-            ...message,
-            variant,
-            text,
-            open: !message.open,
-        });
-    };
 
     let cartId = '';
     let redirectLastPath = lastPathNoAuth;
@@ -128,7 +114,8 @@ const Login = ({
                 .catch((e) => {
                     setdisabled(false);
                     window.backdropLoader(false);
-                    handleOpenMessage({
+                    window.toastMessage({
+                        open: true,
                         variant: 'error',
                         text: e.message.split(':')[1] || t('customer:login:failed'),
                     });
@@ -145,7 +132,7 @@ const Login = ({
             setCartId(custCartId, expired);
             setdisabled(false);
             window.backdropLoader(false);
-            handleOpenMessage({ variant: 'success', text: t('customer:login:success') });
+            window.toastMessage({ open: true, variant: 'success', text: t('customer:login:success') });
             if (query && query.redirect) {
                 Router.push(query.redirect);
             } else if (redirectLastPath && redirectLastPath !== '') {
@@ -164,7 +151,7 @@ const Login = ({
                     setCartId(custCartId, expired);
                     setdisabled(false);
                     window.backdropLoader(false);
-                    handleOpenMessage({ variant: 'success', text: t('customer:login:success') });
+                    window.toastMessage({ open: true, variant: 'success', text: t('customer:login:success') });
                     if (query && query.redirect) {
                         Router.push(query.redirect);
                     } else if (redirectLastPath && redirectLastPath !== '') {
@@ -183,7 +170,6 @@ const Login = ({
 
     return (
         <div>
-            <Message open={message.open} variant={message.variant} setOpen={handleOpenMessage} message={message.text} />
             <form onSubmit={formik.handleSubmit} className={styles.container}>
                 {otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login && (
                     <FormControlLabel

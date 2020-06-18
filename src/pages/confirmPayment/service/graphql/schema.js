@@ -4,7 +4,7 @@ export const confirmPayment = gql`
 mutation confirmPayment(
     $account_name: String!,
     $account_number: String!,
-    $amount: Int!,
+    $amount: Float!,
     $date: String!,
     $order_number: String!,
     $payment: String!,

@@ -4,7 +4,6 @@ import PriceFormat from '@components/PriceFormat';
 import Banner from '@components/Slider/Banner';
 import Caraousel from '@components/Slider/Carousel';
 import Typography from '@components/Typography';
-import Toast from '@components/Toast';
 import { Box, IconButton } from '@material-ui/core';
 import {
     Favorite,
@@ -116,9 +115,6 @@ const ProductPage = (props) => {
     const [openOption, setOpenOption] = React.useState(false);
     const [openDrawer, setOpenDrawer] = React.useState(false);
     const [openShare, setOpenShare] = React.useState(false);
-    const [message, setMessage] = React.useState({
-        open: false, text: '', variant: 'success',
-    });
     const [banner, setBanner] = React.useState(bannerData);
     const [price, setPrice] = React.useState({
         priceRange: data.price_range,
@@ -164,18 +160,17 @@ const ProductPage = (props) => {
                 },
             }).then(async () => {
                 await setWishlist(!wishlist);
-                await setMessage({ open: true, variant: 'success', text: t('wishlist:addSuccess') });
+                await window.toastMessage({ open: true, variant: 'success', text: t('wishlist:addSuccess') });
                 route.push('/wishlist');
             }).catch((e) => {
-                setMessage({
+                window.toastMessage({
                     open: true,
                     variant: 'error',
                     text: e.message.split(':')[1] || t('wishlist:addFailed'),
                 });
             });
         } else {
-            setMessage({
-                ...message,
+            window.toastMessage({
                 open: true,
                 variant: 'warning',
                 text: t('wishlist:addWithoutLogin'),
@@ -239,12 +234,6 @@ const ProductPage = (props) => {
 
     return (
         <>
-            <Toast
-                open={message.open}
-                setOpen={() => setMessage({ ...message, open: false })}
-                message={message.text}
-                variant={message.variant}
-            />
             <OptionDialog
                 {...props}
                 open={openOption}

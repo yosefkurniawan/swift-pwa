@@ -7,7 +7,6 @@ import Button from '@components/Button';
 import Link from 'next/link';
 import { getCartId } from '@helpers/cartId';
 import { useMutation } from '@apollo/react-hooks';
-import Toast from '@components/Toast';
 import { GraphCustomer } from '@services/graphql';
 import TagManager from 'react-gtm-module';
 import { storeConfigNameCokie } from '@config';
@@ -39,12 +38,6 @@ const Cart = (props) => {
     const [editMode, setEditMode] = useState(false);
     const [editItem, setEditItem] = useState({});
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
-
-    const [message, setMessage] = React.useState({
-        open: false,
-        text: '',
-        variant: 'success',
-    });
     let cartId = '';
 
     let dataCart = {
@@ -218,10 +211,10 @@ const Cart = (props) => {
             })
                 .then(async () => {
                     deleteItem(itemProps);
-                    await setMessage({ open: true, variant: 'success', text: t('wishlist:addSuccess') });
+                    await window.toastMessage({ open: true, variant: 'success', text: t('wishlist:addSuccess') });
                 })
                 .catch((e) => {
-                    setMessage({
+                    window.toastMessage({
                         open: true,
                         variant: 'error',
                         text: e.message.split(':')[1] || t('wishlist:addFailed'),
@@ -229,8 +222,7 @@ const Cart = (props) => {
                     window.backdropLoader(false);
                 });
         } else {
-            setMessage({
-                ...message,
+            window.toastMessage({
                 open: true,
                 variant: 'warning',
                 text: t('wishlist:addWithoutLogin'),
@@ -247,7 +239,6 @@ const Cart = (props) => {
     if (dataCart.id && dataCart.items.length > 0) {
         return (
             <>
-                <Toast open={message.open} setOpen={() => setMessage({ ...message, open: false })} message={message.text} variant={message.variant} />
                 <Box className={styles.container}>
                     <div className={styles.toolbar}>
                         <div className={styles.toolbarCounter}>
