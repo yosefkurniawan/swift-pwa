@@ -14,27 +14,28 @@ yarn dev
 2. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ### With Docker
-1. to set running mode, edit file `dockerfile`. Edit this line `CMD [ "npm", "run", "dev" ]`
-
 dev mode: 
+open file docker-compose.yml on `docker/local` then change bind volume 
 ```
-[ "npm", "run", "dev" ]
+    volumes:
+        - [project path in local]:[project path in docker]
+``` 
+
 ```
+to build docker-compose -f ./docker/local/docker-compose.yml build
+to run docker-compose -f ./docker/local/docker-compose.yml up
+to rebuild and run docker-compose -f ./docker/local/docker-compose.yml up -- build
+```
+
 prod mode:
 ```
-[ "npm", "run", "build" ]
-[ "npm", "run", "start" ]
+to build: `docker-compose build`
+to run: `docker-composer up`
+to re-build and run: `docker-compose up --build`
 ```
 
-2. to bind volume, edit file `docker-compose.yml`. Add this code under `services > frontend`:
-```
-volumes:
-            - [project path in local]:[project path in docker]
-```
 
-3. to build: `docker-compose build`
-4. to run: `docker-composer up`
-5. to re-build and run: `docker-compose up --build`
+
 
 ## Setup Host and Graphql Endpoint
 1. open file swift.config.js
