@@ -1,5 +1,4 @@
 import { withApollo } from '@lib/apollo';
-import { compose } from 'redux';
 import Content from './component';
 
 const Page = (props) => (
@@ -21,5 +20,4 @@ Page.getInitialProps = async ({ query, req }) => ({
         }${window.location.port ? `:${window.location.port}` : ''}`,
 });
 
-
-export default compose(withApollo({ ssr: true }))(Page);
+export default withApollo({ ssr: true })(Page);
