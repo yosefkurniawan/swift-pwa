@@ -44,7 +44,7 @@ const ConfirmPayment = (props) => {
             postConfirmPayment({
                 variables: {
                     ...values,
-                    amount: parseInt(values.amount, 0),
+                    amount: parseFloat(values.amount),
                     date: formatDate(values.date, 'YYYY-MM-03 HH:mm:ss'),
                 },
             }).then(() => {
