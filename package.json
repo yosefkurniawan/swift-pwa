@@ -70,15 +70,10 @@
     "react-google-maps": "^9.4.5",
     "react-gtm-module": "^2.0.8",
     "react-html-parser": "^2.0.2",
-    "react-redux": "^7.2.0",
     "react-share": "^4.1.0",
     "react-swipeable-views": "^0.13.9",
     "react-swipeable-views-utils": "^0.13.9",
     "react-typed": "^1.2.0",
-    "redux": "^4.0.5",
-    "redux-devtools-extension": "^2.13.8",
-    "redux-logger": "^3.0.6",
-    "redux-persist": "^6.0.0",
     "yup": "^0.28.3"
   },
   "devDependencies": {
