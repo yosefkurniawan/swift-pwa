@@ -1,7 +1,6 @@
 import Typography from '@components/Typography';
 import { useDropzone } from 'react-dropzone';
 import React, { useCallback, useMemo } from 'react';
-import Message from '@components/Toast';
 import { useTranslation } from '@i18n';
 
 const toBase64 = (file) => new Promise((resolve, reject) => {
@@ -24,7 +23,6 @@ const DropFile = ({
 }) => {
     const { t } = useTranslation(['common']);
     const [dropFile, setDropFile] = React.useState([]);
-    const [openError, setOpenError] = React.useState(false);
     const onDrop = useCallback((files) => {
         if (files && files.length > 0) {
             if (multiple) {
@@ -52,6 +50,9 @@ const DropFile = ({
         }
         getBase64(filebase64);
     };
+
+    const messageError = `${t('common:fileUpload:reject') + acceptedFile}& max file ${maxSize / 1000000}Mb`;
+
     const {
         getRootProps,
         getInputProps,
@@ -62,7 +63,11 @@ const DropFile = ({
         onDrop,
         accept: acceptedFile,
         onDropAccepted,
-        onDropRejected: () => setOpenError(true),
+        onDropRejected: () => window.toastMessage({
+            open: true,
+            text: messageError,
+            variant: 'error',
+        }),
         maxSize,
     });
 
@@ -105,10 +110,8 @@ const DropFile = ({
         isDragAccept,
     ]);
 
-    const messageError = `${t('common:fileUpload:reject') + acceptedFile}& max file ${maxSize / 1000000}Mb`;
     return (
         <div className="column">
-            <Message autoHideDuration={6000} open={openError} variant="error" setOpen={() => setOpenError(false)} message={messageError} />
             {
                 title && title !== '' ? (<Typography variant="label" type="semiBold" color={error ? 'red' : 'default'}>{title}</Typography>)
                     : null

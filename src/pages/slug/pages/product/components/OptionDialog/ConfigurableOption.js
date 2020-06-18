@@ -25,7 +25,6 @@ export default (props) => {
             price_range, price_tiers, name, categories,
             stock_status,
         },
-        setMessage,
         setOpen,
         loading,
         setLoading,
@@ -150,7 +149,7 @@ export default (props) => {
                         })
                         .catch((e) => {
                             setLoading(false);
-                            setMessage({
+                            window.toastMessage({
                                 ...errorMessage,
                                 text: e.message.split(':')[1] || errorMessage.text,
                             });
@@ -193,13 +192,13 @@ export default (props) => {
                 })
                     .then((res) => {
                         client.writeData({ data: { totalCart: res.data.addConfigurableProductsToCart.cart.total_quantity } });
-                        setMessage({ variant: 'success', text: t('product:successAddCart'), open: true });
+                        window.toastMessage({ variant: 'success', text: t('product:successAddCart'), open: true });
                         setLoading(false);
                         setOpen(false);
                     })
                     .catch((e) => {
                         setLoading(false);
-                        setMessage({
+                        window.toastMessage({
                             ...errorMessage,
                             text: e.message.split(':')[1] || errorMessage.text,
                         });

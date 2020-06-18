@@ -2,9 +2,7 @@ import Loading from '@components/Loaders';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
 import TextField from '@components/Forms/TextField';
-import Toast from '@components/Toast';
 import { regexPhone } from '@helpers/regex';
-// import Toast from '@components/Toast';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { cmsContactIdentifiers } from '@root/swift.config.js';
@@ -14,12 +12,6 @@ import useStyles from './style';
 
 const ContactForm = ({ t }) => {
     const styles = useStyles();
-
-    const [message, setMessage] = React.useState({
-        variant: 'success',
-        open: false,
-        text: '',
-    });
 
     const [contactusFormSubmit] = gqlService.contactusFormSubmit();
     const formik = useFormik({
@@ -44,7 +36,7 @@ const ContactForm = ({ t }) => {
                     telephone: values.telephone,
                 },
             });
-            setMessage({
+            window.toastMessage({
                 variant: 'success',
                 open: true,
                 text: response.data.contactusFormSubmit.success_message,
@@ -54,7 +46,6 @@ const ContactForm = ({ t }) => {
 
     return (
         <form className={styles.container} onSubmit={formik.handleSubmit}>
-            <Toast open={message.open} setOpen={() => setMessage({ ...message, open: false })} message={message.text} variant={message.variant} />
             <span style={{ margin: '0 0 10px -5px' }}>
                 <Typography variant="h6" type="bold" align="left">
                     {t('contact:contactUs')}
