@@ -6,12 +6,11 @@ export default ({
     data = [],
 }) => {
     const styles = useStyles();
-    const list = data.reverse();
     return (
         <div className={styles.container}>
             <ul className={styles.list}>
                 {
-                    list.map((item, index) => (
+                    data.map((item, index) => (
                         <li
                             key={index}
                             className={

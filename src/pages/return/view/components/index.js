@@ -82,6 +82,7 @@ const DetailReturn = (props) => {
     const [postCancelRma] = cancelRma();
 
     const handleCancelRma = () => {
+        setState({ ...state, openDialog: false });
         window.backdropLoader(true);
         postCancelRma({
             variables: {
@@ -93,7 +94,7 @@ const DetailReturn = (props) => {
             window.toastMessage({
                 open: true,
                 variant: 'success',
-                text: t('return:form:successCancel'),
+                text: t('return:view:successCancel'),
             });
             refetch();
         }).catch((e) => {
@@ -101,7 +102,7 @@ const DetailReturn = (props) => {
             window.toastMessage({
                 open: true,
                 variant: 'error',
-                text: e.message.split(':')[1] || t('return:form:failedCancel'),
+                text: e.message.split(':')[1] || t('return:view:failedCancel'),
             });
         });
     };
