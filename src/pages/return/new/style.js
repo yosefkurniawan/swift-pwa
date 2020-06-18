@@ -67,4 +67,8 @@ export default makeStyles(() => ({
         minHeight: 50,
         marginBottom: 20,
     },
+    listOtherRma: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
 }));

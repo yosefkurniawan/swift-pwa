@@ -123,7 +123,7 @@ const ItemProduct = (props) => {
                 {other_rma_request && other_rma_request.length > 0 ? (
                     <div className="column">
                         <Typography color="red">{t('return:otherRequestRma')}</Typography>
-                        <div className="row">
+                        <div className={styles.listOtherRma}>
                             {other_rma_request.map((number_rma, indx) => (
                                 <Link href="/rma/customer/view/id/[id]" as={`/rma/customer/view/id/${number_rma}`} key={indx}>
                                     <a>
@@ -166,6 +166,7 @@ const ItemProduct = (props) => {
                                       }}
                                       errorForm={errorForm}
                                       onSelect={changeOptionCustomField}
+                                      required={item.is_required}
                                   />
                               );
                           }
