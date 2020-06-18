@@ -200,6 +200,7 @@ const NewReturnRma = (props) => {
                                     errorForm={state.errorForm}
                                     onSelect={changeOptionCustomField}
                                     label={item.frontend_labels[0].value}
+                                    required={item.is_required}
                                 />
                             );
                         } return null;
