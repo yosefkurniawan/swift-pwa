@@ -8,7 +8,7 @@ import { withTranslation } from '@i18n';
 import TextField from '@components/Forms/TextField';
 import Router from 'next/router';
 import SearchIcon from '@material-ui/icons/Search';
-import { Skeleton } from '@material-ui/lab';
+import Skeleton from '@components/Skeleton';
 import useStyles from './style';
 import Category from './Category';
 import SubCategory from './SubCategory';
@@ -19,17 +19,17 @@ const Transition = React.forwardRef((props, ref) => <Slide direction="left" ref=
 const CategoryWrapperSkeleteon = () => {
     const SkeletonRect = ({ width }) => (
         <Skeleton
-            style={{ alignSelf: 'center', marginBottom: '20px' }}
+            style={{ alignSelf: 'center', marginBottom: '32px' }}
             variant="rect"
             width={width}
-            height={24}
+            height={16}
             animation="wave"
         />
     );
     return (
-        <div style={{ width: '100%' }}>
+        <div style={{ width: '100%', marginTop: '36px' }}>
             <Grid container direction="column" alignItems="center">
-                {[100, 60, 180, 65, 150, 70, 80, 175, 70, 55, 115, 60, 155, 65, 80].map((width, i) => (
+                {[100, 60, 180, 65, 150, 70, 80, 175, 70, 55, 115, 60, 155, 65, 80, 120, 60].map((width, i) => (
                     <SkeletonRect key={i} width={width} />
                 ))}
             </Grid>

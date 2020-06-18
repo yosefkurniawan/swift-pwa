@@ -8,9 +8,11 @@ const SkeletonCategory = () => {
     const styles = useStyles();
     return (
         <Box className={styles.container}>
-            <Skeleton variant="rect" width="100%" height={577} />
-            <Skeleton variant="rect" width="100%" height={50} style={{ marginTop: 10, marginBottom: 10 }} />
-            <Skeleton variant="rect" width="100%" height={50} style={{ marginBottom: 10 }} />
+            <Skeleton variant="rect" className={styles.skeletonBanner} />
+            <Skeleton variant="text" width={225} />
+            <Skeleton variant="text" width="100%" />
+            <Skeleton variant="text" width="100%" />
+            <Skeleton variant="text" width="40%" style={{ marginBottom: 20 }} />
             <GridList
                 data={[1, 1, 1, 1]}
                 ItemComponent={ProductItemLoading}
