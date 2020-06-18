@@ -15,7 +15,6 @@ export default ({
         __typename, sku, name, categories,
         price_range, stock_status,
     },
-    setMessage,
     loading,
     setLoading,
 }) => {
@@ -53,7 +52,7 @@ export default ({
                     })
                     .catch((e) => {
                         setLoading(false);
-                        setMessage({
+                        window.toastMessage({
                             ...errorMessage,
                             text: e.message.split(':')[1] || errorMessage.text,
                         });
@@ -94,7 +93,7 @@ export default ({
             })
                 .then((res) => {
                     client.writeData({ data: { totalCart: res.data.addSimpleProductsToCart.cart.total_quantity } });
-                    setMessage({
+                    window.toastMessage({
                         variant: 'success',
                         text: t('product:successAddCart'),
                         open: true,
@@ -104,7 +103,7 @@ export default ({
                 })
                 .catch((e) => {
                     setLoading(false);
-                    setMessage({
+                    window.toastMessage({
                         ...errorMessage,
                         text: e.message.split(':')[1] || errorMessage.text,
                     });

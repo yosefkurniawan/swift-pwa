@@ -1,6 +1,5 @@
 import Button from '@components/Button';
 import Password from '@components/Forms/Password';
-import Toast from '@components/Toast';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/router';
@@ -9,11 +8,6 @@ import useStyles from './style';
 
 const ForgotPassword = ({ t, query: { token } }) => {
     const styles = useStyles();
-    const [toast, setToast] = React.useState({
-        open: false,
-        variant: 'success',
-        text: '',
-    });
     const [disabled, setdisabled] = React.useState(false);
     const [setNewPassword] = newPassword();
     const formik = useFormik({
@@ -40,7 +34,7 @@ const ForgotPassword = ({ t, query: { token } }) => {
                 .then(async () => {
                     window.backdropLoader(false);
                     setdisabled(false);
-                    setToast({
+                    window.toastMessage({
                         open: true,
                         variant: 'success',
                         text: t('customer:newPassword:success'),
@@ -52,7 +46,7 @@ const ForgotPassword = ({ t, query: { token } }) => {
                 .catch((e) => {
                     window.backdropLoader(false);
                     setdisabled(false);
-                    setToast({
+                    window.toastMessage({
                         open: true,
                         variant: 'error',
                         text: e.message.split(':')[1] || t('customer:newPassword:failed'),
@@ -63,7 +57,6 @@ const ForgotPassword = ({ t, query: { token } }) => {
 
     return (
         <form className={styles.container} onSubmit={formik.handleSubmit}>
-            <Toast open={toast.open} setOpen={() => setToast({ ...toast, open: false })} message={toast.text} variant={toast.variant} />
             <Password
                 label="Password"
                 name="password"

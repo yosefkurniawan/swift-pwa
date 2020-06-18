@@ -7,7 +7,6 @@ import { Checkbox, FormControlLabel } from '@material-ui/core/';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/router';
-import Toast from '@components/Toast';
 import OtpBlock from '@components/OtpBlock';
 import { setLogin } from '@helpers/auth';
 import { setCartId, getCartId } from '@helpers/cartId';
@@ -22,11 +21,6 @@ import useStyles from './style';
 const Register = ({ t, storeConfig }) => {
     const styles = useStyles();
     const [phoneIsWa, setPhoneIsWa] = React.useState(false);
-    const [message, setMessage] = React.useState({
-        open: false,
-        variant: 'success',
-        text: '',
-    });
     const [cusIsLogin, setIsLogin] = React.useState(0);
     const [disabled, setdisabled] = React.useState(false);
     let cartId = '';
@@ -100,7 +94,7 @@ const Register = ({ t, storeConfig }) => {
                 .catch((e) => {
                     setdisabled(false);
                     window.backdropLoader(false);
-                    setMessage({
+                    window.toastMessage({
                         open: true,
                         text: e.message.split(':')[1] || t('customer:register:failed'),
                         variant: 'error',
@@ -117,7 +111,7 @@ const Register = ({ t, storeConfig }) => {
         if (cartId === '' || !cartId) {
             setLogin(1, expired);
             setCartId(custCartId, expired);
-            setMessage({
+            window.toastMessage({
                 open: true,
                 text: t('customer:register:success'),
                 variant: 'success',
@@ -133,7 +127,7 @@ const Register = ({ t, storeConfig }) => {
                 .then(() => {
                     setLogin(1, expired);
                     setCartId(custCartId, expired);
-                    setMessage({
+                    window.toastMessage({
                         open: true,
                         text: t('customer:register:success'),
                         variant: 'success',
@@ -143,7 +137,7 @@ const Register = ({ t, storeConfig }) => {
                 .catch((e) => {
                     setdisabled(false);
                     window.backdropLoader(false);
-                    setMessage({
+                    window.toastMessage({
                         open: true,
                         text: e.message.split(':')[1] || t('customer:register:failed'),
                         variant: 'error',
@@ -156,7 +150,6 @@ const Register = ({ t, storeConfig }) => {
 
     return (
         <>
-            <Toast open={message.open} message={message.text} variant={message.variant} setOpen={() => setMessage({ ...message, open: false })} />
             <form className={styles.container} onSubmit={formik.handleSubmit}>
                 <TextField
                     label={t('common:form:firstName')}

@@ -4,7 +4,6 @@ import Button from '@components/Button';
 import TextField from '@components/Forms/TextField';
 import Password from '@components/Forms/Password';
 import Typography from '@components/Typography';
-import Toast from '@components/Toast';
 import { GraphOtp, GraphConfig } from '@services/graphql';
 import PropTypes from 'prop-types';
 import { useTranslation } from '@i18n';
@@ -16,11 +15,6 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
     const styles = useStyles();
     const [time, setTime] = React.useState(0);
     const [manySend, setManySend] = React.useState(1);
-    const [message, setMessage] = React.useState({
-        open: false,
-        text: '',
-        variant: 'info',
-    });
     const [config, setConfig] = React.useState(null);
     const [phoneNumber, setPhoneNumber] = React.useState('');
     const [otp, setOtp] = React.useState('');
@@ -56,7 +50,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
         }
         const maxSend = config && config.maxTry ? config.maxTry : 3;
         if (manySend > maxSend) {
-            setMessage({
+            window.toastMessage({
                 open: true,
                 text: t('otp:maxSend'),
                 variant: 'warning',
@@ -71,22 +65,23 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
                 setManySend(manySend + 1);
                 // eslint-disable-next-line no-nested-ternary
                 setTime(config && config.expired ? config.expired : 60);
-                setMessage({
+                window.toastMessage({
                     open: true,
                     text: t('otp:sendSuccess'),
                     variant: 'success',
                 });
             }).catch((e) => {
                 window.backdropLoader(false);
-                setMessage({
+                window.toastMessage({
                     open: true,
                     text: e.message.split(':')[1] || t('customer:top:sendFailed'),
                     variant: 'error',
                 });
             });
         } else {
-            setMessage({
+            window.toastMessage({
                 open: true,
+                variant: 'success',
                 text: `${t('otp:wait')} ${time} ${t('otp:resend')}`,
             });
         }
@@ -115,13 +110,13 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
             if (type === 'forgotPassword') isValid = res.data.checkOtpForgotPassword.is_valid_otp;
             if (type === 'login') isValid = res.data.checkOtpLogin.is_valid_otp;
             if (isValid) {
-                setMessage({
+                window.toastMessage({
                     variant: 'success',
                     open: true,
                     text: t('otp:valid'),
                 });
             } else {
-                setMessage({
+                window.toastMessage({
                     variant: 'error',
                     open: true,
                     text: t('otpLinvalid'),
@@ -129,7 +124,7 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
             }
         }).catch(() => {
             window.backdropLoader(false);
-            setMessage({
+            window.toastMessage({
                 variant: 'error',
                 open: true,
                 text: t('otpLinvalid'),
@@ -178,7 +173,6 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
 
     return (
         <div className={styles.root}>
-            <Toast open={message.open} message={message.text} variant={message.variant} setOpen={() => setMessage({ ...message, open: false })} />
             <div className={styles.componentContainer}>
                 <div className={styles.input}>
                     <TextField label={t('common:form:phoneNumber')} fullWidth {...phoneProps} onChange={handlePhone} />

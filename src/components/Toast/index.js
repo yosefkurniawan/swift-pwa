@@ -1,12 +1,28 @@
-import { Snackbar } from '@material-ui/core';
+import { Snackbar, makeStyles } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 
+const useStyles = makeStyles({
+    container: {
+        margin: 10,
+        maxWidth: '90%',
+        padding: 10,
+        overflow: 'hidden',
+        wordWrap: 'break-word',
+    },
+    message: {
+        wordWrap: 'break-word',
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+});
+
 function Alert(props) {
-    return <MuiAlert elevation={6} variant="standard" {...props} />;
+    const styles = useStyles();
+    return <MuiAlert elevation={6} classes={{ root: styles.container, message: styles.message }} variant="standard" {...props} />;
 }
 
 export default ({
-    open, message, setOpen, variant = 'info', autoHideDuration = 2000,
+    open, message, setOpen, variant = 'info', autoHideDuration = 3000,
 }) => {
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
