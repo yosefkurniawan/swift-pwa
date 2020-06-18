@@ -197,9 +197,6 @@ detail_rma {
         }
       }
     }
-    status_list {
-      name
-    }
   }
 `;
 
@@ -221,7 +218,7 @@ export const updateRma = gql`
     $increment_id: String!
     $order_items: [AwRmaOrderItemsInput]
     $print_label: AwRmaPrintLabelInput
-    $status_id: Int
+    $update_status: Boolean
     $thread_message: AwRmaThreadMessageInput
   ){
     updateRequestAwRma(input: {
@@ -230,12 +227,26 @@ export const updateRma = gql`
         increment_id: $increment_id
         order_items: $order_items
         print_label: $print_label
-        status_id: $status_id
+        update_status: $update_status
         thread_message: $thread_message
     }) {
         ${responseRma}
     }
   }
+`;
+
+export const cancelRma = gql`
+mutation cancelRma(
+  $email: String!,
+  $increment_id: String!,
+) {
+  cancelRequestAwRma(input: {
+    email:$email,
+    increment_id: $increment_id
+  }) {
+    ${responseRma}
+  }
+}
 `;
 
 export default {

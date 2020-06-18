@@ -34,6 +34,13 @@ export const updateRma = () => useMutation(Schema.updateRma, {
     skip: typeof window === 'undefined',
 });
 
+export const cancelRma = () => useMutation(Schema.cancelRma, {
+    context: {
+        request: 'internal',
+    },
+    skip: typeof window === 'undefined',
+});
+
 export const getHistoryRma = (params) => useQuery(Schema.getHistoryRma, {
     context: {
         request: 'internal',

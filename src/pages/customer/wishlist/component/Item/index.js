@@ -1,7 +1,7 @@
 import Button from '@components/Button';
 import PriceFormat from '@components/PriceFormat';
 import Typography from '@components/Typography';
-import { ConfirmationDelete } from '@components/ConfirmDialog';
+import ConfirmationDelete from '@components/ConfirmDialog';
 import { IconButton } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
 import Link from 'next/link';
@@ -28,7 +28,7 @@ export default ({
             <ConfirmationDelete
                 open={openDelete}
                 handleCancel={() => setOpenDelete(!openDelete)}
-                handleDelete={handleDelete}
+                handleYes={handleDelete}
                 message={t('wishlist:warningDelete')}
             />
             <div className={styles.card}>
