@@ -51,7 +51,7 @@ export default (props) => {
                         <TableRow className={styles.tableRowHead}>
                             <TableCell align="left">{t('return:table:returnId')}</TableCell>
                             <TableCell align="left">{t('return:table:orderId')}</TableCell>
-                            <TableCell align="left">{t('returm:table:products')}</TableCell>
+                            <TableCell align="left">{t('return:table:products')}</TableCell>
                             <TableCell align="left">Status</TableCell>
                             <TableCell align="left">{t('return:table:createdAt')}</TableCell>
                             <TableCell align="left">{t('return:table:updatedAt')}</TableCell>
@@ -145,14 +145,14 @@ export default (props) => {
                                                 align="left"
                                                 data-th={(
                                                     <Typography align="center" type="bold" letter="capitalize">
-                                                        {t('return:table:cratedAt')}
+                                                        {t('return:table:createdAt')}
                                                     </Typography>
                                                 )}
                                             >
                                                 <div className={styles.displayFlexRow}>
                                                     <div className={styles.mobLabel}>
                                                         <Typography align="center" type="bold" letter="capitalize">
-                                                            {t('return:table:cratedAt')}
+                                                            {t('return:table:createdAt')}
                                                         </Typography>
                                                     </div>
                                                     <div className={styles.value}>{formatDate() }</div>
