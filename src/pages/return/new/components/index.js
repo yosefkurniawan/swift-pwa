@@ -104,7 +104,6 @@ const NewReturnRma = (props) => {
     };
 
     const handleSubmit = () => {
-        window.backdropLoader(true);
         const fieldRequets = custom_fields.filter((field) => field.refers === 'request');
         const fieldItem = custom_fields.filter((field) => field.refers === 'item');
         const stateData = state;
@@ -122,6 +121,7 @@ const NewReturnRma = (props) => {
         }
 
         if (stateData.errorForm === false) {
+            window.backdropLoader(true);
             postRma({
                 variables: {
                     order_number: formData.order_number,
