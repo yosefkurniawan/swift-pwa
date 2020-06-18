@@ -41,7 +41,6 @@ const OtpBlock = ({
     };
 
     const handleSend = () => {
-        window.backdropLoader(true);
         let sendOtp = () => {};
         if (type === 'register') {
             sendOtp = requestOtpRegister;
@@ -58,6 +57,7 @@ const OtpBlock = ({
                 variant: 'warning',
             });
         } else if (time <= 0) {
+            window.backdropLoader(true);
             sendOtp({
                 variables: {
                     phoneNumber,
