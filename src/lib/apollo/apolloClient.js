@@ -24,6 +24,8 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
 const uri = graphqlEndpoint[publicRuntimeConfig.appEnv] || graphqlEndpoint.dev;
 
 const uriInternal = `${HOST[publicRuntimeConfig.appEnv] || HOST.dev}/graphql`;
+console.log(publicRuntimeConfig.appEnv);
+console.log(uriInternal);
 // handle if token expired
 const logoutLink = onError((err) => {
     const { graphQLErrors } = err;

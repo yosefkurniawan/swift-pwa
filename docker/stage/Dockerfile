@@ -7,10 +7,12 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm cache clean --force 
 RUN npm install
-RUN NPM RUN BUILD
 
 # Copying source files
 COPY . .
 
+# build next app
+RUN npm run build
+
 # Running the app
-CMD [ "npm", "run", "local" ]
+CMD [ "npm", "run", "stage" ]
