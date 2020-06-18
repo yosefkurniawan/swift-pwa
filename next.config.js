@@ -1,6 +1,9 @@
 const withOffline = require('next-offline');
 
 module.exports = withOffline({
+    publicRuntimeConfig: {
+        appEnv: process.env.APP_ENV,
+    },
     workboxOpts: {
         swDest: process.env.NEXT_EXPORT ? 'service-worker.js' : 'static/service-worker.js',
         runtimeCaching: [

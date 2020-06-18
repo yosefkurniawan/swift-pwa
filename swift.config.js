@@ -3,19 +3,18 @@
 /* --------------------------------------- */
 
 const HOST = {
-    dev: 'http://localhost:3000',
+    local: 'http://localhost:3000',
+    dev: 'https://swiftpwa.testingnow.me',
+    stage: 'https://pwa.getswift.asia.dmmy.me',
     prod: 'https://pwa.getswift.asia',
 };
 
 /* Magento GraphQL Endpoint */
 const graphqlEndpoint = {
+    local: 'https://swiftpwa-be.testingnow.me/graphql',
     dev: 'https://swiftpwa-be.testingnow.me/graphql',
+    stage: 'https://swiftpwa-be.testingnow.me/graphql',
     prod: 'https://b2cdemo.getswift.asia/graphql',
-};
-
-const graphqlInternalEndpoint = {
-    dev: `${HOST.dev}/graphql`,
-    prod: `${HOST.prod}/graphql`,
 };
 
 /* --------------------------------------- */
@@ -143,7 +142,6 @@ module.exports = {
     GTM,
     HOST,
     graphqlEndpoint,
-    graphqlInternalEndpoint,
     shareIcon,
     passwordStrength,
     languagesLabel,

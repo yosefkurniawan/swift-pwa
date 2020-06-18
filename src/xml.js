@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const requestGraph = require('./graphql-server/request');
-const { HOST } = require('../swift.config');
+const { getHost } = require('./helpers/config');
 
 const baseDir = path.join(__dirname, '../public/static/');
 
@@ -79,7 +79,7 @@ const getXmlData = (res) => {
             xmlns:content="http://www.google.com/schemas/sitemap-content/1.0"
             xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
             <url>
-                <loc>${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}</loc>
+                <loc>${getHost()}</loc>
             </url>
         `;
 
@@ -88,7 +88,7 @@ const getXmlData = (res) => {
             if (category[index].include_in_menu) {
                 content += `
                 <url>
-                    <loc>${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}/${category[index].url_path}</loc>
+                    <loc>${getHost()}/${category[index].url_path}</loc>
                     <lastmod>${category[index].updated_at}</lastmod>
                     <changefreq>daily</changefreq>
                     <priority>0.5</priority>
@@ -98,7 +98,7 @@ const getXmlData = (res) => {
                     const children1 = category[index].children[child1];
                     content += `
                     <url>
-                        <loc>${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}/${children1.url_path}</loc>
+                        <loc>${getHost()}/${children1.url_path}</loc>
                         <lastmod>${children1.updated_at}</lastmod>
                         <changefreq>daily</changefreq>
                         <priority>0.5</priority>
@@ -108,7 +108,7 @@ const getXmlData = (res) => {
                         const children2 = children1.children[child2];
                         content += `
                     <url>
-                        <loc>${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}/${children2.url_path}</loc>
+                        <loc>${getHost()}/${children2.url_path}</loc>
                         <lastmod>${children2.updated_at}</lastmod>
                         <changefreq>daily</changefreq>
                         <priority>0.5</priority>
@@ -122,7 +122,7 @@ const getXmlData = (res) => {
         // generate product sitemap
         for (let index = 0; index < products.length; index++) {
             content += `<url>
-                <loc>${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}/${products[index].url_key}</loc>
+                <loc>${getHost()}/${products[index].url_key}</loc>
                 <lastmod>${products[index].updated_at}</lastmod>
                 <changefreq>daily</changefreq>
                 <priority>1.0</priority>
@@ -151,7 +151,7 @@ const getXmlData = (res) => {
         }
 
         content += `<url>
-            <loc>${process.env.NODE_ENV === 'production' ? HOST.prod : HOST.dev}/</loc>
+            <loc>${getHost()}/</loc>
             <priority>0.5</priority>
         </url>`;
         content += '</urlset>';
