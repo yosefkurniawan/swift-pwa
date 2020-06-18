@@ -5,11 +5,12 @@ import formatDate from '@helpers/date';
 import TextField from '@components/Forms/TextField';
 import DropFile from '@components/DropFile';
 import Button from '@components/Button';
+import ConfirmModal from '@components/ConfirmDialog';
 import useStyles from '../style';
 import ItemProduct from './ItemProduct';
 import ListMessage from './ListMessage';
 import ItemField from './ItemField';
-import { updateRma } from '../../services/graphql';
+import { updateRma, cancelRma } from '../../services/graphql';
 
 
 const DetailReturn = (props) => {
@@ -33,6 +34,12 @@ const DetailReturn = (props) => {
         order_items: [],
         message: '',
         attachments: [],
+    });
+
+    const [state, setState] = React.useState({
+        openDialog: false,
+        messageDialog: '',
+        handleYes: () => {},
     });
 
     const changeOptionCustomField = (value) => {
@@ -72,13 +79,40 @@ const DetailReturn = (props) => {
     }
 
     const [postUpdateRma] = updateRma();
+    const [postCancelRma] = cancelRma();
 
-    const handleUpdate = () => {
+    const handleCancelRma = () => {
+        window.backdropLoader(true);
+        postCancelRma({
+            variables: {
+                email: formData.customer_email,
+                increment_id: detail_rma.increment_id,
+            },
+        }).then(() => {
+            window.backdropLoader(false);
+            window.toastMessage({
+                open: true,
+                variant: 'success',
+                text: t('return:form:successCancel'),
+            });
+            refetch();
+        }).catch((e) => {
+            window.backdropLoader(false);
+            window.toastMessage({
+                open: true,
+                variant: 'error',
+                text: e.message.split(':')[1] || t('return:form:failedCancel'),
+            });
+        });
+    };
+
+    const handleUpdate = (update_status = false) => {
         window.backdropLoader(true);
         const variables = {
             customer_email: formData.customer_email,
             customer_name: formData.customer_name,
             increment_id: detail_rma.increment_id,
+            update_status,
         };
         if (formData.custom_fields.length > 0) variables.custom_fields = formData.custom_fields;
         if (formData.message !== '') variables.thread_message = { text: formData.message, attachments: [] };
@@ -106,108 +140,174 @@ const DetailReturn = (props) => {
             });
         });
     };
-    return (
-        <div className="column">
-            <div className={classNames(styles.block, styles.detail)}>
-                <Typography variant="title" letter="uppercase" type="bold">
-                    Status
-                </Typography>
-                <Typography variant="span">{detail_rma.status.name}</Typography>
-                <Typography variant="title" letter="uppercase" type="bold">
-                    {t('return:view:orderDate')}
-                </Typography>
-                <Typography variant="span">{formatDate(detail_rma.order_date)}</Typography>
-                <Typography variant="title" letter="uppercase" type="bold">
-                    Order
-                </Typography>
-                <Typography variant="span">
-                    #
-                    {detail_rma.order_number}
-                </Typography>
-                {
-                    detail_rma.customer_address && (
-                        <>
-                            <Typography variant="title" letter="uppercase" type="bold">
-                                {t('return:view:myAddress')}
-                            </Typography>
-                            <Typography variant="span" align="center">
-                                revqi aja
-                                Jalan raya no 11 Warungasem,
-                                Batang, Warungasem, Candiareng, Jawa Tengah, 51252, Indonesia
-                                T: 08232476211
-                            </Typography>
-                        </>
-                    )
-                }
-                {
-                    requestFormField.length > 0 && requestFormField.map((item, index) => {
-                        const name = item.name.split(' ').join('_').toLowerCase();
-                        const options = item.options.map((op) => ({
-                            label: op.frontend_labels[0].value,
-                            value: op.id,
-                        }));
-                        const fieldValue = requestFieldValue.filter(({ field }) => field === item.id);
-                        return (
-                            <React.Fragment key={index}>
-                                <Typography variant="title" letter="uppercase" type="bold">
-                                    {item.frontend_labels[0].value}
-                                </Typography>
-                                {
-                                    item.is_editable ? (
-                                        <ItemField
-                                            options={options}
-                                            name={name}
-                                            propsValue={{
-                                                field_id: item.id,
-                                            }}
-                                            defaultValue={fieldValue[0].value || ''}
-                                            onSelect={changeOptionCustomField}
-                                            showLabel={false}
-                                            required={item.is_required}
-                                        />
-                                    ) : (
-                                        <Typography variant="span">
-                                            {fieldValue[0].valueLabel}
-                                        </Typography>
-                                    )
-                                }
 
-                            </React.Fragment>
-                        );
-                    })
-                }
+    const actionUpdateStatus = async () => {
+        const handleYes = () => {
+            setState({ ...state, openDialog: false });
+            handleUpdate(true);
+        };
+        setState({
+            ...state,
+            openDialog: true,
+            messageDialog: 'Are you sure update status RMA',
+            handleYes,
+        });
+    };
+
+    const confirmCancel = () => {
+        setState({
+            ...state,
+            openDialog: true,
+            messageDialog: t('return:view:cancelRequest'),
+            handleYes: handleCancelRma,
+        });
+    };
+
+    let UpdateStatusButton = () => null;
+    let UpdateButton = () => null;
+    let CancelButton = () => null;
+    const statusCancelRequired = ['Pending Approval', 'pending approval', 'Approved', 'approved'];
+    const statusUpdateNoRequired = ['Closed', 'closed', 'Canceled', 'canceled'];
+    if (statusCancelRequired.find((status) => status === detail_rma.status.name || status === detail_rma.status.name.toLowerCase())) {
+        CancelButton = () => (
+            <Button fullWidth variant="outlined" onClick={confirmCancel}>
+                <Typography letter="capitalize">{t('return:view:cancelButton')}</Typography>
+            </Button>
+        );
+    }
+    if (!statusUpdateNoRequired.find((status) => status === detail_rma.status.name)
+    || !statusUpdateNoRequired.find((status) => status === detail_rma.status.name.toLowerCase())) {
+        UpdateButton = () => (
+            <Button fullWidth variant="outlined" onClick={() => handleUpdate()}>
+                <Typography letter="capitalize">{t('return:view:updateButton')}</Typography>
+            </Button>
+        );
+    }
+    if (detail_rma.status.name === 'Approved' || detail_rma.status.name.toLowerCase() === 'approved') {
+        UpdateStatusButton = () => (
+            <Button fullWidth variant="outlined" onClick={actionUpdateStatus}>
+                <Typography letter="capitalize">{t('return:view:confirmShipping')}</Typography>
+            </Button>
+        );
+    }
+
+
+    return (
+        <>
+            <ConfirmModal
+                open={state.openDialog}
+                handleCancel={() => setState({ ...state, openDialog: false })}
+                handleYes={state.handleYes}
+                message={state.messageDialog}
+            />
+            <div className="column">
+                <div className={classNames(styles.block, styles.detail)}>
+                    <Typography variant="title" letter="uppercase" type="bold">
+                        Status
+                    </Typography>
+                    <Typography variant="span">{detail_rma.status.name}</Typography>
+                    <Typography variant="title" letter="uppercase" type="bold">
+                        {t('return:view:orderDate')}
+                    </Typography>
+                    <Typography variant="span">{formatDate(detail_rma.order_date)}</Typography>
+                    <Typography variant="title" letter="uppercase" type="bold">
+                        Order
+                    </Typography>
+                    <Typography variant="span">
+                        #
+                        {detail_rma.order_number}
+                    </Typography>
+                    {
+                        detail_rma.customer_address && (
+                            <>
+                                <Typography variant="title" letter="uppercase" type="bold">
+                                    {t('return:view:myAddress')}
+                                </Typography>
+                                <Typography variant="span" align="center">
+                                    {detail_rma.customer_address.firstname || ''}
+                                    <br />
+                                    {detail_rma.customer_address.street || ''}
+                                    <br />
+                                    {detail_rma.customer_address.city || ''}
+                                    <br />
+                                    {detail_rma.customer_address.region || ''}
+                                    <br />
+                                    {detail_rma.customer_address.country_id || ''}
+                                    <br />
+                                    {detail_rma.customer_address.telephone || ''}
+                                    <br />
+                                    {detail_rma.customer_address.postcode || ''}
+                                </Typography>
+                            </>
+                        )
+                    }
+                    {
+                        requestFormField.length > 0 && requestFormField.map((item, index) => {
+                            const name = item.name.split(' ').join('_').toLowerCase();
+                            const options = item.options.map((op) => ({
+                                label: op.frontend_labels[0].value,
+                                value: op.id,
+                            }));
+                            const fieldValue = requestFieldValue.filter(({ field }) => field === item.id);
+                            return (
+                                <React.Fragment key={index}>
+                                    <Typography variant="title" letter="uppercase" type="bold">
+                                        {item.frontend_labels[0].value}
+                                    </Typography>
+                                    {
+                                        item.is_editable ? (
+                                            <ItemField
+                                                options={options}
+                                                name={name}
+                                                propsValue={{
+                                                    field_id: item.id,
+                                                }}
+                                                defaultValue={fieldValue[0].value || ''}
+                                                onSelect={changeOptionCustomField}
+                                                showLabel={false}
+                                                required={item.is_required}
+                                            />
+                                        ) : (
+                                            <Typography variant="span">
+                                                {fieldValue[0].valueLabel}
+                                            </Typography>
+                                        )
+                                    }
+
+                                </React.Fragment>
+                            );
+                        })
+                    }
+                </div>
+                <div className={styles.block}>
+                    {
+                        detail_rma.items.map((item, index) => (
+                            <ItemProduct key={index} {...item} currency={currency} />
+                        ))
+                    }
+                </div>
+                <div className={styles.block}>
+                    <TextField
+                        name="message"
+                        onChange={(event) => setFormData({ ...formData, message: event.target.value })}
+                        value={formData.message}
+                        placeholder={t('return:form:placeholder:message')}
+                        label={t('return:form:label:message')}
+                        multiline
+                        rows={4}
+                    />
+                </div>
+                <div className={styles.block}>
+                    <DropFile label={t('return:form:placeholder:uploadFile')} getBase64={handleGetBase64} acceptedFile={fileAccept} />
+                </div>
+                <div className={classNames(styles.block, styles.footer)}>
+                    { UpdateButton() }
+                    { CancelButton() }
+                    { UpdateStatusButton() }
+                </div>
+                <ListMessage data={detail_rma.thread_message} />
             </div>
-            <div className={styles.block}>
-                {
-                    detail_rma.items.map((item, index) => (
-                        <ItemProduct key={index} {...item} currency={currency} />
-                    ))
-                }
-            </div>
-            <div className={styles.block}>
-                <TextField
-                    name="message"
-                    onChange={(event) => setFormData({ ...formData, message: event.target.value })}
-                    value={formData.message}
-                    placeholder={t('return:form:placeholder:message')}
-                    label={t('return:form:label:message')}
-                    multiline
-                    rows={4}
-                />
-            </div>
-            <div className={styles.block}>
-                <DropFile label={t('return:form:placeholder:uploadFile')} getBase64={handleGetBase64} acceptedFile={fileAccept} />
-            </div>
-            <div className={classNames(styles.block, styles.footer)}>
-                <Button fullWidth variant="outlined" onClick={handleUpdate}>
-                    <Typography letter="capitalize">{t('return:view:updateButton')}</Typography>
-                </Button>
-                <Button fullWidth variant="outlined">
-                    <Typography letter="capitalize">{t('return:view:cancelButton')}</Typography>
-                </Button>
-            </div>
-            <ListMessage data={detail_rma.thread_message} />
-        </div>
+        </>
     );
 };
 

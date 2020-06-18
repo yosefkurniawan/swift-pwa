@@ -32,16 +32,20 @@
             "view": "Lihat Detail"
         },
 
-        "empty": "Kamu tidah mempunyai permintaan return",
+        "empty": "Kamu tidah mempunyai permintaan RMA",
         "view": {
             "label": "Mengelola permintaan RMA ",
             "packageCondition": "Kondisi Paket",
             "orderDate": "Tanggal Pemesanan",
             "myAddress": "Alamat Saya",
-            "updateButton": "Perbarui Return",
-            "cancelButton": "Batalkan Return",
-            "successUpdate": "Return Berhasil di perbarui",
-            "failedUpdate": "Return gagal di perbarui"
+            "updateButton": "Perbarui Request",
+            "cancelButton": "Batalkan Request",
+            "successUpdate": "Request Berhasil di perbarui",
+            "failedUpdate": "Requst gagal di perbarui",
+            "confirmShipping": "Konfirmasi pengiriman dan perbarui request",
+            "cancelRequest": "Yakin akan membatalkan request ini ?",
+            "successCancel": "Request Berhasil di Batalkan",
+            "failedCancel": "Pembatalan Request gagal"
         },
         "otherRequestRma": "Other return request for this product",
         "noItemReturn": "No items to return"

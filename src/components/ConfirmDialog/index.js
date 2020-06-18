@@ -5,8 +5,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
 import { useTranslation } from '@i18n';
 
-export const ConfirmationDelete = ({
-    open = false, handleDelete, handleCancel, message,
+const ConfirmationDialog = ({
+    open = false, handleYes, handleCancel, message,
 }) => {
     const { t } = useTranslation(['common']);
     return (
@@ -25,7 +25,7 @@ export const ConfirmationDelete = ({
                 <Button onClick={handleCancel} color="primary">
                     {t('common:button:cancel')}
                 </Button>
-                <Button onClick={handleDelete} color="primary" autoFocus>
+                <Button onClick={handleYes} color="primary" autoFocus>
                     {t('common:button:yes')}
                 </Button>
             </DialogActions>
@@ -33,6 +33,4 @@ export const ConfirmationDelete = ({
     );
 };
 
-export default {
-    ConfirmationDelete,
-};
+export default ConfirmationDialog;

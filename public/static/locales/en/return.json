@@ -41,7 +41,12 @@
         "updateButton": "Update Request",
         "cancelButton": "Cancel Request",
         "successUpdate": "Return has beed succesfully update",
-        "failedUpdate": "Return update failed"
+        "failedUpdate": "Return update failed",
+        "confirmShipping": "Confirm Shipping and Update Request",
+        "cancelRequest": "Are you sure cancel this request",
+        "successCancel": "Request cancelled successfully",
+        "failedCancel": "Request cancelled failed"
+
     },
     "otherRequestRma": "Other return request for this product",
     "noItemReturn": "No items to return"
