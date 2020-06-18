@@ -66,6 +66,8 @@ const Login = ({
     // togle disabled when user just switch to otp mode
     React.useEffect(() => {
         setDisabled(isOtp);
+        // eslint-disable-next-line no-use-before-define
+        formik.validateForm();
     }, [isOtp]);
 
     const LoginSchema = Yup.object().shape({
