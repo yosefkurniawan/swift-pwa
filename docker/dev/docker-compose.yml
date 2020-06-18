@@ -1,0 +1,18 @@
+version: '3'
+services:
+    frontend_dev:
+        build:
+            context: ./ /../../../
+            dockerfile: ./docker/dev/Dockerfile
+        environment:
+            - PORT=3000
+            - NODE_ENV=production
+            - APP_ENV=dev
+        ports:
+            - 3000:3000
+        deploy:
+            restart_policy:
+                condition: on-failure
+                delay: 10s
+                max_attempts: 3
+                window: 120s
