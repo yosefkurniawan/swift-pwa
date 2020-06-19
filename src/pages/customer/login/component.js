@@ -25,9 +25,9 @@ const Login = ({
     const styles = useStyles();
     const [isOtp, setIsOtp] = React.useState(false);
     const [isRevokeToken, setRevokeToken] = React.useState(false);
-    const [disabled, setdisabled] = React.useState(false);
+    const [disabled, setDisabled] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
     const [cusIsLogin, setIsLogin] = React.useState(0);
-
 
     let cartId = '';
     let redirectLastPath = lastPathNoAuth;
@@ -63,6 +63,13 @@ const Login = ({
         }
     }, [isRevokeToken]);
 
+    // togle disabled when user just switch to otp mode
+    React.useEffect(() => {
+        setDisabled(isOtp);
+        // eslint-disable-next-line no-use-before-define
+        formik.validateForm();
+    }, [isOtp]);
+
     const LoginSchema = Yup.object().shape({
         username: isOtp ? Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong'))
             : Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
@@ -93,7 +100,8 @@ const Login = ({
                     password: values.password,
                 };
             }
-            setdisabled(true);
+            setDisabled(true);
+            setLoading(true);
             window.backdropLoader(true);
             getTokenCustomer({
                 variables,
@@ -112,7 +120,8 @@ const Login = ({
                     }
                 })
                 .catch((e) => {
-                    setdisabled(false);
+                    setDisabled(false);
+                    setLoading(false);
                     window.backdropLoader(false);
                     window.toastMessage({
                         open: true,
@@ -130,7 +139,7 @@ const Login = ({
         const custCartId = cartData.data.customerCart.id;
         if (cartId === '' || !cartId) {
             setCartId(custCartId, expired);
-            setdisabled(false);
+            setDisabled(false);
             window.backdropLoader(false);
             window.toastMessage({ open: true, variant: 'success', text: t('customer:login:success') });
             if (query && query.redirect) {
@@ -149,7 +158,7 @@ const Login = ({
             })
                 .then(() => {
                     setCartId(custCartId, expired);
-                    setdisabled(false);
+                    setDisabled(false);
                     window.backdropLoader(false);
                     window.toastMessage({ open: true, variant: 'success', text: t('customer:login:success') });
                     if (query && query.redirect) {
@@ -180,6 +189,7 @@ const Login = ({
                 )}
                 {isOtp ? (
                     <OtpBlock
+                        setDisabled={setDisabled}
                         type="login"
                         phoneProps={{
                             name: 'username',
@@ -223,7 +233,7 @@ const Login = ({
                 <div className={styles.rowCenter}>
                     <Button fullWidth type="submit" disabled={disabled}>
                         <Typography variant="title" type="regular" letter="capitalize" color="white">
-                            {disabled ? 'Loading' : t('customer:login:pageTitle')}
+                            {loading ? 'Loading' : t('customer:login:pageTitle')}
                         </Typography>
                     </Button>
                     <Button fullWidth variant="text" href="/customer/account/forgotpassword">
