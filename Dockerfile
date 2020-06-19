@@ -6,9 +6,11 @@ WORKDIR /usr/src/app
 # Installing dependencies
 COPY package*.json ./
 RUN npm install
-RUN npm run build
 # Copying source files
 COPY . .
+
+#build next before start
+RUN npm run build
 
 # Running the app
 CMD [ "npm", "run", "start" ]
