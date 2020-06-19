@@ -18,11 +18,14 @@ const ConfirmPayment = (props) => {
     const styles = useStyles();
     const [postConfirmPayment] = confirmPayment();
     const validationSchema = Yup.object().shape({
-        order_number: Yup.string().required(t('payment:confirmPayment:form:validation')),
+        order_number: Yup.number().typeError(t('payment:confirmPayment:form:validNumber'))
+            .positive(t('payment:confirmPayment:form:validNumber')).required(t('payment:confirmPayment:form:validation')),
         payment: Yup.string().required(t('payment:confirmPayment:form:validation')),
-        account_number: Yup.string().required(t('payment:confirmPayment:form:validation')),
+        account_number: Yup.number().typeError(t('payment:confirmPayment:form:validNumber'))
+            .positive(t('payment:confirmPayment:form:validNumber')).required(t('payment:confirmPayment:form:validation')),
         account_name: Yup.string().required(t('payment:confirmPayment:form:validation')),
-        amount: Yup.string().required(t('payment:confirmPayment:form:validation')),
+        amount: Yup.number().typeError(t('payment:confirmPayment:form:validNumber'))
+            .positive(t('payment:confirmPayment:form:validNumber')).required(t('payment:confirmPayment:form:validation')),
         date: Yup.string().required(t('payment:confirmPayment:form:validation')),
         filename: Yup.string().required(t('payment:confirmPayment:form:validation')),
         image_base64: Yup.string().required(t('payment:confirmPayment:form:validation')),
