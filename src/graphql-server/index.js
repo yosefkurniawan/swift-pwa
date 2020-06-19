@@ -4,7 +4,6 @@ const { print } = require('graphql');
 const { graphqlEndpoint } = require('../../swift.config');
 const { decrypt } = require('../helpers/encryption');
 
-
 // make remote schema
 const fetcher = async ({
     query: queryDocument, variables, operationName, context,
@@ -15,7 +14,7 @@ const fetcher = async ({
             token = context.graphqlContext.session.token;
         }
         const query = print(queryDocument);
-        const fetchResult = await fetch(process.env.NODE_ENV === 'production' ? graphqlEndpoint.prod : graphqlEndpoint.dev, {
+        const fetchResult = await fetch(graphqlEndpoint[process.env.APP_ENV] || graphqlEndpoint.dev, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
