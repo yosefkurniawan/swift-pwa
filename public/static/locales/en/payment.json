@@ -13,7 +13,7 @@
             "button": "confirm payment",
             "validation": "Field is required"
         },
-        "confirmSuccess": "Send confirm payment successfully",
-        "confirmFailed": "Send confirm payment failed"
+        "confirmSuccess": "Payment confirmation has been sent successfully",
+        "confirmFailed": "Failed on sending payment confirmation"
     }
 }

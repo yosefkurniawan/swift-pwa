@@ -39,5 +39,5 @@
     "orderStatus": "Order Status",
     "status": "Status",
     "orderTotal": "Order Total",
-    "orderNotFound": "Sorry, Your Order is not Available.."
+    "orderNotFound": "Sorry, order number is not valid"
 }

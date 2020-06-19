@@ -1,7 +1,7 @@
 {
     "pageTitle": "Checkout",
     "shippingAddress" : "Shipping Address",
-    "deliveryMethod" : "delivery Method",
+    "deliveryMethod" : "Delivery Method",
     "payment" : "payment",
     "placeOrder" : "place Order",
     "paymentSubtitle" : "Select your payment method",
