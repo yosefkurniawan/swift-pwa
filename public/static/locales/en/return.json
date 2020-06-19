@@ -40,12 +40,12 @@
         "myAddress": "My Address",
         "updateButton": "Update Request",
         "cancelButton": "Cancel Request",
-        "successUpdate": "Return has beed succesfully update",
+        "successUpdate": "Return has beed updated succesfully",
         "failedUpdate": "Return update failed",
         "confirmShipping": "Confirm Shipping and Update Request",
-        "cancelRequest": "Are you sure cancel this request",
-        "successCancel": "Request cancelled successfully",
-        "failedCancel": "Request cancelled failed"
+        "cancelRequest": "Are you sure want to cancel this request?",
+        "successCancel": "Request has been canceled successfully",
+        "failedCancel": "Failed on canceling request"
 
     },
     "otherRequestRma": "Other return request for this product",

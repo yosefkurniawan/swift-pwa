@@ -3,7 +3,7 @@
     "product": "Produk untuk kembalikan",
     "selectAll": "Pilih semua",
     "deselectAll" : "Hapus semua",
-    "history": "Return Saya",
+    "history": "Retur Saya",
     "form": {
         "submit": "Kirim Permintaan",
         "addSuccess": "Permintaan RMA telah berhasil di kirim",
@@ -38,16 +38,16 @@
             "packageCondition": "Kondisi Paket",
             "orderDate": "Tanggal Pemesanan",
             "myAddress": "Alamat Saya",
-            "updateButton": "Perbarui Request",
-            "cancelButton": "Batalkan Request",
-            "successUpdate": "Request Berhasil di perbarui",
-            "failedUpdate": "Requst gagal di perbarui",
-            "confirmShipping": "Konfirmasi pengiriman dan perbarui request",
-            "cancelRequest": "Yakin akan membatalkan request ini ?",
-            "successCancel": "Request Berhasil di Batalkan",
-            "failedCancel": "Pembatalan Request gagal"
+            "updateButton": "Perbarui Retur",
+            "cancelButton": "Batalkan Retur",
+            "successUpdate": "Data retur berhasil di perbarui",
+            "failedUpdate": "Retur gagal di perbarui",
+            "confirmShipping": "Konfirmasi pengiriman dan perbarui retur",
+            "cancelRequest": "Yakin akan membatalkan retur ini?",
+            "successCancel": "Retur berhasil di Batalkan",
+            "failedCancel": "Pembatalan retur gagal"
         },
-        "otherRequestRma": "Other return request for this product",
-        "noItemReturn": "No items to return"
+        "otherRequestRma": "Retur lain untuk pesanan ini",
+        "noItemReturn": "Tidak ada produk untuk diretur"
     }
 }

@@ -40,5 +40,5 @@
     "orderStatus": "Status Pesanan",
     "status": "Status",
     "orderTotal": "Total Pesanan",
-    "orderNotFound": "Maaf, Pesanan Anda tidak ditemukan.."
+    "orderNotFound": "Maaf, nomor pesanan tidak ditemukan"
 }
