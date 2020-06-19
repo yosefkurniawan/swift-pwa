@@ -12,7 +12,7 @@
     "clean": "cross-env rimraf ./.next ./out",
     "release": "cross-env NODE_ENV=production npm run clean && npm run build && npm run export",
     "start": "cross-env APP_ENV=prod NODE_ENV=production node server.js",
-    "stage": "cross-env node server.js",
+    "stage": "node server.js",
     "generate-certs": "mkdir certs && openssl req -x509 -days 365 -newkey rsa:2048 -nodes -sha256 -keyout certs/privateKey.key -out certs/certificate.crt",
     "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
   },
