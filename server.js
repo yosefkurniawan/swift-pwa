@@ -30,7 +30,6 @@ const handle = app.getRequestHandler();
 const privateKey = '/etc/letsencrypt/live/swiftpwa.testingnow.me/privkey.pem';
 const certificate = '/etc/letsencrypt/live/swiftpwa.testingnow.me/cert.pem';
 
-
 const { expiredToken, SESSION_SECRET } = require('./swift.config');
 const generateXml = require('./src/xml');
 

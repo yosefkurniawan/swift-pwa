@@ -5,12 +5,14 @@ WORKDIR /usr/src/app
 
 # Installing dependencies
 COPY package*.json ./
+RUN npm cache clean --force 
 RUN npm install
+
 # Copying source files
 COPY . .
 
-#build next before start
+# build next app
 RUN npm run build
 
 # Running the app
-CMD [ "npm", "run", "start" ]
+CMD [ "npm", "run", "stage" ]
