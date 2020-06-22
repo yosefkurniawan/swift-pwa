@@ -29,5 +29,6 @@ module.exports = withOffline({
             ];
         },
     },
-    generateBuildId: async () => 'swift-pwa',
+    // change this version every build on prod
+    generateBuildId: async () => 'swift-pwa-v1.0.0',
 });
