@@ -91,7 +91,7 @@ const Product = (props) => {
     let config = {
         customFilter: typeof customFilter !== 'undefined',
         search: '',
-        pageSize: 20,
+        pageSize: 8,
         currentPage: 1,
         filter: [],
     };

@@ -49,7 +49,7 @@ const filterProduct = (filter) => {
 export const getProduct = (config = {}) => gql`
     {
       products( search: "${config.search}" ,filter: ${filterProduct(config.filter)}, pageSize: ${
-    config.pageSize ? config.pageSize : 20
+    config.pageSize ? config.pageSize : 8
 },
       currentPage: ${config.currentPage ? config.currentPage : 1}
       ${
