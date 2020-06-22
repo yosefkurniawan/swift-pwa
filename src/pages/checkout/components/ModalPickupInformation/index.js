@@ -75,34 +75,32 @@ const FilterDialog = ({
                     {t('checkout:pickupInformation:label')}
                 </Typography>
             </AppBar>
-            <form onSubmit={formik.handleSubmit}>
-                <div className={styles.body}>
-                    <TextField
-                        label={t('checkout:pickupInformation:pickupPerson')}
-                        name="person"
-                        value={formik.values.person}
-                        onChange={formik.handleChange}
-                    />
-                    <TextField
-                        label={t('common:form:phoneNumber')}
-                        name="phoneNumber"
-                        value={formik.values.phoneNumber}
-                        onChange={formik.handleChange}
-                    />
-                    <TextField
-                        label="email"
-                        name="email"
-                        value={formik.values.email}
-                        onChange={formik.handleChange}
-                    />
-                </div>
+            <div className={styles.body}>
+                <TextField
+                    label={t('checkout:pickupInformation:pickupPerson')}
+                    name="person"
+                    value={formik.values.person}
+                    onChange={formik.handleChange}
+                />
+                <TextField
+                    label={t('common:form:phoneNumber')}
+                    name="phoneNumber"
+                    value={formik.values.phoneNumber}
+                    onChange={formik.handleChange}
+                />
+                <TextField
+                    label="email"
+                    name="email"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                />
+            </div>
 
-                <div className={styles.footer}>
-                    <Button className={styles.btnSave} type="submit">
-                        {t('common:button:save')}
-                    </Button>
-                </div>
-            </form>
+            <div className={styles.footer}>
+                <Button className={styles.btnSave} onClick={formik.handleSubmit}>
+                    {t('common:button:save')}
+                </Button>
+            </div>
         </Dialog>
     );
 };
