@@ -88,7 +88,6 @@ query getHistoryRma (
         order_date
         order_number
         order_id
-        confirm_shipping
         items {
           name
         }
@@ -110,7 +109,6 @@ detail_rma {
     status {
         name
     }
-    confirm_shipping
     customer_address {
       firstname
       lastname
