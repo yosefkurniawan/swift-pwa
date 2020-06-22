@@ -8,8 +8,8 @@
     "button": "Create an Account",
     "subscribe": "Sign up for newslater",
     "isWhatsapp": "Phone number is registered in whatsapp",
-    "success": "Register success",
-    "failed": "Register failed"
+    "success": "Registration is success",
+    "failed": "Registration failed"
   },
   "login": {
     "haveAccount": "If you have an account",
@@ -17,22 +17,22 @@
     "forgotPassword": "forgot password",
     "notHaveAccount": "Don't have an account?",
     "switchPhone": "Login with phone number",
-    "success": "Login success",
+    "success": "Login is success",
     "failed": "Login failed"
   },
   "forgotPassword": {
     "title": "reset password",
     "content": "Get instruction sent to this email that explain how to reset your password.",
-    "success": "Send forgot password success.",
-    "failed": "Send forgot password failed",
-    "useEmail": "send reser password with email",
+    "success": "Submitting forgot password form is success.",
+    "failed": "Submitting forgot password form is failed.",
+    "useEmail": "send resert password with email",
     "successEmail1": "if there is an account associated with",
     "successEmail2": " you will receive an email with a link to reset your password"
   },
   "newPassword": {
     "title": "Change new password",
-    "success": "Change new password success",
-    "failed": "Change new password failed!"
+    "success": "Password has been updated successfully",
+    "failed": "Failed on updating password"
   },
   "button": {
     "logout": "Sign out"
@@ -44,8 +44,8 @@
   },
   "profile" : {
       "title" : "my account",
-      "successUpdate": "Update profile success",
-      "successChangePass": "Change password success"
+      "successUpdate": "Profile has been updated",
+      "successChangePass": "Password has been updated"
   },
   "address" : {
     "pageTitle" : "Address Book",
@@ -55,7 +55,7 @@
     "useShipping" : "use as my default shipping address"
   },
   "storeCredit" : {
-    "balance" : "Your current balance is: ",
+    "balance" : "Current balance: ",
     "transactionId" : "Transaction ID ",
     "adjustment" : "Store Credit Adjustment ",
     "creditbalance" : "Store Credit Balance",
@@ -76,18 +76,18 @@
     "storeCredit": "Store Credit",
     "readMore": "Read More",
     "rewardPoint": "Reward Points",
-    "blog": "blog",
+    "blog": "Blog",
     "return": "My Returns",
     "confirmPayment": "Confirm Payment"
   },
   "giftCard": {
-    "notFound": "You not have gift card item",
+    "notFound": "You don't have gift card item",
     "inputSearch": "Enter Gift Card code",
     "buttonSearch": "Check status & balance",
     "required": "Code is required"
   },
   "rewardPoint": {
-    "balanceTitle": "Your current balance is ",
+    "balanceTitle": "Current balance is ",
     "canbeTitle": "Total can be redeem at checkout is ",
     "learnMore": "To learn abaout point reward program. $ Click here",
     "transactionId" : "Transaction ID",

@@ -44,7 +44,6 @@ const DiscountSection = (props) => {
         total = checkout.data.cart.prices.grand_total.value;
     }
 
-
     const handleApplyGift = async (code = null) => {
         let state = { ...checkout };
         state.loading.giftCard = true;

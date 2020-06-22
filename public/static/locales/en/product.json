@@ -20,7 +20,7 @@
         "detail": "Detail is required"
     },
     "addRateSuccess": "Thanks for review this product",
-    "successAddCart": "Success add to bag",
-    "failedAddCart": "Failed add to bag",
+    "successAddCart": "Item has been added into your bag",
+    "failedAddCart": "Failed on adding item into your bag",
     "emptyProductSearchResult": "We can't find products matching the selection."
 }

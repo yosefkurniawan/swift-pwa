@@ -20,7 +20,7 @@
         "detail": "Detail tidak boleh kosong"
     },
     "addRateSuccess": "Terimakasih atas ulasannya.",
-    "successAddCart": "Sukses tambahkan ke keranjang",
-    "failedAddCart": "Gagal tambahkan ke keranjang",
+    "successAddCart": "Produk telah ditambahkan ke tas Anda",
+    "failedAddCart": "Gagal menambahkan produk ke keranjang",
     "emptyProductSearchResult": "Kami tidak dapat menemukan produk yang sesuai dengan pilihan."
 }

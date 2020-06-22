@@ -11,7 +11,8 @@
             "file": "Upload Bukti Bayar",
             "labelFile": "*jpg/jpeg/png/gif file maksimal 2MB",
             "button": "Konfirmasi Pembayaran",
-            "validation": "Field tidak boleh kosong"
+            "validation": "Field tidak boleh kosong",
+            "validNumber": "Field ini harus berisi positif nomor"
         },
 
         "confirmSuccess": "Konfirmasi pembayaran berhasil di kirim",

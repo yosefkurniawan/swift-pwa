@@ -1,4 +1,3 @@
-import Backdrop from '@components/Loaders/Backdrop';
 import { formatPrice } from '@helpers/currency';
 import { useFormik } from 'formik';
 import _ from 'lodash';
@@ -6,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import { getLoginInfo } from '@helpers/auth';
+import { customerFeautres } from '@config';
 import gqlService from '../services/graphql';
 import useStyles from '../style';
 import Address from './Address';
@@ -15,6 +15,8 @@ import Email from './Email';
 import PaymentList from './PaymentList';
 import Shipping from './Shipping';
 import Summary from './Summary';
+import Delivery from './Delivery';
+import PickupInfo from './PickupInformation';
 
 const Checkout = (props) => {
     const { t, cartId, storeConfig } = props;
@@ -67,6 +69,16 @@ const Checkout = (props) => {
             openAddressDialog: false,
             backdrop: false,
         },
+        pickupInformation: {
+            person: '',
+            email: '',
+            phoneNumber: '',
+        },
+        selectStore: {
+            name: '',
+            address: '',
+            phoneNumber: '',
+        },
     });
 
     // start init graphql
@@ -93,6 +105,7 @@ const Checkout = (props) => {
             shipping: null,
             payment: null,
             billing: null,
+            delivery: 'home',
         },
         validationSchema: CheckoutSchema,
         onSubmit: () => {},
@@ -265,29 +278,52 @@ const Checkout = (props) => {
         setCheckout(state);
     };
 
+
     return (
         <div className={styles.root}>
-            <Backdrop open={checkout.status.backdrop} />
             <div className={styles.container}>
+                {
+                    customerFeautres.pickupStore ? (
+                        <Delivery
+                            t={t}
+                            styles={styles}
+                            formik={formik}
+                            checkout={checkout}
+                        />
+                    ) : null
+                }
                 <Email
                     t={t}
                     styles={styles}
                     formik={formik}
                     checkout={checkout}
                 />
-                <Address
-                    checkout={checkout}
-                    t={t}
-                    styles={styles}
-                    setCheckout={setCheckout}
-                    defaultAddress={checkout.data.defaultAddress}
-                    updateFormik={updateFormik}
-                />
+                {
+                    formik.values.delivery === 'home' ? (
+                        <Address
+                            checkout={checkout}
+                            t={t}
+                            styles={styles}
+                            setCheckout={setCheckout}
+                            defaultAddress={checkout.data.defaultAddress}
+                            updateFormik={updateFormik}
+                        />
+                    ) : (
+                        <PickupInfo
+                            t={t}
+                            styles={styles}
+                            formik={formik}
+                            checkout={checkout}
+                            setCheckout={setCheckout}
+                        />
+                    )
+                }
                 <Shipping
                     t={t}
                     checkout={checkout}
                     setCheckout={setCheckout}
                     updateFormik={updateFormik}
+                    formik={formik}
                     handleOpenMessage={handleOpenMessage}
                     styles={styles}
                     storeConfig={storeConfig}

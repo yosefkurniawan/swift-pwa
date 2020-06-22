@@ -33,13 +33,13 @@ const Payment = ({
         const { cart } = checkout.data;
         let state = { ...checkout };
         state.selected.payment = val;
-        state.status.backdrop = true;
+        window.backdropLoader(true);
         setCheckout(state);
 
         const result = await setPaymentMethod({ variables: { cartId: cart.id, code: val } });
 
         state = { ...checkout };
-        state.status.backdrop = false;
+        window.backdropLoader(false);
         setCheckout(state);
 
         if (result) {

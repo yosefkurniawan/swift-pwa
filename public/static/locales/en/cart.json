@@ -10,7 +10,7 @@
         "text": "Your cart is empty"
     },
     "button": {
-        "saveEdit": "Save and Conitnue",
+        "saveEdit": "Save and Continue",
         "checkout": "Checkout"
     },
     "confirmDelete": "Are you sure want to delete this item?"

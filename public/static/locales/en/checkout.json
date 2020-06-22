@@ -1,7 +1,23 @@
 {
     "pageTitle": "Checkout",
     "shippingAddress" : "Shipping Address",
-    "deliveryMethod" : "delivery Method",
+    "deliveryMethod" : {
+        "label": "Delivery Method",
+        "homeDelivery": "Home Delivery",
+        "homeDeliveryDesc": "We deliver your order to your home",
+        "pickupDelivery": "Pickup Delivery",
+        "pickupDeliveryDesc": "Pickup your order at our store"
+    },
+    "pickupInformation": {
+        "label": "Pickup Information",
+        "pickupPerson": "Pickup person",
+        "pickupAtLabel": "You will pick up your order at",
+        "pickupNote": "We will send you an email when your order is ready (within 2 hours for order placed by 7pm local time). Note: Bring valid goverment ID such as driver license or password",
+        "changePickupInformation": "Change Pickup Information",
+        "changePickupLocation": "Change Pickup Location"
+    },
+    "pickupStore": "Pickup at store",
+    "shippingMethod" : "shipping Method",
     "payment" : "payment",
     "placeOrder" : "place Order",
     "paymentSubtitle" : "Select your payment method",
