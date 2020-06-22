@@ -109,7 +109,6 @@ detail_rma {
     status {
         name
     }
-    confirm_shipping
     customer_address {
       firstname
       lastname
