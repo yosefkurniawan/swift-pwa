@@ -69,13 +69,6 @@ const customerFeautres = {
     pickupStore: true,
 };
 
-/* Product Item */
-const productItem = {
-    showWishlistAction: true,
-    showReviewValue: true,
-    // other product item config will be added here later
-};
-
 /* Blog */
 const blog = {
     urlPath: '/blog',
@@ -138,6 +131,14 @@ const expiredDefault = 365;
 
 const SESSION_SECRET = 'asdasdd1212ads12!!!@**DADxx1';
 
+const features = {
+    productListing: {
+        configurableOptions: false,
+        rating: true,
+        wishlist: true,
+    },
+};
+
 module.exports = {
     blog,
     GTM,
@@ -165,6 +166,6 @@ module.exports = {
     nameCheckoutCookie,
     nameGlobalCookie,
     showBrandPage,
-    productItem,
     enableSocialMediaLink,
+    features,
 };
