@@ -66,6 +66,7 @@ const customerFeautres = {
     rewardPoint: true,
     giftCard: true,
     confirmPayment: true,
+    pickupStore: true,
 };
 
 /* Product Item */

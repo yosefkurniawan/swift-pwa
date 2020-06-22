@@ -1,7 +1,23 @@
 {
     "pageTitle": "Checkout",
     "shippingAddress" : "Alamat Pengiriman",
-    "deliveryMethod" : "Metode Pengiriman",
+    "deliveryMethod" : {
+        "label": "Cara pengantaran",
+        "homeDelivery": "Home Delivery",
+        "homeDeliveryDesc": "Kami akan mengantarkan ke rumah anda",
+        "pickupDelivery": "Ambil sendiri",
+        "pickupDeliveryDesc": "Ambil sendiri barang di toko"
+    },
+    "pickupInformation": {
+        "label": "Informasi Pengambilan",
+        "pickupPerson": "Orang yang mengambil",
+        "pickupAtLabel": "Kamu akan mengambil pesanan di ",
+        "pickupNote": "Kami akan mengirimkan email kepada Anda ketika pesanan Anda siap (dalam 2 jam untuk pesanan dilakukan pukul 19:00 waktu setempat). Catatan: Bawa ID pemerintah yang berlaku seperti SIM atau kata sandi",
+        "changePickupInformation": "Ubah informasi pengambilan",
+        "changePickupLocation": "Ubah lokasi pengambilan"
+    },
+    "pickupStore": "Ambil di toko",
+    "shippingMethod" : "cara pengntaran",
     "payment" : "pembayaran",
     "placeOrder" : "buat pesanan",
     "paymentSubtitle" : "Pilih metode pembayaranmu",

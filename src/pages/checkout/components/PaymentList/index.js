@@ -55,7 +55,7 @@ export default function CustomizedExpansionPanels({
             const { cart } = checkout.data;
             let state = { ...checkout };
             state.selected.payment = val;
-            state.status.backdrop = true;
+            window.backdropLoader(true);
             setCheckout(state);
 
             const result = await setPaymentMethod({ variables: { cartId: cart.id, code: val } });
@@ -71,7 +71,7 @@ export default function CustomizedExpansionPanels({
                     text: t('checkout:message:problemConnection'),
                 });
             }
-            state.status.backdrop = false;
+            window.backdropLoader(false);
             setCheckout(state);
 
             const selectedPayment = data.paymentMethod.filter((item) => item.code === val);
