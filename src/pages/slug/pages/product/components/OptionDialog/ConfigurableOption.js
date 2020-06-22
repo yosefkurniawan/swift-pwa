@@ -38,7 +38,7 @@ export default (props) => {
         setQty(event.target.value);
     };
 
-    const { data } = getConfigurableProduct(sku);
+    const configProduct = getConfigurableProduct(sku);
 
     const selected = selectConfigurable;
     const [firstSelected, setFirstSelected] = React.useState({});
@@ -50,7 +50,7 @@ export default (props) => {
         setSelectConfigurable({
             ...selected,
         });
-        const product = await ProductByVariant(options, data.products.items[0].variants);
+        const product = await ProductByVariant(options, configProduct.data.products.items[0].variants);
         if (product && JSON.stringify(product) !== '{}') {
             setSelectedProduct({ ...product });
             const bannerData = [];
@@ -131,7 +131,7 @@ export default (props) => {
         };
         const errorData = {};
         // eslint-disable-next-line array-callback-return
-        data.products.items[0].configurable_options.map((option) => {
+        configProduct.data.products.items[0].configurable_options.map((option) => {
             if (selected[option.attribute_code] === '' || !selected[option.attribute_code]) {
                 errorData[option.attribute_code] = `${option.attribute_code} ${t('validate:required')}`;
             }
@@ -209,11 +209,11 @@ export default (props) => {
 
     const classItem = styles.stylesItemOption;
 
-    const combination = data && getCombinationVariants(firstSelected, data.products.items[0].variants);
+    const combination = configProduct.data && getCombinationVariants(firstSelected, configProduct.data.products.items[0].variants);
     return (
         <>
-            {data
-                && data.products.items[0].configurable_options.map((option, index) => {
+            {configProduct.data
+                && configProduct.data.products.items[0].configurable_options.map((option, index) => {
                     const value = [];
                     for (
                         let valIdx = 0;
@@ -286,7 +286,7 @@ export default (props) => {
                             <Select
                                 value={selected[option.attribute_code] || ''}
                                 onChange={(val) => handleSelect(val.target.value, option.attribute_code)}
-                                disabled={loading}
+                                disabled={loading || configProduct.loading}
                             >
                                 {value.map((val, key) => (
                                     <MenuItem key={key} value={val.label} disabled={val.disabled}>
@@ -302,7 +302,7 @@ export default (props) => {
                         </div>
                     );
                 })}
-            <Footer qty={qty} handleAddToCart={handleAddToCart} handleQty={handleQty} t={t} loading={loading} />
+            <Footer qty={qty} handleAddToCart={handleAddToCart} handleQty={handleQty} t={t} loading={loading || configProduct.loading} />
         </>
     );
 };
