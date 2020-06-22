@@ -23,29 +23,29 @@
   "forgotPassword": {
     "title": "Lupa password",
     "content": "Dapatkan instruksi ke email kamu untuk mengganti password.",
-    "success": "Kirim reset password sukses.",
-    "failed": "Kirim reset password gagal!",
+    "success": "Form pengajuan reset password berhasil dikirimkan.",
+    "failed": "Form pengajuan reset password gagal dikirimkan.",
     "useEmail": "kirim reset password dengan email",
     "successEmail1": "Jika ada akun yang dikaitkan dengan ",
     "successEmail2": " Anda akan menerima email dengan tautan untuk mereset kata sandi Anda"
   },
   "newPassword": {
     "title": "Ubah password",
-    "success": "password berhasil di rubah",
-    "failed": "Ubah password gagal!"
+    "success": "Password berhasil diperbarui",
+    "failed": "Password gagal diperbarui"
   },
   "button": {
     "logout": "Keluar"
   },
   "setting" : {
     "title" : "Pengaturan",
-    "newslater" : "subribe newslater",
+    "newslater" : "Langganan buletin",
     "language" : "Bahasa"
   },
   "profile" : {
     "title" : "akun saya",
-    "successUpdate": "Ubah Profil Sukses",
-    "successChangePass": "Ganti password sukses"
+    "successUpdate": "Profil berhasil diperbarui",
+    "successChangePass": "Password berhasil diperbarui"
   },
   "address" : {
     "pageTitle" : "Daftar alamat",
@@ -55,7 +55,7 @@
     "useShipping" : "gunakan sebagai alamat default pengiriman"
   },
   "storeCredit" : {
-    "balance" : "Saldo Anda saat ini adalah: ",
+    "balance" : "Saldo saat ini: ",
     "transactionId" : "ID Transaksi",
     "adjustment" : "Store Credit Tambahan",
     "creditbalance" : "Store Credit Saldo",
@@ -77,17 +77,17 @@
     "readMore": "Selengkapnya",
     "rewardPoint": "Reward Poin",
     "blog": "Artikel",
-    "return": "Return Saya",
+    "return": "Retur Saya",
     "confirmPayment": "Konfirmasi Pembayaran"
   },
   "giftCard": {
-    "notFound": "Kamu tidak memiliki gift card apapun",
+    "notFound": "Anda tidak memiliki gift card",
     "inputSearch": "Masukan kode gift card",
     "buttonSearch": "Cek sisa dan status",
     "required": "Code tidak boleh kosong"
   },
   "rewardPoint": {
-    "balanceTitle": "Sisa Poin kamu adalah  ",
+    "balanceTitle": "Sisa Poin Anda adalah ",
     "canbeTitle": "Total yang dapat di redeem saat checkout adalah ",
     "learnMore": "Untuk mempelajari tentant reward poin. $ Klik disini",
     "transactionId" : "ID Transaksi",

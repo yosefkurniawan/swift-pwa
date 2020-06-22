@@ -3,11 +3,13 @@
     "product": "Produk untuk kembalikan",
     "selectAll": "Pilih semua",
     "deselectAll" : "Hapus semua",
-    "history": "Return Saya",
+    "history": "Retur Saya",
     "form": {
         "submit": "Kirim Permintaan",
         "addSuccess": "Permintaan RMA telah berhasil di kirim",
         "addFailed": "Permintaan RMA gagal di kirim",
+        "updateSuccess": "Update RMA telah berhasil di kirim",
+        "updateFailed": "Update RMA gagal di kirim",
         "required": "This field is required",
         "itemNull": "Item pesanan harus di pilih minimal 1 item produk",
         "label": {
@@ -30,18 +32,22 @@
             "view": "Lihat Detail"
         },
 
-        "empty": "Kamu tidah mempunyai permintaan return",
+        "empty": "Kamu tidah mempunyai permintaan RMA",
         "view": {
             "label": "Mengelola permintaan RMA ",
             "packageCondition": "Kondisi Paket",
             "orderDate": "Tanggal Pemesanan",
             "myAddress": "Alamat Saya",
-            "updateButton": "Perbarui Return",
-            "cancelButton": "Batalkan Return",
-            "successUpdate": "Return Berhasil di perbarui",
-            "failedUpdate": "Return gagal di perbarui"
+            "updateButton": "Perbarui Retur",
+            "cancelButton": "Batalkan Retur",
+            "successUpdate": "Data retur berhasil di perbarui",
+            "failedUpdate": "Retur gagal di perbarui",
+            "confirmShipping": "Konfirmasi pengiriman dan perbarui retur",
+            "cancelRequest": "Yakin akan membatalkan retur ini?",
+            "successCancel": "Retur berhasil di Batalkan",
+            "failedCancel": "Pembatalan retur gagal"
         },
-        "otherRequestRma": "Other return request for this product",
-        "noItemReturn": "No items to return"
+        "otherRequestRma": "Retur lain untuk pesanan ini",
+        "noItemReturn": "Tidak ada produk untuk diretur"
     }
 }

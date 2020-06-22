@@ -6,11 +6,16 @@ import { getLoginInfo } from '@helpers/auth';
 import { Badge, makeStyles } from '@material-ui/core';
 import { LocalMall } from '@material-ui/icons';
 import { GraphCart } from '@services/graphql';
-import { setCountCart } from '@stores/actions/cart';
-import { useDispatch, useSelector } from 'react-redux';
 import { getCartIdUser } from '@services/graphql/schema/cart';
 import { useQuery } from '@apollo/react-hooks';
 import Router from 'next/router';
+import { gql } from 'apollo-boost';
+
+const GET_COUNT_CART = gql`
+  {
+    totalCart @client
+  }
+`;
 
 const useStyles = makeStyles({
     root: {
@@ -19,7 +24,6 @@ const useStyles = makeStyles({
 });
 
 const ShoppingBagIcon = ({ bottomNav = false }) => {
-    const dispatch = useDispatch();
     const styles = useStyles();
     let isLogin = 0;
     let cartId = '';
@@ -43,25 +47,25 @@ const ShoppingBagIcon = ({ bottomNav = false }) => {
         }
     }
     const getQty = GraphCart.getCountCart(cartId);
-
+    const { data, client } = useQuery(GET_COUNT_CART);
     React.useEffect(() => {
         if (!getQty.loading && getQty.data) {
-            dispatch(setCountCart(getQty.data.cart.total_quantity));
+            client.writeData({ data: { totalCart: getQty.data.cart.total_quantity } });
         }
     }, [getQty]);
 
-    const cartData = useSelector((state) => state.cart);
+    const cartData = data && data.totalCart ? data.totalCart : 0;
     if (!bottomNav) {
         return (
             <div className={styles.root} onClick={() => Router.push('/checkout/cart')}>
-                <Badge color="secondary" badgeContent={cartData.totalCart || 0}>
+                <Badge color="secondary" badgeContent={cartData || 0}>
                     <LocalMall color="secondary" />
                 </Badge>
             </div>
         );
     }
     return (
-        <Badge color="secondary" badgeContent={cartData.totalCart || 0}>
+        <Badge color="secondary" badgeContent={cartData || 0}>
             <LocalMall color="secondary" />
         </Badge>
     );

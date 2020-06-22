@@ -8,6 +8,8 @@
         "submit": "Submit Request",
         "addSuccess": "New Request Rma has been sent successfully",
         "addFailed": "New Request Rma failed to sent",
+        "updateSuccess": "Update Rma has been sent successfully",
+        "updateFailed": "Update Rma failed to sent",
         "required": "This field is required",
         "itemNull": "Item order must be select minimun 1 item product",
         "label": {
@@ -38,8 +40,13 @@
         "myAddress": "My Address",
         "updateButton": "Update Request",
         "cancelButton": "Cancel Request",
-        "successUpdate": "Return has beed succesfully update",
-        "failedUpdate": "Return update failed"
+        "successUpdate": "Return has beed updated succesfully",
+        "failedUpdate": "Return update failed",
+        "confirmShipping": "Confirm Shipping and Update Request",
+        "cancelRequest": "Are you sure want to cancel this request?",
+        "successCancel": "Request has been canceled successfully",
+        "failedCancel": "Failed on canceling request"
+
     },
     "otherRequestRma": "Other return request for this product",
     "noItemReturn": "No items to return"

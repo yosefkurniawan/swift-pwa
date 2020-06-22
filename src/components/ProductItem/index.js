@@ -7,11 +7,10 @@ import classNames from 'classnames';
 import route from 'next/router';
 import React from 'react';
 import PriceFormat from '@components/PriceFormat';
-import Toast from '@components/Toast';
 import { GraphCustomer } from '@services/graphql';
 import { getLoginInfo } from '@helpers/auth';
 import { setCookies } from '@helpers/cookies';
-import { imageSize, productItem } from '@config';
+import { imageSize, features } from '@config';
 import { useTranslation } from '@i18n';
 import RatingStar from '@components/RatingStar';
 import useStyles from './style';
@@ -34,46 +33,40 @@ const ProductItem = (props) => {
         categorySelect,
         review,
     } = props;
-    let { showWishlistAction } = props;
     const styles = useStyles();
     const { t } = useTranslation(['wishlist']);
     const [feed, setFeed] = React.useState(false);
     const [spesificProduct, setSpesificProduct] = React.useState({});
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
-    const [message, setMessage] = React.useState({
-        open: false, text: '', variant: 'success',
-    });
     const FeedIcon = feed ? (
         <Favorite className={classFeedActive} />
     ) : (
         <FavoriteBorderOutlined className={styles.iconFeed} />
     );
-    if (typeof showWishlistAction === 'undefined') showWishlistAction = productItem.showWishlistAction;
 
     let isLogin = '';
     if (typeof window !== 'undefined') isLogin = getLoginInfo();
     const [addWishlist] = GraphCustomer.addWishlist();
 
     const handleFeed = () => {
-        if (isLogin) {
+        if (isLogin && isLogin !== '') {
             addWishlist({
                 variables: {
                     productId: id,
                 },
             }).then(async () => {
                 await setFeed(!feed);
-                await setMessage({ open: true, variant: 'success', text: 'add wishlist success' });
+                await window.toastMessage({ open: true, variant: 'success', text: 'add wishlist success' });
                 route.push('/wishlist');
             }).catch((e) => {
-                setMessage({
+                window.toastMessage({
                     open: true,
                     variant: 'error',
                     text: e.message.split(':')[1] || 'add wishlist failed',
                 });
             });
-        } else {
-            setMessage({
-                ...message,
+        } else if (typeof window.toastMessage !== 'undefined') {
+            window.toastMessage({
                 open: true,
                 variant: 'warning',
                 text: t('wishlist:addWithoutLogin'),
@@ -90,12 +83,6 @@ const ProductItem = (props) => {
 
     return (
         <>
-            <Toast
-                open={message.open}
-                setOpen={() => setMessage({ ...message, open: false })}
-                message={message.text}
-                variant={message.variant}
-            />
             <div className={styles.itemContainer}>
                 <div className={styles.imgItem}>
                     <Link onClick={handleClick}>
@@ -116,9 +103,9 @@ const ProductItem = (props) => {
                 <div className={styles.detailItem}>
                     <div
                         className={styles.descItem}
-                        style={{ ...(showWishlistAction ? {} : { alignItems: 'center' }) }}
+                        style={{ ...(features.productListing.wishlist ? {} : { alignItems: 'center' }) }}
                     >
-                        {showWishlistAction && (
+                        {features.productListing.wishlist && (
                             <div style={{
                                 position: 'absolute',
                                 width: '20px',
@@ -146,7 +133,7 @@ const ProductItem = (props) => {
                             </Typography>
                         </Link>
                         {
-                            productItem.showReviewValue && (
+                            features.productListing.rating && (
                                 <RatingStar value={ratingValue} />
                             )
                         }
@@ -158,11 +145,14 @@ const ProductItem = (props) => {
                             productType={__typename}
                         />
                     </div>
-                    <ConfigurableOpt
-                        configurable_options={configurable_options}
-                        variants={variants}
-                        setSpesificProduct={setSpesificProduct}
-                    />
+                    {features.productListing.configurableOptions ? (
+                        <ConfigurableOpt
+                            configurable_options={configurable_options}
+                            variants={variants}
+                            setSpesificProduct={setSpesificProduct}
+                        />
+                    ) : null}
+
                 </div>
             </div>
         </>

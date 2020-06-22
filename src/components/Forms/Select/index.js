@@ -7,7 +7,7 @@ import useStyles from './style';
 const Select = ({
     label = '', name = '', value = null, onChange = () => {},
     options = [], helperText = 'Please Select', className = '',
-    error = false, errorMessage = '', ...other
+    error = false, errorMessage = '', showLabel = true, ...other
 }) => {
     const styles = useStyles();
     const rootClasss = classNames(styles.root, className);
@@ -15,7 +15,7 @@ const Select = ({
         <TextField
             id={name}
             select
-            label={label}
+            label={showLabel && label}
             name={name}
             value={value}
             onChange={onChange}

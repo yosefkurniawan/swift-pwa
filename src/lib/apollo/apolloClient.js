@@ -3,11 +3,15 @@ import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { RetryLink } from 'apollo-link-retry';
 import fetch from 'isomorphic-unfetch';
-import { graphqlEndpoint, graphqlInternalEndpoint } from '@root/swift.config.js';
+import { graphqlEndpoint, HOST } from '@root/swift.config.js';
 import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { removeCartId } from '@helpers/cartId';
 import { removeIsLoginFlagging } from '@helpers/auth';
+import getConfig from 'next/config';
+
+// Only holds serverRuntimeConfig and publicRuntimeConfig
+const { publicRuntimeConfig } = getConfig();
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData: {
@@ -17,21 +21,16 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
     },
 });
 
-const uri = process.env.NODE_ENV === 'production'
-    ? graphqlEndpoint.prod
-    : graphqlEndpoint.dev;
+const uri = graphqlEndpoint[publicRuntimeConfig.appEnv] || graphqlEndpoint.dev;
 
-const uriInternal = process.env.NODE_ENV === 'production'
-    ? graphqlInternalEndpoint.prod
-    : graphqlInternalEndpoint.dev;
-
+const uriInternal = `${HOST[publicRuntimeConfig.appEnv] || HOST.dev}/graphql`;
 // handle if token expired
 const logoutLink = onError((err) => {
     const { graphQLErrors } = err;
     if (graphQLErrors && graphQLErrors[0] && graphQLErrors[0].status === 401 && typeof window !== 'undefined') {
         removeCartId();
         removeIsLoginFlagging();
-        window.location.href = '/customer/account/login';
+        // window.location.href = '/customer/account/login';
     }
 });
 
@@ -57,5 +56,6 @@ export default function createApolloClient(initialState, ctx) {
         link: logoutLink.concat(link),
         cache: new InMemoryCache({ fragmentMatcher }).restore(initialState),
         connectToDevTools: true,
+        resolvers: {},
     });
 }

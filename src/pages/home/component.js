@@ -1,9 +1,10 @@
 import Banner from '@components/Slider/Banner';
 import Carousel from '@components/Slider/Carousel';
+import CarouselSkeleton from '@components/Slider/Carousel/Skeleton';
 import SpanCategory from '@components/SpanCategory';
 import { Fragment } from 'react';
 import Link from 'next/link';
-import { Skeleton } from '@material-ui/lab';
+import Skeleton from '@components/Skeleton';
 import { Grid } from '@material-ui/core';
 import { imageSize } from '@config';
 import gqlService from './service/graphql';
@@ -14,7 +15,12 @@ const BannerSliderSkeleteon = () => {
     const styles = useStyles();
     return (
         <div className={styles.skeletonWrapper}>
-            <Skeleton variant="rect" width="100%" height="50vh" animation="wave" />
+            <Skeleton
+                variant="rect"
+                animation="wave"
+                xsStyle={{ width: '100%', height: '60vw' }}
+                mdStyle={{ width: '100%', height: '577px' }}
+            />
         </div>
     );
 };
@@ -47,39 +53,13 @@ const BannerSlider = ({ storeConfig }) => {
     );
 };
 
-const FeaturedProductsSkeleton = () => {
-    const styles = useStyles();
-    const SliderSkeleton = () => (
-        <>
-            <Skeleton className={styles.skeleton} variant="rect" width="100%" height={300} animation="wave" />
-            <Skeleton className={styles.skeleton} variant="rect" width="25%" height={10} animation="wave" />
-            <Skeleton className={styles.skeleton} variant="rect" width="75%" height={10} animation="wave" />
-        </>
-    );
-    return (
-        <div className={styles.skeletonWrapper}>
-            <Grid container spacing={2}>
-                <Grid item xs={2}>
-                    <SliderSkeleton />
-                </Grid>
-                <Grid item xs={8}>
-                    <SliderSkeleton />
-                </Grid>
-                <Grid item xs={2}>
-                    <SliderSkeleton />
-                </Grid>
-            </Grid>
-        </div>
-    );
-};
-
 const FeaturedProducts = () => {
     const styles = useStyles();
     const { loading, data, error } = gqlService.getFeaturedProducts({
         url_key: 'homepage-featured-products',
     });
 
-    if (loading) return <FeaturedProductsSkeleton />;
+    if (loading) return <CarouselSkeleton />;
     if (error) return <p>{`Error: ${error.message}`}</p>;
     if (!data) return <p>Not found</p>;
 
@@ -128,7 +108,14 @@ const CategoryListSkeleteon = () => {
     return (
         <div className={styles.skeletonWrapper}>
             <Grid container spacing={2} direction="column" alignItems="center">
-                <Skeleton className={styles.skeleton} variant="rect" width="100%" height={300} animation="wave" />
+                <Skeleton
+                    className={styles.skeleton}
+                    variant="rect"
+                    width="100%"
+                    xsStyle={{ height: '60vw' }}
+                    mdStyle={{ height: '577px' }}
+                    animation="wave"
+                />
                 <Skeleton className={styles.skeleton} style={{ alignSelf: 'center' }} variant="rect" width="35%" height={10} animation="wave" />
                 <Skeleton className={styles.skeleton} variant="rect" width="75%" height={10} animation="wave" />
             </Grid>

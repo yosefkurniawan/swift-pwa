@@ -6,9 +6,7 @@
 import { GraphCustomer } from '@services/graphql';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
-import Message from '@components/Toast';
 import Alert from '@material-ui/lab/Alert';
-import Loading from '@components/Loaders/Backdrop';
 import { getCartId, setCartId } from '@helpers/cartId';
 import { getCartIdUser } from '@services/graphql/schema/cart';
 import { useQuery } from '@apollo/react-hooks';
@@ -37,13 +35,6 @@ const Content = (props) => {
         skip: token === '' || !token,
     });
 
-    const [state, setState] = React.useState({
-        loading: false,
-        openMessage: false,
-        textMessage: '',
-        variantMessage: 'success',
-    });
-
     if (!data || loading || error) return <Loaders />;
     if (data) {
         wishlist = data.customer.wishlist.items.map(({ id, product }) => ({
@@ -64,14 +55,10 @@ const Content = (props) => {
     const handleToCart = ({
         sku, url_key, wishlistItemId, __typename,
     }) => {
-        console.log(__typename);
         if (__typename === 'ConfigurableProduct') {
             Router.push('/[...slug]', `/${url_key}`);
         } else {
-            setState({
-                ...state,
-                loading: true,
-            });
+            window.backdropLoader(true);
             if (cartId === '' || !cartId) {
                 const cartToken = cartUser.data.customerCart.id || '';
                 cartId = cartToken;
@@ -90,61 +77,54 @@ const Content = (props) => {
                             wishlistItemId,
                         },
                     }).then(() => {
-                        setState({
-                            ...state,
-                            loading: false,
-                            openMessage: true,
-                            variantMessage: 'success',
-                            textMessage: t('wishlist:successAddCart'),
+                        window.backdropLoader(false);
+                        window.toastMessage({
+                            open: true,
+                            variant: 'success',
+                            text: t('wishlist:successAddCart'),
                         });
                         refetch();
                     });
                 })
                 .catch(async (e) => {
-                    await setState({
-                        ...state,
-                        loading: false,
-                        openMessage: true,
-                        variantMessage: 'error',
-                        textMessage: e.message.split(':')[1] || t('wishlist:failedAddCart'),
+                    window.backdropLoader(false);
+                    window.toastMessage({
+                        open: true,
+                        variant: 'error',
+                        text: e.message.split(':')[1] || t('wishlist:failedAddCart'),
                     });
                 });
         }
     };
 
     const handleRemove = ({ wishlistItemId }) => {
-        setState({
-            ...state,
-            loading: true,
-        });
+        window.backdropLoader(true);
         removeWishlist({
             variables: {
                 wishlistItemId,
             },
         })
             .then(() => {
-                setState({
-                    ...state,
-                    loading: false,
-                    openMessage: true,
-                    variantMessage: 'success',
-                    textMessage: t('wishlist:removeSuccess'),
+                window.backdropLoader(false);
+                window.toastMessage({
+                    open: true,
+                    variant: 'success',
+                    text: t('wishlist:removeSuccess'),
                 });
                 refetch();
             })
             .catch((e) => {
-                setState({
-                    ...state,
-                    loading: false,
-                    openMessage: true,
-                    variantMessage: 'error',
-                    textMessage: e.message.split(':')[1] || t('wishlist:removeFailed'),
+                window.backdropLoader(false);
+                window.toastMessage({
+                    open: true,
+                    variant: 'error',
+                    text: e.message.split(':')[1] || t('wishlist:removeFailed'),
                 });
             });
     };
 
     const handleAddAlltoBag = async () => {
-        await setState({ ...state, loading: true });
+        window.backdropLoader(true);
         let totalSucces = 0;
         let errorCart = [false, ''];
         if (cartId === '' || !cartId) {
@@ -174,32 +154,21 @@ const Content = (props) => {
         });
         setTimeout(async () => {
             refetch();
-            await setState({
-                ...state,
-                loading: false,
-                openMessage: true,
-                textMessage: errorCart[0]
+            window.backdropLoader(false);
+            window.toastMessage({
+                open: true,
+                text: errorCart[0]
                     ? totalSucces > 0
                         // eslint-disable-next-line max-len
                         ? `${t('wishlist:addPartToBagSuccess').split('$'[0])} ${totalSucces} ${t('wishlist:addPartToBagSuccess').split('$'[1])}`
                         : errorCart[1] || t('product:failedAddCart')
                     : t('wishlist:addAllToBagSuccess'),
-                variantMessage: errorCart[0] ? 'error' : 'success',
+                variant: errorCart[0] ? 'error' : 'success',
             });
         }, 3000);
     };
-
-    const handleClose = () => {
-        setState({
-            ...state,
-            openMessage: !state.openMessage,
-        });
-    };
-
     return (
         <div className={styles.root}>
-            <Loading open={state.loading} />
-            <Message open={state.openMessage} variant={state.variantMessage} setOpen={handleClose} message={state.textMessage} />
             {wishlist.length === 0 && (
                 <Alert className="m-15" severity="warning">
                     {t('wishlist:notFound')}

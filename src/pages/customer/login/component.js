@@ -1,13 +1,12 @@
+/* eslint-disable no-use-before-define */
 import TextField from '@components/Forms/TextField';
 import PasswordField from '@components/Forms/Password';
 import Button from '@components/Button';
 import Typography from '@components/Typography';
-import Message from '@components/Toast';
 import { FormControlLabel, Switch } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import OtpBlock from '@components/OtpBlock';
-import Loading from '@components/Loaders/Backdrop';
 import { setLogin, getLastPathWithoutLogin } from '@helpers/auth';
 import { setCartId, getCartId } from '@helpers/cartId';
 import { GraphCart, GraphConfig } from '@services/graphql';
@@ -26,23 +25,11 @@ const Login = ({
 }) => {
     const styles = useStyles();
     const [isOtp, setIsOtp] = React.useState(false);
+    const [isDidUpdate, setIsDidUpdate] = React.useState({});
     const [isRevokeToken, setRevokeToken] = React.useState(false);
-    const [message, setMessage] = React.useState({
-        open: false,
-        text: '',
-        variant: 'success',
-    });
+    const [disabled, setDisabled] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [cusIsLogin, setIsLogin] = React.useState(0);
-
-    const handleOpenMessage = ({ variant, text }) => {
-        setMessage({
-            ...message,
-            variant,
-            text,
-            open: !message.open,
-        });
-    };
 
     let cartId = '';
     let redirectLastPath = lastPathNoAuth;
@@ -78,6 +65,21 @@ const Login = ({
         }
     }, [isRevokeToken]);
 
+    // togle disabled when user just switch to otp mode
+    React.useEffect(() => {
+        if (isDidUpdate.isOtp && formik.dirty) {
+            /* only validate form when:
+                isOtp changed for not first time / initial && formik is dirty
+            */
+            formik.validateForm();
+        } else {
+            setIsDidUpdate({ isOtp: true });
+        }
+
+        // disabled when user switch to otp mode
+        setDisabled(isOtp);
+    }, [isOtp]);
+
     const LoginSchema = Yup.object().shape({
         username: isOtp ? Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong'))
             : Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
@@ -108,7 +110,9 @@ const Login = ({
                     password: values.password,
                 };
             }
+            setDisabled(true);
             setLoading(true);
+            window.backdropLoader(true);
             getTokenCustomer({
                 variables,
             })
@@ -126,8 +130,11 @@ const Login = ({
                     }
                 })
                 .catch((e) => {
+                    setDisabled(false);
                     setLoading(false);
-                    handleOpenMessage({
+                    window.backdropLoader(false);
+                    window.toastMessage({
+                        open: true,
                         variant: 'error',
                         text: e.message.split(':')[1] || t('customer:login:failed'),
                     });
@@ -142,8 +149,9 @@ const Login = ({
         const custCartId = cartData.data.customerCart.id;
         if (cartId === '' || !cartId) {
             setCartId(custCartId, expired);
-            setLoading(false);
-            handleOpenMessage({ variant: 'success', text: t('customer:login:success') });
+            setDisabled(false);
+            window.backdropLoader(false);
+            window.toastMessage({ open: true, variant: 'success', text: t('customer:login:success') });
             if (query && query.redirect) {
                 Router.push(query.redirect);
             } else if (redirectLastPath && redirectLastPath !== '') {
@@ -160,8 +168,9 @@ const Login = ({
             })
                 .then(() => {
                     setCartId(custCartId, expired);
-                    setLoading(false);
-                    handleOpenMessage({ variant: 'success', text: t('customer:login:success') });
+                    setDisabled(false);
+                    window.backdropLoader(false);
+                    window.toastMessage({ open: true, variant: 'success', text: t('customer:login:success') });
                     if (query && query.redirect) {
                         Router.push(query.redirect);
                     } else if (redirectLastPath && redirectLastPath !== '') {
@@ -180,8 +189,6 @@ const Login = ({
 
     return (
         <div>
-            <Loading open={loading} />
-            <Message open={message.open} variant={message.variant} setOpen={handleOpenMessage} message={message.text} />
             <form onSubmit={formik.handleSubmit} className={styles.container}>
                 {otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login && (
                     <FormControlLabel
@@ -192,6 +199,7 @@ const Login = ({
                 )}
                 {isOtp ? (
                     <OtpBlock
+                        setDisabled={setDisabled}
                         type="login"
                         phoneProps={{
                             name: 'username',
@@ -233,7 +241,7 @@ const Login = ({
                     </>
                 )}
                 <div className={styles.rowCenter}>
-                    <Button fullWidth type="submit" disabled={loading}>
+                    <Button fullWidth type="submit" disabled={disabled}>
                         <Typography variant="title" type="regular" letter="capitalize" color="white">
                             {loading ? 'Loading' : t('customer:login:pageTitle')}
                         </Typography>
@@ -248,7 +256,7 @@ const Login = ({
                     <Typography variant="span" letter="capitalize" align="center">
                         {t('customer:login:notHaveAccount')}
                     </Typography>
-                    <Button fullWidth variant="outlined" href="/customer/account/create" disabled={loading}>
+                    <Button fullWidth variant="outlined" href="/customer/account/create" disabled={disabled}>
                         <Typography variant="title" type="regular" letter="capitalize">
                             {t('customer:register:title')}
                         </Typography>

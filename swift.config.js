@@ -3,19 +3,18 @@
 /* --------------------------------------- */
 
 const HOST = {
+    local: 'http://localhost:3000',
     dev: 'https://swiftpwa.testingnow.me',
+    stage: 'https://pwa.getswift.asia.dmmy.me',
     prod: 'https://pwa.getswift.asia',
 };
 
 /* Magento GraphQL Endpoint */
 const graphqlEndpoint = {
+    local: 'https://swiftpwa-be.testingnow.me/graphql',
     dev: 'https://swiftpwa-be.testingnow.me/graphql',
+    stage: 'https://swiftpwa-be.testingnow.me/graphql',
     prod: 'https://b2cdemo.getswift.asia/graphql',
-};
-
-const graphqlInternalEndpoint = {
-    dev: `${HOST.dev}/graphql`,
-    prod: `${HOST.prod}/graphql`,
 };
 
 /* --------------------------------------- */
@@ -67,13 +66,7 @@ const customerFeautres = {
     rewardPoint: true,
     giftCard: true,
     confirmPayment: true,
-};
-
-/* Product Item */
-const productItem = {
-    showWishlistAction: true,
-    showReviewValue: true,
-    // other product item config will be added here later
+    pickupStore: true,
 };
 
 /* Blog */
@@ -138,12 +131,19 @@ const expiredDefault = 365;
 
 const SESSION_SECRET = 'asdasdd1212ads12!!!@**DADxx1';
 
+const features = {
+    productListing: {
+        configurableOptions: false,
+        rating: true,
+        wishlist: true,
+    },
+};
+
 module.exports = {
     blog,
     GTM,
     HOST,
     graphqlEndpoint,
-    graphqlInternalEndpoint,
     shareIcon,
     passwordStrength,
     languagesLabel,
@@ -166,6 +166,6 @@ module.exports = {
     nameCheckoutCookie,
     nameGlobalCookie,
     showBrandPage,
-    productItem,
     enableSocialMediaLink,
+    features,
 };

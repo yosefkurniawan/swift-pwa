@@ -9,7 +9,6 @@ import {
     FormControlLabel, Checkbox, Grid, CircularProgress,
 } from '@material-ui/core';
 import { useFormik } from 'formik';
-import Toast from '@components/Toast';
 import * as Yup from 'yup';
 import { Skeleton } from '@material-ui/lab';
 import useStyles from './style';
@@ -23,27 +22,22 @@ const ProfileForm = ({ t, data }) => {
     const [changeCustomerPassword, changeCustomerPasswordStatus] = gqlServices.changeCustomerPassword();
     const [editEmail, setEditEmail] = React.useState(false);
     const [editPass, setEditPass] = React.useState(false);
-    const [toast, setToast] = React.useState({
-        variant: 'success',
-        open: false,
-        message: '',
-    });
 
     React.useEffect(() => {
-        showToast(updateCustomerStatus, t('customer:profile:successUpdate'));
+        if (typeof window !== 'undefined') showToast(updateCustomerStatus, t('customer:profile:successUpdate'));
     }, [updateCustomerStatus]);
 
     React.useEffect(() => {
-        showToast(changeCustomerPasswordStatus, t('customer:progile:successChangePass'));
+        if (typeof window !== 'undefined') showToast(changeCustomerPasswordStatus, t('customer:progile:successChangePass'));
     }, [changeCustomerPasswordStatus]);
 
     const showToast = (mutationStatus, successMessage) => {
         const { error, loading, called } = mutationStatus;
         if (!loading) {
             if (error) {
-                setToast({ variant: 'error', open: true, message: error.message });
+                window.toastMessage({ variant: 'error', open: true, message: error.message });
             } else if (called) {
-                setToast({ variant: 'success', open: true, message: successMessage });
+                window.toastMessage({ variant: 'success', open: true, message: successMessage });
             }
         }
     };
@@ -116,12 +110,6 @@ const ProfileForm = ({ t, data }) => {
 
     return (
         <form className={styles.container} onSubmit={formik.handleSubmit}>
-            <Toast
-                variant={toast.variant}
-                open={toast.open}
-                message={toast.message}
-                setOpen={() => setToast({ ...toast, open: false })}
-            />
             <TextField
                 label={t('common:form:firstName')}
                 name="firstName"

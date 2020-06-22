@@ -19,7 +19,7 @@
         "saved": "Saved",
         "continueShopping": "Continue Shopping",
         "cancel": "Cancel",
-        "yes": "Ya",
+        "yes": "Yes",
         "checkout": "Checkout",
         "change" : "Change",
         "login": "Login",
@@ -30,7 +30,7 @@
         "clear": "Clear",
         "verify": "Verify",
         "shop": "SHOP NOW",
-        "sendOtp": "Send Otp"
+        "sendOtp": "Send OTP"
     },
     "subtotal": "Subtotal",
     "price": {

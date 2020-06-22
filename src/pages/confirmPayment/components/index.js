@@ -10,32 +10,62 @@ import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import DateDayJs from '@date-io/dayjs';
 import useStyles from './style';
 import Loader from './Loader';
+import { confirmPayment } from '../service/graphql';
+import formatDate from '../../../helpers/date';
 
 const ConfirmPayment = (props) => {
     const { t } = props;
     const styles = useStyles();
+    const [postConfirmPayment] = confirmPayment();
     const validationSchema = Yup.object().shape({
-        orderNumber: Yup.string().required(t('payment:confirmPayment:form:validation')),
-        bankName: Yup.string().required(t('payment:confirmPayment:form:validation')),
-        bankAccountNumber: Yup.string().required(t('payment:confirmPayment:form:validation')),
-        bankAccountName: Yup.string().required(t('payment:confirmPayment:form:validation')),
-        amountTranfer: Yup.string().required(t('payment:confirmPayment:form:validation')),
-        tranferDate: Yup.string().required(t('payment:confirmPayment:form:validation')),
-        file: Yup.string().required(t('payment:confirmPayment:form:validation')),
+        order_number: Yup.number().typeError(t('payment:confirmPayment:form:validNumber'))
+            .positive(t('payment:confirmPayment:form:validNumber')).required(t('payment:confirmPayment:form:validation')),
+        payment: Yup.string().required(t('payment:confirmPayment:form:validation')),
+        account_number: Yup.number().typeError(t('payment:confirmPayment:form:validNumber'))
+            .positive(t('payment:confirmPayment:form:validNumber')).required(t('payment:confirmPayment:form:validation')),
+        account_name: Yup.string().required(t('payment:confirmPayment:form:validation')),
+        amount: Yup.number().typeError(t('payment:confirmPayment:form:validNumber'))
+            .positive(t('payment:confirmPayment:form:validNumber')).required(t('payment:confirmPayment:form:validation')),
+        date: Yup.string().required(t('payment:confirmPayment:form:validation')),
+        filename: Yup.string().required(t('payment:confirmPayment:form:validation')),
+        image_base64: Yup.string().required(t('payment:confirmPayment:form:validation')),
     });
     const formik = useFormik({
         initialValues: {
-            orderNumber: '',
-            bankName: '',
-            bankAccountNumber: '',
-            bankAccountName: '',
-            amountTranfer: '',
-            tranferDate: Date.now(),
-            file: '',
+            order_number: '',
+            payment: '',
+            account_number: '',
+            account_name: '',
+            amount: '',
+            date: Date.now(),
+            filename: '',
+            image_base64: '',
         },
         validationSchema,
-        onSubmit: (values) => {
-            console.log(values);
+        onSubmit: (values, { resetForm }) => {
+            window.backdropLoader(true);
+            postConfirmPayment({
+                variables: {
+                    ...values,
+                    amount: parseFloat(values.amount),
+                    date: formatDate(values.date, 'YYYY-MM-03 HH:mm:ss'),
+                },
+            }).then(() => {
+                window.backdropLoader(true);
+                window.toastMessage({
+                    open: true,
+                    text: t('payment:confirmPayment:confirmSuccess'),
+                    variant: 'success',
+                });
+                resetForm({});
+            }).catch((e) => {
+                window.backdropLoader(true);
+                window.toastMessage({
+                    open: true,
+                    text: e.message.split(':')[1] || t('payment:confirmPayment:confirmFailed'),
+                    variant: 'error',
+                });
+            });
         },
 
     });
@@ -48,60 +78,63 @@ const ConfirmPayment = (props) => {
     if (loading) return <Loader />;
 
     const handleChangeDate = (date) => {
-        formik.setFieldValue('tranferDate', date);
+        formik.setFieldValue('date', date);
     };
-    const handleDropFile = (param) => {
-        formik.setFieldValue('file', param[0].name);
+    const handleDropFile = (files) => {
+        const fileName = files[0].file.name;
+        const { baseCode } = files[0];
+        formik.setFieldValue('filename', fileName);
+        formik.setFieldValue('image_base64', baseCode);
     };
     return (
         <div className={styles.container}>
             <form onSubmit={formik.handleSubmit}>
                 <TextField
-                    name="orderNumber"
+                    name="order_number"
                     label={t('payment:confirmPayment:form:orderNumber')}
-                    value={formik.values.orderNumber}
+                    value={formik.values.order_number}
                     onChange={formik.handleChange}
-                    error={!!(formik.errors.orderNumber && formik.touched.orderNumber)}
-                    errorMessage={formik.errors.orderNumber || null}
+                    error={!!(formik.errors.order_number && formik.touched.order_number)}
+                    errorMessage={(formik.errors.order_number && formik.touched.order_number) ? formik.errors.order_number : null}
                 />
                 <TextField
-                    name="bankName"
+                    name="payment"
                     label={t('payment:confirmPayment:form:bankName')}
-                    value={formik.values.bankName}
+                    value={formik.values.payment}
                     onChange={formik.handleChange}
-                    error={!!(formik.errors.bankName && formik.touched.bankName)}
-                    errorMessage={formik.errors.bankName || null}
+                    error={!!(formik.errors.payment && formik.touched.payment)}
+                    errorMessage={(formik.errors.payment && formik.touched.payment) ? formik.errors.payment : null}
                 />
                 <TextField
-                    name="bankAccountNumber"
+                    name="account_number"
                     label={t('payment:confirmPayment:form:bankAccountNumber')}
-                    value={formik.values.bankAccountNumber}
+                    value={formik.values.account_number}
                     onChange={formik.handleChange}
-                    error={!!(formik.errors.bankAccountNumber && formik.touched.bankAccountNumber)}
-                    errorMessage={formik.errors.bankAccountNumber || null}
+                    error={!!(formik.errors.account_number && formik.touched.account_number)}
+                    errorMessage={(formik.errors.account_name && formik.touched.account_number) ? formik.errors.account_number : null}
                 />
                 <TextField
-                    name="bankAccountName"
+                    name="account_name"
                     label={t('payment:confirmPayment:form:bankAccountName')}
-                    value={formik.values.bankAccountName}
+                    value={formik.values.account_name}
                     onChange={formik.handleChange}
-                    error={!!(formik.errors.bankAccountName && formik.touched.bankAccountName)}
-                    errorMessage={formik.errors.bankAccountName || null}
+                    error={!!(formik.errors.account_name && formik.touched.account_name)}
+                    errorMessage={(formik.errors.account_name && formik.touched.account_name) ? formik.errors.account_name : null}
                 />
                 <TextField
-                    name="amountTranfer"
+                    name="amount"
                     label={t('payment:confirmPayment:form:amountTranfer')}
-                    value={formik.values.amountTranfer}
+                    value={formik.values.amount}
                     onChange={formik.handleChange}
-                    error={!!(formik.errors.amountTranfer && formik.touched.amountTranfer)}
-                    errorMessage={formik.errors.amountTranfer || null}
+                    error={!!(formik.errors.amount && formik.touched.amount)}
+                    errorMessage={(formik.errors.amount && formik.touched.amount) ? formik.errors.amount : null}
                 />
                 <DatePicker
                     label={t('payment:confirmPayment:form:tranferDate')}
-                    name="tranferDate"
+                    name="date"
                     onChange={handleChangeDate}
-                    value={formik.values.tranferDate}
-                    error={!!(formik.errors.tranferDate && formik.touched.tranferDate)}
+                    value={formik.values.date}
+                    error={!!(formik.errors.date && formik.touched.date)}
                     fullWidth
                     format="MMMM D, YYYY"
                     className={styles.datePicker}
@@ -111,8 +144,8 @@ const ConfirmPayment = (props) => {
                     label={t('payment:confirmPayment:form:labelFile')}
                     acceptedFile=".jpg,.jpeg,.png,.pdf,.gif"
                     multiple={false}
-                    error={!!(formik.errors.file && formik.touched.file)}
-                    handleDrop={handleDropFile}
+                    error={((formik.errors.filename && formik.touched.filename) || (formik.errors.image_base64 && formik.touched.image_base64))}
+                    getBase64={handleDropFile}
                 />
                 <div className={styles.footer}>
                     <Button fullWidth className={styles.button} type="submit">

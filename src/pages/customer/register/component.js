@@ -7,8 +7,6 @@ import { Checkbox, FormControlLabel } from '@material-ui/core/';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/router';
-import Toast from '@components/Toast';
-import Backdrop from '@components/Loaders/Backdrop';
 import OtpBlock from '@components/OtpBlock';
 import { setLogin } from '@helpers/auth';
 import { setCartId, getCartId } from '@helpers/cartId';
@@ -23,13 +21,8 @@ import useStyles from './style';
 const Register = ({ t, storeConfig }) => {
     const styles = useStyles();
     const [phoneIsWa, setPhoneIsWa] = React.useState(false);
-    const [message, setMessage] = React.useState({
-        open: false,
-        variant: 'success',
-        text: '',
-    });
     const [cusIsLogin, setIsLogin] = React.useState(0);
-    const [loading, setLoading] = React.useState(false);
+    const [disabled, setdisabled] = React.useState(false);
     let cartId = '';
 
     const expired = storeConfig.oauth_access_token_lifetime_customer
@@ -87,18 +80,21 @@ const Register = ({ t, storeConfig }) => {
         },
         validationSchema: RegisterSchema,
         onSubmit: (values) => {
-            setLoading(true);
+            setdisabled(true);
+            window.backdropLoader(true);
             sendRegister({
                 variables: values,
             })
                 .then(async () => {
                     await setIsLogin(1);
                     getCart();
-                    setLoading(false);
+                    setdisabled(false);
+                    window.backdropLoader(false);
                 })
                 .catch((e) => {
-                    setLoading(false);
-                    setMessage({
+                    setdisabled(false);
+                    window.backdropLoader(false);
+                    window.toastMessage({
                         open: true,
                         text: e.message.split(':')[1] || t('customer:register:failed'),
                         variant: 'error',
@@ -115,7 +111,7 @@ const Register = ({ t, storeConfig }) => {
         if (cartId === '' || !cartId) {
             setLogin(1, expired);
             setCartId(custCartId, expired);
-            setMessage({
+            window.toastMessage({
                 open: true,
                 text: t('customer:register:success'),
                 variant: 'success',
@@ -131,7 +127,7 @@ const Register = ({ t, storeConfig }) => {
                 .then(() => {
                     setLogin(1, expired);
                     setCartId(custCartId, expired);
-                    setMessage({
+                    window.toastMessage({
                         open: true,
                         text: t('customer:register:success'),
                         variant: 'success',
@@ -139,13 +135,13 @@ const Register = ({ t, storeConfig }) => {
                     Router.push('/customer/account');
                 })
                 .catch((e) => {
-                    setLoading(false);
-                    setMessage({
+                    setdisabled(false);
+                    window.backdropLoader(false);
+                    window.toastMessage({
                         open: true,
                         text: e.message.split(':')[1] || t('customer:register:failed'),
                         variant: 'error',
                     });
-                    console.log(e);
                 });
         } else {
             Router.push('/customer/account');
@@ -154,8 +150,6 @@ const Register = ({ t, storeConfig }) => {
 
     return (
         <>
-            <Backdrop open={loading} />
-            <Toast open={message.open} message={message.text} variant={message.variant} setOpen={() => setMessage({ ...message, open: false })} />
             <form className={styles.container} onSubmit={formik.handleSubmit}>
                 <TextField
                     label={t('common:form:firstName')}
@@ -267,7 +261,7 @@ const Register = ({ t, storeConfig }) => {
                             </Typography>
                         )}
                     />
-                    <Button disabled={loading} fullWidth className={styles.btnSigin} type="submit">
+                    <Button disabled={disabled} fullWidth className={styles.btnSigin} type="submit">
                         <Typography variant="title" type="regular" letter="capitalize" color="white">
                             {t('customer:register:button')}
                         </Typography>

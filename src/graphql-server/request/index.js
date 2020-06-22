@@ -4,11 +4,6 @@ const { graphqlEndpoint } = require('../../../swift.config');
 
 const { decrypt } = require('../../helpers/encryption');
 
-
-const uri = process.env.NODE_ENV === 'production'
-    ? graphqlEndpoint.prod
-    : graphqlEndpoint.dev;
-
 function requestGraph(query, variables = {}, context = {}) {
     let token = '';
     if (context.session || context.headers) {
@@ -19,7 +14,7 @@ function requestGraph(query, variables = {}, context = {}) {
         const headers = {
             Authorization: token,
         };
-        const client = new GraphQLClient(uri, {
+        const client = new GraphQLClient(`${graphqlEndpoint[process.env.APP_ENV] || graphqlEndpoint.dev}`, {
             headers,
         });
         console.log(client);

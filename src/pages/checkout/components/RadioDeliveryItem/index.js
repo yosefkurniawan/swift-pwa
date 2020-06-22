@@ -10,7 +10,7 @@ const RadioDeliveryItem = (props) => {
         value,
         label,
         selected,
-        onChange,
+        onChange = () => {},
         borderBottom = true,
         image = null,
     } = props;

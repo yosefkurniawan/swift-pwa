@@ -6,7 +6,6 @@ services:
         environment:
             - PORT=3000
             - NODE_ENV=production
+            - APP_ENV=prod
         ports:
             - 3000:3000
-        # volumes:
-        #     - /home/arfa/Icube/swift-pwa:/usr/src/app

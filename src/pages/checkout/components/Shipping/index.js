@@ -2,6 +2,7 @@ import Radio from '@components/Forms/Radio';
 import Typography from '@components/Typography';
 import TagManager from 'react-gtm-module';
 import Skeleton from '@material-ui/lab/Skeleton';
+import { formatPrice } from '@helpers/currency';
 import gqlService from '../../services/graphql';
 import DeliveryItem from '../RadioDeliveryItem';
 
@@ -15,7 +16,7 @@ const Loader = () => (
 
 const Shipping = ({
     t, checkout, setCheckout, updateFormik, handleOpenMessage, styles,
-    storeConfig,
+    storeConfig, formik,
 }) => {
     const { loading, data, selected } = checkout;
     const [setShippingMethod] = gqlService.setShippingMethod({ onError: () => {} });
@@ -27,7 +28,7 @@ const Shipping = ({
             const { carrier_code, method_code } = val.name;
             let state = { ...checkout };
             state.selected.shipping = val;
-            state.status.backdrop = true;
+            window.backdropLoader(true);
             setCheckout(state);
 
             let updatedCart = await setShippingMethod({
@@ -39,7 +40,7 @@ const Shipping = ({
             });
 
             state = { ...checkout };
-            state.status.backdrop = false;
+            window.backdropLoader(false);
             setCheckout(state);
 
             if (updatedCart) {
@@ -103,7 +104,10 @@ const Shipping = ({
         }
     };
 
-    if (loading.shipping || loading.addresses || loading.all) {
+    if (formik.values.delivery !== 'home') {
+        const price = formatPrice(0, storeConfig.base_currency_code || 'IDR');
+        content = <DeliveryItem value={{ price }} label={t('checkout:pickupStore')} selected borderBottom={false} />;
+    } else if (loading.shipping || loading.addresses || loading.all) {
         content = <Loader />;
     } else if (data.shippingMethods.length !== 0) {
         content = (
@@ -122,7 +126,7 @@ const Shipping = ({
     return (
         <div className={styles.block}>
             <Typography variant="title" type="bold" letter="uppercase">
-                {t('checkout:deliveryMethod')}
+                {t('checkout:shippingMethod')}
             </Typography>
             {content}
         </div>

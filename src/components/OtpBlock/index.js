@@ -4,28 +4,22 @@ import Button from '@components/Button';
 import TextField from '@components/Forms/TextField';
 import Password from '@components/Forms/Password';
 import Typography from '@components/Typography';
-import Toast from '@components/Toast';
 import { GraphOtp, GraphConfig } from '@services/graphql';
 import PropTypes from 'prop-types';
 import { useTranslation } from '@i18n';
-import Backdrop from '@components/Loaders/Backdrop';
 
 import useStyles from './style';
 
-const OtpBlock = ({ phoneProps, codeProps, type }) => {
+const OtpBlock = ({
+    phoneProps, codeProps, type, setDisabled,
+}) => {
     const { t } = useTranslation(['otp', 'common']);
     const styles = useStyles();
     const [time, setTime] = React.useState(0);
     const [manySend, setManySend] = React.useState(1);
-    const [message, setMessage] = React.useState({
-        open: false,
-        text: '',
-        variant: 'info',
-    });
     const [config, setConfig] = React.useState(null);
     const [phoneNumber, setPhoneNumber] = React.useState('');
     const [otp, setOtp] = React.useState('');
-    const [load, setLoad] = React.useState(false);
 
     const [requestOtpRegister] = GraphOtp.requestOtpRegister();
     const [checkOtpRegister] = GraphOtp.checkOtpRegister();
@@ -47,7 +41,6 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
     };
 
     const handleSend = () => {
-        setLoad(true);
         let sendOtp = () => {};
         if (type === 'register') {
             sendOtp = requestOtpRegister;
@@ -58,44 +51,46 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
         }
         const maxSend = config && config.maxTry ? config.maxTry : 3;
         if (manySend > maxSend) {
-            setMessage({
+            window.toastMessage({
                 open: true,
                 text: t('otp:maxSend'),
                 variant: 'warning',
             });
         } else if (time <= 0) {
+            window.backdropLoader(true);
             sendOtp({
                 variables: {
                     phoneNumber,
                 },
             }).then(() => {
-                setLoad(false);
+                window.backdropLoader(false);
                 setManySend(manySend + 1);
                 // eslint-disable-next-line no-nested-ternary
                 setTime(config && config.expired ? config.expired : 60);
-                setMessage({
+                window.toastMessage({
                     open: true,
                     text: t('otp:sendSuccess'),
                     variant: 'success',
                 });
             }).catch((e) => {
-                setLoad(false);
-                setMessage({
+                window.backdropLoader(false);
+                window.toastMessage({
                     open: true,
                     text: e.message.split(':')[1] || t('customer:top:sendFailed'),
                     variant: 'error',
                 });
             });
         } else {
-            setMessage({
+            window.toastMessage({
                 open: true,
+                variant: 'success',
                 text: `${t('otp:wait')} ${time} ${t('otp:resend')}`,
             });
         }
     };
 
     const handleCheck = () => {
-        setLoad(true);
+        window.backdropLoader(true);
         let checkOtp = () => {};
         if (type === 'register') {
             checkOtp = checkOtpRegister;
@@ -111,27 +106,30 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
                 otp,
             },
         }).then((res) => {
-            setLoad(false);
+            window.backdropLoader(false);
             let isValid;
             if (type === 'register') isValid = res.data.checkOtpRegister.is_valid_otp;
             if (type === 'forgotPassword') isValid = res.data.checkOtpForgotPassword.is_valid_otp;
             if (type === 'login') isValid = res.data.checkOtpLogin.is_valid_otp;
             if (isValid) {
-                setMessage({
+                setDisabled(false);
+                window.toastMessage({
                     variant: 'success',
                     open: true,
                     text: t('otp:valid'),
                 });
             } else {
-                setMessage({
+                setDisabled(true);
+                window.toastMessage({
                     variant: 'error',
                     open: true,
                     text: t('otpLinvalid'),
                 });
             }
         }).catch(() => {
-            setLoad(false);
-            setMessage({
+            setDisabled(true);
+            window.backdropLoader(false);
+            window.toastMessage({
                 variant: 'error',
                 open: true,
                 text: t('otpLinvalid'),
@@ -180,8 +178,6 @@ const OtpBlock = ({ phoneProps, codeProps, type }) => {
 
     return (
         <div className={styles.root}>
-            <Backdrop open={load} />
-            <Toast open={message.open} message={message.text} variant={message.variant} setOpen={() => setMessage({ ...message, open: false })} />
             <div className={styles.componentContainer}>
                 <div className={styles.input}>
                     <TextField label={t('common:form:phoneNumber')} fullWidth {...phoneProps} onChange={handlePhone} />
