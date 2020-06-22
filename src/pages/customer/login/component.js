@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import TextField from '@components/Forms/TextField';
 import PasswordField from '@components/Forms/Password';
 import Button from '@components/Button';
@@ -24,6 +25,7 @@ const Login = ({
 }) => {
     const styles = useStyles();
     const [isOtp, setIsOtp] = React.useState(false);
+    const [isDidUpdate, setIsDidUpdate] = React.useState({});
     const [isRevokeToken, setRevokeToken] = React.useState(false);
     const [disabled, setDisabled] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
@@ -65,9 +67,17 @@ const Login = ({
 
     // togle disabled when user just switch to otp mode
     React.useEffect(() => {
+        if (isDidUpdate.isOtp && formik.dirty) {
+            /* only validate form when:
+                isOtp changed for not first time / initial && formik is dirty
+            */
+            formik.validateForm();
+        } else {
+            setIsDidUpdate({ isOtp: true });
+        }
+
+        // disabled when user switch to otp mode
         setDisabled(isOtp);
-        // eslint-disable-next-line no-use-before-define
-        formik.validateForm();
     }, [isOtp]);
 
     const LoginSchema = Yup.object().shape({
