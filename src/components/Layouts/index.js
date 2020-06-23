@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import React, { useEffect, useState } from 'react';
-import Navigation from '@components/Navigation';
+import dynamic from 'next/dynamic';
 import Header from '@components/Header';
 import Head from 'next/head';
 import TagManager from 'react-gtm-module';
@@ -8,8 +8,10 @@ import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { custDataNameCookie } from '@config';
 import { getHost } from '@helpers/config';
-import Message from '@components/Toast';
-import Loading from '@components/Loaders/Backdrop';
+
+const Navigation = dynamic(() => import('@components/Navigation'));
+const Message = dynamic(() => import('@components/Toast'));
+const Loading = dynamic(() => import('@components/Loaders/Backdrop'));
 
 const Layout = (props) => {
     const {
@@ -88,7 +90,7 @@ const Layout = (props) => {
             <Head>
                 <meta name="keywords" content={pageConfig.title ? pageConfig.title : 'Swift PWA'} />
                 <meta name="robots" content="INDEX,FOLLOW" />
-                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="format-detection" content="telephone=no" />
                 {Object.keys(ogData).map((key, idx) => {
                     if (typeof ogData[key] === 'object' && ogData[key].type && ogData[key].type === 'meta') {
