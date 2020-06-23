@@ -19,23 +19,12 @@ export const getBannerSlider = gql`
 export const getFeaturedProducts = gql`
     query($url_key: String!) {
         categoryList(filters: { url_key: { eq: $url_key } }) {
-            description
-            name
-            url_key
-            image
-            title_rewrite
-            meta_title
             children {
                 id
-                level
                 name
-                title_rewrite
                 path
-                description
-                image
                 image_path
                 url_path
-                url_key
                 products {
                     items {
                         __typename
@@ -44,12 +33,6 @@ export const getFeaturedProducts = gql`
                         canonical_url
                         small_image {
                             url(width: ${imageSize.product.width}, height: ${imageSize.product.height}),
-                        }
-                        image {
-                            url
-                        }
-                        thumbnail {
-                            url
                         }
                         price_tiers {
                             discount {
@@ -85,23 +68,12 @@ export const getFeaturedProducts = gql`
 export const getCategoryList = gql`
     query($url_key: String!) {
         categoryList(filters: { url_key: { eq: $url_key } }) {
-            description
-            name
-            url_key
-            image
-            title_rewrite
-            meta_title
             children {
                 id
-                level
                 name
-                title_rewrite
-                path
                 description
-                image
                 image_path
                 url_path
-                url_key
             }
             children_count
         }
