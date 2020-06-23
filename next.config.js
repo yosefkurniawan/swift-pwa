@@ -4,6 +4,9 @@ module.exports = withOffline({
     publicRuntimeConfig: {
         appEnv: process.env.APP_ENV,
     },
+    optimization: {
+        minimize: process.env.NODE_ENV === 'production', // Update this to true or false
+    },
     workboxOpts: {
         swDest: process.env.NEXT_EXPORT ? 'service-worker.js' : 'static/service-worker.js',
         runtimeCaching: [
