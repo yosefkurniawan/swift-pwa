@@ -12,7 +12,6 @@ import ListMessage from './ListMessage';
 import ItemField from './ItemField';
 import { updateRma, cancelRma } from '../../services/graphql';
 
-
 const DetailReturn = (props) => {
     const {
         t, data: { detail_rma, form_data }, customerData, storeConfig,
@@ -40,6 +39,7 @@ const DetailReturn = (props) => {
         openDialog: false,
         messageDialog: '',
         handleYes: () => {},
+        dropValue: [],
     });
 
     const changeOptionCustomField = (value) => {
@@ -131,6 +131,18 @@ const DetailReturn = (props) => {
                 variant: 'success',
                 text: t('return:form:updateSuccess'),
             });
+            setFormData({
+                order_number: detail_rma.order_number,
+                customer_name: customerData.firstname,
+                customer_email: customerData.email,
+                custom_fields: [],
+                order_items: [],
+                message: '',
+                attachments: [],
+            });
+            setState({
+                ...state, dropValue: [],
+            });
             refetch();
         }).catch((e) => {
             window.backdropLoader(false);
@@ -191,7 +203,6 @@ const DetailReturn = (props) => {
             </Button>
         );
     }
-
 
     return (
         <>
@@ -299,7 +310,13 @@ const DetailReturn = (props) => {
                     />
                 </div>
                 <div className={styles.block}>
-                    <DropFile label={t('return:form:placeholder:uploadFile')} getBase64={handleGetBase64} acceptedFile={fileAccept} />
+                    <DropFile
+                        value={state.dropValue}
+                        setValue={(dropValue) => setState({ ...state, dropValue })}
+                        label={t('return:form:placeholder:uploadFile')}
+                        getBase64={handleGetBase64}
+                        acceptedFile={fileAccept}
+                    />
                 </div>
                 <div className={classNames(styles.block, styles.footer)}>
                     { UpdateButton() }
