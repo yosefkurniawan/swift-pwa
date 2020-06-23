@@ -15,7 +15,6 @@ import useStyles from '../style';
 import ItemProduct from './ItemProduct';
 import ItemField from './ItemField';
 
-
 const NewReturnRma = (props) => {
     const {
         t, data: { custom_fields, items, allowed_file_extensions }, storeConfig, customerData,
