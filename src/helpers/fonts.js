@@ -10,8 +10,13 @@ if (typeof window !== 'undefined') {
 const Fonts = () => {
     if (typeof window !== 'undefined') {
         WebFont.load({
-            google: {
-                families: ['Montserrat:400,500,600,800'],
+            custom: {
+                families: [
+                    'Montserrat:n4,n5,n6,n8',
+                ],
+                urls: [
+                    'https://fonts.googleapis.com/css?family=Montserrat:400,500,600,800&display=swap',
+                ],
             },
         });
     }
