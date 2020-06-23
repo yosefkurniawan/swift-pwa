@@ -60,17 +60,8 @@ const Cart = (props) => {
     };
 
     // delete item from cart
-    const [actDeleteItem, resultDelete] = useMutation(Schema.deleteCartitem);
-    const [actUpdateItem, resultUpdate] = useMutation(Schema.updateCartitem);
-    if (resultDelete.data) {
-        toggleEditMode();
-        window.backdropLoader(false);
-    }
-
-    if (resultUpdate.data) {
-        toggleEditMode();
-        window.backdropLoader(false);
-    }
+    const [actDeleteItem] = useMutation(Schema.deleteCartitem);
+    const [actUpdateItem] = useMutation(Schema.updateCartitem);
 
     // delete items
     const deleteItem = (itemProps) => {
@@ -113,6 +104,22 @@ const Cart = (props) => {
                     },
                 },
             ],
+        }).then(() => {
+            toggleEditMode();
+            window.backdropLoader(false);
+            window.toastMessage({
+                open: true,
+                text: t('cart:deleteSuccess'),
+                variant: 'success',
+            });
+        }).catch((e) => {
+            toggleEditMode();
+            window.backdropLoader(false);
+            window.toastMessage({
+                open: true,
+                text: e.message.split(':')[1] || t('cart:deleteFailed'),
+                variant: 'error',
+            });
         });
     };
 
@@ -138,6 +145,22 @@ const Cart = (props) => {
                     fetchPolicy: 'cache-and-network',
                 },
             ],
+        }).then(() => {
+            toggleEditMode();
+            window.backdropLoader(false);
+            window.toastMessage({
+                open: true,
+                text: t('cart:updateSuccess'),
+                variant: 'success',
+            });
+        }).catch((e) => {
+            toggleEditMode();
+            window.backdropLoader(false);
+            window.toastMessage({
+                open: true,
+                text: e.message.split(':')[1] || t('cart:updateFailed'),
+                variant: 'error',
+            });
         });
     };
     let storeConfig = {};

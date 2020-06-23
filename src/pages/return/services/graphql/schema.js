@@ -104,6 +104,10 @@ const responseRma = `
 detail_rma {
     id
     increment_id
+    confirm_shipping {
+      status
+      step
+    }
     order_number
     order_date
     status {

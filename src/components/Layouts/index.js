@@ -18,6 +18,7 @@ const Layout = (props) => {
         CustomHeader = false,
         i18n, storeConfig = {},
         isLogin,
+        headerProps = {},
     } = props;
     const { ogContent = {}, schemaOrg = null } = pageConfig;
     const router = useRouter();
@@ -104,7 +105,9 @@ const Layout = (props) => {
                     ) : null}
             </Head>
 
-            {React.isValidElement(CustomHeader) ? <>{React.cloneElement(CustomHeader, { pageConfig })}</> : <Header pageConfig={pageConfig} />}
+            {React.isValidElement(CustomHeader)
+                ? <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
+                : <Header {...headerProps} pageConfig={pageConfig} />}
 
             <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0 }}>
                 <Loading open={state.backdropLoader} />

@@ -40,6 +40,7 @@ export const storeConfig = gql`
             snap_client_key
             snap_is_production
             aw_blog_general_enabled
+            pickup_store
         }
     }
 `;

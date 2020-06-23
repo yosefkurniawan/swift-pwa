@@ -56,7 +56,7 @@ const FilterDialog = ({
                     <CloseIcon className={styles.iconClose} />
                 </IconButton>
                 <Typography variant="label" type="bold" align="center" letter="uppercase" className={styles.title}>
-                    {t('checkout:pickupInformation:label')}
+                    {t('checkout:pickupInformation:selectStoreLocation')}
                 </Typography>
             </AppBar>
             <div className={styles.body}>
