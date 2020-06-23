@@ -17,7 +17,7 @@ export default ({
                                 classNames(styles.itemContainer, item.owner_type === 2 ? styles.right : styles.left)
                             }
                         >
-                            <div className="column">
+                            <div className={styles.bodyItem}>
                                 <Typography type="bold">
                                     {item.owner_type === 2 ? `${item.owner_name} (Me)` : '(Customer Service)'}
                                     {' '}
