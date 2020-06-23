@@ -43,10 +43,8 @@ const useStyles = makeStyles((theme) => ({
     },
     imgLogo: {
         ...CreateMargin(15),
-        [theme.breakpoints.down('sm')]: {
-            width: 100,
-            height: '100%',
-        },
+        width: 100,
+        height: '100%',
     },
     skeletonWrapper: {
         padding: '12px 0',
