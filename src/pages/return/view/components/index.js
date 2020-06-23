@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import classNames from 'classnames';
 import Typography from '@components/Typography';
 import React from 'react';
@@ -162,7 +163,7 @@ const DetailReturn = (props) => {
         setState({
             ...state,
             openDialog: true,
-            messageDialog: 'Are you sure update status RMA',
+            messageDialog: <div dangerouslySetInnerHTML={{ __html: t('return:view:confrimShipping') }} />,
             handleYes,
         });
     };
@@ -196,7 +197,7 @@ const DetailReturn = (props) => {
             </Button>
         );
     }
-    if (detail_rma.status.name === 'Approved' || detail_rma.status.name.toLowerCase() === 'approved') {
+    if (detail_rma.confirm_shipping.status) {
         UpdateStatusButton = () => (
             <Button fullWidth variant="outlined" onClick={actionUpdateStatus}>
                 <Typography letter="capitalize">{t('return:view:confirmShipping')}</Typography>
@@ -319,6 +320,9 @@ const DetailReturn = (props) => {
                     />
                 </div>
                 <div className={classNames(styles.block, styles.footer)}>
+                    {
+                        detail_rma.confirm_shipping.status ? (<div dangerouslySetInnerHTML={{ __html: detail_rma.confirm_shipping.step }} />) : null
+                    }
                     { UpdateButton() }
                     { CancelButton() }
                     { UpdateStatusButton() }
