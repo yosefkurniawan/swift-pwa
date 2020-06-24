@@ -42,8 +42,13 @@ const ForgotPassword = ({ t }) => {
         }),
         onSubmit: (values) => {
             setLoad(true);
+            const getVariables = () => (
+                useEmail
+                    ? { phoneNumber: '', otp: '', email: values.email }
+                    : { phoneNumber: values.phoneNumber, otp: values.otp, email: '' }
+            );
             getToken({
-                variables: values,
+                variables: getVariables(),
             })
                 .then((res) => {
                     setLoad(false);
