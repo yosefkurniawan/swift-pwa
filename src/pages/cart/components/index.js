@@ -1,7 +1,6 @@
 /* eslint-disable radix */
 /* eslint-disable no-plusplus */
 import { useState, useEffect } from 'react';
-import { Box } from '@material-ui/core';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
 import Link from 'next/link';
@@ -60,17 +59,8 @@ const Cart = (props) => {
     };
 
     // delete item from cart
-    const [actDeleteItem, resultDelete] = useMutation(Schema.deleteCartitem);
-    const [actUpdateItem, resultUpdate] = useMutation(Schema.updateCartitem);
-    if (resultDelete.data) {
-        toggleEditMode();
-        window.backdropLoader(false);
-    }
-
-    if (resultUpdate.data) {
-        toggleEditMode();
-        window.backdropLoader(false);
-    }
+    const [actDeleteItem] = useMutation(Schema.deleteCartitem);
+    const [actUpdateItem] = useMutation(Schema.updateCartitem);
 
     // delete items
     const deleteItem = (itemProps) => {
@@ -113,6 +103,22 @@ const Cart = (props) => {
                     },
                 },
             ],
+        }).then(() => {
+            toggleEditMode();
+            window.backdropLoader(false);
+            window.toastMessage({
+                open: true,
+                text: t('cart:deleteSuccess'),
+                variant: 'success',
+            });
+        }).catch((e) => {
+            toggleEditMode();
+            window.backdropLoader(false);
+            window.toastMessage({
+                open: true,
+                text: e.message.split(':')[1] || t('cart:deleteFailed'),
+                variant: 'error',
+            });
         });
     };
 
@@ -138,6 +144,22 @@ const Cart = (props) => {
                     fetchPolicy: 'cache-and-network',
                 },
             ],
+        }).then(() => {
+            toggleEditMode();
+            window.backdropLoader(false);
+            window.toastMessage({
+                open: true,
+                text: t('cart:updateSuccess'),
+                variant: 'success',
+            });
+        }).catch((e) => {
+            toggleEditMode();
+            window.backdropLoader(false);
+            window.toastMessage({
+                open: true,
+                text: e.message.split(':')[1] || t('cart:updateFailed'),
+                variant: 'error',
+            });
         });
     };
     let storeConfig = {};
@@ -239,7 +261,7 @@ const Cart = (props) => {
     if (dataCart.id && dataCart.items.length > 0) {
         return (
             <>
-                <Box className={styles.container}>
+                <div className={styles.container}>
                     <div className={styles.toolbar}>
                         <div className={styles.toolbarCounter}>
                             <Typography variant="p" type="regular">
@@ -271,7 +293,7 @@ const Cart = (props) => {
                             />
                         ))}
                     </div>
-                </Box>
+                </div>
                 <CrossSell {...props} editMode={editMode} data={crosssell} />
                 {editItem.id ? (
                     <EditDrawer open={openEditDrawer} toggleOpen={toggleEditDrawer} updateItem={updateItem} {...props} {...editItem} />
@@ -282,7 +304,7 @@ const Cart = (props) => {
         );
     }
     return (
-        <Box className={styles.container} style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <div className={styles.container} style={{ justifyContent: 'center', alignItems: 'center' }}>
             <Typography variant="span" type="regular" align="center">
                 <span className={styles.emptyCart}>{t('cart:empty:text')}</span>
             </Typography>
@@ -293,7 +315,7 @@ const Cart = (props) => {
                     </Button>
                 </a>
             </Link>
-        </Box>
+        </div>
     );
 };
 

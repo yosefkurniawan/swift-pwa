@@ -20,15 +20,20 @@ const DropFile = ({
     handleDrop = () => {},
     getBase64 = () => {},
     error = false,
+    dropValue = [],
+    value,
+    setValue,
 }) => {
     const { t } = useTranslation(['common']);
-    const [dropFile, setDropFile] = React.useState([]);
+    const [dropFile, setDropFile] = React.useState(dropValue);
     const onDrop = useCallback((files) => {
         if (files && files.length > 0) {
             if (multiple) {
                 setDropFile([...dropFile, ...files]);
+                if (setValue) setValue([...dropFile, ...files]);
             } else {
                 setDropFile([files[0]]);
+                if (setValue) setValue([files[0]]);
             }
 
             handleDrop(files);
@@ -127,7 +132,9 @@ const DropFile = ({
             <Typography color={error ? 'red' : 'default'}>{label}</Typography>
             <div className="column">
                 {
-                    showListFile && dropFile.length > 0 && dropFile.map((file, index) => (<Typography key={index}>{file.name}</Typography>))
+                    value
+                        ? value.length > 0 && value.map((file, index) => (<Typography key={index}>{file.name}</Typography>))
+                        : showListFile && dropFile.length > 0 && dropFile.map((file, index) => (<Typography key={index}>{file.name}</Typography>))
                 }
             </div>
         </div>

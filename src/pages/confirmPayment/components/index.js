@@ -1,4 +1,3 @@
-
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import TextField from '@components/Forms/TextField';
@@ -9,7 +8,6 @@ import React from 'react';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import DateDayJs from '@date-io/dayjs';
 import useStyles from './style';
-import Loader from './Loader';
 import { confirmPayment } from '../service/graphql';
 import formatDate from '../../../helpers/date';
 
@@ -69,13 +67,6 @@ const ConfirmPayment = (props) => {
         },
 
     });
-    const [loading, setLoading] = React.useState(true);
-    React.useEffect(() => {
-        setTimeout(() => {
-            setLoading(false);
-        }, 3000);
-    }, []);
-    if (loading) return <Loader />;
 
     const handleChangeDate = (date) => {
         formik.setFieldValue('date', date);

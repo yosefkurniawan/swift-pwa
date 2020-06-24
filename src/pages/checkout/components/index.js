@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import { getLoginInfo } from '@helpers/auth';
-import { customerFeautres } from '@config';
 import gqlService from '../services/graphql';
 import useStyles from '../style';
 import Address from './Address';
@@ -283,7 +282,7 @@ const Checkout = (props) => {
         <div className={styles.root}>
             <div className={styles.container}>
                 {
-                    customerFeautres.pickupStore ? (
+                    storeConfig.pickup_store ? (
                         <Delivery
                             t={t}
                             styles={styles}

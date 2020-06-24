@@ -59,7 +59,7 @@ export default (props) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {history.length > 0 ? (
+                        {!loading && history.length > 0 ? (
                             <>
                                 {
                                     history.map((val, index) => (

@@ -4,7 +4,7 @@ import PriceFormat from '@components/PriceFormat';
 import Banner from '@components/Slider/Banner';
 import Caraousel from '@components/Slider/Carousel';
 import Typography from '@components/Typography';
-import { Box, IconButton } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import {
     Favorite,
     FavoriteBorderOutlined,
@@ -247,7 +247,7 @@ const ProductPage = (props) => {
                 link={getHost() + route.asPath}
                 {...props}
             />
-            <Box className={styles.container}>
+            <div className={styles.container}>
                 <div className={styles.headContainer}>
                     <Banner
                         data={banner}
@@ -368,7 +368,7 @@ const ProductPage = (props) => {
                         </Typography>
                     </Button>
                 </div>
-            </Box>
+            </div>
         </>
     );
 };

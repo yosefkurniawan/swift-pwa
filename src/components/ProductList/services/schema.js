@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
 import { gql } from 'apollo-boost';
-import { imageSize } from '@config';
+import { imageSize, features } from '@config';
 /**
  * generate dynamic filter query
  * @param catId number
@@ -49,7 +49,7 @@ const filterProduct = (filter) => {
 export const getProduct = (config = {}) => gql`
     {
       products( search: "${config.search}" ,filter: ${filterProduct(config.filter)}, pageSize: ${
-    config.pageSize ? config.pageSize : 20
+    config.pageSize ? config.pageSize : 8
 },
       currentPage: ${config.currentPage ? config.currentPage : 1}
       ${
@@ -75,10 +75,10 @@ export const getProduct = (config = {}) => gql`
           sku
           name
           url_key
-          review {
+          ${features.productListing.configurableOptions ? `review {
             rating_summary
             reviews_count
-          }
+          }` : ''}
           small_image {
             url(width: ${imageSize.product.width}, height: ${imageSize.product.height}),
             label
@@ -128,6 +128,7 @@ export const getProduct = (config = {}) => gql`
               }
             }
           }
+          ${features.productListing.configurableOptions ? `
           ... on ConfigurableProduct {
             configurable_options {
               id
@@ -150,10 +151,13 @@ export const getProduct = (config = {}) => gql`
                 id
                 sku
                 stock_status
-                review {
+                ${features.productListing.rating
+        ? `review {
                   rating_summary
                   reviews_count
-                }
+                }`
+        : ''}
+                
                 price_tiers {
                   discount {
                     percent_off
@@ -206,6 +210,7 @@ export const getProduct = (config = {}) => gql`
               }
             }
           }
+          ` : ''}
         }
       }
     }

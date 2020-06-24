@@ -87,4 +87,4 @@ const Navigation = ({ active = true }) => {
     return null;
 };
 
-export default withApollo({ ssr: true })(Navigation);
+export default withApollo({ ssr: false })(Navigation);

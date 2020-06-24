@@ -7,7 +7,7 @@ import { Tune } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import GridList from '@components/GridList';
 import ProductItem from '@components/ProductItem';
-import ProductItemLoading from '@components/ProductItem/component/Skeleton';
+import ProductListSkeleton from '@components/ProductList/component/Skeleton';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helpers/generateQuery';
 import CustomTabs from '@components/Tabs';
@@ -91,7 +91,7 @@ const Product = (props) => {
     let config = {
         customFilter: typeof customFilter !== 'undefined',
         search: '',
-        pageSize: 20,
+        pageSize: 8,
         currentPage: 1,
         filter: [],
     };
@@ -246,18 +246,21 @@ const Product = (props) => {
             )}
 
             <div className={styles.productContainer}>
-                <GridList
-                    data={loading ? [1, 1, 1, 1] : products.items}
-                    ItemComponent={loading ? ProductItemLoading : ProductItem}
-                    itemProps={{
-                        color: ['#343434', '#6E6E6E', '#989898', '#C9C9C9'],
-                        showListColor: true,
-                        showListSize: true,
-                        size: ['s', 'm', 'l', 'xl'],
-                        categorySelect: categoryPath,
-                    }}
-                    gridItemProps={{ xs: 6, sm: 4, md: 3 }}
-                />
+                {loading && <ProductListSkeleton />}
+                {!loading && (
+                    <GridList
+                        data={products.items}
+                        ItemComponent={ProductItem}
+                        itemProps={{
+                            color: ['#343434', '#6E6E6E', '#989898', '#C9C9C9'],
+                            showListColor: true,
+                            showListSize: true,
+                            size: ['s', 'm', 'l', 'xl'],
+                            categorySelect: categoryPath,
+                        }}
+                        gridItemProps={{ xs: 6, sm: 4, md: 3 }}
+                    />
+                )}
                 {(products.items.length === products.total_count) || loading
                     ? renderEmptyMessage(products.items.length, loading)
                     : (

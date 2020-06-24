@@ -82,18 +82,24 @@ const FilterDialog = ({
                         name="person"
                         value={formik.values.person}
                         onChange={formik.handleChange}
+                        error={!!(formik.touched.person && formik.errors.person)}
+                        errorMessage={(formik.touched.person && formik.errors.person) || null}
                     />
                     <TextField
                         label={t('common:form:phoneNumber')}
                         name="phoneNumber"
                         value={formik.values.phoneNumber}
                         onChange={formik.handleChange}
+                        error={!!(formik.touched.phoneNumber && formik.errors.phoneNumber)}
+                        errorMessage={(formik.touched.phoneNumber && formik.errors.phoneNumber) || null}
                     />
                     <TextField
                         label="email"
                         name="email"
                         value={formik.values.email}
                         onChange={formik.handleChange}
+                        error={!!(formik.touched.email && formik.errors.email)}
+                        errorMessage={(formik.touched.email && formik.errors.email) || null}
                     />
                 </div>
 

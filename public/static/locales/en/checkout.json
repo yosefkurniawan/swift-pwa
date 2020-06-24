@@ -14,7 +14,8 @@
         "pickupAtLabel": "You will pick up your order at",
         "pickupNote": "We will send you an email when your order is ready (within 2 hours for order placed by 7pm local time). Note: Bring valid goverment ID such as driver license or password",
         "changePickupInformation": "Change Pickup Information",
-        "changePickupLocation": "Change Pickup Location"
+        "changePickupLocation": "Change Pickup Location",
+        "selectStoreLocation": "Select Store Location"
     },
     "pickupStore": "Pickup at store",
     "shippingMethod" : "shipping Method",
