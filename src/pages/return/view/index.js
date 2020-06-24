@@ -1,9 +1,11 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import { getUpdateFormRma } from '../services/graphql';
 import Loader from './components/Loader';
-import Component from './components';
+
+const Component = dynamic(() => import('./components'), { ssr: false });
 
 const Page = (props) => {
     const { t, customerData } = props;

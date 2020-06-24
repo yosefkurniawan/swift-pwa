@@ -1,6 +1,8 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
-import Content from './components';
+import dynamic from 'next/dynamic';
+
+const Content = dynamic(() => import('./components'), { ssr: false });
 
 const Page = (props) => {
     const pageConfig = {

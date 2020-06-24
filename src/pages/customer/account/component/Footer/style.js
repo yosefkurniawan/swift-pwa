@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core';
+import { FONT_DEFAULT } from '@theme/typography';
 
 export default makeStyles({
     account_block: {
@@ -23,5 +24,6 @@ export default makeStyles({
         textDecoration: 'none',
         fontSize: 24,
         fontWeight: '700',
+        ...FONT_DEFAULT,
     },
 });
