@@ -1,5 +1,4 @@
 import Skeleton from '@components/Skeleton';
-import Box from '@material-ui/core/Box';
 import ProductListSkeleton from '@components/ProductList/component/Skeleton';
 import useStyles from '../style';
 
@@ -7,7 +6,7 @@ const SkeletonCategory = () => {
     const styles = useStyles();
 
     return (
-        <Box className={styles.container}>
+        <div className={styles.container}>
             <Skeleton
                 variant="rect"
                 xsStyle={{ width: '100vw', height: '60vw' }}
@@ -18,7 +17,7 @@ const SkeletonCategory = () => {
             <Skeleton variant="text" width="100%" />
             <Skeleton variant="text" width="40%" style={{ marginBottom: 20 }} />
             <ProductListSkeleton />
-        </Box>
+        </div>
     );
 };
 
