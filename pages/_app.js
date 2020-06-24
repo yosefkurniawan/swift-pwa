@@ -3,7 +3,6 @@
 /* eslint-disable max-len */
 import React from 'react';
 import App from 'next/app';
-import Router from 'next/router';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '@theme/theme';
@@ -17,15 +16,14 @@ import {
 } from '@config';
 import {
     getLoginInfo,
-    setLastPathWithoutLogin,
     getLastPathWithoutLogin,
-    removeLastPathWithoutLogin,
 } from '@helpers/auth';
 
 import TagManager from 'react-gtm-module';
 import '../src/styles/index.css';
 import '../src/styles/mage.css';
 import PageProgressLoader from '@components/Loaders/PageProgress';
+import routeMiddleware from '../src/middlewares/route';
 
 const tagManagerArgs = {
     gtmId: process.env.NODE_ENV === 'production' ? GTM.gtmId.prod : GTM.gtmId.dev,
@@ -62,40 +60,9 @@ class MyApp extends App {
             lastPathNoAuth = req.session.lastPathNoAuth || '/customer/account';
         }
         isLogin = parseInt(isLogin);
-        if (pageProps.withAuth) {
-            if (typeof window !== 'undefined') {
-                if (isLogin) {
-                    if (asPath !== '/customer/account/login') {
-                        removeLastPathWithoutLogin();
-                    }
-                    if (asPath === '/customer/account/login' && query.redirect && query.redirect !== '') {
-                        removeLastPathWithoutLogin();
-                        Router.push(query.redirect);
-                    } else if (asPath === '/customer/account/login') {
-                        removeLastPathWithoutLogin();
-                        Router.push(lastPathNoAuth);
-                    }
-                } else if (asPath !== '/customer/account/login') {
-                    setLastPathWithoutLogin(asPath);
-                    Router.push('/customer/account/login');
-                }
-            } else if (isLogin) {
-                if (asPath !== '/customer/account/login') {
-                    req.session.lastPathNoAuth = '';
-                }
-                if (asPath === '/customer/account/login' && query.redirect && query.redirect !== '') {
-                    req.session.lastPathNoAuth = '';
-                    res.redirect(query.redirect);
-                } else if (asPath === '/customer/account/login') {
-                    req.session.lastPathNoAuth = '';
-                    res.redirect(lastPathNoAuth);
-                }
-            } else if (asPath !== '/customer/account/login') {
-                req.session.lastPathNoAuth = asPath;
-                res.redirect('/customer/account/login');
-            }
-        }
-
+        routeMiddleware({
+            res, req, query, asPath, isLogin, lastPathNoAuth,
+        });
         let storeConfig;
         if (!allcookie[storeConfigNameCokie]) {
             storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);

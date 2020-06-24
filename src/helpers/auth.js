@@ -27,7 +27,6 @@ export const getLoginInfo = () => {
     return parseInt(isLogin) || 0;
 };
 
-
 export const removeIsLoginFlagging = () => {
     cookies.remove('isLogin');
 };
