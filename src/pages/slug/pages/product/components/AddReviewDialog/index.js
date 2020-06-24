@@ -53,14 +53,13 @@ const AddReviewDialog = ({
                 variables: {
                     ...value,
                 },
-            }).then((res) => {
+            }).then(() => {
                 setOpen({
-                    message: res.data.addProductReview.message,
                     variant: 'success',
                 });
             }).catch((e) => {
                 setOpen({
-                    message: e.message.split(':')[1],
+                    message: e.message.split(':')[1] || t('product:addRateFailed'),
                     variant: 'error',
                 });
             });
