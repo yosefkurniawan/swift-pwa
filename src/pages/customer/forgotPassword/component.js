@@ -84,7 +84,6 @@ const ForgotPassword = ({ t }) => {
     const handleSwitch = () => {
         setToast({ ...toast, open: false });
         setUseEmail(!useEmail);
-        setDisabled(!useEmail);
     };
 
     React.useEffect(() => {
