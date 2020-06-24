@@ -7,7 +7,6 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '@theme/theme';
 import { appWithTranslation } from '@i18n';
-import { withApollo } from '@lib/apollo';
 import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import Cookie from 'js-cookie';
 import cookies from 'next-cookies';
@@ -18,11 +17,11 @@ import {
     getLoginInfo,
     getLastPathWithoutLogin,
 } from '@helpers/auth';
-
 import TagManager from 'react-gtm-module';
 import '../src/styles/index.css';
 import '../src/styles/mage.css';
 import PageProgressLoader from '@components/Loaders/PageProgress';
+import graphRequest from '../src/graphql-server/request';
 import routeMiddleware from '../src/middlewares/route';
 
 const tagManagerArgs = {
@@ -44,7 +43,7 @@ class MyApp extends App {
             pageProps = await Component.getInitialProps(ctx);
         }
         const {
-            apolloClient, res, asPath, query, req,
+            res, asPath, query, req,
         } = ctx;
         // check if login from server
         let isLogin = 0;
@@ -65,7 +64,9 @@ class MyApp extends App {
         });
         let storeConfig;
         if (!allcookie[storeConfigNameCokie]) {
-            storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
+            // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
+            storeConfig = await graphRequest(ConfigSchema);
+            storeConfig = storeConfig.storeConfig;
         } else {
             storeConfig = allcookie[storeConfigNameCokie];
         }
@@ -105,6 +106,8 @@ class MyApp extends App {
             });
         }
 
+        pageProps.storeConfig = pageProps.storeConfig ? pageProps.storeConfig : {};
+
         return (
             <>
                 <ThemeProvider theme={theme}>
@@ -118,4 +121,4 @@ class MyApp extends App {
     }
 }
 
-export default withApollo({ ssr: true })(appWithTranslation(MyApp));
+export default (appWithTranslation(MyApp));

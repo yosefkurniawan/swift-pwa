@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { gql } from 'apollo-boost';
 
-export const storeConfig = gql`
+export const storeConfig = `
     {
         storeConfig {
             secure_base_media_url

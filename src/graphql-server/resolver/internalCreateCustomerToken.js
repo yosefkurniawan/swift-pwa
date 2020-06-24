@@ -28,7 +28,6 @@ const query = `
     }
 `;
 
-
 const internalCreateCustomerToken = async (parent, args, context) => {
     const variables = {
         firstName: args.input.firstname,
@@ -51,6 +50,5 @@ const internalCreateCustomerToken = async (parent, args, context) => {
     }
     return res;
 };
-
 
 module.exports = internalCreateCustomerToken;
