@@ -6,7 +6,7 @@ import Header from '@components/Header';
 import Typography from '@components/Typography';
 import { regexPhone } from '@helpers/regex';
 import {
-    Box, Checkbox, CircularProgress, Dialog, FormControlLabel, TextField,
+    Checkbox, CircularProgress, Dialog, FormControlLabel, TextField,
 } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { useFormik } from 'formik';
@@ -378,7 +378,7 @@ const AddressFormDialog = (props) => {
                         },
                     }}
                 />
-                <Box className={[styles.address_form].join(' ')}>
+                <div className={[styles.address_form].join(' ')}>
                     <form onSubmit={formik.handleSubmit} autoComplete="off">
                         <CustomTextField
                             autoComplete="no-autoComplete"
@@ -491,9 +491,9 @@ const AddressFormDialog = (props) => {
                             error={!!(formik.touched.telephone && formik.errors.telephone)}
                             errorMessage={(formik.touched.telephone && formik.errors.telephone) || null}
                         />
-                        <Box className={styles.boxMap}>
+                        <div className={styles.boxMap}>
                             <IcubeMaps height="230px" mapPosition={mapPosition} dragMarkerDone={handleDragPosition} />
-                        </Box>
+                        </div>
 
                         {disableDefaultAddress ? null : (
                             <div>
@@ -534,7 +534,7 @@ const AddressFormDialog = (props) => {
                             {loading && <CircularProgress size={24} className={styles.buttonProgress} />}
                         </div>
                     </form>
-                </Box>
+                </div>
             </div>
         </Dialog>
     );

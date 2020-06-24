@@ -10,7 +10,7 @@
 // Library
 import AddressFormDialog from '@components/AddressFormDialog';
 import Button from '@components/Button';
-import { Box, RadioGroup } from '@material-ui/core';
+import { RadioGroup } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
@@ -170,17 +170,17 @@ const Content = (props) => {
 
     return (
         <>
-            <Box>
+            <div>
                 <RadioGroup row aria-label="position" onChange={handleChange} name="position" value={selectedAddressId}>
                     {getItemAddress()}
                 </RadioGroup>
-                <Box className={[styles.address_action].join(' ')}>
+                <div className={[styles.address_action].join(' ')}>
                     <Button variant="outlined" size="small" onClick={() => handleDraweClick()}>
                         <span style={{ marginRight: '15px' }}>{t('customer:address:addTitle')}</span>
                         <Add />
                     </Button>
-                </Box>
-            </Box>
+                </div>
+            </div>
             <AddressFormDialog
                 {...props}
                 onSubmitAddress={(data, type) => {
