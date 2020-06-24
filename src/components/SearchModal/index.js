@@ -4,7 +4,6 @@ import {
 import { ArrowBack } from '@material-ui/icons';
 import React, { useState } from 'react';
 import { GraphCategory } from '@services/graphql';
-import { withTranslation } from '@i18n';
 import TextField from '@components/Forms/TextField';
 import Router from 'next/router';
 import SearchIcon from '@material-ui/icons/Search';
@@ -173,4 +172,4 @@ const SearchPage = (props) => {
     );
 };
 
-export default withTranslation()(SearchPage);
+export default SearchPage;
