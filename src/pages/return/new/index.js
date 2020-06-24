@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
+import { withApollo } from '@lib/apollo';
 import { useRouter } from 'next/router';
 import { getFormDataRma } from '../services/graphql';
 import Loader from './components/Loader';
@@ -40,4 +41,4 @@ Page.getInitialProps = async () => ({
     withAuth: true,
 });
 
-export default withTranslation()(Page);
+export default withApollo({ ssr: true })(withTranslation()(Page));

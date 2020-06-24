@@ -1,5 +1,6 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
+import { withApollo } from '@lib/apollo';
 import Content from './component';
 
 const BrandsPage = (props) => {
@@ -23,4 +24,4 @@ BrandsPage.getInitialProps = async () => ({
     namespacesRequired: ['brands'],
 });
 
-export default withTranslation()(BrandsPage);
+export default withApollo({ ssr: true })(withTranslation()(BrandsPage));
