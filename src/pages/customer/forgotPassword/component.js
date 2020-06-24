@@ -23,6 +23,7 @@ const ForgotPassword = ({ t }) => {
     const [useEmail, setUseEmail] = React.useState(false);
     const { loading, data } = GraphConfig.otpConfig();
     const [load, setLoad] = React.useState(false);
+    const [disabled, setDisabled] = React.useState(true);
     const [getToken] = requestLinkToken();
     const formik = useFormik({
         initialValues: {
@@ -78,7 +79,12 @@ const ForgotPassword = ({ t }) => {
     const handleSwitch = () => {
         setToast({ ...toast, open: false });
         setUseEmail(!useEmail);
+        setDisabled(!useEmail);
     };
+
+    React.useEffect(() => {
+        setDisabled(!useEmail);
+    }, [useEmail]);
 
     if (loading || !data) return <Loading open />;
 
@@ -124,6 +130,7 @@ const ForgotPassword = ({ t }) => {
             )}
             {(data && data.otpConfig.otp_enable[0].enable_otp_forgot_password && !useEmail) && (
                 <OtpBlock
+                    setDisabled={setDisabled}
                     type="forgotPassword"
                     phoneProps={{
                         name: 'phoneNumber',
@@ -141,7 +148,7 @@ const ForgotPassword = ({ t }) => {
                     }}
                 />
             )}
-            <Button disabled={load} className={styles.btn} fullWidth type="submit">
+            <Button disabled={disabled || load} className={styles.btn} fullWidth type="submit">
                 {t('common:button:send')}
             </Button>
         </form>
