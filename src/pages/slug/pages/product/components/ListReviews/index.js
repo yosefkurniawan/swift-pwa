@@ -35,7 +35,7 @@ export default (props) => {
             && message !== ''
             && window.toastMessage({
                 open: true,
-                message: message || props.t('product:addRateSuccess'),
+                text: message || props.t('product:addRateSuccess'),
                 variant,
             });
     };

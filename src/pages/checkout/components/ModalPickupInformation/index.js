@@ -75,32 +75,40 @@ const FilterDialog = ({
                     {t('checkout:pickupInformation:label')}
                 </Typography>
             </AppBar>
-            <div className={styles.body}>
-                <TextField
-                    label={t('checkout:pickupInformation:pickupPerson')}
-                    name="person"
-                    value={formik.values.person}
-                    onChange={formik.handleChange}
-                />
-                <TextField
-                    label={t('common:form:phoneNumber')}
-                    name="phoneNumber"
-                    value={formik.values.phoneNumber}
-                    onChange={formik.handleChange}
-                />
-                <TextField
-                    label="email"
-                    name="email"
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                />
-            </div>
+            <form onSubmit={formik.handleSubmit}>
+                <div className={styles.body}>
+                    <TextField
+                        label={t('checkout:pickupInformation:pickupPerson')}
+                        name="person"
+                        value={formik.values.person}
+                        onChange={formik.handleChange}
+                        error={!!(formik.touched.person && formik.errors.person)}
+                        errorMessage={(formik.touched.person && formik.errors.person) || null}
+                    />
+                    <TextField
+                        label={t('common:form:phoneNumber')}
+                        name="phoneNumber"
+                        value={formik.values.phoneNumber}
+                        onChange={formik.handleChange}
+                        error={!!(formik.touched.phoneNumber && formik.errors.phoneNumber)}
+                        errorMessage={(formik.touched.phoneNumber && formik.errors.phoneNumber) || null}
+                    />
+                    <TextField
+                        label="email"
+                        name="email"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        error={!!(formik.touched.email && formik.errors.email)}
+                        errorMessage={(formik.touched.email && formik.errors.email) || null}
+                    />
+                </div>
 
-            <div className={styles.footer}>
-                <Button className={styles.btnSave} onClick={formik.handleSubmit}>
-                    {t('common:button:save')}
-                </Button>
-            </div>
+                <div className={styles.footer}>
+                    <Button className={styles.btnSave} type="submit">
+                        {t('common:button:save')}
+                    </Button>
+                </div>
+            </form>
         </Dialog>
     );
 };
