@@ -214,6 +214,11 @@ const DetailReturn = (props) => {
                 message={state.messageDialog}
             />
             <div className="column">
+                {
+                    detail_rma.confirm_shipping.status
+                        ? (<div className={styles.block} dangerouslySetInnerHTML={{ __html: detail_rma.confirm_shipping.step }} />)
+                        : null
+                }
                 <div className={classNames(styles.block, styles.detail)}>
                     <Typography variant="title" letter="uppercase" type="bold">
                         Status
@@ -320,9 +325,6 @@ const DetailReturn = (props) => {
                     />
                 </div>
                 <div className={classNames(styles.block, styles.footer)}>
-                    {
-                        detail_rma.confirm_shipping.status ? (<div dangerouslySetInnerHTML={{ __html: detail_rma.confirm_shipping.step }} />) : null
-                    }
                     { UpdateButton() }
                     { CancelButton() }
                     { UpdateStatusButton() }
