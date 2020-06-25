@@ -141,14 +141,14 @@ const ForgotPassword = ({ t }) => {
                         value: formik.values.phoneNumber,
                         onChange: formik.handleChange,
                         error: !!formik.errors.phoneNumber,
-                        errorMessage: (formik.touched.phoneNumber && formik.errors.phoneNumber) || null,
+                        errorMessage: formik.errors.phoneNumber || null,
                     }}
                     codeProps={{
                         name: 'otp',
                         value: formik.values.otp,
                         onChange: formik.handleChange,
-                        error: !!(formik.touched.otp && formik.errors.otp),
-                        errorMessage: (formik.touched.otp && formik.errors.otp) || null,
+                        error: !!formik.errors.otp,
+                        errorMessage: formik.errors.otp || null,
                     }}
                 />
             )}
