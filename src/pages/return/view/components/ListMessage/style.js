@@ -33,4 +33,8 @@ export default makeStyles({
         margin: 0,
         padding: 0,
     },
+    bodyItem: {
+        ...FlexColumn,
+        overflow: 'hidden',
+    },
 });

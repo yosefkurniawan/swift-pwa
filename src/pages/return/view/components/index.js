@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import classNames from 'classnames';
 import Typography from '@components/Typography';
 import React from 'react';
@@ -11,7 +12,6 @@ import ItemProduct from './ItemProduct';
 import ListMessage from './ListMessage';
 import ItemField from './ItemField';
 import { updateRma, cancelRma } from '../../services/graphql';
-
 
 const DetailReturn = (props) => {
     const {
@@ -40,6 +40,7 @@ const DetailReturn = (props) => {
         openDialog: false,
         messageDialog: '',
         handleYes: () => {},
+        dropValue: [],
     });
 
     const changeOptionCustomField = (value) => {
@@ -131,6 +132,18 @@ const DetailReturn = (props) => {
                 variant: 'success',
                 text: t('return:form:updateSuccess'),
             });
+            setFormData({
+                order_number: detail_rma.order_number,
+                customer_name: customerData.firstname,
+                customer_email: customerData.email,
+                custom_fields: [],
+                order_items: [],
+                message: '',
+                attachments: [],
+            });
+            setState({
+                ...state, dropValue: [],
+            });
             refetch();
         }).catch((e) => {
             window.backdropLoader(false);
@@ -150,7 +163,7 @@ const DetailReturn = (props) => {
         setState({
             ...state,
             openDialog: true,
-            messageDialog: 'Are you sure update status RMA',
+            messageDialog: <div dangerouslySetInnerHTML={{ __html: t('return:view:confrimShipping') }} />,
             handleYes,
         });
     };
@@ -184,14 +197,20 @@ const DetailReturn = (props) => {
             </Button>
         );
     }
-    if (detail_rma.status.name === 'Approved' || detail_rma.status.name.toLowerCase() === 'approved') {
+    if (detail_rma.confirm_shipping.status) {
         UpdateStatusButton = () => (
-            <Button fullWidth variant="outlined" onClick={actionUpdateStatus}>
-                <Typography letter="capitalize">{t('return:view:confirmShipping')}</Typography>
-            </Button>
+            <>
+                <a href={detail_rma.confirm_shipping.print_label_url} download className={styles.btnPrintLabel}>
+                    <Button fullWidth variant="outlined">
+                        <Typography letter="capitalize">{t('return:view:printLabel')}</Typography>
+                    </Button>
+                </a>
+                <Button fullWidth variant="outlined" onClick={actionUpdateStatus}>
+                    <Typography letter="capitalize">{t('return:view:confirmShipping')}</Typography>
+                </Button>
+            </>
         );
     }
-
 
     return (
         <>
@@ -202,6 +221,11 @@ const DetailReturn = (props) => {
                 message={state.messageDialog}
             />
             <div className="column">
+                {
+                    detail_rma.confirm_shipping.status
+                        ? (<div className={styles.block} dangerouslySetInnerHTML={{ __html: detail_rma.confirm_shipping.step }} />)
+                        : null
+                }
                 <div className={classNames(styles.block, styles.detail)}>
                     <Typography variant="title" letter="uppercase" type="bold">
                         Status
@@ -299,7 +323,13 @@ const DetailReturn = (props) => {
                     />
                 </div>
                 <div className={styles.block}>
-                    <DropFile label={t('return:form:placeholder:uploadFile')} getBase64={handleGetBase64} acceptedFile={fileAccept} />
+                    <DropFile
+                        value={state.dropValue}
+                        setValue={(dropValue) => setState({ ...state, dropValue })}
+                        label={t('return:form:placeholder:uploadFile')}
+                        getBase64={handleGetBase64}
+                        acceptedFile={fileAccept}
+                    />
                 </div>
                 <div className={classNames(styles.block, styles.footer)}>
                     { UpdateButton() }

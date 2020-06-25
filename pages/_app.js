@@ -17,6 +17,7 @@ import {
     getLoginInfo,
     getLastPathWithoutLogin,
 } from '@helpers/auth';
+import Fonts from '@helpers/fonts';
 import TagManager from 'react-gtm-module';
 import '../src/styles/index.css';
 import '../src/styles/mage.css';
@@ -79,6 +80,9 @@ class MyApp extends App {
     }
 
     componentDidMount() {
+        // load fonts
+        Fonts();
+
         // Remove the server-side injected CSS.
         const jssStyles = document.querySelector('#jss-server-side');
         if (jssStyles) {

@@ -1,7 +1,9 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import Component from './component';
+import dynamic from 'next/dynamic';
+
+const Component = dynamic(() => import('./component'), { ssr: false });
 
 const Page = (props) => {
     const { t } = props;

@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import { getLoginInfo } from '@helpers/auth';
-import { customerFeautres } from '@config';
 import gqlService from '../services/graphql';
 import useStyles from '../style';
 import Address from './Address';
@@ -86,7 +85,6 @@ const Checkout = (props) => {
     const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
     // end init graphql
-
 
     const CheckoutSchema = Yup.object().shape({
         email: checkout.data.isGuest ? Yup.string().nullable().email(t('validate:email:wrong')).required(t('validate:email.required')) : null,
@@ -267,7 +265,6 @@ const Checkout = (props) => {
         }
     }, [manageCustomer.data, dataCart]);
 
-
     const handleOpenMessage = async ({ variant, text }) => {
         const state = { ...checkout };
         window.toastMessage({
@@ -278,12 +275,11 @@ const Checkout = (props) => {
         setCheckout(state);
     };
 
-
     return (
         <div className={styles.root}>
             <div className={styles.container}>
                 {
-                    customerFeautres.pickupStore ? (
+                    storeConfig.pickup_store ? (
                         <Delivery
                             t={t}
                             styles={styles}

@@ -2,8 +2,9 @@
 /* eslint-disable no-unused-vars */
 const withOffline = require('next-offline');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const withCSS = require('@zeit/next-css');
 
-module.exports = withOffline({
+module.exports = withCSS(withOffline({
     publicRuntimeConfig: {
         appEnv: process.env.APP_ENV,
     },
@@ -49,4 +50,4 @@ module.exports = withOffline({
     },
     // change this version every build on prod
     generateBuildId: async () => 'swift-pwa-v1.0.0',
-});
+}));

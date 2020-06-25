@@ -7,6 +7,21 @@ const useStyles = makeStyles(() => ({
         background: WHITE,
         ...CreatePadding(5, 18, 18, 18),
         boxShadow: '0 -1px 3px #0000001A',
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        justifyContent: 'center',
+    },
+    summary: {
+        textAlign: 'center',
+        padding: 10,
+    },
+    actions: {
+        display: 'flex',
+        justifyContent: 'center',
     },
     goToCheckout: {
         minWidth: 300,

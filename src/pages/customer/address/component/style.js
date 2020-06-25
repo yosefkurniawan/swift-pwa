@@ -63,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
     },
     address_action: {
         padding: '15px',
+        textAlign: 'center',
     },
     address_add: {
         backgroundColor: 'white',

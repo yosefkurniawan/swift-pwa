@@ -12,7 +12,7 @@ import { useState } from 'react';
 import useStyles from './style';
 
 // active: true (default), "home", "browse", "cart", "account"
-const Navigation = ({ active = true }) => {
+const Navigation = ({ active }) => {
     const styles = useStyles();
     const [openModal, setOpenModal] = useState(false);
     const handleOpenModal = (val) => {
@@ -87,4 +87,4 @@ const Navigation = ({ active = true }) => {
     return null;
 };
 
-export default withApollo({ ssr: true })(Navigation);
+export default withApollo({ ssr: false })(Navigation);

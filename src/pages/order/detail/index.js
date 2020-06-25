@@ -2,9 +2,11 @@ import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import Loader from './components/Loader';
 import { getOrderDetail } from '../services/graphql';
-import Content from './components';
+
+const Component = dynamic(() => import('./components'), { ssr: false });
 
 const Page = (props) => {
     const { t } = props;
@@ -30,7 +32,7 @@ const Page = (props) => {
     };
     return (
         <Layout pageConfig={pageConfig} {...props}>
-            <Content {...props} detail={detail} currency={currency} />
+            <Component {...props} detail={detail} currency={currency} />
         </Layout>
     );
 };
