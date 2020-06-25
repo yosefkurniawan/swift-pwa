@@ -68,15 +68,11 @@ const Checkout = (props) => {
             openAddressDialog: false,
             backdrop: false,
         },
-        pickupInformation: {
-            person: '',
-            email: '',
-            phoneNumber: '',
-        },
-        selectStore: {
-            name: '',
-            address: '',
-            phoneNumber: '',
+        pickupInformation: {},
+        selectStore: {},
+        error: {
+            pickupInformation: false,
+            selectStore: false,
         },
     });
 

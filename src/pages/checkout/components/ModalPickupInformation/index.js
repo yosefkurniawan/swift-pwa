@@ -42,7 +42,9 @@ const FilterDialog = ({
             await setCheckout({
                 ...checkout,
                 pickupInformation: {
-                    ...values,
+                    pickup_person_email: values.email,
+                    pickup_person_name: values.person,
+                    pickup_person_phone: values.phoneNumber,
                 },
             });
             setOpen();

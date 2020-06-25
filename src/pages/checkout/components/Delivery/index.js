@@ -2,11 +2,19 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Typography from '@components/Typography';
 import { Grid } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
 import classNames from 'classnames';
 import useStyles from './style';
 
+const Loader = ({ styles }) => (
+    <div className={styles.block}>
+        <Skeleton variant="text" animation="wave" width="60%" height={30} />
+        <Skeleton variant="rect" animation="wave" width="90%" height={70} />
+    </div>
+);
+
 export default ({
-    formik, t, styles,
+    formik, t, styles, checkout,
 }) => {
     const classes = useStyles();
     const checkStyles = (delivery) => ((formik.values.delivery === delivery)
@@ -14,6 +22,7 @@ export default ({
     const handleSelect = (delivery) => {
         formik.setFieldValue('delivery', delivery);
     };
+    if (checkout.loading.all) return <Loader styles={styles} />;
     return (
         <div className={styles.block}>
             <Typography variant="title" type="bold" letter="uppercase">
