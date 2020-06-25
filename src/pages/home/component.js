@@ -1,5 +1,5 @@
 // import Banner from '@components/Slider/Banner';
-import Carousel from '@components/Slider/Carousel';
+import Carousel from '@components/Swiper/ImageSlider';
 import CarouselSkeleton from '@components/Slider/Carousel/Skeleton';
 import SpanCategory from '@components/SpanCategory';
 import TestSwiper from '@components/Swiper/BannerSlider';

@@ -16,7 +16,7 @@ export default class extends React.Component {
 
     componentDidMount() {
         // eslint-disable-next-line no-unused-vars
-        const swiper = new Swiper('.swiper-container', {
+        const swiper = new Swiper('.swipper-banner', {
             direction: 'horizontal',
             loop: true,
 
@@ -33,7 +33,7 @@ export default class extends React.Component {
     render() {
         const { data, height, width } = this.props;
         return (
-            <div className="swiper-container">
+            <div className="swiper-container swipper-banner">
                 <div className="swiper-wrapper">
                     {data.map((item, key) => (
                         <div className="swiper-slide" key={key}>
