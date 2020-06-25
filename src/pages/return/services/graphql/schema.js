@@ -107,6 +107,7 @@ detail_rma {
     confirm_shipping {
       status
       step
+      print_label_url
     }
     order_number
     order_date

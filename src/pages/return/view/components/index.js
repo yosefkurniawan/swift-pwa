@@ -199,9 +199,16 @@ const DetailReturn = (props) => {
     }
     if (detail_rma.confirm_shipping.status) {
         UpdateStatusButton = () => (
-            <Button fullWidth variant="outlined" onClick={actionUpdateStatus}>
-                <Typography letter="capitalize">{t('return:view:confirmShipping')}</Typography>
-            </Button>
+            <>
+                <a href={detail_rma.confirm_shipping.print_label_url} download className={styles.btnPrintLabel}>
+                    <Button fullWidth variant="outlined">
+                        <Typography letter="capitalize">{t('return:view:printLabel')}</Typography>
+                    </Button>
+                </a>
+                <Button fullWidth variant="outlined" onClick={actionUpdateStatus}>
+                    <Typography letter="capitalize">{t('return:view:confirmShipping')}</Typography>
+                </Button>
+            </>
         );
     }
 
