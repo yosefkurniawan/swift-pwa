@@ -30,13 +30,19 @@ const OtpBlock = ({
 
     const { loading, data } = GraphConfig.otpConfig();
 
+    React.useEffect(() => {
+        setPhoneNumber(phoneProps.value);
+    }, [phoneProps.value]);
+
+    React.useEffect(() => {
+        setOtp(codeProps.value);
+    }, [codeProps.value]);
+
     const handlePhone = (event) => {
-        setPhoneNumber(event.target.value);
         phoneProps.onChange && phoneProps.onChange(event);
     };
 
     const handleOtp = (event) => {
-        setOtp(event.target.value);
         codeProps.onChange && codeProps.onChange(event);
     };
 
@@ -193,20 +199,12 @@ const OtpBlock = ({
             <>
                 {time > 0 && (
                     <Typography variant="p">
-                        {t('otp:wait')}
-                        {' '}
-                        {time}
-                        {' '}
-                        {t('otp:resend')}
+                        {`${t('otp:wait')} ${time} ${t('otp:resend')}`}
                     </Typography>
                 )}
                 {manySend > 1 && (
                     <Typography variant="p">
-                        {t('otp:sendTimes')}
-                        {' '}
-                        {manySend - 1}
-                        {' '}
-                        {t('otp:time')}
+                        {`${t('otp:sendTimes')} ${manySend - 1} ${t('otp:time')}`}
                     </Typography>
                 )}
             </>
