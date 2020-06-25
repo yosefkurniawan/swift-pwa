@@ -46,8 +46,8 @@
         "cancelRequest": "Are you sure want to cancel this request?",
         "successCancel": "Request has been canceled successfully",
         "failedCancel": "Failed on canceling request",
+        "printLabel": "Print Label",
         "confrimShipping": "Having clicked 'Yes', \n you won't be able to cancel RMA or make any changes. Please ensure that: <ol> <li>You have included the RMA Label inside the package </li> <li>You have sent the package to the RMA department</li> </ol> "
-
     },
     "otherRequestRma": "Other return request for this product",
     "noItemReturn": "No items to return"
