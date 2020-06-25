@@ -2,7 +2,6 @@ import React from 'react';
 import Product from '@components/ProductList';
 import useStyles from '../style';
 
-
 const SearchResult = ({ storeConfig, t }) => {
     const styles = useStyles();
     return (

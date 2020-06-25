@@ -1,4 +1,5 @@
 import { withTranslation } from '@i18n';
+import { withApollo } from '@lib/apollo';
 import Layout from '@components/Layouts';
 import dynamic from 'next/dynamic';
 
@@ -24,4 +25,4 @@ Page.getInitialProps = async () => ({
     withAuth: true,
 });
 
-export default withTranslation()(Page);
+export default withApollo({ ssr: true })(withTranslation()(Page));

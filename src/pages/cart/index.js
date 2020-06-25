@@ -1,5 +1,6 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
+import { withApollo } from '@lib/apollo';
 import dynamic from 'next/dynamic';
 
 const Content = dynamic(() => import('./components'), { ssr: false });
@@ -25,4 +26,4 @@ Page.getInitialProps = async () => ({
     namespacesRequired: ['common', 'cart', 'wishlist'],
 });
 
-export default withTranslation()(Page);
+export default withApollo({ ssr: true })(withTranslation()(Page));
