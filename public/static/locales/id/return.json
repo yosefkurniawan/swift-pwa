@@ -46,6 +46,7 @@
             "cancelRequest": "Yakin akan membatalkan retur ini?",
             "successCancel": "Retur berhasil di Batalkan",
             "failedCancel": "Pembatalan retur gagal",
+            "printLabel": "Cetak Label",
             "confrimShipping": "Setelah mengklik 'Ya', \n Anda tidak akan dapat membatalkan RMA atau membuat perubahan apa pun. Harap pastikan bahwa: <ol> <li> Anda telah memasukkan Label RMA di dalam paket </li> <li> Anda telah mengirim paket ke departemen RMA </li> </ol>"
 
         },

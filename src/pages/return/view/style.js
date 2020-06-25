@@ -58,4 +58,7 @@ export default makeStyles(() => ({
             margin: '15px auto',
         },
     },
+    btnPrintLabel: {
+        width: '100%',
+    },
 }));
