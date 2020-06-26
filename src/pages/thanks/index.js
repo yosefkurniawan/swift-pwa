@@ -1,5 +1,6 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
+import { withApollo } from '@lib/apollo';
 import { getCheckoutDataFromRequest } from '@helpers/cookies';
 import redirect from 'next-redirect';
 import Content from './component';
@@ -27,4 +28,4 @@ Page.getInitialProps = async (ctx) => {
     };
 };
 
-export default withTranslation()(Page);
+export default withApollo({ ssr: true })(withTranslation()(Page));

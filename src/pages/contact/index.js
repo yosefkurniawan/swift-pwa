@@ -1,5 +1,6 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
+import { withApollo } from '@lib/apollo';
 import Content from './components';
 
 const Page = (props) => {
@@ -19,4 +20,4 @@ const Page = (props) => {
 
 Page.getInitialProps = async () => ({ namespacesRequired: ['common', 'contact', 'validate'] });
 
-export default withTranslation()(Page);
+export default withApollo({ ssr: true })(withTranslation()(Page));
