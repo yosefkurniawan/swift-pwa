@@ -101,8 +101,8 @@ const Layout = (props) => {
                 <title>{pageConfig.title ? pageConfig.title : 'Swift PWA'}</title>
                 {schemaOrg
                     ? (
-                        schemaOrg.map((val) => (
-                            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} />
+                        schemaOrg.map((val, idx) => (
+                            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} key={idx} />
                         ))
                     ) : null}
             </Head>
