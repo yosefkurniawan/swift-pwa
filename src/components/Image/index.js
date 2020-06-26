@@ -31,6 +31,7 @@ const Image = ({
 }) => {
     // const styles = useStyles();
     const [imageSrc, setImageSrc] = React.useState('');
+    const [loaded, setLoaded] = React.useState(false);
     const imageRef = React.useRef();
 
     const isVisible = (element) => {
@@ -41,7 +42,10 @@ const Image = ({
         const visibilityY = check('top', windowInnerHeight) || check('bottom', windowInnerHeight);
         // if (imageRef && imageRef.current && imageRef.current.alt === '/homepage/homepage-featured-categories/summer-style') {
         // console.log(element);
-        // console.log(visibilityX && visibilityY);
+        // console.log(element.getBoundingClientRect());
+        // const visibility = visibilityX && visibilityY;
+        // console.log({ visibilityX, visibilityY, visibility });
+        // console.log(windowInnerWidth, windowInnerHeight);
         //     // console.log(element.getBoundingClientRect());
         //     // console.log(windowInnerWidth, windowInnerHeight);
         // }
@@ -64,6 +68,8 @@ const Image = ({
         };
     }, []);
 
+    const hidden = { visibility: 'none', width: 0, height: 0 };
+
     return (
         <>
             <style jsx>
@@ -81,17 +87,22 @@ const Image = ({
                     }
                 `}
             </style>
+            <div style={{ width: '100%', height: 100, ...(loaded && hidden) }} />
             <img
                 ref={imageRef}
-                style={style}
+                style={{ ...style, ...(!loaded && hidden) }}
                 className={`img ${className}`}
-                src={imageSrc}
+                src={loaded ? imageSrc : '/assets/img/placeholder.png'}
                 alt={alt}
-                onLoad={(event) => event.target.classList.add('img-loaded')}
-                // onError={(e) => {
-                //     setLoaded(true);
-                //     e.target.onerror = null; e.target.src = '/assets/img/placeholder.png';
-                // }}
+                onLoad={(event) => {
+                    setLoaded(true);
+                    event.target.classList.add('img-loaded');
+                }}
+                onError={(e) => {
+                    setLoaded(true);
+                    e.target.onerror = null;
+                    e.target.src = '/assets/img/placeholder.png';
+                }}
             />
         </>
     );
