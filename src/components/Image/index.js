@@ -25,9 +25,13 @@ function off(el, eventName, callback, opts) {
 
 const Image = ({
     src,
+    width = 500,
+    height = 500,
     className = '',
     alt = 'Image',
+    quality = 100,
     style = {},
+    placeholder = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mN89x8AAuEB74Y0o2cAAAAASUVORK5CYII=',
 }) => {
     // const styles = useStyles();
     const [imageSrc, setImageSrc] = React.useState('');
@@ -35,21 +39,17 @@ const Image = ({
     const imageRef = React.useRef();
 
     const isVisible = (element) => {
-        const windowInnerWidth = window.innerWidth || document.documentElement.clientWidth;
+        // const windowInnerWidth = window.innerWidth || document.documentElement.clientWidth;
         const windowInnerHeight = window.innerHeight || document.documentElement.clientHeight;
         const check = (position, base) => element.getBoundingClientRect()[position] >= 0 && element.getBoundingClientRect()[position] < base;
-        const visibilityX = check('left', windowInnerWidth) || check('right', windowInnerWidth);
+        // const visibilityX = check('left', windowInnerWidth) || check('right', windowInnerWidth);
         const visibilityY = check('top', windowInnerHeight) || check('bottom', windowInnerHeight);
-        // if (imageRef && imageRef.current && imageRef.current.alt === '/homepage/homepage-featured-categories/summer-style') {
-        // console.log(element);
-        // console.log(element.getBoundingClientRect());
-        // const visibility = visibilityX && visibilityY;
-        // console.log({ visibilityX, visibilityY, visibility });
-        // console.log(windowInnerWidth, windowInnerHeight);
-        //     // console.log(element.getBoundingClientRect());
-        //     // console.log(windowInnerWidth, windowInnerHeight);
-        // }
-        return visibilityX && visibilityY;
+        console.log(element);
+        console.log(element.getBoundingClientRect());
+        // console.log(visibilityX);
+        console.log(visibilityY);
+        // return visibilityX && visibilityY;
+        return visibilityY;
     };
 
     const listener = () => {
@@ -68,8 +68,6 @@ const Image = ({
         };
     }, []);
 
-    const hidden = { visibility: 'none', width: 0, height: 0 };
-
     return (
         <>
             <style jsx>
@@ -82,17 +80,22 @@ const Image = ({
                             opacity: 1;
                         }
                     }
-                    .img :global(.loaded) {
+                    .img:global(.img-loaded) {
                         animation: loaded 300ms ease-in-out;
                     }
                 `}
             </style>
-            <div style={{ width: '100%', height: 100, ...(loaded && hidden) }} />
             <img
                 ref={imageRef}
-                style={{ ...style, ...(!loaded && hidden) }}
+                // width={width}
+                // height={height}
+                style={style}
                 className={`img ${className}`}
-                src={loaded ? imageSrc : '/assets/img/placeholder.png'}
+                src={
+                    loaded && imageSrc
+                        ? `https://thumbor.sirclocdn.xyz/unsafe/${width}x${height}/filters:quality(${quality})/${imageSrc}`
+                        : placeholder
+                }
                 alt={alt}
                 onLoad={(event) => {
                     setLoaded(true);
@@ -101,7 +104,7 @@ const Image = ({
                 onError={(e) => {
                     setLoaded(true);
                     e.target.onerror = null;
-                    e.target.src = '/assets/img/placeholder.png';
+                    e.target.src = placeholder;
                 }}
             />
         </>
