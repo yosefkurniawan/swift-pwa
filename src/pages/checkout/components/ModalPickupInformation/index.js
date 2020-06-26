@@ -11,6 +11,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { regexPhone } from '@helpers/regex';
 import useStyles from './style';
+import gqlService from '../../services/graphql';
 
 const Transition = React.forwardRef((props, ref) => (
     <Slide direction="up" ref={ref} {...props} />
@@ -24,6 +25,7 @@ const FilterDialog = ({
 }) => {
     const { t } = useTranslation(['common', 'checkout', 'validate']);
     const styles = useStyles();
+    const [setPickupStore] = gqlService.setPickupStore();
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
@@ -39,15 +41,51 @@ const FilterDialog = ({
         },
         validationSchema,
         onSubmit: async (values) => {
-            await setCheckout({
-                ...checkout,
-                pickupInformation: {
-                    pickup_person_email: values.email,
-                    pickup_person_name: values.person,
-                    pickup_person_phone: values.phoneNumber,
-                },
-            });
-            setOpen();
+            const pickupInformation = {
+                pickup_person_email: values.email,
+                pickup_person_name: values.person,
+                pickup_person_phone: values.phoneNumber,
+            };
+            await window.backdropLoader(true);
+            if (Object.keys(checkout.selectStore).length > 0) {
+                await setPickupStore({
+                    variables: {
+                        cart_id: checkout.data.cart.id,
+                        code: checkout.selectStore.code,
+                        extension_attributes: pickupInformation,
+                        store_address: {
+                            city: checkout.selectStore.city,
+                            country_code: checkout.selectStore.country_id,
+                            name: checkout.selectStore.name,
+                            postcode: checkout.selectStore.postcode,
+                            region: checkout.selectStore.region,
+                            street: [checkout.selectStore.street],
+                            telephone: checkout.selectStore.telephone,
+                        },
+                    },
+                }).then(async (res) => {
+                    await setCheckout({
+                        ...checkout,
+                        data: {
+                            ...checkout.data,
+                            cart: res.data.setPickupStore,
+                        },
+                        pickupInformation,
+                    });
+                    await window.backdropLoader(false);
+                    setOpen();
+                }).catch((e) => {
+                    console.log(e);
+                    window.backdropLoader(false);
+                });
+            } else {
+                await setCheckout({
+                    ...checkout,
+                    pickupInformation,
+                });
+                await window.backdropLoader(false);
+                setOpen();
+            }
         },
     });
 
