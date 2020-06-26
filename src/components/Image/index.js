@@ -3,26 +3,6 @@
 import Skeleton from '@material-ui/lab/Skeleton';
 import useStyles from './style';
 
-function on(el, eventName, callback, opts) {
-    opts = opts || false;
-    if (el.addEventListener) {
-        el.addEventListener(eventName, callback, opts);
-    } else if (el.attachEvent) {
-        el.attachEvent(`on${eventName}`, (e) => {
-            callback.call(el, e || window.event);
-        });
-    }
-}
-
-function off(el, eventName, callback, opts) {
-    opts = opts || false;
-    if (el.removeEventListener) {
-        el.removeEventListener(eventName, callback, opts);
-    } else if (el.detachEvent) {
-        el.detachEvent(`on${eventName}`, callback);
-    }
-}
-
 const Image = ({
     src,
     width = 500,
@@ -37,6 +17,26 @@ const Image = ({
     const [imageSrc, setImageSrc] = React.useState('');
     const [loaded, setLoaded] = React.useState(false);
     const imageRef = React.useRef();
+
+    function on(el, eventName, callback, opts) {
+        opts = opts || false;
+        if (el.addEventListener) {
+            el.addEventListener(eventName, callback, opts);
+        } else if (el.attachEvent) {
+            el.attachEvent(`on${eventName}`, (e) => {
+                callback.call(el, e || window.event);
+            });
+        }
+    }
+
+    function off(el, eventName, callback, opts) {
+        opts = opts || false;
+        if (el.removeEventListener) {
+            el.removeEventListener(eventName, callback, opts);
+        } else if (el.detachEvent) {
+            el.detachEvent(`on${eventName}`, callback);
+        }
+    }
 
     const isVisible = (element) => {
         // const windowInnerWidth = window.innerWidth || document.documentElement.clientWidth;
