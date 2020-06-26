@@ -89,7 +89,6 @@ const FilterDialog = ({
         },
     });
 
-
     return (
         <Dialog
             fullScreen
