@@ -33,6 +33,7 @@ const FilterDialog = ({
         phoneNumber: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
     });
 
+    const [loading, setLoading] = React.useState(false);
     const formik = useFormik({
         initialValues: {
             email: checkout.pickupInformation.email || '',
@@ -46,7 +47,7 @@ const FilterDialog = ({
                 pickup_person_name: values.person,
                 pickup_person_phone: values.phoneNumber,
             };
-            await window.backdropLoader(true);
+            await setLoading(true);
             if (Object.keys(checkout.selectStore).length > 0) {
                 await setPickupStore({
                     variables: {
@@ -71,19 +72,26 @@ const FilterDialog = ({
                             cart: res.data.setPickupStore,
                         },
                         pickupInformation,
+                        error: {
+                            selectStore: false,
+                            pickupInformation: false,
+                        },
                     });
-                    await window.backdropLoader(false);
+                    await setLoading(false);
                     setOpen();
-                }).catch((e) => {
-                    console.log(e);
-                    window.backdropLoader(false);
+                }).catch(() => {
+                    setLoading(false);
                 });
             } else {
                 await setCheckout({
                     ...checkout,
                     pickupInformation,
+                    error: {
+                        ...checkout.error,
+                        selectStore: true,
+                    },
                 });
-                await window.backdropLoader(false);
+                await setLoading(false);
                 setOpen();
             }
         },
@@ -144,7 +152,7 @@ const FilterDialog = ({
                 </div>
 
                 <div className={styles.footer}>
-                    <Button className={styles.btnSave} type="submit">
+                    <Button loading={loading} className={styles.btnSave} type="submit">
                         {t('common:button:save')}
                     </Button>
                 </div>

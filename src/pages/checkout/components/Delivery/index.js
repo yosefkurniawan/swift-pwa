@@ -4,7 +4,9 @@ import Typography from '@components/Typography';
 import { Grid } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import classNames from 'classnames';
+import TagManager from 'react-gtm-module';
 import useStyles from './style';
+import gqlService from '../../services/graphql';
 
 const Loader = ({ styles }) => (
     <div className={styles.block}>
@@ -14,13 +16,100 @@ const Loader = ({ styles }) => (
 );
 
 export default ({
-    formik, t, styles, checkout,
+    t, styles, checkout, setCheckout,
+    handleOpenMessage, storeConfig,
 }) => {
     const classes = useStyles();
-    const checkStyles = (delivery) => ((formik.values.delivery === delivery)
+    const [removePickupStore] = gqlService.removePickupStore();
+    const checkStyles = (delivery) => ((checkout.selected.delivery === delivery)
         ? classNames(styles.cardPoint, classes.active) : styles.cardPoint);
-    const handleSelect = (delivery) => {
-        formik.setFieldValue('delivery', delivery);
+    const handleSelect = async (delivery) => {
+        await window.backdropLoader(true);
+        if (delivery === 'home'
+            && Object.keys(checkout.selectStore).length > 0
+            && Object.keys(checkout.pickupInformation).length > 0) {
+            removePickupStore({
+                variables: {
+                    cart_id: checkout.data.cart.id,
+                },
+            }).then(async (res) => {
+                await setCheckout({
+                    ...checkout,
+                    data: {
+                        ...checkout.data,
+                        cart: res.data.removePickupStore,
+                    },
+                    selected: {
+                        ...checkout.selected,
+                        delivery,
+                    },
+                    selectStore: {},
+                    pickupInformation: {},
+                });
+                await window.backdropLoader(false);
+            }).catch(() => {
+                handleOpenMessage({
+                    variant: 'error',
+                    text: t('checkout:message:problemConnection'),
+                });
+                window.backdropLoader(false);
+            });
+        } else if (delivery === 'pickup') {
+            const selectedShipping = checkout.data.shippingMethods.filter(({ method_code }) => method_code === 'pickup');
+            const dataLayer = {
+                event: 'checkout',
+                ecommerce: {
+                    checkout: {
+                        actionField: { step: 2, option: selectedShipping[0].label, action: 'checkout' },
+                        products: checkout.data.cart.items.map(({ quantity, product, prices }) => ({
+                            name: product.name,
+                            id: product.sku,
+                            price: JSON.stringify(prices.price.value),
+                            category: product.categories.length > 0 ? product.categories[0].name : '',
+                            list: product.categories.length > 0 ? product.categories[0].name : '',
+                            quantity: JSON.stringify(quantity),
+                            dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                            dimension5: '',
+                            dimension6: '',
+                            dimension7: prices.discount ? 'YES' : 'NO',
+                        })),
+                    },
+                    currencyCode: storeConfig.base_currency_code || 'IDR',
+                },
+            };
+            const dataLayerOption = {
+                event: 'checkoutOption',
+                ecommerce: {
+                    currencyCode: storeConfig.base_currency_code || 'IDR',
+                    checkout_option: {
+                        actionField: { step: 2, option: selectedShipping[0].label, action: 'checkout_option' },
+                    },
+                },
+            };
+            TagManager.dataLayer({
+                dataLayer,
+            });
+            TagManager.dataLayer({
+                dataLayer: dataLayerOption,
+            });
+            window.backdropLoader(false);
+            await setCheckout({
+                ...checkout,
+                selected: {
+                    ...checkout.selected,
+                    delivery,
+                },
+            });
+        } else {
+            await setCheckout({
+                ...checkout,
+                selected: {
+                    ...checkout.selected,
+                    delivery,
+                },
+            });
+            window.backdropLoader(false);
+        }
     };
     if (checkout.loading.all) return <Loader styles={styles} />;
     return (

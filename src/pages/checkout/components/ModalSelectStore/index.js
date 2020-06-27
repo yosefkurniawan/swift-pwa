@@ -25,6 +25,7 @@ const FilterDialog = ({
         key: null,
         item: null,
     });
+    const [loading, setLoading] = React.useState(false);
     const handleSelect = async (key, item) => {
         setSelected({
             key,
@@ -32,7 +33,7 @@ const FilterDialog = ({
         });
     };
     const handleSave = async () => {
-        await window.backdropLoader(true);
+        await setLoading(true);
         if (Object.keys(checkout.pickupInformation).length > 0) {
             await setPickupStore({
                 variables: {
@@ -59,12 +60,16 @@ const FilterDialog = ({
                     selectStore: {
                         ...selected.item,
                     },
+                    error: {
+                        selectStore: false,
+                        pickupInformation: false,
+                    },
                 });
-                await window.backdropLoader(false);
+                await setLoading(false);
                 setOpen();
-            }).catch((e) => {
-                console.log(e);
-                window.backdropLoader(false);
+            }).catch(() => {
+                // console.log(e);
+                setLoading(false);
             });
         } else {
             await setCheckout({
@@ -72,9 +77,13 @@ const FilterDialog = ({
                 selectStore: {
                     ...selected.item,
                 },
+                error: {
+                    ...checkout.error,
+                    pickupInformation: true,
+                },
             });
 
-            await window.backdropLoader(false);
+            await setLoading(false);
             setOpen();
         }
     };
@@ -118,7 +127,7 @@ const FilterDialog = ({
                     }
                 </div>
                 <div className={styles.footer}>
-                    <Button className={styles.btnSave} onClick={handleSave}>{t('common:button:save')}</Button>
+                    <Button loading={loading} className={styles.btnSave} onClick={handleSave}>{t('common:button:save')}</Button>
                 </div>
             </div>
         </Dialog>
