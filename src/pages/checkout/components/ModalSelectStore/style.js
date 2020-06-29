@@ -33,6 +33,10 @@ const useStyles = makeStyles(() => ({
         justifySelf: 'center',
         ...CreateMargin(16, 0, 16, 0),
     },
+    container: {
+        width: '100%',
+        height: '80vh',
+    },
     body: {
         ...FlexColumn,
         position: 'relative',
@@ -57,7 +61,8 @@ const useStyles = makeStyles(() => ({
         height: 41,
     },
     card: {
-        ...CreateMargin(30, 0, 30, 0),
+        width: '100%',
+        ...CreateMargin(30, 0, 10, 0),
         ...CreatePadding(17, 17, 17, 17),
         ...FlexColumn,
         alignItems: 'left',

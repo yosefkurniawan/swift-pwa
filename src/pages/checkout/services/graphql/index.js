@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
 import * as Schema from './schema';
 
 const NOT_USING_INTERNAL = false;
@@ -119,6 +119,21 @@ export const removeGiftCardFromCart = (options = {}) => useMutation(Schema.remov
     ...config(USING_INTERNAL),
 });
 
+export const setPickupStore = (options = {}) => useMutation(Schema.setPickupStore, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
+export const removePickupStore = (options = {}) => useMutation(Schema.removePickupStore, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
+export const getPickupStore = (options = {}) => useQuery(Schema.getPickupStore, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export default {
     getCustomer,
     getCart,
@@ -141,4 +156,7 @@ export default {
     removeGiftCardFromCart,
     applyRewardPointsToCart,
     removeRewardPointsFromCart,
+    getPickupStore,
+    setPickupStore,
+    removePickupStore,
 };

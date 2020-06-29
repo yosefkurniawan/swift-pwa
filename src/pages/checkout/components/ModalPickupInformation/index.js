@@ -11,12 +11,13 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { regexPhone } from '@helpers/regex';
 import useStyles from './style';
+import gqlService from '../../services/graphql';
 
 const Transition = React.forwardRef((props, ref) => (
     <Slide direction="up" ref={ref} {...props} />
 ));
 
-const FilterDialog = ({
+const ModalPickupInformation = ({
     open,
     setOpen,
     checkout,
@@ -24,6 +25,7 @@ const FilterDialog = ({
 }) => {
     const { t } = useTranslation(['common', 'checkout', 'validate']);
     const styles = useStyles();
+    const [setPickupStore] = gqlService.setPickupStore();
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
@@ -31,6 +33,7 @@ const FilterDialog = ({
         phoneNumber: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
     });
 
+    const [loading, setLoading] = React.useState(false);
     const formik = useFormik({
         initialValues: {
             email: checkout.pickupInformation.email || '',
@@ -39,13 +42,65 @@ const FilterDialog = ({
         },
         validationSchema,
         onSubmit: async (values) => {
-            await setCheckout({
-                ...checkout,
-                pickupInformation: {
-                    ...values,
-                },
-            });
-            setOpen();
+            const pickupInformation = {
+                pickup_person_email: values.email,
+                pickup_person_name: values.person,
+                pickup_person_phone: values.phoneNumber,
+            };
+            await setLoading(true);
+            if (Object.keys(checkout.selectStore).length > 0) {
+                await setPickupStore({
+                    variables: {
+                        cart_id: checkout.data.cart.id,
+                        code: checkout.selectStore.code,
+                        extension_attributes: pickupInformation,
+                        store_address: {
+                            city: checkout.selectStore.city,
+                            country_code: checkout.selectStore.country_id,
+                            name: checkout.selectStore.name,
+                            postcode: checkout.selectStore.postcode,
+                            region: checkout.selectStore.region,
+                            street: [checkout.selectStore.street],
+                            telephone: checkout.selectStore.telephone,
+                        },
+                    },
+                }).then(async (res) => {
+                    const paymentMethod = res.data.setPickupStore.available_payment_methods.map((method) => ({
+                        ...method,
+                        label: method.title,
+                        value: method.code,
+                        image: null,
+                    }));
+                    await setCheckout({
+                        ...checkout,
+                        data: {
+                            ...checkout.data,
+                            cart: res.data.setPickupStore,
+                            paymentMethod,
+                        },
+                        pickupInformation,
+                        error: {
+                            selectStore: false,
+                            pickupInformation: false,
+                        },
+                    });
+                    await setLoading(false);
+                    setOpen();
+                }).catch(() => {
+                    setLoading(false);
+                });
+            } else {
+                await setCheckout({
+                    ...checkout,
+                    pickupInformation,
+                    error: {
+                        ...checkout.error,
+                        selectStore: true,
+                    },
+                });
+                await setLoading(false);
+                setOpen();
+            }
         },
     });
 
@@ -104,7 +159,7 @@ const FilterDialog = ({
                 </div>
 
                 <div className={styles.footer}>
-                    <Button className={styles.btnSave} type="submit">
+                    <Button loading={loading} className={styles.btnSave} type="submit">
                         {t('common:button:save')}
                     </Button>
                 </div>
@@ -113,4 +168,4 @@ const FilterDialog = ({
     );
 };
 
-export default FilterDialog;
+export default ModalPickupInformation;

@@ -30,8 +30,10 @@
     "emailHelper": "Kami akan meingirimkan konfirmasi order pada email ini.",
     "haveAccount": "Anda sudah memiliki akun? Silahkan masuk disini",
     "noPayment": "Tidak tersedia metode pembayaran. Silahkan masukan alamat dan pilih metode pengiriman terlebih dahulu.",
+    "noPaymentPickup": "Tidak tersedia metode pembayaran. Silahkan lengkapi informasi pickup store terlebih dahulu.",
     "noNeedPayment": "Tidak dibutuhkan pembyaran untuk order ini",
     "noShipping": "Tidak tersedia metode pengiriman untuk alamat yang dipilih",
+    "completePikcupInfo": "Silahkan lengkapi informasi pickup dan pilih lokasi toko pickup terlebih dahulu",
     "message": {
         "problemConnection": "Terjadi gangguan pada koneksi Anda",
         "couponRemoved": "Kupon telah digunakan",
