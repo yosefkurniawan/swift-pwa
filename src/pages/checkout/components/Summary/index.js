@@ -95,7 +95,7 @@ const Summary = ({
                 state.loading.order = false;
                 setCheckout(state);
 
-                const msg = 'Please comlete pickup information';
+                const msg = t('checkout:completePikcupInfo');
                 handleOpenMessage({
                     variant: 'error',
                     text: msg,

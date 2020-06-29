@@ -14,7 +14,7 @@ import gqlService from '../../services/graphql';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
-const FilterDialog = ({
+const ModalSelectStore = ({
     open, setOpen, checkout, setCheckout,
     listStores = [],
 }) => {
@@ -51,11 +51,18 @@ const FilterDialog = ({
                     },
                 },
             }).then(async (res) => {
+                const paymentMethod = res.data.setPickupStore.available_payment_methods.map((method) => ({
+                    ...method,
+                    label: method.title,
+                    value: method.code,
+                    image: null,
+                }));
                 await setCheckout({
                     ...checkout,
                     data: {
                         ...checkout.data,
                         cart: res.data.setPickupStore,
+                        paymentMethod,
                     },
                     selectStore: {
                         ...selected.item,
@@ -134,4 +141,4 @@ const FilterDialog = ({
     );
 };
 
-export default FilterDialog;
+export default ModalSelectStore;

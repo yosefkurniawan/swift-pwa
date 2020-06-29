@@ -83,7 +83,6 @@ const Checkout = (props) => {
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
     // end init graphql
 
-
     const CheckoutSchema = Yup.object().shape({
         email: checkout.data.isGuest ? Yup.string().nullable().email(t('validate:email:wrong')).required(t('validate:email.required')) : null,
         address: Yup.object().nullable().required(t('validate:required')),
@@ -270,7 +269,6 @@ const Checkout = (props) => {
         }
     }, [manageCustomer.data, dataCart]);
 
-
     const handleOpenMessage = async ({ variant, text }) => {
         const state = { ...checkout };
         window.toastMessage({
@@ -280,7 +278,6 @@ const Checkout = (props) => {
         });
         setCheckout(state);
     };
-
 
     return (
         <div className={styles.root}>
@@ -293,7 +290,6 @@ const Checkout = (props) => {
                             formik={formik}
                             checkout={checkout}
                             setCheckout={setCheckout}
-                            updateFormik={updateFormik}
                             handleOpenMessage={handleOpenMessage}
                             storeConfig={storeConfig}
                         />

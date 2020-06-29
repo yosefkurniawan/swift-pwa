@@ -60,7 +60,11 @@ export default ({
                 event: 'checkout',
                 ecommerce: {
                     checkout: {
-                        actionField: { step: 2, option: selectedShipping[0].label, action: 'checkout' },
+                        actionField: {
+                            step: 2,
+                            option: selectedShipping.length > 0 ? selectedShipping[0].label : 'Pickup at Store Pickup at Store',
+                            action: 'checkout',
+                        },
                         products: checkout.data.cart.items.map(({ quantity, product, prices }) => ({
                             name: product.name,
                             id: product.sku,
@@ -82,7 +86,11 @@ export default ({
                 ecommerce: {
                     currencyCode: storeConfig.base_currency_code || 'IDR',
                     checkout_option: {
-                        actionField: { step: 2, option: selectedShipping[0].label, action: 'checkout_option' },
+                        actionField: {
+                            step: 2,
+                            option: selectedShipping.length > 0 ? selectedShipping[0].label : 'Pickup at Store Pickup at Store',
+                            action: 'checkout_option',
+                        },
                     },
                 },
             };
