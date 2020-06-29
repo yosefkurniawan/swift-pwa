@@ -9,14 +9,12 @@ const Image = ({
     alt = 'Image',
     quality = 100,
     style = {},
-    placeholder = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mN89x8AAuEB74Y0o2cAAAAASUVORK5CYII=',
 }) => {
-    // const styles = useStyles();
+    const styles = useStyles();
     const [imageSrc, setImageSrc] = React.useState('');
-    const [loaded, setLoaded] = React.useState(false);
-    const imageRef = React.useRef();
+    const imgContainer = React.useRef();
 
-    function on(el, eventName, callback, opts) {
+    function addEventListener(el, eventName, callback, opts) {
         if (el.addEventListener) {
             el.addEventListener(eventName, callback, opts || false);
         } else if (el.attachEvent) {
@@ -26,7 +24,7 @@ const Image = ({
         }
     }
 
-    function off(el, eventName, callback, opts) {
+    function removeEventListener(el, eventName, callback, opts) {
         if (el.removeEventListener) {
             el.removeEventListener(eventName, callback, opts || false);
         } else if (el.detachEvent) {
@@ -42,18 +40,18 @@ const Image = ({
     };
 
     const listener = () => {
-        if (!imageSrc && isVisible(imageRef.current)) {
+        if (!imageSrc && isVisible(imgContainer.current)) {
             setImageSrc(src);
         }
     };
 
     React.useEffect(() => {
         listener();
-        on(window, 'scroll', listener);
-        on(window, 'resize', listener);
+        addEventListener(window, 'scroll', listener);
+        addEventListener(window, 'resize', listener);
         return function cleanup() {
-            off(window, 'scroll', listener);
-            off(window, 'resize', listener);
+            removeEventListener(window, 'scroll', listener);
+            removeEventListener(window, 'resize', listener);
         };
     }, []);
 
@@ -62,38 +60,42 @@ const Image = ({
             <style jsx>
                 {`
                     @keyframes loaded {
-                        0% {
-                            opacity: 0.1;
-                        }
-                        100% {
-                            opacity: 1;
-                        }
+                        0% { opacity: 0.1; }
+                        100% { opacity: 1; }
                     }
-                    .img:global(.img-loaded) {
-                        animation: loaded 3000ms ease-in-out;
+                    .img {
+                        animation: loaded 300ms ease-in-out;
                     }
                 `}
             </style>
-            <img
-                ref={imageRef}
-                style={{ ...style, ...(!imageSrc && { height: '200px' }) }}
-                className={`img ${className}`}
-                src={
+            <div
+                ref={imgContainer}
+                style={{
+                    backgroundColor: '#eee',
+                    width: '100%',
+                    position: 'relative',
+                    paddingTop: `${(height / width) * 100}%`,
+                }}
+            >
+                {
                     imageSrc
-                        ? `https://thumbor.sirclocdn.xyz/unsafe/${width}x${height}/filters:quality(${quality})/${imageSrc}`
-                        : placeholder
+                        ? (
+                            <img
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    position: 'absolute',
+                                    top: '0',
+                                    left: '0',
+                                }}
+                                className={`img ${className}`}
+                                src={`https://thumbor.sirclocdn.xyz/unsafe/${width}x${height}/filters:quality(${quality})/${imageSrc}`}
+                                alt={alt}
+                            />
+                        )
+                        : null // for placeholder (will improve later)
                 }
-                alt={alt}
-                onLoad={(e) => {
-                    // setLoaded(true);
-                    if (imageSrc) e.target.classList.add('img-loaded');
-                }}
-                onError={(e) => {
-                    // setLoaded(true);
-                    e.target.onerror = null;
-                    e.target.src = placeholder;
-                }}
-            />
+            </div>
         </>
     );
 };
