@@ -10,6 +10,7 @@ import Button from '@components/Button';
 import TextField from '@components/Forms/TextField';
 import { useTranslation } from '@i18n';
 import classNames from 'classnames';
+import Alert from '@material-ui/lab/Alert';
 import useStyles from './style';
 import gqlService from '../../services/graphql';
 
@@ -137,14 +138,23 @@ const ModalSelectStore = ({
             </AppBar>
             <div className={styles.container}>
                 <div className={styles.body}>
-                    <TextField
-                        label="Search"
-                        value={search}
-                        onChange={(event) => setSearch(event.target.value)}
-                        onKeyDown={handleSearch}
-                    />
                     {
-                        stores.map((item, index) => (
+                        stores.length > 0
+                            ? (
+                                <TextField
+                                    label="Search"
+                                    value={search}
+                                    onChange={(event) => setSearch(event.target.value)}
+                                    onKeyDown={handleSearch}
+                                />
+                            ) : (
+                                <Alert className="m-15" severity="warning">
+                                    {t('checkout:storesNotFound')}
+                                </Alert>
+                            )
+                    }
+                    {
+                        stores.length > 0 && stores.map((item, index) => (
                             <div
                                 key={index}
                                 onClick={() => handleSelect(index, item)}
