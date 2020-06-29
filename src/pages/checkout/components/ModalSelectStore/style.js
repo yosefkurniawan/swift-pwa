@@ -73,6 +73,9 @@ const useStyles = makeStyles(() => ({
     cardActive: {
         ...CreateBorder('1px', '1px', '1px', '1px', PRIMARY),
     },
+    cardLast: {
+        marginBottom: 100,
+    },
 }));
 
 export default useStyles;

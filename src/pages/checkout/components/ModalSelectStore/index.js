@@ -7,6 +7,7 @@ import { Close as CloseIcon } from '@material-ui/icons';
 import React from 'react';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
+import TextField from '@components/Forms/TextField';
 import { useTranslation } from '@i18n';
 import classNames from 'classnames';
 import useStyles from './style';
@@ -20,6 +21,8 @@ const ModalSelectStore = ({
 }) => {
     const { t } = useTranslation(['common', 'checkout', 'validate']);
     const styles = useStyles();
+    const [stores, setStores] = React.useState(listStores);
+    const [search, setSearch] = React.useState('');
     const [setPickupStore] = gqlService.setPickupStore();
     const [selected, setSelected] = React.useState({
         key: null,
@@ -94,6 +97,34 @@ const ModalSelectStore = ({
             setOpen();
         }
     };
+
+    const getStyle = (key) => {
+        let classname;
+        if (key === listStores.length - 1 && key === selected.key) {
+            classname = classNames(styles.card, styles.cardActive, styles.cardLast);
+        } else if (key === listStores.length - 1) {
+            classname = classNames(styles.card, styles.cardLast);
+        } else if (key === selected.key) {
+            classname = classNames(styles.card, styles.cardActive);
+        } else {
+            classname = styles.card;
+        }
+        return classname;
+    };
+
+    const handleSearch = (event) => {
+        if (event.key === 'Enter') {
+            const newItem = listStores.filter(
+                ({ name }) => name.toLowerCase().search(search.toLowerCase()) > -1,
+            );
+            setStores(newItem);
+        }
+    };
+
+    React.useEffect(() => {
+        setStores(listStores);
+    }, [listStores]);
+
     return (
         <Dialog fullScreen open={open} TransitionComponent={Transition} onClose={setOpen}>
             <AppBar className={styles.appBar}>
@@ -106,12 +137,18 @@ const ModalSelectStore = ({
             </AppBar>
             <div className={styles.container}>
                 <div className={styles.body}>
+                    <TextField
+                        label="Search"
+                        value={search}
+                        onChange={(event) => setSearch(event.target.value)}
+                        onKeyDown={handleSearch}
+                    />
                     {
-                        listStores.map((item, index) => (
+                        stores.map((item, index) => (
                             <div
                                 key={index}
                                 onClick={() => handleSelect(index, item)}
-                                className={selected.key === index ? classNames(styles.card, styles.cardActive) : styles.card}
+                                className={getStyle(index)}
                             >
                                 <Typography variant="span" type="bold">
                                     {item.name}
