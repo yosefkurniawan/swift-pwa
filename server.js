@@ -54,7 +54,7 @@ function getCacheKey(req) {
 async function renderAndCache(req, res) {
     const key = getCacheKey(req);
     // If we have a page in the cache, let's serve it
-    if (ssrCache.has(key) && typeof req.query.resetcache !== 'undefined') {
+    if (ssrCache.has(key) && typeof req.query.resetcache === 'undefined') {
         res.setHeader('x-cache', 'HIT');
         res.send(ssrCache.get(key));
         return;
