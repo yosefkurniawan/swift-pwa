@@ -31,7 +31,9 @@ const handle = app.getRequestHandler();
 const privateKey = '/etc/letsencrypt/live/swiftpwa.testingnow.me/privkey.pem';
 const certificate = '/etc/letsencrypt/live/swiftpwa.testingnow.me/cert.pem';
 
-const { expiredToken, SESSION_SECRET, nossrCache } = require('./swift.config');
+const {
+    expiredToken, SESSION_SECRET, nossrCache, features,
+} = require('./swift.config');
 const generateXml = require('./src/xml');
 
 // This is where we cache our rendered HTML pages
@@ -88,22 +90,24 @@ async function renderAndCache(req, res) {
 (async () => {
     await app.prepare();
     const server = express();
+    // if ssr cache on
+    if (features.ssrCache) {
+        // handle next js request
+        server.get('/_next/*', (req, res) => {
+            /* serving _next static content using next.js handler */
+            handle(req, res);
+        });
 
-    // handle next js request
-    server.get('/_next/*', (req, res) => {
-        /* serving _next static content using next.js handler */
-        handle(req, res);
-    });
+        server.get('/assets/*', (req, res) => {
+            /* serving assets static content using next.js handler */
+            handle(req, res);
+        });
 
-    server.get('/assets/*', (req, res) => {
-        /* serving assets static content using next.js handler */
-        handle(req, res);
-    });
-
-    server.get('/static/*', (req, res) => {
-        /* serving static content using next.js handler */
-        handle(req, res);
-    });
+        server.get('/static/*', (req, res) => {
+            /* serving static content using next.js handler */
+            handle(req, res);
+        });
+    }
 
     await nextI18next.initPromise;
     server.use(nextI18NextMiddleware(nextI18next));
@@ -157,7 +161,7 @@ async function renderAndCache(req, res) {
         const key = getCacheKey(req);
         // handle no cache ssr
         const found = nossrCache.find((val) => val === key);
-        if (found) {
+        if (found || !features.ssrCache) {
             return handle(req, res);
         }
         /* serving page */

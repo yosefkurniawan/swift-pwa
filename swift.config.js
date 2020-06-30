@@ -132,6 +132,7 @@ const expiredDefault = 365;
 const SESSION_SECRET = 'asdasdd1212ads12!!!@**DADxx1';
 
 const features = {
+    ssrCache: true,
     productListing: {
         configurableOptions: false,
         rating: true,
