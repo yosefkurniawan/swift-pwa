@@ -85,7 +85,7 @@ const ProductItem = (props) => {
         <>
             <div className={styles.itemContainer}>
                 <div className={styles.imgItem}>
-                    <Link onClick={handleClick}>
+                    <Link onClick={handleClick} style={{ width: '100%' }}>
                         <Thumbor
                             // eslint-disable-next-line no-nested-ternary
                             src={spesificProduct.id ? spesificProduct.image.url
