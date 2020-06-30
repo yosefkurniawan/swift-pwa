@@ -1,6 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { GRAY_PRIMARY, WHITE } from '@theme/colors';
-import { CreateMargin, CreatePadding, CenterAbsolute } from '@theme/mixins';
+import {
+    CreateMargin, CreatePadding, CenterAbsolute, Centering,
+} from '@theme/mixins';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -52,6 +54,11 @@ const useStyles = makeStyles((theme) => ({
     },
     skeleton: {
         marginBottom: '8px',
+    },
+    divMessage: {
+        minHeight: 100,
+        width: '100%',
+        ...Centering,
     },
 }));
 
