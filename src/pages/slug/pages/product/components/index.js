@@ -1,8 +1,8 @@
 /* eslint-disable array-callback-return */
 import Button from '@components/Button';
 import PriceFormat from '@components/PriceFormat';
-import Banner from '@components/Slider/Banner';
-import Caraousel from '@components/Slider/Carousel';
+import Banner from '@components/Swiper/BannerSlider';
+import Caraousel from '@components/Swiper/ImageSlider';
 import Typography from '@components/Typography';
 import { IconButton } from '@material-ui/core';
 import {

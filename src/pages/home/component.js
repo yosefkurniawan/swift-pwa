@@ -1,8 +1,7 @@
-// import Banner from '@components/Slider/Banner';
 import Carousel from '@components/Swiper/ImageSlider';
-import CarouselSkeleton from '@components/Slider/Carousel/Skeleton';
+import CarouselSkeleton from '@components/Swiper/ImageSlider/Skeleton';
 import SpanCategory from '@components/SpanCategory';
-import TestSwiper from '@components/Swiper/BannerSlider';
+import Banner from '@components/Swiper/BannerSlider';
 import { Fragment } from 'react';
 import Link from 'next/link';
 import Skeleton from '@components/Skeleton';
@@ -48,7 +47,7 @@ const BannerSlider = ({ storeConfig }) => {
                 <div className={styles.logo}>
                     <img src={logoUrl} alt="logo" className={styles.imgLogo} />
                 </div>
-                {bannerImages && bannerImages.length && <TestSwiper data={bannerImages} />}
+                {bannerImages && bannerImages.length && <Banner data={bannerImages} />}
             </div>
         </>
     );

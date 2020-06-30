@@ -1,4 +1,3 @@
-
 import Skeleton from '@components/Skeleton';
 import { Grid } from '@material-ui/core';
 

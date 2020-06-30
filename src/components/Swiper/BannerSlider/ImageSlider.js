@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { imageSize } from '@config';
 import setDefaultWhenEmpty from '@helpers/checkImageSrc';
 import Thumbor from '@components/Image';
-import './style.css';
 
 /**
  slug page need props 'href' & 'as' to prevent browser reloading
@@ -29,6 +28,16 @@ const ImageSlide = ({
                     quality={100}
                     className="img-slider"
                 />
+
+                <style jsx>
+                    {`
+                        .img-slider {
+                            display: flex;
+                            width: 100%;
+                        }
+
+                    `}
+                </style>
             </a>
         </Link>
     );
