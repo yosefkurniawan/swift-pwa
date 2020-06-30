@@ -34,6 +34,7 @@
     "noNeedPayment": "There is no need to pay on this order",
     "noShipping": "There is no delivery method available for selected address",
     "completePikcupInfo": "Please compleate pickup information & select store pickup",
+    "storesNotFound": "No Stores avaliable",
     "message": {
         "problemConnection": "There is a problem with your connection",
         "couponRemoved": "Coupon has been removed",

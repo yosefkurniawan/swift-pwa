@@ -34,6 +34,7 @@
     "noNeedPayment": "Tidak dibutuhkan pembyaran untuk order ini",
     "noShipping": "Tidak tersedia metode pengiriman untuk alamat yang dipilih",
     "completePikcupInfo": "Silahkan lengkapi informasi pickup dan pilih lokasi toko pickup terlebih dahulu",
+    "storesNotFound": "Tidak ada toko yang tersedia",
     "message": {
         "problemConnection": "Terjadi gangguan pada koneksi Anda",
         "couponRemoved": "Kupon telah digunakan",
