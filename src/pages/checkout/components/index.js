@@ -180,7 +180,7 @@ const Checkout = (props) => {
 
         // init shipping method
         if (shipping && shipping.available_shipping_methods) {
-            const availableShipping = shipping.available_shipping_methods.filter((x) => x.available);
+            const availableShipping = shipping.available_shipping_methods.filter((x) => x.available && x.carrier_code !== 'pickup');
             state.data.shippingMethods = availableShipping.map((item) => ({
                 ...item,
                 label: `${item.method_title} ${item.carrier_title}`,

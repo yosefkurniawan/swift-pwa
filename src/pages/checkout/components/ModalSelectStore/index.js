@@ -114,12 +114,12 @@ const ModalSelectStore = ({
     };
 
     const handleSearch = (event) => {
-        if (event.key === 'Enter') {
-            const newItem = listStores.filter(
-                ({ name }) => name.toLowerCase().search(search.toLowerCase()) > -1,
-            );
-            setStores(newItem);
-        }
+        const { value } = event.target;
+        const newItem = listStores.filter(
+            ({ name }) => name.toLowerCase().search(value.toLowerCase()) > -1,
+        );
+        setSearch(value);
+        setStores(newItem);
     };
 
     React.useEffect(() => {
@@ -138,46 +138,43 @@ const ModalSelectStore = ({
             </AppBar>
             <div className={styles.container}>
                 <div className={styles.body}>
+                    <TextField
+                        label="Search"
+                        value={search}
+                        onChange={handleSearch}
+                    />
                     {
                         stores.length > 0
                             ? (
-                                <TextField
-                                    label="Search"
-                                    value={search}
-                                    onChange={(event) => setSearch(event.target.value)}
-                                    onKeyDown={handleSearch}
-                                />
+                                stores.map((item, index) => (
+                                    <div
+                                        key={index}
+                                        onClick={() => handleSelect(index, item)}
+                                        className={getStyle(index)}
+                                    >
+                                        <Typography variant="span" type="bold">
+                                            {item.name}
+                                        </Typography>
+                                        <Typography>
+                                            {item.street}
+                                            <br />
+                                            {item.city}
+                                            <br />
+                                            {item.region}
+                                            <br />
+                                            {item.country_id}
+                                            <br />
+                                            {item.postcode}
+                                            <br />
+                                            {item.telephone}
+                                        </Typography>
+                                    </div>
+                                ))
                             ) : (
                                 <Alert className="m-15" severity="warning">
                                     {t('checkout:storesNotFound')}
                                 </Alert>
                             )
-                    }
-                    {
-                        stores.length > 0 && stores.map((item, index) => (
-                            <div
-                                key={index}
-                                onClick={() => handleSelect(index, item)}
-                                className={getStyle(index)}
-                            >
-                                <Typography variant="span" type="bold">
-                                    {item.name}
-                                </Typography>
-                                <Typography>
-                                    {item.street}
-                                    <br />
-                                    {item.city}
-                                    <br />
-                                    {item.region}
-                                    <br />
-                                    {item.country_id}
-                                    <br />
-                                    {item.postcode}
-                                    <br />
-                                    {item.telephone}
-                                </Typography>
-                            </div>
-                        ))
                     }
                 </div>
                 <div className={styles.footer}>
