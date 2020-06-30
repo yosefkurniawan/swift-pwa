@@ -1,39 +1,35 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import {
     AppBar, Dialog, IconButton, Slide,
-    Grid,
 } from '@material-ui/core';
 import { Close as CloseIcon } from '@material-ui/icons';
 import React from 'react';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
+import TextField from '@components/Forms/TextField';
 import { useTranslation } from '@i18n';
 import classNames from 'classnames';
+import Alert from '@material-ui/lab/Alert';
 import useStyles from './style';
-
-const demoStore = [
-    {
-        name: 'Bali Store',
-        address: 'Jalan raya bali 1, Kuta, Denpasar, Bali, ID',
-        phoneNumber: '01222212',
-    },
-    {
-        name: 'Jogja Store',
-        address: 'Jalan raya malioboro no 102 DI Yogyakarta ID',
-        phoneNumber: '0999221',
-    },
-];
+import gqlService from '../../services/graphql';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
-const FilterDialog = ({
+const ModalSelectStore = ({
     open, setOpen, checkout, setCheckout,
+    listStores = [],
 }) => {
     const { t } = useTranslation(['common', 'checkout', 'validate']);
     const styles = useStyles();
+    const [stores, setStores] = React.useState(listStores);
+    const [search, setSearch] = React.useState('');
+    const [setPickupStore] = gqlService.setPickupStore();
     const [selected, setSelected] = React.useState({
         key: null,
         item: null,
     });
+    const [loading, setLoading] = React.useState(false);
     const handleSelect = async (key, item) => {
         setSelected({
             key,
@@ -41,14 +37,95 @@ const FilterDialog = ({
         });
     };
     const handleSave = async () => {
-        await setCheckout({
-            ...checkout,
-            selectStore: {
-                ...selected.item,
-            },
-        });
-        setOpen();
+        await setLoading(true);
+        if (Object.keys(checkout.pickupInformation).length > 0) {
+            await setPickupStore({
+                variables: {
+                    cart_id: checkout.data.cart.id,
+                    code: selected.item.code,
+                    extension_attributes: checkout.pickupInformation,
+                    store_address: {
+                        city: selected.item.city,
+                        country_code: selected.item.country_id,
+                        name: selected.item.name,
+                        postcode: selected.item.postcode,
+                        region: selected.item.region,
+                        street: [selected.item.street],
+                        telephone: selected.item.telephone,
+                    },
+                },
+            }).then(async (res) => {
+                const paymentMethod = res.data.setPickupStore.available_payment_methods.map((method) => ({
+                    ...method,
+                    label: method.title,
+                    value: method.code,
+                    image: null,
+                }));
+                await setCheckout({
+                    ...checkout,
+                    data: {
+                        ...checkout.data,
+                        cart: res.data.setPickupStore,
+                        paymentMethod,
+                    },
+                    selectStore: {
+                        ...selected.item,
+                    },
+                    error: {
+                        selectStore: false,
+                        pickupInformation: false,
+                    },
+                });
+                await setLoading(false);
+                setOpen();
+            }).catch(() => {
+                // console.log(e);
+                setLoading(false);
+            });
+        } else {
+            await setCheckout({
+                ...checkout,
+                selectStore: {
+                    ...selected.item,
+                },
+                error: {
+                    ...checkout.error,
+                    pickupInformation: true,
+                },
+            });
+
+            await setLoading(false);
+            setOpen();
+        }
     };
+
+    const getStyle = (key) => {
+        let classname;
+        if (key === listStores.length - 1 && key === selected.key) {
+            classname = classNames(styles.card, styles.cardActive, styles.cardLast);
+        } else if (key === listStores.length - 1) {
+            classname = classNames(styles.card, styles.cardLast);
+        } else if (key === selected.key) {
+            classname = classNames(styles.card, styles.cardActive);
+        } else {
+            classname = styles.card;
+        }
+        return classname;
+    };
+
+    const handleSearch = (event) => {
+        if (event.key === 'Enter') {
+            const newItem = listStores.filter(
+                ({ name }) => name.toLowerCase().search(search.toLowerCase()) > -1,
+            );
+            setStores(newItem);
+        }
+    };
+
+    React.useEffect(() => {
+        setStores(listStores);
+    }, [listStores]);
+
     return (
         <Dialog fullScreen open={open} TransitionComponent={Transition} onClose={setOpen}>
             <AppBar className={styles.appBar}>
@@ -59,29 +136,56 @@ const FilterDialog = ({
                     {t('checkout:pickupInformation:selectStoreLocation')}
                 </Typography>
             </AppBar>
-            <div className={styles.body}>
-                <Grid container>
+            <div className={styles.container}>
+                <div className={styles.body}>
                     {
-                        demoStore.map((item, index) => (
-                            <Grid item key={index} onClick={() => handleSelect(index, item)}>
-                                <div className={selected.key === index ? classNames(styles.card, styles.cardActive) : styles.card}>
-                                    <Typography variant="span" type="bold">
-                                        {item.name}
-                                    </Typography>
-                                    <Typography>
-                                        {`${item.address} ${item.phoneNumber}`}
-                                    </Typography>
-                                </div>
-                            </Grid>
+                        stores.length > 0
+                            ? (
+                                <TextField
+                                    label="Search"
+                                    value={search}
+                                    onChange={(event) => setSearch(event.target.value)}
+                                    onKeyDown={handleSearch}
+                                />
+                            ) : (
+                                <Alert className="m-15" severity="warning">
+                                    {t('checkout:storesNotFound')}
+                                </Alert>
+                            )
+                    }
+                    {
+                        stores.length > 0 && stores.map((item, index) => (
+                            <div
+                                key={index}
+                                onClick={() => handleSelect(index, item)}
+                                className={getStyle(index)}
+                            >
+                                <Typography variant="span" type="bold">
+                                    {item.name}
+                                </Typography>
+                                <Typography>
+                                    {item.street}
+                                    <br />
+                                    {item.city}
+                                    <br />
+                                    {item.region}
+                                    <br />
+                                    {item.country_id}
+                                    <br />
+                                    {item.postcode}
+                                    <br />
+                                    {item.telephone}
+                                </Typography>
+                            </div>
                         ))
                     }
-                </Grid>
-            </div>
-            <div className={styles.footer}>
-                <Button className={styles.btnSave} onClick={handleSave}>{t('common:button:save')}</Button>
+                </div>
+                <div className={styles.footer}>
+                    <Button loading={loading} className={styles.btnSave} onClick={handleSave}>{t('common:button:save')}</Button>
+                </div>
             </div>
         </Dialog>
     );
 };
 
-export default FilterDialog;
+export default ModalSelectStore;

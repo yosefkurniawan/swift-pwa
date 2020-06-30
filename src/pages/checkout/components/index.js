@@ -51,6 +51,7 @@ const Checkout = (props) => {
             },
             payment: null,
             billing: null,
+            delivery: 'home',
         },
         loading: {
             all: true,
@@ -68,15 +69,11 @@ const Checkout = (props) => {
             openAddressDialog: false,
             backdrop: false,
         },
-        pickupInformation: {
-            person: '',
-            email: '',
-            phoneNumber: '',
-        },
-        selectStore: {
-            name: '',
-            address: '',
-            phoneNumber: '',
+        pickupInformation: {},
+        selectStore: {},
+        error: {
+            pickupInformation: false,
+            selectStore: false,
         },
     });
 
@@ -89,7 +86,7 @@ const Checkout = (props) => {
     const CheckoutSchema = Yup.object().shape({
         email: checkout.data.isGuest ? Yup.string().nullable().email(t('validate:email:wrong')).required(t('validate:email.required')) : null,
         address: Yup.object().nullable().required(t('validate:required')),
-        shipping: Yup.object().nullable().required(t('validate:required')),
+        shipping: checkout.selected.delivery === 'home' && Yup.object().nullable().required(t('validate:required')),
         payment: Yup.string().nullable().required(t('validate:required')),
         billing: Yup.object().nullable().required(t('validate:required')),
     });
@@ -203,7 +200,14 @@ const Checkout = (props) => {
         }
 
         // init payment method
-        if (shipping && shipping.selected_shipping_method && cart.available_payment_methods) {
+        if ((shipping && shipping.selected_shipping_method && cart.available_payment_methods)) {
+            state.data.paymentMethod = cart.available_payment_methods.map((method) => ({
+                ...method,
+                label: method.title,
+                value: method.code,
+                image: null,
+            }));
+        } else if (checkout.selected.delivery === 'pickup') {
             state.data.paymentMethod = cart.available_payment_methods.map((method) => ({
                 ...method,
                 label: method.title,
@@ -285,6 +289,9 @@ const Checkout = (props) => {
                             styles={styles}
                             formik={formik}
                             checkout={checkout}
+                            setCheckout={setCheckout}
+                            handleOpenMessage={handleOpenMessage}
+                            storeConfig={storeConfig}
                         />
                     ) : null
                 }
@@ -295,7 +302,7 @@ const Checkout = (props) => {
                     checkout={checkout}
                 />
                 {
-                    formik.values.delivery === 'home' ? (
+                    checkout.selected.delivery === 'home' ? (
                         <Address
                             checkout={checkout}
                             t={t}
