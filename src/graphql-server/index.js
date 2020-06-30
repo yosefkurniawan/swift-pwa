@@ -48,7 +48,7 @@ const fetcher = async ({
         }
         return response;
     } catch (error) {
-        // console.error('There was an uncaught error', error);
+        console.error('There was an uncaught error', error);
         process.exit(1); // mandatory (as per the Node docs)
         return error;
     }
