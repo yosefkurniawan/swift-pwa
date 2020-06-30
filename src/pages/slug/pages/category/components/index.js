@@ -1,4 +1,4 @@
-import Banner from '@components/Slider/Banner';
+import Banner from '@components/Swiper/BannerSlider';
 import CustomTabs from '@components/Tabs';
 import { Box } from '@material-ui/core';
 import React from 'react';

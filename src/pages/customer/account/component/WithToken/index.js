@@ -1,7 +1,7 @@
 // Library
 import Link from 'next/link';
 import React from 'react';
-import Carousel from '@components/Slider/Carousel';
+import Carousel from '@components/Swiper/ImageSlider';
 import Typography from '@components/Typography';
 import { GraphCustomer } from '@services/graphql';
 import { customerFeautres } from '@config';
@@ -12,7 +12,6 @@ import Loaders from '../Loader';
 import PointCard from '../PointCard';
 // Styling And Component
 import useStyles from './style';
-
 
 const WithToken = (props) => {
     const { token, t } = props;

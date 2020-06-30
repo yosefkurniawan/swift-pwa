@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import 'swiper/css/swiper.min.css';
 import Swiper from 'swiper';
-import Item from '../../Slider/Carousel/Item';
+import Item from './Item';
 
 const Caraousel = ({
     data = [1, 2, 3], title = '', className = '', storeConfig, customItem, customSlideClass,
@@ -14,6 +14,7 @@ const Caraousel = ({
             loop: true,
             slidesPerView: 3,
             spaceBetween: 30,
+            centeredSlides: true,
             breakpoints: {
                 320: {
                     slidesPerView: 1,
