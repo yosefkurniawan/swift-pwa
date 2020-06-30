@@ -139,6 +139,22 @@ const features = {
     },
 };
 
+const nossrCache = [
+    '/aw_rewardpoints/info',
+    '/sales/order/history',
+    '/customer/account/profile',
+    '/customer/account/address',
+    '/awgiftcard/card',
+    '/customer/account/storecredit',
+    '/inboxnotification/notification',
+    '/customer/setting',
+    '/rma/customer',
+    '/confirmpayment',
+    '/checkout',
+    '/checkout/cart',
+    '/graphql',
+];
+
 module.exports = {
     blog,
     GTM,
@@ -168,4 +184,5 @@ module.exports = {
     showBrandPage,
     enableSocialMediaLink,
     features,
+    nossrCache,
 };

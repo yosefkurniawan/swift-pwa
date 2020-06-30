@@ -31,7 +31,7 @@ const handle = app.getRequestHandler();
 const privateKey = '/etc/letsencrypt/live/swiftpwa.testingnow.me/privkey.pem';
 const certificate = '/etc/letsencrypt/live/swiftpwa.testingnow.me/cert.pem';
 
-const { expiredToken, SESSION_SECRET } = require('./swift.config');
+const { expiredToken, SESSION_SECRET, nossrCache } = require('./swift.config');
 const generateXml = require('./src/xml');
 
 // This is where we cache our rendered HTML pages
@@ -40,7 +40,7 @@ const ssrCache = new LRUCache({
     length(n, key) {
         return n.length;
     },
-    maxAge: 1000 * 60 * 60 * 24 * 30,
+    maxAge: 1000 * 60 * 60 * 24, // create max age 1 day
 });
 
 /*
@@ -53,12 +53,16 @@ function getCacheKey(req) {
 
 async function renderAndCache(req, res) {
     const key = getCacheKey(req);
-
     // If we have a page in the cache, let's serve it
-    if (ssrCache.has(key)) {
+    if (ssrCache.has(key) && typeof req.query.resetcache !== 'undefined') {
         res.setHeader('x-cache', 'HIT');
         res.send(ssrCache.get(key));
         return;
+    }
+
+    // reset cache if have query resetcache
+    if (req.query && typeof req.query.resetcache !== 'undefined') {
+        ssrCache.reset();
     }
 
     try {
@@ -85,6 +89,7 @@ async function renderAndCache(req, res) {
     await app.prepare();
     const server = express();
 
+    // handle next js request
     server.get('/_next/*', (req, res) => {
         /* serving _next static content using next.js handler */
         handle(req, res);
@@ -92,6 +97,11 @@ async function renderAndCache(req, res) {
 
     server.get('/assets/*', (req, res) => {
         /* serving assets static content using next.js handler */
+        handle(req, res);
+    });
+
+    server.get('/static/*', (req, res) => {
+        /* serving static content using next.js handler */
         handle(req, res);
     });
 
@@ -143,9 +153,16 @@ async function renderAndCache(req, res) {
     server.get('/sitemap.xml', generateXml);
 
     // server.get('*', (req, res) => handle(req, res));
-    server.get('*', (req, res) =>
+    server.get('*', (req, res) => {
+        const key = getCacheKey(req);
+        // handle no cache ssr
+        const found = nossrCache.find((val) => val === key);
+        if (found) {
+            return handle(req, res);
+        }
         /* serving page */
-        renderAndCache(req, res));
+        return renderAndCache(req, res);
+    });
 
     if (
         process.env.NODE_ENV === 'production'

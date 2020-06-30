@@ -14,13 +14,27 @@ const Caraousel = ({
             loop: true,
             slidesPerView: 3,
             spaceBetween: 30,
+            breakpoints: {
+                320: {
+                    slidesPerView: 1,
+                    spaceBetween: 30,
+                },
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 30,
+                },
+                768: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                },
+            },
         });
     });
     return (
         <div className="swiper-container swipper-image">
             <div className="swiper-wrapper">
                 {data.map((item, y) => (customItem ? (
-                    <div className="swiper-slide" key={y} style={{ width: '30% !important' }}>
+                    <div className="swiper-slide" key={y}>
                         {customItem({
                             ...item,
                             storeConfig,
@@ -28,7 +42,7 @@ const Caraousel = ({
                         })}
                     </div>
                 ) : (
-                    <div className="swiper-slide" key={y} style={{ width: '30% !important' }}>
+                    <div className="swiper-slide" key={y}>
                         <Item {...item} key={y} storeConfig={storeConfig} />
                     </div>
                 )))}
@@ -39,7 +53,7 @@ const Caraousel = ({
                         text-align: center;
                         font-size: 18px;
                         background: #fff;
-                        width: 30% !important;
+                        width: 100%;
                         /* Center slide text vertically */
                         display: -webkit-box;
                         display: -ms-flexbox;
