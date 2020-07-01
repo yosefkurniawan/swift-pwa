@@ -5,7 +5,6 @@ const {
 
 const { gql } = require('apollo-server-express');
 
-
 const customerSchema = makeExecutableSchema({
     typeDefs: gql`
         type Token {
@@ -30,6 +29,7 @@ const customerSchema = makeExecutableSchema({
             phonenumber: String
             is_subscribed: Boolean
             otp: String
+            whatsapp_number: String
         }
 
         type Mutation {

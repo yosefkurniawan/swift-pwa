@@ -198,6 +198,7 @@ const Register = ({ t, storeConfig }) => {
                 {otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_register ? (
                     <OtpBlock
                         type="register"
+                        setDisabled={setdisabled}
                         phoneProps={{
                             name: 'phoneNumber',
                             value: formik.values.phoneNumber,
@@ -241,7 +242,7 @@ const Register = ({ t, storeConfig }) => {
                 )}
                 {!phoneIsWa && (
                     <TextField
-                        label={`${t('customer:form:phoneNumber')} Whatsapp`}
+                        label={`${t('common:form:phoneNumber')} Whatsapp`}
                         name="whatsappNumber"
                         value={formik.values.whatsappNumber}
                         onChange={formik.handleChange}
