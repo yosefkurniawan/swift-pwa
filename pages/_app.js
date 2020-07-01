@@ -20,7 +20,6 @@ import {
 import Fonts from '@helpers/fonts';
 import TagManager from 'react-gtm-module';
 import '../src/styles/index.css';
-import '../src/styles/mage.css';
 import PageProgressLoader from '@components/Loaders/PageProgress';
 import graphRequest from '../src/graphql-server/request';
 import routeMiddleware from '../src/middlewares/route';
