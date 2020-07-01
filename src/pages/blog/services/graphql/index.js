@@ -13,5 +13,4 @@ export const getDetailBlog = (id) => useQuery(schema.getPostById, {
     },
 });
 
-
 export default {};

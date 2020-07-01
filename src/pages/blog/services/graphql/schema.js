@@ -1,5 +1,23 @@
 import { gql } from 'apollo-boost';
 
+const itemBlog = `
+    id
+    author_id
+    title
+    blog_post_url
+    category_ids
+    short_content
+    url_key
+    created_at
+    updated_at
+    customer_groups
+    tag_names
+    status
+    publish_date
+    featured_image_url
+    meta_twitter_site
+`;
+
 export const getCategory = gql`
     {
         getBlogCategory {
@@ -28,19 +46,25 @@ export const getCategory = gql`
 `;
 
 export const getAllPost = gql`
-    query getAllBlog($category_id: Int){
-        getBlogByFilter(category_id: $category_id) {
-            data {
-                id
-                title
-                author_id
-                url_key
-                short_content
-                publish_date
-                featured_image_url
-                featured_image_alt
-                content
-                created_at
+    query getAllBlog(
+        $page_size: Int,
+        $current_page: Int,
+        $category_id: Int,
+
+    ){
+        getBlogByFilter(
+            page_size: $page_size,
+            current_page: $current_page,
+            filters: {
+                category_id: $category_id,
+            }
+        ) {
+            page_size,
+            total_count
+            total_pages
+            current_page
+            items {
+             ${itemBlog}
             }
         }
     }
