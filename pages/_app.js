@@ -20,9 +20,11 @@ import {
 import Fonts from '@helpers/fonts';
 import TagManager from 'react-gtm-module';
 import '../src/styles/index.css';
-import PageProgressLoader from '@components/Loaders/PageProgress';
+import dynamic from 'next/dynamic';
 import graphRequest from '../src/graphql-server/request';
 import routeMiddleware from '../src/middlewares/route';
+
+const PageProgressLoader = dynamic(() => import('@components/Loaders/PageProgress'));
 
 const tagManagerArgs = {
     gtmId: process.env.NODE_ENV === 'production' ? GTM.gtmId.prod : GTM.gtmId.dev,

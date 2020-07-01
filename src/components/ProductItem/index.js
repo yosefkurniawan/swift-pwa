@@ -13,9 +13,11 @@ import { setCookies } from '@helpers/cookies';
 import { imageSize, features } from '@config';
 import { useTranslation } from '@i18n';
 import RatingStar from '@components/RatingStar';
+import dynamic from 'next/dynamic';
 import useStyles from './style';
-import ConfigurableOpt from './component/configurable';
 import Thumbor from '../Image';
+
+const ConfigurableOpt = dynamic(() => import('./component/configurable'), { ssr: false });
 
 const ProductItem = (props) => {
     const {
