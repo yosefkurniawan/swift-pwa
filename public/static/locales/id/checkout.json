@@ -11,7 +11,7 @@
     "pickupInformation": {
         "label": "Informasi Pengambilan",
         "pickupPerson": "Orang yang mengambil",
-        "pickupAtLabel": "Kamu akan mengambil pesanan di ",
+        "pickupAtLabel": "Anda akan mengambil pesanan di ",
         "pickupNote": "Kami akan mengirimkan email kepada Anda ketika pesanan Anda siap (dalam 2 jam untuk pesanan dilakukan pukul 19:00 waktu setempat). Catatan: Bawa ID pemerintah yang berlaku seperti SIM atau kata sandi",
         "changePickupInformation": "Ubah informasi pengambilan",
         "changePickupLocation": "Ubah lokasi pengambilan",
@@ -23,7 +23,7 @@
     "placeOrder" : "buat pesanan",
     "paymentSubtitle" : "Pilih metode pembayaranmu",
     "thanks" : "Terima kasih",
-    "forOrder" : "untuk pembelian kamu",
+    "forOrder" : "untuk pembelian Anda",
     "thanksDetail" : "Kami akan mengirimkan email detail pesanan dan infromasi pengiriman",
     "continue" : "Lanjutkan Belanja",
     "emailAddress": "Alamat Email",
@@ -72,7 +72,7 @@
     },
     "promoCodePlaceholder": "Kode Promo",
     "giftCartPlaceholder": "Nomor kartu hadiah",
-    "yourOrderId": "Nomor Pesanan kamu",
+    "yourOrderId": "Nomor Pesanan Anda",
     "checkOrder": "Cek Pesanan",
-    "cashbackInfo": "Selamat! Kamu akan mendapatkan $ dari promo $ ke dalam kredit toko"
+    "cashbackInfo": "Selamat! Anda akan mendapatkan cashback $ dari promo $ ke store credit"
 }
