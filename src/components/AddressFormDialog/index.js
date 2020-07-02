@@ -276,6 +276,7 @@ const AddressFormDialog = (props) => {
                     value={_.isEmpty(formik.values.city) ? null : formik.values.city}
                     onChange={(event, newValue) => {
                         formik.setFieldValue('city', newValue);
+                        formik.setFieldValue('postcode', newValue.postcode);
                     }}
                     renderInput={(params) => (
                         <div
