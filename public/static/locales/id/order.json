@@ -3,6 +3,8 @@
     "order" : "pesanan",
     "notFound": "Pesanan tidak di ketahui",
     "shippedTo": "Dikirim ke",
+    "pickupAt": "Ambil di",
+    "pickupBy": "Diambil oleh",
     "shippingMethod": "Metode pengiriman",
     "paymentMethod": "Metode pembayaran",
     "shipping": "Pengiriman & Perawatan",

@@ -7,7 +7,7 @@ const style = {
 
 export default () => (
     <>
-        <Skeleton animation="wave" variant="react" width="100%" height={40} />
+        <Skeleton animation="wave" variant="ract" width="100%" height={40} />
         <div style={style}>
             <Skeleton animation="wave" variant="text" width="100%" height={30} />
             <Skeleton animation="wave" variant="text" width="70%" height={30} style={{ marginBottom: 10 }} />

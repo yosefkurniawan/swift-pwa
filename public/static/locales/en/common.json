@@ -61,7 +61,8 @@
     },
     "error": {
         "notFound" : "Data not found",
-        "fileReject": "Cannot upload, Files must be a type "
+        "fileReject": "Cannot upload, Files must be a type ",
+        "fetchError": "Error with fetch data or connections"
     },
     "fileUpload": {
         "reject": "Cannot upload, Files must be a type ",
