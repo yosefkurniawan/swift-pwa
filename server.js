@@ -107,6 +107,11 @@ async function renderAndCache(req, res) {
             /* serving static content using next.js handler */
             handle(req, res);
         });
+
+        server.get('/manifest.json', (req, res) => {
+            /* serving manifest json */
+            handle(req, res);
+        });
     }
 
     await nextI18next.initPromise;
