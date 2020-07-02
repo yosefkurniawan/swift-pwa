@@ -24,6 +24,14 @@ const orderOutput = `
             total_item_count
             total_paid
             total_qty_ordered
+            pickup_store {
+                is_using_pickup_store
+                pickup_person  {
+                    email
+                    handphone
+                    name
+                }
+            }
             payment {
                 additional_information
                 payment_additional_info {
