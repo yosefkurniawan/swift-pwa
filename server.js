@@ -15,6 +15,7 @@ const http = require('http');
 const https = require('https');
 const nextI18NextMiddleware = require('next-i18next/middleware').default;
 const { mergeSchemas } = require('graphql-tools');
+const path = require('path');
 
 const nextI18next = require('./src/lib/i18n');
 const fetcher = require('./src/graphql-server');
@@ -83,6 +84,12 @@ const generateXml = require('./src/xml');
     serverGraph.applyMiddleware({ app: server });
 
     server.get('/sitemap.xml', generateXml);
+
+    server.use(
+        '/manifest.json',
+        express.static(path.resolve(`${__dirname}/../../../manifest.json`)),
+    );
+
     server.get('*', (req, res) => handle(req, res));
 
     if (
