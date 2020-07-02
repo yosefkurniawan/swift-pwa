@@ -3,25 +3,28 @@ import React from 'react';
 import Alert from '@material-ui/lab/Alert';
 import Button from '@components/Button';
 import Typography from '@components/Typography';
+import { Menu } from '@material-ui/icons';
 import { getBlog } from '../services/graphql';
 import * as Schema from '../services/graphql/schema';
 import useStyles from '../style';
-import ItemListBlog from './ItemListBlog';
+import ItemListBlog from './DetailBlog';
 import Loader from './LoaderList';
+import ModalCategory from './ModalCategory';
 
-const Blog = ({ t }) => {
+const Blog = ({ t, category = {} }) => {
     const styles = useStyles();
     const [page, setPage] = React.useState(1);
     const [pageSize] = React.useState(5);
-    const [category_id] = React.useState(0);
     const [loadMore, setLoadMore] = React.useState(false);
+    const [openModal, setOpenModal] = React.useState(false);
 
     const {
         loading, data, error, fetchMore,
     } = getBlog({
         page_size: pageSize,
         current_page: 1,
-        category_id,
+        category_id: category.id ? category.id : 0,
+        id: 0,
     });
     if (loading || !data) return <Loader />;
     if (error) {
@@ -53,7 +56,8 @@ const Blog = ({ t }) => {
             variables: {
                 current_page: page + 1,
                 page_size: pageSize,
-                category_id,
+                category_id: category.id ? category.id : 0,
+                id: 0,
             },
             updateQuery: (previousResult, { fetchMoreResult }) => {
                 setLoadMore(false);
@@ -75,9 +79,23 @@ const Blog = ({ t }) => {
     };
     return (
         <div className={styles.container}>
+            <ModalCategory t={t} open={openModal} setOpen={() => setOpenModal(false)} />
+            <div className={styles.btnCategoryContainer}>
+                <Button
+                    variant="text"
+                    customRootStyle={{ width: 'fit-content' }}
+                    className={styles.btnFilter}
+                    onClick={() => setOpenModal(true)}
+                >
+                    <Menu className={styles.iconFilter} />
+                </Button>
+                <Typography type="bold" variant="span" letter="capitalize">
+                    Categories
+                </Typography>
+            </div>
             {data && data.getBlogByFilter.items.length > 0
                 && data.getBlogByFilter.items.map((blog, index) => (
-                    <ItemListBlog key={index} {...blog} />
+                    <ItemListBlog key={index} {...blog} short />
                 ))}
             {data && data.getBlogByFilter.total_count > data.getBlogByFilter.items.length
             && data.getBlogByFilter.total_pages > page && (

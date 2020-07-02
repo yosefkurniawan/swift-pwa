@@ -7,6 +7,7 @@ const itemBlog = `
     blog_post_url
     category_ids
     short_content
+    content
     url_key
     created_at
     updated_at
@@ -19,27 +20,18 @@ const itemBlog = `
 `;
 
 export const getCategory = gql`
-    {
-        getBlogCategory {
+    query getCategory($category_id: Int, $url_key: String,) {
+        getBlogCategory(category_id: $category_id, url_key: $url_key) {
             data {
-                name
-                description
                 id
-                image_alt
-                image_file_name
-                image_title
-                is_description_enabled
+                name
                 url_key
-                path
-                parent_id
                 meta_description
-                meta_keywords
-                meta_prefix
                 meta_title
-                sort_order
                 status
-                created_at
+                sort_order
                 updated_at
+                created_at
             }
         }
     }
@@ -50,6 +42,8 @@ export const getAllPost = gql`
         $page_size: Int,
         $current_page: Int,
         $category_id: Int,
+        $id: Int,
+        $url_key: String,
 
     ){
         getBlogByFilter(
@@ -57,6 +51,8 @@ export const getAllPost = gql`
             current_page: $current_page,
             filters: {
                 category_id: $category_id,
+                id: $id,
+                url_key: $url_key
             }
         ) {
             page_size,
