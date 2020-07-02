@@ -128,6 +128,14 @@ const cartSubSelection = `
         dest_latitude
         dest_longitude
     }
+    applied_cashback {
+        data {
+            amount
+            promo_name
+        }
+        is_cashback
+        total_cashback
+    }
 `;
 
 export const applyGiftCardToCart = gql`
