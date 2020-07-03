@@ -52,8 +52,8 @@ const ProfileForm = ({ t, data }) => {
         initialValues: {
             firstName: data.firstname,
             lastName: data.lastname,
-            phonenumber: data.phonenumber,
-            whatsapp_number: data.whatsapp_number,
+            phonenumber: data.phonenumber || '',
+            whatsapp_number: data.whatsapp_number || '',
             email: data.email,
             currentPassword: '',
             password: '',
