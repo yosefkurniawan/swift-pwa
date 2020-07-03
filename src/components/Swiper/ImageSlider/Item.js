@@ -1,8 +1,8 @@
 import ProductItem from '@components/ProductItem';
 
 const Item = (props) => (
-    <>
-        <div className="item-container">
+    <div>
+        <div className="item-carousel">
             <ProductItem
                 {...props}
                 variants={[]}
@@ -12,27 +12,27 @@ const Item = (props) => (
 
         <style jsx>
             {`
-                .item-container {
-                    padding: 0 8px,
-                    margin: 0px !important,
-                    height: 100%,
-                    overflow: hidden,
-                    width: 60vw,
-                    
+                .item-carousel {
+                    height: 100%;
+                    overflow: hidden;
+                    width: 60vw;
                 }
                 @media screen and (min-width: 600px) {
-                    .item-container {
-                        width: 300px;
+                    .item-carousel {
+                        width: 200px;
+                        height: 100%;
+                        overflow: hidden;
                     }
                 }
                 @media screen and (min-width: 960px) {
-                    .item-container {
+                    .item-carousel {
                         width: 270px;
+                        height: 100%;
                     }
                 }
             `}
         </style>
-    </>
+    </div>
 );
 
 export default Item;
