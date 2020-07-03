@@ -25,4 +25,4 @@ Page.getInitialProps = async () => ({
     withAuth: true,
 });
 
-export default withApollo({ ssr: true })(withTranslation()(Page));
+export default withApollo({ ssr: false })(withTranslation()(Page));
