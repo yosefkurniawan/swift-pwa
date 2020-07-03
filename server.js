@@ -112,6 +112,11 @@ async function renderAndCache(req, res) {
             /* serving manifest json */
             handle(req, res);
         });
+
+        server.get('/favicon.ico', (req, res) => {
+            /* serving manifest json */
+            handle(req, res);
+        });
     }
 
     await nextI18next.initPromise;
