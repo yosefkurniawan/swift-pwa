@@ -70,6 +70,9 @@ const Layout = (props) => {
         'og:type': 'website',
         ...ogContent,
     };
+    if (!ogData['og:description']) {
+        ogData['og:description'] = storeConfig.default_description;
+    }
     useEffect(() => {
         if (typeof window !== 'undefined') {
             window.toastMessage = handleSetToast;
@@ -92,6 +95,7 @@ const Layout = (props) => {
                 <meta name="robots" content="INDEX,FOLLOW" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="format-detection" content="telephone=no" />
+                <meta name="description" content={ogData['og:description']} />
                 {Object.keys(ogData).map((key, idx) => {
                     if (typeof ogData[key] === 'object' && ogData[key].type && ogData[key].type === 'meta') {
                         return <meta name={`${key}`} content={ogData[key].value} key={idx} />;
