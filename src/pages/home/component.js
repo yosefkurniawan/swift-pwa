@@ -94,7 +94,7 @@ const FeaturedProducts = () => {
                             </Link>
                         )}
                         <div className={styles.slider}>
-                            <Carousel data={products} />
+                            <Carousel data={[...products, ...products]} />
                         </div>
                     </Fragment>
                 );
