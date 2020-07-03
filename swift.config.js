@@ -134,7 +134,7 @@ const SESSION_SECRET = 'asdasdd1212ads12!!!@**DADxx1';
 const features = {
     facebookMetaId: {
         enabled: false,
-        app_id: 3080154482073095,
+        app_id: '', // if enabled add this id 3080154482073095
     },
     productListing: {
         configurableOptions: false,
