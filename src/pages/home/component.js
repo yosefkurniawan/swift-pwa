@@ -76,8 +76,17 @@ const FeaturedProducts = () => {
                 return (
                     <Fragment key={i}>
                         {category.image_path && (
-                            <Link href="[...slug]" as={category.url_path}>
-                                <a>
+                            <Link
+                                href="[...slug]"
+                                as={category.url_path}
+
+                            >
+                                <a style={{
+                                    width: '100%',
+                                    maxWidth: '100%',
+                                    height: 'auto',
+                                }}
+                                >
                                     <Thumbor
                                         src={category.image_path}
                                         alt={category.name}
