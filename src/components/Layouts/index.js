@@ -6,7 +6,7 @@ import Head from 'next/head';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
-import { custDataNameCookie } from '@config';
+import { custDataNameCookie, features } from '@config';
 import { getHost } from '@helpers/config';
 
 const Navigation = dynamic(() => import('@components/Navigation'));
@@ -70,6 +70,9 @@ const Layout = (props) => {
         'og:type': 'website',
         ...ogContent,
     };
+    if (features.facebookMetaId.enabled) {
+        ogData['fb:app_id'] = features.facebookMetaId.app_id;
+    }
     useEffect(() => {
         if (typeof window !== 'undefined') {
             window.toastMessage = handleSetToast;
