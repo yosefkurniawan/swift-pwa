@@ -48,6 +48,6 @@ module.exports = withCSS(withOffline({
             ];
         },
     },
-    // change this version every build on prod
-    generateBuildId: async () => 'swift-pwa-v1.0.0',
+    // enable code below on Prod and increase the version everytime before running build script
+    // generateBuildId: async () => 'swift-pwa-v1.0.0',
 }));
