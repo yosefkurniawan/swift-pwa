@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import Alert from '@material-ui/lab/Alert';
 import Content from './components';
 import DetailContent from './components/DetailBlog';
-import { getDetailBlog } from './services/graphql';
+import { getBlog } from './services/graphql';
 import Loader from './components/LoaderDetail';
 
 const Page = (props) => {
@@ -19,7 +19,12 @@ const Page = (props) => {
         bottomNav: false,
     };
     if (id) {
-        const { loading, data, error } = getDetailBlog(id);
+        const { loading, data, error } = getBlog({
+            page_size: 1,
+            current_page: 1,
+            category_id: 0,
+            url_key: id,
+        });
         if (loading && !data) return <Loader />;
         if (error) {
             return (
@@ -30,8 +35,8 @@ const Page = (props) => {
                 </Layout>
             );
         }
-        if (data && data.getBlogByFilter.data.length > 0) {
-            const blog = data.getBlogByFilter.data[0];
+        if (data && data.getBlogByFilter.items.length > 0) {
+            const blog = data.getBlogByFilter.items[0];
             pageConfig = {
                 title: blog.title,
                 header: 'relative', // available values: "absolute", "relative", false (default)
@@ -40,7 +45,7 @@ const Page = (props) => {
             };
             return (
                 <Layout pageConfig={pageConfig} {...props}>
-                    <DetailContent {...props} {...blog} />
+                    <DetailContent {...props} {...blog} short={false} />
                 </Layout>
             );
         } return <Error statusCode={404} />;

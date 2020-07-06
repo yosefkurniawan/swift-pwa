@@ -2,9 +2,11 @@ import { formatPrice } from '@helpers/currency';
 import { useFormik } from 'formik';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
+import Alert from '@material-ui/lab/Alert';
 import * as Yup from 'yup';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import { getLoginInfo } from '@helpers/auth';
+import Typography from '@components/Typography';
 import gqlService from '../services/graphql';
 import useStyles from '../style';
 import Address from './Address';
@@ -180,7 +182,7 @@ const Checkout = (props) => {
 
         // init shipping method
         if (shipping && shipping.available_shipping_methods) {
-            const availableShipping = shipping.available_shipping_methods.filter((x) => x.available);
+            const availableShipping = shipping.available_shipping_methods.filter((x) => x.available && x.carrier_code !== 'pickup');
             state.data.shippingMethods = availableShipping.map((item) => ({
                 ...item,
                 label: `${item.method_title} ${item.carrier_title}`,
@@ -279,8 +281,28 @@ const Checkout = (props) => {
         setCheckout(state);
     };
 
+    const chasbackMessage = t('checkout:cashbackInfo').split('$');
+
     return (
         <div className={styles.root}>
+            {
+                checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
+                    <div className="m-15">
+                        <Alert Saverity="success">
+                            { chasbackMessage[0] }
+                            <Typography type="bold">
+                                {formatPrice(checkout.data.cart.applied_cashback.data[0].amount,
+                                    storeConfig.base_currency_code)}
+                            </Typography>
+                            { chasbackMessage[1]}
+                            <Typography type="bold">
+                                {checkout.data.cart.applied_cashback.data[0].promo_name}
+                            </Typography>
+                            { chasbackMessage[2]}
+                        </Alert>
+                    </div>
+                )
+            }
             <div className={styles.container}>
                 {
                     storeConfig.pickup_store ? (

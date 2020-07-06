@@ -11,6 +11,7 @@ const query = `
         $phoneNumber: String!,
         $subscribe: Boolean,
         $otp: String!,
+        $whatsapp_number: String,
     ) {
         createCustomerCustom(
             input: {
@@ -21,6 +22,7 @@ const query = `
               phonenumber: $phoneNumber,
               is_subscribed: $subscribe,
               otp: $otp,
+              whatsapp_number: $whatsapp_number,
             }
           ) {
             token
@@ -37,6 +39,7 @@ const internalCreateCustomerToken = async (parent, args, context) => {
         phoneNumber: args.input.phonenumber,
         subscribe: args.input.is_subscribe,
         otp: args.input.otp,
+        whatsapp_number: args.input.whatsapp_number,
     };
     const res = await requestGraph(query, variables, context);
     // context.session.destroy();

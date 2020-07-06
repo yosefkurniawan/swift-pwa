@@ -1,46 +1,66 @@
 import { gql } from 'apollo-boost';
 
+const itemBlog = `
+    id
+    author_id
+    title
+    blog_post_url
+    category_ids
+    short_content
+    content
+    url_key
+    created_at
+    updated_at
+    customer_groups
+    tag_names
+    status
+    publish_date
+    featured_image_url
+    meta_twitter_site
+`;
+
 export const getCategory = gql`
-    {
-        getBlogCategory {
+    query getCategory($category_id: Int, $url_key: String,) {
+        getBlogCategory(category_id: $category_id, url_key: $url_key) {
             data {
-                name
-                description
                 id
-                image_alt
-                image_file_name
-                image_title
-                is_description_enabled
+                name
                 url_key
-                path
-                parent_id
                 meta_description
-                meta_keywords
-                meta_prefix
                 meta_title
-                sort_order
                 status
-                created_at
+                sort_order
                 updated_at
+                created_at
             }
         }
     }
 `;
 
 export const getAllPost = gql`
-    query getAllBlog($category_id: Int){
-        getBlogByFilter(category_id: $category_id) {
-            data {
-                id
-                title
-                author_id
-                url_key
-                short_content
-                publish_date
-                featured_image_url
-                featured_image_alt
-                content
-                created_at
+    query getAllBlog(
+        $page_size: Int,
+        $current_page: Int,
+        $category_id: Int,
+        $id: Int,
+        $url_key: String,
+
+    ){
+        getBlogByFilter(
+            page_size: $page_size,
+            current_page: $current_page,
+            filters: {
+                category_id: $category_id,
+                id: $id,
+                url_key: $url_key
+            }
+        ) {
+            page_size,
+            total_count
+            total_pages
+            current_page
+            items {
+             ${itemBlog}
             }
         }
     }

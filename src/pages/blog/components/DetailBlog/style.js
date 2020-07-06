@@ -2,22 +2,12 @@ import { makeStyles } from '@material-ui/core';
 import { Centering, CreateMargin } from '@theme/mixins';
 
 export default makeStyles((theme) => ({
-    container: {
-        width: '100%',
-        height: '100%',
-    },
     containerItemBlog: {
         padding: 15,
     },
     itemTitle: {
         fontSize: 20,
         marginBottom: 15,
-    },
-    listShareIcon: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-arround',
-        marginLeft: 10,
     },
     dateShare: {
         display: 'flex',
@@ -55,12 +45,5 @@ export default makeStyles((theme) => ({
         marginBottom: 30,
         alignItems: 'center',
         marginTop: 30,
-    },
-    btnCategoryContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        paddingRight: 20,
     },
 }));

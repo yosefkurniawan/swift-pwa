@@ -105,6 +105,8 @@ export const getCustomer = gql`
       lastname
       email
       is_subscribed
+      phonenumber
+      whatsapp_number
       addresses {
         id
         city

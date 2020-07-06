@@ -4,9 +4,9 @@ import Button from '@components/Button';
 import Typography from '@components/Typography';
 import TextField from '@components/Forms/TextField';
 import PasswordField from '@components/Forms/Password';
-// import { regexPhone } from '@helpers/regex';
+import { regexPhone } from '@helpers/regex';
 import {
-    FormControlLabel, Checkbox, Grid, CircularProgress,
+    FormControlLabel, Checkbox, Grid,
 } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -22,25 +22,7 @@ const ProfileForm = ({ t, data }) => {
     const [changeCustomerPassword, changeCustomerPasswordStatus] = gqlServices.changeCustomerPassword();
     const [editEmail, setEditEmail] = React.useState(false);
     const [editPass, setEditPass] = React.useState(false);
-
-    React.useEffect(() => {
-        if (typeof window !== 'undefined') showToast(updateCustomerStatus, t('customer:profile:successUpdate'));
-    }, [updateCustomerStatus]);
-
-    React.useEffect(() => {
-        if (typeof window !== 'undefined') showToast(changeCustomerPasswordStatus, t('customer:progile:successChangePass'));
-    }, [changeCustomerPasswordStatus]);
-
-    const showToast = (mutationStatus, successMessage) => {
-        const { error, loading, called } = mutationStatus;
-        if (!loading) {
-            if (error) {
-                window.toastMessage({ variant: 'error', open: true, message: error.message });
-            } else if (called) {
-                window.toastMessage({ variant: 'success', open: true, message: successMessage });
-            }
-        }
-    };
+    const [phoneIsWa, setPhoneIsWa] = React.useState(false);
 
     const ProfileSchema = Yup.object().shape({
         email: editEmail && Yup.string()
@@ -48,8 +30,8 @@ const ProfileForm = ({ t, data }) => {
             .required(t('validate:email:required')),
         firstName: Yup.string().required(t('validate:firstName:required')),
         lastName: Yup.string().required(t('validate:lastName:required')),
-        // telephone: Yup.string().required(t('validate:telephone:required'))
-        //     .matches(regexPhone, t('validate:phoneNumber:wrong')),
+        phonenumber: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
+        whatsapp_number: Yup.string().required(t('validate:whatsappNumber:required')).matches(regexPhone, t('validate:whatsappNumber:wrong')),
         currentPassword:
             (editEmail || editPass) && Yup.string().required(t('validate:password:required')),
         password:
@@ -68,9 +50,10 @@ const ProfileForm = ({ t, data }) => {
 
     const formik = useFormik({
         initialValues: {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            // telephone: data.telephone,
+            firstName: data.firstname,
+            lastName: data.lastname,
+            phonenumber: data.phonenumber || '',
+            whatsapp_number: data.whatsapp_number || '',
             email: data.email,
             currentPassword: '',
             password: '',
@@ -79,34 +62,59 @@ const ProfileForm = ({ t, data }) => {
         validationSchema: ProfileSchema,
         onSubmit: async (values, { setSubmitting, setFieldValue }) => {
             if (!updateCustomerStatus.loading && !changeCustomerPasswordStatus.loading) {
+                window.backdropLoader(true);
                 await updateCustomer({
                     variables: {
                         firstname: values.firstName,
                         lastname: values.lastName,
                         email: editEmail ? values.email : data.email,
                         password: values.currentPassword,
+                        phonenumber: values.phonenumber,
+                        whatsapp_number: values.whatsapp_number,
                     },
+                }).then(async () => {
+                    if (editEmail) {
+                        setFieldValue('currentPassword', '', false);
+                    }
+                    if (editPass) {
+                        await changeCustomerPassword({
+                            variables: {
+                                currentPassword: values.currentPassword,
+                                newPassword: values.password,
+                            },
+                        });
+                        setFieldValue('currentPassword', '', false);
+                        setFieldValue('password', '', false);
+                        setFieldValue('confirmPassword', '', false);
+                    }
+                    setEditEmail(false);
+                    setEditPass(false);
+                    setSubmitting(false);
+                    window.backdropLoader(false);
+                    window.toastMessage({ variant: 'success', open: true, text: t('customer:profile:successUpdate') });
+                }).catch((e) => {
+                    window.toastMessage({ variant: 'error', open: true, text: e.message.split(':')[1] || t('common:error:fetchError') });
+                    window.backdropLoader(false);
                 });
-                if (editEmail) {
-                    setFieldValue('currentPassword', '', false);
-                }
-                if (editPass) {
-                    await changeCustomerPassword({
-                        variables: {
-                            currentPassword: values.currentPassword,
-                            newPassword: values.password,
-                        },
-                    });
-                    setFieldValue('currentPassword', '', false);
-                    setFieldValue('password', '', false);
-                    setFieldValue('confirmPassword', '', false);
-                }
-                setEditEmail(false);
-                setEditPass(false);
-                setSubmitting(false);
             }
         },
     });
+
+    const handleWa = () => {
+        if (phoneIsWa === false) {
+            // eslint-disable-next-line no-use-before-define
+            formik.setFieldValue('whatsapp_number', formik.values.phonenumber);
+        }
+        setPhoneIsWa(!phoneIsWa);
+    };
+
+    const handleChangePhone = (event) => {
+        const { value } = event.target;
+        if (phoneIsWa) {
+            formik.setFieldValue('whatsapp_number', value);
+        }
+        formik.setFieldValue('phonenumber', value);
+    };
 
     return (
         <form className={styles.container} onSubmit={formik.handleSubmit}>
@@ -136,20 +144,36 @@ const ProfileForm = ({ t, data }) => {
                 }
             />
 
-            {/* <TextField
-                label="Telephone"
-                name="telephone"
-                value={formik.values.telephone}
-                onChange={formik.handleChange}
+            <TextField
+                label={t('common:form:phoneNumber')}
+                name="phonenumber"
+                value={formik.values.phonenumber}
+                onChange={handleChangePhone}
                 error={
-                    !!(formik.touched.telephone && formik.errors.telephone)
+                    !!(formik.touched.phonenumber && formik.errors.phonenumber)
                 }
                 errorMessage={
-                    (formik.touched.telephone && formik.errors.telephone) || null
+                    (formik.touched.phonenumber && formik.errors.phonenumber) || null
                 }
-                disabled={!edit}
-            /> */}
-
+                footer={(
+                    <FormControlLabel
+                        onChange={handleWa}
+                        className={styles.checkWa}
+                        control={<Checkbox name="whastapptrue" color="primary" size="small" />}
+                        label={<Typography variant="p">{t('customer:register:isWhatsapp')}</Typography>}
+                    />
+                )}
+            />
+            {!phoneIsWa && (
+                <TextField
+                    label={`${t('common:form:phoneNumber')} Whatsapp`}
+                    name="whatsapp_number"
+                    value={formik.values.whatsapp_number}
+                    onChange={formik.handleChange}
+                    error={!!(formik.touched.whatsapp_number && formik.errors.whatsapp_number)}
+                    errorMessage={(formik.touched.whatsapp_number && formik.errors.whatsapp_number) || null}
+                />
+            )}
             <FormControlLabel
                 className={styles.checkboxLabel}
                 onChange={() => setEditEmail(!editEmail)}
@@ -264,11 +288,7 @@ const ProfileForm = ({ t, data }) => {
                 <Button
                     fullWidth
                     type="submit"
-                    endIcon={
-                        updateCustomerStatus.loading || changeCustomerPasswordStatus.loading
-                            ? <CircularProgress size={18} color="secondary" />
-                            : null
-                    }
+                    loading={updateCustomerStatus.loading || changeCustomerPasswordStatus.loading}
                 >
                     {t('common:button:save')}
                 </Button>
@@ -316,12 +336,7 @@ const ProfilePage = (props) => {
     return (
         <ProfileForm
             {...props}
-            data={{
-                firstName: data.customer.firstname,
-                lastName: data.customer.lastname,
-                email: data.customer.email,
-                telephone: '081234567890',
-            }}
+            data={data.customer}
         />
     );
 };
