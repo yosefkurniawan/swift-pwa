@@ -1,5 +1,6 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
+import { withApollo } from '@lib/apollo';
 import { getHost } from '@helpers/config';
 import Content from './component';
 
@@ -39,4 +40,4 @@ const Page = (props) => {
 
 Page.getInitialProps = async () => ({ namespacesRequired: ['common', 'home'] });
 
-export default withTranslation()(Page);
+export default withApollo({ ssr: true })(withTranslation()(Page));

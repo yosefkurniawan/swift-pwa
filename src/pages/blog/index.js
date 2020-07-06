@@ -1,5 +1,6 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
+import { withApollo } from '@lib/apollo';
 import Error from 'next/error';
 import { useRouter } from 'next/router';
 import Alert from '@material-ui/lab/Alert';
@@ -61,4 +62,4 @@ Page.getInitialProps = async () => ({
     namespacesRequired: ['common'],
 });
 
-export default withTranslation()(Page);
+export default withApollo({ ssr: true })(withTranslation()(Page));

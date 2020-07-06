@@ -1,4 +1,4 @@
-import Carousel from '@components/Slider/Carousel';
+import Carousel from '@components/Swiper/ImageSlider';
 import Typography from '@components/Typography';
 import useStyles from './style';
 

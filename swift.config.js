@@ -132,6 +132,7 @@ const expiredDefault = 365;
 const SESSION_SECRET = 'asdasdd1212ads12!!!@**DADxx1';
 
 const features = {
+    ssrCache: true,
     facebookMetaId: {
         enabled: false,
         app_id: '', // if enabled add fb app id here. e.g. 3080154482073095
@@ -142,6 +143,22 @@ const features = {
         wishlist: true,
     },
 };
+
+const nossrCache = [
+    '/aw_rewardpoints/info',
+    '/sales/order/history',
+    '/customer/account/profile',
+    '/customer/account/address',
+    '/awgiftcard/card',
+    '/customer/account/storecredit',
+    '/inboxnotification/notification',
+    '/customer/setting',
+    '/rma/customer',
+    '/confirmpayment',
+    '/checkout',
+    '/checkout/cart',
+    '/graphql',
+];
 
 module.exports = {
     blog,
@@ -172,4 +189,5 @@ module.exports = {
     showBrandPage,
     enableSocialMediaLink,
     features,
+    nossrCache,
 };

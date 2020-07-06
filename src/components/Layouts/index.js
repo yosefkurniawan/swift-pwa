@@ -9,9 +9,9 @@ import Cookies from 'js-cookie';
 import { custDataNameCookie, features } from '@config';
 import { getHost } from '@helpers/config';
 
-const Navigation = dynamic(() => import('@components/Navigation'));
-const Message = dynamic(() => import('@components/Toast'));
-const Loading = dynamic(() => import('@components/Loaders/Backdrop'));
+const Navigation = dynamic(() => import('@components/Navigation'), { ssr: false });
+const Message = dynamic(() => import('@components/Toast'), { ssr: false });
+const Loading = dynamic(() => import('@components/Loaders/Backdrop'), { ssr: false });
 
 const Layout = (props) => {
     const {
@@ -59,6 +59,7 @@ const Layout = (props) => {
             },
         });
     };
+
     const ogData = {
         'og:title': pageConfig.title ? pageConfig.title : 'Swift PWA',
         'og:image': storeConfig.header_logo_src
@@ -70,9 +71,15 @@ const Layout = (props) => {
         'og:type': 'website',
         ...ogContent,
     };
+
+    if (!ogData['og:description']) {
+        ogData['og:description'] = storeConfig.default_description;
+    }
+
     if (features.facebookMetaId.enabled) {
         ogData['fb:app_id'] = features.facebookMetaId.app_id;
     }
+
     useEffect(() => {
         if (typeof window !== 'undefined') {
             window.toastMessage = handleSetToast;
@@ -88,6 +95,7 @@ const Layout = (props) => {
             TagManager.dataLayer(tagManagerArgs);
         }
     }, []);
+
     return (
         <>
             <Head>
@@ -95,6 +103,7 @@ const Layout = (props) => {
                 <meta name="robots" content="INDEX,FOLLOW" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="format-detection" content="telephone=no" />
+                <meta name="description" content={ogData['og:description']} />
                 {Object.keys(ogData).map((key, idx) => {
                     if (typeof ogData[key] === 'object' && ogData[key].type && ogData[key].type === 'meta') {
                         return <meta name={`${key}`} content={ogData[key].value} key={idx} />;
@@ -104,8 +113,8 @@ const Layout = (props) => {
                 <title>{pageConfig.title ? pageConfig.title : 'Swift PWA'}</title>
                 {schemaOrg
                     ? (
-                        schemaOrg.map((val) => (
-                            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} />
+                        schemaOrg.map((val, idx) => (
+                            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} key={idx} />
                         ))
                     ) : null}
             </Head>

@@ -16,7 +16,7 @@ const SpanCategory = ({
     return (
         <div className={styles.container}>
             <Grid container justify="center">
-                <Grid item sm={12} md={12} lg={12}>
+                <Grid item xs={12}>
                     <Link href="[...slug]" as={url}>
                         <a>
                             <Thumbor

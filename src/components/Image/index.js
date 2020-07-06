@@ -1,33 +1,40 @@
-/* eslint-disable no-param-reassign */
-import Skeleton from '@material-ui/lab/Skeleton';
-import useStyles from './style';
+/* eslint-disable func-names */
+/* eslint-disable no-unused-vars */
 
-const ThumborImage = ({
-    src, width = 500,
-    height = 500,
-    className = '',
-    alt = 'Image',
-    quality = 100,
-    style = {},
+const Image = ({
+    src, width = 500, height = 500, className = '', alt = 'Image', quality = 100, style = {},
 }) => {
-    const styles = useStyles();
-    const [loaded, setLoaded] = React.useState(typeof window === 'undefined');
+    const [loaded, setLoaded] = React.useState(false);
+
     return (
         <>
-            <Skeleton variant="rect" width={width} height={height} style={{ display: loaded || typeof window === 'undefined' ? 'none' : 'block' }} />
-            <img
-                style={style}
-                className={!loaded && typeof window !== 'undefined' ? styles.hideImage : className}
-                src={`https://thumbor.sirclocdn.xyz/unsafe/${width}x${height}/filters:quality(${quality})/${src}`}
-                alt={alt}
-                onLoad={() => setLoaded(true)}
-                onError={(e) => {
-                    setLoaded(true);
-                    e.target.onerror = null; e.target.src = '/assets/img/placeholder.png';
+            <div
+                // ref={imgContainer}
+                style={{
+                    backgroundColor: '#eee',
+                    width: '100%',
+                    position: 'relative',
+                    paddingTop: `${(height / width) * 100}%`,
                 }}
-            />
+            >
+                {typeof window !== 'undefined' ? (
+                    <img
+                        data-pagespeed-no-defer
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            position: 'absolute',
+                            top: '0',
+                            left: '0',
+                        }}
+                        className={`img ${className}`}
+                        src={`https://thumbor.sirclocdn.xyz/unsafe/${width}x${height}/filters:format(webp)/${src}`}
+                        alt={alt}
+                    />
+                ) : null}
+            </div>
         </>
     );
 };
 
-export default ThumborImage;
+export default Image;

@@ -1,8 +1,8 @@
 /* eslint-disable consistent-return */
-import Banner from '@components/Slider/Banner';
-import Carousel from '@components/Slider/Carousel';
-import CarouselSkeleton from '@components/Slider/Carousel/Skeleton';
+import Carousel from '@components/Swiper/ImageSlider';
+import CarouselSkeleton from '@components/Swiper/ImageSlider/Skeleton';
 import SpanCategory from '@components/SpanCategory';
+import Banner from '@components/Swiper/BannerSlider';
 import Alert from '@material-ui/lab/Alert';
 import { Fragment } from 'react';
 import Link from 'next/link';
@@ -105,8 +105,17 @@ const FeaturedProducts = ({ t }) => {
                     return (
                         <Fragment key={i}>
                             {category.image_path && (
-                                <Link href="[...slug]" as={category.url_path}>
-                                    <a>
+                                <Link
+                                    href="[...slug]"
+                                    as={category.url_path}
+
+                                >
+                                    <a style={{
+                                        width: '100%',
+                                        maxWidth: '100%',
+                                        height: 'auto',
+                                    }}
+                                    >
                                         <Thumbor
                                             src={category.image_path}
                                             alt={category.name}

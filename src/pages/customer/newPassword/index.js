@@ -1,5 +1,6 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
+import { withApollo } from '@lib/apollo';
 import Router from 'next/router';
 import Content from './component';
 
@@ -29,4 +30,4 @@ Page.getInitialProps = async ({ query, res }) => {
     };
 };
 
-export default withTranslation()(Page);
+export default withApollo({ ssr: false })(withTranslation()(Page));

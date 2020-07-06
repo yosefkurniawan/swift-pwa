@@ -1,6 +1,9 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
-import Content from './components';
+import { withApollo } from '@lib/apollo';
+import dynamic from 'next/dynamic';
+
+const Component = dynamic(() => import('./components'), { ssr: false });
 
 const Page = (props) => {
     const { t } = props;
@@ -12,7 +15,7 @@ const Page = (props) => {
     };
     return (
         <Layout pageConfig={pageConfig} {...props}>
-            <Content {...props} />
+            <Component {...props} />
         </Layout>
     );
 };
@@ -22,4 +25,4 @@ Page.getInitialProps = async () => ({
     withAuth: true,
 });
 
-export default withTranslation()(Page);
+export default withApollo({ ssr: true })(withTranslation()(Page));
