@@ -100,12 +100,20 @@ const ProfileForm = ({ t, data }) => {
         },
     });
 
-    const handleWa = async () => {
+    const handleWa = () => {
         if (phoneIsWa === false) {
             // eslint-disable-next-line no-use-before-define
             formik.setFieldValue('whatsapp_number', formik.values.phonenumber);
         }
         setPhoneIsWa(!phoneIsWa);
+    };
+
+    const handleChangePhone = (event) => {
+        const { value } = event.target;
+        if (phoneIsWa) {
+            formik.setFieldValue('whatsapp_number', value);
+        }
+        formik.setFieldValue('phonenumber', value);
     };
 
     return (
@@ -140,7 +148,7 @@ const ProfileForm = ({ t, data }) => {
                 label={t('common:form:phoneNumber')}
                 name="phonenumber"
                 value={formik.values.phonenumber}
-                onChange={formik.handleChange}
+                onChange={handleChangePhone}
                 error={
                     !!(formik.touched.phonenumber && formik.errors.phonenumber)
                 }

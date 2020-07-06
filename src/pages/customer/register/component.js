@@ -44,14 +44,6 @@ const Register = ({ t, storeConfig }) => {
 
     const [sendRegister] = register();
 
-    const handleWa = async () => {
-        if (phoneIsWa === false) {
-            // eslint-disable-next-line no-use-before-define
-            formik.setFieldValue('whatsappNumber', formik.values.phoneNumber);
-        }
-        setPhoneIsWa(!phoneIsWa);
-    };
-
     const RegisterSchema = Yup.object().shape({
         email: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
         firstName: Yup.string().required(t('validate:firstName:required')),
@@ -102,6 +94,22 @@ const Register = ({ t, storeConfig }) => {
                 });
         },
     });
+
+    const handleWa = () => {
+        if (phoneIsWa === false) {
+            // eslint-disable-next-line no-use-before-define
+            formik.setFieldValue('whatsappNumber', formik.values.phoneNumber);
+        }
+        setPhoneIsWa(!phoneIsWa);
+    };
+
+    const handleChangePhone = (event) => {
+        const { value } = event.target;
+        if (phoneIsWa === true) {
+            formik.setFieldValue('whatsappNumber', value);
+        }
+        formik.setFieldValue('phoneNumber', value);
+    };
 
     if (cartData.data && custData.data) {
         Cookies.set(custDataNameCookie, {
@@ -202,7 +210,7 @@ const Register = ({ t, storeConfig }) => {
                         phoneProps={{
                             name: 'phoneNumber',
                             value: formik.values.phoneNumber,
-                            onChange: formik.handleChange,
+                            onChange: handleChangePhone,
                             error: !!(formik.errors.phoneNumber && formik.touched.phoneNumber),
                             errorMessage: (formik.touched.phoneNumber && formik.errors.phoneNumber) || null,
                         }}
@@ -227,7 +235,7 @@ const Register = ({ t, storeConfig }) => {
                         label={t('common:form:phoneNumber')}
                         name="phoneNumber"
                         value={formik.values.phoneNumber}
-                        onChange={formik.handleChange}
+                        onChange={handleChangePhone}
                         error={!!(formik.touched.phoneNumber && formik.errors.phoneNumber)}
                         errorMessage={(formik.touched.phoneNumber && formik.errors.phoneNumber) || null}
                         footer={(
