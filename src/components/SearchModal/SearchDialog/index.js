@@ -1,16 +1,18 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React from 'react';
-import {
-    Dialog, Grow, AppBar, Toolbar, IconButton,
-} from '@material-ui/core';
-import { Close as CloseIcon } from '@material-ui/icons';
-import Typography from '@components/Typography';
 import TextField from '@components/Forms/TextField';
+import Typography from '@components/Typography';
+import { useTranslation } from '@i18n';
+import Dialog from '@material-ui/core/Dialog';
+import Grow from '@material-ui/core/Grow';
+import IconButton from '@material-ui/core/IconButton';
+import Toolbar from '@material-ui/core/Toolbar';
+import AppBar from '@material-ui/core/AppBar';
+import CloseIcon from '@material-ui/icons/Close';
 import classNames from 'classnames';
 import Router from 'next/router';
-import { useTranslation } from '@i18n';
+import React from 'react';
 import useStyles from './style';
 
 const data = [

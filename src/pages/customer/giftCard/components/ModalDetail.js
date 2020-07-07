@@ -1,8 +1,12 @@
 import Header from '@components/Header';
 import Typography from '@components/Typography';
-import {
-    Dialog, DialogContent, DialogTitle, List, ListItem, ListItemSecondaryAction, ListItemText,
-} from '@material-ui/core';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Alert from '@material-ui/lab/Alert';
 import React from 'react';
 import { formatPrice } from '@helpers/currency';

@@ -2,7 +2,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { Drawer } from '@material-ui/core';
+import Drawer from '@material-ui/core/Drawer';
 import Typography from '@components/Typography';
 import Link from 'next/link';
 import useStyles from './style';

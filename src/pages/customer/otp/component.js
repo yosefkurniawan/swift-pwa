@@ -1,7 +1,8 @@
 import Button from '@components/Button';
 import Typography from '@components/Typography';
-import { Input, Paper } from '@material-ui/core';
-import { MailOutline } from '@material-ui/icons';
+import Input from '@material-ui/core/Input';
+import Paper from '@material-ui/core/Paper';
+import MailOutline from '@material-ui/icons/MailOutline';
 import { useRouter } from 'next/router';
 import useStyles from './style';
 

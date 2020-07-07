@@ -1,5 +1,11 @@
+/* eslint-disable global-require */
 import { passwordStrength } from '@config';
-import zxcvbn from './zxcvbn';
+
+let zxcvbn = '';
+
+if (typeof window !== 'undefined') {
+    zxcvbn = require('./zxcvbn');
+}
 
 const defaultValue = passwordStrength.minValue;
 const defaultRequiredClass = passwordStrength.numberOfRequiredClass;
@@ -10,51 +16,54 @@ const number = '(?=.*[0-9])';
 const special = '(?=.*[!@#$%^&=?<>+.*_-])';
 
 const getScore = (password, minValue, numberOfRequiredClass) => {
-    if (password === '' || !password) {
-        return 0;
+    if (typeof window !== 'undefined') {
+        if (password === '' || !password) {
+            return 0;
+        }
+
+        const valid1 = new RegExp(
+            `^(${lower}|${upper}|${number}|${special})(?=.{${minValue},})`,
+        );
+
+        const valid2 = new RegExp(
+            `^((${lower + upper})|(${lower + number})|(${number + upper})|(${
+                lower + special
+            })|(${special + upper}))(?=.{${minValue},})`,
+        );
+
+        const valid3 = new RegExp(
+            `^((${lower + upper + number})|(${lower + upper + special})|(${
+                special + lower + number
+            })|(${special + upper + number}))(?=.{${minValue},})`,
+        );
+
+        const valid4 = new RegExp(
+            `^(${lower + upper + number + special})(?=.{${minValue},})`,
+        );
+
+        let valid;
+
+        switch (numberOfRequiredClass) {
+        case 1:
+            valid = valid1.test(password);
+            break;
+        case 2:
+            valid = valid2.test(password);
+            break;
+        case 3:
+            valid = valid3.test(password);
+            break;
+        case 4:
+            valid = valid4.test(password);
+            break;
+        default:
+            break;
+        }
+
+        const zxcvbnScore = zxcvbn(password).score;
+        return valid === true && zxcvbnScore > 0 ? zxcvbnScore : 1;
     }
-
-    const valid1 = new RegExp(
-        `^(${lower}|${upper}|${number}|${special})(?=.{${minValue},})`,
-    );
-
-    const valid2 = new RegExp(
-        `^((${lower + upper})|(${lower + number})|(${number + upper})|(${
-            lower + special
-        })|(${special + upper}))(?=.{${minValue},})`,
-    );
-
-    const valid3 = new RegExp(
-        `^((${lower + upper + number})|(${lower + upper + special})|(${
-            special + lower + number
-        })|(${special + upper + number}))(?=.{${minValue},})`,
-    );
-
-    const valid4 = new RegExp(
-        `^(${lower + upper + number + special})(?=.{${minValue},})`,
-    );
-
-    let valid;
-
-    switch (numberOfRequiredClass) {
-    case 1:
-        valid = valid1.test(password);
-        break;
-    case 2:
-        valid = valid2.test(password);
-        break;
-    case 3:
-        valid = valid3.test(password);
-        break;
-    case 4:
-        valid = valid4.test(password);
-        break;
-    default:
-        break;
-    }
-
-    const zxcvbnScore = zxcvbn(password).score;
-    return valid === true && zxcvbnScore > 0 ? zxcvbnScore : 1;
+    return 0;
 };
 
 export default ({

@@ -139,7 +139,7 @@ const features = {
     },
     productListing: {
         configurableOptions: false,
-        rating: true,
+        rating: false,
         wishlist: true,
     },
 };

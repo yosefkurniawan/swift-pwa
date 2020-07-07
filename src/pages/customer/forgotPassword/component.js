@@ -9,7 +9,8 @@ import { useFormik } from 'formik';
 import { regexPhone } from '@helpers/regex';
 import * as Yup from 'yup';
 import Router from 'next/router';
-import { FormControlLabel, Switch } from '@material-ui/core';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import { requestLinkToken } from './services/graphql';
 import useStyles from './style';
 

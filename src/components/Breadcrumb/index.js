@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {
-    Link, Breadcrumbs, makeStyles, NoSsr,
-} from '@material-ui/core';
+import Link from '@material-ui/core/Link';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import NoSsr from '@material-ui/core/NoSsr';
 import Chip from '@material-ui/core/Chip';
 import Typography from '@components/Typography';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateNext from '@material-ui/icons/NavigateNext';
 import Router from 'next/router';
 
 const useStyles = makeStyles({
@@ -22,7 +23,7 @@ const CustomBreadcrumb = ({ data = [], variant = 'text' }) => {
     };
     const styles = useStyles();
     return (
-        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} className={styles.root}>
+        <Breadcrumbs separator={<NavigateNext fontSize="small" />} className={styles.root}>
             <Link color="secondary" onClick={() => Router.push('/')} className={styles.home}>
                 <Typography variant="p">Home</Typography>
             </Link>

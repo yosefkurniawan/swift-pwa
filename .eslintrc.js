@@ -45,6 +45,12 @@ module.exports = {
                 aspects: ['invalidHref', 'preferButton'],
             },
         ],
+        'no-restricted-imports': [
+            'error',
+            {
+                paths: ['@material-ui/core', '@material-ui/icons', '@material-ui/lab'],
+            },
+        ],
     },
     settings: {
         'import/parser': 'babel-eslint',

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Typography from '@components/Typography';
-import { Radio } from '@material-ui/core';
+import Radio from '@material-ui/core/Radio';
 import useStyles from './style';
 
 const RadioDeliveryItem = (props) => {

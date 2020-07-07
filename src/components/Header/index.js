@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
-import { ArrowBack, Close as CloseIcon } from '@material-ui/icons';
+import Button from '@material-ui/core/Button';
+import ArrowBack from '@material-ui/icons/ArrowBack';
+import CloseIcon from '@material-ui/icons/Close';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
 import Typography from '@components/Typography';

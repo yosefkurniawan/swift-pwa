@@ -1,4 +1,6 @@
-import { FormControl, Input, InputLabel } from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 import classNames from 'classnames';
 import Typography from '@components/Typography';
 import useStyles from './style';

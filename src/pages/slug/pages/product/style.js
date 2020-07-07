@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
     GRAY_PRIMARY, PRIMARY, WHITE, GRAY_SECONDARY,
 } from '@theme/colors';

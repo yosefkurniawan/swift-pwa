@@ -3,8 +3,9 @@
 /* eslint-disable-next-line jsx-a11y/click-events-have-key-events */
 import { getCartId, setCartId } from '@helpers/cartId';
 import { getLoginInfo } from '@helpers/auth';
-import { Badge, makeStyles } from '@material-ui/core';
-import { LocalMall } from '@material-ui/icons';
+import Badge from '@material-ui/core/Badge';
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import LocalMall from '@material-ui/icons/LocalMall';
 import { GraphCart } from '@services/graphql';
 import { getCartIdUser } from '@services/graphql/schema/cart';
 import { useQuery } from '@apollo/react-hooks';

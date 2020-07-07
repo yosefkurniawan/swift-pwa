@@ -1,17 +1,15 @@
 import BrowseModal from '@components/SearchModal';
 import ShoppingBagIcon from '@components/ShoppingBagIcon';
 import { withApollo } from '@lib/apollo';
-import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
-import {
-    Home as HomeIcon,
-    Person as PersonIcon,
-    Search as SearchIcon,
-} from '@material-ui/icons';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import HomeIcon from '@material-ui/icons/Home';
+import PersonIcon from '@material-ui/icons/Person';
+import SearchIcon from '@material-ui/icons/Search';
 import Router from 'next/router';
 import { useState } from 'react';
 import useStyles from './style';
 
-// active: true (default), "home", "browse", "cart", "account"
 const Navigation = ({ active }) => {
     const styles = useStyles();
     const [openModal, setOpenModal] = useState(false);

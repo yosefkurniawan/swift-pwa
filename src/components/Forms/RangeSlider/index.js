@@ -1,6 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/require-default-props */
-import { Slider, withStyles } from '@material-ui/core';
+import Slider from '@material-ui/core/Slider';
+import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@components/Typography';
 import PropTypes from 'prop-types';
 import { formatPrice } from '@helpers/currency';

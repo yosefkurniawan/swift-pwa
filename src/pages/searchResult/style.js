@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import { GRAY_PRIMARY, GRAY_SECONDARY } from '@theme/colors';
 import { FlexColumn, FlexRow, CreatePadding } from '@theme/mixins';
 import { FONT_10 } from '@theme/typography';

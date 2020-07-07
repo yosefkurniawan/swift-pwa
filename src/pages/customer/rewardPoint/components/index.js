@@ -1,19 +1,17 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-undef */
-import {
-    List,
-    ListItem,
-    ListItemText,
-    ListItemSecondaryAction,
-    TableContainer,
-    Paper,
-    Table,
-    TableBody,
-    TableHead,
-    TableRow,
-    TableCell,
-    TablePagination,
-} from '@material-ui/core';
+import TableContainer from '@material-ui/core/TableContainer';
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import TablePagination from '@material-ui/core/TablePagination';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@components/Typography';
 import Alert from '@material-ui/lab/Alert';
 import { GraphCustomer } from '@services/graphql';

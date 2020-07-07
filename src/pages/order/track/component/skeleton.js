@@ -1,4 +1,4 @@
-import { Skeleton } from '@material-ui/lab';
+import Skeleton from '@material-ui/lab/Skeleton';
 import useStyles from './style';
 
 const SkeleteonTracking = () => {

@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router';
-import { Grid } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
+import Grid from '@material-ui/core/Grid';
+import Skeleton from '@material-ui/lab/Skeleton';
 import Typography from '@components/Typography';
 import gqlServices from './service/graphql';
-
 
 const NotificationDataSkeleton = () => {
     const SkeletonRect = ({ width, height, marginBottom }) => (

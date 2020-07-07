@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
-import { Slide } from '@material-ui/core';
+import Slide from '@material-ui/core/Slide';
 import Router from 'next/router';
 import { showBrandPage } from '@config';
 import useStyles from './style';
@@ -54,7 +54,6 @@ const Category = ({
                                         >
                                             {catlvl2.name}
                                         </Typography>
-
 
                                     </Button>
                                 </Typography>
