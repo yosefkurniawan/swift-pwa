@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import { GRAY_PRIMARY, PRIMARY } from '@theme/colors';
 import { Centering } from '@theme/mixins';
 

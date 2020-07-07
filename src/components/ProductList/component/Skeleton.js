@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import ProductItemSkeleton from '@components/ProductItem/component/Skeleton';
 
 const ProductListSkeleton = () => {

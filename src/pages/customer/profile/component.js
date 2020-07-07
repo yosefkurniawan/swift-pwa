@@ -5,12 +5,12 @@ import Typography from '@components/Typography';
 import TextField from '@components/Forms/TextField';
 import PasswordField from '@components/Forms/Password';
 import { regexPhone } from '@helpers/regex';
-import {
-    FormControlLabel, Checkbox, Grid,
-} from '@material-ui/core';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Grid from '@material-ui/core/Grid';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Skeleton } from '@material-ui/lab';
+import Skeleton from '@material-ui/lab/Skeleton';
 import useStyles from './style';
 import { getCustomer } from '../../../services/graphql/repository/customer';
 import gqlServices from './services/graphql';

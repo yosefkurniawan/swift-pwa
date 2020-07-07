@@ -1,18 +1,19 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import {
-    AppBar, Dialog, IconButton, Slide,
-} from '@material-ui/core';
-import { Close as CloseIcon } from '@material-ui/icons';
-import React from 'react';
-import Typography from '@components/Typography';
 import Button from '@components/Button';
 import TextField from '@components/Forms/TextField';
+import Typography from '@components/Typography';
 import { useTranslation } from '@i18n';
-import classNames from 'classnames';
+import AppBar from '@material-ui/core/AppBar';
+import Dialog from '@material-ui/core/Dialog';
+import IconButton from '@material-ui/core/IconButton';
+import Slide from '@material-ui/core/Slide';
+import CloseIcon from '@material-ui/icons/Close';
 import Alert from '@material-ui/lab/Alert';
-import useStyles from './style';
+import classNames from 'classnames';
+import React from 'react';
 import gqlService from '../../services/graphql';
+import useStyles from './style';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 

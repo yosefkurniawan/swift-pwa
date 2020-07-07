@@ -7,13 +7,12 @@ import { setCheckoutData } from '@helpers/cookies';
 import { GraphCart } from '@services/graphql';
 import Routes from 'next/router';
 import _ from 'lodash';
-import {
-    ExpansionPanel,
-    ExpansionPanelDetails,
-    ExpansionPanelSummary,
-    CircularProgress,
-} from '@material-ui/core';
-import { ExpandLess, ExpandMore } from '@material-ui/icons';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 import { formatPrice } from '@helpers/currency';
 import useStyles from './style';
 import gqlService from '../../services/graphql';

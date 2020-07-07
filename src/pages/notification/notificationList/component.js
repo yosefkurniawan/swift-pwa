@@ -1,7 +1,8 @@
-import {
-    List, ListItem, ListItemText, Grid,
-} from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Grid from '@material-ui/core/Grid';
+import ListItemText from '@material-ui/core/ListItemText';
+import Skeleton from '@material-ui/lab/Skeleton';
 import Router from 'next/router';
 import Typography from '@components/Typography';
 import gqlService from './service/graphql';

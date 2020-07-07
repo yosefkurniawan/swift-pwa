@@ -3,7 +3,7 @@
 import React from 'react';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
-import { Tune } from '@material-ui/icons';
+import Tune from '@material-ui/icons/Tune';
 import PropTypes from 'prop-types';
 import GridList from '@components/GridList';
 import ProductItem from '@components/ProductItem';
@@ -12,7 +12,7 @@ import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helpers/generateQuery';
 import CustomTabs from '@components/Tabs';
 import Skeleton from '@material-ui/lab/Skeleton';
-import { Alert } from '@material-ui/lab';
+import Alert from '@material-ui/lab/Alert';
 import TagManager from 'react-gtm-module';
 import { storeConfigNameCokie } from '@config';
 import cookies from 'js-cookie';

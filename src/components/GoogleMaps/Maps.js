@@ -11,7 +11,8 @@ import {
     GoogleMap,
     Marker,
 } from 'react-google-maps';
-import { InputAdornment, TextField } from '@material-ui/core';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/SearchOutlined';
 import { useTranslation } from '@i18n';
 import Cookies from 'js-cookie';

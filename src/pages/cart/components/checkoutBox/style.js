@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import { WHITE } from '@theme/colors';
 import { CreatePadding, CreateMargin } from '@theme/mixins';
 

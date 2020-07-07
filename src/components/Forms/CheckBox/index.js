@@ -1,5 +1,6 @@
 import Typography from '@components/Typography';
-import { Checkbox, FormControlLabel } from '@material-ui/core';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import classNames from 'classnames';
 import useStyles from './style';
 

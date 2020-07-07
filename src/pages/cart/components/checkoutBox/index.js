@@ -1,4 +1,4 @@
-import { Slide } from '@material-ui/core';
+import Slide from '@material-ui/core/Slide';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
 import Router from 'next/router';

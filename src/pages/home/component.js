@@ -7,7 +7,7 @@ import Alert from '@material-ui/lab/Alert';
 import { Fragment } from 'react';
 import Link from 'next/link';
 import Skeleton from '@components/Skeleton';
-import { Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import { imageSize } from '@config';
 import gqlService from './service/graphql';
 import useStyles from './style';

@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-expressions */
 import React from 'react';
-import { Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@components/Typography';
 import classNames from 'classnames';
 import useStyles from './style';

@@ -1,7 +1,10 @@
-import {
-    AppBar, Dialog, IconButton, Slide, Toolbar, Grid,
-} from '@material-ui/core';
-import { ArrowBack } from '@material-ui/icons';
+import AppBar from '@material-ui/core/AppBar';
+import Dialog from '@material-ui/core/Dialog';
+import IconButton from '@material-ui/core/IconButton';
+import Slide from '@material-ui/core/Slide';
+import Toolbar from '@material-ui/core/Toolbar';
+import Grid from '@material-ui/core/Grid';
+import ArrowBack from '@material-ui/icons/ArrowBack';
 import React, { useState } from 'react';
 import { GraphCategory } from '@services/graphql';
 import TextField from '@components/Forms/TextField';

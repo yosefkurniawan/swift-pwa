@@ -10,8 +10,8 @@
 // Library
 import AddressFormDialog from '@components/AddressFormDialog';
 import Button from '@components/Button';
-import { RadioGroup } from '@material-ui/core';
-import { Add } from '@material-ui/icons';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Add from '@material-ui/icons/Add';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { GraphCustomer } from '@services/graphql';

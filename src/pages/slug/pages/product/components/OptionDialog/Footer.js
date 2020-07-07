@@ -1,8 +1,7 @@
 import Button from '@components/Button';
 import Typography from '@components/Typography';
-import {
-    MenuItem, Select,
-} from '@material-ui/core';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 // import Router from 'next/router';
 import React from 'react';
 import useStyles from './style';

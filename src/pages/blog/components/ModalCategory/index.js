@@ -1,14 +1,14 @@
 /* eslint-disable consistent-return */
-import {
-    Dialog, Slide, Grid,
-} from '@material-ui/core';
-import React from 'react';
-import Typography from '@components/Typography';
-import Skeleton from '@components/Skeleton';
 import Button from '@components/Button';
 import Header from '@components/Header';
-import Router from 'next/router';
+import Skeleton from '@components/Skeleton';
+import Typography from '@components/Typography';
+import Dialog from '@material-ui/core/Dialog';
+import Grid from '@material-ui/core/Grid';
+import Slide from '@material-ui/core/Slide';
 import Alert from '@material-ui/lab/Alert';
+import Router from 'next/router';
+import React from 'react';
 import { getCategory } from '../../services/graphql/index';
 import useStyles from './style';
 

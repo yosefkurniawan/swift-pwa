@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@components/Typography';
 import Link from 'next/link';
 import { useTranslation } from '@i18n';

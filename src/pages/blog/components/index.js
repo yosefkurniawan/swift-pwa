@@ -3,7 +3,7 @@ import React from 'react';
 import Alert from '@material-ui/lab/Alert';
 import Button from '@components/Button';
 import Typography from '@components/Typography';
-import { Menu } from '@material-ui/icons';
+import Menu from '@material-ui/icons/Menu';
 import { getBlog } from '../services/graphql';
 import * as Schema from '../services/graphql/schema';
 import useStyles from '../style';
