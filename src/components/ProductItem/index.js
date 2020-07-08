@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Button from '@components/Button';
 import Typography from '@components/Typography';
-import { Favorite, FavoriteBorderOutlined } from '@material-ui/icons';
-import { Link } from '@material-ui/core';
+import Favorite from '@material-ui/icons/Favorite';
+import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
+import Link from '@material-ui/core/Link';
 import classNames from 'classnames';
 import route from 'next/router';
 import React from 'react';

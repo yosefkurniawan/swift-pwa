@@ -1,4 +1,5 @@
-import { Tab as Item, Tabs as Container } from '@material-ui/core';
+import Item from '@material-ui/core/Tab';
+import Container from '@material-ui/core/Tabs';
 import { withStyles } from '@material-ui/core/styles';
 import { GRAY_SECONDARY, PRIMARY } from '@theme/colors';
 import { FONT_DEFAULT, FONT_12 } from '@theme/typography';

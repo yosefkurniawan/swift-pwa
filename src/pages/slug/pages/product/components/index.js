@@ -1,15 +1,13 @@
 /* eslint-disable array-callback-return */
 import Button from '@components/Button';
 import PriceFormat from '@components/PriceFormat';
-import Banner from '@components/Swiper/BannerSlider';
-import Caraousel from '@components/Swiper/ImageSlider';
+import Banner from '@components/Slider/Banner';
+import Caraousel from '@components/Slider/Carousel';
 import Typography from '@components/Typography';
-import { IconButton } from '@material-ui/core';
-import {
-    Favorite,
-    FavoriteBorderOutlined,
-    ShareOutlined,
-} from '@material-ui/icons';
+import IconButton from '@material-ui/core/IconButton';
+import Favorite from '@material-ui/icons/Favorite';
+import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
+import ShareOutlined from '@material-ui/icons/ShareOutlined';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import React from 'react';

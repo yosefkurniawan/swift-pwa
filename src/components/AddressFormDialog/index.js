@@ -5,10 +5,12 @@ import IcubeMaps from '@components/GoogleMaps/Maps';
 import Header from '@components/Header';
 import Typography from '@components/Typography';
 import { regexPhone } from '@helpers/regex';
-import {
-    Checkbox, CircularProgress, Dialog, FormControlLabel, TextField,
-} from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
+import Checkbox from '@material-ui/core/Checkbox';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Dialog from '@material-ui/core/Dialog';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useFormik } from 'formik';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';

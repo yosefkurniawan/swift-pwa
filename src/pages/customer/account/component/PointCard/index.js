@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import { GraphCustomer } from '@services/graphql';
 import Link from 'next/link';
 

@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { Dialog, Fade } from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import Fade from '@material-ui/core/Fade';
 // import Router from 'next/router';
 import React from 'react';
 import ConfigurableOption from './ConfigurableOption';
@@ -19,7 +20,6 @@ const OptionDialog = (props) => {
     } = props;
     const styles = useStyles();
     const [loading, setLoading] = React.useState(false);
-
 
     return (
         <>

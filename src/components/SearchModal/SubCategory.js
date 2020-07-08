@@ -1,8 +1,9 @@
 import React from 'react';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
-import { Slide, IconButton } from '@material-ui/core';
-import { ArrowBack } from '@material-ui/icons';
+import IconButton from '@material-ui/core/IconButton';
+import Slide from '@material-ui/core/Slide';
+import ArrowBack from '@material-ui/icons/ArrowBack';
 import Router from 'next/router';
 import useStyles from './style';
 

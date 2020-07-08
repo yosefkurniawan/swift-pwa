@@ -1,17 +1,19 @@
 /* eslint-disable consistent-return */
-import Carousel from '@components/Swiper/ImageSlider';
-import CarouselSkeleton from '@components/Swiper/ImageSlider/Skeleton';
-import SpanCategory from '@components/SpanCategory';
-import Banner from '@components/Swiper/BannerSlider';
-import Alert from '@material-ui/lab/Alert';
+import CarouselSkeleton from '@components/Slider/Carousel/Skeleton';
 import { Fragment } from 'react';
 import Link from 'next/link';
 import Skeleton from '@components/Skeleton';
-import { Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import { imageSize } from '@config';
+import dynamic from 'next/dynamic';
 import gqlService from './service/graphql';
 import useStyles from './style';
 import Thumbor from '../../components/Image';
+
+const Banner = dynamic(() => import('@components/Slider/Banner'));
+const Carousel = dynamic(() => import('@components/Slider/Carousel'));
+const SpanCategory = dynamic(() => import('@components/SpanCategory'));
+const Alert = dynamic(() => import('@material-ui/lab/Alert'));
 
 const BannerSliderSkeleteon = () => {
     const styles = useStyles();

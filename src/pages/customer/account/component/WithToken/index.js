@@ -1,11 +1,12 @@
 // Library
 import Link from 'next/link';
 import React from 'react';
-import Carousel from '@components/Swiper/ImageSlider';
+import Carousel from '@components/Slider/Carousel';
 import Typography from '@components/Typography';
 import { GraphCustomer } from '@services/graphql';
 import { customerFeautres } from '@config';
-import { Badge, withStyles } from '@material-ui/core';
+import Badge from '@material-ui/core/Badge';
+import withStyles from '@material-ui/core/styles/withStyles';
 import gqlService from '../../services/graphql';
 import Footer from '../Footer';
 import Loaders from '../Loader';

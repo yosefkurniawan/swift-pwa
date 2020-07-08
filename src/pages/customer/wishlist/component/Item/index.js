@@ -2,8 +2,8 @@ import Button from '@components/Button';
 import PriceFormat from '@components/PriceFormat';
 import Typography from '@components/Typography';
 import ConfirmationDelete from '@components/ConfirmDialog';
-import { IconButton } from '@material-ui/core';
-import { Delete } from '@material-ui/icons';
+import IconButton from '@material-ui/core/IconButton';
+import Delete from '@material-ui/icons/Delete';
 import Link from 'next/link';
 import useStyles from './style';
 

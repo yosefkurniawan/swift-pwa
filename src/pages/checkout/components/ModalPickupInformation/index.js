@@ -1,17 +1,18 @@
-import {
-    AppBar, Dialog, IconButton, Slide,
-} from '@material-ui/core';
-import { Close as CloseIcon } from '@material-ui/icons';
-import React from 'react';
-import Typography from '@components/Typography';
 import Button from '@components/Button';
 import TextField from '@components/Forms/TextField';
-import { useTranslation } from '@i18n';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import Typography from '@components/Typography';
 import { regexPhone } from '@helpers/regex';
-import useStyles from './style';
+import { useTranslation } from '@i18n';
+import AppBar from '@material-ui/core/AppBar';
+import Dialog from '@material-ui/core/Dialog';
+import IconButton from '@material-ui/core/IconButton';
+import Slide from '@material-ui/core/Slide';
+import CloseIcon from '@material-ui/icons/Close';
+import { useFormik } from 'formik';
+import React from 'react';
+import * as Yup from 'yup';
 import gqlService from '../../services/graphql';
+import useStyles from './style';
 
 const Transition = React.forwardRef((props, ref) => (
     <Slide direction="up" ref={ref} {...props} />

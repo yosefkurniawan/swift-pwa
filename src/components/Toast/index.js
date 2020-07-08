@@ -1,4 +1,5 @@
-import { Snackbar, makeStyles } from '@material-ui/core';
+import Snackbar from '@material-ui/core/Snackbar';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles({

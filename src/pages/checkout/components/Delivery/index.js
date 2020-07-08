@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Typography from '@components/Typography';
-import { Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import Skeleton from '@material-ui/lab/Skeleton';
 import classNames from 'classnames';
 import TagManager from 'react-gtm-module';

@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import { CreateBorder, CreateMargin, CreatePadding } from '@theme/mixins';
 import { PRIMARY } from '@theme/colors';
 import { FONT_DEFAULT, FONT_10, FONT_REGULAR } from '@theme/typography';

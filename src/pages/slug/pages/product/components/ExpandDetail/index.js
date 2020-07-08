@@ -1,8 +1,10 @@
 import React from 'react';
-import {
-    ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails,
-    List, ListItem, ListItemText,
-} from '@material-ui/core';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@components/Typography';
 import ExpandMoreIcon from '@material-ui/icons/Add';
 import Minimize from '@material-ui/icons/Minimize';

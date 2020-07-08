@@ -1,4 +1,4 @@
-import { Divider } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
 import Skeleton from '@material-ui/lab/Skeleton';
 import useStyles from '../style';
 
