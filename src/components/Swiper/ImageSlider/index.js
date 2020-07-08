@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
-import 'swiper/css/swiper.min.css';
+// import 'swiper/css/swiper.min.css';
 import Swiper from 'swiper';
 import Item from './Item';
 

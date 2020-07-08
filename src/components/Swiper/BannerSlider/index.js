@@ -1,6 +1,6 @@
 import React from 'react';
 import Swiper from 'swiper';
-import 'swiper/css/swiper.min.css';
+// import 'swiper/css/swiper.min.css';
 import ImageSlider from './ImageSlider';
 
 const BannerSlider = (props) => {

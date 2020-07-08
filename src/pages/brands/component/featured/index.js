@@ -1,5 +1,5 @@
 /* eslint-disable arrow-body-style */
-import Carousel from '@components/Swiper/ImageSlider';
+import Carousel from '@components/Slider/Carousel';
 import ItemFeatured from './Item';
 
 const FeaturedBrands = ({ data = [], t }) => {

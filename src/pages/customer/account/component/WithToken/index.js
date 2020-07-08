@@ -1,7 +1,7 @@
 // Library
 import Link from 'next/link';
 import React from 'react';
-import Carousel from '@components/Swiper/ImageSlider';
+import Carousel from '@components/Slider/Carousel';
 import Typography from '@components/Typography';
 import { GraphCustomer } from '@services/graphql';
 import { customerFeautres } from '@config';
