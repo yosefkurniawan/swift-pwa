@@ -117,7 +117,6 @@ async function renderAndCache(req, res) {
             /* serving manifest json */
             handle(req, res);
         });
-
         server.get('/service-worker.js', (req, res) => {
             /* serving service-worker */
             handle(req, res);
