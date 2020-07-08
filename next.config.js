@@ -38,13 +38,15 @@ module.exports = withOffline({
             },
         ],
     },
-    async rewrites() {
-        return [
-            {
-                source: '/service-worker.js',
-                destination: '/_next/static/service-worker.js',
-            },
-        ];
+    experimental: {
+        async rewrites() {
+            return [
+                {
+                    source: '/service-worker.js',
+                    destination: '/_next/static/service-worker.js',
+                },
+            ];
+        },
     },
     // enable code below on Prod and increase the version everytime before running build script
     // generateBuildId: async () => 'swift-pwa-v1.0.0',
