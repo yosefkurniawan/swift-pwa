@@ -4,7 +4,10 @@ import { withApollo } from '@lib/apollo';
 import Brand from '../../modules/brands/base';
 // import Content from '../../modules/brands/components/index';
 import Content from './template';
-import Skeleton from '../../modules/brands/components/skeleton';
+import Skeleton from '../../modules/brands/views/skeleton';
+
+// sample overide function
+import generateAllData from './models/generateAllData';
 
 const BrandsPage = (props) => {
     const { t } = props;
@@ -18,7 +21,8 @@ const BrandsPage = (props) => {
     };
     return (
         <Layout pageConfig={pageConfig} {...props}>
-            <Brand {...props} Content={Content} Skeleton={Skeleton} />
+            {/* if no overide generete all data function remove props */}
+            <Brand {...props} Content={Content} Skeleton={Skeleton} generateAllData={generateAllData} />
         </Layout>
     );
 };
