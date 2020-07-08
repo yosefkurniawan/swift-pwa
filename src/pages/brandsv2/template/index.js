@@ -1,4 +1,4 @@
-import Featured from '../../../modules/brands/components/featured/index';
+import Featured from '../../../modules/brands/views/featured/index';
 
 const BrandsTemplate = (props) => {
     const { t, featured, all } = props;
