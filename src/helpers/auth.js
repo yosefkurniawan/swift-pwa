@@ -10,7 +10,10 @@ export const setLastPathWithoutLogin = (path) => {
 
 export const getLastPathWithoutLogin = () => {
     const path = cookies.get('lastPathNoAuth');
-    return path || '/customer/account';
+    if (path && typeof type !== 'undefined' && path !== '') {
+        return path;
+    }
+    return '/customer/account';
 };
 
 export const removeLastPathWithoutLogin = () => {

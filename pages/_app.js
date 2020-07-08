@@ -58,7 +58,9 @@ class MyApp extends App {
         } else {
             isLogin = allcookie.isLogin || 0;
             customerData = allcookie[custDataNameCookie];
-            lastPathNoAuth = req.session.lastPathNoAuth || '/customer/account';
+            lastPathNoAuth = req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth
+                && typeof req.session.lastPathNoAuth !== 'undefined'
+                ? req.session.lastPathNoAuth : '/customer/account';
         }
         isLogin = parseInt(isLogin);
         routeMiddleware({
