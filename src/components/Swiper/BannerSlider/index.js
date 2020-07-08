@@ -4,7 +4,9 @@ import 'swiper/css/swiper.min.css';
 import ImageSlider from './ImageSlider';
 
 const BannerSlider = (props) => {
-    const { data, height, width } = props;
+    const {
+        data, height, width, autoPlay = true,
+    } = props;
     React.useEffect(() => {
         // eslint-disable-next-line no-unused-vars
         const swiper = new Swiper('.swipper-banner', {
@@ -14,10 +16,11 @@ const BannerSlider = (props) => {
             // If we need pagination
             pagination: {
                 el: '.swiper-pagination',
+                clickable: !autoPlay,
             },
-            autoplay: {
+            autoplay: autoPlay ? {
                 delay: 3000,
-            },
+            } : false,
         });
     }, []);
     return (
