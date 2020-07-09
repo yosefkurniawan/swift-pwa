@@ -1,9 +1,11 @@
 import Typography from '@components/Typography';
 import React, { useState } from 'react';
-import SwipeableViews from 'react-swipeable-views';
 import classNames from 'classnames';
+import dynamic from 'next/dynamic';
 import Item from './Item';
 import useStyles from './style';
+
+const SwipeableViews = dynamic(() => import('react-swipeable-views'));
 
 const Caraousel = ({
     data = [1, 2, 3],

@@ -15,6 +15,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@components/Typography';
 import Alert from '@material-ui/lab/Alert';
 import { GraphCustomer } from '@services/graphql';
+import { debuging } from '@config';
 import Link from 'next/link';
 import formatDate from '@helpers/date';
 import urlParser from '@helpers/urlParser';
@@ -60,7 +61,7 @@ export default (props) => {
         return (
             <div className={styles.account_point}>
                 <Alert className="m-15" severity="error">
-                    {error.message.split(':')[1]}
+                    {debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')}
                 </Alert>
             </div>
         );
