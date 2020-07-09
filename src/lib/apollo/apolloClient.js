@@ -21,9 +21,13 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
     },
 });
 
-const uri = graphqlEndpoint[publicRuntimeConfig.appEnv] || graphqlEndpoint.dev;
+const uri = (typeof publicRuntimeConfig !== 'undefined' && graphqlEndpoint[publicRuntimeConfig.appEnv])
+    ? graphqlEndpoint[publicRuntimeConfig.appEnv] : graphqlEndpoint.dev;
 
-const uriInternal = `${HOST[publicRuntimeConfig.appEnv] || HOST.dev}/graphql`;
+const host = (typeof publicRuntimeConfig !== 'undefined' && HOST[publicRuntimeConfig.appEnv])
+    ? HOST[publicRuntimeConfig.appEnv] : HOST.dev;
+
+const uriInternal = `${host}/graphql`;
 // handle if token expired
 const logoutLink = onError((err) => {
     const { graphQLErrors } = err;

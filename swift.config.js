@@ -160,7 +160,12 @@ const nossrCache = [
     '/graphql',
 ];
 
+const debuging = {
+    originalError: false,
+};
+
 module.exports = {
+    debuging,
     blog,
     GTM,
     HOST,

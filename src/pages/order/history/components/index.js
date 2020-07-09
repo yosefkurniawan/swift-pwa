@@ -2,6 +2,7 @@ import Button from '@components/Button';
 import Typography from '@components/Typography';
 import classNames from 'classnames';
 import Alert from '@material-ui/lab/Alert';
+import { debuging } from '@config';
 import useStyles from './style';
 import Item from './item';
 import { getOrder } from '../../services/graphql';
@@ -24,7 +25,7 @@ const OrderPage = ({ t }) => {
         return (
             <div className={classNames(styles.container, styles.rowCenter)}>
                 <Alert className="m-15" severity="error">
-                    {error.message.split(':')[1]}
+                    {debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')}
                 </Alert>
             </div>
         );

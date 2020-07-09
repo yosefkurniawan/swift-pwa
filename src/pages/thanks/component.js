@@ -7,6 +7,7 @@ import TagManager from 'react-gtm-module';
 import Alert from '@material-ui/lab/Alert';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import Router from 'next/router';
+import { debuging } from '@config';
 import { getOrder } from './services/graphql';
 import Loader from './Loader';
 import useStyles from './style';
@@ -79,7 +80,7 @@ const ThanksPage = (props) => {
         return (
             <div className={styles.container}>
                 <Alert className="m-15" severity="error">
-                    {error.message.split(':')[1]}
+                    {debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')}
                 </Alert>
             </div>
         );
