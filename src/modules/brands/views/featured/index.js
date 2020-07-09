@@ -1,5 +1,5 @@
 /* eslint-disable arrow-body-style */
-import Carousel from '@components/Swiper/ImageSlider';
+import Carousel from '../../../commons/carousel';
 import ItemFeatured from './Item';
 
 const FeaturedBrands = (props) => {
@@ -8,7 +8,7 @@ const FeaturedBrands = (props) => {
         <Carousel
             title={t('brands:featuredBrands')}
             data={featured}
-            customItem={ItemFeatured}
+            item={ItemFeatured}
         />
     );
 };
