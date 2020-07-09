@@ -4,6 +4,7 @@ import Alert from '@material-ui/lab/Alert';
 import Button from '@components/Button';
 import Typography from '@components/Typography';
 import Menu from '@material-ui/icons/Menu';
+import { debuging } from '@config';
 import { getBlog } from '../services/graphql';
 import * as Schema from '../services/graphql/schema';
 import useStyles from '../style';
@@ -31,7 +32,7 @@ const Blog = ({ t, category = {} }) => {
         return (
             <div className={styles.container}>
                 <Alert className="m-15" severity="error">
-                    {error.message.split(':')[1]}
+                    {debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')}
                 </Alert>
             </div>
         );

@@ -4,7 +4,7 @@ import { Fragment } from 'react';
 import Link from 'next/link';
 import Skeleton from '@components/Skeleton';
 import Grid from '@material-ui/core/Grid';
-import { imageSize } from '@config';
+import { imageSize, debuging } from '@config';
 import dynamic from 'next/dynamic';
 import gqlService from './service/graphql';
 import useStyles from './style';
@@ -174,7 +174,9 @@ const CategoryList = ({ storeConfig, t }) => {
     if (error) {
         return (
             <div className={styles.divMessage}>
-                <Alert className="m-15" severity="error">{error.message.split(':')[1] || t('home:errorFetchData')}</Alert>
+                <Alert className="m-15" severity="error">
+                    {debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')}
+                </Alert>
             </div>
         );
     }
