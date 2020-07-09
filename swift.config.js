@@ -152,6 +152,12 @@ const features = {
     },
 };
 
+const modules = {
+    brands: {
+        enabled: true,
+    },
+};
+
 const nossrCache = [
     '/aw_rewardpoints/info',
     '/sales/order/history',
@@ -203,4 +209,5 @@ module.exports = {
     enableSocialMediaLink,
     features,
     nossrCache,
+    modules,
 };
