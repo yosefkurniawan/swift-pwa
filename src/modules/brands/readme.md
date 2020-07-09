@@ -5,6 +5,8 @@ This is a brand module that is used to display selected brands and brand lists.
 # How to install
 First, enable your module on swift config with key ````brands````
 
+copy `brands.json` under locales folder and paste tp `static/locales` en and id
+
 Module brands can be installed with custom template or default template
 if you don't need custom, you can import it directly from the default modules
 
