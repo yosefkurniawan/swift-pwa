@@ -1,4 +1,4 @@
-# Brands Features
+# Description
 
 This is a brand module that is used to display selected brands and brand lists.
 
@@ -10,9 +10,14 @@ copy `brands.json` under locales folder and paste tp `static/locales` en and id
 Module brands can be installed with custom template or default template
 if you don't need custom, you can import it directly from the default modules
 
-### Usage
+## Use default template and no overide
+
+### 1. import default layout your project 
 ````
 import Layout from '../src/components/Layouts';
+````
+### 2. import Brands module and place on your routing
+````
 import Brands from '../src/modules/brands/default';
 
 const Page = () => <Brands Layout={Layout} />;
@@ -21,24 +26,40 @@ export default Page;
 
 ````
 
+## Use ustom template or overide logic
+### 1. import base brand module
 
-if you need to custom template or overide logic you can import module and default component place to your pages file,
+````
+import Brand from '../../modules/brands/base';
+````
 
-### Usage
+### 2. if not all custom you can import component on module
 
+````
+// for example skeleton not overide and use default template
+
+import Skeleton from '../../modules/brands/views/skeleton';
+````
+### 3. create your custom template
+### 4. import your template
+### 5. Place it in your page
+#### example code
 ````
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import Layout from '@components/Layouts';
 import Brand from '../../modules/brands/base';
-// import Content from '../../modules/brands/components/index';
+
+// your custom template import
 import Content from './template';
+
 import Skeleton from '../../modules/brands/views/skeleton';
 
 // sample overide function
 import generateAllData from './models/generateAllData';
 
 const BrandsPage = (props) => (
+    // generate brands page from module
     <Brand {...props} Layout={Layout} Content={Content} Skeleton={Skeleton} generateAllData={generateAllData} />
 );
 
@@ -50,6 +71,9 @@ export default withApollo({ ssr: true })(withTranslation()(BrandsPage));
 
 ````
 
+### Note
+#### * withapollo and withtranslation must be place on first routing for peformance
+
 # Components
 ### 1. Default
 ### Properties
@@ -60,7 +84,7 @@ export default withApollo({ ssr: true })(withTranslation()(BrandsPage));
 
 
 ### 2. Base
-### Properties
+#### Properties
 | Props       | Required | Description | Type |
 | :---        | :---     | :---        |:---  |
 | Content      |  true    | views component, you can use default component or custom | Component |
@@ -69,8 +93,8 @@ export default withApollo({ ssr: true })(withTranslation()(BrandsPage));
 | generateAllData  |  false   | object configuration page layout      | Function|
 | Layout      |  required    | component layout base of project | Component |
 
-
-### example generateAllData
+## Override Function
+#### generateAllData
     - @params array list data brands
     - @return array list with grouping data
 
@@ -101,12 +125,14 @@ export default withApollo({ ssr: true })(withTranslation()(BrandsPage));
     ]
     ````
 
-### example pageConfig configuration
+## Override Config
+### pageConfig
+
 ````
-    const pageConfig = {
-        headerBackIcon: 'arrow', // available values: "close", "arrow",
-        // you can add some here
-    };
+const pageConfig = {
+    headerBackIcon: 'arrow', // available values: "close", "arrow",
+    // you can add some here
+};
 ````
 # Properties sent to the component
 1. all
@@ -149,7 +175,7 @@ export default withApollo({ ssr: true })(withTranslation()(BrandsPage));
 
 3 some properties from swift app example ````t or translation ````
 
-### Default Template
+# Default Template
 1. Featured Brands `{path module}/views/featured/index`
 2. List All Brands with grouping `{path module}/views/all`
 3. Complete All Brands View `{path module}/views/index`
