@@ -33,29 +33,33 @@ export default Page;
 import Brand from '../../modules/brands/base';
 ````
 
-### 2. if not all custome you can import component on module
+### 2. if not all custom you can import component on module
 
 ````
 // for example skeleton not overide and use default template
 
 import Skeleton from '../../modules/brands/views/skeleton';
 ````
-
-### 3. Place it in your page
+### 3. create your custom template
+### 4. import your template
+### 5. Place it in your page
 #### example code
 ````
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import Layout from '@components/Layouts';
 import Brand from '../../modules/brands/base';
-// import Content from '../../modules/brands/components/index';
+
+// your custom template import
 import Content from './template';
+
 import Skeleton from '../../modules/brands/views/skeleton';
 
 // sample overide function
 import generateAllData from './models/generateAllData';
 
 const BrandsPage = (props) => (
+    // generate brands page from module
     <Brand {...props} Layout={Layout} Content={Content} Skeleton={Skeleton} generateAllData={generateAllData} />
 );
 
