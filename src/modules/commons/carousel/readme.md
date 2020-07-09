@@ -1,4 +1,4 @@
-# Commons Component Module Carousel
+# Description
 
 Carousel is module to create slider image on swift product
 
@@ -9,13 +9,13 @@ this component use some dependency and **required**, so you need to install
 | react-swipeable-views | depedency swipable| external dependency |
 | Typography   | commons components typography generator | internal dependency |
 
-## Usage
+## How To Install
 
-**Import module to your component**
+**1. Import module to your component**
 ````
 import Carousel from '{path modules}/commons/Carousel';
 ````
-**Usage**
+**2. Place carousel component on your component**
 
 ````
 <Carousel
