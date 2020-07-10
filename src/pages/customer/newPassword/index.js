@@ -30,4 +30,4 @@ Page.getInitialProps = async ({ query, res }) => {
     };
 };
 
-export default withApollo({ ssr: false })(withTranslation()(Page));
+export default withApollo({ ssr: true })(withTranslation()(Page));
