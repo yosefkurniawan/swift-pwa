@@ -20,6 +20,7 @@ import {
 // import Fonts from '@helpers/fonts';
 import TagManager from 'react-gtm-module';
 import '../src/styles/index.css';
+import PageProgressLoader from '@components/Loaders/PageProgress';
 import graphRequest from '../src/graphql-server/request';
 import routeMiddleware from '../src/middlewares/route';
 
@@ -117,6 +118,7 @@ class MyApp extends App {
                 <ThemeProvider theme={theme}>
                     {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                     <CssBaseline />
+                    <PageProgressLoader />
                     <Component {...pageProps} />
                 </ThemeProvider>
             </>
