@@ -15,6 +15,7 @@ export default class MyDocument extends Document {
                     <meta name="theme-color" content={theme.palette.primary.main} />
                     <link rel="manifest" href="/manifest.json" />
                     <link rel="apple-touch-icon" href="/assets/img/swiftpwa_apple_touch.png" />
+                    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,500i,600,700,900&display=swap" rel="stylesheet" />
                 </HeadCustom>
                 <body className="loading">
                     <Main />
