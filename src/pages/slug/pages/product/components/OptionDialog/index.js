@@ -6,6 +6,7 @@ import Fade from '@material-ui/core/Fade';
 import React from 'react';
 import ConfigurableOption from './ConfigurableOption';
 import SimpleOption from './SimpleOption';
+import VirtualOption from './VirtualOption';
 import useStyles from './style';
 
 const Transition = React.forwardRef((props, ref) => (
@@ -47,6 +48,14 @@ const OptionDialog = (props) => {
 
                         {__typename === 'SimpleProduct' && (
                             <SimpleOption
+                                {...props}
+                                loading={loading}
+                                setLoading={setLoading}
+                            />
+                        )}
+
+                        {__typename === 'VirtualProduct' && (
+                            <VirtualOption
                                 {...props}
                                 loading={loading}
                                 setLoading={setLoading}

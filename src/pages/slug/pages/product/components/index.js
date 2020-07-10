@@ -18,6 +18,7 @@ import { getCookies } from '@helpers/cookies';
 import { getHost } from '@helpers/config';
 import Breadcrumb from '@components/Breadcrumb';
 import RatingStar from '@components/RatingStar';
+import { features } from '@config';
 import useStyles from '../style';
 import ExpandDetail from './ExpandDetail';
 import ListReviews from './ListReviews';
@@ -230,6 +231,20 @@ const ProductPage = (props) => {
         });
     }
 
+    const handleOption = () => {
+        const { productAvailableToCart } = features;
+        // eslint-disable-next-line no-underscore-dangle
+        if (productAvailableToCart[data.__typename]) {
+            setOpenOption(true);
+        } else {
+            window.toastMessage({
+                variant: 'warning',
+                text: t('product:productNotAvailable'),
+                open: true,
+            });
+        }
+    };
+
     return (
         <>
             <OptionDialog
@@ -353,7 +368,7 @@ const ProductPage = (props) => {
                     <Button
                         className={styles.btnAddToCard}
                         color="primary"
-                        onClick={() => setOpenOption(true)}
+                        onClick={handleOption}
                         disabled={data && data.stock_status === 'OUT_STOCK'}
                     >
                         <Typography

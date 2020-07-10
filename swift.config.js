@@ -142,6 +142,14 @@ const features = {
         rating: false,
         wishlist: true,
     },
+    productAvailableToCart: {
+        SimpleProduct: true,
+        ConfigurableProduct: true,
+        VirtualProduct: true,
+        GroupedProduct: false,
+        BundleProduct: false,
+        DownloadableProduct: false,
+    },
 };
 
 const nossrCache = [
