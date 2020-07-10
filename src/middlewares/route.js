@@ -28,7 +28,6 @@ export const routeWithAuth = (path) => {
         '/inboxnotification/notification',
         '/customer/setting',
         '/rma/customer',
-        '/confirmpayment',
     ];
 
     const found = route.find((val) => val === path);
@@ -65,7 +64,7 @@ const routeMiddleware = (params) => {
         const allow = routeWithAuth(asPath);
         if (!allow) {
             if (typeof window !== 'undefined') {
-                Router.push('/;customer/account/login');
+                Router.push('/customer/account/login');
                 setLastPathWithoutLogin(asPath);
             } else {
                 req.session.lastPathNoAuth = asPath;
