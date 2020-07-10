@@ -2,7 +2,6 @@
 import Link from '@material-ui/core/Link';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import NoSsr from '@material-ui/core/NoSsr';
 import Chip from '@material-ui/core/Chip';
 import Typography from '@components/Typography';
 import NavigateNext from '@material-ui/icons/NavigateNext';
@@ -44,7 +43,5 @@ const CustomBreadcrumb = ({ data = [], variant = 'text' }) => {
 };
 
 export default (props) => (
-    <NoSsr>
-        <CustomBreadcrumb {...props} />
-    </NoSsr>
+    <CustomBreadcrumb {...props} />
 );
