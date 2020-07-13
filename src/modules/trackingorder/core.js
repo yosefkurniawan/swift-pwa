@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types';
+import Layout from '@components/Layouts';
 import { getCustomer } from './services';
 import Content from './views/index';
 
 const Tracking = (props) => {
-    const { isLogin, Skeleton } = props;
+    const {
+        isLogin, Skeleton, pageConfig, t,
+    } = props;
     let customer = {};
     if (isLogin) {
         const { data, loading } = getCustomer();
@@ -16,7 +19,14 @@ const Tracking = (props) => {
             customer = data.customer;
         }
     }
-    return <Content {...props} email={customer.email || ''} />;
+
+    const config = {
+        title: t('trackingorder:trackingOrder'),
+        header: 'relative', // available values: "absolute", "relative", false (default)
+        headerTitle: t('trackingorder:trackingOrder'),
+        bottomNav: false,
+    };
+    return <Layout {...props} pageConfig={pageConfig || config}><Content {...props} email={customer.email || ''} /></Layout>;
 };
 
 Tracking.propTypes = {
