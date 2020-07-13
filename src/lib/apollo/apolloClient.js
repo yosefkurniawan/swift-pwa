@@ -30,10 +30,8 @@ const host = (typeof publicRuntimeConfig !== 'undefined' && HOST[publicRuntimeCo
 const uriInternal = `${host}/graphql`;
 // handle if token expired
 const logoutLink = onError((err) => {
-    const { graphQLErrors, networkError } = err;
-    if (networkError && typeof window !== 'undefined') {
-        window.location.href = '/maintenance';
-    } else if (graphQLErrors && graphQLErrors[0] && graphQLErrors[0].status === 401 && typeof window !== 'undefined') {
+    const { graphQLErrors } = err;
+    if (graphQLErrors && graphQLErrors[0] && graphQLErrors[0].status === 401 && typeof window !== 'undefined') {
         removeCartId();
         removeIsLoginFlagging();
         window.location.href = '/customer/account/login';
