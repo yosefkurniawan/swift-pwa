@@ -3,12 +3,14 @@ import { withTranslation } from '@i18n';
 import Error from 'next/error';
 import { useRouter } from 'next/router';
 import Alert from '@material-ui/lab/Alert';
+import { debuging } from '@config';
 import Content from './components';
 import { getCategory } from './services/graphql';
 import Loader from './components/LoaderDetail';
 
 const Page = (props) => {
     const router = useRouter();
+    const { t } = props;
     const { id } = router.query;
     let pageConfig = {
         title: 'Blog Category',
@@ -24,7 +26,7 @@ const Page = (props) => {
         return (
             <Layout pageConfig={pageConfig} {...props}>
                 <Alert className="m-15" severity="error">
-                    {error.message.split(':')[1]}
+                    {debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')}
                 </Alert>
             </Layout>
         );

@@ -93,7 +93,7 @@ const cmsSocialMediaLinkIdentifiers = 'pwa_socmed_links';
 const enableSocialMediaLink = true;
 
 /* Loader */
-const loaderImage = '/assets/img/sample/spinner.svg';
+const loaderImage = '/assets/img/loader.svg';
 
 /* config general size image used on frontend */
 const imageSize = {
@@ -142,10 +142,21 @@ const features = {
         rating: false,
         wishlist: true,
     },
+    productAvailableToCart: {
+        SimpleProduct: true,
+        ConfigurableProduct: true,
+        VirtualProduct: true,
+        GroupedProduct: false,
+        BundleProduct: false,
+        DownloadableProduct: false,
+    },
 };
 
 const modules = {
     brands: {
+        enabled: true,
+    },
+    trackingorder: {
         enabled: true,
     },
 };
@@ -166,7 +177,12 @@ const nossrCache = [
     '/graphql',
 ];
 
+const debuging = {
+    originalError: false,
+};
+
 module.exports = {
+    debuging,
     blog,
     GTM,
     HOST,

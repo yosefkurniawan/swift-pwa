@@ -90,7 +90,7 @@ export default withApollo({ ssr: true })(withTranslation()(BrandsPage));
 | Content      |  true    | views component, you can use default component or custom | Component |
 | Skeleton      |  true    |  views component, you can use default component or custom | Component |
 | pageConfig  |  false   | object configuration page layout      | Object|
-| generateAllData  |  false   | object configuration page layout      | Function|
+| generateAllData  |  false   | function to generate all data array      | Function|
 | Layout      |  required    | component layout base of project | Component |
 
 ## Override Function

@@ -8,13 +8,14 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Alert from '@material-ui/lab/Alert';
+import { debuging } from '@config';
 import React from 'react';
 import { formatPrice } from '@helpers/currency';
 import { checkBalance } from '../services/graphql';
 import Loader from './Loader';
 
 const ModalDetail = ({
-    open, setOpen, code, storeConfig,
+    open, setOpen, code, storeConfig, t,
 }) => {
     let loading = false;
     let data = null;
@@ -28,7 +29,7 @@ const ModalDetail = ({
     if (error) {
         return (
             <Alert className="m-15" severity="error">
-                {error.message.split(':')[1]}
+                {debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')}
             </Alert>
         );
     }

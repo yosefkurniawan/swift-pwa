@@ -1,24 +1,25 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
-import Document, {
-    Html, Head, Main, NextScript,
-} from 'next/document';
+import Document, { Html, Main } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import theme from '@theme/theme';
+import HeadCustom from '../src/nextjs_custom/HeadCustom';
+import NextScriptCustom from '../src/nextjs_custom/NextScriptCustom';
 
 export default class MyDocument extends Document {
     render() {
         return (
             <Html lang="en">
-                <Head>
+                <HeadCustom>
                     {/* PWA primary color */}
                     <meta name="theme-color" content={theme.palette.primary.main} />
                     <link rel="manifest" href="/manifest.json" />
                     <link rel="apple-touch-icon" href="/assets/img/swiftpwa_apple_touch.png" />
-                </Head>
-                <body>
+                    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,500i,600,700,900&display=swap" rel="stylesheet" />
+                </HeadCustom>
+                <body className="loading">
                     <Main />
-                    <NextScript />
+                    <NextScriptCustom />
                 </body>
             </Html>
         );

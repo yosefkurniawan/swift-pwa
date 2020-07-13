@@ -13,6 +13,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Alert from '@material-ui/lab/Alert';
 import Router from 'next/router';
+import { debuging } from '@config';
 import { getHistoryRma } from '../../services/graphql';
 import useStyles from '../style';
 import Loader from './Loader';
@@ -39,7 +40,7 @@ export default (props) => {
         return (
             <div className={styles.account_point}>
                 <Alert className="m-15" severity="error">
-                    {error.message.split(':')[1]}
+                    {debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')}
                 </Alert>
             </div>
         );
