@@ -5,10 +5,12 @@ import IcubeMaps from '@components/GoogleMaps/Maps';
 import Header from '@components/Header';
 import Typography from '@components/Typography';
 import { regexPhone } from '@helpers/regex';
-import {
-    Box, Checkbox, CircularProgress, Dialog, FormControlLabel, TextField,
-} from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
+import Checkbox from '@material-ui/core/Checkbox';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Dialog from '@material-ui/core/Dialog';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useFormik } from 'formik';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
@@ -276,6 +278,7 @@ const AddressFormDialog = (props) => {
                     value={_.isEmpty(formik.values.city) ? null : formik.values.city}
                     onChange={(event, newValue) => {
                         formik.setFieldValue('city', newValue);
+                        formik.setFieldValue('postcode', newValue.postcode);
                     }}
                     renderInput={(params) => (
                         <div
@@ -378,7 +381,7 @@ const AddressFormDialog = (props) => {
                         },
                     }}
                 />
-                <Box className={[styles.address_form].join(' ')}>
+                <div className={[styles.address_form].join(' ')}>
                     <form onSubmit={formik.handleSubmit} autoComplete="off">
                         <CustomTextField
                             autoComplete="no-autoComplete"
@@ -491,9 +494,9 @@ const AddressFormDialog = (props) => {
                             error={!!(formik.touched.telephone && formik.errors.telephone)}
                             errorMessage={(formik.touched.telephone && formik.errors.telephone) || null}
                         />
-                        <Box className={styles.boxMap}>
+                        <div className={styles.boxMap}>
                             <IcubeMaps height="230px" mapPosition={mapPosition} dragMarkerDone={handleDragPosition} />
-                        </Box>
+                        </div>
 
                         {disableDefaultAddress ? null : (
                             <div>
@@ -534,7 +537,7 @@ const AddressFormDialog = (props) => {
                             {loading && <CircularProgress size={24} className={styles.buttonProgress} />}
                         </div>
                     </form>
-                </Box>
+                </div>
             </div>
         </Dialog>
     );

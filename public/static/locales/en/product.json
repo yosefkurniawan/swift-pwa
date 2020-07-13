@@ -20,7 +20,9 @@
         "detail": "Detail is required"
     },
     "addRateSuccess": "Thanks for review this product",
+    "addRateFailed": "Upload your raview is failed",
     "successAddCart": "Item has been added into your bag",
     "failedAddCart": "Failed on adding item into your bag",
-    "emptyProductSearchResult": "We can't find products matching the selection."
+    "emptyProductSearchResult": "We can't find products matching the selection.",
+    "productNotAvailable": "We don’t support this product type yet"
 }

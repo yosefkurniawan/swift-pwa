@@ -3,15 +3,26 @@
 import Button from '@components/Button';
 import Typography from '@components/Typography';
 import classNames from 'classnames';
+import Skeleton from '@material-ui/lab/Skeleton';
 import useStyles from './style';
 import ModalPickupInformation from '../ModalPickupInformation';
 import ModalSelectStore from '../ModalSelectStore';
+import gqlService from '../../services/graphql';
 
 export default (props) => {
     const {
         t, styles, checkout, setCheckout,
     } = props;
     const classes = useStyles();
+    const { cart } = checkout.data;
+    let listStores = [];
+    const pickupStores = gqlService.getPickupStore({
+        variables: { cart_id: cart.id },
+        skip: typeof cart === 'undefined',
+    });
+    if (!pickupStores.loading && pickupStores.data && !pickupStores.error) {
+        listStores = pickupStores.data.getPickupStore.store;
+    }
     const [openModal, setOpenModal] = React.useState({
         openModalInfo: false,
         openModalSelectStore: false,
@@ -35,6 +46,7 @@ export default (props) => {
                 setOpen={() => handleOpen('openModalSelectStore')}
                 setCheckout={setCheckout}
                 checkout={checkout}
+                listStores={listStores}
             />
             <Typography variant="title" type="bold" letter="uppercase">
                 {t('checkout:pickupInformation:label')}
@@ -42,17 +54,14 @@ export default (props) => {
             <div className={classNames(styles.cardPoint, classes.card)}>
                 <div className="column">
                     {
-                        (checkout.pickupInformation.person && checkout.pickupInformation.person !== ''
-                         && checkout.pickupInformation.email && checkout.pickupInformation.email !== ''
-                         && checkout.pickupInformation.phoneNumber && checkout.pickupInformation.phoneNumber !== ''
-                        ) && (
+                        (Object.keys(checkout.pickupInformation).length > 0) && (
                             <div className="column">
                                 <div className="row">
                                     <Typography>
                                         {`${t('checkout:pickupInformation:pickupPerson')} : `}
                                     </Typography>
                                     <Typography type="semiBold">
-                                        {checkout.pickupInformation.person}
+                                        {checkout.pickupInformation.pickup_person_name}
                                     </Typography>
                                 </div>
                                 <div className="row">
@@ -60,7 +69,7 @@ export default (props) => {
                                         {`${t('common:form:phoneNumber')} : `}
                                     </Typography>
                                     <Typography type="semiBold">
-                                        {checkout.pickupInformation.phoneNumber}
+                                        {checkout.pickupInformation.pickup_person_phone}
                                     </Typography>
                                 </div>
                                 <div className="row">
@@ -68,7 +77,7 @@ export default (props) => {
                                         Email :
                                     </Typography>
                                     <Typography type="semiBold">
-                                        {checkout.pickupInformation.email}
+                                        {checkout.pickupInformation.pickup_person_email}
                                     </Typography>
                                 </div>
                             </div>
@@ -87,25 +96,38 @@ export default (props) => {
             <div className={classNames(styles.cardPoint, classes.card)}>
                 <div className="column">
                     {
-                        (checkout.selectStore.name && checkout.selectStore.name !== ''
-                         && checkout.selectStore.address && checkout.selectStore.address !== ''
-                         && checkout.selectStore.phoneNumber && checkout.selectStore.phoneNumber !== ''
-                        ) && (
+                        (Object.keys(checkout.selectStore).length > 0) && (
                             <>
                                 <Typography variant="span" type="bold">
                                     {checkout.selectStore.name}
                                 </Typography>
                                 <Typography>
-                                    {`${checkout.selectStore.address} ${checkout.selectStore.phoneNumber}`}
+                                    {checkout.selectStore.street}
+                                    <br />
+                                    {checkout.selectStore.city}
+                                    <br />
+                                    {checkout.selectStore.region}
+                                    <br />
+                                    {checkout.selectStore.country_id}
+                                    <br />
+                                    {checkout.selectStore.postcode}
+                                    <br />
+                                    {checkout.selectStore.telephone}
                                 </Typography>
                             </>
                         )
                     }
-                    <Button variant="text" className="clear-margin-padding" onClick={() => handleOpen('openModalSelectStore')}>
-                        <Typography variant="span" letter="uppercase" type="bold">
-                            {t('checkout:pickupInformation:changePickupLocation')}
-                        </Typography>
-                    </Button>
+                    {
+                        pickupStores.loading || !pickupStores.data ? (
+                            <Skeleton variant="text" animation="wave" width={270} height={30} />
+                        ) : (
+                            <Button variant="text" className="clear-margin-padding" onClick={() => handleOpen('openModalSelectStore')}>
+                                <Typography variant="span" letter="uppercase" type="bold">
+                                    {t('checkout:pickupInformation:changePickupLocation')}
+                                </Typography>
+                            </Button>
+                        )
+                    }
                 </div>
             </div>
         </div>

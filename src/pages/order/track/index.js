@@ -1,5 +1,6 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
+import { withApollo } from '@lib/apollo';
 import Component from './component';
 
 const TrackingOrder = (props) => {
@@ -23,4 +24,4 @@ TrackingOrder.getInitialProps = async () => ({
     namespacesRequired: ['order', 'validate', 'contact'],
 });
 
-export default withTranslation()(TrackingOrder);
+export default withApollo({ ssr: true })(withTranslation()(TrackingOrder));

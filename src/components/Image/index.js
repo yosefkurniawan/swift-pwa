@@ -1,33 +1,44 @@
 /* eslint-disable no-param-reassign */
-import Skeleton from '@material-ui/lab/Skeleton';
-import useStyles from './style';
+/* eslint-disable func-names */
+/* eslint-disable no-unused-vars */
 
-const ThumborImage = ({
-    src, width = 500,
-    height = 500,
-    className = '',
-    alt = 'Image',
-    quality = 100,
-    style = {},
-}) => {
-    const styles = useStyles();
-    const [loaded, setLoaded] = React.useState(typeof window === 'undefined');
-    return (
-        <>
-            <Skeleton variant="rect" width={width} height={height} style={{ display: loaded || typeof window === 'undefined' ? 'none' : 'block' }} />
-            <img
-                style={style}
-                className={!loaded && typeof window !== 'undefined' ? styles.hideImage : className}
-                src={`https://thumbor.sirclocdn.xyz/unsafe/${width}x${height}/filters:quality(${quality})/${src}`}
-                alt={alt}
-                onLoad={() => setLoaded(true)}
-                onError={(e) => {
-                    setLoaded(true);
-                    e.target.onerror = null; e.target.src = '/assets/img/placeholder.png';
-                }}
-            />
-        </>
-    );
+const imgError = (image) => {
+    image.onerror = '';
+    image.src = '/assets/img/placeholder.png';
+    return true;
 };
 
-export default ThumborImage;
+const Image = ({
+    src, width = 500, height = 500, className = '', alt = 'Image', quality = 100, style = {}, lazy = false,
+}) => (
+    <div
+        // ref={imgContainer}
+        style={{
+            backgroundColor: '#eee',
+            width: '100%',
+            position: 'relative',
+            paddingTop: `${(height / width) * 100}%`,
+        }}
+    >
+        {!lazy ? (
+            <img
+                data-pagespeed-no-defer
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    position: 'absolute',
+                    top: '0',
+                    left: '0',
+                }}
+                className={`img ${className}`}
+                src={
+                    `https://thumbor.sirclocdn.xyz/unsafe/${width}x${height}/filters:format(webp)/${src}`
+                }
+                onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
+                alt={alt}
+            />
+        ) : null}
+    </div>
+);
+
+export default Image;

@@ -1,10 +1,13 @@
 import React from 'react';
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
+import { withApollo } from '@lib/apollo';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import { getFormDataRma } from '../services/graphql';
 import Loader from './components/Loader';
-import Content from './components';
+
+const Component = dynamic(() => import('./components'), { ssr: false });
 
 const Page = (props) => {
     const { t, customerData } = props;
@@ -30,7 +33,7 @@ const Page = (props) => {
     };
     return (
         <Layout pageConfig={pageConfig} {...props}>
-            <Content {...props} data={objectData} order_number={id} />
+            <Component {...props} data={objectData} order_number={id} />
         </Layout>
     );
 };
@@ -40,4 +43,4 @@ Page.getInitialProps = async () => ({
     withAuth: true,
 });
 
-export default withTranslation()(Page);
+export default withApollo({ ssr: true })(withTranslation()(Page));

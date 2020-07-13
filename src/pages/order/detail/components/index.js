@@ -33,7 +33,10 @@ const DetailOrder = (props) => {
                     </Typography>
                     <Typography variant="span">{formatDate(detail[0].created_at)}</Typography>
                     <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
-                        {t('order:shippedTo')}
+                        {
+                            detail[0].detail[0].pickup_store && detail[0].detail[0].pickup_store.is_using_pickup_store
+                                ? t('order:pickupAt') : t('order:shippedTo')
+                        }
                     </Typography>
                     <Typography variant="span" align="center">
                         {detail[0].detail[0].shipping_address.firstname || ''}
@@ -50,6 +53,25 @@ const DetailOrder = (props) => {
                         <br />
                         {detail[0].detail[0].shipping_address.postcode || ''}
                     </Typography>
+                    {
+                        detail[0].detail[0].pickup_store && detail[0].detail[0].pickup_store.is_using_pickup_store
+                        && (
+                            <>
+                                <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
+                                    {t('order:pickupBy')}
+                                </Typography>
+                                <Typography variant="span">
+                                    {detail[0].detail[0].pickup_store.pickup_person.name}
+                                </Typography>
+                                <Typography variant="span">
+                                    {`Hp : ${detail[0].detail[0].pickup_store.pickup_person.handphone}`}
+                                </Typography>
+                                <Typography variant="span">
+                                    {`Email : ${detail[0].detail[0].pickup_store.pickup_person.email}`}
+                                </Typography>
+                            </>
+                        )
+                    }
                     <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                         {t('order:shippingMethod')}
                     </Typography>

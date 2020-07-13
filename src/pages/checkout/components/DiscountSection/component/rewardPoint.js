@@ -2,7 +2,7 @@
 import Button from '@components/Button';
 import Typography from '@components/Typography';
 import { formatPrice } from '@helpers/currency';
-import { CircularProgress } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import gqlService from '../../../services/graphql';
 
 const RewardPoint = ({

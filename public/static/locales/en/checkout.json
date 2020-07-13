@@ -14,7 +14,8 @@
         "pickupAtLabel": "You will pick up your order at",
         "pickupNote": "We will send you an email when your order is ready (within 2 hours for order placed by 7pm local time). Note: Bring valid goverment ID such as driver license or password",
         "changePickupInformation": "Change Pickup Information",
-        "changePickupLocation": "Change Pickup Location"
+        "changePickupLocation": "Change Pickup Location",
+        "selectStoreLocation": "Select Store Location"
     },
     "pickupStore": "Pickup at store",
     "shippingMethod" : "shipping Method",
@@ -29,8 +30,11 @@
     "emailHelper": "We'll send your order confirmation here.",
     "haveAccount": "Already have an account? Login Here",
     "noPayment": "There is no payment method available. Please set address and shipping method.",
+    "noPaymentPickup": "There is no payment method available. Please complete pickup store information",
     "noNeedPayment": "There is no need to pay on this order",
     "noShipping": "There is no delivery method available for selected address",
+    "completePikcupInfo": "Please compleate pickup information & select store pickup",
+    "storesNotFound": "No Stores avaliable",
     "message": {
         "problemConnection": "There is a problem with your connection",
         "couponRemoved": "Coupon has been removed",
@@ -69,6 +73,6 @@
     "promoCodePlaceholder": "Promo code",
     "giftCartPlaceholder": "Gift Cart Number",
     "yourOrderId": "Your order number",
-    "checkOrder": "Check Order"
-
+    "checkOrder": "Check Order",
+    "cashbackInfo": "Congratulation! You will get cashback $ from promo(s) $ into your store credit"
 }

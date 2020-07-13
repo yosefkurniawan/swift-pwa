@@ -3,11 +3,17 @@
 import Button from '@components/Button';
 import Typography from '@components/Typography';
 import formatDate from '@helpers/date';
-import {
-    Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow,
-} from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
 import Alert from '@material-ui/lab/Alert';
 import Router from 'next/router';
+import { debuging } from '@config';
 import { getHistoryRma } from '../../services/graphql';
 import useStyles from '../style';
 import Loader from './Loader';
@@ -34,7 +40,7 @@ export default (props) => {
         return (
             <div className={styles.account_point}>
                 <Alert className="m-15" severity="error">
-                    {error.message.split(':')[1]}
+                    {debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')}
                 </Alert>
             </div>
         );
@@ -59,7 +65,7 @@ export default (props) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {history.length > 0 ? (
+                        {!loading && history.length > 0 ? (
                             <>
                                 {
                                     history.map((val, index) => (

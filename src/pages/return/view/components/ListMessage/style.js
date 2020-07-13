@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
     CreatePadding,
     FlexColumn,
@@ -32,5 +32,9 @@ export default makeStyles({
         listStyle: 'none',
         margin: 0,
         padding: 0,
+    },
+    bodyItem: {
+        ...FlexColumn,
+        overflow: 'hidden',
     },
 });

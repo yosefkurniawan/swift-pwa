@@ -1,11 +1,9 @@
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
-import {
-    MenuItem, Select,
-} from '@material-ui/core';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import useStyles from './style';
-
 
 const renderQty = () => {
     const options = [];
@@ -19,7 +17,6 @@ const renderQty = () => {
     }
     return options;
 };
-
 
 const EditDrawer = ({
     t, open, toggleOpen, id, quantity = 1, product_name = '', updateItem,

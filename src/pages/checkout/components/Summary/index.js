@@ -7,13 +7,12 @@ import { setCheckoutData } from '@helpers/cookies';
 import { GraphCart } from '@services/graphql';
 import Routes from 'next/router';
 import _ from 'lodash';
-import {
-    ExpansionPanel,
-    ExpansionPanelDetails,
-    ExpansionPanelSummary,
-    CircularProgress,
-} from '@material-ui/core';
-import { ExpandLess, ExpandMore } from '@material-ui/icons';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 import { formatPrice } from '@helpers/currency';
 import useStyles from './style';
 import gqlService from '../../services/graphql';
@@ -90,42 +89,54 @@ const Summary = ({
         formValidation = await formik.validateForm();
 
         if (_.isEmpty(formValidation)) {
-            if (isGuest) {
-                result = await setGuestEmailAddressOnCart({ variables: { cartId: cart.id, email: formik.values.email } });
+            if (checkout.selected.delivery === 'pickup'
+                && (checkout.error.pickupInformation || checkout.error.selectStore)) {
+                state.loading.order = false;
+                setCheckout(state);
+
+                const msg = t('checkout:completePikcupInfo');
+                handleOpenMessage({
+                    variant: 'error',
+                    text: msg,
+                });
+            } else {
+                if (isGuest) {
+                    result = await setGuestEmailAddressOnCart({ variables: { cartId: cart.id, email: formik.values.email } });
+
+                    if (!validateReponse(result, state)) {
+                        return;
+                    }
+                }
+
+                result = await placeOrder({ variables: { cartId: cart.id } });
+
+                state = { ...checkout };
+                state.loading.order = false;
+                setCheckout(state);
 
                 if (!validateReponse(result, state)) {
                     return;
                 }
-            }
 
-            result = await placeOrder({ variables: { cartId: cart.id } });
-
-            state = { ...checkout };
-            state.loading.order = false;
-            setCheckout(state);
-
-            if (!validateReponse(result, state)) {
-                return;
-            }
-
-            const orderNumber = result.data.placeOrder.order.order_number;
-            setCheckoutData({
-                email: isGuest ? formik.values.email : cart.email,
-                order_number: orderNumber,
-                order_id: result.data.placeOrder.order.order_id,
-            });
-            client.writeData({ data: { totalCart: 0 } });
-            await removeCartId();
-
-            if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {
-                setOrderId(orderNumber);
-                await getSnapToken({ variables: { orderId: orderNumber } });
-            } else {
-                handleOpenMessage({
-                    variant: 'success',
-                    text: t('checkout:message:placeOrder'),
+                const orderNumber = result.data.placeOrder.order.order_number;
+                setCheckoutData({
+                    email: isGuest ? formik.values.email : cart.email,
+                    order_number: orderNumber,
+                    order_id: result.data.placeOrder.order.order_id,
                 });
-                Routes.push({ pathname: '/checkout/onepage/success' });
+                client.writeData({ data: { totalCart: 0 } });
+                await removeCartId();
+
+                if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {
+                    setOrderId(orderNumber);
+                    await getSnapToken({ variables: { orderId: orderNumber } });
+                } else {
+                    handleOpenMessage({
+                        variant: 'success',
+                        text: t('checkout:message:placeOrder'),
+                    });
+                    Routes.push({ pathname: '/checkout/onepage/success' });
+                }
             }
         } else {
             state.loading.order = false;

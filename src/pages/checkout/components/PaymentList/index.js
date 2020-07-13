@@ -170,6 +170,8 @@ export default function CustomizedExpansionPanels({
                 )}
             </div>
         );
+    } else if (checkout.selected.delivery === 'pickup') {
+        content = <Typography variant="p">{t('checkout:noPaymentPickup')}</Typography>;
     } else {
         content = <Typography variant="p">{t('checkout:noPayment')}</Typography>;
     }

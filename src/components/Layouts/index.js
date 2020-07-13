@@ -1,15 +1,17 @@
 /* eslint-disable react/no-danger */
 import React, { useEffect, useState } from 'react';
-import Navigation from '@components/Navigation';
+import dynamic from 'next/dynamic';
 import Header from '@components/Header';
 import Head from 'next/head';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
-import { custDataNameCookie } from '@config';
+import { custDataNameCookie, features } from '@config';
 import { getHost } from '@helpers/config';
-import Message from '@components/Toast';
-import Loading from '@components/Loaders/Backdrop';
+
+const Navigation = dynamic(() => import('@components/Navigation'), { ssr: false });
+const Message = dynamic(() => import('@components/Toast'), { ssr: false });
+const Loading = dynamic(() => import('@components/Loaders/Backdrop'), { ssr: false });
 
 const Layout = (props) => {
     const {
@@ -18,6 +20,7 @@ const Layout = (props) => {
         CustomHeader = false,
         i18n, storeConfig = {},
         isLogin,
+        headerProps = {},
     } = props;
     const { ogContent = {}, schemaOrg = null } = pageConfig;
     const router = useRouter();
@@ -56,6 +59,7 @@ const Layout = (props) => {
             },
         });
     };
+
     const ogData = {
         'og:title': pageConfig.title ? pageConfig.title : 'Swift PWA',
         'og:image': storeConfig.header_logo_src
@@ -67,6 +71,15 @@ const Layout = (props) => {
         'og:type': 'website',
         ...ogContent,
     };
+
+    if (!ogData['og:description']) {
+        ogData['og:description'] = storeConfig.default_description;
+    }
+
+    if (features.facebookMetaId.enabled) {
+        ogData['fb:app_id'] = features.facebookMetaId.app_id;
+    }
+
     useEffect(() => {
         if (typeof window !== 'undefined') {
             window.toastMessage = handleSetToast;
@@ -82,13 +95,15 @@ const Layout = (props) => {
             TagManager.dataLayer(tagManagerArgs);
         }
     }, []);
+
     return (
         <>
             <Head>
                 <meta name="keywords" content={pageConfig.title ? pageConfig.title : 'Swift PWA'} />
                 <meta name="robots" content="INDEX,FOLLOW" />
-                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="format-detection" content="telephone=no" />
+                <meta name="description" content={ogData['og:description']} />
                 {Object.keys(ogData).map((key, idx) => {
                     if (typeof ogData[key] === 'object' && ogData[key].type && ogData[key].type === 'meta') {
                         return <meta name={`${key}`} content={ogData[key].value} key={idx} />;
@@ -98,13 +113,15 @@ const Layout = (props) => {
                 <title>{pageConfig.title ? pageConfig.title : 'Swift PWA'}</title>
                 {schemaOrg
                     ? (
-                        schemaOrg.map((val) => (
-                            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} />
+                        schemaOrg.map((val, idx) => (
+                            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} key={idx} />
                         ))
                     ) : null}
             </Head>
 
-            {React.isValidElement(CustomHeader) ? <>{React.cloneElement(CustomHeader, { pageConfig })}</> : <Header pageConfig={pageConfig} />}
+            {React.isValidElement(CustomHeader)
+                ? <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
+                : <Header {...headerProps} pageConfig={pageConfig} />}
 
             <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0 }}>
                 <Loading open={state.backdropLoader} />

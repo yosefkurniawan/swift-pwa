@@ -1,16 +1,19 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
+import { withApollo } from '@lib/apollo';
 import Error from 'next/error';
 import { useRouter } from 'next/router';
 import Alert from '@material-ui/lab/Alert';
+import { debuging } from '@config';
 import Content from './components';
 import DetailContent from './components/DetailBlog';
-import { getDetailBlog } from './services/graphql';
+import { getBlog } from './services/graphql';
 import Loader from './components/LoaderDetail';
 
 const Page = (props) => {
     const router = useRouter();
     const { id } = router.query;
+    const { t } = props;
     let pageConfig = {
         title: 'Blog',
         header: 'relative', // available values: "absolute", "relative", false (default)
@@ -18,19 +21,24 @@ const Page = (props) => {
         bottomNav: false,
     };
     if (id) {
-        const { loading, data, error } = getDetailBlog(id);
+        const { loading, data, error } = getBlog({
+            page_size: 1,
+            current_page: 1,
+            category_id: 0,
+            url_key: id,
+        });
         if (loading && !data) return <Loader />;
         if (error) {
             return (
                 <Layout pageConfig={pageConfig} {...props}>
                     <Alert className="m-15" severity="error">
-                        {error.message.split(':')[1]}
+                        {debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')}
                     </Alert>
                 </Layout>
             );
         }
-        if (data && data.getBlogByFilter.data.length > 0) {
-            const blog = data.getBlogByFilter.data[0];
+        if (data && data.getBlogByFilter.items.length > 0) {
+            const blog = data.getBlogByFilter.items[0];
             pageConfig = {
                 title: blog.title,
                 header: 'relative', // available values: "absolute", "relative", false (default)
@@ -39,7 +47,7 @@ const Page = (props) => {
             };
             return (
                 <Layout pageConfig={pageConfig} {...props}>
-                    <DetailContent {...props} {...blog} />
+                    <DetailContent {...props} {...blog} short={false} />
                 </Layout>
             );
         } return <Error statusCode={404} />;
@@ -56,4 +64,4 @@ Page.getInitialProps = async () => ({
     namespacesRequired: ['common'],
 });
 
-export default withTranslation()(Page);
+export default withApollo({ ssr: true })(withTranslation()(Page));

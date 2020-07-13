@@ -1,9 +1,28 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable no-unused-vars */
 const withOffline = require('next-offline');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+// const withCSS = require('@zeit/next-css');
 
 module.exports = withOffline({
     publicRuntimeConfig: {
         appEnv: process.env.APP_ENV,
     },
+    optimization: {
+        minimize: process.env.NODE_ENV === 'production', // Update this to true or false
+    },
+    // webpack: (config, { // activate if need to analysis size build
+    //     buildId, dev, isServer, defaultLoaders, webpack,
+    // }) => {
+    //     // Note: we provide webpack above so you should not `require` it
+    //     // Perform customizations to webpack config
+    //     // Important: return the modified config
+    //     config.plugins.push(new BundleAnalyzerPlugin({
+    //         analyzerMode: 'static',
+    //         reportFilename: './analyze/client.html',
+    //     }));
+    //     return config;
+    // },
     workboxOpts: {
         swDest: process.env.NEXT_EXPORT ? 'service-worker.js' : 'static/service-worker.js',
         runtimeCaching: [
@@ -29,6 +48,6 @@ module.exports = withOffline({
             ];
         },
     },
-    // change this version every build on prod
-    generateBuildId: async () => 'swift-pwa-v1.0.0',
+    // enable code below on Prod and increase the version everytime before running build script
+    // generateBuildId: async () => 'swift-pwa-v1.0.0',
 });

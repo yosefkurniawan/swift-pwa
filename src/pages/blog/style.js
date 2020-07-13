@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import { Centering, CreateMargin } from '@theme/mixins';
 
 export default makeStyles((theme) => ({
@@ -55,5 +55,12 @@ export default makeStyles((theme) => ({
         marginBottom: 30,
         alignItems: 'center',
         marginTop: 30,
+    },
+    btnCategoryContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingRight: 20,
     },
 }));

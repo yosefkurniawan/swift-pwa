@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
     GRAY_PRIMARY, PRIMARY, WHITE, GRAY_SECONDARY,
 } from '@theme/colors';
@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
         background: 'rgba(255,255,255,0.7)',
         // opacity : 0.7,
         ...CreatePadding(20, 20, 20, 20),
+        zIndex: theme.zIndex.drawer + 1,
     },
     btnAddToCard: {
         ...CreateMargin(0, 8, 0, 0),

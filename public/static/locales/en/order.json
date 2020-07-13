@@ -3,6 +3,8 @@
     "order" : "order",
     "notFound": "Order not found",
     "shippedTo": "Shipped To",
+    "pickupAt": "Pickup At",
+    "pickupBy": "Pickup By",
     "shippingMethod": "Shipping Method",
     "paymentMethod": "Payment Method",
     "shipping": "Shipping & Handling",

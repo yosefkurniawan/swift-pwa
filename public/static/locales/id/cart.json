@@ -13,5 +13,9 @@
         "saveEdit": "Simpan",
         "checkout": "Checkout"
     },
-    "confirmDelete": "Apakah Anda yakin menghapus item ini?"
+    "confirmDelete": "Apakah Anda yakin menghapus item ini?",
+    "deleteSuccess": "Hapus item cart berhasil",
+    "deleteFailed": "Hapus item cart gagal",
+    "updateSuccess": "update item cart berhasil",
+    "updateFailed": "update item cart gagal"
 }

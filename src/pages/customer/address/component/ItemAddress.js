@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { FormControlLabel, Box, Radio } from '@material-ui/core';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Radio from '@material-ui/core/Radio';
 import Typography from '@components/Typography';
 import AddressFormDialog from '@components/AddressFormDialog';
 import React, { useState } from 'react';
@@ -67,8 +68,8 @@ const ItemAddress = (props) => {
                 setOpen={() => setOpen(!open)}
                 pageTitle={t('customer:address:editTitle')}
             />
-            <Box className="column">
-                <Box className={[styles.address_content].join(' ')}>
+            <div className="column">
+                <div className={[styles.address_content].join(' ')}>
                     <FormControlLabel
                         className={[styles.address_shipping].join(' ')}
                         value={value}
@@ -99,8 +100,8 @@ const ItemAddress = (props) => {
                     <Typography className={[styles.address_edit].join(' ')} variant="span" onClick={() => setOpen(!open)}>
                         {t('customer:address:editTitle')}
                     </Typography>
-                </Box>
-            </Box>
+                </div>
+            </div>
         </>
     );
 };

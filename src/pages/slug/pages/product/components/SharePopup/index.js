@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import { shareIcon } from '@config';
 import { getHost } from '@helpers/config';
-import { Drawer } from '@material-ui/core';
+import Drawer from '@material-ui/core/Drawer';
 import Typogrphy from '@components/Typography';
 import Button from '@components/Button';
 import {

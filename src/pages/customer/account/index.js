@@ -1,7 +1,10 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
-import WihtOutToken from './component/WihtOutToken';
-import WithToken from './component/WithToken';
+import { withApollo } from '@lib/apollo';
+import dynamic from 'next/dynamic';
+
+const WihtOutToken = dynamic(() => import('./component/WihtOutToken'), { ssr: false });
+const WithToken = dynamic(() => import('./component/WithToken'), { ssr: false });
 
 const Page = (props) => {
     const { t, isLogin } = props;
@@ -28,4 +31,4 @@ Page.getInitialProps = async () => ({
     namespacesRequired: ['common', 'customer', 'notification', 'order'],
 });
 
-export default withTranslation()(Page);
+export default withApollo({ ssr: true })(withTranslation()(Page));

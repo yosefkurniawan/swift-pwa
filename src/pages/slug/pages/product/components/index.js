@@ -4,12 +4,10 @@ import PriceFormat from '@components/PriceFormat';
 import Banner from '@components/Slider/Banner';
 import Caraousel from '@components/Slider/Carousel';
 import Typography from '@components/Typography';
-import { Box, IconButton } from '@material-ui/core';
-import {
-    Favorite,
-    FavoriteBorderOutlined,
-    ShareOutlined,
-} from '@material-ui/icons';
+import IconButton from '@material-ui/core/IconButton';
+import Favorite from '@material-ui/icons/Favorite';
+import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
+import ShareOutlined from '@material-ui/icons/ShareOutlined';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -20,6 +18,7 @@ import { getCookies } from '@helpers/cookies';
 import { getHost } from '@helpers/config';
 import Breadcrumb from '@components/Breadcrumb';
 import RatingStar from '@components/RatingStar';
+import { features } from '@config';
 import useStyles from '../style';
 import ExpandDetail from './ExpandDetail';
 import ListReviews from './ListReviews';
@@ -232,6 +231,20 @@ const ProductPage = (props) => {
         });
     }
 
+    const handleOption = () => {
+        const { productAvailableToCart } = features;
+        // eslint-disable-next-line no-underscore-dangle
+        if (productAvailableToCart[data.__typename]) {
+            setOpenOption(true);
+        } else {
+            window.toastMessage({
+                variant: 'warning',
+                text: t('product:productNotAvailable'),
+                open: true,
+            });
+        }
+    };
+
     return (
         <>
             <OptionDialog
@@ -247,7 +260,7 @@ const ProductPage = (props) => {
                 link={getHost() + route.asPath}
                 {...props}
             />
-            <Box className={styles.container}>
+            <div className={styles.container}>
                 <div className={styles.headContainer}>
                     <Banner
                         data={banner}
@@ -355,7 +368,7 @@ const ProductPage = (props) => {
                     <Button
                         className={styles.btnAddToCard}
                         color="primary"
-                        onClick={() => setOpenOption(true)}
+                        onClick={handleOption}
                         disabled={data && data.stock_status === 'OUT_STOCK'}
                     >
                         <Typography
@@ -368,7 +381,7 @@ const ProductPage = (props) => {
                         </Typography>
                     </Button>
                 </div>
-            </Box>
+            </div>
         </>
     );
 };

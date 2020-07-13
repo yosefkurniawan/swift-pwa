@@ -2,9 +2,11 @@ import Button from '@components/Button';
 import TextField from '@components/Forms/TextField';
 import Header from '@components/Header';
 import Typography from '@components/Typography';
-import { Dialog, IconButton, Slide } from '@material-ui/core';
-import { Close } from '@material-ui/icons';
-import { Rating } from '@material-ui/lab';
+import Dialog from '@material-ui/core/Dialog';
+import IconButton from '@material-ui/core/IconButton';
+import Slide from '@material-ui/core/Slide';
+import Close from '@material-ui/icons/Close';
+import Rating from '@material-ui/lab/Rating';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import useStyles from './style';
@@ -53,14 +55,13 @@ const AddReviewDialog = ({
                 variables: {
                     ...value,
                 },
-            }).then((res) => {
+            }).then(() => {
                 setOpen({
-                    message: res.data.addProductReview.message,
                     variant: 'success',
                 });
             }).catch((e) => {
                 setOpen({
-                    message: e.message.split(':')[1],
+                    message: e.message.split(':')[1] || t('product:addRateFailed'),
                     variant: 'error',
                 });
             });

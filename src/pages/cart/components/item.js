@@ -1,19 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 import { useState } from 'react';
 import Link from 'next/link';
-import { IconButton, Zoom } from '@material-ui/core';
-import {
-    CreateOutlined,
-    FavoriteBorderOutlined,
-    DeleteOutlineOutlined,
-} from '@material-ui/icons';
+import IconButton from '@material-ui/core/IconButton';
+import Zoom from '@material-ui/core/Zoom';
+import CreateOutlined from '@material-ui/icons/CreateOutlined';
+import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
+import DeleteOutlineOutlined from '@material-ui/icons/DeleteOutlineOutlined';
 import { formatPrice } from '@helpers/currency';
 
 import { imageSize } from '@config';
 import useStyles from '../style';
 import ConfirmationDelete from './confirmDelete';
 import Image from '../../../components/Image';
-
 
 const Item = (props) => {
     const {

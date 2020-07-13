@@ -1,4 +1,5 @@
 import { withTranslation } from '@i18n';
+import { withApollo } from '@lib/apollo';
 import Layout from '@components/Layouts';
 import { useRouter } from 'next/router';
 import getQueryFromPath from '@helpers/generateQuery';
@@ -45,4 +46,4 @@ Page.getInitialProps = async () => ({
     namespacesRequired: ['common', 'search', 'product'],
 });
 
-export default withTranslation()(Page);
+export default withApollo({ ssr: true })(withTranslation()(Page));

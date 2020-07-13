@@ -1,7 +1,8 @@
-import {
-    AppBar, Dialog, IconButton, Slide,
-} from '@material-ui/core';
-import { Close as CloseIcon } from '@material-ui/icons';
+import AppBar from '@material-ui/core/AppBar';
+import Dialog from '@material-ui/core/Dialog';
+import IconButton from '@material-ui/core/IconButton';
+import Slide from '@material-ui/core/Slide';
+import CloseIcon from '@material-ui/icons/Close';
 import React from 'react';
 import RadioGroup from '@components/Forms/Radio';
 import Typography from '@components/Typography';

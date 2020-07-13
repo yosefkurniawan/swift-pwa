@@ -1,14 +1,19 @@
-import {
-    AppBar, Dialog, IconButton, Slide, Toolbar, Grid,
-} from '@material-ui/core';
-import { ArrowBack } from '@material-ui/icons';
+import AppBar from '@material-ui/core/AppBar';
+import Dialog from '@material-ui/core/Dialog';
+import IconButton from '@material-ui/core/IconButton';
+import Slide from '@material-ui/core/Slide';
+import Toolbar from '@material-ui/core/Toolbar';
+import Grid from '@material-ui/core/Grid';
+import ArrowBack from '@material-ui/icons/ArrowBack';
+import Alert from '@material-ui/lab/Alert';
 import React, { useState } from 'react';
 import { GraphCategory } from '@services/graphql';
-import { withTranslation } from '@i18n';
 import TextField from '@components/Forms/TextField';
 import Router from 'next/router';
 import SearchIcon from '@material-ui/icons/Search';
 import Skeleton from '@components/Skeleton';
+import { useTranslation } from '@i18n';
+import { debuging } from '@config';
 import useStyles from './style';
 import Category from './Category';
 import SubCategory from './SubCategory';
@@ -42,10 +47,27 @@ const CategoryWrapper = (props) => {
         openedCategory, showCat, openSub, slideCat, showSubCat, closeSub,
     } = props;
     const { loading, data, error } = GraphCategory.getCategories();
+    const { t } = useTranslation(['common']);
 
     if (loading) return <CategoryWrapperSkeleteon />;
-    if (error) return <div>{`Error: ${JSON.stringify(error)}`}</div>;
-    if (!data) return <p>Not found</p>;
+    if (error) {
+        return (
+            <div>
+                <Alert className="m-15" severity="error">
+                    {debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')}
+                </Alert>
+            </div>
+        );
+    }
+    if (!data) {
+        return (
+            <div>
+                <Alert className="m-15" severity="error">
+                    {t('common:error:notFound')}
+                </Alert>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -173,4 +195,4 @@ const SearchPage = (props) => {
     );
 };
 
-export default withTranslation()(SearchPage);
+export default SearchPage;

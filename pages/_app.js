@@ -3,12 +3,10 @@
 /* eslint-disable max-len */
 import React from 'react';
 import App from 'next/app';
-import Router from 'next/router';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '@theme/theme';
 import { appWithTranslation } from '@i18n';
-import { withApollo } from '@lib/apollo';
 import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import Cookie from 'js-cookie';
 import cookies from 'next-cookies';
@@ -17,15 +15,14 @@ import {
 } from '@config';
 import {
     getLoginInfo,
-    setLastPathWithoutLogin,
     getLastPathWithoutLogin,
-    removeLastPathWithoutLogin,
 } from '@helpers/auth';
-
+// import Fonts from '@helpers/fonts';
 import TagManager from 'react-gtm-module';
 import '../src/styles/index.css';
-import '../src/styles/mage.css';
 import PageProgressLoader from '@components/Loaders/PageProgress';
+import graphRequest from '../src/graphql-server/request';
+import routeMiddleware from '../src/middlewares/route';
 
 const tagManagerArgs = {
     gtmId: process.env.NODE_ENV === 'production' ? GTM.gtmId.prod : GTM.gtmId.dev,
@@ -46,7 +43,7 @@ class MyApp extends App {
             pageProps = await Component.getInitialProps(ctx);
         }
         const {
-            apolloClient, res, asPath, query, req,
+            res, asPath, query, req,
         } = ctx;
         // check if login from server
         let isLogin = 0;
@@ -59,46 +56,19 @@ class MyApp extends App {
         } else {
             isLogin = allcookie.isLogin || 0;
             customerData = allcookie[custDataNameCookie];
-            lastPathNoAuth = req.session.lastPathNoAuth || '/customer/account';
+            lastPathNoAuth = (req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth
+                && typeof req.session.lastPathNoAuth !== 'undefined')
+                ? req.session.lastPathNoAuth : '/customer/account';
         }
         isLogin = parseInt(isLogin);
-        if (pageProps.withAuth) {
-            if (typeof window !== 'undefined') {
-                if (isLogin) {
-                    if (asPath !== '/customer/account/login') {
-                        removeLastPathWithoutLogin();
-                    }
-                    if (asPath === '/customer/account/login' && query.redirect && query.redirect !== '') {
-                        removeLastPathWithoutLogin();
-                        Router.push(query.redirect);
-                    } else if (asPath === '/customer/account/login') {
-                        removeLastPathWithoutLogin();
-                        Router.push(lastPathNoAuth);
-                    }
-                } else if (asPath !== '/customer/account/login') {
-                    setLastPathWithoutLogin(asPath);
-                    Router.push('/customer/account/login');
-                }
-            } else if (isLogin) {
-                if (asPath !== '/customer/account/login') {
-                    req.session.lastPathNoAuth = '';
-                }
-                if (asPath === '/customer/account/login' && query.redirect && query.redirect !== '') {
-                    req.session.lastPathNoAuth = '';
-                    res.redirect(query.redirect);
-                } else if (asPath === '/customer/account/login') {
-                    req.session.lastPathNoAuth = '';
-                    res.redirect(lastPathNoAuth);
-                }
-            } else if (asPath !== '/customer/account/login') {
-                req.session.lastPathNoAuth = asPath;
-                res.redirect('/customer/account/login');
-            }
-        }
-
+        routeMiddleware({
+            res, req, query, asPath, isLogin, lastPathNoAuth,
+        });
         let storeConfig;
         if (!allcookie[storeConfigNameCokie]) {
-            storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
+            // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
+            storeConfig = await graphRequest(ConfigSchema);
+            storeConfig = storeConfig.storeConfig;
         } else {
             storeConfig = allcookie[storeConfigNameCokie];
         }
@@ -111,6 +81,9 @@ class MyApp extends App {
     }
 
     componentDidMount() {
+        // lazy load fonts. use this to load non critical fonts
+        // Fonts();
+
         // Remove the server-side injected CSS.
         const jssStyles = document.querySelector('#jss-server-side');
         if (jssStyles) {
@@ -138,6 +111,8 @@ class MyApp extends App {
             });
         }
 
+        pageProps.storeConfig = pageProps.storeConfig ? pageProps.storeConfig : {};
+
         return (
             <>
                 <ThemeProvider theme={theme}>
@@ -151,4 +126,4 @@ class MyApp extends App {
     }
 }
 
-export default withApollo({ ssr: true })(appWithTranslation(MyApp));
+export default (appWithTranslation(MyApp));

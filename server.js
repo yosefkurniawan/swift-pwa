@@ -1,3 +1,4 @@
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 
@@ -16,13 +17,13 @@ const https = require('https');
 const nextI18NextMiddleware = require('next-i18next/middleware').default;
 const { mergeSchemas } = require('graphql-tools');
 
+const LRUCache = require('lru-cache');
 const nextI18next = require('./src/lib/i18n');
 const fetcher = require('./src/graphql-server');
 const resolver = require('./src/graphql-server/resolver/index');
 const { AuthSchema } = require('./src/graphql-server/schema/index');
 
 const { json } = express;
-
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
 
@@ -30,12 +31,97 @@ const handle = app.getRequestHandler();
 const privateKey = '/etc/letsencrypt/live/swiftpwa.testingnow.me/privkey.pem';
 const certificate = '/etc/letsencrypt/live/swiftpwa.testingnow.me/cert.pem';
 
-const { expiredToken, SESSION_SECRET } = require('./swift.config');
+const {
+    expiredToken, SESSION_SECRET, nossrCache, features,
+} = require('./swift.config');
 const generateXml = require('./src/xml');
+
+// This is where we cache our rendered HTML pages
+const ssrCache = new LRUCache({
+    max: 100 * 1024 * 1024, /* cache size will be 100 MB using `return n.length` as length() function */
+    length(n, key) {
+        return n.length;
+    },
+    maxAge: 1000 * 60 * 60 * 24, // create max age 1 day
+});
+
+/*
+ * NB: make sure to modify this to take into account anything that should trigger
+ * an immediate page change (e.g a locale stored in req.session)
+ */
+function getCacheKey(req) {
+    return `${req.path}`;
+}
+
+async function renderAndCache(req, res) {
+    const key = getCacheKey(req);
+    // If we have a page in the cache, let's serve it
+    if (ssrCache.has(key) && typeof req.query.resetcache === 'undefined') {
+        res.setHeader('x-cache', 'HIT');
+        res.send(ssrCache.get(key));
+        return;
+    }
+
+    // reset cache if have query resetcache
+    if (req.query && typeof req.query.resetcache !== 'undefined') {
+        ssrCache.reset();
+    }
+
+    try {
+        // console.log(`key ${key} not found, rendering`);
+        // If not let's render the page into HTML
+        const html = await app.renderToHTML(req, res, req.path, req.query);
+
+        // Something is wrong with the request, let's skip the cache
+        if (res.statusCode !== 200) {
+            res.send(html);
+            return;
+        }
+        // Let's cache this page
+        ssrCache.set(key, html);
+
+        res.setHeader('x-cache', 'MISS');
+        res.send(html);
+    } catch (err) {
+        app.renderError(err, req, res, req.path, req.query);
+    }
+}
 
 (async () => {
     await app.prepare();
     const server = express();
+    // if ssr cache on
+    if (features.ssrCache) {
+        // handle next js request
+        server.get('/_next/*', (req, res) => {
+            /* serving _next static content using next.js handler */
+            handle(req, res);
+        });
+
+        server.get('/assets/*', (req, res) => {
+            /* serving assets static content using next.js handler */
+            handle(req, res);
+        });
+
+        server.get('/static/*', (req, res) => {
+            /* serving static content using next.js handler */
+            handle(req, res);
+        });
+
+        server.get('/manifest.json', (req, res) => {
+            /* serving manifest json */
+            handle(req, res);
+        });
+
+        server.get('/favicon.ico', (req, res) => {
+            /* serving manifest json */
+            handle(req, res);
+        });
+        server.get('/service-worker.js', (req, res) => {
+            /* serving service-worker */
+            handle(req, res);
+        });
+    }
 
     await nextI18next.initPromise;
     server.use(nextI18NextMiddleware(nextI18next));
@@ -83,7 +169,18 @@ const generateXml = require('./src/xml');
     serverGraph.applyMiddleware({ app: server });
 
     server.get('/sitemap.xml', generateXml);
-    server.get('*', (req, res) => handle(req, res));
+
+    // server.get('*', (req, res) => handle(req, res));
+    server.get('*', (req, res) => {
+        const key = getCacheKey(req);
+        // handle no cache ssr
+        const found = nossrCache.find((val) => val === key);
+        if (found || !features.ssrCache) {
+            return handle(req, res);
+        }
+        /* serving page */
+        return renderAndCache(req, res);
+    });
 
     if (
         process.env.NODE_ENV === 'production'

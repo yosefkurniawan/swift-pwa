@@ -9,6 +9,7 @@ export const register = gql`
         $phoneNumber: String!,
         $subscribe: Boolean,
         $otp: String!,
+        $whatsappNumber: String,
     ) {
       internalCreateCustomerToken(
         input: {
@@ -19,6 +20,7 @@ export const register = gql`
           phonenumber: $phoneNumber,
           is_subscribed: $subscribe,
           otp: $otp,
+          whatsapp_number: $whatsappNumber,
         }
       ) {
         token

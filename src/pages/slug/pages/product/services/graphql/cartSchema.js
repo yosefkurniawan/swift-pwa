@@ -29,6 +29,29 @@ mutation addSimpleProductsToCart(
   }
 `;
 
+export const addVirtualProductToCart = gql`
+mutation addVirtualProductToCart(
+    $cartId: String!,
+    $qty: Float!,
+    $sku: String!,
+) {
+    addVirtualProductsToCart(input:{
+      cart_id: $cartId,
+      cart_items: {
+        data: {
+          quantity: $qty,
+          sku: $sku
+        }
+      }
+    }) {
+      cart {
+        id
+        total_quantity
+      }
+    }
+  }
+`;
+
 export const addConfigProductsToCart = gql`
 mutation (
   $cartId: String!,

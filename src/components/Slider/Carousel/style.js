@@ -16,7 +16,6 @@ const caraouselPadding = {
     md: `0 calc((960px - ${itemContainerWidth.md})/2)`,
 };
 
-
 const useStyles = makeStyles((theme) => ({
     container: {
         width: '100%',

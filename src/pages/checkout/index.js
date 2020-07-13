@@ -1,9 +1,12 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
+import { withApollo } from '@lib/apollo';
 import cookies from 'next-cookies';
 import redirect from 'next-redirect';
 import Head from 'next/head';
-import Content from './components';
+import dynamic from 'next/dynamic';
+
+const Content = dynamic(() => import('./components'), { ssr: false });
 
 const snapUrl = {
     dev: 'https://app.sandbox.midtrans.com/snap/snap.js',
@@ -51,4 +54,4 @@ Page.getInitialProps = async (ctx) => {
     };
 };
 
-export default withTranslation()(Page);
+export default withApollo({ ssr: true })(withTranslation()(Page));

@@ -1,6 +1,7 @@
 import Button from '@components/Button';
 import Typography from '@components/Typography';
-import { CircularProgress, Chip } from '@material-ui/core';
+import Chip from '@material-ui/core/Chip';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { customerFeautres } from '@config';
 import { formatPrice } from '@helpers/currency';
 import classNames from 'classnames';

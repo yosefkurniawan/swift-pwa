@@ -1,6 +1,5 @@
 import Banner from '@components/Slider/Banner';
 import CustomTabs from '@components/Tabs';
-import { Box } from '@material-ui/core';
 import React from 'react';
 import Router from 'next/router';
 import Product from '@components/ProductList';
@@ -54,7 +53,7 @@ const CategoryPage = ({ data, storeConfig, t }) => {
         active: true,
     });
     return (
-        <Box className={styles.container}>
+        <div className={styles.container}>
             {dataBanner.length > 0
                 ? (
                     <div className={styles.headContainer}>
@@ -88,7 +87,7 @@ const CategoryPage = ({ data, storeConfig, t }) => {
                 catalog_search_engine={storeConfig.catalog_search_engine}
                 t={t}
             />
-        </Box>
+        </div>
     );
 };
 

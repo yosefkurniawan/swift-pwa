@@ -1,3 +1,5 @@
 {
-    "pageTitle": "Icube Swift PWA"
+    "pageTitle": "Icube Swift PWA",
+    "nullData": "Data tidak di temukan",
+    "errorFetchData": "Error saat fetch data atau masalah koneksi"
 }

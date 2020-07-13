@@ -1,22 +1,24 @@
-import {
-    AppBar, Dialog, IconButton, Slide,
-} from '@material-ui/core';
-import { Close as CloseIcon } from '@material-ui/icons';
-import React from 'react';
-import Typography from '@components/Typography';
 import Button from '@components/Button';
 import TextField from '@components/Forms/TextField';
-import { useTranslation } from '@i18n';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import Typography from '@components/Typography';
 import { regexPhone } from '@helpers/regex';
+import { useTranslation } from '@i18n';
+import AppBar from '@material-ui/core/AppBar';
+import Dialog from '@material-ui/core/Dialog';
+import IconButton from '@material-ui/core/IconButton';
+import Slide from '@material-ui/core/Slide';
+import CloseIcon from '@material-ui/icons/Close';
+import { useFormik } from 'formik';
+import React from 'react';
+import * as Yup from 'yup';
+import gqlService from '../../services/graphql';
 import useStyles from './style';
 
 const Transition = React.forwardRef((props, ref) => (
     <Slide direction="up" ref={ref} {...props} />
 ));
 
-const FilterDialog = ({
+const ModalPickupInformation = ({
     open,
     setOpen,
     checkout,
@@ -24,6 +26,7 @@ const FilterDialog = ({
 }) => {
     const { t } = useTranslation(['common', 'checkout', 'validate']);
     const styles = useStyles();
+    const [setPickupStore] = gqlService.setPickupStore();
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
@@ -31,6 +34,7 @@ const FilterDialog = ({
         phoneNumber: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
     });
 
+    const [loading, setLoading] = React.useState(false);
     const formik = useFormik({
         initialValues: {
             email: checkout.pickupInformation.email || '',
@@ -39,13 +43,65 @@ const FilterDialog = ({
         },
         validationSchema,
         onSubmit: async (values) => {
-            await setCheckout({
-                ...checkout,
-                pickupInformation: {
-                    ...values,
-                },
-            });
-            setOpen();
+            const pickupInformation = {
+                pickup_person_email: values.email,
+                pickup_person_name: values.person,
+                pickup_person_phone: values.phoneNumber,
+            };
+            await setLoading(true);
+            if (Object.keys(checkout.selectStore).length > 0) {
+                await setPickupStore({
+                    variables: {
+                        cart_id: checkout.data.cart.id,
+                        code: checkout.selectStore.code,
+                        extension_attributes: pickupInformation,
+                        store_address: {
+                            city: checkout.selectStore.city,
+                            country_code: checkout.selectStore.country_id,
+                            name: checkout.selectStore.name,
+                            postcode: checkout.selectStore.postcode,
+                            region: checkout.selectStore.region,
+                            street: [checkout.selectStore.street],
+                            telephone: checkout.selectStore.telephone,
+                        },
+                    },
+                }).then(async (res) => {
+                    const paymentMethod = res.data.setPickupStore.available_payment_methods.map((method) => ({
+                        ...method,
+                        label: method.title,
+                        value: method.code,
+                        image: null,
+                    }));
+                    await setCheckout({
+                        ...checkout,
+                        data: {
+                            ...checkout.data,
+                            cart: res.data.setPickupStore,
+                            paymentMethod,
+                        },
+                        pickupInformation,
+                        error: {
+                            selectStore: false,
+                            pickupInformation: false,
+                        },
+                    });
+                    await setLoading(false);
+                    setOpen();
+                }).catch(() => {
+                    setLoading(false);
+                });
+            } else {
+                await setCheckout({
+                    ...checkout,
+                    pickupInformation,
+                    error: {
+                        ...checkout.error,
+                        selectStore: true,
+                    },
+                });
+                await setLoading(false);
+                setOpen();
+            }
         },
     });
 
@@ -82,23 +138,29 @@ const FilterDialog = ({
                         name="person"
                         value={formik.values.person}
                         onChange={formik.handleChange}
+                        error={!!(formik.touched.person && formik.errors.person)}
+                        errorMessage={(formik.touched.person && formik.errors.person) || null}
                     />
                     <TextField
                         label={t('common:form:phoneNumber')}
                         name="phoneNumber"
                         value={formik.values.phoneNumber}
                         onChange={formik.handleChange}
+                        error={!!(formik.touched.phoneNumber && formik.errors.phoneNumber)}
+                        errorMessage={(formik.touched.phoneNumber && formik.errors.phoneNumber) || null}
                     />
                     <TextField
                         label="email"
                         name="email"
                         value={formik.values.email}
                         onChange={formik.handleChange}
+                        error={!!(formik.touched.email && formik.errors.email)}
+                        errorMessage={(formik.touched.email && formik.errors.email) || null}
                     />
                 </div>
 
                 <div className={styles.footer}>
-                    <Button className={styles.btnSave} type="submit">
+                    <Button loading={loading} className={styles.btnSave} type="submit">
                         {t('common:button:save')}
                     </Button>
                 </div>
@@ -107,4 +169,4 @@ const FilterDialog = ({
     );
 };
 
-export default FilterDialog;
+export default ModalPickupInformation;

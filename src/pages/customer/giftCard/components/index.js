@@ -1,12 +1,15 @@
 import Typography from '@components/Typography';
-import {
-    List, ListItem, ListItemSecondaryAction, ListItemText, Divider,
-} from '@material-ui/core';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
 import React from 'react';
 import Alert from '@material-ui/lab/Alert';
 import Button from '@components/Button';
 import TextField from '@components/Forms/TextField';
 import { formatPrice } from '@helpers/currency';
+import { debuging } from '@config';
 import { getGiftCard } from '../services/graphql';
 import ModalDetail from './ModalDetail';
 import Loader from './Loader';
@@ -25,7 +28,7 @@ const GiftCard = (props) => {
     if (error) {
         return (
             <Alert className="m-15" severity="error">
-                {error.message.split(':')[1]}
+                {debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')}
             </Alert>
         );
     }
@@ -56,7 +59,7 @@ const GiftCard = (props) => {
     };
     return (
         <div>
-            <ModalDetail storeConfig={storeConfig} open={open} setOpen={handleClose} code={selectedCode} />
+            <ModalDetail t={t} storeConfig={storeConfig} open={open} setOpen={handleClose} code={selectedCode} />
             {data && data.customer.gift_card.length === 0 && (
                 <Alert className="m-15" severity="warning">
                     {t('customer:giftCard:notFound')}

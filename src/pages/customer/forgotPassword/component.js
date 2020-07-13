@@ -9,7 +9,8 @@ import { useFormik } from 'formik';
 import { regexPhone } from '@helpers/regex';
 import * as Yup from 'yup';
 import Router from 'next/router';
-import { FormControlLabel, Switch } from '@material-ui/core';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import { requestLinkToken } from './services/graphql';
 import useStyles from './style';
 
@@ -23,6 +24,7 @@ const ForgotPassword = ({ t }) => {
     const [useEmail, setUseEmail] = React.useState(false);
     const { loading, data } = GraphConfig.otpConfig();
     const [load, setLoad] = React.useState(false);
+    const [disabled, setDisabled] = React.useState(true);
     const [getToken] = requestLinkToken();
     const formik = useFormik({
         initialValues: {
@@ -41,8 +43,13 @@ const ForgotPassword = ({ t }) => {
         }),
         onSubmit: (values) => {
             setLoad(true);
+            const getVariables = () => (
+                useEmail
+                    ? { phoneNumber: '', otp: '', email: values.email }
+                    : { phoneNumber: values.phoneNumber, otp: values.otp, email: '' }
+            );
             getToken({
-                variables: values,
+                variables: getVariables(),
             })
                 .then((res) => {
                     setLoad(false);
@@ -79,6 +86,10 @@ const ForgotPassword = ({ t }) => {
         setToast({ ...toast, open: false });
         setUseEmail(!useEmail);
     };
+
+    React.useEffect(() => {
+        setDisabled(!useEmail);
+    }, [useEmail]);
 
     if (loading || !data) return <Loading open />;
 
@@ -124,24 +135,25 @@ const ForgotPassword = ({ t }) => {
             )}
             {(data && data.otpConfig.otp_enable[0].enable_otp_forgot_password && !useEmail) && (
                 <OtpBlock
+                    setDisabled={setDisabled}
                     type="forgotPassword"
                     phoneProps={{
                         name: 'phoneNumber',
                         value: formik.values.phoneNumber,
                         onChange: formik.handleChange,
                         error: !!formik.errors.phoneNumber,
-                        errorMessage: (formik.touched.phoneNumber && formik.errors.phoneNumber) || null,
+                        errorMessage: formik.errors.phoneNumber || null,
                     }}
                     codeProps={{
                         name: 'otp',
                         value: formik.values.otp,
                         onChange: formik.handleChange,
-                        error: !!(formik.touched.otp && formik.errors.otp),
-                        errorMessage: (formik.touched.otp && formik.errors.otp) || null,
+                        error: !!formik.errors.otp,
+                        errorMessage: formik.errors.otp || null,
                     }}
                 />
             )}
-            <Button disabled={load} className={styles.btn} fullWidth type="submit">
+            <Button disabled={disabled || load} className={styles.btn} fullWidth type="submit">
                 {t('common:button:send')}
             </Button>
         </form>

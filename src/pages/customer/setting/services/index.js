@@ -5,5 +5,6 @@ import * as Schema from './schema';
 export const getCustomer = () => useQuery(Schema.getCustomer, {
     context: {
         request: 'internal',
+        skip: typeof window === 'undefined',
     },
 });

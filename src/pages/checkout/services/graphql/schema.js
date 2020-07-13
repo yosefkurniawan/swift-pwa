@@ -128,6 +128,14 @@ const cartSubSelection = `
         dest_latitude
         dest_longitude
     }
+    applied_cashback {
+        data {
+            amount
+            promo_name
+        }
+        is_cashback
+        total_cashback
+    }
 `;
 
 export const applyGiftCardToCart = gql`
@@ -435,31 +443,85 @@ export const getSnapOrderStatusByOrderId = gql`
     }
 `;
 
-
 export const getRewardPoint = gql`
     query {
-    customerRewardPoints {
-        balance
-        balanceCurrency
-        formatedBalanceCurrency
-        formatedSpendRate
-        spendRate
-        transaction_history {
-        total_count
-        page_info {
-            current_page
-            page_size
-            total_pages
-        }
-        items {
+        customerRewardPoints {
             balance
-            comment
-            expirationDate
-            points
-            transactionDate
-            transactionId
-        }
+            balanceCurrency
+            formatedBalanceCurrency
+            formatedSpendRate
+            spendRate
+            transaction_history {
+                total_count
+                page_info {
+                    current_page
+                    page_size
+                    total_pages
+                }
+                items {
+                    balance
+                    comment
+                    expirationDate
+                    points
+                    transactionDate
+                    transactionId
+                }
+            }
         }
     }
+`;
+
+export const getPickupStore = gql`
+    query getPickupStore($cart_id: String!) {
+        getPickupStore(cart_id: $cart_id) {
+            store {
+                code
+                street
+                city
+                name
+                region
+                zone
+                telephone
+                postcode
+                lat
+                long
+                country_id
+                items {
+                    qty
+                    quote_id
+                    sku
+                }
+            }
+        }
     }
+`;
+
+export const setPickupStore = gql`
+mutation setPickupStore(
+    $cart_id: String!,
+    $code: String!,
+    $extension_attributes: PickupStoreExtensionAttributes!,
+    $store_address: PickupStoreAddress!
+) {
+    setPickupStore(input: {
+        cart_id: $cart_id
+        code: $code
+        extension_attributes: $extension_attributes
+        store_address: $store_address
+    }) {
+      ${cartSubSelection}
+    }
+  }
+`;
+
+export const removePickupStore = gql`
+mutation removePickupStore(
+    $cart_id: String!,
+)  {
+    removePickupStore(input: {
+      cart_id: $cart_id
+    }) {
+      ${cartSubSelection}
+    }
+  }
 `;
