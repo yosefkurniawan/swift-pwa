@@ -43,6 +43,11 @@ class NextScriptCustom extends NextScript {
 
         const jsContent = `
       var chunkedScripts = ${JSON.stringify(chunkedScripts)};
+      if (chunkedScripts.length === 0) {
+        setTimeout(() => {
+          document.body.className = document.body.className.replace("loading","");
+        },500)
+      }
       setTimeout(() => {
         chunkedScripts.map((script) => {
           if (!script || !script.props) return;
@@ -66,7 +71,7 @@ class NextScriptCustom extends NextScript {
           }
         });
       // 1800ms seems like when PageSpeed Insights stop waiting for more js       
-      }, 1200);
+      }, 1400);
     `;
 
         return (
