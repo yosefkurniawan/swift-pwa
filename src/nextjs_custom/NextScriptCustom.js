@@ -43,6 +43,11 @@ class NextScriptCustom extends NextScript {
 
         const jsContent = `
       var chunkedScripts = ${JSON.stringify(chunkedScripts)};
+      if (chunkedScripts.length === 0) {
+        setTimeout(() => {
+          document.body.className = document.body.className.replace("loading","");
+        },500)
+      }
       setTimeout(() => {
         chunkedScripts.map((script) => {
           if (!script || !script.props) return;

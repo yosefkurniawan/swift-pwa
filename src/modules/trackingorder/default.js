@@ -5,6 +5,7 @@ import Core from './core';
 import Skeleton from './views/skeletonform';
 import FormView from './views/template/form';
 import ResultView from './views/template/result';
+import SkeletonResult from './views/skeletonresult';
 
 const DefaultTracking = (props) => {
     const { pageConfig, t } = props;
@@ -17,7 +18,7 @@ const DefaultTracking = (props) => {
 
     return (
         <Layout {...props} pageConfig={pageConfig || config}>
-            <Core {...props} FormView={FormView} ResultView={ResultView} Skeleton={Skeleton} />
+            <Core {...props} FormView={FormView} ResultView={ResultView} Skeleton={Skeleton} SkeletonResult={SkeletonResult} />
         </Layout>
     );
 };

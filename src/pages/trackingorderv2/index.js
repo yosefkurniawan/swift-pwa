@@ -1,23 +1,20 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import Layout from '@components/Layouts';
 import FormView from '../../modules/trackingorder/views/template/form';
 import ResultView from './template/result';
 import Skeleton from '../../modules/trackingorder/views/skeletonform';
+import SkeletonResult from '../../modules/trackingorder/views/skeletonresult';
 import TrackingOrder from '../../modules/trackingorder/base';
 
-const DefaultTracking = (props) => {
-    console.log(props);
-    return (
-        <TrackingOrder
-            {...props}
-            Layout={Layout}
-            FormView={FormView}
-            ResultView={ResultView}
-            Skeleton={Skeleton}
-        />
-    );
-};
+const DefaultTracking = (props) => (
+    <TrackingOrder
+        {...props}
+        FormView={FormView}
+        ResultView={ResultView}
+        Skeleton={Skeleton}
+        SkeletonResult={SkeletonResult}
+    />
+);
 
 DefaultTracking.getInitialProps = async () => ({
     namespacesRequired: ['trackingorder', 'validate', 'contact'],

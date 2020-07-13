@@ -1,13 +1,14 @@
 /* eslint-disable prefer-destructuring */
-import SkeleteonTracking from './skeletonform';
 import { getTrackingOrder } from '../services';
 
-const Result = ({ t, orderField, ResultView }) => {
+const Result = ({
+    t, orderField, ResultView, SkeletonResult,
+}) => {
     const { email, order_id } = orderField;
     const { loading, data } = getTrackingOrder({ email, order_id });
     return (
         <>
-            {loading ? <SkeleteonTracking /> : (
+            {loading ? <SkeletonResult /> : (
                 <ResultView t={t} orders={data.ordersFilter} />
             )}
         </>

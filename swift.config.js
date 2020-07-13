@@ -156,6 +156,9 @@ const modules = {
     brands: {
         enabled: true,
     },
+    trackingorder: {
+        enabled: true,
+    },
 };
 
 const nossrCache = [

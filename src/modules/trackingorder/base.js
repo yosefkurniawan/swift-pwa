@@ -1,9 +1,10 @@
+import Layout from '@components/Layouts';
 import Core from './core';
 import Skeleton from './views/skeletonform';
 
 const DefaultTracking = (props) => {
     const {
-        pageConfig, t, FormView, ResultView, Layout,
+        pageConfig, t, FormView, ResultView, SkeletonResult,
     } = props;
     const config = {
         title: t('trackingorder:trackingOrder'),
@@ -14,7 +15,7 @@ const DefaultTracking = (props) => {
 
     return (
         <Layout {...props} pageConfig={pageConfig || config}>
-            <Core {...props} FormView={FormView} ResultView={ResultView} Skeleton={Skeleton} />
+            <Core {...props} FormView={FormView} ResultView={ResultView} Skeleton={Skeleton} SkeletonResult={SkeletonResult} />
         </Layout>
     );
 };
