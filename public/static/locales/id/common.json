@@ -62,7 +62,7 @@
     "error": {
         "notFound" : "Data tidak di temukan",
         "fileReject": "Tidak dapat mengupload file harus ber type ",
-        "fetchError": "Terjadi kesalahan saat mengambil data atau koneksi. Silakan coba lagi nanti"
+        "fetchError": "Terjadi kesalahan. Silakan coba lagi nanti"
     },
     "fileUpload": {
         "reject": "Tidak dapat mengupload, file harus ber type  ",
