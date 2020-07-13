@@ -2,8 +2,8 @@
 /* eslint-disable jsx-a11y/alt-text */
 const Maintenance = () => (
     <div className="error-container">
-        <img className="img-logo" src="/assets/img/pwa.png" />
-        <img className="img-center" src="/assets/img/swiftpwa_512.png" />
+        <img className="img-logo" src="/assets/img/logo_white.png" />
+        <img className="img-center" src="/assets/img/construction.png" />
         <div className="error-description">
             <p>We're to make our website better than over.</p>
             <p>Check back in a bit. we'll see you soon.</p>
@@ -22,11 +22,12 @@ const Maintenance = () => (
                     position: relative;
                 }
                 .img-logo{
+                    width: 200px;
                     margin-bottom: 50px;
                 }
                 .img-center {
                     margin-bottom: 80px;
-                    width: 300px;
+                    width: 500px;
                     height: auto;
                 }
                 .error-description {
@@ -44,7 +45,7 @@ const Maintenance = () => (
                         max-width: 100px;
                     }
                     .img-center {
-                        width: 150px;
+                        width: 250px;
                         height: auto;
                     }
                     p {
