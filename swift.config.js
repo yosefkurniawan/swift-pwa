@@ -93,7 +93,7 @@ const cmsSocialMediaLinkIdentifiers = 'pwa_socmed_links';
 const enableSocialMediaLink = true;
 
 /* Loader */
-const loaderImage = '/assets/img/sample/spinner.svg';
+const loaderImage = '/assets/img/loader.gif';
 
 /* config general size image used on frontend */
 const imageSize = {
