@@ -60,6 +60,20 @@ const GTM = {
     },
 };
 
+/* Recapthca Configuration */
+
+const recaptcha = {
+    enable: true,
+    siteKey: {
+        dev: '6LdKG7EZAAAAAJO3zeYFMC1rZxvCL3-aZhmPI5eh',
+        prod: '',
+    },
+    serverKey: {
+        dev: '6LdKG7EZAAAAANlKgvxpRY8WpM9gTNL6cjP2-wSk',
+        prod: '',
+    },
+};
+
 /* Store Credit, Reward Point, Gift Card */
 const customerFeautres = {
     storeCredit: true,
@@ -203,4 +217,5 @@ module.exports = {
     enableSocialMediaLink,
     features,
     nossrCache,
+    recaptcha,
 };
