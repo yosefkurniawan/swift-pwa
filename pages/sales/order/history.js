@@ -1,3 +1,3 @@
-import Page from '@pages/order/history';
+import Page from '../../../src/modules/order/history/default';
 
 export default Page;

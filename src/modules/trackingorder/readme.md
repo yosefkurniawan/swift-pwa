@@ -74,7 +74,7 @@ export default withApollo({ ssr: true })(withTranslation()(DefaultTracking));
 | :---        | :---     | :---        |:---  |
 | pageConfig  |  false   | object configuration page layout      | Object|
 
-### 2. Base
+### 2. Core
 #### Properties
 | Props       | Required | Description | Type |
 | :---        | :---     | :---        |:---  |
