@@ -28,7 +28,7 @@ const handle = app.getRequestHandler();
 const {
     expiredToken, SESSION_SECRET, nossrCache, features,
 } = require('./swift.config');
-const generateXml = require('./src/xml');
+const generateXml = require('./src/services/rest/xml');
 const captchaValidation = require('./src/services/rest/captcha');
 
 // This is where we cache our rendered HTML pages
