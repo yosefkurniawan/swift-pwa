@@ -15,10 +15,14 @@ const useStyles = makeStyles((theme) => ({
         '100%': { transform: 'rotate(360deg)' },
     },
     loader: {
-        width: 70,
-        height: 70,
+        width: 60,
+        height: 60,
         animationName: '$spiner',
         animation: '1.5s linear infinite',
+    },
+    loaderGif: {
+        width: 60,
+        height: 50,
     },
 }));
 
@@ -42,7 +46,7 @@ const CustomBackdrop = ({ open, className }) => {
             />
         );
     } else {
-        image = <img src={loaderImage} alt={loaderImage} />;
+        image = <img src={loaderImage} alt={loaderImage} className={styles.loaderGif} />;
     }
     return (
         <Backdrop className={backdroptStyle} open={open}>

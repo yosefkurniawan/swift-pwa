@@ -1,6 +1,6 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
-import Loading from '@components/Loaders';
+import Loading from '@components/Loaders/Backdrop';
 import Alert from '@material-ui/lab/Alert';
 import Content from './components';
 import { getCmsPage } from './services/graphql';
@@ -15,7 +15,7 @@ const Page = (props) => {
             </Alert>
         );
     }
-    if (loading) return <Loading size="40px" />;
+    if (loading) return <Loading open={loading} />;
 
     const pageConfig = {
         title: data.cmsPage.title,

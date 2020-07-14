@@ -1,11 +1,12 @@
 import dynamic from 'next/dynamic';
-import Error from 'next/error';
+import Error from '@pages/error';
 import { cmsPages } from '@root/swift.config.js';
 import { getResolver } from '../services/graphql';
 
 const Category = dynamic(() => import('../pages/category'));
 const Product = dynamic(() => import('../pages/product'));
 const Cms = dynamic(() => import('../pages/cms'));
+const Loading = dynamic(() => import('@components/Loaders/Backdrop'));
 
 const generateContent = (props, resolver) => {
     if (resolver.type === 'CATEGORY') {
@@ -24,7 +25,13 @@ const GetResolver = (props) => {
     const { url_key } = props;
     const { error, loading, data } = getResolver(url_key);
     if (error) return <Error statusCode={500} />;
-    if (loading) return <span />;
+    if (loading) {
+        return (
+            <main>
+                <Loading open />
+            </main>
+        );
+    }
     return generateContent(props, data.urlResolver ? data.urlResolver : {});
 };
 

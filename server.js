@@ -11,9 +11,7 @@ const {
 const cookieSession = require('cookie-session');
 const express = require('express');
 const next = require('next');
-const fs = require('fs');
 const http = require('http');
-const https = require('https');
 const nextI18NextMiddleware = require('next-i18next/middleware').default;
 const { mergeSchemas } = require('graphql-tools');
 
@@ -26,10 +24,6 @@ const { AuthSchema } = require('./src/graphql-server/schema/index');
 const { json } = express;
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
-
-/* change the cerification files path as needed */
-const privateKey = '/etc/letsencrypt/live/swiftpwa.testingnow.me/privkey.pem';
-const certificate = '/etc/letsencrypt/live/swiftpwa.testingnow.me/cert.pem';
 
 const {
     expiredToken, SESSION_SECRET, nossrCache, features,
@@ -133,40 +127,42 @@ async function renderAndCache(req, res) {
 
     server.use(json({ limit: '2mb' }));
 
-    const schema = makeRemoteExecutableSchema({
-        schema: await introspectSchema(fetcher),
-        fetcher,
-    });
+    if (fetcher) {
+        const schema = makeRemoteExecutableSchema({
+            schema: await introspectSchema(fetcher),
+            fetcher,
+        });
 
-    const schemas = mergeSchemas({
-        schemas: [schema, AuthSchema],
-        resolvers: resolver,
-    });
+        const schemas = mergeSchemas({
+            schemas: [schema, AuthSchema],
+            resolvers: resolver,
+        });
 
-    // handle server graphql endpoint use `/graphql`
-    const serverGraph = new ApolloServer({
-        schema: schemas,
-        context: ({ req }) => req,
-        playground: {
-            endpoint: '/graphql',
-            settings: {
-                'editor.theme': 'light',
+        // handle server graphql endpoint use `/graphql`
+        const serverGraph = new ApolloServer({
+            schema: schemas,
+            context: ({ req }) => req,
+            playground: {
+                endpoint: '/graphql',
+                settings: {
+                    'editor.theme': 'light',
+                },
             },
-        },
-        formatError: (err) => {
-            if (err.message === 'graphql-authorization') {
-                return {
-                    message: err.message,
-                    extensions: {
-                        category: 'graphql-authorization',
-                    },
-                    status: 401,
-                };
-            }
-            return err;
-        },
-    });
-    serverGraph.applyMiddleware({ app: server });
+            formatError: (err) => {
+                if (err.message === 'graphql-authorization') {
+                    return {
+                        message: err.message,
+                        extensions: {
+                            category: 'graphql-authorization',
+                        },
+                        status: 401,
+                    };
+                }
+                return err;
+            },
+        });
+        serverGraph.applyMiddleware({ app: server });
+    }
 
     server.get('/sitemap.xml', generateXml);
 
@@ -182,29 +178,8 @@ async function renderAndCache(req, res) {
         return renderAndCache(req, res);
     });
 
-    if (
-        process.env.NODE_ENV === 'production'
-        && fs.existsSync(privateKey)
-        && fs.existsSync(certificate)
-    ) {
-        const credentials = {
-            key: fs.readFileSync(privateKey),
-            cert: fs.readFileSync(certificate),
-        };
-
-        // https
-        const httpsServer = https.createServer(credentials, server);
-        await httpsServer.listen(3030);
-        console.log('> Ready on https://localhost:3030'); // eslint-disable-line no-console
-
-        // http
-        const httpServer = http.createServer(server);
-        await httpServer.listen(3000);
-        console.log('> Ready on http://localhost:3000'); // eslint-disable-line no-console
-    } else {
-        // http
-        const httpServer = http.createServer(server);
-        await httpServer.listen(3000);
-        console.log('> Ready on http://localhost:3000'); // eslint-disable-line no-console
-    }
+    // create server
+    const httpServer = http.createServer(server);
+    await httpServer.listen(3000);
+    console.log('> Ready on http://localhost:3000'); // eslint-disable-line no-console
 })();
