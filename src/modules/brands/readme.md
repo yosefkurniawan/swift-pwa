@@ -13,7 +13,7 @@ if you don't need custom, you can import it directly from the default modules
 ## Use default template and no overide
 ### import Brands module and place on your routing
 ````
-import Brands from '../src/modules/brands/default';
+import Page from '../src/modules/brands/default';
 
 export default Page;
 
@@ -71,7 +71,6 @@ export default withApollo({ ssr: true })(withTranslation()(BrandsPage));
 ### Properties
 | Props       | Required | Description | Type |
 | :---        | :---     | :---        |:---  |
-| Layout      |  true    | component layout base of project | Component |
 | pageConfig  |  false   | object configuration page layout      | Object|
 
 
@@ -83,7 +82,6 @@ export default withApollo({ ssr: true })(withTranslation()(BrandsPage));
 | Skeleton      |  true    |  views component, you can use default component or custom | Component |
 | pageConfig  |  false   | object configuration page layout      | Object|
 | generateAllData  |  false   | function to generate all data array      | Function|
-| Layout      |  required    | component layout base of project | Component |
 
 ## Override Function
 #### generateAllData
