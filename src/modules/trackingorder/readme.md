@@ -74,7 +74,7 @@ export default withApollo({ ssr: true })(withTranslation()(DefaultTracking));
 | :---        | :---     | :---        |:---  |
 | pageConfig  |  false   | object configuration page layout      | Object|
 
-### 2. Base
+### 2. Core
 #### Properties
 | Props       | Required | Description | Type |
 | :---        | :---     | :---        |:---  |
@@ -83,7 +83,6 @@ export default withApollo({ ssr: true })(withTranslation()(DefaultTracking));
 | ResultView      |  true    | views component, you can use default component or custom | Component |
 | SkeletonResult      |  true    |  views component, you can use default component or custom | Component |
 | pageConfig  |  false   | object configuration page layout      | Object|
-| generateAllData  |  false   | function to generate all data array      | Function|
 
 
 ## Override Config

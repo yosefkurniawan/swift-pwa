@@ -71,7 +71,7 @@ class NextScriptCustom extends NextScript {
           }
         });
       // 1800ms seems like when PageSpeed Insights stop waiting for more js       
-      }, 1200);
+      }, 1400);
     `;
 
         return (

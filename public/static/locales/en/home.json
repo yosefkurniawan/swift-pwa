@@ -1,5 +1,5 @@
 {
     "pageTitle": "Icube Swift PWA",
     "nullData": "Not found data",
-    "errorFetchData": "Error with fetch data or connections"
+    "errorFetchData": "Connection Error. Please try again later."
 }
