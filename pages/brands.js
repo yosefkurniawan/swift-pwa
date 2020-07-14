@@ -1,7 +1,4 @@
-import Layout from '../src/components/Layouts';
-import Brands from '../src/modules/brands/default';
-
-const Page = () => <Brands Layout={Layout} />;
+import Page from '../src/modules/brands/default';
 
 // if need to custom brands page
 // import Page from '@pages/brandsv2';

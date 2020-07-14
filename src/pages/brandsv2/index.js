@@ -1,7 +1,6 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import Layout from '@components/Layouts';
-import Brand from '../../modules/brands/base';
+import Brand from '../../modules/brands/core';
 // import Content from '../../modules/brands/components/index';
 import Content from './template';
 import Skeleton from '../../modules/brands/views/skeleton';
@@ -10,7 +9,7 @@ import Skeleton from '../../modules/brands/views/skeleton';
 import generateAllData from './models/generateAllData';
 
 const BrandsPage = (props) => (
-    <Brand {...props} Layout={Layout} Content={Content} Skeleton={Skeleton} generateAllData={generateAllData} />
+    <Brand {...props} Content={Content} Skeleton={Skeleton} generateAllData={generateAllData} />
 );
 
 BrandsPage.getInitialProps = async () => ({

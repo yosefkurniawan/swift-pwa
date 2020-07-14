@@ -4,23 +4,9 @@ import Core from './core';
 import Content from './views';
 import Skeleton from './views/skeleton';
 
-const Default = (props) => {
-    const { Layout, t, pageConfig } = props;
-    const config = {
-        title: t('brands:title'),
-        header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle: t('brands:title'),
-        headerBackIcon: 'arrow', // available values: "close", "arrow"
-        bottomNav: false,
-        pageType: 'brands',
-    };
-
-    return (
-        <Layout {...props} pageConfig={pageConfig || config}>
-            <Core {...props} Content={Content} Skeleton={Skeleton} />
-        </Layout>
-    );
-};
+const Default = (props) => (
+    <Core {...props} Content={Content} Skeleton={Skeleton} />
+);
 
 Default.getInitialProps = async () => ({
     namespacesRequired: ['brands'],

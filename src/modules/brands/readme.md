@@ -11,26 +11,19 @@ Module brands can be installed with custom template or default template
 if you don't need custom, you can import it directly from the default modules
 
 ## Use default template and no overide
-
-### 1. import default layout your project 
+### import Brands module and place on your routing
 ````
-import Layout from '../src/components/Layouts';
-````
-### 2. import Brands module and place on your routing
-````
-import Brands from '../src/modules/brands/default';
-
-const Page = () => <Brands Layout={Layout} />;
+import Page from '../src/modules/brands/default';
 
 export default Page;
 
 ````
 
 ## Use ustom template or overide logic
-### 1. import base brand module
+### 1. import core brand module
 
 ````
-import Brand from '../../modules/brands/base';
+import Brand from '../../modules/brands/core';
 ````
 
 ### 2. if not all custom you can import component on module
@@ -47,7 +40,6 @@ import Skeleton from '../../modules/brands/views/skeleton';
 ````
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import Layout from '@components/Layouts';
 import Brand from '../../modules/brands/base';
 
 // your custom template import
@@ -60,7 +52,7 @@ import generateAllData from './models/generateAllData';
 
 const BrandsPage = (props) => (
     // generate brands page from module
-    <Brand {...props} Layout={Layout} Content={Content} Skeleton={Skeleton} generateAllData={generateAllData} />
+    <Brand {...props} Content={Content} Skeleton={Skeleton} generateAllData={generateAllData} />
 );
 
 BrandsPage.getInitialProps = async () => ({
@@ -79,7 +71,6 @@ export default withApollo({ ssr: true })(withTranslation()(BrandsPage));
 ### Properties
 | Props       | Required | Description | Type |
 | :---        | :---     | :---        |:---  |
-| Layout      |  true    | component layout base of project | Component |
 | pageConfig  |  false   | object configuration page layout      | Object|
 
 
@@ -91,7 +82,6 @@ export default withApollo({ ssr: true })(withTranslation()(BrandsPage));
 | Skeleton      |  true    |  views component, you can use default component or custom | Component |
 | pageConfig  |  false   | object configuration page layout      | Object|
 | generateAllData  |  false   | function to generate all data array      | Function|
-| Layout      |  required    | component layout base of project | Component |
 
 ## Override Function
 #### generateAllData
