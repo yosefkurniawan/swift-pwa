@@ -29,6 +29,7 @@ const {
     expiredToken, SESSION_SECRET, nossrCache, features,
 } = require('./swift.config');
 const generateXml = require('./src/xml');
+const captchaValidation = require('./src/services/rest/captcha');
 
 // This is where we cache our rendered HTML pages
 const ssrCache = new LRUCache({
@@ -165,6 +166,7 @@ async function renderAndCache(req, res) {
     }
 
     server.get('/sitemap.xml', generateXml);
+    server.post('/captcha-validation', captchaValidation);
 
     // server.get('*', (req, res) => handle(req, res));
     server.get('*', (req, res) => {
