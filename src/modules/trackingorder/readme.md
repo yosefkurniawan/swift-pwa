@@ -83,7 +83,6 @@ export default withApollo({ ssr: true })(withTranslation()(DefaultTracking));
 | ResultView      |  true    | views component, you can use default component or custom | Component |
 | SkeletonResult      |  true    |  views component, you can use default component or custom | Component |
 | pageConfig  |  false   | object configuration page layout      | Object|
-| generateAllData  |  false   | function to generate all data array      | Function|
 
 
 ## Override Config

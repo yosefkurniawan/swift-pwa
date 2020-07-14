@@ -1,7 +1,7 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import FormView from '../../modules/trackingorder/views/template/form';
-// custome result view
+// custom result view
 import ResultView from './template/result';
 
 // get from current module
