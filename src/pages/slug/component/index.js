@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import Error from 'next/error';
+import Error from '@pages/error';
 import { cmsPages } from '@root/swift.config.js';
 import { getResolver } from '../services/graphql';
 

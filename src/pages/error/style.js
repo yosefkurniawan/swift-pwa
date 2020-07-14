@@ -31,7 +31,7 @@ const useStyles = makeStyles(() => ({
         borderRight: '1px solid rgba(0, 0, 0,.3)',
         margin: 0,
         marginRight: '20px',
-        padding: '10px 23px 10px 0',
+        padding: '8px 23px 8px 0',
         fontSize: '24px',
         fontWeight: 500,
         verticalAlign: 'top',
