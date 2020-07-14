@@ -11,10 +11,11 @@ import OtpBlock from '@components/OtpBlock';
 import { setLogin } from '@helpers/auth';
 import { setCartId, getCartId } from '@helpers/cartId';
 import { GraphCart, GraphConfig } from '@services/graphql';
-import { expiredToken, custDataNameCookie } from '@config';
+import { expiredToken, custDataNameCookie, recaptcha } from '@config';
 import Cookies from 'js-cookie';
 import { getCustomer } from '@services/graphql/schema/customer';
 import { useQuery } from '@apollo/react-hooks';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { register } from './services/graphql';
 import useStyles from './style';
 
@@ -23,6 +24,10 @@ const Register = ({ t, storeConfig }) => {
     const [phoneIsWa, setPhoneIsWa] = React.useState(false);
     const [cusIsLogin, setIsLogin] = React.useState(0);
     const [disabled, setdisabled] = React.useState(false);
+
+    const recaptchaRef = React.createRef();
+    const sitekey = process.env.NODE_ENV === 'production' ? recaptcha.siteKey.prod : recaptcha.siteKey.dev;
+
     let cartId = '';
 
     const expired = storeConfig.oauth_access_token_lifetime_customer
@@ -56,6 +61,7 @@ const Register = ({ t, storeConfig }) => {
         phoneNumber: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
         whatsappNumber: Yup.string().required(t('validate:whatsappNumber:required')).matches(regexPhone, t('validate:whatsappNumber:wrong')),
         otp: otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_register && Yup.number().required('Otp is required'),
+        captcha: recaptcha.enable && Yup.string().required(`Captcha ${t('validate:required')}`),
     });
 
     const formik = useFormik({
@@ -69,31 +75,66 @@ const Register = ({ t, storeConfig }) => {
             whatsappNumber: '',
             subscribe: false,
             otp: '',
+            captcha: '',
         },
         validationSchema: RegisterSchema,
-        onSubmit: (values) => {
+        onSubmit: (values, { resetForm }) => {
             setdisabled(true);
             window.backdropLoader(true);
-            sendRegister({
-                variables: values,
+            fetch('/captcha-validation', {
+                method: 'post',
+                body: JSON.stringify({
+                    response: values.captcha,
+                }),
+                headers: { 'Content-Type': 'application/json' },
             })
-                .then(async () => {
-                    await setIsLogin(1);
-                    getCart();
-                    setdisabled(false);
+                .then((data) => data.json())
+                .then((json) => {
+                    if (json.success) {
+                        sendRegister({
+                            variables: values,
+                        })
+                            .then(async () => {
+                                resetForm();
+                                await setIsLogin(1);
+                                getCart();
+                                setdisabled(false);
+                                window.backdropLoader(false);
+                            })
+                            .catch((e) => {
+                                setdisabled(false);
+                                window.backdropLoader(false);
+                                window.toastMessage({
+                                    open: true,
+                                    text: e.message.split(':')[1] || t('customer:register:failed'),
+                                    variant: 'error',
+                                });
+                            });
+                    } else {
+                        window.toastMessage({
+                            open: true,
+                            variant: 'error',
+                            text: t('contact:failedSubmit'),
+                        });
+                    }
                     window.backdropLoader(false);
                 })
-                .catch((e) => {
-                    setdisabled(false);
+                .catch(() => {
                     window.backdropLoader(false);
                     window.toastMessage({
                         open: true,
-                        text: e.message.split(':')[1] || t('customer:register:failed'),
                         variant: 'error',
+                        text: t('common:error:fetchError'),
                     });
                 });
+
+            recaptchaRef.current.reset();
         },
     });
+
+    const handleChangeCaptcha = (value) => {
+        formik.setFieldValue('captcha', value || '');
+    };
 
     const handleWa = () => {
         if (phoneIsWa === false) {
@@ -269,7 +310,24 @@ const Register = ({ t, storeConfig }) => {
                                 {t('customer:register:subscribe')}
                             </Typography>
                         )}
+                        className={recaptcha.enable && styles.subscribe}
                     />
+
+                    {
+                        recaptcha.enable ? (
+                            <>
+                                <ReCAPTCHA
+                                    sitekey={sitekey}
+                                    onChange={handleChangeCaptcha}
+                                    ref={recaptchaRef}
+                                />
+                                { formik.errors.captcha && (
+                                    <Typography color="red">{formik.errors.captcha}</Typography>
+                                )}
+                            </>
+                        ) : null
+                    }
+
                     <Button disabled={disabled} fullWidth className={styles.btnSigin} type="submit">
                         <Typography variant="title" type="regular" letter="capitalize" color="white">
                             {t('customer:register:button')}

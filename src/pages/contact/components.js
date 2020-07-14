@@ -22,6 +22,7 @@ const ContactForm = ({ t }) => {
         text: '',
     });
     const recaptchaRef = React.createRef();
+    const sitekey = process.env.NODE_ENV === 'production' ? recaptcha.siteKey.prod : recaptcha.siteKey.dev;
 
     const [contactusFormSubmit] = gqlService.contactusFormSubmit();
     const formik = useFormik({
@@ -36,7 +37,7 @@ const ContactForm = ({ t }) => {
             fullName: Yup.string().required(t('validate:fullName:required')),
             email: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
             message: Yup.string().required(t('validate:message:required')),
-            captcha: Yup.string().required(`Captcha ${t('validate:required')}`),
+            captcha: recaptcha.enable && Yup.string().required(`Captcha ${t('validate:required')}`),
             telephone: Yup.string().matches(regexPhone, t('validate:phoneNumber:wrong')).required(t('validate:phoneNumber:required')),
         }),
         onSubmit: async (values, { resetForm }) => {
@@ -153,7 +154,7 @@ const ContactForm = ({ t }) => {
                 recaptcha.enable ? (
                     <>
                         <ReCAPTCHA
-                            sitekey={recaptcha.siteKey.dev}
+                            sitekey={sitekey}
                             onChange={handleChangeCaptcha}
                             ref={recaptchaRef}
                         />
