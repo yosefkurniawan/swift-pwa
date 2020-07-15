@@ -1,10 +1,9 @@
 import Layout from '@components/Layouts';
 import { useRouter } from 'next/router';
-import Skeleton from './views/skeleton';
 import { getOrderDetail } from '../services';
 
 const OrderDetail = (props) => {
-    const { t, Content } = props;
+    const { t, Content, Skeleton } = props;
     const router = useRouter();
     const { id } = router.query;
     let detail = [];

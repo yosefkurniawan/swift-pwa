@@ -13,7 +13,6 @@ import Footer from './footer';
 
 const DetailOrder = (props) => {
     const { t, detail, currency } = props;
-    console.log(props);
     const styles = useStyles();
     let items = [];
     if (detail.length > 0 && detail[0].detail[0].items.length) {

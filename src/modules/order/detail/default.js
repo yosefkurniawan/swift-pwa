@@ -2,9 +2,10 @@ import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import Core from './core';
 import Content from './views';
+import Skeleton from './views/skeleton';
 
 const DefaultOrder = (props) => (
-    <Core {...props} Content={Content} />
+    <Core {...props} Content={Content} Skeleton={Skeleton} />
 );
 
 DefaultOrder.getInitialProps = async () => ({
