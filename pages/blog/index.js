@@ -1,3 +1,3 @@
-import Page from '@pages/blog';
+import Page from '@modules/blog/default/Landing';
 
 export default Page;
