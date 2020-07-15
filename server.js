@@ -17,9 +17,9 @@ const { mergeSchemas } = require('graphql-tools');
 
 const LRUCache = require('lru-cache');
 const nextI18next = require('./src/lib/i18n');
-const fetcher = require('./src/graphql-server');
-const resolver = require('./src/graphql-server/resolver/index');
-const { AuthSchema } = require('./src/graphql-server/schema/index');
+const fetcher = require('./src/api/graphql');
+const resolver = require('./src/api/graphql/resolver/index');
+const { AuthSchema } = require('./src/api/graphql/schema/index');
 
 const { json } = express;
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
@@ -28,8 +28,8 @@ const handle = app.getRequestHandler();
 const {
     expiredToken, SESSION_SECRET, nossrCache, features,
 } = require('./swift.config');
-const generateXml = require('./src/services/rest/xml');
-const captchaValidation = require('./src/services/rest/captcha');
+const generateXml = require('./src/api/rest/xml');
+const captchaValidation = require('./src/api/rest/captcha');
 
 // This is where we cache our rendered HTML pages
 const ssrCache = new LRUCache({

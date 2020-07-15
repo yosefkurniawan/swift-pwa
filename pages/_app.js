@@ -21,7 +21,7 @@ import {
 import TagManager from 'react-gtm-module';
 import '../src/styles/index.css';
 import PageProgressLoader from '@components/Loaders/PageProgress';
-import graphRequest from '../src/graphql-server/request';
+import graphRequest from '../src/api/graphql/request';
 import routeMiddleware from '../src/middlewares/route';
 
 const tagManagerArgs = {
