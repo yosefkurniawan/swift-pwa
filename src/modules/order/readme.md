@@ -3,5 +3,5 @@ This is a order module that is used to display order history list and order hist
 
 # Contents
 - [History Order](history/readme.md) 
-- [Order Detail](history/readme.md) 
+- [Order Detail](detail/readme.md) 
 
