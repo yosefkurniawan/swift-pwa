@@ -1,5 +1,6 @@
 import Layout from '@components/Layouts';
 import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 import { getOrderDetail } from '../services';
 
 const OrderDetail = (props) => {
@@ -35,6 +36,16 @@ const OrderDetail = (props) => {
             <Content {...props} detail={detail} currency={currency} />
         </Layout>
     );
+};
+
+OrderDetail.propTypes = {
+    Content: PropTypes.func,
+    Skeleton: PropTypes.func,
+};
+
+OrderDetail.defaultProps = {
+    Content: () => {},
+    Skeleton: () => {},
 };
 
 export default OrderDetail;
