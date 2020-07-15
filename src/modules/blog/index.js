@@ -1,7 +1,11 @@
-import core from './core';
+import landing from './landing';
+import category from './category';
+import detail from './detail';
 import views from './views';
 
 export default {
-    core,
+    landing,
+    category,
+    detail,
     views,
 };
