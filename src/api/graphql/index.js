@@ -1,8 +1,9 @@
+/* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
 const fetch = require('cross-fetch');
 const { print } = require('graphql');
-const { graphqlEndpoint } = require('../../swift.config');
-const { decrypt } = require('../helpers/encryption');
+const { graphqlEndpoint } = require('../../../swift.config');
+const { decrypt } = require('../../helpers/encryption');
 
 // make remote schema
 const fetcher = async ({

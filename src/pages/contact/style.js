@@ -12,4 +12,7 @@ export default makeStyles(() => ({
         display: 'flex',
         alignSelf: 'center',
     },
+    message: {
+        marginBottom: 30,
+    },
 }));
