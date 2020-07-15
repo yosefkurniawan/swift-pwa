@@ -4,5 +4,7 @@
     "fullName": "Nama",
     "email": "Email",
     "message": "Pesan",
-    "telephone": "Telepon"
+    "telephone": "Telepon",
+    "successSubmit": "Sukses mengirim pesan",
+    "failedSubmit": "Gagal mengirim pesan, silahkan periksa inputan atau koneksi anda"
 }

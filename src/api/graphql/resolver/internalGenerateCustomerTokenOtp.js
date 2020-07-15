@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 const requestGraph = require('../request');
-const { encrypt } = require('../../helpers/encryption');
+const { encrypt } = require('../../../helpers/encryption');
 
 const query = `
     mutation getToken(
@@ -12,7 +12,6 @@ const query = `
         }
     }
 `;
-
 
 const internalGenerateCustomerTokenOtp = async (parent, { username, otp }, context) => {
     const res = await requestGraph(query, { username, otp }, context);
@@ -27,6 +26,5 @@ const internalGenerateCustomerTokenOtp = async (parent, { username, otp }, conte
     }
     return res;
 };
-
 
 module.exports = internalGenerateCustomerTokenOtp;
