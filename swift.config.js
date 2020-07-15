@@ -61,16 +61,15 @@ const GTM = {
 };
 
 /* Recapthca Configuration */
-
 const recaptcha = {
-    enable: true,
+    enable: false,
     siteKey: {
-        dev: '6LdKG7EZAAAAAJO3zeYFMC1rZxvCL3-aZhmPI5eh',
-        prod: '',
+        dev: '',    // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
+        prod: '',   // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
     },
     serverKey: {
-        dev: '6LdKG7EZAAAAANlKgvxpRY8WpM9gTNL6cjP2-wSk',
-        prod: '',
+        dev: '',    // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
+        prod: '',   // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
     },
 };
 
