@@ -1,12 +1,13 @@
-import Loading from '@components/Loaders';
+import Loading from '@components/Loaders/Backdrop';
 import Typography from '@components/Typography';
 import Button from '@components/Button';
 import TextField from '@components/Forms/TextField';
 import { regexPhone } from '@helpers/regex';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { cmsContactIdentifiers } from '@root/swift.config.js';
+import { cmsContactIdentifiers, debuging } from '@root/swift.config.js';
 import { GraphCms } from '@services/graphql';
+import Alert from '@material-ui/lab/Alert';
 import gqlService from './services/graphql';
 import useStyles from './style';
 
@@ -98,8 +99,16 @@ const ContactForm = ({ t }) => {
 
 const ContactPage = (props) => {
     const { error, loading, data } = GraphCms.getCmsBlocks({ identifiers: [cmsContactIdentifiers] });
-    if (error) return <p>error</p>;
-    if (loading) return <Loading size="50px" />;
+    if (error) {
+        return (
+            <div className="cms-container">
+                <Alert className="m-15" severity="error">
+                    {debuging.originalError ? error.message.split(':')[1] : props.t('common:error:fetchError')}
+                </Alert>
+            </div>
+        );
+    }
+    if (loading) return <Loading open={loading} />;
 
     return (
         <>
