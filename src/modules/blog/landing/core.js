@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import propTypes from 'prop-types';
@@ -84,7 +85,7 @@ const CoreLanding = (props) => {
     };
 
     const contentprops = {
-        t, handleLoadMore, loadMore, page, pageSize, loading, data, loadCategory,
+        t, handleLoadMore, loadMore, page, loading, data, loadCategory,
     };
 
     return (
@@ -103,11 +104,13 @@ CoreLanding.propTypes = {
     ContentCategory: propTypes.func.isRequired,
     Loader: propTypes.func,
     WarningInfo: propTypes.func,
+    pageConfig: propTypes.object,
 };
 
 CoreLanding.defaultProps = {
     Loader: () => {},
     WarningInfo: () => {},
+    pageConfig: {},
 };
 
 export default CoreLanding;
