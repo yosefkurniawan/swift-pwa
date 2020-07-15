@@ -1,3 +1,3 @@
-import Page from '@pages/order/detail';
+import Page from '../../../../../src/modules/order/detail/default';
 
 export default Page;
