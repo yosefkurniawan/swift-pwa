@@ -85,16 +85,5 @@
     "inputSearch": "Enter Gift Card code",
     "buttonSearch": "Check status & balance",
     "required": "Code is required"
-  },
-  "rewardPoint": {
-    "balanceTitle": "Current balance is ",
-    "canbeTitle": "Total can be redeem at checkout is ",
-    "learnMore": "To learn abaout point reward program. $ Click here",
-    "transactionId" : "Transaction ID",
-    "balance": "Balance",
-    "comment": "Comment",
-    "expired" : "Expired Date",
-    "point": "Point",
-    "transactionDate": "Transaction Date"
   }
 }
