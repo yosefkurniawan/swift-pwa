@@ -10,7 +10,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import gqlService from '../../services/graphql';
 import Footer from '../Footer';
 import Loaders from '../Loader';
-import PointCard from '../PointCard';
+import PointCard from '../../../../../modules/rewardpoint/plugins/info/default';
 // Styling And Component
 import useStyles from './style';
 

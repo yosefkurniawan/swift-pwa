@@ -165,6 +165,15 @@ const features = {
     },
 };
 
+const modules = {
+    brands: {
+        enabled: true,
+    },
+    trackingorder: {
+        enabled: true,
+    },
+};
+
 const nossrCache = [
     '/aw_rewardpoints/info',
     '/sales/order/history',
@@ -217,4 +226,5 @@ module.exports = {
     features,
     nossrCache,
     recaptcha,
+    modules,
 };
