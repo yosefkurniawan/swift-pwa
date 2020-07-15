@@ -2,7 +2,7 @@
 /* eslint-disable func-names */
 const fs = require('fs');
 const path = require('path');
-const requestGraph = require('../../graphql-server/request');
+const requestGraph = require('../graphql/request');
 const { getHost } = require('../../helpers/config');
 
 const baseDir = path.join(__dirname, '../public/static/');
