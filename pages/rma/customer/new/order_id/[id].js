@@ -1,3 +1,3 @@
-import Page from '@modules/rma/new/default';
+import Page from '@modules/rma/pages/new';
 
 export default Page;

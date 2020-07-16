@@ -4,12 +4,12 @@ import React from 'react';
 import propTypes from 'prop-types';
 import DefaultLayout from '@components/Layouts';
 import { useRouter } from 'next/router';
-import { getUpdateFormRma } from '../../services/graphql';
+import { getUpdateFormRma, getCustomer } from '../../services/graphql';
 import Content from './components';
 
 const CoreLanding = (props) => {
     const {
-        t, Loader, WarningInfo, pageConfig = {}, customerData, ...other
+        t, Loader, WarningInfo, pageConfig = {}, ...other
     } = props;
     const router = useRouter();
     const { id } = router.query;
@@ -23,14 +23,26 @@ const CoreLanding = (props) => {
     };
 
     let objectData = {};
-    const paramsFormRma = {
-        email: customerData.email,
-        increment_id: id,
+    let customerData = {
+        email: '',
     };
+    const loadCustomerData = getCustomer();
+    if (loadCustomerData.data && !loadCustomerData.loading) {
+        customerData = loadCustomerData.data.customer;
+    }
+    const paramsFormRma = {
+        variables: {
+            email: customerData.email || '',
+            increment_id: id,
+        },
+        skip: typeof window === 'undefined' || loadCustomerData.loading,
+    };
+
     const {
         loading, data, error, refetch,
     } = getUpdateFormRma(paramsFormRma);
-    if (loading || !data || error) return <Loader />;
+
+    if (loading || !data || loadCustomerData.loading) return <Loader />;
     if (!loading && data && data.getUpdateFormDataAwRma) {
         // eslint-disable-next-line prefer-destructuring
         objectData = data.getUpdateFormDataAwRma;

@@ -11,9 +11,7 @@ const ItemField = ({
     errorForm = false,
     errorMessage = '',
     fieldValue = [''],
-    required,
     t,
-    ...other
 }) => {
     const [select, setSelect] = React.useState(fieldValue[0].value || '');
     const handleSelect = (event) => {
@@ -43,7 +41,6 @@ const ItemField = ({
                         error={error}
                         errorMessage={errorMessage || t('return:form:required')}
                         showLabel={false}
-                        {...other}
                     />
                 ) : (
                     <Typography variant="span">

@@ -6,8 +6,7 @@ export const getFormDataRma = (params) => useQuery(Schema.getFormDataRma, {
         request: 'internal',
     },
     fetchPolicy: 'no-cache',
-    variables: params,
-    skip: typeof window === 'undefined',
+    ...params,
 });
 
 export const getUpdateFormRma = (params) => useQuery(Schema.getUpdateFormRma, {
@@ -15,8 +14,7 @@ export const getUpdateFormRma = (params) => useQuery(Schema.getUpdateFormRma, {
         request: 'internal',
     },
     fetchPolicy: 'no-cache',
-    variables: params,
-    skip: typeof window === 'undefined',
+    ...params,
 });
 
 export const requestRma = () => useMutation(Schema.requestRma, {
@@ -47,6 +45,15 @@ export const getHistoryRma = (params) => useQuery(Schema.getHistoryRma, {
     fetchPolicy: 'no-cache',
     variables: params,
     skip: typeof window === 'undefined',
+});
+
+export const getCustomer = () => useQuery(Schema.getCustomer, {
+    variables: {},
+    context: {
+        request: 'internal',
+    },
+    skip: typeof window === 'undefined',
+    fetchPolicy: 'cache-and-network',
 });
 
 export default {

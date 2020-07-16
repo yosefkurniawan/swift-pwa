@@ -252,6 +252,17 @@ mutation cancelRma(
 }
 `;
 
+export const getCustomer = gql`
+{
+    customer {
+      id
+      firstname
+      lastname
+      email
+    }
+  }
+`;
+
 export default {
     getFormDataRma,
 };
