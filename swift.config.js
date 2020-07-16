@@ -225,6 +225,6 @@ module.exports = {
     enableSocialMediaLink,
     features,
     nossrCache,
-    modules,
     recaptcha,
+    modules,
 };
