@@ -12,6 +12,8 @@
                 "alias": {
                     "@root": "./",
                     "@components": "./src/components",
+                    "@core": "./src/core",
+                    "@custom": "./src/custom",
                     "@i18n": "./src/lib/i18n",
                     "@pages": "./src/pages",
                     "@theme": "./src/theme",

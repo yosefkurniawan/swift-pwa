@@ -1,5 +1,5 @@
 /* eslint-disable arrow-body-style */
-import Carousel from '../../../commons/carousel';
+import Carousel from '@core/commons/carousel/';
 import ItemFeatured from './Item';
 
 const FeaturedBrands = (props) => {

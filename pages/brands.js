@@ -1,6 +1,6 @@
-import Page from '../src/modules/brands/default';
+import Page from '@core/brands/pages/default';
 
 // if need to custom brands page
-// import Page from '@pages/brandsv2';
+// import Page from '@custom/brands/pages/default';
 
 export default Page;

@@ -1,11 +1,3 @@
-# Description
-
-This is a brand module that is used to display selected brands and brand lists.
-
-# How to install
-First, enable your module on swift config with key ````brands````
-
-copy `brands.json` under locales folder and paste tp `static/locales` en and id
 
 Module brands can be installed with custom template or default template
 if you don't need custom, you can import it directly from the default modules
@@ -13,9 +5,9 @@ if you don't need custom, you can import it directly from the default modules
 ## Use default template and no overide
 ### import Brands module and place on your routing
 ````
-import Page from '../src/modules/brands/default';
-
+import Page from '@core/brands/pages/default';
 export default Page;
+
 
 ````
 
@@ -23,15 +15,14 @@ export default Page;
 ### 1. import core brand module
 
 ````
-import Brand from '../../modules/brands/core';
+import Brand from '@core/brands/pages/default/core';
 ````
 
 ### 2. if not all custom you can import component on module
 
 ````
 // for example skeleton not overide and use default template
-
-import Skeleton from '../../modules/brands/views/skeleton';
+import Skeleton from '@core/brands/pages/default/components/skeleton';
 ````
 ### 3. create your custom template
 ### 4. import your template
@@ -40,15 +31,15 @@ import Skeleton from '../../modules/brands/views/skeleton';
 ````
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import Brand from '../../modules/brands/base';
+import Brand from '@core/brands/pages/default/core';
 
-// your custom template import
-import Content from './template';
+// your custom components import
 
-import Skeleton from '../../modules/brands/views/skeleton';
+import Skeleton from '@core/brands/pages/default/components/skeleton';
 
 // sample overide function
-import generateAllData from './models/generateAllData';
+import generateAllData from '../../helpers/generateAllData';
+import Content from './components';
 
 const BrandsPage = (props) => (
     // generate brands page from module
@@ -166,8 +157,7 @@ const pageConfig = {
 3 some properties from swift app example ````t or translation ````
 
 # Default Template
-1. Featured Brands `{path module}/views/featured/index`
-2. List All Brands with grouping `{path module}/views/all`
-3. Complete All Brands View `{path module}/views/index`
-4. Skeleton Loading `{path module}/views/skeleton`
-
+1. Featured Brands `@core/brands/pages/default/components/featured`
+2. List All Brands with grouping `@core/brands/pages/default/components//all`
+3. Complete All Brands View `@core/brands/pages/default/components`
+4. Skeleton Loading `@core/brands/pages/default/components/skeleton`

@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { PropTypes } from 'prop-types';
 import Layout from '@components/Layouts';
-import { getBrands } from './services';
-import allData from './models/generateAllData';
+import { getBrands } from '../../services/graphql';
+import allData from '../../helpers/generateAllData';
 
 const Base = (props) => {
     const {
