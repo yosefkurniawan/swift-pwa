@@ -6,7 +6,7 @@ import { debuging } from '@config';
 
 const RewardPoint = (props) => {
     const {
-        t, Content, ErrorView, Skeleton, pageConfig,
+        t, Content, ErrorView, Skeleton, pageConfig, rowsPerPage,
     } = props;
 
     const config = {
@@ -17,7 +17,7 @@ const RewardPoint = (props) => {
     };
 
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [count, setRowsPerPage] = React.useState(rowsPerPage || 10);
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -27,7 +27,7 @@ const RewardPoint = (props) => {
         setPage(0);
     };
     const { data, loading, error } = GraphCustomer.getRewardPoint({
-        pageSize: rowsPerPage,
+        pageSize: count,
         currentPage: page + 1,
     });
 
@@ -79,7 +79,7 @@ const RewardPoint = (props) => {
                 loading={loading}
                 getPath={getPath}
                 getId={getId}
-                rowsPerPage={rowsPerPage}
+                rowsPerPage={count}
                 page={page}
                 handleChangePage={handleChangePage}
                 handleChangeRowsPerPage={handleChangeRowsPerPage}
@@ -92,12 +92,14 @@ RewardPoint.propTypes = {
     Content: PropTypes.func,
     Skeleton: PropTypes.func,
     ErrorView: PropTypes.func,
+    rowsPerPage: PropTypes.number,
 };
 
 RewardPoint.defaultProps = {
     Content: () => {},
     Skeleton: () => {},
     ErrorView: () => {},
+    rowsPerPage: 10,
 };
 
 export default RewardPoint;
