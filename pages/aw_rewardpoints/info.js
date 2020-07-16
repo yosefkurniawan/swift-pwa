@@ -1,3 +1,3 @@
-import Page from '../../src/modules/rewardpoint/default';
+import Page from '@core/rewardpoint/pages/default';
 
 export default Page;

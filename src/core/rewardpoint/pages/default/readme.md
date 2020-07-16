@@ -1,44 +1,30 @@
 # Description
 
-This module to handle about reward point
+this module reward point to show history of reward point
 
-# How to install
-
-Before install module or plugin you need to  enable your module on swift config with key `rewardpoint`
-
-copy `rewardpoint.json` under locales folder and paste tp `static/locales` en and id
-
-then you can install module or plugins
-
-# Contents
-
-## Plugin
-
-1. [Info](plugins/info/readme.md)  
-
-## Modules
-
-### Use default template and no overide
-#### import reward point module and place on your routing
+# How To Install
+## Use default template and no overide
+### 1 import reward point module and place on your routing
 
 
 ````
-import Page from '../../../src/modules/rewardpoint/default';
+import Page from '@core/rewardpoint/pages/default';
 
 export default Page;
 ````
 
 
-## 2. if not all custom you can import component and some component custom
+## if not all custom you can import component and some component custom
 
+### 1 import default component to use
 ````
 // for example skeleton not overide and use default template
 
-import Skeleton from '../../modules/rewardpoint/views/skeleton';
+import Skeleton from '@core/rewardpoint/pages/default/components/skeleton';
 ````
-## 3. create your custom template
-## 4. import your template
-## 5. Place it in your page
+## 2. create your custom template
+## 3. import your template
+## 4. Place it in your page
 ### example code
 ````
 import { withTranslation } from '@i18n';
@@ -47,9 +33,9 @@ import { withApollo } from '@lib/apollo';
 // import your custom template
 import Content from './template'
 
-import Core from '../../../src/modules/rewardpoint/core';
-import Item from '../../../src/modules/rewardpoint/views/item';
-import ErrorView from '../../../src/modules/rewardpoint/views/error';
+import Core from '@core/rewardpoint/pages/default/core';
+import Item from '@core/rewardpoint/pages/default/components/item';
+import ErrorView from '@core/rewardpoint/pages/default/components/error';
 
 const RewardPoint = (props) => (
     <Core {...props} Content={Content} Skeleton={Skeleton} ErrorView={ErrorView} />
