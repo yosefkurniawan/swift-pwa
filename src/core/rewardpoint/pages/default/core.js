@@ -1,8 +1,8 @@
-import { GraphCustomer } from '@services/graphql';
 import urlParser from '@helpers/urlParser';
 import Layout from '@components/Layouts';
 import PropTypes from 'prop-types';
 import { debuging } from '@config';
+import { getRewardPoint } from '../../services/graphql';
 
 const RewardPoint = (props) => {
     const {
@@ -26,7 +26,7 @@ const RewardPoint = (props) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-    const { data, loading, error } = GraphCustomer.getRewardPoint({
+    const { data, loading, error } = getRewardPoint({
         pageSize: count,
         currentPage: page + 1,
     });
