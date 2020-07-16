@@ -1,3 +1,3 @@
-import Page from '@pages/return/view';
+import Page from '@modules/rma/pages/detail';
 
 export default Page;

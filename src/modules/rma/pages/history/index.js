@@ -1,7 +1,7 @@
-import Skeleton from '@modules/rma/history/views/Skeleton';
-import CoreBase from '@modules/rma/history/core';
-import WarningInfo from '@modules/rma/history/views/Info';
-import Content from '@modules/rma/history/views';
+import Skeleton from '@modules/rma/pages/history/components/Skeleton';
+import CoreBase from '@modules/rma/pages/history/core';
+import WarningInfo from '@modules/rma/pages/history/components/Info';
+import Content from '@modules/rma/pages/history/components';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 

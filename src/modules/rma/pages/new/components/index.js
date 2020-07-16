@@ -32,6 +32,7 @@ const NewReturnRma = (props) => {
                             }));
                             return (
                                 <ItemField
+                                    t={t}
                                     key={index}
                                     options={options}
                                     name={name}

@@ -6,7 +6,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import DefaultLayout from '@components/Layouts';
 import { useRouter } from 'next/router';
-import { getFormDataRma, requestRma } from '../services/graphql';
+import { getFormDataRma, requestRma } from '../../services/graphql';
 
 const CoreNewRma = (props) => {
     const {
@@ -201,7 +201,7 @@ const CoreNewRma = (props) => {
     const contentprops = {
         t,
         loading,
-        data,
+        data: objectData,
         products,
         fileAccept,
         handleSubmit,

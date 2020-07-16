@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Select from '@components/Forms/Select';
-import { useTranslation } from '@i18n';
 
 const ItemField = ({
     options = [],
@@ -11,9 +10,9 @@ const ItemField = ({
     errorForm = false,
     errorMessage = '',
     required = false,
+    t,
     ...other
 }) => {
-    const { t } = useTranslation(['rma']);
     const [select, setSelect] = React.useState('');
     const handleSelect = (event) => {
         setSelect(event.target.value);
