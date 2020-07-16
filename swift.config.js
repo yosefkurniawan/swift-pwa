@@ -64,12 +64,12 @@ const GTM = {
 const recaptcha = {
     enable: false,
     siteKey: {
-        dev: '',    // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
-        prod: '',   // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
+        dev: '', // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
+        prod: '', // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
     },
     serverKey: {
-        dev: '',    // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
-        prod: '',   // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
+        dev: '', // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
+        prod: '', // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
     },
 };
 
