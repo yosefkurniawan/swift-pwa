@@ -86,4 +86,7 @@ export default makeStyles(() => ({
             width: 80,
         },
     },
+    subscribe: {
+        marginBottom: 25,
+    },
 }));

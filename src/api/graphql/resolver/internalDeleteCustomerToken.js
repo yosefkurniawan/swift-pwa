@@ -22,5 +22,4 @@ const internalDeleteCustomerToken = async (parent, args, context) => {
     };
 };
 
-
 module.exports = internalDeleteCustomerToken;
