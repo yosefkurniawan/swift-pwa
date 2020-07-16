@@ -71,8 +71,7 @@ export default withApollo({ ssr: true })(withTranslation()(DefaultOrder));
 | Props       | Required | Description | Type |
 | :---        | :---     | :---        |:---  |
 | Content      |  true    | views component, you can use default component or custom | Component |
-| Skeleton      |  true    |  views component, you can use default component or custom | Component |
-component or custom | Component |
+| Skeleton      |  true    |  views component, you can use default 
 | ErrorView      |  true    |  views component, you can use default component or custom | Component |
 | pageConfig  |  false   | object configuration page layout      | Object|
 | size  |  false   | custom count per page history list     | Number|
