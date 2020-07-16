@@ -6,13 +6,13 @@ import useStyles from './style';
 
 const Error = (props) => {
     const styles = useStyles();
-    const { statusCode, t } = props;
+    const { statusCode } = props;
 
     const statusCodes = {
-        400: t('error:400:title'),
-        404: t('error:404:title'),
-        405: t('error:405:title'),
-        500: t('error:500:title'),
+        400: 'Bad Request',
+        404: 'This page could not be found',
+        405: 'Method Not Allowed',
+        500: 'Internal Server Error',
     };
 
     // eslint-disable-next-line react/destructuring-assignment
@@ -38,9 +38,7 @@ const Error = (props) => {
                 {statusCode === 404 ? (
                     <div className={styles.actions}>
                         <Link href="/">
-                            <Button className={styles.toolbarButton}>
-                                {t('error:actions:back')}
-                            </Button>
+                            <Button className={styles.toolbarButton}>Back</Button>
                         </Link>
                     </div>
                 ) : null}
@@ -49,11 +47,11 @@ const Error = (props) => {
     );
 };
 
-Error.getInitialProps = ({ res, err }) => {
-    const namespacesRequired = ['error'];
-    // eslint-disable-next-line no-nested-ternary
-    const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
-    return { statusCode, namespacesRequired };
-};
+// Error.getInitialProps = ({ res, err }) => {
+//     const namespacesRequired = ['error'];
+//     // eslint-disable-next-line no-nested-ternary
+//     const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
+//     return { statusCode, namespacesRequired };
+// };
 
 export default withTranslation()(Error);

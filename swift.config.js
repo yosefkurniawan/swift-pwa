@@ -60,6 +60,19 @@ const GTM = {
     },
 };
 
+/* Recapthca Configuration */
+const recaptcha = {
+    enable: false,
+    siteKey: {
+        dev: '', // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
+        prod: '', // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
+    },
+    serverKey: {
+        dev: '', // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
+        prod: '', // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
+    },
+};
+
 /* Store Credit, Reward Point, Gift Card */
 const customerFeautres = {
     storeCredit: true,
@@ -213,4 +226,5 @@ module.exports = {
     features,
     nossrCache,
     modules,
+    recaptcha,
 };
