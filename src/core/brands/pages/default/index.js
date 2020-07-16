@@ -1,8 +1,8 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import Core from './core';
-import Content from './views';
-import Skeleton from './views/skeleton';
+import Content from './components';
+import Skeleton from './components/skeleton';
 
 const Default = (props) => (
     <Core {...props} Content={Content} Skeleton={Skeleton} />
