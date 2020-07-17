@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import Layout from '@components/Layouts';
-import { getCustomer } from './services';
-import Content from './views/index';
+import { getCustomer } from '../../services/graphql';
+import Content from './components/index';
 
 const Tracking = (props) => {
     const {
