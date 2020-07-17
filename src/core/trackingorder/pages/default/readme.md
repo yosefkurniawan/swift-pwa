@@ -116,7 +116,7 @@ const pageConfig = {
 
 
 # Default Template
-1. Skeleton `@core/trackingorder/pages/components/skeletonform`;
-2. SkeletonResult `@core/trackingorder/pages/components/skeletonresult`';
-3. FormView `@core/trackingorder/pages/components/template/form`;
-4. ResultView `@core/trackingorder/pages/components/template/result`;
+1. Skeleton '@core/trackingorder/pages/components/skeletonform`;
+2. SkeletonResult '@core/trackingorder/pages/components/skeletonresult`';
+3. FormView '@core/trackingorder/pages/components/template/form`;
+4. ResultView '@core/trackingorder/pages/components/template/result`;

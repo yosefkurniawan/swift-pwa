@@ -22,7 +22,6 @@
                     "@config" : "./swift.config.js",
                     "@lib": "./src/lib",
                     "@stores": "./src/stores",
-                    "@modules": "./src/modules"
                 }
             }
         ]

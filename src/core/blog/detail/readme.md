@@ -13,7 +13,7 @@ example `{pages}/blog/[id].js`
 example
 
 ```node
-import Page from '@modules/blog/detail/default';  // use point to default components module
+import Page from '@core/blog/detail/default';  // use point to default components module
 
 export default Page;
 
@@ -36,7 +36,7 @@ export default Page;
 
 ### 3. import core modules
 ```node
-import CoreBase from '@modules/blog/detail/core'; // must import and uses core base
+import CoreBase from '@core/blog/detail/core'; // must import and uses core base
 ....... 
 // write other code
 ```
@@ -46,7 +46,7 @@ import CoreBase from '@modules/blog/detail/core'; // must import and uses core b
 ```node
 // for example loader skeleton uses default
 
-import Loader from '@modules/views/Loader/LoaderDetail';
+import Loader from '@core/views/Loader/LoaderDetail';
 
 ```
 
@@ -62,10 +62,10 @@ import Loader from '@modules/views/Loader/LoaderDetail';
 import React from 'react';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import CoreBase from '@modules/blog/detail/core'; // must import and uses core base
-import DefaultContent from '@modules/blog/views/Details'; //import your custom layout content
-import Loader from '@modules/blog/views/Loader/LoaderDetail';   //import your loader component
-import WarningInfo from '@modules/blog/views/Info'; // import your warning/ alert info eror component
+import CoreBase from '@core/blog/detail/core'; // must import and uses core base
+import DefaultContent from '@core/blog/views/Details'; //import your custom layout content
+import Loader from '@core/blog/views/Loader/LoaderDetail';   //import your loader component
+import WarningInfo from '@core/blog/views/Info'; // import your warning/ alert info eror component
 
 const DetailPage = (props) => {
      const pageConfig = {
