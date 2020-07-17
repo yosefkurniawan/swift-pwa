@@ -70,7 +70,10 @@ export default withApollo({ ssr: true })(withTranslation()(CheckoutPage));
 #### Properties
 | Props       | Required | Description | Type |
 | :---        | :---     | :---        |:---  |
-| CashbackInfoView| true | template show how many cashback get by customer| Function |
+| CashbackInfoView| true | template show how many cashback get by customer| Function Component |
+| EmailView| true | template show how many cashback get by customer| Function Component |
+| DeliveryView| true | template show delivery option| Function  Component|
+| DeliverySkeleton| true | template show how many cashback get by customer| Function  Component|
 
 # Properties sent to the component
 1. CashbackInfo
@@ -81,5 +84,25 @@ export default withApollo({ ssr: true })(withTranslation()(CheckoutPage));
 | currency     |  type  currency string      | String |
 | price     |  amout cashback      | Number |
 
+2. EmailView
+
+| Props       | Description | Type |
+| :---        | :---        |:---  |
+| formik     |  Formik function     | Function |
+| setAnchorEl     |  function to set anchorEl to set on popover material ui     | Function |
+| anchorEl     |  anchorEl to set on popover material ui      | Array |
+| open     |  value to notif anchor popover show or not      | Boolean |
+| t     |  function to translation      | Function |
+
+3. DeliveryView
+
+| Props       | Description | Type |
+| :---        | :---        |:---  |
+| checkout     |  data checkout      | Object |
+| handleSelect     |  function to select shiping method     | Function |
+
 # Default Template
 1. CashbackInfo `@core/checkout/pages/default/components/CashbackInfo`
+1. EmailView `@core/checkout/pages/default/components/email`
+1. DeliveryView `@core/checkout/pages/default/components/delivery`
+1. DeliverySkeleton `@core/checkout/pages/default/components/delivery/skeleton`

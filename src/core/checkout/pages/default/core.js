@@ -5,14 +5,21 @@ import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import { formatPrice } from '@helpers/currency';
-import useStyles from './style';
 import gqlService from '../../services/graphql';
+import Delivery from './components/delivery';
+import Email from './components/email';
 
 const Checkout = (props) => {
     const {
-        t, cartId, storeConfig, isLogin, CashbackInfoView,
+        t,
+        cartId,
+        storeConfig,
+        isLogin,
+        CashbackInfoView,
+        DeliveryView,
+        EmailView,
+        DeliverySkeleton,
     } = props;
-    const styles = useStyles();
     const [checkout, setCheckout] = useState({
         order_id: '',
         data: {
@@ -275,7 +282,7 @@ const Checkout = (props) => {
     const chasbackMessage = t('checkout:cashbackInfo').split('$');
 
     return (
-        <div className={styles.root}>
+        <>
             {
                 checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
                     <CashbackInfoView
@@ -286,7 +293,29 @@ const Checkout = (props) => {
                     />
                 )
             }
-        </div>
+            <>
+                {
+                    storeConfig.pickup_store ? (
+                        <Delivery
+                            t={t}
+                            DeliveryView={DeliveryView}
+                            Skeleton={DeliverySkeleton}
+                            formik={formik}
+                            checkout={checkout}
+                            setCheckout={setCheckout}
+                            handleOpenMessage={handleOpenMessage}
+                            storeConfig={storeConfig}
+                        />
+                    ) : null
+                }
+                <Email
+                    t={t}
+                    formik={formik}
+                    EmailView={EmailView}
+                    checkout={checkout}
+                />
+            </>
+        </>
     );
 };
 

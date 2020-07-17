@@ -7,6 +7,9 @@ import Head from 'next/head';
 import { modules } from '@config';
 import Core from './core';
 import CashbackInfo from './components/CashbackInfo';
+import EmailView from './components/email/view';
+import DeliveryView from './components/delivery/view';
+import DeliverySkeleton from './components/delivery/skeleton';
 
 const Page = (props) => {
     const { t, storeConfig } = props;
@@ -34,6 +37,9 @@ const Page = (props) => {
             <Core
                 {...props}
                 CashbackInfoView={CashbackInfo}
+                EmailView={EmailView}
+                DeliveryView={DeliveryView}
+                DeliverySkeleton={DeliverySkeleton}
             />
         </Layout>
     );
