@@ -4,20 +4,13 @@ This is a tracking order module that is used to tracking customer order.
 
 # How to install
 
-First, enable your module on swift config with key `trackingorder`
-
-copy `trackingorder.json` under locales folder and paste tp `static/locales` en and id
-
-Module tracking order can be installed with custom template or default template
-if you don't need custom, you can import it directly from the default modules# Description
-
-
 ## Use default template and no overide
 ### import Tracking Order module and place on your routing
 ````
-import Page from '../src/modules/trackingorder/default';
+import Page from '@core/trackingorder/pages/default';
 
 export default Page;
+
 
 ````
 
@@ -27,7 +20,7 @@ export default Page;
 ````
 // for example skeleton not overide and use default template
 
-import Skeleton from '../../modules/brands/views/skeleton';
+import Skeleton from '@core/trackingorder/pages/components/skeleton';
 ````
 ### 3. create your custom template
 ### 4. import your template
@@ -37,14 +30,14 @@ import Skeleton from '../../modules/brands/views/skeleton';
 ````
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import FormView from '../../modules/trackingorder/views/template/form';
+import FormView from '@core/trackingorder/pages/components/template/form';
 // custome result view
 import ResultView from './template/result';
 
 // get from current module
-import Skeleton from '../../modules/trackingorder/views/skeletonform';
-import SkeletonResult from '../../modules/trackingorder/views/skeletonresult';
-import TrackingOrder from '../../modules/trackingorder/core';
+import Skeleton from '@core/trackingorder/pages/components/skeletonform';
+import SkeletonResult from '@core/trackingorder/pages/components/skeletonresult';
+import TrackingOrder from '@core/trackingorder/pages/core';
 
 const DefaultTracking = (props) => (
     <TrackingOrder
@@ -119,3 +112,11 @@ const pageConfig = {
 | handleOpenDialog     | function to trigger open dialog| Function |
 | orderField     | value form field order (email and order number)| Object |
 | openDialog     | value dialog open or no| boolean |
+
+
+
+# Default Template
+1. Skeleton `@core/trackingorder/pages/components/skeletonform`;
+2. SkeletonResult `@core/trackingorder/pages/components/skeletonresult`';
+3. FormView `@core/trackingorder/pages/components/template/form`;
+4. ResultView `@core/trackingorder/pages/components/template/result`;
