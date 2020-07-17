@@ -172,6 +172,19 @@ const modules = {
     trackingorder: {
         enabled: true,
     },
+    order: {
+        enabled: true,
+    },
+    rewardpoint: {
+        enabled: true,
+    },
+    checkout: {
+        enabled: true,
+        snapUrl: {
+            dev: 'https://app.sandbox.midtrans.com/snap/snap.js',
+            prod: 'https://app.midtrans.com/snap/snap.js',
+        },
+    },
 };
 
 const nossrCache = [

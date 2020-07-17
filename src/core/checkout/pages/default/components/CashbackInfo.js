@@ -1,0 +1,24 @@
+import { formatPrice } from '@helpers/currency';
+import Alert from '@material-ui/lab/Alert';
+import Typography from '@components/Typography';
+
+const CashbackInfo = ({
+    message, price, currency, promo_name,
+}) => (
+    <div className="m-15">
+        <Alert Saverity="success">
+            { message[0] }
+            <Typography type="bold">
+                {formatPrice(price,
+                    currency)}
+            </Typography>
+            {message[1]}
+            <Typography type="bold">
+                {promo_name}
+            </Typography>
+            { message[2]}
+        </Alert>
+    </div>
+);
+
+export default CashbackInfo;

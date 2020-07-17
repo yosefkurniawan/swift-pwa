@@ -1,7 +1,10 @@
+# Description
 
 Module brands can be installed with custom template or default template
 if you don't need custom, you can import it directly from the default modules
 
+
+# How to install
 ## Use default template and no overide
 ### import Brands module and place on your routing
 ````
