@@ -3,7 +3,8 @@ import DropFile from '@components/DropFile';
 import useStyles from './styles';
 
 const FormComment = ({
-    formData, setFormData, state, t, setState, handleGetBase64, fileAccept,
+    commentValue, t, handleGetBase64, fileAccept,
+    handleChangeComment, dropValue, handleDrop,
 }) => {
     const styles = useStyles();
     return (
@@ -11,8 +12,8 @@ const FormComment = ({
             <div className={styles.block}>
                 <TextField
                     name="message"
-                    onChange={(event) => setFormData({ ...formData, message: event.target.value })}
-                    value={formData.message}
+                    onChange={handleChangeComment}
+                    value={commentValue}
                     placeholder={t('rma:form:placeholder:message')}
                     label={t('rma:form:label:message')}
                     multiline
@@ -21,8 +22,8 @@ const FormComment = ({
             </div>
             <div className={styles.block}>
                 <DropFile
-                    value={state.dropValue}
-                    setValue={(dropValue) => setState({ ...state, dropValue })}
+                    value={dropValue}
+                    setValue={handleDrop}
                     label={t('rma:form:placeholder:uploadFile')}
                     getBase64={handleGetBase64}
                     acceptedFile={fileAccept}

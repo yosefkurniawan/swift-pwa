@@ -11,3 +11,6 @@ Module `rma` can be installed with custom template or default template
 if you don't need custom, you can import it directly from the default modules.
 
 #### for installation see documentation
+[- Installation History Page RMA](pages/history/readme.md) <br/>
+[- Installation Detail Page RMA](pages/detail/readme.md) <br/>
+[- Installation New Request Page RMA](pages/ne/rweadme.md) <br/>

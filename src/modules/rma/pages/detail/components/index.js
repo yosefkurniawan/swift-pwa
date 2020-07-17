@@ -3,12 +3,13 @@ import classNames from 'classnames';
 import React from 'react';
 import ConfirmModal from '@components/ConfirmDialog';
 import { updateRma, cancelRma } from '@modules/rma/services/graphql';
+import ItemField from '@modules/rma/pages/detail/components/ItemField';
 import useStyles from './styles';
 
 const DetailReturn = (props) => {
     const {
         t, data: { detail_rma, form_data }, customerData, storeConfig,
-        refetch, ItemProduct, ListMessage, ItemField, FormComment, Footer,
+        refetch, ItemProduct, ListMessage, FormComment, Footer,
         Detail, ...other
     } = props;
     const styles = useStyles();
@@ -187,6 +188,10 @@ const DetailReturn = (props) => {
         updateStatusButton = true;
     }
 
+    const handleChangeComment = (event) => {
+        setFormData({ ...formData, message: event.target.value });
+    };
+
     return (
         <>
             <ConfirmModal
@@ -248,6 +253,11 @@ const DetailReturn = (props) => {
                                 setState={setState}
                                 handleGetBase64={handleGetBase64}
                                 fileAccept={fileAccept}
+                                commentValue={formData.message}
+                                handleChangeComment={handleChangeComment}
+                                dropValue={state.dropValue}
+                                handleDrop={(dropValue) => setState({ ...state, dropValue })}
+                                {...other}
                             />
                             <Footer
                                 cancelButton={cancelButton}
@@ -263,7 +273,7 @@ const DetailReturn = (props) => {
                         </>
                     )
                 }
-                <ListMessage data={detail_rma.thread_message} />
+                <ListMessage data={detail_rma.thread_message} t={t} {...other} />
             </div>
         </>
     );

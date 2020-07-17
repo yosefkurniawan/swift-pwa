@@ -75,15 +75,14 @@ const CoreLanding = (props) => {
 };
 
 CoreLanding.propTypes = {
-    Loader: propTypes.func,
-    WarningInfo: propTypes.func,
-    pageConfig: propTypes.object,
-};
-
-CoreLanding.defaultProps = {
-    Loader: () => {},
-    WarningInfo: () => {},
-    pageConfig: {},
+    Loader: propTypes.func.isRequired,
+    WarningInfo: propTypes.func.isRequired,
+    ItemProduct: propTypes.func.isRequired,
+    ListMessage: propTypes.func.isRequired,
+    ItemFieldView: propTypes.func.isRequired,
+    FormComment: propTypes.func.isRequired,
+    Detail: propTypes.func.isRequired,
+    Footer: propTypes.func.isRequired,
 };
 
 export default CoreLanding;

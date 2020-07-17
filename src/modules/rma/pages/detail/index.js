@@ -1,10 +1,9 @@
-import Skeleton from '@modules/rma/pages/detail/components/Skeleton';
 import CoreBase from '@modules/rma/pages/detail/core';
+import Skeleton from '@modules/rma/pages/detail/components/Skeleton';
 import WarningInfo from '@modules/rma/pages/detail/components/Info';
-import Content from '@modules/rma/pages/detail/components';
 import ItemProduct from '@modules/rma/pages/detail/components/ItemProduct';
 import ListMessage from '@modules/rma/pages/detail/components/ListMessage';
-import ItemField from '@modules/rma/pages/detail/components/ItemField';
+import ItemFieldView from '@modules/rma/pages/detail/components/ItemField/view';
 import FormComment from '@modules/rma/pages/detail/components/FormComment';
 import Detail from '@modules/rma/pages/detail/components/Detail';
 import Footer from '@modules/rma/pages/detail/components/Footer';
@@ -13,12 +12,11 @@ import { withApollo } from '@lib/apollo';
 
 const Page = (props) => (
     <CoreBase
-        Content={Content}
         Loader={Skeleton}
         WarningInfo={WarningInfo}
         ItemProduct={ItemProduct}
         ListMessage={ListMessage}
-        ItemField={ItemField}
+        ItemFieldView={ItemFieldView}
         FormComment={FormComment}
         Detail={Detail}
         Footer={Footer}
