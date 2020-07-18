@@ -3,6 +3,8 @@ const internalGenerateCustomerToken = require('./internalGenerateCustomerToken')
 const internalCreateCustomerToken = require('./internalCreateCustomerToken');
 const internalGenerateCustomerTokenOtp = require('./internalGenerateCustomerTokenOtp');
 const internalDeleteCustomerToken = require('./internalDeleteCustomerToken');
+const internalGenerateSession = require('./internalGenerateSession');
+const internalDeleteSession = require('./internalDeleteSession');
 
 const resolver = {
     Mutation: {
@@ -10,6 +12,8 @@ const resolver = {
         internalCreateCustomerToken,
         internalGenerateCustomerTokenOtp,
         internalDeleteCustomerToken,
+        internalGenerateSession,
+        internalDeleteSession,
     },
 };
 
