@@ -172,6 +172,12 @@ const modules = {
     trackingorder: {
         enabled: true,
     },
+    blog: {
+        enable: true,
+    },
+    rma: {
+        enable: true,
+    },
 };
 
 const nossrCache = [

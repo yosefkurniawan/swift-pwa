@@ -13,7 +13,7 @@ example `{pages}/blog/category/[id].js`
 example
 
 ```node
-import Page from '@modules/blog/landing/default';  // use point to default components module
+import Page from '@core/blog/landing/default';  // use point to default components module
 
 export default Page;
 
@@ -36,7 +36,7 @@ export default Page;
 
 ### 3. import core modules
 ```node
-import CoreBase from '@modules/blog/category/core'; // must import and uses core base
+import CoreBase from '@core/blog/category/core'; // must import and uses core base
 ....... 
 // write other code
 ```
@@ -46,7 +46,7 @@ import CoreBase from '@modules/blog/category/core'; // must import and uses core
 ```node
 // for example loader skeleton uses default
 ....
-import Loader from '@modules/views/Loader/LoaderList';
+import Loader from '@core/views/Loader/LoaderList';
 ....
 
 ```
@@ -61,12 +61,12 @@ import Loader from '@modules/views/Loader/LoaderList';
 import React from 'react';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import CoreBase from '@modules/blog/category/core'; // must import and uses core base
-import DefaultContent from '@modules/blog/views/Landing';  //import your custom layout content
-import Loader from '@modules/blog//views/Loader/LoaderList'; //import your loader component
-import WarningInfo from '@modules/blog//views/Info'; // import your warning/ alert info eror component
-import ContentCategory from '@modules/blog//views/ModalCategory'; // import your category list component
-import ContentItem from '@modules/blog//views/Details'; // import your item list components
+import CoreBase from '@core/blog/category/core'; // must import and uses core base
+import DefaultContent from '@core/blog/views/Landing';  //import your custom layout content
+import Loader from '@core/blog//views/Loader/LoaderList'; //import your loader component
+import WarningInfo from '@core/blog//views/Info'; // import your warning/ alert info eror component
+import ContentCategory from '@core/blog//views/ModalCategory'; // import your category list component
+import ContentItem from '@core/blog//views/Details'; // import your item list components
 
 const Page = (props) => {
     const pageConfig = {

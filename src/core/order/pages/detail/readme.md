@@ -96,6 +96,6 @@ const pageConfig = {
 | detail     |  data item product      | Object |
 
 # Default Template
-1. Skeleton `@core/order/pages/detail/components/skeleton`
-2. ProductItem `@core/order/pages/detail/components/product`
-3. Footer `@core/order/pages/detail/components/footer`
+1. Skeleton '@core/order/pages/detail/components/skeleton`
+2. ProductItem '@core/order/pages/detail/components/product`
+3. Footer '@core/order/pages/detail/components/footer`

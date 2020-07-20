@@ -1,19 +1,19 @@
-#### | Blog modules documentations pages `detail`
+#### | Blog modules documentations pages `landing`
 # Description
-This documentation page detail module `blog`.
-Module `detail page` can be installed with custom template or default template
+This documentation page landing module `blog`.
+Module `landing page` can be installed with custom template or default template
 if you don't need custom, you can import it directly from the default modules. <br>
-this module under directory `@modules/blog/detail`
+this module under directory `@modules/blog/landing`
 
 
 ## Use default template and no overide
-### 1. Make dynamic route under root `pages` 
-example `{pages}/blog/[id].js`
+### 1. Make route under root `pages` 
+example `{pages}/blog/index.js`
 ### 2. import default components on route file 
 example
 
 ```node
-import Page from '@modules/blog/detail/default';  // use point to default components module
+import Page from '@core/blog/landing/default';  // use point to default components module
 
 export default Page;
 
@@ -22,13 +22,13 @@ export default Page;
 
 ## Use Custom Components
 
-### 1. Make dynamic route under root `pages` 
-example `{pages}/blog/[id].js`
+### 1. Make route under root `pages` 
+example `{pages}/blog/index.js`
 ### 2. import default components on route file 
 example
 
 ```node
-import Page from '@pages/blog/detail';     //point to your custom page components
+import Page from '@pages/blog/landing';     //point to your custom page components
 
 export default Page;
 
@@ -36,7 +36,7 @@ export default Page;
 
 ### 3. import core modules
 ```node
-import CoreBase from '@modules/blog/detail/core'; // must import and uses core base
+import CoreBase from '@core/blog/landing/core'; // must import and uses core base
 ....... 
 // write other code
 ```
@@ -46,7 +46,7 @@ import CoreBase from '@modules/blog/detail/core'; // must import and uses core b
 ```node
 // for example loader skeleton uses default
 
-import Loader from '@modules/views/Loader/LoaderDetail';
+import Loader from '@core/views/Loader/LoaderList';
 
 ```
 
@@ -57,41 +57,42 @@ import Loader from '@modules/views/Loader/LoaderDetail';
 
 
 ```node
-
-/* eslint-disable no-nested-ternary */
 import React from 'react';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import CoreBase from '@modules/blog/detail/core'; // must import and uses core base
-import DefaultContent from '@modules/blog/views/Details'; //import your custom layout content
-import Loader from '@modules/blog/views/Loader/LoaderDetail';   //import your loader component
-import WarningInfo from '@modules/blog/views/Info'; // import your warning/ alert info eror component
+import CoreBase from '@core/blog/landing/core'; // must import and uses core base
+import DefaultContent from '@core/blog/views/Landing';  //import your custom layout content
+import Loader from '@core/blog//views/Loader/LoaderList'; //import your loader component
+import WarningInfo from '@core/blog//views/Info'; // import your warning/ alert info eror component
+import ContentCategory from '@core/blog//views/ModalCategory'; // import your category list component
+import ContentItem from '@core/blog//views/Details'; // import your item list components
 
-const DetailPage = (props) => {
-     const pageConfig = {
-        title: 'Detail Blog',
+const Page = (props) => {
+    const pageConfig = {
+        title: 'Contents Blog',
         header: 'relative', 
-        headerTitle: 'Detail',
+        headerTitle: 'New Contents',
         bottomNav: false,
     };
-    
+
     return (
         <CoreBase
             Content={DefaultContent}
+            ContentCategory={ContentCategory}
+            ContentItem={ContentItem}
             Loader={Loader}
             WarningInfo={WarningInfo}
             pageConfig={pageConfig}
             {...props}
         />
     );
-};
+}
 
-DetailPage.getInitialProps = async () => ({
+Page.getInitialProps = async () => ({
     namespacesRequired: ['blog'],
 });
 
-export default withApollo({ ssr: true })(withTranslation()(DetailPage));
-
+export default withApollo({ ssr: true })(withTranslation()(Page));
 
 
 ```
@@ -102,7 +103,6 @@ export default withApollo({ ssr: true })(withTranslation()(DetailPage));
 
 # Component
 
-
 ## 1. Core
 #### Properties
 | Props       | Required | Description | Type |
@@ -111,6 +111,8 @@ export default withApollo({ ssr: true })(withTranslation()(DetailPage));
 | `Loader`  |  `false`   | Component Loader view     | `Component`|
 | `pageConfig`  |  `false`   | Object configuration from component `Layout`    | `Object`|
 | `Content`  |  `true`   | Component Content (for List view blog)     | `Component`|
+| `ContentCategory`  |  `true`   | Component for list category can be modal or list     | `Component`|
+| `ContentItem`  |  `true`   | Component item list content blog     | `Component`|
 
 
 ## Override Config
@@ -131,10 +133,20 @@ const pageConfig = {
 | `message`     |  message of error      | `String`|
 | `type`        |  type of error      | `String`|
 
-
-### 1. `<Content />`
+### 2. `<Content />`
 | Props       | Description | Type |
 | :---        | :---        |:---  |
+| `handleLoadMore`     |  function handle load more data      | `function`|
+| `loadMore`     |  boolean indicator loadmore data      | `bool`|
+| `loading`     |  boolead indicator loading get data     | `bool`|
+| `data`     |  data item blog      | `object` or `array`|
+| `page`     |  page position current list     | `number`|
+| `loadCategory`     |    object response query graphql get list category  <br> [`loading`, `data`, `error`]  | `object`|
+
+
+### 3. `<ContentItem />`
+| Props       |  Description | Type |
+| :---         |:---        |:---  |
 | `short`  | boolean for condition render `content` or `short_content`    | `Boolean`|
 | `title` | title blog    | `String`|
 | `publish_date`  | date published blog    | `String`|
@@ -142,6 +154,12 @@ const pageConfig = {
 | `featured_image_alt`  |  alt image content blog   | `String`|
 | `url_key`  | uniq key blog content   | `String`|
 | `content` or `short_content`  | html content from data **if** `short` = **true** `content ` is required  **else** `short_content` required  | `HTML`|
+
+
+### 3. `<ContentCategory />`
+| Props       |  Description | Type |
+| :---         |:---        |:---  |
+| `loadCategory`     |    object response query graphql get list category   <br> [`loading`, `data`, `error`] | `object`|
 
 
 #### Note
