@@ -9,6 +9,7 @@ import Core from './core';
 import CashbackInfo from './components/CashbackInfo';
 import EmailView from './components/email/view';
 import DeliveryView from './components/delivery/view';
+import SummaryView from './components/summary/view';
 import DeliverySkeleton from './components/delivery/skeleton';
 
 const Page = (props) => {
@@ -40,6 +41,7 @@ const Page = (props) => {
                 EmailView={EmailView}
                 DeliveryView={DeliveryView}
                 DeliverySkeleton={DeliverySkeleton}
+                SummaryView={SummaryView}
             />
         </Layout>
     );

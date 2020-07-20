@@ -8,6 +8,7 @@ import { formatPrice } from '@helpers/currency';
 import gqlService from '../../services/graphql';
 import Delivery from './components/delivery';
 import Email from './components/email';
+import Summary from './components/summary';
 
 const Checkout = (props) => {
     const {
@@ -19,6 +20,7 @@ const Checkout = (props) => {
         DeliveryView,
         EmailView,
         DeliverySkeleton,
+        SummaryView,
     } = props;
     const [checkout, setCheckout] = useState({
         order_id: '',
@@ -315,6 +317,18 @@ const Checkout = (props) => {
                     checkout={checkout}
                 />
             </>
+            <Summary
+                {...props}
+                loading={checkout.loading.order}
+                disabled={checkout.loading.all}
+                checkout={checkout}
+                updateFormik={updateFormik}
+                setCheckout={setCheckout}
+                handleOpenMessage={handleOpenMessage}
+                formik={formik}
+                storeConfig={storeConfig}
+                SummaryView={SummaryView}
+            />
         </>
     );
 };

@@ -74,6 +74,7 @@ export default withApollo({ ssr: true })(withTranslation()(CheckoutPage));
 | EmailView| true | template show how many cashback get by customer| Function Component |
 | DeliveryView| true | template show delivery option| Function  Component|
 | DeliverySkeleton| true | template show how many cashback get by customer| Function  Component|
+| SummaryView| true | template show summary | Function  Component|
 
 # Properties sent to the component
 1. CashbackInfo
@@ -101,8 +102,20 @@ export default withApollo({ ssr: true })(withTranslation()(CheckoutPage));
 | checkout     |  data checkout      | Object |
 | handleSelect     |  function to select shiping method     | Function |
 
+4. Summary View
+
+| Props       | Description | Type |
+| :---        | :---        |:---  |
+| handlePlaceOrder     |  handle place order       | Function |
+| loading     |   value to notif loading or no place order   | Boolean |
+| data     |  data object checkout    | Object |
+| total     |  total price summary    | number |
+| t     |  function to translate     | Function |
+| disabled     |  value to notif can place order or not     | Boolean |
+
 # Default Template
 1. CashbackInfo `@core/checkout/pages/default/components/CashbackInfo`
-1. EmailView `@core/checkout/pages/default/components/email`
-1. DeliveryView `@core/checkout/pages/default/components/delivery`
-1. DeliverySkeleton `@core/checkout/pages/default/components/delivery/skeleton`
+2. EmailView `@core/checkout/pages/default/components/email`
+3. DeliveryView `@core/checkout/pages/default/components/delivery`
+4. DeliverySkeleton `@core/checkout/pages/default/components/delivery/skeleton`
+5. SummaryView `@core/checkout/pages/default/components/summary/view`
