@@ -9,6 +9,7 @@ import gqlService from '../../services/graphql';
 import Delivery from './components/delivery';
 import Email from './components/email';
 import Summary from './components/summary';
+import Address from './components/address';
 
 const Checkout = (props) => {
     const {
@@ -21,6 +22,7 @@ const Checkout = (props) => {
         EmailView,
         DeliverySkeleton,
         SummaryView,
+        AddressView,
     } = props;
     const [checkout, setCheckout] = useState({
         order_id: '',
@@ -316,6 +318,20 @@ const Checkout = (props) => {
                     EmailView={EmailView}
                     checkout={checkout}
                 />
+                {
+                    checkout.selected.delivery === 'home' ? (
+                        <Address
+                            checkout={checkout}
+                            t={t}
+                            setCheckout={setCheckout}
+                            defaultAddress={checkout.data.defaultAddress}
+                            updateFormik={updateFormik}
+                            AddressView={AddressView}
+                        />
+                    ) : (
+                        null
+                    )
+                }
             </>
             <Summary
                 {...props}

@@ -9,8 +9,9 @@ import Core from './core';
 import CashbackInfo from './components/CashbackInfo';
 import EmailView from './components/email/view';
 import DeliveryView from './components/delivery/view';
-import SummaryView from './components/summary/view';
 import DeliverySkeleton from './components/delivery/skeleton';
+import SummaryView from './components/summary/view';
+import AddressView from './components/address/view';
 
 const Page = (props) => {
     const { t, storeConfig } = props;
@@ -42,6 +43,7 @@ const Page = (props) => {
                 DeliveryView={DeliveryView}
                 DeliverySkeleton={DeliverySkeleton}
                 SummaryView={SummaryView}
+                AddressView={AddressView}
             />
         </Layout>
     );

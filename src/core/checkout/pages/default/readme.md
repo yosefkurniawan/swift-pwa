@@ -75,6 +75,7 @@ export default withApollo({ ssr: true })(withTranslation()(CheckoutPage));
 | DeliveryView| true | template show delivery option| Function  Component|
 | DeliverySkeleton| true | template show how many cashback get by customer| Function  Component|
 | SummaryView| true | template show summary | Function  Component|
+| AddressView| true | template handle address | Function  Component|
 
 # Properties sent to the component
 1. CashbackInfo
@@ -112,6 +113,20 @@ export default withApollo({ ssr: true })(withTranslation()(CheckoutPage));
 | total     |  total price summary    | number |
 | t     |  function to translate     | Function |
 | disabled     |  value to notif can place order or not     | Boolean |
+
+5. AddressView
+
+| Props       | Description | Type | Example |
+| :---        | :---        |:---  | :--- |
+| data     |  data checkout       | Object | - |
+| checkout     |  handle place order       | Function |- |
+| setAddress     |  handle set address       | Function | - |
+| setCheckout     |  function to handle set checkout data      | Function |- |
+| t     |  function to handle translation      | Function |- |
+| dialogProps     |  data address        | Object | `{"region":"Bali","country":"ID","city":"Amlapura, Amlapura","street":"in street address","firstname":"Arfa","lastname":"Test","postcode":"57452","telephone":"085643892690"}` |
+| loading     |  value to notif loading or no place order       | Boolean |- |
+| address     |  default address data       | Object |- |
+| content     |  string message address       | String |- |
 
 # Default Template
 1. CashbackInfo `@core/checkout/pages/default/components/CashbackInfo`
