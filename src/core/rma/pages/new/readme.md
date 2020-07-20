@@ -1,19 +1,19 @@
-#### | RMA modules documentations pages `detail`
+#### | RMA modules documentations pages `new request `
 # Description
 This documentation page category module `rma`.
-Module `detail page` can be installed with custom template or default template
+Module `new request page` can be installed with custom template or default template
 if you don't need custom, you can import it directly from the default modules. <br>
-this module under directory '@core/rma/pages/detail`
+this module under directory `@core/rma/pages/new`
 
 
 ## Use default template and no overide
 ####1. Make dynamic route under root `pages` 
-example `{pages}/rma/customer/view/id/[id].js`
+example `{pages}/rma/customer/new/order_id/[id].js`
 ####2. import default components on route file 
 example
 
 ```node
-import Page from '@core/rma/pages/history/default';  // use point to default components module
+import Page from '@core/rma/pages/new/index.js';  // use point to default components module
 
 export default Page;
 
@@ -23,12 +23,12 @@ export default Page;
 ## Use Custom Components
 
 ### 1. Make dynamic route under root `pages` 
-example `{pages}/rma/customer/view/id/[id].js`
+example `{pages}/rma/customer/new/order_id/[id].js`
 ### 2. import default components on route file 
 example
 
 ```node
-import Page from '@pages/rma/detail';     //point to your custom page components
+import Page from '@pages/rma/new';     //point to your custom page components
 
 export default Page;
 
@@ -36,7 +36,7 @@ export default Page;
 
 ### 3. import core modules
 ```node
-import CoreBase from '@core/rma/pages/detail/core'; // must import and uses core base
+import CoreBase from '@core/rma/pages/new/core'; // must import and uses core base
 ....... 
 // write other code
 ```
@@ -46,7 +46,7 @@ import CoreBase from '@core/rma/pages/detail/core'; // must import and uses core
 ```node
 // for example loader skeleton uses default
 ....
-import Skeleton from '@core/rma/pages/detail/Skeleton';
+import Skeleton from '@core/rma/pages/new/Skeleton';
 ....
 
 ```
@@ -59,28 +59,22 @@ import Skeleton from '@core/rma/pages/detail/Skeleton';
 
 ```node
 
-import CoreBase from '@core/rma/pages/detail/core'; //must import and uses core base
-import Skeleton from '@core/rma/pages/detail/components/Skeleton'; // import your custom component
-import WarningInfo from '@core/rma/pages/detail/components/Info'; // import your custom component
-import ItemProduct from '@core/rma/pages/detail/components/ItemProduct'; // import your custom component
-import ListMessage from '@core/rma/pages/detail/components/ListMessage';  // import your custom component
-import ItemField from '@core/rma/pages/detail/components/ItemField';  // import your custom component
-import FormComment from '@core/rma/pages/detail/components/FormComment';  // import your custom component
-import Detail from '@core/rma/pages/detail/components/Detail';  // import your custom component
-import Footer from '@core/rma/pages/detail/components/Footer';  // import your custom component
+import CoreBase from '@core/pages/new/core'; //must import core & uses
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
+import Skeleton from '@core/pages/new/components/Skeleton';  //point to your custom components
+import WarningInfo from '@core/pages/new/components/Info'; //point to your custom components
+import ItemProductView from '@core/pages/new/components/ItemProduct/views'; //point to your custom components
+import ItemFieldView from '@core/pages/new/components/ItemField/view'; //point to your custom components
+import OtherRmaLink from '@core/pages/new/components/ItemProduct/views/OtherRmaLink'; //point to your custom components
 
 const Page = (props) => (
     <CoreBase
         Loader={Skeleton}
         WarningInfo={WarningInfo}
-        ItemProduct={ItemProduct}
-        ListMessage={ListMessage}
-        ItemField={ItemField}
-        FormComment={FormComment}
-        Detail={Detail}
-        Footer={Footer}
+        ItemProductView={ItemProductView}
+        ItemFieldView={ItemFieldView}
+        OtherRmaLink={OtherRmaLink}
         {...props}
     />
 );
@@ -90,6 +84,7 @@ Page.getInitialProps = async () => ({
 });
 
 export default withApollo({ ssr: true })(withTranslation()(Page));
+
 
 
 
@@ -109,7 +104,9 @@ export default withApollo({ ssr: true })(withTranslation()(Page));
 | `WarningInfo`  |  `false`   | Component Alert/Warning Info     | `Component`|
 | `Loader`  |  `false`   | Component Loader view     | `Component`|
 | `pageConfig`  |  `false`   | Object configuration from component `Layout`    | `Object`|
-| `Content`  |  `true`   | Component Content (for List view blog)     | `Component`|
+| `ItemProductView`  |  `true`   | Component checkbox with detail product    | `Component`|
+| `ItemFieldView`  |  `true`   | Component field select reason or detail rma    | `Component`|
+| `OtherRmaLink`  |  `true`   | Component link list other id rma    | `Component`|
 
 ## Override Config
 ### pageConfig
@@ -129,15 +126,16 @@ const pageConfig = {
 | `message`     |  message of error      | `String`|
 | `type`        |  type of error      | `String`|
 
-### 2. `<ItemProduct />`
+### 2. `<ItemProductView />`
 | Props       | Description | Type |
 | :---        | :---        |:---  |
 | `name`        |  name of product      | `String`|
-| `qty_rma`        |  quantity can return      | `Float`|
 | `price`        |  price of item product     | `Float`|
 | `image_url`        | link image url | `String`|
 | `currency`        |  currency code      | `String`|
-| `custom_fields`        |  array of selected reason returnable      | `String`|
+| `checked`        |  condition product item is selected      | `bool`|
+| `disabled`        |  condition product disable selected      | `bool`|
+| `handleChange`        |  function handle checked and disceked product item      | `function`|
 
 
 ### 3. `<ItemFieldView />`
@@ -146,63 +144,16 @@ const pageConfig = {
 | `name`        |  name for item field can be `input`, `select` or `other`      | `String`|
 | `label`        |  label title of item field      | `String`|
 | `options`        |  array data options for item field      | `array`|
-| `item`        |  object from looping data item field returnable rma     | `object`|
 | `select`        |  data selected from option itemFiled      | `any`|
 | `handleSelect`        |  handle selectend function      | `function`|
 | `errorMessage`        |  text message from logic rma     | `String`|
 | `error`        |  boolean  indicator error     | `bool`|
-| `fieldValue`        |  object data from filter `item` by `item->id`     | `object`|
 
 
-### 4. `<ListMessage />`
+### 4. `<OtherRmaLink />`
 | Props       | Description | Type |
 | :---        | :---        |:---  |
-| `data`        |  array data list message customer & admin      | `array`|
-
-
-### 5. `<FormComment />`
-| Props       | Description | Type |
-| :---        | :---        |:---  |
-| `commentValue`        |  value of field input comment      | `string`|
-| `handleChangeComment`  |  handle change value field input comment| `function`|
-| `fileAccept`        |  list string extension accpeted file example `'.jpg,.png, .gif'`    | `string`|
-
-if you uses commons components `<DropZone />` you can include this properties from dropZone
-
-| Props       | Description | Type |
-| :---        | :---        |:---  |
-| `dropValue`        |  value data file dropzone     | `array`|
-| `handleDrop`        |  function handle drop file dropzone      | `function`|
-|`handleGetBase64`| function handle get array file with base64 encode file  | `function`|
-
-if you wont custom selected file for comments pleas make parsing file data with encode base64 to function `handleGetBase64` with params array object and must have value object :
-```objc 
-    [
-        {
-        "file": "original file from input",
-        "baseCode": "encode base64 file from input"`,
-        }
-    ]
-```
-
-
-### 6. `<Detail />`
-| Props       | Description | Type |
-| :---        | :---        |:---  |
-| `detail_rma`        |  Object detail info request RMA     | `object`|
-
-
-### 2. `<Footer />`
-| Props       | Description | Type |
-| :---        | :---        |:---  |
-| `detail_rma`        |  Object detail info request RMA     | `object`|
-| `cancelButton`        |  indicator condition show button cancel     | `bool`|
-| `updateButton`        |  indicator condition show button update   | `bool`|
-| `updateStatusButton`        |  indicator condition show button update status/ button confirm shipping     | `bool`|
-| `confirmCancel`        |  function confirm dialog cancel & action cancel     | `function`|
-| `actionUpdateStatus`        |  action function for button update status/ button confirm shipping    | `function`|
-| `handleUpdate`        |  action  function form button update  | `function`|
-
+| `other_rma_request`        |  list data other rma request from one product item     | `array`|
 
 #### Note
 All components retrieved properties from `withTranslation` see documentation [i18n components api](https://react.i18next.com/latest/translation-render-prop) and `withApollo` see documentation [withApolo components api](https://www.apollographql.com/docs/react/api/react/hoc/#withapollocomponent) 
