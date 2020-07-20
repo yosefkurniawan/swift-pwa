@@ -22,6 +22,19 @@
                     "@config" : "./swift.config.js",
                     "@lib": "./src/lib",
                     "@stores": "./src/stores",
+                    //commons components
+                    "@Button": "./src/core/commons/Button",
+                    "@Breadcrumb": "./src/core/commons/Breadcrumb",
+                    "@ConfirmDialog": "./src/core/commons/ConfirmDialog",
+                    "@DropFile": "./src/core/commons/DropFile",
+                    "@FilterDialog": "./src/core/commons/FilterDialog",
+                    "@GoogleMaps": "./src/core/commons/GoogleMaps",
+                    "@GridList": "./src/core/commons/GridList",
+                    "@PriceFormat": "./src/core/commons/PriceFormat",
+                    "@RatingStar": "./src/core/commons/RatingStar",
+                    "@Tabs": "./src/core/commons/Tabs",
+                    "@Toast": "./src/core/commons/Toast",
+                    "@Typography": "./src/core/commons/Typography"
                 }
             }
         ]
