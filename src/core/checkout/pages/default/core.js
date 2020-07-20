@@ -12,6 +12,7 @@ import Summary from './components/summary';
 import Address from './components/address';
 import Shipping from './components/shipping';
 import PaymentList from './components/payment';
+import Promo from './components/promo';
 
 const Checkout = (props) => {
     const {
@@ -28,6 +29,7 @@ const Checkout = (props) => {
         AddressView,
         ShippingView,
         PaymentView,
+        PromoView,
     } = props;
     const [checkout, setCheckout] = useState({
         order_id: '',
@@ -355,6 +357,15 @@ const Checkout = (props) => {
                     t={t}
                     storeConfig={storeConfig}
                     PaymentView={PaymentView}
+                />
+                <Promo
+                    t={t}
+                    checkout={checkout}
+                    setCheckout={setCheckout}
+                    handleOpenMessage={handleOpenMessage}
+                    formik={formik}
+                    storeConfig={storeConfig}
+                    PromoView={PromoView}
                 />
             </>
             <Summary

@@ -14,6 +14,7 @@ import SummaryView from './components/summary/view';
 import AddressView from './components/address/view';
 import ShippingView from './components/shipping/view';
 import PaymentView from './components/payment/view';
+import FieldPointView from '../../components/promo/fieldpoint';
 
 const Page = (props) => {
     const { t, storeConfig } = props;
@@ -49,6 +50,7 @@ const Page = (props) => {
                 AddressView={AddressView}
                 ShippingView={ShippingView}
                 PaymentView={PaymentView}
+                PromoView={FieldPointView}
             />
         </Layout>
     );

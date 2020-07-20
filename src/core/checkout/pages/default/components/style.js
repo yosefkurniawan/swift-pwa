@@ -36,16 +36,6 @@ export default makeStyles(() => ({
     listShipping: {
         ...CreateBorder('1px', 0, 0, 0, PRIMARY),
     },
-    fieldPoinContainer: {
-        ...FlexRow,
-        alignItems: 'center',
-        ...CreateMargin(10, 0, 15, 0),
-    },
-    btnAplly: {
-        height: 30,
-        ...Centering,
-        marginLeft: 5,
-    },
     btnPoint: {
         maxWidth: 140,
         ...Centering,
