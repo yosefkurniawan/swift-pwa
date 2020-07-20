@@ -10,9 +10,12 @@ import Delivery from './components/delivery';
 import Email from './components/email';
 import Summary from './components/summary';
 import Address from './components/address';
+import Shipping from './components/shipping';
+import PaymentList from './components/payment';
 
 const Checkout = (props) => {
     const {
+        containerStyle,
         t,
         cartId,
         storeConfig,
@@ -23,6 +26,8 @@ const Checkout = (props) => {
         DeliverySkeleton,
         SummaryView,
         AddressView,
+        ShippingView,
+        PaymentView,
     } = props;
     const [checkout, setCheckout] = useState({
         order_id: '',
@@ -286,7 +291,7 @@ const Checkout = (props) => {
     const chasbackMessage = t('checkout:cashbackInfo').split('$');
 
     return (
-        <>
+        <div style={containerStyle || {}}>
             {
                 checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
                     <CashbackInfoView
@@ -332,6 +337,25 @@ const Checkout = (props) => {
                         null
                     )
                 }
+                <Shipping
+                    t={t}
+                    checkout={checkout}
+                    setCheckout={setCheckout}
+                    updateFormik={updateFormik}
+                    formik={formik}
+                    handleOpenMessage={handleOpenMessage}
+                    storeConfig={storeConfig}
+                    ShippingView={ShippingView}
+                />
+                <PaymentList
+                    checkout={checkout}
+                    setCheckout={setCheckout}
+                    updateFormik={updateFormik}
+                    handleOpenMessage={handleOpenMessage}
+                    t={t}
+                    storeConfig={storeConfig}
+                    PaymentView={PaymentView}
+                />
             </>
             <Summary
                 {...props}
@@ -345,7 +369,7 @@ const Checkout = (props) => {
                 storeConfig={storeConfig}
                 SummaryView={SummaryView}
             />
-        </>
+        </div>
     );
 };
 

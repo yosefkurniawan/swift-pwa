@@ -70,12 +70,16 @@ export default withApollo({ ssr: true })(withTranslation()(CheckoutPage));
 #### Properties
 | Props       | Required | Description | Type |
 | :---        | :---     | :---        |:---  |
+| pageConfig  |  false   | object configuration page layout      | Object|
+| containerStyle  |  false   | object configuration custom style container      | Object|
 | CashbackInfoView| true | template show how many cashback get by customer| Function Component |
 | EmailView| true | template show how many cashback get by customer| Function Component |
 | DeliveryView| true | template show delivery option| Function  Component|
 | DeliverySkeleton| true | template show how many cashback get by customer| Function  Component|
 | SummaryView| true | template show summary | Function  Component|
 | AddressView| true | template handle address | Function  Component|
+| ShippingView| true | template handle shipping | Function  Component|
+| PaymentView| true | template handle shipping | Function  Component|
 
 # Properties sent to the component
 1. CashbackInfo
@@ -100,7 +104,7 @@ export default withApollo({ ssr: true })(withTranslation()(CheckoutPage));
 
 | Props       | Description | Type |
 | :---        | :---        |:---  |
-| checkout     |  data checkout      | Object |
+| checkout     |  data checkout from be      | Object |
 | handleSelect     |  function to select shiping method     | Function |
 
 4. Summary View
@@ -116,17 +120,55 @@ export default withApollo({ ssr: true })(withTranslation()(CheckoutPage));
 
 5. AddressView
 
-| Props       | Description | Type | Example |
-| :---        | :---        |:---  | :--- |
-| data     |  data checkout       | Object | - |
-| checkout     |  handle place order       | Function |- |
-| setAddress     |  handle set address       | Function | - |
-| setCheckout     |  function to handle set checkout data      | Function |- |
-| t     |  function to handle translation      | Function |- |
-| dialogProps     |  data address        | Object | `{"region":"Bali","country":"ID","city":"Amlapura, Amlapura","street":"in street address","firstname":"Arfa","lastname":"Test","postcode":"57452","telephone":"085643892690"}` |
-| loading     |  value to notif loading or no place order       | Boolean |- |
-| address     |  default address data       | Object |- |
-| content     |  string message address       | String |- |
+| Props       | Description | Type |
+| :---        | :---        |:---  |
+| data     |  data checkout has been proccess       | Object |
+| checkout     |  data checkout from be       | Function |
+| setAddress     |  handle set address       | Function |
+| setCheckout     |  function to handle set checkout data      | Function |
+| t     |  function to handle translation      | Function |
+| dialogProps     |  data address        | Object | 
+| loading     |  value to notif loading or no place order       | Boolean |
+| address     |  default address data       | Object |
+| content     |  string message address       | String |
+
+6. ShippingView
+
+| Props       | Description | Type |
+| :---        | :---        |:---  |
+| data     |  data checkout has been proccess      | Object |
+| checkout     |  data checkout from be      | Function |
+| handleShiping     |  handle select shipping method, data send must be on example       | Function |
+| storeConfig     | object variable config swift app       | Object |
+| selected     |  object selected value       | Object |
+| t     |  function to handle translation      | Function |
+| loading     |  value to notif loading or no    | Boolean |
+
+params to send on `handleShiping` method type `object` example: 
+````
+{
+    "name": {
+        "carrier_code":"flatrate",
+        "method_code":"flatrate"
+    },
+    "price":"$10.00"
+}
+````
+
+7. PaymentView
+
+| Props       | Description | Type |
+| :---        | :---        |:---  |
+| data     |  data checkout has been proccess       | Object |
+| checkout     |  data checkout from be       | Function |
+| storeConfig     | object variable config swift app       | Object |
+| selected     |  object selected value       | Object |
+| t     |  function to handle translation      | Function |
+| loading     |  value to notif loading or no    | Boolean |
+| handlePayment |  function to set payment method    | Boolean |
+
+params to send on `handlePayment` props `string` payment methos example `data checkout has been proccess`
+
 
 # Default Template
 1. CashbackInfo `@core/checkout/pages/default/components/CashbackInfo`
@@ -134,3 +176,5 @@ export default withApollo({ ssr: true })(withTranslation()(CheckoutPage));
 3. DeliveryView `@core/checkout/pages/default/components/delivery`
 4. DeliverySkeleton `@core/checkout/pages/default/components/delivery/skeleton`
 5. SummaryView `@core/checkout/pages/default/components/summary/view`
+6. ShippingView `@core/checkout/pages/default/components/shipping/view`
+7. paymentView `@core/checkout/pages/default/components/payment/view`
