@@ -1,7 +1,7 @@
 // Library
 import React from 'react';
 import Button from '@Button';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import Footer from '../Footer';
 import useStyles from './style';
 

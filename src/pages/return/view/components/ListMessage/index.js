@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import useStyles from './style';
 
 export default ({

@@ -1,6 +1,6 @@
 import Button from '@Button';
 import PriceFormat from '@PriceFormat';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import ConfirmationDelete from '@ConfirmDialog';
 import IconButton from '@material-ui/core/IconButton';
 import Delete from '@material-ui/icons/Delete';

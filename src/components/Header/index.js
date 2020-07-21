@@ -4,7 +4,7 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import CloseIcon from '@material-ui/icons/Close';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import useStyles from './style';
 
 const Header = ({

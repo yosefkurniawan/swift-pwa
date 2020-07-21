@@ -1,5 +1,5 @@
 /* eslint-disable react/no-danger */
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import { blog } from '@config';
 import formatDate from '@helpers/date';
 import { getHost } from '@helpers/config';

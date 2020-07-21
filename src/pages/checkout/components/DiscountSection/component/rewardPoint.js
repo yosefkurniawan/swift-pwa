@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import Button from '@Button';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import { formatPrice } from '@helpers/currency';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import gqlService from '../../../services/graphql';

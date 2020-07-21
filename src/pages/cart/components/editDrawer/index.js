@@ -1,5 +1,5 @@
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import Button from '@Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';

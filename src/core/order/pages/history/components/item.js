@@ -1,4 +1,4 @@
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import formatDate from '@helpers/date';
 import Link from 'next/link';
 import { formatPrice } from '@helpers/currency';

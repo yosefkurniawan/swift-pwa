@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
 import React from 'react';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import classNames from 'classnames';
 import formatDate from '@helpers/date';
 import { formatPrice } from '@helpers/currency';

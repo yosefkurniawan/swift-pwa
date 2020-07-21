@@ -3,7 +3,7 @@ import Link from '@material-ui/core/Link';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Chip from '@material-ui/core/Chip';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import NavigateNext from '@material-ui/icons/NavigateNext';
 import Router from 'next/router';
 

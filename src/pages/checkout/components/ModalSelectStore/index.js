@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Button from '@Button';
 import TextField from '@components/Forms/TextField';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import { useTranslation } from '@i18n';
 import AppBar from '@material-ui/core/AppBar';
 import Dialog from '@material-ui/core/Dialog';

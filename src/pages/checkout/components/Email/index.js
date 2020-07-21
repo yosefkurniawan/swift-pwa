@@ -1,4 +1,4 @@
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import IconButton from '@material-ui/core/IconButton';

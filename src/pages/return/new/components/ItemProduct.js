@@ -1,4 +1,4 @@
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import { formatPrice } from '@helpers/currency';
 import React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -6,7 +6,6 @@ import { useTranslation } from '@i18n';
 import Link from 'next/link';
 import useStyles from '../style';
 import ItemField from './ItemField';
-
 
 const ItemProduct = (props) => {
     const { t } = useTranslation(['return']);

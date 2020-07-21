@@ -1,5 +1,5 @@
 import Loading from '@components/Loaders/Backdrop';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import Button from '@Button';
 import TextField from '@components/Forms/TextField';
 import { regexPhone } from '@helpers/regex';

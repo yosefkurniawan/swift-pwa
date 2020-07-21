@@ -1,6 +1,6 @@
 import Radio from '@Radio';
 import Skeleton from '@material-ui/lab/Skeleton';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import { useEffect } from 'react';
 import TagManager from 'react-gtm-module';
 import gqlService from '../../services/graphql';

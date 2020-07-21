@@ -3,7 +3,7 @@
 import Button from '@Button';
 import TextField from '@components/Forms/TextField';
 import Password from '@Password';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import { GraphOtp, GraphConfig } from '@services/graphql';
 import PropTypes from 'prop-types';
 import { useTranslation } from '@i18n';

@@ -1,4 +1,4 @@
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import React, { useState } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import classNames from 'classnames';

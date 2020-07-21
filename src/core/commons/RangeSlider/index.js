@@ -2,7 +2,7 @@
 /* eslint-disable react/require-default-props */
 import Slider from '@material-ui/core/Slider';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import PropTypes from 'prop-types';
 import { formatPrice } from '@helpers/currency';
 import { sliderStyle, useStyles } from './style';

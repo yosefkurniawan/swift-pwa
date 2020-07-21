@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import { useDropzone } from 'react-dropzone';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from '@i18n';

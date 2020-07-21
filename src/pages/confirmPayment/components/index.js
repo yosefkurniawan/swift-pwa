@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import TextField from '@components/Forms/TextField';
 import DropFile from '@DropFile';
 import Button from '@Button';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import React from 'react';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import DateDayJs from '@date-io/dayjs';

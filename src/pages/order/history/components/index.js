@@ -1,5 +1,5 @@
 import Button from '@Button';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import classNames from 'classnames';
 import Alert from '@material-ui/lab/Alert';
 import { debuging } from '@config';

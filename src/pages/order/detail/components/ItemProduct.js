@@ -1,4 +1,4 @@
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import { formatPrice } from '@helpers/currency';
 import React from 'react';
 import useStyles from '../style';

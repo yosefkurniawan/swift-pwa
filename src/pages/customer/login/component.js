@@ -2,7 +2,7 @@
 import TextField from '@components/Forms/TextField';
 import PasswordField from '@Password';
 import Button from '@Button';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import { useFormik } from 'formik';

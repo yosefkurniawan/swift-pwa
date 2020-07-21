@@ -1,7 +1,7 @@
 /* eslint-disable radix */
 /* eslint-disable no-plusplus */
 import { useState, useEffect } from 'react';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import Button from '@Button';
 import Link from 'next/link';
 import { getCartId } from '@helpers/cartId';

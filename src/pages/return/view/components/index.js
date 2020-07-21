@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import classNames from 'classnames';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import React from 'react';
 import formatDate from '@helpers/date';
 import TextField from '@components/Forms/TextField';

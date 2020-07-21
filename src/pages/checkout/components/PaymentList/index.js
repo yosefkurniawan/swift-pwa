@@ -4,7 +4,7 @@ import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import TagManager from 'react-gtm-module';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import Arrow from '@material-ui/icons/ArrowDropDown';
 import Radio from '@Radio';
 import Skeleton from '@material-ui/lab/Skeleton';

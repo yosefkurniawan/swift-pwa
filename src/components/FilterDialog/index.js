@@ -5,7 +5,7 @@ import Slide from '@material-ui/core/Slide';
 import CloseIcon from '@material-ui/icons/Close';
 import React from 'react';
 import RadioGroup from '@Radio';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import RangeSlider from '@RangeSlider';
 import CheckBox from '@CheckBox';
 import CheckBoxSize from '@components/Forms/CheckBoxSize';

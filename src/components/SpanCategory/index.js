@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import Link from 'next/link';
 import { useTranslation } from '@i18n';
 import { imageSize } from '@config';

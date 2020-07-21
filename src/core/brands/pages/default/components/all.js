@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import GridList from '@GridList';
 import Link from 'next/link';
 import useStyles from './style';

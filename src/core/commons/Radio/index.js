@@ -3,7 +3,7 @@ import React from 'react';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import classNames from 'classnames';
 import useStyles from './style';
 

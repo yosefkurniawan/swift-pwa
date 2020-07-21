@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-use-before-define */
 import Button from '@Button';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import TextField from '@components/Forms/TextField';
 import PasswordField from '@Password';
 import { regexPhone } from '@helpers/regex';

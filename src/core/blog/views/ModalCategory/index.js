@@ -3,7 +3,7 @@ import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import Grid from '@material-ui/core/Grid';
 import React from 'react';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import Skeleton from '@components/Skeleton';
 import Button from '@Button';
 import Header from '@components/Header';

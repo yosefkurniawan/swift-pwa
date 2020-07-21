@@ -3,7 +3,7 @@ import Button from '@Button';
 import PriceFormat from '@PriceFormat';
 import Banner from '@components/Slider/Banner';
 import Caraousel from '@components/Slider/Carousel';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';

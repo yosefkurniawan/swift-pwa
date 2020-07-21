@@ -1,7 +1,7 @@
 import Button from '@Button';
 import PasswordField from '@Password';
 import TextField from '@components/Forms/TextField';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import { regexPhone } from '@helpers/regex';
 import { Checkbox, FormControlLabel } from '@material-ui/core/';
 import { useFormik } from 'formik';

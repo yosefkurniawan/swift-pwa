@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import Typograpy from '@components/Typography';
+import Typograpy from '@Typography';
 import classNames from 'classnames';
 import useStyles from './style';
 

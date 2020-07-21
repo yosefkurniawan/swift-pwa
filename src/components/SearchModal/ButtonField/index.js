@@ -1,5 +1,5 @@
 import Button from '@Button';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import useStyles from './style';
 
 const ButtonField = ({ placeholder = '', onClick }) => {

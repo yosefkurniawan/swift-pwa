@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import formatDate from '@helpers/date';
 import Avatar from 'react-avatar';
 import RatingStar from '@RatingStar';

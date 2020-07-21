@@ -2,7 +2,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import classNames from 'classnames';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import useStyles from './style';
 
 const CustomTextField = ({

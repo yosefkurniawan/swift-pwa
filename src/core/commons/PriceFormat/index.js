@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import { formatPrice } from '@helpers/currency';
 import useStyles from './style';
 

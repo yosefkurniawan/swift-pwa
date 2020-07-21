@@ -2,7 +2,7 @@
 import React from 'react';
 import Alert from '@material-ui/lab/Alert';
 import Button from '@Button';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import Menu from '@material-ui/icons/Menu';
 import { debuging } from '@config';
 import { getBlog } from '../services/graphql';

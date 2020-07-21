@@ -1,5 +1,5 @@
 import Select from '@Select';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 
 const ItemFieldView = ({
     item, error, options, name, label,

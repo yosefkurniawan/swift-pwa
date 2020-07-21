@@ -3,7 +3,7 @@ import Button from '@Button';
 import CustomTextField from '@components/Forms/TextField';
 import IcubeMaps from '@GoogleMaps';
 import Header from '@components/Header';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import { regexPhone } from '@helpers/regex';
 import Checkbox from '@material-ui/core/Checkbox';
 import CircularProgress from '@material-ui/core/CircularProgress';

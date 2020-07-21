@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 /* eslint-disable array-callback-return */
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import Button from '@Button';
 import Link from 'next/link';
 import TagManager from 'react-gtm-module';

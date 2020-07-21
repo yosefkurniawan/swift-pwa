@@ -4,7 +4,7 @@
 /* eslint-disable no-underscore-dangle */
 // Library
 import { GraphCustomer } from '@services/graphql';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import Button from '@Button';
 import Alert from '@material-ui/lab/Alert';
 import { getCartId, setCartId } from '@helpers/cartId';

@@ -1,5 +1,5 @@
 import Radio from '@Radio';
-import Typography from '@components/Typography';
+import Typography from '@Typography';
 import TagManager from 'react-gtm-module';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { formatPrice } from '@helpers/currency';
