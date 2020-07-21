@@ -135,7 +135,7 @@ const custDataNameCookie = 'cdt';
 const nameCheckoutCookie = 'ccdt';
 const nameGlobalCookie = 'spwa';
 
-const keyEncrypt = 'I wrote code anything searching bug and coffe';
+const keyEncrypt = 'TXAjwm8k53PJG9NacLbyZavvQB2qBh43';
 const algorithm = 'aes-256-cbc';
 
 const nameToken = 'sk';
