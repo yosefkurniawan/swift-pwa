@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import ListItemText from '@material-ui/core/ListItemText';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Router from 'next/router';
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import gqlService from './service/graphql';
 
 const NotificationListSkeleton = () => {

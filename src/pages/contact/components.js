@@ -1,7 +1,7 @@
 import Loading from '@components/Loaders/Backdrop';
-import Typography from '@components/Typography';
-import Button from '@components/Button';
-import TextField from '@components/Forms/TextField';
+import Typography from '@common_typography';
+import Button from '@common_button';
+import TextField from '@common_textfield';
 import { regexPhone } from '@helpers/regex';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -13,7 +13,7 @@ import Alert from '@material-ui/lab/Alert';
 import gqlService from './services/graphql';
 import useStyles from './style';
 
-const Message = dynamic(() => import('@components/Toast'), { ssr: false });
+const Message = dynamic(() => import('@common_toast'), { ssr: false });
 
 const ContactForm = ({ t }) => {
     const styles = useStyles();

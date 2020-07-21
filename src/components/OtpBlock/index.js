@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/forbid-prop-types */
-import Button from '@components/Button';
-import TextField from '@components/Forms/TextField';
-import Password from '@components/Forms/Password';
-import Typography from '@components/Typography';
+import Button from '@common_button';
+import TextField from '@common_textfield';
+import Password from '@common_password';
+import Typography from '@common_typography';
 import { GraphOtp, GraphConfig } from '@services/graphql';
 import PropTypes from 'prop-types';
 import { useTranslation } from '@i18n';

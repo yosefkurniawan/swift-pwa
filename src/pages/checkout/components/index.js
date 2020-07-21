@@ -6,7 +6,7 @@ import Alert from '@material-ui/lab/Alert';
 import * as Yup from 'yup';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import { getLoginInfo } from '@helpers/auth';
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import gqlService from '../services/graphql';
 import useStyles from '../style';
 import Address from './Address';

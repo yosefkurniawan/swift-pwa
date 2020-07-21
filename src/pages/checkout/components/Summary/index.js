@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Button from '@components/Button';
-import Typography from '@components/Typography';
+import Button from '@common_button';
+import Typography from '@common_typography';
 import { useApolloClient } from '@apollo/react-hooks';
 import { setCartId, removeCartId } from '@helpers/cartId';
 import { setCheckoutData } from '@helpers/cookies';

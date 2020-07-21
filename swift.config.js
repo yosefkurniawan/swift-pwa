@@ -185,6 +185,12 @@ const modules = {
             prod: 'https://app.midtrans.com/snap/snap.js',
         },
     },
+    blog: {
+        enable: true,
+    },
+    rma: {
+        enable: true,
+    },
 };
 
 const nossrCache = [

@@ -160,7 +160,7 @@ const pageConfig = {
 3 some properties from swift app example ````t or translation ````
 
 # Default Template
-1. Featured Brands `@core/brands/pages/default/components/featured`
-2. List All Brands with grouping `@core/brands/pages/default/components//all`
-3. Complete All Brands View `@core/brands/pages/default/components`
-4. Skeleton Loading `@core/brands/pages/default/components/skeleton`
+1. Featured Brands '@core/brands/pages/default/components/featured`
+2. List All Brands with grouping '@core/brands/pages/default/components//all`
+3. Complete All Brands View '@core/brands/pages/default/components`
+4. Skeleton Loading '@core/brands/pages/default/components/skeleton`

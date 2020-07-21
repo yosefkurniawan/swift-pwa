@@ -110,5 +110,5 @@ const pageConfig = {
 | data        |  data item history order      | Object |
 
 # Default Template
-1. ErrorView `@core/order/pages/history/components/error`
-2. Item `@core/order/pages/history/components/item`
+1. ErrorView '@core/order/pages/history/components/error`
+2. Item '@core/order/pages/history/components/item`

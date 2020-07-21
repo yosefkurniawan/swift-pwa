@@ -1,9 +1,9 @@
 /* eslint-disable consistent-return */
-import Button from '@components/Button';
-import CustomTextField from '@components/Forms/TextField';
-import IcubeMaps from '@components/GoogleMaps/Maps';
+import Button from '@common_button';
+import CustomTextField from '@common_textfield';
+import IcubeMaps from '@common_googlemaps';
 import Header from '@components/Header';
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import { regexPhone } from '@helpers/regex';
 import Checkbox from '@material-ui/core/Checkbox';
 import CircularProgress from '@material-ui/core/CircularProgress';

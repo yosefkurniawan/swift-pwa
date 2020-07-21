@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import classNames from 'classnames';
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import { GRAY_SECONDARY, WHITE, GRAY_PRIMARY } from '@theme/colors';
 import { Centering, CreateBorder } from '@theme/mixins';
 import makeStyles from '@material-ui/core/styles/makeStyles';
