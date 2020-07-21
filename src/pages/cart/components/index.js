@@ -2,7 +2,7 @@
 /* eslint-disable no-plusplus */
 import { useState, useEffect } from 'react';
 import Typography from '@components/Typography';
-import Button from '@components/Button';
+import Button from '@Button';
 import Link from 'next/link';
 import { getCartId } from '@helpers/cartId';
 import { useMutation } from '@apollo/react-hooks';

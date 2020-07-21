@@ -1,6 +1,6 @@
 import TextField from '@components/Forms/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from '@components/Button';
+import Button from '@Button';
 import Typography from '@components/Typography';
 
 const FieldPoint = ({

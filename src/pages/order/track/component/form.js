@@ -1,4 +1,4 @@
-import Button from '@components/Button';
+import Button from '@Button';
 import TextField from '@components/Forms/TextField';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';

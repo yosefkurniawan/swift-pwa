@@ -1,6 +1,6 @@
 import Skeleton from '@material-ui/lab/Skeleton';
 import AddressFormDialog from '@components/AddressFormDialog';
-import Button from '@components/Button';
+import Button from '@Button';
 import Typography from '@components/Typography';
 import _ from 'lodash';
 import { useEffect } from 'react';

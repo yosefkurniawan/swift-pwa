@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import React from 'react';
 import Typography from '@components/Typography';
 import Skeleton from '@components/Skeleton';
-import Button from '@components/Button';
+import Button from '@Button';
 import Header from '@components/Header';
 import Router from 'next/router';
 import Alert from '@material-ui/lab/Alert';

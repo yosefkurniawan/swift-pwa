@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable no-use-before-define */
-import Button from '@components/Button';
+import Button from '@Button';
 import Typography from '@components/Typography';
 import TextField from '@components/Forms/TextField';
 import PasswordField from '@components/Forms/Password';

@@ -1,7 +1,7 @@
 import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
 import Link from 'next/link';
-import Button from '@components/Button';
+import Button from '@Button';
 import useStyles from './style';
 
 const Error = (props) => {

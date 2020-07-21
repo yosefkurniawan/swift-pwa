@@ -5,7 +5,7 @@ import formatDate from '@helpers/date';
 import { getHost } from '@helpers/config';
 import Divider from '@material-ui/core/Divider';
 import React from 'react';
-import Button from '@components/Button';
+import Button from '@Button';
 import Link from 'next/link';
 import useStyles from './style';
 import ShareIcons from '../ShareIcon';

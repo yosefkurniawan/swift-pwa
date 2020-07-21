@@ -5,7 +5,7 @@
 // Library
 import { GraphCustomer } from '@services/graphql';
 import Typography from '@components/Typography';
-import Button from '@components/Button';
+import Button from '@Button';
 import Alert from '@material-ui/lab/Alert';
 import { getCartId, setCartId } from '@helpers/cartId';
 import { getCartIdUser } from '@services/graphql/schema/cart';

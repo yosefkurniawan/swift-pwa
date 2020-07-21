@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import Button from '@components/Button';
+import Button from '@Button';
 import Typography from '@components/Typography';
 import classNames from 'classnames';
 import Skeleton from '@material-ui/lab/Skeleton';

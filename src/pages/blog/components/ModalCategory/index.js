@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import Button from '@components/Button';
+import Button from '@Button';
 import Header from '@components/Header';
 import Skeleton from '@components/Skeleton';
 import Typography from '@components/Typography';

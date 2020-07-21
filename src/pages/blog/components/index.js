@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import Alert from '@material-ui/lab/Alert';
-import Button from '@components/Button';
+import Button from '@Button';
 import Typography from '@components/Typography';
 import Menu from '@material-ui/icons/Menu';
 import { debuging } from '@config';

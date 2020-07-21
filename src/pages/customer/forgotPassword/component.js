@@ -1,5 +1,5 @@
 import Typography from '@components/Typography';
-import Button from '@components/Button';
+import Button from '@Button';
 import TextField from '@components/Forms/TextField';
 import Toast from '@components/Toast';
 import { GraphConfig } from '@services/graphql';

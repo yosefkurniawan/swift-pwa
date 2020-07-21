@@ -5,7 +5,7 @@ import React from 'react';
 import formatDate from '@helpers/date';
 import TextField from '@components/Forms/TextField';
 import DropFile from '@components/DropFile';
-import Button from '@components/Button';
+import Button from '@Button';
 import ConfirmModal from '@components/ConfirmDialog';
 import useStyles from '../style';
 import ItemProduct from './ItemProduct';

@@ -1,6 +1,5 @@
-
 import Radio from '@components/Forms/Radio';
-import Button from '@components/Button';
+import Button from '@Button';
 import { languagesLabel } from '@config';
 import { useMutation } from '@apollo/react-hooks';
 import Skeleton from '@material-ui/lab/Skeleton';

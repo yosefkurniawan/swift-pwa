@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import Button from '@components/Button';
+import Button from '@Button';
 import TextField from '@components/Forms/TextField';
 import Typography from '@components/Typography';
 import { useTranslation } from '@i18n';

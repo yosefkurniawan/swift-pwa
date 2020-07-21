@@ -1,6 +1,6 @@
 import React from 'react';
 import Typography from '@components/Typography';
-import Button from '@components/Button';
+import Button from '@Button';
 import IconButton from '@material-ui/core/IconButton';
 import Slide from '@material-ui/core/Slide';
 import ArrowBack from '@material-ui/icons/ArrowBack';

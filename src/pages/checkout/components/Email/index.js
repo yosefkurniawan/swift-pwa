@@ -6,7 +6,7 @@ import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Popover from '@material-ui/core/Popover';
 import Help from '@material-ui/icons/Help';
-import Button from '@components/Button';
+import Button from '@Button';
 import React, { useState } from 'react';
 
 const Email = ({

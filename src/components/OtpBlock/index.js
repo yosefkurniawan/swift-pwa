@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/forbid-prop-types */
-import Button from '@components/Button';
+import Button from '@Button';
 import TextField from '@components/Forms/TextField';
 import Password from '@components/Forms/Password';
 import Typography from '@components/Typography';

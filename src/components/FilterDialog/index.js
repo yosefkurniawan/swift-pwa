@@ -10,7 +10,7 @@ import RangeSlider from '@components/Forms/RangeSlider';
 import CheckBox from '@components/Forms/CheckBox';
 import CheckBoxSize from '@components/Forms/CheckBoxSize';
 import CheckBoxColor from '@components/Forms/CheckBoxColor';
-import Button from '@components/Button';
+import Button from '@Button';
 import Loading from '@components/Loaders';
 import { useTranslation } from '@i18n';
 import useStyles from './style';

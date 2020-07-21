@@ -1,5 +1,5 @@
 /* eslint-disable array-callback-return */
-import Button from '@components/Button';
+import Button from '@Button';
 import PriceFormat from '@components/PriceFormat';
 import Banner from '@components/Slider/Banner';
 import Caraousel from '@components/Slider/Carousel';

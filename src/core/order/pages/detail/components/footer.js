@@ -1,4 +1,4 @@
-import Button from '@components/Button';
+import Button from '@Button';
 import Typography from '@components/Typography';
 import Router from 'next/router';
 import useStyles from '../style';

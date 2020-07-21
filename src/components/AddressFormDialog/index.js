@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import Button from '@components/Button';
+import Button from '@Button';
 import CustomTextField from '@components/Forms/TextField';
 import IcubeMaps from '@components/GoogleMaps/Maps';
 import Header from '@components/Header';

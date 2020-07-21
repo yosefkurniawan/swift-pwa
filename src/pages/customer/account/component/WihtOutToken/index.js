@@ -1,6 +1,6 @@
 // Library
 import React from 'react';
-import Button from '@components/Button';
+import Button from '@Button';
 import Typography from '@components/Typography';
 import Footer from '../Footer';
 import useStyles from './style';

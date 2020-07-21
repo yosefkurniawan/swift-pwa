@@ -1,4 +1,4 @@
-import Button from '@components/Button';
+import Button from '@Button';
 import Typography from '@components/Typography';
 import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';

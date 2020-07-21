@@ -6,7 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import React from 'react';
 import Alert from '@material-ui/lab/Alert';
-import Button from '@components/Button';
+import Button from '@Button';
 import TextField from '@components/Forms/TextField';
 import { formatPrice } from '@helpers/currency';
 import { debuging } from '@config';

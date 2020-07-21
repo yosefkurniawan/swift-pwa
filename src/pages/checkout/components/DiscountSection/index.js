@@ -1,4 +1,4 @@
-import Button from '@components/Button';
+import Button from '@Button';
 import Typography from '@components/Typography';
 import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';

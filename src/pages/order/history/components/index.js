@@ -1,4 +1,4 @@
-import Button from '@components/Button';
+import Button from '@Button';
 import Typography from '@components/Typography';
 import classNames from 'classnames';
 import Alert from '@material-ui/lab/Alert';

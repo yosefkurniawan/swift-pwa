@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from '@components/Button';
+import Button from '@Button';
 import Typography from '@components/Typography';
 import { useApolloClient } from '@apollo/react-hooks';
 import { setCartId, removeCartId } from '@helpers/cartId';

@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable react/destructuring-assignment */
-import Button from '@components/Button';
+import Button from '@Button';
 import Typography from '@components/Typography';
 import classNames from 'classnames';
 import React from 'react';

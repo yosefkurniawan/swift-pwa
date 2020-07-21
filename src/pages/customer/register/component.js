@@ -1,4 +1,4 @@
-import Button from '@components/Button';
+import Button from '@Button';
 import PasswordField from '@components/Forms/Password';
 import TextField from '@components/Forms/TextField';
 import Typography from '@components/Typography';

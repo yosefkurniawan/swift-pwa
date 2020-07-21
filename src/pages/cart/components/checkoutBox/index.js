@@ -1,6 +1,6 @@
 import Slide from '@material-ui/core/Slide';
 import Typography from '@components/Typography';
-import Button from '@components/Button';
+import Button from '@Button';
 import Router from 'next/router';
 import { formatPrice } from '@helpers/currency';
 import useStyles from './style';

@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-undef */
-import Button from '@components/Button';
+import Button from '@Button';
 import Typography from '@components/Typography';
 import formatDate from '@helpers/date';
 import Paper from '@material-ui/core/Paper';
