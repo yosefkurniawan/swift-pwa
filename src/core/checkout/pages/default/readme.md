@@ -24,19 +24,71 @@ import CashbackInfo from '@core/checkout/pages/default/components/CashbackInfo';
 ### 5. Place it in your page
 #### example code
 ````
+import Layout from '@components/Layouts';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import Checkout from '@core/checkout/pages/default/core';
-import CashbackInfo from '@core/checkout/pages/default/components/CashbackInfo';
+import cookies from 'next-cookies';
+import redirect from 'next-redirect';
+import Head from 'next/head';
+import { modules } from '@config';
+import Core from './core';
+import CashbackInfo from './components/CashbackInfo';
+import EmailView from './components/email/view';
+import DeliveryView from './components/delivery/view';
+import DeliverySkeleton from './components/delivery/skeleton';
+import SummaryView from './components/summary/view';
+import AddressView from './components/address/view';
+import ShippingView from './components/shipping/view';
+import PaymentView from './components/payment/view';
+import GiftCardView from './components/giftcard/view';
+import FieldPointView from '../../components/fieldcode';
+import RewardPointView from './components/rewardpoint/view';
+import StoreCreditView from './components/credit/view';
 
-const CheckoutPage = (props) => (
-    // generate checkout page from module
-    <Checkout {...props}
-        CashbackInfoView={CashbackInfo}
-    />
-);
+const Page = (props) => {
+    const { t, storeConfig } = props;
+    const { snap_is_production, snap_client_key } = storeConfig;
+    const pageConfig = {
+        title: t('checkout:pageTitle'),
+        header: 'relative', // available values: "absolute", "relative", false (default)
+        headerTitle: t('checkout:pageTitle'),
+        bottomNav: false,
+        pageType: 'checkout',
+    };
 
-CheckoutPage.getInitialProps = async (ctx) => {
+    const url = snap_is_production ? modules.checkout.snapUrl.dev : modules.checkout.snapUrl.prod;
+
+    return (
+        <Layout pageConfig={pageConfig} {...props}>
+            <Head>
+                <script
+                    type="text/javascript"
+                    src={url}
+                    data-client-key={snap_client_key}
+                />
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+            </Head>
+            <Core
+                {...props}
+                containerStyle={{ paddingBottom: '150px' }}
+                CashbackInfoView={CashbackInfo}
+                EmailView={EmailView}
+                DeliveryView={DeliveryView}
+                DeliverySkeleton={DeliverySkeleton}
+                SummaryView={SummaryView}
+                AddressView={AddressView}
+                ShippingView={ShippingView}
+                PaymentView={PaymentView}
+                PromoView={FieldPointView}
+                GiftCardView={GiftCardView}
+                RewardPointView={RewardPointView}
+                StoreCreditView={StoreCreditView}
+            />
+        </Layout>
+    );
+};
+
+Page.getInitialProps = async (ctx) => {
     const cartId = cookies(ctx).nci || null;
 
     if (!cartId) {
@@ -49,12 +101,14 @@ CheckoutPage.getInitialProps = async (ctx) => {
     };
 };
 
-export default withApollo({ ssr: true })(withTranslation()(CheckoutPage));
+export default withApollo({ ssr: true })(withTranslation()(Page));
+
 
 ````
 
 ### Note
 #### * this module use cartId, so need get from cookies first on getInitialProps
+#### * this module use redirex, so need get from next redirect or use node redirect first on getInitialProps
 #### * withapollo and withtranslation must be place on first routing for peformance
 
 
@@ -79,7 +133,11 @@ export default withApollo({ ssr: true })(withTranslation()(CheckoutPage));
 | SummaryView| true | template show summary | Function  Component|
 | AddressView| true | template handle address | Function  Component|
 | ShippingView| true | template handle shipping | Function  Component|
-| PaymentView| true | template handle shipping | Function  Component|
+| PaymentView| true | template handle payment | Function  Component|
+| PromoView| true | template handle promo | Function  Component|
+| GiftCardView| true | template handle giftcard | Function  Component|
+| RewardPointView| true | template handle reward point | Function  Component|
+| StoreCreditView| true | template handle store credit | Function  Component|
 
 # Properties sent to the component
 1. CashbackInfo
@@ -107,6 +165,9 @@ export default withApollo({ ssr: true })(withTranslation()(CheckoutPage));
 | checkout     |  data checkout from be      | Object |
 | handleSelect     |  function to select shiping method     | Function |
 
+
+params to send on `handleSelect` method type `string` value `home` or `pickup` 
+
 4. Summary View
 
 | Props       | Description | Type |
@@ -117,6 +178,8 @@ export default withApollo({ ssr: true })(withTranslation()(CheckoutPage));
 | total     |  total price summary    | number |
 | t     |  function to translate     | Function |
 | disabled     |  value to notif can place order or not     | Boolean |
+
+`handlePlaceOrder` method not required params, only call this function
 
 5. AddressView
 
@@ -167,7 +230,23 @@ params to send on `handleShiping` method type `object` example:
 | loading     |  value to notif loading or no    | Boolean |
 | handlePayment |  function to set payment method    | Boolean |
 
-params to send on `handlePayment` props `string` payment methos example `data checkout has been proccess`
+params to send on `handlePayment` props `string` payment method example `snap_banktransfer_bca`
+
+8. PromoView
+   
+| Props       | Description | Type |
+| :---        | :---        |:---  |
+|    value |  value input text code  | String |
+|    placeholder |  place holder input text  | String |
+|    action |  action apply code  | function |
+|    onChange |  handle change input text  | function |
+|    disabled |  value disabled or not input text  | Boolean|
+|    id |  id input text  | String |
+|    name |   name input text | String |
+|    error | object error from formik   | Onject |
+|    errorMessage |  message error  | String |
+|    loading | valu to notif loading or not   | Boolean |
+
 
 
 # Default Template
@@ -177,4 +256,7 @@ params to send on `handlePayment` props `string` payment methos example `data ch
 4. DeliverySkeleton `@core/checkout/pages/default/components/delivery/skeleton`
 5. SummaryView `@core/checkout/pages/default/components/summary/view`
 6. ShippingView `@core/checkout/pages/default/components/shipping/view`
-7. paymentView `@core/checkout/pages/default/components/payment/view`
+7. PaymentView `@core/checkout/pages/default/components/payment/view`
+8. FieldCode `@core/checkout/components/fieldcode`
+   
+   - Field code can use on promo code view

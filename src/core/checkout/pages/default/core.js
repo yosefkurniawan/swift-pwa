@@ -13,6 +13,9 @@ import Address from './components/address';
 import Shipping from './components/shipping';
 import PaymentList from './components/payment';
 import Promo from './components/promo';
+import GiftCard from './components/giftcard';
+import RewardPoint from './components/rewardpoint';
+import Credit from './components/credit';
 
 const Checkout = (props) => {
     const {
@@ -30,6 +33,9 @@ const Checkout = (props) => {
         ShippingView,
         PaymentView,
         PromoView,
+        GiftCardView,
+        RewardPointView,
+        StoreCreditView,
     } = props;
     const [checkout, setCheckout] = useState({
         order_id: '',
@@ -262,7 +268,7 @@ const Checkout = (props) => {
 
         if (!manageCustomer.data && isLogin) {
             getCustomer();
-            // getRewardPoint();
+            getRewardPoint();
         }
 
         const loadCart = isLogin ? manageCustomer.data && !dataCart : !dataCart;
@@ -366,6 +372,33 @@ const Checkout = (props) => {
                     formik={formik}
                     storeConfig={storeConfig}
                     PromoView={PromoView}
+                />
+                <GiftCard
+                    t={t}
+                    checkout={checkout}
+                    setCheckout={setCheckout}
+                    handleOpenMessage={handleOpenMessage}
+                    formik={formik}
+                    storeConfig={storeConfig}
+                    GiftCardView={GiftCardView}
+                />
+                <RewardPoint
+                    t={t}
+                    checkout={checkout}
+                    setCheckout={setCheckout}
+                    handleOpenMessage={handleOpenMessage}
+                    formik={formik}
+                    storeConfig={storeConfig}
+                    RewardPointView={RewardPointView}
+                />
+                <Credit
+                    t={t}
+                    checkout={checkout}
+                    setCheckout={setCheckout}
+                    handleOpenMessage={handleOpenMessage}
+                    formik={formik}
+                    storeConfig={storeConfig}
+                    StoreCreditView={StoreCreditView}
                 />
             </>
             <Summary

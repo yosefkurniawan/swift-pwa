@@ -14,7 +14,10 @@ import SummaryView from './components/summary/view';
 import AddressView from './components/address/view';
 import ShippingView from './components/shipping/view';
 import PaymentView from './components/payment/view';
-import FieldPointView from '../../components/promo/fieldpoint';
+import GiftCardView from './components/giftcard/view';
+import FieldPointView from '../../components/fieldcode';
+import RewardPointView from './components/rewardpoint/view';
+import StoreCreditView from './components/credit/view';
 
 const Page = (props) => {
     const { t, storeConfig } = props;
@@ -51,6 +54,9 @@ const Page = (props) => {
                 ShippingView={ShippingView}
                 PaymentView={PaymentView}
                 PromoView={FieldPointView}
+                GiftCardView={GiftCardView}
+                RewardPointView={RewardPointView}
+                StoreCreditView={StoreCreditView}
             />
         </Layout>
     );

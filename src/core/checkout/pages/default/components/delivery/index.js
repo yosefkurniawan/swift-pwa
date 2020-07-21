@@ -13,6 +13,7 @@ export default (props) => {
     const [removePickupStore] = gqlService.removePickupStore();
     const styles = useStyles();
     const handleSelect = async (delivery) => {
+        console.log(delivery);
         await window.backdropLoader(true);
         if (delivery === 'home'
             && Object.keys(checkout.selectStore).length > 0

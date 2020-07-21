@@ -42,7 +42,7 @@ export default makeStyles(() => ({
         padding: 5,
     },
     cardPoint: {
-        ...CreateMargin(30, 0, 30, 0),
+        ...CreateMargin(30, 30, 30, 30),
         ...CreatePadding(17, 17, 17, 17),
         ...FlexRow,
         alignItems: 'center',
@@ -92,7 +92,7 @@ export default makeStyles(() => ({
         position: 'relative',
     },
     giftcardInfoContainer: {
-        marginTop: '-30px',
+        ...CreateMargin(-30, 30, 30, 30),
     },
     giftCardItemContainer: {
         paddingTop: '5px',

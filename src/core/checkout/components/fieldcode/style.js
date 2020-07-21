@@ -11,7 +11,7 @@ import {
 export default makeStyles(() => ({
     block: {
         ...CreateBorder(0, 0, '1px', 0, GRAY_PRIMARY),
-        ...CreatePadding(30, 30, 30, 30),
+        ...CreatePadding(0, 30, 0, 30),
     },
     fieldPoinContainer: {
         ...FlexRow,
