@@ -1,5 +1,5 @@
-import Select from '@Select';
-import Typography from '@Typography';
+import Select from '@common_select';
+import Typography from '@common_typography';
 
 const ItemFieldView = ({
     item, error, options, name, label,

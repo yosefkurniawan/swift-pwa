@@ -1,8 +1,8 @@
 /* eslint-disable no-use-before-define */
-import TextField from '@TextField';
-import PasswordField from '@Password';
-import Button from '@Button';
-import Typography from '@Typography';
+import TextField from '@common_textfield';
+import PasswordField from '@common_password';
+import Button from '@common_button';
+import Typography from '@common_typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import { useFormik } from 'formik';

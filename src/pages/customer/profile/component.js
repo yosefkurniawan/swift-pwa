@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 /* eslint-disable no-use-before-define */
-import Button from '@Button';
-import Typography from '@Typography';
-import TextField from '@TextField';
-import PasswordField from '@Password';
+import Button from '@common_button';
+import Typography from '@common_typography';
+import TextField from '@common_textfield';
+import PasswordField from '@common_password';
 import { regexPhone } from '@helpers/regex';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';

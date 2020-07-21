@@ -5,7 +5,7 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import CloseIcon from '@material-ui/icons/Close';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
-import Typography from '@Typography';
+import Typography from '@common_typography';
 import propTypes from 'prop-types';
 import useStyles from './style';
 

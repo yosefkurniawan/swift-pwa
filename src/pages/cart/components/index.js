@@ -1,8 +1,8 @@
 /* eslint-disable radix */
 /* eslint-disable no-plusplus */
 import { useState, useEffect } from 'react';
-import Typography from '@Typography';
-import Button from '@Button';
+import Typography from '@common_typography';
+import Button from '@common_button';
 import Link from 'next/link';
 import { getCartId } from '@helpers/cartId';
 import { useMutation } from '@apollo/react-hooks';

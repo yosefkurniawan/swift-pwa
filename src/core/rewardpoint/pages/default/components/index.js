@@ -10,7 +10,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Typography from '@Typography';
+import Typography from '@common_typography';
 import Link from 'next/link';
 import formatDate from '@helpers/date';
 import Alert from '@material-ui/lab/Alert';

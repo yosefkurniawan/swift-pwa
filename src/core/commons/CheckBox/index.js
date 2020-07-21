@@ -1,4 +1,4 @@
-import Typography from '@Typography';
+import Typography from '@common_typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import classNames from 'classnames';

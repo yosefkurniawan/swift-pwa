@@ -1,5 +1,5 @@
-import Button from '@Button';
-import TextField from '@TextField';
+import Button from '@common_button';
+import TextField from '@common_textfield';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import useStyles from './style';

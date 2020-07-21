@@ -8,7 +8,7 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import Alert from '@material-ui/lab/Alert';
 import React, { useState } from 'react';
 import { GraphCategory } from '@services/graphql';
-import TextField from '@TextField';
+import TextField from '@common_textfield';
 import Router from 'next/router';
 import SearchIcon from '@material-ui/icons/Search';
 import Skeleton from '@components/Skeleton';

@@ -1,5 +1,5 @@
-import Button from '@Button';
-import Typography from '@Typography';
+import Button from '@common_button';
+import Typography from '@common_typography';
 import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { customerFeautres } from '@config';

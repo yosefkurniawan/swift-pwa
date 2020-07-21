@@ -1,5 +1,5 @@
-import Button from '@Button';
-import Password from '@Password';
+import Button from '@common_button';
+import Password from '@common_password';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/router';

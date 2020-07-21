@@ -8,14 +8,14 @@ this component use some dependency and **required**, so you need to install
 | :---        | :---        |:---  |
 | `@material-ui/core` | depedency UI from material ui <br/> link docs [here](https://material-ui.com/getting-started/installation/)| external dependency |
 | `classnames`   | dependency for merge className | exterlnal dependency |
-| `@Typography` | commons components typography <br />from commons module | internal dependency |
+| `@common_typography` | commons components typography <br />from commons module | internal dependency |
 
 
 ## How To Install
 
 **1. Import module to your component**
 ```node
-import Radio from '@Radio';
+import Radio from '@common_radio';
 ```
 
 or

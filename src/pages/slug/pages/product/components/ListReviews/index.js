@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable react/destructuring-assignment */
-import Button from '@Button';
-import Typography from '@Typography';
+import Button from '@common_button';
+import Typography from '@common_typography';
 import classNames from 'classnames';
 import React from 'react';
 // import { useDispatch, useSelector } from 'react-redux';

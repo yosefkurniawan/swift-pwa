@@ -1,7 +1,7 @@
 import React from 'react';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import Typography from '@Typography';
+import Typography from '@common_typography';
 import classNames from 'classnames';
 import useStyles from './style';
 

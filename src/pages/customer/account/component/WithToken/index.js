@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import React from 'react';
 import Carousel from '@components/Slider/Carousel';
-import Typography from '@Typography';
+import Typography from '@common_typography';
 import { GraphCustomer } from '@services/graphql';
 import { customerFeautres } from '@config';
 import Badge from '@material-ui/core/Badge';

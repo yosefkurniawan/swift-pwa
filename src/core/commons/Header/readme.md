@@ -9,7 +9,7 @@ this component use some dependency and **required**, so you need to install
 | `@material-ui/core` | depedency ui <br/> link docs [here](https://material-ui.com/getting-started/installation/)| external dependency |
 | `@material-ui/icons` | depedency icon UI from material ui <br/> link docs [here](https://material-ui.com/getting-started/installation/)| external dependency |
 | `classnames`   | dependency for merge className | external dependency |
-| `@Typography` | commons components typography <br />from commons module | internal dependency |
+| `@common_typography` | commons components typography <br />from commons module | internal dependency |
 
 ## How To Install
 

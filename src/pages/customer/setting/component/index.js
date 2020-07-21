@@ -1,5 +1,5 @@
-import Radio from '@Radio';
-import Button from '@Button';
+import Radio from '@common_radio';
+import Button from '@common_button';
 import { languagesLabel } from '@config';
 import { useMutation } from '@apollo/react-hooks';
 import Skeleton from '@material-ui/lab/Skeleton';

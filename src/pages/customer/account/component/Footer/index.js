@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react/no-danger */
 import Link from 'next/link';
-import Button from '@Button';
+import Button from '@common_button';
 import { removeIsLoginFlagging } from '@helpers/auth';
 import { removeCartId } from '@helpers/cartId';
 import { useApolloClient } from '@apollo/react-hooks';

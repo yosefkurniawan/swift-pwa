@@ -2,8 +2,8 @@
 import { shareIcon } from '@config';
 import { getHost } from '@helpers/config';
 import Drawer from '@material-ui/core/Drawer';
-import Typogrphy from '@Typography';
-import Button from '@Button';
+import Typogrphy from '@common_typography';
+import Button from '@common_button';
 import {
     FacebookIcon,
     FacebookShareButton,

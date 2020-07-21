@@ -19,7 +19,7 @@ example
 you can import and uses this module.
 ##### example
 ```node
-    import Button from '@Button';
+    import Button from '@common_button';
     ..... //other code
 ```
 or
@@ -51,7 +51,7 @@ example :
                 ...
                 "alias": {
                     ...
-                    "@Button": "./src/core/commons/Button"  // default path component
+                    "@common_button": "./src/core/commons/Button"  // default path component
                     ....
                 }
             }
@@ -73,7 +73,7 @@ example :
                 ...
                 "alias": {
                     ...
-                    "@Button": "./src/custom/commons/Button"  // dirrect to you path custom 
+                    "@common_button": "./src/custom/commons/Button"  // dirrect to you path custom 
                     ....
                 }
             }

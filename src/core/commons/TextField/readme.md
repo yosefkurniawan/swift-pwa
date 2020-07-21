@@ -7,7 +7,7 @@ this component use some dependency and **required**, so you need to install
 | Depedency   | Description | Type |
 | :---        | :---        |:---  |
 | `@material-ui/core` | depedency ui from material ui <br/> link docs [here](https://material-ui.com/getting-started/installation/)| external dependency |
-| `@Typography` | commons components typography <br />from commons module | internal dependency |
+| `@common_typography` | commons components typography <br />from commons module | internal dependency |
 | `classnames`   | dependency for merge className | exterlnal dependency |
 
 
@@ -15,7 +15,7 @@ this component use some dependency and **required**, so you need to install
 
 **1. Import module to your component**
 ```node
-import TextField from '@TextField';
+import TextField from '@common_textfield';
 ```
 
 or

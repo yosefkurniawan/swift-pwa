@@ -1,5 +1,5 @@
-import Button from '@Button';
-import TextField from '@TextField';
+import Button from '@common_button';
+import TextField from '@common_textfield';
 import Modal from '../modal';
 import useStyles from '../style';
 

@@ -6,13 +6,13 @@ this component use some dependency and **required**, so you need to install
 
 | Depedency   | Description | Type |
 | :---        | :---        |:---  |
-| `@Typography` | commons components typography <br />from commons module | internal dependency |
+| `@common_typography` | commons components typography <br />from commons module | internal dependency |
 
 ## How To Install
 
 **1. Import module to your component**
 ```node
-import PriceFormat from '@PriceFormat';
+import PriceFormat from '@common_priceformat';
 ```
 
 or

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 import classNames from 'classnames';
 import React from 'react';
-import ConfirmModal from '@ConfirmDialog';
+import ConfirmModal from '@common_confirmdialog';
 import { updateRma, cancelRma } from '@core/rma/services/graphql';
 import ItemField from './ItemField';
 import useStyles from './styles';

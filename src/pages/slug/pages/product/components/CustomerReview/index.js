@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
-import Typography from '@Typography';
+import Typography from '@common_typography';
 import formatDate from '@helpers/date';
 import Avatar from 'react-avatar';
-import RatingStar from '@RatingStar';
+import RatingStar from '@common_ratingstar';
 import useStyles from './style';
 
 const CustomerReview = (props) => {

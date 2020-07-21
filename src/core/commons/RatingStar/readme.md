@@ -12,7 +12,7 @@ this component use some dependency and **required**, so you need to install
 
 **1. Import module to your component**
 ```node
-import RatingStar from '@RatingStar';
+import RatingStar from '@common_ratingstar';
 ```
 
 or

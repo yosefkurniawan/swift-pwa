@@ -1,7 +1,7 @@
-import TextField from '@TextField';
+import TextField from '@common_textfield';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from '@Button';
-import Typography from '@Typography';
+import Button from '@common_button';
+import Typography from '@common_typography';
 
 const FieldPoint = ({
     onChange = () => {},

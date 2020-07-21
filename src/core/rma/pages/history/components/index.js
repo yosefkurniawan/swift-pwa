@@ -1,5 +1,5 @@
-import Button from '@Button';
-import Typography from '@Typography';
+import Button from '@common_button';
+import Typography from '@common_typography';
 import formatDate from '@helpers/date';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';

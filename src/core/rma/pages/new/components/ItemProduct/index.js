@@ -1,5 +1,5 @@
 import React from 'react';
-import Typography from '@Typography';
+import Typography from '@common_typography';
 import useStyles from '../styles';
 import ItemField from '../ItemField';
 

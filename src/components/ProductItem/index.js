@@ -1,19 +1,19 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import Button from '@Button';
-import Typography from '@Typography';
+import Button from '@common_button';
+import Typography from '@common_typography';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import Link from '@material-ui/core/Link';
 import classNames from 'classnames';
 import route from 'next/router';
 import React from 'react';
-import PriceFormat from '@PriceFormat';
+import PriceFormat from '@common_priceformat';
 import { GraphCustomer } from '@services/graphql';
 import { getLoginInfo } from '@helpers/auth';
 import { setCookies } from '@helpers/cookies';
 import { imageSize, features } from '@config';
 import { useTranslation } from '@i18n';
-import RatingStar from '@RatingStar';
+import RatingStar from '@common_ratingstar';
 import dynamic from 'next/dynamic';
 import useStyles from './style';
 import Thumbor from '../Image';

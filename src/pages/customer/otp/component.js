@@ -1,5 +1,5 @@
-import Button from '@Button';
-import Typography from '@Typography';
+import Button from '@common_button';
+import Typography from '@common_typography';
 import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
 import MailOutline from '@material-ui/icons/MailOutline';

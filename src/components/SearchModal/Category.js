@@ -1,6 +1,6 @@
 import React from 'react';
-import Typography from '@Typography';
-import Button from '@Button';
+import Typography from '@common_typography';
+import Button from '@common_button';
 import Slide from '@material-ui/core/Slide';
 import Router from 'next/router';
 import { showBrandPage } from '@config';

@@ -1,9 +1,9 @@
 import Banner from '@components/Slider/Banner';
-import CustomTabs from '@Tabs';
+import CustomTabs from '@common_tabs';
 import React from 'react';
 import Router from 'next/router';
 import Product from '@components/ProductList';
-import Breadcrumb from '@Breadcrumb';
+import Breadcrumb from '@common_breadcrumb';
 import { imageSize } from '@config';
 import useStyles from '../style';
 import { getFilter } from '../services';

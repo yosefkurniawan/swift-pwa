@@ -1,6 +1,6 @@
-import Typography from '@Typography';
+import Typography from '@common_typography';
 import React from 'react';
-import Button from '@Button';
+import Button from '@common_button';
 import classNames from 'classnames';
 import useStyles from './styles';
 

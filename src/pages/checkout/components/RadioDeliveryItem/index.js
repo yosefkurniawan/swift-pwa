@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import Typography from '@Typography';
+import Typography from '@common_typography';
 import Radio from '@material-ui/core/Radio';
 import useStyles from './style';
 

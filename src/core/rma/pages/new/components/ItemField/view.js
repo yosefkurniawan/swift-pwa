@@ -1,4 +1,4 @@
-import Select from '@Select';
+import Select from '@common_select';
 
 const ItemFieldView = ({
     options = [],

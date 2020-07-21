@@ -13,7 +13,7 @@ this component use some dependency and **required**, so you need to install
 
 **1. Import module to your component**
 ```node
-import Button from '@Button';
+import Button from '@common_button';
 ```
 
 or

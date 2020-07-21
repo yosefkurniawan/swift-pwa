@@ -10,15 +10,15 @@ this component use some dependency and **required**, so you need to install
 | `classnames`   | dependency for merge className | exterlnal dependency |
 | `@material-ui/icons` | depedency icon UI from material ui <br/> link docs [here](https://material-ui.com/getting-started/installation/)| external dependency |
 |`js-cookie`| dependency manage cookies <br/> link docs [here](https://github.com/js-cookie/js-cookie) | external dependency |
-| `@Typography` | commons components typography <br />from commons module | internal dependency |
-| `@TextField` | commons components input <br />from commons module | internal dependency |
+| `@common_typography` | commons components typography <br />from commons module | internal dependency |
+| `@common_textfield` | commons components input <br />from commons module | internal dependency |
 
 
 ## How To Install
 
 **1. Import module to your component**
 ```node
-import Password from '@Password';
+import Password from '@common_password';
 ```
 
 or

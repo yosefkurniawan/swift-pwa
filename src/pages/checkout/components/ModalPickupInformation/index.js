@@ -1,6 +1,6 @@
-import Button from '@Button';
-import TextField from '@TextField';
-import Typography from '@Typography';
+import Button from '@common_button';
+import TextField from '@common_textfield';
+import Typography from '@common_typography';
 import { regexPhone } from '@helpers/regex';
 import { useTranslation } from '@i18n';
 import AppBar from '@material-ui/core/AppBar';
