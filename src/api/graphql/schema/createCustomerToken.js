@@ -32,11 +32,21 @@ const customerSchema = makeExecutableSchema({
             whatsapp_number: String
         }
 
+        type internalGenerateSessionOutput {
+            result: Boolean
+        }
+
+        type internalDeleteSessionOutput {
+            result: Boolean
+        }
+
         type Mutation {
             internalGenerateCustomerToken(username: String!, password: String!): Token
             internalCreateCustomerToken(input: internalCreateCustomerTokenInput): Token
             internalGenerateCustomerTokenOtp(username: String!, otp: String!): Token
             internalDeleteCustomerToken: RevokeCustomerTokenOutput
+            internalGenerateSession(token: String!): internalGenerateSessionOutput
+            internalDeleteSession: internalDeleteSessionOutput
         }
     `,
 });

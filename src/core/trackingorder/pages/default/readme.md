@@ -30,7 +30,7 @@ import Skeleton from '@core/trackingorder/pages/components/skeleton';
 ````
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import FormView from '@core/trackingorder/pages/components/template/form';
+import FormView from '@core/trackingorder/pages/components/form/view';
 // custome result view
 import ResultView from './template/result';
 
@@ -116,7 +116,7 @@ const pageConfig = {
 
 
 # Default Template
-1. Skeleton '@core/trackingorder/pages/components/skeletonform`;
-2. SkeletonResult '@core/trackingorder/pages/components/skeletonresult`';
-3. FormView '@core/trackingorder/pages/components/template/form`;
-4. ResultView '@core/trackingorder/pages/components/template/result`;
+1. Skeleton `@core/trackingorder/pages/components/skeletonform`;
+2. SkeletonResult `@core/trackingorder/pages/components/skeletonresult`';
+3. FormView `@core/trackingorder/pages/components/form/view`;
+4. ResultView `@core/trackingorder/pages/components/result/view`;

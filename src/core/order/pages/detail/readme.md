@@ -1,11 +1,12 @@
 
-# How to install
+# Description
 
 Module order detail can be installed with custom template or default template
 if you don't need custom, you can import it directly from the default modules
 
-# Use default template and no overide
-## import order detail module and place on your routing
+# How to install
+## Use default template and no overide
+### import order detail module and place on your routing
 
 
 ````
@@ -15,23 +16,23 @@ export default Page;
 ````
 
 
-# Use ustom template
-## 1. import core module
+## Use ustom template
+### 1. import core module
 
 ````
 import Page from '@core/order/pages/detail/core';
 ````
 
-## 2. if not all custom you can import component on module
+### 2. if not all custom you can import component on module
 
 ````
 // for example skeleton not overide and use default template
 import Skeleton from '@core/order/pages/detail/components/skeleton';
 ````
-## 3. create your custom template
-## 4. import your template
-## 5. Place it in your page
-### example code
+### 3. create your custom template
+### 4. import your template
+### 5. Place it in your page
+#### example code
 ````
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';

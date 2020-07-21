@@ -2,8 +2,8 @@ import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import Core from './core';
 import Skeleton from './components/skeletonform';
-import FormView from './components/template/form';
-import ResultView from './components/template/result';
+import FormView from './components/form/view';
+import ResultView from './components/result/view';
 import SkeletonResult from './components/skeletonresult';
 
 const DefaultTracking = (props) => (
