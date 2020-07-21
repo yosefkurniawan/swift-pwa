@@ -1,4 +1,4 @@
-import TextField from '@components/Forms/TextField';
+import TextField from '@TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@Button';
 import Typography from '@Typography';

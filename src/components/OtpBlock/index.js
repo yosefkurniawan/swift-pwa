@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/forbid-prop-types */
 import Button from '@Button';
-import TextField from '@components/Forms/TextField';
+import TextField from '@TextField';
 import Password from '@Password';
 import Typography from '@Typography';
 import { GraphOtp, GraphConfig } from '@services/graphql';

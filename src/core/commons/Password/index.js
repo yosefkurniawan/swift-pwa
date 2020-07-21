@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-nested-ternary */
-import TextField from '@components/Forms/TextField';
+import TextField from '@TextField';
 import Typography from '@Typography';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';

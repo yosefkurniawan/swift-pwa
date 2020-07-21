@@ -1,7 +1,7 @@
 import Loading from '@components/Loaders/Backdrop';
 import Typography from '@Typography';
 import Button from '@Button';
-import TextField from '@components/Forms/TextField';
+import TextField from '@TextField';
 import { regexPhone } from '@helpers/regex';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';

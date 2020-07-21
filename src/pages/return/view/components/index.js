@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Typography from '@Typography';
 import React from 'react';
 import formatDate from '@helpers/date';
-import TextField from '@components/Forms/TextField';
+import TextField from '@TextField';
 import DropFile from '@DropFile';
 import Button from '@Button';
 import ConfirmModal from '@ConfirmDialog';

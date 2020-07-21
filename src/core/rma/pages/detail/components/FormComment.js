@@ -1,4 +1,4 @@
-import TextField from '@components/Forms/TextField';
+import TextField from '@TextField';
 import DropFile from '@DropFile';
 import useStyles from './styles';
 

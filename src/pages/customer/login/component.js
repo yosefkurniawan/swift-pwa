@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import TextField from '@components/Forms/TextField';
+import TextField from '@TextField';
 import PasswordField from '@Password';
 import Button from '@Button';
 import Typography from '@Typography';

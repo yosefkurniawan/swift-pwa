@@ -1,6 +1,6 @@
 import Typography from '@Typography';
 import Button from '@Button';
-import TextField from '@components/Forms/TextField';
+import TextField from '@TextField';
 import Toast from '@Toast';
 import { GraphConfig } from '@services/graphql';
 import Loading from '@components/Loaders/Backdrop';

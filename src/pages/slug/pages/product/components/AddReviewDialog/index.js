@@ -1,5 +1,5 @@
 import Button from '@Button';
-import TextField from '@components/Forms/TextField';
+import TextField from '@TextField';
 import Header from '@components/Header';
 import Typography from '@Typography';
 import Dialog from '@material-ui/core/Dialog';

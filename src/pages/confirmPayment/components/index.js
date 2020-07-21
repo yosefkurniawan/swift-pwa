@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import TextField from '@components/Forms/TextField';
+import TextField from '@TextField';
 import DropFile from '@DropFile';
 import Button from '@Button';
 import Typography from '@Typography';

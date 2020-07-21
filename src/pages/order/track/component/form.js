@@ -1,5 +1,5 @@
 import Button from '@Button';
-import TextField from '@components/Forms/TextField';
+import TextField from '@TextField';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import useStyles from './style';

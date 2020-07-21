@@ -1,5 +1,5 @@
 import Button from '@Button';
-import TextField from '@components/Forms/TextField';
+import TextField from '@TextField';
 import Typography from '@Typography';
 import { regexPhone } from '@helpers/regex';
 import { useTranslation } from '@i18n';

@@ -1,6 +1,6 @@
 import Button from '@Button';
 import PasswordField from '@Password';
-import TextField from '@components/Forms/TextField';
+import TextField from '@TextField';
 import Typography from '@Typography';
 import { regexPhone } from '@helpers/regex';
 import { Checkbox, FormControlLabel } from '@material-ui/core/';
