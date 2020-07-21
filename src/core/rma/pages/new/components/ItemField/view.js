@@ -1,4 +1,4 @@
-import Select from '@components/Forms/Select';
+import Select from '@common_select';
 
 const ItemFieldView = ({
     options = [],

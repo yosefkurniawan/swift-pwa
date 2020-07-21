@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import Button from '@components/Button';
-import Typography from '@components/Typography';
+import Button from '@common_button';
+import Typography from '@common_typography';
 import useStyles from '../style';
 import Item from './item';
 

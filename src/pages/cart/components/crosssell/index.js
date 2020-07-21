@@ -1,5 +1,5 @@
 import Carousel from '@components/Slider/Carousel';
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import useStyles from './style';
 
 const CrossSell = (props) => {

@@ -1,5 +1,5 @@
-import TextField from '@components/Forms/TextField';
-import DropFile from '@components/DropFile';
+import TextField from '@common_textfield';
+import DropFile from '@common_dropfile';
 import useStyles from './styles';
 
 const FormComment = ({

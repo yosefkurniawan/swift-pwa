@@ -1,6 +1,6 @@
 import Skeleton from '@material-ui/lab/Skeleton';
-import GridList from '@components/GridList';
-import Typography from '@components/Typography';
+import GridList from '@common_gridlist';
+import Typography from '@common_typography';
 import useStyles from './style';
 
 const Item = () => ((

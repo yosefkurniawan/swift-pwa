@@ -1,4 +1,4 @@
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import React from 'react';
 import formatDate from '@helpers/date';
 

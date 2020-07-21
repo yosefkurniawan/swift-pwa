@@ -1,4 +1,4 @@
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -6,8 +6,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import React from 'react';
 import Alert from '@material-ui/lab/Alert';
-import Button from '@components/Button';
-import TextField from '@components/Forms/TextField';
+import Button from '@common_button';
+import TextField from '@common_textfield';
 import { formatPrice } from '@helpers/currency';
 import { debuging } from '@config';
 import { getGiftCard } from '../services/graphql';

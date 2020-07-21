@@ -1,4 +1,4 @@
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';

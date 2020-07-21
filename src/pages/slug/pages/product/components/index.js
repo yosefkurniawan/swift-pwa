@@ -1,9 +1,9 @@
 /* eslint-disable array-callback-return */
-import Button from '@components/Button';
-import PriceFormat from '@components/PriceFormat';
+import Button from '@common_button';
+import PriceFormat from '@common_priceformat';
 import Banner from '@components/Slider/Banner';
 import Caraousel from '@components/Slider/Carousel';
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import IconButton from '@material-ui/core/IconButton';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
@@ -16,8 +16,8 @@ import { GraphCustomer } from '@services/graphql';
 import TagManager from 'react-gtm-module';
 import { getCookies } from '@helpers/cookies';
 import { getHost } from '@helpers/config';
-import Breadcrumb from '@components/Breadcrumb';
-import RatingStar from '@components/RatingStar';
+import Breadcrumb from '@common_breadcrumb';
+import RatingStar from '@common_ratingstar';
 import { features } from '@config';
 import useStyles from '../style';
 import ExpandDetail from './ExpandDetail';

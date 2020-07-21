@@ -1,5 +1,5 @@
-import Select from '@components/Forms/Select';
-import Typography from '@components/Typography';
+import Select from '@common_select';
+import Typography from '@common_typography';
 
 const ItemFieldView = ({
     item, error, options, name, label,

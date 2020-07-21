@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
-import Button from '@components/Button';
-import Typography from '@components/Typography';
+import Button from '@common_button';
+import Typography from '@common_typography';
 import React from 'react';
 import propTypes from 'prop-types';
 

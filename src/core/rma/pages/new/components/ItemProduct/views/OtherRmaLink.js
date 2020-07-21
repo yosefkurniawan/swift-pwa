@@ -1,5 +1,5 @@
 import React from 'react';
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import Link from 'next/link';
 import useStyles from '../../styles';
 

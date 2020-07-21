@@ -1,8 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import Alert from '@material-ui/lab/Alert';
-import Button from '@components/Button';
-import Typography from '@components/Typography';
+import Button from '@common_button';
+import Typography from '@common_typography';
 import Menu from '@material-ui/icons/Menu';
 import { debuging } from '@config';
 import { getBlog } from '../services/graphql';

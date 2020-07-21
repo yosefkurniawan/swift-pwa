@@ -1,11 +1,11 @@
 /* eslint-disable react/no-danger */
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import { blog } from '@config';
 import formatDate from '@helpers/date';
 import { getHost } from '@helpers/config';
 import Divider from '@material-ui/core/Divider';
 import React from 'react';
-import Button from '@components/Button';
+import Button from '@common_button';
 import Link from 'next/link';
 import useStyles from './style';
 import ShareIcons from '../ShareIcon';

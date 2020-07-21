@@ -1,5 +1,5 @@
-import Button from '@components/Button';
-import TextField from '@components/Forms/TextField';
+import Button from '@common_button';
+import TextField from '@common_textfield';
 import Modal from '../modal';
 import useStyles from '../style';
 
