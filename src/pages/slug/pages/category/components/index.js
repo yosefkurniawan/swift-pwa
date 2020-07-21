@@ -1,4 +1,4 @@
-import Banner from '@components/Slider/Banner';
+import Banner from '@common_banner';
 import CustomTabs from '@common_tabs';
 import React from 'react';
 import Router from 'next/router';

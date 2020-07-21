@@ -10,7 +10,7 @@ import gqlService from './service/graphql';
 import useStyles from './style';
 import Thumbor from '../../components/Image';
 
-const Banner = dynamic(() => import('@components/Slider/Banner'));
+const Banner = dynamic(() => import('@common_banner'));
 const Carousel = dynamic(() => import('@components/Slider/Carousel'));
 const SpanCategory = dynamic(() => import('@components/SpanCategory'));
 const Alert = dynamic(() => import('@material-ui/lab/Alert'));

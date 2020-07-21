@@ -39,7 +39,9 @@
                     "@common_radio": "./src/core/commons/Radio",
                     "@common_rangeslider": "./src/core/commons/RangeSlider",
                     "@common_select": "./src/core/commons/Select",
-                    "@common_textfield": "./src/core/commons/TextField"
+                    "@common_textfield": "./src/core/commons/TextField",
+                    "@common_banner": "./src/core/commons/Banner",
+                    "@common_carousel": "./src/core/commons/carousel"
                 }
             }
         ]
