@@ -1,4 +1,4 @@
-import Radio from '@components/Forms/Radio';
+import Radio from '@Radio';
 import Button from '@Button';
 import { languagesLabel } from '@config';
 import { useMutation } from '@apollo/react-hooks';

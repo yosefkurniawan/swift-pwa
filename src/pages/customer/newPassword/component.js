@@ -1,5 +1,5 @@
 import Button from '@Button';
-import Password from '@components/Forms/Password';
+import Password from '@Password';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/router';

@@ -2,7 +2,7 @@
 /* eslint-disable react/forbid-prop-types */
 import Button from '@Button';
 import TextField from '@components/Forms/TextField';
-import Password from '@components/Forms/Password';
+import Password from '@Password';
 import Typography from '@components/Typography';
 import { GraphOtp, GraphConfig } from '@services/graphql';
 import PropTypes from 'prop-types';

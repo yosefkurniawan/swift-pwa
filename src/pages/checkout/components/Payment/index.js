@@ -1,4 +1,4 @@
-import Radio from '@components/Forms/Radio';
+import Radio from '@Radio';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Typography from '@components/Typography';
 import { useEffect } from 'react';

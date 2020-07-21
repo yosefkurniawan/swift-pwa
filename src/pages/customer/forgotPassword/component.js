@@ -1,7 +1,7 @@
 import Typography from '@components/Typography';
 import Button from '@Button';
 import TextField from '@components/Forms/TextField';
-import Toast from '@components/Toast';
+import Toast from '@Toast';
 import { GraphConfig } from '@services/graphql';
 import Loading from '@components/Loaders/Backdrop';
 import OtpBlock from '@components/OtpBlock';

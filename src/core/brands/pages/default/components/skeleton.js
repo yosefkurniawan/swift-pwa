@@ -1,5 +1,5 @@
 import Skeleton from '@material-ui/lab/Skeleton';
-import GridList from '@components/GridList';
+import GridList from '@GridList';
 import Typography from '@components/Typography';
 import useStyles from './style';
 

@@ -38,9 +38,9 @@
                     "@CheckBox": "./src/core/commons/CheckBox",
                     "@Password": "./src/core/commons/Password",
                     "@Radio": "./src/core/commons/Radio",
-                    "RangeSlider": "./src/core/commons/RangeSlider",
-                    "Select": "./src/core/commons/Select",
-                    "TextField": "./src/core/commons/TextField"
+                    "@RangeSlider": "./src/core/commons/RangeSlider",
+                    "@Select": "./src/core/commons/Select",
+                    "@TextField": "./src/core/commons/TextField"
                 }
             }
         ]

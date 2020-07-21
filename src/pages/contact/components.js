@@ -13,7 +13,7 @@ import Alert from '@material-ui/lab/Alert';
 import gqlService from './services/graphql';
 import useStyles from './style';
 
-const Message = dynamic(() => import('@components/Toast'), { ssr: false });
+const Message = dynamic(() => import('@Toast'), { ssr: false });
 
 const ContactForm = ({ t }) => {
     const styles = useStyles();

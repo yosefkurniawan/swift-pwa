@@ -10,7 +10,7 @@ import { custDataNameCookie, features } from '@config';
 import { getHost } from '@helpers/config';
 
 const Navigation = dynamic(() => import('@components/Navigation'), { ssr: false });
-const Message = dynamic(() => import('@components/Toast'), { ssr: false });
+const Message = dynamic(() => import('@Toast'), { ssr: false });
 const Loading = dynamic(() => import('@components/Loaders/Backdrop'), { ssr: false });
 
 const Layout = (props) => {

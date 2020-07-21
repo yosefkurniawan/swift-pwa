@@ -6,7 +6,7 @@ import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import TagManager from 'react-gtm-module';
 import Typography from '@components/Typography';
 import Arrow from '@material-ui/icons/ArrowDropDown';
-import Radio from '@components/Forms/Radio';
+import Radio from '@Radio';
 import Skeleton from '@material-ui/lab/Skeleton';
 import RadioItem from '../RadioDeliveryItem';
 import gqlService from '../../services/graphql';

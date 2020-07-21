@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import CustomRadio from '@components/Forms/Radio';
+import CustomRadio from '@Radio';
 import SelectColor from '@components/Forms/SelectColor';
 import SelectSize from '@components/Forms/SelectSize';
 import Typography from '@components/Typography';

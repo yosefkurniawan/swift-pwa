@@ -1,4 +1,4 @@
-import Radio from '@components/Forms/Radio';
+import Radio from '@Radio';
 import Typography from '@components/Typography';
 import TagManager from 'react-gtm-module';
 import Skeleton from '@material-ui/lab/Skeleton';

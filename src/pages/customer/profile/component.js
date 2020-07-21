@@ -3,7 +3,7 @@
 import Button from '@Button';
 import Typography from '@components/Typography';
 import TextField from '@components/Forms/TextField';
-import PasswordField from '@components/Forms/Password';
+import PasswordField from '@Password';
 import { regexPhone } from '@helpers/regex';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';

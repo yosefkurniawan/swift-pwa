@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import TextField from '@components/Forms/TextField';
-import PasswordField from '@components/Forms/Password';
+import PasswordField from '@Password';
 import Button from '@Button';
 import Typography from '@components/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';

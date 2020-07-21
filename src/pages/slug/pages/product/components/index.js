@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import Button from '@Button';
-import PriceFormat from '@components/PriceFormat';
+import PriceFormat from '@PriceFormat';
 import Banner from '@components/Slider/Banner';
 import Caraousel from '@components/Slider/Carousel';
 import Typography from '@components/Typography';
@@ -16,8 +16,8 @@ import { GraphCustomer } from '@services/graphql';
 import TagManager from 'react-gtm-module';
 import { getCookies } from '@helpers/cookies';
 import { getHost } from '@helpers/config';
-import Breadcrumb from '@components/Breadcrumb';
-import RatingStar from '@components/RatingStar';
+import Breadcrumb from '@Breadcrumb';
+import RatingStar from '@RatingStar';
 import { features } from '@config';
 import useStyles from '../style';
 import ExpandDetail from './ExpandDetail';

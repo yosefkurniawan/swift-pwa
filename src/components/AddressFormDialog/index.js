@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import Button from '@Button';
 import CustomTextField from '@components/Forms/TextField';
-import IcubeMaps from '@components/GoogleMaps/Maps';
+import IcubeMaps from '@GoogleMaps';
 import Header from '@components/Header';
 import Typography from '@components/Typography';
 import { regexPhone } from '@helpers/regex';

@@ -1,5 +1,4 @@
-import Checkbox from '@components/Forms/CheckBox';
-
+import Checkbox from '@CheckBox';
 
 const CheckboxSettings = ({
     t, value, data, setSettings, name,
