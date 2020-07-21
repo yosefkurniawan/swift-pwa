@@ -34,7 +34,13 @@
                     "@RatingStar": "./src/core/commons/RatingStar",
                     "@Tabs": "./src/core/commons/Tabs",
                     "@Toast": "./src/core/commons/Toast",
-                    "@Typography": "./src/core/commons/Typography"
+                    "@Typography": "./src/core/commons/Typography",
+                    "@CheckBox": "./src/core/commons/CheckBox",
+                    "@Password": "./src/core/commons/Password",
+                    "@Radio": "./src/core/commons/Radio",
+                    "RangeSlider": "./src/core/commons/RangeSlider",
+                    "Select": "./src/core/commons/Select",
+                    "TextField": "./src/core/commons/TextField"
                 }
             }
         ]
