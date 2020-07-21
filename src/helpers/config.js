@@ -1,9 +1,15 @@
 /* eslint-disable import/prefer-default-export */
-const { HOST } = require('../../swift.config');
+const { HOST, graphqlEndpoint } = require('../../swift.config');
 
 const getHost = () => {
     const globalHost = HOST[process.env.APP_ENV] || HOST.dev;
     return globalHost;
 };
 
-module.exports = { getHost };
+const getStoreHost = () => {
+    let storeHost = graphqlEndpoint[process.env.APP_ENV] || graphqlEndpoint.dev;
+    storeHost = storeHost.replace('graphql', '');
+    return storeHost;
+};
+
+module.exports = { getHost, getStoreHost };
