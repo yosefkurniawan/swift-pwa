@@ -1,7 +1,4 @@
-const {
-    makeExecutableSchema,
-    addMockFunctionsToSchema,
-} = require('graphql-tools');
+const { makeExecutableSchema, addMockFunctionsToSchema } = require('graphql-tools');
 
 const { gql } = require('apollo-server-express');
 
@@ -34,6 +31,8 @@ const customerSchema = makeExecutableSchema({
 
         type internalGenerateSessionOutput {
             result: Boolean
+            isLogin: Boolean
+            cartId: String
         }
 
         type internalDeleteSessionOutput {
@@ -45,7 +44,7 @@ const customerSchema = makeExecutableSchema({
             internalCreateCustomerToken(input: internalCreateCustomerTokenInput): Token
             internalGenerateCustomerTokenOtp(username: String!, otp: String!): Token
             internalDeleteCustomerToken: RevokeCustomerTokenOutput
-            internalGenerateSession(token: String!): internalGenerateSessionOutput
+            internalGenerateSession(state: String!): internalGenerateSessionOutput
             internalDeleteSession: internalDeleteSessionOutput
         }
     `,

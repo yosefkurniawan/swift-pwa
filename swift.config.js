@@ -134,15 +134,9 @@ const nameCartId = 'nci';
 const custDataNameCookie = 'cdt';
 const nameCheckoutCookie = 'ccdt';
 const nameGlobalCookie = 'spwa';
-
-const keyEncrypt = 'I wrote code anything searching bug and coffe';
-const algorithm = 'aes-256-cbc';
-
 const nameToken = 'sk';
 const expiredToken = new Date(Date.now() + 1000 * 60 * 60);
 const expiredDefault = 365;
-
-const SESSION_SECRET = 'asdasdd1212ads12!!!@**DADxx1';
 
 const features = {
     ssrCache: true,
@@ -225,8 +219,6 @@ module.exports = {
     expiredCokies,
     storeConfigNameCokie,
     nameCartId,
-    keyEncrypt,
-    algorithm,
     nameToken,
     expiredToken,
     expiredDefault,
@@ -234,7 +226,6 @@ module.exports = {
     loaderImage,
     cmsContactIdentifiers,
     cmsSocialMediaLinkIdentifiers,
-    SESSION_SECRET,
     imageSize,
     custDataNameCookie,
     customerFeautres,
