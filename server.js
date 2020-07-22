@@ -26,8 +26,9 @@ const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
 
 const {
-    expiredToken, SESSION_SECRET, nossrCache, features,
+    expiredToken, nossrCache, features,
 } = require('./swift.config');
+const { SESSION_SECRET } = require('./swift-server.config');
 const generateXml = require('./src/api/rest/xml');
 const captchaValidation = require('./src/api/rest/captcha');
 
