@@ -42,8 +42,4 @@ Page.propTypes = {
     categoryId: PropTypes.number.isRequired,
 };
 
-Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'category'],
-});
-
 export default withTranslation()(Page);

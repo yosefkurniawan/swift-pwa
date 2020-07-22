@@ -41,7 +41,8 @@
                     "@common_select": "./src/core/commons/Select",
                     "@common_textfield": "./src/core/commons/TextField",
                     "@common_banner": "./src/core/commons/Banner",
-                    "@common_carousel": "./src/core/commons/carousel"
+                    "@common_carousel": "./src/core/commons/carousel",
+                    "@common_image": "./src/core/commons/Image"
                 }
             }
         ]
