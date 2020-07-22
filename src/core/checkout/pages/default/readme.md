@@ -32,18 +32,22 @@ import redirect from 'next-redirect';
 import Head from 'next/head';
 import { modules } from '@config';
 import Core from './core';
-import CashbackInfo from './components/CashbackInfo';
-import EmailView from './components/email/view';
-import DeliveryView from './components/delivery/view';
-import DeliverySkeleton from './components/delivery/skeleton';
-import SummaryView from './components/summary/view';
-import AddressView from './components/address/view';
-import ShippingView from './components/shipping/view';
-import PaymentView from './components/payment/view';
-import GiftCardView from './components/giftcard/view';
-import FieldPointView from '../../components/fieldcode';
-import RewardPointView from './components/rewardpoint/view';
-import StoreCreditView from './components/credit/view';
+import CashbackInfo from '@core/checkout/pages/default/components/CashbackInfo';
+import EmailView from '@core/checkout/pages/default/components/email/view';
+import DeliveryView from '@core/checkout/pages/default/components/delivery/view';
+import DeliverySkeleton from '@core/checkout/pages/default/components/delivery/skeleton';
+import SummaryView from '@core/checkout/pages/default/components/summary/view';
+import AddressView from '@core/checkout/pages/default/components/address/view';
+import ShippingView from '@core/checkout/pages/default/components/shipping/view';
+import PaymentView from '@core/checkout/pages/default/components/payment/view';
+import GiftCardView from '@core/checkout/pages/default/components/giftcard/view';
+
+// example only change FieldPoint
+import FieldPointView from './components/fieldcode';
+
+
+import RewardPointView from '@core/checkout/pages/default/components/rewardpoint/view';
+import StoreCreditView from '@core/checkout/pages/default/components/credit/view';
 
 const Page = (props) => {
     const { t, storeConfig } = props;
