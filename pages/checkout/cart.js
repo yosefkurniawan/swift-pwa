@@ -1,3 +1,3 @@
-import Page from '@pages/cart';
+import Page from '@core/cart/pages/default';
 
 export default Page;
