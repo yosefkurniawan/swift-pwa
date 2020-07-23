@@ -1,3 +1,3 @@
-import Page from '@pages/slug';
+import Page from '@core/slug';
 
 export default Page;
