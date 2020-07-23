@@ -15,7 +15,7 @@ import Content from './components';
 
 const Product = (props) => {
     const {
-        catId = 0, catalog_search_engine, customFilter, url_path, showTabs, defaultSort, t,
+        catId = 0, catalog_search_engine, customFilter, url_path, defaultSort, t,
         categoryPath, ErrorMessage, ...other
     } = props;
     const router = useRouter();
@@ -88,7 +88,7 @@ const Product = (props) => {
         if (count || loading) {
             return null;
         }
-        return <ErrorMessage variant="warning" text={t('product:emptyProductSearchResult')} open />;
+        return <ErrorMessage variant="warning" text={t('catalog:emptyProductSearchResult')} open />;
     };
 
     let storeConfig = {};
@@ -170,7 +170,6 @@ const Product = (props) => {
         loading,
         t,
         query,
-        showTabs,
         customFilter,
         elastic,
         aggregations,

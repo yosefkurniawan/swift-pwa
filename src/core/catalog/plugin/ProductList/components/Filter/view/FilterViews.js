@@ -15,14 +15,14 @@ const FilterView = (props) => {
             <Typography variant="p" type="regular" className={styles.countProductText}>
                 {products.total_count}
                 {' '}
-                {t('common:product:name')}
+                {t('catalog:product:name')}
             </Typography>
             <div className={styles.filterBtnContainer}>
                 <Button variant="text" customRootStyle={{ width: 'fit-content' }} className={styles.btnFilter} onClick={() => setOpenFilter(true)}>
                     <Tune className={styles.iconFilter} />
                 </Button>
                 <Typography type="bold" variant="span" letter="capitalize">
-                    {t('common:title:shortFilter')}
+                    {t('catalog:title:shortFilter')}
                 </Typography>
             </div>
         </div>

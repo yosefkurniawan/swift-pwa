@@ -62,14 +62,14 @@ const FilterDialog = ({
                     letter="uppercase"
                     className={styles.title}
                 >
-                    {t('common:title:shortFilter')}
+                    {t('catalog:title:shortFilter')}
                 </Typography>
             </AppBar>
             <div className={styles.body}>
                 {itemProps && itemProps.sortBy === false ? null : (
                     <div className={styles.fieldContainer}>
                         <RadioGroup
-                            label={itemProps.labelSortBy || t('common:title:short')}
+                            label={itemProps.labelSortBy || t('catalog:title:short')}
                             valueData={sortByData || []}
                             value={itemProps.sortByValue || sort}
                             onChange={itemProps.sortByChange || setSort}
@@ -106,7 +106,7 @@ const FilterDialog = ({
                             <div className={styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']} key={idx}>
                                 <CheckBox
                                     name={itemFilter.field}
-                                    label={itemFilter.label || t('common:title:color')}
+                                    label={itemFilter.label || t('catalog:title:color')}
                                     data={ItemValueByLabel}
                                     value={selectedFilter[itemFilter.field] ? selectedFilter[itemFilter.field].split(',') : []}
                                     flex={itemProps.selectSizeFlex || 'row'}
@@ -120,7 +120,7 @@ const FilterDialog = ({
                             <div className={styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']} key={idx}>
                                 <CheckBox
                                     name={itemFilter.field}
-                                    label={itemFilter.label || t('common:title:size')}
+                                    label={itemFilter.label || t('catalog:title:size')}
                                     data={ItemValueByLabel}
                                     value={selectedFilter[itemFilter.field] ? selectedFilter[itemFilter.field].split(',') : []}
                                     flex={itemProps.selectSizeFlex || 'row'}
@@ -164,10 +164,10 @@ const FilterDialog = ({
                     className={styles.btnSave}
                     onClick={handleClear}
                 >
-                    {t('common:button:clear')}
+                    {t('catalog:button:clear')}
                 </Button>
                 <Button className={styles.btnSave} onClick={handleSave}>
-                    {t('common:button:save')}
+                    {t('catalog:button:save')}
                 </Button>
             </div>
         </Dialog>

@@ -3,14 +3,11 @@ import { features } from '@config';
 import { getLoginInfo } from '@helpers/auth';
 import { setCookies } from '@helpers/cookies';
 import { useTranslation } from '@i18n';
-import Favorite from '@material-ui/icons/Favorite';
-import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
-import classNames from 'classnames';
 import route from 'next/router';
 import React from 'react';
-import { addWishlist } from '../../../../services/graphql';
+import { addWishlist } from '../../services/graphql';
 import useStyles from './style';
-import ConfigurableOpt from '../ConfigurableProductItem';
+import ConfigurableOpt from './components/ConfigurableProductItem';
 
 const ProductItem = (props) => {
     const {
@@ -23,11 +20,9 @@ const ProductItem = (props) => {
         ...other
     } = props;
     const styles = useStyles();
-    const { t } = useTranslation(['wishlist']);
+    const { t } = useTranslation(['catalog']);
     const [feed, setFeed] = React.useState(false);
     const [spesificProduct, setSpesificProduct] = React.useState({});
-    const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
-    const FeedIcon = feed ? <Favorite className={classFeedActive} /> : <FavoriteBorderOutlined className={styles.iconFeed} />;
 
     let isLogin = '';
     if (typeof window !== 'undefined') isLogin = getLoginInfo();
@@ -56,7 +51,7 @@ const ProductItem = (props) => {
             window.toastMessage({
                 open: true,
                 variant: 'warning',
-                text: t('wishlist:addWithoutLogin'),
+                text: t('catalog:wishlist:addWithoutLogin'),
             });
         }
     };
@@ -68,7 +63,7 @@ const ProductItem = (props) => {
 
     const ratingValue = review && review.rating_summary ? parseInt(review.rating_summary, 0) / 20 : 0;
     const DetailProps = {
-        spesificProduct, handleClick, handleFeed, ratingValue, FeedIcon,
+        spesificProduct, handleClick, handleFeed, ratingValue, feed,
     };
     return (
         <>

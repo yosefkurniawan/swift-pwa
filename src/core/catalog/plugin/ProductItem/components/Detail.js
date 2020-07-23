@@ -6,14 +6,19 @@ import Typography from '@common_typography';
 import { features } from '@config';
 import Link from '@material-ui/core/Link';
 import React from 'react';
+import Favorite from '@material-ui/icons/Favorite';
+import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
+import classNames from 'classnames';
 import useStyles from '../style';
 
 const Detail = (props) => {
     const {
         spesificProduct, handleClick, name, handleFeed, ratingValue, __typename, price_range, price_tiers,
-        FeedIcon,
+        feed,
     } = props;
     const styles = useStyles();
+    const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
+    const FeedIcon = feed ? <Favorite className={classFeedActive} /> : <FavoriteBorderOutlined className={styles.iconFeed} />;
     return (
         <div className={styles.descItem} style={{ ...(features.productListing.wishlist ? {} : { alignItems: 'center' }) }}>
             {features.productListing.wishlist && (

@@ -1,7 +1,7 @@
 import React from 'react';
 import GridList from '@common_gridlist';
 import Filter from './Filter';
-import ProductItem from './ProductItem';
+import ProductItem from '../../ProductItem';
 import useStyles from './style';
 
 const Content = (props) => {
