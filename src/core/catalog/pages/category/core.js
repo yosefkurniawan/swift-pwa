@@ -31,11 +31,10 @@ const Page = (props) => {
         ogContent,
         schemaOrg,
     };
+    if (loading) return <SkeletonView />;
     return (
         <Layout {...props} pageConfig={defaultConfig}>
-            {loading
-                ? <SkeletonView />
-                : <Content categoryId={categoryId} storeConfig={storeConfig} data={data} {...other} />}
+            <Content categoryId={categoryId} storeConfig={storeConfig} data={data} {...other} />
         </Layout>
     );
 };

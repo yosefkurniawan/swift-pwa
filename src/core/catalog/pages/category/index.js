@@ -3,14 +3,14 @@ import BreadcrumbView from '@common_breadcrumb';
 import TabView from '@common_tabs';
 import { withTranslation } from '@i18n';
 import Core from './core';
-import Sekeltonview from './components/Skeleton';
+import SkeletonView from './components/Skeleton';
 
 const CategoryPage = (props) => (
     <Core
         BannerView={BannerView}
         BreadcrumbView={BreadcrumbView}
         TabView={TabView}
-        Sekeltonview={Sekeltonview}
+        SkeletonView={SkeletonView}
         {...props}
     />
 );
