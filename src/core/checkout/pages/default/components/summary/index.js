@@ -50,14 +50,14 @@ const Summary = ({
     };
 
     const generatesuccessRedirect = (orderNumber) => {
-        if (config.successRedirect && config.successRedirect.link) {
+        if (config && config.successRedirect && config.successRedirect.link) {
             return `${config.successRedirect.link}${config.successRedirect.orderId ? `?orderId=${orderNumber}` : ''}`;
         }
         return '/checkout/onepage/success';
     };
 
     const generateCartRedirect = () => {
-        if (config.cartRedirect && config.cartRedirect.link) {
+        if (config && config.cartRedirect && config.cartRedirect.link) {
             return config.cartRedirect.link;
         }
         return '/checkout/cart';
