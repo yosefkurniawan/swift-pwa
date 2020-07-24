@@ -49,9 +49,9 @@ const Summary = ({
         return true;
     };
 
-    const generatesuccessRedirect = () => {
+    const generatesuccessRedirect = (orderNumber) => {
         if (config.successRedirect && config.successRedirect.link) {
-            return `${config.successRedirect.link}${config.successRedirect.orderId ? `?orderId=${orderId}` : ''}`;
+            return `${config.successRedirect.link}${config.successRedirect.orderId ? `?orderId=${orderNumber}` : ''}`;
         }
         return '/checkout/onepage/success';
     };
@@ -135,7 +135,7 @@ const Summary = ({
                         variant: 'success',
                         text: t('checkout:message:placeOrder'),
                     });
-                    Routes.push({ pathname: generatesuccessRedirect() });
+                    Routes.push({ pathname: generatesuccessRedirect(orderNumber) });
                 }
             }
         } else {
@@ -158,10 +158,10 @@ const Summary = ({
         const snapToken = manageSnapToken.data.getSnapTokenByOrderId.snap_token;
         snap.pay(snapToken, {
             async onSuccess() {
-                window.location.replace(generatesuccessRedirect());
+                window.location.replace(generatesuccessRedirect(orderId));
             },
             async onPending() {
-                window.location.replace(generatesuccessRedirect());
+                window.location.replace(generatesuccessRedirect(orderId));
             },
             async onError() {
                 getSnapOrderStatusByOrderId({
