@@ -1,4 +1,4 @@
-import Layout from '@components/Layouts';
+import Layout from '@layout';
 import { withTranslation } from '@i18n';
 import Link from 'next/link';
 import Button from '@common_button';

@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { PropTypes } from 'prop-types';
-import Layout from '@components/Layouts';
+import Layout from '@layout';
 import { getBrands } from '../../services/graphql';
 import allData from '../../helpers/generateAllData';
 

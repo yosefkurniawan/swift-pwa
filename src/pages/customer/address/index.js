@@ -1,7 +1,7 @@
 /* eslint-disable import/named */
 import React from 'react';
 import { withTranslation } from '@i18n';
-import Layout from '@components/Layouts';
+import Layout from '@layout';
 import { withApollo } from '@lib/apollo';
 import Content from './component';
 

@@ -1,6 +1,6 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import Layout from '@components/Layouts';
+import Layout from '@layout';
 import dynamic from 'next/dynamic';
 
 const Content = dynamic(() => import('./component'), { ssr: false });

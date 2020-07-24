@@ -1,5 +1,5 @@
 import urlParser from '@helpers/urlParser';
-import Layout from '@components/Layouts';
+import Layout from '@layout';
 import PropTypes from 'prop-types';
 import { debuging } from '@config';
 import { getRewardPoint } from '../../services/graphql';

@@ -1,4 +1,4 @@
-import Layout from '@components/Layouts';
+import Layout from '@layout';
 import { debuging } from '@config';
 import PropTypes from 'prop-types';
 import { getOrder } from '../../services/graphql';

@@ -1,7 +1,7 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import propTypes from 'prop-types';
-import DefaultLayout from '@components/Layouts';
+import DefaultLayout from '@layout';
 import { useRouter } from 'next/router';
 import { getCategory, getBlog } from '../services/graphql';
 import * as Schema from '../services/graphql/schema';
