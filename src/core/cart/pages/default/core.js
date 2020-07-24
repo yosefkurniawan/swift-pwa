@@ -264,7 +264,7 @@ const Cart = (props) => {
                 />
                 <CrossSellView {...props} editMode={editMode} data={crosssell} />
                 {editItem.id ? (
-                    <EditDrawerView open={openEditDrawer} toggleOpen={toggleEditDrawer} updateItem={updateItem} {...props} {...editItem} />
+                    <EditDrawerView {...props} {...editItem} open={openEditDrawer} toggleOpen={toggleEditDrawer} updateItem={updateItem} />
                 ) : null}
                 <CheckoutDrawerView editMode={editMode} t={t} data={dataCart} />
             </>

@@ -63,5 +63,6 @@ const graphqlEndpoint = {
 6. [Reward Point](src/core/rewardpoint/readme.md) 
 7. [RMA](src/core/rma/readme.md) 
 8. [Tracking Order](src/core/trackingorder/readme.md) 
+9. [Cart](src/core/cart/readme.md) 
 
 ### Swift PWA have core commons components to override, documentation on [this](src/core/commons/readme.md) link
