@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import { withStyles } from '@material-ui/core/styles';
 import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -51,47 +52,65 @@ const PaymentView = (props) => {
     } else if (data.paymentMethod.length !== 0 && storeConfig.payments_configuration) {
         let paymentConfig = JSON.parse(`${storeConfig.payments_configuration}`);
         const groups = paymentConfig ? Object.keys(paymentConfig) : [];
-        paymentConfig = groups.map((key) => ({
-            group: key,
-            data: data.paymentMethod.filter((item) => paymentConfig[key].includes(item.code)),
-        }));
+        paymentConfig = groups.map((key) => {
+            const groupData = [];
+            let config = paymentConfig[key];
+            config = config.split(',');
+            for (let idx = 0; idx < data.paymentMethod.length; idx++) {
+                const element = data.paymentMethod[idx];
+                for (let idc = 0; idc < config.length; idc++) {
+                    if (config[idc] === element.code) {
+                        groupData.push(element);
+                    }
+                }
+            }
+            return {
+                group: key,
+                data: groupData,
+            };
+        });
 
         content = (
             <div>
                 <Typography variant="p">{t('checkout:paymentSubtitle')}</Typography>
                 {paymentConfig && (
                     <div className={styles.paymentExpansionContainer}>
-                        {paymentConfig.map((item, index) => (
-                            <ExpansionPanel
-                                expanded={expanded === index}
-                                onChange={handleChange(index)}
-                                key={index}
-                            >
-                                <ExpansionPanelSummary
-                                    aria-controls="panel1d-content"
-                                    id="panel1d-header"
-                                    expandIcon={<Arrow className={styles.icon} />}
-                                >
-                                    <Typography letter="uppercase" variant="span" type="bold">
-                                        {item.group.replace('pg-', '')}
-                                    </Typography>
-                                </ExpansionPanelSummary>
-                                <ExpansionPanelDetails>
-                                    {item.data.length !== 0 ? (
-                                        <Radio
-                                            value={selected.payment}
-                                            onChange={handlePayment}
-                                            valueData={item.data}
-                                            CustomItem={RadioItem}
-                                            propsItem={{
-                                                borderBottom: false,
-                                                RightComponent: true,
-                                            }}
-                                        />
-                                    ) : null}
-                                </ExpansionPanelDetails>
-                            </ExpansionPanel>
-                        ))}
+                        {paymentConfig.map((item, index) => {
+                            if (item.data.length !== 0) {
+                                return (
+                                    <ExpansionPanel
+                                        expanded={expanded === index}
+                                        onChange={handleChange(index)}
+                                        key={index}
+                                    >
+                                        <ExpansionPanelSummary
+                                            aria-controls="panel1d-content"
+                                            id="panel1d-header"
+                                            expandIcon={<Arrow className={styles.icon} />}
+                                        >
+                                            <Typography letter="uppercase" variant="span" type="bold">
+                                                {item.group.replace('pg-', '')}
+                                            </Typography>
+                                        </ExpansionPanelSummary>
+                                        <ExpansionPanelDetails>
+                                            {item.data.length !== 0 ? (
+                                                <Radio
+                                                    value={selected.payment}
+                                                    onChange={handlePayment}
+                                                    valueData={item.data}
+                                                    CustomItem={RadioItem}
+                                                    propsItem={{
+                                                        borderBottom: false,
+                                                        RightComponent: true,
+                                                    }}
+                                                />
+                                            ) : null}
+                                        </ExpansionPanelDetails>
+                                    </ExpansionPanel>
+                                );
+                            }
+                            return null;
+                        })}
                     </div>
                 )}
             </div>

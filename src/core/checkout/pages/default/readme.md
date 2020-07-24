@@ -142,6 +142,21 @@ export default withApollo({ ssr: true })(withTranslation()(Page));
 | GiftCardView| true | template handle giftcard | Function  Component|
 | RewardPointView| true | template handle reward point | Function  Component|
 | StoreCreditView| true | template handle store credit | Function  Component|
+| config | false | config checkout module value| Object|
+
+## example configuration props `config`
+
+````
+{
+    successRedirect: {
+        link: 'https://swiftpwa-be.testingnow.me/thanks',
+        orderId: true
+    },
+    cartRedirect : {
+        link: '/checkout/cart'
+    }
+}
+````
 
 # Properties sent to the component
 1. CashbackInfo
