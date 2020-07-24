@@ -164,6 +164,7 @@ const Summary = ({
                 window.location.replace(generatesuccessRedirect(orderId));
             },
             async onError() {
+                window.backdropLoader(true);
                 getSnapOrderStatusByOrderId({
                     variables: {
                         orderId,
@@ -177,6 +178,7 @@ const Summary = ({
                 setSnapOpened(true);
             },
             async onClose() {
+                window.backdropLoader(true);
                 getSnapOrderStatusByOrderId({
                     variables: {
                         orderId,
