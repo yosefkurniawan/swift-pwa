@@ -1,4 +1,4 @@
-import Layout from '@components/Layouts';
+import Layout from '@layout';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { getOrderDetail } from '../../services/graphql';

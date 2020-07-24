@@ -24,7 +24,7 @@ import CashbackInfo from '@core/checkout/pages/default/components/CashbackInfo';
 ### 5. Place it in your page
 #### example code
 ````
-import Layout from '@components/Layouts';
+import Layout from '@layout';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import cookies from 'next-cookies';

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import Layout from '@components/Layouts';
+import Layout from '@layout';
 import { getCustomer } from '../../services/graphql';
 import Content from './components/form';
 

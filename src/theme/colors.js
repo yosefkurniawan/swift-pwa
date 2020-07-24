@@ -1,4 +1,4 @@
-export const PRIMARY = '#000000 !important';
+export const PRIMARY = '#000000';
 export const SECONDARY = '#818181';
 
 export const GRAY_PRIMARY = '#DEDEDE';

@@ -32,7 +32,7 @@ import Skeleton from '@core/cart/pages/default/components/skeleton';
 ### 5. Place it in your page
 #### example code
 ````
-import Layout from '@components/Layouts';
+import Layout from '@layout';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import dynamic from 'next/dynamic';

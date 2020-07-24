@@ -4,7 +4,7 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import propTypes from 'prop-types';
-import DefaultLayout from '@components/Layouts';
+import DefaultLayout from '@layout';
 import { useRouter } from 'next/router';
 import Content from './components';
 import { getFormDataRma, getCustomer } from '../../services/graphql';
