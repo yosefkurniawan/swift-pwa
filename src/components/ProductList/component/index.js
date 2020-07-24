@@ -252,10 +252,6 @@ const Product = (props) => {
                         data={products.items}
                         ItemComponent={ProductItem}
                         itemProps={{
-                            color: ['#343434', '#6E6E6E', '#989898', '#C9C9C9'],
-                            showListColor: true,
-                            showListSize: true,
-                            size: ['s', 'm', 'l', 'xl'],
                             categorySelect: categoryPath,
                         }}
                         gridItemProps={{ xs: 6, sm: 4, md: 3 }}

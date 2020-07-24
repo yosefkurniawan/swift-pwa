@@ -1,8 +1,18 @@
 import { withApollo } from '@lib/apollo';
-import Content from './component';
+import CategoryPage from '@core/catalog/pages/category';
+import ProductPage from '@pages/slug/pages/product';
+import CmsPage from '@pages/slug/pages/cms';
+import Core from './core';
+import LoadingView from '../commons/Backdrop';
 
 const Page = (props) => (
-    <Content {...props} />
+    <Core
+        CategoryPage={CategoryPage}
+        ProductPage={ProductPage}
+        CmsPage={CmsPage}
+        LoadingView={LoadingView}
+        {...props}
+    />
 );
 
 /**

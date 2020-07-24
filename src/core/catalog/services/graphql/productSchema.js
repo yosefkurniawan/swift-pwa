@@ -215,3 +215,11 @@ export const getProduct = (config = {}) => gql`
       }
     }
   `;
+
+export const addWishlist = gql`
+    mutation addWishlist($productId: Int!) {
+        addProductToWishlist(productId: $productId) {
+            info
+        }
+    }
+`;

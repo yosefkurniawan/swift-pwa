@@ -1,12 +1,9 @@
-import Banner from '@common_banner';
-import CustomTabs from '@common_tabs';
 import React from 'react';
 import Router from 'next/router';
 import Product from '@core/catalog/plugin/ProductList';
-import Breadcrumb from '@common_breadcrumb';
 import { imageSize } from '@config';
-import useStyles from '../style';
-import { getFilter } from '../services';
+import useStyles from './style';
+import { getFilter } from '../../../services/graphql';
 
 const categoryTabs = (category) => {
     const data = [];
@@ -18,7 +15,7 @@ const categoryTabs = (category) => {
 };
 
 const CategoryPage = ({
-    data, storeConfig, t, ...other
+    data, storeConfig, t, BannerView, BreadcrumbView, TabView, ...other
 }) => {
     const styles = useStyles();
     const [value] = React.useState(0);
@@ -59,7 +56,7 @@ const CategoryPage = ({
             {dataBanner.length > 0
                 ? (
                     <div className={styles.headContainer}>
-                        <Banner
+                        <BannerView
                             data={dataBanner}
                             width={imageSize.category.width}
                             height={imageSize.category.height}
@@ -68,14 +65,14 @@ const CategoryPage = ({
                     </div>
                 ) : null}
             <div className={styles.breadcrumbs}>
-                <Breadcrumb data={breadcrumbsData} />
+                <BreadcrumbView data={breadcrumbsData} />
             </div>
             {dataBanner[0] && dataBanner[0].description && (
                 /* eslint-disable-next-line react/no-danger */
                 <div className="cms-container" dangerouslySetInnerHTML={{ __html: dataBanner[0].description }} />
             )}
             <div>
-                <CustomTabs
+                <TabView
                     data={categoryTabs(categoryList.children)}
                     onChange={handleChange}
                     value={value}

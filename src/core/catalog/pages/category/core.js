@@ -1,14 +1,13 @@
-import { withTranslation } from '@i18n';
 import Layout from '@components/Layouts';
-import PropTypes from 'prop-types';
 import { StripHtmlTags } from '@helpers/text';
-import Component from './components';
-import { getCategory } from './services';
-import SkeletonCategory from './components/Skeleton';
-import generateSchemaOrg from './helpers/schema.org';
+import Content from './components';
+import { getCategory } from '../../services/graphql';
+import generateSchemaOrg from '../../helpers/schema.org';
 
 const Page = (props) => {
-    const { categoryId, storeConfig } = props;
+    const {
+        categoryId, storeConfig, SkeletonView, pageConfig = {}, ...other
+    } = props;
     const { loading, data } = getCategory({
         productSize: 20,
         id: categoryId,
@@ -22,7 +21,8 @@ const Page = (props) => {
             ogContent.description = StripHtmlTags(data.categoryList[0].description);
         }
     }
-    const pageConfig = {
+    const defaultConfig = {
+        ...pageConfig,
         title: loading ? '' : data.categoryList[0].name,
         headerTitle: data && !data.categoryList[0].image_path ? data.categoryList[0].name : '',
         header: data && data.categoryList[0].image_path ? 'absolute' : 'relative', // available values: "absolute", "relative", false (default)
@@ -31,15 +31,12 @@ const Page = (props) => {
         ogContent,
         schemaOrg,
     };
+    if (loading) return <SkeletonView />;
     return (
-        <Layout {...props} pageConfig={pageConfig}>
-            {loading ? <SkeletonCategory /> : <Component {...props} data={data} />}
+        <Layout {...props} pageConfig={defaultConfig}>
+            <Content categoryId={categoryId} storeConfig={storeConfig} data={data} {...other} />
         </Layout>
     );
 };
 
-Page.propTypes = {
-    categoryId: PropTypes.number.isRequired,
-};
-
-export default withTranslation()(Page);
+export default Page;
