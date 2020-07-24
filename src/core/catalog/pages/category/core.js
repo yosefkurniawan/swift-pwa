@@ -1,4 +1,4 @@
-import Layout from '@components/Layouts';
+import Layout from '@layout';
 import { StripHtmlTags } from '@helpers/text';
 import Content from './components';
 import { getCategory } from '../../services/graphql';

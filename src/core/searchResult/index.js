@@ -1,6 +1,6 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import Layout from '@components/Layouts';
+import Layout from '@layout';
 import { useRouter } from 'next/router';
 import getQueryFromPath from '@helpers/generateQuery';
 import { getHost } from '@helpers/config';
