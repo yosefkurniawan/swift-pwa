@@ -17,6 +17,7 @@ const Summary = ({
     updateFormik,
     storeConfig,
     SummaryView,
+    config,
 }) => {
     const { order: loading, all: disabled } = checkout.loading;
     const client = useApolloClient();
@@ -46,6 +47,20 @@ const Summary = ({
         }
 
         return true;
+    };
+
+    const generatesuccessRedirect = () => {
+        if (config.successRedirect && config.successRedirect.link) {
+            return `${config.successRedirect.link}${config.successRedirect.orderId ? `?orderId=${orderId}` : ''}`;
+        }
+        return '/checkout/onepage/success';
+    };
+
+    const generateCartRedirect = () => {
+        if (config.cartRedirect && config.cartRedirect.link) {
+            return config.cartRedirect.link;
+        }
+        return '/checkout/cart';
     };
 
     const handlePlaceOrder = async () => {
@@ -120,7 +135,7 @@ const Summary = ({
                         variant: 'success',
                         text: t('checkout:message:placeOrder'),
                     });
-                    Routes.push({ pathname: '/checkout/onepage/success' });
+                    Routes.push({ pathname: generatesuccessRedirect() });
                 }
             }
         } else {
@@ -143,10 +158,10 @@ const Summary = ({
         const snapToken = manageSnapToken.data.getSnapTokenByOrderId.snap_token;
         snap.pay(snapToken, {
             async onSuccess() {
-                window.location.replace('/checkout/onepage/success');
+                window.location.replace(generatesuccessRedirect());
             },
             async onPending() {
-                window.location.replace('/checkout/onepage/success');
+                window.location.replace(generatesuccessRedirect());
             },
             async onError() {
                 getSnapOrderStatusByOrderId({
@@ -194,19 +209,19 @@ const Summary = ({
                 }).then(async () => {
                     await setCartId(customerCartId);
                     setOrderId(null);
-                    window.location.replace('/checkout/cart');
+                    window.location.replace(generateCartRedirect());
                 }).catch(() => {
-                    window.location.replace('/checkout/cart');
+                    window.location.replace(generateCartRedirect());
                 });
             } else {
                 setCartId(customerCartId);
                 setOrderId(null);
-                window.location.replace('/checkout/cart');
+                window.location.replace(generateCartRedirect());
             }
         } else {
             setCartId(cart_id);
             setOrderId(null);
-            window.location.replace('/checkout/cart');
+            window.location.replace(generateCartRedirect());
         }
     }
     // End - Process Snap Pop Up Close (Waitinge Response From Reorder)

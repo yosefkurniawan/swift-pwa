@@ -110,6 +110,10 @@ const Shipping = ({
     } else if (loading.shipping || loading.addresses || loading.all) {
         content = <Loader />;
     } else if (data.shippingMethods.length !== 0) {
+        const index = data.shippingMethods.findIndex((x) => x.carrier_code === 'pickup');
+        if (index >= 0) {
+            data.shippingMethods.splice(index, 1);
+        }
         content = (
             <Radio
                 value={selected.shipping}

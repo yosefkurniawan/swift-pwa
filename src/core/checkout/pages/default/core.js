@@ -36,6 +36,7 @@ const Checkout = (props) => {
         GiftCardView,
         RewardPointView,
         StoreCreditView,
+        config,
     } = props;
     const [checkout, setCheckout] = useState({
         order_id: '',
@@ -150,7 +151,7 @@ const Checkout = (props) => {
         const state = { ...checkout };
 
         if (cart.items.length === 0) {
-            window.location.replace('/checkout/cart');
+            window.location.replace(config.cartRedirect && config.cartRedirect.link ? config.cartRedirect.link : '/checkout/cart');
         }
 
         const { customer } = state.data.isGuest ? {} : manageCustomer.data;
