@@ -1,10 +1,7 @@
-import Layout from '@layout';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import cookies from 'next-cookies';
 import redirect from 'next-redirect';
-import Head from 'next/head';
-import { modules } from '@config';
 import Core from './core';
 import CashbackInfo from './components/CashbackInfo';
 import EmailView from './components/email/view';
@@ -19,48 +16,24 @@ import FieldPointView from '../../components/fieldcode';
 import RewardPointView from './components/rewardpoint/view';
 import StoreCreditView from './components/credit/view';
 
-const Page = (props) => {
-    const { t, storeConfig } = props;
-    const { snap_is_production, snap_client_key } = storeConfig;
-    const pageConfig = {
-        title: t('checkout:pageTitle'),
-        header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle: t('checkout:pageTitle'),
-        bottomNav: false,
-        pageType: 'checkout',
-    };
-
-    const url = snap_is_production ? modules.checkout.snapUrl.dev : modules.checkout.snapUrl.prod;
-
-    return (
-        <Layout pageConfig={pageConfig} {...props}>
-            <Head>
-                <script
-                    type="text/javascript"
-                    src={url}
-                    data-client-key={snap_client_key}
-                />
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-            </Head>
-            <Core
-                {...props}
-                containerStyle={{ paddingBottom: '150px' }}
-                CashbackInfoView={CashbackInfo}
-                EmailView={EmailView}
-                DeliveryView={DeliveryView}
-                DeliverySkeleton={DeliverySkeleton}
-                SummaryView={SummaryView}
-                AddressView={AddressView}
-                ShippingView={ShippingView}
-                PaymentView={PaymentView}
-                PromoView={FieldPointView}
-                GiftCardView={GiftCardView}
-                RewardPointView={RewardPointView}
-                StoreCreditView={StoreCreditView}
-            />
-        </Layout>
-    );
-};
+const Page = (props) => (
+    <Core
+        {...props}
+        containerStyle={{ paddingBottom: '150px' }}
+        CashbackInfoView={CashbackInfo}
+        EmailView={EmailView}
+        DeliveryView={DeliveryView}
+        DeliverySkeleton={DeliverySkeleton}
+        SummaryView={SummaryView}
+        AddressView={AddressView}
+        ShippingView={ShippingView}
+        PaymentView={PaymentView}
+        PromoView={FieldPointView}
+        GiftCardView={GiftCardView}
+        RewardPointView={RewardPointView}
+        StoreCreditView={StoreCreditView}
+    />
+);
 
 Page.getInitialProps = async (ctx) => {
     const cartId = cookies(ctx).nci || null;

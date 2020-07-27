@@ -5,6 +5,9 @@ import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import { formatPrice } from '@helpers/currency';
+import Layout from '@layout';
+import Head from 'next/head';
+import { modules } from '@config';
 import gqlService from '../../services/graphql';
 import Delivery from './components/delivery';
 import Email from './components/email';
@@ -37,7 +40,19 @@ const Checkout = (props) => {
         RewardPointView,
         StoreCreditView,
         config,
+        pageConfig,
     } = props;
+    const { snap_is_production, snap_client_key } = storeConfig;
+    const configPage = {
+        title: t('checkout:pageTitle'),
+        header: 'relative', // available values: "absolute", "relative", false (default)
+        headerTitle: t('checkout:pageTitle'),
+        bottomNav: false,
+        pageType: 'checkout',
+    };
+
+    const url = snap_is_production ? modules.checkout.snapUrl.dev : modules.checkout.snapUrl.prod;
+
     const [checkout, setCheckout] = useState({
         order_id: '',
         data: {
@@ -300,121 +315,132 @@ const Checkout = (props) => {
     const chasbackMessage = t('checkout:cashbackInfo').split('$');
 
     return (
-        <div style={containerStyle || {}}>
-            {
-                checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
-                    <CashbackInfoView
-                        message={chasbackMessage}
-                        price={checkout.data.cart.applied_cashback.data[0].amount}
-                        currency={storeConfig.base_currency_code}
-                        promo_name={checkout.data.cart.applied_cashback.data[0].promo_name}
-                    />
-                )
-            }
-            <>
-                {
-                    storeConfig.pickup_store ? (
-                        <Delivery
-                            t={t}
-                            DeliveryView={DeliveryView}
-                            Skeleton={DeliverySkeleton}
-                            formik={formik}
-                            checkout={checkout}
-                            setCheckout={setCheckout}
-                            handleOpenMessage={handleOpenMessage}
-                            storeConfig={storeConfig}
-                        />
-                    ) : null
-                }
-                <Email
-                    t={t}
-                    formik={formik}
-                    EmailView={EmailView}
-                    checkout={checkout}
+
+        <Layout pageConfig={configPage || pageConfig} {...props}>
+            <Head>
+                <script
+                    type="text/javascript"
+                    src={url}
+                    data-client-key={snap_client_key}
                 />
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+            </Head>
+            <div style={containerStyle || {}}>
                 {
-                    checkout.selected.delivery === 'home' ? (
-                        <Address
-                            checkout={checkout}
-                            t={t}
-                            setCheckout={setCheckout}
-                            defaultAddress={checkout.data.defaultAddress}
-                            updateFormik={updateFormik}
-                            AddressView={AddressView}
+                    checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
+                        <CashbackInfoView
+                            message={chasbackMessage}
+                            price={checkout.data.cart.applied_cashback.data[0].amount}
+                            currency={storeConfig.base_currency_code}
+                            promo_name={checkout.data.cart.applied_cashback.data[0].promo_name}
                         />
-                    ) : (
-                        null
                     )
                 }
-                <Shipping
-                    t={t}
+                <>
+                    {
+                        storeConfig.pickup_store ? (
+                            <Delivery
+                                t={t}
+                                DeliveryView={DeliveryView}
+                                Skeleton={DeliverySkeleton}
+                                formik={formik}
+                                checkout={checkout}
+                                setCheckout={setCheckout}
+                                handleOpenMessage={handleOpenMessage}
+                                storeConfig={storeConfig}
+                            />
+                        ) : null
+                    }
+                    <Email
+                        t={t}
+                        formik={formik}
+                        EmailView={EmailView}
+                        checkout={checkout}
+                    />
+                    {
+                        checkout.selected.delivery === 'home' ? (
+                            <Address
+                                checkout={checkout}
+                                t={t}
+                                setCheckout={setCheckout}
+                                defaultAddress={checkout.data.defaultAddress}
+                                updateFormik={updateFormik}
+                                AddressView={AddressView}
+                            />
+                        ) : (
+                            null
+                        )
+                    }
+                    <Shipping
+                        t={t}
+                        checkout={checkout}
+                        setCheckout={setCheckout}
+                        updateFormik={updateFormik}
+                        formik={formik}
+                        handleOpenMessage={handleOpenMessage}
+                        storeConfig={storeConfig}
+                        ShippingView={ShippingView}
+                    />
+                    <PaymentList
+                        checkout={checkout}
+                        setCheckout={setCheckout}
+                        updateFormik={updateFormik}
+                        handleOpenMessage={handleOpenMessage}
+                        t={t}
+                        storeConfig={storeConfig}
+                        PaymentView={PaymentView}
+                    />
+                    <Promo
+                        t={t}
+                        checkout={checkout}
+                        setCheckout={setCheckout}
+                        handleOpenMessage={handleOpenMessage}
+                        formik={formik}
+                        storeConfig={storeConfig}
+                        PromoView={PromoView}
+                    />
+                    <GiftCard
+                        t={t}
+                        checkout={checkout}
+                        setCheckout={setCheckout}
+                        handleOpenMessage={handleOpenMessage}
+                        formik={formik}
+                        storeConfig={storeConfig}
+                        GiftCardView={GiftCardView}
+                    />
+                    <RewardPoint
+                        t={t}
+                        checkout={checkout}
+                        setCheckout={setCheckout}
+                        handleOpenMessage={handleOpenMessage}
+                        formik={formik}
+                        storeConfig={storeConfig}
+                        RewardPointView={RewardPointView}
+                    />
+                    <Credit
+                        t={t}
+                        checkout={checkout}
+                        setCheckout={setCheckout}
+                        handleOpenMessage={handleOpenMessage}
+                        formik={formik}
+                        storeConfig={storeConfig}
+                        StoreCreditView={StoreCreditView}
+                    />
+                </>
+                <Summary
+                    {...props}
+                    loading={checkout.loading.order}
+                    disabled={checkout.loading.all}
                     checkout={checkout}
-                    setCheckout={setCheckout}
                     updateFormik={updateFormik}
-                    formik={formik}
-                    handleOpenMessage={handleOpenMessage}
-                    storeConfig={storeConfig}
-                    ShippingView={ShippingView}
-                />
-                <PaymentList
-                    checkout={checkout}
-                    setCheckout={setCheckout}
-                    updateFormik={updateFormik}
-                    handleOpenMessage={handleOpenMessage}
-                    t={t}
-                    storeConfig={storeConfig}
-                    PaymentView={PaymentView}
-                />
-                <Promo
-                    t={t}
-                    checkout={checkout}
                     setCheckout={setCheckout}
                     handleOpenMessage={handleOpenMessage}
                     formik={formik}
                     storeConfig={storeConfig}
-                    PromoView={PromoView}
+                    SummaryView={SummaryView}
                 />
-                <GiftCard
-                    t={t}
-                    checkout={checkout}
-                    setCheckout={setCheckout}
-                    handleOpenMessage={handleOpenMessage}
-                    formik={formik}
-                    storeConfig={storeConfig}
-                    GiftCardView={GiftCardView}
-                />
-                <RewardPoint
-                    t={t}
-                    checkout={checkout}
-                    setCheckout={setCheckout}
-                    handleOpenMessage={handleOpenMessage}
-                    formik={formik}
-                    storeConfig={storeConfig}
-                    RewardPointView={RewardPointView}
-                />
-                <Credit
-                    t={t}
-                    checkout={checkout}
-                    setCheckout={setCheckout}
-                    handleOpenMessage={handleOpenMessage}
-                    formik={formik}
-                    storeConfig={storeConfig}
-                    StoreCreditView={StoreCreditView}
-                />
-            </>
-            <Summary
-                {...props}
-                loading={checkout.loading.order}
-                disabled={checkout.loading.all}
-                checkout={checkout}
-                updateFormik={updateFormik}
-                setCheckout={setCheckout}
-                handleOpenMessage={handleOpenMessage}
-                formik={formik}
-                storeConfig={storeConfig}
-                SummaryView={SummaryView}
-            />
-        </div>
+            </div>
+        </Layout>
     );
 };
 
