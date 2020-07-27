@@ -5,9 +5,10 @@ import { CreateMargin, CreatePadding } from '@theme/mixins';
 const useStyles = makeStyles((theme) => ({
     container: {
         [theme.breakpoints.up('sm')]: {
-            maxWidht: 900,
+            maxWidth: 960,
         },
         width: ' 100%',
+        alignSelf: 'center',
     },
     colorPrimary: {
         color: PRIMARY,
@@ -100,6 +101,7 @@ const useStyles = makeStyles((theme) => ({
     wrapper: {
         margin: theme.spacing(1),
         position: 'relative',
+        textAlign: 'center',
     },
     buttonProgress: {
         color: PRIMARY,
