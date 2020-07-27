@@ -5,7 +5,9 @@ import Typography from '@common_typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
-import OtpBlock from '@components/OtpBlock';
+import OtpBlock from '../../../plugins/otp';
+import OtpView from '../../../plugins/otp/view';
+
 import useStyles from './style';
 
 const Login = (props) => {
@@ -26,6 +28,7 @@ const Login = (props) => {
                 <OtpBlock
                     setDisabled={setDisabled}
                     type="login"
+                    OtpView={OtpView}
                     phoneProps={{
                         name: 'username',
                         placeholder: '+6281234xxxx',
