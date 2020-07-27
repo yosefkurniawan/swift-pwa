@@ -13,7 +13,6 @@ const GridList = ({
     const styles = useStyles();
     const containerStyle = classNames(styles.container, className);
     if (!ItemComponent) return null;
-
     return (
         <Grid
             container
@@ -23,7 +22,7 @@ const GridList = ({
         >
             {data.map((item, index) => (
                 <Grid item xs={6} key={index} {...gridItemProps}>
-                    <ItemComponent {...item} {...itemProps} />
+                    <ItemComponent {...itemProps} {...item} />
                 </Grid>
             ))}
         </Grid>
