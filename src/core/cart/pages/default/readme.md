@@ -44,30 +44,18 @@ import EditDrawerView from '@core/cart/pages/default/components/editDrawer';
 import CheckoutDrawerView from '@core/cart/pages/default/components/checkoutBox';
 import Core from '@core/cart/pages/default/core'
 
-const Page = (props) => {
-    const { t } = props;
-    const pageConfig = {
-        title: t('cart:pageTitle'),
-        header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle: t('cart:pageTitle'),
-        headerBackIcon: 'close', // available values: "close", "arrow"
-        bottomNav: false,
-        pageType: 'cart',
-    };
-    return (
-        <Layout pageConfig={pageConfig} {...props}>
-            <Core
-                {...props}
-                ItemView={ItemView}
-                EmptyView={EmptyView}
-                CrossSellView={CrossSellView}
-                SkeletonView={SkeletonCart}
-                EditDrawerView={EditDrawerView}
-                CheckoutDrawerView={CheckoutDrawerView}
-            />
-        </Layout>
-    );
-};
+const Page = (props) => (
+    <Core
+        {...props}
+        ItemView={ItemView}
+        EmptyView={EmptyView}
+        CrossSellView={CrossSellView}
+        SkeletonView={SkeletonCart}
+        EditDrawerView={EditDrawerView}
+        CheckoutDrawerView={CheckoutDrawerView}
+    />
+);
+
 
 Page.getInitialProps = async () => ({
     namespacesRequired: ['common', 'cart'],

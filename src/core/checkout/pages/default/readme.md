@@ -49,48 +49,25 @@ import FieldPointView from './components/fieldcode';
 import RewardPointView from '@core/checkout/pages/default/components/rewardpoint/view';
 import StoreCreditView from '@core/checkout/pages/default/components/credit/view';
 
-const Page = (props) => {
-    const { t, storeConfig } = props;
-    const { snap_is_production, snap_client_key } = storeConfig;
-    const pageConfig = {
-        title: t('checkout:pageTitle'),
-        header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle: t('checkout:pageTitle'),
-        bottomNav: false,
-        pageType: 'checkout',
-    };
+const Page = (props) => (
+    <Core
+        {...props}
+        containerStyle={{ paddingBottom: '150px' }}
+        CashbackInfoView={CashbackInfo}
+        EmailView={EmailView}
+        DeliveryView={DeliveryView}
+        DeliverySkeleton={DeliverySkeleton}
+        SummaryView={SummaryView}
+        AddressView={AddressView}
+        ShippingView={ShippingView}
+        PaymentView={PaymentView}
+        PromoView={FieldPointView}
+        GiftCardView={GiftCardView}
+        RewardPointView={RewardPointView}
+        StoreCreditView={StoreCreditView}
+    />
+);
 
-    const url = snap_is_production ? modules.checkout.snapUrl.dev : modules.checkout.snapUrl.prod;
-
-    return (
-        <Layout pageConfig={pageConfig} {...props}>
-            <Head>
-                <script
-                    type="text/javascript"
-                    src={url}
-                    data-client-key={snap_client_key}
-                />
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-            </Head>
-            <Core
-                {...props}
-                containerStyle={{ paddingBottom: '150px' }}
-                CashbackInfoView={CashbackInfo}
-                EmailView={EmailView}
-                DeliveryView={DeliveryView}
-                DeliverySkeleton={DeliverySkeleton}
-                SummaryView={SummaryView}
-                AddressView={AddressView}
-                ShippingView={ShippingView}
-                PaymentView={PaymentView}
-                PromoView={FieldPointView}
-                GiftCardView={GiftCardView}
-                RewardPointView={RewardPointView}
-                StoreCreditView={StoreCreditView}
-            />
-        </Layout>
-    );
-};
 
 Page.getInitialProps = async (ctx) => {
     const cartId = cookies(ctx).nci || null;
