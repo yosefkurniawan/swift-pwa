@@ -24,7 +24,16 @@ mutation getToken(
   }
 `;
 
+export const removeToken = gql`
+mutation {
+  internalDeleteCustomerToken{
+    result
+  }
+}
+`;
+
 export default {
     getCustomerToken,
     getCustomerTokenOtp,
+    removeToken,
 };
