@@ -11,15 +11,6 @@
     "success": "Registration is success",
     "failed": "Registration failed"
   },
-  "login": {
-    "haveAccount": "If you have an account",
-    "pageTitle": "Sign In",
-    "forgotPassword": "forgot password",
-    "notHaveAccount": "Don't have an account?",
-    "switchPhone": "Login with phone number",
-    "success": "Login is success",
-    "failed": "Login failed"
-  },
   "forgotPassword": {
     "title": "reset password",
     "content": "Get instruction sent to this email that explain how to reset your password.",
