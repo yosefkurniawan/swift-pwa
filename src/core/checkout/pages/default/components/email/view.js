@@ -84,7 +84,7 @@ const EmailView = (props) => {
                     </Button>
                 )
                 : (
-                    <Button variant="text" className="clear-margin-padding" onClick={() => window.location.replace(generateLoginRedirect())}>
+                    <Button variant="text" className="clear-margin-padding" onClick={() => { window.location.href = generateLoginRedirect(); }}>
                         <Typography variant="p" type="regular" decoration="underline" letter="capitalize">
                             {t('checkout:haveAccount')}
                         </Typography>
