@@ -126,11 +126,14 @@ export default withApollo({ ssr: true })(withTranslation()(Page));
 ````
 {
     successRedirect: {
-        link: 'https://swiftpwa-be.testingnow.me/thanks',
+        link: 'https://swiftpwa-be.testingnow.me/pwacheckout/onepage/success',
         orderId: true
     },
     cartRedirect : {
-        link: '/checkout/cart'
+        link: 'https://swiftpwa-be.testingnow.me/checkout/cart'
+    },
+    loginRedirect : {
+        link: 'https://swiftpwa-be.testingnow.me/customer/account/login'
     }
 }
 ````

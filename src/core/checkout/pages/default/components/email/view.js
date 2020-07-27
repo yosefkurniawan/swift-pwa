@@ -11,9 +11,23 @@ import useStyles from '../style';
 
 const EmailView = (props) => {
     const {
-        t, formik, setAnchorEl, anchorEl, idButton, open,
+        t, formik, setAnchorEl, anchorEl, idButton, open, config,
     } = props;
     const styles = useStyles();
+
+    let isExternalLoginLink = false;
+    if (config && config.loginRedirect && config.loginRedirect.link) {
+        if (config.loginRedirect.link.indexOf('http') > -1) {
+            isExternalLoginLink = true;
+        }
+    }
+    const generateLoginRedirect = () => {
+        if (config && config.loginRedirect && config.loginRedirect.link) {
+            return config.loginRedirect.link;
+        }
+        return '/customer/account/login';
+    };
+
     return (
         <div className={styles.block}>
             <Typography variant="title" type="bold" letter="uppercase">
@@ -61,11 +75,21 @@ const EmailView = (props) => {
                     {formik.touched.email && formik.errors.email ? <FormHelperText>{formik.errors.email || null}</FormHelperText> : null}
                 </FormControl>
             </div>
-            <Button variant="text" href="/customer/account/login" className="clear-margin-padding">
-                <Typography variant="p" type="regular" decoration="underline" letter="capitalize">
-                    {t('checkout:haveAccount')}
-                </Typography>
-            </Button>
+            {!isExternalLoginLink
+                ? (
+                    <Button variant="text" href={generateLoginRedirect()} className="clear-margin-padding">
+                        <Typography variant="p" type="regular" decoration="underline" letter="capitalize">
+                            {t('checkout:haveAccount')}
+                        </Typography>
+                    </Button>
+                )
+                : (
+                    <Button variant="text" className="clear-margin-padding" onClick={() => window.location.replace(generateLoginRedirect())}>
+                        <Typography variant="p" type="regular" decoration="underline" letter="capitalize">
+                            {t('checkout:haveAccount')}
+                        </Typography>
+                    </Button>
+                )}
         </div>
     );
 };

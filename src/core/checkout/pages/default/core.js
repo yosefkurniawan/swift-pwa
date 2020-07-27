@@ -357,6 +357,7 @@ const Checkout = (props) => {
                         formik={formik}
                         EmailView={EmailView}
                         checkout={checkout}
+                        config={config}
                     />
                     {
                         checkout.selected.delivery === 'home' ? (
