@@ -13,7 +13,7 @@ const ShippingView = (props) => {
     const classes = useStyles();
     const styles = useStylesRoot();
     const checkStyles = (delivery) => ((checkout.selected.delivery === delivery)
-        ? classNames(styles.cardPoint, classes.active) : styles.cardPoint);
+        ? classNames(classes.item, classes.active) : classes.item);
     return (
         <div className={styles.block}>
             <Typography variant="title" type="bold" letter="uppercase">

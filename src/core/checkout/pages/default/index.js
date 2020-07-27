@@ -19,7 +19,7 @@ import StoreCreditView from './components/credit/view';
 const Page = (props) => (
     <Core
         {...props}
-        containerStyle={{ paddingBottom: '150px' }}
+        containerStyle={{ paddingBottom: '180px' }}
         CashbackInfoView={CashbackInfo}
         EmailView={EmailView}
         DeliveryView={DeliveryView}

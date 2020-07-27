@@ -17,6 +17,7 @@ export default makeStyles(() => ({
         ...FlexRow,
         alignItems: 'center',
         ...CreateMargin(10, 0, 15, 0),
+        maxWidth: 420,
     },
     btnAplly: {
         height: 30,

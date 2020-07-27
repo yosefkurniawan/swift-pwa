@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
         ...CreateMargin(0, 0, 18, 0),
         borderBottom: `1px solid ${GRAY_PRIMARY}`,
         [theme.breakpoints.up('md')]: {
-            maxWidth: 900,
+            maxWidth: 960,
             ...CenterAbsolute,
         },
     },

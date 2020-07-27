@@ -42,13 +42,14 @@ export default makeStyles(() => ({
         padding: 5,
     },
     cardPoint: {
-        ...CreateMargin(30, 30, 30, 30),
+        ...CreateMargin(10, 30, 10, 30),
         ...CreatePadding(17, 17, 17, 17),
         ...FlexRow,
         alignItems: 'center',
         justifyContent: 'space-between',
         ...CreateBorder('1px', '1px', '1px', '1px', GRAY_PRIMARY),
         borderRadius: 10,
+        maxWidth: 480,
     },
     pointText: {
         fontSize: 20,

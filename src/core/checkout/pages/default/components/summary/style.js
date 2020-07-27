@@ -14,7 +14,7 @@ export default makeStyles(() => ({
     footer: {
         ...FlexColumn,
         width: '100%',
-        maxWidth: 900,
+        maxWidth: 960,
         position: 'fixed',
         bottom: 0,
         ...CreateShadow('top', 3),

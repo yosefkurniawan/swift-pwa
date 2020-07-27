@@ -8,6 +8,7 @@ import { formatPrice } from '@helpers/currency';
 import Layout from '@layout';
 import Head from 'next/head';
 import { modules } from '@config';
+import Grid from '@material-ui/core/Grid';
 import gqlService from '../../services/graphql';
 import Delivery from './components/delivery';
 import Email from './components/email';
@@ -408,24 +409,30 @@ const Checkout = (props) => {
                         storeConfig={storeConfig}
                         GiftCardView={GiftCardView}
                     />
-                    <RewardPoint
-                        t={t}
-                        checkout={checkout}
-                        setCheckout={setCheckout}
-                        handleOpenMessage={handleOpenMessage}
-                        formik={formik}
-                        storeConfig={storeConfig}
-                        RewardPointView={RewardPointView}
-                    />
-                    <Credit
-                        t={t}
-                        checkout={checkout}
-                        setCheckout={setCheckout}
-                        handleOpenMessage={handleOpenMessage}
-                        formik={formik}
-                        storeConfig={storeConfig}
-                        StoreCreditView={StoreCreditView}
-                    />
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={6} xl={6}>
+                            <RewardPoint
+                                t={t}
+                                checkout={checkout}
+                                setCheckout={setCheckout}
+                                handleOpenMessage={handleOpenMessage}
+                                formik={formik}
+                                storeConfig={storeConfig}
+                                RewardPointView={RewardPointView}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={6} xl={6}>
+                            <Credit
+                                t={t}
+                                checkout={checkout}
+                                setCheckout={setCheckout}
+                                handleOpenMessage={handleOpenMessage}
+                                formik={formik}
+                                storeConfig={storeConfig}
+                                StoreCreditView={StoreCreditView}
+                            />
+                        </Grid>
+                    </Grid>
                 </>
                 <Summary
                     {...props}
