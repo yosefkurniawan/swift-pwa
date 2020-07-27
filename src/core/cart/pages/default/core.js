@@ -7,6 +7,7 @@ import { GraphCustomer } from '@services/graphql';
 import TagManager from 'react-gtm-module';
 import { storeConfigNameCokie } from '@config';
 import cookies from 'js-cookie';
+import Layout from '@layout';
 import { getCartData } from '../../services/graphql';
 import * as Schema from '../../services/graphql/schema';
 
@@ -24,13 +25,20 @@ const getCrossSellProduct = (items) => {
 
 const Cart = (props) => {
     const {
-        t, token, isLogin, ItemView, CrossSellView, EmptyView, SkeletonView, CheckoutDrawerView, EditDrawerView,
+        t, token, isLogin, ItemView, CrossSellView, EmptyView, SkeletonView, CheckoutDrawerView, EditDrawerView, pageConfig,
     } = props;
     const [editMode, setEditMode] = useState(false);
     const [editItem, setEditItem] = useState({});
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
     let cartId = '';
-
+    const config = {
+        title: t('cart:pageTitle'),
+        header: 'relative', // available values: "absolute", "relative", false (default)
+        headerTitle: t('cart:pageTitle'),
+        headerBackIcon: 'close', // available values: "close", "arrow"
+        bottomNav: false,
+        pageType: 'cart',
+    };
     let dataCart = {
         id: null,
         total_quantity: 0,
@@ -245,14 +253,14 @@ const Cart = (props) => {
     };
 
     if (loadingCart) {
-        return <SkeletonView />;
+        return <Layout pageConfig={config || pageConfig} {...props}><SkeletonView /></Layout>;
     }
 
     crosssell = getCrossSellProduct(dataCart.items);
 
     if (dataCart.id && dataCart.items.length > 0) {
         return (
-            <>
+            <Layout pageConfig={config || pageConfig} {...props}>
                 <ItemView
                     data={dataCart}
                     t={t}
@@ -267,11 +275,13 @@ const Cart = (props) => {
                     <EditDrawerView {...props} {...editItem} open={openEditDrawer} toggleOpen={toggleEditDrawer} updateItem={updateItem} />
                 ) : null}
                 <CheckoutDrawerView editMode={editMode} t={t} data={dataCart} />
-            </>
+            </Layout>
         );
     }
     return (
-        <EmptyView t={t} />
+        <Layout pageConfig={config || pageConfig} {...props}>
+            <EmptyView t={t} />
+        </Layout>
     );
 };
 

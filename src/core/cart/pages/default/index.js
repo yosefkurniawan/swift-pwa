@@ -1,4 +1,3 @@
-import Layout from '@layout';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import dynamic from 'next/dynamic';
@@ -11,30 +10,18 @@ import CheckoutDrawerView from './components/checkoutBox';
 
 const Core = dynamic(() => import('./core'), { ssr: false });
 
-const Page = (props) => {
-    const { t } = props;
-    const pageConfig = {
-        title: t('cart:pageTitle'),
-        header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle: t('cart:pageTitle'),
-        headerBackIcon: 'close', // available values: "close", "arrow"
-        bottomNav: false,
-        pageType: 'cart',
-    };
-    return (
-        <Layout pageConfig={pageConfig} {...props}>
-            <Core
-                {...props}
-                ItemView={ItemView}
-                EmptyView={EmptyView}
-                CrossSellView={CrossSellView}
-                SkeletonView={SkeletonCart}
-                EditDrawerView={EditDrawerView}
-                CheckoutDrawerView={CheckoutDrawerView}
-            />
-        </Layout>
-    );
-};
+const Page = (props) => (
+
+    <Core
+        {...props}
+        ItemView={ItemView}
+        EmptyView={EmptyView}
+        CrossSellView={CrossSellView}
+        SkeletonView={SkeletonCart}
+        EditDrawerView={EditDrawerView}
+        CheckoutDrawerView={CheckoutDrawerView}
+    />
+);
 
 Page.getInitialProps = async () => ({
     namespacesRequired: ['common', 'cart'],
