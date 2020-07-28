@@ -1,6 +1,9 @@
 {
     "pageTitle": "Checkout",
     "shippingAddress" : "Shipping Address",
+    "address": {
+        "addTitle": "New Address"
+    },
     "deliveryMethod" : {
         "label": "Delivery Method",
         "homeDelivery": "Home Delivery",

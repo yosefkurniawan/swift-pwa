@@ -51,6 +51,7 @@ const AddressView = (props) => {
                                 openAddressDialog: false,
                             },
                         })}
+                        pageTitle={t('checkout:address:addTitle')}
                     />
                     {loading.addresses || loading.all ? null : (
                         <Button

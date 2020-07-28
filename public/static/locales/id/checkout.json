@@ -1,6 +1,9 @@
 {
     "pageTitle": "Checkout",
     "shippingAddress" : "Alamat Pengiriman",
+    "address": {
+        "addTitle": "Alamat Baru"
+    },
     "deliveryMethod" : {
         "label": "Cara pengantaran",
         "homeDelivery": "Home Delivery",

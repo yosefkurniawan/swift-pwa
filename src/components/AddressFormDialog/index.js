@@ -40,13 +40,13 @@ const AddressFormDialog = (props) => {
         addressId = null,
         setOpen,
         customAttributes,
-        pageTitle = 'addTitle',
+        pageTitle,
         disableDefaultAddress = false,
     } = props;
 
     const styles = useStyles();
     const headerConfig = {
-        headerTitle: t(`customer:address:${pageTitle}`),
+        headerTitle: pageTitle || t('customer:address:addTitle'),
         header: 'relative',
         headerBackIcon: 'close',
     };
