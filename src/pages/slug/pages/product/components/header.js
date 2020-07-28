@@ -1,4 +1,4 @@
-import Header from '@components/Header';
+import Header from '@common_header';
 import ShoppingBagIcon from '@components/ShoppingBagIcon';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 

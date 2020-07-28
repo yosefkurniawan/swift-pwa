@@ -6,7 +6,7 @@ import React from 'react';
 import Typography from '@common_typography';
 import Skeleton from '@components/Skeleton';
 import Button from '@common_button';
-import Header from '@components/Header';
+import Header from '@common_header';
 import Router from 'next/router';
 import Alert from '@material-ui/lab/Alert';
 import Menu from '@material-ui/icons/Menu';

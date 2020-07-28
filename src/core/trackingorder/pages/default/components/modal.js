@@ -1,4 +1,4 @@
-import Header from '@components/Header';
+import Header from '@common_header';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
