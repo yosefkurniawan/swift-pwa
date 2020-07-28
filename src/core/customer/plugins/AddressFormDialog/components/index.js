@@ -1,4 +1,3 @@
-
 import Checkbox from '@material-ui/core/Checkbox';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
@@ -17,7 +16,7 @@ import useStyles from './style';
 const AddressView = (props) => {
     const {
         t, open, setOpen, pageTitle, formik, addressState, setFromUseEffect, getCities, setAddressState,
-        mapPosition, handleDragPosition, disableDefaultAddress, loading, success,
+        mapPosition, handleDragPosition, disableDefaultAddress, loading, success, gmapKey,
     } = props;
     const styles = useStyles();
     const headerConfig = {
@@ -280,7 +279,7 @@ const AddressView = (props) => {
                             errorMessage={(formik.touched.telephone && formik.errors.telephone) || null}
                         />
                         <div className={styles.boxMap}>
-                            <IcubeMaps height="230px" mapPosition={mapPosition} dragMarkerDone={handleDragPosition} />
+                            <IcubeMaps height="230px" mapPosition={mapPosition} dragMarkerDone={handleDragPosition} gmapKey={gmapKey} />
                         </div>
 
                         {disableDefaultAddress ? null : (

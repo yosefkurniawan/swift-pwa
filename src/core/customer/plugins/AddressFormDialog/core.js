@@ -4,6 +4,8 @@ import { useFormik } from 'formik';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
+import Cookies from 'js-cookie';
+import { storeConfigNameCokie } from '@config';
 import { getCityByRegionId, getCountries as getAllCountries } from '../../services/graphql';
 
 const AddressFormDialog = (props) => {
@@ -32,6 +34,8 @@ const AddressFormDialog = (props) => {
         Content,
     } = props;
 
+    const gmapKey = (Cookies.getJSON(storeConfigNameCokie) || {}).icube_pinlocation_gmap_key;
+
     const [getCountries, gqlCountries] = getAllCountries();
     const [addressState, setAddressState] = useState({
         countries: null,
@@ -48,7 +52,6 @@ const AddressFormDialog = (props) => {
     });
 
     const [isFromUseEffect, setFromUseEffect] = useState(false);
-
 
     const getRegionByLabel = (label, dataRegion = null) => {
         const data = dataRegion || addressState.dropdown.region;
@@ -238,6 +241,7 @@ const AddressFormDialog = (props) => {
             disableDefaultAddress={disableDefaultAddress}
             loading={loading}
             success={success}
+            gmapKey={gmapKey}
         />
     );
 };
