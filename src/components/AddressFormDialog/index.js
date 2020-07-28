@@ -16,6 +16,8 @@ import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
+import Cookies from 'js-cookie';
+import { storeConfigNameCokie } from '@config';
 import { getCityByRegionId, getCountries as getAllCountries } from './services/graphql';
 import useStyles from './style';
 
@@ -72,6 +74,8 @@ const AddressFormDialog = (props) => {
         [styles.addBtnSuccess]: success,
         [styles.addBtn]: !success,
     });
+
+    const gmapKey = (Cookies.getJSON(storeConfigNameCokie) || {}).icube_pinlocation_gmap_key;
 
     const getRegionByLabel = (label, dataRegion = null) => {
         const data = dataRegion || addressState.dropdown.region;
@@ -495,7 +499,7 @@ const AddressFormDialog = (props) => {
                             errorMessage={(formik.touched.telephone && formik.errors.telephone) || null}
                         />
                         <div className={styles.boxMap}>
-                            <IcubeMaps height="230px" mapPosition={mapPosition} dragMarkerDone={handleDragPosition} />
+                            <IcubeMaps height="230px" mapPosition={mapPosition} dragMarkerDone={handleDragPosition} gmapKey={gmapKey} />
                         </div>
 
                         {disableDefaultAddress ? null : (

@@ -15,23 +15,19 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/SearchOutlined';
 import { useTranslation } from '@i18n';
-import Cookies from 'js-cookie';
-import { storeConfigNameCokie } from '@config';
 
 const {
     StandaloneSearchBox,
 } = require('react-google-maps/lib/components/places/StandaloneSearchBox');
 
-const gmapKey = (Cookies.getJSON(storeConfigNameCokie) || {}).icube_pinlocation_gmap_key;
-
 const IcubeMaps = compose(
-    withProps({
-        googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${gmapKey}&libraries=geometry,drawing,places`,
+    withProps((props) => ({
+        googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${props.gmapKey}&libraries=geometry,drawing,places`,
         loadingElement: <div style={{ height: '100%' }} />,
         containerElement: <div style={{ height: '210px' }} />,
         mapElement: <div style={{ height: '100%' }} />,
         isMarkerShown: true,
-    }),
+    })),
     withHandlers({
         handleDragEnd: ({ dragMarkerDone }) => (event) => {
             const newPosition = {
