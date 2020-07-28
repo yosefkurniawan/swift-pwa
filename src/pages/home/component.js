@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import CarouselSkeleton from '@components/Slider/Carousel/Skeleton';
+import CarouselSkeleton from '@common_slider/Carousel/Skeleton';
 import { Fragment } from 'react';
 import Link from 'next/link';
 import Skeleton from '@components/Skeleton';
@@ -11,7 +11,7 @@ import useStyles from './style';
 import Thumbor from '../../components/Image';
 
 const Banner = dynamic(() => import('@common_banner'));
-const Carousel = dynamic(() => import('@components/Slider/Carousel'));
+const Carousel = dynamic(() => import('@common_slider/Carousel'));
 const SpanCategory = dynamic(() => import('@components/SpanCategory'));
 const Alert = dynamic(() => import('@material-ui/lab/Alert'));
 

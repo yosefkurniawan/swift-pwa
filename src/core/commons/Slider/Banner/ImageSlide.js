@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { imageSize } from '@config';
+import setDefaultWhenEmpty from '@helpers/checkImageSrc';
+import Thumbor from '@common_image';
 import useStyles from './style';
-import setDefaultWhenEmpty from '../../../helpers/checkImageSrc';
-import Thumbor from '../../Image';
 
 /**
  slug page need props 'href' & 'as' to prevent browser reloading
