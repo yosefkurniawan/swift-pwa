@@ -1,205 +1,32 @@
-/* eslint-disable consistent-return */
-import Button from '@common_button';
-import CustomTextField from '@common_textfield';
-import IcubeMaps from '@common_googlemaps';
-import Header from '@components/Header';
-import Typography from '@common_typography';
-import { regexPhone } from '@helpers/regex';
 import Checkbox from '@material-ui/core/Checkbox';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import IcubeMaps from '@common_googlemaps';
+import Header from '@common_header';
+import Button from '@common_button';
+import _ from 'lodash';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { useFormik } from 'formik';
-import _ from 'lodash';
-import React, { useEffect, useState } from 'react';
-import * as Yup from 'yup';
+import CustomTextField from '@common_textfield';
 import clsx from 'clsx';
-import Cookies from 'js-cookie';
-import { storeConfigNameCokie } from '@config';
-import { getCityByRegionId, getCountries as getAllCountries } from './services/graphql';
+import Typography from '@common_typography';
 import useStyles from './style';
 
-const AddressFormDialog = (props) => {
+const AddressView = (props) => {
     const {
-        firstname = '',
-        lastname = '',
-        street = '',
-        postcode = '',
-        country = 'ID',
-        region = null,
-        city = null,
-        telephone = '',
-        maps = '',
-        open,
-        t,
-        onSubmitAddress,
-        loading = false,
-        success = false,
-        defaultShipping = false,
-        defaultBilling = false,
-        addressId = null,
-        setOpen,
-        customAttributes,
-        pageTitle,
-        disableDefaultAddress = false,
+        t, open, setOpen, pageTitle, formik, addressState, setFromUseEffect, getCities, setAddressState,
+        mapPosition, handleDragPosition, disableDefaultAddress, loading, success, gmapKey,
     } = props;
-
     const styles = useStyles();
     const headerConfig = {
         headerTitle: pageTitle || t('customer:address:addTitle'),
         header: 'relative',
         headerBackIcon: 'close',
     };
-
-    const [getCountries, gqlCountries] = getAllCountries();
-    const [addressState, setAddressState] = useState({
-        countries: null,
-        dropdown: {
-            countries: null,
-            region: null,
-            city: null,
-        },
-        value: {
-            country: { id: '', label: '' },
-            region: { id: '', label: '' },
-            city: { id: '', label: '' },
-        },
-    });
-
-    const [isFromUseEffect, setFromUseEffect] = useState(false);
-
     const addBtn = clsx({
         [styles.addBtnSuccess]: success,
         [styles.addBtn]: !success,
-    });
-
-    const gmapKey = (Cookies.getJSON(storeConfigNameCokie) || {}).icube_pinlocation_gmap_key;
-
-    const getRegionByLabel = (label, dataRegion = null) => {
-        const data = dataRegion || addressState.dropdown.region;
-        return data.find((item) => item.label === label) ? data.find((item) => item.label === label) : null;
-    };
-
-    const getRegionByCountry = (dataCountry, countries = null) => {
-        let data = countries || addressState.countries;
-        data = data.find((item) => item.id === dataCountry);
-
-        if (data) {
-            if (data.available_regions) {
-                return data.available_regions.map((item) => ({
-                    ...item,
-                    label: item.name,
-                }));
-            }
-        }
-
-        return null;
-    };
-
-    const getCountryByCode = (code, countries = null) => {
-        let data = countries || addressState.dropdown.countries;
-        data = data.find((item) => item.id === code);
-        return data || null;
-    };
-
-    const getCityByLabel = (label, dataCity = null) => {
-        const data = dataCity || addressState.dropdown.city;
-        return data.find((item) => item.label === label) ? data.find((item) => item.label === label) : null;
-    };
-
-    const getCustomAttributesValue = (attribute_code) => (customAttributes.find((el) => el.attribute_code === attribute_code) || {}).value;
-
-    const [mapPosition, setMapPosition] = useState({
-        lat: customAttributes ? getCustomAttributesValue('latitude') : '-6.197361',
-        lng: customAttributes ? getCustomAttributesValue('longitude') : '106.774535',
-    });
-
-    const displayLocationInfo = (position) => {
-        const lng = position.coords.longitude;
-        const lat = position.coords.latitude;
-
-        setMapPosition({
-            lat,
-            lng,
-        });
-    };
-
-    const handleDragPosition = (value) => {
-        setMapPosition(value);
-    };
-
-    const AddressSchema = Yup.object().shape({
-        firstname: Yup.string().required(t('validate:firstname:required')),
-        lastname: Yup.string().required(t('validate:lastname:required')),
-        telephone: Yup.string().required(t('validate:telephone:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
-        street: Yup.string().required(t('validate:street:required')),
-        postcode: Yup.string().required(t('validate:postcode:required')).min(3, t('validate:postcode:wrong')).max(20, t('validate:postcode:wrong')),
-        country: Yup.string().nullable().required(t('validate:country:required')),
-        region: Yup.string().nullable().required(t('validate:state:required')),
-        city: Yup.string().nullable().required(t('validate:city:required')),
-    });
-
-    const formik = useFormik({
-        enableReinitialize: true,
-        initialValues: {
-            firstname: firstname || '',
-            lastname: lastname || '',
-            telephone: telephone || '',
-            street: street || '',
-            country: '',
-            region: '',
-            city: '',
-            postcode: postcode || '',
-            maps: maps || '',
-            defaultBilling: defaultBilling || false,
-            defaultShipping: defaultShipping || false,
-            regionCode: '',
-            regionId: '',
-        },
-        validationSchema: AddressSchema,
-        onSubmit: async (values) => {
-            const data = {
-                ...values,
-                city: _.isObject(values.city) ? values.city.label : values.city,
-                countryCode: values.country.id,
-                region: _.isObject(values.region) ? values.region.name : values.region,
-                regionCode: _.isObject(values.region) ? values.region.code : null,
-                regionId: _.isObject(values.region) ? values.region.id : null,
-                addressId,
-                customAttributes: [
-                    { attribute_code: 'latitude', value: String(mapPosition.lat) },
-                    { attribute_code: 'longitude', value: String(mapPosition.lng) },
-                ],
-            };
-
-            const type = addressId ? 'update' : 'add';
-
-            if (onSubmitAddress) {
-                onSubmitAddress(data, type);
-            }
-        },
-    });
-
-    const [getCities] = getCityByRegionId({
-        onCompleted: (data) => {
-            const state = { ...addressState };
-
-            if (data.getCityByRegionId.item.length !== 0) {
-                state.dropdown.city = data.getCityByRegionId.item.map((item) => ({ ...item, id: item.id, label: item.city }));
-                formik.setFieldValue('city', getCityByLabel(city, state.dropdown.city));
-            } else {
-                state.dropdown.city = null;
-                formik.setFieldValue('city', null);
-                if (isFromUseEffect) {
-                    formik.setFieldValue('city', city);
-                    setFromUseEffect(false);
-                }
-            }
-
-            setAddressState(state);
-        },
     });
 
     const getRegionRender = () => {
@@ -325,53 +152,6 @@ const AddressFormDialog = (props) => {
             />
         );
     };
-
-    useEffect(() => {
-        const state = { ...addressState };
-
-        formik.setFieldValue('country', country);
-        formik.setFieldValue('region', region);
-
-        getCountries();
-        if (gqlCountries.data && open) {
-            state.countries = gqlCountries.data.countries;
-            state.dropdown.countries = state.countries.map((item) => ({
-                id: item.id,
-                label: item.full_name_locale,
-                available_regions: item.available_regions,
-            }));
-
-            if (country) {
-                state.dropdown.region = getRegionByCountry(country, gqlCountries.data.countries);
-                formik.setFieldValue('country', getCountryByCode(country, state.dropdown.countries));
-            }
-            setAddressState(state);
-
-            if (_.isArray(state.dropdown.region) && region) {
-                const selectedRegion = getRegionByLabel(region);
-                formik.setFieldValue('region', selectedRegion);
-                if (selectedRegion) {
-                    setFromUseEffect(true);
-                    getCities({ variables: { regionId: selectedRegion.id } });
-                }
-            } else {
-                formik.setFieldValue('city', city);
-            }
-        }
-
-        // only set current location for add mode
-        if (navigator.geolocation && !addressId) {
-            return navigator.geolocation.getCurrentPosition(displayLocationInfo);
-        }
-
-        // update map position after edit data
-        if (open && getCustomAttributesValue('latitude') && getCustomAttributesValue('longitude')) {
-            setMapPosition({
-                lat: getCustomAttributesValue('latitude'),
-                lng: getCustomAttributesValue('longitude'),
-            });
-        }
-    }, [open]);
 
     return (
         <Dialog fullScreen open={open} className={[styles.address_drawer].join(' ')}>
@@ -547,4 +327,4 @@ const AddressFormDialog = (props) => {
     );
 };
 
-export default AddressFormDialog;
+export default AddressView;

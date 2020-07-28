@@ -1,4 +1,4 @@
-import Header from '@components/Header';
+import Header from '@common_header';
 import Typography from '@common_typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';

@@ -1,5 +1,5 @@
-import Button from '@components/Button';
-import Typography from '@components/Typography';
+import Button from '@common_button';
+import Typography from '@common_typography';
 import { formatPrice } from '@helpers/currency';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import useStyles from '../style';

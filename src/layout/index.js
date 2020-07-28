@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import Header from '@components/Header';
+import Header from '@common_header';
 import Head from 'next/head';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';

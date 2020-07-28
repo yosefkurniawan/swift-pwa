@@ -8,7 +8,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable consistent-return */
 // Library
-import AddressFormDialog from '@components/AddressFormDialog';
+import AddressFormDialog from '@core/customer/plugins/AddressFormDialog';
 import Button from '@common_button';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Add from '@material-ui/icons/Add';

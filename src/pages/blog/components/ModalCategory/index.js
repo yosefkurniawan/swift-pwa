@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import Button from '@common_button';
-import Header from '@components/Header';
+import Header from '@common_header';
 import Skeleton from '@components/Skeleton';
 import Typography from '@common_typography';
 import Dialog from '@material-ui/core/Dialog';

@@ -1,6 +1,6 @@
 import { formatPrice } from '@helpers/currency';
 import Alert from '@material-ui/lab/Alert';
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 
 const CashbackInfo = ({
     message, price, currency, promo_name,

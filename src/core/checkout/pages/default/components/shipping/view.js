@@ -1,5 +1,5 @@
 import Radio from '@components/Forms/Radio';
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { formatPrice } from '@helpers/currency';
 import DeliveryItem from '../../../../components/radioitem';

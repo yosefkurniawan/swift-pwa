@@ -1,5 +1,5 @@
 import Skeleton from '@material-ui/lab/Skeleton';
-import AddressFormDialog from '@components/AddressFormDialog';
+import AddressFormDialog from '@core/customer/plugins/AddressFormDialog';
 import Button from '@common_button';
 import Typography from '@common_typography';
 import _ from 'lodash';

@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import Arrow from '@material-ui/icons/ArrowDropDown';
 import Radio from '@components/Forms/Radio';
 import Skeleton from '@material-ui/lab/Skeleton';

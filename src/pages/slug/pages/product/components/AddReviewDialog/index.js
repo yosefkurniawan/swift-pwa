@@ -1,6 +1,6 @@
 import Button from '@common_button';
 import TextField from '@common_textfield';
-import Header from '@components/Header';
+import Header from '@common_header';
 import Typography from '@common_typography';
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
