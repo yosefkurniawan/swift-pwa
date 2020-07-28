@@ -35,6 +35,12 @@ export const routeWithAuth = (path) => {
     return typeof found === 'undefined';
 };
 
+const setLastPathNoAuth = (req, value = '') => {
+    if (req && req.session) {
+        req.session.lastPathNoAuth(value);
+    }
+};
+
 const routeMiddleware = (params) => {
     const {
         req, res, query, asPath, isLogin, lastPathNoAuth,
@@ -47,18 +53,18 @@ const routeMiddleware = (params) => {
                     removeLastPathWithoutLogin();
                     Router.push(query.redirect);
                 } else {
-                    req.session.lastPathNoAuth = '';
+                    setLastPathNoAuth(req, '');
                     res.redirect(query.redirect);
                 }
             } else if (typeof window !== 'undefined') {
                 removeLastPathWithoutLogin();
                 Router.push(lastPathNoAuth);
             } else {
-                req.session.lastPathNoAuth = '';
+                setLastPathNoAuth(req, '');
                 res.redirect(lastPathNoAuth);
             }
         } else {
-            typeof window !== 'undefined' ? removeLastPathWithoutLogin() : req.session.lastPathNoAuth = '';
+            typeof window !== 'undefined' ? removeLastPathWithoutLogin() : setLastPathNoAuth(req, '');
         }
     } else {
         const allow = routeWithAuth(asPath);
@@ -67,11 +73,11 @@ const routeMiddleware = (params) => {
                 Router.push('/customer/account/login');
                 setLastPathWithoutLogin(asPath);
             } else {
-                req.session.lastPathNoAuth = asPath;
+                setLastPathNoAuth(req, asPath);
                 res.redirect('/customer/account/login');
             }
         } else {
-            typeof window !== 'undefined' ? removeLastPathWithoutLogin() : req.session.lastPathNoAuth = '';
+            typeof window !== 'undefined' ? removeLastPathWithoutLogin() : setLastPathWithoutLogin(req, '');
         }
     }
 };
