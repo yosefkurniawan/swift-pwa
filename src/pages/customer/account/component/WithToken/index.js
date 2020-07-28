@@ -2,15 +2,15 @@
 import Link from 'next/link';
 import React from 'react';
 import Carousel from '@components/Slider/Carousel';
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import { GraphCustomer } from '@services/graphql';
 import { customerFeautres } from '@config';
 import Badge from '@material-ui/core/Badge';
 import withStyles from '@material-ui/core/styles/withStyles';
+import PointCard from '@core/rewardpoint/plugins/info';
 import gqlService from '../../services/graphql';
 import Footer from '../Footer';
 import Loaders from '../Loader';
-import PointCard from '../PointCard';
 // Styling And Component
 import useStyles from './style';
 

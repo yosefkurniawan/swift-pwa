@@ -12,7 +12,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import Alert from '@material-ui/lab/Alert';
 import { GraphCustomer } from '@services/graphql';
 import { debuging } from '@config';

@@ -24,7 +24,6 @@ mutation getToken(
   }
 `;
 
-
 export default {
     getCustomerToken,
     getCustomerTokenOtp,

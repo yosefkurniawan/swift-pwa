@@ -11,15 +11,6 @@
     "success": "Pendaftaran berhasil",
     "failed": "Pendaftaran gagal"
   },
-  "login": {
-    "haveAccount": "Jika sudah punya akun",
-    "pageTitle": "Masuk",
-    "forgotPassword": "Lupa Password",
-    "notHaveAccount": "Belum mempunyai akun ?",
-    "switchPhone": "Login dengan nomor telepon",
-    "success": "Masuk berhasil",
-    "failed": "Masuk gagal"
-  },
   "forgotPassword": {
     "title": "Lupa password",
     "content": "Dapatkan instruksi ke email kamu untuk mengganti password.",
@@ -85,16 +76,5 @@
     "inputSearch": "Masukan kode gift card",
     "buttonSearch": "Cek sisa dan status",
     "required": "Code tidak boleh kosong"
-  },
-  "rewardPoint": {
-    "balanceTitle": "Sisa Poin Anda adalah ",
-    "canbeTitle": "Total yang dapat di redeem saat checkout adalah ",
-    "learnMore": "Untuk mempelajari tentant reward poin. $ Klik disini",
-    "transactionId" : "ID Transaksi",
-    "balance": "Sisa saldo",
-    "comment": "Komentar",
-    "expired" : "Masa berlaku",
-    "point": "Poin",
-    "transactionDate": "Tanggal Transaksi"
   }
 }

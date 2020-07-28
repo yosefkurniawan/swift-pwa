@@ -1,3 +1,3 @@
-import Page from '@pages/order/track';
+import Page from '@core/trackingorder/pages/default';
 
 export default Page;

@@ -1,16 +1,16 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable guard-for-in */
 import React from 'react';
-import Typography from '@components/Typography';
-import Button from '@components/Button';
+import Typography from '@common_typography';
+import Button from '@common_button';
 import Tune from '@material-ui/icons/Tune';
 import PropTypes from 'prop-types';
-import GridList from '@components/GridList';
+import GridList from '@common_gridlist';
 import ProductItem from '@components/ProductItem';
 import ProductListSkeleton from '@components/ProductList/component/Skeleton';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helpers/generateQuery';
-import CustomTabs from '@components/Tabs';
+import CustomTabs from '@common_tabs';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Alert from '@material-ui/lab/Alert';
 import TagManager from 'react-gtm-module';
@@ -252,10 +252,6 @@ const Product = (props) => {
                         data={products.items}
                         ItemComponent={ProductItem}
                         itemProps={{
-                            color: ['#343434', '#6E6E6E', '#989898', '#C9C9C9'],
-                            showListColor: true,
-                            showListSize: true,
-                            size: ['s', 'm', 'l', 'xl'],
                             categorySelect: categoryPath,
                         }}
                         gridItemProps={{ xs: 6, sm: 4, md: 3 }}

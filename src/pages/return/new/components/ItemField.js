@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import Select from '@components/Forms/Select';
+import Select from '@common_select';
 import { useTranslation } from '@i18n';
 
 const ItemField = ({

@@ -11,7 +11,7 @@ const Page = (props) => (
 */
 Page.getInitialProps = async ({ query, req }) => ({
     slug: query.slug,
-    namespacesRequired: ['common', 'product', 'category', 'validate', 'wishlist'],
+    namespacesRequired: ['common', 'product', 'category', 'validate', 'wishlist', 'catalog'],
     url_key: req
         ? `${req.protocol}://${req.get('host')}`
         : `${window.location.protocol

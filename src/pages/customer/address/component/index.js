@@ -9,7 +9,7 @@
 /* eslint-disable consistent-return */
 // Library
 import AddressFormDialog from '@components/AddressFormDialog';
-import Button from '@components/Button';
+import Button from '@common_button';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Add from '@material-ui/icons/Add';
 import _ from 'lodash';

@@ -1,9 +1,9 @@
-import Banner from '@components/Slider/Banner';
-import CustomTabs from '@components/Tabs';
+import Banner from '@common_banner';
+import CustomTabs from '@common_tabs';
 import React from 'react';
 import Router from 'next/router';
-import Product from '@components/ProductList';
-import Breadcrumb from '@components/Breadcrumb';
+import Product from '@core/catalog/plugin/ProductList';
+import Breadcrumb from '@common_breadcrumb';
 import { imageSize } from '@config';
 import useStyles from '../style';
 import { getFilter } from '../services';
@@ -17,7 +17,9 @@ const categoryTabs = (category) => {
     return data;
 };
 
-const CategoryPage = ({ data, storeConfig, t }) => {
+const CategoryPage = ({
+    data, storeConfig, t, ...other
+}) => {
     const styles = useStyles();
     const [value] = React.useState(0);
     const categoryList = data.categoryList[0];
@@ -86,6 +88,7 @@ const CategoryPage = ({ data, storeConfig, t }) => {
                 categoryPath={categoryList.url_path}
                 catalog_search_engine={storeConfig.catalog_search_engine}
                 t={t}
+                {...other}
             />
         </div>
     );

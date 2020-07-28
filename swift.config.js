@@ -145,8 +145,8 @@ const features = {
         app_id: '', // if enabled add fb app id here. e.g. 3080154482073095
     },
     productListing: {
-        configurableOptions: false,
-        rating: false,
+        configurableOptions: true,
+        rating: true,
         wishlist: true,
     },
     productAvailableToCart: {
@@ -156,6 +156,34 @@ const features = {
         GroupedProduct: false,
         BundleProduct: false,
         DownloadableProduct: false,
+    },
+};
+
+const modules = {
+    brands: {
+        enabled: true,
+    },
+    trackingorder: {
+        enabled: true,
+    },
+    order: {
+        enabled: true,
+    },
+    rewardpoint: {
+        enabled: true,
+    },
+    checkout: {
+        enabled: true,
+        snapUrl: {
+            dev: 'https://app.sandbox.midtrans.com/snap/snap.js',
+            prod: 'https://app.midtrans.com/snap/snap.js',
+        },
+    },
+    blog: {
+        enable: true,
+    },
+    rma: {
+        enable: true,
     },
 };
 
@@ -208,4 +236,5 @@ module.exports = {
     features,
     nossrCache,
     recaptcha,
+    modules,
 };

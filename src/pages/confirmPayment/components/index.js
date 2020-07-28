@@ -1,9 +1,9 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import TextField from '@components/Forms/TextField';
-import DropFile from '@components/DropFile';
-import Button from '@components/Button';
-import Typography from '@components/Typography';
+import TextField from '@common_textfield';
+import DropFile from '@common_dropfile';
+import Button from '@common_button';
+import Typography from '@common_typography';
 import React from 'react';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import DateDayJs from '@date-io/dayjs';

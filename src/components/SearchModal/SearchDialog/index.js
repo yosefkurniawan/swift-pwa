@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import TextField from '@components/Forms/TextField';
-import Typography from '@components/Typography';
+import TextField from '@common_textfield';
+import Typography from '@common_typography';
 import { useTranslation } from '@i18n';
 import Dialog from '@material-ui/core/Dialog';
 import Grow from '@material-ui/core/Grow';

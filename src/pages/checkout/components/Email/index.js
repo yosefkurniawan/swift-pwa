@@ -1,4 +1,4 @@
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import IconButton from '@material-ui/core/IconButton';
@@ -6,7 +6,7 @@ import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Popover from '@material-ui/core/Popover';
 import Help from '@material-ui/icons/Help';
-import Button from '@components/Button';
+import Button from '@common_button';
 import React, { useState } from 'react';
 
 const Email = ({

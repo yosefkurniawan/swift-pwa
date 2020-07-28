@@ -1,4 +1,4 @@
-import Layout from '@components/Layouts';
+import Layout from '@layout';
 import { withTranslation } from '@i18n';
 import Loading from '@components/Loaders/Backdrop';
 import Alert from '@material-ui/lab/Alert';

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import AddressFormDialog from '@components/AddressFormDialog';
 import React, { useState } from 'react';
 import _ from 'lodash';

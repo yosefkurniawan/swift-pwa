@@ -1,3 +1,3 @@
-import Page from '@pages/blog/category';
+import Page from '@core/blog/category/default';
 
 export default Page;

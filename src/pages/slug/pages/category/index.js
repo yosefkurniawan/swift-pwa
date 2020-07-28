@@ -1,5 +1,5 @@
 import { withTranslation } from '@i18n';
-import Layout from '@components/Layouts';
+import Layout from '@layout';
 import PropTypes from 'prop-types';
 import { StripHtmlTags } from '@helpers/text';
 import Component from './components';
@@ -41,9 +41,5 @@ const Page = (props) => {
 Page.propTypes = {
     categoryId: PropTypes.number.isRequired,
 };
-
-Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'category'],
-});
 
 export default withTranslation()(Page);

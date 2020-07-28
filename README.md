@@ -53,3 +53,16 @@ const graphqlEndpoint = {
     prod: 'https://swiftpwa-be.testingnow.me/graphql',
 };
 ```
+
+# Swift PWA have some modules to override
+1. [Blog](src/core/blog/readme.md) 
+2. [Brands](src/core/brands/readme.md) 
+3. [Catalog](src/core/catalog/readme.md) 
+4. [Checkout](src/core/checkout/readme.md) 
+5. [Order](src/core/order/readme.md) 
+6. [Reward Point](src/core/rewardpoint/readme.md) 
+7. [RMA](src/core/rma/readme.md) 
+8. [Tracking Order](src/core/trackingorder/readme.md) 
+9. [Cart](src/core/cart/readme.md) 
+
+### Swift PWA have core commons components to override, documentation on [this](src/core/commons/readme.md) link

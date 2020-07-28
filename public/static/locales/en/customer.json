@@ -11,15 +11,6 @@
     "success": "Registration is success",
     "failed": "Registration failed"
   },
-  "login": {
-    "haveAccount": "If you have an account",
-    "pageTitle": "Sign In",
-    "forgotPassword": "forgot password",
-    "notHaveAccount": "Don't have an account?",
-    "switchPhone": "Login with phone number",
-    "success": "Login is success",
-    "failed": "Login failed"
-  },
   "forgotPassword": {
     "title": "reset password",
     "content": "Get instruction sent to this email that explain how to reset your password.",
@@ -85,16 +76,5 @@
     "inputSearch": "Enter Gift Card code",
     "buttonSearch": "Check status & balance",
     "required": "Code is required"
-  },
-  "rewardPoint": {
-    "balanceTitle": "Current balance is ",
-    "canbeTitle": "Total can be redeem at checkout is ",
-    "learnMore": "To learn abaout point reward program. $ Click here",
-    "transactionId" : "Transaction ID",
-    "balance": "Balance",
-    "comment": "Comment",
-    "expired" : "Expired Date",
-    "point": "Point",
-    "transactionDate": "Transaction Date"
   }
 }
