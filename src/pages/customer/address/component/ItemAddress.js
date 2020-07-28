@@ -2,7 +2,7 @@
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import Typography from '@common_typography';
-import AddressFormDialog from '@components/AddressFormDialog';
+import AddressFormDialog from '@core/customer/plugins/AddressFormDialog';
 import React, { useState } from 'react';
 import _ from 'lodash';
 import useStyles from './style';

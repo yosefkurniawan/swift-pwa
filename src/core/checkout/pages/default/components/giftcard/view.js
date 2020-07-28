@@ -1,4 +1,4 @@
-import Typography from '@components/Typography';
+import Typography from '@common_typography';
 import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import useStyles from '../style';
