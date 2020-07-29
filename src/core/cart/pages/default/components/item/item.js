@@ -7,7 +7,7 @@ import DeleteOutlineOutlined from '@material-ui/icons/DeleteOutlineOutlined';
 import { formatPrice } from '@helpers/currency';
 
 import { imageSize } from '@config';
-import Image from '@components/Image';
+import Image from '@common_image';
 import useStyles from '../style';
 import ConfirmationDelete from '../confirmDelete';
 
