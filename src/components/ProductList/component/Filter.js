@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
-import FilterDialog from '@components/FilterDialog';
+import FilterDialog from '@common_filterdialog';
 import PropTypes from 'prop-types';
 
 const Filter = ({

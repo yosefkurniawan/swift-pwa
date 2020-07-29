@@ -2,15 +2,6 @@
   "dashboard": {
     "pageTitle": "Beranda Pelanggan"
   },
-  "register": {
-    "pageTitle": "Daftar Akun Baru",
-    "title": "Daftar",
-    "button": "Buat Akun",
-    "subscribe": "Daftar untuk berlangganan",
-    "isWhatsapp": "Nomor telephone telah terdaftar di Whatsapp",
-    "success": "Pendaftaran berhasil",
-    "failed": "Pendaftaran gagal"
-  },
   "forgotPassword": {
     "title": "Lupa password",
     "content": "Dapatkan instruksi ke email kamu untuk mengganti password.",

@@ -1,5 +1,5 @@
 import BrowseModal from '@components/SearchModal';
-import ShoppingBagIcon from '@components/ShoppingBagIcon';
+import ShoppingBagIcon from '@common_shopingbagicon';
 import { withApollo } from '@lib/apollo';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';

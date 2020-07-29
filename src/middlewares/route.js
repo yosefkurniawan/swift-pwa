@@ -77,7 +77,7 @@ const routeMiddleware = (params) => {
                 res.redirect('/customer/account/login');
             }
         } else {
-            typeof window !== 'undefined' ? removeLastPathWithoutLogin() : setLastPathWithoutLogin('');
+            typeof window !== 'undefined' ? removeLastPathWithoutLogin() : setLastPathWithoutLogin(req, '');
         }
     }
 };

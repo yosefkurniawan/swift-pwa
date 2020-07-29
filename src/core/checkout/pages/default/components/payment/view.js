@@ -5,7 +5,7 @@ import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@common_typography';
 import Arrow from '@material-ui/icons/ArrowDropDown';
-import Radio from '@components/Forms/Radio';
+import Radio from '@common_forms/Radio';
 import Skeleton from '@material-ui/lab/Skeleton';
 import RadioItem from '../../../../components/radioitem';
 import useStyles from '../style';

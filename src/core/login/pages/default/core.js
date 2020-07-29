@@ -15,9 +15,9 @@ import { getToken, getTokenOtp, removeToken as deleteToken } from '../../service
 
 const Login = (props) => {
     const {
-        t, storeConfig, query, lastPathNoAuth, Content,
+        t, storeConfig, query, lastPathNoAuth, Content, pageConfig,
     } = props;
-    const pageConfig = {
+    const config = {
         title: t('login:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)
         headerTitle: t('login:pageTitle'),
@@ -187,7 +187,7 @@ const Login = (props) => {
         }
     }
     return (
-        <Layout {...props} pageConfig={pageConfig}>
+        <Layout {...props} pageConfig={pageConfig || config}>
             <Content
                 formik={formik}
                 otpConfig={otpConfig}

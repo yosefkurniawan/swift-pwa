@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import TextField from '@components/Forms/TextField';
+import TextField from '@common_forms/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@common_button';
 import Typography from '@common_typography';
