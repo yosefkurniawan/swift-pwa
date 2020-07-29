@@ -1,4 +1,4 @@
-import BrowseModal from '@components/SearchModal';
+import BrowseModal from '@common_searchmodal';
 import ShoppingBagIcon from '@common_shopingbagicon';
 import { withApollo } from '@lib/apollo';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
