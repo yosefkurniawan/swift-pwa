@@ -49,7 +49,8 @@
                     "@common_header": "./src/core/commons/Header",
                     "@common_slider": "./src/core/commons/Slider",
                     "@common_shopingbagicon": "./src/core/commons/ShoppingBagIcon",
-                    "@common_filterdialog": "./src/core/commons/FilterDialog"
+                    "@common_filterdialog": "./src/core/commons/FilterDialog",
+                    "@common_forms": "./src/core/commons/Forms"
                 }
             }
         ]

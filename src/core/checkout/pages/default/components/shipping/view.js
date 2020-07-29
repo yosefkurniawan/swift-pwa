@@ -1,4 +1,4 @@
-import Radio from '@components/Forms/Radio';
+import Radio from '@common_forms/Radio';
 import Typography from '@common_typography';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { formatPrice } from '@helpers/currency';
