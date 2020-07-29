@@ -6,7 +6,7 @@ import Button from '@common_button';
 import Tune from '@material-ui/icons/Tune';
 import PropTypes from 'prop-types';
 import GridList from '@common_gridlist';
-import ProductItem from '@components/ProductItem';
+import ProductItem from '@common_productitem';
 import ProductListSkeleton from '@components/ProductList/component/Skeleton';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helpers/generateQuery';

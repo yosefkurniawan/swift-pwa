@@ -1,5 +1,5 @@
 import Grid from '@material-ui/core/Grid';
-import ProductItemSkeleton from '@components/ProductItem/component/Skeleton';
+import ProductItemSkeleton from '@common_productitem/component/Skeleton';
 
 const ProductListSkeleton = () => {
     const getClassNames = (el) => {

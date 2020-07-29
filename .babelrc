@@ -53,7 +53,8 @@
                     "@common_forms": "./src/core/commons/Forms",
                     "@common_searchmodal": "./src/core/commons/SearchModal",
                     "@common_loaders": "./src/core/commons/Loaders",
-                    "@common_navigation": "./src/core/commons/Navigation"
+                    "@common_navigation": "./src/core/commons/Navigation",
+                    "@common_productitem": "./src/core/commons/ProductItem"
                 }
             }
         ]
