@@ -1,5 +1,5 @@
 import Skeleton from '@common_skeleton';
-import ProductListSkeleton from '@components/ProductList/component/Skeleton';
+import ProductListSkeleton from '@common_productlist/component/Skeleton';
 import useStyles from '../style';
 
 const SkeletonCategory = () => {

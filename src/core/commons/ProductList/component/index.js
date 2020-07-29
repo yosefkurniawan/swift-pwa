@@ -7,7 +7,7 @@ import Tune from '@material-ui/icons/Tune';
 import PropTypes from 'prop-types';
 import GridList from '@common_gridlist';
 import ProductItem from '@common_productitem';
-import ProductListSkeleton from '@components/ProductList/component/Skeleton';
+import ProductListSkeleton from '@common_productlist/component/Skeleton';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helpers/generateQuery';
 import CustomTabs from '@common_tabs';
