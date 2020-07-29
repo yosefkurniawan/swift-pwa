@@ -1,5 +1,5 @@
 import Header from '@common_header';
-import ShoppingBagIcon from '@components/ShoppingBagIcon';
+import ShoppingBagIcon from '@common_shopingbagicon';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const useStyles = makeStyles({

@@ -47,7 +47,8 @@
                     "@common_backdrop": "./src/core/commons/Backdrop",
                     "@common_pageprogress": "./src/core/commons/PageProgress",
                     "@common_header": "./src/core/commons/Header",
-                    "@common_slider": "./src/core/commons/Slider"
+                    "@common_slider": "./src/core/commons/Slider",
+                    "@common_shopingbagicon": "./src/core/commons/ShoppingBagIcon"
                 }
             }
         ]
