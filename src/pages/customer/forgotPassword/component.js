@@ -4,7 +4,7 @@ import TextField from '@common_textfield';
 import Toast from '@common_toast';
 import { GraphConfig } from '@services/graphql';
 import Loading from '@components/Loaders/Backdrop';
-import OtpBlock from '@components/OtpBlock';
+import OtpBlock from '@core/login/plugins/otp';
 import { useFormik } from 'formik';
 import { regexPhone } from '@helpers/regex';
 import * as Yup from 'yup';
