@@ -47,6 +47,7 @@ export default withApollo({ ssr: true })(withTranslation()(Page));
 
 ### Note
 #### * withapollo and withtranslation must be place on first routing for peformance
+#### * if you  need custom template please copy `index.js` on `@core/register/pages/default/components/index.js` to your custom folder and change this
 
 # Components
 
