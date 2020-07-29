@@ -1,14 +1,14 @@
 # Description
 
-Module login can be installed with custom template or default template
+Module register can be installed with custom template or default template
 if you don't need custom, you can import it directly from the default modules
 
 
 # How to install
 ## Use default template and no overide
-### import Login module and place on your routing
+### import Register module and place on your routing
 ````
-import Page from '@core/login/pages/default';
+import Page from '@core/register/pages/default';
 export default Page;
 
 
@@ -18,7 +18,7 @@ export default Page;
 ### 1. import core register module
 
 ````
-import Core from '@core/login/pages/default/core';
+import Core from '@core/register/pages/default/core';
 ````
 
 ### 3. create your custom template
@@ -28,7 +28,7 @@ import Core from '@core/login/pages/default/core';
 ````
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import Core from '@core/login/pages/default/core';
+import Core from '@core/register/pages/default/core';
 
 // import your custom view
 import Content from './components';
@@ -36,7 +36,7 @@ import Content from './components';
 const Page = (props) => <Core {...props} Content={Content} />;
 
 Page.getInitialProps = async (ctx) => ({
-    namespacesRequired: ['common', 'validate', 'login'],
+    namespacesRequired: ['common', 'validate', 'register'],
     withAuth: true,
     query: ctx.query,
 });
@@ -49,17 +49,11 @@ export default withApollo({ ssr: true })(withTranslation()(Page));
 #### * withapollo and withtranslation must be place on first routing for peformance
 
 # Components
-### 1. Default
-### Properties
-| Props       | Required | Description | Type |
-| :---        | :---     | :---        |:---  |
-| pageConfig  |  false   | object configuration page layout      | Object|
 
-### 2. Core
+### 1. Core
 #### Properties
 | Props       | Required | Description | Type |
 | :---        | :---     | :---        |:---  |
-| pageConfig  |  false   | object configuration page layout      | Object|
 | Content      |  true    | views component, you can use default component or custom | Component |
 
 ## Override Config
@@ -76,11 +70,15 @@ const pageConfig = {
 
 | Name       | Description | Type |
 | :---       | :---        |:---        |
+| t      | function to translate| Function |
 | formik     | formik  function handle validation and value| Function |
 | otpConfig     | Value data about graphql otp | Object |
-| isOtp     | value to notif use otp or email login| Boolean |
-| setIsOtp     | function to toogle use otp or email login | Function |
-| setDisabled     | function to toogle disabled or not| Function |
+| setdisabled     | function to toogle disabled or not| Function |
 | disabled     | value to notif button login disabled or not | Boolean |
-| loading     | value to notif loading or not | Boolean |
-| t      | function to translate| Function |
+| handleChangePhone     | function to change phone number | Function |
+| handleWa     | function to toogle phone is wa or not | Function |
+| phoneIsWa     | value this phone is wa or not | Boolean |
+| recaptcha     | value recapcha from google | Object |
+| sitekey     | google site key Recapthca | String |
+| handleChangeCaptcha     | value to notif button login disabled or not | Function |
+| recaptchaRef     | referenc recaptcha field | Const |

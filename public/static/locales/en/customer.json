@@ -2,15 +2,6 @@
   "dashboard": {
     "pageTitle": "Customer Dashboard"
   },
-  "register": {
-    "pageTitle": "Create New Account",
-    "title": "Register",
-    "button": "Create an Account",
-    "subscribe": "Sign up for newslater",
-    "isWhatsapp": "Phone number is registered in whatsapp",
-    "success": "Registration is success",
-    "failed": "Registration failed"
-  },
   "forgotPassword": {
     "title": "reset password",
     "content": "Get instruction sent to this email that explain how to reset your password.",

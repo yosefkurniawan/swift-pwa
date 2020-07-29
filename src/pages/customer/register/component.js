@@ -7,7 +7,7 @@ import { Checkbox, FormControlLabel } from '@material-ui/core/';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/router';
-import OtpBlock from '@components/OtpBlock';
+import OtpBlock from '@core/login/plugins/otp';
 import { setLogin } from '@helpers/auth';
 import { setCartId, getCartId } from '@helpers/cartId';
 import { GraphCart, GraphConfig } from '@services/graphql';
