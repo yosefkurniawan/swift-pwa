@@ -3,7 +3,7 @@ import Button from '@common_button';
 import TextField from '@common_textfield';
 import Toast from '@common_toast';
 import { GraphConfig } from '@services/graphql';
-import Loading from '@components/Loaders/Backdrop';
+import Loading from '@common_loaders/Backdrop';
 import OtpBlock from '@core/login/plugins/otp';
 import { useFormik } from 'formik';
 import { regexPhone } from '@helpers/regex';

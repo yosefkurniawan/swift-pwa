@@ -11,7 +11,7 @@ import { getHost } from '@helpers/config';
 
 const Navigation = dynamic(() => import('@components/Navigation'), { ssr: false });
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
-const Loading = dynamic(() => import('@components/Loaders/Backdrop'), { ssr: false });
+const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false });
 
 const Layout = (props) => {
     const {

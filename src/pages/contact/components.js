@@ -1,4 +1,4 @@
-import Loading from '@components/Loaders/Backdrop';
+import Loading from '@common_loaders/Backdrop';
 import Typography from '@common_typography';
 import Button from '@common_button';
 import TextField from '@common_textfield';
