@@ -1,4 +1,4 @@
-import Skeleton from '@components/Skeleton';
+import Skeleton from '@common_skeleton';
 import Grid from '@material-ui/core/Grid';
 
 const CarouselSkeleton = () => {

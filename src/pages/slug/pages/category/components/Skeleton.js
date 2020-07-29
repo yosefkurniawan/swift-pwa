@@ -1,4 +1,4 @@
-import Skeleton from '@components/Skeleton';
+import Skeleton from '@common_skeleton';
 import ProductListSkeleton from '@components/ProductList/component/Skeleton';
 import useStyles from '../style';
 

@@ -4,8 +4,8 @@ import Typography from '@common_typography';
 import Link from 'next/link';
 import { useTranslation } from '@i18n';
 import { imageSize } from '@config';
+import setDefaultWhenEmpty from '@helpers/checkImageSrc';
 import useStyles from './style';
-import setDefaultWhenEmpty from '../../helpers/checkImageSrc';
 import Thumbor from '../Image';
 
 const SpanCategory = ({

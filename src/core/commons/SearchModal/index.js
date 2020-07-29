@@ -11,7 +11,7 @@ import { GraphCategory } from '@services/graphql';
 import TextField from '@common_textfield';
 import Router from 'next/router';
 import SearchIcon from '@material-ui/icons/Search';
-import Skeleton from '@components/Skeleton';
+import Skeleton from '@common_skeleton';
 import { useTranslation } from '@i18n';
 import { debuging } from '@config';
 import useStyles from './style';

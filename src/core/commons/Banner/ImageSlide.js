@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { imageSize } from '@config';
+import setDefaultWhenEmpty from '@helpers/checkImageSrc';
 import useStyles from './style';
-import setDefaultWhenEmpty from '../../../helpers/checkImageSrc';
 import Thumbor from './Thumbor';
 
 /**
