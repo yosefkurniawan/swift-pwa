@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable no-nested-ternary */
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,46 +11,32 @@ import TableContainer from '@material-ui/core/TableContainer';
 import Alert from '@material-ui/lab/Alert';
 import { formatPrice } from '@helpers/currency';
 import formatDate from '@helpers/date';
-import useStyles from '../style';
+import useStyles from './style';
 import SkeletonStoreCredit from './skeleton';
-import { getStoreCredit } from '../services';
 
-const StoreCreditPage = ({ t }) => {
+const StoreCreditPage = (props) => {
     const styles = useStyles();
+    const {
+        t,
+        storeCredit,
+        loading,
+        rowsPerPage,
+        page,
+        handleChangePage,
+        handleChangeRowsPerPage,
+    } = props;
 
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
+    const handlePage = (event) => {
+        handleChangePage(parseInt(event.target.value));
     };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
+    const handleRowsPerPage = (event) => {
+        handleChangeRowsPerPage(parseInt(event.target.value, 10));
     };
-    let storeCredit = {
-        current_balance: {
-            value: 0,
-            currency: 'USD',
-        },
-        transaction_history: {
-            items: [],
-        },
-    };
-    const { data, loading } = getStoreCredit(
-        {
-            pageSizeStoreCredit: rowsPerPage,
-            currentPageStoreCredit: page + 1,
-        },
-    );
-    if (data) {
-        storeCredit = data.customer.store_credit;
-    }
     return (
         <div className={styles.container}>
             <p className={styles.textBalance}>
-                {t('customer:storeCredit:balance')}
+                {t('storecredit:balance')}
                 {' '}
                 <b>
                     {storeCredit.current_balance && storeCredit.current_balance.value !== null
@@ -63,11 +50,11 @@ const StoreCreditPage = ({ t }) => {
                     <Table className={styles.table} aria-label="a dense table">
                         <TableHead>
                             <TableRow className={styles.tableRowHead}>
-                                <TableCell align="left">{t('customer:storeCredit:transactionId')}</TableCell>
-                                <TableCell align="left">{t('customer:storeCredit:adjustment')}</TableCell>
-                                <TableCell align="left">{t('customer:storeCredit:creditbalance')}</TableCell>
-                                <TableCell align="left">{t('customer:storeCredit:comment')}</TableCell>
-                                <TableCell align="left">{t('customer:storeCredit:transactionDate')}</TableCell>
+                                <TableCell align="left">{t('storecredit:transactionId')}</TableCell>
+                                <TableCell align="left">{t('storecredit:adjustment')}</TableCell>
+                                <TableCell align="left">{t('storecredit:creditbalance')}</TableCell>
+                                <TableCell align="left">{t('storecredit:comment')}</TableCell>
+                                <TableCell align="left">{t('storecredit:transactionDate')}</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -80,11 +67,11 @@ const StoreCreditPage = ({ t }) => {
                                             <TableCell
                                                 className={styles.tableCellResponsive}
                                                 align="left"
-                                                data-th={t('customer:storeCredit:transactionId')}
+                                                data-th={t('storecredit:transactionId')}
                                             >
                                                 <div className={styles.displayFlexRow}>
                                                     <div className={styles.mobLabel}>
-                                                        <b>{t('customer:storeCredit:transactionId')}</b>
+                                                        <b>{t('storecredit:transactionId')}</b>
                                                     </div>
                                                     <div className={styles.value}>{val.transaction_id}</div>
                                                 </div>
@@ -92,11 +79,11 @@ const StoreCreditPage = ({ t }) => {
                                             <TableCell
                                                 className={styles.tableCellResponsive}
                                                 align="left"
-                                                data-th={t('customer:storeCredit:adjustment')}
+                                                data-th={t('storecredit:adjustment')}
                                             >
                                                 <div className={styles.displayFlexRow}>
                                                     <div className={styles.mobLabel}>
-                                                        <b>{t('customer:storeCredit:adjustment')}</b>
+                                                        <b>{t('storecredit:adjustment')}</b>
                                                     </div>
                                                     <div className={styles.value}>
                                                         <div className={val.store_credit_adjustment.value < 0 ? styles.textRed : styles.textGreen}>
@@ -108,11 +95,11 @@ const StoreCreditPage = ({ t }) => {
                                             <TableCell
                                                 className={styles.tableCellResponsive}
                                                 align="left"
-                                                data-th={t('customer:storeCredit:creditbalance')}
+                                                data-th={t('storecredit:creditbalance')}
                                             >
                                                 <div className={styles.displayFlexRow}>
                                                     <div className={styles.mobLabel}>
-                                                        <b>{t('customer:storeCredit:creditbalance')}</b>
+                                                        <b>{t('storecredit:creditbalance')}</b>
                                                     </div>
                                                     <div className={styles.value}>
                                                         {formatPrice(val.store_credit_balance.value, val.store_credit_balance.currency)}
@@ -122,11 +109,11 @@ const StoreCreditPage = ({ t }) => {
                                             <TableCell
                                                 className={styles.tableCellResponsive}
                                                 align="left"
-                                                data-th={t('customer:storeCredit:comment')}
+                                                data-th={t('storecredit:comment')}
                                             >
                                                 <div className={styles.displayFlexRow}>
                                                     <div className={styles.mobLabel}>
-                                                        <b>{t('customer:storeCredit:comment')}</b>
+                                                        <b>{t('storecredit:comment')}</b>
                                                     </div>
                                                     <div className={styles.value}>{val.comment}</div>
                                                 </div>
@@ -134,11 +121,11 @@ const StoreCreditPage = ({ t }) => {
                                             <TableCell
                                                 className={styles.tableCellResponsive}
                                                 align="left"
-                                                data-th={t('customer:storeCredit:transactionDate')}
+                                                data-th={t('storecredit:transactionDate')}
                                             >
                                                 <div className={styles.displayFlexRow}>
                                                     <div className={styles.mobLabel}>
-                                                        <b>{t('customer:storeCredit:transactionDate')}</b>
+                                                        <b>{t('storecredit:transactionDate')}</b>
                                                     </div>
                                                     <div className={styles.value}>{formatDate(val.transaction_date_time)}</div>
                                                 </div>
@@ -157,15 +144,15 @@ const StoreCreditPage = ({ t }) => {
                                                 inputProps: { 'aria-label': 'rows per page' },
                                                 native: true,
                                             }}
-                                            onChangePage={handleChangePage}
-                                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                                            onChangePage={handlePage}
+                                            onChangeRowsPerPage={handleRowsPerPage}
                                         />
                                     </TableRow>
                                 </>
                             ) : (
                                 <TableRow>
                                     <TableCell colSpan={5}>
-                                        <Alert severity="warning">{t('customer:storeCredit:emptyMessage')}</Alert>
+                                        <Alert severity="warning">{t('storecredit:emptyMessage')}</Alert>
                                     </TableCell>
                                 </TableRow>
                             )}

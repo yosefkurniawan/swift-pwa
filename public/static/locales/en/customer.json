@@ -27,17 +27,6 @@
     "useBilling" : "use as my default billing address",
     "useShipping" : "use as my default shipping address"
   },
-  "storeCredit" : {
-    "balance" : "Current balance: ",
-    "transactionId" : "Transaction ID ",
-    "adjustment" : "Store Credit Adjustment ",
-    "creditbalance" : "Store Credit Balance",
-    "comment" : "Comment",
-    "transactionDate" : "Transaction Date",
-    "editEmail" : "Edit Email Preferences",
-    "emptyMessage" : "You have no transactions.",
-    "item" : "Item(s)"
-  },
   "menu": {
     "aboutUs": "About Us",
     "contactUs": "Contact Us",
@@ -58,5 +47,7 @@
     "inputSearch": "Enter Gift Card code",
     "buttonSearch": "Check status & balance",
     "required": "Code is required"
-  }
+  },
+  "haveAccount": "If you have an account",
+  "notHaveAccount": "Don't have an account?"
 }
