@@ -11,13 +11,13 @@ const WihtOut = (props) => {
     return (
         <div className={styles.root}>
             <div className={styles.authBlock}>
-                <Typography variant="span">{t('customer:login:haveAccount')}</Typography>
+                <Typography variant="span">{t('customer:haveAccount')}</Typography>
                 <Button fullWidth className={styles.btnSigin} href="/customer/account/login">
                     <Typography variant="title" type="regular" letter="capitalize" color="white">
                         {t('common:button:login')}
                     </Typography>
                 </Button>
-                <Typography variant="span">{t('customer:login:notHaveAccount')}</Typography>
+                <Typography variant="span">{t('customer:notHaveAccount')}</Typography>
                 <Button fullWidth className={styles.btnSigin} variant="outlined" href="/customer/account/create">
                     <Typography variant="title" type="regular" letter="capitalize">
                         {t('common:button:register')}

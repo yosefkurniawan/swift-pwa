@@ -37,7 +37,7 @@ export const routeWithAuth = (path) => {
 
 const setLastPathNoAuth = (req, value = '') => {
     if (req && req.session) {
-        req.session.lastPathNoAuth(value);
+        req.session.lastPathNoAuth = value;
     }
 };
 

@@ -27,17 +27,6 @@
     "useBilling" : "gunakan sebagai alamat default pembayaran",
     "useShipping" : "gunakan sebagai alamat default pengiriman"
   },
-  "storeCredit" : {
-    "balance" : "Saldo saat ini: ",
-    "transactionId" : "ID Transaksi",
-    "adjustment" : "Store Credit Tambahan",
-    "creditbalance" : "Store Credit Saldo",
-    "comment" : "Catatan",
-    "transactionDate" : "Tanggal Transaksi",
-    "editEmail" : "Ubah Pengaturan Email",
-    "emptyMessage" : "You have no transactions.",
-    "item" : "Item"
-  },
   "menu": {
     "aboutUs": "Tentang Kami",
     "contactUs": "Hubungi Kami",
@@ -58,5 +47,7 @@
     "inputSearch": "Masukan kode gift card",
     "buttonSearch": "Cek sisa dan status",
     "required": "Code tidak boleh kosong"
-  }
+  },
+  "haveAccount": "Jika sudah punya akun",
+  "notHaveAccount": "Belum mempunyai akun ?"
 }

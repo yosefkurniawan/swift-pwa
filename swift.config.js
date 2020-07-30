@@ -191,6 +191,15 @@ const modules = {
     forgotpassword: {
         enable: true,
     },
+    storecredit: {
+        enable: true,
+    },
+    login: {
+        enable: true,
+    },
+    register: {
+        enable: true,
+    },
 };
 
 const nossrCache = [
