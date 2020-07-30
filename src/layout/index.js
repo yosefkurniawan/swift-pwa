@@ -62,7 +62,7 @@ const Layout = (props) => {
     };
 
     const ogData = {
-        'og:title': pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift PWA',
+        'og:title': pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa',
         'og:image': storeConfig.header_logo_src
             ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
             : `${getHost()}/assets/img/swift-logo.png`,
@@ -102,7 +102,7 @@ const Layout = (props) => {
             <Head>
                 <meta
                     name="keywords"
-                    content={pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift PWA'}
+                    content={pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa'}
                 />
                 <meta name="robots" content="INDEX,FOLLOW" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -114,7 +114,7 @@ const Layout = (props) => {
                     }
                     return <meta property={`${key}`} content={ogData[key]} key={idx} />;
                 })}
-                <title>{pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift PWA'}</title>
+                <title>{pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa'}</title>
                 {schemaOrg
                     ? (
                         schemaOrg.map((val, idx) => (
