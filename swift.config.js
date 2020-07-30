@@ -179,10 +179,16 @@ const modules = {
             prod: 'https://app.midtrans.com/snap/snap.js',
         },
     },
+    cart: {
+        enabled: true,
+    },
     blog: {
         enable: true,
     },
     rma: {
+        enable: true,
+    },
+    forgotpassword: {
         enable: true,
     },
 };

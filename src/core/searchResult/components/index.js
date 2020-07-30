@@ -1,5 +1,5 @@
 import React from 'react';
-import Product from '@components/ProductList';
+import Product from '@common_productlist';
 import useStyles from '../style';
 
 const SearchResult = ({ storeConfig, t }) => {

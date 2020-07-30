@@ -1,3 +1,3 @@
-import Page from '@pages/customer/forgotPassword';
+import Page from '@core/forgotpassword/pages/default';
 
 export default Page;

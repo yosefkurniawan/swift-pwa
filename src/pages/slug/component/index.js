@@ -6,7 +6,7 @@ import { getResolver } from '../services/graphql';
 const Category = dynamic(() => import('../pages/category'));
 const Product = dynamic(() => import('../pages/product'));
 const Cms = dynamic(() => import('../pages/cms'));
-const Loading = dynamic(() => import('@components/Loaders/Backdrop'));
+const Loading = dynamic(() => import('@common_loaders/Backdrop'));
 
 const generateContent = (props, resolver) => {
     if (resolver.type === 'CATEGORY') {

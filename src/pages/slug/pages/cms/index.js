@@ -1,6 +1,6 @@
 import Layout from '@layout';
 import { withTranslation } from '@i18n';
-import Loading from '@components/Loaders/Backdrop';
+import Loading from '@common_loaders/Backdrop';
 import Alert from '@material-ui/lab/Alert';
 import Content from './components';
 import { getCmsPage } from './services/graphql';

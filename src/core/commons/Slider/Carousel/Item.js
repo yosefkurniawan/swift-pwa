@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import useStyles from './style';
 
-const ProductItem = dynamic(() => import('@components/ProductItem'));
+const ProductItem = dynamic(() => import('@common_productitem'));
 
 const Item = (props) => {
     const styles = useStyles();

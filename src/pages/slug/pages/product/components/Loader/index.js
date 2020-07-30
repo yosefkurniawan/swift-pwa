@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-operators */
-import Skeleton from '@components/Skeleton';
+import Skeleton from '@common_skeleton';
 import CarouselSkeleton from '@common_slider/Carousel/Skeleton';
 import { imageSize } from '@config';
 import useStyles from './style';

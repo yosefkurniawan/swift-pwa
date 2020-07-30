@@ -4,7 +4,7 @@ import Slide from '@material-ui/core/Slide';
 import Grid from '@material-ui/core/Grid';
 import React from 'react';
 import Typography from '@common_typography';
-import Skeleton from '@components/Skeleton';
+import Skeleton from '@common_skeleton';
 import Button from '@common_button';
 import Header from '@common_header';
 import Router from 'next/router';

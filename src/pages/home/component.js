@@ -2,17 +2,17 @@
 import CarouselSkeleton from '@common_slider/Carousel/Skeleton';
 import { Fragment } from 'react';
 import Link from 'next/link';
-import Skeleton from '@components/Skeleton';
+import Skeleton from '@common_skeleton';
 import Grid from '@material-ui/core/Grid';
 import { imageSize, debuging } from '@config';
 import dynamic from 'next/dynamic';
+import Thumbor from '@common_image';
 import gqlService from './service/graphql';
 import useStyles from './style';
-import Thumbor from '../../components/Image';
 
 const Banner = dynamic(() => import('@common_banner'));
 const Carousel = dynamic(() => import('@common_slider/Carousel'));
-const SpanCategory = dynamic(() => import('@components/SpanCategory'));
+const SpanCategory = dynamic(() => import('@common_spancategory'));
 const Alert = dynamic(() => import('@material-ui/lab/Alert'));
 
 const BannerSliderSkeleteon = () => {
