@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-danger */
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
@@ -61,7 +62,7 @@ const Layout = (props) => {
     };
 
     const ogData = {
-        'og:title': pageConfig.title ? pageConfig.title : 'Swift PWA',
+        'og:title': pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift PWA',
         'og:image': storeConfig.header_logo_src
             ? `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`
             : `${getHost()}/assets/img/swift-logo.png`,
@@ -99,7 +100,10 @@ const Layout = (props) => {
     return (
         <>
             <Head>
-                <meta name="keywords" content={pageConfig.title ? pageConfig.title : 'Swift PWA'} />
+                <meta
+                    name="keywords"
+                    content={pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift PWA'}
+                />
                 <meta name="robots" content="INDEX,FOLLOW" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="format-detection" content="telephone=no" />
@@ -110,7 +114,7 @@ const Layout = (props) => {
                     }
                     return <meta property={`${key}`} content={ogData[key]} key={idx} />;
                 })}
-                <title>{pageConfig.title ? pageConfig.title : 'Swift PWA'}</title>
+                <title>{pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift PWA'}</title>
                 {schemaOrg
                     ? (
                         schemaOrg.map((val, idx) => (
