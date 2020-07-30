@@ -5,7 +5,7 @@ import { getHost } from '@helpers/config';
 import Content from './component';
 
 const Page = (props) => {
-    const { t, storeConfig } = props;
+    const { storeConfig } = props;
     const schemaOrg = [
         {
             '@context': 'https://schema.org',
@@ -25,7 +25,7 @@ const Page = (props) => {
         },
     ];
     const pageConfig = {
-        title: t('home:pageTitle'),
+        title: storeConfig.default_title,
         header: false, // available values: "absolute", "relative", false (default)
         bottomNav: 'home',
         pageType: 'home',
