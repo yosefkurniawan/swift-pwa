@@ -140,7 +140,7 @@ const AddressFormDialog = (props) => {
                 ...values,
                 city: _.isObject(values.city) ? values.city.label : values.city,
                 countryCode: values.country.id,
-                region: _.isObject(values.region) ? values.region.name : values.region,
+                region: _.isObject(values.region) ? values.region.code : values.region,
                 regionCode: _.isObject(values.region) ? values.region.code : null,
                 regionId: _.isObject(values.region) ? values.region.id : null,
                 addressId,
