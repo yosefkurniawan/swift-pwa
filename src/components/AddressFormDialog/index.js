@@ -6,7 +6,6 @@ import Header from '@components/Header';
 import Typography from '@components/Typography';
 import { regexPhone } from '@helpers/regex';
 import Checkbox from '@material-ui/core/Checkbox';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
@@ -164,7 +163,7 @@ const AddressFormDialog = (props) => {
                 ...values,
                 city: _.isObject(values.city) ? values.city.label : values.city,
                 countryCode: values.country.id,
-                region: _.isObject(values.region) ? values.region.name : values.region,
+                region: _.isObject(values.region) ? values.region.code : values.region,
                 regionCode: _.isObject(values.region) ? values.region.code : null,
                 regionId: _.isObject(values.region) ? values.region.id : null,
                 addressId,
@@ -533,12 +532,11 @@ const AddressFormDialog = (props) => {
                         )}
 
                         <div className={styles.wrapper}>
-                            <Button className={addBtn} fullWidth type="submit" disabled={loading}>
+                            <Button className={addBtn} fullWidth type="submit" disabled={loading} loading={loading}>
                                 <Typography className={styles.fontWhite} variant="title" type="regular" letter="capitalize">
                                     {t(success ? 'common:button:saved' : 'common:button:save')}
                                 </Typography>
                             </Button>
-                            {loading && <CircularProgress size={24} className={styles.buttonProgress} />}
                         </div>
                     </form>
                 </div>
