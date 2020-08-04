@@ -27,6 +27,9 @@
         "required": "Konfirmasi password tidak boleh kosong",
         "wrong": "Konfirmasi password tidak sama"
     },
+    "telephone": {
+        "required": "Telepone tidak boleh kosong"
+    },
     "whatsappNumber": {
         "required": "Nomor whatsapp tidak boleh kosong",
         "wrong": "Nomor whatsapp tidak sesuai"
@@ -40,7 +43,7 @@
         "wrong": "Alamat belum sesuai"
     },
     "postal": {
-        "required": "code post tidak boleh kosong",
+        "required": "Code post tidak boleh kosong",
         "wrong": "Code pos belum sesuai"
     },
     "country": {
@@ -50,13 +53,13 @@
         "required": "state/ provinsi tidak boleh kosong"
     },
     "city": {
-        "required": "kota tidak boleh kosong"
+        "required": "Kota tidak boleh kosong"
     },
     "district": {
-        "required": "district/kecamatan tidak boleh kosong"
+        "required": "District/kecamatan tidak boleh kosong"
     },
     "maps": {
-        "required": "lokasi maps tidak boleh kosong"
+        "required": "Lokasi maps tidak boleh kosong"
     },
     "required": "tidak boleh kosong"
 }
