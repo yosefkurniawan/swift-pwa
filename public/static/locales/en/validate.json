@@ -27,36 +27,39 @@
         "required": "Confirm password is required",
         "wrong": "Confirm password is not match"
     },
+    "telephone": {
+        "required": "Telephone is required"
+    },
     "whatsappNumber": {
         "required": "Whatsapp Number is required",
-        "wrong": "whatssapp Number is not valid"
+        "wrong": "Whatssapp Number is not valid"
     },
     "emailPhone": "Email or phone number is required",
     "tos": {
-        "required": "Please aggre terms of use"
+        "required": "Please aggree the terms of use"
     },
     "street": {
         "required": "Street address is required",
         "wrong": "Street address is not valid"
     },
     "postal": {
-        "required": "postal code is required",
-        "wrong": "postal code is not valid"
+        "required": "Postal code is required",
+        "wrong": "Postal code is not valid"
     },
     "country": {
-        "required": "country is required"
+        "required": "Country is required"
     },
     "state": {
-        "required": "state/province is required"
+        "required": "State/province is required"
     },
     "city": {
-        "required": "city is required"
+        "required": "City is required"
     },
     "district": {
-        "required": "district/kecamatan is required"
+        "required": "District/kecamatan is required"
     },
     "maps": {
-        "required": "maps location is required"
+        "required": "Maps location is required"
     },
     "required": "is required"
 }

@@ -1,5 +1,4 @@
 import Checkbox from '@material-ui/core/Checkbox';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IcubeMaps from '@common_googlemaps';
@@ -313,12 +312,11 @@ const AddressView = (props) => {
                         )}
 
                         <div className={styles.wrapper}>
-                            <Button className={addBtn} fullWidth type="submit" disabled={loading}>
+                            <Button className={addBtn} fullWidth type="submit" disabled={loading} loading={loading}>
                                 <Typography className={styles.fontWhite} variant="title" type="regular" letter="capitalize">
                                     {t(success ? 'common:button:saved' : 'common:button:save')}
                                 </Typography>
                             </Button>
-                            {loading && <CircularProgress size={24} className={styles.buttonProgress} />}
                         </div>
                     </form>
                 </div>
