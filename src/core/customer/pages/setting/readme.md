@@ -15,7 +15,7 @@ export default Page;
 ````
 
 ## Use ustom template or overide logic
-### 1. import core brand module
+### 1. import core settng module
 
 ````
 import Core from '@core/customer/pages/setting/core';
