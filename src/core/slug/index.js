@@ -1,6 +1,6 @@
 import { withApollo } from '@lib/apollo';
 import CategoryPage from '@core/catalog/pages/category';
-import ProductPage from '@pages/slug/pages/product';
+import ProductPage from '@core/detail/pages/default';
 import CmsPage from '@pages/slug/pages/cms';
 import Core from './core';
 import LoadingView from '../commons/Backdrop';

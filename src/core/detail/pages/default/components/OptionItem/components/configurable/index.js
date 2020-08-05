@@ -1,10 +1,4 @@
 /* eslint-disable no-nested-ternary */
-import CustomRadio from '@common_radio';
-import SelectColor from '@common_forms/SelectColor';
-import SelectSize from '@common_forms/SelectSize';
-import Typography from '@common_typography';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import React from 'react';
 import { useApolloClient } from '@apollo/react-hooks';
 import ProductByVariant, { getCombinationVariants, CheckAvailableOptions } from '@helpers/productByVariant';
@@ -12,9 +6,7 @@ import { GraphCart } from '@services/graphql';
 import { getLoginInfo } from '@helpers/auth';
 import { getCartId, setCartId } from '@helpers/cartId';
 import TagManager from 'react-gtm-module';
-import { addConfigProductsToCart, getConfigurableProduct } from '../../services/graphql';
-import Footer from './Footer';
-import useStyles from './style';
+import { addConfigProductsToCart, getConfigurableProduct } from '../../../../../../services/graphql';
 
 export default (props) => {
     const {
@@ -29,8 +21,10 @@ export default (props) => {
         setOpen,
         loading,
         setLoading,
+        ConfigurableView,
+        Footer,
     } = props;
-    const styles = useStyles();
+
     const client = useApolloClient();
     const [selectConfigurable, setSelectConfigurable] = React.useState({});
     const [selectedProduct, setSelectedProduct] = React.useState({});
@@ -208,8 +202,6 @@ export default (props) => {
         }
     };
 
-    const classItem = styles.stylesItemOption;
-
     const combination = configProduct.data && getCombinationVariants(firstSelected, configProduct.data.products.items[0].variants);
     return (
         <>
@@ -240,67 +232,17 @@ export default (props) => {
                             value.push(initValue);
                         }
                     }
-                    if (option.attribute_code === 'color') {
-                        return (
-                            <CustomRadio
-                                key={index}
-                                label="Select color"
-                                flex="row"
-                                CustomItem={SelectColor}
-                                value={selected[option.attribute_code]}
-                                valueData={value}
-                                onChange={(val) => handleSelect(val, option.attribute_code)}
-                                className={styles.label}
-                                classContainer={styles.center}
-                                classItem={classItem}
-                                error={!!error[option.attribute_code] && !selected[option.attribute_code]}
-                                errorMessage={error[option.attribute_code] ? error[option.attribute_code] : ''}
-                                disabled={loading}
-                            />
-                        );
-                    }
-                    if (option.attribute_code === 'size') {
-                        return (
-                            <CustomRadio
-                                key={index}
-                                label="Select size"
-                                flex="row"
-                                CustomItem={SelectSize}
-                                value={selected[option.attribute_code]}
-                                valueData={value}
-                                onChange={(val) => handleSelect(val, option.attribute_code)}
-                                className={styles.sizeContainer}
-                                classContainer={styles.center}
-                                classItem={classItem}
-                                error={!!error[option.attribute_code] && !selected[option.attribute_code]}
-                                errorMessage={error[option.attribute_code] ? error[option.attribute_code] : ''}
-                                disabled={loading}
-                            />
-                        );
-                    }
-
                     return (
-                        <div key={index} className={styles.select}>
-                            <Typography align="center" variant="label" type="bold" letter="uppercase">
-                                {`Select ${option.label}`}
-                            </Typography>
-                            <Select
-                                value={selected[option.attribute_code] || ''}
-                                onChange={(val) => handleSelect(val.target.value, option.attribute_code)}
-                                disabled={loading || configProduct.loading}
-                            >
-                                {value.map((val, key) => (
-                                    <MenuItem key={key} value={val.label} disabled={val.disabled}>
-                                        {val.label}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                            {error[option.attribute_code] && !selected[option.attribute_code] && (
-                                <Typography variant="p" color="red">
-                                    {error[option.attribute_code]}
-                                </Typography>
-                            )}
-                        </div>
+                        <ConfigurableView
+                            key={index}
+                            option={option}
+                            selected={selected}
+                            value={value}
+                            handleSelect={handleSelect}
+                            error={error}
+                            loading={loading}
+                            configProduct={configProduct}
+                        />
                     );
                 })}
             <Footer qty={qty} handleAddToCart={handleAddToCart} handleQty={handleQty} t={t} loading={loading || configProduct.loading} />

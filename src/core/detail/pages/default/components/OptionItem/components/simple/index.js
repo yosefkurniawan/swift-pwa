@@ -5,8 +5,7 @@ import { useApolloClient } from '@apollo/react-hooks';
 // import Router from 'next/router';
 import React from 'react';
 import TagManager from 'react-gtm-module';
-import { addSimpleProductsToCart } from '../../services/graphql';
-import Footer from './Footer';
+import { addSimpleProductsToCart } from '../../../../../../services/graphql';
 
 export default ({
     setOpen,
@@ -17,6 +16,7 @@ export default ({
     },
     loading,
     setLoading,
+    Footer,
 }) => {
     const [qty, setQty] = React.useState(1);
     const handleQty = (event) => {

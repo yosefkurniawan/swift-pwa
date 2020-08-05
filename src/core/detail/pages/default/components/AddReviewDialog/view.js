@@ -1,16 +1,16 @@
 import Button from '@common_button';
 import TextField from '@common_textfield';
-import Header from '@common_header';
 import Typography from '@common_typography';
 import Dialog from '@material-ui/core/Dialog';
-import IconButton from '@material-ui/core/IconButton';
-import Slide from '@material-ui/core/Slide';
-import Close from '@material-ui/icons/Close';
 import Rating from '@material-ui/lab/Rating';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import Header from '@common_header';
+import IconButton from '@material-ui/core/IconButton';
+import Close from '@material-ui/icons/Close';
+import Slide from '@material-ui/core/Slide';
+
 import useStyles from './style';
-import { addReview } from '../../services/graphql';
+
+const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 const CustomHeader = ({ onClose }) => (
     <Header
@@ -25,48 +25,11 @@ const CustomHeader = ({ onClose }) => (
     />
 );
 
-const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
-
-const AddReviewDialog = ({
-    open = false, setOpen = () => {}, t, data,
-}) => {
+const ReviewDialogView = (props) => {
     const styles = useStyles();
-    const validationSchema = Yup.object().shape({
-        nickname: Yup.string().required(t('product:validate:nickname')),
-        title: Yup.string().required(t('product:validate:title')),
-        detail: Yup.string().required(t('product:validate:detail')),
-        rating: Yup.string().required(t('product:validate:rating')).nullable(),
-    });
-
-    const [addProductReview] = addReview();
-
-    const Formik = useFormik({
-        initialValues: {
-            nickname: '',
-            rating: null,
-            title: '',
-            detail: '',
-            pkValue: data.id,
-        },
-        validationSchema,
-        onSubmit: (value, { resetForm }) => {
-            resetForm({});
-            addProductReview({
-                variables: {
-                    ...value,
-                },
-            }).then(() => {
-                setOpen({
-                    variant: 'success',
-                });
-            }).catch((e) => {
-                setOpen({
-                    message: e.message.split(':')[1] || t('product:addRateFailed'),
-                    variant: 'error',
-                });
-            });
-        },
-    });
+    const {
+        Formik, open, setOpen, t,
+    } = props;
     return (
         <Dialog fullScreen open={open} onClose={setOpen} TransitionComponent={Transition}>
             <CustomHeader onClose={setOpen} />
@@ -132,4 +95,4 @@ const AddReviewDialog = ({
     );
 };
 
-export default AddReviewDialog;
+export default ReviewDialogView;

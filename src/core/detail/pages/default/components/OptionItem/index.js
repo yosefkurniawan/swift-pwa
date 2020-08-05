@@ -4,10 +4,12 @@ import Dialog from '@material-ui/core/Dialog';
 import Fade from '@material-ui/core/Fade';
 // import Router from 'next/router';
 import React from 'react';
-import ConfigurableOption from './ConfigurableOption';
-import SimpleOption from './SimpleOption';
-import VirtualOption from './VirtualOption';
+import ConfigurableOption from './components/configurable';
+import ConfigurableView from './components/configurable/view';
+import SimpleOption from './components/simple';
+import VirtualOption from './components/virtual';
 import useStyles from './style';
+import Footer from './Footer';
 
 const Transition = React.forwardRef((props, ref) => (
     <Fade ref={ref} {...props} />
@@ -40,9 +42,11 @@ const OptionDialog = (props) => {
                     <div className={styles.optionContainer}>
                         {__typename === 'ConfigurableProduct' && (
                             <ConfigurableOption
+                                {...props}
                                 loading={loading}
                                 setLoading={setLoading}
-                                {...props}
+                                ConfigurableView={ConfigurableView}
+                                Footer={Footer}
                             />
                         )}
 
@@ -51,6 +55,7 @@ const OptionDialog = (props) => {
                                 {...props}
                                 loading={loading}
                                 setLoading={setLoading}
+                                Footer={Footer}
                             />
                         )}
 
@@ -59,6 +64,7 @@ const OptionDialog = (props) => {
                                 {...props}
                                 loading={loading}
                                 setLoading={setLoading}
+                                Footer={Footer}
                             />
                         )}
                     </div>

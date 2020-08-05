@@ -1,6 +1,5 @@
-/* eslint-disable import/prefer-default-export */
-import { imageSize } from '@config';
 import { gql } from 'apollo-boost';
+import { imageSize } from '@config';
 
 const productDetail = `
     id
@@ -190,4 +189,131 @@ export const getConfigurableProduct = (sku) => {
       }
     }`;
     return query;
+};
+
+export const createEmptyCartGuest = gql`
+    mutation {
+        createEmptyCart
+    }
+`;
+
+export const addSimpleProductsToCart = gql`
+mutation addSimpleProductsToCart(
+    $cartId: String!,
+    $qty: Float!,
+    $sku: String!,
+) {
+    addSimpleProductsToCart(input:{
+      cart_id: $cartId,
+      cart_items: {
+        data: {
+          quantity: $qty,
+          sku: $sku
+        }
+      }
+    }) {
+      cart {
+        id
+        total_quantity
+      }
+    }
+  }
+`;
+
+export const addVirtualProductToCart = gql`
+mutation addVirtualProductToCart(
+    $cartId: String!,
+    $qty: Float!,
+    $sku: String!,
+) {
+    addVirtualProductsToCart(input:{
+      cart_id: $cartId,
+      cart_items: {
+        data: {
+          quantity: $qty,
+          sku: $sku
+        }
+      }
+    }) {
+      cart {
+        id
+        total_quantity
+      }
+    }
+  }
+`;
+
+export const addConfigProductsToCart = gql`
+mutation (
+  $cartId: String!,
+  $qty: Float!,
+  $sku: String!,
+  $parentSku: String!,
+) {
+  addConfigurableProductsToCart(
+    input: {
+      cart_id: $cartId,
+      cart_items: {
+        data: {
+          quantity : $qty,
+          sku: $sku
+        }
+        parent_sku: $parentSku
+      }
+    }
+  ) {
+    cart {
+      id
+      total_quantity
+    }
+  }
+}
+`;
+
+export const addReview = gql`
+    mutation createReview($nickname: String!, $rating: Int!, $title: String!, $detail: String!, $pkValue: Int!) {
+        addProductReview(
+            input: {
+                entity_pk_value: $pkValue
+                title: $title
+                detail: $detail
+                nickname: $nickname
+                ratings: { rating_name: "Rating", value: $rating }
+            }
+        ) {
+            message
+        }
+    }
+`;
+
+export const getReview = () => {
+    const query = gql`
+        query getReview($sku: String!, $pageSize: Int, $currentPage: Int) {
+            getProductReviews(sku: $sku, pageSize: $pageSize, currentPage: $currentPage) {
+                items {
+                    id
+                    nickname
+                    ratings {
+                        rating_name
+                        value
+                    }
+                    entity_pk_value
+                    review_entity
+                    review_type
+                    review_status
+                    title
+                    detail
+                    created_at
+                }
+                message
+                totalCount
+            }
+        }
+    `;
+    return query;
+};
+
+export default {
+    createEmptyCartGuest,
+    addSimpleProductsToCart,
 };

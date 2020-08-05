@@ -6,10 +6,11 @@ import classNames from 'classnames';
 import React from 'react';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { setCountReview } from '../../redux/action';
-import { getReviews } from '../../services/graphql';
-import * as Schema from '../../services/graphql/reviewSchema';
-import useStyles from '../../style';
+import { getReviews } from '../../../../services/graphql';
+import * as Schema from '../../../../services/graphql/schema';
+import useStyles from '../style';
 import AddReviewDialog from '../AddReviewDialog';
+import AddReviewDialogView from '../AddReviewDialog/view';
 import CustomerReview from '../CustomerReview';
 
 export default (props) => {
@@ -78,7 +79,12 @@ export default (props) => {
 
     return (
         <>
-            <AddReviewDialog open={openReview} setOpen={handleOpenReview} {...props} />
+            <AddReviewDialog
+                {...props}
+                open={openReview}
+                setOpen={handleOpenReview}
+                ViewDialog={AddReviewDialogView}
+            />
             <div className={styles.body}>
                 <div className={styles.titleContainer}>
                     <div className={styles.titlePriceContainer}>
