@@ -194,10 +194,16 @@ const modules = {
     storecredit: {
         enable: true,
     },
+    giftcard: {
+        enable: true,
+    },
     login: {
         enable: true,
     },
     register: {
+        enable: true,
+    },
+    confirmpayment: {
         enable: true,
     },
 };
