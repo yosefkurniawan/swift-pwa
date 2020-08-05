@@ -28,3 +28,30 @@ export const getCityByRegionId = gql`
     }
   }
 `;
+
+// schema settingsPage
+
+export const updateCustomer = gql`
+    mutation updateCustomerSetting($isSubscribed: Boolean!) {
+        updateCustomer(
+            input: {
+              is_subscribed: $isSubscribed
+            }
+          ) {
+            customer {
+                is_subscribed
+            }
+          }
+    }
+`;
+
+export const getCustomerSettings = gql`
+{
+    customer {
+     firstname
+     lastname
+     email
+     is_subscribed
+    }
+  }
+`;

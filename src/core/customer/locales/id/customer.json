@@ -1,0 +1,53 @@
+{
+  "dashboard": {
+    "pageTitle": "Beranda Pelanggan"
+  },
+  "newPassword": {
+    "title": "Ubah password",
+    "success": "Password berhasil diperbarui",
+    "failed": "Password gagal diperbarui"
+  },
+  "button": {
+    "logout": "Keluar"
+  },
+  "setting" : {
+    "title" : "Pengaturan",
+    "newslater" : "Langganan buletin",
+    "language" : "Bahasa"
+  },
+  "profile" : {
+    "title" : "akun saya",
+    "successUpdate": "Profil berhasil diperbarui",
+    "successChangePass": "Password berhasil diperbarui"
+  },
+  "address" : {
+    "pageTitle" : "Daftar alamat",
+    "addTitle" : "Tambah alamat baru",
+    "editTitle" : "Ubah alamat",
+    "useBilling" : "gunakan sebagai alamat default pembayaran",
+    "useShipping" : "gunakan sebagai alamat default pengiriman"
+  },
+  "menu": {
+    "aboutUs": "Tentang Kami",
+    "contactUs": "Hubungi Kami",
+    "myPoint": "Point Saya",
+    "myOrder": "Pesanan Saya",
+    "myAccount": "Akun Saya",
+    "address": "Buku Alamat",
+    "setting": "Pengaturan",
+    "storeCredit": "Store Credit",
+    "readMore": "Selengkapnya",
+    "rewardPoint": "Reward Poin",
+    "blog": "Artikel",
+    "return": "Retur Saya",
+    "confirmPayment": "Konfirmasi Pembayaran"
+  },
+  "giftCard": {
+    "notFound": "Anda tidak memiliki gift card",
+    "inputSearch": "Masukan kode gift card",
+    "buttonSearch": "Cek sisa dan status",
+    "required": "Code tidak boleh kosong"
+  },
+  "haveAccount": "Jika sudah punya akun",
+  "notHaveAccount": "Belum mempunyai akun ?"
+}
