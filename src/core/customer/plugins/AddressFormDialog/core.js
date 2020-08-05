@@ -107,11 +107,11 @@ const AddressFormDialog = (props) => {
     };
 
     const AddressSchema = Yup.object().shape({
-        firstname: Yup.string().required(t('validate:firstname:required')),
-        lastname: Yup.string().required(t('validate:lastname:required')),
+        firstname: Yup.string().required(t('validate:firstName:required')),
+        lastname: Yup.string().required(t('validate:lastName:required')),
         telephone: Yup.string().required(t('validate:telephone:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
         street: Yup.string().required(t('validate:street:required')),
-        postcode: Yup.string().required(t('validate:postcode:required')).min(3, t('validate:postcode:wrong')).max(20, t('validate:postcode:wrong')),
+        postcode: Yup.string().required(t('validate:postal:required')).min(3, t('validate:postal:wrong')).max(20, t('validate:postal:wrong')),
         country: Yup.string().nullable().required(t('validate:country:required')),
         region: Yup.string().nullable().required(t('validate:state:required')),
         city: Yup.string().nullable().required(t('validate:city:required')),
@@ -140,7 +140,7 @@ const AddressFormDialog = (props) => {
                 ...values,
                 city: _.isObject(values.city) ? values.city.label : values.city,
                 countryCode: values.country.id,
-                region: _.isObject(values.region) ? values.region.name : values.region,
+                region: _.isObject(values.region) ? values.region.code : values.region,
                 regionCode: _.isObject(values.region) ? values.region.code : null,
                 regionId: _.isObject(values.region) ? values.region.id : null,
                 addressId,

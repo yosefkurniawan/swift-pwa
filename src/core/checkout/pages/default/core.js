@@ -20,6 +20,7 @@ import Promo from './components/promo';
 import GiftCard from './components/giftcard';
 import RewardPoint from './components/rewardpoint';
 import Credit from './components/credit';
+import PickupInfo from './components/PickupInformation';
 
 const Checkout = (props) => {
     const {
@@ -370,7 +371,12 @@ const Checkout = (props) => {
                                 AddressView={AddressView}
                             />
                         ) : (
-                            null
+                            <PickupInfo
+                                t={t}
+                                formik={formik}
+                                checkout={checkout}
+                                setCheckout={setCheckout}
+                            />
                         )
                     }
                     <Shipping

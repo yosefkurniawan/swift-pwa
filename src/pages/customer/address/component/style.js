@@ -47,6 +47,11 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: '700',
         marginBottom: '5px',
     },
+    addressColumn: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+    },
     address_content: {
         fontSize: '12px',
         borderBottom: `1px solid ${GRAY_PRIMARY}`,
