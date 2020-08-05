@@ -12,55 +12,13 @@ import { getProduct } from '../../services/graphql';
 import Header from './components/header';
 import generateSchemaOrg from '../../helpers/schema.org';
 
-const PageDetail = (props) => {
-    let product = {};
-    const {
-        slug, Content, t, isLogin, pageConfig, CustomHeader,
-    } = props;
-    const { loading, data, error } = getProduct(slug[0]);
-    if (error || loading || !data) {
-        return (
-            <Layout pageConfig={{}} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props}>
-                <Loading />
-            </Layout>
-        );
-    }
-    if (data) {
-        product = data.products;
-        if (product.items.length === 0) return <Error statusCode={404} />;
-    }
-
+const ContentDetail = ({
+    t, product,
+    Content,
+    isLogin,
+}) => {
     const item = product.items[0];
 
-    const schemaOrg = generateSchemaOrg(product.items[0]);
-
-    const config = {
-        title: product.items.length > 0 ? product.items[0].name : '',
-        bottomNav: false,
-        header: 'absolute', // available values: "absolute", "relative", false (default)
-        pageType: 'product',
-        ogContent: {
-            description: {
-                type: 'meta',
-                value: StripHtmlTags(product.items[0].description.html),
-            },
-            'og:image': product.items[0].small_image.url,
-            'og:image:type': 'image/jpeg',
-            'og:description': StripHtmlTags(product.items[0].description.html),
-            'og:image:width': imageSize.product.width,
-            'og:image:height': imageSize.product.height,
-            'og:image:alt': product.items[0].name,
-            'og:type': 'product',
-            'product:availability': product.items[0].stock_status,
-            'product:category': product.items[0].categories[0].name,
-            'product:condition': 'new',
-            'product:price:currency': product.items[0].price_range.minimum_price.final_price.currency,
-            'product:price:amount': product.items[0].price_range.minimum_price.final_price.value,
-            'product:pretax_price:currency': product.items[0].price_range.minimum_price.final_price.currency,
-            'product:pretax_price:amount': product.items[0].price_range.minimum_price.final_price.value,
-        },
-        schemaOrg,
-    };
     const route = useRouter();
 
     const reviewValue = parseInt(item.review.rating_summary, 0) / 20;
@@ -268,29 +226,88 @@ const PageDetail = (props) => {
             });
         }
     };
+
+    return (
+        <Content
+            data={product.items[0]}
+            t={t}
+            openOption={openOption}
+            handleOption={handleOption}
+            setOpenOption={setOpenOption}
+            setBanner={setBanner}
+            setPrice={setPrice}
+            openShare={openShare}
+            setOpenShare={setOpenShare}
+            route={route}
+            banner={banner}
+            openDrawer={openDrawer}
+            setOpenDrawer={setOpenDrawer}
+            breadcrumbsData={breadcrumbsData}
+            price={price}
+            handleWishlist={handleWishlist}
+            reviewValue={reviewValue}
+            wishlist={wishlist}
+            expandData={expandData}
+            relateData={relateData}
+        />
+    );
+};
+
+const PageDetail = (props) => {
+    let product = {};
+    const {
+        slug, Content, t, isLogin, pageConfig, CustomHeader,
+    } = props;
+    const { loading, data, error } = getProduct(slug[0]);
+    if (error || loading || !data) {
+        return (
+            <Layout pageConfig={{}} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props}>
+                <Loading />
+            </Layout>
+        );
+    }
+    if (data) {
+        product = data.products;
+        if (product.items.length === 0) return <Error statusCode={404} />;
+    }
+
+    const schemaOrg = generateSchemaOrg(product.items[0]);
+
+    const config = {
+        title: product.items.length > 0 ? product.items[0].name : '',
+        bottomNav: false,
+        header: 'absolute', // available values: "absolute", "relative", false (default)
+        pageType: 'product',
+        ogContent: {
+            description: {
+                type: 'meta',
+                value: StripHtmlTags(product.items[0].description.html),
+            },
+            'og:image': product.items[0].small_image.url,
+            'og:image:type': 'image/jpeg',
+            'og:description': StripHtmlTags(product.items[0].description.html),
+            'og:image:width': imageSize.product.width,
+            'og:image:height': imageSize.product.height,
+            'og:image:alt': product.items[0].name,
+            'og:type': 'product',
+            'product:availability': product.items[0].stock_status,
+            'product:category': product.items[0].categories[0].name,
+            'product:condition': 'new',
+            'product:price:currency': product.items[0].price_range.minimum_price.final_price.currency,
+            'product:price:amount': product.items[0].price_range.minimum_price.final_price.value,
+            'product:pretax_price:currency': product.items[0].price_range.minimum_price.final_price.currency,
+            'product:pretax_price:amount': product.items[0].price_range.minimum_price.final_price.value,
+        },
+        schemaOrg,
+    };
+
     return (
         <Layout pageConfig={pageConfig || config} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props}>
-            <Content
-                data={product.items[0]}
+            <ContentDetail
+                product={product}
                 t={t}
-                openOption={openOption}
-                handleOption={handleOption}
-                setOpenOption={setOpenOption}
-                setBanner={setBanner}
-                setPrice={setPrice}
-                openShare={openShare}
-                setOpenShare={setOpenShare}
-                route={route}
-                banner={banner}
-                openDrawer={openDrawer}
-                setOpenDrawer={setOpenDrawer}
-                breadcrumbsData={breadcrumbsData}
-                price={price}
-                handleWishlist={handleWishlist}
-                reviewValue={reviewValue}
-                wishlist={wishlist}
-                expandData={expandData}
-                relateData={relateData}
+                Content={Content}
+                isLogin={isLogin}
             />
         </Layout>
     );

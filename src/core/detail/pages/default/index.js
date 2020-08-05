@@ -6,4 +6,8 @@ const Page = (props) => (
     <Core {...props} Content={Content} />
 );
 
+Page.getInitialProps = async () => ({
+    namespacesRequired: ['common', 'product', 'category', 'validate', 'wishlist', 'catalog'],
+});
+
 export default withTranslation()(Page);

@@ -42,7 +42,6 @@ const ProductPage = (props) => {
         expandData,
         relateData,
     } = props;
-    console.log(props);
     const favoritIcon = wishlist ? (
         <Favorite className={styles.iconShare} />
     ) : (
