@@ -68,7 +68,7 @@ const ItemAddress = (props) => {
                 setOpen={() => setOpen(!open)}
                 pageTitle={t('customer:address:editTitle')}
             />
-            <div className="column">
+            <div className={styles.addressColumn}>
                 <div className={[styles.address_content].join(' ')}>
                     <FormControlLabel
                         className={[styles.address_shipping].join(' ')}
