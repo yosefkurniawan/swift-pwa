@@ -28,3 +28,188 @@ export const getCityByRegionId = gql`
     }
   }
 `;
+
+// schema settingsPage
+
+export const updateCustomer = gql`
+    mutation updateCustomerSetting($isSubscribed: Boolean!) {
+        updateCustomer(
+            input: {
+              is_subscribed: $isSubscribed
+            }
+          ) {
+            customer {
+                is_subscribed
+            }
+          }
+    }
+`;
+
+export const getCustomerSettings = gql`
+{
+    customer {
+     firstname
+     lastname
+     email
+     is_subscribed
+    }
+  }
+`;
+
+const productDetail = `
+    id
+    name
+    sku
+    stock_status
+    url_key
+    __typename
+    attribute_set_id
+    small_image{
+      url
+    }
+    image{
+      url
+    }
+    review {
+      rating_summary
+      reviews_count
+    }
+
+    `;
+const priceRange = `
+    price_range {
+      minimum_price {
+        discount {
+          amount_off
+          percent_off
+        }
+        final_price {
+          currency
+          value
+        }
+        fixed_product_taxes {
+          amount {
+            currency
+            value
+          }
+          label
+        }
+        regular_price {
+          currency
+          value
+        }
+      }
+      maximum_price {
+         discount {
+          amount_off
+          percent_off
+        }
+        final_price {
+          currency
+          value
+        }
+        fixed_product_taxes {
+          amount {
+            currency
+            value
+          }
+          label
+        }
+        regular_price {
+          currency
+          value
+        }
+      }
+    }
+    `;
+
+const priceTiers = `
+    price_tiers {
+      discount {
+        amount_off
+        percent_off
+      }
+      final_price {
+        currency
+        value
+      }
+      quantity
+    }
+    `;
+
+export const getCustomer = gql`
+{
+    customer {
+      id
+      firstname
+      lastname
+      email
+      is_subscribed
+      phonenumber
+      whatsapp_number
+      addresses {
+        id
+        city
+        default_billing
+        default_shipping
+        custom_attributes {
+            attribute_code
+            value
+        }
+        extension_attributes {
+            attribute_code
+            value
+        }
+        firstname
+        lastname
+        postcode
+        country_code
+        region {
+            region
+            region_code
+        }
+        street
+        telephone
+    }
+     wishlist {
+      id
+      items {
+        id
+        product {
+          ${productDetail}
+          ${priceRange}
+          ${priceTiers}
+        }
+      }
+    }
+    }
+  }
+`;
+
+export const removeToken = gql`
+mutation {
+  internalDeleteCustomerToken{
+    result
+  }
+}
+`;
+
+export const customerNotificationList = gql`
+    query customerNotificationList {
+        customerNotificationList {
+          totalUnread
+        }
+    }
+`;
+
+export const getCmsBlocks = gql`
+    query($identifiers: [String]) {
+        cmsBlocks(identifiers: $identifiers) {
+            items {
+                identifier
+                title
+                content
+            }
+        }
+    }
+`;

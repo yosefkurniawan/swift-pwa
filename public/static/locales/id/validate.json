@@ -28,7 +28,7 @@
         "wrong": "Konfirmasi password tidak sama"
     },
     "telephone": {
-        "required": "Telepone tidak boleh kosong"
+        "required": "Telepon tidak boleh kosong"
     },
     "whatsappNumber": {
         "required": "Nomor whatsapp tidak boleh kosong",
