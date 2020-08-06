@@ -39,22 +39,26 @@ to re-build and run: `docker-compose up --build`
 
 ## Setup Host and Graphql Endpoint
 1. open file swift.config.js
-2. edit host at this line:
+2. edit host and graphql endpoint, sample:
 ```
 const HOST = {
-    dev: 'http://localhost:3000',
-    prod: 'https://swiftpwa.testingnow.me',
+    local: 'http://localhost:3000',
+    dev: 'https://swiftpwa.testingnow.me',
+    stage: 'https://pwa.getswift.asia.dmmy.me',
+    prod: 'https://pwa.getswift.asia',
 };
 ```
 3. Edit Gql endpoint at this line:
 ```
 const graphqlEndpoint = {
+    local: 'https://swiftpwa-be.testingnow.me/graphql',
     dev: 'https://swiftpwa-be.testingnow.me/graphql',
-    prod: 'https://swiftpwa-be.testingnow.me/graphql',
+    stage: 'https://swiftpwa-be.testingnow.me/graphql',
+    prod: 'https://b2cdemo.getswift.asia/graphql',
 };
 ```
 
-# Swift PWA have some modules to override
+# Core modules
 1. [Blog](src/core/blog/readme.md) 
 2. [Brands](src/core/brands/readme.md) 
 3. [Catalog](src/core/catalog/readme.md) 
@@ -65,4 +69,4 @@ const graphqlEndpoint = {
 8. [Tracking Order](src/core/trackingorder/readme.md) 
 9. [Cart](src/core/cart/readme.md) 
 
-### Swift PWA have core commons components to override, documentation on [this](src/core/commons/readme.md) link
+### [Core common components ](src/core/commons/readme.md)
