@@ -183,28 +183,28 @@ const modules = {
         enabled: true,
     },
     blog: {
-        enable: true,
+        enabled: true,
     },
     rma: {
-        enable: true,
+        enabled: true,
     },
     forgotpassword: {
-        enable: true,
+        enabled: true,
     },
     storecredit: {
-        enable: true,
+        enabled: true,
     },
     giftcard: {
-        enable: true,
+        enabled: true,
     },
     login: {
-        enable: true,
+        enabled: true,
     },
     register: {
-        enable: true,
+        enabled: true,
     },
     confirmpayment: {
-        enable: true,
+        enabled: true,
     },
 };
 

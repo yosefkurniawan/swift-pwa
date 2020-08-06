@@ -1,7 +1,6 @@
 import { useQuery } from '@apollo/react-hooks';
 import * as Schema from './schema';
 
-
 export const getGiftCard = () => useQuery(Schema.getGiftCard, {
     context: {
         request: 'internal',
@@ -19,6 +18,5 @@ export const checkBalance = (code) => useQuery(Schema.checkBalance, {
     },
     skip: code === '' || !code,
 });
-
 
 export default { getGiftCard, checkBalance };

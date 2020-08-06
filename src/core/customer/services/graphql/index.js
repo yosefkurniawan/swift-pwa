@@ -35,6 +35,24 @@ export const customerNotificationList = () => useQuery(Schema.customerNotificati
 
 export const getCmsBlocks = (variables) => useQuery(Schema.getCmsBlocks, { variables });
 
+export const getGiftCard = () => useQuery(Schema.getGiftCard, {
+    context: {
+        request: 'internal',
+    },
+    skip: typeof window === 'undefined',
+    fetchPolicy: 'no-cache',
+});
+
+export const checkBalance = (code) => useQuery(Schema.checkBalance, {
+    context: {
+        request: 'internal',
+    },
+    variables: {
+        gift_card_code: code,
+    },
+    skip: code === '' || !code,
+});
+
 export default {
     getCountries, getCityByRegionId, customerNotificationList, getCustomer,
 };
