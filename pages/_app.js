@@ -25,7 +25,7 @@ import graphRequest from '../src/api/graphql/request';
 import routeMiddleware from '../src/middlewares/route';
 
 const tagManagerArgs = {
-    gtmId: process.env.NODE_ENV === 'production' ? GTM.gtmId.prod : GTM.gtmId.dev,
+    gtmId: GTM.gtmId[process.env.APP_ENV] || GTM.gtmId.dev,
 };
 
 class MyApp extends App {
