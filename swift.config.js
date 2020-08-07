@@ -79,6 +79,7 @@ const recaptcha = {
     },
 };
 
+// masuk module -> pindah jika module sudah siap
 /* Store Credit, Reward Point, Gift Card */
 const customerFeautres = {
     storeCredit: true,
@@ -114,6 +115,7 @@ const enableSocialMediaLink = true;
 /* Loader */
 const loaderImage = '/assets/img/loader.svg';
 
+// masuk features configuration -> perlu penyesuaian
 /* config general size image used on frontend */
 const imageSize = {
     product: {
@@ -150,11 +152,13 @@ const features = {
         enabled: false,
         app_id: '', // if enabled add fb app id here. e.g. 3080154482073095
     },
+    // masuk module -> pindah jika module sudah siap
     productListing: {
         configurableOptions: true,
         rating: true,
         wishlist: true,
     },
+    // masuk module -> pindah jika module sudah siap
     productAvailableToCart: {
         SimpleProduct: true,
         ConfigurableProduct: true,
@@ -184,6 +188,9 @@ const modules = {
             dev: 'https://app.sandbox.midtrans.com/snap/snap.js',
             prod: 'https://app.midtrans.com/snap/snap.js',
         },
+        pickupStore: {
+            enabled: true,
+        },
     },
     cart: {
         enabled: true,
@@ -211,6 +218,20 @@ const modules = {
     },
     confirmpayment: {
         enabled: true,
+    },
+    catalog: {
+        enabled: true,
+        productListing: {
+            configurableOptions: {
+                enabled: true,
+            },
+            rating: {
+                enabled: true,
+            },
+            wishlist: {
+                enabled: true,
+            },
+        },
     },
 };
 

@@ -49,5 +49,6 @@
     "required": "Code is required"
   },
   "haveAccount": "If you have an account",
-  "notHaveAccount": "Don't have an account?"
+  "notHaveAccount": "Don't have an account?",
+  "isWhatsapp": "Phone number is registered in whatsapp"
 }

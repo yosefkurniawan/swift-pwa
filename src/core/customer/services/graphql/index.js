@@ -75,6 +75,16 @@ export const createCustomerAddress = (options = {}) => useMutation(Schema.create
     ...config,
 });
 
+export const updateCustomer = (options = {}) => useMutation(Schema.updateCustomer, {
+    ...options,
+    ...config,
+});
+
+export const changeCustomerPassword = (options = {}) => useMutation(Schema.changeCustomerPassword, {
+    ...options,
+    ...config,
+});
+
 export default {
     getCountries, getCityByRegionId, customerNotificationList, getCustomer,
 };

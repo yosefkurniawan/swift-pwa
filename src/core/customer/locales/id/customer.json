@@ -49,5 +49,6 @@
     "required": "Code tidak boleh kosong"
   },
   "haveAccount": "Jika sudah punya akun",
-  "notHaveAccount": "Belum mempunyai akun ?"
+  "notHaveAccount": "Belum mempunyai akun ?",
+  "isWhatsapp": "Nomor telephone telah terdaftar di Whatsapp"
 }
