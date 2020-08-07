@@ -5,6 +5,9 @@ if you don't need custom, you can import it directly from the default modules
 
 
 # How to install
+
+before install enable modules on swift config with key `giftcard`
+ 
 ## Use default template and no overide
 ### import giftcard module and place on your routing
 ````

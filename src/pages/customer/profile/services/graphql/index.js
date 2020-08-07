@@ -6,7 +6,6 @@ export const updateCustomer = (options = {}) => useMutation(Schema.updateCustome
     context: { request: 'internal' },
 });
 
-
 export const changeCustomerPassword = (options = {}) => useMutation(Schema.changeCustomerPassword, {
     ...options,
     context: { request: 'internal' },
