@@ -9,23 +9,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Alert from '@material-ui/lab/Alert';
 import { debuging } from '@config';
-import React from 'react';
 import { formatPrice } from '@helpers/currency';
-import { checkBalance } from '../services/graphql';
-import Loader from './Loader';
+import Loader from '../skeleton';
 
-const ModalDetail = ({
-    open, setOpen, code, storeConfig, t,
-}) => {
-    let loading = false;
-    let data = null;
-    let error = null;
-    if (open) {
-        const getBalance = checkBalance(code);
-        loading = getBalance.loading;
-        data = getBalance.data;
-        error = getBalance.error;
-    }
+const DetailView = (props) => {
+    const {
+        t, loading, error, data, open, close, storeConfig, code,
+    } = props;
     if (error) {
         return (
             <Alert className="m-15" severity="error">
@@ -70,11 +60,11 @@ const ModalDetail = ({
         );
     }
     return (
-        <Dialog open={open} onClose={setOpen} fullScreen maxWidth="sm">
+        <Dialog open={open} onClose={close} fullScreen maxWidth="sm">
             <DialogTitle>
                 <Header
                     LeftComponent={{
-                        onClick: setOpen,
+                        onClick: close,
                     }}
                     pageConfig={{
                         headerTitle: `Detail gift card code: ${code}`,
@@ -90,4 +80,4 @@ const ModalDetail = ({
     );
 };
 
-export default ModalDetail;
+export default DetailView;

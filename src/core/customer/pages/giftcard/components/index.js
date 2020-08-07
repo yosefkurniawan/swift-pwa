@@ -10,21 +10,18 @@ import Button from '@common_button';
 import TextField from '@common_textfield';
 import { formatPrice } from '@helpers/currency';
 import { debuging } from '@config';
-import { getGiftCard } from '../services/graphql';
-import ModalDetail from './ModalDetail';
-import Loader from './Loader';
+import ModalDetail from './detail';
+import DetailView from './detail/view';
 import useStyles from './style';
+import Loader from './skeleton';
 
 const GiftCard = (props) => {
-    const { t, storeConfig } = props;
+    const {
+        t, storeConfig, openDetail, handleCloseDetail, selectedCode, handleOpenDetail, data, search, handleTextSearch, handleSearch,
+        error, loading,
+    } = props;
     const styles = useStyles();
-    const [open, setOpen] = React.useState(false);
-    const [selectedCode, setSelectedCode] = React.useState('');
-    const [search, setSearch] = React.useState({
-        value: '',
-        error: null,
-    });
-    const { loading, data, error } = getGiftCard();
+
     if (error) {
         return (
             <Alert className="m-15" severity="error">
@@ -33,33 +30,16 @@ const GiftCard = (props) => {
         );
     }
     if (loading || !data) return <Loader />;
-    const handleOpenModal = (code) => {
-        setSelectedCode(code);
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-        setSelectedCode('');
-    };
-    const handleTextSearch = (event) => {
-        setSearch({
-            value: event.target.value,
-            error: '',
-        });
-    };
-    const handleSearch = () => {
-        if (search.value === '' || !search.value) {
-            setSearch({
-                error: t('customer:giftCard:required'),
-                variant: '',
-            });
-        } else {
-            handleOpenModal(search.value);
-        }
-    };
     return (
         <div>
-            <ModalDetail t={t} storeConfig={storeConfig} open={open} setOpen={handleClose} code={selectedCode} />
+            <ModalDetail
+                t={t}
+                storeConfig={storeConfig}
+                open={openDetail}
+                close={handleCloseDetail}
+                code={selectedCode}
+                DetailView={DetailView}
+            />
             {data && data.customer.gift_card.length === 0 && (
                 <Alert className="m-15" severity="warning">
                     {t('customer:giftCard:notFound')}
@@ -68,7 +48,7 @@ const GiftCard = (props) => {
             <List>
                 {data
                     && data.customer.gift_card.map((item, index) => (
-                        <ListItem key={index} onClick={() => handleOpenModal(item.giftcard_code)}>
+                        <ListItem key={index} onClick={() => handleOpenDetail(item.giftcard_code)}>
                             <ListItemText primary={item.giftcard_code} />
                             <ListItemSecondaryAction>
                                 <Typography variant="span" type="bold">

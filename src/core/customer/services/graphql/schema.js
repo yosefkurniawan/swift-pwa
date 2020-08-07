@@ -213,3 +213,120 @@ export const getCmsBlocks = gql`
         }
     }
 `;
+
+export const getGiftCard = gql`
+    {
+        customer {
+            gift_card {
+                giftcard_code
+                giftcard_balance
+            }
+        }
+    }
+`;
+
+export const checkBalance = gql`
+   query checkBalance($gift_card_code: String!) {
+        giftCardAccount(input:{
+            gift_card_code: $gift_card_code
+        }){
+            code
+            balance
+            initial_balance
+            expiration_date
+        }
+    }
+`;
+
+export const updatedDefaultAddress = gql`
+    mutation updatedDefaultAddress($addressId: Int!, $street: String!) {
+        updateCustomerAddress(id: $addressId, input: { default_billing: true, default_shipping: true, street: [$street] }) {
+            id
+            city
+            default_billing
+            default_shipping
+        }
+    }
+`;
+
+export const updateCustomerAddress = gql`
+    mutation updateCustomerAddress(
+        $city: String!
+        $countryCode: CountryCodeEnum!
+        $customAttributes: [CustomerAddressAttributeInput]
+        $defaultBilling: Boolean!
+        $defaultShipping: Boolean!
+        $firstname: String!
+        $lastname: String!
+        $telephone: String!
+        $postcode: String!
+        $street: String!
+        $addressId: Int!
+        $region: String!
+        $regionCode: String
+        $regionId: Int
+    ) {
+        updateCustomerAddress(
+            id: $addressId
+            input: {
+                city: $city
+                country_code: $countryCode
+                country_id: $countryCode
+                custom_attributes: $customAttributes
+                default_billing: $defaultBilling
+                default_shipping: $defaultShipping
+                firstname: $firstname
+                lastname: $lastname
+                postcode: $postcode
+                street: [$street]
+                telephone: $telephone
+                region: { region: $region, region_code: $regionCode, region_id: $regionId }
+            }
+        ) {
+            id
+            city
+            default_billing
+            default_shipping
+        }
+    }
+`;
+
+export const createCustomerAddress = gql`
+    mutation createCustomerAddress(
+        $city: String!
+        $countryCode: CountryCodeEnum!
+        $customAttributes: [CustomerAddressAttributeInput]
+        $defaultBilling: Boolean!
+        $defaultShipping: Boolean!
+        $firstname: String!
+        $lastname: String!
+        $telephone: String!
+        $postcode: String!
+        $street: String!
+        $region: String!
+        $regionCode: String
+        $regionId: Int
+    ) {
+        createCustomerAddress(
+            input: {
+                city: $city
+                country_code: $countryCode
+                country_id: $countryCode
+                custom_attributes: $customAttributes
+                default_billing: $defaultBilling
+                default_shipping: $defaultShipping
+                firstname: $firstname
+                lastname: $lastname
+                postcode: $postcode
+                street: [$street]
+                telephone: $telephone
+                region: { region: $region, region_code: $regionCode, region_id: $regionId }
+            }
+        ) {
+            id
+            city
+            default_billing
+            default_shipping
+        }
+    }
+`;

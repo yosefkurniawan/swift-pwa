@@ -6,7 +6,7 @@ import AddressFormDialog from '@core/customer/plugins/AddressFormDialog';
 import React, { useState } from 'react';
 import _ from 'lodash';
 import useStyles from './style';
-import { createCustomerAddress, updateCustomerAddress } from '../services/graphql';
+import { createCustomerAddress, updateCustomerAddress } from '../../../services/graphql';
 
 const ItemAddress = (props) => {
     const {
@@ -20,50 +20,26 @@ const ItemAddress = (props) => {
         telephone = '',
         value = '',
         checked = false,
-        onSubmitAddress,
-        customAttributes,
+        handleAddress,
+        loadingAddress,
+        success,
         t,
         // eslint-disable-next-line no-unused-vars
     } = props;
     const [open, setOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
+    React.useEffect(() => {
+        if (open && success) {
+            setOpen(false);
+        }
+    }, [loadingAddress]);
     const styles = useStyles();
-    const [updateAddress] = updateCustomerAddress();
-    const [addAddress] = createCustomerAddress();
     return (
         <>
             <AddressFormDialog
                 {...props}
                 open={open}
-                onSubmitAddress={async (data, type) => {
-                    setLoading(true);
-
-                    if (!success) {
-                        if (type === 'update') {
-                            await updateAddress({
-                                variables: {
-                                    ...data,
-                                },
-                            });
-                        } else {
-                            await addAddress({
-                                variables: {
-                                    ...data,
-                                },
-                            });
-                        }
-                    }
-
-                    setSuccess(true);
-                    setLoading(false);
-
-                    _.delay(() => {
-                        setOpen(!open);
-                        onSubmitAddress();
-                    }, 1000);
-                }}
-                loading={loading}
+                onSubmitAddress={handleAddress}
+                loading={loadingAddress}
                 success={success}
                 setOpen={() => setOpen(!open)}
                 pageTitle={t('customer:address:editTitle')}
