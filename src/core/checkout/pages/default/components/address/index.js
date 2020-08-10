@@ -96,18 +96,34 @@ const Address = (props) => {
         const state = { ...checkout };
         state.loading.addresses = true;
         setCheckout(state);
+        let latitude = '';
+        let longitude = '';
+
+        // eslint-disable-next-line array-callback-return
+        selectedAddress.customAttributes.map((item) => {
+            if (item.attribute_code === 'latitude') {
+                latitude = item.value;
+            }
+            if (item.attribute_code === 'longitude') {
+                longitude = item.value;
+            }
+        });
 
         if (checkout.data.isGuest) {
             setShippingAddressByInput({
                 variables: {
                     cartId: cart.id,
                     ...selectedAddress,
+                    latitude,
+                    longitude,
                 },
             }).then(() => {
                 setBillingAddressByInput({
                     variables: {
                         cartId: cart.id,
                         ...selectedAddress,
+                        latitude,
+                        longitude,
                     },
                 }).then((resBilling) => {
                     updateAddressState(resBilling);
