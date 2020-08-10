@@ -24,3 +24,9 @@ export default Page;
 | :---        | :---     | :---        |:---  |
 | statusCode  | true    | object status error | Component |
 | Content     | true     | views component, you can use default component or custom | Component |
+
+# Properties sent to the component
+| Props       | Description | Type | Params to send |
+| :---        | :---        |:---  | :---  |
+| statusCode  | object status error | Number | - |
+| title       | handle title text | String | - |
