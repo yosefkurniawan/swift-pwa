@@ -1,5 +1,6 @@
 {
     "notification": "Notification",
+    "empty" : "You don't have any notifications",
     "notificationList": {
       "pageTitle" : "Notification List"
     },

@@ -34,7 +34,7 @@ const NotificationList = (props) => {
     return (
         <Layout pageConfig={pageConfig || config}>
             <Content
-                {...props}
+                t={t}
                 data={data}
                 localDateString={localDateString}
                 handleItemClick={handleItemClick}

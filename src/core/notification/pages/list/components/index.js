@@ -1,11 +1,22 @@
+/* eslint-disable react/no-unescaped-entities */
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@common_typography';
+import Alert from '@material-ui/lab/Alert/Alert';
 
 const NotificationList = (props) => {
-    const { data, handleItemClick, localDateString } = props;
-    console.log(data);
+    const {
+        t, data, handleItemClick, localDateString,
+    } = props;
+
+    if (data.customerNotificationList.items.length === 0) {
+        return (
+            <Alert severity="error">
+                {t('notification:empty')}
+            </Alert>
+        );
+    }
     return (
         <div className="container" style={{ paddingTop: 0 }}>
             <List>
