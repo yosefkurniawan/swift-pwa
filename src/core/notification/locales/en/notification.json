@@ -1,0 +1,10 @@
+{
+    "notification": "Notification",
+    "notificationList": {
+      "pageTitle" : "Notification List"
+    },
+    "notificationData": {
+      "pageTitle" : "Notification Data"
+    }
+  }
+  

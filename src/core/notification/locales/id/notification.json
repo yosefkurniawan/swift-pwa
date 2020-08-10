@@ -1,0 +1,10 @@
+{
+    "notification": "Pemberitahuan",
+    "notificationList": {
+      "pageTitle" : "Daftar Pemberitahuan"
+    },
+    "notificationData": {
+      "pageTitle" : "Data Pemberitahuan"
+    }
+  }
+  
