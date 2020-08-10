@@ -30,7 +30,7 @@ const Register = (props) => {
     const [disabled, setdisabled] = React.useState(false);
 
     const recaptchaRef = React.createRef();
-    const sitekey = process.env.NODE_ENV === 'production' ? recaptcha.siteKey.prod : recaptcha.siteKey.dev;
+    const sitekey = recaptcha.siteKey[process.env.APP_ENV] || recaptcha.siteKey.dev;
 
     let cartId = '';
 
