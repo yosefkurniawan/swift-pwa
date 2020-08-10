@@ -1,5 +1,5 @@
 import Skeleton from '@material-ui/lab/Skeleton';
-import useStyles from '../style';
+import useStyles from './style';
 
 export default () => {
     const styles = useStyles();

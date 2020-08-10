@@ -13,6 +13,11 @@ this module have sub module and plugins
 
 1. [Dashboard](pages/account/readme.md)
 2. [Setting](pages/setting/readme.md)
+3. [Gift Card](pages/giftcard/readme.md)
+4. [Profile](pages/profile/readme.md)
+5. [Wishlist](pages/wishlist/readme.md)
+6. [Address](pages/address/readme.md)
+6. [Forgot Password/ New Password](pages/newpassword/readme.md)
 
 # Plugins
 

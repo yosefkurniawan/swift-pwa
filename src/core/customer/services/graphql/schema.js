@@ -368,3 +368,57 @@ export const changeCustomerPassword = gql`
         }
     }
 `;
+
+export const addSimpleProductsToCart = gql`
+mutation addSimpleProductsToCart(
+    $cartId: String!,
+    $qty: Float!,
+    $sku: String!,
+) {
+    addSimpleProductsToCart(input:{
+      cart_id: $cartId,
+      cart_items: {
+        data: {
+          quantity: $qty,
+          sku: $sku
+        }
+      }
+    }) {
+      cart {
+        id
+        total_quantity
+      }
+    }
+  }
+`;
+
+export const removeWishlist = gql`
+    mutation removeWishlist($wishlistItemId: Int!) {
+        removeItemWishlist(wishlistItemId: $wishlistItemId) {
+            info
+        }
+    }
+`;
+
+export const getCartIdUser = gql`
+    {
+        customerCart {
+            id
+        }
+    }
+`;
+
+export const setNewPassword = gql`
+    mutation (
+        $password: String!,
+        $confirmPassword: String!,
+        $token: String!
+    ) {
+        setNewPassword(input: { 
+            password: $password, 
+            password_confirmation: $confirmPassword, 
+            token: $token }) {
+            info
+        }
+    }
+`;

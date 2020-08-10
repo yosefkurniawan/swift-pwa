@@ -1,13 +1,19 @@
-import Button from '@common_button';
-import Password from '@common_password';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import Layout from '@layout';
 import Router from 'next/router';
-import { newPassword } from './services/graphql';
-import useStyles from './style';
+import { newPassword } from '../../services/graphql';
 
-const ForgotPassword = ({ t, query: { token } }) => {
-    const styles = useStyles();
+const NewPassword = (props) => {
+    const {
+        t, Content, pageConfig, query: { token },
+    } = props;
+    const config = {
+        title: t('customer:newPassword:title'),
+        header: 'relative', // available values: "absolute", "relative", false (default)
+        headerTitle: t('customer:newPassword:title'),
+        bottomNav: false,
+    };
     const [disabled, setdisabled] = React.useState(false);
     const [setNewPassword] = newPassword();
     const formik = useFormik({
@@ -56,31 +62,10 @@ const ForgotPassword = ({ t, query: { token } }) => {
     });
 
     return (
-        <form className={styles.container} onSubmit={formik.handleSubmit}>
-            <Password
-                label="Password"
-                name="password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                error={!!formik.errors.password}
-                errorMessage={formik.errors.password || null}
-                showVisible
-                showPasswordMeter
-            />
-            <Password
-                label={t('common:form:confirm')}
-                className={styles.email}
-                name="confirmPassword"
-                value={formik.values.confirmPassword}
-                onChange={formik.handleChange}
-                error={!!formik.errors.confirmPassword}
-                errorMessage={formik.errors.confirmPassword || null}
-            />
-            <Button disabled={disabled} className={styles.btn} fullWidth type="submit">
-                {t('common:button:send')}
-            </Button>
-        </form>
+        <Layout pageConfig={pageConfig || config} {...props}>
+            <Content t={t} formik={formik} disabled={disabled} />
+        </Layout>
     );
 };
 
-export default ForgotPassword;
+export default NewPassword;

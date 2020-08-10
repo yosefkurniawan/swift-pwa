@@ -85,6 +85,28 @@ export const changeCustomerPassword = (options = {}) => useMutation(Schema.chang
     ...config,
 });
 
+export const addSimpleProductsToCart = () => useMutation(Schema.addSimpleProductsToCart, {
+    context: {
+        request: 'internal',
+    },
+});
+
+export const removeWishlist = () => useMutation(Schema.removeWishlist, {
+    context: {
+        request: 'internal',
+    },
+});
+
+export const getCustomerCartId = () => useLazyQuery(Schema.getCartIdUser, {
+    context: {
+        request: 'internal',
+    },
+    skip: typeof window === 'undefined',
+    fetchPolicy: 'no-cache',
+});
+
+export const newPassword = () => useMutation(Schema.setNewPassword);
+
 export default {
     getCountries, getCityByRegionId, customerNotificationList, getCustomer,
 };
