@@ -13,9 +13,9 @@ const Wishlist = (props) => {
     } = props;
 
     const config = {
-        title: t('wishlist:pageTitle'),
+        title: t('customer:wishlist:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle: t('wishlist:pageTitle'),
+        headerTitle: t('customer:wishlist:pageTitle'),
         bottomNav: false,
     };
     const [addToCart] = addSimpleProductsToCart();
@@ -76,7 +76,7 @@ const Wishlist = (props) => {
                         window.toastMessage({
                             open: true,
                             variant: 'success',
-                            text: t('wishlist:successAddCart'),
+                            text: t('customer:wishlist:successAddCart'),
                         });
                         refetch();
                     });
@@ -86,7 +86,7 @@ const Wishlist = (props) => {
                     window.toastMessage({
                         open: true,
                         variant: 'error',
-                        text: e.message.split(':')[1] || t('wishlist:failedAddCart'),
+                        text: e.message.split(':')[1] || t('customer:wishlist:failedAddCart'),
                     });
                 });
         }
@@ -104,7 +104,7 @@ const Wishlist = (props) => {
                 window.toastMessage({
                     open: true,
                     variant: 'success',
-                    text: t('wishlist:removeSuccess'),
+                    text: t('customer:wishlist:removeSuccess'),
                 });
                 refetch();
             })
@@ -113,7 +113,7 @@ const Wishlist = (props) => {
                 window.toastMessage({
                     open: true,
                     variant: 'error',
-                    text: e.message.split(':')[1] || t('wishlist:removeFailed'),
+                    text: e.message.split(':')[1] || t('customer:wishlist:removeFailed'),
                 });
             });
     };
@@ -155,9 +155,9 @@ const Wishlist = (props) => {
                 text: errorCart[0]
                     ? totalSucces > 0
                         // eslint-disable-next-line max-len
-                        ? `${t('wishlist:addPartToBagSuccess').split('$'[0])} ${totalSucces} ${t('wishlist:addPartToBagSuccess').split('$'[1])}`
+                        ? `${t('customer:wishlist:addPartToBagSuccess').split('$'[0])} ${totalSucces} ${t('customer:wishlist:addPartToBagSuccess').split('$'[1])}`
                         : errorCart[1] || t('product:failedAddCart')
-                    : t('wishlist:addAllToBagSuccess'),
+                    : t('customer:wishlist:addAllToBagSuccess'),
                 variant: errorCart[0] ? 'error' : 'success',
             });
         }, 3000);

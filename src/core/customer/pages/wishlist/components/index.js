@@ -20,7 +20,7 @@ const Content = (props) => {
         <div className={styles.root}>
             {wishlist.length === 0 && (
                 <Alert className="m-15" severity="warning">
-                    {t('wishlist:notFound')}
+                    {t('customer:wishlist:notFound')}
                 </Alert>
             )}
             <div className={styles.content}>
@@ -31,7 +31,7 @@ const Content = (props) => {
             <div className={styles.footer}>
                 <Button onClick={handleAddAlltoBag} disabled={loading || wishlist.length === 0} fullWidth>
                     <Typography variant="title" type="regular" letter="capitalize" color="white">
-                        {t('wishlist:addAllToBag')}
+                        {t('customer:wishlist:addAllToBag')}
                     </Typography>
                 </Button>
             </div>
