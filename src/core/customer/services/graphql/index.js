@@ -105,6 +105,8 @@ export const getCustomerCartId = () => useLazyQuery(Schema.getCartIdUser, {
     fetchPolicy: 'no-cache',
 });
 
+export const newPassword = () => useMutation(Schema.setNewPassword);
+
 export default {
     getCountries, getCityByRegionId, customerNotificationList, getCustomer,
 };
