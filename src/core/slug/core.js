@@ -1,4 +1,4 @@
-import Error from '@pages/error';
+import Error from '@core/error/pages/default';
 import { cmsPages } from '@root/swift.config.js';
 import { getResolver } from './services/graphql';
 

@@ -1,3 +1,3 @@
-import Page from '@pages/error';
+import Page from '@core/error/pages/default';
 
 export default Page;
