@@ -55,7 +55,9 @@ const languagesLabel = {
 const GTM = {
     enable: false,
     gtmId: {
+        local: '', // sample: GTM-N76V8KQ
         dev: '', // sample: GTM-N76V8KQ
+        stage: '', // sample: GTM-N76V8KQ
         prod: '', // sample: GTM-N76V8KQ
     },
 };
@@ -64,11 +66,15 @@ const GTM = {
 const recaptcha = {
     enable: false,
     siteKey: {
+        local: '', // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
         dev: '', // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
+        stage: '', // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
         prod: '', // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
     },
     serverKey: {
+        local: '', // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
         dev: '', // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
+        stage: '', // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
         prod: '', // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
     },
 };

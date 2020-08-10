@@ -2,52 +2,52 @@
     "exportFormatVersion": 2,
     "exportTime": "2020-05-19 06:32:58",
     "containerVersion": {
-        "path": "accounts/6001204293/containers/31416035/versions/0",
-        "accountId": "6001204293",
-        "containerId": "31416035",
+        "path": "accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>/versions/0",
+        "accountId": "<<@account_id>>",
+        "containerId": "<<@container_id>>",
         "containerVersionId": "0",
         "fingerprint": 1589869978,
-        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/6001204293/containers/31416035/versions/0?apiLink=version",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>/versions/0?apiLink=version",
         "container": {
-            "path": "accounts/6001204293/containers/31416035",
-            "accountId": "6001204293",
-            "containerId": "31416035",
+            "path": "accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>",
+            "accountId": "<<@ACCOUNT_ID>>",
+            "containerId": "<<@CONTAINER_ID>>",
             "name": "WeltPixel_GoogleTagManager_JsonExport",
-            "publicId": "GTM-K7BCH5C",
+            "publicId": "<<@gtm_id>>",
             "usageContext": [
                 "WEB"
             ],
             "fingerprint": 1589869978,
-            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6001204293/containers/31416035/workspaces?apiLink=container"
+            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/<<@ACCOUNT_ID>>/containers/<<@CONTAINER_ID>>/workspaces?apiLink=container"
         },
         "builtInVariable": [
             {
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "type": "PAGE_URL",
                 "name": "Page URL"
             },
             {
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "type": "PAGE_HOSTNAME",
                 "name": "Page Hostname"
             },
             {
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "type": "PAGE_PATH",
                 "name": "Page Path"
             },
             {
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "type": "REFERRER",
                 "name": "Referrer"
             },
             {
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "type": "EVENT",
                 "name": "Event"
             }
@@ -60,11 +60,11 @@
                     {
                         "type": "TEMPLATE",
                         "key": "value",
-                        "value": "UA-167092917-1"
+                        "value": "<<@UA_ID>>"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "variableId": 1,
                 "fingerprint": 1589869978
             },
@@ -88,8 +88,8 @@
                         "value": "eventLabel"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "variableId": 2,
                 "fingerprint": 1589869978
             },
@@ -113,8 +113,8 @@
                         "value": "eventValue"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "variableId": 3,
                 "fingerprint": 1589869978
             },
@@ -138,8 +138,8 @@
                         "value": "customerId"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "variableId": 4,
                 "fingerprint": 1589869978
             },
@@ -163,8 +163,8 @@
                         "value": "customerGroup"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "variableId": 5,
                 "fingerprint": 1589869978
             },
@@ -188,8 +188,8 @@
                         "value": "pageName"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "variableId": 6,
                 "fingerprint": 1589869978
             },
@@ -213,8 +213,8 @@
                         "value": "pageType"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "variableId": 7,
                 "fingerprint": 1589869978
             },
@@ -238,8 +238,8 @@
                         "value": "dimension4"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "variableId": 8,
                 "fingerprint": 1589869978
             },
@@ -263,8 +263,8 @@
                         "value": "dimension5"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "variableId": 9,
                 "fingerprint": 1589869978
             },
@@ -288,8 +288,8 @@
                         "value": "dimension6"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "variableId": 10,
                 "fingerprint": 1589869978
             },
@@ -313,8 +313,8 @@
                         "value": "dimension7"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "variableId": 11,
                 "fingerprint": 1589869978
             }
@@ -340,16 +340,16 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 1,
                 "fingerprint": 1589869978
             },
             {
                 "name": "PWA - gtm.dom",
                 "type": "DOM_READY",
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 2,
                 "fingerprint": 1589869978
             },
@@ -373,8 +373,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 3,
                 "fingerprint": 1589869978
             },
@@ -398,16 +398,16 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 4,
                 "fingerprint": 1589869978
             },
             {
                 "name": "PWA - All Pages",
                 "type": "PAGEVIEW",
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 5,
                 "fingerprint": 1589869978
             },
@@ -431,8 +431,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 6,
                 "fingerprint": 1589869978
             },
@@ -456,8 +456,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 7,
                 "fingerprint": 1589869978
             },
@@ -481,8 +481,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 8,
                 "fingerprint": 1589869978
             },
@@ -506,8 +506,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 9,
                 "fingerprint": 1589869978
             },
@@ -531,8 +531,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 10,
                 "fingerprint": 1589869978
             },
@@ -556,8 +556,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 11,
                 "fingerprint": 1589869978
             },
@@ -581,8 +581,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 12,
                 "fingerprint": 1589869978
             },
@@ -606,8 +606,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 13,
                 "fingerprint": 1589869978
             },
@@ -631,8 +631,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 14,
                 "fingerprint": 1589869978
             },
@@ -656,8 +656,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 15,
                 "fingerprint": 1589869978
             },
@@ -681,8 +681,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 16,
                 "fingerprint": 1589869978
             },
@@ -706,8 +706,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 17,
                 "fingerprint": 1589869978
             },
@@ -731,8 +731,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 18,
                 "fingerprint": 1589869978
             },
@@ -756,8 +756,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 19,
                 "fingerprint": 1589869978
             },
@@ -781,8 +781,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 20,
                 "fingerprint": 1589869978
             },
@@ -806,8 +806,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 21,
                 "fingerprint": 1589869978
             },
@@ -831,8 +831,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": 22,
                 "fingerprint": 1589869978
             }
@@ -984,8 +984,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 1,
                 "fingerprint": 1589869978
             },
@@ -1200,8 +1200,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 2,
                 "fingerprint": 1589869978
             },
@@ -1421,8 +1421,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 3,
                 "fingerprint": 1589869978
             },
@@ -1572,8 +1572,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 4,
                 "fingerprint": 1589869978
             },
@@ -1794,8 +1794,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 5,
                 "fingerprint": 1589869978
             },
@@ -1915,8 +1915,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 6,
                 "fingerprint": 1589869978
             },
@@ -2036,8 +2036,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 7,
                 "fingerprint": 1589869978
             },
@@ -2172,8 +2172,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 8,
                 "fingerprint": 1589869978
             },
@@ -2308,8 +2308,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 9,
                 "fingerprint": 1589869978
             },
@@ -2504,8 +2504,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 10,
                 "fingerprint": 1589869978
             },
@@ -2700,8 +2700,8 @@
                         ]
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 11,
                 "fingerprint": 1589869978
             },
@@ -2749,8 +2749,8 @@
                         "value": "{{PWA - UA Tracking ID}}"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 12,
                 "fingerprint": 1589869978
             },
@@ -2798,8 +2798,8 @@
                         "value": "{{PWA - UA Tracking ID}}"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 13,
                 "fingerprint": 1589869978
             },
@@ -2847,8 +2847,8 @@
                         "value": "{{PWA - UA Tracking ID}}"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 14,
                 "fingerprint": 1589869978
             },
@@ -2896,8 +2896,8 @@
                         "value": "{{PWA - UA Tracking ID}}"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 15,
                 "fingerprint": 1589869978
             },
@@ -2945,8 +2945,8 @@
                         "value": "{{PWA - UA Tracking ID}}"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 16,
                 "fingerprint": 1589869978
             },
@@ -2994,8 +2994,8 @@
                         "value": "{{PWA - UA Tracking ID}}"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 17,
                 "fingerprint": 1589869978
             },
@@ -3043,8 +3043,8 @@
                         "value": "{{PWA - UA Tracking ID}}"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 18,
                 "fingerprint": 1589869978
             },
@@ -3092,8 +3092,8 @@
                         "value": "{{PWA - UA Tracking ID}}"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 19,
                 "fingerprint": 1589869978
             },
@@ -3141,8 +3141,8 @@
                         "value": "{{PWA - UA Tracking ID}}"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 20,
                 "fingerprint": 1589869978
             },
@@ -3190,8 +3190,8 @@
                         "value": "{{PWA - UA Tracking ID}}"
                     }
                 ],
-                "accountId": "6001204293",
-                "containerId": "31416035",
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": 21,
                 "fingerprint": 1589869978
             }
