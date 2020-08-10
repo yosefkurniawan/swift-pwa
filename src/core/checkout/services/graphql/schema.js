@@ -269,6 +269,8 @@ export const setShippingAddressByInput = gql`
         $postcode: String!
         $street: String!
         $region: String!
+        $latitude: String
+        $longitude: String
     ) {
         setShippingAddressesOnCart(
             input: {
@@ -283,6 +285,8 @@ export const setShippingAddressByInput = gql`
                         region: $region
                         street: [$street]
                         postcode: $postcode
+                        latitude: $latitude
+                        longitude: $longitude
                         save_in_address_book: true
                     }
                 }
@@ -316,6 +320,8 @@ export const setBillingAddressByInput = gql`
         $postcode: String!
         $street: String!
         $region: String!
+        $latitude: String
+        $longitude: String
     ) {
         setBillingAddressOnCart(
             input: {
@@ -331,6 +337,8 @@ export const setBillingAddressByInput = gql`
                         region: $region
                         street: [$street]
                         postcode: $postcode
+                        latitude: $latitude
+                        longitude: $longitude
                         save_in_address_book: true
                     }
                 }
