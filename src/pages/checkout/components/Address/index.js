@@ -104,15 +104,17 @@ const Address = (props) => {
         let latitude = '';
         let longitude = '';
 
-        // eslint-disable-next-line array-callback-return
-        selectedAddress.customAttributes.map((item) => {
-            if (item.attribute_code === 'latitude') {
-                latitude = item.value;
-            }
-            if (item.attribute_code === 'longitude') {
-                longitude = item.value;
-            }
-        });
+        // eslint-disable-next-line no-unused-expressions
+        selectedAddress.customAttributes && selectedAddress.customAttributes.length > 0
+            // eslint-disable-next-line array-callback-return
+            && selectedAddress.customAttributes.map((item) => {
+                if (item.attribute_code === 'latitude') {
+                    latitude = item.value;
+                }
+                if (item.attribute_code === 'longitude') {
+                    longitude = item.value;
+                }
+            });
 
         if (checkout.data.isGuest) {
             setShippingAddressByInput({
