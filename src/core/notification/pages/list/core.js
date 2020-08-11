@@ -4,7 +4,7 @@ import { customerNotificationList } from '../../services/graphql';
 
 const NotificationList = (props) => {
     const {
-        t, Content, pageConfig, Skeleton,
+        t, Content, pageConfig,
     } = props;
     const config = {
         title: t('notification:notificationList:pageTitle'),
@@ -13,10 +13,6 @@ const NotificationList = (props) => {
         bottomNav: false,
     };
     const { loading, data, error } = customerNotificationList();
-
-    if (loading) return <Layout pageConfig={pageConfig || config}><Skeleton /></Layout>;
-    if (error) return <p>{`Error: ${error.message}`}</p>;
-    if (!data) return <p>Not found</p>;
 
     const localDateString = (stringTime) => new Date(stringTime).toLocaleDateString(
         {},
@@ -38,6 +34,8 @@ const NotificationList = (props) => {
                 data={data}
                 localDateString={localDateString}
                 handleItemClick={handleItemClick}
+                loading={loading}
+                error={error}
             />
         </Layout>
     );
