@@ -1,29 +1,39 @@
-/* eslint-disable consistent-return */
 /* eslint-disable array-callback-return */
-import Typography from '@common_typography';
-import Button from '@common_button';
-import Link from 'next/link';
+/* eslint-disable consistent-return */
+import Layout from '@layout';
 import TagManager from 'react-gtm-module';
-import Alert from '@material-ui/lab/Alert';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import Router from 'next/router';
 import { debuging } from '@config';
-import { getOrder } from './services/graphql';
-import Loader from './Loader';
-import useStyles from './style';
+import { getOrder } from '../../services/graphql';
 
-const ThanksPage = (props) => {
+const PageStoreCredit = (props) => {
     const {
-        t,
-        isLogin,
-        storeConfig,
-        checkoutData,
+        t, Content, pageConfig, checkoutData, storeConfig, Skeleton, ErrorInfo,
     } = props;
-    const styles = useStyles();
+    const config = {
+        title: t('thanks:title'),
+        headerTitle: t('thanks:title'),
+        bottomNav: false,
+        pageType: 'purchase',
+        ...pageConfig,
+    };
     let ordersFilter = {
         data: [],
     };
     const { data, loading, error } = getOrder(checkoutData);
+    if (loading || !data) return <Skeleton />;
+    if (error) {
+        return (
+            <ErrorInfo variant="error" text={debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')} />
+        );
+    }
+    if (data && data.ordersFilter) ordersFilter = data.ordersFilter;
+    const handleCotinue = () => {
+        const cdt = getCheckoutData();
+        if (cdt) removeCheckoutData();
+        Router.push('/');
+    };
 
     React.useEffect(() => {
         if (ordersFilter.data.length > 0) {
@@ -75,57 +85,16 @@ const ThanksPage = (props) => {
         }
     }, []);
 
-    if (loading || !data) return <Loader />;
-    if (error) {
-        return (
-            <div className={styles.container}>
-                <Alert className="m-15" severity="error">
-                    {debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')}
-                </Alert>
-            </div>
-        );
-    }
-    if (data && data.ordersFilter) ordersFilter = data.ordersFilter;
-    const handleCotinue = () => {
-        const cdt = getCheckoutData();
-        if (cdt) removeCheckoutData();
-        Router.push('/');
-    };
     return (
-        <div className={styles.container}>
-            <Typography variant="h1" type="bold" align="center">
-                {t('checkout:thanks')}
-                {' '}
-                <br />
-                {t('checkout:forOrder')}
-            </Typography>
-            <Typography variant="span" align="center">
-                {t('checkout:thanksDetail')}
-            </Typography>
-            <Typography variant="span" align="center">
-                {t('checkout:yourOrderId')}
-            </Typography>
-            <Typography variant="title" type="bold" align="center">
-                {checkoutData.order_number}
-            </Typography>
-            {isLogin && isLogin === 1 ? (
-                <Link href="/sales/order/view/order_id/[id]" as={`/sales/order/view/order_id/${checkoutData.order_number}`}>
-                    <a>
-                        <Typography variant="span" type="regular" letter="capitalize" decoration="underline">
-                            {t('checkout:checkOrder')}
-                        </Typography>
-                    </a>
-                </Link>
-            ) : null}
-            <div className={styles.footer}>
-                <Button className={styles.btnContinue} color="primary" onClick={handleCotinue}>
-                    <Typography variant="title" type="regular" letter="capitalize" className={styles.textBtn}>
-                        {t('checkout:continue')}
-                    </Typography>
-                </Button>
-            </div>
-        </div>
+        <Layout pageConfig={config}>
+            <Content
+                t={t}
+                handleCotinue={handleCotinue}
+                ordersFilter={ordersFilter}
+                checkoutData={checkoutData}
+            />
+        </Layout>
     );
 };
 
-export default ThanksPage;
+export default PageStoreCredit;
