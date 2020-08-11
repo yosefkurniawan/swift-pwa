@@ -1,22 +1,20 @@
-import Layout from '@layout';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import { getCheckoutDataFromRequest } from '@helpers/cookies';
 import redirect from 'next-redirect';
-import Content from './component';
+import Core from './core';
+import Skeleton from './components/Loader';
+import Content from './components';
+import ErrorInfo from './components/ErrorInfo';
 
-const Page = (props) => {
-    const pageConfig = {
-        title: 'Success Page',
-        bottomNav: false,
-        pageType: 'purchase',
-    };
-    return (
-        <Layout pageConfig={pageConfig} {...props}>
-            <Content {...props} />
-        </Layout>
-    );
-};
+const Page = (props) => (
+    <Core
+        Skeleton={Skeleton}
+        Content={Content}
+        ErrorInfo={ErrorInfo}
+        {...props}
+    />
+);
 
 Page.getInitialProps = async (ctx) => {
     const checkoutData = getCheckoutDataFromRequest(ctx);
@@ -24,7 +22,7 @@ Page.getInitialProps = async (ctx) => {
     return {
         query: ctx.query,
         checkoutData,
-        namespacesRequired: ['common', 'checkout'],
+        namespacesRequired: ['common', 'thanks'],
     };
 };
 
