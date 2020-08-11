@@ -50,18 +50,18 @@ const routeMiddleware = (params) => {
         if (!allow) {
             if (query.redirect && query.redirect !== '') {
                 if (typeof window !== 'undefined') {
-                    removeLastPathWithoutLogin();
                     Router.push(query.redirect);
+                    removeLastPathWithoutLogin();
                 } else {
-                    setLastPathNoAuth(req, '');
                     res.redirect(query.redirect);
+                    setLastPathNoAuth(req, '');
                 }
             } else if (typeof window !== 'undefined') {
-                removeLastPathWithoutLogin();
                 Router.push(lastPathNoAuth);
+                removeLastPathWithoutLogin();
             } else {
-                setLastPathNoAuth(req, '');
                 res.redirect(lastPathNoAuth);
+                setLastPathNoAuth(req, '');
             }
         } else {
             typeof window !== 'undefined' ? removeLastPathWithoutLogin() : setLastPathNoAuth(req, '');
