@@ -26,6 +26,9 @@ export default Page;
 | Content     | true     | views component, you can use default component or custom | Component |
 
 # Properties sent to the component
+
+1. Content
+
 | Props       | Description | Type | Params to send |
 | :---        | :---        |:---  | :---  |
 | statusCode  | object status error | Number | - |
