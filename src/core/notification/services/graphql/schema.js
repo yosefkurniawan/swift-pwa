@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { gql } from 'apollo-boost';
 
 const notificationOutput = `
@@ -10,7 +11,16 @@ const notificationOutput = `
     }
     totalUnread
 `;
-const readNotification = gql`
+
+export const customerNotificationList = gql`
+    query customerNotificationList {
+        customerNotificationList {
+            ${notificationOutput}
+        }
+    }
+`;
+
+export const readNotification = gql`
     mutation readNotification (
         $entityId: Int!
     ) {
@@ -22,4 +32,7 @@ const readNotification = gql`
     }
 `;
 
-export default { readNotification };
+export default {
+    customerNotificationList,
+    readNotification,
+};
