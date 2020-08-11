@@ -59,6 +59,7 @@ main {
 
 .pac-container {
     z-index: 3333;
+    background-color: #ffffff;
 }
 a {
     text-decoration: none;

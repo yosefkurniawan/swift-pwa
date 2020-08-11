@@ -10,6 +10,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CustomTextField from '@common_textfield';
 import clsx from 'clsx';
 import Typography from '@common_typography';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import useStyles from './style';
 
 const AddressView = (props) => {
@@ -27,6 +28,7 @@ const AddressView = (props) => {
         [styles.addBtnSuccess]: success,
         [styles.addBtn]: !success,
     });
+    const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('md'));
 
     const getRegionRender = () => {
         if (_.isArray(addressState.dropdown.region) && open) {
@@ -153,7 +155,7 @@ const AddressView = (props) => {
     };
 
     return (
-        <Dialog fullScreen open={open} className={[styles.address_drawer].join(' ')}>
+        <Dialog open={open} className={[styles.address_drawer].join(' ')} maxWidth="sm" fullWidth={!!isDesktop} fullScreen={!isDesktop}>
             <div className={styles.container}>
                 <Header
                     pageConfig={headerConfig}
@@ -163,6 +165,7 @@ const AddressView = (props) => {
                             setOpen();
                         },
                     }}
+                    className={styles.pageTitle}
                 />
                 <div className={[styles.address_form].join(' ')}>
                     <form onSubmit={formik.handleSubmit} autoComplete="off">
@@ -206,8 +209,8 @@ const AddressView = (props) => {
                                 onChange={(event, newValue) => {
                                     const state = { ...addressState };
                                     state.dropdown.region = newValue ? newValue.available_regions : null;
-                                    state.dropdown.region = !state.dropdown.region
-                                        || state.dropdown.region.map((item) => ({ ...item, label: item.name }));
+                                    state.dropdown.region = !state.dropdown.region || state.dropdown.region.map((item) => (
+                                        { ...item, label: item.name }));
                                     state.dropdown.city = null;
 
                                     setAddressState(state);

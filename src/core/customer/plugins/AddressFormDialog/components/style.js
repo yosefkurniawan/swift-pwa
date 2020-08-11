@@ -25,13 +25,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'white',
     },
     pageTitle: {
-        fontWeight: 700,
-        textAlign: 'center',
-        color: PRIMARY,
-        textTransform: 'uppercase',
-        position: 'absolute',
-        left: '50px',
-        right: '50px',
+        marginBottom: 0,
     },
     address_shipping: {
         ...CreatePadding(15, 15, 15, 15),
@@ -78,12 +72,15 @@ const useStyles = makeStyles((theme) => ({
         textTransform: 'uppercase',
     },
     address_drawer: {
-        backgroundColor: 'white',
         left: 0,
         width: '100%',
     },
     address_form: {
         padding: '15px',
+        overflowY: 'auto',
+        [theme.breakpoints.up('sm')]: {
+            height: '80vh',
+        },
     },
     form_input: {
         marginBottom: '25px',
