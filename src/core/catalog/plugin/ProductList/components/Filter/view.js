@@ -1,7 +1,7 @@
 import Typography from '@common_typography';
 import Button from '@common_button';
 import Tune from '@material-ui/icons/Tune';
-import useStyles from '../../style';
+import useStyles from '../style';
 
 const FilterView = (props) => {
     const {
@@ -16,7 +16,12 @@ const FilterView = (props) => {
                 {t('catalog:product:name')}
             </Typography>
             <div className={styles.filterBtnContainer}>
-                <Button variant="text" customRootStyle={{ width: 'fit-content' }} className={styles.btnFilter} onClick={() => setOpenFilter(true)}>
+                <Button
+                    variant="text"
+                    customRootStyle={{ width: 'fit-content' }}
+                    className={styles.btnFilter}
+                    onClick={() => setOpenFilter(true)}
+                >
                     <Tune className={styles.iconFilter} />
                 </Button>
                 <Typography type="bold" variant="span" letter="capitalize">

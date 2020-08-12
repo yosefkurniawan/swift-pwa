@@ -6,8 +6,8 @@ import ImageProductView from '../ProductItem/components/Image';
 import DetailProductView from '../ProductItem/components/Detail';
 import ListColorView from './components/ListColor';
 import ListSizeView from './components/ListSize';
-import FilterView from './components/Filter/view/FilterViews';
-import FilterModalView from './components/Filter/view/FilterDialog';
+import FilterView from './components/Filter/view';
+import FilterModalView from './components/Filter/FilterDialog';
 
 const Page = (props) => (
     <CoreBase
