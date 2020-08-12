@@ -233,6 +233,9 @@ const modules = {
             },
         },
     },
+    thanks: {
+        enable: true,
+    },
 };
 
 const nossrCache = [
