@@ -120,6 +120,7 @@ export default withApollo({ ssr: true })(withTranslation()(Page));
 | RewardPointView| true | template handle reward point | Function  Component|
 | StoreCreditView| true | template handle store credit | Function  Component|
 | config | false | config checkout module value| Object|
+|Content| true | components to render all components & view | components|
 
 ## example configuration props `config`
 
