@@ -236,6 +236,20 @@ const modules = {
     thanks: {
         enable: true,
     },
+    home: {
+        enable: true,
+        featuresProduct: {
+            enable: true,
+            url_key: 'homepage-featured-products',
+        },
+        categoryList: {
+            enable: true,
+            url_key: 'homepage-featured-categories',
+        },
+        bannerSlider: {
+            enable: true,
+        },
+    },
 };
 
 const nossrCache = [

@@ -1,11 +1,11 @@
 import Layout from '@layout';
-import { withTranslation } from '@i18n';
-import { withApollo } from '@lib/apollo';
 import { getHost } from '@helpers/config';
-import Content from './component';
 
-const Page = (props) => {
-    const { storeConfig } = props;
+const HomeCore = (props) => {
+    const {
+        Content, pageConfig, storeConfig, ...other
+    } = props;
+
     const schemaOrg = [
         {
             '@context': 'https://schema.org',
@@ -24,20 +24,21 @@ const Page = (props) => {
             }],
         },
     ];
-    const pageConfig = {
+
+    const config = {
         title: storeConfig.default_title,
         header: false, // available values: "absolute", "relative", false (default)
         bottomNav: 'home',
         pageType: 'home',
         schemaOrg,
+        ...pageConfig,
     };
+
     return (
-        <Layout pageConfig={pageConfig} {...props}>
-            <Content {...props} />
+        <Layout pageConfig={config} {...other}>
+            <Content storeConfig={storeConfig} {...other} />
         </Layout>
     );
 };
 
-Page.getInitialProps = async () => ({ namespacesRequired: ['common', 'home'] });
-
-export default withApollo({ ssr: true })(withTranslation()(Page));
+export default HomeCore;

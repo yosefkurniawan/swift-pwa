@@ -9,7 +9,7 @@ import { getOrder } from '../../services/graphql';
 
 const PageStoreCredit = (props) => {
     const {
-        t, Content, pageConfig, checkoutData, storeConfig, Skeleton, ErrorInfo,
+        t, Content, pageConfig, checkoutData, storeConfig, Skeleton, ErrorInfo, ...other
     } = props;
     const config = {
         title: t('thanks:title'),
@@ -86,7 +86,7 @@ const PageStoreCredit = (props) => {
     }, []);
 
     return (
-        <Layout pageConfig={config}>
+        <Layout {...other} pageConfig={config}>
             <Content
                 t={t}
                 handleCotinue={handleCotinue}
