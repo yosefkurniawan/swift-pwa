@@ -21,8 +21,7 @@ const Page = (props) => {
             ogContent.description = StripHtmlTags(data.categoryList[0].description);
         }
     }
-    const defaultConfig = {
-        ...pageConfig,
+    const config = {
         title: loading ? '' : data.categoryList[0].name,
         headerTitle: data && !data.categoryList[0].image_path ? data.categoryList[0].name : '',
         header: data && data.categoryList[0].image_path ? 'absolute' : 'relative', // available values: "absolute", "relative", false (default)
@@ -31,9 +30,15 @@ const Page = (props) => {
         ogContent,
         schemaOrg,
     };
-    if (loading) return <SkeletonView />;
+    if (loading) {
+        return (
+            <Layout {...props} pageConfig={config}>
+                <SkeletonView />
+            </Layout>
+        );
+    }
     return (
-        <Layout {...props} pageConfig={defaultConfig}>
+        <Layout {...props} pageConfig={config || pageConfig}>
             <Content categoryId={categoryId} storeConfig={storeConfig} data={data} {...other} />
         </Layout>
     );
