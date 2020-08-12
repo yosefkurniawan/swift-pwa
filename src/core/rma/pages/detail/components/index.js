@@ -112,9 +112,7 @@ const DetailReturn = (props) => {
         };
         if (formData.custom_fields.length > 0) variables.custom_fields = formData.custom_fields;
         if (formData.message !== '') variables.thread_message = { text: formData.message, attachments: [] };
-        if (formData.message !== '' && formData.attachments.length > 0) {
-            variables.thread_message = { text: formData.message, attachments: formData.attachments };
-        }
+        variables.thread_message = { text: formData.message, attachments: formData.attachments };
         postUpdateRma({
             variables: {
                 ...variables,
