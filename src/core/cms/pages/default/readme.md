@@ -4,7 +4,7 @@ This is a cms module that handle display cms page.
 
 # How to install
 
-`contact page` must directly from module `slug`, to get url cms page. 
+`cms page` must directly from module `slug`, to get url cms page. 
 Detail about `slug` at [here](../../slug/readme.md)
 
 # Components
