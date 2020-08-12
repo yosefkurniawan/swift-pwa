@@ -2,7 +2,7 @@ import Layout from '@layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { regexPhone } from '@helpers/regex';
-import { cmsContactIdentifiers, recaptcha, debuging } from '@config';
+import { cmsContactIdentifiers, recaptcha } from '@config';
 import { GraphCms } from '@services/graphql';
 import gqlService from '../../services/graphql';
 
@@ -107,7 +107,6 @@ const Contact = (props) => {
                 handleChangeCaptcha={handleChangeCaptcha}
                 formik={formik}
                 error={error}
-                debuging={debuging}
                 message={message}
                 sitekey={sitekey}
                 loading={loading}
