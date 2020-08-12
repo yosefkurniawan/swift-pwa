@@ -1,3 +1,3 @@
-import Page from '@pages/contact';
+import Page from '@core/contact/pages/default';
 
 export default Page;
