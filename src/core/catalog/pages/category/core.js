@@ -1,12 +1,11 @@
 import Layout from '@layout';
 import { StripHtmlTags } from '@helpers/text';
-import Content from './components';
 import { getCategory } from '../../services/graphql';
 import generateSchemaOrg from '../../helpers/schema.org';
 
 const Page = (props) => {
     const {
-        categoryId, storeConfig, SkeletonView, pageConfig = {}, ...other
+        Content, categoryId, storeConfig, SkeletonView, pageConfig = {}, ...other
     } = props;
     const { loading, data } = getCategory({
         productSize: 20,

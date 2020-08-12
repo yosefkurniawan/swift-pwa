@@ -1,6 +1,6 @@
 import React from 'react';
-import Product from '@common_productlist';
-import useStyles from '../style';
+import Product from '@core/catalog/plugin/ProductList';
+import useStyles from './style';
 
 const SearchResult = ({ storeConfig, t }) => {
     const styles = useStyles();

@@ -1,14 +1,12 @@
-import { withTranslation } from '@i18n';
-import { withApollo } from '@lib/apollo';
 import Layout from '@layout';
 import { useRouter } from 'next/router';
 import getQueryFromPath from '@helpers/generateQuery';
 import { getHost } from '@helpers/config';
-import Component from './components';
+import PropTypes from 'prop-types';
 
-const Page = (props) => {
+const SearchResult = (props) => {
     const router = useRouter();
-    const { storeConfig } = props;
+    const { storeConfig, Content } = props;
     const { query } = getQueryFromPath(router);
     const schemaOrg = [
         {
@@ -37,13 +35,13 @@ const Page = (props) => {
     };
     return (
         <Layout pageConfig={pageConfig} {...props}>
-            <Component {...props} />
+            <Content {...props} />
         </Layout>
     );
 };
 
-Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'search', 'product'],
-});
+SearchResult.propTypes = {
+    Content: PropTypes.func.isRequired,
+};
 
-export default withApollo({ ssr: true })(withTranslation()(Page));
+export default SearchResult;
