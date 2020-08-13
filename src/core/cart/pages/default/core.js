@@ -25,7 +25,7 @@ const getCrossSellProduct = (items) => {
 
 const Cart = (props) => {
     const {
-        t, token, isLogin, ItemView, CrossSellView, EmptyView, SkeletonView, CheckoutDrawerView, EditDrawerView, pageConfig,
+        t, token, isLogin, EmptyView, SkeletonView, pageConfig, Content, ...other
     } = props;
     const [editMode, setEditMode] = useState(false);
     const [editItem, setEditItem] = useState({});
@@ -259,22 +259,25 @@ const Cart = (props) => {
     crosssell = getCrossSellProduct(dataCart.items);
 
     if (dataCart.id && dataCart.items.length > 0) {
+        const contentProps = {
+            dataCart,
+            t,
+            handleFeed,
+            toggleEditMode,
+            editMode,
+            deleteItem,
+            toggleEditDrawer,
+            crosssell,
+            editItem,
+            openEditDrawer,
+            updateItem,
+        };
         return (
             <Layout pageConfig={config || pageConfig} {...props}>
-                <ItemView
-                    data={dataCart}
-                    t={t}
-                    toggleEditMode={toggleEditMode}
-                    editMode={editMode}
-                    deleteItem={deleteItem}
-                    handleFeed={handleFeed}
-                    toggleEditDrawer={toggleEditDrawer}
+                <Content
+                    {...contentProps}
+                    {...other}
                 />
-                <CrossSellView {...props} editMode={editMode} data={crosssell} />
-                {editItem.id ? (
-                    <EditDrawerView {...props} {...editItem} open={openEditDrawer} toggleOpen={toggleEditDrawer} updateItem={updateItem} />
-                ) : null}
-                <CheckoutDrawerView editMode={editMode} t={t} data={dataCart} />
             </Layout>
         );
     }

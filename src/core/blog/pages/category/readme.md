@@ -1,19 +1,19 @@
-#### | Blog modules documentations pages `landing`
+#### | Blog modules documentations pages `category`
 # Description
-This documentation page landing module `blog`.
-Module `landing page` can be installed with custom template or default template
+This documentation page category module `blog`.
+Module `category page` can be installed with custom template or default template
 if you don't need custom, you can import it directly from the default modules. <br>
-this module under directory `@modules/blog/landing`
+this module under directory `@modules/blog/pages/category`
 
 
 ## Use default template and no overide
-### 1. Make route under root `pages` 
-example `{pages}/blog/index.js`
-### 2. import default components on route file 
+####1. Make dynamic route under root `pages` 
+example `{pages}/blog/category/[id].js`
+####2. import default components on route file 
 example
 
 ```node
-import Page from '@core/blog/landing/default';  // use point to default components module
+import Page from '@core/blog/pages/category/index.js';  // use point to default components module
 
 export default Page;
 
@@ -22,13 +22,13 @@ export default Page;
 
 ## Use Custom Components
 
-### 1. Make route under root `pages` 
-example `{pages}/blog/index.js`
+### 1. Make dinamyc route under root `pages` 
+example `{pages}/blog/category/[id].js`
 ### 2. import default components on route file 
 example
 
 ```node
-import Page from '@pages/blog/landing';     //point to your custom page components
+import Page from '@pages/blog/category';     //point to your custom page components
 
 export default Page;
 
@@ -36,7 +36,7 @@ export default Page;
 
 ### 3. import core modules
 ```node
-import CoreBase from '@core/blog/landing/core'; // must import and uses core base
+import CoreBase from '@core/blog/pages/category/core'; // must import and uses core base
 ....... 
 // write other code
 ```
@@ -44,9 +44,10 @@ import CoreBase from '@core/blog/landing/core'; // must import and uses core bas
 ### 4. if not all custom you can import component on module
 
 ```node
-// for example loader skeleton uses default
-
-import Loader from '@core/views/Loader/LoaderList';
+// for example Skeleton skeleton uses default
+....
+import Skeleton from '@corecomponents/Skeleton';
+....
 
 ```
 
@@ -60,9 +61,9 @@ import Loader from '@core/views/Loader/LoaderList';
 import React from 'react';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import CoreBase from '@core/blog/landing/core'; // must import and uses core base
+import CoreBase from '@core/blog/category/core'; // must import and uses core base
 import DefaultContent from '@core/blog/views/Landing';  //import your custom layout content
-import Loader from '@core/blog//views/Loader/LoaderList'; //import your loader component
+import Skeleton from '@core/blog/components/Skeleton'; //import your Skeleton component
 import WarningInfo from '@core/blog//views/Info'; // import your warning/ alert info eror component
 import ContentCategory from '@core/blog//views/ModalCategory'; // import your category list component
 import ContentItem from '@core/blog//views/Details'; // import your item list components
@@ -80,7 +81,7 @@ const Page = (props) => {
             Content={DefaultContent}
             ContentCategory={ContentCategory}
             ContentItem={ContentItem}
-            Loader={Loader}
+            Skeleton={Skeleton}
             WarningInfo={WarningInfo}
             pageConfig={pageConfig}
             {...props}
@@ -108,7 +109,7 @@ export default withApollo({ ssr: true })(withTranslation()(Page));
 | Props       | Required | Description | Type |
 | :---        | :---     | :---        |:---  |
 | `WarningInfo`  |  `false`   | Component Alert/Warning Info     | `Component`|
-| `Loader`  |  `false`   | Component Loader view     | `Component`|
+| `Skeleton`  |  `false`   | Component Skeleton view     | `Component`|
 | `pageConfig`  |  `false`   | Object configuration from component `Layout`    | `Object`|
 | `Content`  |  `true`   | Component Content (for List view blog)     | `Component`|
 | `ContentCategory`  |  `true`   | Component for list category can be modal or list     | `Component`|
@@ -160,7 +161,6 @@ const pageConfig = {
 | Props       |  Description | Type |
 | :---         |:---        |:---  |
 | `loadCategory`     |    object response query graphql get list category   <br> [`loading`, `data`, `error`] | `object`|
-
 
 #### Note
 All components retrieved properties from `withTranslation` see documentation [i18n components api](https://react.i18next.com/latest/translation-render-prop) and `withApollo` see documentation [withApolo components api](https://www.apollographql.com/docs/react/api/react/hoc/#withapollocomponent) 

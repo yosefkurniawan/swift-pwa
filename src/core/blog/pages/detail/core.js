@@ -4,13 +4,13 @@ import React from 'react';
 import propTypes from 'prop-types';
 import DefaultLayout from '@layout';
 import { useRouter } from 'next/router';
-import { getBlog, getCategory } from '../services/graphql';
+import { getBlog, getCategory } from '../../services/graphql';
 
 const CoreDetail = (props) => {
     const router = useRouter();
     const { id } = router.query;
     const {
-        t, Loader, WarningInfo, Content, pageConfig = {}, ...other
+        t, Skeleton, WarningInfo, Content, pageConfig = {}, ...other
     } = props;
     const config = {
         title: 'Blog',
@@ -34,7 +34,7 @@ const CoreDetail = (props) => {
 
     const loadCategory = getCategory({ category_id: 0 });
     if (loading || !data || loadCategory.loading) {
-        return <Loader />;
+        return <Skeleton />;
     }
     if (error) {
         return (
@@ -71,12 +71,12 @@ const CoreDetail = (props) => {
 
 CoreDetail.propTypes = {
     Content: propTypes.func.isRequired,
-    Loader: propTypes.func,
+    Skeleton: propTypes.func,
     WarningInfo: propTypes.func,
 };
 
 CoreDetail.defaultProps = {
-    Loader: () => {},
+    Skeleton: () => {},
     WarningInfo: () => {},
 };
 

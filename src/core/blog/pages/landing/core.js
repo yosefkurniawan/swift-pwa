@@ -3,12 +3,12 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import DefaultLayout from '@layout';
-import { getBlog, getCategory } from '../services/graphql';
-import * as Schema from '../services/graphql/schema';
+import { getBlog, getCategory } from '../../services/graphql';
+import * as Schema from '../../services/graphql/schema';
 
 const CoreLanding = (props) => {
     const {
-        t, Loader, WarningInfo, Content, pageConfig = {}, ...other
+        t, Skeleton, WarningInfo, Content, pageConfig = {}, ...other
     } = props;
     const config = {
         title: 'Blog',
@@ -35,7 +35,7 @@ const CoreLanding = (props) => {
 
     const loadCategory = getCategory({ category_id: 0 });
     if (loading || !data || loadCategory.loading) {
-        return <Loader />;
+        return <Skeleton />;
     }
     if (error) {
         return (
@@ -102,13 +102,13 @@ CoreLanding.propTypes = {
     Content: propTypes.func.isRequired,
     ContentItem: propTypes.func.isRequired,
     ContentCategory: propTypes.func.isRequired,
-    Loader: propTypes.func,
+    Skeleton: propTypes.func,
     WarningInfo: propTypes.func,
     pageConfig: propTypes.object,
 };
 
 CoreLanding.defaultProps = {
-    Loader: () => {},
+    Skeleton: () => {},
     WarningInfo: () => {},
     pageConfig: {},
 };

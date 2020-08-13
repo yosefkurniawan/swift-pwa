@@ -2,15 +2,15 @@
 import React from 'react';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import DefaultContent from '../views/Details';
+import DefaultContent from '../../components/Details';
 import CoreBase from './core';
-import Loader from '../views/Loader/LoaderDetail';
-import WarningInfo from '../views/Info';
+import Skeleton from './components/Skeleton';
+import WarningInfo from '../../components/Info';
 
 const DetailPage = (props) => (
     <CoreBase
         Content={DefaultContent}
-        Loader={Loader}
+        Skeleton={Skeleton}
         WarningInfo={WarningInfo}
         {...props}
     />

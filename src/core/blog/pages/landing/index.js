@@ -2,19 +2,19 @@
 import React from 'react';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import DefaultContent from '../views/Landing';
+import DefaultContent from './components';
 import CoreBase from './core';
-import Loader from '../views/Loader/LoaderList';
-import WarningInfo from '../views/Info';
-import ContentCategory from '../views/ModalCategory';
-import ContentItem from '../views/Details';
+import Skeleton from './components/Skeleton';
+import WarningInfo from '../../components/Info';
+import ContentCategory from '../../components/ModalCategory';
+import ContentItem from '../../components/Details';
 
 const Page = (props) => (
     <CoreBase
         Content={DefaultContent}
         ContentCategory={ContentCategory}
         ContentItem={ContentItem}
-        Loader={Loader}
+        Skeleton={Skeleton}
         WarningInfo={WarningInfo}
         {...props}
     />

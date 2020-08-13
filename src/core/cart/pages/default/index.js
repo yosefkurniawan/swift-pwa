@@ -7,6 +7,7 @@ import CrossSellView from './components/crosssell';
 import SkeletonCart from './components/skeleton';
 import EditDrawerView from './components/editDrawer';
 import CheckoutDrawerView from './components/checkoutBox';
+import Content from './components';
 
 const Core = dynamic(() => import('./core'), { ssr: false });
 
@@ -20,6 +21,7 @@ const Page = (props) => (
         SkeletonView={SkeletonCart}
         EditDrawerView={EditDrawerView}
         CheckoutDrawerView={CheckoutDrawerView}
+        Content={Content}
     />
 );
 

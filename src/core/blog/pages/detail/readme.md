@@ -3,7 +3,7 @@
 This documentation page detail module `blog`.
 Module `detail page` can be installed with custom template or default template
 if you don't need custom, you can import it directly from the default modules. <br>
-this module under directory `@modules/blog/detail`
+this module under directory `@modules/blog/pages/detail`
 
 
 ## Use default template and no overide
@@ -13,7 +13,7 @@ example `{pages}/blog/[id].js`
 example
 
 ```node
-import Page from '@core/blog/detail/default';  // use point to default components module
+import Page from '@core/blog/pages/detail/index.js';  // use point to default components module
 
 export default Page;
 
@@ -28,7 +28,7 @@ example `{pages}/blog/[id].js`
 example
 
 ```node
-import Page from '@pages/blog/detail';     //point to your custom page components
+import Page from '@pages/blog/pages/detail/index';     //point to your custom page components
 
 export default Page;
 
@@ -36,7 +36,7 @@ export default Page;
 
 ### 3. import core modules
 ```node
-import CoreBase from '@core/blog/detail/core'; // must import and uses core base
+import CoreBase from '@core/blog/pages/detail/core'; // must import and uses core base
 ....... 
 // write other code
 ```
@@ -44,9 +44,9 @@ import CoreBase from '@core/blog/detail/core'; // must import and uses core base
 ### 4. if not all custom you can import component on module
 
 ```node
-// for example loader skeleton uses default
+// for example Skeleton skeleton uses default
 
-import Loader from '@core/views/Loader/LoaderDetail';
+import Skeleton from '@core/blog/pages/detail/components/Skeleton';
 
 ```
 
@@ -63,9 +63,9 @@ import React from 'react';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import CoreBase from '@core/blog/detail/core'; // must import and uses core base
-import DefaultContent from '@core/blog/views/Details'; //import your custom layout content
-import Loader from '@core/blog/views/Loader/LoaderDetail';   //import your loader component
-import WarningInfo from '@core/blog/views/Info'; // import your warning/ alert info eror component
+import DefaultContent from '@core/blog/components/Details'; //import your custom layout content
+import Skeleton from ''@core/blog/pages/detail/components/Skeleton';   //import your Skeleton component
+import WarningInfo from '@core/blog/components/Info'; // import your warning/ alert info eror component
 
 const DetailPage = (props) => {
      const pageConfig = {
@@ -78,7 +78,7 @@ const DetailPage = (props) => {
     return (
         <CoreBase
             Content={DefaultContent}
-            Loader={Loader}
+            Skeleton={Skeleton}
             WarningInfo={WarningInfo}
             pageConfig={pageConfig}
             {...props}
@@ -108,7 +108,7 @@ export default withApollo({ ssr: true })(withTranslation()(DetailPage));
 | Props       | Required | Description | Type |
 | :---        | :---     | :---        |:---  |
 | `WarningInfo`  |  `false`   | Component Alert/Warning Info     | `Component`|
-| `Loader`  |  `false`   | Component Loader view     | `Component`|
+| `Skeleton`  |  `false`   | Component Skeleton view     | `Component`|
 | `pageConfig`  |  `false`   | Object configuration from component `Layout`    | `Object`|
 | `Content`  |  `true`   | Component Content (for List view blog)     | `Component`|
 

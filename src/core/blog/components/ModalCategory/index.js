@@ -10,8 +10,8 @@ import Header from '@common_header';
 import Router from 'next/router';
 import Alert from '@material-ui/lab/Alert';
 import Menu from '@material-ui/icons/Menu';
+import { modules } from '@config';
 import useStyles from './style';
-import { linkCategory, linkBlog } from '../../config';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="left" ref={ref} {...props} />);
 
@@ -39,6 +39,7 @@ const CategoryWrapperSkeleteon = () => {
 const ListCategory = ({ setOpen, t, loadCategory }) => {
     const styles = useStyles();
     const { loading, error, data } = loadCategory;
+    const { link } = modules.blog;
     if (loading) return <CategoryWrapperSkeleteon />;
     if (error) {
         return (
@@ -57,8 +58,8 @@ const ListCategory = ({ setOpen, t, loadCategory }) => {
     if (!loading && data && data.getBlogCategory.data.length > 0) {
         const handleClick = (item) => {
             Router.push(
-                linkCategory.href,
-                linkCategory.as + item.url_key,
+                link.category.href,
+                link.category.as + item.url_key,
             );
             setOpen();
         };
@@ -67,7 +68,7 @@ const ListCategory = ({ setOpen, t, loadCategory }) => {
                 <div className={styles.item}>
                     <Button
                         variant="text"
-                        onClick={() => Router.push(linkBlog.href)}
+                        onClick={() => Router.push(link.default.href)}
                     >
 
                         <Typography type="semiBold" variant="title" align="center">
