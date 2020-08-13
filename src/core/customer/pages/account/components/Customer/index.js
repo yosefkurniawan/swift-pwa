@@ -35,7 +35,7 @@ const Customer = (props) => {
         { href: '/sales/order/history', title: t('customer:menu:myOrder') },
         { href: '/customer/account/profile', title: t('customer:menu:myAccount') },
         { href: '/customer/account/address', title: t('customer:menu:address') },
-        ...pushIf(wishlist.length <= 0, {
+        ...pushIf(wishlist.length && modules.wishlist.enabled <= 0, {
             href: '/wishlist', title: 'Wishlist',
         }),
         ...pushIf(modules.giftcard.enabled, {
@@ -44,9 +44,13 @@ const Customer = (props) => {
         ...pushIf(modules.storecredit.enabled, {
             href: '/customer/account/storecredit', title: t('customer:menu:storeCredit'),
         }),
-        { href: '/inboxnotification/notification', title: t('notification:notification') },
+        ...pushIf(modules.notification.enabled, {
+            href: '/inboxnotification/notification', title: t('notification:notification'),
+        }),
         { href: '/customer/setting', title: t('customer:menu:setting') },
-        { href: '/rma/customer', title: t('customer:menu:return') },
+        ...pushIf(modules.rma.enabled, {
+            href: '/rma/customer', title: t('customer:menu:return'),
+        }),
     ];
 
     return (

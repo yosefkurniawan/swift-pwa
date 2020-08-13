@@ -12,7 +12,7 @@ import useStyles from './style';
 const FooterView = (props) => {
     const styles = useStyles();
     const {
-        blog, t, isLogin, handleLogout, modules,
+        t, isLogin, handleLogout, modules,
     } = props;
     return (
         <div className={styles.account_block}>
@@ -28,7 +28,7 @@ const FooterView = (props) => {
                     </Link>
                 </li>
                 {
-                    (blog === '1' || blog === 1 || blog === true) ? (
+                    modules.blog.enabled ? (
                         <li className={styles.account_navigation_item}>
                             <Link href="/blog">
                                 <a className={styles.account_navigation_link}>{t('customer:menu:blog')}</a>
@@ -46,11 +46,16 @@ const FooterView = (props) => {
                         </li>
                     ) : null
                 }
-                <li className={styles.account_navigation_item}>
-                    <Link href="/sales/order/track">
-                        <a className={styles.account_navigation_link}>{t('order:trackingOrder')}</a>
-                    </Link>
-                </li>
+                {
+                    modules.trackingorder.enabled ? (
+                        <li className={styles.account_navigation_item}>
+                            <Link href="/sales/order/track">
+                                <a className={styles.account_navigation_link}>{t('order:trackingOrder')}</a>
+                            </Link>
+                        </li>
+                    ) : null
+                }
+
                 {
                     isLogin
                         ? (

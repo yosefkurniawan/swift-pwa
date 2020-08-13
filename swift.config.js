@@ -89,11 +89,6 @@ const customerFeautres = {
     pickupStore: true,
 };
 
-/* Blog */
-const blog = {
-    urlPath: '/blog',
-};
-
 /* List Of CMS Pages: [url-1, url-2, ..., url-n] */
 const cmsPages = ['about-us', 'aw-reward-points'];
 
@@ -167,55 +162,13 @@ const features = {
 };
 
 const modules = {
+    blog: {
+        enabled: true,
+        path: '/blog',
+    },
     brands: {
         enabled: true,
         path: '/brands',
-    },
-    trackingorder: {
-        enabled: true,
-    },
-    order: {
-        enabled: true,
-    },
-    rewardpoint: {
-        enabled: true,
-    },
-    checkout: {
-        enabled: true,
-        snapUrl: {
-            dev: 'https://app.sandbox.midtrans.com/snap/snap.js',
-            prod: 'https://app.midtrans.com/snap/snap.js',
-        },
-        pickupStore: {
-            enabled: true,
-        },
-    },
-    cart: {
-        enabled: true,
-    },
-    blog: {
-        enabled: true,
-    },
-    rma: {
-        enabled: true,
-    },
-    forgotpassword: {
-        enabled: true,
-    },
-    storecredit: {
-        enabled: true,
-    },
-    giftcard: {
-        enabled: true,
-    },
-    login: {
-        enabled: true,
-    },
-    register: {
-        enabled: true,
-    },
-    confirmpayment: {
-        enabled: true,
     },
     catalog: {
         enabled: true,
@@ -226,13 +179,70 @@ const modules = {
             rating: {
                 enabled: true,
             },
-            wishlist: {
-                enabled: true,
-            },
         },
+    },
+    confirmpayment: {
+        enabled: true,
+        path: '/confirmpayment',
+    },
+    checkout: {
+        enabled: true,
+        path: '/checkout',
+        snapUrl: {
+            dev: 'https://app.sandbox.midtrans.com/snap/snap.js',
+            prod: 'https://app.midtrans.com/snap/snap.js',
+        },
+        pickupStore: {
+            enabled: true,
+        },
+    },
+    cart: {
+        enabled: true,
+        path: '/checkout/cart',
+    },
+    customer: {
+        enabled: true,
+        path: '/customer',
+    },
+    forgotpassword: {
+        enabled: true,
+        path: '/customer/account/forgotpassword',
+    },
+    rewardpoint: {
+        enabled: true,
+        path: '/aw_rewardpoints/info',
+    },
+    rma: {
+        enabled: true,
+        path: '/rma/customer',
+    },
+    storecredit: {
+        enabled: true,
+        path: '/customer/account/storecredit',
+    },
+    giftcard: {
+        enabled: true,
+        path: '/awgiftcard/card',
+    },
+    login: {
+        enabled: true,
+        path: '/customer/account/login',
+    },
+    notification: {
+        enabled: true,
+        path: 'inboxnotification/notification',
+    },
+    register: {
+        enabled: true,
+        path: '/customer/account/create',
+    },
+    trackingorder: {
+        enabled: true,
+        path: '/sales/order/track',
     },
     thanks: {
         enable: true,
+        path: '/checkout/onepage/success',
     },
     home: {
         enable: true,
@@ -247,6 +257,16 @@ const modules = {
         bannerSlider: {
             enable: true,
         },
+    },
+    promo: {
+        enabled: true,
+    },
+    order: {
+        enabled: true,
+    },
+    wishlist: {
+        enabled: true,
+        path: '/awgiftcard/card',
     },
 };
 
@@ -272,7 +292,6 @@ const debuging = {
 
 module.exports = {
     debuging,
-    blog,
     GTM,
     HOST,
     graphqlEndpoint,
