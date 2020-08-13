@@ -2,8 +2,6 @@
 import Layout from '@layout';
 import { setLogin, getLastPathWithoutLogin } from '@helpers/auth';
 import { setCartId, getCartId } from '@helpers/cartId';
-import { GraphCart, GraphConfig } from '@services/graphql';
-import { getCustomer } from '@services/graphql/schema/customer';
 import { useQuery } from '@apollo/react-hooks';
 import { expiredToken, custDataNameCookie } from '@config';
 import Router from 'next/router';
@@ -11,7 +9,11 @@ import Cookies from 'js-cookie';
 import { regexPhone } from '@helpers/regex';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { getToken, getTokenOtp, removeToken as deleteToken } from '../../services/graphql';
+import {
+    getToken, getTokenOtp, removeToken as deleteToken, otpConfig as queryOtpConfig,
+    getCustomerCartId, mergeCart as mutationMergeCart,
+} from '../../services/graphql';
+import { getCustomer } from '../../services/graphql/schema';
 
 const Login = (props) => {
     const {
@@ -47,9 +49,9 @@ const Login = (props) => {
     const [deleteTokenGql] = deleteToken();
     const [getCustomerToken] = getToken();
     const [getCustomerTokenOtp] = getTokenOtp();
-    const [getCart, cartData] = GraphCart.getCustomerCartId();
-    const [mergeCart, { called }] = GraphCart.mergeCart();
-    const otpConfig = GraphConfig.otpConfig();
+    const [getCart, cartData] = getCustomerCartId();
+    const [mergeCart, { called }] = mutationMergeCart();
+    const otpConfig = queryOtpConfig();
     const custData = useQuery(getCustomer, {
         context: {
             request: 'internal',

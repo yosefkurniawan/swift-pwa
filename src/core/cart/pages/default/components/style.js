@@ -73,6 +73,9 @@ const useStyles = makeStyles(() => ({
         display: 'block',
         padding: 9,
         color: WHITE_IMPORTANT,
+        width: 30,
+        height: 30,
+        fontSize: 14,
         background: '#000',
         margin: '5px 0',
         '&:hover': {

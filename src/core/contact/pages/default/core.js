@@ -2,13 +2,12 @@ import Layout from '@layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { regexPhone } from '@helpers/regex';
-import { cmsContactIdentifiers, recaptcha } from '@config';
-import { GraphCms } from '@services/graphql';
+import { cmsContactIdentifiers, recaptcha, debuging } from '@config';
 import gqlService from '../../services/graphql';
 
 const Contact = (props) => {
     const {
-        Content, t, pageConfig,
+        Content, t, pageConfig, ErrorInfo, Skeleton,
     } = props;
     const Config = {
         title: t('contact:pageTitle'),
@@ -98,7 +97,13 @@ const Contact = (props) => {
     const handleChangeCaptcha = (value) => {
         formik.setFieldValue('captcha', value || '');
     };
-    const { error, loading, data } = GraphCms.getCmsBlocks({ identifiers: [cmsContactIdentifiers] });
+    const { error, loading, data } = gqlService.getCmsBlocks({ identifiers: [cmsContactIdentifiers] });
+    if (error) {
+        return (
+            <ErrorInfo variant="error" text={debuging.originalError ? error.message.split(':')[1] : props.t('common:error:fetchError')} />
+        );
+    }
+    if (loading) return <Skeleton open={loading} />;
     return (
         <Layout pageConfig={pageConfig || Config} {...props}>
             <Content

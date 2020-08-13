@@ -1,5 +1,5 @@
 import BrowseModal from '@common_searchmodal';
-import ShoppingBagIcon from '@common_shopingbagicon';
+import ShoppingBagIcon from '@core/cart/plugin/ShoppingBag';
 import { withApollo } from '@lib/apollo';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
@@ -63,7 +63,7 @@ const Navigation = ({ active }) => {
                     <BottomNavigationAction
                         label="Cart"
                         value="cart"
-                        icon={<ShoppingBagIcon bottomNav />}
+                        icon={<ShoppingBagIcon />}
                         classes={{
                             label: 'hide',
                             root: styles.navAction,

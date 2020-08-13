@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/forbid-prop-types */
-import { GraphConfig } from '@services/graphql';
 import PropTypes from 'prop-types';
 import { useTranslation } from '@i18n';
 import {
@@ -11,6 +10,7 @@ import {
     requestOtpLogin,
     checkOtpLogin,
     requestOtpForgotPassword,
+    otpConfig,
 } from '../../services/graphql';
 
 const OtpBlock = ({
@@ -30,7 +30,7 @@ const OtpBlock = ({
     const [actRequestOtpLogin] = requestOtpLogin();
     const [actCheckOtpLogin] = checkOtpLogin();
 
-    const { loading, data } = GraphConfig.otpConfig();
+    const { loading, data } = otpConfig();
 
     React.useEffect(() => {
         setPhoneNumber(phoneProps.value);

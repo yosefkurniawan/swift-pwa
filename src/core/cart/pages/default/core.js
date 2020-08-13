@@ -3,12 +3,11 @@
 import { useState, useEffect } from 'react';
 import { getCartId } from '@helpers/cartId';
 import { useMutation } from '@apollo/react-hooks';
-import { GraphCustomer } from '@services/graphql';
 import TagManager from 'react-gtm-module';
 import { storeConfigNameCokie } from '@config';
 import cookies from 'js-cookie';
 import Layout from '@layout';
-import { getCartData } from '../../services/graphql';
+import { getCartData, addWishlist as mutationWishlist } from '../../services/graphql';
 import * as Schema from '../../services/graphql/schema';
 
 const getCrossSellProduct = (items) => {
@@ -25,7 +24,7 @@ const getCrossSellProduct = (items) => {
 
 const Cart = (props) => {
     const {
-        t, token, isLogin, ItemView, CrossSellView, EmptyView, SkeletonView, CheckoutDrawerView, EditDrawerView, pageConfig,
+        t, token, isLogin, EmptyView, SkeletonView, pageConfig, Content, ...other
     } = props;
     const [editMode, setEditMode] = useState(false);
     const [editItem, setEditItem] = useState({});
@@ -202,7 +201,7 @@ const Cart = (props) => {
         }
     }, [dataCart]);
     // add to wishlist
-    const [addWishlist] = GraphCustomer.addWishlist();
+    const [addWishlist] = mutationWishlist();
     const handleFeed = (itemProps) => {
         if (isLogin && isLogin === 1) {
             TagManager.dataLayer({
@@ -259,22 +258,25 @@ const Cart = (props) => {
     crosssell = getCrossSellProduct(dataCart.items);
 
     if (dataCart.id && dataCart.items.length > 0) {
+        const contentProps = {
+            dataCart,
+            t,
+            handleFeed,
+            toggleEditMode,
+            editMode,
+            deleteItem,
+            toggleEditDrawer,
+            crosssell,
+            editItem,
+            openEditDrawer,
+            updateItem,
+        };
         return (
             <Layout pageConfig={config || pageConfig} {...props}>
-                <ItemView
-                    data={dataCart}
-                    t={t}
-                    toggleEditMode={toggleEditMode}
-                    editMode={editMode}
-                    deleteItem={deleteItem}
-                    handleFeed={handleFeed}
-                    toggleEditDrawer={toggleEditDrawer}
+                <Content
+                    {...contentProps}
+                    {...other}
                 />
-                <CrossSellView {...props} editMode={editMode} data={crosssell} />
-                {editItem.id ? (
-                    <EditDrawerView {...props} {...editItem} open={openEditDrawer} toggleOpen={toggleEditDrawer} updateItem={updateItem} />
-                ) : null}
-                <CheckoutDrawerView editMode={editMode} t={t} data={dataCart} />
             </Layout>
         );
     }

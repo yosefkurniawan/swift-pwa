@@ -11,6 +11,6 @@ Module `blog` can be installed with custom template or default template
 if you don't need custom, you can import it directly from the default modules.
 
 #### for installation see documentation
-- [Instalation Landing Page](landing/readme.md)
-- [Instalation Category Page](category/readme.md)
-- [Instalation Detail Page](detail/readme.md)
+- [Instalation Landing Page](pages/landing/readme.md)
+- [Instalation Category Page](pages/category/readme.md)
+- [Instalation Detail Page](pages/detail/readme.md)

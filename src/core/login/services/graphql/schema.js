@@ -83,6 +83,69 @@ mutation checkOtp(
 }
 `;
 
+export const getCartIdUser = gql`
+    {
+        customerCart {
+            id
+        }
+    }
+`;
+
+export const mergeCart = gql`
+mutation mergeCart(
+    $sourceCartId: String!,
+    $destionationCartId: String!
+) {
+    mergeCarts(
+      source_cart_id:$sourceCartId,
+      destination_cart_id: $destionationCartId
+    ) {
+      id
+      total_quantity
+    }
+  }
+`;
+
+export const getCustomer = gql`
+{
+    customer {
+      id
+      firstname
+      email
+      phonenumber
+      whatsapp_number
+    }
+  }
+`;
+
+export const otpConfig = gql`
+    {
+        otpConfig {
+            otp_enable {
+                enable_otp_forgot_password
+                enable_otp_login
+                enable_otp_register
+            }
+            otp_expired_time {
+                expired_time_otp_forgot_password
+                expired_time_otp_login
+                expired_time_otp_register
+            }
+            otp_general_email_required
+            otp_length {
+                length_otp_forgot_password
+                length_otp_login
+                length_otp_register
+            }
+            otp_max_try {
+                max_try_otp_forgot_password
+                max_try_otp_login
+                max_try_otp_register
+            }
+        }
+    }
+`;
+
 export default {
     getCustomerToken,
     getCustomerTokenOtp,

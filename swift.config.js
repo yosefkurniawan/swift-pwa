@@ -230,11 +230,11 @@ const modules = {
         path: '/sales/order/track',
     },
     thanks: {
-        enable: true,
+        enabled: true,
         path: '/checkout/onepage/success',
     },
     home: {
-        enable: true,
+        enabled: true,
         featuresProduct: {
             enable: true,
             url_key: 'homepage-featured-products',

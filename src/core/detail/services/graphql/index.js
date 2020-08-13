@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
 import * as Schema from './schema';
 
 export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath));
@@ -27,6 +27,21 @@ export const addConfigProductsToCart = () => useMutation(Schema.addConfigProduct
     context: {
         request: 'internal',
     },
+});
+
+export const addWishlist = () => useMutation(Schema.addWishlist, {
+    context: {
+        request: 'internal',
+    },
+});
+
+export const getGuestCartId = () => useMutation(Schema.createCartIdGuest);
+export const getCustomerCartId = () => useLazyQuery(Schema.getCartIdUser, {
+    context: {
+        request: 'internal',
+    },
+    skip: typeof window === 'undefined',
+    fetchPolicy: 'no-cache',
 });
 
 export default { getProduct };
