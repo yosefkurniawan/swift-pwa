@@ -160,3 +160,20 @@ export const addWishlist = gql`
         }
     }
 `;
+
+export const getCartIdUser = gql`
+    {
+        customerCart {
+            id
+        }
+    }
+`;
+
+export const getCountCart = gql`
+    query getCartData($cartId: String!) {
+        cart(cart_id: $cartId) {
+            id
+            total_quantity
+        }
+    }
+`;

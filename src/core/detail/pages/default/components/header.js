@@ -1,5 +1,5 @@
 import Header from '@common_header';
-import ShoppingBagIcon from '@common_shopingbagicon';
+import ShoppingBagIcon from '@core/cart/plugin/ShoppingBag';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const useStyles = makeStyles({
@@ -13,7 +13,7 @@ const CustomHeader = (props) => {
     return (
         <Header
             RightComponent={(
-                <ShoppingBagIcon />
+                <ShoppingBagIcon withLink />
             )}
             className={styles.container}
             {...props}

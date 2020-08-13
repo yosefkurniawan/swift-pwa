@@ -19,3 +19,13 @@ export const getCartData = (token, cartId) => useQuery(Schema.getCart,
         },
         fetchPolicy: 'cache-and-network',
     });
+
+export const getCountCart = (cartId) => useQuery(Schema.getCountCart, {
+    context: {
+        request: 'internal',
+    },
+    variables: {
+        cartId,
+    },
+    skip: cartId === '' || typeof cartId === 'undefined',
+});

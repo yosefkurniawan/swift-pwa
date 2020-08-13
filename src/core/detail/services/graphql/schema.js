@@ -313,6 +313,28 @@ export const getReview = () => {
     return query;
 };
 
+export const addWishlist = gql`
+    mutation addWishlist($productId: Int!) {
+        addProductToWishlist(productId: $productId) {
+            info
+        }
+    }
+`;
+
+export const createCartIdGuest = gql`
+    mutation {
+        createEmptyCart
+    }
+`;
+
+export const getCartIdUser = gql`
+    {
+        customerCart {
+            id
+        }
+    }
+`;
+
 export default {
     createEmptyCartGuest,
     addSimpleProductsToCart,

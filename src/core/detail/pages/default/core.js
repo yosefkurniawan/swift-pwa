@@ -4,11 +4,10 @@ import Error from 'next/error';
 import { StripHtmlTags } from '@helpers/text';
 import { imageSize, features } from '@config';
 import { useRouter } from 'next/router';
-import { GraphCustomer } from '@services/graphql';
 import TagManager from 'react-gtm-module';
 import { getCookies } from '@helpers/cookies';
 import Loading from './components/Loader';
-import { getProduct } from '../../services/graphql';
+import { getProduct, addWishlist as mutationAddWishlist } from '../../services/graphql';
 import Header from './components/header';
 import generateSchemaOrg from '../../helpers/schema.org';
 
@@ -111,7 +110,7 @@ const ContentDetail = ({
     });
     const [wishlist, setWishlist] = React.useState(false);
 
-    const [addWishlist] = GraphCustomer.addWishlist();
+    const [addWishlist] = mutationAddWishlist();
 
     const handleWishlist = () => {
         if (isLogin && isLogin === 1) {
