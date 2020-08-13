@@ -118,6 +118,12 @@ a {
     }
 }
 
+@media (min-width: 1024px) {
+    main {
+        max-width: 100%;
+    }
+}
+
 .cms-container {
     padding: 0 16px;
     text-align: justify;
