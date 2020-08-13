@@ -94,9 +94,6 @@ const blog = {
     urlPath: '/blog',
 };
 
-/* Brand Page */
-const showBrandPage = true;
-
 /* List Of CMS Pages: [url-1, url-2, ..., url-n] */
 const cmsPages = ['about-us', 'aw-reward-points'];
 
@@ -172,6 +169,7 @@ const features = {
 const modules = {
     brands: {
         enabled: true,
+        path: '/brands',
     },
     trackingorder: {
         enabled: true,
@@ -296,7 +294,6 @@ module.exports = {
     customerFeautres,
     nameCheckoutCookie,
     nameGlobalCookie,
-    showBrandPage,
     enableSocialMediaLink,
     features,
     nossrCache,

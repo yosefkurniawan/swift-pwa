@@ -3,7 +3,7 @@ import Typography from '@common_typography';
 import Button from '@common_button';
 import Slide from '@material-ui/core/Slide';
 import Router from 'next/router';
-import { showBrandPage } from '@config';
+import { modules } from '@config';
 import useStyles from './style';
 
 const Category = ({
@@ -61,7 +61,7 @@ const Category = ({
                         </div>
                     ))
                     : null}
-                {showBrandPage ? (
+                {modules.brands.enabled ? (
                     <Typography variant="h1" align="center">
                         <Button
                             variant="text"
