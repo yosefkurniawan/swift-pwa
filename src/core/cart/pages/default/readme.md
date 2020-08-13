@@ -89,6 +89,7 @@ export default withApollo({ ssr: true })(withTranslation()(Page));
 | CrossSellView      |  true    | component to thos crosssell product | Component |
 | EditDrawerView      |  true    | Component to handle edit cart | Component |
 | CheckoutDrawerView      |  true    | Component to handle continue checkout proccess and sho final price | Component |
+| Content | true | Component to render all components props | component |
 
 ## Override Config
 ### pageConfig

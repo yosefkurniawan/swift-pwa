@@ -4,6 +4,7 @@ import TabView from '@common_tabs';
 import { withTranslation } from '@i18n';
 import Core from './core';
 import SkeletonView from './components/Skeleton';
+import Content from './components';
 
 const CategoryPage = (props) => (
     <Core
@@ -11,6 +12,7 @@ const CategoryPage = (props) => (
         BreadcrumbView={BreadcrumbView}
         TabView={TabView}
         SkeletonView={SkeletonView}
+        Content={Content}
         {...props}
     />
 );

@@ -15,6 +15,7 @@ import GiftCardView from './components/giftcard/view';
 import FieldPointView from '../../components/fieldcode';
 import RewardPointView from './components/rewardpoint/view';
 import StoreCreditView from './components/credit/view';
+import Content from './components';
 
 const Page = (props) => (
     <Core
@@ -32,6 +33,7 @@ const Page = (props) => (
         GiftCardView={GiftCardView}
         RewardPointView={RewardPointView}
         StoreCreditView={StoreCreditView}
+        Content={Content}
     />
 );
 

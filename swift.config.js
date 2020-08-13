@@ -197,6 +197,20 @@ const modules = {
     },
     blog: {
         enabled: true,
+        urlPath: '/blog',
+        link: {
+            detail: {
+                href: '/blog/[id]',
+                as: '/blog/',
+            },
+            category: {
+                href: '/blog/category/[id]',
+                as: '/blog/category/',
+            },
+            default: {
+                href: '/blog',
+            },
+        },
     },
     rma: {
         enabled: true,
@@ -235,6 +249,20 @@ const modules = {
     },
     thanks: {
         enable: true,
+    },
+    home: {
+        enable: true,
+        featuresProduct: {
+            enable: true,
+            url_key: 'homepage-featured-products',
+        },
+        categoryList: {
+            enable: true,
+            url_key: 'homepage-featured-categories',
+        },
+        bannerSlider: {
+            enable: true,
+        },
     },
 };
 
