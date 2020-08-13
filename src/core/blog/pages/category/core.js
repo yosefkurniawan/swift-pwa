@@ -3,12 +3,12 @@ import { withApollo } from '@lib/apollo';
 import propTypes from 'prop-types';
 import DefaultLayout from '@layout';
 import { useRouter } from 'next/router';
-import { getCategory, getBlog } from '../services/graphql';
-import * as Schema from '../services/graphql/schema';
+import { getCategory, getBlog } from '../../services/graphql';
+import * as Schema from '../../services/graphql/schema';
 
 const Category = (props) => {
     const {
-        t, Loader, WarningInfo, Content, pageConfig, ...other
+        t, Skeleton, WarningInfo, Content, pageConfig, ...other
     } = props;
     const router = useRouter();
     const { id } = router.query;
@@ -37,7 +37,7 @@ const Category = (props) => {
         },
     });
     if (loading || !data || loadBlog.loading) {
-        return <Loader />;
+        return <Skeleton />;
     }
     if (error) {
         return (
@@ -103,12 +103,12 @@ Category.propTypes = {
     Content: propTypes.func.isRequired,
     ContentItem: propTypes.func.isRequired,
     ContentCategory: propTypes.func.isRequired,
-    Loader: propTypes.func,
+    Skeleton: propTypes.func,
     WarningInfo: propTypes.func,
 };
 
 Category.defaultProps = {
-    Loader: () => <p>loading</p>,
+    Skeleton: () => <p>loading</p>,
     WarningInfo: () => <p>Error</p>,
 };
 

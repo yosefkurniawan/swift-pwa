@@ -197,6 +197,20 @@ const modules = {
     },
     blog: {
         enabled: true,
+        urlPath: '/blog',
+        link: {
+            detail: {
+                href: '/blog/[id]',
+                as: '/blog/',
+            },
+            category: {
+                href: '/blog/category/[id]',
+                as: '/blog/category/',
+            },
+            default: {
+                href: '/blog',
+            },
+        },
     },
     rma: {
         enabled: true,
