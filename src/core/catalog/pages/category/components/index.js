@@ -1,7 +1,7 @@
 import React from 'react';
 import Router from 'next/router';
 import Product from '@core/catalog/plugin/ProductList';
-import { imageSize } from '@config';
+import { features } from '@config';
 import useStyles from './style';
 import { getFilter } from '../../../services/graphql';
 
@@ -58,8 +58,8 @@ const CategoryPage = ({
                     <div className={styles.headContainer}>
                         <BannerView
                             data={dataBanner}
-                            width={imageSize.category.width}
-                            height={imageSize.category.height}
+                            width={features.imageSize.category.width}
+                            height={features.imageSize.category.height}
                         />
                         {' '}
                     </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { imageSize } from '@config';
+import { features } from '@config';
 import setDefaultWhenEmpty from '@helpers/checkImageSrc';
 import useStyles from './style';
 import Thumbor from './Thumbor';
@@ -25,8 +25,8 @@ const ImageSlide = ({
                 <Thumbor
                     src={setDefaultWhenEmpty(imageUrl)}
                     alt={href}
-                    width={width || imageSize.homeSlider.width}
-                    height={height || imageSize.homeSlider.height}
+                    width={width || features.imageSize.homeSlider.width}
+                    height={height || features.imageSize.homeSlider.height}
                     quality={100}
                     className={styles.imageSlider}
                 />

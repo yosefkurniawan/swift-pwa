@@ -3,7 +3,7 @@ import Button from '@common_button';
 import PriceFormat from '@common_priceformat';
 import RatingStar from '@common_ratingstar';
 import Typography from '@common_typography';
-import { features } from '@config';
+import { modules } from '@config';
 import Link from '@material-ui/core/Link';
 import React from 'react';
 import Favorite from '@material-ui/icons/Favorite';
@@ -20,8 +20,8 @@ const Detail = (props) => {
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
     const FeedIcon = feed ? <Favorite className={classFeedActive} /> : <FavoriteBorderOutlined className={styles.iconFeed} />;
     return (
-        <div className={styles.descItem} style={{ ...(features.productListing.wishlist ? {} : { alignItems: 'center' }) }}>
-            {features.productListing.wishlist && (
+        <div className={styles.descItem} style={{ ...(modules.wishlist.enabled ? {} : { alignItems: 'center' }) }}>
+            {modules.wishlist.enabled && (
                 <div
                     style={{
                         position: 'absolute',
@@ -41,7 +41,7 @@ const Detail = (props) => {
                     {name}
                 </Typography>
             </Link>
-            {features.productListing.rating && <RatingStar value={ratingValue} />}
+            {modules.catalog.productListing.rating && <RatingStar value={ratingValue} />}
             <PriceFormat
                 // eslint-disable-next-line camelcase
                 priceRange={spesificProduct.price_range ? spesificProduct.price_range : price_range}

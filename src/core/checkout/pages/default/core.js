@@ -315,6 +315,7 @@ const Checkout = (props) => {
             <Content
                 {...contentProps}
                 {...props}
+                modules={modules}
             />
         </Layout>
     );

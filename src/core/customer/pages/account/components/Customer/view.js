@@ -82,12 +82,15 @@ const CustomerView = (props) => {
                                     </Link>
                                 </div>
                             </div>
-                            <div className={styles.account_clearfix}>
-                                <Carousel
-                                    data={wishlist}
-                                    className={[styles.wishlistBlock, styles.margin20].join(' ')}
-                                />
-                            </div>
+                            {modules.wishlist.enabled ? (
+                                <div className={styles.account_clearfix}>
+                                    <Carousel
+                                        data={wishlist}
+                                        className={[styles.wishlistBlock, styles.margin20].join(' ')}
+                                    />
+                                </div>
+                            ) : null}
+
                         </div>
                     ) : (
                         <span className={styles.span} />

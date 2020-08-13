@@ -79,19 +79,6 @@ const recaptcha = {
     },
 };
 
-// masuk module -> pindah jika module sudah siap
-/* Store Credit, Reward Point, Gift Card */
-const customerFeautres = {
-    storeCredit: true,
-    rewardPoint: true,
-    giftCard: true,
-    confirmPayment: true,
-    pickupStore: true,
-};
-
-/* Brand Page */
-const showBrandPage = true;
-
 /* List Of CMS Pages: [url-1, url-2, ..., url-n] */
 const cmsPages = ['about-us', 'aw-reward-points'];
 
@@ -109,23 +96,6 @@ const enableSocialMediaLink = true;
 
 /* Loader */
 const loaderImage = '/assets/img/loader.svg';
-
-// masuk features configuration -> perlu penyesuaian
-/* config general size image used on frontend */
-const imageSize = {
-    product: {
-        width: 240,
-        height: 300,
-    },
-    homeSlider: {
-        width: 960,
-        height: 1120,
-    },
-    category: {
-        width: 960,
-        height: 577,
-    },
-};
 
 /* --------------------------------------- */
 /* LOCAD DATA CACHE & COKIES
@@ -148,12 +118,6 @@ const features = {
         app_id: '', // if enabled add fb app id here. e.g. 3080154482073095
     },
     // masuk module -> pindah jika module sudah siap
-    productListing: {
-        configurableOptions: true,
-        rating: true,
-        wishlist: true,
-    },
-    // masuk module -> pindah jika module sudah siap
     productAvailableToCart: {
         SimpleProduct: true,
         ConfigurableProduct: true,
@@ -162,71 +126,34 @@ const features = {
         BundleProduct: false,
         DownloadableProduct: false,
     },
+    imageSize: {
+        product: {
+            width: 240,
+            height: 300,
+        },
+        homeSlider: {
+            width: 960,
+            height: 1120,
+        },
+        category: {
+            width: 960,
+            height: 577,
+        },
+    },
 };
 
 const modules = {
-    brands: {
+    about: {
         enabled: true,
-    },
-    trackingorder: {
-        enabled: true,
-    },
-    order: {
-        enabled: true,
-    },
-    rewardpoint: {
-        enabled: true,
-    },
-    checkout: {
-        enabled: true,
-        snapUrl: {
-            dev: 'https://app.sandbox.midtrans.com/snap/snap.js',
-            prod: 'https://app.midtrans.com/snap/snap.js',
-        },
-        pickupStore: {
-            enabled: true,
-        },
-    },
-    cart: {
-        enabled: true,
+        path: '/about-us',
     },
     blog: {
         enabled: true,
-        urlPath: '/blog',
-        link: {
-            detail: {
-                href: '/blog/[id]',
-                as: '/blog/',
-            },
-            category: {
-                href: '/blog/category/[id]',
-                as: '/blog/category/',
-            },
-            default: {
-                href: '/blog',
-            },
-        },
+        path: '/blog',
     },
-    rma: {
+    brands: {
         enabled: true,
-    },
-    forgotpassword: {
-        enabled: true,
-    },
-    storecredit: {
-        enabled: true,
-    },
-    giftcard: {
-        enabled: true,
-    },
-    login: {
-        enabled: true,
-    },
-    register: {
-        enabled: true,
-    },
-    confirmpayment: {
-        enabled: true,
+        path: '/brands',
     },
     catalog: {
         enabled: true,
@@ -237,16 +164,77 @@ const modules = {
             rating: {
                 enabled: true,
             },
-            wishlist: {
-                enabled: true,
-            },
         },
     },
+    confirmpayment: {
+        enabled: true,
+        path: '/confirmpayment',
+    },
+    checkout: {
+        enabled: true,
+        path: '/checkout',
+        snapUrl: {
+            dev: 'https://app.sandbox.midtrans.com/snap/snap.js',
+            prod: 'https://app.midtrans.com/snap/snap.js',
+        },
+        pickupStore: {
+            enabled: true,
+        },
+    },
+    cart: {
+        enabled: true,
+        path: '/checkout/cart',
+    },
+    customer: {
+        enabled: true,
+        path: '/customer',
+    },
+    contact: {
+        enabled: true,
+        path: '/contact',
+    },
+    forgotpassword: {
+        enabled: true,
+        path: '/customer/account/forgotpassword',
+    },
+    rewardpoint: {
+        enabled: true,
+        path: '/aw_rewardpoints/info',
+    },
+    rma: {
+        enabled: true,
+        path: '/rma/customer',
+    },
+    storecredit: {
+        enabled: true,
+        path: '/customer/account/storecredit',
+    },
+    giftcard: {
+        enabled: true,
+        path: '/awgiftcard/card',
+    },
+    login: {
+        enabled: true,
+        path: '/customer/account/login',
+    },
+    notification: {
+        enabled: true,
+        path: 'inboxnotification/notification',
+    },
+    register: {
+        enabled: true,
+        path: '/customer/account/create',
+    },
+    trackingorder: {
+        enabled: true,
+        path: '/sales/order/track',
+    },
     thanks: {
-        enable: true,
+        enabled: true,
+        path: '/checkout/onepage/success',
     },
     home: {
-        enable: true,
+        enabled: true,
         featuresProduct: {
             enable: true,
             url_key: 'homepage-featured-products',
@@ -258,6 +246,17 @@ const modules = {
         bannerSlider: {
             enable: true,
         },
+    },
+    promo: {
+        enabled: true,
+    },
+    order: {
+        enabled: true,
+        path: '/sales/order',
+    },
+    wishlist: {
+        enabled: true,
+        path: '/wishlist',
     },
 };
 
@@ -299,12 +298,9 @@ module.exports = {
     loaderImage,
     cmsContactIdentifiers,
     cmsSocialMediaLinkIdentifiers,
-    imageSize,
     custDataNameCookie,
-    customerFeautres,
     nameCheckoutCookie,
     nameGlobalCookie,
-    showBrandPage,
     enableSocialMediaLink,
     features,
     nossrCache,

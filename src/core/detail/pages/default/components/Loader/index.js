@@ -1,7 +1,7 @@
 /* eslint-disable no-mixed-operators */
 import Skeleton from '@common_skeleton';
 import CarouselSkeleton from '@common_slider/Carousel/Skeleton';
-import { imageSize } from '@config';
+import { features } from '@config';
 import useStyles from './style';
 
 export default () => {
@@ -14,11 +14,11 @@ export default () => {
                 animation="wave"
                 xsStyle={{
                     width: '100%',
-                    height: `${Math.floor(imageSize.homeSlider.height / imageSize.homeSlider.width * 100)}vw`,
+                    height: `${Math.floor(features.imageSize.homeSlider.height / features.imageSize.homeSlider.width * 100)}vw`,
                 }}
                 mdStyle={{
                     width: '100%',
-                    height: `${Math.floor(imageSize.homeSlider.height / imageSize.homeSlider.width * 960)}px`,
+                    height: `${Math.floor(features.imageSize.homeSlider.height / features.imageSize.homeSlider.width * 960)}px`,
                 }}
             />
             <div className={styles.container}>

@@ -19,14 +19,16 @@ const Customer = (props) => {
     if (!data || loading || error) return <Skeleton />;
     if (data) {
         userData = data;
-        wishlist = data.customer && data.customer.wishlist && data.customer.wishlist.items.map(({ product }) => ({
-            ...product,
-            name: product.name,
-            link: product.url_key,
-            imageSrc: product.small_image.url,
-            price: product.price_range.minimum_price.regular_price.value,
-            showWishlistAction: false,
-        }));
+        if (modules.wishlist.enabled) {
+            wishlist = data.customer && data.customer.wishlist && data.customer.wishlist.items.map(({ product }) => ({
+                ...product,
+                name: product.name,
+                link: product.url_key,
+                imageSrc: product.small_image.url,
+                price: product.price_range.minimum_price.regular_price.value,
+                showWishlistAction: false,
+            }));
+        }
     }
 
     const pushIf = (condition, ...elements) => (condition ? elements : []);
@@ -35,7 +37,7 @@ const Customer = (props) => {
         { href: '/sales/order/history', title: t('customer:menu:myOrder') },
         { href: '/customer/account/profile', title: t('customer:menu:myAccount') },
         { href: '/customer/account/address', title: t('customer:menu:address') },
-        ...pushIf(wishlist.length <= 0, {
+        ...pushIf(wishlist.length && modules.wishlist.enabled <= 0, {
             href: '/wishlist', title: 'Wishlist',
         }),
         ...pushIf(modules.giftcard.enabled, {
@@ -44,9 +46,13 @@ const Customer = (props) => {
         ...pushIf(modules.storecredit.enabled, {
             href: '/customer/account/storecredit', title: t('customer:menu:storeCredit'),
         }),
-        { href: '/inboxnotification/notification', title: t('notification:notification') },
+        ...pushIf(modules.notification.enabled, {
+            href: '/inboxnotification/notification', title: t('notification:notification'),
+        }),
         { href: '/customer/setting', title: t('customer:menu:setting') },
-        { href: '/rma/customer', title: t('customer:menu:return') },
+        ...pushIf(modules.rma.enabled, {
+            href: '/rma/customer', title: t('customer:menu:return'),
+        }),
     ];
 
     return (

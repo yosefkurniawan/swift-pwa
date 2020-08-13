@@ -2,7 +2,7 @@
 import Layout from '@layout';
 import Error from 'next/error';
 import { StripHtmlTags } from '@helpers/text';
-import { imageSize, features } from '@config';
+import { features } from '@config';
 import { useRouter } from 'next/router';
 import TagManager from 'react-gtm-module';
 import { getCookies } from '@helpers/cookies';
@@ -285,8 +285,8 @@ const PageDetail = (props) => {
             'og:image': product.items[0].small_image.url,
             'og:image:type': 'image/jpeg',
             'og:description': StripHtmlTags(product.items[0].description.html),
-            'og:image:width': imageSize.product.width,
-            'og:image:height': imageSize.product.height,
+            'og:image:width': features.imageSize.product.width,
+            'og:image:height': features.imageSize.product.height,
             'og:image:alt': product.items[0].name,
             'og:type': 'product',
             'product:availability': product.items[0].stock_status,

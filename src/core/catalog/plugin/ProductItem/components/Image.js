@@ -2,7 +2,7 @@
 import Thumbor from '@common_image';
 import Link from '@material-ui/core/Link';
 import React from 'react';
-import { imageSize } from '@config';
+import { features } from '@config';
 import useStyles from '../style';
 
 const ImageDetail = (props) => {
@@ -19,8 +19,8 @@ const ImageDetail = (props) => {
                         ? small_image.url
                         : '/assets/img/placeholder.png'}
                 className={styles.imgProduct}
-                width={imageSize.product.width}
-                height={imageSize.product.height}
+                width={features.imageSize.product.width}
+                height={features.imageSize.product.height}
                 quality={80}
                 alt={small_image && small_image.url ? small_image.label : name}
             />

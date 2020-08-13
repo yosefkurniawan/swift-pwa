@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
 import { gql } from 'apollo-boost';
-import { imageSize, features } from '@config';
+import { features, modules } from '@config';
 /**
  * generate dynamic filter query
  * @param catId number
@@ -75,12 +75,12 @@ export const getProduct = (config = {}) => gql`
           sku
           name
           url_key
-          ${features.productListing.configurableOptions ? `review {
+          ${modules.catalog.productListing.configurableOptions ? `review {
             rating_summary
             reviews_count
           }` : ''}
           small_image {
-            url(width: ${imageSize.product.width}, height: ${imageSize.product.height}),
+            url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
             label
           }
           categories {
@@ -128,7 +128,7 @@ export const getProduct = (config = {}) => gql`
               }
             }
           }
-          ${features.productListing.configurableOptions ? `
+          ${modules.catalog.productListing.configurableOptions ? `
           ... on ConfigurableProduct {
             configurable_options {
               id
@@ -151,7 +151,7 @@ export const getProduct = (config = {}) => gql`
                 id
                 sku
                 stock_status
-                ${features.productListing.rating
+                ${modules.catalog.productListing.rating
         ? `review {
                   rating_summary
                   reviews_count
@@ -200,7 +200,7 @@ export const getProduct = (config = {}) => gql`
                   }
                 }
                 small_image{
-                  url(width: ${imageSize.product.width}, height: ${imageSize.product.height}),
+                  url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
                   label
                 }
                 image {

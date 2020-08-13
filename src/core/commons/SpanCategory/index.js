@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@common_typography';
 import Link from 'next/link';
 import { useTranslation } from '@i18n';
-import { imageSize } from '@config';
+import { features } from '@config';
 import setDefaultWhenEmpty from '@helpers/checkImageSrc';
 import useStyles from './style';
 import Thumbor from '../Image';
@@ -28,8 +28,8 @@ const SpanCategory = ({
                                     maxHeight: '100%',
                                 }}
                                 quality={80}
-                                width={imageSize.category.width}
-                                height={imageSize.category.height}
+                                width={features.imageSize.category.width}
+                                height={features.imageSize.category.height}
                             />
                         </a>
                     </Link>
