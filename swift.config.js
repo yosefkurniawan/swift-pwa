@@ -79,16 +79,6 @@ const recaptcha = {
     },
 };
 
-// masuk module -> pindah jika module sudah siap
-/* Store Credit, Reward Point, Gift Card */
-const customerFeautres = {
-    storeCredit: true,
-    rewardPoint: true,
-    giftCard: true,
-    confirmPayment: true,
-    pickupStore: true,
-};
-
 /* List Of CMS Pages: [url-1, url-2, ..., url-n] */
 const cmsPages = ['about-us', 'aw-reward-points'];
 
@@ -106,23 +96,6 @@ const enableSocialMediaLink = true;
 
 /* Loader */
 const loaderImage = '/assets/img/loader.svg';
-
-// masuk features configuration -> perlu penyesuaian
-/* config general size image used on frontend */
-const imageSize = {
-    product: {
-        width: 240,
-        height: 300,
-    },
-    homeSlider: {
-        width: 960,
-        height: 1120,
-    },
-    category: {
-        width: 960,
-        height: 577,
-    },
-};
 
 /* --------------------------------------- */
 /* LOCAD DATA CACHE & COKIES
@@ -145,12 +118,6 @@ const features = {
         app_id: '', // if enabled add fb app id here. e.g. 3080154482073095
     },
     // masuk module -> pindah jika module sudah siap
-    productListing: {
-        configurableOptions: true,
-        rating: true,
-        wishlist: true,
-    },
-    // masuk module -> pindah jika module sudah siap
     productAvailableToCart: {
         SimpleProduct: true,
         ConfigurableProduct: true,
@@ -159,9 +126,27 @@ const features = {
         BundleProduct: false,
         DownloadableProduct: false,
     },
+    imageSize: {
+        product: {
+            width: 240,
+            height: 300,
+        },
+        homeSlider: {
+            width: 960,
+            height: 1120,
+        },
+        category: {
+            width: 960,
+            height: 577,
+        },
+    },
 };
 
 const modules = {
+    about: {
+        enabled: true,
+        path: '/about-us',
+    },
     blog: {
         enabled: true,
         path: '/blog',
@@ -203,6 +188,10 @@ const modules = {
     customer: {
         enabled: true,
         path: '/customer',
+    },
+    contact: {
+        enabled: true,
+        path: '/contact',
     },
     forgotpassword: {
         enabled: true,
@@ -263,10 +252,11 @@ const modules = {
     },
     order: {
         enabled: true,
+        path: '/sales/order',
     },
     wishlist: {
         enabled: true,
-        path: '/awgiftcard/card',
+        path: '/wishlist',
     },
 };
 
@@ -308,9 +298,7 @@ module.exports = {
     loaderImage,
     cmsContactIdentifiers,
     cmsSocialMediaLinkIdentifiers,
-    imageSize,
     custDataNameCookie,
-    customerFeautres,
     nameCheckoutCookie,
     nameGlobalCookie,
     enableSocialMediaLink,

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { customerFeautres } from '@config';
+import { modules } from '@config';
 import gqlService from '../../../../services/graphql';
 
 const RewardPoint = ({
@@ -67,7 +67,7 @@ const RewardPoint = ({
         setCheckout(state);
         setLoading(false);
     };
-    if (customerFeautres.rewardPoint && checkout.data.cart && checkout.data.customer) {
+    if (modules.rewardpoint.enabled && checkout.data.cart && checkout.data.customer) {
         return (
             <RewardPointView
                 checkout={checkout}

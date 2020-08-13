@@ -6,7 +6,7 @@ import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import DeleteOutlineOutlined from '@material-ui/icons/DeleteOutlineOutlined';
 import { formatPrice } from '@helpers/currency';
 
-import { imageSize } from '@config';
+import { features } from '@config';
 import Image from '@common_image';
 import useStyles from '../style';
 import ConfirmationDelete from '../confirmDelete';
@@ -31,8 +31,8 @@ const ItemView = (props) => {
                     src={product.small_image.url}
                     className={styles.itemImg}
                     alt={product.name}
-                    width={imageSize.product.width}
-                    height={imageSize.product.height}
+                    width={features.imageSize.product.width}
+                    height={features.imageSize.product.height}
                     quality={80}
                 />
             </div>

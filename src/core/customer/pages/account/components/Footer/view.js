@@ -17,16 +17,27 @@ const FooterView = (props) => {
     return (
         <div className={styles.account_block}>
             <ul className={styles.account_navigation}>
-                <li className={styles.account_navigation_item}>
-                    <Link href="/[...slug]" as="/about-us">
-                        <a className={styles.account_navigation_link}>{t('customer:menu:aboutUs')}</a>
-                    </Link>
-                </li>
-                <li className={styles.account_navigation_item}>
-                    <Link href="/contact">
-                        <a className={styles.account_navigation_link}>{t('customer:menu:contactUs')}</a>
-                    </Link>
-                </li>
+
+                {
+                    modules.about.enabled ? (
+                        <li className={styles.account_navigation_item}>
+                            <Link href="/[...slug]" as="/about-us">
+                                <a className={styles.account_navigation_link}>{t('customer:menu:aboutUs')}</a>
+                            </Link>
+                        </li>
+                    ) : null
+                }
+
+                {
+                    modules.contact.enabled ? (
+                        <li className={styles.account_navigation_item}>
+                            <Link href="/contact">
+                                <a className={styles.account_navigation_link}>{t('customer:menu:contactUs')}</a>
+                            </Link>
+                        </li>
+                    ) : null
+                }
+
                 {
                     modules.blog.enabled ? (
                         <li className={styles.account_navigation_item}>

@@ -19,14 +19,16 @@ const Customer = (props) => {
     if (!data || loading || error) return <Skeleton />;
     if (data) {
         userData = data;
-        wishlist = data.customer && data.customer.wishlist && data.customer.wishlist.items.map(({ product }) => ({
-            ...product,
-            name: product.name,
-            link: product.url_key,
-            imageSrc: product.small_image.url,
-            price: product.price_range.minimum_price.regular_price.value,
-            showWishlistAction: false,
-        }));
+        if (modules.wishlist.enabled) {
+            wishlist = data.customer && data.customer.wishlist && data.customer.wishlist.items.map(({ product }) => ({
+                ...product,
+                name: product.name,
+                link: product.url_key,
+                imageSrc: product.small_image.url,
+                price: product.price_range.minimum_price.regular_price.value,
+                showWishlistAction: false,
+            }));
+        }
     }
 
     const pushIf = (condition, ...elements) => (condition ? elements : []);

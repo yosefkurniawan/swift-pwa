@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { features } from '@config';
+import { modules } from '@config';
 import { getLoginInfo } from '@helpers/auth';
 import { setCookies } from '@helpers/cookies';
 import { useTranslation } from '@i18n';
@@ -80,7 +80,7 @@ const ProductItem = (props) => {
                         {...DetailProps}
                         {...other}
                     />
-                    {features.productListing.configurableOptions ? (
+                    {modules.catalog.productListing.configurableOptions ? (
                         <ConfigurableOpt
                             setSpesificProduct={setSpesificProduct}
                             {...other}
