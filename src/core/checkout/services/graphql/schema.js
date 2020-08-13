@@ -533,3 +533,26 @@ mutation removePickupStore(
     }
   }
 `;
+
+export const getCartIdUser = gql`
+    {
+        customerCart {
+            id
+        }
+    }
+`;
+
+export const mergeCart = gql`
+mutation mergeCart(
+    $sourceCartId: String!,
+    $destionationCartId: String!
+) {
+    mergeCarts(
+      source_cart_id:$sourceCartId,
+      destination_cart_id: $destionationCartId
+    ) {
+      id
+      total_quantity
+    }
+  }
+`;

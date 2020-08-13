@@ -2,10 +2,8 @@ import Layout from '@layout';
 
 import { setLogin } from '@helpers/auth';
 import { setCartId, getCartId } from '@helpers/cartId';
-import { GraphCart, GraphConfig } from '@services/graphql';
 import { expiredToken, custDataNameCookie, recaptcha } from '@config';
 import Cookies from 'js-cookie';
-import { getCustomer } from '@services/graphql/schema/customer';
 import { useQuery } from '@apollo/react-hooks';
 
 import { useFormik } from 'formik';
@@ -13,7 +11,10 @@ import * as Yup from 'yup';
 import Router from 'next/router';
 
 import { regexPhone } from '@helpers/regex';
-import { register } from '../../services/graphql';
+import {
+    register, otpConfig as queryOtpConfig, mergeCart as mutationMergeCart, getCustomerCartId,
+} from '../../services/graphql';
+import { getCustomer } from '../../services/graphql/schema';
 import Content from './components';
 
 const Register = (props) => {
@@ -41,15 +42,15 @@ const Register = (props) => {
         cartId = getCartId();
     }
 
-    const [getCart, cartData] = GraphCart.getCustomerCartId();
-    const [mergeCart, { called }] = GraphCart.mergeCart();
+    const [getCart, cartData] = getCustomerCartId();
+    const [mergeCart, { called }] = mutationMergeCart();
     const custData = useQuery(getCustomer, {
         context: {
             request: 'internal',
         },
         skip: !cusIsLogin,
     });
-    const otpConfig = GraphConfig.otpConfig();
+    const otpConfig = queryOtpConfig();
 
     const [sendRegister] = register();
 

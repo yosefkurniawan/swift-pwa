@@ -1,11 +1,10 @@
 import { getCartId, setCartId } from '@helpers/cartId';
 import { getLoginInfo } from '@helpers/auth';
-import { GraphCart } from '@services/graphql';
 import { useApolloClient } from '@apollo/react-hooks';
 // import Router from 'next/router';
 import React from 'react';
 import TagManager from 'react-gtm-module';
-import { addVirtualProductToCart } from '../../../../../../services/graphql';
+import { addVirtualProductToCart, getGuestCartId as queryGetGuestCartId, getCustomerCartId } from '../../../../../../services/graphql';
 
 export default ({
     setOpen,
@@ -32,8 +31,8 @@ export default ({
     }
 
     const [addCartVirtual] = addVirtualProductToCart();
-    const [getGuestCartId] = GraphCart.getGuestCartId();
-    const cartUser = GraphCart.getCustomerCartId();
+    const [getGuestCartId] = queryGetGuestCartId();
+    const cartUser = getCustomerCartId();
 
     const handleAddToCart = async () => {
         setLoading(true);

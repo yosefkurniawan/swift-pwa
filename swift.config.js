@@ -89,11 +89,6 @@ const customerFeautres = {
     pickupStore: true,
 };
 
-/* Blog */
-const blog = {
-    urlPath: '/blog',
-};
-
 /* Brand Page */
 const showBrandPage = true;
 
@@ -288,7 +283,6 @@ const debuging = {
 
 module.exports = {
     debuging,
-    blog,
     GTM,
     HOST,
     graphqlEndpoint,
