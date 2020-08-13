@@ -1,5 +1,3 @@
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import TextField from '@common_textfield';
 import DropFile from '@common_dropfile';
 import Button from '@common_button';
@@ -8,75 +6,12 @@ import React from 'react';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import DateDayJs from '@date-io/dayjs';
 import useStyles from './style';
-import { confirmPayment } from '../service/graphql';
-import formatDate from '../../../helpers/date';
 
 const ConfirmPayment = (props) => {
-    const { t } = props;
+    const {
+        t, formik, handleChangeDate, handleDropFile,
+    } = props;
     const styles = useStyles();
-    const [postConfirmPayment] = confirmPayment();
-    const validationSchema = Yup.object().shape({
-        order_number: Yup.number().typeError(t('payment:confirmPayment:form:validNumber'))
-            .positive(t('payment:confirmPayment:form:validNumber')).required(t('payment:confirmPayment:form:validation')),
-        payment: Yup.string().required(t('payment:confirmPayment:form:validation')),
-        account_number: Yup.number().typeError(t('payment:confirmPayment:form:validNumber'))
-            .positive(t('payment:confirmPayment:form:validNumber')).required(t('payment:confirmPayment:form:validation')),
-        account_name: Yup.string().required(t('payment:confirmPayment:form:validation')),
-        amount: Yup.number().typeError(t('payment:confirmPayment:form:validNumber'))
-            .positive(t('payment:confirmPayment:form:validNumber')).required(t('payment:confirmPayment:form:validation')),
-        date: Yup.string().required(t('payment:confirmPayment:form:validation')),
-        filename: Yup.string().required(t('payment:confirmPayment:form:validation')),
-        image_base64: Yup.string().required(t('payment:confirmPayment:form:validation')),
-    });
-    const formik = useFormik({
-        initialValues: {
-            order_number: '',
-            payment: '',
-            account_number: '',
-            account_name: '',
-            amount: '',
-            date: Date.now(),
-            filename: '',
-            image_base64: '',
-        },
-        validationSchema,
-        onSubmit: (values, { resetForm }) => {
-            window.backdropLoader(true);
-            postConfirmPayment({
-                variables: {
-                    ...values,
-                    amount: parseFloat(values.amount),
-                    date: formatDate(values.date, 'YYYY-MM-03 HH:mm:ss'),
-                },
-            }).then(() => {
-                window.backdropLoader(true);
-                window.toastMessage({
-                    open: true,
-                    text: t('payment:confirmPayment:confirmSuccess'),
-                    variant: 'success',
-                });
-                resetForm({});
-            }).catch((e) => {
-                window.backdropLoader(true);
-                window.toastMessage({
-                    open: true,
-                    text: e.message.split(':')[1] || t('payment:confirmPayment:confirmFailed'),
-                    variant: 'error',
-                });
-            });
-        },
-
-    });
-
-    const handleChangeDate = (date) => {
-        formik.setFieldValue('date', date);
-    };
-    const handleDropFile = (files) => {
-        const fileName = files[0].file.name;
-        const { baseCode } = files[0];
-        formik.setFieldValue('filename', fileName);
-        formik.setFieldValue('image_base64', baseCode);
-    };
     return (
         <div className={styles.container}>
             <form onSubmit={formik.handleSubmit}>
