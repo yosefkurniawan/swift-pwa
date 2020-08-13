@@ -1,6 +1,12 @@
 /* eslint-disable import/prefer-default-export */
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import * as Schema from './schema';
+
+export const addWishlist = () => useMutation(Schema.addWishlist, {
+    context: {
+        request: 'internal',
+    },
+});
 
 export const getCartData = (token, cartId) => useQuery(Schema.getCart,
     {
