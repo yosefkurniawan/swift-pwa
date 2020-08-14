@@ -17,6 +17,7 @@ const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false });
 const ScrollToTop = dynamic(() => import('./components/ScrollToTop'), { ssr: false });
 
+const Footer = dynamic(() => import('@core/cms/plugin/footer'), { ssr: false });
 const Layout = (props) => {
     const {
         pageConfig,
@@ -154,6 +155,7 @@ const Layout = (props) => {
                         ? <div>Footer</div>
                         : <BottomNavigation active={pageConfig.bottomNav} />
                 }
+                <Footer />
             </footer>
         </>
     );

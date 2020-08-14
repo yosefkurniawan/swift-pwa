@@ -13,4 +13,14 @@ export const getCmsPage = gql`
     }
 `;
 
-export default { getCmsPage };
+export const getCmsBlocks = gql`
+    query($identifiers: String!){
+        cmsBlocks(identifiers: $identifiers){
+            identifier
+            title
+            content
+        }
+    }
+`;
+
+export default { getCmsPage, getCmsBlocks };
