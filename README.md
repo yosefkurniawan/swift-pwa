@@ -5,68 +5,93 @@ Demo: [https://pwa.getswift.asia/](https://pwa.getswift.asia/)
 ## Installation
 
 ### Without Docker
-1. run the development server:
+1. run dev mode on local environment:
 ```bash
-npm run dev
+npm run local
 # or
-yarn dev
+yarn local
 ```
-2. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+or, run prod mode on local environment:
+```bash
+npm run local:start
+# or
+yarn local:start
+```
+2. Open [http://localhost:3000](http://localhost:3000) on browser to see the frontend.
 
 ### With Docker
-dev mode: 
-open file docker-compose.yml on `docker/local` then change bind volume 
+#### Local environment (dev mode): 
+1. build:
 ```
-    volumes:
-        - [project path in local]:[project path in docker]
-``` 
-
+docker-compose -f ./docker/local/docker-compose.yml build
 ```
-to build docker-compose -f ./docker/local/docker-compose.yml build
-to run docker-compose -f ./docker/local/docker-compose.yml up
-to rebuild and run docker-compose -f ./docker/local/docker-compose.yml up -- build
+2. run: 
+```
+docker-compose -f ./docker/local/docker-compose.yml up
 ```
 
-prod mode:
+or, rebuild and run in one step:
 ```
-to build: `docker-compose build`
-to run: `docker-composer up`
-to re-build and run: `docker-compose up --build`
+docker-compose -f ./docker/local/docker-compose.yml up -- build
 ```
 
+#### Dev environment (prod mode): 
+1. build: `docker-compose -f ./docker/dev/docker-compose.yml build`
+2. run: `docker-compose -f ./docker/dev/docker-compose.yml up`
 
+or, rebuild and run in one step: `docker-compose -f ./docker/dev/docker-compose.yml up --build`
 
+#### Prod environment (prod mode):
+1. build: `docker-compose build`
+2. run: `docker-composer up`
+
+or, rebuild and run in one step: `docker-compose up --build`
 
 ## Setup Host and Graphql Endpoint
 1. open file swift.config.js
-2. edit host and graphql endpoint, sample:
+2. edit the host of each environment at this line:
 ```
 const HOST = {
-    local: 'http://localhost:3000',
-    dev: 'https://swiftpwa.testingnow.me',
-    stage: 'https://pwa.getswift.asia.dmmy.me',
-    prod: 'https://pwa.getswift.asia',
+    local: 'http://localhost:3000'
+    dev: '[dev url]',
+    stage: '[stage url]',
+    prod: '[prod url]',
 };
 ```
-3. Edit Gql endpoint at this line:
+3. Edit Gql endpoint of each environment at this line:
 ```
 const graphqlEndpoint = {
-    local: 'https://swiftpwa-be.testingnow.me/graphql',
-    dev: 'https://swiftpwa-be.testingnow.me/graphql',
-    stage: 'https://swiftpwa-be.testingnow.me/graphql',
-    prod: 'https://b2cdemo.getswift.asia/graphql',
+    local: '[gql endpoint for local]'
+    dev: '[gql endpoint for dev]',
+    stage: '[gql endpoint for stage]',
+    prod: '[gql endpoint for prod]',
 };
 ```
 
 # Core modules
-1. [Blog](src/core/blog/readme.md) 
-2. [Brands](src/core/brands/readme.md) 
-3. [Catalog](src/core/catalog/readme.md) 
-4. [Checkout](src/core/checkout/readme.md) 
-5. [Order](src/core/order/readme.md) 
-6. [Reward Point](src/core/rewardpoint/readme.md) 
-7. [RMA](src/core/rma/readme.md) 
-8. [Tracking Order](src/core/trackingorder/readme.md) 
-9. [Cart](src/core/cart/readme.md) 
-
-### [Core common components ](src/core/commons/readme.md)
+- [Blog](src/core/blog/readme.md) 
+- [Brands](src/core/brands/readme.md) 
+- [Cart](src/core/cart/readme.md) 
+- [Catalog](src/core/catalog/readme.md) 
+- [Checkout](src/core/checkout/readme.md) 
+- [CMS](src/core/cms/readme.md) 
+- [Confirm Payment](src/core/confirmpayment/readme.md) 
+- [Contact](src/core/contact/readme.md) 
+- [Customer](src/core/customer/readme.md) 
+- [PDP](src/core/detail/readme.md) 
+- [Error](src/core/error/readme.md) 
+- [Forgot Password](src/core/forgotpassword/readme.md) 
+- [Home](src/core/home/readme.md) 
+- [Login](src/core/login/readme.md) 
+- [Maintenance](src/core/maintenance/readme.md) 
+- [Notification](src/core/notification/readme.md) 
+- [Order](src/core/order/readme.md) 
+- [Register](src/core/register/readme.md) 
+- [Reward Point](src/core/rewardpoint/readme.md) 
+- [RMA](src/core/rma/readme.md) 
+- [Search Result](src/core/searchresult/readme.md) 
+- [Slug](src/core/slug/readme.md) 
+- [Store Credit](src/core/storecredit/readme.md) 
+- [Thanks](src/core/thanks/readme.md) 
+- [Tracking Order](src/core/trackingorder/readme.md) 
+- [Common components](src/core/commons/readme.md)
