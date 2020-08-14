@@ -78,7 +78,7 @@ const graphqlEndpoint = {
 - [Confirm Payment](src/core/confirmpayment/readme.md) 
 - [Contact](src/core/contact/readme.md) 
 - [Customer](src/core/customer/readme.md) 
-- [Product](src/core/detail/readme.md) 
+- [Product](src/core/product/readme.md) 
 - [Error](src/core/error/readme.md) 
 - [Forgot Password](src/core/forgotpassword/readme.md) 
 - [Home](src/core/home/readme.md) 
