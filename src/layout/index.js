@@ -9,10 +9,13 @@ import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { custDataNameCookie, features } from '@config';
 import { getHost } from '@helpers/config';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const Navigation = dynamic(() => import('@common_navigation'), { ssr: false });
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false });
+const ScrollToTop = dynamic(() => import('./components/ScrollToTop'), { ssr: false });
 
 const Layout = (props) => {
     const {
@@ -97,6 +100,9 @@ const Layout = (props) => {
         }
     }, []);
 
+    const theme = useTheme();
+    const desktop = useMediaQuery(theme.breakpoints.up('md'));
+
     return (
         <>
             <Head>
@@ -123,9 +129,12 @@ const Layout = (props) => {
                     ) : null}
             </Head>
 
-            {React.isValidElement(CustomHeader)
-                ? <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
-                : <Header {...headerProps} pageConfig={pageConfig} />}
+            {
+                desktop ? <div>Header</div>
+                    : React.isValidElement(CustomHeader)
+                        ? <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
+                        : <Header {...headerProps} pageConfig={pageConfig} />
+            }
 
             <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0 }}>
                 <Loading open={state.backdropLoader} />
@@ -136,9 +145,14 @@ const Layout = (props) => {
                     message={state.toastMessage.text}
                 />
                 {children}
+                { desktop ? <ScrollToTop {...props} /> : null }
             </main>
             <footer>
-                <Navigation active={pageConfig.bottomNav} />
+                {
+                    desktop
+                        ? <div>Footer</div>
+                        : <Navigation active={pageConfig.bottomNav} />
+                }
             </footer>
         </>
     );
