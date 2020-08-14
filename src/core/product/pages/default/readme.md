@@ -8,7 +8,7 @@ if you don't need custom, you can import it directly from the default modules
 ## Use default template and no overide
 ### import Detail module and place on your routing
 ````
-import Page from '@core/detail/pages/default';
+import Page from '@core/product/pages/default';
 export default Page;
 
 
@@ -18,7 +18,7 @@ export default Page;
 ### 1. import core brand module
 
 ````
-import Core from '@core/detail/pages/default/core';
+import Core from '@core/product/pages/default/core';
 ````
 ### 2. create your custom template
 ### 3. import your template
@@ -27,7 +27,7 @@ import Core from '@core/detail/pages/default/core';
 ````
 import { withTranslation } from '@i18n';
 import Content from './components';
-import Page from '@core/detail/pages/default';
+import Page from '@core/product/pages/default';
 
 const Page = (props) => (
     <Core {...props} Content={Content} />
@@ -39,7 +39,7 @@ export default withTranslation()(Page);
 
 for example components you can copy and  change up to you on  index.js components
 ````
-'@core/detail/pages/default/components/index';
+'@core/product/pages/default/components/index';
 ````
 
 ### Note
@@ -103,7 +103,7 @@ const pageConfig = {
 1. ConfigurableCore
 
     Component to handle add to cart configurable product, this component on select and add to cart options,
-    for detail see `@core/detail/pages/default/components/OptionItem` to usage
+    for detail see `@core/product/pages/default/components/OptionItem` to usage
 
     ## properties
 
@@ -121,7 +121,7 @@ const pageConfig = {
 2. VirtualCore
     
     Component to handle add to cart virtual product, this component on select and add to cart options,
-    for detail see `@core/detail/pages/default/components/OptionItem` to usage
+    for detail see `@core/product/pages/default/components/OptionItem` to usage
 
      ## properties
 
@@ -138,7 +138,7 @@ const pageConfig = {
 3. SimpleCore
 
     Component to handle add to cart simple product, this component on select and add to cart options,
-    for detail see `@core/detail/pages/default/components/OptionItem` to  usage
+    for detail see `@core/product/pages/default/components/OptionItem` to  usage
 
     ## properties
 
@@ -155,7 +155,7 @@ const pageConfig = {
 
     Component to select and add to cart product id, this component usage on ConfigurableCore, VirtualCore, and SimpleCore
 
-    for detail see `@core/detail/pages/default/components/OptionItem/configurable` to  usage
+    for detail see `@core/product/pages/default/components/OptionItem/configurable` to  usage
 
     ## properties
 
@@ -168,10 +168,10 @@ const pageConfig = {
     | handleAddToCart     |  function to handle add to cart      | Function |
 
 # Default Components Core
-1. ConfigurableCore `@core/detail/pages/default/components/OptionItem/configurable`
-2. ConfigurableView `@core/detail/pages/default/components/OptionItem/configurable/view`
-3. SimpleCore `@core/detail/pages/default/components/OptionItem/simple`
-4. SimpleView `@core/detail/pages/default/components/OptionItem/simple/view`
-5. VirtualCore `@core/detail/pages/default/components/OptionItem/virtual`
-6. VirtualView `@core/detail/pages/default/components/OptionItem/virtual/view`
-7. Footer (bottom button and select qty) `@core/detail/pages/default/components/Footer`
+1. ConfigurableCore `@core/product/pages/default/components/OptionItem/configurable`
+2. ConfigurableView `@core/product/pages/default/components/OptionItem/configurable/view`
+3. SimpleCore `@core/product/pages/default/components/OptionItem/simple`
+4. SimpleView `@core/product/pages/default/components/OptionItem/simple/view`
+5. VirtualCore `@core/product/pages/default/components/OptionItem/virtual`
+6. VirtualView `@core/product/pages/default/components/OptionItem/virtual/view`
+7. Footer (bottom button and select qty) `@core/product/pages/default/components/Footer`
