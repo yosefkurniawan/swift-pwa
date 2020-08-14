@@ -9,8 +9,7 @@ import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { custDataNameCookie, features } from '@config';
 import { getHost } from '@helpers/config';
-import { useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { breakPointsUp } from '@helpers/theme';
 
 const Navigation = dynamic(() => import('@common_navigation'), { ssr: false });
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
@@ -100,8 +99,7 @@ const Layout = (props) => {
         }
     }, []);
 
-    const theme = useTheme();
-    const desktop = useMediaQuery(theme.breakpoints.up('md'));
+    const desktop = breakPointsUp('sm');
 
     return (
         <>
