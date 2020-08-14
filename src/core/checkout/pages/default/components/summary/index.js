@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useApolloClient } from '@apollo/react-hooks';
 import { setCartId, removeCartId } from '@helpers/cartId';
 import { setCheckoutData } from '@helpers/cookies';
-import { GraphCart } from '@services/graphql';
 import _ from 'lodash';
 import { formatPrice } from '@helpers/currency';
 import gqlService from '../../../../services/graphql';
@@ -28,8 +27,8 @@ const Summary = ({
     const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
     const [placeOrder] = gqlService.placeOrder({ onError: () => {} });
     const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => {} });
-    const [getCustCartId, manageCustCartId] = GraphCart.getCustomerCartId();
-    const [mergeCart] = GraphCart.mergeCart();
+    const [getCustCartId, manageCustCartId] = gqlService.getCustomerCartId();
+    const [mergeCart] = gqlService.mergeCart();
 
     const validateReponse = (response, parentState) => {
         const state = parentState;

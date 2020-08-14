@@ -1,4 +1,4 @@
-import { customerFeautres } from '@config';
+import { modules } from '@config';
 
 import gqlService from '../../../../services/graphql';
 
@@ -63,7 +63,7 @@ const DiscountSection = (props) => {
         setCheckout(state);
     };
 
-    if (store_credit && (store_credit.enabled || customerFeautres.storeCredit)) {
+    if (store_credit && (store_credit.enabled || modules.storecredit.enabled)) {
         return (
             <StoreCreditView
                 store_credit={store_credit}

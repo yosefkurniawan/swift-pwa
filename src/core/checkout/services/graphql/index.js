@@ -134,7 +134,24 @@ export const getPickupStore = (options = {}) => useQuery(Schema.getPickupStore, 
     ...config(USING_INTERNAL),
 });
 
+export const getCustomerCartId = () => useLazyQuery(Schema.getCartIdUser, {
+    context: {
+        request: 'internal',
+    },
+    skip: typeof window === 'undefined',
+    fetchPolicy: 'no-cache',
+});
+
+export const mergeCart = () => useMutation(Schema.mergeCart, {
+    context: {
+        request: 'internal',
+    },
+    skip: typeof window === 'undefined',
+});
+
 export default {
+    getCustomerCartId,
+    mergeCart,
     getCustomer,
     getCart,
     getRewardPoint,

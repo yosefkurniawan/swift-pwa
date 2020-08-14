@@ -35,6 +35,7 @@ const Content = (props) => {
         SummaryView,
         RewardPointView,
         StoreCreditView,
+        modules,
     } = props;
     return (
         <div style={containerStyle || {}}>
@@ -108,47 +109,55 @@ const Content = (props) => {
                     storeConfig={storeConfig}
                     PaymentView={PaymentView}
                 />
-                <Promo
-                    t={t}
-                    checkout={checkout}
-                    setCheckout={setCheckout}
-                    handleOpenMessage={handleOpenMessage}
-                    formik={formik}
-                    storeConfig={storeConfig}
-                    PromoView={PromoView}
-                />
-                <GiftCard
-                    t={t}
-                    checkout={checkout}
-                    setCheckout={setCheckout}
-                    handleOpenMessage={handleOpenMessage}
-                    formik={formik}
-                    storeConfig={storeConfig}
-                    GiftCardView={GiftCardView}
-                />
+                {modules.promo.enabled ? (
+                    <Promo
+                        t={t}
+                        checkout={checkout}
+                        setCheckout={setCheckout}
+                        handleOpenMessage={handleOpenMessage}
+                        formik={formik}
+                        storeConfig={storeConfig}
+                        PromoView={PromoView}
+                    />
+                ) : null }
+                {modules.giftcard.enabled ? (
+                    <GiftCard
+                        t={t}
+                        checkout={checkout}
+                        setCheckout={setCheckout}
+                        handleOpenMessage={handleOpenMessage}
+                        formik={formik}
+                        storeConfig={storeConfig}
+                        GiftCardView={GiftCardView}
+                    />
+                ) : null }
                 <Grid container spacing={2}>
-                    <Grid item xs={12} sm={12} md={6} xl={6}>
-                        <RewardPoint
-                            t={t}
-                            checkout={checkout}
-                            setCheckout={setCheckout}
-                            handleOpenMessage={handleOpenMessage}
-                            formik={formik}
-                            storeConfig={storeConfig}
-                            RewardPointView={RewardPointView}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={6} xl={6}>
-                        <Credit
-                            t={t}
-                            checkout={checkout}
-                            setCheckout={setCheckout}
-                            handleOpenMessage={handleOpenMessage}
-                            formik={formik}
-                            storeConfig={storeConfig}
-                            StoreCreditView={StoreCreditView}
-                        />
-                    </Grid>
+                    {modules.rewardpoint.enabled ? (
+                        <Grid item xs={12} sm={12} md={6} xl={6}>
+                            <RewardPoint
+                                t={t}
+                                checkout={checkout}
+                                setCheckout={setCheckout}
+                                handleOpenMessage={handleOpenMessage}
+                                formik={formik}
+                                storeConfig={storeConfig}
+                                RewardPointView={RewardPointView}
+                            />
+                        </Grid>
+                    ) : null}
+                    {modules.storecredit.enabled ? (
+                        <Grid item xs={12} sm={12} md={6} xl={6}>
+                            <Credit
+                                t={t}
+                                checkout={checkout}
+                                setCheckout={setCheckout}
+                                handleOpenMessage={handleOpenMessage}
+                                formik={formik}
+                                storeConfig={storeConfig}
+                                StoreCreditView={StoreCreditView}
+                            />
+                        </Grid>
+                    ) : null}
                 </Grid>
             </>
             <Summary

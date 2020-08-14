@@ -1,4 +1,4 @@
-import { customerFeautres } from '@config';
+import { modules } from '@config';
 import gqlService from '../../../../services/graphql';
 
 const GiftCard = (props) => {
@@ -79,7 +79,7 @@ const GiftCard = (props) => {
         setCheckout(state);
     };
 
-    if (customerFeautres.giftCard) {
+    if (modules.giftcard.enabled) {
         return (
             <GiftCardView
                 handleRemoveGift={handleRemoveGift}

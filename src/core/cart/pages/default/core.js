@@ -3,12 +3,11 @@
 import { useState, useEffect } from 'react';
 import { getCartId } from '@helpers/cartId';
 import { useMutation } from '@apollo/react-hooks';
-import { GraphCustomer } from '@services/graphql';
 import TagManager from 'react-gtm-module';
 import { storeConfigNameCokie } from '@config';
 import cookies from 'js-cookie';
 import Layout from '@layout';
-import { getCartData } from '../../services/graphql';
+import { getCartData, addWishlist as mutationWishlist } from '../../services/graphql';
 import * as Schema from '../../services/graphql/schema';
 
 const getCrossSellProduct = (items) => {
@@ -202,7 +201,7 @@ const Cart = (props) => {
         }
     }, [dataCart]);
     // add to wishlist
-    const [addWishlist] = GraphCustomer.addWishlist();
+    const [addWishlist] = mutationWishlist();
     const handleFeed = (itemProps) => {
         if (isLogin && isLogin === 1) {
             TagManager.dataLayer({

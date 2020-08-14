@@ -2,11 +2,12 @@
 import React from 'react';
 import { useApolloClient } from '@apollo/react-hooks';
 import ProductByVariant, { getCombinationVariants, CheckAvailableOptions } from '@helpers/productByVariant';
-import { GraphCart } from '@services/graphql';
 import { getLoginInfo } from '@helpers/auth';
 import { getCartId, setCartId } from '@helpers/cartId';
 import TagManager from 'react-gtm-module';
-import { addConfigProductsToCart, getConfigurableProduct } from '../../../../../../services/graphql';
+import {
+    addConfigProductsToCart, getConfigurableProduct, getGuestCartId as queryGetGuestCartId, getCustomerCartId,
+} from '../../../../../../services/graphql';
 
 export default (props) => {
     const {
@@ -113,8 +114,8 @@ export default (props) => {
     }
 
     const [addCartConfig] = addConfigProductsToCart();
-    const [getGuestCartId] = GraphCart.getGuestCartId();
-    const cartUser = GraphCart.getCustomerCartId();
+    const [getGuestCartId] = queryGetGuestCartId();
+    const cartUser = getCustomerCartId();
 
     const [error, setError] = React.useState({});
 

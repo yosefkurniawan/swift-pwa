@@ -1,5 +1,5 @@
 import { gql } from 'apollo-boost';
-import { imageSize } from '@config';
+import { features } from '@config';
 
 export const getBannerSlider = gql`
     {
@@ -32,7 +32,7 @@ export const getFeaturedProducts = gql`
                         url_key
                         canonical_url
                         small_image {
-                            url(width: ${imageSize.product.width}, height: ${imageSize.product.height}),
+                            url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
                         }
                         price_tiers {
                             discount {

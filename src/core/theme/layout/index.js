@@ -9,10 +9,10 @@ import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { custDataNameCookie, features } from '@config';
 import { getHost } from '@helpers/config';
-import { useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { breakPointsUp } from '@helpers/theme';
 
-const Navigation = dynamic(() => import('@common_navigation'), { ssr: false });
+const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
+const HeaderDesktop = dynamic(() => import('@common_headerdesktop'), { ssr: true });
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false });
 const ScrollToTop = dynamic(() => import('./components/ScrollToTop'), { ssr: false });
@@ -100,8 +100,7 @@ const Layout = (props) => {
         }
     }, []);
 
-    const theme = useTheme();
-    const desktop = useMediaQuery(theme.breakpoints.up('md'));
+    const desktop = breakPointsUp('sm');
 
     return (
         <>
@@ -128,9 +127,11 @@ const Layout = (props) => {
                         ))
                     ) : null}
             </Head>
-
+            <div className="hidden-xs">
+                <HeaderDesktop storeConfig={storeConfig} />
+            </div>
             {
-                desktop ? <div>Header</div>
+                desktop ? null
                     : React.isValidElement(CustomHeader)
                         ? <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
                         : <Header {...headerProps} pageConfig={pageConfig} />
@@ -151,7 +152,7 @@ const Layout = (props) => {
                 {
                     desktop
                         ? <div>Footer</div>
-                        : <Navigation active={pageConfig.bottomNav} />
+                        : <BottomNavigation active={pageConfig.bottomNav} />
                 }
             </footer>
         </>

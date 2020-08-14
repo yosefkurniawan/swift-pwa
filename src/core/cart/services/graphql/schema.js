@@ -152,3 +152,28 @@ export const updateCartitem = gql`
       }
     }
 `;
+
+export const addWishlist = gql`
+    mutation addWishlist($productId: Int!) {
+        addProductToWishlist(productId: $productId) {
+            info
+        }
+    }
+`;
+
+export const getCartIdUser = gql`
+    {
+        customerCart {
+            id
+        }
+    }
+`;
+
+export const getCountCart = gql`
+    query getCartData($cartId: String!) {
+        cart(cart_id: $cartId) {
+            id
+            total_quantity
+        }
+    }
+`;

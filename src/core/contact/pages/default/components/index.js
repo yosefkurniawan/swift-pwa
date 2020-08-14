@@ -1,12 +1,9 @@
-import Loading from '@common_loaders/Backdrop';
 import Typography from '@common_typography';
 import Button from '@common_button';
 import TextField from '@common_textfield';
-import { cmsContactIdentifiers, recaptcha, debuging } from '@config';
-import { GraphCms } from '@services/graphql';
+import { recaptcha } from '@config';
 import ReCAPTCHA from 'react-google-recaptcha';
 import dynamic from 'next/dynamic';
-import Alert from '@material-ui/lab/Alert';
 import useStyles from './style';
 
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
@@ -94,18 +91,7 @@ const ContactForm = (props) => {
 };
 
 const ContactPage = (props) => {
-    const { error, loading, data } = GraphCms.getCmsBlocks({ identifiers: [cmsContactIdentifiers] });
-    if (error) {
-        return (
-            <div className="cms-container">
-                <Alert className="m-15" severity="error">
-                    {debuging.originalError ? error.message.split(':')[1] : props.t('common:error:fetchError')}
-                </Alert>
-            </div>
-        );
-    }
-    if (loading) return <Loading open={loading} />;
-
+    const { data } = props;
     return (
         <>
             {/* eslint-disable-next-line react/no-danger */}

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { imageSize } from '@config';
+import { features } from '@config';
 import Carousel from '@common_slider/Carousel';
 import Thumbor from '@common_image';
 import useStyles from '../style';
@@ -31,8 +31,8 @@ const FeaturedView = ({
                                 maxWidth: '100%',
                                 maxHeight: '100%',
                             }}
-                            width={imageSize.category.width}
-                            height={imageSize.category.height}
+                            width={features.imageSize.category.width}
+                            height={features.imageSize.category.height}
                             quality={80}
                         />
                     </a>

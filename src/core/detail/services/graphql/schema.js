@@ -1,5 +1,5 @@
 import { gql } from 'apollo-boost';
-import { imageSize } from '@config';
+import { features } from '@config';
 
 const productDetail = `
     id
@@ -11,7 +11,7 @@ const productDetail = `
     __typename
     attribute_set_id
     small_image{
-      url(width: ${imageSize.product.width}, height: ${imageSize.product.height}),
+      url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
       label
     }
     image{
@@ -312,6 +312,28 @@ export const getReview = () => {
     `;
     return query;
 };
+
+export const addWishlist = gql`
+    mutation addWishlist($productId: Int!) {
+        addProductToWishlist(productId: $productId) {
+            info
+        }
+    }
+`;
+
+export const createCartIdGuest = gql`
+    mutation {
+        createEmptyCart
+    }
+`;
+
+export const getCartIdUser = gql`
+    {
+        customerCart {
+            id
+        }
+    }
+`;
 
 export default {
     createEmptyCartGuest,

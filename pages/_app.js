@@ -23,6 +23,7 @@ import PageProgressLoader from '@common_loaders/PageProgress';
 import graphRequest from '../src/api/graphql/request';
 import routeMiddleware from '../src/middlewares/route';
 import '../src/styles/index.css';
+import '../src/styles/mediaquery.css';
 import '../src/styles/flexboxgrid.min.css';
 
 const tagManagerArgs = {
