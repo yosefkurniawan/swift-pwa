@@ -24,15 +24,9 @@ yarn local:start
 1. build:
 ```
 docker-compose -f ./docker/local/docker-compose.yml build
-<<<<<<< HEAD
 ```
 2. run: 
 ```
-=======
-```
-2. run: 
-```
->>>>>>> 636531b6361f69e436f018581460f55e21a06f5f
 docker-compose -f ./docker/local/docker-compose.yml up
 ```
 
@@ -84,7 +78,7 @@ const graphqlEndpoint = {
 - [Confirm Payment](src/core/confirmpayment/readme.md) 
 - [Contact](src/core/contact/readme.md) 
 - [Customer](src/core/customer/readme.md) 
-- [PDP](src/core/detail/readme.md) 
+- [Product](src/core/detail/readme.md) 
 - [Error](src/core/error/readme.md) 
 - [Forgot Password](src/core/forgotpassword/readme.md) 
 - [Home](src/core/home/readme.md) 
