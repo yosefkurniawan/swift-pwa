@@ -4,7 +4,7 @@ const Footer = (props) => {
     const {
         Content, t,
     } = props;
-    const { data, loading, error } = getCmsBlocks({ identifiers: 'pwa_footer' });
+    const { data, loading, error } = getCmsBlocks({ identifiers: ['pwa_footer'] });
 
     const Config = {
         title: data && data.cmsBlocks ? data.cmsBlocks.title : '',

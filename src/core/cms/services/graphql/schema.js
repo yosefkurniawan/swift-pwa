@@ -14,11 +14,13 @@ export const getCmsPage = gql`
 `;
 
 export const getCmsBlocks = gql`
-    query($identifiers: String!){
-        cmsBlocks(identifiers: $identifiers){
-            identifier
-            title
-            content
+    query($identifiers: [String]) {
+        cmsBlocks(identifiers: $identifiers) {
+            items {
+                identifier
+                title
+                content
+            }
         }
     }
 `;
