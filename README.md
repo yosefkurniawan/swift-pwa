@@ -5,51 +5,65 @@ Demo: [https://pwa.getswift.asia/](https://pwa.getswift.asia/)
 ## Installation
 
 ### Without Docker
-1. run the development server:
+1. run dev mode on local environment:
 ```bash
-npm run dev
+npm run local
 # or
-yarn dev
+yarn local
 ```
-2. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+or, run prod mode on local environment:
+```bash
+npm run local:start
+# or
+yarn local:start
+```
+2. Open [http://localhost:3000](http://localhost:3000) on browser to see the frontend.
 
 ### With Docker
-dev mode: 
-open file docker-compose.yml on `docker/local` then change bind volume 
+#### Local environment (dev mode): 
+1. build:
 ```
-    volumes:
-        - [project path in local]:[project path in docker]
-``` 
-
+docker-compose -f ./docker/local/docker-compose.yml build
 ```
-to build docker-compose -f ./docker/local/docker-compose.yml build
-to run docker-compose -f ./docker/local/docker-compose.yml up
-to rebuild and run docker-compose -f ./docker/local/docker-compose.yml up -- build
+2. run: 
+```
+docker-compose -f ./docker/local/docker-compose.yml up
 ```
 
-prod mode:
+or, rebuild and run in one step:
 ```
-to build: `docker-compose build`
-to run: `docker-composer up`
-to re-build and run: `docker-compose up --build`
+docker-compose -f ./docker/local/docker-compose.yml up -- build
 ```
 
+#### Dev environment (prod mode): 
+1. build: `docker-compose -f ./docker/dev/docker-compose.yml build`
+2. run: `docker-compose -f ./docker/dev/docker-compose.yml up`
 
+or, rebuild and run in one step: `docker-compose -f ./docker/dev/docker-compose.yml up -- build`
 
+#### Prod environment (prod mode):
+1. build: `docker-compose build`
+2. run: `docker-composer up`
+
+or, rebuild and run in one step: `docker-compose up --build`
 
 ## Setup Host and Graphql Endpoint
 1. open file swift.config.js
-2. edit host at this line:
+2. edit the host of each environment at this line:
 ```
 const HOST = {
-    dev: 'http://localhost:3000',
-    prod: 'https://swiftpwa.testingnow.me',
+    local: 'http://localhost:3000'
+    dev: '[dev url]',
+    stage: '[stage url]',
+    prod: '[prod url]',
 };
 ```
-3. Edit Gql endpoint at this line:
+3. Edit Gql endpoint of each environment at this line:
 ```
 const graphqlEndpoint = {
-    dev: 'https://swiftpwa-be.testingnow.me/graphql',
-    prod: 'https://swiftpwa-be.testingnow.me/graphql',
+    local: '[gql endpoint for local]'
+    dev: '[gql endpoint for dev]',
+    stage: '[gql endpoint for stage]',
+    prod: '[gql endpoint for prod]',
 };
 ```
