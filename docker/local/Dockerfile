@@ -12,4 +12,4 @@ RUN npm install
 COPY . .
 
 # Running the app
-CMD [ "npm", "run", "local" ]
+CMD [ "npm", "run", "start" ]
