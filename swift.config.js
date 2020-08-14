@@ -258,6 +258,13 @@ const modules = {
         enabled: true,
         path: '/wishlist',
     },
+    maintenance: {
+        enabled: true,
+        path: '/maintenance',
+    },
+    error: {
+        enabled: true,
+    },
 };
 
 const nossrCache = [
