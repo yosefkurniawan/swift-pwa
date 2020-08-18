@@ -1,15 +1,15 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { WHITE, PRIMARY } from '@theme/colors';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 import ShoppingBagIcon from '@core/cart/plugin/ShoppingBag';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
+import Menu from './menu';
 
 const ViewTopNavigation = (props) => {
     const {
-        storeConfig, handleSearch, searchByClick, setValue, value,
+        storeConfig, handleSearch, searchByClick, setValue, value, category, loading,
     } = props;
     return (
         <header>
@@ -54,33 +54,7 @@ const ViewTopNavigation = (props) => {
 
                 <div className="row">
                     <div className="col-xs-12">
-                        <nav>
-                            <ul>
-                                <li><a href="#">Inicio</a></li>
-                                <li>
-                                    <a href="#">Tutoriais</a>
-                                    <ul>
-                                        <li><a href="#">Php</a></li>
-                                        <li><a href="#">Java</a></li>
-                                        <li>
-                                            <a href="#">SQL</a>
-                                            <ul>
-                                                <li><a href="#">PostgreSQL</a></li>
-                                                <li><a href="#">MySql</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">Redes Sociais</a>
-                                    <ul>
-                                        <li><a href="#">Facebook</a></li>
-                                        <li><a href="#">Twitter</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">Sobre</a></li>
-                            </ul>
-                        </nav>
+                        {loading ? null : <Menu category={category} />}
                     </div>
                 </div>
 
@@ -110,48 +84,6 @@ const ViewTopNavigation = (props) => {
                         align-items: center;
                         float: right;
                         position: relative;
-                    }
-                    
-                    ul {
-                        position: absolute;
-                        margin: 0;
-                        list-style:none;
-                        background: ${WHITE};
-                        padding: 0;
-                    }
-                    
-                    li {
-                        display: inline-block;
-                        padding: 5px 10px;
-                        position: relative;
-                    }
-                    li:hover > ul {
-                        display: block;
-                    }
-                    ul ul {
-                        position: absolute;
-                        display: none;
-                        margin: 0;
-                        padding: 5px 10px;
-                        z-index: 999;
-                        box-shadow: 0 5px 10px rgba(0,0,0,.15);
-                    }
-                    ul ul li {
-                        display: block;
-                    }
-                    
-                    ul ul ul {
-                        position: absolute;
-                        top: 0;
-                        left: 100%;
-                    }
-                    a {
-                        color: ${PRIMARY};
-                        text-decoration: none;
-                    }
-
-                    a:hover {
-                        border-bottom: 1px dashed #FFF;
                     }
                 `}
             </style>
