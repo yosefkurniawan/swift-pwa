@@ -132,8 +132,14 @@ const features = {
             height: 300,
         },
         homeSlider: {
-            width: 960,
-            height: 1120,
+            mobile: {
+                width: 960,
+                height: 1120,
+            },
+            desktop: {
+                width: 1800,
+                height: 750,
+            },
         },
         category: {
             width: 960,
