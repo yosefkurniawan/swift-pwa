@@ -5,19 +5,18 @@ import SearchIcon from '@material-ui/icons/Search';
 import ShoppingBagIcon from '@core/cart/plugin/ShoppingBag';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
-import Menu from './category-menu';
-import TopMenu from './top-menu';
-import TopView from './top-menu/view';
+import Menu from './mcategory';
+import TopMenu from './mtop';
 
 const ViewTopNavigation = (props) => {
     const {
-        storeConfig, handleSearch, searchByClick, setValue, value, category, loading, t, isLogin,
+        storeConfig, handleSearch, searchByClick, setValue, value, category, loading, t, isLogin, customer, handleLogout,
     } = props;
     return (
         <header>
             <div className="row header-top">
                 <main>
-                    <TopMenu t={t} isLogin={isLogin} TopView={TopView} />
+                    <TopMenu t={t} isLogin={isLogin} data={customer} handleLogout={handleLogout} />
                 </main>
             </div>
             <main>
