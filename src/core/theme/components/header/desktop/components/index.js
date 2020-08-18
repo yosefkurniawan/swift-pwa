@@ -5,21 +5,28 @@ import SearchIcon from '@material-ui/icons/Search';
 import ShoppingBagIcon from '@core/cart/plugin/ShoppingBag';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
-import Menu from './menu';
+import Menu from './category-menu';
+import TopMenu from './top-menu';
+import TopView from './top-menu/view';
 
 const ViewTopNavigation = (props) => {
     const {
-        storeConfig, handleSearch, searchByClick, setValue, value, category, loading,
+        storeConfig, handleSearch, searchByClick, setValue, value, category, loading, t, isLogin,
     } = props;
     return (
         <header>
+            <div className="row header-top">
+                <main>
+                    <TopMenu t={t} isLogin={isLogin} TopView={TopView} />
+                </main>
+            </div>
             <main>
-                <div className="row header-top">
+                <div className="row header-middle">
                     <div className="col-xs-6">
-                        <div className="box header-top__logo">
+                        <div className="box header-middle__logo">
                             <Link href="/">
                                 <img
-                                    className="header-top__logo-link"
+                                    className="header-middle__logo-link"
                                     src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
                                 />
                             </Link>
@@ -27,10 +34,10 @@ const ViewTopNavigation = (props) => {
                     </div>
                     <div className="col-xs-6">
                         <div className="box">
-                            <div className="header-top__bag">
+                            <div className="header-middle__bag">
                                 <ShoppingBagIcon withLink />
                             </div>
-                            <div className="header-top__search">
+                            <div className="header-middle__search">
                                 <TextField
                                     id="standard-basic"
                                     label="Search..."
@@ -62,16 +69,26 @@ const ViewTopNavigation = (props) => {
             <style jsx>
                 {`
                     header {
-                        height: 150px;
+                        height: 170px;
                     }
                     .header-top {
-                        height: 85px;
+                        height: 45px;
+                        border-bottom: 1px solid #d6d6d6;
+                        display: flex;
+                        align-items: center;
+                        padding: 10px 0;
+                    }
+                    .header-middle {
+                        height: 75px;
                         padding-top: 10px;
                     }
-                    .header-top__logo-link {
+                    .header-middle img {
+                        width: 140px;
+                    }
+                    .header-middle__logo-link {
                         cursor: pointer;
                     }
-                    .header-top__bag {
+                    .header-middle__bag {
                         float: right;
                     }
                     .search-icon {
@@ -79,7 +96,7 @@ const ViewTopNavigation = (props) => {
                         right: -10px;
                         top: 7px;
                     }
-                    .header-top__search {
+                    .header-middle__search {
                         display: flex;
                         align-items: center;
                         float: right;

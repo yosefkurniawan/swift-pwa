@@ -34,6 +34,32 @@ export const categories = gql`
     }
 `;
 
+export const getCustomer = gql`
+    {
+        customer {
+        id
+        firstname
+        lastname
+        email
+        }
+        wishlist {
+        items {
+            id
+        }
+        }
+    }
+`;
+
+export const removeToken = gql`
+mutation {
+  internalDeleteCustomerToken{
+    result
+  }
+}
+`;
+
 export default {
     categories,
+    getCustomer,
+    removeToken,
 };

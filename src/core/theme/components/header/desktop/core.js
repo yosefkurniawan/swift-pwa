@@ -2,9 +2,10 @@ import Router from 'next/router';
 import { getCategories } from '../../../services/graphql';
 
 const CoreTopNavigation = (props) => {
-    const { Content, storeConfig } = props;
+    const {
+        Content, storeConfig, t, isLogin,
+    } = props;
     const [value, setValue] = React.useState('');
-
     const { data, loading } = getCategories();
 
     const handleSearch = (ev) => {
@@ -27,6 +28,8 @@ const CoreTopNavigation = (props) => {
 
     return (
         <Content
+            t={t}
+            isLogin={isLogin}
             category={data}
             loading={loading}
             storeConfig={storeConfig}
