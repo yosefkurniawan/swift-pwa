@@ -16,31 +16,6 @@ const SocialView = (props) => {
                         padding: 8px 12px;
                         border-radius: 8px;
                     }
-                    .cms-container :global(.social-icon) {
-                        padding: 0 6px;
-                        vertical-align: middle;
-                        display: inline-block;
-                    }
-                    .cms-container :global(.social-icon i:before){
-                        content: '';
-                        background-position: center;
-                        background-size: contain;
-                        width: 40px;
-                        height: 40px;
-                        display: block;
-                    }
-                    .cms-container :global(.social-icon .icon-facebook:before){
-                        background-image: url(/assets/img/facebook.png);
-                    }
-                    .cms-container :global(.social-icon .icon-twitter:before){
-                        background-image: url(/assets/img/twitter.png);
-                    }
-                    .cms-container :global(.social-icon .icon-instagram:before){
-                        background-image: url(/assets/img/instagram.png);
-                    }
-                    .cms-container :global(.social-icon .icon-pinterest:before){
-                        background-image: url(/assets/img/pinterest.png);
-                    }
                 `}
             </style>
             <div

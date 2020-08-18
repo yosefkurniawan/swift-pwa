@@ -1,8 +1,8 @@
-import { getCmsBlocks } from '../../services/graphql';
+import { getCmsBlocks } from '../../../services/graphql';
 
 const Footer = (props) => {
     const {
-        Content, t,
+        Content, t, storeConfig,
     } = props;
     const { data, loading, error } = getCmsBlocks({ identifiers: ['pwa_footer'] });
 
@@ -20,6 +20,7 @@ const Footer = (props) => {
             t={t}
             loading={loading}
             error={error}
+            storeConfig={storeConfig}
         />
     );
 };
