@@ -33,6 +33,7 @@ const CategoryList = ({
                         description={category.description}
                         url={category.url_path}
                         key={i}
+                        right={(i + 1) % 2 === 0}
                     />
                 ))}
             </>

@@ -1,22 +1,22 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@common_typography';
 import Link from 'next/link';
 import { useTranslation } from '@i18n';
 import { features } from '@config';
 import setDefaultWhenEmpty from '@helpers/checkImageSrc';
+import classNames from 'classnames';
 import useStyles from './style';
 import Thumbor from '../Image';
 
 const SpanCategory = ({
-    imageSrc, name, description, url,
+    imageSrc, name, description, url, right = false,
 }) => {
     const { t } = useTranslation(['common']);
     const styles = useStyles();
     return (
         <div className={styles.container}>
-            <Grid container justify="center">
-                <Grid item xs={12}>
+            <div className={classNames('row', 'center', right ? 'reverse' : '')}>
+                <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <Link href="[...slug]" as={url}>
                         <a>
                             <Thumbor
@@ -33,8 +33,8 @@ const SpanCategory = ({
                             />
                         </a>
                     </Link>
-                </Grid>
-                <Grid item sm={12} md={12} lg={12}>
+                </div>
+                <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <div className={styles.contentContainer}>
                         <Typography variant="title" type="bold" align="center">
                             {name}
@@ -51,8 +51,8 @@ const SpanCategory = ({
                             </a>
                         </Link>
                     </div>
-                </Grid>
-            </Grid>
+                </div>
+            </div>
         </div>
     );
 };
