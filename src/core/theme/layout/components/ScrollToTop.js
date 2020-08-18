@@ -19,7 +19,16 @@ function ScrollTop({ maxHeigtToShow = 600 }) {
 
     React.useEffect(() => {
         if (typeof window !== 'undefined') {
+            const header = document.getElementById('header');
             const checkScrollTop = () => {
+                // handle show hide header
+                if (header) {
+                    if (window.pageYOffset > 100) {
+                        header.classList.add('header-small');
+                    } else {
+                        header.classList.remove('header-small');
+                    }
+                }
                 if (!triger && window.pageYOffset > maxHeigtToShow) {
                     setTriger(true);
                 } else if (triger && window.pageYOffset <= maxHeigtToShow) {

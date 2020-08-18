@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Link from 'next/link';
 import { WHITE, PRIMARY } from '@theme/colors';
@@ -41,6 +42,9 @@ const Menu = (props) => {
             </ul>
             <style jsx global>
                 {`
+                .navigation {
+                    height: 30px;
+                }
                 .navigation ul {
                     position: absolute;
                     margin: 0;
@@ -48,9 +52,19 @@ const Menu = (props) => {
                     background: ${WHITE};
                     padding: 0;
                     font-size: 14px;
+                    display: flex;
+                    align-items: center;
                     text-transform: uppercase;
                     font-weight: 600;
                     font-family: Montserrat !important;
+                }
+
+                .navigation .list-logo {
+                    display: none;
+                }
+
+                .navigation img {
+                    width: 90px !important;
                 }
 
                 .navigation li {

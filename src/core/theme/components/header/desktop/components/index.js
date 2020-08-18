@@ -13,7 +13,7 @@ const ViewTopNavigation = (props) => {
         storeConfig, handleSearch, searchByClick, setValue, value, category, loading, t, isLogin, customer, handleLogout,
     } = props;
     return (
-        <header>
+        <header id="header">
             <div className="row header-top">
                 <main>
                     <TopMenu t={t} isLogin={isLogin} data={customer} handleLogout={handleLogout} />
@@ -21,7 +21,7 @@ const ViewTopNavigation = (props) => {
             </div>
             <main>
                 <div className="row header-middle">
-                    <div className="col-xs-6">
+                    <div className="col-xs-2">
                         <div className="box header-middle__logo">
                             <Link href="/">
                                 <img
@@ -32,6 +32,11 @@ const ViewTopNavigation = (props) => {
                         </div>
                     </div>
                     <div className="col-xs-6">
+                        <div className="header-small__menu">
+                            {loading ? null : <Menu category={category} storeConfig={storeConfig} />}
+                        </div>
+                    </div>
+                    <div className="col-xs-4">
                         <div className="box">
                             <div className="header-middle__bag">
                                 <ShoppingBagIcon withLink />
@@ -58,9 +63,9 @@ const ViewTopNavigation = (props) => {
                     </div>
                 </div>
 
-                <div className="row">
+                <div className="row menu-category">
                     <div className="col-xs-12">
-                        {loading ? null : <Menu category={category} />}
+                        {loading ? null : <Menu category={category} storeConfig={storeConfig} />}
                     </div>
                 </div>
 
@@ -80,9 +85,14 @@ const ViewTopNavigation = (props) => {
                     .header-middle {
                         height: 75px;
                         padding-top: 10px;
+                        display: flex;
+                        align-items: center;
+                    }
+                    .header-small__menu {
+                        display: none;
                     }
                     .header-middle img {
-                        width: 140px;
+                        width: 120px;
                     }
                     .header-middle__logo-link {
                         cursor: pointer;
@@ -101,6 +111,28 @@ const ViewTopNavigation = (props) => {
                         float: right;
                         position: relative;
                     }
+                `}
+            </style>
+            <style global jsx>
+                {`
+                    .header-small {
+                        position: fixed;
+                        width: 100%;
+                        height: 80px !important;
+                        z-index: 100;
+                        background: #fff;
+                        box-shadow: 0 20px 30px 0 rgba(0,0,0,.05);
+                    }
+                    .header-small .header-top{
+                        display: none;
+                    }
+                    .header-small .menu-category{
+                        display: none;
+                    }
+                    .header-small .header-small__menu {
+                        display: block;
+                    }
+
                 `}
             </style>
         </header>
