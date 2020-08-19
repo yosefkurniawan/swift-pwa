@@ -16,3 +16,12 @@ export const removeToken = () => useMutation(schema.removeToken, {
         request: 'internal',
     },
 });
+
+export const getCmsBlocks = (variables) => useQuery(schema.getCmsBlocks, { variables });
+
+export default {
+    getCmsBlocks,
+    getCategories,
+    getCustomer,
+    removeToken,
+};

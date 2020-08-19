@@ -1,11 +1,15 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { WHITE, PRIMARY } from '@theme/colors';
+import { Centering } from '@theme/mixins';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     caraousel: {
         width: '100%',
         height: '100%',
         position: 'relative',
+        [theme.breakpoints.up('sm')]: {
+            height: 555,
+        },
     },
     dots: {
         zIndex: 2,
@@ -36,6 +40,57 @@ const useStyles = makeStyles(() => ({
     imageSlider: {
         display: 'flex',
         width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            height: 555,
+        },
+    },
+
+    thumborContainer: {
+        backgroundColor: '#eee',
+        width: '100%',
+        position: 'relative',
+        paddingTop: '116%',
+        [theme.breakpoints.up('sm')]: {
+            height: 555,
+            paddingTop: 0,
+        },
+    },
+    thumborImage: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        [theme.breakpoints.up('sm')]: {
+            height: 555,
+        },
+    },
+
+    arrow: {
+        fontSize: '1.5rem',
+        backgroundColor: 'rgba(255,255,255,0.5)',
+        position: 'absolute',
+        ...Centering,
+        padding: 10,
+        borderRadius: 5,
+        textAlign: 'center',
+        paddingLeft: 10,
+        top: 'calc(50% - 1rem)',
+        width: 40,
+        height: 40,
+        cursor: 'pointer',
+        '&:hover': {
+            backgroundColor: PRIMARY,
+            color: WHITE,
+        },
+    },
+    leftArrow: {
+        left: 20,
+        paddingRight: 5,
+    },
+
+    rightArrow: {
+        right: 20,
     },
 }));
 
