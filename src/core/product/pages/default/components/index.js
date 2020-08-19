@@ -122,7 +122,7 @@ const ProductPage = (props) => {
                             >
                                 {favoritIcon}
                             </IconButton>
-                            {desktop ? (
+                            {!desktop ? (
                                 <IconButton
                                     className={classNames(styles.btnShare, 'hidden-desktop')}
                                     onClick={() => setOpenShare(true)}
