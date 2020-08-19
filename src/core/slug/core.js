@@ -30,10 +30,10 @@ const Slug = (props) => {
         return <CategoryPage {...contentProps} categoryId={resolver.id} {...other} />;
     }
     if (resolver.type === 'PRODUCT') {
-        return <ProductPage {...contentProps} />;
+        return <ProductPage {...contentProps} {...other} />;
     }
     if (resolver.type === 'CMS_PAGE') {
-        return <CmsPage {...contentProps} />;
+        return <CmsPage {...contentProps} {...other} />;
     }
     return <Error statusCode={404} />;
 };

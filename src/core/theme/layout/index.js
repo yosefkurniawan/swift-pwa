@@ -25,6 +25,7 @@ const Layout = (props) => {
         i18n, storeConfig = {},
         isLogin,
         headerProps = {},
+        t,
     } = props;
     const { ogContent = {}, schemaOrg = null } = pageConfig;
     const router = useRouter();
@@ -101,7 +102,6 @@ const Layout = (props) => {
     }, []);
 
     const desktop = breakPointsUp('sm');
-
     return (
         <>
             <Head>
@@ -128,7 +128,7 @@ const Layout = (props) => {
                     ) : null}
             </Head>
             <div className="hidden-xs">
-                <HeaderDesktop storeConfig={storeConfig} />
+                <HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} />
             </div>
             {
                 desktop ? null

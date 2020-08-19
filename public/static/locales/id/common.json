@@ -68,5 +68,16 @@
         "reject": "Tidak dapat mengupload, file harus ber type  ",
         "dragActive": "Taruh file kesini ...",
         "dragNonActive": "Tarik dan taruh file kesini, atau klik untuk pilih file"
+    },
+    "menu" : {
+        "confirmpayment" : "Konfirmasi Pembayaran",
+        "trackingorder" : "Lacak Pesanan",
+        "sign" : "Masuk",
+        "register" : "Buat Akun",
+        "or" : "Atau",
+        "notification": "Notifikasi",
+        "myaccount": "Akun Saya",
+        "mywishlist": "Daftar Saya",
+        "signout": "keluar"
     }
 }

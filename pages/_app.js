@@ -114,7 +114,6 @@ class MyApp extends App {
         }
 
         pageProps.storeConfig = pageProps.storeConfig ? pageProps.storeConfig : {};
-
         return (
             <>
                 <ThemeProvider theme={theme}>
