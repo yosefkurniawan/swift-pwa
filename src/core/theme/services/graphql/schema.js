@@ -34,6 +34,18 @@ export const categories = gql`
     }
 `;
 
+export const getCmsBlocks = gql`
+    query($identifiers: [String]) {
+        cmsBlocks(identifiers: $identifiers) {
+            items {
+                identifier
+                title
+                content
+            }
+        }
+    }
+`;
+
 export const getCustomer = gql`
     {
         customer {
@@ -62,4 +74,5 @@ export default {
     categories,
     getCustomer,
     removeToken,
+    getCmsBlocks,
 };
