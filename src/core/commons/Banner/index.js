@@ -14,6 +14,7 @@ const Banner = ({
     height,
     width,
     autoPlay = true,
+    noLink = false,
 }) => {
     const styles = useStyles();
     const [index, setIndex] = useState(0);
@@ -35,6 +36,7 @@ const Banner = ({
                     <ImageSlide
                         height={height}
                         width={width}
+                        noLink={noLink}
                         key={key}
                         {...item}
                     />

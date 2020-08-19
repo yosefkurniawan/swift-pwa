@@ -12,6 +12,9 @@ export default makeStyles((theme) => ({
         height: '100%',
         width: '100%',
         ...CreatePadding(16, 16, 16, 16),
+        [theme.breakpoints.up('sm')]: {
+            width: 600,
+        },
     },
     container: {
         ...FlexColumn,

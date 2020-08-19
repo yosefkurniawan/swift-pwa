@@ -12,10 +12,22 @@ import Thumbor from './Thumbor';
 */
 
 const ImageSlide = ({
-    imageUrl = '', link = '#', isSlug = true, width, height,
+    imageUrl = '', link = '#', isSlug = true, width, height, noLink,
 }) => {
     const styles = useStyles();
     const href = link && link[0] === '/' ? link : `/${link}`;
+    if (noLink) {
+        return (
+            <Thumbor
+                src={setDefaultWhenEmpty(imageUrl)}
+                alt={href}
+                width={width || features.imageSize.homeSlider.width}
+                height={height || features.imageSize.homeSlider.height}
+                quality={100}
+                className={styles.imageSlider}
+            />
+        );
+    }
     return (
         <Link
             href={isSlug ? '/[...slug]' : href}

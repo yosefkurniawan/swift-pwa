@@ -48,38 +48,51 @@ export default makeStyles((theme) => ({
         ...CreateMargin(0, 0, 15, 0),
     },
     label: {
-        alignItems: 'center',
+        [theme.breakpoints.down('sm')]: {
+            alignItems: 'center',
+        },
     },
     sizeContainer: {
-        alignItems: 'center',
-        ...CreateMargin(20, 0, 10, 0),
+        [theme.breakpoints.down('sm')]: {
+            alignItems: 'center',
+            ...CreateMargin(20, 0, 10, 0),
+        },
+    },
+    classContainer: {
+        [theme.breakpoints.down('sm')]: {
+            justifyContent: 'center',
+        },
     },
     center: {
         justifyContent: 'center',
     },
     footer: {
-        ...FlexRow,
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'space-arround',
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        ...CenterAbsolute,
-        background: 'rgba(255,255,255,0.7)',
-        ...CreatePadding(0, 20, 20, 20),
+        [theme.breakpoints.down('sm')]: {
+            ...FlexRow,
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'space-arround',
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            ...CenterAbsolute,
+            background: 'rgba(255,255,255,0.7)',
+            ...CreatePadding(0, 20, 20, 20),
+        },
     },
     btnAddToCard: {
-        ...CreateMargin(0, 8, 0, 0),
-        width: '100%',
+        [theme.breakpoints.down('sm')]: {
+            ...CenterAbsolute,
+        },
         [theme.breakpoints.up('sm')]: {
             width: 316,
         },
+        ...CreateMargin(0, 8, 0, 0),
+        width: '100%',
         height: 41,
         bottom: 0,
         left: 0,
         opacity: 'none',
-        ...CenterAbsolute,
         color: WHITE,
         borderRadius: 100,
     },
@@ -91,7 +104,10 @@ export default makeStyles((theme) => ({
         color: RED,
     },
     qty: {
-        ...CreateMargin(15, 30, 15, 15),
+        [theme.breakpoints.down('sm')]: {
+            ...CreateMargin(15, 30, 15, 15),
+        },
+        marginBottom: 10,
     },
     select: {
         minWidth: '30%',
