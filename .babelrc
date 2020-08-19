@@ -58,6 +58,7 @@
                     "@common_spancategory": "./src/core/commons/SpanCategory",
                     "@common_span": "./src/core/commons/Span",
                     "@common_skeleton": "./src/core/commons/Skeleton",
+                    "@common_scrolltotop": "./src/core/commons/ScrollToTop",
                     "@common_footer": "./src/core/theme/components/footer/desktop"
                 }
             }

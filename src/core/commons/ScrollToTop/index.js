@@ -31,13 +31,13 @@ function ScrollTop({ maxHeigtToShow = 600 }) {
                 }
                 if (!triger && window.pageYOffset > maxHeigtToShow) {
                     setTriger(true);
-                } else if (triger && window.pageYOffset <= maxHeigtToShow) {
+                } else if (triger && window.pageYOffset < maxHeigtToShow) {
                     setTriger(false);
                 }
             };
             window.addEventListener('scroll', checkScrollTop);
         }
-    }, []);
+    }, [window, triger]);
 
     const scrollTop = () => {
         if (typeof window !== 'undefined') {

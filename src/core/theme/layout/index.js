@@ -15,7 +15,7 @@ const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr
 const HeaderDesktop = dynamic(() => import('@common_headerdesktop'), { ssr: true });
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false });
-const ScrollToTop = dynamic(() => import('./components/ScrollToTop'), { ssr: false });
+const ScrollToTop = dynamic(() => import('@common_scrolltotop'), { ssr: false });
 
 const Footer = dynamic(() => import('@common_footer'), { ssr: false });
 const Layout = (props) => {
