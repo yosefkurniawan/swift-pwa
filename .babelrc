@@ -57,7 +57,8 @@
                     "@common_headerdesktop": "./src/core/theme/components/header/desktop",
                     "@common_spancategory": "./src/core/commons/SpanCategory",
                     "@common_span": "./src/core/commons/Span",
-                    "@common_skeleton": "./src/core/commons/Skeleton"
+                    "@common_skeleton": "./src/core/commons/Skeleton",
+                    "@common_footer": "./src/core/theme/components/footer/desktop"
                 }
             }
         ]

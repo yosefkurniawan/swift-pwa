@@ -128,3 +128,29 @@ a {
 .cms-container a:active {
     color: #444;
 }
+
+.cms-container .social-icon {
+    padding: 0 6px;
+    vertical-align: middle;
+    display: inline-block;
+}
+.cms-container .social-icon i:before {
+    content: '';
+    background-position: center;
+    background-size: contain;
+    width: 40px;
+    height: 40px;
+    display: block;
+}
+.cms-container .social-icon .icon-facebook:before {
+    background-image: url(/assets/img/facebook.png);
+}
+.cms-container .social-icon .icon-twitter:before {
+    background-image: url(/assets/img/twitter.png);
+}
+.cms-container .social-icon .icon-instagram:before {
+    background-image: url(/assets/img/instagram.png);
+}
+.cms-container .social-icon .icon-pinterest:before {
+    background-image: url(/assets/img/pinterest.png);
+}
