@@ -10,12 +10,14 @@ const useStyles = makeStyles((theme) => ({
     container: {
         width: '100%',
         height: '100%',
-        ...FlexColumn,
+        [theme.breakpoints.down('sm')]: {
+            ...FlexColumn,
+        },
         position: 'relative',
     },
     headContainer: {
         position: 'relative',
-        backgroundColor: GRAY_PRIMARY,
+        backgroundColor: WHITE,
         width: '100%',
     },
     header: {
@@ -45,6 +47,11 @@ const useStyles = makeStyles((theme) => ({
         ...CreatePadding(20, 20, 20, 20),
         zIndex: theme.zIndex.drawer + 1,
     },
+    title: {
+        [theme.breakpoints.up('sm')]: {
+            fontSize: 30,
+        },
+    },
     btnAddToCard: {
         ...CreateMargin(0, 8, 0, 0),
         width: '90%',
@@ -72,6 +79,10 @@ const useStyles = makeStyles((theme) => ({
     titlePriceContainer: {
         ...FlexColumn,
         flex: 1,
+        fontSize: 20,
+        '& .price_text': {
+            fontSize: 30,
+        },
     },
 
     shareContainer: {
@@ -91,7 +102,10 @@ const useStyles = makeStyles((theme) => ({
     },
 
     carouselContainer: {
-        ...CreateMargin(40, 0, 120, 0),
+        paddingTop: '40px',
+    },
+    carouselTitle: {
+        marginBottom: '20px',
     },
     desc: {
         ...CreateMargin(12, 0, 12, 0),
@@ -109,6 +123,14 @@ const useStyles = makeStyles((theme) => ({
     },
     sku: {
         alignItems: 'center',
+        marginLeft: '0 !important',
+    },
+    tabs: {
+        paddingTop: '40px',
+    },
+    shareTitle: {
+        marginTop: 20,
+        fontSize: 12,
     },
 }));
 

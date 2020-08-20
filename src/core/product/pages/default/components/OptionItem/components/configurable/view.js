@@ -23,7 +23,7 @@ const ConfigurableView = (props) => {
                 valueData={value}
                 onChange={(val) => handleSelect(val, option.attribute_code)}
                 className={styles.label}
-                classContainer={styles.center}
+                classContainer={styles.classContainer}
                 classItem={classItem}
                 error={!!error[option.attribute_code] && !selected[option.attribute_code]}
                 errorMessage={error[option.attribute_code] ? error[option.attribute_code] : ''}
@@ -41,7 +41,7 @@ const ConfigurableView = (props) => {
                 valueData={value}
                 onChange={(val) => handleSelect(val, option.attribute_code)}
                 className={styles.sizeContainer}
-                classContainer={styles.center}
+                classContainer={styles.classContainer}
                 classItem={classItem}
                 error={!!error[option.attribute_code] && !selected[option.attribute_code]}
                 errorMessage={error[option.attribute_code] ? error[option.attribute_code] : ''}

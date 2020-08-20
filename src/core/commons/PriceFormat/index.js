@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import classNames from 'classnames';
 import Typography from '@common_typography';
 import { formatPrice } from '@helpers/currency';
 import useStyles from './style';
@@ -24,7 +25,7 @@ const AsLowAsText = () => {
             variant="span"
             size="8"
             letter="uppercase"
-            className={styles.noMargin}
+            className={classNames(styles.noMargin, 'price_text')}
         >
             as low as:
             {' '}
@@ -47,11 +48,11 @@ const SimpleProductTypePrice = ({ priceRange, priceTiers }) => {
                 return (
                     <>
                         {/* case 1 */}
-                        <Typography variant="span" type="bold" letter="uppercase" className={styles.noMargin}>
+                        <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                             {formatPrice(finalPrice.value, finalPrice.currency)}
                         </Typography>
                         <AsLowAsText />
-                        <Typography variant="span" letter="uppercase" className={styles.noMargin}>
+                        <Typography variant="span" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                             {formatPrice(lowestPriceTier.final_price.value, lowestPriceTier.final_price.currency)}
                         </Typography>
                     </>
@@ -62,10 +63,10 @@ const SimpleProductTypePrice = ({ priceRange, priceTiers }) => {
                 return (
                     <>
                         {/* case 2 */}
-                        <Typography variant="span" letter="uppercase" className={styles.noMargin}>
+                        <Typography variant="span" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                             <strike>{formatPrice(regularPrice.value, regularPrice.currency)}</strike>
                         </Typography>
-                        <Typography variant="span" type="bold" letter="uppercase" className={styles.noMargin}>
+                        <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                             {formatPrice(finalPrice.value, finalPrice.currency)}
                         </Typography>
                     </>
@@ -75,14 +76,14 @@ const SimpleProductTypePrice = ({ priceRange, priceTiers }) => {
             return (
                 <>
                     {/* case 3 */}
-                    <Typography variant="span" letter="uppercase" className={styles.noMargin}>
+                    <Typography variant="span" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                         <strike>{formatPrice(regularPrice.value, regularPrice.currency)}</strike>
                     </Typography>
-                    <Typography variant="span" type="bold" letter="uppercase" className={styles.noMargin}>
+                    <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                         {formatPrice(finalPrice.value, finalPrice.currency)}
                     </Typography>
                     <AsLowAsText />
-                    <Typography variant="span" letter="uppercase" className={styles.noMargin}>
+                    <Typography variant="span" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                         {formatPrice(lowestPriceTier.final_price.value, lowestPriceTier.final_price.currency)}
                     </Typography>
                 </>
@@ -97,10 +98,10 @@ const SimpleProductTypePrice = ({ priceRange, priceTiers }) => {
             return (
                 <>
                     {/* case 4 */}
-                    <Typography variant="span" letter="uppercase" className={styles.noMargin}>
+                    <Typography variant="span" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                         <strike>{formatPrice(regularPrice.value, regularPrice.currency)}</strike>
                     </Typography>
-                    <Typography variant="span" type="bold" letter="uppercase" className={styles.noMargin}>
+                    <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                         {formatPrice(firstTierPrice.final_price.value, firstTierPrice.final_price.currency)}
                     </Typography>
                 </>
@@ -111,10 +112,10 @@ const SimpleProductTypePrice = ({ priceRange, priceTiers }) => {
             return (
                 <>
                     {/* case 5 */}
-                    <Typography variant="span" letter="uppercase" className={styles.noMargin}>
+                    <Typography variant="span" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                         <strike>{formatPrice(regularPrice.value, regularPrice.currency)}</strike>
                     </Typography>
-                    <Typography variant="span" type="bold" letter="uppercase" className={styles.noMargin}>
+                    <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                         {formatPrice(finalPrice.value, finalPrice.currency)}
                     </Typography>
                 </>
@@ -125,10 +126,10 @@ const SimpleProductTypePrice = ({ priceRange, priceTiers }) => {
             return (
                 <>
                     {/* case 6 */}
-                    <Typography variant="span" letter="uppercase" className={styles.noMargin}>
+                    <Typography variant="span" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                         <strike>{formatPrice(regularPrice.value, regularPrice.currency)}</strike>
                     </Typography>
-                    <Typography variant="span" type="bold" letter="uppercase" className={styles.noMargin}>
+                    <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                         {formatPrice(firstTierPrice.final_price.value, firstTierPrice.final_price.currency)}
                     </Typography>
                 </>
@@ -138,14 +139,14 @@ const SimpleProductTypePrice = ({ priceRange, priceTiers }) => {
         return (
             <>
                 {/* case 7 */}
-                <Typography variant="span" letter="uppercase" className={styles.noMargin}>
+                <Typography variant="span" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                     <strike>{formatPrice(regularPrice.value, regularPrice.currency)}</strike>
                 </Typography>
-                <Typography variant="span" letter="uppercase" className={styles.noMargin}>
+                <Typography variant="span" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                     {formatPrice(finalPrice.value, finalPrice.currency)}
                 </Typography>
                 <AsLowAsText />
-                <Typography variant="span" type="bold" letter="uppercase" className={styles.noMargin}>
+                <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                     {formatPrice(firstTierPrice.final_price.value, firstTierPrice.final_price.currency)}
                 </Typography>
             </>
@@ -160,7 +161,7 @@ const SimpleProductTypePrice = ({ priceRange, priceTiers }) => {
         return (
             <>
                 {/* case 8 */}
-                <Typography variant="span" type="bold" letter="uppercase" className={styles.noMargin}>
+                <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                     {formatPrice(finalPrice.value, finalPrice.currency)}
                 </Typography>
             </>
@@ -170,10 +171,10 @@ const SimpleProductTypePrice = ({ priceRange, priceTiers }) => {
     return (
         <>
             {/* case 9 */}
-            <Typography variant="span" letter="uppercase" className={styles.noMargin}>
+            <Typography variant="span" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                 <strike>{formatPrice(regularPrice.value, regularPrice.currency)}</strike>
             </Typography>
-            <Typography variant="span" type="bold" letter="uppercase" className={styles.noMargin}>
+            <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                 {formatPrice(finalPrice.value, finalPrice.currency)}
             </Typography>
         </>
@@ -188,7 +189,7 @@ const OtherProductTypePrice = ({ priceRange }) => {
     if (regularPrice.value === finalPrice.value) {
         return (
             <>
-                <Typography variant="span" type="bold" letter="uppercase" className={styles.noMargin}>
+                <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                     {formatPrice(finalPrice.value, finalPrice.currency)}
                 </Typography>
             </>
@@ -198,10 +199,10 @@ const OtherProductTypePrice = ({ priceRange }) => {
     return (
         <>
             {/* case 9 */}
-            <Typography variant="span" letter="uppercase" className={styles.noMargin}>
+            <Typography variant="span" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                 <strike>{formatPrice(regularPrice.value, regularPrice.currency)}</strike>
             </Typography>
-            <Typography variant="span" type="bold" letter="uppercase" className={styles.noMargin}>
+            <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
                 {formatPrice(finalPrice.value, finalPrice.currency)}
             </Typography>
         </>

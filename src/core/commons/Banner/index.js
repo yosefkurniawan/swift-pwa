@@ -18,6 +18,7 @@ const Banner = ({
     height,
     width,
     autoPlay = true,
+    noLink = false,
     showArrow = false,
 }) => {
     const styles = useStyles();
@@ -55,6 +56,7 @@ const Banner = ({
                     <ImageSlide
                         height={height}
                         width={width}
+                        noLink={noLink}
                         key={key}
                         {...item}
                     />

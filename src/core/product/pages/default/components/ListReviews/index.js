@@ -28,7 +28,6 @@ export default (props) => {
     });
 
     const { loading, fetchMore, data } = getReviews(reviewParams);
-
     const handleOpenReview = ({ message, variant }) => {
         setOpenReview(!openReview);
         // eslint-disable-next-line no-unused-expressions
