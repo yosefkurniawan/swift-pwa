@@ -30,7 +30,8 @@
         "clear": "Clear",
         "verify": "Verify",
         "shop": "SHOP NOW",
-        "sendOtp": "Send OTP"
+        "sendOtp": "Send OTP",
+        "submit": "Submit"
     },
     "subtotal": "Subtotal",
     "price": {

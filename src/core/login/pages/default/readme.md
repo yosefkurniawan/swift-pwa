@@ -76,7 +76,8 @@ const pageConfig = {
 
 | Name       | Description | Type |
 | :---       | :---        |:---        |
-| formik     | formik  function handle validation and value| Function |
+| formik     | formik  function handle validation and value for login with email| Function |
+| formikOtp     | formik  function handle validation and value for login with phone number (otp) | Function |
 | otpConfig     | Value data about graphql otp | Object |
 | isOtp     | value to notif use otp or email login| Boolean |
 | setIsOtp     | function to toogle use otp or email login | Function |

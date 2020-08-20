@@ -29,7 +29,8 @@
         "clear": "Bersihkan",
         "verify": "Verifikasi",
         "shop": "Beli Sekarang",
-        "sendOtp": "Kirim OTP"
+        "sendOtp": "Kirim OTP",
+        "submit": "Kirimkan"
     },
     "subtotal": "Subtotal",
     "price": {

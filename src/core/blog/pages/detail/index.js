@@ -2,7 +2,7 @@
 import React from 'react';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import DefaultContent from '../../components/Details';
+import DefaultContent from './components';
 import CoreBase from './core';
 import Skeleton from './components/Skeleton';
 import WarningInfo from '../../components/Info';
