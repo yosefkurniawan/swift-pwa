@@ -156,6 +156,19 @@ const modules = {
     blog: {
         enabled: true,
         path: '/blog',
+        link: {
+            detail: {
+                href: '/blog/[id]',
+                as: '/blog/',
+            },
+            category: {
+                href: '/blog/category/[id]',
+                as: '/blog/category/',
+            },
+            default: {
+                href: '/blog',
+            },
+        },
     },
     brands: {
         enabled: true,

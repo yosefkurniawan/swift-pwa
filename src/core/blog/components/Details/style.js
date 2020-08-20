@@ -20,24 +20,19 @@ export default makeStyles((theme) => ({
     },
     imageBlogContainer: {
         width: '100%',
-        ...Centering,
+        height: 320,
         ...CreateMargin(10, 0, 10, 0),
-        [theme.breakpoints.down('sm')]: {
-            maxHeight: 320,
+        [theme.breakpoints.down('xs')]: {
+            ...Centering,
         },
-        [theme.breakpoints.up('sm')]: {
-            maxHeight: 800,
+        [theme.breakpoints.up('xs')]: {
+            maxHeight: 320,
         },
     },
     imageBlog: {
-        width: '100%',
+        width: 'auto',
         height: 'auto',
-        [theme.breakpoints.down('sm')]: {
-            maxHeight: 320,
-        },
-        [theme.breakpoints.up('sm')]: {
-            maxHeight: 800,
-        },
+        maxHeight: 320,
     },
     shareBottom: {
         display: 'flex',
