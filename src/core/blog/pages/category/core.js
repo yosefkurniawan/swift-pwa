@@ -37,11 +37,15 @@ const Category = (props) => {
         },
     });
     if (loading || !data || loadBlog.loading) {
-        return <Skeleton />;
+        return (
+            <DefaultLayout {...props} pageConfig={{}}>
+                <Skeleton />
+            </DefaultLayout>
+        );
     }
     if (error) {
         return (
-            <DefaultLayout pageConfig={config}>
+            <DefaultLayout {...props} pageConfig={{}}>
                 <WarningInfo variant="error" text={t('blog:error:fetch')} />
             </DefaultLayout>
         );
