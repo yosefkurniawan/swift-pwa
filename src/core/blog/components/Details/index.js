@@ -12,7 +12,7 @@ import ShareIcons from '../ShareIcon';
 
 export default ({
     title, publish_date, featured_image_url, featured_image_alt, content, url_key,
-    short_content, short = true,
+    short_content, short = true, t,
 }) => {
     const { link } = modules.blog;
     const styles = useStyles();
@@ -43,7 +43,11 @@ export default ({
                         <>
                             <div dangerouslySetInnerHTML={{ __html: content }} />
                             <div className={styles.shareBottom}>
-                                <Typography>Share :</Typography>
+                                <Typography>
+                                    {t('blog:share')}
+                                    {' '}
+                                    :
+                                </Typography>
                                 <ShareIcons url={`${getHost() + modules.blog.urlPath}/${url_key}`} />
                             </div>
                         </>
@@ -54,7 +58,7 @@ export default ({
                                 <a>
                                     <Button>
                                         <Typography color="white" letter="capitalize" varinat="span" type="semiBold">
-                                            Read More
+                                            {t('blog:readMore')}
                                         </Typography>
                                     </Button>
                                 </a>

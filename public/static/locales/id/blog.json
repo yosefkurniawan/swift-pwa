@@ -5,5 +5,7 @@
         "fetch": "Kesalahan saat mengambil data atau koneksi, coba lagi nanti"
     },
     "loadMore": "Muat lainya",
-    "category": "Kategory"
+    "category": "Kategory",
+    "readMore": "Baca Selengkapnya",
+    "share": "Bagikan"
 }

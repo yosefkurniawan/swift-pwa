@@ -60,7 +60,7 @@ const ContentCategory = (props) => {
                             <Menu className={styles.iconFilter} />
                         </Button>
                         <Typography type="bold" variant="span" letter="capitalize">
-                            Categories
+                            {t('blog:category')}
                         </Typography>
                     </div>
                 )
