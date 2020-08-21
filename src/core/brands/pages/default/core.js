@@ -6,7 +6,7 @@ import allData from '../../helpers/generateAllData';
 
 const Base = (props) => {
     const {
-        Content, Skeleton, generateAllData, pageConfig, t,
+        Content, Skeleton, generateAllData, pageConfig, t, desktop,
     } = props;
     const { data, loading } = getBrands({ pageSize: 100, currentPage: 1 });
     const config = {
@@ -29,7 +29,7 @@ const Base = (props) => {
     const allBrands = generateAllData ? generateAllData(getBrandList.items) : allData(getBrandList.items);
     return (
         <Layout {...props} pageConfig={pageConfig || config}>
-            <Content {...props} all={allBrands} featured={getBrandList.featured} />
+            <Content {...props} all={allBrands} featured={getBrandList.featured} desktop={desktop} />
         </Layout>
     );
 };

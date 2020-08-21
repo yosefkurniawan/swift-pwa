@@ -14,7 +14,7 @@ const FooterView = (props) => {
     }
     if (loading) return <Loading open={loading} />;
     return (
-        <div className="cms-container">
+        <div className="cms-container wrapper-footer">
             {/* eslint-disable-next-line react/no-danger */}
             <div dangerouslySetInnerHTML={{ __html: data.cmsBlocks.items[0].content }} />
             <div className="copyright">
@@ -22,9 +22,12 @@ const FooterView = (props) => {
             </div>
             <style jsx global>
                 {`
+                    .wrapper-footer {
+                        background-color: #f4f4f4;
+                        padding :0;
+                    }
                     .container-footer {
                         display: flex;
-                        background-color: #f4f4f4;
                         margin-top: 40px;
                     }
                     .container-footer * {
