@@ -1,5 +1,6 @@
 import Loading from '@common_loaders/Backdrop';
 import Alert from '@material-ui/lab/Alert';
+import { MAX_WIDTH } from '@theme/vars';
 
 const FooterView = (props) => {
     const {
@@ -24,11 +25,13 @@ const FooterView = (props) => {
                 {`
                     .wrapper-footer {
                         background-color: #f4f4f4;
-                        padding :0;
+                        padding : 0;
                     }
                     .container-footer {
                         display: flex;
                         margin-top: 40px;
+                        max-width : ${MAX_WIDTH};
+                        margin : 0 auto;
                     }
                     .container-footer * {
                         letter-spacing: 0.03em;
