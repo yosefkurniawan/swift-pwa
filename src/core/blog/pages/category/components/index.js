@@ -16,7 +16,7 @@ const Content = ({
         <div className="col-xs-12 col-sm-10">
             {data
                     && data.getBlogByFilter.items.length > 0
-                    && data.getBlogByFilter.items.map((blog, index) => <ContentItem key={index} short {...blog} />)}
+                    && data.getBlogByFilter.items.map((blog, index) => <ContentItem key={index} short {...blog} t={t} />)}
             {data && data.getBlogByFilter.total_count > data.getBlogByFilter.items.length && data.getBlogByFilter.total_pages > page && (
                 <Button variant="text" onClick={handleLoadMore} disabled={loading || loadMore} fullWidth>
                     <Typography variant="span" type="regular" letter="capitalize">

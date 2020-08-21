@@ -34,11 +34,15 @@ const CoreDetail = (props) => {
 
     const loadCategory = getCategory({ category_id: 0 });
     if (loading || !data || loadCategory.loading) {
-        return <Skeleton />;
+        return (
+            <DefaultLayout pageConfig={{}} {...props}>
+                <Skeleton />
+            </DefaultLayout>
+        );
     }
     if (error) {
         return (
-            <DefaultLayout {...props} pageConfig={config}>
+            <DefaultLayout {...props} pageConfig={{}}>
                 <WarningInfo variant="error" text={t('blog:error:fetch')} />
             </DefaultLayout>
         );
