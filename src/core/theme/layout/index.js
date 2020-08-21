@@ -2,7 +2,6 @@
 /* eslint-disable react/no-danger */
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import Header from '@common_header';
 import Head from 'next/head';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
@@ -12,12 +11,12 @@ import { getHost } from '@helpers/config';
 import { breakPointsUp } from '@helpers/theme';
 
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
+const HeaderMobile = dynamic(() => import('@common_headermobile'), { ssr: true });
 const HeaderDesktop = dynamic(() => import('@common_headerdesktop'), { ssr: true });
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false });
 const ScrollToTop = dynamic(() => import('@common_scrolltotop'), { ssr: false });
-
-const Footer = dynamic(() => import('@common_footer'), { ssr: false });
+const Footer = dynamic(() => import('@common_footer'), { ssr: true });
 const Layout = (props) => {
     const {
         pageConfig,
@@ -128,15 +127,18 @@ const Layout = (props) => {
                         ))
                     ) : null}
             </Head>
-            <div className="hidden-xs">
-                <HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} />
-            </div>
-            {
-                desktop ? null
-                    : React.isValidElement(CustomHeader)
-                        ? <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
-                        : <Header {...headerProps} pageConfig={pageConfig} />
-            }
+            <header>
+                <div className="hidden-mobile">
+                    <HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} />
+                </div>
+                <div className="hidden-desktop">
+                    {
+                        React.isValidElement(CustomHeader)
+                            ? <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
+                            : <HeaderMobile {...headerProps} pageConfig={pageConfig} />
+                    }
+                </div>
+            </header>
 
             <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0 }}>
                 <Loading open={state.backdropLoader} />
@@ -150,13 +152,14 @@ const Layout = (props) => {
                 { desktop ? <ScrollToTop {...props} /> : null }
             </main>
             <footer>
+                <div className="hidden-mobile">
+                    <Footer
+                        storeConfig={storeConfig}
+                    />
+                </div>
                 {
                     desktop
-                        ? (
-                            <Footer
-                                storeConfig={storeConfig}
-                            />
-                        )
+                        ? null
                         : <BottomNavigation active={pageConfig.bottomNav} />
                 }
             </footer>

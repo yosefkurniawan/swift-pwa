@@ -1,4 +1,4 @@
-import Header from '@common_header';
+import Header from '@common_headermobile';
 import ShoppingBagIcon from '@core/cart/plugin/ShoppingBag';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 

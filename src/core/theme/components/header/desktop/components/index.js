@@ -13,7 +13,7 @@ const ViewTopNavigation = (props) => {
         storeConfig, handleSearch, searchByClick, setValue, value, category, loading, t, isLogin, customer, handleLogout,
     } = props;
     return (
-        <header id="header">
+        <div id="header">
             <div className="row header-top">
                 <main>
                     <TopMenu t={t} isLogin={isLogin} data={customer} handleLogout={handleLogout} />
@@ -72,7 +72,7 @@ const ViewTopNavigation = (props) => {
             </main>
             <style jsx>
                 {`
-                    header {
+                    #header {
                         height: 170px;
                     }
                     .header-top {
@@ -135,7 +135,7 @@ const ViewTopNavigation = (props) => {
 
                 `}
             </style>
-        </header>
+        </div>
     );
 };
 

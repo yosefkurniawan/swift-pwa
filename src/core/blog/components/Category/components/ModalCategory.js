@@ -1,5 +1,5 @@
 import Button from '@common_button';
-import Header from '@common_header';
+import Header from '@common_headermobile';
 import Typography from '@common_typography';
 import { modules } from '@config';
 import Dialog from '@material-ui/core/Dialog';

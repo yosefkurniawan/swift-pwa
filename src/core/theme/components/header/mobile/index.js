@@ -30,7 +30,7 @@ const Header = ({
 
     const containerStyle = classNames(styles.container, position, className);
     return (
-        <header className={containerStyle}>
+        <div className={containerStyle}>
             <div className={styles.leftContainer}>
                 {React.isValidElement(LeftComponent) ? (
                     LeftComponent
@@ -74,7 +74,7 @@ const Header = ({
             <div className={styles.rightContainer}>
                 {React.isValidElement(RightComponent) ? RightComponent : null}
             </div>
-        </header>
+        </div>
     );
 };
 

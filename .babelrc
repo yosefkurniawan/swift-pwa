@@ -46,19 +46,19 @@
                     "@common_image": "./src/core/commons/Image",
                     "@common_backdrop": "./src/core/commons/Backdrop",
                     "@common_pageprogress": "./src/core/commons/PageProgress",
-                    "@common_header": "./src/core/theme/components/header/mobile",
                     "@common_slider": "./src/core/commons/Slider",
                     "@common_filterdialog": "./src/core/commons/FilterDialog",
                     "@common_forms": "./src/core/commons/Forms",
                     "@common_searchmodal": "./src/core/commons/SearchModal",
                     "@common_loaders": "./src/core/commons/Loaders",
                     "@common_navigation": "./src/core/commons/Navigation",
-                    "@common_bottomnavigation": "./src/core/theme/components/bottom-navigation/mobile",
-                    "@common_headerdesktop": "./src/core/theme/components/header/desktop",
                     "@common_spancategory": "./src/core/commons/SpanCategory",
                     "@common_span": "./src/core/commons/Span",
                     "@common_skeleton": "./src/core/commons/Skeleton",
                     "@common_scrolltotop": "./src/core/commons/ScrollToTop",
+                    "@common_headermobile": "./src/core/theme/components/header/mobile",
+                    "@common_headerdesktop": "./src/core/theme/components/header/desktop",
+                    "@common_bottomnavigation": "./src/core/theme/components/bottom-navigation/mobile",
                     "@common_footer": "./src/core/theme/components/footer/desktop"
                 }
             }

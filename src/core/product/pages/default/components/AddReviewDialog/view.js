@@ -3,7 +3,7 @@ import TextField from '@common_textfield';
 import Typography from '@common_typography';
 import Dialog from '@material-ui/core/Dialog';
 import Rating from '@material-ui/lab/Rating';
-import Header from '@common_header';
+import Header from '@common_headermobile';
 import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
