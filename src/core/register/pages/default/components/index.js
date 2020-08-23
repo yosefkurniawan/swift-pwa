@@ -4,7 +4,7 @@ import TextField from '@common_textfield';
 import Typography from '@common_typography';
 import { Checkbox, FormControlLabel } from '@material-ui/core/';
 import OtpBlock from '@core/login/plugins/otp';
-
+import classNames from 'classnames';
 import ReCAPTCHA from 'react-google-recaptcha';
 import useStyles from './style';
 
@@ -25,7 +25,7 @@ const RegisterView = ({
     const styles = useStyles();
     return (
         <>
-            <form className={styles.container} onSubmit={formik.handleSubmit}>
+            <form className={classNames('col-md-6', styles.container)} onSubmit={formik.handleSubmit}>
                 <TextField
                     label={t('common:form:firstName')}
                     name="firstName"
