@@ -1,6 +1,6 @@
 /* eslint-disable no-mixed-operators */
 import Skeleton from '@common_skeleton';
-import CarouselSkeleton from '@common_slider/Carousel/Skeleton';
+import CarouselSkeleton from '@common_slick/Caraousel/Skeleton';
 import { features } from '@config';
 import useStyles from './style';
 

@@ -15,7 +15,7 @@ const SpanCategory = ({
     const styles = useStyles();
     return (
         <div className={styles.container}>
-            <div className={classNames('row', 'center', right ? 'reverse' : '')}>
+            <div className={classNames('row center', right ? 'reverse' : '')}>
                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <Link href="[...slug]" as={url}>
                         <a>
