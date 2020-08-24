@@ -3,3 +3,6 @@ import { useQuery } from '@apollo/react-hooks';
 import * as CategorySchema from '../schema/category';
 
 export const getCategories = () => useQuery(CategorySchema.categories);
+export const getVesMenu = (params = {}) => useQuery(CategorySchema.vesMenu, {
+    ...params,
+});
