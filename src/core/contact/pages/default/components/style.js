@@ -4,6 +4,7 @@ import { CreatePadding, FlexColumn } from '@theme/mixins';
 export default makeStyles((theme) => ({
     pageTitles: {
         marginBottom: '20px',
+        textTransform: 'uppercase',
     },
     container: {
         ...FlexColumn,

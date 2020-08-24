@@ -96,7 +96,7 @@ const ContactPage = (props) => {
     return (
         <>
             {/* eslint-disable-next-line react/no-danger */}
-            <Typography variant="h4" type="bold" align="left" className={styles.pageTitles}>
+            <Typography variant="h5" type="bold" align="left" className={styles.pageTitles}>
                 {t('contact:contactUs')}
             </Typography>
             <div className={styles.cmsContactContainer}>
