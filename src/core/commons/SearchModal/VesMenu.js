@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import Typography from '@common_typography';
 import Button from '@common_button';
