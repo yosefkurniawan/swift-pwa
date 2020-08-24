@@ -44,7 +44,11 @@ const useStyles = makeStyles((theme) => ({
             height: 555,
         },
     },
-
+    imageSliderAuto: {
+        [theme.breakpoints.up('sm')]: {
+            width: 'auto !important',
+        },
+    },
     thumborContainer: {
         backgroundColor: '#eee',
         width: '100%',
@@ -53,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             height: 555,
             paddingTop: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            backgroundColor: WHITE,
         },
     },
     thumborImage: {
@@ -63,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
         left: '0',
         [theme.breakpoints.up('sm')]: {
             height: 555,
+            position: 'unset',
         },
     },
 

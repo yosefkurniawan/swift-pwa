@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { features } from '@config';
 import setDefaultWhenEmpty from '@helpers/checkImageSrc';
 import { breakPointsUp } from '@helpers/theme';
+import classNames from 'classnames';
 import useStyles from './style';
 import Thumbor from './Thumbor';
 
@@ -15,6 +16,7 @@ import Thumbor from './Thumbor';
 
 const ImageSlide = ({
     imageUrl = '', link = '#', isSlug = true, width, height, mobileImageUrl = '', noLink,
+    contentWidth,
 }) => {
     const styles = useStyles();
     const href = link && link[0] === '/' ? link : `/${link}`;
@@ -31,7 +33,7 @@ const ImageSlide = ({
                 width={width || defualtWidth}
                 height={height || defualtHeight}
                 quality={100}
-                className={styles.imageSlider}
+                className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
             />
         );
     }
@@ -47,7 +49,8 @@ const ImageSlide = ({
                     width={width || defualtWidth}
                     height={height || defualtHeight}
                     quality={100}
-                    className={styles.imageSlider}
+                    className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
+                    contentWidth={contentWidth}
                 />
             </a>
         </Link>
