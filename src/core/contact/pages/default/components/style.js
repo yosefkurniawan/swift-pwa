@@ -1,7 +1,7 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { CreatePadding, FlexColumn } from '@theme/mixins';
 
-export default makeStyles((theme) => ({
+export default makeStyles(() => ({
     pageTitles: {
         marginBottom: '20px',
         textTransform: 'uppercase',
@@ -18,23 +18,5 @@ export default makeStyles((theme) => ({
     },
     message: {
         marginBottom: 30,
-    },
-    cmsContactContainer: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    cmsContactContainerLeftBlock: {
-        padding: '0 16px',
-        textAlign: 'justify',
-        flex: '0 0 100%',
-        [theme.breakpoints.up('sm')]: {
-            flex: '0 0 50%',
-        },
-    },
-    cmsContactContainerRightBlock: {
-        flex: '0 0 100%',
-        [theme.breakpoints.up('sm')]: {
-            flex: '0 0 50%',
-        },
     },
 }));

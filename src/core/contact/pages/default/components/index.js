@@ -99,9 +99,11 @@ const ContactPage = (props) => {
             <Typography variant="h5" type="bold" align="left" className={styles.pageTitles}>
                 {t('contact:contactUs')}
             </Typography>
-            <div className={styles.cmsContactContainer}>
-                <div className={styles.cmsContactContainerLeftBlock} dangerouslySetInnerHTML={{ __html: data.cmsBlocks.items[0].content }} />
-                <div className={styles.cmsContactContainerRightBlock}>
+            <div className="row">
+                <div className="col-md-6 col-xs-12">
+                    <div className={styles.container} dangerouslySetInnerHTML={{ __html: data.cmsBlocks.items[0].content }} />
+                </div>
+                <div className="col-md-6 col-xs-12">
                     <ContactForm {...props} />
                 </div>
             </div>
