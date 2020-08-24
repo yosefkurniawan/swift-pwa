@@ -1,4 +1,4 @@
-import Banner from '@common_banner';
+import Banner from '@common_slider/Banner';
 import classNames from 'classnames';
 import useStyles from '../style';
 

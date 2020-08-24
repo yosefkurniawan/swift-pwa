@@ -4,7 +4,7 @@ import useStyles from '../style';
 const CategoryListView = (props) => {
     const styles = useStyles();
     return (
-        <div className={styles.slider}>
+        <div className={styles.category}>
             <SpanCategory
                 {...props}
             />
