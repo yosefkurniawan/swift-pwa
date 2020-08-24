@@ -17,7 +17,6 @@ export default makeStyles(() => ({
     },
     btnSigin: {
         ...CreateMargin(30, 0, 10, 0),
-        ...CenterAbsolute,
     },
     footer: {
         ...CreateMargin(40, 0, 0, 0),
