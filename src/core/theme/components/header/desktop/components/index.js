@@ -81,6 +81,7 @@ const ViewTopNavigation = (props) => {
                         display: flex;
                         align-items: center;
                         padding: 10px 0;
+                        margin: 0;
                     }
                     .header-middle {
                         height: 75px;
