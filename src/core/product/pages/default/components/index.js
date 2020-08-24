@@ -80,6 +80,8 @@ const ProductPage = (props) => {
                     <Banner
                         data={banner}
                         noLink
+                        showArrow
+                        contentWidth="auto"
                         autoPlay={false}
                         width={960}
                         height={1120}
@@ -222,7 +224,7 @@ const ProductPage = (props) => {
                 </div>
                 {!desktop
                     ? (
-                        <div className={styles.footer}>
+                        <div className={classNames(styles.footer, 'hidden-desktop')}>
                             <Button
                                 className={styles.btnAddToCard}
                                 color="primary"

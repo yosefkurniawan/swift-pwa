@@ -17,6 +17,7 @@ const Banner = ({
     data = [],
     height,
     width,
+    contentWidth = '',
     autoPlay = true,
     noLink = false,
     showArrow = false,
@@ -57,6 +58,7 @@ const Banner = ({
                         height={height}
                         width={width}
                         noLink={noLink}
+                        contentWidth={contentWidth}
                         key={key}
                         {...item}
                     />
