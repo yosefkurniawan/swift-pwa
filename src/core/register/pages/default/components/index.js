@@ -5,6 +5,7 @@ import Typography from '@common_typography';
 import { Checkbox, FormControlLabel } from '@material-ui/core/';
 import OtpBlock from '@core/login/plugins/otp';
 import classNames from 'classnames';
+import { breakPointsUp } from '@helpers/theme';
 import ReCAPTCHA from 'react-google-recaptcha';
 import useStyles from './style';
 
@@ -23,6 +24,7 @@ const RegisterView = ({
     recaptchaRef,
 }) => {
     const styles = useStyles();
+    const desktop = breakPointsUp('sm');
     return (
         <>
             <form className={classNames('col-md-6', styles.container)} onSubmit={formik.handleSubmit}>
@@ -153,8 +155,12 @@ const RegisterView = ({
                             </>
                         ) : null
                     }
-
-                    <Button disabled={disabled} fullWidth className={styles.btnSigin} type="submit">
+                    <Button
+                        disabled={disabled}
+                        fullWidth={!desktop}
+                        className={styles.btnSigin}
+                        type="submit"
+                    >
                         <Typography variant="title" type="regular" letter="capitalize" color="white">
                             {t('register:button')}
                         </Typography>

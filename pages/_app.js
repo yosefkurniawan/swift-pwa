@@ -1,3 +1,6 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable no-unused-vars */
 /* eslint-disable func-names */
 /* eslint-disable radix */
 /* eslint-disable max-len */
@@ -18,6 +21,7 @@ import {
     getLastPathWithoutLogin,
 } from '@helpers/auth';
 // import Fonts from '@helpers/fonts';
+import Router from 'next/router';
 import TagManager from 'react-gtm-module';
 import PageProgressLoader from '@common_loaders/PageProgress';
 import graphRequest from '../src/api/graphql/request';
@@ -29,7 +33,6 @@ import '../src/styles/flexboxgrid.min.css';
 const tagManagerArgs = {
     gtmId: GTM.gtmId[process.env.APP_ENV] || GTM.gtmId.dev,
 };
-
 class MyApp extends App {
     constructor(props) {
         super(props);
@@ -38,9 +41,7 @@ class MyApp extends App {
 
     static async getInitialProps({ Component, ctx }) {
         let pageProps = {};
-
         const allcookie = cookies(ctx);
-
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
         }
@@ -85,20 +86,35 @@ class MyApp extends App {
     componentDidMount() {
         // lazy load fonts. use this to load non critical fonts
         // Fonts();
-
         // Remove the server-side injected CSS.
         const jssStyles = document.querySelector('#jss-server-side');
         if (jssStyles) {
             jssStyles.parentElement.removeChild(jssStyles);
         }
-
         // GTM & GA
         if (GTM.enable) TagManager.initialize(tagManagerArgs);
-
         // remove config cookie if page reload
         if (typeof window !== 'undefined') {
+            this.noReloadHandler();
             window.onbeforeunload = function () {
                 Cookie.remove(storeConfigNameCokie);
+            };
+        }
+    }
+
+    noReloadHandler() {
+        const _this = this;
+        const noReload = document.getElementsByClassName('pwa-link');
+        for (let i = 0; i < noReload.length; i += 1) {
+            noReload[i].onclick = function (e) {
+                e.preventDefault();
+                const attribute = this.getAttribute('href');
+                Router.push({
+                    pathname: attribute,
+                });
+                setTimeout(() => {
+                    _this.noReloadHandler();
+                }, 2000);
             };
         }
     }
@@ -112,7 +128,6 @@ class MyApp extends App {
                 expires: expiredCokies,
             });
         }
-
         pageProps.storeConfig = pageProps.storeConfig ? pageProps.storeConfig : {};
         return (
             <>
@@ -126,5 +141,4 @@ class MyApp extends App {
         );
     }
 }
-
 export default (appWithTranslation(MyApp));
