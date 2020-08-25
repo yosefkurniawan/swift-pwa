@@ -1,4 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { WHITE, PRIMARY } from '@theme/colors';
+import { Centering } from '@theme/mixins';
 
 const useStyles = makeStyles((theme) => ({
     caraousel: {
@@ -8,6 +10,34 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             height: 'auto',
         },
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: 'calc(100vw - 30px)',
+        },
+    },
+    arrow: {
+        fontSize: '1.5rem',
+        backgroundColor: 'rgba(255,255,255,0.5)',
+        position: 'absolute',
+        ...Centering,
+        padding: 10,
+        borderRadius: 5,
+        textAlign: 'center',
+        paddingLeft: 10,
+        top: 'calc(40% - 1rem)',
+        width: 40,
+        height: 40,
+        cursor: 'pointer',
+        '&:hover': {
+            backgroundColor: PRIMARY,
+            color: WHITE,
+        },
+    },
+    leftArrow: {
+        left: 20,
+    },
+
+    rightArrow: {
+        right: 20,
     },
 }));
 

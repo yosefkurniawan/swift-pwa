@@ -264,6 +264,16 @@ const modules = {
         categoryList: {
             enable: true,
             url_key: 'homepage-featured-categories',
+            imageSize: {
+                mobile: {
+                    width: 960,
+                    height: 577,
+                },
+                desktop: {
+                    width: 404,
+                    height: 465,
+                },
+            },
         },
         bannerSlider: {
             enable: true,
