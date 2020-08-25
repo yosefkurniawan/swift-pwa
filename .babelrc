@@ -11,17 +11,14 @@
                 ],
                 "alias": {
                     "@root": "./",
-                    "@components": "./src/components",
                     "@core": "./src/core",
                     "@custom": "./src/custom",
                     "@i18n": "./src/lib/i18n",
-                    "@pages": "./src/pages",
                     "@theme": "./src/theme",
                     "@helpers": "./src/helpers",
                     "@services": "./src/services",
                     "@config" : "./swift.config.js",
                     "@lib": "./src/lib",
-                    "@stores": "./src/stores",
                     "@layout" : "./src/core/theme/layout",
                     //commons components
                     "@common_button": "./src/core/commons/Button",
