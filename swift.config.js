@@ -146,6 +146,9 @@ const features = {
             height: 577,
         },
     },
+    vesMenu: {
+        enabled: true,
+    },
 };
 
 const modules = {

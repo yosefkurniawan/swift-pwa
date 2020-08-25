@@ -1,19 +1,19 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import Typography from '@common_typography';
 import Button from '@common_button';
 import IconButton from '@material-ui/core/IconButton';
 import Slide from '@material-ui/core/Slide';
 import ArrowBack from '@material-ui/icons/ArrowBack';
-import Router from 'next/router';
 import useStyles from './style';
 
 const SubCategory = ({
-    open, data, setOpenModal, onBack,
+    open, data, onBack, handleOpenCat, handleClickMenu, back,
 }) => {
     const styles = useStyles();
     return (
         <Slide
-            direction="left"
+            direction={back ? 'right' : 'left'}
             in={open}
             timeout={300}
             mountOnEnter
@@ -23,35 +23,20 @@ const SubCategory = ({
                 <Button
                     fullWidth
                     variant="text"
-                    onClick={() => {
-                        setOpenModal(false);
-                        setTimeout(() => {
-                            Router.push(
-                                '/[...slug]',
-                                `/${data[0].url_path}`,
-                            );
-                        }, 200);
-                    }}
+                    onClick={() => handleClickMenu(data[0])}
                 >
                     <Typography variant="label" size="14" letter="uppercase" type="bold" align="center">
-                        {data[0].name}
+                        <div dangerouslySetInnerHTML={{ __html: data[0].name }} />
                     </Typography>
                 </Button>
                 <div className={styles.item}>
-                    {data[0].children.map((item, indx) => (
+                    {data && data[0].children && data[0].children.length > 0
+                    && data[0].children.map((item, indx) => (
                         <Button
                             key={indx}
                             fullWidth
                             variant="text"
-                            onClick={() => {
-                                setOpenModal(false);
-                                setTimeout(() => {
-                                    Router.push(
-                                        '/[...slug]',
-                                        `/${item.url_path}`,
-                                    );
-                                }, 300);
-                            }}
+                            onClick={() => handleOpenCat(item)}
                             className={indx === data[0].children.length - 1 ? styles.lastCat : styles.cat}
                         >
                             <Typography
@@ -60,7 +45,7 @@ const SubCategory = ({
                                 size="14"
                                 align="center"
                             >
-                                {item.name}
+                                <div dangerouslySetInnerHTML={{ __html: item.name }} />
                             </Typography>
 
                         </Button>

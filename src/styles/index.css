@@ -109,6 +109,23 @@ a {
   align-items: center;
 }
 
+.cat-label {
+    position: absolute;
+    background-color: #000000;
+    color: #ffffff;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 5px;
+    font-size: 12px;
+    top: 0px;
+}
+
+@media (max-width: 500px) {
+    main {
+        max-width: 100vw;
+    }
+}
+
 .cms-container {
     padding: 0 16px;
     text-align: justify;

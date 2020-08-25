@@ -33,3 +33,37 @@ export const categories = gql`
         }
     }
 `;
+
+export const vesMenu = gql`
+    query getVesMenu(
+        $alias: String!
+    ) {
+        vesMenu(
+          alias: $alias
+        )
+        {
+          menu_id
+          name
+          items {
+            id
+            name
+            link
+            children {
+              id
+              name
+              link
+              children {
+               id
+               name
+               link
+               children {
+                id
+                name
+                link
+                }
+              }
+            }
+          }
+        }
+      }
+`;
