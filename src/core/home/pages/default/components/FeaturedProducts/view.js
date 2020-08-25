@@ -48,7 +48,7 @@ const MobileView = ({
                 )
             }
             <div className={styles.slider}>
-                <Carousel data={products} />
+                <Carousel data={products} showArrow={desktop} />
             </div>
         </div>
     );
