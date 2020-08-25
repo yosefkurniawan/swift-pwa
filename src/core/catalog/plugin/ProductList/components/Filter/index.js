@@ -95,15 +95,19 @@ const Filter = (props) => {
 
     return (
         <>
-            <FilterModalView
-                open={openFilter}
-                setOpen={() => setOpenFilter(!openFilter)}
-                {...props}
-                {...ModalProps}
-            />
+            {FilterModalView ? (
+                <FilterModalView
+                    open={openFilter}
+                    setOpen={() => setOpenFilter(!openFilter)}
+                    {...props}
+                    {...ModalProps}
+                />
+            ) : null}
+
             <FilterView
                 openFilter={openFilter}
                 setOpenFilter={setOpenFilter}
+                isSearch={isSearch}
                 {...ModalProps}
                 {...other}
             />
