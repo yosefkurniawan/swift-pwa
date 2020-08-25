@@ -1,4 +1,5 @@
-import Banner from '@common_banner';
+import Banner from '@common_slider/Banner';
+import classNames from 'classnames';
 import useStyles from '../style';
 
 const BannerView = (props) => {
@@ -7,10 +8,10 @@ const BannerView = (props) => {
     return (
         <>
             <div className={styles.header}>
-                <div className={styles.logo}>
+                <div className={classNames(styles.logo, 'hidden-desktop')}>
                     <img src={logoUrl} alt="logo" className={styles.imgLogo} />
                 </div>
-                {images && images.length && <Banner data={images} />}
+                {images && images.length && <Banner data={images} showArrow />}
             </div>
         </>
     );

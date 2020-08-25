@@ -1,4 +1,4 @@
-import Header from '@common_header';
+import Header from '@common_headermobile';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';

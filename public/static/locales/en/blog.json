@@ -1,8 +1,11 @@
 {
-    "title": "Contents",
+    "title": "Blogs",
     "error": {
         "notFound" : "Contents Data not found",
         "fetch": "Error during fetch data or connections, try again later"
     },
-    "loadMore": "Load More"
+    "loadMore": "Load More",
+    "category": "Categories",
+    "readMore": "Read More",
+    "share": "Share"
 }

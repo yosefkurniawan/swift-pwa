@@ -2,7 +2,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IcubeMaps from '@common_googlemaps';
-import Header from '@common_header';
+import Header from '@common_headermobile';
 import Button from '@common_button';
 import _ from 'lodash';
 import TextField from '@material-ui/core/TextField';

@@ -23,13 +23,7 @@ const Detail = (props) => {
         <div className={styles.descItem} style={{ ...(modules.wishlist.enabled ? {} : { alignItems: 'center' }) }}>
             {modules.wishlist.enabled && (
                 <div
-                    style={{
-                        position: 'absolute',
-                        width: '20px',
-                        top: '-4px',
-                        right: '14px',
-                        textAlign: 'right',
-                    }}
+                    className={styles.feedContainer}
                 >
                     <Button className={styles.btnFeed} variant="text" onClick={handleFeed}>
                         {FeedIcon}

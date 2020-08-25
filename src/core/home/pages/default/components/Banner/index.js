@@ -24,7 +24,8 @@ const BannerSlider = (props) => {
 
     if (data && data.getHomepageSlider) {
         const bannerImages = data.getHomepageSlider.images.map((image) => ({
-            imageUrl: image.mobile_image_url || image.image_url,
+            imageUrl: image.image_url,
+            mobileImageUrl: image.mobile_image_url || image.image_url,
             link: image.url_redirection,
         }));
         return (

@@ -83,12 +83,67 @@ const Login = (props) => {
     }, [isOtp]);
 
     const LoginSchema = Yup.object().shape({
-        username: isOtp ? Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong'))
-            : Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
-        password: (!otpConfig.data || !otpConfig.data.otpConfig.otp_enable[0].enable_otp_login || !isOtp)
-            && Yup.string().required(t('validate:password:required')),
-        otp: otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login && isOtp && Yup.number().required('Otp is required'),
+        username: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
+        password: Yup.string().required(t('validate:password:required')),
     });
+    const LoginOtpSchema = Yup.object().shape({
+        username: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
+        otp: Yup.number().required('Otp is required'),
+    });
+
+    const handleSubmit = (formOtp, variables) => {
+        let getTokenCustomer;
+        if (formOtp) {
+            getTokenCustomer = getCustomerTokenOtp;
+        } else {
+            getTokenCustomer = getCustomerToken;
+        }
+        setDisabled(true);
+        setLoading(true);
+        window.backdropLoader(true);
+        getTokenCustomer({
+            variables,
+        })
+            .then(async (res) => {
+                let token = '';
+                if (formOtp) {
+                    token = res.data.internalGenerateCustomerTokenOtp.token;
+                } else {
+                    token = res.data.internalGenerateCustomerToken.token;
+                }
+                if (token) {
+                    setLogin(1, expired);
+                    await setIsLogin(1);
+                    getCart();
+                }
+            })
+            .catch((e) => {
+                setDisabled(false);
+                setLoading(false);
+                window.backdropLoader(false);
+                window.toastMessage({
+                    open: true,
+                    variant: 'error',
+                    text: e.message.split(':')[1] || t('login:failed'),
+                });
+            });
+    };
+
+    const formikOtp = useFormik({
+        initialValues: {
+            username: '',
+            otp: '',
+        },
+        validationSchema: LoginOtpSchema,
+        onSubmit: (values) => {
+            const variables = {
+                username: values.username,
+                otp: values.otp,
+            };
+            handleSubmit(true, variables);
+        },
+    });
+
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -97,50 +152,11 @@ const Login = (props) => {
         },
         validationSchema: LoginSchema,
         onSubmit: (values) => {
-            let getTokenCustomer;
-            let variables;
-            if (isOtp) {
-                getTokenCustomer = getCustomerTokenOtp;
-                variables = {
-                    username: values.username,
-                    otp: values.otp,
-                };
-            } else {
-                getTokenCustomer = getCustomerToken;
-                variables = {
-                    username: values.username,
-                    password: values.password,
-                };
-            }
-            setDisabled(true);
-            setLoading(true);
-            window.backdropLoader(true);
-            getTokenCustomer({
-                variables,
-            })
-                .then(async (res) => {
-                    let token = '';
-                    if (isOtp) {
-                        token = res.data.internalGenerateCustomerTokenOtp.token;
-                    } else {
-                        token = res.data.internalGenerateCustomerToken.token;
-                    }
-                    if (token) {
-                        setLogin(1, expired);
-                        await setIsLogin(1);
-                        getCart();
-                    }
-                })
-                .catch((e) => {
-                    setDisabled(false);
-                    setLoading(false);
-                    window.backdropLoader(false);
-                    window.toastMessage({
-                        open: true,
-                        variant: 'error',
-                        text: e.message.split(':')[1] || t('login:failed'),
-                    });
-                });
+            const variables = {
+                username: values.username,
+                password: values.password,
+            };
+            handleSubmit(false, variables);
         },
     });
     if (cartData.data && custData.data) {
@@ -199,6 +215,7 @@ const Login = (props) => {
                 setDisabled={setDisabled}
                 disabled={disabled}
                 loading={loading}
+                formikOtp={formikOtp}
             />
         </Layout>
     );

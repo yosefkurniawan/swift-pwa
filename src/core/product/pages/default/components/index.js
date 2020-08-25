@@ -1,8 +1,8 @@
 /* eslint-disable array-callback-return */
 import Button from '@common_button';
 import PriceFormat from '@common_priceformat';
-import Banner from '@common_banner';
-import Caraousel from '@common_slider/Carousel';
+import Banner from '@common_slick/Banner';
+import Caraousel from '@common_slick/Caraousel';
 import Typography from '@common_typography';
 import IconButton from '@material-ui/core/IconButton';
 import Favorite from '@material-ui/icons/Favorite';
@@ -14,12 +14,18 @@ import HtmlParser from 'react-html-parser';
 import { getHost } from '@helpers/config';
 import Breadcrumb from '@common_breadcrumb';
 import RatingStar from '@common_ratingstar';
+import { breakPointsUp } from '@helpers/theme';
+import dynamic from 'next/dynamic';
 import useStyles from './style';
 import ExpandDetail from './ExpandDetail';
 import ListReviews from './ListReviews';
 import OptionItem from './OptionItem';
 import RightDrawer from './RightDrawer';
 import SharePopup from './SharePopup';
+
+const DesktopOptions = dynamic(() => import('./OptionItem/DesktopOptions'), { ssr: false });
+const TabsView = dynamic(() => import('./DesktopTabs'), { ssr: false });
+const ItemShare = dynamic(() => import('./SharePopup/item'), { ssr: false });
 
 const ProductPage = (props) => {
     const styles = useStyles();
@@ -42,6 +48,9 @@ const ProductPage = (props) => {
         expandData,
         relateData,
     } = props;
+
+    const desktop = breakPointsUp('sm');
+
     const favoritIcon = wishlist ? (
         <Favorite className={styles.iconShare} />
     ) : (
@@ -63,10 +72,16 @@ const ProductPage = (props) => {
                 link={getHost() + route.asPath}
                 {...props}
             />
-            <div className={styles.container}>
-                <div className={styles.headContainer}>
+            <div className={classNames(styles.container, 'row')}>
+                <div className="col-lg-12 hidden-mobile">
+                    <Breadcrumb data={breadcrumbsData} variant="text" />
+                </div>
+                <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-8')}>
                     <Banner
                         data={banner}
+                        noLink
+                        showArrow
+                        contentWidth="auto"
                         autoPlay={false}
                         width={960}
                         height={1120}
@@ -81,17 +96,20 @@ const ProductPage = (props) => {
                         )
                     }
                 </div>
-                <div className={styles.body}>
-                    <div className={styles.titleContainer}>
-                        <Breadcrumb data={breadcrumbsData} variant="text" />
-                    </div>
+                <div className={classNames(styles.body, 'col-xs-12 col-lg-4')}>
+                    {!desktop ? (
+                        <div className={styles.titleContainer}>
+                            <Breadcrumb data={breadcrumbsData} variant="text" />
+                        </div>
+                    ) : null}
+
                     <div className={styles.titleContainer}>
                         <div className={styles.titlePriceContainer}>
                             <Typography
                                 variant="title"
                                 type="bold"
                                 letter="capitalize"
-                                className="clear-margin-padding"
+                                className={classNames(styles.title, 'clear-margin-padding')}
                             >
                                 {data.name}
                             </Typography>
@@ -106,12 +124,15 @@ const ProductPage = (props) => {
                             >
                                 {favoritIcon}
                             </IconButton>
-                            <IconButton
-                                className={styles.btnShare}
-                                onClick={() => setOpenShare(true)}
-                            >
-                                <ShareOutlined className={styles.iconShare} />
-                            </IconButton>
+                            {!desktop ? (
+                                <IconButton
+                                    className={classNames(styles.btnShare, 'hidden-desktop')}
+                                    onClick={() => setOpenShare(true)}
+                                >
+                                    <ShareOutlined className={styles.iconShare} />
+                                </IconButton>
+                            ) : null}
+
                         </div>
                     </div>
                     <div className={styles.titleContainer}>
@@ -137,53 +158,91 @@ const ProductPage = (props) => {
                             {data.stock_status.replace('_', ' ') || ''}
                         </Typography>
                     </div>
-                    <div className={styles.titleContainer}>
-                        <div className={styles.ratingContainer}>
-                            <RatingStar value={reviewValue || 0} />
-                            <Typography
-                                variant="p"
-                                type="regular"
-                                letter="capitalize"
-                            >
-                                {data.review.reviews_count || 0}
-                                {' '}
-                                {t('product:review')}
-                            </Typography>
-                        </div>
-                    </div>
-                    <div className={styles.desc}>
-                        <Typography variant="span" type="regular" size="10">
-                            {data.short_description.html
+
+                    {!desktop ? (
+                        <div className="hidden-desktop">
+                            <div className={styles.titleContainer}>
+                                <div className={styles.ratingContainer}>
+                                    <RatingStar value={reviewValue || 0} />
+                                    <Typography
+                                        variant="p"
+                                        type="regular"
+                                        letter="capitalize"
+                                    >
+                                        {data.review.reviews_count || 0}
+                                        {' '}
+                                        {t('product:review')}
+                                    </Typography>
+                                </div>
+                            </div>
+                            {' '}
+                            <div className={styles.desc}>
+                                <Typography variant="span" type="regular" size="10">
+                                    {data.short_description.html
                                 && HtmlParser(data.short_description.html)}
-                        </Typography>
-                    </div>
-                    <div>
-                        <ExpandDetail data={expandData} />
-                    </div>
+                                </Typography>
+                            </div>
+                            <div>
+                                <ExpandDetail data={expandData} />
+                            </div>
+                        </div>
+                    )
+                        : (
+                            <>
+                                <DesktopOptions
+                                    {...props}
+                                    setBanner={setBanner}
+                                    setPrice={setPrice}
+                                />
+                                <div className={styles.desktopShareIcon}>
+                                    <Typography className={styles.shareTitle} variant="title">
+                                        {t('product:shareTitle')}
+                                    </Typography>
+                                    <ItemShare link={getHost() + route.asPath} />
+                                </div>
+                            </>
+                        )}
+
                 </div>
-                <ListReviews {...props} />
-                <div className={styles.carouselContainer}>
+                {!desktop ? <ListReviews {...props} /> : (
+                    <div className={classNames(styles.tabs, 'col-xs-12 col-lg-12')}>
+                        <TabsView {...props} dataInfo={expandData} />
+                    </div>
+                )}
+                <div className={classNames(styles.carouselContainer, 'col-xs-12 col-lg-12')}>
+                    <Typography
+                        variant="h1"
+                        component="h2"
+                        align="center"
+                        className={styles.carouselTitle}
+                    >
+                        Related Product
+                    </Typography>
                     <Caraousel
                         data={relateData}
                     />
                 </div>
-                <div className={styles.footer}>
-                    <Button
-                        className={styles.btnAddToCard}
-                        color="primary"
-                        onClick={handleOption}
-                        disabled={data && data.stock_status === 'OUT_STOCK'}
-                    >
-                        <Typography
-                            align="center"
-                            type="regular"
-                            letter="capitalize"
-                            className={styles.textBtnAddToCard}
-                        >
-                            {t('product:addToCart')}
-                        </Typography>
-                    </Button>
-                </div>
+                {!desktop
+                    ? (
+                        <div className={classNames(styles.footer, 'hidden-desktop')}>
+                            <Button
+                                className={styles.btnAddToCard}
+                                color="primary"
+                                onClick={handleOption}
+                                disabled={data && data.stock_status === 'OUT_STOCK'}
+                            >
+                                <Typography
+                                    align="center"
+                                    type="regular"
+                                    letter="capitalize"
+                                    className={styles.textBtnAddToCard}
+                                >
+                                    {t('product:addToCart')}
+                                </Typography>
+                            </Button>
+                        </div>
+                    )
+                    : null }
             </div>
         </>
     );
