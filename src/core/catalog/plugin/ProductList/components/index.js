@@ -18,13 +18,15 @@ const Content = (props) => {
     return (
         <>
             {showTabs ? (
-                <TabView
+                <div className="hidden-desktop">
+                    <TabView
                     // eslint-disable-next-line radix
-                    value={query.category_id ? query.category_id : 0}
-                    data={category}
-                    onChange={(e, value) => setFiltervalue({ ...query, ...{ category_id: value } })}
-                    {...other}
-                />
+                        value={query.category_id ? query.category_id : 0}
+                        data={category}
+                        onChange={(e, value) => setFiltervalue({ ...query, ...{ category_id: value } })}
+                        {...other}
+                    />
+                </div>
             ) : null}
             <div className="hidden-desktop">
                 <Filter

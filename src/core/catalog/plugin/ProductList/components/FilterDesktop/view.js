@@ -32,6 +32,7 @@ const ViewFilter = (props) => {
         handleClear,
         category,
         onChangeTabs,
+        isSearch,
         filter,
     } = props;
     const styles = useStyles();
@@ -119,11 +120,12 @@ const ViewFilter = (props) => {
                     />
                 </div>
             );
-        } if (itemFilter.field === 'cat' || itemFilter.field === 'category_id') {
+        } if ((itemFilter.field === 'cat' || itemFilter.field === 'category_id') && !isSearch) {
             return (
                 <span key={idx} />
             );
         }
+
         return (
             <div key={idx}>
                 {elastic ? (
@@ -175,7 +177,7 @@ const ViewFilter = (props) => {
             ) : null}
 
             {filter.map((itemFilter, idx) => {
-                if (itemFilter.field === 'cat' || itemFilter.field === 'category_id') {
+                if ((itemFilter.field === 'cat' || itemFilter.field === 'category_id') && !isSearch) {
                     return (
                         <span key={idx} />
                     );
