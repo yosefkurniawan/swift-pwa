@@ -46,6 +46,7 @@
                     "@common_image": "./src/core/commons/Image",
                     "@common_backdrop": "./src/core/commons/Backdrop",
                     "@common_pageprogress": "./src/core/commons/PageProgress",
+                    "@common_slick": "./src/core/commons/Slick",
                     "@common_slider": "./src/core/commons/Slider",
                     "@common_filterdialog": "./src/core/commons/FilterDialog",
                     "@common_forms": "./src/core/commons/Forms",

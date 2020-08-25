@@ -52,7 +52,7 @@ const DesktopView = ({ data = [] }) => {
                                 variant={name === selectedCategory ? 'contained' : 'outlined'}
                                 onClick={() => handleSelect(name)}
                             >
-                                <Typography variant="span" color={name === selectedCategory ? 'primary' : 'secondary'}>
+                                <Typography variant="span" color={name === selectedCategory ? 'white' : 'default'}>
                                     {name}
                                 </Typography>
                             </Button>

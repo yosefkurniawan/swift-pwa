@@ -26,7 +26,7 @@ const ContactForm = (props) => {
                 setOpen={() => setMessage({ ...message, open: false })}
                 message={message.text}
             />
-            <span style={{ margin: '0 0 10px -5px' }}>
+            <span style={{ margin: '0 0 10px -5px', textTransform: 'uppercase' }}>
                 <Typography variant="h6" type="bold" align="left">
                     {t('contact:contactUs')}
                 </Typography>
@@ -77,13 +77,13 @@ const ContactForm = (props) => {
                             onChange={handleChangeCaptcha}
                             ref={recaptchaRef}
                         />
-                        { formik.errors.captcha && (
+                        {formik.errors.captcha && (
                             <Typography color="red">{formik.errors.captcha}</Typography>
                         )}
                     </>
                 ) : null
             }
-            <Button className={styles.btn} fullWidth type="submit">
+            <Button className={styles.btn} type="submit">
                 {t('common:button:send')}
             </Button>
         </form>
@@ -91,12 +91,22 @@ const ContactForm = (props) => {
 };
 
 const ContactPage = (props) => {
-    const { data } = props;
+    const styles = useStyles();
+    const { data, t } = props;
     return (
         <>
             {/* eslint-disable-next-line react/no-danger */}
-            <div className="cms-container" dangerouslySetInnerHTML={{ __html: data.cmsBlocks.items[0].content }} />
-            <ContactForm {...props} />
+            <Typography variant="h5" type="bold" align="left" className={styles.pageTitles}>
+                {t('contact:contactUs')}
+            </Typography>
+            <div className="row">
+                <div className="col-md-6 col-xs-12">
+                    <div className={styles.container} dangerouslySetInnerHTML={{ __html: data.cmsBlocks.items[0].content }} />
+                </div>
+                <div className="col-md-6 col-xs-12">
+                    <ContactForm {...props} />
+                </div>
+            </div>
         </>
     );
 };

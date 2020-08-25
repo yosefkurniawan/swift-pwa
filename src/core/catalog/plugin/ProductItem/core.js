@@ -11,13 +11,7 @@ import ConfigurableOpt from './components/ConfigurableProductItem';
 
 const ProductItem = (props) => {
     const {
-        id,
-        url_key = '',
-        categorySelect,
-        review,
-        ImageProductView,
-        DetailProductView,
-        ...other
+        id, url_key = '', categorySelect, review, ImageProductView, DetailProductView, ...other
     } = props;
     const styles = useStyles();
     const { t } = useTranslation(['catalog']);
@@ -63,28 +57,22 @@ const ProductItem = (props) => {
 
     const ratingValue = review && review.rating_summary ? parseInt(review.rating_summary, 0) / 20 : 0;
     const DetailProps = {
-        spesificProduct, handleClick, handleFeed, ratingValue, feed,
+        spesificProduct,
+        handleClick,
+        handleFeed,
+        ratingValue,
+        feed,
     };
     return (
         <>
             <div className={styles.itemContainer}>
                 <div className={styles.imgItem}>
-                    <ImageProductView
-                        handleClick={handleClick}
-                        spesificProduct={spesificProduct}
-                        {...other}
-                    />
+                    <ImageProductView handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
                 </div>
                 <div className={styles.detailItem}>
-                    <DetailProductView
-                        {...DetailProps}
-                        {...other}
-                    />
+                    <DetailProductView {...DetailProps} {...other} />
                     {modules.catalog.productListing.configurableOptions ? (
-                        <ConfigurableOpt
-                            setSpesificProduct={setSpesificProduct}
-                            {...other}
-                        />
+                        <ConfigurableOpt setSpesificProduct={setSpesificProduct} {...other} />
                     ) : null}
                 </div>
             </div>

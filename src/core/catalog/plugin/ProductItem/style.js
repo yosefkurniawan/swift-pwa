@@ -1,11 +1,6 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
-    CreatePadding,
-    FlexColumn,
-    Centering,
-    CreateMargin,
-    ClearMarginPadding,
-    FlexRow,
+    CreatePadding, FlexColumn, Centering, CreateMargin, ClearMarginPadding, FlexRow,
 } from '@theme/mixins';
 import { GRAY_PRIMARY, PRIMARY, WHITE } from '@theme/colors';
 
@@ -67,5 +62,12 @@ export default makeStyles((theme) => ({
     },
     btnColor: {
         ...CreateMargin(0, 5, 0, 0),
+    },
+    feedContainer: {
+        position: 'absolute',
+        width: '20px',
+        top: '-4px',
+        right: '20px',
+        textAlign: 'right',
     },
 }));

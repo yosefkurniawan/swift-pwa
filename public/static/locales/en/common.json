@@ -11,7 +11,7 @@
         "title": "Search",
         "mainTitle": "New in Collection",
         "backTitle": "back in stock sale",
-        "location" : "Search Location"
+        "location": "Search Location"
     },
     "button": {
         "edit": "Edit",
@@ -21,10 +21,10 @@
         "cancel": "Cancel",
         "yes": "Yes",
         "checkout": "Checkout",
-        "change" : "Change",
+        "change": "Change",
         "login": "Login",
         "register": "Register",
-        "send" : "send",
+        "send": "Submit",
         "addAddress": "Add Address",
         "loadMore": "Load more",
         "clear": "Clear",
@@ -61,7 +61,7 @@
         "category": "Category"
     },
     "error": {
-        "notFound" : "Data not found",
+        "notFound": "Data not found",
         "fileReject": "Cannot upload, Files must be a type ",
         "fetchError": "Connection Error. Please try again later."
     },
@@ -70,12 +70,12 @@
         "dragActive": "Drop the files here ...",
         "dragNonActive": "Drag drop some files here, or click to select file"
     },
-    "menu" : {
-        "confirmpayment" : "Confirm Payment",
-        "trackingorder" : "Tracking Order",
-        "sign" : "Sign",
-        "register" : "Create Account",
-        "or" : "or",
+    "menu": {
+        "confirmpayment": "Confirm Payment",
+        "trackingorder": "Tracking Order",
+        "sign": "Sign",
+        "register": "Create Account",
+        "or": "or",
         "notification": "Notification",
         "myaccount": "My Account",
         "mywishlist": "My Wishlist",
