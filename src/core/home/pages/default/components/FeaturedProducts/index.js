@@ -27,6 +27,7 @@ const FeaturedProducts = ({
             <>
                 <FeaturedView
                     data={data.categoryList[0].children}
+                    t={t}
                 />
             </>
         );

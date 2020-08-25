@@ -10,6 +10,9 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             height: 'auto',
         },
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: 'calc(100vw - 30px)',
+        },
     },
     arrow: {
         fontSize: '1.5rem',
@@ -20,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: 5,
         textAlign: 'center',
         paddingLeft: 10,
-        top: 'calc(30% - 1rem)',
+        top: 'calc(40% - 1rem)',
         width: 40,
         height: 40,
         cursor: 'pointer',

@@ -31,7 +31,8 @@
         "verify": "Verify",
         "shop": "SHOP NOW",
         "sendOtp": "Send OTP",
-        "submit": "Submit"
+        "submit": "Submit",
+        "viewAll": "View All"
     },
     "subtotal": "Subtotal",
     "price": {

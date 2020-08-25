@@ -39,12 +39,14 @@ const Caraousel = (props) => {
     };
 
     const settings = {
+        arrows: false,
+        dots: false,
         infinite: true,
         speed: 500,
-        slidesToShow: slideLg,
+        slidesToShow: data.length < slideLg ? data.length : slideLg,
         slidesToScroll: 1,
         initialSlide: data.length > 4 ? data.length / 2 : 0,
-        className: 'center',
+        className: 'slider variable-width',
         centerMode: false,
         afterChange: () => setCount(count + 1),
         beforeChange: (current, next) => setIndex(next),
@@ -52,7 +54,7 @@ const Caraousel = (props) => {
             {
                 breakpoint: md,
                 settings: {
-                    slidesToShow: slideMd,
+                    slidesToShow: data.length < slideMd ? data.length : slideMd,
                     slidesToScroll: 1,
                     className: 'slider variable-width',
                     centerMode: false,
@@ -61,7 +63,7 @@ const Caraousel = (props) => {
             {
                 breakpoint: sm,
                 settings: {
-                    slidesToShow: slideSm,
+                    slidesToShow: data.length < slideSm ? data.length : slideSm,
                     slidesToScroll: 1,
                     centerMode: true,
                     className: 'slider variable-width',
@@ -70,7 +72,7 @@ const Caraousel = (props) => {
             {
                 breakpoint: xs,
                 settings: {
-                    slidesToShow: slideXs,
+                    slidesToShow: data.length < slideXs ? data.length : slideXs,
                     slidesToScroll: 1,
                     centerMode: true,
                     className: 'slider variable-width',

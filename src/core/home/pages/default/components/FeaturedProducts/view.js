@@ -1,62 +1,75 @@
 import Link from 'next/link';
-import { features } from '@config';
+import Router from 'next/router';
+import { modules } from '@config';
 import Carousel from '@common_slick/Caraousel';
-import Thumbor from '@common_image';
 import { breakPointsUp } from '@helpers/theme';
 import Typography from '@common_typography';
+import Button from '@common_button';
+import classNames from 'classnames';
 import useStyles from '../style';
+import Image from './Image';
 
 const MobileView = ({
-    products, url_path, category_image, name,
+    products, url_path, category_image, name, right = false, t,
 }) => {
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
+    const { categoryList } = modules.home;
+    const width = desktop ? categoryList.imageSize.desktop.width : categoryList.imageSize.mobile.width;
+    const height = desktop ? categoryList.imageSize.desktop.height : categoryList.imageSize.mobile.height;
     return (
-        <div className={styles.features}>
-            {(category_image && !desktop) && (
+        <div className={classNames('col-xs-12 row between-lg', styles.features, right ? 'reverse' : '')}>
+            <div className={classNames('col-xs-12', styles.labelCategory)}>
                 <Link
                     href="[...slug]"
                     as={url_path}
                 >
-                    <a
-                        style={{
-                            width: '100%',
-                            maxWidth: '100%',
-                            height: 'auto',
-                        }}
-                    >
-                        <Thumbor
-                            src={category_image}
-                            alt={name}
-                            style={{
-                                width: '100%',
-                                maxWidth: '100%',
-                                maxHeight: '100%',
-                            }}
-                            width={features.imageSize.category.width}
-                            height={features.imageSize.category.height}
-                            quality={80}
-                        />
+                    <a>
+                        <Typography letter="capitalize" type="bold" variant="h1" align="center">
+                            {name || ''}
+                        </Typography>
                     </a>
                 </Link>
-            )}
-            {
-                desktop && (
-                    <Typography letter="capitalize" type="bold" className={styles.labelCategory}>
-                        {name || ''}
-                    </Typography>
-                )
-            }
-            <div className={styles.slider}>
-                <Carousel data={products} showArrow={desktop} />
+            </div>
+            <div
+                className={classNames(category_image ? 'col-xs-12 col-sm-12 col-lg-4' : 'hidden-mobile hidden-desktop', styles.imgFeaturedContainer)}
+            >
+                {(category_image) && (
+                    <div className={styles.imgFeaturedItem}>
+                        <Image
+                            handleClick={() => Router.push(`/${url_path}`)}
+                            name={name}
+                            src={category_image}
+                            width={width}
+                            height={height}
+                        />
+                    </div>
+                )}
+            </div>
+            <div className={classNames('col-xs-12 col-sm-12', category_image ? 'col-lg-8' : '')}>
+                <div className={classNames('row center-xs', styles.contentFeatured)}>
+                    <div className={classNames('col-xs-12')}>
+                        <Carousel data={products} showArrow={desktop} slideLg={category_image ? 4 : 6} />
+                    </div>
+                    <div className={classNames('col-xs-12', styles.footerFeatured)}>
+                        <Button
+                            href={`/${url_path}`}
+                            fullWidth
+                            variant="outlined"
+                        >
+                            {t('common:button:viewAll')}
+                        </Button>
+                    </div>
+                </div>
             </div>
         </div>
     );
 };
 
-const FeaturedView = ({ data = [] }) => (
-    <>
-        <div style={{ width: '100%', height: '100%' }}>
+const FeaturedView = ({ data = [], t }) => {
+    const styles = useStyles();
+    return (
+        <div className={styles.contentContainer}>
             {
                 data.map((category, i) => {
                     const products = category.products.items.map((product) => ({
@@ -73,12 +86,14 @@ const FeaturedView = ({ data = [] }) => (
                             products={products}
                             category_image={category.image_path}
                             name={category.name}
+                            right={(i + 1) % 2 === 0}
+                            t={t}
                         />
                     );
                 })
             }
         </div>
-    </>
-);
+    );
+};
 
 export default FeaturedView;

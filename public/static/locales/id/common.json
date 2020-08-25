@@ -30,7 +30,8 @@
         "verify": "Verifikasi",
         "shop": "Beli Sekarang",
         "sendOtp": "Kirim OTP",
-        "submit": "Kirimkan"
+        "submit": "Kirimkan",
+        "viewAll": "Lihat Semua"
     },
     "subtotal": "Subtotal",
     "price": {
