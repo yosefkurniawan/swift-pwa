@@ -1,4 +1,4 @@
-import Carousel from '@common_slider/Carousel';
+import Carousel from '@common_slick/Caraousel';
 import Typography from '@common_typography';
 import useStyles from './style';
 

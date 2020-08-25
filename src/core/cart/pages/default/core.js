@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 import { getCartId } from '@helpers/cartId';
 import { useMutation } from '@apollo/react-hooks';
 import TagManager from 'react-gtm-module';
-import { storeConfigNameCokie } from '@config';
-import cookies from 'js-cookie';
 import Layout from '@layout';
+import _ from 'lodash';
+import { formatPrice } from '@helpers/currency';
 import { getCartData, addWishlist as mutationWishlist } from '../../services/graphql';
 import * as Schema from '../../services/graphql/schema';
 
@@ -24,7 +24,7 @@ const getCrossSellProduct = (items) => {
 
 const Cart = (props) => {
     const {
-        t, token, isLogin, EmptyView, SkeletonView, pageConfig, Content, ...other
+        t, token, isLogin, EmptyView, SkeletonView, pageConfig, Content, storeConfig, ...other
     } = props;
     const [editMode, setEditMode] = useState(false);
     const [editItem, setEditItem] = useState({});
@@ -161,7 +161,6 @@ const Cart = (props) => {
             });
         });
     };
-    let storeConfig = {};
     if (typeof window !== 'undefined') {
         cartId = getCartId();
         if (cartId) {
@@ -173,7 +172,6 @@ const Cart = (props) => {
         } else {
             loadingCart = false;
         }
-        storeConfig = cookies.getJSON(storeConfigNameCokie);
     }
     useEffect(() => {
         if (dataCart.items.length > 0) {
@@ -258,6 +256,57 @@ const Cart = (props) => {
     crosssell = getCrossSellProduct(dataCart.items);
 
     if (dataCart.id && dataCart.items.length > 0) {
+        let dataSummary = [];
+        let total = 0;
+        const globalCurrency = storeConfig.default_display_currency_code;
+        const {
+            prices,
+            items,
+            applied_store_credit,
+            applied_reward_points,
+            applied_giftcard,
+        } = dataCart;
+
+        if (items) {
+            const sumTotalItem = items.reduce(
+                (prev, curr) => ({
+                    value: prev.value + curr.prices.row_total.value,
+                    currency: curr.prices.row_total.currency,
+                }),
+                { value: 0 },
+            );
+            const subtotal = formatPrice(sumTotalItem.value, sumTotalItem.currency);
+            total = prices.grand_total;
+
+            dataSummary.push({ item: 'sub total', value: subtotal });
+
+            if (_.isArray(prices.discounts)) {
+                const discounts = prices.discounts.map((disc) => {
+                    const price = formatPrice(disc.amount.value, disc.amount.currency);
+                    return { item: `${disc.label} - ${price}`, value: `-${price}` };
+                });
+                dataSummary = dataSummary.concat(discounts);
+            }
+
+            if (applied_store_credit.is_use_store_credit) {
+                const price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency);
+                dataSummary.push({ item: `Store Credit - ${price}`, value: `-${price}` });
+            }
+
+            if (applied_reward_points.is_use_reward_points) {
+                const price = formatPrice(Math.abs(applied_reward_points.reward_points_amount), globalCurrency);
+                dataSummary.push({ item: `Reward Point - ${price}`, value: `-${price}` });
+            }
+
+            if (applied_giftcard) {
+                const giftCards = applied_giftcard.giftcard_detail.map((item) => {
+                    const price = formatPrice(Math.abs(item.giftcard_amount_used), globalCurrency);
+                    return { item: `Gift Card (${item.giftcard_code}) - ${price}`, value: `-${price}` };
+                });
+                dataSummary = dataSummary.concat(giftCards);
+            }
+        }
+
         const contentProps = {
             dataCart,
             t,
@@ -270,6 +319,11 @@ const Cart = (props) => {
             editItem,
             openEditDrawer,
             updateItem,
+            storeConfig,
+            summary: {
+                total,
+                data: dataSummary,
+            },
         };
         return (
             <Layout pageConfig={config || pageConfig} {...props}>
