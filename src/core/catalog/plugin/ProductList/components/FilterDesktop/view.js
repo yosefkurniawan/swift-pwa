@@ -11,6 +11,8 @@ import CheckBoxColor from '@common_forms/CheckBoxColor';
 import RadioGroup from '@common_radio';
 import useStyles from './style';
 
+let globalTimeout = null;
+
 const ViewFilter = (props) => {
     const {
         itemProps = {},
@@ -32,15 +34,31 @@ const ViewFilter = (props) => {
     const styles = useStyles();
 
     const checkedFilter = (field, value) => {
+        if (globalTimeout) {
+            clearTimeout(globalTimeout);
+        }
         setCheckedFilter(field, value);
-        setTimeout(() => {
+        globalTimeout = setTimeout(() => {
             handleSave();
         }, 1000);
     };
 
     const selectFilter = (field, value) => {
+        if (globalTimeout) {
+            clearTimeout(globalTimeout);
+        }
         setSelectedFilter(field, value);
-        setTimeout(() => {
+        globalTimeout = setTimeout(() => {
+            handleSave();
+        }, 1000);
+    };
+
+    const setPrice = (value) => {
+        if (globalTimeout) {
+            clearTimeout(globalTimeout);
+        }
+        setPriceRange(value);
+        globalTimeout = setTimeout(() => {
             handleSave();
         }, 1000);
     };
@@ -56,7 +74,7 @@ const ViewFilter = (props) => {
         }
         if (itemFilter.field === 'price') {
             return (
-                <div key={idx}>
+                <div key={idx} style={{ width: '100%' }}>
                     <RangeSlider
                         noLabel
                         label={itemFilter.label}
@@ -64,7 +82,7 @@ const ViewFilter = (props) => {
                         value={priceRange}
                         onChange={
                             itemProps.priceRangeChange
-                            || setPriceRange
+                            || setPrice
                         }
                     />
                 </div>
@@ -128,7 +146,6 @@ const ViewFilter = (props) => {
             </div>
         );
     };
-
     return (
         <div className={styles.root}>
             {filter.map((itemFilter, idx) => (

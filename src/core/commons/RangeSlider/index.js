@@ -9,40 +9,53 @@ import { sliderStyle, useStyles } from './style';
 
 const CustomSlider = withStyles(sliderStyle)(Slider);
 
+let globalTimeout = null;
+
 const RangeSlider = ({
     maxValue = 100,
     onChange = () => {},
     value = [0, 10],
     label = '',
+    noLabel = false,
 }) => {
     const styles = useStyles();
+    const [values, setValue] = React.useState(value);
     const handleChange = (event, newValue) => {
-        onChange(newValue);
+        if (globalTimeout) {
+            clearTimeout(globalTimeout);
+        }
+        setValue(newValue);
+        globalTimeout = setTimeout(() => {
+            onChange(newValue);
+        }, 1000);
     };
 
     return (
         <div className={styles.container}>
-            <Typography variant="label" type="bold" letter="uppercase">
-                {label}
-            </Typography>
+            {!noLabel ? (
+                <Typography variant="label" type="bold" letter="uppercase">
+                    {label}
+                </Typography>
+            ) : null}
+
             <div className={styles.spanLabelPrice}>
                 <Typography variant="label" type="regular" letter="uppercase">
                     {
                         formatPrice(
-                            value[0], 'IDR',
+                            values[0], 'IDR',
                         )
                     }
                 </Typography>
                 <Typography variant="label" type="regular" letter="uppercase">
                     {
                         formatPrice(
-                            value[1], 'IDR',
+                            values[1], 'IDR',
                         )
                     }
                 </Typography>
             </div>
             <CustomSlider
-                value={value}
+                value={values}
                 onChange={handleChange}
                 valueLabelDisplay="off"
                 aria-labelledby="range-slider"

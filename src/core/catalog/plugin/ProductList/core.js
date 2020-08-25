@@ -23,7 +23,7 @@ const Product = (props) => {
     const [loadmore, setLoadmore] = React.useState(false);
     const elastic = catalog_search_engine === 'elasticsuite';
     let config = {
-        customFilter: typeof customFilter !== 'undefined',
+        customFilter: false,
         search: '',
         pageSize: 8,
         currentPage: 1,
@@ -68,7 +68,6 @@ const Product = (props) => {
         total_count: 0,
         items: [],
     };
-
     // generate filter if donthave custom filter
     const aggregations = [];
     if (!customFilter && !loading && products.aggregations) {

@@ -1,9 +1,11 @@
 import React from 'react';
 import GridList from '@common_gridlist';
+import classNames from 'classnames';
 import Filter from './Filter';
 import FilterDesktop from './FilterDesktop';
 import ProductItem from '../../ProductItem/core';
 import useStyles from './style';
+import Sort from './FilterDesktop/sort';
 
 const Content = (props) => {
     const {
@@ -34,6 +36,16 @@ const Content = (props) => {
                     products={products}
                     renderEmptyMessage={renderEmptyMessage}
                     loading={loading}
+                    {...other}
+                />
+            </div>
+            <div className={classNames(styles.filterBtnContainer, 'hidden-mobile')}>
+                <Sort
+                    filter={customFilter || aggregations}
+                    defaultSort={JSON.stringify(defaultSort)}
+                    filterValue={query}
+                    setFiltervalue={setFiltervalue}
+                    isSearch={!!config.search}
                     {...other}
                 />
             </div>

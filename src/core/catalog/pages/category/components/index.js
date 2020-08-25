@@ -1,10 +1,13 @@
 import React from 'react';
 import Router from 'next/router';
 import classNames from 'classnames';
+import Typography from '@common_typography';
 import Product from '@core/catalog/plugin/ProductList';
 import { features } from '@config';
 import useStyles from './style';
-import { getFilter } from '../../../services/graphql';
+
+// sementara di comment dlu, untuk custom filter memakai aggregations product
+// import { getFilter } from '../../../services/graphql';
 
 const categoryTabs = (category) => {
     const data = [];
@@ -37,8 +40,8 @@ const CategoryPage = ({
             },
         ];
     }
-
-    const customFilter = getFilter(categoryList.id);
+    // sementara di comment dlu, untuk custom filter memakai aggregations product
+    // const customFilter = getFilter(categoryList.id);
     let breadcrumbsData = [];
     if (categoryList.breadcrumbs && categoryList.breadcrumbs.length > 0) {
         breadcrumbsData = categoryList.breadcrumbs.map((bc) => ({
@@ -71,6 +74,9 @@ const CategoryPage = ({
             <div className={classNames(styles.breadcrumbs, 'hidden-desktop')}>
                 <BreadcrumbView data={breadcrumbsData} />
             </div>
+            <Typography variant="h3">
+                {categoryList.name}
+            </Typography>
             {dataBanner[0] && dataBanner[0].description && (
                 /* eslint-disable-next-line react/no-danger */
                 <div className="cms-container" dangerouslySetInnerHTML={{ __html: dataBanner[0].description }} />
@@ -84,7 +90,8 @@ const CategoryPage = ({
             </div>
             <Product
                 defaultSort={{ key: 'position', value: 'ASC' }}
-                customFilter={customFilter.loading ? [] : customFilter.data.getFilterAttributeOptions.data}
+                // sementara di comment dlu, untuk custom filter memakai aggregations product
+                // customFilter={customFilter.loading ? [] : customFilter.data.getFilterAttributeOptions.data}
                 catId={categoryList.id}
                 categoryPath={categoryList.url_path}
                 catalog_search_engine={storeConfig.catalog_search_engine}
