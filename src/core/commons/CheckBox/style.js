@@ -1,7 +1,7 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { FlexColumn, FlexRow, CreatePadding } from '@theme/mixins';
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     row: {
         ...FlexRow,
     },
@@ -16,5 +16,8 @@ export default makeStyles(() => ({
         overflowX: 'auto',
         justifyContent: 'space-between',
         ...CreatePadding(10, 10, 10, 0),
+        [theme.breakpoints.up('sm')]: {
+            display: 'block',
+        },
     },
 }));

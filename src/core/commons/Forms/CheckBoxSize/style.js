@@ -2,7 +2,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import { GRAY_PRIMARY, PRIMARY } from '@theme/colors';
 import { Centering } from '@theme/mixins';
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     container: {
         minWidth: 65,
         height: 65,
@@ -10,6 +10,12 @@ export default makeStyles(() => ({
         borderRadius: 100,
         border: `1px solid ${GRAY_PRIMARY}`,
         ...Centering,
+        [theme.breakpoints.up('sm')]: {
+            minWidth: 23,
+            height: 23,
+            float: 'left',
+            marginBottom: 10,
+        },
     },
     active: {
         border: `3px solid ${PRIMARY}`,

@@ -1,5 +1,6 @@
 import React from 'react';
 import Router from 'next/router';
+import classNames from 'classnames';
 import Product from '@core/catalog/plugin/ProductList';
 import { features } from '@config';
 import useStyles from './style';
@@ -53,6 +54,9 @@ const CategoryPage = ({
     });
     return (
         <div className={styles.container}>
+            <div className={classNames(styles.breadcrumbs, 'hidden-mobile')}>
+                <BreadcrumbView data={breadcrumbsData} />
+            </div>
             {dataBanner.length > 0
                 ? (
                     <div className={styles.headContainer}>
@@ -64,14 +68,14 @@ const CategoryPage = ({
                         {' '}
                     </div>
                 ) : null}
-            <div className={styles.breadcrumbs}>
+            <div className={classNames(styles.breadcrumbs, 'hidden-desktop')}>
                 <BreadcrumbView data={breadcrumbsData} />
             </div>
             {dataBanner[0] && dataBanner[0].description && (
                 /* eslint-disable-next-line react/no-danger */
                 <div className="cms-container" dangerouslySetInnerHTML={{ __html: dataBanner[0].description }} />
             )}
-            <div>
+            <div className="hidden-desktop">
                 <TabView
                     data={categoryTabs(categoryList.children)}
                     onChange={handleChange}
