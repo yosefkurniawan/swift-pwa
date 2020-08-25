@@ -162,7 +162,7 @@ const ViewFilter = (props) => {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Typography className={styles.heading}>Category</Typography>
+                        <Typography className={styles.heading}>{t('catalog:title:category')}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <ul>
