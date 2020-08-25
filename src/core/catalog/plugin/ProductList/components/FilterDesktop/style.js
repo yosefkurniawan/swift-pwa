@@ -93,6 +93,9 @@ const useStyles = makeStyles((theme) => ({
         width: 'calc(100% - 12px)',
         height: 41,
     },
+    listCategory: {
+        cursor: 'pointer',
+    },
 }));
 
 export default useStyles;

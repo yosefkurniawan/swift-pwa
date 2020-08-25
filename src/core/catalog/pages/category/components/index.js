@@ -96,6 +96,9 @@ const CategoryPage = ({
                 categoryPath={categoryList.url_path}
                 catalog_search_engine={storeConfig.catalog_search_engine}
                 t={t}
+                category={categoryTabs(categoryList.children)}
+                dataTabs={categoryTabs(categoryList.children)}
+                onChangeTabs={handleChange}
                 {...other}
             />
         </div>

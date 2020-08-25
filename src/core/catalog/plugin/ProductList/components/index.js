@@ -12,7 +12,7 @@ const Content = (props) => {
         query, showTabs, customFilter, elastic,
         aggregations, setFiltervalue, category, defaultSort, config, TabView,
         products, categoryPath, renderEmptyMessage, ProductListSkeleton, loading,
-        loadmore, handleLoadMore, ...other
+        loadmore, handleLoadMore, dataTabs, onChangeTabs, ...other
     } = props;
     const styles = useStyles();
     return (
@@ -60,6 +60,8 @@ const Content = (props) => {
                         products={products}
                         renderEmptyMessage={renderEmptyMessage}
                         loading={loading}
+                        tabs={dataTabs}
+                        onChangeTabs={onChangeTabs}
                     />
                 </div>
                 <div className="col-sm-12 col-xs-12 col-lg-10">

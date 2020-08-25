@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-unused-vars */
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -9,6 +11,7 @@ import CheckBox from '@common_checkbox';
 import CheckBoxSize from '@common_forms/CheckBoxSize';
 import CheckBoxColor from '@common_forms/CheckBoxColor';
 import RadioGroup from '@common_radio';
+import Skeleton from '@common_skeleton';
 import useStyles from './style';
 
 let globalTimeout = null;
@@ -17,11 +20,8 @@ const ViewFilter = (props) => {
     const {
         itemProps = {},
         elastic = false,
-        loading = false,
-        sortByData = [],
         t,
-        sort,
-        setSort,
+        tabs,
         priceRange,
         setPriceRange,
         selectedFilter,
@@ -29,6 +29,8 @@ const ViewFilter = (props) => {
         setSelectedFilter,
         handleSave,
         handleClear,
+        category,
+        onChangeTabs,
         filter,
     } = props;
     const styles = useStyles();
@@ -62,7 +64,6 @@ const ViewFilter = (props) => {
             handleSave();
         }, 1000);
     };
-
     const generateFilter = (data, itemFilter, idx) => {
         const ItemValueByLabel = [];
         // eslint-disable-next-line no-plusplus
@@ -118,7 +119,9 @@ const ViewFilter = (props) => {
                 </div>
             );
         } if (itemFilter.field === 'cat' || itemFilter.field === 'category_id') {
-            return <span key={idx} />;
+            return (
+                <span key={idx} />
+            );
         }
         return (
             <div key={idx}>
@@ -148,20 +151,49 @@ const ViewFilter = (props) => {
     };
     return (
         <div className={styles.root}>
-            {filter.map((itemFilter, idx) => (
-                <Accordion key={idx}>
+            {!filter || (filter && filter.length === 0) ? <Skeleton variant="rect" width="100%" height={705} /> : null}
+            {tabs && tabs.length > 0 ? (
+                <Accordion>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Typography className={styles.heading}>{itemFilter.label}</Typography>
+                        <Typography className={styles.heading}>Category</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        {generateFilter(filter, itemFilter, idx)}
+                        <ul>
+                            {tabs.map((val, idx) => (
+                                <li onClick={(e) => onChangeTabs(e, idx + 1)} className={styles.listCategory}>
+                                    {val}
+                                </li>
+                            ))}
+                        </ul>
                     </AccordionDetails>
                 </Accordion>
-            ))}
+            ) : null}
+
+            {filter.map((itemFilter, idx) => {
+                if (itemFilter.field === 'cat' || itemFilter.field === 'category_id') {
+                    return (
+                        <span key={idx} />
+                    );
+                }
+                return (
+                    <Accordion key={idx}>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                        >
+                            <Typography className={styles.heading}>{itemFilter.label}</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            {generateFilter(filter, itemFilter, idx)}
+                        </AccordionDetails>
+                    </Accordion>
+                );
+            })}
 
         </div>
     );
