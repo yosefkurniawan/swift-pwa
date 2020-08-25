@@ -107,6 +107,7 @@ const Filter = (props) => {
             <FilterView
                 openFilter={openFilter}
                 setOpenFilter={setOpenFilter}
+                isSearch={isSearch}
                 {...ModalProps}
                 {...other}
             />

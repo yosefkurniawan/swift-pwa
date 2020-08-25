@@ -22,6 +22,7 @@ const ViewFilter = (props) => {
         elastic = false,
         t,
         tabs,
+        loading,
         priceRange,
         setPriceRange,
         selectedFilter,
@@ -151,7 +152,7 @@ const ViewFilter = (props) => {
     };
     return (
         <div className={styles.root}>
-            {!filter || (filter && filter.length === 0) ? <Skeleton variant="rect" width="100%" height={705} /> : null}
+            {loading ? <Skeleton variant="rect" width="100%" height={705} /> : null}
             {tabs && tabs.length > 0 ? (
                 <Accordion>
                     <AccordionSummary
