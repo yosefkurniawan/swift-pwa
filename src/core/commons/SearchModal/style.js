@@ -24,6 +24,16 @@ const useStyles = makeStyles(() => ({
     iconClose: {
         size: 30,
     },
+    lastCat: {
+        margin: 0,
+        padding: 2,
+        height: 'auto',
+        marginBottom: '40px !important',
+    },
+    cat: {
+        padding: 2,
+        height: 'auto',
+    },
 }));
 
 export default useStyles;
