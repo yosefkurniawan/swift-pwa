@@ -167,7 +167,7 @@ const ViewFilter = (props) => {
                     <AccordionDetails>
                         <ul>
                             {tabs.map((val, idx) => (
-                                <li onClick={(e) => onChangeTabs(e, idx + 1)} className={styles.listCategory}>
+                                <li onClick={(e) => onChangeTabs(e, idx + 1)} className={styles.listCategory} key={idx}>
                                     {val}
                                 </li>
                             ))}

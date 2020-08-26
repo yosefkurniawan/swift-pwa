@@ -9,7 +9,7 @@ import Sort from './FilterDesktop/sort';
 
 const Content = (props) => {
     const {
-        query, showTabs, customFilter, elastic,
+        query, showTabs, customFilter, elastic, t,
         aggregations, setFiltervalue, category, defaultSort, config, TabView,
         products, categoryPath, renderEmptyMessage, ProductListSkeleton, loading,
         loadmore, handleLoadMore, dataTabs, onChangeTabs, ...other
@@ -38,6 +38,7 @@ const Content = (props) => {
                     products={products}
                     renderEmptyMessage={renderEmptyMessage}
                     loading={loading}
+                    t={t}
                     {...other}
                 />
             </div>
@@ -63,6 +64,7 @@ const Content = (props) => {
                         renderEmptyMessage={renderEmptyMessage}
                         loading={loading}
                         tabs={dataTabs}
+                        t={t}
                         onChangeTabs={onChangeTabs}
                     />
                 </div>
