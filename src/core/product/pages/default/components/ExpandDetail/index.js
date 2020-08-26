@@ -1,7 +1,7 @@
 import React from 'react';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -23,13 +23,13 @@ export default function ExpandDetail({ data = [1, 2, 3] }) {
     return (
         <div className={styles.root}>
             {data.map((item, index) => (
-                <ExpansionPanel
+                <Accordion
                     key={index}
                     expanded={expanded === index}
                     onChange={handleChange(index)}
                     className={styles.expandContainer}
                 >
-                    <ExpansionPanelSummary
+                    <AccordionSummary
                         expandIcon={
                             expanded === index ? (
                                 <Minimize className={styles.icon} />
@@ -48,8 +48,8 @@ export default function ExpandDetail({ data = [1, 2, 3] }) {
                         <Typography letter="uppercase" variant="span" type="bold">
                             { item.title || '' }
                         </Typography>
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails
+                    </AccordionSummary>
+                    <AccordionDetails
                         className={
                             expanded === index
                                 ? classNames(styles.bodyExpand, styles.bodyOpen)
@@ -82,8 +82,8 @@ export default function ExpandDetail({ data = [1, 2, 3] }) {
                                     </List>
                                 )
                         }
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
+                    </AccordionDetails>
+                </Accordion>
             ))}
         </div>
     );

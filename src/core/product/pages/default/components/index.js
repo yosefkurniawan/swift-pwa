@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 import Button from '@common_button';
 import PriceFormat from '@common_priceformat';
-import Banner from '@common_slick/Banner';
+import Banner from '@common_slick/BannerThumbnail';
 import Caraousel from '@common_slick/Caraousel';
 import Typography from '@common_typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -59,6 +59,17 @@ const ProductPage = (props) => {
 
     return (
         <>
+            <div className="hidden-mobile">
+                {
+                    data && data.upsell_products && data.upsell_products.length > 0 && (
+                        <RightDrawer
+                            open={openDrawer}
+                            setOpen={() => setOpenDrawer(!openDrawer)}
+                            {...props}
+                        />
+                    )
+                }
+            </div>
             <OptionItem
                 {...props}
                 open={openOption}
@@ -76,27 +87,30 @@ const ProductPage = (props) => {
                 <div className="col-lg-12 hidden-mobile">
                     <Breadcrumb data={breadcrumbsData} variant="text" />
                 </div>
-                <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-8')}>
+                <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-6')}>
                     <Banner
                         data={banner}
                         noLink
+                        thumbnail
                         showArrow
                         contentWidth="auto"
                         autoPlay={false}
                         width={960}
                         height={1120}
                     />
-                    {
-                        data && data.upsell_products && data.upsell_products.length > 0 && (
-                            <RightDrawer
-                                open={openDrawer}
-                                setOpen={() => setOpenDrawer(!openDrawer)}
-                                {...props}
-                            />
-                        )
-                    }
+                    <div className="hidden-desktop">
+                        {
+                            data && data.upsell_products && data.upsell_products.length > 0 && (
+                                <RightDrawer
+                                    open={openDrawer}
+                                    setOpen={() => setOpenDrawer(!openDrawer)}
+                                    {...props}
+                                />
+                            )
+                        }
+                    </div>
                 </div>
-                <div className={classNames(styles.body, 'col-xs-12 col-lg-4')}>
+                <div className={classNames(styles.body, 'col-xs-12 col-lg-6')}>
                     {!desktop ? (
                         <div className={styles.titleContainer}>
                             <Breadcrumb data={breadcrumbsData} variant="text" />
@@ -209,19 +223,22 @@ const ProductPage = (props) => {
                         <TabsView {...props} dataInfo={expandData} />
                     </div>
                 )}
-                <div className={classNames(styles.carouselContainer, 'col-xs-12 col-lg-12')}>
-                    <Typography
-                        variant="h1"
-                        component="h2"
-                        align="center"
-                        className={styles.carouselTitle}
-                    >
-                        Related Product
-                    </Typography>
-                    <Caraousel
-                        data={relateData}
-                    />
-                </div>
+                {relateData.length !== 0 ? (
+                    <div className={classNames(styles.carouselContainer, 'col-xs-12 col-lg-12')}>
+                        <Typography
+                            variant="h1"
+                            component="h2"
+                            align="center"
+                            className={styles.carouselTitle}
+                        >
+                            Related Product
+                        </Typography>
+                        <Caraousel
+                            data={relateData}
+                        />
+                    </div>
+                ) : null}
+
                 {!desktop
                     ? (
                         <div className={classNames(styles.footer, 'hidden-desktop')}>

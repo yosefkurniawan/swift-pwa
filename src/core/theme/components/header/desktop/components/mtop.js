@@ -38,7 +38,7 @@ const ViewTop = (props) => {
                                 </Link>
                             </li>
                             <li>
-                                <a href="javascript:;" onClick={handleLogout}>{t('common:menu:signout')}</a>
+                                <a href="#" onClick={handleLogout}>{t('common:menu:signout')}</a>
                             </li>
                         </ul>
                     </>
