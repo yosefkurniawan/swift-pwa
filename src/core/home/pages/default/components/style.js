@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { GRAY_PRIMARY, WHITE } from '@theme/colors';
+import { GRAY_PRIMARY, WHITE, GRAY_LIGHT } from '@theme/colors';
 import {
     CreateMargin, CreatePadding, CenterAbsolute, Centering,
 } from '@theme/mixins';
@@ -63,6 +63,10 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: 70,
+        [theme.breakpoints.down('sm')]: {
+            // marginLeft: '20px',
+            // marginRight: 'auto',
+        },
         [theme.breakpoints.up('sm')]: {
             width: 750,
         },
@@ -76,29 +80,35 @@ const useStyles = makeStyles((theme) => ({
     features: {
         marginTop: 20,
         marginBottom: 30,
-        maxHeight: '100%',
-        maxWidth: '100%',
+        width: '100%',
+        height: '100%',
+    },
+    featuresBox: {
+        boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+        border: `1px solid ${GRAY_LIGHT}`,
+        padding: 0,
     },
     contentFeatured: {
-        boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
         transition: '0.3s',
-        borderRadius: 5,
-        padding: 10,
+        borderTopLeftRadius: 5,
+        borderBottomLeftRadius: 5,
+        padding: '20px 20px 0px 10px',
     },
     footerFeatured: {
-        paddingBottom: 10,
+        paddingBottom: 20,
     },
     imgFeaturedContainer: {
         padding: 0,
     },
     imgFeatured: {
         width: '100%',
-        maxHeight: '100%',
+        height: '100%',
     },
     imgFeaturedItem: {
         width: '100%',
         ...Centering,
         backgroundColor: WHITE,
+        height: '100%',
     },
 }));
 

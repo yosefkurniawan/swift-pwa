@@ -24,12 +24,10 @@ const FeaturedProducts = ({
 
     if (!loading && data && data.categoryList.length > 0) {
         return (
-            <>
-                <FeaturedView
-                    data={data.categoryList[0].children}
-                    t={t}
-                />
-            </>
+            <FeaturedView
+                data={data.categoryList[0].children}
+                t={t}
+            />
         );
     }
 };

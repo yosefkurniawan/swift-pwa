@@ -40,10 +40,12 @@ export default makeStyles((theme) => ({
     },
     btnFeed: {
         ...ClearMarginPadding,
-        minWidth: 'unset',
         width: 20,
         height: 20,
-        justifyContent: 'flex-end',
+        position: 'absolute',
+        top: '0px',
+        right: 5,
+        textAlign: 'right',
     },
     productLinkButton: {
         maxWidth: 'calc(100% - 34px)',
@@ -67,7 +69,7 @@ export default makeStyles((theme) => ({
         position: 'absolute',
         width: '20px',
         top: '-4px',
-        right: '20px',
+        right: '45px',
         textAlign: 'right',
     },
 }));

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import Button from '@common_button';
+import Button from '@material-ui/core/IconButton';
 import PriceFormat from '@common_priceformat';
 import RatingStar from '@common_ratingstar';
 import Typography from '@common_typography';
@@ -22,13 +22,12 @@ const Detail = (props) => {
     return (
         <div className={styles.descItem} style={{ ...(modules.wishlist.enabled ? {} : { alignItems: 'center' }) }}>
             {modules.wishlist.enabled && (
-                <div
-                    className={styles.feedContainer}
+                <Button
+                    className={styles.btnFeed}
+                    onClick={handleFeed}
                 >
-                    <Button className={styles.btnFeed} variant="text" onClick={handleFeed}>
-                        {FeedIcon}
-                    </Button>
-                </div>
+                    {FeedIcon}
+                </Button>
             )}
             <Link onClick={handleClick} className={styles.productLinkButton}>
                 <Typography variant="p" className={styles.clearMarginPadding} letter="capitalize">
