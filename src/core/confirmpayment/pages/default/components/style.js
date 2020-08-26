@@ -9,7 +9,7 @@ export default makeStyles({
     },
     footer: {
         marginTop: 25,
-        textAlign: 'center',
+        textAlign: 'left',
     },
     button: {
         padding: 10,
