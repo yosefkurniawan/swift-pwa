@@ -42,7 +42,7 @@ const PageStoreCredit = (props) => {
         storeCredit = data.customer.store_credit;
     }
     return (
-        <Layout pageConfig={pageConfig || config}>
+        <Layout {...props} pageConfig={pageConfig || config}>
             <Content
                 t={t}
                 storeCredit={storeCredit}

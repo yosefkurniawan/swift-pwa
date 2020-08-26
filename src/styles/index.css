@@ -34,7 +34,6 @@ main {
     display: block;
     left: 0;
     margin: 0 auto;
-    overflow-x: hidden;
 }
 
 .clear-margin-padding {
@@ -103,11 +102,11 @@ a {
     margin: 15;
 }
 
-.center {
+/* .center {
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 
 .cat-label {
     position: absolute;

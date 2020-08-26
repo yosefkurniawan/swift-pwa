@@ -31,7 +31,8 @@
         "verify": "Verify",
         "shop": "SHOP NOW",
         "sendOtp": "Send OTP",
-        "submit": "Submit"
+        "submit": "Submit",
+        "viewAll": "View All"
     },
     "subtotal": "Subtotal",
     "price": {
@@ -58,7 +59,8 @@
         "short": "Short By",
         "search": "Search ...",
         "brand": "Brand",
-        "category": "Category"
+        "category": "Category",
+        "summary": "Summary"
     },
     "error": {
         "notFound": "Data not found",

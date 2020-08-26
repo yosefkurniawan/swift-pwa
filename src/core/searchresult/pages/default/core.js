@@ -35,7 +35,7 @@ const SearchResult = (props) => {
     };
     return (
         <Layout pageConfig={pageConfig} {...props}>
-            <Content {...props} />
+            <Content {...props} q={query.q} />
         </Layout>
     );
 };

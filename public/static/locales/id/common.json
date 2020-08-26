@@ -30,7 +30,8 @@
         "verify": "Verifikasi",
         "shop": "Beli Sekarang",
         "sendOtp": "Kirim OTP",
-        "submit": "Kirimkan"
+        "submit": "Kirimkan",
+        "viewAll": "Lihat Semua"
     },
     "subtotal": "Subtotal",
     "price": {
@@ -58,7 +59,8 @@
         "short": "Urutkan dari",
         "search": "Pencarian ...",
         "brand": "Brand",
-        "category": "Kategory"
+        "category": "Kategory",
+        "summary": "Ringkasan"
     },
     "error": {
         "notFound" : "Data tidak di temukan",

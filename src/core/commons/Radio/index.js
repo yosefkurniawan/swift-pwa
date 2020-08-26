@@ -29,6 +29,7 @@ function CustomRadio({
     name = 'radio',
     ariaLabel = 'radio',
     label = '',
+    noLabel,
     CustomItem,
     className = {},
     classContainer = {},
@@ -53,9 +54,12 @@ function CustomRadio({
     };
     return (
         <div className={rootStyle}>
-            <Typography variant="label" type="bold" letter="uppercase">
-                {label}
-            </Typography>
+            {!noLabel ? (
+                <Typography variant="label" type="bold" letter="uppercase">
+                    {label}
+                </Typography>
+            ) : null}
+
             <RadioGroup
                 aria-label={ariaLabel}
                 name={name}
