@@ -59,6 +59,17 @@ const ProductPage = (props) => {
 
     return (
         <>
+            <div className="hidden-mobile">
+                {
+                    data && data.upsell_products && data.upsell_products.length > 0 && (
+                        <RightDrawer
+                            open={openDrawer}
+                            setOpen={() => setOpenDrawer(!openDrawer)}
+                            {...props}
+                        />
+                    )
+                }
+            </div>
             <OptionItem
                 {...props}
                 open={openOption}
@@ -80,21 +91,24 @@ const ProductPage = (props) => {
                     <Banner
                         data={banner}
                         noLink
+                        thumbnail
                         showArrow
                         contentWidth="auto"
                         autoPlay={false}
                         width={960}
                         height={1120}
                     />
-                    {
-                        data && data.upsell_products && data.upsell_products.length > 0 && (
-                            <RightDrawer
-                                open={openDrawer}
-                                setOpen={() => setOpenDrawer(!openDrawer)}
-                                {...props}
-                            />
-                        )
-                    }
+                    <div className="hidden-desktop">
+                        {
+                            data && data.upsell_products && data.upsell_products.length > 0 && (
+                                <RightDrawer
+                                    open={openDrawer}
+                                    setOpen={() => setOpenDrawer(!openDrawer)}
+                                    {...props}
+                                />
+                            )
+                        }
+                    </div>
                 </div>
                 <div className={classNames(styles.body, 'col-xs-12 col-lg-4')}>
                     {!desktop ? (
@@ -209,19 +223,22 @@ const ProductPage = (props) => {
                         <TabsView {...props} dataInfo={expandData} />
                     </div>
                 )}
-                <div className={classNames(styles.carouselContainer, 'col-xs-12 col-lg-12')}>
-                    <Typography
-                        variant="h1"
-                        component="h2"
-                        align="center"
-                        className={styles.carouselTitle}
-                    >
-                        Related Product
-                    </Typography>
-                    <Caraousel
-                        data={relateData}
-                    />
-                </div>
+                {relateData.length !== 0 ? (
+                    <div className={classNames(styles.carouselContainer, 'col-xs-12 col-lg-12')}>
+                        <Typography
+                            variant="h1"
+                            component="h2"
+                            align="center"
+                            className={styles.carouselTitle}
+                        >
+                            Related Product
+                        </Typography>
+                        <Caraousel
+                            data={relateData}
+                        />
+                    </div>
+                ) : null}
+
                 {!desktop
                     ? (
                         <div className={classNames(styles.footer, 'hidden-desktop')}>

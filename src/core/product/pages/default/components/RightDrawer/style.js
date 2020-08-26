@@ -28,6 +28,7 @@ export default makeStyles((theme) => ({
         position: 'absolute',
         top: '35vh',
         right: -65,
+        cursor: 'pointer',
     },
     btnOpeActive: {
         right: 120,
@@ -56,6 +57,7 @@ export default makeStyles((theme) => ({
         top: '35vh',
         width: 164,
         ...Centering,
+        cursor: 'pointer',
     },
 
     body: {
