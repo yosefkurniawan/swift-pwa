@@ -59,7 +59,8 @@
         "short": "Short By",
         "search": "Search ...",
         "brand": "Brand",
-        "category": "Category"
+        "category": "Category",
+        "summary": "Summary"
     },
     "error": {
         "notFound": "Data not found",

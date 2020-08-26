@@ -22,6 +22,29 @@ export const getCart = gql`
                     value
                 }
             }
+            applied_store_credit {
+              store_credit_amount
+              is_use_store_credit
+            }
+            applied_giftcard {
+                giftcard_amount
+                giftcard_detail {
+                    giftcard_amount_used
+                    giftcard_code
+                }
+            }
+            applied_reward_points {
+                is_use_reward_points
+                reward_points_amount
+            }
+            applied_cashback {
+                data {
+                    amount
+                    promo_name
+                }
+                is_cashback
+                total_cashback
+            }
             items {
               id
               quantity
