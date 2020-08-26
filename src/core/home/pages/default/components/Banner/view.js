@@ -8,14 +8,12 @@ const BannerView = (props) => {
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
     return (
-        <>
-            <div className={styles.header}>
-                <div className={classNames(styles.logo, 'hidden-desktop')}>
-                    <img src={logoUrl} alt="logo" className={styles.imgLogo} />
-                </div>
-                {images && images.length && <Banner data={images} showArrow={desktop} />}
+        <div className={styles.header}>
+            <div className={classNames(styles.logo, 'hidden-desktop')}>
+                <img src={logoUrl} alt="logo" className={styles.imgLogo} />
             </div>
-        </>
+            {images && images.length && <Banner data={images} showArrow={desktop} />}
+        </div>
     );
 };
 
