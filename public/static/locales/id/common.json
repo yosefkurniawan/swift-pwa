@@ -82,5 +82,9 @@
         "myaccount": "Akun Saya",
         "mywishlist": "Daftar Saya",
         "signout": "keluar"
+    },
+    "header": {
+        "welcome": "Selamat Datang!",
+        "hi": "Hai, $!"
     }
 }
