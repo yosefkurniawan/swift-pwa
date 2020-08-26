@@ -4,10 +4,11 @@ import Button from '@common_button';
 import Typography from '@common_typography';
 import TextField from '@common_textfield';
 import PasswordField from '@common_password';
-
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
+import classNames from 'classnames';
+import { breakPointsUp } from '@helpers/theme';
 import useStyles from './style';
 
 const ProfileForm = (props) => {
@@ -16,8 +17,9 @@ const ProfileForm = (props) => {
         t, formik, handleChangePhone, handleWa, phoneIsWa, setEditEmail,
         editEmail, setEditPass, editPass, updateCustomerStatus, changeCustomerPasswordStatus,
     } = props;
+    const desktop = breakPointsUp('sm');
     return (
-        <form className={styles.container} onSubmit={formik.handleSubmit}>
+        <form className={classNames('col-md-6', styles.container)} onSubmit={formik.handleSubmit}>
             <TextField
                 label={t('common:form:firstName')}
                 name="firstName"
@@ -186,7 +188,7 @@ const ProfileForm = (props) => {
 
             <div className={styles.bottomButtons}>
                 <Button
-                    fullWidth
+                    fullWidth={!desktop}
                     type="submit"
                     loading={updateCustomerStatus.loading || changeCustomerPasswordStatus.loading}
                 >
