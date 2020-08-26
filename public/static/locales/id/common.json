@@ -59,7 +59,8 @@
         "short": "Urutkan dari",
         "search": "Pencarian ...",
         "brand": "Brand",
-        "category": "Kategory"
+        "category": "Kategory",
+        "summary": "Ringkasan"
     },
     "error": {
         "notFound" : "Data tidak di temukan",

@@ -11,7 +11,7 @@ import useStyles from './style';
 
 const Summary = (props) => {
     const {
-        t, summary,
+        t, summary, handleActionSummary = () => {},
     } = props;
     const styles = useStyles();
     const [top, setTop] = React.useState(0);
@@ -64,7 +64,7 @@ const Summary = (props) => {
                     </ListItemSecondaryAction>
                 </ListItem>
             </List>
-            <Button className={styles.btnCheckout}>
+            <Button className={styles.btnCheckout} onClick={handleActionSummary}>
                 {t('common:button:checkout')}
             </Button>
         </div>

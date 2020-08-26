@@ -1,7 +1,6 @@
 import Slide from '@material-ui/core/Slide';
 import Typography from '@common_typography';
 import Button from '@common_button';
-import Router from 'next/router';
 import { useState } from 'react';
 import ExpansionPanel from '@material-ui/core/Accordion';
 import ExpansionPanelDetails from '@material-ui/core/AccordionDetails';
@@ -11,11 +10,10 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import { formatPrice } from '@helpers/currency';
 import useStyles from './style';
 
-const CheckoutDrawer = ({ editMode, t, summary }) => {
+const CheckoutDrawer = ({
+    editMode, t, summary, handleActionSummary,
+}) => {
     const styles = useStyles();
-    const handleOnCheckoutClicked = () => {
-        Router.push('/checkout');
-    };
     const [expanded, setExpanded] = useState(null);
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
@@ -56,7 +54,7 @@ const CheckoutDrawer = ({ editMode, t, summary }) => {
                     </Typography>
                 </div>
                 <div className={styles.actions}>
-                    <Button customRootStyle={{ width: 'fit-content' }} className={styles.goToCheckout} onClick={handleOnCheckoutClicked}>
+                    <Button customRootStyle={{ width: 'fit-content' }} className={styles.goToCheckout} onClick={handleActionSummary}>
                         {t('common:button:checkout')}
                     </Button>
                 </div>

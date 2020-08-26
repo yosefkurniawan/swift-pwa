@@ -20,8 +20,8 @@ const useStyles = makeStyles(() => ({
     },
     btnCheckout: {
         ...CenterAbsolute,
-        minWidth: 250,
         marginTop: 20,
+        minWidth: '90%',
     },
 }));
 
