@@ -29,7 +29,15 @@ const FormCom = (props) => {
         setOpenDialog(val);
     };
 
-    return <FormView {...props} formik={formik} handleOpenDialog={handleOpenDialog} orderField={orderField} openDialog={openDialog} />;
+    return (
+        <>
+            <div className="row">
+                <div className="col-md-6 col-xs-12">
+                    <FormView {...props} formik={formik} handleOpenDialog={handleOpenDialog} orderField={orderField} openDialog={openDialog} />
+                </div>
+            </div>
+        </>
+    );
 };
 
 export default FormCom;
