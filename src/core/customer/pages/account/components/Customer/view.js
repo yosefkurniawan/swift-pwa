@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import Carousel from '@common_slider/Carousel';
+import Carousel from '@common_slick/Caraousel';
+import ProductItem from '@core/catalog/plugin/ProductItem';
 import Typography from '@common_typography';
 import PointCard from '@core/rewardpoint/plugins/info';
 import Badge from '@material-ui/core/Badge';
@@ -87,6 +88,7 @@ const CustomerView = (props) => {
                                     <Carousel
                                         data={wishlist}
                                         className={[styles.wishlistBlock, styles.margin20].join(' ')}
+                                        Item={ProductItem}
                                     />
                                 </div>
                             ) : null}

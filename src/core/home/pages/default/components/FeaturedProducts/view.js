@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { modules } from '@config';
 import Carousel from '@common_slick/Caraousel';
+import ProductItem from '@core/catalog/plugin/ProductItem';
 import { breakPointsUp } from '@helpers/theme';
 import Typography from '@common_typography';
 import Button from '@common_button';
@@ -52,7 +53,7 @@ const MobileView = ({
                 <div className={classNames('col-xs-12 col-sm-12', category_image ? 'col-lg-8' : '')}>
                     <div className={classNames('row center-xs', styles.contentFeatured)}>
                         <div className={classNames('col-xs-12')}>
-                            <Carousel data={products} showArrow={desktop} slideLg={category_image ? 4 : 6} />
+                            <Carousel data={products} showArrow={desktop} slideLg={category_image ? 4 : 6} Item={ProductItem} />
                         </div>
                         <div className={classNames('col-xs-12', styles.footerFeatured)}>
                             <Button
