@@ -1,6 +1,7 @@
 import { getCartId, setCartId } from '@helpers/cartId';
 import { getLoginInfo } from '@helpers/auth';
 import { useApolloClient } from '@apollo/react-hooks';
+import { localTotalCart } from '@services/graphql/schema/local';
 // import Router from 'next/router';
 import React from 'react';
 import TagManager from 'react-gtm-module';
@@ -91,7 +92,7 @@ export default ({
                 },
             })
                 .then((res) => {
-                    client.writeData({ data: { totalCart: res.data.addSimpleProductsToCart.cart.total_quantity } });
+                    client.writeQuery({ query: localTotalCart, data: { totalCart: res.data.addSimpleProductsToCart.cart.total_quantity } });
                     window.toastMessage({
                         variant: 'success',
                         text: t('product:successAddCart'),
