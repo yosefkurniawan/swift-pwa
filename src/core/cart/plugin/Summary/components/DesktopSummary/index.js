@@ -76,7 +76,7 @@ const Summary = (props) => {
                                                     <div className="flex-grow" />
                                                     <Typography variant="span">{`${t('common:title:shortQty')} : ${item.quantity}`}</Typography>
                                                     <Typography variant="span" size="14" letter="uppercase">
-                                                        {formatPrice(item.prices.price.value, item.prices.price.currency)}
+                                                        {formatPrice(item.prices.price.value, item.prices.price.currency || 'IDR')}
                                                     </Typography>
 
                                                 </div>

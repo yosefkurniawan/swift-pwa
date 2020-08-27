@@ -28,7 +28,9 @@ const Layout = (props) => {
         headerProps = {},
         t,
     } = props;
-    const { ogContent = {}, schemaOrg = null } = pageConfig;
+    const {
+        ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true,
+    } = pageConfig;
     const router = useRouter();
     const [state, setState] = useState({
         toastMessage: {
@@ -134,7 +136,7 @@ const Layout = (props) => {
             </Head>
             <header ref={refHeader}>
                 <div className="hidden-mobile">
-                    <HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} />
+                    { headerDesktop ? (<HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} />) : null }
                 </div>
                 <div className="hidden-desktop">
                     {
@@ -158,9 +160,13 @@ const Layout = (props) => {
             </main>
             <footer ref={refFooter}>
                 <div className="hidden-mobile">
-                    <Footer
-                        storeConfig={storeConfig}
-                    />
+                    {
+                        footer ? (
+                            <Footer
+                                storeConfig={storeConfig}
+                            />
+                        ) : null
+                    }
                 </div>
                 {
                     desktop

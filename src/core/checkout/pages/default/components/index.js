@@ -36,9 +36,13 @@ const Content = (props) => {
         RewardPointView,
         StoreCreditView,
         modules,
+        HeaderView,
     } = props;
     return (
         <div className="row">
+            <div className="col-xs-12 center hidden-mobile">
+                <HeaderView t={t} storeConfig={storeConfig} />
+            </div>
             <div className="col-xs-12 col-sm-8 col-md-9" style={containerStyle || {}}>
                 {
                     checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
