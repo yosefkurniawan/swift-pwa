@@ -25,7 +25,16 @@
     "addTitle" : "Add new address",
     "editTitle" : "Edit address",
     "useBilling" : "use as my default billing address",
-    "useShipping" : "use as my default shipping address"
+    "useShipping" : "use as my default shipping address",
+    "firstname" : "First Name",
+    "lastname" : "Last Name",
+    "street" : "Street Addres",
+    "city" : "City",
+    "country" : "Country",
+    "state" : "State",
+    "postcode" : "Zip/Postal Code",
+    "phone" : "Phone",
+    "emptyMessage" : "You haven't added an address"
   },
   "menu": {
     "aboutUs": "About Us",
