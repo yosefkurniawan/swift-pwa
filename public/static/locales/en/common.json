@@ -60,7 +60,9 @@
         "search": "Search ...",
         "brand": "Brand",
         "category": "Category",
-        "summary": "Summary"
+        "summary": "Summary",
+        "price": "Price",
+        "shortQty": "Qty"
     },
     "error": {
         "notFound": "Data not found",

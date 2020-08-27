@@ -21,12 +21,12 @@ const CustomButton = ({
     const styles = useStyles();
     const customClass = classNames(
         styles.container,
-        fullWidth && styles.fullWidth,
         className,
     );
     const rootClass = classNames(
         styles.loadRoot,
         rootClassName,
+        fullWidth && styles.fullWidth,
     );
     return (
         <div className={rootClass} style={customRootStyle}>

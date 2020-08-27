@@ -245,6 +245,7 @@ const Summary = ({
                         dataCart={checkout.data.cart}
                         disabled={disabled}
                         isDesktop
+                        showItems
                     />
                 </div>
             </>
