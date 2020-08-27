@@ -15,8 +15,11 @@ const CmsPage = (props) => {
     if (loading) return <Loading open={loading} />;
     return (
         <>
-            {/* eslint-disable-next-line react/no-danger */}
-            <div className="cms-container" dangerouslySetInnerHTML={{ __html: data.cmsPage.content }} />
+            <div className="cms-container">
+                {/* eslint-disable-next-line react/no-danger */}
+                <h4 className="title center" dangerouslySetInnerHTML={{ __html: data.cmsPage.title }} />
+                <div className="content" dangerouslySetInnerHTML={{ __html: data.cmsPage.content }} />
+            </div>
         </>
     );
 };

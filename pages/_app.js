@@ -21,7 +21,6 @@ import {
     getLastPathWithoutLogin,
 } from '@helpers/auth';
 // import Fonts from '@helpers/fonts';
-import Router from 'next/router';
 import TagManager from 'react-gtm-module';
 import PageProgressLoader from '@common_loaders/PageProgress';
 import graphRequest from '../src/api/graphql/request';
@@ -95,26 +94,8 @@ class MyApp extends App {
         if (GTM.enable) TagManager.initialize(tagManagerArgs);
         // remove config cookie if page reload
         if (typeof window !== 'undefined') {
-            this.noReloadHandler();
             window.onbeforeunload = function () {
                 Cookie.remove(storeConfigNameCokie);
-            };
-        }
-    }
-
-    noReloadHandler() {
-        const _this = this;
-        const noReload = document.getElementsByClassName('pwa-link');
-        for (let i = 0; i < noReload.length; i += 1) {
-            noReload[i].onclick = function (e) {
-                e.preventDefault();
-                const attribute = this.getAttribute('href');
-                Router.push({
-                    pathname: attribute,
-                });
-                setTimeout(() => {
-                    _this.noReloadHandler();
-                }, 2000);
             };
         }
     }

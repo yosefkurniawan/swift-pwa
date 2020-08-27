@@ -7,7 +7,7 @@ export default makeStyles(() => ({
         ...CreatePadding(0, 30, 30, 30),
     },
     bottomButtons: {
-        textAlign: 'center',
+        textAlign: 'left',
     },
     tColContent: {
         padding: '14px 0',

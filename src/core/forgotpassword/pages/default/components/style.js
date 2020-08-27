@@ -5,7 +5,7 @@ export default makeStyles(() => ({
     container: {
         ...FlexColumn,
         ...CreatePadding(0, 30, 30, 30),
-        textAlign: 'center',
+        textAlign: 'left',
     },
     btn: {
         alignSelf: 'center',

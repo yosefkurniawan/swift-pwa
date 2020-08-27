@@ -80,7 +80,7 @@ const recaptcha = {
 };
 
 /* List Of CMS Pages: [url-1, url-2, ..., url-n] */
-const cmsPages = ['about-us', 'aw-reward-points'];
+const cmsPages = ['about-us', 'aw-reward-points', 'privacy-policy-cookie-restriction-mode'];
 
 /* Contact Us */
 // identifiers for cmsBlocks in contact page

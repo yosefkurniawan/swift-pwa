@@ -28,6 +28,7 @@ export const getFeaturedProducts = gql`
                 products {
                     items {
                         __typename
+                        id
                         name
                         url_key
                         canonical_url

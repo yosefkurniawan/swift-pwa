@@ -59,7 +59,10 @@
         "short": "Urutkan dari",
         "search": "Pencarian ...",
         "brand": "Brand",
-        "category": "Kategory"
+        "category": "Kategory",
+        "summary": "Ringkasan",
+        "price": "Harga",
+        "shortQty": "Jml"
     },
     "error": {
         "notFound" : "Data tidak di temukan",
@@ -81,5 +84,9 @@
         "myaccount": "Akun Saya",
         "mywishlist": "Daftar Saya",
         "signout": "keluar"
+    },
+    "header": {
+        "welcome": "Selamat Datang!",
+        "hi": "Hai, $!"
     }
 }

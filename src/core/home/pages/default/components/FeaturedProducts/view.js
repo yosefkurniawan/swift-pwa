@@ -18,7 +18,7 @@ const MobileView = ({
     const width = desktop ? categoryList.imageSize.desktop.width : categoryList.imageSize.mobile.width;
     const height = desktop ? categoryList.imageSize.desktop.height : categoryList.imageSize.mobile.height;
     return (
-        <div className={classNames('col-xs-12 row between-lg', styles.features, right ? 'reverse' : '')}>
+        <div className={classNames('col-xs-12 row', styles.features)}>
             <div className={classNames('col-xs-12', styles.labelCategory)}>
                 <Link
                     href="[...slug]"
@@ -31,34 +31,38 @@ const MobileView = ({
                     </a>
                 </Link>
             </div>
-            <div
-                className={classNames(category_image ? 'col-xs-12 col-sm-12 col-lg-4' : 'hidden-mobile hidden-desktop', styles.imgFeaturedContainer)}
-            >
-                {(category_image) && (
-                    <div className={styles.imgFeaturedItem}>
-                        <Image
-                            handleClick={() => Router.push(`/${url_path}`)}
-                            name={name}
-                            src={category_image}
-                            width={width}
-                            height={height}
-                        />
-                    </div>
-                )}
-            </div>
-            <div className={classNames('col-xs-12 col-sm-12', category_image ? 'col-lg-8' : '')}>
-                <div className={classNames('row center-xs', styles.contentFeatured)}>
-                    <div className={classNames('col-xs-12')}>
-                        <Carousel data={products} showArrow={desktop} slideLg={category_image ? 4 : 6} />
-                    </div>
-                    <div className={classNames('col-xs-12', styles.footerFeatured)}>
-                        <Button
-                            href={`/${url_path}`}
-                            fullWidth
-                            variant="outlined"
-                        >
-                            {t('common:button:viewAll')}
-                        </Button>
+            <div className={classNames('col-xs-12 row between-lg', styles.featuresBox, right ? 'reverse' : '')}>
+                <div
+                    className={
+                        classNames(category_image ? 'col-xs-12 col-sm-12 col-lg-4' : 'hidden-mobile hidden-desktop', styles.imgFeaturedContainer)
+                    }
+                >
+                    {(category_image) && (
+                        <div className={styles.imgFeaturedItem}>
+                            <Image
+                                handleClick={() => Router.push(`/${url_path}`)}
+                                name={name}
+                                src={category_image}
+                                width={width}
+                                height={height}
+                            />
+                        </div>
+                    )}
+                </div>
+                <div className={classNames('col-xs-12 col-sm-12', category_image ? 'col-lg-8' : '')}>
+                    <div className={classNames('row center-xs', styles.contentFeatured)}>
+                        <div className={classNames('col-xs-12')}>
+                            <Carousel data={products} showArrow={desktop} slideLg={category_image ? 4 : 6} />
+                        </div>
+                        <div className={classNames('col-xs-12', styles.footerFeatured)}>
+                            <Button
+                                href={`/${url_path}`}
+                                fullWidth
+                                variant="outlined"
+                            >
+                                {t('common:button:viewAll')}
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -69,7 +73,7 @@ const MobileView = ({
 const FeaturedView = ({ data = [], t }) => {
     const styles = useStyles();
     return (
-        <div className={styles.contentContainer}>
+        <div className={classNames('row center-xs', styles.contentContainer)}>
             {
                 data.map((category, i) => {
                     const products = category.products.items.map((product) => ({

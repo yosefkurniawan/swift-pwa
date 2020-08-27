@@ -3,7 +3,7 @@ import Alert from '@material-ui/lab/Alert';
 import Typography from '@common_typography';
 
 const CashbackInfo = ({
-    message, price, currency, promo_name,
+    message, price, currency = 'IDR', promo_name,
 }) => (
     <div className="m-15">
         <Alert Saverity="success">
