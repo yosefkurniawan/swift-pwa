@@ -7,11 +7,15 @@ import ExpansionPanelDetails from '@material-ui/core/AccordionDetails';
 import ExpansionPanelSummary from '@material-ui/core/AccordionSummary';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
 import { formatPrice } from '@helpers/currency';
 import useStyles from './style';
 
 const CheckoutDrawer = ({
-    editMode, t, summary, handleActionSummary,
+    editMode, t, summary, handleActionSummary, loading, disabled,
 }) => {
     const styles = useStyles();
     const [expanded, setExpanded] = useState(null);
@@ -32,29 +36,50 @@ const CheckoutDrawer = ({
                         {expanded === 1 ? <ExpandLess /> : <ExpandMore />}
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={styles.expanBody}>
-                        {data.map((list, index) => (
-                            <div className={styles.listSummary} key={index}>
-                                <Typography variant="span" letter="capitalize">
-                                    {list.item}
-                                </Typography>
-                                <Typography variant="span" letter="uppercase">
-                                    {list.value}
-                                </Typography>
-                            </div>
-                        ))}
+                        <List>
+                            {
+                                data.map((dt, index) => (
+                                    <ListItem className={styles.list} key={index}>
+                                        <ListItemText className={styles.labelItem} primary={<Typography variant="span">{dt.item}</Typography>} />
+                                        <ListItemSecondaryAction>
+                                            <Typography variant="span" type="regular">
+                                                {dt.value}
+                                            </Typography>
+                                        </ListItemSecondaryAction>
+                                    </ListItem>
+                                ))
+                            }
+                            <ListItem className={styles.list}>
+                                <ListItemText primary={<Typography variant="title" type="bold">Total</Typography>} />
+                                <ListItemSecondaryAction>
+                                    <Typography variant="title" type="bold">
+                                        {total.currency ? formatPrice(total.value, total.currency) : null}
+                                    </Typography>
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                        </List>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
-                <div className={styles.summary}>
-                    <Typography variant="span" type="bold" align="center" letter="capitalize" className={styles.subtotal}>
-                        Total
-                    </Typography>
-                    &nbsp;
-                    <Typography variant="span" type="bold" align="center" letter="capitalize" className={styles.subtotal}>
-                        {total.currency ? formatPrice(total.value, total.currency) : null}
-                    </Typography>
-                </div>
+                {
+                    expanded === null || expanded === false ? (
+                        <div className={styles.summary}>
+                            <Typography variant="span" type="bold" align="center" letter="capitalize" className={styles.subtotal}>
+                                Total
+                            </Typography>
+                            <Typography variant="span" type="bold" align="center" letter="capitalize" className={styles.subtotal}>
+                                {total.currency ? formatPrice(total.value, total.currency) : null}
+                            </Typography>
+                        </div>
+                    ) : null
+                }
                 <div className={styles.actions}>
-                    <Button customRootStyle={{ width: 'fit-content' }} className={styles.goToCheckout} onClick={handleActionSummary}>
+                    <Button
+                        loading={loading}
+                        disabled={disabled}
+                        customRootStyle={{ width: 'fit-content' }}
+                        className={styles.goToCheckout}
+                        onClick={handleActionSummary}
+                    >
                         {t('common:button:checkout')}
                     </Button>
                 </div>

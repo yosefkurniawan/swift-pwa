@@ -11,7 +11,7 @@ import useStyles from './style';
 
 const Summary = (props) => {
     const {
-        t, summary, handleActionSummary = () => {},
+        t, summary, handleActionSummary = () => {}, loading, disabled,
     } = props;
     const styles = useStyles();
     const [top, setTop] = React.useState(0);
@@ -46,7 +46,7 @@ const Summary = (props) => {
                 {
                     summary.data.map((dt, index) => (
                         <ListItem className={styles.list} key={index}>
-                            <ListItemText primary={<Typography variant="span">{dt.item}</Typography>} />
+                            <ListItemText className={styles.labelItem} primary={<Typography variant="span">{dt.item}</Typography>} />
                             <ListItemSecondaryAction>
                                 <Typography variant="span" type="regular">
                                     {dt.value}
@@ -64,7 +64,7 @@ const Summary = (props) => {
                     </ListItemSecondaryAction>
                 </ListItem>
             </List>
-            <Button className={styles.btnCheckout} onClick={handleActionSummary}>
+            <Button loading={loading} disabled={disabled} className={styles.btnCheckout} onClick={handleActionSummary}>
                 {t('common:button:checkout')}
             </Button>
         </div>

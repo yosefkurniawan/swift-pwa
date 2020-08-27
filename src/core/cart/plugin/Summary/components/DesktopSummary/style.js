@@ -23,6 +23,9 @@ const useStyles = makeStyles(() => ({
         marginTop: 20,
         minWidth: '90%',
     },
+    labelItem: {
+        maxWidth: '50%',
+    },
 }));
 
 export default useStyles;
