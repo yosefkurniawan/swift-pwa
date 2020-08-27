@@ -3,6 +3,7 @@ import { removeIsLoginFlagging } from '@helpers/auth';
 import { removeCartId } from '@helpers/cartId';
 import Cookies from 'js-cookie';
 import { useApolloClient } from '@apollo/react-hooks';
+import { localTotalCart } from '@services/graphql/schema/local';
 import {
     custDataNameCookie,
 } from '@config';
@@ -30,7 +31,7 @@ const CoreTopNavigation = (props) => {
             Cookies.remove(custDataNameCookie);
             removeIsLoginFlagging();
             removeCartId();
-            client.writeData({ data: { totalCart: 0 } });
+            client.writeQuery({ query: localTotalCart, data: { totalCart: 0 } });
             Router.push('/customer/account/login');
         }).catch(() => {
             //

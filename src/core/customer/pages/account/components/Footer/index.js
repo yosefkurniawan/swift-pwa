@@ -2,6 +2,7 @@ import { removeIsLoginFlagging } from '@helpers/auth';
 import { removeCartId } from '@helpers/cartId';
 import { useApolloClient } from '@apollo/react-hooks';
 import Router from 'next/router';
+import { localTotalCart } from '@services/graphql/schema/local';
 import Cookies from 'js-cookie';
 import {
     custDataNameCookie,
@@ -19,7 +20,7 @@ export default ({
             Cookies.remove(custDataNameCookie);
             removeIsLoginFlagging();
             removeCartId();
-            client.writeData({ data: { totalCart: 0 } });
+            client.watchQuery({ query: localTotalCart, data: { totalCart: 0 } });
             Router.push('/customer/account/login');
         }).catch(() => {
             //

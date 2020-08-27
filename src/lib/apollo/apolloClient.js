@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { ApolloClient } from 'apollo-client';
+import { ApolloClient } from '@apollo/client';
 import { HttpLink } from 'apollo-link-http';
 import { RetryLink } from 'apollo-link-retry';
 import fetch from 'isomorphic-unfetch';

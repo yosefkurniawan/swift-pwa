@@ -4,6 +4,7 @@ import { setCartId, removeCartId } from '@helpers/cartId';
 import { setCheckoutData } from '@helpers/cookies';
 import _ from 'lodash';
 import { formatPrice } from '@helpers/currency';
+import { localTotalCart } from '@services/graphql/schema/local';
 import gqlService from '../../../../services/graphql';
 
 const Summary = ({
@@ -122,7 +123,7 @@ const Summary = ({
                     order_number: orderNumber,
                     order_id: result.data.placeOrder.order.order_id,
                 });
-                client.writeData({ data: { totalCart: 0 } });
+                client.query({ query: localTotalCart, data: { totalCart: 0 } });
                 await removeCartId();
 
                 if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {
