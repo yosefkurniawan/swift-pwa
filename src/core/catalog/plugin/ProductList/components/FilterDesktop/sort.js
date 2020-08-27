@@ -7,16 +7,16 @@ export const sortByDataSearch = [
     { value: JSON.stringify({ key: 'relevance', value: 'DESC' }), label: 'Relevance' },
     { value: JSON.stringify({ key: 'name', value: 'ASC' }), label: 'Alphabetically (A to Z)' },
     { value: JSON.stringify({ key: 'name', value: 'DESC' }), label: 'Alphabetically (Z to A)' },
-    { value: JSON.stringify({ key: 'price', value: 'DESC' }), label: 'Price (Low to High)' },
-    { value: JSON.stringify({ key: 'price', value: 'ASC' }), label: 'Price (High to Low)' },
+    { value: JSON.stringify({ key: 'price', value: 'ASC' }), label: 'Price (Low to High)' },
+    { value: JSON.stringify({ key: 'price', value: 'DESC' }), label: 'Price (High to Low)' },
 ];
 
 export const sortByDataCatalog = [
     { value: JSON.stringify({ key: 'position', value: 'ASC' }), label: 'Most Relevance' },
     { value: JSON.stringify({ key: 'name', value: 'ASC' }), label: 'Alphabetically (A to Z)' },
     { value: JSON.stringify({ key: 'name', value: 'DESC' }), label: 'Alphabetically (Z to A)' },
-    { value: JSON.stringify({ key: 'price', value: 'DESC' }), label: 'Price (Low to High)' },
-    { value: JSON.stringify({ key: 'price', value: 'ASC' }), label: 'Price (High to Low)' },
+    { value: JSON.stringify({ key: 'price', value: 'ASC' }), label: 'Price (Low to High)' },
+    { value: JSON.stringify({ key: 'price', value: 'DESC' }), label: 'Price (High to Low)' },
 ];
 
 const useStyles = makeStyles((theme) => ({

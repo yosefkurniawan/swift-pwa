@@ -185,7 +185,7 @@ const ViewFilter = (props) => {
                     );
                 }
                 return (
-                    <Accordion key={idx} expanded={typeof selectedFilter[itemFilter.field] !== 'undefined'}>
+                    <Accordion key={idx} defaultExpanded={typeof selectedFilter[itemFilter.field] !== 'undefined'}>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1a-content"
