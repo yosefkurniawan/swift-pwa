@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) => ({
     colorPrimary: {
         color: PRIMARY,
     },
+    wrapper_address: {
+        margin: '40px 0',
+    },
     appBar: {
         backgroundColor: 'white',
         boxShadow: 'none',
@@ -67,8 +70,12 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '12px',
     },
     address_action: {
-        padding: '15px',
-        textAlign: 'center',
+        marginTop: '20px',
+        textAlign: 'left',
+    },
+    btn_action: {
+        borderRadius: '0',
+        padding: '10px',
     },
     address_add: {
         backgroundColor: 'white',
