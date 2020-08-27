@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 import AppBar from '@material-ui/core/AppBar';
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
@@ -88,12 +89,14 @@ const FilterDialog = ({
                     }
 
                     if (itemFilter.field === 'price') {
+                        const price = priceRange;
+                        price[1] = price[1] || parseInt(itemFilter.value[itemFilter.value.length - 1].value);
                         return (
                             <div className={styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']} key={idx}>
                                 <RangeSlider
                                     label={itemFilter.label}
-                                    maxValue={itemFilter.maxprice}
-                                    value={priceRange}
+                                    maxValue={parseInt(itemFilter.value[itemFilter.value.length - 1].value)}
+                                    value={price}
                                     onChange={
                                         itemProps.priceRangeChange
                                         || setPriceRange

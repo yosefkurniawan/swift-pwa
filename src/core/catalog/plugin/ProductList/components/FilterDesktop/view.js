@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-unused-vars */
@@ -36,7 +37,6 @@ const ViewFilter = (props) => {
         filter,
     } = props;
     const styles = useStyles();
-
     const checkedFilter = (field, value) => {
         if (globalTimeout) {
             clearTimeout(globalTimeout);
@@ -76,13 +76,15 @@ const ViewFilter = (props) => {
             });
         }
         if (itemFilter.field === 'price') {
+            const price = priceRange;
+            price[1] = price[1] || parseInt(itemFilter.value[itemFilter.value.length - 1].value);
             return (
                 <div key={idx} style={{ width: '100%' }}>
                     <RangeSlider
                         noLabel
                         label={itemFilter.label}
-                        maxValue={itemFilter.maxprice}
-                        value={priceRange}
+                        maxValue={parseInt(itemFilter.value[itemFilter.value.length - 1].value)}
+                        value={price}
                         onChange={
                             itemProps.priceRangeChange
                             || setPrice
@@ -183,7 +185,7 @@ const ViewFilter = (props) => {
                     );
                 }
                 return (
-                    <Accordion key={idx}>
+                    <Accordion key={idx} expanded={typeof selectedFilter[itemFilter.field] !== 'undefined'}>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1a-content"
