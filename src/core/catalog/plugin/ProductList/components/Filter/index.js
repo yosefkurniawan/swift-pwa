@@ -1,33 +1,23 @@
 import React from 'react';
+import { useRouter } from 'next/router';
+import { sortByDataSearch, sortByDataCatalog } from '../FilterDesktop/sort';
 
 const Filter = (props) => {
     const {
         FilterModalView, FilterView, filterValue, isSearch, defaultSort, setFiltervalue, ...other
     } = props;
-    let sortByData;
-
-    if (isSearch) {
-        sortByData = [
-            { value: JSON.stringify({ key: 'relevance', value: 'DESC' }), label: 'Relevance' },
-            { value: JSON.stringify({ key: 'name', value: 'ASC' }), label: 'Alphabetically (A to Z)' },
-            { value: JSON.stringify({ key: 'name', value: 'DESC' }), label: 'Alphabetically (Z to A)' },
-            { value: JSON.stringify({ key: 'price', value: 'ASC' }), label: 'Price (Low to High)' },
-            { value: JSON.stringify({ key: 'price', value: 'DESC' }), label: 'Price (High to Low)' },
-        ];
-    } else {
-        sortByData = [
-            { value: JSON.stringify({ key: 'position', value: 'ASC' }), label: 'Most Relevance' },
-            { value: JSON.stringify({ key: 'name', value: 'ASC' }), label: 'Alphabetically (A to Z)' },
-            { value: JSON.stringify({ key: 'name', value: 'DESC' }), label: 'Alphabetically (Z to A)' },
-            { value: JSON.stringify({ key: 'price', value: 'ASC' }), label: 'Price (Low to High)' },
-            { value: JSON.stringify({ key: 'price', value: 'DESC' }), label: 'Price (High to Low)' },
-        ];
-    }
-
+    const sortByData = isSearch ? sortByDataSearch : sortByDataCatalog;
     const [openFilter, setOpenFilter] = React.useState(false);
     const [selectedFilter, setFilter] = React.useState(filterValue);
     const [sort, setSort] = React.useState(filterValue.sort ? filterValue.sort : '');
     const [priceRange, setPriceRange] = React.useState(filterValue.priceRange ? filterValue.priceRange.split(',') : [0, 0]);
+    const router = useRouter();
+
+    // reset filter if route change
+    React.useEffect(() => {
+        setFilter(filterValue);
+    }, [router.asPath]);
+
     const handleClear = () => {
         // reset value for sort component
         setSort(defaultSort || '');
@@ -38,7 +28,6 @@ const Filter = (props) => {
         // new filter with clear/reset value
         const newFilter = {
             q: selectedFilter.q,
-            sort: defaultSort,
             priceRange: [0, 0],
         };
 
@@ -49,8 +38,9 @@ const Filter = (props) => {
                 delete newFilter[key];
             }
         });
-
-        setFiltervalue(newFilter);
+        setOpenFilter(false);
+        setFilter(newFilter);
+        setFiltervalue({});
     };
 
     const handleSave = () => {

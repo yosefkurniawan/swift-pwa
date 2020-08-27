@@ -8,6 +8,7 @@ import {
 
 const useStyles = makeStyles((theme) => ({
     container: {
+        margin: '0 !important',
         width: '100%',
         height: '100%',
         [theme.breakpoints.down('sm')]: {

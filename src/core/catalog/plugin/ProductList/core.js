@@ -44,7 +44,7 @@ const Product = (props) => {
             if (key === 'selectedFilter') {
                 // eslint-disable-next-line no-restricted-syntax
                 for (const idx in v.selectedFilter) {
-                    if (v.selectedFilter[idx] !== '') {
+                    if (v.selectedFilter[idx] !== '' && !v[idx]) {
                         queryParams += `${queryParams !== '' ? '&' : ''}${idx}=${v.selectedFilter[idx]}`;
                     }
                 }
@@ -52,7 +52,7 @@ const Product = (props) => {
                 queryParams += `${queryParams !== '' ? '&' : ''}${key}=${v[key]}`;
             }
         });
-        Router.push(`/${url_path || '[...slug]'}`, encodeURI(`${path}?${queryParams}`));
+        Router.push(`/${url_path || '[...slug]'}`, encodeURI(`${path}${queryParams ? `?${queryParams}` : ''}`));
     };
     if (catId !== 0) {
         config.filter.push({
@@ -61,7 +61,6 @@ const Product = (props) => {
         });
     }
     config = generateConfig(query, config, elastic);
-
     const { loading, data, fetchMore } = getProduct(config);
     let products = {};
     products = data && data.products ? data.products : {
