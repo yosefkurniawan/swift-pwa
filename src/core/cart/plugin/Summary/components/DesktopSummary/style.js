@@ -23,6 +23,26 @@ const useStyles = makeStyles(() => ({
         marginTop: 20,
         minWidth: '90%',
     },
+    labelItem: {
+        maxWidth: '50%',
+    },
+    expanItem: {
+        background: 'transparent',
+        borderRadius: 0,
+        border: 'none',
+        boxShadow: 'none',
+    },
+
+    listProduct: {
+        padding: 20,
+    },
+    imgProduct: {
+        width: 75,
+        height: 'auto',
+    },
+    bodyProductItem: {
+        ...FlexColumn,
+    },
 }));
 
 export default useStyles;

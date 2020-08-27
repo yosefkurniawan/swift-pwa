@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
 import cookies from 'next-cookies';
@@ -16,6 +17,7 @@ import FieldPointView from '../../components/fieldcode';
 import RewardPointView from './components/rewardpoint/view';
 import StoreCreditView from './components/credit/view';
 import Content from './components';
+import HeaderView from './components/Header';
 
 const Page = (props) => (
     <Core
@@ -34,6 +36,16 @@ const Page = (props) => (
         RewardPointView={RewardPointView}
         StoreCreditView={StoreCreditView}
         Content={Content}
+        HeaderView={HeaderView}
+        pageConfig={{
+            title: props.t('checkout:pageTitle'),
+            header: 'relative', // available values: "absolute", "relative", false (default)
+            headerTitle: props.t('checkout:pageTitle'),
+            headerDesktop: false,
+            footer: false,
+            bottomNav: false,
+            pageType: 'checkout',
+        }}
     />
 );
 

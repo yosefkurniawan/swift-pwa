@@ -103,6 +103,10 @@ const cartSubSelection = `
             url_key
             sku
             stock_status
+            small_image {
+                url
+                label
+            }
           }
     }
     available_payment_methods {

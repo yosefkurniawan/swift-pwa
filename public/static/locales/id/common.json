@@ -60,7 +60,9 @@
         "search": "Pencarian ...",
         "brand": "Brand",
         "category": "Kategory",
-        "summary": "Ringkasan"
+        "summary": "Ringkasan",
+        "price": "Harga",
+        "shortQty": "Jml"
     },
     "error": {
         "notFound" : "Data tidak di temukan",

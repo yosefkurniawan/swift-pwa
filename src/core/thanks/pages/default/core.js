@@ -86,7 +86,7 @@ const PageStoreCredit = (props) => {
     }, []);
 
     return (
-        <Layout {...other} pageConfig={config}>
+        <Layout t={t} {...other} pageConfig={config}>
             <Content
                 t={t}
                 handleCotinue={handleCotinue}

@@ -12,7 +12,7 @@ const Content = (props) => {
     };
     return (
         <div className="row">
-            <div className="col-xs-12 col-sm-9" style={{ height: '100%' }}>
+            <div className="col-xs-12 col-sm-8 col-md-9" style={{ height: '100%' }}>
                 <ItemView
                     data={dataCart}
                     t={t}
@@ -30,7 +30,7 @@ const Content = (props) => {
                     <Summary isDesktop={false} t={t} dataCart={dataCart} {...other} handleActionSummary={handleOnCheckoutClicked} />
                 </div>
             </div>
-            <div className="col-xs-12 col-sm-3 hidden-mobile">
+            <div className="col-xs-12 col-sm-4 col-md-3 hidden-mobile">
                 <Summary isDesktop t={t} dataCart={dataCart} {...other} handleActionSummary={handleOnCheckoutClicked} />
             </div>
         </div>

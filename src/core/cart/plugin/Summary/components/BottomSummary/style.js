@@ -62,6 +62,10 @@ const useStyles = makeStyles((theme) => ({
         ...CreateMargin(0, 0, 0, 0),
         ...CreatePadding(0, 0, 0, 0),
     },
+
+    labelItem: {
+        maxWidth: '50%',
+    },
 }));
 
 export default useStyles;

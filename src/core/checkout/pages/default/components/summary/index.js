@@ -3,7 +3,7 @@ import { useApolloClient } from '@apollo/react-hooks';
 import { setCartId, removeCartId } from '@helpers/cartId';
 import { setCheckoutData } from '@helpers/cookies';
 import _ from 'lodash';
-import { formatPrice } from '@helpers/currency';
+import SummaryPlugin from '@core/cart/plugin/Summary';
 import gqlService from '../../../../services/graphql';
 
 const Summary = ({
@@ -13,8 +13,6 @@ const Summary = ({
     handleOpenMessage,
     formik,
     updateFormik,
-    storeConfig,
-    SummaryView,
     config,
 }) => {
     const { order: loading, all: disabled } = checkout.loading;
@@ -226,80 +224,35 @@ const Summary = ({
     }
     // End - Process Snap Pop Up Close (Waitinge Response From Reorder)
 
-    // Start - Manage Summary
-    let data = [];
-    let total = 0;
-    if (checkout.data.cart) {
-        const {
-            prices,
-            items,
-            shipping_addresses,
-            applied_store_credit,
-            applied_reward_points,
-            applied_giftcard,
-        } = checkout.data.cart;
-
-        const globalCurrency = storeConfig.default_display_currency_code;
-
-        if (items) {
-            const sumTotalItem = items.reduce(
-                (prev, curr) => ({
-                    value: prev.value + curr.prices.row_total.value,
-                    currency: curr.prices.row_total.currency,
-                }),
-                { value: 0 },
-            );
-            const subtotal = formatPrice(sumTotalItem.value, sumTotalItem.currency);
-            total = prices.grand_total;
-            const [shipping] = shipping_addresses;
-
-            data.push({ item: 'sub total', value: subtotal });
-
-            if (shipping && shipping.selected_shipping_method) {
-                const shippingMethod = shipping.selected_shipping_method;
-                const price = formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency);
-                data.push({ item: 'shipping', value: price });
-            }
-
-            if (_.isArray(prices.discounts)) {
-                const discounts = prices.discounts.map((disc) => {
-                    const price = formatPrice(disc.amount.value, disc.amount.currency);
-                    return { item: `${disc.label} - ${price}`, value: `-${price}` };
-                });
-                data = data.concat(discounts);
-            }
-
-            if (applied_store_credit.is_use_store_credit) {
-                const price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency);
-                data.push({ item: `Store Credit - ${price}`, value: `-${price}` });
-            }
-
-            if (applied_reward_points.is_use_reward_points) {
-                const price = formatPrice(Math.abs(applied_reward_points.reward_points_amount), globalCurrency);
-                data.push({ item: `Reward Point - ${price}`, value: `-${price}` });
-            }
-
-            if (applied_giftcard) {
-                const giftCards = applied_giftcard.giftcard_detail.map((item) => {
-                    const price = formatPrice(Math.abs(item.giftcard_amount_used), globalCurrency);
-                    return { item: `Gift Card (${item.giftcard_code}) - ${price}`, value: `-${price}` };
-                });
-                data = data.concat(giftCards);
-            }
-        }
+    if (checkout && checkout.data && checkout.data.cart) {
+        return (
+            <>
+                <div className="hidden-desktop">
+                    <SummaryPlugin
+                        t={t}
+                        loading={loading}
+                        disabled={disabled}
+                        handleActionSummary={handlePlaceOrder}
+                        dataCart={checkout.data.cart}
+                        isDesktop={false}
+                    />
+                </div>
+                <div className="hidden-mobile">
+                    <SummaryPlugin
+                        t={t}
+                        loading={loading}
+                        handleActionSummary={handlePlaceOrder}
+                        dataCart={checkout.data.cart}
+                        disabled={disabled}
+                        isDesktop
+                        showItems
+                    />
+                </div>
+            </>
+        );
     }
-    // End - Manage Summary
 
-    return (
-        <SummaryView
-            t={t}
-            handlePlaceOrder={handlePlaceOrder}
-            loading={loading}
-            data={data}
-            total={total}
-            disabled={disabled}
-        />
-    );
+    return null;
 };
 
 export default Summary;

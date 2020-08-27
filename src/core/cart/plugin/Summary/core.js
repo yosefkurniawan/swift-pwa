@@ -9,15 +9,15 @@ const CoreSummary = (props) => {
     let dataSummary = [];
     let total = 0;
     const {
-        prices,
-        items,
-        applied_store_credit,
-        applied_reward_points,
-        applied_giftcard,
+        prices = {},
+        items = [],
+        applied_store_credit = {},
+        applied_reward_points = {},
+        applied_giftcard = {},
         shipping_addresses = [],
     } = dataCart;
 
-    if (items) {
+    if (dataCart && items) {
         const sumTotalItem = items.reduce(
             (prev, curr) => ({
                 value: prev.value + curr.prices.row_total.value,
@@ -40,19 +40,19 @@ const CoreSummary = (props) => {
         if (_.isArray(prices.discounts)) {
             const discounts = prices.discounts.map((disc) => {
                 const price = formatPrice(disc.amount.value, disc.amount.currency);
-                return { item: `${disc.label} - ${price}`, value: `-${price}` };
+                return { item: `${disc.label} - ${price}`, value: `${price}` };
             });
             dataSummary = dataSummary.concat(discounts);
         }
 
         if (applied_store_credit.is_use_store_credit) {
             const price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency);
-            dataSummary.push({ item: `Store Credit - ${price}`, value: `-${price}` });
+            dataSummary.push({ item: 'Store Credit', value: `${price}` });
         }
 
         if (applied_reward_points.is_use_reward_points) {
             const price = formatPrice(Math.abs(applied_reward_points.reward_points_amount), globalCurrency);
-            dataSummary.push({ item: `Reward Point - ${price}`, value: `-${price}` });
+            dataSummary.push({ item: 'Reward Point ', value: `${price}` });
         }
 
         if (applied_giftcard) {
@@ -66,7 +66,7 @@ const CoreSummary = (props) => {
 
     if (isDesktop) {
         return (
-            <DesktopView summary={{ total, data: dataSummary }} {...other} />
+            <DesktopView items={items} summary={{ total, data: dataSummary }} {...other} />
         );
     }
 
