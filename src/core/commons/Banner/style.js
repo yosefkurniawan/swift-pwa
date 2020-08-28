@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100%',
         position: 'relative',
         [theme.breakpoints.up('sm')]: {
-            height: 555,
+            height: 'auto',
         },
     },
     dots: {
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
         position: 'relative',
         paddingTop: '116%',
         [theme.breakpoints.up('sm')]: {
-            height: 555,
+            height: 'auto',
             paddingTop: 0,
             display: 'flex',
             justifyContent: 'center',
@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
         top: '0',
         left: '0',
         [theme.breakpoints.up('sm')]: {
-            height: 555,
+            height: 'auto',
             position: 'unset',
         },
     },

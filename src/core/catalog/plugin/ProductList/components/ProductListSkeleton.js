@@ -10,7 +10,6 @@ const ProductListSkeleton = () => {
     return (
         <Grid
             container
-            spacing={1}
         >
             {[1, 2, 3, 4, 5, 6, 7, 8].map((el) => (
                 <Grid key={el} item xs={6} sm={4} md={3} className={getClassNames(el)}>

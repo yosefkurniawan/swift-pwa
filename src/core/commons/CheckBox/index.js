@@ -37,6 +37,7 @@ const CustomCheckbox = ({
     value = [],
     flex = 'row',
     CustomItem,
+    noLabel,
     onChange = () => {},
 }) => {
     const styles = useStyles();
@@ -58,9 +59,12 @@ const CustomCheckbox = ({
     };
     return (
         <div className={styles.container}>
-            <Typography variant="label" type="bold" letter="uppercase">
-                {label}
-            </Typography>
+            {!noLabel ? (
+                <Typography variant="label" type="bold" letter="uppercase">
+                    {label}
+                </Typography>
+            ) : null}
+
             <div className={checkStyle}>
                 {data.map((item, index) => (CustomItem ? (
                     <CustomItem

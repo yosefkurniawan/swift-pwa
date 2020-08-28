@@ -94,7 +94,6 @@ const useStyles = makeStyles((theme) => ({
     },
     leftArrow: {
         left: 20,
-        paddingRight: 5,
     },
 
     rightArrow: {

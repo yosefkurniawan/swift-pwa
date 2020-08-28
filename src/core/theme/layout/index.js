@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-danger */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import TagManager from 'react-gtm-module';
@@ -17,6 +17,7 @@ const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false });
 const ScrollToTop = dynamic(() => import('@common_scrolltotop'), { ssr: false });
 const Footer = dynamic(() => import('@common_footer'), { ssr: true });
+
 const Layout = (props) => {
     const {
         pageConfig,
@@ -27,7 +28,9 @@ const Layout = (props) => {
         headerProps = {},
         t,
     } = props;
-    const { ogContent = {}, schemaOrg = null } = pageConfig;
+    const {
+        ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true,
+    } = pageConfig;
     const router = useRouter();
     const [state, setState] = useState({
         toastMessage: {
@@ -37,6 +40,9 @@ const Layout = (props) => {
         },
         backdropLoader: false,
     });
+    const [mainMinimumHeight, setMainMinimumHeight] = useState(0);
+    const refFooter = useRef(null);
+    const refHeader = useRef(null);
 
     const handleSetToast = (message) => {
         setState({
@@ -99,6 +105,7 @@ const Layout = (props) => {
             if (custData && custData.email) tagManagerArgs.dataLayer.customerId = custData.email;
             TagManager.dataLayer(tagManagerArgs);
         }
+        setMainMinimumHeight(refFooter.current.clientHeight + refHeader.current.clientHeight);
     }, []);
 
     const desktop = breakPointsUp('sm');
@@ -127,9 +134,9 @@ const Layout = (props) => {
                         ))
                     ) : null}
             </Head>
-            <header>
+            <header ref={refHeader}>
                 <div className="hidden-mobile">
-                    <HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} />
+                    { headerDesktop ? (<HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} />) : null }
                 </div>
                 <div className="hidden-desktop">
                     {
@@ -140,7 +147,7 @@ const Layout = (props) => {
                 </div>
             </header>
 
-            <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0 }}>
+            <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0, minHeight: `calc(100vh - ${mainMinimumHeight}px)` }}>
                 <Loading open={state.backdropLoader} />
                 <Message
                     open={state.toastMessage.open}
@@ -149,13 +156,17 @@ const Layout = (props) => {
                     message={state.toastMessage.text}
                 />
                 {children}
-                { desktop ? <ScrollToTop {...props} /> : null }
+                {desktop ? <ScrollToTop {...props} /> : null}
             </main>
-            <footer>
+            <footer ref={refFooter}>
                 <div className="hidden-mobile">
-                    <Footer
-                        storeConfig={storeConfig}
-                    />
+                    {
+                        footer ? (
+                            <Footer
+                                storeConfig={storeConfig}
+                            />
+                        ) : null
+                    }
                 </div>
                 {
                     desktop

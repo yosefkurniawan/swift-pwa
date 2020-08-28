@@ -28,6 +28,16 @@ export default makeStyles((theme) => ({
         position: 'absolute',
         top: '35vh',
         right: -65,
+        cursor: 'pointer',
+        [theme.breakpoints.up('sm')]: {
+            backgroundColor: '#000000',
+        },
+    },
+    btnOpenLabel: {
+        [theme.breakpoints.up('sm')]: {
+            color: WHITE,
+            fontWeight: 'bold',
+        },
     },
     btnOpeActive: {
         right: 120,
@@ -56,6 +66,10 @@ export default makeStyles((theme) => ({
         top: '35vh',
         width: 164,
         ...Centering,
+        cursor: 'pointer',
+        [theme.breakpoints.up('sm')]: {
+            backgroundColor: '#000000',
+        },
     },
 
     body: {

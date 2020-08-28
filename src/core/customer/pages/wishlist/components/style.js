@@ -12,8 +12,9 @@ const useStyles = makeStyles(() => ({
         position: 'relative',
     },
     content: {
-        ...FlexColumn,
+        ...FlexRow,
         ...CreatePadding(0, 0, 70, 0),
+        flexWrap: 'wrap',
     },
     colorPrimary: {
         color: PRIMARY,
@@ -48,6 +49,10 @@ const useStyles = makeStyles(() => ({
         background: 'rgba(255,255,255,0.7)',
         ...CreatePadding(20, 20, 20, 20),
         textAlign: 'center',
+    },
+    wishlistItems: {
+        flex: '0 0 25%',
+        padding: '5px',
     },
 }));
 

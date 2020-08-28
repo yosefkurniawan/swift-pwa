@@ -1,16 +1,16 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { GRAY_PRIMARY, WHITE } from '@theme/colors';
+import { GRAY_PRIMARY, WHITE, GRAY_LIGHT } from '@theme/colors';
 import {
-    CreateMargin, CreatePadding, CenterAbsolute, Centering, FlexColumn,
+    CreateMargin, CreatePadding, CenterAbsolute, Centering,
 } from '@theme/mixins';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     container: {
         width: '100%',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-arround',
+        justifyContent: 'center',
         alignItems: 'center',
         ...CreatePadding(0, 0, 30, 0),
     },
@@ -55,16 +55,60 @@ const useStyles = makeStyles(() => ({
         ...Centering,
     },
     labelCategory: {
-        fontSize: 16,
-        marginTop: 30,
-        marginBottom: 20,
+        paddingTop: 20,
+        paddingBottom: 20,
         textAlign: 'center',
     },
+    contentContainer: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 70,
+        [theme.breakpoints.down('sm')]: {
+            // marginLeft: '20px',
+            // marginRight: 'auto',
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: 750,
+        },
+        [theme.breakpoints.up('md')]: {
+            width: 970,
+        },
+        [theme.breakpoints.up('lg')]: {
+            width: 1170,
+        },
+    },
     features: {
-        ...FlexColumn,
-        justifyContent: 'center',
         marginTop: 20,
-        marginBottom: 20,
+        marginBottom: 30,
+        width: '100%',
+        height: '100%',
+    },
+    featuresBox: {
+        boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+        border: `1px solid ${GRAY_LIGHT}`,
+        padding: 0,
+    },
+    contentFeatured: {
+        transition: '0.3s',
+        borderTopLeftRadius: 5,
+        borderBottomLeftRadius: 5,
+        padding: '20px 20px 0px 10px',
+    },
+    footerFeatured: {
+        paddingBottom: 20,
+    },
+    imgFeaturedContainer: {
+        padding: 0,
+    },
+    imgFeatured: {
+        width: '100%',
+        height: '100%',
+    },
+    imgFeaturedItem: {
+        width: '100%',
+        ...Centering,
+        backgroundColor: WHITE,
+        height: '100%',
     },
 }));
 

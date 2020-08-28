@@ -23,9 +23,11 @@ const Content = (props) => {
                     {t('customer:wishlist:notFound')}
                 </Alert>
             )}
-            <div className={styles.content}>
+            <div className={[styles.content, styles.wishlistItems, 'row'].join(' ')}>
                 {wishlist.map((item, index) => (
-                    <Item key={index} {...item} {...props} refetch={refetch} handleRemove={handleRemove} handleToCart={handleToCart} />
+                    <div className="col-md-3 col-xs-12">
+                        <Item key={index} {...item} {...props} refetch={refetch} handleRemove={handleRemove} handleToCart={handleToCart} />
+                    </div>
                 ))}
             </div>
             <div className={styles.footer}>

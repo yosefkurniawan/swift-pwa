@@ -7,6 +7,7 @@ import Header from '@common_headermobile';
 import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
+import { breakPointsUp } from '@helpers/theme';
 
 import useStyles from './style';
 
@@ -30,8 +31,9 @@ const ReviewDialogView = (props) => {
     const {
         Formik, open, setOpen, t,
     } = props;
+    const desktop = breakPointsUp('sm');
     return (
-        <Dialog fullScreen open={open} onClose={setOpen} TransitionComponent={Transition}>
+        <Dialog fullScreen={!desktop} open={open} onClose={setOpen} TransitionComponent={Transition}>
             <CustomHeader onClose={setOpen} />
             <div className={styles.root}>
                 <form onSubmit={Formik.handleSubmit} className={styles.container}>

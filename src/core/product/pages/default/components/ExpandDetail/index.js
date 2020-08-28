@@ -23,13 +23,13 @@ export default function ExpandDetail({ data = [1, 2, 3] }) {
     return (
         <div className={styles.root}>
             {data.map((item, index) => (
-                <ExpansionPanel
+                <Accordion
                     key={index}
                     expanded={expanded === index}
                     onChange={handleChange(index)}
                     className={styles.expandContainer}
                 >
-                    <ExpansionPanelSummary
+                    <AccordionSummary
                         expandIcon={
                             expanded === index ? (
                                 <Minimize className={styles.icon} />
@@ -48,8 +48,8 @@ export default function ExpandDetail({ data = [1, 2, 3] }) {
                         <Typography letter="uppercase" variant="span" type="bold">
                             { item.title || '' }
                         </Typography>
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails
+                    </AccordionSummary>
+                    <AccordionDetails
                         className={
                             expanded === index
                                 ? classNames(styles.bodyExpand, styles.bodyOpen)
@@ -82,8 +82,8 @@ export default function ExpandDetail({ data = [1, 2, 3] }) {
                                     </List>
                                 )
                         }
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
+                    </AccordionDetails>
+                </Accordion>
             ))}
         </div>
     );

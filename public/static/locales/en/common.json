@@ -31,7 +31,8 @@
         "verify": "Verify",
         "shop": "SHOP NOW",
         "sendOtp": "Send OTP",
-        "submit": "Submit"
+        "submit": "Submit",
+        "viewAll": "View All"
     },
     "subtotal": "Subtotal",
     "price": {
@@ -58,7 +59,10 @@
         "short": "Short By",
         "search": "Search ...",
         "brand": "Brand",
-        "category": "Category"
+        "category": "Category",
+        "summary": "Summary",
+        "price": "Price",
+        "shortQty": "Qty"
     },
     "error": {
         "notFound": "Data not found",
@@ -80,5 +84,9 @@
         "myaccount": "My Account",
         "mywishlist": "My Wishlist",
         "signout": "Sign Out"
+    },
+    "header": {
+        "welcome": "Welcome!",
+        "hi": "Hi, $!"
     }
 }

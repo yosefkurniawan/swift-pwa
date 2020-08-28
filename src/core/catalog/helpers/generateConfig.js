@@ -22,7 +22,7 @@ const generateConfig = (query, config, elastic) => {
                     to: price[1],
                 });
             }
-        } else if (q !== 'cat') {
+        } else if (q !== 'cat' && query[q]) {
             resolveConfig.filter.push({
                 type: q,
                 value: elastic ? query[q].split(',') : query[q],

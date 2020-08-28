@@ -32,7 +32,8 @@
         "short": "Short By",
         "search": "Search ...",
         "brand": "Brand",
-        "category": "Category"
+        "category": "Category",
+        "searchResult": "Search Result"
     },
     "button": {
         "save": "Save",

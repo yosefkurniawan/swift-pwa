@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 import { getCartId } from '@helpers/cartId';
 import { useMutation } from '@apollo/react-hooks';
 import TagManager from 'react-gtm-module';
-import { storeConfigNameCokie } from '@config';
-import cookies from 'js-cookie';
 import Layout from '@layout';
 import { getCartData, addWishlist as mutationWishlist } from '../../services/graphql';
 import * as Schema from '../../services/graphql/schema';
@@ -24,7 +22,7 @@ const getCrossSellProduct = (items) => {
 
 const Cart = (props) => {
     const {
-        t, token, isLogin, EmptyView, SkeletonView, pageConfig, Content, ...other
+        t, token, isLogin, EmptyView, SkeletonView, pageConfig, Content, storeConfig, ...other
     } = props;
     const [editMode, setEditMode] = useState(false);
     const [editItem, setEditItem] = useState({});
@@ -161,7 +159,6 @@ const Cart = (props) => {
             });
         });
     };
-    let storeConfig = {};
     if (typeof window !== 'undefined') {
         cartId = getCartId();
         if (cartId) {
@@ -173,7 +170,6 @@ const Cart = (props) => {
         } else {
             loadingCart = false;
         }
-        storeConfig = cookies.getJSON(storeConfigNameCokie);
     }
     useEffect(() => {
         if (dataCart.items.length > 0) {
@@ -256,6 +252,7 @@ const Cart = (props) => {
     }
 
     crosssell = getCrossSellProduct(dataCart.items);
+    const globalCurrency = storeConfig.default_display_currency_code;
 
     if (dataCart.id && dataCart.items.length > 0) {
         const contentProps = {
@@ -270,6 +267,8 @@ const Cart = (props) => {
             editItem,
             openEditDrawer,
             updateItem,
+            storeConfig,
+            globalCurrency,
         };
         return (
             <Layout pageConfig={config || pageConfig} {...props}>

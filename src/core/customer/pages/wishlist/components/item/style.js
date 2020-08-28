@@ -2,12 +2,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import { GRAY_PRIMARY, WHITE } from '@theme/colors';
 import { FlexColumn, FlexRow, Centering } from '@theme/mixins';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     card: {
         width: '100%',
         ...FlexRow,
         alignItems: 'center',
-        borderBottom: `1px solid ${GRAY_PRIMARY}`,
+        border: `1px solid ${GRAY_PRIMARY}`,
+        [theme.breakpoints.up('md')]: {
+            marginBottom: '15px',
+        },
     },
     imgItem: {
         width: 127,

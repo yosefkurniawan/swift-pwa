@@ -14,42 +14,42 @@
 
 @media (max-width: 767px) {
     .hidden-xs {
-        display: none;
+        display: none !important;
     }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
     .hidden-sm {
-        display: none;
+        display: none !important;
     }
 }
 
 @media (min-width: 1024px) and (max-width: 1199px) {
     .hidden-md {
-        display: none;
+        display: none !important;
     }
 }
 
 @media (min-width: 1200px) and (max-width: 1919px) {
     .hidden-lg {
-        display: none;
+        display: none !important;
     }
 }
 
 @media (min-width: 1920) {
     .hidden-xl {
-        display: none;
+        display: none !important;
     }
 }
 
 @media (max-width: 767px) {
     .hidden-mobile {
-        display: none;
+        display: none !important;
     }
 }
 
 @media (min-width: 768px) {
     .hidden-desktop {
-        display: none;
+        display: none !important;
     }
 }

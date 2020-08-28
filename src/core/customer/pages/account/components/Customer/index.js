@@ -1,8 +1,8 @@
 // Library
 import React from 'react';
-
 import { modules } from '@config';
 import gqlService from '../../../../services/graphql';
+import Layout from '../../../../components/layout';
 
 const Customer = (props) => {
     const {
@@ -56,16 +56,18 @@ const Customer = (props) => {
     ];
 
     return (
-        <CustomerView
-            t={t}
-            modules={modules}
-            menu={menu}
-            userData={userData}
-            totalUnread={totalUnread}
-            wishlist={wishlist}
-            storeConfig={storeConfig}
-            isLogin={isLogin}
-        />
+        <Layout {...props}>
+            <CustomerView
+                t={t}
+                modules={modules}
+                menu={menu}
+                userData={userData}
+                totalUnread={totalUnread}
+                wishlist={wishlist}
+                storeConfig={storeConfig}
+                isLogin={isLogin}
+            />
+        </Layout>
     );
 };
 

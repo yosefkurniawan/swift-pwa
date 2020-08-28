@@ -1,6 +1,9 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { WHITE } from '@theme/colors';
-import { CreatePadding, CreateMargin } from '@theme/mixins';
+import {
+    CreatePadding, CreateMargin,
+    Centering, FlexColumn,
+} from '@theme/mixins';
 
 const useStyles = makeStyles((theme) => ({
     checkoutBox: {
@@ -31,6 +34,37 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 16,
         textAlign: 'center',
         ...CreateMargin(10, 0, 10, 0),
+    },
+    expand: {
+        margin: 0,
+        padding: 0,
+        width: '100%',
+        border: 'none',
+        boxShadow: 'none',
+    },
+    expanBody: {
+        width: '100%',
+        margin: 0,
+        padding: 0,
+        ...FlexColumn,
+    },
+
+    expanHead: {
+        maxHeight: 20,
+        minHeight: 15,
+        ...Centering,
+        ...CreateMargin(10, 0, 10, 0),
+    },
+    expandHeadOpen: {
+        maxHeight: '20px !important',
+        minHeight: 15,
+        ...Centering,
+        ...CreateMargin(0, 0, 0, 0),
+        ...CreatePadding(0, 0, 0, 0),
+    },
+
+    labelItem: {
+        maxWidth: '50%',
     },
 }));
 
