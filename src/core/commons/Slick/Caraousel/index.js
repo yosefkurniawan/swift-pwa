@@ -3,7 +3,6 @@
 /* eslint-disable no-return-assign */
 import React, { useState } from 'react';
 import Slider from 'react-slick';
-import ProductItem from '@core/catalog/plugin/ProductItem';
 import classNames from 'classnames';
 import LeftArrowIcon from '@material-ui/icons/ArrowBackIos';
 import RightArrowIcon from '@material-ui/icons/ArrowForwardIos';
@@ -13,7 +12,7 @@ const Caraousel = (props) => {
     const {
         data = [], xs = 767, sm = 1024, md = 1200,
         slideXs = 1, slideSm = 3, slideMd = 4, slideLg = 6,
-        showArrow = true,
+        showArrow = true, Item, ...other
     } = props;
 
     const styles = useStyles();
@@ -86,7 +85,7 @@ const Caraousel = (props) => {
             <Slider ref={(slider) => sliderRef = slider} {...settings}>
                 {
                     data && data.length > 0 && data.map((item, key) => (
-                        <ProductItem key={key} {...item} />
+                        <Item key={key} {...item} {...other} />
                     ))
                 }
             </Slider>

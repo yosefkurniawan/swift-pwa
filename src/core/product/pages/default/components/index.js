@@ -9,6 +9,7 @@ import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import ShareOutlined from '@material-ui/icons/ShareOutlined';
 import classNames from 'classnames';
+import ProductItem from '@core/catalog/plugin/ProductItem';
 import React from 'react';
 import HtmlParser from 'react-html-parser';
 import { getHost } from '@helpers/config';
@@ -235,6 +236,7 @@ const ProductPage = (props) => {
                         </Typography>
                         <Caraousel
                             data={relateData}
+                            Item={ProductItem}
                         />
                     </div>
                 ) : null}

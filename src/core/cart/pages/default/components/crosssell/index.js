@@ -1,4 +1,5 @@
 import Carousel from '@common_slick/Caraousel';
+import ProductItem from '@core/catalog/plugin/ProductItem';
 import Typography from '@common_typography';
 import useStyles from './style';
 
@@ -19,7 +20,7 @@ const CrossSell = (props) => {
                     {t('cart:crossell:title')}
                 </Typography>
                 <div className={styles.slider}>
-                    <Carousel data={data} />
+                    <Carousel data={data} Item={ProductItem} />
                 </div>
             </div>
         </>
