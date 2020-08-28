@@ -17,35 +17,13 @@ import useStyles from './style';
 const Summary = (props) => {
     const {
         t, summary, handleActionSummary = () => {}, loading, disabled,
-        showItems = false, items = [],
+        showItems = false, items = [], hideButton = false,
     } = props;
     const styles = useStyles();
-    const [top, setTop] = React.useState(0);
     const [openItem, setOpenItem] = React.useState(false);
-    React.useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const header = document.getElementById('header');
-            const checkScrollTop = () => {
-                // handle show hide header
-                if (header) {
-                    if (window.pageYOffset > 100) {
-                        header.classList.add('header-small');
-                    } else {
-                        header.classList.remove('header-small');
-                    }
-                }
-                if (window.pageYOffset > 50) {
-                    setTop(window.pageYOffset + 100);
-                } else {
-                    setTop(window.pageYOffset);
-                }
-            };
-            window.addEventListener('scroll', checkScrollTop);
-        }
-    }, [window, top]);
 
     return (
-        <div className={styles.container} style={{ top }}>
+        <div className={styles.container}>
             <Typography variant="h1" type="regular" letter="capitalize">
                 Summary
             </Typography>
@@ -112,9 +90,13 @@ const Summary = (props) => {
                     </ListItemSecondaryAction>
                 </ListItem>
             </List>
-            <Button loading={loading} disabled={disabled} className={styles.btnCheckout} onClick={handleActionSummary}>
-                {t('common:button:checkout')}
-            </Button>
+            {
+                !hideButton ? (
+                    <Button loading={loading} disabled={disabled} className={styles.btnCheckout} onClick={handleActionSummary}>
+                        {t('common:button:checkout')}
+                    </Button>
+                ) : null
+            }
         </div>
     );
 };
