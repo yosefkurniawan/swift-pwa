@@ -3,7 +3,6 @@ import Router from 'next/router';
 
 const noReload = () => {
     const getClassLink = document.getElementsByClassName('pwa-link');
-    console.log(getClassLink);
     for (let i = 0; i < getClassLink.length; i += 1) {
         getClassLink[i].onclick = function (e) {
             e.preventDefault();

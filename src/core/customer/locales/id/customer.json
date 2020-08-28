@@ -40,7 +40,8 @@
     "rewardPoint": "Reward Poin",
     "blog": "Artikel",
     "return": "Retur Saya",
-    "confirmPayment": "Konfirmasi Pembayaran"
+    "confirmPayment": "Konfirmasi Pembayaran",
+    "accountInformation": "Informasi Akun"
   },
   "giftCard": {
     "notFound": "Anda tidak memiliki gift card",
