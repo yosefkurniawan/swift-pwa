@@ -105,6 +105,21 @@ const useStyles = makeStyles(() => ({
         height: 20,
         background: GRAY_LIGHT,
     },
+    desktopContainer: {
+        marginTop: 20,
+        paddingLeft: 4,
+    },
+    infoTitle: {
+        fontWeight: 'normal',
+    },
+    desktopLink: {
+        fontSize: 12,
+    },
+    desktopLinkHeader: {
+        fontWeight: 'normal',
+        fontSize: 12,
+        marginLeft: 30,
+    },
 }));
 
 export default useStyles;
