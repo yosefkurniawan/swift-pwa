@@ -52,6 +52,9 @@ const TableAddress = (props) => {
                     align="left"
                 >
                     <div className={styles.displayFlexRow}>
+                        <div className={styles.mobLabel}>
+                            <b>{t('customer:address:firstname')}</b>
+                        </div>
                         <div className={styles.value}>{firstname}</div>
                     </div>
                 </TableCell>
@@ -60,6 +63,9 @@ const TableAddress = (props) => {
                     align="left"
                 >
                     <div className={styles.displayFlexRow}>
+                        <div className={styles.mobLabel}>
+                            <b>{t('customer:address:lastname')}</b>
+                        </div>
                         <div className={styles.value}>{lastname}</div>
                     </div>
                 </TableCell>
@@ -68,6 +74,9 @@ const TableAddress = (props) => {
                     align="left"
                 >
                     <div className={styles.displayFlexRow}>
+                        <div className={styles.mobLabel}>
+                            <b>{t('customer:address:street')}</b>
+                        </div>
                         <div className={styles.value}>{street}</div>
                     </div>
                 </TableCell>
@@ -76,6 +85,9 @@ const TableAddress = (props) => {
                     align="left"
                 >
                     <div className={styles.displayFlexRow}>
+                        <div className={styles.mobLabel}>
+                            <b>{t('customer:address:city')}</b>
+                        </div>
                         <div className={styles.value}>{city}</div>
                     </div>
                 </TableCell>
@@ -84,6 +96,9 @@ const TableAddress = (props) => {
                     align="left"
                 >
                     <div className={styles.displayFlexRow}>
+                        <div className={styles.mobLabel}>
+                            <b>{t('customer:address:country')}</b>
+                        </div>
                         <div className={styles.value}>{country}</div>
                     </div>
                 </TableCell>
@@ -92,7 +107,10 @@ const TableAddress = (props) => {
                     align="left"
                 >
                     <div className={styles.displayFlexRow}>
-                        <div className={styles.value}>{region.region}</div>
+                        <div className={styles.mobLabel}>
+                            <b>{t('customer:address:state')}</b>
+                        </div>
+                        <div className={styles.value}>{region}</div>
                     </div>
                 </TableCell>
                 <TableCell
@@ -100,6 +118,9 @@ const TableAddress = (props) => {
                     align="left"
                 >
                     <div className={styles.displayFlexRow}>
+                        <div className={styles.mobLabel}>
+                            <b>{t('customer:address:postcode')}</b>
+                        </div>
                         <div className={styles.value}>{postcode}</div>
                     </div>
                 </TableCell>
@@ -108,6 +129,9 @@ const TableAddress = (props) => {
                     align="left"
                 >
                     <div className={styles.displayFlexRow}>
+                        <div className={styles.mobLabel}>
+                            <b>{t('customer:address:phone')}</b>
+                        </div>
                         <div className={styles.value}>{telephone}</div>
                     </div>
                 </TableCell>
@@ -116,9 +140,11 @@ const TableAddress = (props) => {
                     align="left"
                 >
                     <div className={styles.displayFlexRow}>
-                        <Typography className={[styles.address_edit].join(' ')} variant="span" onClick={() => setOpen(!open)}>
-                            {t('customer:address:editTitle')}
-                        </Typography>
+                        <div className={styles.value}>
+                            <Typography className={[styles.address_edit].join(' ')} variant="span" onClick={() => setOpen(!open)}>
+                                {t('customer:address:editTitle')}
+                            </Typography>
+                        </div>
                     </div>
                 </TableCell>
             </TableRow>

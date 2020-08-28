@@ -34,12 +34,12 @@ const Content = (props) => {
     } = props;
 
     return (
-        <>
-            <div>
-                <TableContainer component={Paper}>
+        <div className={styles.container}>
+            <div className={styles.tableOuterContainer}>
+                <TableContainer component={Paper} className={styles.tableContainer}>
                     <Table className={styles.table} size="small" aria-label="a dense table">
                         <TableHead>
-                            <TableRow>
+                            <TableRow className={styles.tableRowHead}>
                                 <TableCell align="left">{t('customer:address:firstname')}</TableCell>
                                 <TableCell align="left">{t('customer:address:lastname')}</TableCell>
                                 <TableCell align="left">{t('customer:address:street')}</TableCell>
@@ -90,12 +90,12 @@ const Content = (props) => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <div className={[styles.address_action].join(' ')}>
-                    <Button className={styles.btn_action} variant="outlined" size="small" onClick={() => handleOpenNew()}>
-                        <span style={{ marginRight: '15px' }}>{t('customer:address:addTitle')}</span>
-                        <Add />
-                    </Button>
-                </div>
+            </div>
+            <div className={[styles.address_action].join(' ')}>
+                <Button className={styles.btn_action} variant="outlined" size="small" onClick={() => handleOpenNew()}>
+                    <span style={{ marginRight: '15px' }}>{t('customer:address:addTitle')}</span>
+                    <Add />
+                </Button>
             </div>
             <AddressFormDialog
                 {...props}
@@ -107,7 +107,7 @@ const Content = (props) => {
                 open={openNew}
                 setOpen={() => handleOpenNew(!openNew)}
             />
-        </>
+        </div>
     );
 };
 
