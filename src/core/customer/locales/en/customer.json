@@ -40,7 +40,8 @@
     "rewardPoint": "Reward Points",
     "blog": "Blog",
     "return": "My Returns",
-    "confirmPayment": "Confirm Payment"
+    "confirmPayment": "Confirm Payment",
+    "accountInformation": "Account Information"
   },
   "giftCard": {
     "notFound": "You don't have gift card item",

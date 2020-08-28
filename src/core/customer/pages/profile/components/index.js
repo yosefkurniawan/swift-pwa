@@ -10,6 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import classNames from 'classnames';
 import { breakPointsUp } from '@helpers/theme';
 import useStyles from './style';
+import Layout from '../../../components/layout';
 
 const ProfileForm = (props) => {
     const styles = useStyles();
@@ -203,10 +204,12 @@ const ProfilePage = (props) => {
     const { data } = props;
 
     return (
-        <ProfileForm
-            {...props}
-            data={data.customer}
-        />
+        <Layout {...props}>
+            <ProfileForm
+                {...props}
+                data={data.customer}
+            />
+        </Layout>
     );
 };
 
