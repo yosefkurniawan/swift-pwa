@@ -1,5 +1,6 @@
 import React from 'react';
 import GridList from '@common_gridlist';
+import Typography from '@common_typography';
 import classNames from 'classnames';
 import Filter from './Filter';
 import FilterDesktop from './FilterDesktop';
@@ -69,6 +70,11 @@ const Content = (props) => {
                     />
                 </div>
                 <div className="col-sm-12 col-xs-12 col-lg-10">
+                    <Typography variant="p" type="regular" className={classNames('hidden-mobile', styles.countProductTextDesktop)}>
+                        {products.total_count}
+                        {' '}
+                        {t('catalog:product:name')}
+                    </Typography>
                     <div className={styles.productContainer}>
                         {loading && <ProductListSkeleton />}
                         {!loading && (

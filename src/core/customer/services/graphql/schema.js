@@ -198,6 +198,13 @@ export const customerNotificationList = gql`
     query customerNotificationList {
         customerNotificationList {
           totalUnread
+          items {
+            content
+            createdAt
+            entityId
+            subject
+            unread
+          }
         }
     }
 `;
@@ -421,4 +428,27 @@ export const setNewPassword = gql`
             info
         }
     }
+`;
+
+export const getCustomerOrder = gql`
+  {
+    customerOrders(pageSize: 5) {
+      items {
+        id
+        grand_total
+        order_number
+        status
+        status_label
+        created_at
+        detail {
+          global_currency_code
+          shipping_address {
+            firstname
+            lastname
+          }
+          grand_total
+        }
+      }
+    }
+  }
 `;

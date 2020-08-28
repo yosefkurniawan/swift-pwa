@@ -19,6 +19,13 @@ export const getCustomer = () => useQuery(Schema.getCustomer, {
     },
 });
 
+export const getCustomerOrder = () => useQuery(Schema.getCustomerOrder, {
+    context: {
+        request: 'internal',
+        skip: typeof window === 'undefined',
+    },
+});
+
 export const getCustomerSettings = () => useQuery(Schema.getCustomerSettings, {
     context: {
         request: 'internal',
@@ -108,5 +115,5 @@ export const getCustomerCartId = () => useLazyQuery(Schema.getCartIdUser, {
 export const newPassword = () => useMutation(Schema.setNewPassword);
 
 export default {
-    getCountries, getCityByRegionId, customerNotificationList, getCustomer,
+    getCountries, getCityByRegionId, customerNotificationList, getCustomer, getCustomerOrder,
 };
