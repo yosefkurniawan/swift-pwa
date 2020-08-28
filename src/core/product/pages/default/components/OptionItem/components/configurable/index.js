@@ -5,6 +5,7 @@ import ProductByVariant, { getCombinationVariants, CheckAvailableOptions } from 
 import { getLoginInfo } from '@helpers/auth';
 import { getCartId, setCartId } from '@helpers/cartId';
 import TagManager from 'react-gtm-module';
+import { localTotalCart } from '@services/graphql/schema/local';
 import {
     addConfigProductsToCart, getConfigurableProduct, getGuestCartId as queryGetGuestCartId, getCustomerCartId,
 } from '../../../../../../services/graphql';
@@ -187,7 +188,7 @@ export default (props) => {
                     variables,
                 })
                     .then((res) => {
-                        client.writeData({ data: { totalCart: res.data.addConfigurableProductsToCart.cart.total_quantity } });
+                        client.writeQuery({ query: localTotalCart, data: { totalCart: res.data.addConfigurableProductsToCart.cart.total_quantity } });
                         window.toastMessage({ variant: 'success', text: t('product:successAddCart'), open: true });
                         setLoading(false);
                         setOpen(false);

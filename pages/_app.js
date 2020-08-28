@@ -23,15 +23,15 @@ import {
 // import Fonts from '@helpers/fonts';
 import TagManager from 'react-gtm-module';
 import PageProgressLoader from '@common_loaders/PageProgress';
+import getConfig from 'next/config';
 import graphRequest from '../src/api/graphql/request';
 import routeMiddleware from '../src/middlewares/route';
 import '../src/styles/index.css';
 import '../src/styles/mediaquery.css';
 import '../src/styles/flexboxgrid.min.css';
 
-const tagManagerArgs = {
-    gtmId: GTM.gtmId[process.env.APP_ENV] || GTM.gtmId.dev,
-};
+const { publicRuntimeConfig } = getConfig();
+
 class MyApp extends App {
     constructor(props) {
         super(props);
@@ -91,6 +91,11 @@ class MyApp extends App {
             jssStyles.parentElement.removeChild(jssStyles);
         }
         // GTM & GA
+        const tagManagerArgs = {
+            gtmId: (typeof publicRuntimeConfig !== 'undefined' && GTM.gtmId[publicRuntimeConfig.appEnv])
+                ? GTM.gtmId[publicRuntimeConfig.appEnv] : GTM.gtmId.dev,
+        };
+
         if (GTM.enable) TagManager.initialize(tagManagerArgs);
         // remove config cookie if page reload
         if (typeof window !== 'undefined') {

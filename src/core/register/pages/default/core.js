@@ -11,11 +11,14 @@ import * as Yup from 'yup';
 import Router from 'next/router';
 
 import { regexPhone } from '@helpers/regex';
+import getConfig from 'next/config';
 import {
     register, otpConfig as queryOtpConfig, mergeCart as mutationMergeCart, getCustomerCartId,
 } from '../../services/graphql';
 import { getCustomer } from '../../services/graphql/schema';
 import Content from './components';
+
+const { publicRuntimeConfig } = getConfig();
 
 const Register = (props) => {
     const { t, storeConfig, pageConfig } = props;
@@ -31,7 +34,8 @@ const Register = (props) => {
     const [disabled, setdisabled] = React.useState(false);
 
     const recaptchaRef = React.createRef();
-    const sitekey = recaptcha.siteKey[process.env.APP_ENV] || recaptcha.siteKey.dev;
+    const sitekey = (typeof publicRuntimeConfig !== 'undefined' && recaptcha.siteKey[publicRuntimeConfig.appEnv])
+        ? recaptcha.siteKey[publicRuntimeConfig.appEnv] : recaptcha.siteKey.dev;
 
     let cartId = '';
 

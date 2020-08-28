@@ -4,17 +4,11 @@
 import { getCartId, setCartId } from '@helpers/cartId';
 import { getLoginInfo } from '@helpers/auth';
 import { useQuery } from '@apollo/react-hooks';
+import { localTotalCart } from '@services/graphql/schema/local';
 import Router from 'next/router';
-import { gql } from 'apollo-boost';
 import propTypes from 'prop-types';
 import { getCartIdUser } from '../../services/graphql/schema';
 import { getCountCart } from '../../services/graphql';
-
-const GET_COUNT_CART = gql`
-  {
-    totalCart @client
-  }
-`;
 
 const ShoppingBagIcon = ({ withLink, WihtLinkView, WithoutLinkView }) => {
     let isLogin = 0;
@@ -39,10 +33,10 @@ const ShoppingBagIcon = ({ withLink, WihtLinkView, WithoutLinkView }) => {
         }
     }
     const getQty = getCountCart(cartId);
-    const { data, client } = useQuery(GET_COUNT_CART);
+    const { data, client } = useQuery(localTotalCart);
     React.useEffect(() => {
         if (!getQty.loading && getQty.data) {
-            client.writeData({ data: { totalCart: getQty.data.cart.total_quantity } });
+            client.writeQuery({ query: localTotalCart, data: { totalCart: getQty.data.cart.total_quantity } });
         }
     }, [getQty]);
 
