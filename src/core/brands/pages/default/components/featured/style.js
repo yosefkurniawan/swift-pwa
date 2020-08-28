@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         height: '100%',
         cursor: 'pointer',
+        marginBottom: '20px',
         [theme.breakpoints.down('sm')]: {
             width: '100%',
         },

@@ -1,16 +1,79 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { GRAY_PRIMARY, GREEN, PRIMARY } from '@theme/colors';
-import { CreateMargin, CreatePadding } from '@theme/mixins';
+import {
+    CreateMargin, CreatePadding, FlexColumn, FlexRow,
+} from '@theme/mixins';
 
 const useStyles = makeStyles((theme) => ({
+    displayFlexRow: {
+        ...FlexRow,
+    },
     container: {
-        [theme.breakpoints.up('sm')]: {
-            maxWidht: 900,
+        // [theme.breakpoints.up('sm')]: {
+        //     maxWidht: 900,
+        // },
+        ...FlexColumn,
+        width: '100%',
+        height: '100%',
+        fontSize: '12px',
+        padding: 15,
+        marginBottom: '40px',
+    },
+    tableOuterContainer: {
+        paddingTop: 10,
+    },
+    tableContainer: {
+        boxShadow: 'none',
+    },
+    table: {
+        borderTop: '1px solid rgba(224, 224, 224, 1)',
+        width: '100%',
+    },
+    tableRowHead: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'none !important',
         },
-        width: ' 100%',
+    },
+    tableRowResponsive: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'grid !important',
+            borderBottom: '1px solid rgba(224, 224, 224, 1)',
+            padding: 10,
+        },
+    },
+    tableCellResponsive: {
+        [theme.breakpoints.down('sm')]: {
+            border: 'none',
+            padding: '8px 0',
+        },
+    },
+    mobLabel: {
+        [theme.breakpoints.up('md')]: {
+            display: 'none',
+        },
+        width: '40%',
+        minWidth: '130px',
+        maxWidth: '200px',
+        position: 'relative',
+        paddingRight: 20,
+        '&::after': {
+            content: "':'",
+            display: 'block',
+            position: 'absolute',
+            right: '8px',
+            top: 0,
+        },
+    },
+    value: {
+        [theme.breakpoints.down('sm')]: {
+            width: '60%',
+        },
     },
     colorPrimary: {
         color: PRIMARY,
+    },
+    wrapper_address: {
+        margin: '40px 0',
     },
     appBar: {
         backgroundColor: 'white',
@@ -62,13 +125,17 @@ const useStyles = makeStyles((theme) => ({
     },
     address_edit: {
         cursor: 'pointer',
-        marginLeft: '57.99px',
         textDecoration: 'underline',
         fontSize: '12px',
+        margin: '0',
     },
     address_action: {
-        padding: '15px',
-        textAlign: 'center',
+        marginTop: '20px',
+        textAlign: 'left',
+    },
+    btn_action: {
+        borderRadius: '0',
+        padding: '10px',
     },
     address_add: {
         backgroundColor: 'white',

@@ -118,6 +118,7 @@ const ViewTopNavigation = (props) => {
                 {`
                     .header-small {
                         position: fixed;
+                        top: 0;
                         width: 100%;
                         height: 80px !important;
                         z-index: 100;
