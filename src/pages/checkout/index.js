@@ -24,7 +24,7 @@ const Page = (props) => {
         pageType: 'checkout',
     };
 
-    const url = snap_is_production ? snapUrl.dev : snapUrl.prod;
+    const url = snap_is_production === "1" ? snapUrl.prod : snapUrl.dev;
 
     return (
         <Layout pageConfig={pageConfig} {...props}>
