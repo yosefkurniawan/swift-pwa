@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         width: '100%',
+        textAlign: 'center',
     },
     wrapper: {
         width: '100%',

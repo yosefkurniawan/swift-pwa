@@ -1,4 +1,6 @@
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import Button from '@common_button';
 import Delivery from './delivery';
 import Email from './email';
 import Summary from './summary';
@@ -38,6 +40,14 @@ const Content = (props) => {
         modules,
         HeaderView,
     } = props;
+
+    const SummaryRef = React.createRef();
+    const { order: loading, all: disabled } = checkout.loading;
+    const handleClick = () => {
+        if (SummaryRef.current) {
+            SummaryRef.current.handlePlaceOrder();
+        }
+    };
     return (
         <div className="row">
             <div className="col-xs-12 center hidden-mobile">
@@ -178,7 +188,20 @@ const Content = (props) => {
                     formik={formik}
                     storeConfig={storeConfig}
                     SummaryView={SummaryView}
+                    // eslint-disable-next-line no-return-assign
+                    refSummary={SummaryRef}
                 />
+            </div>
+            <div className="col-sm-9 hidden-mobile center">
+                <Button
+                    customRootStyle={{ marginBottom: 80 }}
+                    onClick={handleClick}
+                    fullWidth
+                    loading={loading}
+                    disabled={disabled}
+                >
+                    {t('checkout:placeOrder')}
+                </Button>
             </div>
         </div>
     );
