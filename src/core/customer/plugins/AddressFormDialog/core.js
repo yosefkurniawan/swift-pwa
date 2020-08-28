@@ -158,25 +158,7 @@ const AddressFormDialog = (props) => {
         },
     });
 
-    const [getCities] = getCityByRegionId({
-        onCompleted: (data) => {
-            const state = { ...addressState };
-
-            if (data.getCityByRegionId.item.length !== 0) {
-                state.dropdown.city = data.getCityByRegionId.item.map((item) => ({ ...item, id: item.id, label: item.city }));
-                formik.setFieldValue('city', getCityByLabel(city, state.dropdown.city));
-            } else {
-                state.dropdown.city = null;
-                formik.setFieldValue('city', null);
-                if (isFromUseEffect) {
-                    formik.setFieldValue('city', city);
-                    setFromUseEffect(false);
-                }
-            }
-
-            setAddressState(state);
-        },
-    });
+    const [getCities, responCities] = getCityByRegionId({});
 
     useEffect(() => {
         const state = { ...addressState };
@@ -224,6 +206,26 @@ const AddressFormDialog = (props) => {
             });
         }
     }, [open]);
+
+    useEffect(() => {
+        if (responCities.data && !responCities.loading && !responCities.error) {
+            const state = { ...addressState };
+            const { data } = responCities;
+            if (data.getCityByRegionId.item.length !== 0) {
+                state.dropdown.city = data.getCityByRegionId.item.map((item) => ({ ...item, id: item.id, label: item.city }));
+                formik.setFieldValue('city', getCityByLabel(city, state.dropdown.city));
+            } else {
+                state.dropdown.city = null;
+                formik.setFieldValue('city', null);
+                if (isFromUseEffect) {
+                    formik.setFieldValue('city', city);
+                    setFromUseEffect(false);
+                }
+            }
+
+            setAddressState(state);
+        }
+    }, [responCities]);
 
     return (
         <Content
