@@ -45,33 +45,41 @@ const GiftCard = (props) => {
                     {t('customer:giftCard:notFound')}
                 </Alert>
             )}
-            <List>
-                {data
-                    && data.customer.gift_card.map((item, index) => (
-                        <ListItem key={index} onClick={() => handleOpenDetail(item.giftcard_code)}>
-                            <ListItemText primary={item.giftcard_code} />
-                            <ListItemSecondaryAction>
-                                <Typography variant="span" type="bold">
-                                    {formatPrice(item.giftcard_balance, storeConfig.base_currency_code)}
-                                </Typography>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    ))}
-            </List>
-            <Divider />
-            <div className={styles.searchBox}>
-                <TextField
-                    label={t('customer:giftCard:inputSearch')}
-                    value={search.value}
-                    onChange={handleTextSearch}
-                    error={!((search.error === '' || search.error === null))}
-                    errorMessage={search.error || ''}
-                />
-                <Button onClick={handleSearch}>
-                    <Typography letter="capitalize" color="white">
-                        {t('customer:giftCard:buttonSearch')}
-                    </Typography>
-                </Button>
+            <div className="row">
+                <div className="col-md-6 col-xs-12">
+                    <List>
+                        {data
+                            && data.customer.gift_card.map((item, index) => (
+                                <ListItem key={index} onClick={() => handleOpenDetail(item.giftcard_code)}>
+                                    <ListItemText primary={item.giftcard_code} />
+                                    <ListItemSecondaryAction>
+                                        <Typography variant="span" type="bold">
+                                            {formatPrice(item.giftcard_balance, storeConfig.base_currency_code)}
+                                        </Typography>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            ))}
+                    </List>
+                    <Divider />
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-md-6 col-xs-12">
+                    <div className={styles.searchBox}>
+                        <TextField
+                            label={t('customer:giftCard:inputSearch')}
+                            value={search.value}
+                            onChange={handleTextSearch}
+                            error={!((search.error === '' || search.error === null))}
+                            errorMessage={search.error || ''}
+                        />
+                        <Button onClick={handleSearch}>
+                            <Typography letter="capitalize" color="white">
+                                {t('customer:giftCard:buttonSearch')}
+                            </Typography>
+                        </Button>
+                    </div>
+                </div>
             </div>
         </div>
     );
