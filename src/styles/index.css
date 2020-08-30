@@ -34,6 +34,7 @@ main {
     display: block;
     left: 0;
     margin: 0 auto;
+    overflow: hidden;
 }
 
 .clear-margin-padding {
