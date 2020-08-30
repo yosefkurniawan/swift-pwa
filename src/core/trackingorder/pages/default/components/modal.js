@@ -14,7 +14,7 @@ const ModalResult = (props) => {
 
     return (
         <>
-            <Dialog fullScreen open={open} onClose={() => handleOpenDialog(false)} TransitionComponent={Transition}>
+            <Dialog fullWidth maxWidth="lg" open={open} onClose={() => handleOpenDialog(false)} TransitionComponent={Transition}>
                 <DialogTitle>
                     <Header
                         LeftComponent={{
