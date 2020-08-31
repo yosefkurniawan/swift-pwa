@@ -6,10 +6,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TablePagination from '@material-ui/core/TablePagination';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@common_typography';
 import Link from 'next/link';
 import formatDate from '@helpers/date';
@@ -25,36 +21,26 @@ const DefaultView = (props) => {
     return (
         <Layout {...props}>
             <div className={styles.container}>
-                <List>
-                    <ListItem>
-                        <ListItemText primary={<Typography variant="p">{t('rewardpoint:balanceTitle')}</Typography>} />
-                        <ListItemSecondaryAction>
+                <Typography variant="p">
+                    {t('rewardpoint:balanceTitle')}
+                    {' '}
+                    <Typography variant="span" type="bold">{data.balance || 0}</Typography>
+                </Typography>
+                <Typography variant="p">
+                    {t('rewardpoint:canbeTitle')}
+                    {' '}
+                    <Typography variant="span" type="bold">{data.formatedBalanceCurrency || ''}</Typography>
+                </Typography>
+                <Typography variant="p">
+                    {t('rewardpoint:learnMore').split('$')[0]}
+                    <Link href="/[...slug]" as="/aw-reward-points">
+                        <a>
                             <Typography variant="span" type="bold">
-                                {data.balance || 0}
+                                {t('rewardpoint:learnMore').split('$')[1]}
                             </Typography>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText primary={<Typography variant="p">{t('rewardpoint:canbeTitle')}</Typography>} />
-                        <ListItemSecondaryAction>
-                            <Typography variant="span" type="bold">
-                                {data.formatedBalanceCurrency || ''}
-                            </Typography>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText primary={<Typography variant="p">{t('rewardpoint:learnMore').split('$')[0]}</Typography>} />
-                        <ListItemSecondaryAction>
-                            <Link href="/[...slug]" as="/aw-reward-points">
-                                <a>
-                                    <Typography variant="span" type="bold">
-                                        {t('rewardpoint:learnMore').split('$')[1]}
-                                    </Typography>
-                                </a>
-                            </Link>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                </List>
+                        </a>
+                    </Link>
+                </Typography>
                 <div className={styles.tableOuterContainer}>
                     <TableContainer component={Paper} className={styles.tableContainer}>
                         <Table className={styles.table} aria-label="a dense table">
