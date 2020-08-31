@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: PRIMARY,
             color: WHITE,
         },
+        [theme.breakpoints.down('sm')]: {
+            display: 'none',
+        },
     },
     leftArrow: {
         left: 20,
