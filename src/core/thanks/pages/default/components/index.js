@@ -1,6 +1,7 @@
 import Button from '@common_button';
 import Typography from '@common_typography';
 import Link from 'next/link';
+import classNames from 'classnames';
 import useStyles from './style';
 
 const View = (props) => {
@@ -34,7 +35,14 @@ const View = (props) => {
                     </a>
                 </Link>
             ) : null}
-            <div className={styles.footer}>
+            <div className={classNames('hidden-mobile', styles.desktopFooter)}>
+                <Button className={styles.btnContinue} color="primary" onClick={handleCotinue}>
+                    <Typography variant="title" type="regular" letter="capitalize" className={styles.textBtn}>
+                        {t('thanks:continue')}
+                    </Typography>
+                </Button>
+            </div>
+            <div className={classNames('hidden-desktop', styles.footer)}>
                 <Button className={styles.btnContinue} color="primary" onClick={handleCotinue}>
                     <Typography variant="title" type="regular" letter="capitalize" className={styles.textBtn}>
                         {t('thanks:continue')}

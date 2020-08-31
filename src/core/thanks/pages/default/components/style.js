@@ -2,7 +2,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
     Centering, CreatePadding, CenterAbsolute, FlexColumn, CreateMargin,
 } from '@theme/mixins';
-import { WHITE } from '@theme/colors';
+import { WHITE, PRIMARY } from '@theme/colors';
 
 export default makeStyles((theme) => ({
     container: {
@@ -35,11 +35,14 @@ export default makeStyles((theme) => ({
         bottom: 0,
         left: 0,
         opacity: 'none',
-        ...CenterAbsolute,
         color: WHITE,
         borderRadius: 100,
+        background: PRIMARY,
     },
     textBtn: {
         color: `${WHITE} !important`,
+    },
+    desktopFooter: {
+        marginTop: 30,
     },
 }));
