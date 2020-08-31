@@ -3,7 +3,6 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable import/named */
 import React, { useState } from 'react';
-import _ from 'lodash';
 import { createCustomerAddress, updateCustomerAddress, updatedDefaultAddress as gqlUpdateDefaulAddress } from '../../../../services/graphql';
 
 const ModalAddressCustomer = (props) => {
@@ -47,6 +46,7 @@ const ModalAddressCustomer = (props) => {
     // handle change selected address
     const handleChange = async (event) => {
         if (selectedAddressId !== event.target.value) {
+            setOpen(false);
             const addressId = parseInt(event.target.value);
             setSelectedAddressId(addressId);
             let detail = {};
@@ -66,15 +66,11 @@ const ModalAddressCustomer = (props) => {
             const { cart } = checkout.data;
 
             await setAddress(detail, cart);
-            setOpen(false);
         }
     };
 
     // handle add address
     const handleAddress = async (data) => {
-        let state = { ...checkout };
-        state.loading.addresses = true;
-        setCheckout(state);
         setLoadingAddress(true);
         if (!success) {
             if (typeAddress === 'update') {
@@ -94,16 +90,11 @@ const ModalAddressCustomer = (props) => {
 
         setLoadingAddress(false);
 
-        _.delay(() => {
-            if (openNew && !open) {
-                setOpenNew(false);
-                setOpen(true);
-            }
-            state = { ...checkout };
-            state.loading.addresses = false;
-            setCheckout(state);
+        if (openNew && !open) {
+            setOpenNew(false);
+            setOpen(false);
             manageCustomer.refetch();
-        }, 750);
+        }
     };
     return (
         <Content
