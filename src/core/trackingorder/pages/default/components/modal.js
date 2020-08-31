@@ -1,4 +1,5 @@
 import Header from '@common_headermobile';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -12,9 +13,18 @@ const ModalResult = (props) => {
         open, handleOpenDialog, t,
     } = props;
 
+    const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('md'));
+
     return (
         <>
-            <Dialog fullWidth maxWidth="md" open={open} onClose={() => handleOpenDialog(false)} TransitionComponent={Transition}>
+            <Dialog
+                maxWidth="sm"
+                fullWidth={!!isDesktop}
+                fullScreen={!isDesktop}
+                open={open}
+                onClose={() => handleOpenDialog(false)}
+                TransitionComponent={Transition}
+            >
                 <DialogTitle>
                     <Header
                         LeftComponent={{
