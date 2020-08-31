@@ -11,7 +11,7 @@ const CLOSE_ADDRESS_DIALOG = 750;
 const AddressView = (props) => {
     const styles = useStyles();
     const {
-        data, checkout, setAddress, setCheckout, t, dialogProps, loading, address, content, manageCustomer,
+        data, checkout, setAddress, setCheckout, t, dialogProps, loading, address, content, manageCustomer, ...other
     } = props;
 
     const [openAddress, setOpenAddress] = React.useState(false);
@@ -19,13 +19,14 @@ const AddressView = (props) => {
     return (
         <div className={styles.block}>
             <ModalAddress
-                open={checkout.status.openAddressDialog ? false : openAddress}
+                open={openAddress}
                 setOpen={(status) => setOpenAddress(status)}
                 t={t}
                 checkout={checkout}
                 setAddress={setAddress}
                 setCheckout={setCheckout}
                 manageCustomer={manageCustomer}
+                {...other}
             />
             <div className={styles.addressContainer}>
                 <div className={styles.addressText}>
@@ -52,7 +53,6 @@ const AddressView = (props) => {
                                 setCheckout(state);
                                 state.status.addresses = false;
                                 setCheckout(state);
-                                setOpenAddress(true);
                             }, CLOSE_ADDRESS_DIALOG);
                         }}
                         loading={checkout.loading.addresses}
@@ -67,7 +67,6 @@ const AddressView = (props) => {
                                     openAddressDialog: false,
                                 },
                             });
-                            setOpenAddress(true);
                         }}
                         pageTitle={t('checkout:address:addTitle')}
                     />

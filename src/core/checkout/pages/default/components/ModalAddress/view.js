@@ -11,13 +11,13 @@ import useStyles from './style';
 
 const AddressView = (props) => {
     const {
-        t, open, setOpen, pageTitle, loading, success,
+        t, open, setOpen, loading, success,
         address, handleAddress, selectedAddressId, loadingAddress,
         handleChange, handleOpenNew, openNew, typeAddress, dataEdit,
     } = props;
     const styles = useStyles();
     const headerConfig = {
-        headerTitle: pageTitle || t('customer:address:addTitle'),
+        headerTitle: t('customer:address:pageTitle'),
         header: 'relative',
         headerBackIcon: 'close',
     };

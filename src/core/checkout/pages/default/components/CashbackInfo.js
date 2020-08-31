@@ -6,7 +6,7 @@ const CashbackInfo = ({
     message, price, currency = 'IDR', promo_name,
 }) => (
     <div className="m-15">
-        <Alert Saverity="success">
+        <Alert saverity="success">
             { message[0] }
             <Typography type="bold">
                 {formatPrice(price,
