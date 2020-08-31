@@ -4,6 +4,7 @@ import Alert from '@material-ui/lab/Alert';
 import { GraphCategory } from '@services/graphql';
 import React from 'react';
 import Router from 'next/router';
+import getPath from '@helpers/getPath';
 import CategorySkeleton from './CategorySkeleton';
 import SubVesMenu from './SubVesMenu';
 import VesMenu from './VesMenu';
@@ -58,18 +59,8 @@ const CategoryWrapper = () => {
     }
 
     const handleClickMenu = (cat) => {
-        const getLocation = (href) => {
-            const l = document.createElement('a');
-            l.href = href;
-            return l;
-        };
-        if (cat.link && cat.link !== '') {
-            let link = getLocation(cat.link).pathname;
-            if (link.includes('.html')) {
-                link = link.split('.html');
-                // eslint-disable-next-line prefer-destructuring
-                link = link[0];
-            }
+        const link = getPath(cat.link);
+        if (link) {
             Router.push(
                 '/[...slug]',
                 link,
