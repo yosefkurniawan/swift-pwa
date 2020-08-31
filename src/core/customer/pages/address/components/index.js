@@ -33,7 +33,6 @@ const Content = (props) => {
         handleOpenNew, handleAddress, loadingAddress,
         success, openNew, t,
     } = props;
-
     return (
         <Layout {...props}>
             <div className={styles.container}>
