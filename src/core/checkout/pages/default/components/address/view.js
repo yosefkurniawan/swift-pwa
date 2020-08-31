@@ -11,7 +11,7 @@ const CLOSE_ADDRESS_DIALOG = 750;
 const AddressView = (props) => {
     const styles = useStyles();
     const {
-        data, checkout, setAddress, setCheckout, t, dialogProps, loading, address, content,
+        data, checkout, setAddress, setCheckout, t, dialogProps, loading, address, content, manageCustomer,
     } = props;
 
     const [openAddress, setOpenAddress] = React.useState(false);
@@ -23,16 +23,9 @@ const AddressView = (props) => {
                 setOpen={(status) => setOpenAddress(status)}
                 t={t}
                 checkout={checkout}
-                openNew={checkout.status.openAddressDialog}
                 setAddress={setAddress}
                 setCheckout={setCheckout}
-                setOpenNew={(status) => setCheckout({
-                    ...checkout,
-                    status: {
-                        ...checkout.status,
-                        openAddressDialog: status,
-                    },
-                })}
+                manageCustomer={manageCustomer}
             />
             <div className={styles.addressContainer}>
                 <div className={styles.addressText}>

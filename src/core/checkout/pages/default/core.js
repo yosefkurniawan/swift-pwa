@@ -29,7 +29,7 @@ const Checkout = (props) => {
         pageType: 'checkout',
     };
 
-    const url = snap_is_production === "1" ? modules.checkout.snapUrl.prod : modules.checkout.snapUrl.dev;
+    const url = snap_is_production === '1' ? modules.checkout.snapUrl.prod : modules.checkout.snapUrl.dev;
 
     const [checkout, setCheckout] = useState({
         order_id: '',
@@ -299,6 +299,7 @@ const Checkout = (props) => {
         chasbackMessage,
         updateFormik,
         setCheckout,
+        manageCustomer,
     };
 
     return (

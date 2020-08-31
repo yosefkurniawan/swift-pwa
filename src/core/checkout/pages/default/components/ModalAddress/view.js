@@ -5,6 +5,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Skeleton from '@material-ui/lab/Skeleton';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Add from '@material-ui/icons/Add';
+import AddressFormDialog from '@core/customer/plugins/AddressFormDialog';
 import ItemAddress from './Item';
 import useStyles from './style';
 
@@ -12,7 +13,7 @@ const AddressView = (props) => {
     const {
         t, open, setOpen, pageTitle, loading, success,
         address, handleAddress, selectedAddressId, loadingAddress,
-        handleChange, handleOpenNew,
+        handleChange, handleOpenNew, openNew, typeAddress, dataEdit,
     } = props;
     const styles = useStyles();
     const headerConfig = {
@@ -33,7 +34,6 @@ const AddressView = (props) => {
         } else {
             content = address.map((item) => (
                 <ItemAddress
-                    handleAddress={handleAddress}
                     checked={item.id === selectedAddressId}
                     key={item.id}
                     addressId={item.id}
@@ -51,7 +51,8 @@ const AddressView = (props) => {
                     defaultShipping={item.default_shipping}
                     loadingAddress={loadingAddress}
                     success={success}
-                    {...props}
+                    t={t}
+                    handleOpenNew={handleOpenNew}
                 />
             ));
         }
@@ -60,32 +61,44 @@ const AddressView = (props) => {
     };
 
     return (
-        <Dialog open={open} className={[styles.address_drawer].join(' ')} maxWidth="sm" fullWidth={!!isDesktop} fullScreen={!isDesktop}>
-            <div className={styles.container}>
-                <Header
-                    pageConfig={headerConfig}
-                    LeftComponent={{
-                        onClick: () => {
-                            setOpen(false);
-                        },
-                    }}
-                    className={styles.pageTitle}
-                />
-                <div className={[styles.address_form].join(' ')}>
-                    <div>
-                        <RadioGroup row aria-label="position" onChange={handleChange} name="position" value={selectedAddressId}>
-                            {getItemAddress()}
-                        </RadioGroup>
-                        <div className={[styles.address_action].join(' ')}>
-                            <Button variant="outlined" size="small" onClick={() => handleOpenNew()}>
-                                <span style={{ marginRight: '15px' }}>{t('customer:address:addTitle')}</span>
-                                <Add />
-                            </Button>
+        <>
+            <AddressFormDialog
+                {...props}
+                open={openNew}
+                onSubmitAddress={handleAddress}
+                loading={loadingAddress}
+                success={success}
+                setOpen={() => handleOpenNew(typeAddress)}
+                pageTitle={typeAddress === 'new' ? t('customer:address:addTitle') : t('customer:address:editTitle')}
+                {...dataEdit}
+            />
+            <Dialog open={open} className={[styles.address_drawer].join(' ')} maxWidth="sm" fullWidth={!!isDesktop} fullScreen={!isDesktop}>
+                <div className={styles.container}>
+                    <Header
+                        pageConfig={headerConfig}
+                        LeftComponent={{
+                            onClick: () => {
+                                setOpen(false);
+                            },
+                        }}
+                        className={styles.pageTitle}
+                    />
+                    <div className={[styles.address_form].join(' ')}>
+                        <div>
+                            <RadioGroup row aria-label="position" onChange={handleChange} name="position" value={selectedAddressId}>
+                                {getItemAddress()}
+                            </RadioGroup>
+                            <div className={[styles.address_action].join(' ')}>
+                                <Button variant="outlined" size="small" onClick={() => handleOpenNew('new')}>
+                                    <span style={{ marginRight: '15px' }}>{t('customer:address:addTitle')}</span>
+                                    <Add />
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </Dialog>
+            </Dialog>
+        </>
     );
 };
 

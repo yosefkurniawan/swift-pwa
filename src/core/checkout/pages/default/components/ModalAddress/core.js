@@ -4,13 +4,11 @@
 /* eslint-disable import/named */
 import React, { useState } from 'react';
 import _ from 'lodash';
-import {
-    createCustomerAddress, updateCustomerAddress, updatedDefaultAddress as gqlUpdateDefaulAddress,
-} from '../../../../services/graphql';
+import { createCustomerAddress, updateCustomerAddress, updatedDefaultAddress as gqlUpdateDefaulAddress } from '../../../../services/graphql';
 
 const ModalAddressCustomer = (props) => {
     const {
-        Content, checkout, setOpen, openNew, setCheckout, setOpenNew, setAddress, ...other
+        Content, checkout, setOpen, setCheckout, setAddress, open, manageCustomer, ...other
     } = props;
     // graphql
     const { customer } = checkout.data;
@@ -22,6 +20,9 @@ const ModalAddressCustomer = (props) => {
     const [selectedAddressId, setSelectedAddressId] = useState(null);
     const [loadingAddress, setLoadingAddress] = useState(false);
     const [success] = useState(false);
+    const [openNew, setOpenNew] = useState(false);
+    const [typeAddress, setTypeAddress] = useState('new');
+    const [dataEdit, setDataEdit] = useState({});
 
     React.useEffect(() => {
         if (customer) {
@@ -32,8 +33,15 @@ const ModalAddressCustomer = (props) => {
     }, [customer]);
 
     // handle open modal add adress button
-    const handleOpenNew = () => {
-        setOpenNew(true);
+    const handleOpenNew = (type = 'new', editData = {}) => {
+        setOpen(!open);
+        setOpenNew(!openNew);
+        setTypeAddress(type);
+        if (type === 'update') {
+            setDataEdit(editData);
+        } else {
+            setDataEdit({});
+        }
     };
 
     // handle change selected address
@@ -63,27 +71,17 @@ const ModalAddressCustomer = (props) => {
     };
 
     // handle add address
-    const handleAddress = async (data, type) => {
+    const handleAddress = async (data) => {
         let state = { ...checkout };
         state.loading.addresses = true;
         setCheckout(state);
         setLoadingAddress(true);
         if (!success) {
-            if (type === 'update') {
+            if (typeAddress === 'update') {
                 await updateAddress({
                     variables: {
                         ...data,
                     },
-                }).then((res) => {
-                    const newAddresses = customer.addresses.map((item) => {
-                        if (item.id === res.data.updateCustomerAddress.id) {
-                            return res.data.updateCustomerAddress;
-                        }
-                        return item;
-                    });
-                    state = { ...checkout };
-                    state.data.customer.addresses = newAddresses;
-                    setCheckout(state);
                 });
             } else {
                 await addAddress({
@@ -97,12 +95,14 @@ const ModalAddressCustomer = (props) => {
         setLoadingAddress(false);
 
         _.delay(() => {
-            if (openNew) {
+            if (openNew && !open) {
                 setOpenNew(false);
+                setOpen(true);
             }
             state = { ...checkout };
             state.loading.addresses = false;
             setCheckout(state);
+            manageCustomer.refetch();
         }, 750);
     };
     return (
@@ -117,6 +117,10 @@ const ModalAddressCustomer = (props) => {
             success={success}
             openNew={openNew}
             setOpen={setOpen}
+            open={open}
+            typeAddress={typeAddress}
+            dataEdit={dataEdit}
+            setDataEdit={setDataEdit}
             {...other}
         />
     );

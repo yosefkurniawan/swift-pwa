@@ -1,7 +1,6 @@
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import Typography from '@common_typography';
-import AddressFormDialog from '@core/customer/plugins/AddressFormDialog';
 import React, { useState } from 'react';
 import useStyles from './style';
 
@@ -17,10 +16,10 @@ const ItemAddress = (props) => {
         telephone = '',
         value = '',
         checked = false,
-        handleAddress,
         loadingAddress,
         success,
         t,
+        handleOpenNew,
         // eslint-disable-next-line no-unused-vars
     } = props;
     const [open, setOpen] = useState(false);
@@ -32,15 +31,6 @@ const ItemAddress = (props) => {
     const styles = useStyles();
     return (
         <>
-            <AddressFormDialog
-                {...props}
-                open={open}
-                onSubmitAddress={handleAddress}
-                loading={loadingAddress}
-                success={success}
-                setOpen={() => setOpen(!open)}
-                pageTitle={t('customer:address:editTitle')}
-            />
             <div className={styles.addressColumn}>
                 <div className={[styles.address_content].join(' ')}>
                     <FormControlLabel
@@ -70,7 +60,7 @@ const ItemAddress = (props) => {
                         )}
                         labelPlacement="end"
                     />
-                    <Typography className={[styles.address_edit].join(' ')} variant="span" onClick={() => setOpen(!open)}>
+                    <Typography className={[styles.address_edit].join(' ')} variant="span" onClick={() => handleOpenNew('update', props)}>
                         {t('customer:address:editTitle')}
                     </Typography>
                 </div>

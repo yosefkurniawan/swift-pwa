@@ -39,6 +39,7 @@ const Content = (props) => {
         StoreCreditView,
         modules,
         HeaderView,
+        manageCustomer,
     } = props;
 
     const SummaryRef = React.createRef();
@@ -95,6 +96,7 @@ const Content = (props) => {
                                 defaultAddress={checkout.data.defaultAddress}
                                 updateFormik={updateFormik}
                                 AddressView={AddressView}
+                                manageCustomer={manageCustomer}
                             />
                         ) : (
                             <PickupInfo
