@@ -64,7 +64,7 @@ const Customer = (props) => {
     ];
 
     return (
-        <Layout {...props}>
+        <Layout {...props} title={t('customer:menu:myAccount')}>
             <CustomerView
                 t={t}
                 modules={modules}
