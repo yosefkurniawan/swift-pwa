@@ -2,7 +2,6 @@ import Layout from '@layout';
 import { debuging } from '@config';
 import PropTypes from 'prop-types';
 import { getOrder } from '../../services/graphql';
-import * as Schema from '../../services/graphql/schema';
 
 const HistoryOrder = (props) => {
     const {
@@ -14,17 +13,37 @@ const HistoryOrder = (props) => {
         headerTitle: t('order:title'),
         bottomNav: false,
     };
-    const [page, setPage] = React.useState(1);
-    const [pageSize] = React.useState(size || 10);
+    const [page, setPage] = React.useState(0);
+    const [pageSize, setPageSize] = React.useState(size || 10);
     const [loadMore, setLoadMore] = React.useState(false);
+
+    const handleChangePage = (event, newPage) => {
+        if (newPage > page) {
+            setLoadMore(true);
+        }
+        setPage(newPage);
+    };
+
+    const handleChangePageSize = (event) => {
+        setLoadMore(true);
+        setPageSize(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
     const {
-        loading, data, error, fetchMore,
+        loading, data, error,
     } = getOrder({
         pageSize,
-        currentPage: 1,
+        currentPage: page + 1,
     });
 
-    if (loading || !data) return <Layout pageConfig={pageConfig} {...props}><Skeleton /></Layout>;
+    React.useEffect(() => {
+        if (!loading && data && data.customerOrders.items && data.customerOrders.items.length) {
+            setLoadMore(false);
+        }
+    }, [loading, data]);
+
+    if ((loading && !loadMore) || (!data && !loadMore)) return <Layout pageConfig={pageConfig} {...props}><Skeleton /></Layout>;
 
     if (error) {
         return (
@@ -36,60 +55,18 @@ const HistoryOrder = (props) => {
             </Layout>
         );
     }
-    if (data && data.customerOrders.items && data.customerOrders.items.length <= 0) {
-        return (
-            <Layout pageConfig={pageConfig} {...props}>
-                <ErrorView
-                    type="error"
-                    message={t('order:notFound')}
-                />
-            </Layout>
-        );
-    }
-
-    const handleLoadMore = () => {
-        setPage(page + 1);
-        setLoadMore(true);
-        fetchMore({
-            query: Schema.getOrder,
-            context: {
-                request: 'internal',
-            },
-            skip: typeof window === 'undefined',
-            fetchPolicy: 'cache-and-network',
-            variables: {
-                currentPage: page + 1,
-                pageSize,
-            },
-            updateQuery: (previousResult, { fetchMoreResult }) => {
-                setLoadMore(false);
-                const prevItems = previousResult.customerOrders;
-                const newItems = fetchMoreResult.customerOrders;
-                return {
-                    customerOrders: {
-                        current_page: prevItems.current_page,
-                        page_size: prevItems.page_size,
-                        total_count: prevItems.total_count,
-                        total_pages: prevItems.total_pages,
-                        // eslint-disable-next-line no-underscore-dangle
-                        __typename: prevItems.__typename,
-                        items: [...prevItems.items, ...newItems.items],
-                    },
-                };
-            },
-        });
-    };
 
     return (
         <Layout pageConfig={pageConfig} {...props}>
             <Content
                 {...props}
                 loadMore={loadMore}
-                handleLoadMore={handleLoadMore}
                 data={data.customerOrders}
                 page={page}
                 pageSize={pageSize}
                 loading={loading}
+                handleChangePage={handleChangePage}
+                handleChangePageSize={handleChangePageSize}
             />
         </Layout>
     );

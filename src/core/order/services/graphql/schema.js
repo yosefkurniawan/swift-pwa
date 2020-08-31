@@ -45,6 +45,7 @@ const orderOutput = `
             }
             shipping_address {
                 firstname
+                lastname
                 email
                 street
                 city

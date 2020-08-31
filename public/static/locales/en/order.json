@@ -41,5 +41,7 @@
     "orderStatus": "Order Status",
     "status": "Status",
     "orderTotal": "Order Total",
-    "orderNotFound": "Sorry, order number is not valid"
+    "orderNotFound": "Sorry, order number is not valid",
+    "smReturn": "Return",
+    "view": "View Order"
 }

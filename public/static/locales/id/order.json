@@ -42,5 +42,7 @@
     "orderStatus": "Status Pesanan",
     "status": "Status",
     "orderTotal": "Total Pesanan",
-    "orderNotFound": "Maaf, nomor pesanan tidak ditemukan"
+    "orderNotFound": "Maaf, nomor pesanan tidak ditemukan",
+    "smReturn": "Kembalikan",
+    "view": "Lihat Pesanan"
 }
