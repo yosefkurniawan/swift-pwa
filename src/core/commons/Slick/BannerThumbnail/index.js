@@ -91,6 +91,7 @@ const Banner = ({
                     {data.map((item, key) => (
                         <ImageSlide
                             height={height}
+                            customClass={styles.customClass}
                             width={width}
                             noLink={noLink}
                             key={key}
