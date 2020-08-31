@@ -1,7 +1,9 @@
+import React from 'react';
 import AddressFormDialog from '@core/customer/plugins/AddressFormDialog';
 import Button from '@common_button';
 import Typography from '@common_typography';
 import _ from 'lodash';
+import ModalAddress from '../ModalAddress';
 import useStyles from '../style';
 
 const CLOSE_ADDRESS_DIALOG = 750;
@@ -9,10 +11,22 @@ const CLOSE_ADDRESS_DIALOG = 750;
 const AddressView = (props) => {
     const styles = useStyles();
     const {
-        data, checkout, setAddress, setCheckout, t, dialogProps, loading, address, content,
+        data, checkout, setAddress, setCheckout, t, dialogProps, loading, address, content, manageCustomer,
     } = props;
+
+    const [openAddress, setOpenAddress] = React.useState(false);
+
     return (
         <div className={styles.block}>
+            <ModalAddress
+                open={checkout.status.openAddressDialog ? false : openAddress}
+                setOpen={(status) => setOpenAddress(status)}
+                t={t}
+                checkout={checkout}
+                setAddress={setAddress}
+                setCheckout={setCheckout}
+                manageCustomer={manageCustomer}
+            />
             <div className={styles.addressContainer}>
                 <div className={styles.addressText}>
                     <Typography variant="title" type="bold" letter="uppercase">
@@ -38,25 +52,29 @@ const AddressView = (props) => {
                                 setCheckout(state);
                                 state.status.addresses = false;
                                 setCheckout(state);
+                                setOpenAddress(true);
                             }, CLOSE_ADDRESS_DIALOG);
                         }}
                         loading={checkout.loading.addresses}
                         success={checkout.status.addresses}
                         open={checkout.status.openAddressDialog}
                         disableDefaultAddress
-                        setOpen={() => setCheckout({
-                            ...checkout,
-                            status: {
-                                ...checkout.status,
-                                openAddressDialog: false,
-                            },
-                        })}
+                        setOpen={() => {
+                            setCheckout({
+                                ...checkout,
+                                status: {
+                                    ...checkout.status,
+                                    openAddressDialog: false,
+                                },
+                            });
+                            setOpenAddress(true);
+                        }}
                         pageTitle={t('checkout:address:addTitle')}
                     />
                     {loading.addresses || loading.all ? null : (
                         <Button
                             variant="outlined"
-                            href={data.isGuest ? null : '/customer/account/address'}
+                            // href={data.isGuest ? null : '/customer/account/address'}
                             onClick={
                                 data.isGuest
                                     ? () => {
@@ -68,7 +86,7 @@ const AddressView = (props) => {
                                             },
                                         });
                                     }
-                                    : null
+                                    : () => setOpenAddress(true)
                             }
                         >
                             <Typography variant="p" type="bold" letter="uppercase">
