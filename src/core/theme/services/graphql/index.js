@@ -3,6 +3,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import schema from './schema';
 
 export const getCategories = () => useQuery(schema.categories);
+export const getVesMenu = (options) => useQuery(schema.vesMenu, options);
 
 export const getCustomer = () => useQuery(schema.getCustomer, {
     context: {
@@ -24,4 +25,5 @@ export default {
     getCategories,
     getCustomer,
     removeToken,
+    getVesMenu,
 };
