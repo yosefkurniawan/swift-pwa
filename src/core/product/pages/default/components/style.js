@@ -84,6 +84,11 @@ const useStyles = makeStyles((theme) => ({
         '& .price_text': {
             fontSize: 30,
         },
+        [theme.breakpoints.down('sm')]: {
+            '& .price_text': {
+                fontSize: 18,
+            },
+        },
     },
 
     shareContainer: {
