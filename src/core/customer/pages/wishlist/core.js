@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { getCartId, setCartId } from '@helpers/cartId';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import Router from 'next/router';
 import Layout from '@layout';
 import { getCartIdUser } from '../../services/graphql/schema';

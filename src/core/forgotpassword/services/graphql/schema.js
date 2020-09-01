@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import { gql } from '@apollo/client';
 
 export const requestLinkToken = gql`
     mutation requestLinkToken($email: String!, $phoneNumber: String!, $otp: String!) {

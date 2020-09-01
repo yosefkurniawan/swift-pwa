@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useApolloClient } from '@apollo/client';
 import { setCartId, removeCartId } from '@helpers/cartId';
 import { setCheckoutData } from '@helpers/cookies';
 import _ from 'lodash';
-import { formatPrice } from '@helpers/currency';
 import { localTotalCart } from '@services/graphql/schema/local';
 import SummaryPlugin from '@core/cart/plugin/Summary';
 import gqlService from '../../../../services/graphql';

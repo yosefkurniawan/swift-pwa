@@ -1,4 +1,4 @@
-import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
+import { useMutation, useLazyQuery, useQuery } from '@apollo/client';
 import * as Schema from './schema';
 
 export const getToken = () => useMutation(Schema.getCustomerToken, {

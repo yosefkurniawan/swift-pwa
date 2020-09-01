@@ -1,10 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { ApolloClient } from '@apollo/client';
-import { HttpLink } from 'apollo-link-http';
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import { RetryLink } from 'apollo-link-retry';
 import fetch from 'isomorphic-unfetch';
 import { graphqlEndpoint, HOST } from '@root/swift.config.js';
-import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
+import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { removeCartId } from '@helpers/cartId';
 import { removeIsLoginFlagging } from '@helpers/auth';

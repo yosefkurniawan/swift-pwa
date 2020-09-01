@@ -2,7 +2,7 @@
 import Layout from '@layout';
 import { setLogin, getLastPathWithoutLogin } from '@helpers/auth';
 import { setCartId, getCartId } from '@helpers/cartId';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { expiredToken, custDataNameCookie } from '@config';
 import Router from 'next/router';
 import Cookies from 'js-cookie';

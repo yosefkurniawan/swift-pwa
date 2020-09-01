@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import * as Schema from './schema';
 
 const NOT_USING_INTERNAL = false;

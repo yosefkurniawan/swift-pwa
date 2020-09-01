@@ -1,5 +1,5 @@
 import Layout from '@layout';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { languagesLabel } from '@config';
 import * as Schema from '../../services/graphql/schema';
 import { getCustomerSettings } from '../../services/graphql';

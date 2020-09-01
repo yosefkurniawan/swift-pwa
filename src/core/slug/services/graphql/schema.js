@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 
-import { gql } from 'apollo-boost';
+import { gql } from '@apollo/client';
 
 /**
  * scema dynamic resolver url

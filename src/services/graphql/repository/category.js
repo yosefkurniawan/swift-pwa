@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import * as CategorySchema from '../schema/category';
 
 export const getCategories = () => useQuery(CategorySchema.categories);

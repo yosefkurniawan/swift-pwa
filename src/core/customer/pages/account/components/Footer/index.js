@@ -1,6 +1,6 @@
 import { removeIsLoginFlagging } from '@helpers/auth';
 import { removeCartId } from '@helpers/cartId';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useApolloClient } from '@apollo/client';
 import Router from 'next/router';
 import { localTotalCart } from '@services/graphql/schema/local';
 import Cookies from 'js-cookie';

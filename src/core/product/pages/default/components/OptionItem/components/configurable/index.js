@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useApolloClient } from '@apollo/client';
 import ProductByVariant, { getCombinationVariants, CheckAvailableOptions } from '@helpers/productByVariant';
 import { getLoginInfo } from '@helpers/auth';
 import { getCartId, setCartId } from '@helpers/cartId';

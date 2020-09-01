@@ -3,7 +3,7 @@
 /* eslint-disable-next-line jsx-a11y/click-events-have-key-events */
 import { getCartId, setCartId } from '@helpers/cartId';
 import { getLoginInfo } from '@helpers/auth';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { localTotalCart } from '@services/graphql/schema/local';
 import Router from 'next/router';
 import propTypes from 'prop-types';
