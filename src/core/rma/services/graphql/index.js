@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/client';
 import * as Schema from './schema';
 
 export const getFormDataRma = (params) => useQuery(Schema.getFormDataRma, {

@@ -1,12 +1,34 @@
-import React from "react";
-import App from "next/app";
-import Head from "next/head";
-import { ApolloProvider } from "@apollo/react-hooks";
-import createApolloClient from "./apolloClient";
+/* eslint-disable no-console */
+import React from 'react';
+import App from 'next/app';
+import Head from 'next/head';
+import { ApolloProvider } from '@apollo/client';
+import createApolloClient from './apolloClient';
 
 // On the client, we store the Apollo Client in the following variable.
 // This prevents the client from reinitializing between page transitions.
 let globalApolloClient = null;
+
+/**
+ * Always creates a new apollo client on the server
+ * Creates or reuses apollo client in the browser.
+ * @param  {NormalizedCacheObject} initialState
+ * @param  {NextPageContext} ctx
+ */
+const initApolloClient = (initialState, ctx) => {
+    // Make sure to create a new client for every server-side request so that data
+    // isn't shared between connections (which would be bad)
+    if (typeof window === 'undefined') {
+        return createApolloClient(initialState, ctx);
+    }
+
+    // Reuse client on the client-side
+    if (!globalApolloClient) {
+        globalApolloClient = createApolloClient(initialState, ctx);
+    }
+
+    return globalApolloClient;
+};
 
 /**
  * Installs the Apollo Client on NextPageContext
@@ -19,19 +41,18 @@ export const initOnContext = (ctx) => {
 
     // We consider installing `withApollo({ ssr: true })` on global App level
     // as antipattern since it disables project wide Automatic Static Optimization.
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === 'development') {
         if (inAppContext) {
             console.warn(
-                "Warning: You have opted-out of Automatic Static Optimization due to `withApollo` in `pages/_app`.\n" +
-                    "Read more: https://err.sh/next.js/opt-out-auto-static-optimization\n"
+                'Warning: You have opted-out of Automatic Static Optimization due to `withApollo` in `pages/_app`.\n'
+                    + 'Read more: https://err.sh/next.js/opt-out-auto-static-optimization\n',
             );
         }
     }
 
     // Initialize ApolloClient if not already done
-    const apolloClient =
-        ctx.apolloClient ||
-        initApolloClient(ctx.apolloState || {}, inAppContext ? ctx.ctx : ctx);
+    const apolloClient = ctx.apolloClient
+        || initApolloClient(ctx.apolloState || {}, inAppContext ? ctx.ctx : ctx);
 
     // We send the Apollo Client as a prop to the component to avoid calling initApollo() twice in the server.
     // Otherwise, the component would have to call initApollo() again but this
@@ -48,27 +69,6 @@ export const initOnContext = (ctx) => {
     }
 
     return ctx;
-};
-
-/**
- * Always creates a new apollo client on the server
- * Creates or reuses apollo client in the browser.
- * @param  {NormalizedCacheObject} initialState
- * @param  {NextPageContext} ctx
- */
-const initApolloClient = (initialState, ctx) => {
-    // Make sure to create a new client for every server-side request so that data
-    // isn't shared between connections (which would be bad)
-    if (typeof window === "undefined") {
-        return createApolloClient(initialState, ctx);
-    }
-
-    // Reuse client on the client-side
-    if (!globalApolloClient) {
-        globalApolloClient = createApolloClient(initialState, ctx);
-    }
-
-    return globalApolloClient;
 };
 
 /**
@@ -98,9 +98,8 @@ export const withApollo = ({ ssr = false } = {}) => (PageComponent) => {
     };
 
     // Set the correct displayName in development
-    if (process.env.NODE_ENV !== "production") {
-        const displayName =
-            PageComponent.displayName || PageComponent.name || "Component";
+    if (process.env.NODE_ENV !== 'production') {
+        const displayName = PageComponent.displayName || PageComponent.name || 'Component';
         WithApollo.displayName = `withApollo(${displayName})`;
     }
 
@@ -118,7 +117,7 @@ export const withApollo = ({ ssr = false } = {}) => (PageComponent) => {
             }
 
             // Only on the server:
-            if (typeof window === "undefined") {
+            if (typeof window === 'undefined') {
                 const { AppTree } = ctx;
                 // When redirecting, the response is finished.
                 // No point in continuing to render
@@ -132,7 +131,7 @@ export const withApollo = ({ ssr = false } = {}) => (PageComponent) => {
                         // Import `@apollo/react-ssr` dynamically.
                         // We don't want to have this in our client bundle.
                         const { getDataFromTree } = await import(
-                            "@apollo/react-ssr"
+                            '@apollo/client/react/ssr'
                         );
 
                         // Since AppComponents and PageComponents have different context types
@@ -157,8 +156,8 @@ export const withApollo = ({ ssr = false } = {}) => (PageComponent) => {
                         // Handle them in components via the data.error prop:
                         // https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-query-data-error
                         console.error(
-                            "Error while running `getDataFromTree`",
-                            error
+                            'Error while running `getDataFromTree`',
+                            error,
                         );
                     }
 

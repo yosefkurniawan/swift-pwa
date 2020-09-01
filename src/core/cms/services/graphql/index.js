@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import * as Schema from './schema';
 
 export const getCmsPage = (variables) => useQuery(Schema.getCmsPage, { variables });

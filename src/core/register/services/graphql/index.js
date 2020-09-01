@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
 import * as Schema from './schema';
 
 export const register = () => useMutation(Schema.register, {

@@ -1,6 +1,6 @@
 import { getCartId, setCartId } from '@helpers/cartId';
 import { getLoginInfo } from '@helpers/auth';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useApolloClient } from '@apollo/client';
 import { localTotalCart } from '@services/graphql/schema/local';
 // import Router from 'next/router';
 import React from 'react';

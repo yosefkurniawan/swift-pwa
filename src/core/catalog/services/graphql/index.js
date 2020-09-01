@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/client';
 import * as schemaCategory from './categorySchema';
 import * as productSchema from './productSchema';
 

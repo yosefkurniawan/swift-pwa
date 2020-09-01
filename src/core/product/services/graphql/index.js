@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import * as Schema from './schema';
 
 export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath));

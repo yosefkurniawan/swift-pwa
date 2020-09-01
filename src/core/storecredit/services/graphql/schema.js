@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { gql } from 'apollo-boost';
+import { gql } from '@apollo/client';
 
 export const getStoreCredit = gql`
    query getStoreCredit($pageSizeStoreCredit: Int! , $currentPageStoreCredit: Int) {
