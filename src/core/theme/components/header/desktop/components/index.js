@@ -31,12 +31,12 @@ const ViewTopNavigation = (props) => {
                             </Link>
                         </div>
                     </div>
-                    <div className="col-xs-6">
+                    <div className="col-xs-7">
                         <div className="header-small__menu">
                             {loading ? null : <Menu data={data} storeConfig={storeConfig} />}
                         </div>
                     </div>
-                    <div className="col-xs-4">
+                    <div className="col-xs-3">
                         <div className="box">
                             <div className="header-middle__bag">
                                 <ShoppingBagIcon withLink />

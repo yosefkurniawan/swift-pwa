@@ -34,7 +34,6 @@ main {
     display: block;
     left: 0;
     margin: 0 auto;
-    overflow: hidden;
 }
 
 .clear-margin-padding {
@@ -110,7 +109,6 @@ a {
 } */
 
 .cat-label {
-    position: absolute;
     background-color: #000000;
     color: #ffffff;
     padding: 5px;
