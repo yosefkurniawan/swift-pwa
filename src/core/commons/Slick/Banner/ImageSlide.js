@@ -16,7 +16,7 @@ import Thumbor from './Thumbor';
 
 const ImageSlide = ({
     imageUrl = '', link = '#', isSlug = true, width, height, mobileImageUrl = '', noLink,
-    contentWidth,
+    contentWidth, customClass = '',
 }) => {
     const styles = useStyles();
     const href = link && link[0] === '/' ? link : `/${link}`;
@@ -33,7 +33,8 @@ const ImageSlide = ({
                 width={width || defaultWidth}
                 height={height || defaultHeight}
                 quality={100}
-                className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
+                className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider, customClass)
+                    : classNames(styles.imageSlider, customClass)}
             />
         );
     }
@@ -49,8 +50,10 @@ const ImageSlide = ({
                     width={width || defaultWidth}
                     height={height || defaultHeight}
                     quality={100}
-                    className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
+                    className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider)
+                        : styles.imageSlider}
                     contentWidth={contentWidth}
+                    customClass={customClass}
                 />
             </a>
         </Link>

@@ -91,6 +91,9 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: PRIMARY,
             color: WHITE,
         },
+        [theme.breakpoints.down('sm')]: {
+            display: 'none',
+        },
     },
     leftArrow: {
         left: 20,
@@ -116,6 +119,12 @@ const useStyles = makeStyles((theme) => ({
     thumbnailImg: {
         width: '100px !important',
         height: '100px !important',
+    },
+    customClass: {
+        width: '99%',
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+        },
     },
 }));
 
