@@ -44,5 +44,8 @@
     "orderTotal": "Total Pesanan",
     "orderNotFound": "Maaf, nomor pesanan tidak ditemukan",
     "smReturn": "Kembalikan",
-    "view": "Lihat Pesanan"
+    "view": "Lihat Pesanan",
+    "billingAddress": "Alamat Penagihan",
+    "orderInfo": "Informasi Pemesanan",
+    "orderItem": "Semua Item Pemesanan"
 }
