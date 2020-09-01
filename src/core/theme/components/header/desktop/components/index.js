@@ -31,15 +31,16 @@ const ViewTopNavigation = (props) => {
                             </Link>
                         </div>
                     </div>
-                    <div className="col-xs-7">
+                    <div className="col-xs-5">
                         <div className="header-small__menu">
                             {loading ? null : <Menu data={data} storeConfig={storeConfig} />}
                         </div>
                     </div>
-                    <div className="col-xs-3">
+                    <div className="col-xs-5">
                         <div className="box">
-                            <div className="header-middle__bag">
-                                <ShoppingBagIcon withLink />
+                            <div className="header-middle__icons">
+                                <div className="notification"><ShoppingBagIcon withLink /></div>
+                                <div className="shopping-bag"><ShoppingBagIcon withLink /></div>
                             </div>
                             <div className="header-middle__search">
                                 <TextField
@@ -98,8 +99,14 @@ const ViewTopNavigation = (props) => {
                     .header-middle__logo-link {
                         cursor: pointer;
                     }
-                    .header-middle__bag {
+                    .header-middle__icons {
                         float: right;
+                        padding-left: 4px;
+                    }
+                    .header-middle__icons > div {
+                        margin-right: -20px;
+                        margin-left: -11px;
+                        display: inline-block;
                     }
                     .search-icon {
                         position: absolute;
