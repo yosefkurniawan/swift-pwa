@@ -1,5 +1,5 @@
 const getPath = (href = '') => {
-    if (href && href !== '') {
+    if (href && href !== '' && typeof window !== 'undefined') {
         const link = document.createElement('a');
         link.href = href;
         let path = link.pathname;
@@ -10,7 +10,7 @@ const getPath = (href = '') => {
         }
         return path;
     }
-    return false;
+    return '';
 };
 
 export default getPath;

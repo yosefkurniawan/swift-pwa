@@ -1,8 +1,10 @@
+/* eslint-disable react/no-danger */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Link from 'next/link';
 import { WHITE, PRIMARY } from '@theme/colors';
 import Thumbor from '@common_image';
+import getPath from '@helpers/getPath';
 import {
     features,
 } from '@config';
@@ -14,7 +16,7 @@ const generateLevel2 = (data) => {
         <>
             <div className="nav-column nav-column-left col-lg-2">
                 {data.map((val, idx) => (
-                    <Link href="/[...slug]" as={`/${val.url_path}`} key={idx}>
+                    <Link href="/[...slug]" as={val.link ? '/' : `/${val.url_path}`} key={idx}>
                         <a className={active === idx ? 'active' : ''} onMouseEnter={() => setActive(idx)}>{val.name}</a>
                     </Link>
                 ))}
@@ -23,13 +25,13 @@ const generateLevel2 = (data) => {
                 <div className={`${child.image_path ? 'col-lg-9' : 'col-lg-12'} row`}>
                     {child.children.map((lvl3, id3) => (
                         <div className="col-lg-3" key={id3}>
-                            <Link href="/[...slug]" as={`/${lvl3.url_path}`}>
+                            <Link href="/[...slug]" as={lvl3.link ? '/' : `/${lvl3.url_path}`}>
                                 <a>{lvl3.name}</a>
                             </Link>
                             <ul className="list-item__menu">
                                 {lvl3.children.map((lvl4, id4) => (
                                     <li key={id4}>
-                                        <Link href="/[...slug]" as={`/${lvl4.url_path}`}>
+                                        <Link href="/[...slug]" as={lvl4.link ? getPath(lvl4.link) : `/${lvl4.url_path}`}>
                                             <a>{lvl4.name}</a>
                                         </Link>
                                     </li>
@@ -76,7 +78,6 @@ const generateLevel2 = (data) => {
 const Menu = (props) => {
     const { data } = props;
     const menu = features.vesMenu.enabled ? data.vesMenu.items : data.categoryList[0].children;
-    console.log(menu);
     return (
         <div className="menu-wrapper" role="navigation">
             <ul className="nav" role="menubar">
@@ -84,8 +85,8 @@ const Menu = (props) => {
                     if (val.include_in_menu || features.vesMenu.enabled) {
                         return (
                             <li key={idx} role="menuitem">
-                                <Link href="/[...slug]" as={`/${val.link ? val.link : val.url_path}`}>
-                                    <a>{val.name}</a>
+                                <Link href="/[...slug]" as={val.link ? '/' : `/${val.url_path}`}>
+                                    <a dangerouslySetInnerHTML={{ __html: val.name }} />
                                 </Link>
                                 {val.children.length > 0 ? (
                                     <div className="mega-menu row" aria-hidden="true" role="menu">
@@ -142,9 +143,9 @@ const Menu = (props) => {
                         font-weight: bold;
                         line-height: 3.5;
                         padding: 0 1.25em;
-                        position: relative;
                         transition: all 0.3s ease;
                         z-index: 510;
+                        position: relative;
                     }
                     .nav > li > a:focus,
                     .nav > li:hover > a {
@@ -241,6 +242,17 @@ const Menu = (props) => {
                         line-height: 1.15;
                         margin: 1.25em 0 0.75em;
                         text-transform: uppercase;
+                    }
+                    .cat-label-v2 {
+                        top: -6px;
+                        position: absolute;
+                        background: red;
+                        z-index: 99;
+                        left: 10px;
+                        height: 20px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
                     }
                 `}
             </style>
