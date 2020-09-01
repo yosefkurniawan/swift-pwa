@@ -120,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
         width: '100px !important',
         height: '100px !important',
     },
-    customClasst: {
+    customClass: {
         width: '99%',
         [theme.breakpoints.down('sm')]: {
             width: '100%',
