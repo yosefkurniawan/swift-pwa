@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { setCartId, removeCartId } from '@helpers/cartId';
 import { setCheckoutData } from '@helpers/cookies';
@@ -15,6 +15,7 @@ const Summary = ({
     formik,
     updateFormik,
     config,
+    refSummary,
 }) => {
     const { order: loading, all: disabled } = checkout.loading;
     const client = useApolloClient();
@@ -225,6 +226,15 @@ const Summary = ({
     }
     // End - Process Snap Pop Up Close (Waitinge Response From Reorder)
 
+    useEffect(() => {
+        if (typeof refSummary !== 'undefined') {
+            // eslint-disable-next-line no-param-reassign
+            refSummary.current = {
+                handlePlaceOrder,
+            };
+        }
+    }, [refSummary]);
+
     if (checkout && checkout.data && checkout.data.cart) {
         return (
             <>
@@ -247,6 +257,7 @@ const Summary = ({
                         disabled={disabled}
                         isDesktop
                         showItems
+                        hideButton
                     />
                 </div>
             </>

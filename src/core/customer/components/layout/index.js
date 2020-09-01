@@ -1,7 +1,9 @@
+/* eslint-disable no-plusplus */
 import { modules } from '@config';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
+import Typography from '@common_typography';
 import useStyles from './style';
 
 const Layout = (props) => {
@@ -11,6 +13,7 @@ const Layout = (props) => {
     const pushIf = (condition, ...elements) => (condition ? elements : []);
     const styles = useStyles();
     const router = useRouter();
+    let title = '';
 
     const menu = [
         { href: '/customer/account', title: t('customer:menu:myAccount') },
@@ -39,7 +42,12 @@ const Layout = (props) => {
             title: t('customer:menu:return'),
         }),
     ];
-
+    for (let index = 0; index < menu.length; index++) {
+        const item = menu[index];
+        if (item.href === router.asPath) {
+            title = item.title;
+        }
+    }
     return (
         <div className="row">
             <div className="col-lg-2 col-xs-12 hidden-mobile">
@@ -60,7 +68,12 @@ const Layout = (props) => {
                     </ul>
                 </div>
             </div>
-            <div className="col-lg-10 col-xs-12 col-sm-12">{children}</div>
+            <div className="col-lg-10 col-xs-12 col-sm-12">
+                <Typography variant="h4" type="bold" letter="capitalize">
+                    {title}
+                </Typography>
+                {children}
+            </div>
         </div>
     );
 };

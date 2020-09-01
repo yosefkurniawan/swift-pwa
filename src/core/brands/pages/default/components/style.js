@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
             paddingRight: 20,
         },
     },
+    wrapperBrands: {
+        marginBottom: '40px',
+    },
 }));
 
 export default useStyles;

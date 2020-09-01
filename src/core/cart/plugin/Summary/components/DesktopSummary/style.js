@@ -13,7 +13,9 @@ const useStyles = makeStyles(() => ({
         height: 'auto',
         padding: 20,
         ...FlexColumn,
-        position: 'relative',
+        position: 'sticky',
+        top: 100,
+        marginBottom: 40,
     },
     list: {
         ...CreateBorder('1px', 0, 0, 0, GRAY_PRIMARY),

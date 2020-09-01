@@ -24,8 +24,19 @@
     "pageTitle" : "Daftar alamat",
     "addTitle" : "Tambah alamat baru",
     "editTitle" : "Ubah alamat",
+    "defaultBilling": "Alamat Pembayaran Default ",
+    "defaultShiping": "Alamat Pengiriman Default",
     "useBilling" : "gunakan sebagai alamat default pembayaran",
-    "useShipping" : "gunakan sebagai alamat default pengiriman"
+    "useShipping" : "gunakan sebagai alamat default pengiriman",
+    "firstname" : "Nama Depan",
+    "lastname" : "Nama Belakang",
+    "street" : "Alamat Lengkap",
+    "city" : "Kota/Kecamatan",
+    "country" : "Negara",
+    "state" : "Provinsi",
+    "postcode" : "Kode Pos",
+    "phone" : "Telepon",
+    "emptyMessage" : "Kamu belum menambahkan alamat"
   },
   "menu": {
     "aboutUs": "Tentang Kami",
@@ -41,7 +52,9 @@
     "blog": "Artikel",
     "return": "Retur Saya",
     "confirmPayment": "Konfirmasi Pembayaran",
-    "accountInformation": "Informasi Akun"
+    "accountInformation": "Informasi Akun",
+    "notification": "Notifikasi",
+    "viewall" : "Lihat Semua"
   },
   "giftCard": {
     "notFound": "Anda tidak memiliki gift card",
@@ -69,5 +82,16 @@
     "successAddCart": "Produk berhasil ditambahkan ke keranjang",
     "failedAddCart": "Produk gagal ditambahkan ke keranjang",
     "addWithoutLogin": "Silahkan masuk untuk menambahkan produk ini ke wishlist"
-  }
+  },
+  "order": {
+    "recentOrder" : "Order Terbaru",
+    "order" : "Order",
+    "date": "Tanggal",
+    "shippedTo": "Pengiriman",
+    "orderTotal": "Total Order",
+    "status": "Status",
+    "action": "Aksi"
+  },
+  "notHaveNotification" : "Anda belum mempunyai notifikasi",
+  "notHaveOrder" : "Riwayat transaksi kosong"
 }

@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#eee',
         width: '100%',
         position: 'relative',
-        paddingTop: '116%',
+        paddingTop: '60.104167%',
         [theme.breakpoints.up('sm')]: {
             height: 'auto',
             paddingTop: 0,
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     },
     thumborImage: {
         width: '100%',
-        height: '100%',
+        height: 'auto',
         position: 'absolute',
         top: '0',
         left: '0',
@@ -90,6 +90,9 @@ const useStyles = makeStyles((theme) => ({
         '&:hover': {
             backgroundColor: PRIMARY,
             color: WHITE,
+        },
+        [theme.breakpoints.down('sm')]: {
+            display: 'none',
         },
     },
     leftArrow: {

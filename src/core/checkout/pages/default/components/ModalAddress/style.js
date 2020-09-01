@@ -1,79 +1,17 @@
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import { GRAY_PRIMARY, GREEN, PRIMARY } from '@theme/colors';
-import {
-    CreateMargin, CreatePadding, FlexColumn, FlexRow,
-} from '@theme/mixins';
+import { CreateMargin, CreatePadding } from '@theme/mixins';
 
 const useStyles = makeStyles((theme) => ({
-    displayFlexRow: {
-        ...FlexRow,
-    },
     container: {
-        // [theme.breakpoints.up('sm')]: {
-        //     maxWidht: 900,
-        // },
-        ...FlexColumn,
-        width: '100%',
-        height: '100%',
-        fontSize: '12px',
-        padding: 15,
-        marginBottom: '40px',
-    },
-    tableOuterContainer: {
-        paddingTop: 10,
-    },
-    tableContainer: {
-        boxShadow: 'none',
-    },
-    table: {
-        borderTop: '1px solid rgba(224, 224, 224, 1)',
-        width: '100%',
-    },
-    tableRowHead: {
-        [theme.breakpoints.down('sm')]: {
-            display: 'none !important',
+        [theme.breakpoints.up('sm')]: {
+            maxWidth: 960,
         },
-    },
-    tableRowResponsive: {
-        [theme.breakpoints.down('sm')]: {
-            display: 'grid !important',
-            borderBottom: '1px solid rgba(224, 224, 224, 1)',
-            padding: 10,
-        },
-    },
-    tableCellResponsive: {
-        [theme.breakpoints.down('sm')]: {
-            border: 'none',
-            padding: '8px 0',
-        },
-    },
-    mobLabel: {
-        [theme.breakpoints.up('md')]: {
-            display: 'none',
-        },
-        width: '40%',
-        minWidth: '130px',
-        maxWidth: '200px',
-        position: 'relative',
-        paddingRight: 20,
-        '&::after': {
-            content: "':'",
-            display: 'block',
-            position: 'absolute',
-            right: '8px',
-            top: 0,
-        },
-    },
-    value: {
-        [theme.breakpoints.down('sm')]: {
-            width: '60%',
-        },
+        width: ' 100%',
+        alignSelf: 'center',
     },
     colorPrimary: {
         color: PRIMARY,
-    },
-    wrapper_address: {
-        margin: '40px 0',
     },
     appBar: {
         backgroundColor: 'white',
@@ -87,13 +25,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'white',
     },
     pageTitle: {
-        fontWeight: 700,
-        textAlign: 'center',
-        color: PRIMARY,
-        textTransform: 'uppercase',
-        position: 'absolute',
-        left: '50px',
-        right: '50px',
+        marginBottom: 0,
     },
     address_shipping: {
         ...CreatePadding(15, 15, 15, 15),
@@ -110,11 +42,6 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: '700',
         marginBottom: '5px',
     },
-    addressColumn: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-    },
     address_content: {
         fontSize: '12px',
         borderBottom: `1px solid ${GRAY_PRIMARY}`,
@@ -125,17 +52,12 @@ const useStyles = makeStyles((theme) => ({
     },
     address_edit: {
         cursor: 'pointer',
+        marginLeft: '57.99px',
         textDecoration: 'underline',
         fontSize: '12px',
-        margin: '0',
     },
     address_action: {
-        marginTop: '20px',
-        textAlign: 'left',
-    },
-    btn_action: {
-        borderRadius: '0',
-        padding: '10px',
+        padding: '15px',
     },
     address_add: {
         backgroundColor: 'white',
@@ -150,12 +72,15 @@ const useStyles = makeStyles((theme) => ({
         textTransform: 'uppercase',
     },
     address_drawer: {
-        backgroundColor: 'white',
         left: 0,
         width: '100%',
     },
     address_form: {
         padding: '15px',
+        overflowY: 'auto',
+        [theme.breakpoints.up('sm')]: {
+            height: '80vh',
+        },
     },
     form_input: {
         marginBottom: '25px',
@@ -173,6 +98,7 @@ const useStyles = makeStyles((theme) => ({
     wrapper: {
         margin: theme.spacing(1),
         position: 'relative',
+        textAlign: 'center',
     },
     buttonProgress: {
         color: PRIMARY,

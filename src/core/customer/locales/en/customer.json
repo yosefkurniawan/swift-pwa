@@ -24,8 +24,19 @@
     "pageTitle" : "Address Book",
     "addTitle" : "Add new address",
     "editTitle" : "Edit address",
+    "defaultBilling": "Default Billing Address",
+    "defaultShiping": "Default Shiping Address",
     "useBilling" : "use as my default billing address",
-    "useShipping" : "use as my default shipping address"
+    "useShipping" : "use as my default shipping address",
+    "firstname" : "First Name",
+    "lastname" : "Last Name",
+    "street" : "Street Addres",
+    "city" : "City",
+    "country" : "Country",
+    "state" : "State",
+    "postcode" : "Zip/Postal Code",
+    "phone" : "Phone",
+    "emptyMessage" : "You haven't added an address"
   },
   "menu": {
     "aboutUs": "About Us",
@@ -41,7 +52,9 @@
     "blog": "Blog",
     "return": "My Returns",
     "confirmPayment": "Confirm Payment",
-    "accountInformation": "Account Information"
+    "accountInformation": "Account Information",
+    "notification": "Notifications",
+    "viewall" : "View All"
   },
   "giftCard": {
     "notFound": "You don't have gift card item",
@@ -69,5 +82,16 @@
     "successAddCart": "Item has been added into your bag",
     "failedAddCart": "Failed on adding item into your bag",
     "addWithoutLogin": "Please login to add this item to your wishlist"
-  }
+  },
+  "order": {
+    "recentOrder" : "Recent Order",
+    "order" : "Order",
+    "date": "Date",
+    "shippedTo": "Shipped To",
+    "orderTotal": "Order Total",
+    "status": "Status",
+    "action": "Action"
+  },
+  "notHaveNotification" : "you don't have notification yet",
+  "notHaveOrder" : "Empty order history"
 }

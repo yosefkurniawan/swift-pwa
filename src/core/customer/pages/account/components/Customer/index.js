@@ -12,6 +12,7 @@ const Customer = (props) => {
     let wishlist = [];
     const { data, loading, error } = gqlService.getCustomer();
     const { data: customerNotificationList } = gqlService.customerNotificationList();
+    const { data: customerOrders } = gqlService.getCustomerOrder();
     const totalUnread = customerNotificationList
         && customerNotificationList.customerNotificationList
         && customerNotificationList.customerNotificationList.totalUnread;
@@ -29,6 +30,13 @@ const Customer = (props) => {
                 showWishlistAction: false,
             }));
         }
+    }
+
+    if (customerNotificationList && customerNotificationList.customerNotificationList) {
+        userData.notification = customerNotificationList.customerNotificationList;
+    }
+    if (customerOrders && customerOrders.customerOrders) {
+        userData.customerOrders = customerOrders.customerOrders;
     }
 
     const pushIf = (condition, ...elements) => (condition ? elements : []);

@@ -60,7 +60,7 @@ const DetailView = (props) => {
         );
     }
     return (
-        <Dialog open={open} onClose={close} fullScreen maxWidth="sm">
+        <Dialog open={open} onClose={close} fullWidth maxWidth="md">
             <DialogTitle>
                 <Header
                     LeftComponent={{

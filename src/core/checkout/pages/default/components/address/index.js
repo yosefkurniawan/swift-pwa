@@ -23,6 +23,7 @@ const Address = (props) => {
         defaultAddress,
         updateFormik,
         AddressView,
+        ...other
     } = props;
 
     const [setShippingAddressById] = gqlService.setShippingAddress();
@@ -268,6 +269,7 @@ const Address = (props) => {
             loading={loading}
             address={address}
             content={content}
+            {...other}
         />
     );
 };

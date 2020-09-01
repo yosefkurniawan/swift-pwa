@@ -10,11 +10,19 @@
 // Library
 import AddressFormDialog from '@core/customer/plugins/AddressFormDialog';
 import Button from '@common_button';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import Add from '@material-ui/icons/Add';
-import ItemAddress from './item';
+import Paper from '@material-ui/core/Paper';
+import TableContainer from '@material-ui/core/TableContainer';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Alert from '@material-ui/lab/Alert';
+import TableAddress from './table';
 import useStyles from './style';
-import Skeleton from './skeleton';
+import SkeletonLoader from './skeleton';
+import Layout from '../../../components/layout';
 
 // Main Render Page
 const Content = (props) => {
@@ -22,70 +30,86 @@ const Content = (props) => {
     const styles = useStyles();
     const {
         loading, address, selectedAddressId,
-        handleChange, handleOpenNew, handleAddress, loadingAddress,
+        handleOpenNew, handleAddress, loadingAddress,
         success, openNew, t,
     } = props;
-    const getItemAddress = () => {
-        let content;
-        if (loading) {
-            content = <Skeleton />;
-        } else if (!address) {
-            content = <Skeleton />;
-        } else if (address.length === 0) {
-            content = null;
-        } else {
-            content = address.map((item) => (
-                <ItemAddress
-                    handleAddress={handleAddress}
-                    checked={item.id == selectedAddressId}
-                    key={item.id}
-                    addressId={item.id}
-                    firstname={item.firstname}
-                    lastname={item.lastname}
-                    telephone={item.telephone}
-                    postcode={item.postcode}
-                    region={item.region.region}
-                    city={item.city}
-                    country={item.country_code}
-                    street={item.street.join(' ')}
-                    value={item.id}
-                    customAttributes={item.custom_attributes}
-                    defaultBilling={item.default_billing}
-                    defaultShipping={item.default_shipping}
-                    loadingAddress={loadingAddress}
-                    success={success}
-                    {...props}
-                />
-            ));
-        }
-
-        return content;
-    };
-
     return (
-        <>
-            <div>
-                <RadioGroup row aria-label="position" onChange={handleChange} name="position" value={selectedAddressId}>
-                    {getItemAddress()}
-                </RadioGroup>
+        <Layout {...props}>
+            <div className={styles.container}>
+                <div className={styles.tableOuterContainer}>
+                    <TableContainer component={Paper} className={styles.tableContainer}>
+                        <Table className={styles.table} size="small" aria-label="a dense table">
+                            <TableHead>
+                                <TableRow className={styles.tableRowHead}>
+                                    <TableCell align="left">{t('customer:address:firstname')}</TableCell>
+                                    <TableCell align="left">{t('customer:address:lastname')}</TableCell>
+                                    <TableCell align="left">{t('customer:address:street')}</TableCell>
+                                    <TableCell align="left">{t('customer:address:city')}</TableCell>
+                                    <TableCell align="left">{t('customer:address:country')}</TableCell>
+                                    <TableCell align="left">{t('customer:address:state')}</TableCell>
+                                    <TableCell align="left">{t('customer:address:postcode')}</TableCell>
+                                    <TableCell align="left">{t('customer:address:phone')}</TableCell>
+                                    <TableCell align="left"> </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {loading ? (
+                                    <SkeletonLoader />
+                                ) : address.length > 0 ? (
+                                    <>
+                                        {address.map((item) => (
+                                            <TableAddress
+                                                handleAddress={handleAddress}
+                                                checked={item.id == selectedAddressId}
+                                                key={item.id}
+                                                addressId={item.id}
+                                                firstname={item.firstname}
+                                                lastname={item.lastname}
+                                                telephone={item.telephone}
+                                                postcode={item.postcode}
+                                                region={item.region.region}
+                                                city={item.city}
+                                                country={item.country_code}
+                                                street={item.street.join(' ')}
+                                                value={item.id}
+                                                customAttributes={item.custom_attributes}
+                                                defaultBilling={item.default_billing}
+                                                defaultShipping={item.default_shipping}
+                                                loadingAddress={loadingAddress}
+                                                success={success}
+                                                {...props}
+                                            />
+                                        ))}
+                                    </>
+                                ) : (
+                                    <TableRow>
+                                        <TableCell colSpan={7}>
+                                            <Alert severity="warning">{t('customer:address:emptyMessage')}</Alert>
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
                 <div className={[styles.address_action].join(' ')}>
-                    <Button variant="outlined" size="small" onClick={() => handleOpenNew()}>
+                    <Button className={styles.btn_action} variant="outlined" size="small" onClick={() => handleOpenNew()}>
                         <span style={{ marginRight: '15px' }}>{t('customer:address:addTitle')}</span>
                         <Add />
                     </Button>
                 </div>
+                <AddressFormDialog
+                    {...props}
+                    onSubmitAddress={(data, type) => {
+                        handleAddress(data, type);
+                    }}
+                    loading={loadingAddress}
+                    success={success}
+                    open={openNew}
+                    setOpen={() => handleOpenNew(!openNew)}
+                />
             </div>
-            <AddressFormDialog
-                {...props}
-                onSubmitAddress={(data, type) => {
-                    handleAddress(data, type);
-                }}
-                loading={loadingAddress}
-                success={success}
-                open={openNew}
-                setOpen={() => handleOpenNew(!openNew)}
-            />
-        </>
+        </Layout>
     );
 };
 

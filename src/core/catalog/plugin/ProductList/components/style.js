@@ -45,6 +45,11 @@ const useStyles = makeStyles(() => ({
         border: 'none',
         color: '#B4B4B4',
     },
+    countProductTextDesktop: {
+        justifyContent: 'flex-start',
+        fontSize: 12,
+        marginTop: -25,
+    },
 }));
 
 export default useStyles;
