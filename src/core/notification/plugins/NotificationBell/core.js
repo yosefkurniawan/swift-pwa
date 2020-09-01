@@ -1,12 +1,20 @@
 import propTypes from 'prop-types';
+import { getLoginInfo } from '@helpers/auth';
 import { customerNotificationList } from '../../services/graphql';
 import Content from './components';
 
 const NotificationsBell = ({ withLink }) => {
-    const { data } = customerNotificationList();
-    const totalUnread = data
-        && data.customerNotificationList
-        && data.customerNotificationList.totalUnread;
+    let isLogin = 0;
+    let totalUnread = 0;
+    if (typeof window !== 'undefined') {
+        isLogin = getLoginInfo();
+        if (isLogin) {
+            const { data } = customerNotificationList();
+            totalUnread = data
+                && data.customerNotificationList
+                && data.customerNotificationList.totalUnread;
+        }
+    }
     return (
         <Content withLink={withLink} totalUnread={totalUnread} />
     );
