@@ -92,7 +92,7 @@ const ModalAddressCustomer = (props) => {
 
         if (openNew && !open) {
             setOpenNew(false);
-            setOpen(false);
+            setOpen(true);
             manageCustomer.refetch();
         }
     };
