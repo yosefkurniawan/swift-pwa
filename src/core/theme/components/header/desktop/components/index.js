@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
+import NotificationBell from '@core/notification/plugins/NotificationBell';
 import ShoppingBagIcon from '@core/cart/plugin/ShoppingBag';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
@@ -39,7 +40,7 @@ const ViewTopNavigation = (props) => {
                     <div className="col-xs-5">
                         <div className="box">
                             <div className="header-middle__icons">
-                                <div className="notification"><ShoppingBagIcon withLink /></div>
+                                <div className="notification"><NotificationBell withLink /></div>
                                 <div className="shopping-bag"><ShoppingBagIcon withLink /></div>
                             </div>
                             <div className="header-middle__search">
@@ -102,10 +103,11 @@ const ViewTopNavigation = (props) => {
                     .header-middle__icons {
                         float: right;
                         padding-left: 4px;
+                        padding-right: 16px;
                     }
                     .header-middle__icons > div {
-                        margin-right: -20px;
-                        margin-left: -11px;
+                        margin-right: -15px;
+                        margin-left: -10px;
                         display: inline-block;
                     }
                     .search-icon {
