@@ -54,6 +54,17 @@ const orderOutput = `
                 telephone
                 postcode
             }
+            billing_address {
+                firstname
+                lastname
+                email
+                street
+                city
+                region
+                country_id
+                telephone
+                postcode
+            }
             shipping_methods {
                 shipping_description
             }

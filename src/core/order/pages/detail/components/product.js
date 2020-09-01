@@ -18,13 +18,24 @@ const ItemProduct = ({
                 />
             </div>
             <div className={styles.detailItem}>
-                <Typography variant="label">{name || ''}</Typography>
-                <Typography variant="span">{formatPrice(price, currency)}</Typography>
+                <Typography variant="label" className="clear-margin-padding">{name || ''}</Typography>
+                <Typography variant="span" className={styles.textDetail}>
+                    {t('common:title:price')}
+                    {' '}
+                    :
+                    {formatPrice(price, currency)}
+                </Typography>
                 <Typography variant="span" className={styles.textDetail}>
                     {t('common:title:qty')}
                     {' '}
                     :
                     {qty_ordered || 0}
+                </Typography>
+                <Typography variant="span" className={styles.textDetail}>
+                    {t('common:subtotal')}
+                    {' '}
+                    :
+                    {formatPrice((price * qty_ordered), currency)}
                 </Typography>
                 <div className="flex-grow" />
             </div>

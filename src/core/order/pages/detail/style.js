@@ -8,11 +8,21 @@ import {
 } from '@theme/mixins';
 import { GRAY_PRIMARY } from '@theme/colors';
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     block: {
         ...CreateBorder(0, 0, '1px', 0, GRAY_PRIMARY),
         ...CreatePadding(30, 30, 30, 30),
         ...FlexColumn,
+    },
+    blockHeader: {
+        ...CreatePadding(30, 30, 0, 30),
+        ...FlexColumn,
+    },
+    headerTitle: {
+        fontSize: '2rem',
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '1.5rem',
+        },
     },
     detail: {
         paddingTop: 0,
@@ -22,6 +32,15 @@ export default makeStyles(() => ({
 
     labelDetail: {
         ...CreateMargin(30, 0, 0, 0),
+        [theme.breakpoints.down('xs')]: {
+            textAlign: 'center',
+        },
+    },
+    labelDetailSm: {
+        ...CreateMargin(10, 0, 0, 0),
+        [theme.breakpoints.down('xs')]: {
+            textAlign: 'center',
+        },
     },
 
     itemContainer: {
@@ -44,13 +63,19 @@ export default makeStyles(() => ({
         ...CreatePadding(0, 0, 0, 10),
     },
     textDetail: {
-        ...CreateMargin(0, 0, 0, 5),
+        ...CreateMargin(5, 0, 0, 0),
         padding: 0,
     },
 
     listSummary: {
         ...FlexRow,
         justifyContent: 'space-between',
+    },
+    blockLabel: {
+        fontSize: 25,
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '1rem',
+        },
     },
     footer: {
         ...FlexColumn,
