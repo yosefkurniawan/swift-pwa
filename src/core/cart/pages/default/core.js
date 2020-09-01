@@ -2,7 +2,7 @@
 /* eslint-disable no-plusplus */
 import { useState, useEffect } from 'react';
 import { getCartId } from '@helpers/cartId';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import TagManager from 'react-gtm-module';
 import Layout from '@layout';
 import { getCartData, addWishlist as mutationWishlist } from '../../services/graphql';

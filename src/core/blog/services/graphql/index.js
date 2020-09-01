@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import * as schema from './schema';
 
 export const getBlog = (params = {}) => useQuery(schema.getAllPost, {

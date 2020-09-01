@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import { gql } from '@apollo/client';
 
 export const getOrder = () => gql`
     query getOrder($email: String, $order_number: String) {

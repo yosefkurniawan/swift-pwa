@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/client';
 import schema from './schema';
 
 export const getCategories = () => useQuery(schema.categories);

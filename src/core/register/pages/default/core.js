@@ -4,7 +4,7 @@ import { setLogin } from '@helpers/auth';
 import { setCartId, getCartId } from '@helpers/cartId';
 import { expiredToken, custDataNameCookie, recaptcha } from '@config';
 import Cookies from 'js-cookie';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';

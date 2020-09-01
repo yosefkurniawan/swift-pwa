@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/client';
 import * as Schema from './schema';
 
 export const contactusFormSubmit = (options) => useMutation(Schema.contactusFormSubmit, { ...options });

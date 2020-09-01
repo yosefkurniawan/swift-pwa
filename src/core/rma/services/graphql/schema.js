@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import { gql } from '@apollo/client';
 
 export const getFormDataRma = gql`
     query getNewFormDataAwRma($email: String!, $order_number: String!) {

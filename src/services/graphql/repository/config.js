@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import * as Schema from '../schema/config';
 
 export const storeConfig = () => useQuery(Schema.storeConfig);
