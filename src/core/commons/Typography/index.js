@@ -81,7 +81,7 @@ CustomTypography.propTypes = {
     ]),
     type: PropTypes.oneOf(['bold', 'italic', 'semiBold', 'regular']),
     letter: PropTypes.oneOf(['uppercase', 'capitalize', 'lowercase', 'none']),
-    align: PropTypes.oneOf(['top', 'bottom', 'center', 'left']),
+    align: PropTypes.oneOf(['top', 'bottom', 'center', 'left', 'right']),
     decoration: PropTypes.oneOf(['underline', 'none']),
     color: PropTypes.oneOf(['red', 'green', 'orange', 'white', 'default', 'gray']),
     size: PropTypes.oneOf(['6', '8', '10', '12', '14', '16', '0']),

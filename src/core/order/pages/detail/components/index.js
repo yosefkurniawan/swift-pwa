@@ -11,6 +11,7 @@ import Layout from '@core/customer/components/layout';
 import useStyles from '../style';
 import ItemProduct from './product';
 import Footer from './footer';
+import Table from './TableListItem';
 
 const DetailOrder = (props) => {
     const { t, detail, currency } = props;
@@ -24,7 +25,6 @@ const DetailOrder = (props) => {
         items = [...itemsChild, ...simpleData];
     }
     if (detail.length > 0) {
-        console.log(detail);
         return (
             <Layout t={t} wishlist={[]}>
                 <div className="column">
@@ -191,13 +191,23 @@ const DetailOrder = (props) => {
                                     {t('order:orderItem')}
                                 </Typography>
                             </div>
-                            <div className="xs-12">
-                                {items.length > 0
-                                && items.map((item, key) => <ItemProduct t={t} key={key} {...item} currency={currency} />)}
+                            <div className="col-xs-12">
+                                <div className="hidden-desktop">
+                                    {items.length > 0
+                                    && items.map((item, key) => <ItemProduct t={t} key={key} {...item} currency={currency} />)}
+                                </div>
+                                <div className="hidden-mobile">
+                                    <Table
+                                        data={items}
+                                        t={t}
+                                        currency={currency}
+                                        detail={detail}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className={styles.block}>
+                    <div className={classNames('hidden-desktop', styles.block)}>
                         <div className="row end-md">
                             <div className="col-xs-12 col-sm-6 col-md-8 hidden-mobile" />
                             <div className="col-xs-12 col-sm-6 col-md-4">

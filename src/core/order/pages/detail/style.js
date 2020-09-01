@@ -1,16 +1,14 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
     CreatePadding,
-    CreateBorder,
     FlexColumn,
     FlexRow,
     CreateMargin,
 } from '@theme/mixins';
-import { GRAY_PRIMARY } from '@theme/colors';
 
 export default makeStyles((theme) => ({
     block: {
-        ...CreateBorder(0, 0, '1px', 0, GRAY_PRIMARY),
+        // ...CreateBorder(0, 0, '1px', 0, GRAY_PRIMARY),
         ...CreatePadding(30, 30, 30, 30),
         ...FlexColumn,
     },
