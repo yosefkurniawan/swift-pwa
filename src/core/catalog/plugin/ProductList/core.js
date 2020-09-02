@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helpers/generateQuery';
 import TagManager from 'react-gtm-module';
-import { storeConfigNameCokie } from '@config';
-import cookies from 'js-cookie';
 import { getProduct } from '../../services/graphql';
 import * as Schema from '../../services/graphql/productSchema';
 import getCategoryFromAgregations from '../../helpers/getCategory';
@@ -16,7 +14,7 @@ import Content from './components';
 const Product = (props) => {
     const {
         catId = 0, catalog_search_engine, customFilter, url_path, defaultSort, t,
-        categoryPath, ErrorMessage, ...other
+        categoryPath, ErrorMessage, storeConfig, ...other
     } = props;
     const router = useRouter();
     const [page, setPage] = React.useState(1);
@@ -88,11 +86,6 @@ const Product = (props) => {
         }
         return <ErrorMessage variant="warning" text={t('catalog:emptyProductSearchResult')} open />;
     };
-
-    let storeConfig = {};
-    if (typeof window !== 'undefined') {
-        storeConfig = cookies.getJSON(storeConfigNameCokie);
-    }
 
     const handleLoadMore = () => {
         setLoadmore(true);
@@ -179,6 +172,7 @@ const Product = (props) => {
         categoryPath,
         handleLoadMore,
         renderEmptyMessage,
+        storeConfig,
     };
 
     return (

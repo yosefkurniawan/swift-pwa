@@ -35,6 +35,7 @@ export const storeConfig = `
             weight_unit
             oauth_access_token_lifetime_customer
             payments_configuration
+            shipments_configuration
             snap_client_key
             snap_is_production
             aw_blog_general_enabled
