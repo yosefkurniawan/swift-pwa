@@ -99,6 +99,7 @@ const CategoryPage = ({
                 category={categoryTabs(categoryList.children)}
                 dataTabs={categoryTabs(categoryList.children)}
                 onChangeTabs={handleChange}
+                storeConfig={storeConfig}
                 {...other}
             />
         </div>

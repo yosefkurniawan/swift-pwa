@@ -2,9 +2,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import { useEffect } from 'react';
 import { formatPrice } from '@helpers/currency';
 import TagManager from 'react-gtm-module';
-import { storeConfigNameCokie } from '@config';
 import _ from 'lodash';
-import cookies from 'js-cookie';
 import gqlService from '../../../../services/graphql';
 
 const Loader = () => (
@@ -23,6 +21,7 @@ const Address = (props) => {
         defaultAddress,
         updateFormik,
         AddressView,
+        storeConfig,
         ...other
     } = props;
 
@@ -207,10 +206,10 @@ const Address = (props) => {
 
         return true;
     };
-    let storeConfig = {};
-    if (typeof window !== 'undefined') {
-        storeConfig = cookies.getJSON(storeConfigNameCokie);
-    }
+    // let storeConfig = {};
+    // if (typeof window !== 'undefined') {
+    //     storeConfig = cookies.getJSON(storeConfigNameCokie);
+    // }
     useEffect(() => {
         if (defaultAddress && !checkout.data.isGuest) {
             const { cart } = checkout.data;
@@ -269,6 +268,7 @@ const Address = (props) => {
             loading={loading}
             address={address}
             content={content}
+            storeConfig={storeConfig}
             {...other}
         />
     );

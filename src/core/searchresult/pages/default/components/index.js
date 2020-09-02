@@ -22,6 +22,7 @@ const SearchResult = (props) => {
                 showTabs
                 catalog_search_engine={storeConfig.catalog_search_engine}
                 t={t}
+                storeConfig={storeConfig}
             />
         </div>
     );

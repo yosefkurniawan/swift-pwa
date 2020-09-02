@@ -5,6 +5,7 @@ const useStyles = makeStyles({
     root: {
         margin: 0,
         marginBottom: 10,
+        width: '100%',
         ...FlexColumn,
     },
     column: {
