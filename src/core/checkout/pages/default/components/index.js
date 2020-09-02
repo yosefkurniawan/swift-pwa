@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@common_button';
+import useStyles from './style';
 import Delivery from './delivery';
 import Email from './email';
 import Summary from './summary';
@@ -42,6 +43,7 @@ const Content = (props) => {
         manageCustomer,
     } = props;
 
+    const styles = useStyles();
     const SummaryRef = React.createRef();
     const { order: loading, all: disabled } = checkout.loading;
     const handleClick = () => {
@@ -50,63 +52,46 @@ const Content = (props) => {
         }
     };
     return (
-        <div className="row">
+        <div className="row between-lg">
             <div className="col-xs-12 center hidden-mobile">
                 <HeaderView t={t} storeConfig={storeConfig} />
             </div>
-            <div className="col-xs-12 col-sm-8 col-md-9" style={containerStyle || {}}>
-                {
-                    checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
-                        <CashbackInfoView
-                            message={chasbackMessage}
-                            price={checkout.data.cart.applied_cashback.data[0].amount}
-                            currency={storeConfig.base_currency_code}
-                            promo_name={checkout.data.cart.applied_cashback.data[0].promo_name}
-                        />
-                    )
-                }
-                <>
-                    {
-                        storeConfig.pickup_store ? (
-                            <Delivery
-                                t={t}
-                                DeliveryView={DeliveryView}
-                                Skeleton={DeliverySkeleton}
-                                formik={formik}
-                                checkout={checkout}
-                                setCheckout={setCheckout}
-                                handleOpenMessage={handleOpenMessage}
-                                storeConfig={storeConfig}
-                            />
-                        ) : null
-                    }
-                    <Email
-                        t={t}
-                        formik={formik}
-                        EmailView={EmailView}
-                        checkout={checkout}
-                        config={config}
+            <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8" style={containerStyle || {}}>
+                {checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
+                    <CashbackInfoView
+                        message={chasbackMessage}
+                        price={checkout.data.cart.applied_cashback.data[0].amount}
+                        currency={storeConfig.base_currency_code}
+                        promo_name={checkout.data.cart.applied_cashback.data[0].promo_name}
                     />
-                    {
-                        checkout.selected.delivery === 'home' ? (
-                            <Address
-                                checkout={checkout}
-                                t={t}
-                                setCheckout={setCheckout}
-                                defaultAddress={checkout.data.defaultAddress}
-                                updateFormik={updateFormik}
-                                AddressView={AddressView}
-                                manageCustomer={manageCustomer}
-                            />
-                        ) : (
-                            <PickupInfo
-                                t={t}
-                                formik={formik}
-                                checkout={checkout}
-                                setCheckout={setCheckout}
-                            />
-                        )
-                    }
+                )}
+                <>
+                    {storeConfig.pickup_store ? (
+                        <Delivery
+                            t={t}
+                            DeliveryView={DeliveryView}
+                            Skeleton={DeliverySkeleton}
+                            formik={formik}
+                            checkout={checkout}
+                            setCheckout={setCheckout}
+                            handleOpenMessage={handleOpenMessage}
+                            storeConfig={storeConfig}
+                        />
+                    ) : null}
+                    <Email t={t} formik={formik} EmailView={EmailView} checkout={checkout} config={config} />
+                    {checkout.selected.delivery === 'home' ? (
+                        <Address
+                            checkout={checkout}
+                            t={t}
+                            setCheckout={setCheckout}
+                            defaultAddress={checkout.data.defaultAddress}
+                            updateFormik={updateFormik}
+                            AddressView={AddressView}
+                            manageCustomer={manageCustomer}
+                        />
+                    ) : (
+                        <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
+                    )}
                     <Shipping
                         t={t}
                         checkout={checkout}
@@ -136,7 +121,7 @@ const Content = (props) => {
                             storeConfig={storeConfig}
                             PromoView={PromoView}
                         />
-                    ) : null }
+                    ) : null}
                     {modules.giftcard.enabled ? (
                         <GiftCard
                             t={t}
@@ -147,7 +132,7 @@ const Content = (props) => {
                             storeConfig={storeConfig}
                             GiftCardView={GiftCardView}
                         />
-                    ) : null }
+                    ) : null}
                     <Grid container spacing={2}>
                         {modules.rewardpoint.enabled ? (
                             <Grid item xs={12} sm={12} md={6} xl={6}>
@@ -178,7 +163,7 @@ const Content = (props) => {
                     </Grid>
                 </>
             </div>
-            <div className="col-xs-12 col-sm-4 col-md-3">
+            <div className="col-xs-12 col-sm-4 col-md-4 col-lg-3">
                 <Summary
                     {...props}
                     loading={checkout.loading.order}
@@ -194,13 +179,14 @@ const Content = (props) => {
                     refSummary={SummaryRef}
                 />
             </div>
-            <div className="col-sm-9 hidden-mobile center">
+            <div className="col-sm-8 hidden-mobile center">
                 <Button
                     customRootStyle={{ marginBottom: 80 }}
                     onClick={handleClick}
                     fullWidth
                     loading={loading}
                     disabled={disabled}
+                    className={styles.placeOrderDesktop}
                 >
                     {t('checkout:placeOrder')}
                 </Button>

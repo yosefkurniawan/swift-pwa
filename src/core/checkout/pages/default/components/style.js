@@ -106,4 +106,8 @@ export default makeStyles(() => ({
     paymentExpansionContainer: {
         marginTop: '10px',
     },
+    placeOrderDesktop: {
+        maxWidth: 600,
+        height: 50,
+    },
 }));
