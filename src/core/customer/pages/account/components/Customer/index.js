@@ -33,10 +33,10 @@ const Customer = (props) => {
     }
 
     if (customerNotificationList && customerNotificationList.customerNotificationList) {
-        userData.notification = customerNotificationList.customerNotificationList;
+        userData = { ...userData, notificationList: customerNotificationList.customerNotificationList };
     }
     if (customerOrders && customerOrders.customerOrders) {
-        userData.customerOrders = customerOrders.customerOrders;
+        userData = { ...userData, customerOrders: customerOrders.customerOrders };
     }
 
     const pushIf = (condition, ...elements) => (condition ? elements : []);
