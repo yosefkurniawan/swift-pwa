@@ -22,28 +22,30 @@ const NotificationView = (props) => {
             <hr />
             <div className="row">
                 <div className="col-lg-12">
-                    {notification.items ? (
-                        <TableContainer component={Paper}>
-                            <Table aria-label="simple table">
-                                <TableBody>
-                                    {notification.items.map((val, idx) => (
+
+                    <TableContainer component={Paper}>
+                        <Table aria-label="simple table">
+                            <TableBody>
+                                {notification.items ? (
+                                    notification.items.map((val, idx) => (
                                         <TableRow key={idx}>
                                             <TableCell>{val.content}</TableCell>
                                             <TableCell align="right">{formatDate(val.createdAt)}</TableCell>
                                         </TableRow>
-                                    ))}
+                                    ))
 
-                                    {notification.items.length === 0
-                                        ? (
-                                            <TableRow>
-                                                <TableCell align="center" colSpan="2">{t('customer:notHaveNotification')}</TableCell>
-                                            </TableRow>
-                                        )
-                                        : null}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    ) : null }
+                                ) : null }
+                                {!notification.items
+                                    ? (
+                                        <TableRow>
+                                            <TableCell align="center" colSpan="2">{t('customer:notHaveNotification')}</TableCell>
+                                        </TableRow>
+                                    )
+                                    : null}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
                 </div>
             </div>
         </>

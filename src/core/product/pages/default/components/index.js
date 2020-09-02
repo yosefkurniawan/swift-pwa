@@ -206,6 +206,7 @@ const ProductPage = (props) => {
                             <>
                                 <DesktopOptions
                                     {...props}
+                                    setOpen={setOpenOption}
                                     setBanner={setBanner}
                                     setPrice={setPrice}
                                 />
