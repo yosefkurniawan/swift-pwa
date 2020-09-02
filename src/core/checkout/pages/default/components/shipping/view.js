@@ -75,7 +75,7 @@ const ShippingView = (props) => {
                 const element = available[idx];
                 const identifier = `${element.carrier_code}_${element.method_code}`;
                 for (let idc = 0; idc < cnf.length; idc += 1) {
-                    if (cnf[idc] === identifier) {
+                    if (identifier.match(new RegExp(`^${cnf[idc]}`)) !== null) {
                         groupData.push(element);
                     }
                 }
