@@ -1,6 +1,6 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
-    FlexColumn, CreatePadding, CreateBorder, CenterAbsolute, Centering,
+    FlexColumn, CreatePadding, CreateBorder,
 } from '@theme/mixins';
 import { GRAY_PRIMARY } from '@theme/colors';
 
@@ -13,26 +13,27 @@ export default makeStyles((theme) => ({
     block: {
         ...CreatePadding(16, 30, 16, 30),
         ...CreateBorder(0, 0, '1px', 0, GRAY_PRIMARY),
+        [theme.breakpoints.up('sm')]: {
+            ...CreatePadding(16, 0),
+        },
     },
 
     footer: {
         position: 'fixed',
         width: '100%',
         bottom: 0,
-        ...Centering,
-        ...CenterAbsolute,
         ...CreatePadding(16, 16, 16, 16),
+        [theme.breakpoints.up('sm')]: {
+            position: 'unset',
+        },
     },
     btnSave: {
         width: '100%',
         [theme.breakpoints.up('sm')]: {
-            width: 375,
+            width: 'fit-content',
         },
     },
     btnContainer: {
-        width: 'fit-content',
-        [theme.breakpoints.down('xs')]: {
-            width: '100% !important',
-        },
+        width: '100%',
     },
 }));
