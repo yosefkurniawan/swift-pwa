@@ -189,6 +189,9 @@ const useStyles = makeStyles((theme) => ({
         },
         ...CreateMargin(30, 0, 30, 0),
     },
+    ok: {
+        marginTop: '10px',
+    },
 }));
 
 export default useStyles;
