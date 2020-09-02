@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Typography from '@common_typography';
-import Grid from '@material-ui/core/Grid';
 import classNames from 'classnames';
 import useStyles from './style';
 import useStylesRoot from '../style';
@@ -19,32 +18,32 @@ const ShippingView = (props) => {
             <Typography variant="title" type="bold" letter="uppercase">
                 {t('checkout:deliveryMethod:label')}
             </Typography>
-            <Grid container spacing={2}>
-                <Grid item xs={12} sm={6} md={6} xl={6} className={classes.list}>
+            <div className="row">
+                <div className="col-xs-6">
                     <div className={checkStyles('home')} onClick={() => handleSelect('home')}>
                         <div className="column">
                             <Typography variant="span" type="bold">
                                 {t('checkout:deliveryMethod:homeDelivery')}
                             </Typography>
-                            <Typography>
+                            <Typography className="hidden-mobile">
                                 {t('checkout:deliveryMethod:homeDeliveryDesc')}
                             </Typography>
                         </div>
                     </div>
-                </Grid>
-                <Grid item xs={12} sm={6} md={6} xl={6} className={classes.list}>
+                </div>
+                <div className="col-xs-6">
                     <div className={checkStyles('pickup')} onClick={() => handleSelect('pickup')}>
                         <div className="column">
                             <Typography variant="span" type="bold">
                                 {t('checkout:deliveryMethod:pickupDelivery')}
                             </Typography>
-                            <Typography>
+                            <Typography className="hidden-mobile">
                                 {t('checkout:deliveryMethod:pickupDeliveryDesc')}
                             </Typography>
                         </div>
                     </div>
-                </Grid>
-            </Grid>
+                </div>
+            </div>
         </div>
     );
 };

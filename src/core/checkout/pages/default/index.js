@@ -22,7 +22,6 @@ import HeaderView from './components/Header';
 const Page = (props) => (
     <Core
         {...props}
-        containerStyle={{ paddingBottom: '80px' }}
         CashbackInfoView={CashbackInfo}
         EmailView={EmailView}
         DeliveryView={DeliveryView}
