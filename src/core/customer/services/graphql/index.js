@@ -17,6 +17,7 @@ export const getCustomer = () => useQuery(Schema.getCustomer, {
         request: 'internal',
         skip: typeof window === 'undefined',
     },
+    fetchPolicy: 'no-cache',
 });
 
 export const getCustomerOrder = () => useQuery(Schema.getCustomerOrder, {
