@@ -14,7 +14,12 @@ import {
     ExpanDetailStyle,
     ExpanPanelStyle,
     ExpanSummaryStyle,
+    IconAccordion,
 } from './style';
+
+const IconLabel = withStyles(IconAccordion)(
+    ({ classes, label }) => <div className={classes[label]} />,
+);
 
 const Accordion = withStyles(ExpanPanelStyle)(MuiAccordion);
 
@@ -103,9 +108,12 @@ const ShippingView = (props) => {
                                         id="panel1d-header"
                                         expandIcon={<Arrow className={styles.icon} />}
                                     >
-                                        <Typography letter="uppercase" variant="span" type="bold">
-                                            {item.group.replace('sg-', '')}
-                                        </Typography>
+                                        <div className={styles.labelAccordion}>
+                                            <IconLabel label={item.group.replace('sg-', '')} />
+                                            <Typography letter="uppercase" variant="span" type="bold">
+                                                {item.group.replace('sg-', '')}
+                                            </Typography>
+                                        </div>
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         {item.data.length !== 0 ? (

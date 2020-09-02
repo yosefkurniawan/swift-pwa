@@ -38,7 +38,7 @@ export default makeStyles(() => ({
     },
     listShippingGroup: {
         display: 'flex',
-        justifyContent: 'space-between !important',
+        justifyContent: 'space-between',
         position: 'relative',
         width: '100%',
         boxSizing: 'inherit',
@@ -115,5 +115,9 @@ export default makeStyles(() => ({
     },
     paymentExpansionContainer: {
         marginTop: '10px',
+    },
+    labelAccordion: {
+        ...FlexRow,
+        alignItems: 'center',
     },
 }));

@@ -1,5 +1,33 @@
 import { CreatePadding } from '@theme/mixins';
 
+const configStyleIcon = {
+    width: 30,
+    height: 30,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '100%',
+    backgroundPositionY: 'center',
+    marginRight: 10,
+};
+
+export const IconAccordion = {
+    nextday: {
+        ...configStyleIcon,
+        backgroundImage: 'url(/assets/img/ship_nextday.svg)',
+    },
+    express: {
+        ...configStyleIcon,
+        backgroundImage: 'url(/assets/img/ship_express.svg)',
+    },
+    freeshipping: {
+        ...configStyleIcon,
+        backgroundImage: 'url(/assets/img/ship_freeshipping.svg)',
+    },
+    reguler: {
+        ...configStyleIcon,
+        backgroundImage: 'url(/assets/img/ship_reguler.svg)',
+    },
+};
+
 export const ExpanPanelStyle = {
     root: {
         border: '1px solid rgba(0, 0, 0, .125)',
@@ -36,6 +64,7 @@ export const ExpanSummaryStyle = {
 
 export const ExpanDetailStyle = {
     root: {
+        width: '100% !important',
         ...CreatePadding(15, 15, 15, 15),
     },
 };
