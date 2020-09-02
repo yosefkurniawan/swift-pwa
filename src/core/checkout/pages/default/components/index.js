@@ -1,6 +1,6 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 import Button from '@common_button';
+import classNames from 'classnames';
 import Delivery from './delivery';
 import Email from './email';
 import Summary from './summary';
@@ -52,7 +52,7 @@ const Content = (props) => {
         }
     };
     return (
-        <div className="row">
+        <div className={classNames(styles.mobileBottomSpace, 'row between-lg')}>
             <div className="col-xs-12 center hidden-mobile">
                 <HeaderView t={t} storeConfig={storeConfig} />
             </div>
@@ -151,9 +151,9 @@ const Content = (props) => {
                             GiftCardView={GiftCardView}
                         />
                     ) : null }
-                    <Grid container spacing={2}>
+                    <div className={classNames(styles.block, 'row')}>
                         {modules.rewardpoint.enabled ? (
-                            <Grid item xs={12} sm={12} md={6} xl={6}>
+                            <div className="col-xs-12 col-sm-12 col-md-6 col-xl-6">
                                 <RewardPoint
                                     t={t}
                                     checkout={checkout}
@@ -163,10 +163,10 @@ const Content = (props) => {
                                     storeConfig={storeConfig}
                                     RewardPointView={RewardPointView}
                                 />
-                            </Grid>
+                            </div>
                         ) : null}
                         {modules.storecredit.enabled ? (
-                            <Grid item xs={12} sm={12} md={6} xl={6}>
+                            <div className="col-xs-12 col-sm-12 col-md-6 col-xl-6">
                                 <Credit
                                     t={t}
                                     checkout={checkout}
@@ -176,9 +176,9 @@ const Content = (props) => {
                                     storeConfig={storeConfig}
                                     StoreCreditView={StoreCreditView}
                                 />
-                            </Grid>
+                            </div>
                         ) : null}
-                    </Grid>
+                    </div>
                 </>
             </div>
             <div className="col-xs-12 col-sm-4 col-md-4 col-lg-3">
@@ -199,7 +199,7 @@ const Content = (props) => {
             </div>
             <div className="col-sm-8 hidden-mobile center">
                 <Button
-                    customRootStyle={{ marginBottom: 80 }}
+                    customRootStyle={{ marginBottom: 80, marginTop: 50 }}
                     onClick={handleClick}
                     fullWidth
                     loading={loading}

@@ -9,7 +9,7 @@ import {
     CreateMargin,
 } from '@theme/mixins';
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     root: {
         ...FlexColumn,
         height: '100vh',
@@ -52,7 +52,7 @@ export default makeStyles(() => ({
         padding: 5,
     },
     cardPoint: {
-        ...CreateMargin(10, 30, 10, 30),
+        ...CreateMargin(5, 0, 5, 0),
         ...CreatePadding(17, 17, 17, 17),
         ...FlexRow,
         alignItems: 'center',
@@ -105,10 +105,6 @@ export default makeStyles(() => ({
     giftcardInfoContainer: {
         ...CreateMargin(-30, 30, 30, 30),
     },
-    giftCardItemContainer: {
-        paddingTop: '5px',
-        paddingBottom: '10px',
-    },
     giftCard: {
         marginLeft: '5px',
         marginRight: '5px',
@@ -117,11 +113,16 @@ export default makeStyles(() => ({
         marginTop: '10px',
     },
     placeOrderDesktop: {
-        maxWidth: 600,
+        maxWidth: 500,
         height: 50,
     },
     labelAccordion: {
         ...FlexRow,
         alignItems: 'center',
+    },
+    mobileBottomSpace: {
+        [theme.breakpoints.down('sm')]: {
+            marginBottom: 140,
+        },
     },
 }));

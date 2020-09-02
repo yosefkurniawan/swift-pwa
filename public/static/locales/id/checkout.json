@@ -8,7 +8,7 @@
         "label": "Cara pengantaran",
         "homeDelivery": "Home Delivery",
         "homeDeliveryDesc": "Kami akan mengantarkan ke rumah anda",
-        "pickupDelivery": "Ambil sendiri",
+        "pickupDelivery": "Pickup",
         "pickupDeliveryDesc": "Ambil sendiri barang di toko"
     },
     "pickupInformation": {

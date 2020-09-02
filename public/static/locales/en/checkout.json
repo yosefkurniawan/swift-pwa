@@ -8,7 +8,7 @@
         "label": "Delivery Method",
         "homeDelivery": "Home Delivery",
         "homeDeliveryDesc": "We deliver your order to your home",
-        "pickupDelivery": "Pickup Delivery",
+        "pickupDelivery": "Pickup",
         "pickupDeliveryDesc": "Pickup your order at our store"
     },
     "pickupInformation": {
