@@ -5,9 +5,11 @@ import Cookies from 'js-cookie';
 import { useApolloClient } from '@apollo/client';
 import { localTotalCart } from '@services/graphql/schema/local';
 import {
-    custDataNameCookie,
+    custDataNameCookie, features,
 } from '@config';
-import { getCategories, getCustomer, removeToken } from '../../../services/graphql';
+import {
+    getCategories, getCustomer, removeToken, getVesMenu,
+} from '../../../services/graphql';
 
 const CoreTopNavigation = (props) => {
     const {
@@ -15,8 +17,12 @@ const CoreTopNavigation = (props) => {
     } = props;
     const [value, setValue] = React.useState('');
     const [deleteTokenGql] = removeToken();
-    const { data, loading } = getCategories();
 
+    const { data, loading } = features.vesMenu.enabled ? getVesMenu({
+        variables: {
+            alias: 'top-menu',
+        },
+    }) : getCategories();
     let customerData = {};
     if (isLogin && typeof window !== 'undefined') {
         const customer = getCustomer();
@@ -60,7 +66,7 @@ const CoreTopNavigation = (props) => {
         <Content
             t={t}
             isLogin={isLogin}
-            category={data}
+            data={data}
             loading={loading}
             storeConfig={storeConfig}
             handleSearch={handleSearch}

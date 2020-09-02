@@ -20,6 +20,8 @@ export const categories = gql`
                     path
                     url_path
                     url_key
+                    image
+                    image_path
                     children {
                         id
                         level
@@ -27,6 +29,14 @@ export const categories = gql`
                         path
                         url_path
                         url_key
+                        children {
+                            id
+                            level
+                            name
+                            path
+                            url_path
+                            url_key
+                        }
                     }
                 }
             }
@@ -70,9 +80,44 @@ mutation {
 }
 `;
 
+export const vesMenu = gql`
+    query getVesMenu(
+        $alias: String!
+    ) {
+        vesMenu(
+          alias: $alias
+        )
+        {
+          menu_id
+          name
+          items {
+            id
+            name
+            link
+            children {
+              id
+              name
+              link
+              children {
+               id
+               name
+               link
+               children {
+                id
+                name
+                link
+                }
+              }
+            }
+          }
+        }
+      }
+`;
+
 export default {
     categories,
     getCustomer,
     removeToken,
     getCmsBlocks,
+    vesMenu,
 };

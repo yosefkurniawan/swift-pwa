@@ -10,7 +10,7 @@ import TopMenu from './mtop';
 
 const ViewTopNavigation = (props) => {
     const {
-        storeConfig, handleSearch, searchByClick, setValue, value, category, loading, t, isLogin, customer, handleLogout,
+        storeConfig, handleSearch, searchByClick, setValue, value, data, loading, t, isLogin, customer, handleLogout,
     } = props;
     return (
         <div id="header">
@@ -31,12 +31,12 @@ const ViewTopNavigation = (props) => {
                             </Link>
                         </div>
                     </div>
-                    <div className="col-xs-6">
+                    <div className="col-xs-7">
                         <div className="header-small__menu">
-                            {loading ? null : <Menu category={category} storeConfig={storeConfig} />}
+                            {loading ? null : <Menu data={data} storeConfig={storeConfig} />}
                         </div>
                     </div>
-                    <div className="col-xs-4">
+                    <div className="col-xs-3">
                         <div className="box">
                             <div className="header-middle__bag">
                                 <ShoppingBagIcon withLink />
@@ -65,7 +65,7 @@ const ViewTopNavigation = (props) => {
 
                 <div className="row menu-category">
                     <div className="col-xs-12">
-                        {loading ? null : <Menu category={category} storeConfig={storeConfig} />}
+                        {loading ? null : <Menu data={data} storeConfig={storeConfig} />}
                     </div>
                 </div>
 
