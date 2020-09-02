@@ -53,13 +53,6 @@ const ViewTop = (props) => {
                     <a>{t('common:menu:confirmpayment')}</a>
                 </Link>
             </li>
-            {isLogin ? (
-                <li>
-                    <Link href="/inboxnotification/notification">
-                        <a>{t('common:menu:notification')}</a>
-                    </Link>
-                </li>
-            ) : null}
             <li>
                 <Link href="/sales/order/track">
                     <a>{t('common:menu:trackingorder')}</a>
