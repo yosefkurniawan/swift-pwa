@@ -40,7 +40,7 @@ const Layout = (props) => {
         },
         backdropLoader: false,
     });
-    const [mainMinimumHeight, setMainMinimumHeight] = useState(0);
+    // const [mainMinimumHeight, setMainMinimumHeight] = useState(0);
     const refFooter = useRef(null);
     const refHeader = useRef(null);
 
@@ -105,7 +105,7 @@ const Layout = (props) => {
             if (custData && custData.email) tagManagerArgs.dataLayer.customerId = custData.email;
             TagManager.dataLayer(tagManagerArgs);
         }
-        setMainMinimumHeight(refFooter.current.clientHeight + refHeader.current.clientHeight);
+        // setMainMinimumHeight(refFooter.current.clientHeight + refHeader.current.clientHeight);
     }, []);
 
     const desktop = breakPointsUp('sm');
@@ -147,7 +147,7 @@ const Layout = (props) => {
                 </div>
             </header>
 
-            <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0, minHeight: `calc(100vh - ${mainMinimumHeight}px)` }}>
+            <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0, minHeight: 'calc(100vh - 395px)' }}>
                 <Loading open={state.backdropLoader} />
                 <Message
                     open={state.toastMessage.open}

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         height: '100%',
         fontSize: '12px',
-        padding: 15,
+        padding: '15px 0',
         marginBottom: '40px',
     },
     tableOuterContainer: {

@@ -49,7 +49,7 @@ const GiftCard = (props) => {
                 )}
                 <div className="row">
                     <div className="col-md-6 col-xs-12">
-                        <List>
+                        <List className="inung">
                             {data
                                 && data.customer.gift_card.map((item, index) => (
                                     <ListItem key={index} onClick={() => handleOpenDetail(item.giftcard_code)}>

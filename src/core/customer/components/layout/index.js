@@ -34,7 +34,7 @@ const Layout = (props) => {
         }),
         ...pushIf(modules.notification.enabled, {
             href: '/inboxnotification/notification',
-            title: t('notification:notification'),
+            title: t('customer:menu:notification'),
         }),
         { href: '/customer/setting', title: t('customer:menu:setting') },
         ...pushIf(modules.rma.enabled, {
@@ -69,7 +69,12 @@ const Layout = (props) => {
                 </div>
             </div>
             <div className="col-lg-10 col-xs-12 col-sm-12">
-                <Typography variant="h4" type="bold" letter="capitalize">
+                <Typography
+                    variant="h4"
+                    type="bold"
+                    letter="capitalize"
+                    className={classNames('hidden-mobile', styles.titleContent)}
+                >
                     {title}
                 </Typography>
                 {children}
