@@ -1,5 +1,6 @@
 import Typography from '@common_typography';
 import Alert from '@material-ui/lab/Alert/Alert';
+import Layout from '@core/customer/components/layout';
 import Skeleton from './skeleton';
 
 const NotificationData = (props) => {
@@ -14,17 +15,19 @@ const NotificationData = (props) => {
     const item = data.readNotification.items[0];
 
     return (
-        <div className="container">
-            <Typography variant="p" style={{ marginBottom: 12 }} size="10" type="regular">
-                {localDateString(item.createdAt)}
-            </Typography>
-            <Typography variant="p" size="14" type="regular">
-                {item.subject}
-            </Typography>
-            <Typography variant="p" size="12" type="regular">
-                {item.content}
-            </Typography>
-        </div>
+        <Layout {...props}>
+            <div className="container">
+                <Typography variant="p" style={{ marginBottom: 12 }} size="10" type="regular">
+                    {localDateString(item.createdAt)}
+                </Typography>
+                <Typography variant="p" size="14" type="regular">
+                    {item.subject}
+                </Typography>
+                <Typography variant="p" size="12" type="regular">
+                    {item.content}
+                </Typography>
+            </div>
+        </Layout>
     );
 };
 
