@@ -88,6 +88,11 @@ export const updateCustomer = (options = {}) => useMutation(Schema.updateCustome
     ...config,
 });
 
+export const updateCustomerProfile = (options = {}) => useMutation(Schema.updateCustomerProfile, {
+    ...options,
+    ...config,
+});
+
 export const changeCustomerPassword = (options = {}) => useMutation(Schema.changeCustomerPassword, {
     ...options,
     ...config,
