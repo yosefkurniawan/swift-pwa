@@ -8,7 +8,7 @@ import useStyles from './style';
 
 const Layout = (props) => {
     const {
-        children, wishlist, t,
+        children, t,
     } = props;
     const pushIf = (condition, ...elements) => (condition ? elements : []);
     const styles = useStyles();
@@ -20,10 +20,6 @@ const Layout = (props) => {
         { href: '/sales/order/history', title: t('customer:menu:myOrder') },
         { href: '/customer/account/profile', title: t('customer:menu:accountInformation') },
         { href: '/customer/account/address', title: t('customer:menu:address') },
-        ...pushIf(wishlist && wishlist.length && modules.wishlist.enabled <= 0, {
-            href: '/wishlist',
-            title: 'Wishlist',
-        }),
         ...pushIf(modules.giftcard.enabled, {
             href: '/awgiftcard/card',
             title: 'Gift Card',
@@ -34,12 +30,20 @@ const Layout = (props) => {
         }),
         ...pushIf(modules.notification.enabled, {
             href: '/inboxnotification/notification',
-            title: t('notification:notification'),
+            title: t('customer:menu:notification'),
         }),
         { href: '/customer/setting', title: t('customer:menu:setting') },
         ...pushIf(modules.rma.enabled, {
             href: '/rma/customer',
             title: t('customer:menu:return'),
+        }),
+        ...pushIf(modules.rewardpoint.enabled, {
+            href: '/aw_rewardpoints/info',
+            title: t('customer:menu:rewardPoint'),
+        }),
+        ...pushIf(modules.wishlist.enabled, {
+            href: '/wishlist',
+            title: t('customer:wishlist:pageTitle'),
         }),
     ];
     for (let index = 0; index < menu.length; index++) {
@@ -69,7 +73,12 @@ const Layout = (props) => {
                 </div>
             </div>
             <div className="col-lg-10 col-xs-12 col-sm-12">
-                <Typography variant="h4" type="bold" letter="capitalize">
+                <Typography
+                    variant="h4"
+                    type="bold"
+                    letter="capitalize"
+                    className={classNames('hidden-mobile', styles.titleContent)}
+                >
                     {title}
                 </Typography>
                 {children}

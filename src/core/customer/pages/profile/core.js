@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { regexPhone } from '@helpers/regex';
 import {
-    updateCustomer as gqlUpdateCustomer,
+    updateCustomerProfile as gqlUpdateCustomer,
     changeCustomerPassword as gqlChangeCustomerPassword, getCustomer,
 } from '../../services/graphql';
 

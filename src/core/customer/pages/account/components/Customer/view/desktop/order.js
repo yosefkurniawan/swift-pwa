@@ -73,7 +73,7 @@ const OrderView = (props) => {
                                         </>
                                     )
                                     : null}
-                                {customerOrders.items && customerOrders.items.length > 0 ? (
+                                {customerOrders.items && customerOrders.items.length === 0 ? (
                                     <TableRow>
                                         <TableCell component="td" colSpan="6">
                                             {t('customer:notHaveOrder')}

@@ -36,6 +36,16 @@ export default makeStyles(() => ({
     listShipping: {
         ...CreateBorder('1px', 0, 0, 0, PRIMARY),
     },
+    listShippingGroup: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        position: 'relative',
+        width: '100%',
+        boxSizing: 'inherit',
+    },
+    radioShiping: {
+        width: '100% !important',
+    },
     btnPoint: {
         maxWidth: 140,
         ...Centering,
@@ -109,5 +119,9 @@ export default makeStyles(() => ({
     placeOrderDesktop: {
         maxWidth: 600,
         height: 50,
+    },
+    labelAccordion: {
+        ...FlexRow,
+        alignItems: 'center',
     },
 }));

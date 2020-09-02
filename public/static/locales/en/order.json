@@ -1,6 +1,6 @@
 {
-    "title" : "my order",
-    "order" : "order",
+    "title" : "My Order",
+    "order" : "Order",
     "notFound": "Order not found",
     "shippedTo": "Shipped To",
     "pickupAt": "Pickup At",
@@ -41,5 +41,10 @@
     "orderStatus": "Order Status",
     "status": "Status",
     "orderTotal": "Order Total",
-    "orderNotFound": "Sorry, order number is not valid"
+    "orderNotFound": "Sorry, order number is not valid",
+    "smReturn": "Return",
+    "view": "View Order",
+    "billingAddress": "Billing Address",
+    "orderInfo": "Order Information",
+    "orderItem": "Items Ordered"
 }
