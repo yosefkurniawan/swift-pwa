@@ -16,7 +16,7 @@ const generateLevel2 = (data) => {
         <>
             <div className="nav-column nav-column-left col-lg-2">
                 {data.map((val, idx) => (
-                    <Link href="/[...slug]" as={val.link ? '/' : `/${val.url_path}`} key={idx}>
+                    <Link href="/[...slug]" as={val.link ? getPath(val.link) : `/${val.url_path}`} key={idx}>
                         <a className={active === idx ? 'active' : ''} onMouseEnter={() => setActive(idx)}>{val.name}</a>
                     </Link>
                 ))}
@@ -25,7 +25,7 @@ const generateLevel2 = (data) => {
                 <div className={`${child.image_path ? 'col-lg-9' : 'col-lg-12'} row`}>
                     {child.children.map((lvl3, id3) => (
                         <div className="col-lg-3" key={id3}>
-                            <Link href="/[...slug]" as={lvl3.link ? '/' : `/${lvl3.url_path}`}>
+                            <Link href="/[...slug]" as={lvl3.link ? getPath(lvl3.link) : `/${lvl3.url_path}`}>
                                 <a>{lvl3.name}</a>
                             </Link>
                             <ul className="list-item__menu">
@@ -85,7 +85,7 @@ const Menu = (props) => {
                     if (val.include_in_menu || features.vesMenu.enabled) {
                         return (
                             <li key={idx} role="menuitem">
-                                <Link href="/[...slug]" as={val.link ? '/' : `/${val.url_path}`}>
+                                <Link href="/[...slug]" as={val.link ? getPath(val.link) : `/${val.url_path}`}>
                                     <a dangerouslySetInnerHTML={{ __html: val.name }} />
                                 </Link>
                                 {val.children.length > 0 ? (

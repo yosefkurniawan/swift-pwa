@@ -147,7 +147,7 @@ const features = {
         },
     },
     vesMenu: {
-        enabled: true,
+        enabled: false,
     },
 };
 
