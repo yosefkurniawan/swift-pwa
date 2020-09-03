@@ -26,6 +26,7 @@ const FooterView = (props) => {
                     .wrapper-footer {
                         background-color: #f4f4f4;
                         padding : 0;
+                        margin-top: 40px;
                     }
                     .container-footer {
                         display: flex;
