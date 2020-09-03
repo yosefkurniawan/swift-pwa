@@ -11,7 +11,7 @@ const Page = (props) => (
 );
 
 Page.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'notification'],
+    namespacesRequired: ['common', 'notification', 'customer'],
 });
 
 export default withApollo({ ssr: false })(withTranslation()(Page));

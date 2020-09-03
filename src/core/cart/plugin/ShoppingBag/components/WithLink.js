@@ -7,6 +7,7 @@ import LocalMall from '@material-ui/icons/LocalMall';
 const useStyles = makeStyles({
     root: {
         margin: 20,
+        cursor: 'pointer',
     },
 });
 

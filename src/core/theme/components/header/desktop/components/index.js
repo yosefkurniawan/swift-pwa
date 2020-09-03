@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
+import NotificationBell from '@core/notification/plugins/NotificationBell';
 import ShoppingBagIcon from '@core/cart/plugin/ShoppingBag';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
@@ -31,15 +32,16 @@ const ViewTopNavigation = (props) => {
                             </Link>
                         </div>
                     </div>
-                    <div className="col-xs-7">
+                    <div className="col-xs-5">
                         <div className="header-small__menu">
                             {loading ? null : <Menu data={data} storeConfig={storeConfig} />}
                         </div>
                     </div>
-                    <div className="col-xs-3">
+                    <div className="col-xs-5">
                         <div className="box">
-                            <div className="header-middle__bag">
-                                <ShoppingBagIcon withLink />
+                            <div className="header-middle__icons">
+                                <div className="notification"><NotificationBell withLink /></div>
+                                <div className="shopping-bag"><ShoppingBagIcon withLink /></div>
                             </div>
                             <div className="header-middle__search">
                                 <TextField
@@ -98,8 +100,15 @@ const ViewTopNavigation = (props) => {
                     .header-middle__logo-link {
                         cursor: pointer;
                     }
-                    .header-middle__bag {
+                    .header-middle__icons {
                         float: right;
+                        padding-left: 4px;
+                        padding-right: 16px;
+                    }
+                    .header-middle__icons > div {
+                        margin-right: -15px;
+                        margin-left: -10px;
+                        display: inline-block;
                     }
                     .search-icon {
                         position: absolute;

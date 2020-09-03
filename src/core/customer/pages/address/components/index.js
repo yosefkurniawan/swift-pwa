@@ -31,7 +31,7 @@ const Content = (props) => {
     const {
         loading, address, selectedAddressId,
         handleOpenNew, handleAddress, loadingAddress,
-        success, openNew, t,
+        success, openNew, t, handleChange,
     } = props;
     return (
         <Layout {...props}>
@@ -41,6 +41,7 @@ const Content = (props) => {
                         <Table className={styles.table} size="small" aria-label="a dense table">
                             <TableHead>
                                 <TableRow className={styles.tableRowHead}>
+                                    <TableCell align="left">Default</TableCell>
                                     <TableCell align="left">{t('customer:address:firstname')}</TableCell>
                                     <TableCell align="left">{t('customer:address:lastname')}</TableCell>
                                     <TableCell align="left">{t('customer:address:street')}</TableCell>
@@ -77,6 +78,8 @@ const Content = (props) => {
                                                 defaultShipping={item.default_shipping}
                                                 loadingAddress={loadingAddress}
                                                 success={success}
+                                                handleChange={handleChange}
+                                                selectedAddressId={selectedAddressId}
                                                 {...props}
                                             />
                                         ))}
