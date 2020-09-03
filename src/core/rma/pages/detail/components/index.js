@@ -192,7 +192,7 @@ const DetailReturn = (props) => {
     };
 
     return (
-        <Layout {...props} title={t('customer:menu:return')}>
+        <Layout {...props} title={t('customer:menu:return')} activeMenu="/rma/customer">
             <ConfirmModal
                 open={state.openDialog}
                 handleCancel={() => setState({ ...state, openDialog: false })}
@@ -205,7 +205,7 @@ const DetailReturn = (props) => {
                         ? (<div className={styles.block} dangerouslySetInnerHTML={{ __html: detail_rma.confirm_shipping.step }} />)
                         : null
                 }
-                <div className={classNames(styles.block, styles.detail)}>
+                <div className={classNames(styles.detail)}>
                     <Detail
                         detail_rma={detail_rma}
                         t={t}

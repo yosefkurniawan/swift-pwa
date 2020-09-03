@@ -8,7 +8,7 @@ import useStyles from './style';
 
 const Layout = (props) => {
     const {
-        children, t, title,
+        children, t, title, activeMenu,
     } = props;
     const pushIf = (condition, ...elements) => (condition ? elements : []);
     const styles = useStyles();
@@ -52,6 +52,7 @@ const Layout = (props) => {
             titlePage = item.title;
         }
     }
+    console.log(activeMenu);
     return (
         <div className="row">
             <div className="col-lg-2 col-xs-12 hidden-mobile">
@@ -61,7 +62,9 @@ const Layout = (props) => {
                             <li
                                 key={idx}
                                 className={
-                                    router.asPath === val.href ? classNames(styles.listMenuItem, styles.listMenuItemActive) : styles.listMenuItem
+                                    ((router.asPath === val.href) || (val.href === activeMenu))
+                                        ? classNames(styles.listMenuItem, styles.listMenuItemActive)
+                                        : styles.listMenuItem
                                 }
                             >
                                 <Link href={val.href}>
