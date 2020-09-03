@@ -2,14 +2,15 @@
 import classNames from 'classnames';
 import React from 'react';
 import ConfirmModal from '@common_confirmdialog';
+import Layout from '@core/customer/components/layout';
 import { updateRma, cancelRma } from '@core/rma/services/graphql';
 import ItemField from './ItemField';
 import useStyles from './styles';
 
-const DetailReturn = (props) => {
+const DetailContent = (props) => {
     const {
         t, data: { detail_rma, form_data }, customerData, storeConfig,
-        refetch, ItemProduct, ListMessage, FormComment, Footer,
+        refetch, ItemProduct, ListMessage, FormComment, Footer, loading, loadCustomerData, WarningInfo, error,
         Detail, ...other
     } = props;
     const styles = useStyles();
@@ -36,6 +37,14 @@ const DetailReturn = (props) => {
         handleYes: () => {},
         dropValue: [],
     });
+
+    if (error) {
+        return (
+            <Layout {...props} title={t('customer:menu:return')} activeMenu="/rma/customer">
+                <WarningInfo variant="error" text={t('rma:error:fetch')} />
+            </Layout>
+        );
+    }
 
     const changeOptionCustomField = (value) => {
         let allField = formData.custom_fields;
@@ -191,7 +200,7 @@ const DetailReturn = (props) => {
     };
 
     return (
-        <>
+        <Layout {...props} title={t('customer:menu:return')} activeMenu="/rma/customer">
             <ConfirmModal
                 open={state.openDialog}
                 handleCancel={() => setState({ ...state, openDialog: false })}
@@ -204,7 +213,7 @@ const DetailReturn = (props) => {
                         ? (<div className={styles.block} dangerouslySetInnerHTML={{ __html: detail_rma.confirm_shipping.step }} />)
                         : null
                 }
-                <div className={classNames(styles.block, styles.detail)}>
+                <div className={classNames(styles.detail)}>
                     <Detail
                         detail_rma={detail_rma}
                         t={t}
@@ -273,8 +282,16 @@ const DetailReturn = (props) => {
                 }
                 <ListMessage data={detail_rma.thread_message} t={t} {...other} />
             </div>
-        </>
+        </Layout>
     );
+};
+
+const DetailReturn = (props) => {
+    const {
+        data, Loader, loading, loadCustomerData,
+    } = props;
+    if (loading || !data || loadCustomerData.loading) return <Loader />;
+    return <DetailContent {...props} />;
 };
 
 export default DetailReturn;

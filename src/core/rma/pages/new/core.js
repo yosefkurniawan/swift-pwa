@@ -46,17 +46,6 @@ const CoreNewRma = (props) => {
         allowed_file_extensions: [],
     };
 
-    if (loading || !data || loadCustomerData.loading) {
-        return <Loader />;
-    }
-    if (error || loadCustomerData.error) {
-        return (
-            <DefaultLayout {...props} pageConfig={config}>
-                <WarningInfo variant="error" text={t('rma:error:fetch')} />
-            </DefaultLayout>
-        );
-    }
-
     if (data) {
         objectData = data.getNewFormDataAwRma;
     }
@@ -64,6 +53,10 @@ const CoreNewRma = (props) => {
     const contentprops = {
         t,
         loading,
+        error,
+        WarningInfo,
+        loadCustomerData,
+        Loader,
         data: objectData,
         customerData,
         storeConfig,
