@@ -54,7 +54,7 @@ const Layout = (props) => {
     }
     return (
         <div className="row">
-            <div className="col-lg-2 col-xs-12 hidden-mobile">
+            <div className="col-md-2 col-xs-12 hidden-mobile">
                 <div className={styles.listMenuContainer}>
                     <ul className={styles.listMenu}>
                         {menu.map((val, idx) => (
@@ -72,7 +72,7 @@ const Layout = (props) => {
                     </ul>
                 </div>
             </div>
-            <div className="col-lg-10 col-xs-12 col-sm-12">
+            <div className="col-md-10 col-xs-12 col-sm-12">
                 <Typography
                     variant="h4"
                     type="bold"
