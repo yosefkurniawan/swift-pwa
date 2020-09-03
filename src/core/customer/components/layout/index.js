@@ -52,7 +52,6 @@ const Layout = (props) => {
             titlePage = item.title;
         }
     }
-    console.log(activeMenu);
     return (
         <div className="row">
             <div className="col-lg-2 col-xs-12 hidden-mobile">

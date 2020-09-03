@@ -64,6 +64,7 @@ const CoreNewRma = (props) => {
     const contentprops = {
         t,
         loading,
+        error,
         data: objectData,
         customerData,
         storeConfig,
