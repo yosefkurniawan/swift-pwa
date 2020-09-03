@@ -8,12 +8,12 @@ import useStyles from './style';
 
 const Layout = (props) => {
     const {
-        children, t,
+        children, t, title, activeMenu,
     } = props;
     const pushIf = (condition, ...elements) => (condition ? elements : []);
     const styles = useStyles();
     const router = useRouter();
-    let title = '';
+    let titlePage = '';
 
     const menu = [
         { href: '/customer/account', title: t('customer:menu:myAccount') },
@@ -49,19 +49,21 @@ const Layout = (props) => {
     for (let index = 0; index < menu.length; index++) {
         const item = menu[index];
         if (item.href === router.asPath) {
-            title = item.title;
+            titlePage = item.title;
         }
     }
     return (
         <div className="row">
-            <div className="col-lg-2 col-xs-12 hidden-mobile">
+            <div className="col-md-2 col-xs-12 hidden-mobile">
                 <div className={styles.listMenuContainer}>
                     <ul className={styles.listMenu}>
                         {menu.map((val, idx) => (
                             <li
                                 key={idx}
                                 className={
-                                    router.asPath === val.href ? classNames(styles.listMenuItem, styles.listMenuItemActive) : styles.listMenuItem
+                                    ((router.asPath === val.href) || (val.href === activeMenu))
+                                        ? classNames(styles.listMenuItem, styles.listMenuItemActive)
+                                        : styles.listMenuItem
                                 }
                             >
                                 <Link href={val.href}>
@@ -72,14 +74,14 @@ const Layout = (props) => {
                     </ul>
                 </div>
             </div>
-            <div className="col-lg-10 col-xs-12 col-sm-12">
+            <div className="col-md-10 col-xs-12 col-sm-12">
                 <Typography
                     variant="h4"
                     type="bold"
                     letter="capitalize"
                     className={classNames('hidden-mobile', styles.titleContent)}
                 >
-                    {title}
+                    {title || titlePage}
                 </Typography>
                 {children}
             </div>

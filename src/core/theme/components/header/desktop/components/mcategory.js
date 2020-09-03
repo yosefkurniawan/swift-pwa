@@ -82,7 +82,7 @@ const Menu = (props) => {
         <div className="menu-wrapper" role="navigation">
             <ul className="nav" role="menubar">
                 {menu.map((val, idx) => {
-                    if (val.include_in_menu || features.vesMenu.enabled) {
+                    if ((val.include_in_menu || features.vesMenu.enabled) && val.name) {
                         return (
                             <li key={idx} role="menuitem">
                                 <Link href="/[...slug]" as={val.link ? getPath(val.link) : `/${val.url_path}`}>

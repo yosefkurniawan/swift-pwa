@@ -13,7 +13,7 @@ const NotificationView = (props) => {
     const { notification, styles, t } = props;
     return (
         <>
-            <h2 lassName={styles.infoTitle}>
+            <h2 className={styles.infoTitle}>
                 {t('customer:menu:notification')}
                 <Link href="/inboxnotification/notification">
                     <a className={styles.desktopLinkHeader}>{t('customer:menu:viewall')}</a>

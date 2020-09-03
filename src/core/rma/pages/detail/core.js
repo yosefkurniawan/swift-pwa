@@ -42,26 +42,21 @@ const CoreLanding = (props) => {
         loading, data, error, refetch,
     } = getUpdateFormRma(paramsFormRma);
 
-    if (loading || !data || loadCustomerData.loading) return <Loader />;
     if (!loading && data && data.getUpdateFormDataAwRma) {
         // eslint-disable-next-line prefer-destructuring
         objectData = data.getUpdateFormDataAwRma;
     }
 
-    if (error) {
-        return (
-            <DefaultLayout {...props} pageConfig={config}>
-                <WarningInfo variant="error" text={t('rma:error:fetch')} />
-            </DefaultLayout>
-        );
-    }
-
     const contentprops = {
         t,
+        Loader,
+        WarningInfo,
         data: objectData,
         loading,
         refetch,
         customerData,
+        error,
+        loadCustomerData,
     };
 
     return (
