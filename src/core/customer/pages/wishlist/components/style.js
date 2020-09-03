@@ -62,6 +62,14 @@ const useStyles = makeStyles((theme) => ({
             width: 'fit-content',
         },
     },
+    containerSkeleton: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '100%',
+        height: '100%',
+        marginTop: '30%',
+    },
 }));
 
 export default useStyles;
