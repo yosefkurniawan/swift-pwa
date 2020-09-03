@@ -147,7 +147,7 @@ const Layout = (props) => {
                 </div>
             </header>
 
-            <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0, minHeight: 'calc(100vh - 395px)' }}>
+            <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0, minHeight: 'calc(100vh - 435px)' }}>
                 <Loading open={state.backdropLoader} />
                 <Message
                     open={state.toastMessage.open}
