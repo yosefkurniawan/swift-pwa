@@ -16,9 +16,29 @@ import useStyles from './styles';
 
 const HistoryContent = (props) => {
     const {
-        loading, data, t, pageSize, page, handleChangePage, handleChangePageSize,
+        loading, data, error, t, pageSize, page, handleChangePage, handleChangePageSize, Loader, WarningInfo,
     } = props;
     const styles = useStyles();
+    if (loading || !data) {
+        return <Loader />;
+    }
+    if (error) {
+        return (
+            <Layout {...props} title={t('customer:menu:return')}>
+                <WarningInfo variant="error" text={t('rma:error:fetch')} />
+            </Layout>
+        );
+    }
+
+    if (!loading && data) {
+        if (data.getCustomerRequestAwRma.items.length === 0) {
+            return (
+                <Layout {...props} title={t('customer:menu:return')}>
+                    <WarningInfo variant="error" text={t('rma:error:notFound')} />
+                </Layout>
+            );
+        }
+    }
     return (
         <Layout {...props}>
             <div className={styles.tableOuterContainer}>

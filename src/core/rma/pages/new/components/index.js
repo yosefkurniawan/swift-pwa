@@ -16,11 +16,19 @@ import useStyles from './styles';
 import ItemProduct from './ItemProduct';
 import ItemField from './ItemField/index';
 
-const NewReturnRma = (props) => {
+const NewContent = (props) => {
     const {
         t, data: { custom_fields, items, allowed_file_extensions }, storeConfig, customerData,
-        order_number, ItemProductView, ItemFieldView, OtherRmaLink,
+        order_number, ItemProductView, ItemFieldView, OtherRmaLink, error, loadCustomerData, WarningInfo,
     } = props;
+
+    if (error || loadCustomerData.error) {
+        return (
+            <Layout {...props} title={t('customer:menu:return')} activeMenu="/rma/customer">
+                <WarningInfo variant="error" text={t('rma:error:fetch')} />
+            </Layout>
+        );
+    }
     const styles = useStyles();
     const [formData, setFormData] = React.useState({
         order_number,
@@ -174,7 +182,7 @@ const NewReturnRma = (props) => {
     }
 
     return (
-        <Layout {...props} title={t('customer:menu:return')}>
+        <Layout {...props} title={t('customer:menu:return')} activeMenu="/rma/customer">
             <div className="column">
                 <div className={classNames(styles.block)}>
                     {
@@ -252,6 +260,18 @@ const NewReturnRma = (props) => {
             </div>
         </Layout>
     );
+};
+
+const NewReturnRma = (props) => {
+    const {
+        data, loadCustomerData, loading, Loader,
+    } = props;
+
+    if (loading || !data || loadCustomerData.loading) {
+        return <Loader />;
+    }
+
+    return <NewContent {...props} />;
 };
 
 export default NewReturnRma;

@@ -3,7 +3,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import DefaultLayout from '@layout';
-import Layout from '@core/customer/components/layout';
 import { getHistoryRma } from '../../services/graphql';
 import * as Schema from '../../services/graphql/schema';
 
@@ -37,30 +36,6 @@ const CoreLanding = (props) => {
         current_page: page + 1,
     });
 
-    if (loading || !data) {
-        return <DefaultLayout {...props} pageConfig={config}><Loader /></DefaultLayout>;
-    }
-    if (error) {
-        return (
-            <DefaultLayout {...props} pageConfig={config}>
-                <Layout {...props} title={t('customer:menu:return')}>
-                    <WarningInfo variant="error" text={t('rma:error:fetch')} />
-                </Layout>
-            </DefaultLayout>
-        );
-    }
-
-    if (!loading && data) {
-        if (data.getCustomerRequestAwRma.items.length === 0) {
-            return (
-                <DefaultLayout {...props} pageConfig={config}>
-                    <Layout {...props} title={t('customer:menu:return')}>
-                        <WarningInfo variant="error" text={t('rma:error:notFound')} />
-                    </Layout>
-                </DefaultLayout>
-            );
-        }
-    }
     const handleLoadMore = () => {
         setPage(page + 1);
         setLoadMore(true);
@@ -90,7 +65,18 @@ const CoreLanding = (props) => {
     };
 
     const contentprops = {
-        t, handleLoadMore, loadMore, page, pageSize, loading, data, handleChangePage, handleChangePageSize,
+        t,
+        handleLoadMore,
+        loadMore,
+        page,
+        pageSize,
+        loading,
+        data,
+        error,
+        handleChangePage,
+        handleChangePageSize,
+        Loader,
+        WarningInfo,
     };
 
     return (

@@ -7,10 +7,10 @@ import { updateRma, cancelRma } from '@core/rma/services/graphql';
 import ItemField from './ItemField';
 import useStyles from './styles';
 
-const DetailReturn = (props) => {
+const DetailContent = (props) => {
     const {
         t, data: { detail_rma, form_data }, customerData, storeConfig,
-        refetch, ItemProduct, ListMessage, FormComment, Footer,
+        refetch, ItemProduct, ListMessage, FormComment, Footer, loading, loadCustomerData, WarningInfo, error,
         Detail, ...other
     } = props;
     const styles = useStyles();
@@ -37,6 +37,14 @@ const DetailReturn = (props) => {
         handleYes: () => {},
         dropValue: [],
     });
+
+    if (error) {
+        return (
+            <Layout {...props} title={t('customer:menu:return')} activeMenu="/rma/customer">
+                <WarningInfo variant="error" text={t('rma:error:fetch')} />
+            </Layout>
+        );
+    }
 
     const changeOptionCustomField = (value) => {
         let allField = formData.custom_fields;
@@ -276,6 +284,14 @@ const DetailReturn = (props) => {
             </div>
         </Layout>
     );
+};
+
+const DetailReturn = (props) => {
+    const {
+        data, Loader, loading, loadCustomerData,
+    } = props;
+    if (loading || !data || loadCustomerData.loading) return <Loader />;
+    return <DetailContent {...props} />;
 };
 
 export default DetailReturn;
