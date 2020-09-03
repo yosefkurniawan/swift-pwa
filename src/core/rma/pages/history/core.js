@@ -3,6 +3,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import DefaultLayout from '@layout';
+import Layout from '@core/customer/components/layout';
 import { getHistoryRma } from '../../services/graphql';
 import * as Schema from '../../services/graphql/schema';
 
@@ -37,12 +38,14 @@ const CoreLanding = (props) => {
     });
 
     if (loading || !data) {
-        return <Loader />;
+        return <DefaultLayout {...props} pageConfig={config}><Loader /></DefaultLayout>;
     }
     if (error) {
         return (
             <DefaultLayout {...props} pageConfig={config}>
-                <WarningInfo variant="error" text={t('rma:error:fetch')} />
+                <Layout {...props} title={t('customer:menu:return')}>
+                    <WarningInfo variant="error" text={t('rma:error:fetch')} />
+                </Layout>
             </DefaultLayout>
         );
     }
@@ -51,7 +54,9 @@ const CoreLanding = (props) => {
         if (data.getCustomerRequestAwRma.items.length === 0) {
             return (
                 <DefaultLayout {...props} pageConfig={config}>
-                    <WarningInfo variant="error" text={t('rma:error:notFound')} />
+                    <Layout {...props} title={t('customer:menu:return')}>
+                        <WarningInfo variant="error" text={t('rma:error:notFound')} />
+                    </Layout>
                 </DefaultLayout>
             );
         }

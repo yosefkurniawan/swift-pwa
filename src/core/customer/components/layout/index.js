@@ -8,12 +8,12 @@ import useStyles from './style';
 
 const Layout = (props) => {
     const {
-        children, t,
+        children, t, title,
     } = props;
     const pushIf = (condition, ...elements) => (condition ? elements : []);
     const styles = useStyles();
     const router = useRouter();
-    let title = '';
+    let titlePage = '';
 
     const menu = [
         { href: '/customer/account', title: t('customer:menu:myAccount') },
@@ -49,7 +49,7 @@ const Layout = (props) => {
     for (let index = 0; index < menu.length; index++) {
         const item = menu[index];
         if (item.href === router.asPath) {
-            title = item.title;
+            titlePage = item.title;
         }
     }
     return (
@@ -79,7 +79,7 @@ const Layout = (props) => {
                     letter="capitalize"
                     className={classNames('hidden-mobile', styles.titleContent)}
                 >
-                    {title}
+                    {title || titlePage}
                 </Typography>
                 {children}
             </div>

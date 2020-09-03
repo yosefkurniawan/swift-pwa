@@ -1,5 +1,5 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { CreatePadding, FlexRow, FlexColumn } from '@theme/mixins';
+import { CreatePadding, FlexRow } from '@theme/mixins';
 import { RED, GREEN } from '@theme/colors';
 
 export default makeStyles((theme) => ({
@@ -15,7 +15,6 @@ export default makeStyles((theme) => ({
         ...FlexRow,
     },
     container: {
-        ...FlexColumn,
         width: '100%',
         height: '100%',
         fontSize: '12px',

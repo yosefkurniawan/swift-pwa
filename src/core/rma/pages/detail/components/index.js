@@ -2,6 +2,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import ConfirmModal from '@common_confirmdialog';
+import Layout from '@core/customer/components/layout';
 import { updateRma, cancelRma } from '@core/rma/services/graphql';
 import ItemField from './ItemField';
 import useStyles from './styles';
@@ -191,7 +192,7 @@ const DetailReturn = (props) => {
     };
 
     return (
-        <>
+        <Layout {...props} title={t('customer:menu:return')}>
             <ConfirmModal
                 open={state.openDialog}
                 handleCancel={() => setState({ ...state, openDialog: false })}
@@ -273,7 +274,7 @@ const DetailReturn = (props) => {
                 }
                 <ListMessage data={detail_rma.thread_message} t={t} {...other} />
             </div>
-        </>
+        </Layout>
     );
 };
 
