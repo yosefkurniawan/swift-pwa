@@ -17,7 +17,7 @@ const Customer = (props) => {
         && customerNotificationList.customerNotificationList
         && customerNotificationList.customerNotificationList.totalUnread;
 
-    if (!data || loading || error) return <Skeleton />;
+    if (!data || loading || error) return <Layout {...props}><Skeleton /></Layout>;
     if (data) {
         userData = data;
         if (modules.wishlist.enabled) {

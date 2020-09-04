@@ -1,4 +1,5 @@
 import Layout from '@layout';
+import CustomerLayout from '@core/customer/components/layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { regexPhone } from '@helpers/regex';
@@ -12,7 +13,7 @@ const ProfilePage = (props) => {
         data, error, loading, Content, t, Skeleton,
     } = props;
 
-    if (loading) return <Skeleton />;
+    if (loading) return <CustomerLayout {...props}><Skeleton /></CustomerLayout>;
     if (error) return <p>{`Error: ${error.message}`}</p>;
     if (!data) return null;
 

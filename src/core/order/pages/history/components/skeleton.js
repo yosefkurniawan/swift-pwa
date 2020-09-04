@@ -53,9 +53,6 @@ export default () => {
     return (
         <>
             <div className="row hidden-mobile">
-                <div className="col-md-2">
-                    <Skeleton variant="rect" width="100%" height={560} animation="wave" />
-                </div>
                 <div className="col-md-10">
                     <div className={styles.container}>
                         {data.map((i) => (
