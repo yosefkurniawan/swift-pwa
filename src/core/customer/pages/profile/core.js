@@ -92,8 +92,8 @@ const ProfilePage = (props) => {
                     window.backdropLoader(false);
                     window.toastMessage({ variant: 'success', open: true, text: t('customer:profile:successUpdate') });
                 }).catch((e) => {
-                    window.toastMessage({ variant: 'error', open: true, text: e.message.split(':')[1] || t('common:error:fetchError') });
                     window.backdropLoader(false);
+                    window.toastMessage({ variant: 'error', open: true, text: e.message ? e.message.split(':')[0] : t('common:error:fetchError') });
                 });
             }
         },
