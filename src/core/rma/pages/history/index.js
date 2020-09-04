@@ -15,7 +15,7 @@ const Page = (props) => (
 );
 
 Page.getInitialProps = async () => ({
-    namespacesRequired: ['rma'],
+    namespacesRequired: ['rma', 'customer'],
 });
 
 export default withApollo({ ssr: true })(withTranslation()(Page));

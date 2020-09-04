@@ -5,6 +5,7 @@
 import TextField from '@common_textfield';
 import classNames from 'classnames';
 import Typography from '@common_typography';
+import Layout from '@core/customer/components/layout';
 import Button from '@common_button';
 import Divider from '@material-ui/core/Divider';
 import DropFile from '@common_dropfile';
@@ -15,11 +16,19 @@ import useStyles from './styles';
 import ItemProduct from './ItemProduct';
 import ItemField from './ItemField/index';
 
-const NewReturnRma = (props) => {
+const NewContent = (props) => {
     const {
         t, data: { custom_fields, items, allowed_file_extensions }, storeConfig, customerData,
-        order_number, ItemProductView, ItemFieldView, OtherRmaLink,
+        order_number, ItemProductView, ItemFieldView, OtherRmaLink, error, loadCustomerData, WarningInfo,
     } = props;
+
+    if (error || loadCustomerData.error) {
+        return (
+            <Layout {...props} title={t('customer:menu:return')} activeMenu="/rma/customer">
+                <WarningInfo variant="error" text={t('rma:error:fetch')} />
+            </Layout>
+        );
+    }
     const styles = useStyles();
     const [formData, setFormData] = React.useState({
         order_number,
@@ -173,50 +182,51 @@ const NewReturnRma = (props) => {
     }
 
     return (
-        <div className="column">
-            <div className={classNames(styles.block)}>
-                {
-                    custom_fields && custom_fields.length > 0 && custom_fields.map((item, index) => {
-                        if (item.refers === 'request') {
-                            const name = item.name.split(' ').join('_').toLowerCase();
-                            const options = item.options.map((op) => ({
-                                label: op.frontend_labels[0].value,
-                                value: op.id,
-                            }));
-                            return (
-                                <ItemField
-                                    key={index}
-                                    options={options}
-                                    name={name}
-                                    propsValue={{
-                                        field_id: item.id,
-                                    }}
-                                    errorForm={state.errorForm}
-                                    onSelect={changeOptionCustomField}
-                                    label={item.frontend_labels[0].value}
-                                    required={item.is_required}
-                                    t={t}
-                                    ItemFieldView={ItemFieldView}
-                                />
-                            );
-                        } return null;
-                    })
-                }
-            </div>
-            <div className={styles.labelProduct}>
-                <Typography variant="title">{t('rma:product')}</Typography>
-            </div>
-            <div className={styles.selectProductContainer}>
-                <span onClick={selectAll}>
-                    <Typography variant="label">{t('rma:selectAll')}</Typography>
-                </span>
-                <Divider orientation="vertical" flexItem />
-                <span onClick={deselectAll}>
-                    <Typography variant="label">{t('rma:deselectAll')}</Typography>
-                </span>
-            </div>
-            <div className={styles.block}>
-                {products.length > 0
+        <Layout {...props} title={t('customer:menu:return')} activeMenu="/rma/customer">
+            <div className="column">
+                <div className={classNames(styles.block)}>
+                    {
+                        custom_fields && custom_fields.length > 0 && custom_fields.map((item, index) => {
+                            if (item.refers === 'request') {
+                                const name = item.name.split(' ').join('_').toLowerCase();
+                                const options = item.options.map((op) => ({
+                                    label: op.frontend_labels[0].value,
+                                    value: op.id,
+                                }));
+                                return (
+                                    <ItemField
+                                        key={index}
+                                        options={options}
+                                        name={name}
+                                        propsValue={{
+                                            field_id: item.id,
+                                        }}
+                                        errorForm={state.errorForm}
+                                        onSelect={changeOptionCustomField}
+                                        label={item.frontend_labels[0].value}
+                                        required={item.is_required}
+                                        t={t}
+                                        ItemFieldView={ItemFieldView}
+                                    />
+                                );
+                            } return null;
+                        })
+                    }
+                </div>
+                <div className={styles.labelProduct}>
+                    <Typography variant="title">{t('rma:product')}</Typography>
+                </div>
+                <div className={styles.selectProductContainer}>
+                    <span onClick={selectAll}>
+                        <Typography variant="label">{t('rma:selectAll')}</Typography>
+                    </span>
+                    <Divider orientation="vertical" flexItem />
+                    <span onClick={deselectAll}>
+                        <Typography variant="label">{t('rma:deselectAll')}</Typography>
+                    </span>
+                </div>
+                <div className={styles.block}>
+                    {products.length > 0
                             && (
                                 <CheckBox
                                     data={products}
@@ -227,28 +237,41 @@ const NewReturnRma = (props) => {
                                     CustomItem={ItemProduct}
                                 />
                             )}
+                </div>
+                <div className={styles.block}>
+                    <TextField
+                        name="message"
+                        onChange={(event) => setFormData({ ...formData, message: event.target.value })}
+                        value={formData.message}
+                        placeholder={t('rma:form:placeholder:message')}
+                        label={t('rma:form:label:message')}
+                        multiline
+                        rows={4}
+                    />
+                </div>
+                <div className={styles.block}>
+                    <DropFile label={t('rma:form:placeholder:uploadFile')} getBase64={handleGetBase64} acceptedFile={fileAccept} />
+                </div>
+                <div className={styles.block}>
+                    <Button fullWidth onClick={handleSubmit}>
+                        <Typography letter="capitalize" color="white">{t('rma:form:submit')}</Typography>
+                    </Button>
+                </div>
             </div>
-            <div className={styles.block}>
-                <TextField
-                    name="message"
-                    onChange={(event) => setFormData({ ...formData, message: event.target.value })}
-                    value={formData.message}
-                    placeholder={t('rma:form:placeholder:message')}
-                    label={t('rma:form:label:message')}
-                    multiline
-                    rows={4}
-                />
-            </div>
-            <div className={styles.block}>
-                <DropFile label={t('rma:form:placeholder:uploadFile')} getBase64={handleGetBase64} acceptedFile={fileAccept} />
-            </div>
-            <div className={styles.block}>
-                <Button fullWidth onClick={handleSubmit}>
-                    <Typography letter="capitalize" color="white">{t('rma:form:submit')}</Typography>
-                </Button>
-            </div>
-        </div>
+        </Layout>
     );
+};
+
+const NewReturnRma = (props) => {
+    const {
+        data, loadCustomerData, loading, Loader,
+    } = props;
+
+    if (loading || !data || loadCustomerData.loading) {
+        return <Loader />;
+    }
+
+    return <NewContent {...props} />;
 };
 
 export default NewReturnRma;

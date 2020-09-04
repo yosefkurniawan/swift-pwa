@@ -5,6 +5,7 @@ import Typography from '@common_typography';
 import AddressFormDialog from '@core/customer/plugins/AddressFormDialog';
 import React, { useState } from 'react';
 import TableRow from '@material-ui/core/TableRow';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import TableCell from '@material-ui/core/TableCell';
 import _ from 'lodash';
 import useStyles from './style';
@@ -26,6 +27,8 @@ const TableAddress = (props) => {
         loadingAddress,
         success,
         t,
+        selectedAddressId,
+        handleChange,
         // eslint-disable-next-line no-unused-vars
     } = props;
     const [open, setOpen] = useState(false);
@@ -47,6 +50,21 @@ const TableAddress = (props) => {
                 pageTitle={t('customer:address:editTitle')}
             />
             <TableRow className={styles.tableRowResponsive}>
+                <TableCell
+                    className={[styles.tableCellResponsive, styles.ok].join(' ')}
+                    align="left"
+                >
+                    <RadioGroup row aria-label="position" onChange={handleChange} name="position" value={selectedAddressId}>
+                        <FormControlLabel
+                            className={[styles.address_shipping].join(' ')}
+                            value={value}
+                            checked={checked}
+                            control={<Radio color="primary" size="small" />}
+                            label=""
+                            labelPlacement="end"
+                        />
+                    </RadioGroup>
+                </TableCell>
                 <TableCell
                     className={styles.tableCellResponsive}
                     align="left"

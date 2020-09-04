@@ -1,10 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { GRAY_PRIMARY, PRIMARY } from '@theme/colors';
 import {
-    CreatePadding, FlexRow, CenterAbsolute, FlexColumn,
+    CreatePadding, FlexRow, FlexColumn,
 } from '@theme/mixins';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
         height: '100%',
@@ -45,14 +45,30 @@ const useStyles = makeStyles(() => ({
         position: 'fixed',
         bottom: 0,
         left: 0,
-        ...CenterAbsolute,
         background: 'rgba(255,255,255,0.7)',
         ...CreatePadding(20, 20, 20, 20),
         textAlign: 'center',
+        [theme.breakpoints.up('sm')]: {
+            position: 'unset',
+        },
     },
     wishlistItems: {
         flex: '0 0 25%',
         padding: '5px',
+    },
+    btnWishlist: {
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: 'fit-content',
+        },
+    },
+    containerSkeleton: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '100%',
+        height: '100%',
+        marginTop: '30%',
     },
 }));
 
