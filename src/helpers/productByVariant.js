@@ -5,6 +5,18 @@
  * @returns object product
  */
 
+export const CheckAvailableStock = (attribute = '', variants = []) => {
+    let available = true;
+    for (let index = 0; index < variants.length; index += 1) {
+        if (variants[index].attributes[0].value_index === attribute.value_index) {
+            if (variants[index].product.stock_status === 'OUT_OF_STOCK') {
+                available = false;
+            }
+        }
+    }
+    return available;
+};
+
 export const getCombinationVariants = (selected = {}, variants = []) => {
     const combination = {
         code: selected.code,
