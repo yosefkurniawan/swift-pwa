@@ -319,6 +319,8 @@ const debuging = {
     originalError: false,
 };
 
+const installMessage = 'Discover experiences with us Swift App';
+
 module.exports = {
     debuging,
     GTM,
@@ -345,4 +347,5 @@ module.exports = {
     nossrCache,
     recaptcha,
     modules,
+    installMessage,
 };
