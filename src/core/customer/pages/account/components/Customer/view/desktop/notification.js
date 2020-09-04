@@ -27,15 +27,20 @@ const NotificationView = (props) => {
                         <Table aria-label="simple table">
                             <TableBody>
                                 {notification.items ? (
-                                    notification.items.map((val, idx) => (
-                                        <TableRow key={idx}>
-                                            <TableCell>{val.content}</TableCell>
-                                            <TableCell align="right">{formatDate(val.createdAt)}</TableCell>
-                                        </TableRow>
-                                    ))
+                                    notification.items.map((val, idx) => {
+                                        if (val.unread) {
+                                            return (
+                                                <TableRow key={idx}>
+                                                    <TableCell>{val.content}</TableCell>
+                                                    <TableCell align="right">{formatDate(val.createdAt)}</TableCell>
+                                                </TableRow>
+                                            );
+                                        }
+                                        return null;
+                                    })
 
                                 ) : null }
-                                {!notification.items
+                                {!notification.totalUnread || notification.totalUnread === 0
                                     ? (
                                         <TableRow>
                                             <TableCell align="center" colSpan="2">{t('customer:notHaveNotification')}</TableCell>
