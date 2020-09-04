@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import { useApolloClient } from '@apollo/client';
-import ProductByVariant, { getCombinationVariants, CheckAvailableOptions } from '@helpers/productByVariant';
+import ProductByVariant, { getCombinationVariants, CheckAvailableOptions, CheckAvailableStock } from '@helpers/productByVariant';
 import { getLoginInfo } from '@helpers/auth';
 import { getCartId, setCartId } from '@helpers/cartId';
 import TagManager from 'react-gtm-module';
@@ -223,6 +223,9 @@ export default (props) => {
                                 disabled: false,
                             };
                             let available = true;
+                            if (configProduct.data.products.items[0].configurable_options.length === 1) {
+                                available = CheckAvailableStock(option.values[valIdx], configProduct.data.products.items[0].variants);
+                            }
                             if (combination.code && combination.code !== option.attribute_code) {
                                 if (combination.available_combination.length > 0) {
                                     available = CheckAvailableOptions(combination.available_combination, option.values[valIdx].label);
