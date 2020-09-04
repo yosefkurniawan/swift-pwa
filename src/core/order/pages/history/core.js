@@ -1,6 +1,7 @@
 import Layout from '@layout';
 import { debuging } from '@config';
 import PropTypes from 'prop-types';
+import CustomerLayout from '@core/customer/components/layout';
 import { getOrder } from '../../services/graphql';
 
 const HistoryOrder = (props) => {
@@ -43,7 +44,15 @@ const HistoryOrder = (props) => {
         }
     }, [loading, data]);
 
-    if ((loading && !loadMore) || (!data && !loadMore)) return <Layout pageConfig={pageConfig} {...props}><Skeleton /></Layout>;
+    if ((loading && !loadMore) || (!data && !loadMore)) {
+        return (
+            <Layout pageConfig={pageConfig} {...props}>
+                <CustomerLayout {...props}>
+                    <Skeleton />
+                </CustomerLayout>
+            </Layout>
+        );
+    }
 
     if (error) {
         return (
