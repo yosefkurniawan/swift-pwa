@@ -12,10 +12,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import { formatPrice } from '@helpers/currency';
+import Divider from '@material-ui/core/Divider';
+import classNames from 'classnames';
 import useStyles from './style';
 
 const CheckoutDrawer = ({
-    editMode, t, summary, handleActionSummary, loading, disabled,
+    editMode, t, summary, handleActionSummary, loading, disabled, showItems = false, items = [],
 }) => {
     const styles = useStyles();
     const [expanded, setExpanded] = useState(null);
@@ -36,6 +38,53 @@ const CheckoutDrawer = ({
                         {expanded === 1 ? <ExpandLess /> : <ExpandMore />}
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={styles.expanBody}>
+                        {
+                            showItems ? (
+                                <>
+                                    <div className={classNames('row', styles.itemContainer)}>
+                                        {
+                                            items.map((item, index) => (
+                                                <div
+                                                    className="col-xs-12 row"
+                                                    key={index}
+                                                >
+                                                    <div className="col-xs-12 row between-xs clear-margin-padding">
+                                                        <div className="col-xs-6">
+                                                            <Typography variant="p">{item.product.name}</Typography>
+                                                        </div>
+                                                        <div className="col-xs-6">
+                                                            <Typography variant="p" align="right">
+                                                                {formatPrice(
+                                                                    item.prices.price.value * item.quantity, item.prices.price.currency || 'IDR',
+                                                                )}
+                                                            </Typography>
+                                                        </div>
+                                                    </div>
+                                                    <div className={classNames('col-xs-12', styles.qtyOption)}>
+                                                        <Typography variant="p">
+                                                            {
+                                                                item.configurable_options && item.configurable_options.length > 0
+                                                                    && (`${t('common:variant')} : ${
+                                                                        item.configurable_options.map((option, key) => {
+                                                                            if (key !== item.configurable_options.length - 1) {
+                                                                                return `${option.value_label} `;
+                                                                            }
+                                                                            return ` ${option.value_label}`;
+                                                                        })
+                                                                    }`)
+                                                            }
+                                                            &nbsp; &nbsp; &nbsp;
+                                                            {`${t('common:title:shortQty')} : ${item.quantity}`}
+                                                        </Typography>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                    <Divider />
+                                </>
+                            ) : null
+                        }
                         <List>
                             {
                                 data.map((dt, index) => (
