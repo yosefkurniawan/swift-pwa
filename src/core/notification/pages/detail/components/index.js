@@ -8,7 +8,7 @@ const NotificationData = (props) => {
         t, loading, error, data, localDateString,
     } = props;
 
-    if (loading) return <Skeleton />;
+    // if (loading) return <Skeleton />;
     if (error) return <Alert severity="error">{`Error: ${error.message}`}</Alert>;
     if (!data) return <Alert severity="error">{t('notification:not_found')}</Alert>;
 
@@ -16,17 +16,21 @@ const NotificationData = (props) => {
 
     return (
         <Layout {...props}>
-            <div className="container">
-                <Typography variant="p" style={{ marginBottom: 12 }} size="10" type="regular">
-                    {localDateString(item.createdAt)}
-                </Typography>
-                <Typography variant="p" size="14" type="regular">
-                    {item.subject}
-                </Typography>
-                <Typography variant="p" size="12" type="regular">
-                    {item.content}
-                </Typography>
-            </div>
+            {loading ? (
+                <Skeleton />
+            ) : (
+                <div className="container">
+                    <Typography variant="p" style={{ marginBottom: 12 }} size="10" type="regular">
+                        {localDateString(item.createdAt)}
+                    </Typography>
+                    <Typography variant="p" size="14" type="regular">
+                        {item.subject}
+                    </Typography>
+                    <Typography variant="p" size="12" type="regular">
+                        {item.content}
+                    </Typography>
+                </div>
+            )}
         </Layout>
     );
 };
