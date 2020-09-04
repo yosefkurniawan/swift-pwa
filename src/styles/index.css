@@ -119,7 +119,7 @@ a {
     top: 0px;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 767px) {
     main {
         max-width: 100vw;
         overflow-x: hidden;
