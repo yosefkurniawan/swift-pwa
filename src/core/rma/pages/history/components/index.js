@@ -20,7 +20,7 @@ const HistoryContent = (props) => {
     } = props;
     const styles = useStyles();
     if (loading || !data) {
-        return <Loader />;
+        return <Layout {...props}><Loader /></Layout>;
     }
     if (error) {
         return (

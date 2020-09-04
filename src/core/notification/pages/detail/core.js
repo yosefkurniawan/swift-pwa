@@ -40,7 +40,7 @@ const DetailNotification = (props) => {
     );
 
     return (
-        <Layout pageConfig={pageConfig || config}>
+        <Layout {...props} pageConfig={pageConfig || config}>
             <Content
                 t={t}
                 loading={loading}

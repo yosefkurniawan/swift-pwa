@@ -12,9 +12,9 @@ const NotificationList = (props) => {
         t, data, handleItemClick, localDateString, loading, error,
     } = props;
 
-    if (loading) return <Skeleton />;
-    if (error) return <Alert severity="error">{`Error: ${error.message}`}</Alert>;
-    if (!data) return <Alert severity="error">{t('notification:not_found')}</Alert>;
+    if (loading) return <Layout {...props}><Skeleton /></Layout>;
+    if (error) return <Layout {...props}><Alert severity="error">{`Error: ${error.message}`}</Alert></Layout>;
+    if (!data) return <Layout {...props}><Alert severity="error">{t('notification:not_found')}</Alert></Layout>;
 
     if (data.customerNotificationList.items.length === 0) {
         return (

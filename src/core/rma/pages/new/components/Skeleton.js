@@ -5,7 +5,7 @@ import useStyles from './styles';
 export default () => {
     const styles = useStyles();
     return (
-        <div className="row">
+        <div className="row" style={{ paddingBottom: 100 }}>
             <div className="col-lg-2 hidden-mobile">
                 <Skeleton animation="wave" variant="rect" height={540} width="100%" />
             </div>

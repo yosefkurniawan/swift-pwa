@@ -7,9 +7,9 @@ export default () => {
     return (
         <>
             <div className="row hidden-mobile">
-                <div className="col-lg-2">
+                {/* <div className="col-lg-2">
                     <Skeleton animation="wave" variant="rect" height={300} width="100%" />
-                </div>
+                </div> */}
                 <div className="col-lg-10">
                     <Skeleton animation="wave" variant="rect" height={240} width="100%" style={{ marginBottom: 50 }} />
                 </div>

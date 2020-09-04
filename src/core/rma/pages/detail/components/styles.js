@@ -105,4 +105,7 @@ export default makeStyles((theme) => ({
             width: '60%',
         },
     },
+    container: {
+        paddingBottom: 30,
+    },
 }));
