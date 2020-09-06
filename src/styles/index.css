@@ -34,6 +34,7 @@ main {
     display: block;
     left: 0;
     margin: 0 auto;
+    overflow: hidden;
 }
 
 .clear-margin-padding {
@@ -59,14 +60,11 @@ main {
 
 .pac-container {
     z-index: 3333;
+    background-color: #ffffff;
 }
 a {
     text-decoration: none;
     color: inherit;
-}
-.row {
-    display: flex;
-    flex-direction: row;
 }
 
 .row-center {
@@ -105,10 +103,21 @@ a {
     margin: 15;
 }
 
-.center {
+/* .center {
   display: flex;
   justify-content: center;
   align-items: center;
+} */
+
+.cat-label {
+    position: absolute;
+    background-color: #000000;
+    color: #ffffff;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 5px;
+    font-size: 12px;
+    top: 0px;
 }
 
 @media (max-width: 500px) {
@@ -134,32 +143,32 @@ a {
     color: #444;
 }
 
-@media (max-width: 599px) {
-    .hidden-xs {
-        display: none;
-    }
+.cms-container .social-icon {
+    padding: 0 6px;
+    vertical-align: middle;
+    display: inline-block;
 }
-
-@media (min-width: 600px) and (max-width: 959px) {
-    .hidden-sm {
-        display: none;
-    }
+.cms-container .social-icon i:before {
+    content: '';
+    background-position: center;
+    background-size: contain;
+    width: 40px;
+    height: 40px;
+    display: block;
 }
-
-@media (min-width: 960px) and (max-width: 1279px) {
-    .hidden-md {
-        display: none;
-    }
+.cms-container .social-icon .icon-facebook:before {
+    background-image: url(/assets/img/facebook.png);
 }
-
-@media (min-width: 1280px) and (max-width: 1919px) {
-    .hidden-lg {
-        display: none;
-    }
+.cms-container .social-icon .icon-twitter:before {
+    background-image: url(/assets/img/twitter.png);
 }
-
-@media (min-width: 1920) {
-    .hidden-xl {
-        display: none;
-    }
+.cms-container .social-icon .icon-instagram:before {
+    background-image: url(/assets/img/instagram.png);
+}
+.cms-container .social-icon .icon-pinterest:before {
+    background-image: url(/assets/img/pinterest.png);
+}
+.wrapper-brands .slick-track{
+    display: flex;
+    align-items: center;
 }

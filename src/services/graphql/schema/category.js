@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { gql } from 'apollo-boost';
+import { gql } from '@apollo/client';
 
 export const categories = gql`
     {
@@ -32,4 +32,38 @@ export const categories = gql`
             }
         }
     }
+`;
+
+export const vesMenu = gql`
+    query getVesMenu(
+        $alias: String!
+    ) {
+        vesMenu(
+          alias: $alias
+        )
+        {
+          menu_id
+          name
+          items {
+            id
+            name
+            link
+            children {
+              id
+              name
+              link
+              children {
+               id
+               name
+               link
+               children {
+                id
+                name
+                link
+                }
+              }
+            }
+          }
+        }
+      }
 `;

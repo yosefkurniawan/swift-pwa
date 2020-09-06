@@ -1,3 +1,6 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable no-unused-vars */
 /* eslint-disable func-names */
 /* eslint-disable radix */
 /* eslint-disable max-len */
@@ -19,14 +22,15 @@ import {
 } from '@helpers/auth';
 // import Fonts from '@helpers/fonts';
 import TagManager from 'react-gtm-module';
-import '../src/styles/index.css';
-import PageProgressLoader from '@components/Loaders/PageProgress';
+import PageProgressLoader from '@common_loaders/PageProgress';
+import getConfig from 'next/config';
 import graphRequest from '../src/api/graphql/request';
 import routeMiddleware from '../src/middlewares/route';
+import '../src/styles/index.css';
+import '../src/styles/mediaquery.css';
+import '../src/styles/flexboxgrid.min.css';
 
-const tagManagerArgs = {
-    gtmId: GTM.gtmId[process.env.APP_ENV] || GTM.gtmId.dev,
-};
+const { publicRuntimeConfig } = getConfig();
 
 class MyApp extends App {
     constructor(props) {
@@ -36,9 +40,7 @@ class MyApp extends App {
 
     static async getInitialProps({ Component, ctx }) {
         let pageProps = {};
-
         const allcookie = cookies(ctx);
-
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
         }
@@ -83,16 +85,18 @@ class MyApp extends App {
     componentDidMount() {
         // lazy load fonts. use this to load non critical fonts
         // Fonts();
-
         // Remove the server-side injected CSS.
         const jssStyles = document.querySelector('#jss-server-side');
         if (jssStyles) {
             jssStyles.parentElement.removeChild(jssStyles);
         }
-
         // GTM & GA
-        if (GTM.enable) TagManager.initialize(tagManagerArgs);
+        const tagManagerArgs = {
+            gtmId: (typeof publicRuntimeConfig !== 'undefined' && GTM.gtmId[publicRuntimeConfig.appEnv])
+                ? GTM.gtmId[publicRuntimeConfig.appEnv] : GTM.gtmId.dev,
+        };
 
+        if (GTM.enable) TagManager.initialize(tagManagerArgs);
         // remove config cookie if page reload
         if (typeof window !== 'undefined') {
             window.onbeforeunload = function () {
@@ -110,9 +114,7 @@ class MyApp extends App {
                 expires: expiredCokies,
             });
         }
-
         pageProps.storeConfig = pageProps.storeConfig ? pageProps.storeConfig : {};
-
         return (
             <>
                 <ThemeProvider theme={theme}>
@@ -125,5 +127,4 @@ class MyApp extends App {
         );
     }
 }
-
 export default (appWithTranslation(MyApp));

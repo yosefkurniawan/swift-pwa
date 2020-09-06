@@ -11,7 +11,7 @@
         "title": "Search",
         "mainTitle": "New in Collection",
         "backTitle": "back in stock sale",
-        "location" : "Search Location"
+        "location": "Search Location"
     },
     "button": {
         "edit": "Edit",
@@ -21,16 +21,18 @@
         "cancel": "Cancel",
         "yes": "Yes",
         "checkout": "Checkout",
-        "change" : "Change",
+        "change": "Change",
         "login": "Login",
         "register": "Register",
-        "send" : "send",
+        "send": "Submit",
         "addAddress": "Add Address",
         "loadMore": "Load more",
         "clear": "Clear",
         "verify": "Verify",
         "shop": "SHOP NOW",
-        "sendOtp": "Send OTP"
+        "sendOtp": "Send OTP",
+        "submit": "Submit",
+        "viewAll": "View All"
     },
     "subtotal": "Subtotal",
     "price": {
@@ -57,10 +59,13 @@
         "short": "Short By",
         "search": "Search ...",
         "brand": "Brand",
-        "category": "Category"
+        "category": "Category",
+        "summary": "Summary",
+        "price": "Price",
+        "shortQty": "Qty"
     },
     "error": {
-        "notFound" : "Data not found",
+        "notFound": "Data not found",
         "fileReject": "Cannot upload, Files must be a type ",
         "fetchError": "Connection Error. Please try again later."
     },
@@ -68,5 +73,20 @@
         "reject": "Cannot upload, Files must be a type ",
         "dragActive": "Drop the files here ...",
         "dragNonActive": "Drag drop some files here, or click to select file"
+    },
+    "menu": {
+        "confirmpayment": "Confirm Payment",
+        "trackingorder": "Tracking Order",
+        "sign": "Sign",
+        "register": "Create Account",
+        "or": "or",
+        "notification": "Notification",
+        "myaccount": "My Account",
+        "mywishlist": "My Wishlist",
+        "signout": "Sign Out"
+    },
+    "header": {
+        "welcome": "Welcome!",
+        "hi": "Hi, $!"
     }
 }

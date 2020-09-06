@@ -1,9 +1,15 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
 import {
     setLastPathWithoutLogin,
     removeLastPathWithoutLogin,
 } from '@helpers/auth';
 import Router from 'next/router';
+
+import { modules } from '@config';
 
 export const routeNoAuth = (path) => {
     const route = [
@@ -45,6 +51,24 @@ const routeMiddleware = (params) => {
     const {
         req, res, query, asPath, isLogin, lastPathNoAuth,
     } = params;
+    /**
+     * middleware enabled or disabled feature
+     */
+    for (const key in modules) {
+        const feature = modules[key];
+        if (asPath.indexOf(feature.path) >= 0 && !feature.enabled) {
+            if (typeof window !== 'undefined') {
+                window.location.href = '/';
+            } else if (res) {
+                res.writeHead(301, {
+                    Location: '/',
+                });
+                res.end();
+            }
+            return {};
+        }
+    }
+
     if (isLogin) {
         const allow = routeNoAuth(asPath);
         if (!allow) {

@@ -1,3 +1,3 @@
-import Page from '@pages/customer/login';
+import Page from '@core/login/pages/default';
 
 export default Page;

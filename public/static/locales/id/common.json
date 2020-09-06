@@ -29,7 +29,9 @@
         "clear": "Bersihkan",
         "verify": "Verifikasi",
         "shop": "Beli Sekarang",
-        "sendOtp": "Kirim OTP"
+        "sendOtp": "Kirim OTP",
+        "submit": "Kirimkan",
+        "viewAll": "Lihat Semua"
     },
     "subtotal": "Subtotal",
     "price": {
@@ -57,7 +59,10 @@
         "short": "Urutkan dari",
         "search": "Pencarian ...",
         "brand": "Brand",
-        "category": "Kategory"
+        "category": "Kategory",
+        "summary": "Ringkasan",
+        "price": "Harga",
+        "shortQty": "Jml"
     },
     "error": {
         "notFound" : "Data tidak di temukan",
@@ -68,5 +73,20 @@
         "reject": "Tidak dapat mengupload, file harus ber type  ",
         "dragActive": "Taruh file kesini ...",
         "dragNonActive": "Tarik dan taruh file kesini, atau klik untuk pilih file"
+    },
+    "menu" : {
+        "confirmpayment" : "Konfirmasi Pembayaran",
+        "trackingorder" : "Lacak Pesanan",
+        "sign" : "Masuk",
+        "register" : "Buat Akun",
+        "or" : "Atau",
+        "notification": "Notifikasi",
+        "myaccount": "Akun Saya",
+        "mywishlist": "Daftar Saya",
+        "signout": "keluar"
+    },
+    "header": {
+        "welcome": "Selamat Datang!",
+        "hi": "Hai, $!"
     }
 }

@@ -1,3 +1,3 @@
-import Page from '@pages/customer/giftCard';
+import Page from '@core/customer/pages/giftcard';
 
 export default Page;

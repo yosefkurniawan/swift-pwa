@@ -1,3 +1,3 @@
-import Page from '@pages/searchResult';
+import Page from '@core/searchresult/pages/default';
 
 export default Page;

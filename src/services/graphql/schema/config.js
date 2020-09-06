@@ -1,6 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-import { gql } from 'apollo-boost';
-
 export const storeConfig = `
     {
         storeConfig {
@@ -37,38 +35,11 @@ export const storeConfig = `
             weight_unit
             oauth_access_token_lifetime_customer
             payments_configuration
+            shipments_configuration
             snap_client_key
             snap_is_production
             aw_blog_general_enabled
             pickup_store
-        }
-    }
-`;
-
-export const otpConfig = gql`
-    {
-        otpConfig {
-            otp_enable {
-                enable_otp_forgot_password
-                enable_otp_login
-                enable_otp_register
-            }
-            otp_expired_time {
-                expired_time_otp_forgot_password
-                expired_time_otp_login
-                expired_time_otp_register
-            }
-            otp_general_email_required
-            otp_length {
-                length_otp_forgot_password
-                length_otp_login
-                length_otp_register
-            }
-            otp_max_try {
-                max_try_otp_forgot_password
-                max_try_otp_login
-                max_try_otp_register
-            }
         }
     }
 `;

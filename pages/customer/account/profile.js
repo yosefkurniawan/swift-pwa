@@ -1,3 +1,3 @@
-import Page from '@pages/customer/profile';
+import Page from '@core/customer/pages/profile';
 
 export default Page;
