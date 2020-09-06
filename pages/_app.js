@@ -102,6 +102,52 @@ class MyApp extends App {
             window.onbeforeunload = function () {
                 Cookie.remove(storeConfigNameCokie);
             };
+
+            this.initialInstallApp();
+        }
+    }
+
+    initialInstallApp() {
+        let deferredPrompt = null;
+
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('0000000000000000000000==================================000000000000000000000000000000000000');
+        });
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
+            console.log('0000000000000000000000==================================000000000000000000000000000000000000');
+            console.log(e);
+            // Update UI notify the user they can install the PWA
+            this.showInstallPromotion();
+        });
+        const buttonInstall = document.getElementById('btn-install');
+
+        if (buttonInstall) {
+            buttonInstall.addEventListener('click', (e) => {
+                // Hide the app provided install promotion
+                // hideMyInstallPromotion();
+                // Show the install prompt
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
+                });
+            });
+        }
+    }
+
+    showInstallPromotion() {
+        const elDesktop = document.getElementById('popup-desktop__install');
+        if (elDesktop) {
+            elDesktop.style.display = 'block';
         }
     }
 
