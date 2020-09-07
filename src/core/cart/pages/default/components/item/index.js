@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Typography from '@common_typography';
 import Button from '@common_button';
+import classNames from 'classnames';
 import useStyles from '../style';
 import Item from './item';
 
@@ -56,7 +57,7 @@ const ItemView = (props) => {
                         {t('cart:counter:text')}
                     </Typography>
                 </div>
-                <div className={styles.toolbarActions}>
+                <div className={classNames(styles.toolbarActions, 'hidden-desktop')}>
                     <Button variant="outlined" className={styles.toolbarButton} onClick={toggleEditMode}>
                         {editMode ? <>{t('common:button:save')}</> : <>{t('common:button:edit')}</>}
                     </Button>
