@@ -164,7 +164,7 @@ const Wishlist = (props) => {
                     ? totalSucces > 0
                         // eslint-disable-next-line max-len
                         ? `${t('customer:wishlist:addPartToBagSuccess').split('$'[0])} ${totalSucces} ${t('customer:wishlist:addPartToBagSuccess').split('$'[1])}`
-                        : errorCart[1] || t('product:failedAddCart')
+                        : errorCart[1] || t('customer:wishlist:failedAddCart')
                     : t('customer:wishlist:addAllToBagSuccess'),
                 variant: errorCart[0] ? 'error' : 'success',
             });
