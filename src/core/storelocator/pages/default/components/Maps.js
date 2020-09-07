@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable import/no-extraneous-dependencies */
 import {
     compose,
@@ -9,7 +10,9 @@ import {
     withGoogleMap,
     GoogleMap,
     Marker,
+    Circle,
 } from 'react-google-maps';
+
 // import { StandaloneSearchBox } from 'react-google-maps/lib/components/places/StandaloneSearchBox';
 // import InputAdornment from '@material-ui/core/InputAdornment';
 // import TextField from '@material-ui/core/TextField';
@@ -28,7 +31,7 @@ const StoreLocatorMaps = compose(
         componentWillMount() {
             // const refs = {};
 
-            // this.setState({
+            this.setState({
             //     places: [],
             //     onSearchBoxMounted: (ref) => {
             //         refs.searchBox = ref;
@@ -42,13 +45,20 @@ const StoreLocatorMaps = compose(
             //             lng: location.lng(),
             //         });
             //     },
-            // });
+            });
         },
     }),
     withScriptjs,
     withGoogleMap,
 )((props) => {
     // const { t } = useTranslation(['common']);
+    const [radius] = React.useState(9123);
+    const [zoom, setZoom] = React.useState(1);
+
+    React.useEffect(() => {
+        setZoom(24 - Math.log(radius * 0.621371) / Math.LN2);
+    }, [radius]);
+
     const setZeroIfEmpty = (value) => {
         const emptyValues = [undefined, null, '', 'undefined', 'null'];
         return emptyValues.includes(value) ? 0 : Number(value);
@@ -63,10 +73,17 @@ const StoreLocatorMaps = compose(
     return (
         <>
             <GoogleMap
-                defaultZoom={15}
+                defaultZoom={zoom}
+                zoom={zoom}
                 defaultCenter={centerPosition}
                 center={centerPosition}
             >
+                <Circle
+                    strokeColor="red"
+                    center={centerPosition}
+                    defaultRadius={0}
+                    radius={radius}
+                />
                 {props.isMarkerShown && mapPositions.map((position) => (
                     <Marker
                         position={position}
