@@ -69,6 +69,7 @@ const AddressView = (props) => {
                             });
                         }}
                         pageTitle={t('checkout:address:addTitle')}
+                        {...other}
                     />
                     {loading.addresses || loading.all ? null : (
                         <Button
