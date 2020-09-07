@@ -17,6 +17,7 @@ const PageStoreLocator = (props) => {
             <Content
                 t={t}
                 loading={false}
+                {...props}
             />
         </Layout>
     );
