@@ -56,15 +56,24 @@ const useStyles = makeStyles((theme) => ({
         ...CreateMargin(10, 0, 10, 0),
     },
     expandHeadOpen: {
-        maxHeight: '20px !important',
-        minHeight: 15,
+        maxHeight: '10px !important',
+        minHeight: '20px !important',
         ...Centering,
-        ...CreateMargin(0, 0, 0, 0),
+        ...CreateMargin(10, 0, 0, 0),
         ...CreatePadding(0, 0, 0, 0),
     },
 
     labelItem: {
         maxWidth: '50%',
+    },
+    itemContainer: {
+        paddingBottom: 20,
+        maxHeight: '40vh',
+        overflow: 'scroll',
+    },
+    qtyOption: {
+        marginTop: -10,
+        marginBottom: 5,
     },
 }));
 

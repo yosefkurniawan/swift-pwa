@@ -246,6 +246,7 @@ const Summary = ({
                         handleActionSummary={handlePlaceOrder}
                         dataCart={checkout.data.cart}
                         isDesktop={false}
+                        showItems
                     />
                 </div>
                 <div className="hidden-mobile">
