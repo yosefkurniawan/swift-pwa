@@ -30,6 +30,7 @@ const useStyles = makeStyles(() => ({
     },
     toolbarButton: {
         fontSize: 11,
+        marginTop: 20,
     },
     items: {
         ...FlexColumn,

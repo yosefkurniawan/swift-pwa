@@ -76,7 +76,14 @@ const cartSubSelection = `
         }
     }
     items {
+        id
         quantity
+        ... on ConfigurableCartItem {
+            configurable_options {
+            option_label
+            value_label
+          }
+        }
         prices {
             row_total {
                 currency

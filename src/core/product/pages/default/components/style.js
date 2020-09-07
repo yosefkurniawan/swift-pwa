@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
         position: 'relative',
         backgroundColor: WHITE,
         width: '100%',
+        [theme.breakpoints.down('sm')]: {
+            padding: '0',
+        },
     },
     header: {
         position: 'absolute',

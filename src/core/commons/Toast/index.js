@@ -27,7 +27,7 @@ function Alert(props) {
 }
 
 export default ({
-    open, message, setOpen, variant = 'info', autoHideDuration = 300000,
+    open, message, setOpen, variant = 'info', autoHideDuration = 3000,
 }) => {
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
