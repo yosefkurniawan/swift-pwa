@@ -39,6 +39,11 @@ const useStyles = makeStyles(() => ({
             background: WHITE,
         },
     },
+    popupInstallDesktop: {
+        display: 'none',
+        position: 'absolute',
+        top: '4px',
+    },
 }));
 
 export default useStyles;

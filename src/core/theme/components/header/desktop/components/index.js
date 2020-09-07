@@ -6,28 +6,19 @@ import NotificationBell from '@core/notification/plugins/NotificationBell';
 import ShoppingBagIcon from '@core/cart/plugin/ShoppingBag';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
-import Button from '@material-ui/core/Button';
-import { installMessage } from '@config';
+import DesktopInstallApp from '@core/theme/components/custom-install-popup/desktop';
 import Menu from './mcategory';
 import TopMenu from './mtop';
-import useStyles from './style';
 
 const ViewTopNavigation = (props) => {
     const {
         storeConfig, handleSearch, searchByClick, setValue, value, data, loading, t, isLogin, customer, handleLogout,
     } = props;
-    const styles = useStyles();
     return (
         <div id="header">
             <div className="row header-top">
                 <main>
-                    <div id="popup-desktop__install" className={styles.popupInstallDesktop}>
-                        <Button id="btn-install" variant="contained" color="primary">
-                            Install
-                        </Button>
-                        {' '}
-                        {installMessage}
-                    </div>
+                    <DesktopInstallApp />
                     <TopMenu t={t} isLogin={isLogin} data={customer} handleLogout={handleLogout} />
                 </main>
             </div>
