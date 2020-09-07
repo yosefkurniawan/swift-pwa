@@ -10,6 +10,8 @@ import { custDataNameCookie, features } from '@config';
 import { getHost } from '@helpers/config';
 import { breakPointsUp } from '@helpers/theme';
 
+import PopupInstallAppMobile from '../components/custom-install-popup/mobile';
+
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
 const HeaderMobile = dynamic(() => import('@common_headermobile'), { ssr: true });
 const HeaderDesktop = dynamic(() => import('@common_headerdesktop'), { ssr: true });
@@ -146,7 +148,7 @@ const Layout = (props) => {
                     }
                 </div>
             </header>
-
+            <PopupInstallAppMobile />
             <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0, minHeight: 'calc(100vh - 435px)' }}>
                 <Loading open={state.backdropLoader} />
                 <Message

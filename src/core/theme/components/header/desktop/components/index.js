@@ -6,6 +6,7 @@ import NotificationBell from '@core/notification/plugins/NotificationBell';
 import ShoppingBagIcon from '@core/cart/plugin/ShoppingBag';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
+import DesktopInstallApp from '@core/theme/components/custom-install-popup/desktop';
 import Menu from './mcategory';
 import TopMenu from './mtop';
 
@@ -17,6 +18,7 @@ const ViewTopNavigation = (props) => {
         <div id="header">
             <div className="row header-top">
                 <main>
+                    <DesktopInstallApp />
                     <TopMenu t={t} isLogin={isLogin} data={customer} handleLogout={handleLogout} />
                 </main>
             </div>
