@@ -21,6 +21,9 @@ const graphqlEndpoint = {
 /* FEATURES CONFIGURATION
 /* --------------------------------------- */
 
+const installMessage = 'Get our free app. It won\'t take upspace on your phone';
+const appName = 'Swift APP';
+
 /* Social Sharing */
 const shareIcon = {
     facebook: true,
@@ -319,8 +322,6 @@ const debuging = {
     originalError: false,
 };
 
-const installMessage = 'Discover experiences with us Swift App';
-
 module.exports = {
     debuging,
     GTM,
@@ -348,4 +349,5 @@ module.exports = {
     recaptcha,
     modules,
     installMessage,
+    appName,
 };

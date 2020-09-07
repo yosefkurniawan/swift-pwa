@@ -111,7 +111,7 @@ class MyApp extends App {
         let deferredPrompt = null;
 
         window.addEventListener('appinstalled', (evt) => {
-            console.log('0000000000000000000000==================================000000000000000000000000000000000000');
+            this.hideInstallPromotion();
         });
 
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -119,35 +119,60 @@ class MyApp extends App {
             e.preventDefault();
             // Stash the event so it can be triggered later.
             deferredPrompt = e;
-            console.log('0000000000000000000000==================================000000000000000000000000000000000000');
-            console.log(e);
             // Update UI notify the user they can install the PWA
             this.showInstallPromotion();
         });
-        const buttonInstall = document.getElementById('btn-install');
 
+
+        // run instalation
+        const buttonInstall = window.innerWidth <= 768 ? document.getElementById('btn-install__mobile')
+            : document.getElementById('btn-install');
         if (buttonInstall) {
             buttonInstall.addEventListener('click', (e) => {
-                // Hide the app provided install promotion
-                // hideMyInstallPromotion();
-                // Show the install prompt
                 deferredPrompt.prompt();
-                // Wait for the user to respond to the prompt
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                    } else {
-                        console.log('User dismissed the install prompt');
-                    }
-                });
             });
         }
     }
 
     showInstallPromotion() {
-        const elDesktop = document.getElementById('popup-desktop__install');
-        if (elDesktop) {
-            elDesktop.style.display = 'block';
+        if (window.innerWidth <= 768) {
+            const date = new Date();
+            const hide = localStorage.getItem('hideInstallPopup');
+            const expired = localStorage.getItem('expiredHideInstallPopup');
+            const el = document.getElementById('popup-mobile__install');
+            // hidden popup
+            if (el && (hide !== 'true'
+            || (hide === 'true' && date.getDate() >= parseInt(expired)))) {
+                localStorage.removeItem('hideInstallPopup');
+                localStorage.removeItem('expiredHideInstallPopup');
+                el.style.display = 'flex';
+            }
+        } else {
+            const elDesktop = document.getElementById('popup-desktop__install');
+            if (elDesktop) {
+                elDesktop.style.display = 'block';
+            }
+        }
+    }
+
+    hideInstallPromotion() {
+        if (window.innerWidth <= 768) {
+            const el = document.getElementById('popup-mobile__install');
+            // hidden popup
+            if (el) {
+                el.style.display = 'none';
+            }
+
+            const date = new Date();
+            // add a day
+            date.setDate(date.getDate() + 1);
+            localStorage.setItem('hideInstallPopup', true);
+            localStorage.setItem('expiredHideInstallPopup', date.getDate());
+        } else {
+            const elDesktop = document.getElementById('popup-desktop__install');
+            if (elDesktop) {
+                elDesktop.style.display = 'none';
+            }
         }
     }
 
