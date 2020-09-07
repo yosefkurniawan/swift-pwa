@@ -71,7 +71,7 @@ const CoreSummary = (props) => {
     }
 
     return (
-        <MobileView summary={{ total, data: dataSummary }} {...other} />
+        <MobileView items={items} summary={{ total, data: dataSummary }} {...other} />
     );
 };
 
