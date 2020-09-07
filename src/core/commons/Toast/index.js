@@ -2,20 +2,24 @@ import Snackbar from '@material-ui/core/Snackbar';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import MuiAlert from '@material-ui/lab/Alert';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     container: {
         margin: 10,
         maxWidth: '90%',
         padding: 10,
         overflow: 'hidden',
         wordWrap: 'break-word',
+        minWidth: '300px',
+        [theme.breakpoints.up('sm')]: {
+            minWidth: '500px',
+        },
     },
     message: {
         wordWrap: 'break-word',
         display: 'flex',
         flexWrap: 'wrap',
     },
-});
+}));
 
 function Alert(props) {
     const styles = useStyles();
@@ -23,7 +27,7 @@ function Alert(props) {
 }
 
 export default ({
-    open, message, setOpen, variant = 'info', autoHideDuration = 3000,
+    open, message, setOpen, variant = 'info', autoHideDuration = 300000,
 }) => {
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
