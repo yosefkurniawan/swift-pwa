@@ -7,10 +7,10 @@ const StoreMaps = ({ gmapKey }) => {
     const [storeLocations, setStoreLocations] = React.useState([]);
 
     React.useEffect(() => {
-        setCenterPosition({ lat: -6.97618300042124, lng: 107.65397982405091 });
+        setCenterPosition({ lat: -6.95, lng: 107.65 });
         setStoreLocations([
-            { lat: -6.9785684616325865, lng: 107.65306787298584 },
-            { lat: -6.984106092570553, lng: 107.65289621160889 },
+            { lat: -6.97, lng: 107.65 },
+            { lat: -7.00, lng: 107.55 },
         ]);
     }, []);
 
