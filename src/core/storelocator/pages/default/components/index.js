@@ -1,34 +1,23 @@
-/* eslint-disable consistent-return */
-/* eslint-disable radix */
-/* eslint-disable no-nested-ternary */
 import Layout from '@core/customer/components/layout';
-import IcubeMaps from '@common_googlemaps';
-import SkeletonStoreLocator from './skeleton';
+import StoreLocatorMaps from './Maps';
+import SkeletonStoreLocator from './Skeleton';
 
 const StoreMaps = ({ gmapKey }) => {
-    const [mapPosition, setMapPosition] = React.useState({
-        lat: '-6.197361',
-        lng: '106.774535',
-    });
-
-    const handleCurrentPosition = (position) => {
-        setMapPosition({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-        });
-    };
+    const [centerPosition, setCenterPosition] = React.useState({});
+    const [storeLocations, setStoreLocations] = React.useState([]);
 
     React.useEffect(() => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(handleCurrentPosition);
-        }
+        setCenterPosition({ lat: -6.97618300042124, lng: 107.65397982405091 });
+        setStoreLocations([
+            { lat: -6.9785684616325865, lng: 107.65306787298584 },
+            { lat: -6.984106092570553, lng: 107.65289621160889 },
+        ]);
     }, []);
 
     return (
-        <IcubeMaps
-            height="230px"
-            mapPosition={mapPosition}
-            dragMarkerDone={(e) => { console.log(e); }}
+        <StoreLocatorMaps
+            centerPosition={centerPosition}
+            mapPositions={storeLocations}
             gmapKey={gmapKey}
         />
     );
