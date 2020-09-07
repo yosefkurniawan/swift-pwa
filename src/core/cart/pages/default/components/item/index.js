@@ -2,8 +2,10 @@
 import { useState } from 'react';
 import Typography from '@common_typography';
 import Button from '@common_button';
+import classNames from 'classnames';
 import useStyles from '../style';
 import Item from './item';
+import TableList from './TableListItem';
 
 const ItemProduct = (props) => {
     const {
@@ -56,13 +58,13 @@ const ItemView = (props) => {
                         {t('cart:counter:text')}
                     </Typography>
                 </div>
-                <div className={styles.toolbarActions}>
+                <div className={classNames(styles.toolbarActions, 'hidden-desktop')}>
                     <Button variant="outlined" className={styles.toolbarButton} onClick={toggleEditMode}>
                         {editMode ? <>{t('common:button:save')}</> : <>{t('common:button:edit')}</>}
                     </Button>
                 </div>
             </div>
-            <div className={styles.items}>
+            <div className={classNames(styles.items, 'hidden-desktop')}>
                 {data.items.map((item, idx) => (
                     <ItemProduct
                         {...item}
@@ -78,6 +80,15 @@ const ItemView = (props) => {
                         handleFeed={handleFeed}
                     />
                 ))}
+            </div>
+            <div className="hidden-mobile">
+                <TableList
+                    data={data.items}
+                    t={t}
+                    deleteItem={deleteItem}
+                    handleFeed={handleFeed}
+                    toggleEditDrawer={toggleEditDrawer}
+                />
             </div>
         </div>
     );
