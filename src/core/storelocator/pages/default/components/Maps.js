@@ -52,7 +52,7 @@ const StoreLocatorMaps = compose(
     withGoogleMap,
 )((props) => {
     // const { t } = useTranslation(['common']);
-    const [radius] = React.useState(9123);
+    const [radius] = React.useState(12399);
     const [zoom, setZoom] = React.useState(1);
 
     React.useEffect(() => {
@@ -70,6 +70,19 @@ const StoreLocatorMaps = compose(
     const centerPosition = mapLatLng(props.centerPosition);
     const mapPositions = props.mapPositions.map((position) => mapLatLng(position));
 
+    const getDistance = (p1, p2) => {
+        const rad = (x) => (x * Math.PI) / 180;
+        const R = 6378137; // Earth’s mean radius in meter
+        const dLat = rad(p2.lat - p1.lat);
+        const dLong = rad(p2.lng - p1.lng);
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+            + Math.cos(rad(p1.lat)) * Math.cos(rad(p2.lat))
+            * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const d = R * c;
+        return d; // returns the distance in meter
+    };
+
     return (
         <>
             <GoogleMap
@@ -85,9 +98,9 @@ const StoreLocatorMaps = compose(
                     radius={radius}
                 />
                 {props.isMarkerShown && mapPositions.map((position) => (
-                    <Marker
-                        position={position}
-                    />
+                    getDistance(position, centerPosition) <= radius
+                        ? <Marker position={position} />
+                        : null
                 ))}
             </GoogleMap>
             {/* <div data-standalone-searchbox="">
