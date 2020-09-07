@@ -123,7 +123,6 @@ class MyApp extends App {
             this.showInstallPromotion();
         });
 
-
         // run instalation
         const buttonInstall = window.innerWidth <= 768 ? document.getElementById('btn-install__mobile')
             : document.getElementById('btn-install');

@@ -8,22 +8,18 @@ import useStyles from './style';
 
 const Layout = (props) => {
     const {
-        children, wishlist, t,
+        children, t, title, activeMenu,
     } = props;
     const pushIf = (condition, ...elements) => (condition ? elements : []);
     const styles = useStyles();
     const router = useRouter();
-    let title = '';
+    let titlePage = '';
 
     const menu = [
         { href: '/customer/account', title: t('customer:menu:myAccount') },
         { href: '/sales/order/history', title: t('customer:menu:myOrder') },
         { href: '/customer/account/profile', title: t('customer:menu:accountInformation') },
         { href: '/customer/account/address', title: t('customer:menu:address') },
-        ...pushIf(wishlist && wishlist.length && modules.wishlist.enabled <= 0, {
-            href: '/wishlist',
-            title: 'Wishlist',
-        }),
         ...pushIf(modules.giftcard.enabled, {
             href: '/awgiftcard/card',
             title: 'Gift Card',
@@ -34,30 +30,40 @@ const Layout = (props) => {
         }),
         ...pushIf(modules.notification.enabled, {
             href: '/inboxnotification/notification',
-            title: t('notification:notification'),
+            title: t('customer:menu:notification'),
         }),
         { href: '/customer/setting', title: t('customer:menu:setting') },
         ...pushIf(modules.rma.enabled, {
             href: '/rma/customer',
             title: t('customer:menu:return'),
         }),
+        ...pushIf(modules.rewardpoint.enabled, {
+            href: '/aw_rewardpoints/info',
+            title: t('customer:menu:rewardPoint'),
+        }),
+        ...pushIf(modules.wishlist.enabled, {
+            href: '/wishlist',
+            title: t('customer:wishlist:pageTitle'),
+        }),
     ];
     for (let index = 0; index < menu.length; index++) {
         const item = menu[index];
         if (item.href === router.asPath) {
-            title = item.title;
+            titlePage = item.title;
         }
     }
     return (
         <div className="row">
-            <div className="col-lg-2 col-xs-12 hidden-mobile">
+            <div className="col-md-2 col-xs-12 hidden-mobile">
                 <div className={styles.listMenuContainer}>
                     <ul className={styles.listMenu}>
                         {menu.map((val, idx) => (
                             <li
                                 key={idx}
                                 className={
-                                    router.asPath === val.href ? classNames(styles.listMenuItem, styles.listMenuItemActive) : styles.listMenuItem
+                                    ((router.asPath === val.href) || (val.href === activeMenu))
+                                        ? classNames(styles.listMenuItem, styles.listMenuItemActive)
+                                        : styles.listMenuItem
                                 }
                             >
                                 <Link href={val.href}>
@@ -68,9 +74,14 @@ const Layout = (props) => {
                     </ul>
                 </div>
             </div>
-            <div className="col-lg-10 col-xs-12 col-sm-12">
-                <Typography variant="h4" type="bold" letter="capitalize">
-                    {title}
+            <div className="col-md-10 col-xs-12 col-sm-12">
+                <Typography
+                    variant="h4"
+                    type="bold"
+                    letter="capitalize"
+                    className={classNames('hidden-mobile', styles.titleContent)}
+                >
+                    {title || titlePage}
                 </Typography>
                 {children}
             </div>

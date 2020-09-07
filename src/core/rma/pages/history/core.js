@@ -36,26 +36,6 @@ const CoreLanding = (props) => {
         current_page: page + 1,
     });
 
-    if (loading || !data) {
-        return <Loader />;
-    }
-    if (error) {
-        return (
-            <DefaultLayout {...props} pageConfig={config}>
-                <WarningInfo variant="error" text={t('rma:error:fetch')} />
-            </DefaultLayout>
-        );
-    }
-
-    if (!loading && data) {
-        if (data.getCustomerRequestAwRma.items.length === 0) {
-            return (
-                <DefaultLayout {...props} pageConfig={config}>
-                    <WarningInfo variant="error" text={t('rma:error:notFound')} />
-                </DefaultLayout>
-            );
-        }
-    }
     const handleLoadMore = () => {
         setPage(page + 1);
         setLoadMore(true);
@@ -85,7 +65,18 @@ const CoreLanding = (props) => {
     };
 
     const contentprops = {
-        t, handleLoadMore, loadMore, page, pageSize, loading, data, handleChangePage, handleChangePageSize,
+        t,
+        handleLoadMore,
+        loadMore,
+        page,
+        pageSize,
+        loading,
+        data,
+        error,
+        handleChangePage,
+        handleChangePageSize,
+        Loader,
+        WarningInfo,
     };
 
     return (

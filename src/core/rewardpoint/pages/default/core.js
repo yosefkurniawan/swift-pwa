@@ -1,5 +1,6 @@
 import urlParser from '@helpers/urlParser';
 import Layout from '@layout';
+import customerLayout from '@core/customer/components/layout';
 import PropTypes from 'prop-types';
 import { debuging } from '@config';
 import { getRewardPoint } from '../../services/graphql';
@@ -58,7 +59,11 @@ const RewardPoint = (props) => {
             </Layout>
         );
     }
-    if (loading || !data) return <Layout {...props} pageConfig={pageConfig || config}><Skeleton /></Layout>;
+    if (loading || !data) {
+        return (
+            <Layout {...props} pageConfig={pageConfig || config}><customerLayout {...props}><Skeleton /></customerLayout></Layout>
+        );
+    }
     if (data && data.customerRewardPoints) customerRewardPoints = data.customerRewardPoints;
     const getId = (string) => string.split('#')[1].split('</a')[0];
     const getPath = (string) => {

@@ -17,6 +17,9 @@ const useStyles = makeStyles(() => ({
         borderLeft: '3px solid',
         paddingLeft: '7px',
     },
+    titleContent: {
+        paddingLeft: '0',
+    },
 }));
 
 export default useStyles;

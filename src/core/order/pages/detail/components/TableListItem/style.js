@@ -1,56 +1,52 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { FlexColumn, FlexRow } from '@theme/mixins';
 
-import { RED, GREEN } from '@theme/colors';
-
 export default makeStyles((theme) => ({
-    displayFlexRow: {
-        ...FlexRow,
-    },
-    container: {
+    rowCenter: {
         ...FlexColumn,
         width: '100%',
         height: '100%',
-        fontSize: '12px',
-        padding: 15,
-        [theme.breakpoints.up('sm')]: {
-            padding: '15px 5px',
-        },
+        textAlign: 'center',
+    },
+    displayFlexRow: {
+        ...FlexRow,
     },
     tableOuterContainer: {
         paddingTop: 10,
     },
     tableContainer: {
+        marginTop: 30,
         boxShadow: 'none',
+        width: '100%',
     },
     table: {
         borderTop: '1px solid rgba(224, 224, 224, 1)',
         width: '100%',
     },
     tableRowHead: {
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             display: 'none !important',
         },
     },
     tableRowResponsive: {
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             display: 'grid !important',
             borderBottom: '1px solid rgba(224, 224, 224, 1)',
             padding: 10,
         },
     },
     tableCellResponsive: {
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             border: 'none',
             padding: '8px 0',
         },
     },
     mobLabel: {
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('xs')]: {
             display: 'none',
         },
-        width: '40%',
-        minWidth: '130px',
+        width: '50%',
+        minWidth: '150px',
         maxWidth: '200px',
         position: 'relative',
         paddingRight: 20,
@@ -63,17 +59,26 @@ export default makeStyles((theme) => ({
         },
     },
     value: {
-        [theme.breakpoints.down('sm')]: {
-            width: '60%',
+        [theme.breakpoints.down('xs')]: {
+            width: '50%',
         },
     },
-    editLink: {
-        marginTop: 20,
+    productImgContainer: {
+        width: 105,
+        height: 130,
     },
-    textGreen: {
-        color: GREEN,
+
+    productImg: {
+        width: 105,
+        height: 'auto',
     },
-    textRed: {
-        color: RED,
+    right: {
+        textAlign: 'right',
+    },
+    summary: {
+        paddingTop: 30,
+    },
+    noBorder: {
+        borderBottom: 'none',
     },
 }));

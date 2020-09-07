@@ -23,7 +23,7 @@ const Login = (props) => {
             {!desktop && otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login && (
                 <FormControlLabel
                     control={<Switch checked={isOtp} onChange={() => setIsOtp(!isOtp)} name="useOtp" color="primary" />}
-                    className={styles.selectLogin}
+                    className={classNames(styles.selectLogin, 'hidden-desktop')}
                     label={t('login:switchPhone')}
                 />
             )}

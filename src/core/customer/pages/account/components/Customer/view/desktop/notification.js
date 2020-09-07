@@ -13,7 +13,7 @@ const NotificationView = (props) => {
     const { notification, styles, t } = props;
     return (
         <>
-            <h2 lassName={styles.infoTitle}>
+            <h2 className={styles.infoTitle}>
                 {t('customer:menu:notification')}
                 <Link href="/inboxnotification/notification">
                     <a className={styles.desktopLinkHeader}>{t('customer:menu:viewall')}</a>
@@ -22,28 +22,35 @@ const NotificationView = (props) => {
             <hr />
             <div className="row">
                 <div className="col-lg-12">
-                    {notification.items ? (
-                        <TableContainer component={Paper}>
-                            <Table aria-label="simple table">
-                                <TableBody>
-                                    {notification.items.map((val, idx) => (
-                                        <TableRow key={idx}>
-                                            <TableCell>{val.content}</TableCell>
-                                            <TableCell align="right">{formatDate(val.createdAt)}</TableCell>
-                                        </TableRow>
-                                    ))}
 
-                                    {notification.items.length === 0
-                                        ? (
-                                            <TableRow>
-                                                <TableCell align="center" colSpan="2">{t('customer:notHaveNotification')}</TableCell>
-                                            </TableRow>
-                                        )
-                                        : null}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    ) : null }
+                    <TableContainer component={Paper}>
+                        <Table aria-label="simple table">
+                            <TableBody>
+                                {notification.items ? (
+                                    notification.items.map((val, idx) => {
+                                        if (val.unread) {
+                                            return (
+                                                <TableRow key={idx}>
+                                                    <TableCell>{val.content}</TableCell>
+                                                    <TableCell align="right">{formatDate(val.createdAt)}</TableCell>
+                                                </TableRow>
+                                            );
+                                        }
+                                        return null;
+                                    })
+
+                                ) : null }
+                                {!notification.totalUnread || notification.totalUnread === 0
+                                    ? (
+                                        <TableRow>
+                                            <TableCell align="center" colSpan="2">{t('customer:notHaveNotification')}</TableCell>
+                                        </TableRow>
+                                    )
+                                    : null}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
                 </div>
             </div>
         </>

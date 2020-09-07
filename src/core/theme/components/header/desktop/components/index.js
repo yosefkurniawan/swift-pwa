@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
+import NotificationBell from '@core/notification/plugins/NotificationBell';
 import ShoppingBagIcon from '@core/cart/plugin/ShoppingBag';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
@@ -13,7 +14,7 @@ import useStyles from './style';
 
 const ViewTopNavigation = (props) => {
     const {
-        storeConfig, handleSearch, searchByClick, setValue, value, category, loading, t, isLogin, customer, handleLogout,
+        storeConfig, handleSearch, searchByClick, setValue, value, data, loading, t, isLogin, customer, handleLogout,
     } = props;
     const styles = useStyles();
     return (
@@ -42,15 +43,12 @@ const ViewTopNavigation = (props) => {
                             </Link>
                         </div>
                     </div>
-                    <div className="col-xs-6">
-                        <div className="header-small__menu">
-                            {loading ? null : <Menu category={category} storeConfig={storeConfig} />}
-                        </div>
-                    </div>
-                    <div className="col-xs-4">
+                    <div className="col-xs-5" />
+                    <div className="col-xs-5">
                         <div className="box">
-                            <div className="header-middle__bag">
-                                <ShoppingBagIcon withLink />
+                            <div className="header-middle__icons">
+                                <div className="notification"><NotificationBell withLink /></div>
+                                <div className="shopping-bag"><ShoppingBagIcon withLink /></div>
                             </div>
                             <div className="header-middle__search">
                                 <TextField
@@ -76,7 +74,7 @@ const ViewTopNavigation = (props) => {
 
                 <div className="row menu-category">
                     <div className="col-xs-12">
-                        {loading ? null : <Menu category={category} storeConfig={storeConfig} />}
+                        {loading ? null : <Menu data={data} storeConfig={storeConfig} />}
                     </div>
                 </div>
 
@@ -85,6 +83,9 @@ const ViewTopNavigation = (props) => {
                 {`
                     #header {
                         height: 170px;
+                    }
+                    main {
+                        background-color: #fff;
                     }
                     .header-top {
                         height: 45px;
@@ -109,8 +110,15 @@ const ViewTopNavigation = (props) => {
                     .header-middle__logo-link {
                         cursor: pointer;
                     }
-                    .header-middle__bag {
+                    .header-middle__icons {
                         float: right;
+                        padding-left: 4px;
+                        padding-right: 16px;
+                    }
+                    .header-middle__icons > div {
+                        margin-right: -15px;
+                        margin-left: -10px;
+                        display: inline-block;
                     }
                     .search-icon {
                         position: absolute;
@@ -131,15 +139,12 @@ const ViewTopNavigation = (props) => {
                         position: fixed;
                         top: 0;
                         width: 100%;
-                        height: 80px !important;
+                        height: 130px !important;
                         z-index: 100;
                         background: #fff;
                         box-shadow: 0 20px 30px 0 rgba(0,0,0,.05);
                     }
                     .header-small .header-top{
-                        display: none;
-                    }
-                    .header-small .menu-category{
                         display: none;
                     }
                     .header-small .header-small__menu {

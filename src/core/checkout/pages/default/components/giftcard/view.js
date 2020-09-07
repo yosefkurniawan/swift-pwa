@@ -10,7 +10,7 @@ const GiftCardView = (props) => {
         handleApplyGift, handleRemoveGift, formik, appliedGiftCards, checkout, giftCards,
     } = props;
     return (
-        <div className={styles.giftCardContainer}>
+        <>
             <FieldPoint
                 id="giftCard"
                 placeholder="Gift Card Code"
@@ -72,7 +72,7 @@ const GiftCardView = (props) => {
                 </div>
             ) : null}
             {checkout.loading.giftCard && <CircularProgress className={styles.largeCircular} size={30} />}
-        </div>
+        </>
     );
 };
 
