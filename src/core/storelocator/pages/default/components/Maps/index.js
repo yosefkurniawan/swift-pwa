@@ -10,16 +10,22 @@ import AutorenewIcon from '@material-ui/icons/Autorenew';
 import SearchBox from './SearchBox';
 
 const SliderRadius = ({ radius, setRadius }) => (
-    <Slider
-        value={radius}
-        onChange={(e, newValue) => setRadius(newValue)}
-        aria-labelledby="discrete-slider"
-        valueLabelDisplay="auto"
-        scale={(x) => Math.round(x / 1000)}
-        step={1000}
-        min={1000}
-        max={100 * 1000}
-    />
+    <>
+        <div style={{ lineHeight: '9px', paddingTop: '8px' }}>
+            1 Km
+            <span style={{ float: 'right' }}>100 Km</span>
+        </div>
+        <Slider
+            value={radius}
+            onChange={(e, newValue) => setRadius(newValue)}
+            aria-labelledby="discrete-slider"
+            valueLabelDisplay="auto"
+            scale={(x) => Math.round(x / 1000)}
+            step={1000}
+            min={1000}
+            max={100 * 1000}
+        />
+    </>
 );
 
 const StoreLocatorMaps = compose(
@@ -81,10 +87,6 @@ const StoreLocatorMaps = compose(
                     <SearchBox ref={searchBox} handleSearch={handleSearch} />
                 </div>
                 <div className="col-sm-5">
-                    <div style={{ lineHeight: '9px', paddingTop: '8px' }}>
-                        1 Km
-                        <span style={{ float: 'right' }}>100 Km</span>
-                    </div>
                     <SliderRadius radius={radius} setRadius={setRadius} />
                 </div>
                 <div className="col-sm-2">
