@@ -103,10 +103,11 @@ class MyApp extends App {
                 Cookie.remove(storeConfigNameCokie);
             };
 
-            this.initialInstallApp();
+            // this.initialInstallApp(); // sementara di comment dlu
         }
     }
 
+    // sementara belum dipakai
     initialInstallApp() {
         let deferredPrompt = null;
 
@@ -133,6 +134,7 @@ class MyApp extends App {
         }
     }
 
+    // sementara belum dipakai
     showInstallPromotion() {
         if (window.innerWidth <= 768) {
             const date = new Date();
@@ -154,6 +156,7 @@ class MyApp extends App {
         }
     }
 
+    // sementara belum dipakai
     hideInstallPromotion() {
         if (window.innerWidth <= 768) {
             const el = document.getElementById('popup-mobile__install');
