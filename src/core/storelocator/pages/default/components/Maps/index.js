@@ -7,6 +7,25 @@ import {
 import Slider from '@material-ui/core/Slider';
 import SearchBox from './SearchBox';
 
+const SliderRadius = ({ radius, setRadius }) => (
+    <div style={{ padding: 17 }}>
+        <Slider
+            value={radius}
+            onChange={(e, newValue) => setRadius(newValue)}
+            aria-labelledby="discrete-slider"
+            valueLabelDisplay="auto"
+            marks={[
+                { value: 1000, label: '1 Km' },
+                { value: 100 * 1000, label: '100 Km' },
+            ]}
+            scale={(x) => Math.round(x / 1000)}
+            step={1000}
+            min={1000}
+            max={100 * 1000}
+        />
+    </div>
+);
+
 const StoreLocatorMaps = compose(
     withProps((props) => ({
         googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${props.gmapKey}&libraries=geometry,drawing,places`,
@@ -56,40 +75,33 @@ const StoreLocatorMaps = compose(
 
     return (
         <>
-            <GoogleMap
-                defaultZoom={zoom}
-                zoom={zoom}
-                defaultCenter={centerPosition}
-                center={centerPosition}
-            >
-                <Circle
-                    strokeColor="red"
+            <div className="row">
+                <div className="col-sm-6">
+                    <SliderRadius radius={radius} setRadius={setRadius} />
+                </div>
+                <div className="col-sm-6">
+                    <SearchBox ref={searchBox} handleSearch={handleSearch} />
+                </div>
+            </div>
+            <div>
+                <GoogleMap
+                    defaultZoom={zoom}
+                    zoom={zoom}
+                    defaultCenter={centerPosition}
                     center={centerPosition}
-                    defaultRadius={0}
-                    radius={radius}
-                />
-                {props.isMarkerShown && mapPositions.map((position, i) => (
-                    getDistance(position, centerPosition) <= radius
-                        ? <Marker position={position} key={i} />
-                        : null
-                ))}
-            </GoogleMap>
-            <SearchBox ref={searchBox} handleSearch={handleSearch} />
-            <div style={{ padding: '36px 18px', width: 300 }}>
-                <Slider
-                    value={radius}
-                    onChange={(e, newValue) => setRadius(newValue)}
-                    aria-labelledby="discrete-slider"
-                    valueLabelDisplay="on"
-                    marks={[
-                        { value: 1000, label: '1 Km' },
-                        { value: 100 * 1000, label: '100 Km' },
-                    ]}
-                    scale={(x) => Math.round(x / 1000)}
-                    step={1000}
-                    min={1000}
-                    max={100 * 1000}
-                />
+                >
+                    <Circle
+                        strokeColor="red"
+                        center={centerPosition}
+                        defaultRadius={0}
+                        radius={radius}
+                    />
+                    {props.isMarkerShown && mapPositions.map((position, i) => (
+                        getDistance(position, centerPosition) <= radius
+                            ? <Marker position={position} key={i} />
+                            : null
+                    ))}
+                </GoogleMap>
             </div>
         </>
     );
