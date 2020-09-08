@@ -1,22 +1,10 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable import/no-extraneous-dependencies */
+import { compose, withProps } from 'recompose';
 import {
-    compose,
-    withProps,
-} from 'recompose';
-import {
-    withScriptjs,
-    withGoogleMap,
-    GoogleMap,
-    Marker,
-    Circle,
+    withScriptjs, withGoogleMap, GoogleMap, Marker, Circle,
 } from 'react-google-maps';
-
-import { StandaloneSearchBox } from 'react-google-maps/lib/components/places/StandaloneSearchBox';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import TextField from '@material-ui/core/TextField';
-import SearchIcon from '@material-ui/icons/SearchOutlined';
-import { useTranslation } from '@i18n';
+import SearchBox from './SearchBox';
 
 const StoreLocatorMaps = compose(
     withProps((props) => ({
@@ -36,7 +24,6 @@ const StoreLocatorMaps = compose(
         };
         return { lat: setZeroIfEmpty(obj && obj.lat), lng: setZeroIfEmpty(obj && obj.lng) };
     };
-    const { t } = useTranslation(['common']);
     const [radius] = React.useState(12399);
     const [zoom, setZoom] = React.useState(1);
     const [centerPosition, setCenterPosition] = React.useState(mapLatLng(props.centerPosition));
@@ -80,30 +67,13 @@ const StoreLocatorMaps = compose(
                     defaultRadius={0}
                     radius={radius}
                 />
-                {props.isMarkerShown && mapPositions.map((position) => (
+                {props.isMarkerShown && mapPositions.map((position, i) => (
                     getDistance(position, centerPosition) <= radius
-                        ? <Marker position={position} />
+                        ? <Marker position={position} key={i} />
                         : null
                 ))}
             </GoogleMap>
-            <div data-standalone-searchbox="">
-                <StandaloneSearchBox
-                    ref={searchBox}
-                    onPlacesChanged={handleSearch}
-                >
-                    <TextField
-                        fullWidth
-                        placeholder={t('common:search:location')}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <SearchIcon color="secondary" />
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
-                </StandaloneSearchBox>
-            </div>
+            <SearchBox ref={searchBox} handleSearch={handleSearch} />
         </>
     );
 });
