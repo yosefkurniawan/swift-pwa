@@ -3,7 +3,6 @@
 import {
     compose,
     withProps,
-    lifecycle,
 } from 'recompose';
 import {
     withScriptjs,
@@ -13,11 +12,11 @@ import {
     Circle,
 } from 'react-google-maps';
 
-// import { StandaloneSearchBox } from 'react-google-maps/lib/components/places/StandaloneSearchBox';
-// import InputAdornment from '@material-ui/core/InputAdornment';
-// import TextField from '@material-ui/core/TextField';
-// import SearchIcon from '@material-ui/icons/SearchOutlined';
-// import { useTranslation } from '@i18n';
+import { StandaloneSearchBox } from 'react-google-maps/lib/components/places/StandaloneSearchBox';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import TextField from '@material-ui/core/TextField';
+import SearchIcon from '@material-ui/icons/SearchOutlined';
+import { useTranslation } from '@i18n';
 
 const StoreLocatorMaps = compose(
     withProps((props) => ({
@@ -27,47 +26,26 @@ const StoreLocatorMaps = compose(
         mapElement: <div style={{ height: '100%' }} />,
         isMarkerShown: true,
     })),
-    lifecycle({
-        componentWillMount() {
-            // const refs = {};
-
-            this.setState({
-            //     places: [],
-            //     onSearchBoxMounted: (ref) => {
-            //         refs.searchBox = ref;
-            //     },
-            //     onPlacesChanged: () => {
-            //         const { location } = refs.searchBox.getPlaces()[0].geometry;
-            //         // unconfirmed deletion, delete line below when it's confirmed unused codes
-            //         // this.props.getLocation(refs.searchBox.getPlaces());
-            //         this.props.dragMarkerDone({
-            //             lat: location.lat(),
-            //             lng: location.lng(),
-            //         });
-            //     },
-            });
-        },
-    }),
     withScriptjs,
     withGoogleMap,
 )((props) => {
-    // const { t } = useTranslation(['common']);
+    const mapLatLng = (obj) => {
+        const setZeroIfEmpty = (value) => {
+            const emptyValues = [undefined, null, '', 'undefined', 'null'];
+            return emptyValues.includes(value) ? 0 : Number(value);
+        };
+        return { lat: setZeroIfEmpty(obj && obj.lat), lng: setZeroIfEmpty(obj && obj.lng) };
+    };
+    const { t } = useTranslation(['common']);
     const [radius] = React.useState(12399);
     const [zoom, setZoom] = React.useState(1);
+    const [centerPosition, setCenterPosition] = React.useState(mapLatLng(props.centerPosition));
+    const searchBox = React.useRef();
 
     React.useEffect(() => {
         setZoom(24 - Math.log(radius * 0.621371) / Math.LN2);
     }, [radius]);
 
-    const setZeroIfEmpty = (value) => {
-        const emptyValues = [undefined, null, '', 'undefined', 'null'];
-        return emptyValues.includes(value) ? 0 : Number(value);
-    };
-    const mapLatLng = (obj) => ({
-        lat: setZeroIfEmpty(obj && obj.lat),
-        lng: setZeroIfEmpty(obj && obj.lng),
-    });
-    const centerPosition = mapLatLng(props.centerPosition);
     const mapPositions = props.mapPositions.map((position) => mapLatLng(position));
 
     const getDistance = (p1, p2) => {
@@ -81,6 +59,11 @@ const StoreLocatorMaps = compose(
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         const d = R * c;
         return d; // returns the distance in meter
+    };
+
+    const handleSearch = () => {
+        const { location } = searchBox.current.getPlaces()[0].geometry;
+        setCenterPosition({ lat: location.lat(), lng: location.lng() });
     };
 
     return (
@@ -103,11 +86,10 @@ const StoreLocatorMaps = compose(
                         : null
                 ))}
             </GoogleMap>
-            {/* <div data-standalone-searchbox="">
+            <div data-standalone-searchbox="">
                 <StandaloneSearchBox
-                    ref={props.onSearchBoxMounted}
-                    bounds={props.bounds}
-                    onPlacesChanged={props.onPlacesChanged}
+                    ref={searchBox}
+                    onPlacesChanged={handleSearch}
                 >
                     <TextField
                         fullWidth
@@ -121,7 +103,7 @@ const StoreLocatorMaps = compose(
                         }}
                     />
                 </StandaloneSearchBox>
-            </div> */}
+            </div>
         </>
     );
 });
