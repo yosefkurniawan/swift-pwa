@@ -92,7 +92,9 @@ const ContactForm = (props) => {
 
 const ContactPage = (props) => {
     const styles = useStyles();
-    const { data, t } = props;
+    const {
+        data, t, loading, Skeleton,
+    } = props;
     return (
         <>
             {/* eslint-disable-next-line react/no-danger */}
@@ -101,7 +103,8 @@ const ContactPage = (props) => {
             </Typography>
             <div className="row">
                 <div className="col-md-6 col-xs-12">
-                    <div className={styles.container} dangerouslySetInnerHTML={{ __html: data.cmsBlocks.items[0].content }} />
+                    {(!loading && <div className={styles.container} dangerouslySetInnerHTML={{ __html: data.cmsBlocks.items[0].content }} />)}
+                    {(loading && <Skeleton />)}
                 </div>
                 <div className="col-md-6 col-xs-12">
                     <ContactForm {...props} />
