@@ -30,7 +30,7 @@ const StoreLocatorMaps = compose(
     withProps((props) => ({
         googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${props.gmapKey}&libraries=geometry,drawing,places`,
         loadingElement: <div style={{ height: '100%' }} />,
-        containerElement: <div style={{ height: '100%', minHeight: '250px', padding: '0 12px' }} />,
+        containerElement: <div style={{ height: '100%', minHeight: '250px', paddingBottom: '12px' }} />,
         mapElement: <div style={{ height: '100%' }} />,
         isMarkerShown: true,
     })),
@@ -75,7 +75,7 @@ const StoreLocatorMaps = compose(
 
     return (
         <>
-            <div className="row">
+            <div className="row" style={{ padding: '12px 0' }}>
                 <div className="col-sm-6">
                     <SliderRadius radius={radius} setRadius={setRadius} />
                 </div>
@@ -91,10 +91,14 @@ const StoreLocatorMaps = compose(
                     center={centerPosition}
                 >
                     <Circle
-                        strokeColor="red"
                         center={centerPosition}
-                        defaultRadius={0}
                         radius={radius}
+                        options={{ fillColor: 'grey', strokeColor: 'grey' }}
+                    />
+                    <Circle
+                        center={centerPosition}
+                        radius={radius / 50}
+                        options={{ fillColor: 'black', fillOpacity: 0.5, strokeOpacity: 0 }}
                     />
                     {props.isMarkerShown && mapPositions.map((position, i) => (
                         getDistance(position, centerPosition) <= radius
