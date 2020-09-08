@@ -7,7 +7,7 @@ import Core from './core';
 const StoreCredit = (props) => <Core {...props} Content={Content} />;
 
 StoreCredit.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'storecredit'],
+    namespacesRequired: ['common', 'storecredit', 'customer'],
 });
 
 export default withApollo({ ssr: true })(withTranslation()(StoreCredit));
