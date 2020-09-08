@@ -12,7 +12,7 @@
     "choseMethod": "Choose one of method(s) below to get verification code.",
     "sms": "Via sms to ",
     "maxSend": "Your have maximum request otp",
-    "sendSucces": "Otp success sending",
+    "sendSuccess": "Otp success sending",
     "sendFailed": "Otp failed to send",
     "valid": "Otp is valid",
     "invalid": "Otp is in valid"
