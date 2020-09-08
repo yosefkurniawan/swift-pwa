@@ -8,17 +8,29 @@ const StoreMaps = ({ gmapKey }) => {
     React.useEffect(() => {
         setCenterPosition({ lat: -6.95, lng: 107.65 });
         setStoreLocations([
-            { lat: -6.97, lng: 107.65 },
-            { lat: -7.00, lng: 107.55 },
+            { store_name: 'store 1', lat: -6.97, lng: 107.65 },
+            { store_name: 'store 2', lat: -7.00, lng: 107.55 },
         ]);
     }, []);
 
     return (
-        <StoreLocatorMaps
-            centerPosition={centerPosition}
-            mapPositions={storeLocations}
-            gmapKey={gmapKey}
-        />
+        <div className="row">
+            <div className="col-md-3">
+                <div style={{ border: '2px solid #ccc', height: '100%' }}>
+                    {`Store List (${storeLocations.length} stores)`}
+                    {storeLocations.map((storeLocation, i) => (
+                        <div key={i}>{storeLocation.store_name}</div>
+                    ))}
+                </div>
+            </div>
+            <div className="col-md-9">
+                <StoreLocatorMaps
+                    centerPosition={centerPosition}
+                    mapPositions={storeLocations}
+                    gmapKey={gmapKey}
+                />
+            </div>
+        </div>
     );
 };
 
