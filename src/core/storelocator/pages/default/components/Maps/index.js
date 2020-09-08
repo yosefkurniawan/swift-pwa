@@ -4,6 +4,7 @@ import { compose, withProps } from 'recompose';
 import {
     withScriptjs, withGoogleMap, GoogleMap, Marker, Circle,
 } from 'react-google-maps';
+import Slider from '@material-ui/core/Slider';
 import SearchBox from './SearchBox';
 
 const StoreLocatorMaps = compose(
@@ -24,7 +25,7 @@ const StoreLocatorMaps = compose(
         };
         return { lat: setZeroIfEmpty(obj && obj.lat), lng: setZeroIfEmpty(obj && obj.lng) };
     };
-    const [radius] = React.useState(12399);
+    const [radius, setRadius] = React.useState(15000);
     const [zoom, setZoom] = React.useState(1);
     const [centerPosition, setCenterPosition] = React.useState(mapLatLng(props.centerPosition));
     const searchBox = React.useRef();
@@ -74,6 +75,22 @@ const StoreLocatorMaps = compose(
                 ))}
             </GoogleMap>
             <SearchBox ref={searchBox} handleSearch={handleSearch} />
+            <div style={{ padding: '36px 18px', width: 300 }}>
+                <Slider
+                    value={radius}
+                    onChange={(e, newValue) => setRadius(newValue)}
+                    aria-labelledby="discrete-slider"
+                    valueLabelDisplay="on"
+                    marks={[
+                        { value: 1000, label: '1 Km' },
+                        { value: 100 * 1000, label: '100 Km' },
+                    ]}
+                    scale={(x) => Math.round(x / 1000)}
+                    step={1000}
+                    min={1000}
+                    max={100 * 1000}
+                />
+            </div>
         </>
     );
 });
