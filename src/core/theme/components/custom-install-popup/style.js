@@ -35,6 +35,7 @@ const useStyles = makeStyles(() => ({
     btnInstall: {
         background: WHITE,
         color: PRIMARY,
+        fontSize: 11,
         '&:hover': {
             background: WHITE,
         },
@@ -43,6 +44,10 @@ const useStyles = makeStyles(() => ({
         display: 'none',
         position: 'absolute',
         top: '4px',
+        fontSize: 13,
+    },
+    btnInstallDesktop: {
+        fontSize: 11,
     },
 }));
 

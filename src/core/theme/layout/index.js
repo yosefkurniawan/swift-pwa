@@ -148,7 +148,8 @@ const Layout = (props) => {
                     }
                 </div>
             </header>
-            <PopupInstallAppMobile />
+            {features.customInstallApp.enabled ? <PopupInstallAppMobile /> : null}
+
             <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0, minHeight: 'calc(100vh - 435px)' }}>
                 <Loading open={state.backdropLoader} />
                 <Message

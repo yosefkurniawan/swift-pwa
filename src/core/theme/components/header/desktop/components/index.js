@@ -7,6 +7,7 @@ import ShoppingBagIcon from '@core/cart/plugin/ShoppingBag';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
 import DesktopInstallApp from '@core/theme/components/custom-install-popup/desktop';
+import { features } from '@config';
 import Menu from './mcategory';
 import TopMenu from './mtop';
 
@@ -17,8 +18,8 @@ const ViewTopNavigation = (props) => {
     return (
         <div id="header">
             <div className="row header-top">
-                <main>
-                    <DesktopInstallApp />
+                <main style={{ width: '97%' }}>
+                    {features.customInstallApp.enabled ? <DesktopInstallApp /> : null}
                     <TopMenu t={t} isLogin={isLogin} data={customer} handleLogout={handleLogout} />
                 </main>
             </div>
