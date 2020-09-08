@@ -7,7 +7,13 @@ import ResultView from './components/result/view';
 import SkeletonResult from './components/skeletonresult';
 
 const DefaultTracking = (props) => (
-    <Core {...props} FormView={FormView} ResultView={ResultView} Skeleton={Skeleton} SkeletonResult={SkeletonResult} />
+    <Core
+        {...props}
+        FormView={FormView}
+        ResultView={ResultView}
+        Skeleton={Skeleton}
+        SkeletonResult={SkeletonResult}
+    />
 );
 
 DefaultTracking.getInitialProps = async () => ({

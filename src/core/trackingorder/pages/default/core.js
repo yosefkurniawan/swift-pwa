@@ -4,28 +4,30 @@ import { getCustomer } from '../../services/graphql';
 import Content from './components/form';
 
 const Tracking = (props) => {
+    let customer = {};
     const {
         isLogin, Skeleton, pageConfig, t,
     } = props;
-    let customer = {};
-    if (isLogin) {
-        const { data, loading } = getCustomer();
-        if (loading) {
-            return (
-                <Skeleton />
-            );
-        }
-        if (data && data.customer) {
-            customer = data.customer;
-        }
-    }
-
     const config = {
         title: t('trackingorder:trackingOrder'),
         header: 'relative', // available values: "absolute", "relative", false (default)
         headerTitle: t('trackingorder:trackingOrder'),
         bottomNav: false,
     };
+
+    if (isLogin) {
+        const { data, loading } = getCustomer();
+        if (loading) {
+            return (
+                <Layout {...props} pageConfig={pageConfig || config}>
+                    <Skeleton />
+                </Layout>
+            );
+        }
+        if (data && data.customer) {
+            customer = data.customer;
+        }
+    }
     return <Layout {...props} pageConfig={pageConfig || config}><Content {...props} email={customer.email || ''} /></Layout>;
 };
 
@@ -37,10 +39,10 @@ Tracking.propTypes = {
 };
 
 Tracking.defaultProps = {
-    FormView: () => {},
-    Skeleton: () => {},
-    SkeletonResult: () => {},
-    ResultView: () => {},
+    FormView: () => { },
+    Skeleton: () => { },
+    SkeletonResult: () => { },
+    ResultView: () => { },
 };
 
 export default Tracking;
