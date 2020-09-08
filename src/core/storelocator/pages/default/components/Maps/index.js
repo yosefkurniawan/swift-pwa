@@ -13,8 +13,8 @@ const StoreLocatorMaps = compose(
     withProps((props) => ({
         googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${props.gmapKey}&libraries=geometry,drawing,places`,
         loadingElement: <div style={{ height: '100%' }} />,
-        containerElement: <div style={{ height: '100%', minHeight: '250px', paddingBottom: '12px' }} />,
-        mapElement: <div style={{ height: '100%' }} />,
+        containerElement: <div style={{ height: '100%' }} />,
+        mapElement: <div style={{ height: '50vh', minHeight: '400px', marginBottom: 16 }} />,
         isMarkerShown: true,
     })),
     withScriptjs,
@@ -63,7 +63,7 @@ const StoreLocatorMaps = compose(
 
     return (
         <>
-            <div className="row" style={{ padding: '12px 0' }}>
+            <div className="row">
                 <div className="col-sm-5">
                     <SearchBox ref={searchBox} handleSearch={handleSearch} />
                 </div>
@@ -81,30 +81,28 @@ const StoreLocatorMaps = compose(
                     </Button>
                 </div>
             </div>
-            <div>
-                <GoogleMap
-                    defaultZoom={zoom}
-                    zoom={zoom}
-                    defaultCenter={centerPosition}
+            <GoogleMap
+                defaultZoom={zoom}
+                zoom={zoom}
+                defaultCenter={centerPosition}
+                center={centerPosition}
+            >
+                <Circle
                     center={centerPosition}
-                >
-                    <Circle
-                        center={centerPosition}
-                        radius={radius}
-                        options={{ fillColor: 'grey', strokeColor: 'grey' }}
-                    />
-                    <Circle
-                        center={centerPosition}
-                        radius={radius / 50}
-                        options={{ fillColor: 'black', fillOpacity: 0.5, strokeOpacity: 0 }}
-                    />
-                    {props.isMarkerShown && mapPositions.map((position, i) => (
-                        getDistance(position, centerPosition) <= radius
-                            ? <Marker position={position} key={i} />
-                            : null
-                    ))}
-                </GoogleMap>
-            </div>
+                    radius={radius}
+                    options={{ fillColor: 'grey', strokeColor: 'grey' }}
+                />
+                <Circle
+                    center={centerPosition}
+                    radius={radius / 50}
+                    options={{ fillColor: 'black', fillOpacity: 0.5, strokeOpacity: 0 }}
+                />
+                {props.isMarkerShown && mapPositions.map((position, i) => (
+                    getDistance(position, centerPosition) <= radius
+                        ? <Marker position={position} key={i} />
+                        : null
+                ))}
+            </GoogleMap>
         </>
     );
 });

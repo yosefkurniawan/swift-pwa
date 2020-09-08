@@ -1,4 +1,3 @@
-import Layout from '@core/customer/components/layout';
 import StoreLocatorMaps from './Maps';
 import SkeletonStoreLocator from './Skeleton';
 
@@ -31,7 +30,7 @@ const StoreLocatorContent = (props) => {
     } = props;
 
     return (
-        <Layout {...props}>
+        <>
             {
                 loading
                     ? <SkeletonStoreLocator />
@@ -41,7 +40,7 @@ const StoreLocatorContent = (props) => {
                         />
                     )
             }
-        </Layout>
+        </>
     );
 };
 
