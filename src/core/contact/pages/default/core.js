@@ -107,7 +107,7 @@ const Contact = (props) => {
             <ErrorInfo variant="error" text={debuging.originalError ? error.message.split(':')[1] : props.t('common:error:fetchError')} />
         );
     }
-    if (loading) return <Skeleton open={loading} />;
+
     return (
         <Layout pageConfig={pageConfig || Config} {...props}>
             <Content
@@ -121,6 +121,7 @@ const Contact = (props) => {
                 loading={loading}
                 data={data}
                 recaptchaRef={recaptchaRef}
+                Skeleton={Skeleton}
             />
         </Layout>
     );

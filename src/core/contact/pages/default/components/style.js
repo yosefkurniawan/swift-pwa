@@ -19,4 +19,7 @@ export default makeStyles(() => ({
     message: {
         marginBottom: 30,
     },
+    skeletonForm: {
+        marginBottom: 20,
+    },
 }));
