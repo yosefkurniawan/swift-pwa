@@ -6,7 +6,12 @@ const DesktopInstall = () => {
     const styles = useStyles();
     return (
         <div id="popup-desktop__install" className={styles.popupInstallDesktop}>
-            <Button id="btn-install" variant="contained" color="primary">
+            <Button
+                id="btn-install"
+                variant="contained"
+                color="primary"
+                className={styles.btnInstallDesktop}
+            >
                 Install
             </Button>
             {' '}
