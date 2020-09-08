@@ -21,7 +21,7 @@ const graphqlEndpoint = {
 /* FEATURES CONFIGURATION
 /* --------------------------------------- */
 
-const installMessage = 'Get our free app. It won\'t take upspace on your phone';
+const installMessage = 'Get our free app. It won\'t take upspace on your device';
 const appName = 'Swift APP';
 
 /* Social Sharing */
