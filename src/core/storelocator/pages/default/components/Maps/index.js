@@ -4,29 +4,10 @@ import { compose, withProps } from 'recompose';
 import {
     withScriptjs, withGoogleMap, GoogleMap, Marker, Circle,
 } from 'react-google-maps';
-import Slider from '@material-ui/core/Slider';
 import Button from '@material-ui/core/Button';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import SearchBox from './SearchBox';
-
-const SliderRadius = ({ radius, setRadius }) => (
-    <>
-        <div style={{ lineHeight: '9px', paddingTop: '8px' }}>
-            1 Km
-            <span style={{ float: 'right' }}>100 Km</span>
-        </div>
-        <Slider
-            value={radius}
-            onChange={(e, newValue) => setRadius(newValue)}
-            aria-labelledby="discrete-slider"
-            valueLabelDisplay="auto"
-            scale={(x) => Math.round(x / 1000)}
-            step={1000}
-            min={1000}
-            max={100 * 1000}
-        />
-    </>
-);
+import SliderRadius from './SliderRadius';
 
 const StoreLocatorMaps = compose(
     withProps((props) => ({
