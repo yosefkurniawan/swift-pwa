@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import * as Schema from './schema';
 
-export const getStoreCredit = (variables) => useQuery(Schema.getStoreCredit, {
+export const getStoreLocations = (variables) => useQuery(Schema.getStoreLocations, {
     variables,
     context: {
         request: 'internal',
@@ -10,4 +10,4 @@ export const getStoreCredit = (variables) => useQuery(Schema.getStoreCredit, {
     fetchPolicy: 'no-cache',
 });
 
-export default { getStoreCredit };
+export default { getStoreLocations };

@@ -1,5 +1,5 @@
 import Layout from '@layout';
-// import { getStoreLocations } from '../../services/graphql';
+import { getStoreLocations } from '../../services/graphql';
 
 const PageStoreLocator = (props) => {
     const {
@@ -11,12 +11,14 @@ const PageStoreLocator = (props) => {
         headerTitle: t('storelocator:title'),
         bottomNav: false,
     };
+    const { data, loading } = getStoreLocations();
 
     return (
         <Layout {...props} pageConfig={pageConfig || config}>
             <Content
                 t={t}
-                loading={false}
+                loading={loading}
+                storeLocations={data && data.storeLocation && data.storeLocation.items}
                 {...props}
             />
         </Layout>
