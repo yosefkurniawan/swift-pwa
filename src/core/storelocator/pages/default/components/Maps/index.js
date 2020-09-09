@@ -28,7 +28,6 @@ const StoreLocatorMaps = compose(
         };
         return { ...obj, lat: setZeroIfEmpty(obj && obj.lat), lng: setZeroIfEmpty(obj && obj.lng) };
     };
-
     const getDistance = (p1, p2) => {
         const rad = (x) => (x * Math.PI) / 180;
         const R = 6378137; // Earth’s mean radius in meter
@@ -43,7 +42,9 @@ const StoreLocatorMaps = compose(
     };
 
     // state
-    const [radius, setRadius] = React.useState(15000);
+    const defaultRadius = 15000;
+    const [isShowAllStore, setIsShowAllStore] = React.useState(true);
+    const [radius, setRadius] = React.useState(defaultRadius);
     const [zoom, setZoom] = React.useState(1);
     const [centerPosition, setCenterPosition] = React.useState(mapLatLng(props.centerPosition));
     const [mapPositions] = React.useState(props.mapPositions.map((position) => mapLatLng(position)));
@@ -61,15 +62,25 @@ const StoreLocatorMaps = compose(
 
     // method
     const updateStoreList = () => {
-        props.setStoreList(mapPositions.filter((position) => getDistance(position, centerPosition) <= radius));
+        if (isShowAllStore) {
+            props.setStoreList(mapPositions);
+        } else {
+            props.setStoreList(mapPositions.filter((position) => getDistance(position, centerPosition) <= radius));
+        }
     };
     const handleSearch = () => {
+        setIsShowAllStore(false);
         const { location } = searchBoxRef.current.getPlaces()[0].geometry;
         setCenterPosition({ lat: location.lat(), lng: location.lng() });
     };
+    const handleRadius = (value) => {
+        setIsShowAllStore(false);
+        setRadius(value);
+    };
     const handleReset = () => {
+        setIsShowAllStore(true);
         setCenterPosition(mapLatLng(props.centerPosition));
-        setRadius(15000);
+        setRadius(radius > defaultRadius ? defaultRadius : radius + 0.1);
     };
 
     return (
@@ -79,7 +90,7 @@ const StoreLocatorMaps = compose(
                     <SearchBox ref={searchBoxRef} handleSearch={handleSearch} />
                 </div>
                 <div className="col-sm-5">
-                    <SliderRadius radius={radius} setRadius={setRadius} />
+                    <SliderRadius radius={radius} setRadius={handleRadius} />
                 </div>
                 <div className="col-sm-2">
                     <Button
@@ -109,7 +120,7 @@ const StoreLocatorMaps = compose(
                     options={{ fillColor: 'black', fillOpacity: 0.5, strokeOpacity: 0 }}
                 />
                 {props.isMarkerShown && mapPositions.map((position, i) => (
-                    getDistance(position, centerPosition) <= radius
+                    (getDistance(position, centerPosition) <= radius) || isShowAllStore
                         ? <Marker position={position} key={i} />
                         : null
                 ))}
