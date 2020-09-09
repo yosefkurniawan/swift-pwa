@@ -14,12 +14,11 @@ import Layout from '@core/customer/components/layout';
 import ModalDetail from './detail';
 import DetailView from './detail/view';
 import useStyles from './style';
-import Loader from './skeleton';
 
 const GiftCard = (props) => {
     const {
         t, storeConfig, openDetail, handleCloseDetail, selectedCode, handleOpenDetail, data, search, handleTextSearch, handleSearch,
-        error, loading,
+        error,
     } = props;
     const styles = useStyles();
 
@@ -30,30 +29,26 @@ const GiftCard = (props) => {
             </Alert>
         );
     }
-    /* if (loading || !data) return <Loader />; */
     return (
         <Layout {...props}>
-            {loading ? (
-                <Loader />
-            ) : (
-                <div>
-                    <ModalDetail
-                        t={t}
-                        storeConfig={storeConfig}
-                        open={openDetail}
-                        close={handleCloseDetail}
-                        code={selectedCode}
-                        DetailView={DetailView}
-                    />
-                    {data && data.customer.gift_card.length === 0 && (
-                        <Alert className="m-15" severity="warning">
-                            {t('customer:giftCard:notFound')}
-                        </Alert>
-                    )}
-                    <div className="row">
-                        <div className="col-md-6 col-xs-12">
-                            <List>
-                                {data
+            <div>
+                <ModalDetail
+                    t={t}
+                    storeConfig={storeConfig}
+                    open={openDetail}
+                    close={handleCloseDetail}
+                    code={selectedCode}
+                    DetailView={DetailView}
+                />
+                {data && data.customer.gift_card.length === 0 && (
+                    <Alert className="m-15" severity="warning">
+                        {t('customer:giftCard:notFound')}
+                    </Alert>
+                )}
+                <div className="row">
+                    <div className="col-md-6 col-xs-12">
+                        <List>
+                            {data
                                 && data.customer.gift_card.map((item, index) => (
                                     <ListItem key={index} onClick={() => handleOpenDetail(item.giftcard_code)}>
                                         <ListItemText primary={item.giftcard_code} />
@@ -64,30 +59,29 @@ const GiftCard = (props) => {
                                         </ListItemSecondaryAction>
                                     </ListItem>
                                 ))}
-                            </List>
-                            <Divider />
-                        </div>
+                        </List>
+                        <Divider />
                     </div>
-                    <div className="row">
-                        <div className="col-md-6 col-xs-12">
-                            <div className={styles.searchBox}>
-                                <TextField
-                                    label={t('customer:giftCard:inputSearch')}
-                                    value={search.value}
-                                    onChange={handleTextSearch}
-                                    error={!((search.error === '' || search.error === null))}
-                                    errorMessage={search.error || ''}
-                                />
-                                <Button onClick={handleSearch}>
-                                    <Typography letter="capitalize" color="white">
-                                        {t('customer:giftCard:buttonSearch')}
-                                    </Typography>
-                                </Button>
-                            </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-6 col-xs-12">
+                        <div className={styles.searchBox}>
+                            <TextField
+                                label={t('customer:giftCard:inputSearch')}
+                                value={search.value}
+                                onChange={handleTextSearch}
+                                error={!((search.error === '' || search.error === null))}
+                                errorMessage={search.error || ''}
+                            />
+                            <Button onClick={handleSearch}>
+                                <Typography letter="capitalize" color="white">
+                                    {t('customer:giftCard:buttonSearch')}
+                                </Typography>
+                            </Button>
                         </div>
                     </div>
                 </div>
-            )}
+            </div>
         </Layout>
     );
 };
