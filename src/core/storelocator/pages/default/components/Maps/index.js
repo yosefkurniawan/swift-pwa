@@ -20,6 +20,7 @@ const StoreLocatorMaps = compose(
     withScriptjs,
     withGoogleMap,
 )((props) => {
+    // helper
     const mapLatLng = (obj) => {
         const setZeroIfEmpty = (value) => {
             const emptyValues = [undefined, null, '', 'undefined', 'null'];
@@ -27,16 +28,6 @@ const StoreLocatorMaps = compose(
         };
         return { lat: setZeroIfEmpty(obj && obj.lat), lng: setZeroIfEmpty(obj && obj.lng) };
     };
-    const [radius, setRadius] = React.useState(15000);
-    const [zoom, setZoom] = React.useState(1);
-    const [centerPosition, setCenterPosition] = React.useState(mapLatLng(props.centerPosition));
-    const searchBox = React.useRef();
-
-    React.useEffect(() => {
-        setZoom(24 - Math.log(radius * 0.621371) / Math.LN2);
-    }, [radius]);
-
-    const mapPositions = props.mapPositions.map((position) => mapLatLng(position));
 
     const getDistance = (p1, p2) => {
         const rad = (x) => (x * Math.PI) / 180;
@@ -51,11 +42,25 @@ const StoreLocatorMaps = compose(
         return d; // returns the distance in meter
     };
 
+    // state
+    const [radius, setRadius] = React.useState(15000);
+    const [zoom, setZoom] = React.useState(1);
+    const [centerPosition, setCenterPosition] = React.useState(mapLatLng(props.centerPosition));
+
+    // effect
+    React.useEffect(() => {
+        setZoom(24 - Math.log(radius * 0.621371) / Math.LN2);
+    }, [radius]);
+
+    // ref
+    const searchBoxRef = React.useRef();
+
+    // method
+    const mapPositions = props.mapPositions.map((position) => mapLatLng(position));
     const handleSearch = () => {
-        const { location } = searchBox.current.getPlaces()[0].geometry;
+        const { location } = searchBoxRef.current.getPlaces()[0].geometry;
         setCenterPosition({ lat: location.lat(), lng: location.lng() });
     };
-
     const handleReset = () => {
         setCenterPosition(mapLatLng(props.centerPosition));
         setRadius(15000);
@@ -65,7 +70,7 @@ const StoreLocatorMaps = compose(
         <>
             <div className="row">
                 <div className="col-sm-5">
-                    <SearchBox ref={searchBox} handleSearch={handleSearch} />
+                    <SearchBox ref={searchBoxRef} handleSearch={handleSearch} />
                 </div>
                 <div className="col-sm-5">
                     <SliderRadius radius={radius} setRadius={setRadius} />

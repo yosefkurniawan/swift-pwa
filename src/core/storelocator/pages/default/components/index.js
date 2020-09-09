@@ -3,12 +3,15 @@ import SkeletonStoreLocator from './Skeleton';
 import StoreList from './StoreList';
 
 const StoreLocatorContent = ({ gmapKey, storeLocations }) => {
+    // state
     const [centerPosition, setCenterPosition] = React.useState({});
 
+    // effect
     React.useEffect(() => {
         setCenterPosition({ lat: -6.95, lng: 107.65 });
     }, []);
 
+    // method
     const storeList = storeLocations.map((storeLocation) => ({
         ...storeLocation,
         lat: storeLocation.latitude,
