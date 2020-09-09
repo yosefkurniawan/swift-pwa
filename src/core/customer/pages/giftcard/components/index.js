@@ -30,7 +30,6 @@ const GiftCard = (props) => {
             </Alert>
         );
     }
-    /* if (loading || !data) return <Loader />; */
     return (
         <Layout {...props}>
             {loading ? (
