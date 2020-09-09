@@ -5,18 +5,18 @@ import StoreList from './StoreList';
 const StoreLocatorContent = ({ gmapKey, storeLocations }) => {
     // state
     const [centerPosition, setCenterPosition] = React.useState({});
+    const [storeList, setStoreList] = React.useState(
+        storeLocations.map((storeLocation) => ({
+            ...storeLocation,
+            lat: storeLocation.latitude,
+            lng: storeLocation.longitude,
+        })),
+    );
 
     // effect
     React.useEffect(() => {
         setCenterPosition({ lat: -6.95, lng: 107.65 });
     }, []);
-
-    // method
-    const storeList = storeLocations.map((storeLocation) => ({
-        ...storeLocation,
-        lat: storeLocation.latitude,
-        lng: storeLocation.longitude,
-    }));
 
     return (
         <div className="row">
@@ -28,6 +28,7 @@ const StoreLocatorContent = ({ gmapKey, storeLocations }) => {
                     centerPosition={centerPosition}
                     mapPositions={storeList}
                     gmapKey={gmapKey}
+                    setStoreList={setStoreList}
                 />
             </div>
         </div>

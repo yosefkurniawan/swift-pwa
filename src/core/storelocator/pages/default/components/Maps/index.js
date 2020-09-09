@@ -26,7 +26,7 @@ const StoreLocatorMaps = compose(
             const emptyValues = [undefined, null, '', 'undefined', 'null'];
             return emptyValues.includes(value) ? 0 : Number(value);
         };
-        return { lat: setZeroIfEmpty(obj && obj.lat), lng: setZeroIfEmpty(obj && obj.lng) };
+        return { ...obj, lat: setZeroIfEmpty(obj && obj.lat), lng: setZeroIfEmpty(obj && obj.lng) };
     };
 
     const getDistance = (p1, p2) => {
@@ -46,17 +46,23 @@ const StoreLocatorMaps = compose(
     const [radius, setRadius] = React.useState(15000);
     const [zoom, setZoom] = React.useState(1);
     const [centerPosition, setCenterPosition] = React.useState(mapLatLng(props.centerPosition));
+    const [mapPositions] = React.useState(props.mapPositions.map((position) => mapLatLng(position)));
 
     // effect
     React.useEffect(() => {
         setZoom(24 - Math.log(radius * 0.621371) / Math.LN2);
     }, [radius]);
+    React.useEffect(() => {
+        updateStoreList();
+    }, [centerPosition, radius]);
 
     // ref
     const searchBoxRef = React.useRef();
 
     // method
-    const mapPositions = props.mapPositions.map((position) => mapLatLng(position));
+    const updateStoreList = () => {
+        props.setStoreList(mapPositions.filter((position) => getDistance(position, centerPosition) <= radius));
+    };
     const handleSearch = () => {
         const { location } = searchBoxRef.current.getPlaces()[0].geometry;
         setCenterPosition({ lat: location.lat(), lng: location.lng() });
