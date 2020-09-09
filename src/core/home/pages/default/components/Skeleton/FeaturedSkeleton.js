@@ -11,7 +11,7 @@ const CategoryListSkeleteon = () => {
                 <Skeleton
                     className={styles.skeleton}
                     variant="rect"
-                    width="80%"
+                    width="90%"
                     xsStyle={{ height: '60vw' }}
                     mdStyle={{ height: '400px' }}
                     animation="wave"
@@ -20,7 +20,7 @@ const CategoryListSkeleteon = () => {
                 <Skeleton
                     className={styles.skeleton}
                     variant="rect"
-                    width="80%"
+                    width="90%"
                     xsStyle={{ height: '60vw' }}
                     mdStyle={{ height: '400px' }}
                     animation="wave"

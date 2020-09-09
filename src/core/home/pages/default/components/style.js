@@ -119,6 +119,10 @@ const useStyles = makeStyles((theme) => ({
             marginBottom: '20px',
         },
     },
+    skeletonDesktop: {
+        display: 'flex',
+        justifyContent: 'center',
+    },
 }));
 
 export default useStyles;
