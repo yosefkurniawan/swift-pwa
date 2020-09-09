@@ -4,7 +4,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 
-const StoreList = ({ storeList }) => (
+const StoreList = ({ storeList, totalAllStore }) => (
     <>
         <style jsx>
             {`
@@ -29,7 +29,7 @@ const StoreList = ({ storeList }) => (
         <div className="store-list">
             <h3>
                 Store List
-                <span>{`( ${storeList.length} )`}</span>
+                <span>{`( ${storeList.length} of ${totalAllStore})`}</span>
             </h3>
             <List>
                 {storeList.map((store, i) => (

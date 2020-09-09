@@ -15,13 +15,21 @@ const StoreLocatorContent = ({ gmapKey, storeLocations }) => {
 
     // effect
     React.useEffect(() => {
-        setCenterPosition({ lat: -6.95, lng: 107.65 });
+        if (navigator && navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lng = position.coords.longitude;
+                const lat = position.coords.latitude;
+                setCenterPosition({ lat, lng });
+            });
+        } else {
+            setCenterPosition({ lat: -6.17539, lng: 106.82715 });
+        }
     }, []);
 
     return (
         <div className="row">
             <div className="col-md-3">
-                <StoreList storeList={storeList} />
+                <StoreList storeList={storeList} totalAllStore={storeLocations.length} />
             </div>
             <div className="col-md-9">
                 <StoreLocatorMaps

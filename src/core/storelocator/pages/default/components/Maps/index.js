@@ -112,12 +112,21 @@ const StoreLocatorMaps = compose(
                 <Circle
                     center={centerPosition}
                     radius={radius}
-                    options={{ fillColor: 'grey', strokeColor: 'grey' }}
+                    options={{
+                        fillColor: 'grey',
+                        strokeColor: 'grey',
+                        fillOpacity: isShowAllStore ? 0 : 0.3,
+                        strokeOpacity: isShowAllStore ? 0 : 0.8,
+                    }}
                 />
                 <Circle
                     center={centerPosition}
                     radius={radius / 50}
-                    options={{ fillColor: 'black', fillOpacity: 0.5, strokeOpacity: 0 }}
+                    options={{
+                        fillColor: 'black',
+                        fillOpacity: 0.5,
+                        strokeOpacity: 0,
+                    }}
                 />
                 {props.isMarkerShown && mapPositions.map((position, i) => (
                     (getDistance(position, centerPosition) <= radius) || isShowAllStore
