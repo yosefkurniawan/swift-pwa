@@ -14,7 +14,7 @@ const StoreLocatorMaps = compose(
         googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${props.gmapKey}&libraries=geometry,drawing,places`,
         loadingElement: <div style={{ height: '100%' }} />,
         containerElement: <div style={{ height: '100%' }} />,
-        mapElement: <div style={{ height: '50vh', minHeight: '400px', marginBottom: 16 }} />,
+        mapElement: <div style={{ height: '50vh', marginBottom: 16 }} />,
         isMarkerShown: true,
     })),
     withScriptjs,

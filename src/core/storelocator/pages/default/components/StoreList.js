@@ -1,28 +1,8 @@
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-
-// const x = [
-//     'address',
-//     'baseimage',
-//     'city',
-//     'country_id',
-//     'email',
-//     'latitude',
-//     'link',
-//     'longitude',
-//     'phone',
-//     'state',
-//     'store_name',
-//     'storepickup_id',
-//     'zipcode',
-//     '__typename',
-//     'lat',
-//     'lng',
-// ];
 
 const StoreList = ({ storeList }) => (
     <>
@@ -31,13 +11,18 @@ const StoreList = ({ storeList }) => (
                 .store-list {
                     border: 2px solid #ddd;
                     padding: 12px;
-                    height: calc(100% - 15px);;
+                    height: calc(50vh + 48px);
+                    overflow: auto;
                 }
                 h3 {
                     margin: 0;
                 }
                 h3 span {
                     float: right;
+                }
+                hr {
+                    border: 0;
+                    border-top: 2px solid #ddd;
                 }
             `}
         </style>
@@ -49,6 +34,7 @@ const StoreList = ({ storeList }) => (
             <List>
                 {storeList.map((store, i) => (
                     <>
+                        <hr style={{ display: i ? 'block' : 'none' }} />
                         <ListItem key={i} alignItems="flex-start">
                             <ListItemAvatar>
                                 <Avatar src={store.baseimage} />
@@ -56,21 +42,18 @@ const StoreList = ({ storeList }) => (
                             <ListItemText
                                 primary={store.store_name}
                                 secondary={(
-                                    <>
+                                    <small>
                                         {store.state}
                                         {', '}
                                         {store.city}
                                         {', '}
                                         {store.address}
-                                    </>
+                                        <br />
+                                        {store.phone}
+                                    </small>
                                 )}
                             />
                         </ListItem>
-                        <Divider
-                            style={{ display: i === storeList.length - 1 ? 'none' : 'block' }}
-                            variant="inset"
-                            component="li"
-                        />
                     </>
                 ))}
             </List>
