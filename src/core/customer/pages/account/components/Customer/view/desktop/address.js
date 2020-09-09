@@ -49,16 +49,19 @@ const AddressView = (props) => {
                 </Link>
             </h2>
             <hr />
-            <div className="row">
-                <div className="col-lg-6">
-                    <h3>{t('customer:address:defaultBilling')}</h3>
-                    {generateData(defaultBilling, props)}
+            {addresses.length > 0 ? (
+                <div className="row">
+                    <div className="col-lg-6">
+                        <h3>{t('customer:address:defaultBilling')}</h3>
+                        {generateData(defaultBilling, props)}
+                    </div>
+                    <div className="col-lg-6">
+                        <h3>{t('customer:address:defaultShiping')}</h3>
+                        {generateData(defaultShiping, props)}
+                    </div>
                 </div>
-                <div className="col-lg-6">
-                    <h3>{t('customer:address:defaultShiping')}</h3>
-                    {generateData(defaultShiping, props)}
-                </div>
-            </div>
+            ) : <div style={{ textAlign: 'center' }}>{t('customer:address:emptyMessage')}</div>}
+
         </>
     );
 };

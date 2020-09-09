@@ -64,7 +64,6 @@ const Navigation = ({ active }) => {
                         label="Cart"
                         value="cart"
                         icon={<ShoppingBagIcon withLink />}
-                        withLink
                         classes={{
                             label: 'hide',
                             root: styles.navAction,
