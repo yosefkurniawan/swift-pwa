@@ -49,6 +49,7 @@ const StoreLocatorMaps = compose(
     const [centerPosition, setCenterPosition] = React.useState(mapLatLng(props.centerPosition));
     const [userPosition] = React.useState(mapLatLng(props.centerPosition));
     const [mapPositions] = React.useState(props.mapPositions.map((position) => mapLatLng(position)));
+    const [querySearch, setQuerySearch] = React.useState('');
 
     // effect
     React.useEffect(() => {
@@ -85,13 +86,14 @@ const StoreLocatorMaps = compose(
         setIsShowAllStore(true);
         setCenterPosition(userPosition);
         setRadius(radius > defaultRadius ? defaultRadius : radius + 0.1);
+        setQuerySearch('');
     };
 
     return (
         <>
             <div className="row">
                 <div className="col-sm-5">
-                    <SearchBox ref={searchBoxRef} handleSearch={handleSearch} />
+                    <SearchBox ref={searchBoxRef} handleSearch={handleSearch} value={querySearch} setValue={setQuerySearch} />
                 </div>
                 <div className="col-sm-5">
                     <SliderRadius radius={radius} setRadius={handleRadius} />
@@ -125,9 +127,9 @@ const StoreLocatorMaps = compose(
                 />
                 <Circle
                     center={centerPosition}
-                    radius={radius / 50}
+                    radius={radius / 30}
                     options={{
-                        fillColor: 'black',
+                        fillColor: 'red',
                         fillOpacity: 0.5,
                         strokeOpacity: 0,
                     }}

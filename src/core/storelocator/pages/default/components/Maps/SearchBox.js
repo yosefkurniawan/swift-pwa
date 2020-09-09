@@ -9,9 +9,14 @@ const SearchBox = React.forwardRef((props, ref) => {
     return (
         <StandaloneSearchBox
             ref={ref}
-            onPlacesChanged={props.handleSearch}
+            onPlacesChanged={() => {
+                props.handleSearch();
+                props.setValue(ref.current.getPlaces()[0].formatted_address);
+            }}
         >
             <TextField
+                value={props.value}
+                onChange={(e) => props.setValue(e.target.value)}
                 fullWidth
                 placeholder={t('common:search:location')}
                 InputProps={{
