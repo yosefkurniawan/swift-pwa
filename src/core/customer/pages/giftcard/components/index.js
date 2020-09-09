@@ -14,11 +14,12 @@ import Layout from '@core/customer/components/layout';
 import ModalDetail from './detail';
 import DetailView from './detail/view';
 import useStyles from './style';
+import Loader from './skeleton';
 
 const GiftCard = (props) => {
     const {
         t, storeConfig, openDetail, handleCloseDetail, selectedCode, handleOpenDetail, data, search, handleTextSearch, handleSearch,
-        error,
+        error, loading,
     } = props;
     const styles = useStyles();
 
@@ -29,6 +30,7 @@ const GiftCard = (props) => {
             </Alert>
         );
     }
+    if (loading || !data) return <Layout {...props}><Loader /></Layout>;
     return (
         <Layout {...props}>
             <div>
