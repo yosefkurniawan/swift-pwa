@@ -1,6 +1,6 @@
-import FeaturedSkeleton from '@common_slick/Caraousel/Skeleton';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
+import FeaturedSkeleton from './components/Skeleton/FeaturedSkeleton';
 import BannerSliderSkeleton from './components/Skeleton/BannerSkeleton';
 import ErrorInfo from './components/ErrorInfo';
 import BannerView from './components/Banner/view';

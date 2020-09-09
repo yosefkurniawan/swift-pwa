@@ -5,12 +5,15 @@ import gqlService from '../../../../service/graphql';
 const CategoryList = ({
     storeConfig, t, CategoryListSkeleton, ErrorInfo, CategoryListView,
 }) => {
+    if (typeof window === 'undefined') {
+        return <CategoryListSkeleton />;
+    }
     const { home } = modules;
     const { loading, data, error } = gqlService.getCategoryList({
         url_key: home.categoryList.url_key,
     });
 
-    if (loading && !data) return <CategoryListSkeleton />;
+    if (loading) return <CategoryListSkeleton />;
     if (error) {
         return (
             <ErrorInfo variant="error" text={t('home:errorFetchData')} />

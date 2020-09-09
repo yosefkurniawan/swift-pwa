@@ -5,9 +5,11 @@ const BannerSlider = (props) => {
     const {
         storeConfig, t, BannerSliderSkeleton, ErrorInfo, BannerView,
     } = props;
+    if (typeof window === 'undefined') {
+        return <BannerSliderSkeleton />;
+    }
     const logoUrl = `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`;
     const { loading, data, error } = gqlService.getBannerSlider();
-
     if (loading && !data) {
         return <BannerSliderSkeleton />;
     }
