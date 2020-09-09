@@ -47,9 +47,13 @@ const StoreLocatorMaps = compose(
     const [radius, setRadius] = React.useState(defaultRadius);
     const [zoom, setZoom] = React.useState(1);
     const [centerPosition, setCenterPosition] = React.useState(mapLatLng(props.centerPosition));
+    const [userPosition] = React.useState(mapLatLng(props.centerPosition));
     const [mapPositions] = React.useState(props.mapPositions.map((position) => mapLatLng(position)));
 
     // effect
+    React.useEffect(() => {
+        setCenterPosition(mapLatLng(props.centerPosition));
+    }, [props.centerPosition]);
     React.useEffect(() => {
         setZoom(24 - Math.log(radius * 0.621371) / Math.LN2);
     }, [radius]);
@@ -79,7 +83,7 @@ const StoreLocatorMaps = compose(
     };
     const handleReset = () => {
         setIsShowAllStore(true);
-        setCenterPosition(mapLatLng(props.centerPosition));
+        setCenterPosition(userPosition);
         setRadius(radius > defaultRadius ? defaultRadius : radius + 0.1);
     };
 

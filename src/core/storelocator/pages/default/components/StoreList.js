@@ -4,7 +4,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 
-const StoreList = ({ storeList, totalAllStore }) => (
+const StoreList = ({ storeList, totalAllStore, onClickListItem }) => (
     <>
         <style jsx>
             {`
@@ -35,7 +35,7 @@ const StoreList = ({ storeList, totalAllStore }) => (
                 {storeList.map((store, i) => (
                     <>
                         <hr style={{ display: i ? 'block' : 'none' }} />
-                        <ListItem key={i} alignItems="flex-start">
+                        <ListItem key={i} alignItems="flex-start" button onClick={() => onClickListItem(store)}>
                             <ListItemAvatar>
                                 <Avatar src={store.baseimage} />
                             </ListItemAvatar>

@@ -29,7 +29,13 @@ const StoreLocatorContent = ({ gmapKey, storeLocations }) => {
     return (
         <div className="row">
             <div className="col-md-3">
-                <StoreList storeList={storeList} totalAllStore={storeLocations.length} />
+                <StoreList
+                    storeList={storeList}
+                    totalAllStore={storeLocations.length}
+                    onClickListItem={(store) => setCenterPosition({
+                        lat: store.lat, lng: store.lng,
+                    })}
+                />
             </div>
             <div className="col-md-9">
                 <StoreLocatorMaps
