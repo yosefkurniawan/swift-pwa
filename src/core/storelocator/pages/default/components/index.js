@@ -1,14 +1,15 @@
 import StoreLocatorMaps from './Maps';
 import SkeletonStoreLocator from './Skeleton';
+import StoreList from './StoreList';
 
-const StoreMaps = ({ gmapKey, storeLocations }) => {
+const StoreLocatorContent = ({ gmapKey, storeLocations }) => {
     const [centerPosition, setCenterPosition] = React.useState({});
 
     React.useEffect(() => {
         setCenterPosition({ lat: -6.95, lng: 107.65 });
     }, []);
 
-    const mapPositions = storeLocations.map((storeLocation) => ({
+    const storeList = storeLocations.map((storeLocation) => ({
         ...storeLocation,
         lat: storeLocation.latitude,
         lng: storeLocation.longitude,
@@ -17,21 +18,12 @@ const StoreMaps = ({ gmapKey, storeLocations }) => {
     return (
         <div className="row">
             <div className="col-md-3">
-                <div style={{ border: '2px solid #ccc', height: '100%' }}>
-                    {`Store List (${mapPositions.length} stores)`}
-                    {mapPositions.map((storeLocation, i) => (
-                        <li key={i}>
-                            {storeLocation.store_name}
-                            <br />
-                            {`${storeLocation.lat} / ${storeLocation.lng}`}
-                        </li>
-                    ))}
-                </div>
+                <StoreList storeList={storeList} />
             </div>
             <div className="col-md-9">
                 <StoreLocatorMaps
                     centerPosition={centerPosition}
-                    mapPositions={mapPositions}
+                    mapPositions={storeList}
                     gmapKey={gmapKey}
                 />
             </div>
@@ -39,7 +31,7 @@ const StoreMaps = ({ gmapKey, storeLocations }) => {
     );
 };
 
-const StoreLocatorContent = (props) => {
+const StoreLocatorContentWrapper = (props) => {
     const {
         loading,
         storeLocations,
@@ -49,10 +41,10 @@ const StoreLocatorContent = (props) => {
     return (
         <>
             {
-                loading
+                loading || typeof window === 'undefined'
                     ? <SkeletonStoreLocator />
                     : (
-                        <StoreMaps
+                        <StoreLocatorContent
                             gmapKey={storeConfig.icube_pinlocation_gmap_key}
                             storeLocations={storeLocations}
                         />
@@ -62,4 +54,4 @@ const StoreLocatorContent = (props) => {
     );
 };
 
-export default StoreLocatorContent;
+export default StoreLocatorContentWrapper;
