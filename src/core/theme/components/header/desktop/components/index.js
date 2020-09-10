@@ -80,6 +80,15 @@ const ViewTopNavigation = (props) => {
                     #header {
                         height: 170px;
                     }
+                    @media (min-width: 768px) {
+                        #header{
+                            position:fixed;
+                            width:100%;
+                            background:white;
+                            z-index: 1035;
+                            top:0;
+                        }
+                    }
                     main {
                         background-color: #fff;
                     }

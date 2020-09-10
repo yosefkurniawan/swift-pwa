@@ -44,12 +44,12 @@ const CustomButton = ({
                 >
                     {children}
                 </Button>
-                {/* {loading && ( */}
-                <CircularProgress
-                    size={24}
-                    className={styles.buttonProgress}
-                />
-                {/* )} */}
+                {loading && (
+                    <CircularProgress
+                        size={24}
+                        className={styles.buttonProgress}
+                    />
+                )}
             </div>
         </div>
     );
