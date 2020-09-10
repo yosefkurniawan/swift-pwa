@@ -6,6 +6,7 @@ import {
 } from 'react-google-maps';
 import Button from '@material-ui/core/Button';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
+import InfoBox from 'react-google-maps/lib/components/addons/InfoBox';
 import SearchBox from './SearchBox';
 import SliderRadius from './SliderRadius';
 
@@ -47,6 +48,7 @@ const StoreLocatorMaps = compose(
     const [radius, setRadius] = React.useState(defaultRadius);
     const [zoom, setZoom] = React.useState(1);
     const [centerPosition, setCenterPosition] = React.useState(mapLatLng(props.centerPosition));
+    const [selectedStore, setSelectedStore] = React.useState();
     const [userPosition] = React.useState(mapLatLng(props.centerPosition));
     const [mapPositions] = React.useState(props.mapPositions.map((position) => mapLatLng(position)));
     const [querySearch, setQuerySearch] = React.useState('');
@@ -61,6 +63,11 @@ const StoreLocatorMaps = compose(
     React.useEffect(() => {
         updateStoreList();
     }, [centerPosition, radius]);
+    React.useEffect(() => {
+        if (selectedStore) {
+            setCenterPosition({ lat: selectedStore.lat, lng: selectedStore.lng });
+        }
+    }, [selectedStore]);
 
     // ref
     const searchBoxRef = React.useRef();
@@ -83,6 +90,7 @@ const StoreLocatorMaps = compose(
         setRadius(value);
     };
     const handleReset = () => {
+        setSelectedStore(null);
         setIsShowAllStore(true);
         setCenterPosition(userPosition);
         setRadius(radius > defaultRadius ? defaultRadius : radius + 0.1);
@@ -134,9 +142,64 @@ const StoreLocatorMaps = compose(
                         strokeOpacity: 0,
                     }}
                 />
+                <style jsx>
+                    {`
+                        .info-box {
+                            background-color: #fff;
+                            padding: 12px;
+                            width: 250px;
+                            color: #000;
+                            border-radius: 8px;
+                        }
+                        .info-box .left {
+                            display: inline-block;
+                            padding-right: 10px;
+                            width: 50px;
+                            vertical-align: top;
+                        }
+                        .info-box .right {
+                            display: inline-block;
+                            width: calc(100% - 50px);
+                        }
+                        .info-box .title {
+                            font-size: 16px;
+                        }
+                        .info-box .description {
+                            line-height: 18px;
+                            margin-top: 4px;
+                        }
+                    `}
+                </style>
+                {selectedStore && (
+                    <div className="werwer">
+                        <InfoBox
+                            // eslint-disable-next-line no-undef
+                            position={new google.maps.LatLng(selectedStore.lat, selectedStore.lng)}
+                            options={{ closeBoxURL: '', enableEventPropagation: true }}
+                        >
+                            <div className="info-box">
+                                <div className="left">
+                                    <div className="image">
+                                        <img alt={selectedStore.store_name} src={selectedStore.baseimage} width="100%" />
+                                    </div>
+                                </div>
+                                <div className="right">
+                                    <div className="title">
+                                        {selectedStore.store_name}
+                                    </div>
+                                    <div className="description">
+                                        {`${selectedStore.state}, ${selectedStore.city}, ${selectedStore.address}`}
+                                        <br />
+                                        {selectedStore.phone}
+                                    </div>
+                                </div>
+                            </div>
+                        </InfoBox>
+                    </div>
+                )}
                 {props.isMarkerShown && mapPositions.map((position, i) => (
                     (getDistance(position, centerPosition) <= radius) || isShowAllStore
-                        ? <Marker position={position} key={i} />
+                        ? <Marker position={position} key={i} onClick={() => setSelectedStore(position)} />
                         : null
                 ))}
             </GoogleMap>
