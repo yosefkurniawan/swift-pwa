@@ -1,9 +1,9 @@
-import Button from '@common_button';
 import Typography from '@common_typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 // import Router from 'next/router';
 import React from 'react';
+import Button from './components/Button';
 import useStyles from './style';
 
 const renderQty = () => {
@@ -21,8 +21,8 @@ const renderQty = () => {
 
 export default ({
     qty = 1,
-    handleQty = () => {},
-    handleAddToCart = () => {},
+    handleQty = () => { },
+    handleAddToCart = () => { },
     t,
     loading = false,
 }) => {

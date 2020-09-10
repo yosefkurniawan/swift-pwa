@@ -43,13 +43,13 @@ const CustomButton = ({
                     href={null}
                 >
                     {children}
+                    {loading && (
+                        <CircularProgress
+                            size={24}
+                            className={styles.buttonProgress}
+                        />
+                    )}
                 </Button>
-                {/* {loading && ( */}
-                <CircularProgress
-                    size={24}
-                    className={styles.buttonProgress}
-                />
-                {/* )} */}
             </div>
         </div>
     );
