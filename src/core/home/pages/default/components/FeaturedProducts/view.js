@@ -38,7 +38,7 @@ const MobileView = ({
                         classNames(category_image ? 'col-xs-12 col-sm-12 col-lg-4' : 'hidden-mobile hidden-desktop', styles.imgFeaturedContainer)
                     }
                 >
-                    {(category_image) && (
+                    {(category_image) ? (
                         <div className={styles.imgFeaturedItem}>
                             <Image
                                 handleClick={() => Router.push(`/${url_path}`)}
@@ -48,7 +48,7 @@ const MobileView = ({
                                 height={height}
                             />
                         </div>
-                    )}
+                    ) : null}
                 </div>
                 <div className={classNames('col-xs-12 col-sm-12', category_image ? 'col-lg-8' : '')}>
                     <div className={classNames('row center-xs', styles.contentFeatured)}>

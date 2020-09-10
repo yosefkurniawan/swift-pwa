@@ -16,8 +16,7 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         height: '100%',
         fontSize: '12px',
-        padding: '15px 0',
-        marginBottom: '40px',
+        padding: '0px 20px 40px 20px',
     },
     tableOuterContainer: {
         paddingTop: 10,
@@ -30,25 +29,25 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
     },
     tableRowHead: {
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             display: 'none !important',
         },
     },
     tableRowResponsive: {
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             display: 'grid !important',
             borderBottom: '1px solid rgba(224, 224, 224, 1)',
             padding: 10,
         },
     },
     tableCellResponsive: {
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             border: 'none',
             padding: '8px 0',
         },
     },
     mobLabel: {
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('sm')]: {
             display: 'none',
         },
         width: '40%',
@@ -128,6 +127,9 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: 'underline',
         fontSize: '12px',
         margin: '0',
+    },
+    address_edit_mobile: {
+        marginLeft: 57,
     },
     address_action: {
         marginTop: '20px',
