@@ -84,7 +84,7 @@ export default function ComboBox(props) {
                 actGetProduct();
                 actGetCategory();
             }
-        }, 500);
+        }, 300);
     };
 
     const handleKeyPress = (e) => {
