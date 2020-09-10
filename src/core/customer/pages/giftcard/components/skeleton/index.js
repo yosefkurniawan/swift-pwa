@@ -7,11 +7,8 @@ export default () => {
     return (
         <>
             <div className="row hidden-mobile">
-                <div className="col-lg-2">
-                    <Skeleton animation="wave" variant="rect" height={300} width="100%" />
-                </div>
                 <div className="col-lg-10">
-                    <Skeleton animation="wave" variant="rect" height={240} width="100%" style={{ marginBottom: 50 }} />
+                    <Skeleton animation="wave" variant="rect" height={240} width="50%" style={{ marginBottom: 50 }} />
                 </div>
             </div>
             <div className={classNames(styles.container, 'hidden-desktop')}>

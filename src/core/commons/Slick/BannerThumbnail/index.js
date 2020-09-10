@@ -65,7 +65,7 @@ const Banner = ({
     return (
         <div className={styles.container}>
             {thumbnail ? (
-                <ul>
+                <div>
                     {data.map((item, id) => (
                         <div
                             className={slideIndex === id
@@ -84,7 +84,7 @@ const Banner = ({
                             />
                         </div>
                     ))}
-                </ul>
+                </div>
             ) : null}
             <div className={classNames(styles.caraousel)}>
                 <Slider ref={(slider) => sliderRef = slider} {...settings}>

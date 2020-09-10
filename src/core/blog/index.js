@@ -1,11 +1,9 @@
-import landing from './landing';
-import category from './category';
-import detail from './detail';
-import views from './views';
+import landing from './pages/landing';
+import category from './pages/category';
+import detail from './pages/detail';
 
 export default {
     landing,
     category,
     detail,
-    views,
 };

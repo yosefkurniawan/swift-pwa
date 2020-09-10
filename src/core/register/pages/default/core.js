@@ -73,6 +73,28 @@ const Register = (props) => {
         captcha: recaptcha.enable && Yup.string().required(`Captcha ${t('validate:required')}`),
     });
 
+    const handleSendRegister = (values, resetForm) => {
+        sendRegister({
+            variables: values,
+        })
+            .then(async () => {
+                resetForm();
+                await setIsLogin(1);
+                getCart();
+                setdisabled(false);
+                window.backdropLoader(false);
+            })
+            .catch((e) => {
+                setdisabled(false);
+                window.backdropLoader(false);
+                window.toastMessage({
+                    open: true,
+                    text: e.message.split(':')[0] || t('register:failed'),
+                    variant: 'error',
+                });
+            });
+    };
+
     const formik = useFormik({
         initialValues: {
             firstName: '',
@@ -90,54 +112,40 @@ const Register = (props) => {
         onSubmit: (values, { resetForm }) => {
             setdisabled(true);
             window.backdropLoader(true);
-            fetch('/captcha-validation', {
-                method: 'post',
-                body: JSON.stringify({
-                    response: values.captcha,
-                }),
-                headers: { 'Content-Type': 'application/json' },
-            })
-                .then((data) => data.json())
-                .then((json) => {
-                    if (json.success) {
-                        sendRegister({
-                            variables: values,
-                        })
-                            .then(async () => {
-                                resetForm();
-                                await setIsLogin(1);
-                                getCart();
-                                setdisabled(false);
-                                window.backdropLoader(false);
-                            })
-                            .catch((e) => {
-                                setdisabled(false);
-                                window.backdropLoader(false);
-                                window.toastMessage({
-                                    open: true,
-                                    text: e.message.split(':')[1] || t('register:failed'),
-                                    variant: 'error',
-                                });
+            if (recaptcha.enable) {
+                fetch('/captcha-validation', {
+                    method: 'post',
+                    body: JSON.stringify({
+                        response: values.captcha,
+                    }),
+                    headers: { 'Content-Type': 'application/json' },
+                })
+                    .then((data) => data.json())
+                    .then((json) => {
+                        if (json.success) {
+                            handleSendRegister(values, resetForm);
+                        } else {
+                            window.toastMessage({
+                                open: true,
+                                variant: 'error',
+                                text: t('register:failed'),
                             });
-                    } else {
+                        }
+                        window.backdropLoader(false);
+                    })
+                    .catch(() => {
+                        window.backdropLoader(false);
                         window.toastMessage({
                             open: true,
                             variant: 'error',
-                            text: t('contact:failedSubmit'),
+                            text: t('common:error:fetchError'),
                         });
-                    }
-                    window.backdropLoader(false);
-                })
-                .catch(() => {
-                    window.backdropLoader(false);
-                    window.toastMessage({
-                        open: true,
-                        variant: 'error',
-                        text: t('common:error:fetchError'),
                     });
-                });
 
-            recaptchaRef.current.reset();
+                recaptchaRef.current.reset();
+            } else {
+                handleSendRegister(values, resetForm);
+            }
         },
     });
 

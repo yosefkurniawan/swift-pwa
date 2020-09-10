@@ -84,7 +84,7 @@ const OtpBlock = ({
                 window.backdropLoader(false);
                 window.toastMessage({
                     open: true,
-                    text: e.message.split(':')[1] || t('customer:top:sendFailed'),
+                    text: e.message.split(':')[1] || t('otp:sendFailed'),
                     variant: 'error',
                 });
             });

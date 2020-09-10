@@ -6,6 +6,8 @@ import NotificationBell from '@core/notification/plugins/NotificationBell';
 import ShoppingBagIcon from '@core/cart/plugin/ShoppingBag';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
+import DesktopInstallApp from '@core/theme/components/custom-install-popup/desktop';
+import { features } from '@config';
 import Menu from './mcategory';
 import TopMenu from './mtop';
 
@@ -16,13 +18,14 @@ const ViewTopNavigation = (props) => {
     return (
         <div id="header">
             <div className="row header-top">
-                <main>
+                <main style={{ width: '97%' }}>
+                    {features.customInstallApp.enabled ? <DesktopInstallApp /> : null}
                     <TopMenu t={t} isLogin={isLogin} data={customer} handleLogout={handleLogout} />
                 </main>
             </div>
             <main>
-                <div className="row header-middle">
-                    <div className="col-xs-2">
+                <div className="header-middle">
+                    <div className="header-middle__left">
                         <div className="box header-middle__logo">
                             <Link href="/">
                                 <img
@@ -32,8 +35,12 @@ const ViewTopNavigation = (props) => {
                             </Link>
                         </div>
                     </div>
-                    <div className="col-xs-5" />
-                    <div className="col-xs-5">
+                    <div className="header-middle__center">
+                        <div className="header-small__menu">
+                            {loading ? null : <Menu data={data} storeConfig={storeConfig} />}
+                        </div>
+                    </div>
+                    <div className="header-middle__right">
                         <div className="box">
                             <div className="header-middle__icons">
                                 <div className="notification"><NotificationBell withLink /></div>
@@ -89,6 +96,13 @@ const ViewTopNavigation = (props) => {
                         padding-top: 10px;
                         display: flex;
                         align-items: center;
+                        justify-content: space-between;
+                    }
+                    .header-middle__left {
+                        width: 120px;
+                    }
+                    .header-middle__right {
+                        width: 300px;
                     }
                     .header-small__menu {
                         display: none;
@@ -136,9 +150,18 @@ const ViewTopNavigation = (props) => {
                     .header-small .header-top{
                         display: none;
                     }
-                    .header-small .header-small__menu {
-                        display: block;
+                    @media (min-width: 1250px) {
+                        .header-small .header-small__menu {
+                            display: block;
+                        }
+                        .header-small .menu-category {
+                            display: none;
+                        }
+                        .header-small {
+                            height: 75px !important;
+                        }
                     }
+                    
 
                 `}
             </style>

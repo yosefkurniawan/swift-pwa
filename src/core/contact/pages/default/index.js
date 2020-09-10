@@ -1,11 +1,11 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import Loading from '@common_loaders/Backdrop';
+import Skeleton from './components/skeleton';
 import Content from './components';
 import ErrorInfo from './components/ErrorInfo';
 import Core from './core';
 
-const Page = (props) => (<Core {...props} Content={Content} ErrorInfo={ErrorInfo} Skeleton={Loading} />);
+const Page = (props) => (<Core {...props} Content={Content} ErrorInfo={ErrorInfo} Skeleton={Skeleton} />);
 
 Page.getInitialProps = async () => ({ namespacesRequired: ['common', 'contact', 'validate'] });
 

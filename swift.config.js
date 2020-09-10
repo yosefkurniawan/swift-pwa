@@ -21,6 +21,9 @@ const graphqlEndpoint = {
 /* FEATURES CONFIGURATION
 /* --------------------------------------- */
 
+const installMessage = 'Get our free app.';
+const appName = 'Swift APP';
+
 /* Social Sharing */
 const shareIcon = {
     facebook: true,
@@ -147,6 +150,9 @@ const features = {
         },
     },
     vesMenu: {
+        enabled: true,
+    },
+    customInstallApp: {
         enabled: true,
     },
 };
@@ -345,4 +351,6 @@ module.exports = {
     nossrCache,
     recaptcha,
     modules,
+    installMessage,
+    appName,
 };

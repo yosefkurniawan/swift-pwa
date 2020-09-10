@@ -12,7 +12,7 @@
     "choseMethod": "Pilih salah satu metode untuk mendapatkan kode verifikasi",
     "sms": "Via SMS ke ",
     "maxSend": "request pengiriman OTP Anda sudah maksimal",
-    "sendSucces": "OTP berhasil terkirim",
+    "sendSuccess": "OTP berhasil terkirim",
     "sendFailed": "OTP gagal terkirim",
     "valid": "OTP benar",
     "invalid": "OTP tidak benar"

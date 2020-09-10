@@ -23,6 +23,7 @@ module.exports = withOffline({
     //     }));
     //     return config;
     // },
+    // generateInDevMode: true, // please comment if develop to production
     workboxOpts: {
         swDest: process.env.NEXT_EXPORT ? 'service-worker.js' : 'static/service-worker.js',
         runtimeCaching: [
