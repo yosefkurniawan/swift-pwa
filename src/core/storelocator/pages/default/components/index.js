@@ -5,6 +5,7 @@ import StoreList from './StoreList';
 const StoreLocatorContent = ({ gmapKey, storeLocations }) => {
     // state
     const [centerPosition, setCenterPosition] = React.useState({});
+    const [selectedStore, setSelectedStore] = React.useState();
     const [storeList, setStoreList] = React.useState(
         storeLocations.map((storeLocation) => ({
             ...storeLocation,
@@ -32,9 +33,10 @@ const StoreLocatorContent = ({ gmapKey, storeLocations }) => {
                 <StoreList
                     storeList={storeList}
                     totalAllStore={storeLocations.length}
-                    onClickListItem={(store) => setCenterPosition({
-                        lat: store.lat, lng: store.lng,
-                    })}
+                    onClickListItem={(store) => {
+                        setCenterPosition({ lat: store.lat, lng: store.lng });
+                        setSelectedStore(store);
+                    }}
                 />
             </div>
             <div className="col-md-9">
@@ -43,6 +45,7 @@ const StoreLocatorContent = ({ gmapKey, storeLocations }) => {
                     mapPositions={storeList}
                     gmapKey={gmapKey}
                     setStoreList={setStoreList}
+                    selectedStore={selectedStore}
                 />
             </div>
         </div>

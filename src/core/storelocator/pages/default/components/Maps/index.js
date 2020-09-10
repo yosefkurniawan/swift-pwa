@@ -2,11 +2,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { compose, withProps } from 'recompose';
 import {
-    withScriptjs, withGoogleMap, GoogleMap, Marker, Circle,
+    withScriptjs, withGoogleMap, GoogleMap, Marker, Circle, InfoWindow,
 } from 'react-google-maps';
 import Button from '@material-ui/core/Button';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
-import InfoBox from 'react-google-maps/lib/components/addons/InfoBox';
 import SearchBox from './SearchBox';
 import SliderRadius from './SliderRadius';
 
@@ -54,6 +53,9 @@ const StoreLocatorMaps = compose(
     const [querySearch, setQuerySearch] = React.useState('');
 
     // effect
+    React.useEffect(() => {
+        setSelectedStore(props.selectedStore);
+    }, [props.selectedStore]);
     React.useEffect(() => {
         setCenterPosition(mapLatLng(props.centerPosition));
     }, [props.centerPosition]);
@@ -144,63 +146,65 @@ const StoreLocatorMaps = compose(
                 />
                 <style jsx>
                     {`
-                        .info-box {
+                        .info-window {
                             background-color: #fff;
-                            padding: 12px;
+                            padding: 8px 0;
                             width: 250px;
+                            max-width: 50vw;
                             color: #000;
                             border-radius: 8px;
                         }
-                        .info-box .left {
+                        .info-window .left {
                             display: inline-block;
                             padding-right: 10px;
-                            width: 50px;
+                            width: 60px;
                             vertical-align: top;
                         }
-                        .info-box .right {
-                            display: inline-block;
-                            width: calc(100% - 50px);
+                        .info-window .image {
+                            border: 1px solid #ddd;
+                            border-radius: 4px;
+                            padding: 4px;
                         }
-                        .info-box .title {
+                        .info-window .right {
+                            display: inline-block;
+                            width: calc(100% - 60px);
+                        }
+                        .info-window .title {
                             font-size: 16px;
                         }
-                        .info-box .description {
+                        .info-window .description {
                             line-height: 18px;
                             margin-top: 4px;
                         }
                     `}
                 </style>
-                {selectedStore && (
-                    <div className="werwer">
-                        <InfoBox
-                            // eslint-disable-next-line no-undef
-                            position={new google.maps.LatLng(selectedStore.lat, selectedStore.lng)}
-                            options={{ closeBoxURL: '', enableEventPropagation: true }}
-                        >
-                            <div className="info-box">
-                                <div className="left">
-                                    <div className="image">
-                                        <img alt={selectedStore.store_name} src={selectedStore.baseimage} width="100%" />
-                                    </div>
-                                </div>
-                                <div className="right">
-                                    <div className="title">
-                                        {selectedStore.store_name}
-                                    </div>
-                                    <div className="description">
-                                        {`${selectedStore.state}, ${selectedStore.city}, ${selectedStore.address}`}
-                                        <br />
-                                        {selectedStore.phone}
-                                    </div>
-                                </div>
-                            </div>
-                        </InfoBox>
-                    </div>
-                )}
                 {props.isMarkerShown && mapPositions.map((position, i) => (
                     (getDistance(position, centerPosition) <= radius) || isShowAllStore
-                        ? <Marker position={position} key={i} onClick={() => setSelectedStore(position)} />
-                        : null
+                        ? (
+                            <Marker position={position} key={i} onClick={() => setSelectedStore(position)}>
+                                {selectedStore && selectedStore.store_name === position.store_name && (
+                                    <InfoWindow onCloseClick={() => setSelectedStore(null)}>
+                                        <div className="info-window">
+                                            <div className="left">
+                                                <div className="image">
+                                                    <img alt={position.store_name} src={position.baseimage} width="100%" />
+                                                </div>
+                                            </div>
+                                            <div className="right">
+                                                <div className="title">
+                                                    {position.store_name}
+                                                </div>
+                                                <div className="description">
+                                                    {`${position.state}, ${position.city}, ${position.address}`}
+                                                    <br />
+                                                    {position.phone}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </InfoWindow>
+                                )}
+                            </Marker>
+                        ) : null
                 ))}
             </GoogleMap>
         </>
