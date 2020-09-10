@@ -50,12 +50,7 @@ const StoreLocatorContent = ({ gmapKey, storeLocations }) => {
 };
 
 const StoreLocatorContentWrapper = (props) => {
-    const {
-        loading,
-        storeLocations,
-        storeConfig,
-    } = props;
-
+    const { loading, storeLocations, storeConfig } = props;
     return (
         <>
             {
