@@ -2,12 +2,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { compose, withProps } from 'recompose';
 import {
-    withScriptjs, withGoogleMap, GoogleMap, Marker, Circle, InfoWindow,
+    withScriptjs, withGoogleMap, GoogleMap, Marker, Circle,
 } from 'react-google-maps';
 import Button from '@material-ui/core/Button';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import SearchBox from './SearchBox';
 import SliderRadius from './SliderRadius';
+import InfoWindow from './InfoWindow';
 
 const StoreLocatorMaps = compose(
     withProps((props) => ({
@@ -109,12 +110,7 @@ const StoreLocatorMaps = compose(
                     <SliderRadius radius={radius} setRadius={handleRadius} />
                 </div>
                 <div className="col-sm-2">
-                    <Button
-                        style={{ width: '100%' }}
-                        variant="contained"
-                        startIcon={<AutorenewIcon />}
-                        onClick={handleReset}
-                    >
+                    <Button style={{ width: '100%' }} variant="contained" startIcon={<AutorenewIcon />} onClick={handleReset}>
                         Reset
                     </Button>
                 </div>
@@ -144,64 +140,12 @@ const StoreLocatorMaps = compose(
                         strokeOpacity: 0,
                     }}
                 />
-                <style jsx>
-                    {`
-                        .info-window {
-                            background-color: #fff;
-                            padding: 8px 0;
-                            width: 250px;
-                            max-width: 50vw;
-                            color: #000;
-                            border-radius: 8px;
-                        }
-                        .info-window .left {
-                            display: inline-block;
-                            padding-right: 10px;
-                            width: 60px;
-                            vertical-align: top;
-                        }
-                        .info-window .image {
-                            border: 1px solid #ddd;
-                            border-radius: 4px;
-                            padding: 4px;
-                        }
-                        .info-window .right {
-                            display: inline-block;
-                            width: calc(100% - 60px);
-                        }
-                        .info-window .title {
-                            font-size: 16px;
-                        }
-                        .info-window .description {
-                            line-height: 18px;
-                            margin-top: 4px;
-                        }
-                    `}
-                </style>
                 {props.isMarkerShown && mapPositions.map((position, i) => (
                     (getDistance(position, centerPosition) <= radius) || isShowAllStore
                         ? (
                             <Marker position={position} key={i} onClick={() => setSelectedStore(position)}>
                                 {selectedStore && selectedStore.store_name === position.store_name && (
-                                    <InfoWindow onCloseClick={() => setSelectedStore(null)}>
-                                        <div className="info-window">
-                                            <div className="left">
-                                                <div className="image">
-                                                    <img alt={position.store_name} src={position.baseimage} width="100%" />
-                                                </div>
-                                            </div>
-                                            <div className="right">
-                                                <div className="title">
-                                                    {position.store_name}
-                                                </div>
-                                                <div className="description">
-                                                    {`${position.state}, ${position.city}, ${position.address}`}
-                                                    <br />
-                                                    {position.phone}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </InfoWindow>
+                                    <InfoWindow store={position} onCloseClick={() => setSelectedStore(null)} />
                                 )}
                             </Marker>
                         ) : null
