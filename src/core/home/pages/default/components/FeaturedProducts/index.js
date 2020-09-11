@@ -6,7 +6,6 @@ const FeaturedProducts = ({
     t, ErrorInfo, FeaturedSkeleton, FeaturedView,
 }) => {
     if (typeof window === 'undefined') return <FeaturedSkeleton />;
-    console.log(FeaturedSkeleton);
     const { home } = modules;
     const { loading, data, error } = gqlService.getFeaturedProducts({
         url_key: home.featuresProduct.url_key,
