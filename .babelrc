@@ -22,6 +22,7 @@
                     "@layout" : "./src/core/theme/layout",
                     //commons components
                     "@common_button": "./src/core/commons/Button",
+                    "@common_qty": "./src/core/commons/ButtonQty",
                     "@common_breadcrumb": "./src/core/commons/Breadcrumb",
                     "@common_confirmdialog": "./src/core/commons/ConfirmDialog",
                     "@common_dropfile": "./src/core/commons/DropFile",
