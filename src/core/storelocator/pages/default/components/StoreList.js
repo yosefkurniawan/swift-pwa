@@ -12,6 +12,8 @@ const StoreList = ({ storeList, totalAllStore, onClickListItem }) => (
                     border: 2px solid #ddd;
                     padding: 12px;
                     height: calc(50vh + 48px);
+                    max-height: calc(50vh + 48px);
+                    margin-bottom: 16px;
                     overflow: auto;
                 }
                 h3 {
@@ -57,6 +59,7 @@ const StoreList = ({ storeList, totalAllStore, onClickListItem }) => (
                     </div>
                 ))}
             </List>
+            {!storeList.length && <div>No Results.</div>}
         </div>
     </>
 );
