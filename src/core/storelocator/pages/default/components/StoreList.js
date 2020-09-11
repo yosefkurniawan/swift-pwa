@@ -16,6 +16,11 @@ const StoreList = ({ storeList, totalAllStore, onClickListItem }) => (
                     margin-bottom: 16px;
                     overflow: auto;
                 }
+                @media screen and (max-width: 767px) {
+                    .store-list {
+                        height: unset;
+                    }
+                }
                 h3 {
                     margin: 0;
                 }
