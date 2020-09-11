@@ -33,11 +33,22 @@ const AsLowAsText = () => {
     );
 };
 
-const SimpleProductTypePrice = ({ priceRange, priceTiers }) => {
+const SimpleProductTypePrice = ({
+    priceRange, priceTiers, specialFromDate, specialToDate,
+}) => {
     const styles = useStyles();
     const regularPrice = priceRange.minimum_price.regular_price;
     const finalPrice = priceRange.minimum_price.final_price;
-
+    let validSpecial = true;
+    const nowTime = new Date(Date.now()).getTime();
+    if (specialFromDate && specialFromDate !== null) {
+        const startTime = new Date(specialFromDate).getTime();
+        if (nowTime < startTime) validSpecial = false;
+    }
+    if (specialToDate && specialToDate !== null) {
+        const endTime = new Date(specialToDate).getTime();
+        if (nowTime > endTime) validSpecial = false;
+    }
     // if has tierprice
     if (priceTiers && priceTiers.length) {
         const lowestPriceTier = getLowestTierPrice(priceTiers);
@@ -171,20 +182,43 @@ const SimpleProductTypePrice = ({ priceRange, priceTiers }) => {
     return (
         <>
             {/* case 9 */}
-            <Typography variant="span" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
-                <strike>{formatPrice(regularPrice.value, regularPrice.currency)}</strike>
-            </Typography>
-            <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
-                {formatPrice(finalPrice.value, finalPrice.currency)}
+            {
+                validSpecial ? (
+                    <Typography
+                        variant="span"
+                        letter="capitalize"
+                        className={classNames(styles.noMargin, styles.oldPrice)}
+                    >
+                        <strike>{formatPrice(regularPrice.value, regularPrice.currency)}</strike>
+                    </Typography>
+                ) : null
+            }
+            <Typography
+                variant="span"
+                type="bold"
+                letter="capitalize"
+                className={classNames(styles.noMargin, styles.finalPrice)}
+            >
+                {
+                    validSpecial ? formatPrice(finalPrice.value, finalPrice.currency)
+                        : formatPrice(regularPrice.value, regularPrice.currency)
+                }
             </Typography>
         </>
     );
 };
 
-const OtherProductTypePrice = ({ priceRange }) => {
+const OtherProductTypePrice = ({ priceRange, specialFromDate, specialToDate }) => {
     const styles = useStyles();
     const regularPrice = priceRange.minimum_price.regular_price;
     const finalPrice = priceRange.minimum_price.final_price;
+    let validSpecial = true;
+    if (specialFromDate && specialFromDate !== null && specialToDate && specialToDate !== null) {
+        const startTime = new Date(specialFromDate).getTime();
+        const nowTime = new Date(Date.now()).getTime();
+        const endTime = new Date(specialToDate).getTime();
+        validSpecial = startTime <= nowTime && endTime >= nowTime;
+    }
 
     if (regularPrice.value === finalPrice.value) {
         return (
@@ -199,11 +233,27 @@ const OtherProductTypePrice = ({ priceRange }) => {
     return (
         <>
             {/* case 9 */}
-            <Typography variant="span" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
-                <strike>{formatPrice(regularPrice.value, regularPrice.currency)}</strike>
-            </Typography>
-            <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
-                {formatPrice(finalPrice.value, finalPrice.currency)}
+            {
+                validSpecial ? (
+                    <Typography
+                        variant="span"
+                        letter="capitalize"
+                        className={classNames(styles.noMargin, styles.oldPrice)}
+                    >
+                        <strike>{formatPrice(regularPrice.value, regularPrice.currency)}</strike>
+                    </Typography>
+                ) : null
+            }
+            <Typography
+                variant="span"
+                type="bold"
+                letter="capitalize"
+                className={classNames(styles.noMargin, styles.finalPrice)}
+            >
+                {
+                    validSpecial ? formatPrice(finalPrice.value, finalPrice.currency)
+                        : formatPrice(regularPrice.value, regularPrice.currency)
+                }
             </Typography>
         </>
     );
@@ -220,6 +270,7 @@ const Price = ({
     priceRange = {},
     priceTiers = [],
     productType = 'SimpleProduct',
+    ...other
 }) => {
     if (!priceRange) {
         return <>Invalid price</>;
@@ -230,6 +281,7 @@ const Price = ({
             <SimpleProductTypePrice
                 priceRange={priceRange}
                 priceTiers={priceTiers}
+                {...other}
             />
         );
     }
@@ -238,6 +290,7 @@ const Price = ({
         <OtherProductTypePrice
             priceRange={priceRange}
             priceTiers={priceTiers}
+            {...other}
         />
     );
 };

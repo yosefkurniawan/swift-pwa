@@ -128,6 +128,9 @@ export const getProduct = (config = {}) => gql`
               }
             }
           }
+
+          special_from_date
+          special_to_date
           ${modules.catalog.productListing.configurableOptions ? `
           ... on ConfigurableProduct {
             configurable_options {
@@ -157,7 +160,6 @@ export const getProduct = (config = {}) => gql`
                   reviews_count
                 }`
         : ''}
-                
                 price_tiers {
                   discount {
                     percent_off
@@ -199,6 +201,8 @@ export const getProduct = (config = {}) => gql`
                     }
                   }
                 }
+                special_from_date
+                special_to_date
                 small_image{
                   url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
                   label

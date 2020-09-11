@@ -1,5 +1,7 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { FlexColumn, CreatePadding, CreateMargin } from '@theme/mixins';
+import {
+    FlexColumn, CreatePadding, CreateMargin, FlexRow,
+} from '@theme/mixins';
 import { RED } from '@theme/colors';
 
 const useStyles = makeStyles(() => ({
@@ -23,6 +25,7 @@ const useStyles = makeStyles(() => ({
     },
     qty: {
         ...CreateMargin(15, 30, 15, 15),
+        ...FlexRow,
     },
 }));
 

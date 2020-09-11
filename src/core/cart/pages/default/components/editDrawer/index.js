@@ -1,28 +1,13 @@
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Typography from '@common_typography';
 import Button from '@common_button';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import Qty from '@common_qty';
 import useStyles from './style';
-
-const renderQty = () => {
-    const options = [];
-    // eslint-disable-next-line no-plusplus
-    for (let item = 1; item <= 10; item++) {
-        options.push(
-            <MenuItem key={item} value={item}>
-                {item}
-            </MenuItem>,
-        );
-    }
-    return options;
-};
 
 const EditDrawer = ({
     t, open, toggleOpen, id, quantity = 1, product_name = '', updateItem,
 }) => {
     const styles = useStyles();
-    const dataQty = renderQty();
     const [qty, setQty] = React.useState(quantity);
 
     React.useEffect(() => {
@@ -52,14 +37,11 @@ const EditDrawer = ({
                 </Typography>
                 <div className={styles.qty}>
                     <Typography variant="span">{t('common:title:qty')}</Typography>
-                    <Select
-                        defaultValue={1}
+                    <Qty
                         value={qty}
                         onChange={(e) => { setQty(e.target.value); }}
-                        variant="outlined"
-                    >
-                        {dataQty}
-                    </Select>
+                        max={10000}
+                    />
                 </div>
                 <Button
                     className={styles.toolbarButton}

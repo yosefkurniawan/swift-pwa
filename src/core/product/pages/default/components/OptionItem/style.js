@@ -109,6 +109,8 @@ export default makeStyles((theme) => ({
             ...CreateMargin(15, 30, 15, 15),
         },
         marginBottom: 10,
+        ...FlexColumn,
+        alignItems: 'center',
     },
     select: {
         minWidth: '30%',
