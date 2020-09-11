@@ -87,13 +87,14 @@ const ViewTopNavigation = (props) => {
                     #header {
                         height: 170px;
                     }
-                    @media (min-width: 768px) {
+                    @media (min-width: 1250px) {
                         #header{
-                            position:fixed;
-                            width:100%;
+                            position: fixed;
+                            width: 100%;
                             background:white;
-                            z-index: 1035;
+                            z-index:3;
                             top:0;
+                            transition: top 1s ease;
                         }
                     }
                     main {
@@ -160,16 +161,7 @@ const ViewTopNavigation = (props) => {
             <style global jsx>
                 {`
                     .header-small {
-                        position: fixed;
-                        top: 0;
-                        width: 100%;
-                        height: 130px !important;
-                        z-index: 100;
-                        background: #fff;
-                        box-shadow: 0 20px 30px 0 rgba(0,0,0,.05);
-                    }
-                    .header-small .header-top{
-                        display: none;
+                        top: -45px !important;
                     }
                     @media (min-width: 1250px) {
                         .header-small .header-small__menu {
