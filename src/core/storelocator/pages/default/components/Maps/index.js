@@ -15,7 +15,7 @@ const StoreLocatorMaps = compose(
         googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${props.gmapKey}&libraries=geometry,drawing,places`,
         loadingElement: <div style={{ height: '100%' }} />,
         containerElement: <div style={{ height: '100%' }} />,
-        mapElement: <div style={{ height: '50vh', marginBottom: 16 }} />,
+        mapElement: <div style={{ height: '50vh' }} />,
         isMarkerShown: true,
     })),
     withScriptjs,
@@ -103,13 +103,13 @@ const StoreLocatorMaps = compose(
     return (
         <>
             <div className="row">
-                <div className="col-sm-5">
+                <div className="col-xs-12 col-sm-5" style={{ marginTop: 16 }}>
                     <SearchBox ref={searchBoxRef} handleSearch={handleSearch} value={querySearch} setValue={setQuerySearch} />
                 </div>
-                <div className="col-sm-5">
+                <div className="col-xs-8 col-sm-5" style={{ marginTop: 16 }}>
                     <SliderRadius radius={radius} setRadius={handleRadius} />
                 </div>
-                <div className="col-sm-2">
+                <div className="col-xs-4 col-sm-2" style={{ marginTop: 16 }}>
                     <Button style={{ width: '100%' }} variant="contained" startIcon={<AutorenewIcon />} onClick={handleReset}>
                         Reset
                     </Button>

@@ -33,9 +33,9 @@ const StoreList = ({ storeList, totalAllStore, onClickListItem }) => (
             </h3>
             <List>
                 {storeList.map((store, i) => (
-                    <>
+                    <div key={i}>
                         <hr style={{ display: i ? 'block' : 'none' }} />
-                        <ListItem key={i} alignItems="flex-start" button onClick={() => onClickListItem(store)}>
+                        <ListItem alignItems="flex-start" button onClick={() => onClickListItem(store)}>
                             <ListItemAvatar>
                                 <Avatar src={store.baseimage} />
                             </ListItemAvatar>
@@ -54,7 +54,7 @@ const StoreList = ({ storeList, totalAllStore, onClickListItem }) => (
                                 )}
                             />
                         </ListItem>
-                    </>
+                    </div>
                 ))}
             </List>
         </div>
