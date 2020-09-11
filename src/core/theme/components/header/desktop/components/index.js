@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 import NotificationBell from '@core/notification/plugins/NotificationBell';
 import ShoppingBagIcon from '@core/cart/plugin/ShoppingBag';
@@ -10,6 +10,8 @@ import DesktopInstallApp from '@core/theme/components/custom-install-popup/deskt
 import { features } from '@config';
 import Menu from './mcategory';
 import TopMenu from './mtop';
+import Autocomplete from './autocomplete';
+import OptionAutocomplete from './autocomplete/view';
 
 const ViewTopNavigation = (props) => {
     const {
@@ -47,11 +49,16 @@ const ViewTopNavigation = (props) => {
                                 <div className="shopping-bag"><ShoppingBagIcon withLink /></div>
                             </div>
                             <div className="header-middle__search">
-                                <TextField
+                                {/* <TextField
                                     id="standard-basic"
                                     label="Search..."
                                     onChange={(e) => setValue(e.target.value)}
                                     onKeyPress={(e) => handleSearch(e)}
+                                /> */}
+                                <Autocomplete
+                                    setValue={setValue}
+                                    handleSearch={handleSearch}
+                                    OptionsItem={OptionAutocomplete}
                                 />
                                 <div className="search-icon">
                                     <IconButton
@@ -111,7 +118,7 @@ const ViewTopNavigation = (props) => {
                         width: 120px;
                     }
                     .header-middle__right {
-                        width: 300px;
+                        width: 400px;
                     }
                     .header-small__menu {
                         display: none;
@@ -136,12 +143,17 @@ const ViewTopNavigation = (props) => {
                         position: absolute;
                         right: -10px;
                         top: 7px;
+                        background: #fff;
+                        z-index: 9;
                     }
                     .header-middle__search {
                         display: flex;
                         align-items: center;
                         float: right;
                         position: relative;
+                    }
+                    .menu-category{
+                        width: fit-content;
                     }
                 `}
             </style>

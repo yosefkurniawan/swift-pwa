@@ -1,5 +1,4 @@
 /* eslint-disable no-nested-ternary */
-import TextField from '@common_forms/TextField';
 import AppBar from '@material-ui/core/AppBar';
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
@@ -10,6 +9,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import { features } from '@config';
 import Router from 'next/router';
 import React, { useState } from 'react';
+import AutoComplete from '@core/theme/components/header/desktop/components/autocomplete';
+import OptionsItem from '@core/theme/components/header/desktop/components/autocomplete/view';
 import CategoryWrapper from './CategoryWrapper';
 import VesMenuWrapper from './VesMenuWrapper';
 import useStyles from './style';
@@ -82,11 +83,12 @@ const SearchPage = (props) => {
                             >
                                 <ArrowBack className={styles.iconClose} />
                             </IconButton>
-                            <TextField
-                                placeholder="Search ..."
-                                value={value}
-                                onChange={(e) => setValue(e.target.value)}
-                                onKeyPress={(e) => handleSearch(e)}
+                            <AutoComplete
+                                setValue={setValue}
+                                handleSearch={handleSearch}
+                                width="100%"
+                                maxHeight="100vh"
+                                OptionsItem={OptionsItem}
                             />
                             <IconButton
                                 disabled={value === ''}
