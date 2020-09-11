@@ -58,6 +58,8 @@ export const getFeaturedProducts = gql`
                                 }
                             }
                         }
+                        special_from_date
+                        special_to_date
                     }
                 }
             }

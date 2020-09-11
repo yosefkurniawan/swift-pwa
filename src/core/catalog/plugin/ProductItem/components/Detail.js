@@ -14,7 +14,7 @@ import useStyles from '../style';
 const Detail = (props) => {
     const {
         spesificProduct, handleClick, name, handleFeed, ratingValue, __typename, price_range, price_tiers,
-        feed,
+        feed, special_from_date, special_to_date,
     } = props;
     const styles = useStyles();
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
@@ -41,6 +41,8 @@ const Detail = (props) => {
                 // eslint-disable-next-line camelcase
                 priceTiers={spesificProduct.price_tiers ? spesificProduct.price_tiers : price_tiers}
                 productType={__typename}
+                specialFromDate={special_from_date}
+                specialToDate={special_to_date}
             />
         </div>
     );

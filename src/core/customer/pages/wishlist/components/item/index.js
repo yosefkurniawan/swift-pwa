@@ -10,7 +10,7 @@ import useStyles from './style';
 export default ({
     price_range, price_tiers, __typename, imageSrc,
     name, wishlistItemId, t, sku, url_key,
-    handleRemove, handleToCart,
+    handleRemove, handleToCart, special_from_date, special_to_date,
 }) => {
     const styles = useStyles();
     const [openDelete, setOpenDelete] = React.useState(false);
@@ -49,7 +49,14 @@ export default ({
                             <Typography variant="p">{name}</Typography>
                         </a>
                     </Link>
-                    <PriceFormat variant="p" priceRange={price_range} priceTiers={price_tiers} productType={__typename} />
+                    <PriceFormat
+                        variant="p"
+                        priceRange={price_range}
+                        priceTiers={price_tiers}
+                        productType={__typename}
+                        specialFromDate={special_from_date}
+                        specialToDate={special_to_date}
+                    />
                     <Button className={styles.btnAdd} onClick={handleAddToCart}>
                         <Typography variant="p" type="bold" letter="uppercase" color="white">
                             {t('customer:wishlist:addToBag')}
