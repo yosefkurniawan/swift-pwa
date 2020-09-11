@@ -35,7 +35,8 @@
     "country" : "Country",
     "state" : "State",
     "postcode" : "Zip/Postal Code",
-    "phone" : "Phone"
+    "phone" : "Phone",
+    "emptyMessage" : "You haven't added an address"
   },
   "menu": {
     "aboutUs": "About Us",

@@ -67,7 +67,7 @@ class MyApp extends App {
             res, req, query, asPath, isLogin, lastPathNoAuth,
         });
         let storeConfig;
-        if (!allcookie[storeConfigNameCokie]) {
+        if (!allcookie[storeConfigNameCokie] || (allcookie[storeConfigNameCokie] && !allcookie[storeConfigNameCokie].secure_base_media_url)) {
             // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
             storeConfig = await graphRequest(ConfigSchema);
             storeConfig = storeConfig.storeConfig;

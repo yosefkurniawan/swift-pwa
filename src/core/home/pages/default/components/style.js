@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        overflowX: 'hidden',
         ...CreatePadding(0, 0, 30, 0),
     },
     category: {

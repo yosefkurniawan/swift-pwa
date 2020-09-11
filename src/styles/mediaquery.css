@@ -52,4 +52,8 @@
     .hidden-desktop {
         display: none !important;
     }
+    #maincontent{
+        margin-top: 170px;
+        min-height: calc(100vh - 435px);
+    }
 }

@@ -35,7 +35,7 @@ const Slug = (props) => {
     if (resolver.type === 'CMS_PAGE') {
         return <CmsPage {...contentProps} {...other} />;
     }
-    return <Error statusCode={404} />;
+    return <Error statusCode={404} storeConfig={storeConfig} />;
 };
 
 export default Slug;
