@@ -1,8 +1,15 @@
 import Slider from '@material-ui/core/Slider';
 
 const SliderRadius = ({ radius, setRadius }) => (
-    <>
-        <div style={{ lineHeight: '9px', paddingTop: '8px' }}>
+    <div className="slider-radius">
+        <style jsx>
+            {`
+                .slider-radius > :global(span) {
+                    padding: 20px 0;
+                }
+            `}
+        </style>
+        <div style={{ lineHeight: '10px' }}>
             1 Km
             <span style={{ float: 'right' }}>100 Km</span>
         </div>
@@ -16,7 +23,7 @@ const SliderRadius = ({ radius, setRadius }) => (
             min={1000}
             max={100 * 1000}
         />
-    </>
+    </div>
 );
 
 export default SliderRadius;

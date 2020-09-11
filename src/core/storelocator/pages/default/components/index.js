@@ -28,8 +28,8 @@ const StoreLocatorContent = ({ gmapKey, storeLocations }) => {
     }, []);
 
     return (
-        <div className="row">
-            <div className="col-md-3">
+        <div className="row" style={{ padding: '0 16px' }}>
+            <div className="col-xs-12 col-sm-4 col-md-3 last-xs first-sm">
                 <StoreList
                     storeList={storeList}
                     totalAllStore={storeLocations.length}
@@ -39,7 +39,7 @@ const StoreLocatorContent = ({ gmapKey, storeLocations }) => {
                     }}
                 />
             </div>
-            <div className="col-md-9">
+            <div className="col-xs-12 col-sm-8 col-md-9">
                 <StoreLocatorMaps
                     centerPosition={centerPosition}
                     mapPositions={storeList}

@@ -12,7 +12,14 @@ const StoreList = ({ storeList, totalAllStore, onClickListItem }) => (
                     border: 2px solid #ddd;
                     padding: 12px;
                     height: calc(50vh + 48px);
+                    max-height: calc(50vh + 48px);
+                    margin-bottom: 16px;
                     overflow: auto;
+                }
+                @media screen and (max-width: 767px) {
+                    .store-list {
+                        height: unset;
+                    }
                 }
                 h3 {
                     margin: 0;
@@ -33,9 +40,9 @@ const StoreList = ({ storeList, totalAllStore, onClickListItem }) => (
             </h3>
             <List>
                 {storeList.map((store, i) => (
-                    <>
+                    <div key={i}>
                         <hr style={{ display: i ? 'block' : 'none' }} />
-                        <ListItem key={i} alignItems="flex-start" button onClick={() => onClickListItem(store)}>
+                        <ListItem alignItems="flex-start" button onClick={() => onClickListItem(store)}>
                             <ListItemAvatar>
                                 <Avatar src={store.baseimage} />
                             </ListItemAvatar>
@@ -54,9 +61,10 @@ const StoreList = ({ storeList, totalAllStore, onClickListItem }) => (
                                 )}
                             />
                         </ListItem>
-                    </>
+                    </div>
                 ))}
             </List>
+            {!storeList.length && <div>No Results.</div>}
         </div>
     </>
 );
