@@ -111,6 +111,12 @@ const Layout = (props) => {
     }, []);
 
     const desktop = breakPointsUp('sm');
+
+    const styles = {
+        marginTop: router.pathname !== '/checkout' ? '170px' : 0,
+        marginBottom: pageConfig.bottomNav ? '60px' : 0,
+    };
+
     return (
         <>
             <Head>
@@ -150,7 +156,7 @@ const Layout = (props) => {
             </header>
             {features.customInstallApp.enabled ? <PopupInstallAppMobile /> : null}
 
-            <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0 }} id="maincontent">
+            <main style={{ ...styles }} id="maincontent">
                 <Loading open={state.backdropLoader} />
                 <Message
                     open={state.toastMessage.open}

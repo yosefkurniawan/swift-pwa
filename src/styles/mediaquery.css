@@ -52,8 +52,11 @@
     .hidden-desktop {
         display: none !important;
     }
+    .header-middle__search .MuiFormControl-marginNormal{
+        margin: 0;
+    }
     #maincontent{
-        margin-top: 170px;
+        /* margin-top: 170px; */
         min-height: calc(100vh - 435px);
     }
 }
