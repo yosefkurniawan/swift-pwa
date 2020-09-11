@@ -138,7 +138,7 @@ const Layout = (props) => {
             </Head>
             <header ref={refHeader}>
                 <div className="hidden-mobile">
-                    { headerDesktop ? (<HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} />) : null }
+                    {headerDesktop ? (<HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} />) : null}
                 </div>
                 <div className="hidden-desktop">
                     {
@@ -150,7 +150,7 @@ const Layout = (props) => {
             </header>
             {features.customInstallApp.enabled ? <PopupInstallAppMobile /> : null}
 
-            <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0, minHeight: 'calc(100vh - 435px)' }}>
+            <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0 }} id="maincontent">
                 <Loading open={state.backdropLoader} />
                 <Message
                     open={state.toastMessage.open}

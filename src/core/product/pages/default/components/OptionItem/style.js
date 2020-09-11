@@ -86,6 +86,7 @@ export default makeStyles((theme) => ({
         },
         [theme.breakpoints.up('sm')]: {
             width: 316,
+            float: 'left',
         },
         ...CreateMargin(0, 8, 0, 0),
         width: '100%',
