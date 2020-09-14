@@ -26,6 +26,8 @@ import PageProgressLoader from '@common_loaders/PageProgress';
 import getConfig from 'next/config';
 import graphRequest from '../src/api/graphql/request';
 import routeMiddleware from '../src/middlewares/route';
+import Notification from '../src/lib/firebase/notification';
+
 import '../src/styles/index.css';
 import '../src/styles/mediaquery.css';
 import '../src/styles/flexboxgrid.min.css';
@@ -83,6 +85,8 @@ class MyApp extends App {
     }
 
     componentDidMount() {
+        // initial firebase messaging
+        Notification.init();
         // lazy load fonts. use this to load non critical fonts
         // Fonts();
         // Remove the server-side injected CSS.

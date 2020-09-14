@@ -169,6 +169,22 @@ async function renderAndCache(req, res) {
     server.get('/sitemap.xml', generateXml);
     server.post('/captcha-validation', captchaValidation);
 
+    /**
+     * configuration firebase messaging
+     *   */
+    const serviceWorkers = [
+        {
+            filename: 'firebase-messaging-sw.js',
+            path: './public/static/firebase-messaging-sw.js',
+        },
+    ];
+
+    serviceWorkers.forEach(({ filename, path }) => {
+        server.get(`/${filename}`, (req, res) => {
+            app.serveStatic(req, res, path);
+        });
+    });
+
     // server.get('*', (req, res) => handle(req, res));
     server.get('*', (req, res) => {
         const key = getCacheKey(req);
