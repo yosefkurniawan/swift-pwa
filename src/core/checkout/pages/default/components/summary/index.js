@@ -249,18 +249,16 @@ const Summary = ({
                         showItems
                     />
                 </div>
-                <div className="hidden-mobile">
-                    <SummaryPlugin
-                        t={t}
-                        loading={loading}
-                        handleActionSummary={handlePlaceOrder}
-                        dataCart={checkout.data.cart}
-                        disabled={disabled}
-                        isDesktop
-                        showItems
-                        hideButton
-                    />
-                </div>
+                <SummaryPlugin
+                    t={t}
+                    loading={loading}
+                    handleActionSummary={handlePlaceOrder}
+                    dataCart={checkout.data.cart}
+                    disabled={disabled}
+                    isDesktop
+                    showItems
+                    hideButton
+                />
             </>
         );
     }

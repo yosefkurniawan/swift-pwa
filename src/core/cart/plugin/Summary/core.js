@@ -74,7 +74,7 @@ const CoreSummary = (props) => {
 
     if (isDesktop) {
         return (
-            <DesktopView items={items} summary={{ total, data: dataSummary }} {...other} />
+            <DesktopView items={items} summary={{ total, data: dataSummary }} isDesktop={isDesktop} {...other} />
         );
     }
 
