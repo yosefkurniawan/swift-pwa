@@ -111,9 +111,8 @@ const Layout = (props) => {
     }, []);
 
     const desktop = breakPointsUp('sm');
-
     const styles = {
-        marginTop: router.pathname !== '/checkout' ? '170px' : 0,
+        marginTop: router.pathname !== '/checkout' && breakPointsUp('1250') ? '170px' : 0,
         marginBottom: pageConfig.bottomNav ? '60px' : 0,
     };
 
