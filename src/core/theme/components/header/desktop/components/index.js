@@ -87,7 +87,7 @@ const ViewTopNavigation = (props) => {
                     #header {
                         height: 170px;
                     }
-                    @media (min-width: 1250px) {
+                    @media (min-width: 768px) {
                         #header{
                             position: fixed;
                             width: 100%;
@@ -174,7 +174,6 @@ const ViewTopNavigation = (props) => {
                             height: 75px !important;
                         }
                     }
-                    
 
                 `}
             </style>
