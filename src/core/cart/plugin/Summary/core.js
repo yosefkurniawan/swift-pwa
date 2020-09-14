@@ -15,7 +15,7 @@ const CoreSummary = (props) => {
         applied_reward_points = {},
         applied_giftcard = {},
         shipping_addresses = [],
-        applied_extra_fee = {},
+        // applied_extra_fee = {},
     } = dataCart;
 
     if (dataCart && items) {
@@ -32,12 +32,12 @@ const CoreSummary = (props) => {
 
         dataSummary.push({ item: 'Sub total', value: subtotal });
 
-        if (applied_extra_fee && applied_extra_fee.extrafee_value) {
-            dataSummary.push({
-                item: applied_extra_fee.title || '',
-                value: formatPrice(applied_extra_fee.extrafee_value.value || 0, applied_extra_fee.extrafee_value.currency || globalCurrency),
-            });
-        }
+        // if (applied_extra_fee && applied_extra_fee.extrafee_value) {
+        //     dataSummary.push({
+        //         item: applied_extra_fee.title || '',
+        //         value: formatPrice(applied_extra_fee.extrafee_value.value || 0, applied_extra_fee.extrafee_value.currency || globalCurrency),
+        //     });
+        // }
 
         if (shipping && shipping.selected_shipping_method) {
             const shippingMethod = shipping.selected_shipping_method;

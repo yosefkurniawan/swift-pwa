@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
         padding: 0,
         width: '100%',
         border: 'none',
-        boxShadow: 'none',
+        boxShadow: 'none !important',
     },
     expanBody: {
         width: '100%',
