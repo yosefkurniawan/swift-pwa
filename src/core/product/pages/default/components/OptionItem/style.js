@@ -6,7 +6,6 @@ import {
     CreatePadding,
     FlexColumn,
     CreateMargin,
-    FlexRow,
 } from '@theme/mixins';
 
 export default makeStyles((theme) => ({
@@ -65,20 +64,6 @@ export default makeStyles((theme) => ({
     },
     center: {
         justifyContent: 'center',
-    },
-    footer: {
-        [theme.breakpoints.down('sm')]: {
-            ...FlexRow,
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'space-arround',
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            ...CenterAbsolute,
-            background: 'rgba(255,255,255,0.7)',
-            ...CreatePadding(0, 20, 20, 20),
-        },
     },
     btnAddToCard: {
         [theme.breakpoints.down('sm')]: {

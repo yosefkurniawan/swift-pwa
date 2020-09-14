@@ -66,7 +66,6 @@ const useStyles = makeStyles((theme) => ({
         bottom: 0,
         left: 0,
         opacity: 'none',
-        ...CenterAbsolute,
         color: WHITE,
         borderRadius: 100,
     },
