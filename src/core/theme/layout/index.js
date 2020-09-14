@@ -119,9 +119,9 @@ const Layout = (props) => {
 
     const checkResolution = () => {
         if (router.pathname !== '/checkout') {
-            if (lg) { return '170px'; }
-            if (md) { return '170px'; }
-            if (sm) { return '175px'; }
+            if (lg) { return '175px'; }
+            if (md) { return '175px'; }
+            if (sm) { return '170px'; }
         }
         return 0;
     };
