@@ -31,6 +31,14 @@ const StoreList = ({ storeList, totalAllStore, onClickListItem }) => (
                     border: 0;
                     border-top: 2px solid #ddd;
                 }
+                .direction-button {
+                    float: right;
+                    font-weight: bold;
+                    font-size: 12px;
+                }
+                .direction-button:hover {
+                    text-decoration: underline;
+                }
             `}
         </style>
         <div className="store-list">
@@ -49,15 +57,27 @@ const StoreList = ({ storeList, totalAllStore, onClickListItem }) => (
                             <ListItemText
                                 primary={store.store_name}
                                 secondary={(
-                                    <small>
-                                        {store.state}
-                                        {', '}
-                                        {store.city}
-                                        {', '}
-                                        {store.address}
-                                        <br />
-                                        {store.phone}
-                                    </small>
+                                    <>
+                                        <small>
+                                            {store.state}
+                                            {', '}
+                                            {store.city}
+                                            {', '}
+                                            {store.address}
+                                            <br />
+                                            {store.phone}
+                                        </small>
+                                        <div>
+                                            <a
+                                                className="direction-button"
+                                                href={`https://www.google.com/maps/dir/Current+Location/${store.lat},${store.lng}`}
+                                                rel="noreferrer"
+                                                target="_blank"
+                                            >
+                                                Direction
+                                            </a>
+                                        </div>
+                                    </>
                                 )}
                             />
                         </ListItem>
