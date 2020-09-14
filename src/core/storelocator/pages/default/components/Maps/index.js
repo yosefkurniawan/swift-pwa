@@ -17,6 +17,7 @@ const StoreLocatorMaps = compose(
         containerElement: <div style={{ height: '100%' }} />,
         mapElement: <div style={{ height: '50vh' }} />,
         isMarkerShown: true,
+        t: props.t,
     })),
     withScriptjs,
     withGoogleMap,
@@ -145,7 +146,7 @@ const StoreLocatorMaps = compose(
                         ? (
                             <Marker position={position} key={i} onClick={() => setSelectedStore(position)}>
                                 {selectedStore && selectedStore.store_name === position.store_name && (
-                                    <InfoWindow store={position} onCloseClick={() => setSelectedStore(null)} />
+                                    <InfoWindow t={props.t} store={position} onCloseClick={() => setSelectedStore(null)} />
                                 )}
                             </Marker>
                         ) : null

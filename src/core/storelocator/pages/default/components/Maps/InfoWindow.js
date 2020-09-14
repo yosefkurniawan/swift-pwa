@@ -1,6 +1,6 @@
 import { InfoWindow } from 'react-google-maps';
 
-export default (({ store, onCloseClick }) => (
+export default (({ store, onCloseClick, t }) => (
     <>
         <style jsx>
             {`
@@ -66,7 +66,7 @@ export default (({ store, onCloseClick }) => (
                                 rel="noreferrer"
                                 target="_blank"
                             >
-                                Direction
+                                {t('storelocator:direction')}
                             </a>
                         </div>
                     </div>

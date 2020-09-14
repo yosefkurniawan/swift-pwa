@@ -1,3 +1,5 @@
 {
-    "title" : "Store Locator"
+    "title" : "Store Locator",
+    "storeList": "Store List",
+    "direction": "Direction"
 }

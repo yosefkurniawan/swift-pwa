@@ -4,7 +4,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 
-const StoreList = ({ storeList, totalAllStore, onClickListItem }) => (
+const StoreList = ({
+    storeList, totalAllStore, onClickListItem, t,
+}) => (
     <>
         <style jsx>
             {`
@@ -43,7 +45,7 @@ const StoreList = ({ storeList, totalAllStore, onClickListItem }) => (
         </style>
         <div className="store-list">
             <h3>
-                Store List
+                {t('storelocator:storeList')}
                 <span>{`( ${storeList.length} of ${totalAllStore})`}</span>
             </h3>
             <List>
@@ -74,7 +76,7 @@ const StoreList = ({ storeList, totalAllStore, onClickListItem }) => (
                                                 rel="noreferrer"
                                                 target="_blank"
                                             >
-                                                Direction
+                                                {t('storelocator:direction')}
                                             </a>
                                         </div>
                                     </>
