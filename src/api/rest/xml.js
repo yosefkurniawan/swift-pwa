@@ -7,9 +7,14 @@ const { getHost } = require('../../helpers/config');
 
 const baseDir = path.join(__dirname, '../../../public/static/');
 
-const queryProduct = `
+const queryProduct = (page, size) => `
 {
-    products(search: "", pageSize: 1000) {
+    products(search: "", pageSize: ${size}, currentPage: ${page}) {
+        page_info {
+            current_page
+            page_size
+            total_pages
+        }
       items {
         name
         id
@@ -59,20 +64,35 @@ const queryCategory = `
 }  
 `;
 
-const getXmlData = (res) => {
-    const getProduct = new Promise((resolve) => {
-        const response = requestGraph(queryProduct);
-        resolve(response);
-    });
+const generateProduct = async (page = 1, allProducts = []) => {
+    const getProduct = await requestGraph(queryProduct(page, 400));
+    const products = [...allProducts, ...getProduct.products.items];
+    const totalPages = getProduct.products.page_info.total_pages;
+    return {
+        products,
+        totalPages,
+        page,
+    };
+};
+
+const getXmlData = async (res) => {
+    let dataProducts = [];
+    const getProducts = await generateProduct(1);
+    dataProducts = getProducts.products;
+    for (let page = getProducts.page + 1; page <= getProducts.totalPages; page += 1) {
+        // eslint-disable-next-line no-await-in-loop
+        const loopProducts = await generateProduct(page, dataProducts);
+        dataProducts = loopProducts.products;
+    }
 
     const getCategory = new Promise((resolve) => {
         const response = requestGraph(queryCategory);
         resolve(response);
     });
+    Promise.all([dataProducts, getCategory]).then((values) => {
+        const category = values[1].categoryList[0].children;
+        const products = values[0];
 
-    Promise.all([getCategory, getProduct]).then((values) => {
-        const category = values[0].categoryList[0].children;
-        const products = values[1].products.items;
         res.set('Content-Type', 'text/xml');
         let content = `
         <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
@@ -88,7 +108,7 @@ const getXmlData = (res) => {
             if (category[index].include_in_menu) {
                 content += `
                 <url>
-                    <loc>${getHost()}/${category[index].url_path}</loc>
+                    <loc>${getHost()}/${category[index].url_path.replace('&', '&amp;')}</loc>
                     <lastmod>${category[index].updated_at}</lastmod>
                     <changefreq>daily</changefreq>
                     <priority>0.5</priority>
@@ -98,7 +118,7 @@ const getXmlData = (res) => {
                     const children1 = category[index].children[child1];
                     content += `
                     <url>
-                        <loc>${getHost()}/${children1.url_path}</loc>
+                        <loc>${getHost()}/${children1.url_path.replace('&', '&amp;')}</loc>
                         <lastmod>${children1.updated_at}</lastmod>
                         <changefreq>daily</changefreq>
                         <priority>0.5</priority>
@@ -108,7 +128,7 @@ const getXmlData = (res) => {
                         const children2 = children1.children[child2];
                         content += `
                     <url>
-                        <loc>${getHost()}/${children2.url_path}</loc>
+                        <loc>${getHost()}/${children2.url_path.replace('&', '&amp;')}</loc>
                         <lastmod>${children2.updated_at}</lastmod>
                         <changefreq>daily</changefreq>
                         <priority>0.5</priority>
@@ -122,7 +142,7 @@ const getXmlData = (res) => {
         // generate product sitemap
         for (let index = 0; index < products.length; index++) {
             content += `<url>
-                <loc>${getHost()}/${products[index].url_key}</loc>
+                <loc>${getHost()}/${products[index].url_key.replace('&', '&amp;')}</loc>
                 <lastmod>${products[index].updated_at}</lastmod>
                 <changefreq>daily</changefreq>
                 <priority>1.0</priority>
@@ -132,9 +152,9 @@ const getXmlData = (res) => {
                 content += `
                     <image:image>
                         <image:loc>
-                        ${img.url}
+                        ${img.url.replace('&', '&amp;')}
                         </image:loc>
-                        <image:title>${img.label}</image:title>
+                        <image:title>${img.label.replace('&', '&amp;')}</image:title>
                     </image:image>
                 `;
             }
@@ -142,8 +162,8 @@ const getXmlData = (res) => {
             content += `
             <PageMap xmlns="http://www.google.com/schemas/sitemap-pagemap/1.0">
                 <DataObject type="thumbnail">
-                <Attribute name="name" value="${products[index].url_key}"/>
-                <Attribute name="src" value="${products[index].small_image.url}"/>
+                <Attribute name="name" value="${products[index].url_key.replace('&', '&amp;')}"/>
+                <Attribute name="src" value="${products[index].small_image.url.replace('&', '&amp;')}"/>
                 </DataObject>
             </PageMap>
             `;

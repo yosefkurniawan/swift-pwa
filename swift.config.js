@@ -208,6 +208,9 @@ const modules = {
         pickupStore: {
             enabled: true,
         },
+        extraFee: {
+            enabled: true,
+        },
     },
     cart: {
         enabled: true,

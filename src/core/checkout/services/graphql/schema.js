@@ -62,19 +62,6 @@ const cartSubSelection = `
             }
         }
     }
-    prices {
-        discounts {
-            amount {
-                value
-                currency
-            }
-            label
-        }
-        grand_total {
-            value
-            currency
-        }
-    }
     items {
         id
         quantity
@@ -146,6 +133,48 @@ const cartSubSelection = `
         }
         is_cashback
         total_cashback
+    }
+    addtional_fees {
+        data {
+          enabled
+          fee_name
+          frontend_type
+          id_fee
+          options {
+            default
+            label
+            option_id
+            price
+          }
+        }
+        show_on_cart
+    }
+    applied_extra_fee {
+        extrafee_value {
+          currency
+          value
+        }
+        select_options {
+          default
+          label
+          option_id
+          price
+        }
+        show_on_cart
+        title
+    }
+    prices {
+        discounts {
+            amount {
+                value
+                currency
+            }
+            label
+        }
+        grand_total {
+            value
+            currency
+        }
     }
 `;
 

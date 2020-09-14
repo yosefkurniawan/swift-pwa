@@ -12,6 +12,7 @@ import GiftCard from './giftcard';
 import RewardPoint from './rewardpoint';
 import Credit from './credit';
 import PickupInfo from './PickupInformation';
+import ExtraFee from './ExtreeFee';
 import useStyles from './style';
 
 const Content = (props) => {
@@ -179,6 +180,16 @@ const Content = (props) => {
                             </div>
                         ) : null}
                     </div>
+                    {modules.checkout.extraFee.enabled ? (
+                        <ExtraFee
+                            checkout={checkout}
+                            setCheckout={setCheckout}
+                            updateFormik={updateFormik}
+                            handleOpenMessage={handleOpenMessage}
+                            t={t}
+                            storeConfig={storeConfig}
+                        />
+                    ) : null}
                 </>
             </div>
             <div className="col-xs-12 col-sm-4 col-md-4 col-lg-3">
