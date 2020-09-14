@@ -112,8 +112,22 @@ const Layout = (props) => {
 
     const desktop = breakPointsUp('sm');
 
+    // for checking layout
+    const sm = breakPointsUp('768');
+    const md = breakPointsUp('1024');
+    const lg = breakPointsUp('1250');
+
+    const checkResolution = () => {
+        if (router.pathname !== '/checkout') {
+            if (lg) { return '170px'; }
+            if (md) { return '170px'; }
+            if (sm) { return '175px'; }
+        }
+        return 0;
+    };
+
     const styles = {
-        marginTop: router.pathname !== '/checkout' ? '170px' : 0,
+        marginTop: checkResolution(),
         marginBottom: pageConfig.bottomNav ? '60px' : 0,
     };
 
