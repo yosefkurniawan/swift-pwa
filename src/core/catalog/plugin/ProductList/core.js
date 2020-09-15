@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helpers/generateQuery';
 import TagManager from 'react-gtm-module';
-import { getProduct } from '../../services/graphql';
+import { getProduct, getProductAgragations } from '../../services/graphql';
 import * as Schema from '../../services/graphql/productSchema';
 import getCategoryFromAgregations from '../../helpers/getCategory';
 import generateConfig from '../../helpers/generateConfig';
@@ -58,6 +58,10 @@ const Product = (props) => {
             value: catId,
         });
     }
+    const { data: agg } = getProductAgragations();
+
+    console.log(agg);
+
     config = generateConfig(query, config, elastic);
     const { loading, data, fetchMore } = getProduct(config);
     let products = {};
