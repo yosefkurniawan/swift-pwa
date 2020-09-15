@@ -240,6 +240,10 @@ const modules = {
         enabled: true,
         path: '/customer/account/storecredit',
     },
+    storeLocator: {
+        enabled: true,
+        path: '/storelocator',
+    },
     giftcard: {
         enabled: true,
         path: '/awgiftcard/card',

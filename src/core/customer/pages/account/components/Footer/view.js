@@ -58,6 +58,15 @@ const FooterView = (props) => {
                     ) : null
                 }
                 {
+                    modules.storeLocator.enabled ? (
+                        <li className={styles.account_navigation_item}>
+                            <Link href="/storelocator">
+                                <a className={styles.account_navigation_link}>{t('customer:menu:findAStore')}</a>
+                            </Link>
+                        </li>
+                    ) : null
+                }
+                {
                     modules.trackingorder.enabled ? (
                         <li className={styles.account_navigation_item}>
                             <Link href="/sales/order/track">

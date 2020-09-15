@@ -1,6 +1,6 @@
 import { InfoWindow } from 'react-google-maps';
 
-export default (({ store, onCloseClick }) => (
+export default (({ store, onCloseClick, t }) => (
     <>
         <style jsx>
             {`
@@ -34,6 +34,14 @@ export default (({ store, onCloseClick }) => (
                     line-height: 18px;
                     margin-top: 4px;
                 }
+                .direction-button {
+                    float: right;
+                    font-weight: bold;
+                    font-size: 12px;
+                }
+                .direction-button:hover {
+                    text-decoration: underline;
+                }
             `}
         </style>
         <InfoWindow onCloseClick={onCloseClick}>
@@ -51,6 +59,16 @@ export default (({ store, onCloseClick }) => (
                         {`${store.state}, ${store.city}, ${store.address}`}
                         <br />
                         {store.phone}
+                        <div>
+                            <a
+                                className="direction-button"
+                                href={`https://www.google.com/maps/dir/Current+Location/${store.lat},${store.lng}`}
+                                rel="noreferrer"
+                                target="_blank"
+                            >
+                                {t('storelocator:direction')}
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
