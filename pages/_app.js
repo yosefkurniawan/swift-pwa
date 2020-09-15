@@ -96,6 +96,7 @@ class MyApp extends App {
             // - the user clicks on an app notification created by a service worker
             //   `messaging.setBackgroundMessageHandler` handler.
             messaging.onMessage((payload) => {
+                console.log(payload);
                 navigator.serviceWorker.ready.then((registration) => {
                     registration.showNotification('HQQ Go ditemukan!', {
                         body: payload.data.body,
