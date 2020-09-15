@@ -5,7 +5,7 @@ import firebase from './index';
 const notification = {
     // send token to api
     sendTokenToServer(token) {
-        fetch('/api/auth/fcm-token', {
+        fetch('/auth/fcm-token', {
             headers: {
                 'Content-Type': 'application/json',
             },

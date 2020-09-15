@@ -31,6 +31,7 @@ const {
 const { SESSION_SECRET } = require('./swift-server.config');
 const generateXml = require('./src/api/rest/xml');
 const captchaValidation = require('./src/api/rest/captcha');
+const firebaseValidation = require('./src/api/rest/firebase-cloud-messaging');
 
 // This is where we cache our rendered HTML pages
 const ssrCache = new LRUCache({
@@ -169,6 +170,9 @@ async function renderAndCache(req, res) {
     server.get('/sitemap.xml', generateXml);
     server.post('/captcha-validation', captchaValidation);
 
+    // add firebase validation
+    server.post('/auth/fcm-token', firebaseValidation);
+
     /**
      * configuration firebase messaging
      *   */
@@ -176,6 +180,10 @@ async function renderAndCache(req, res) {
         {
             filename: 'firebase-messaging-sw.js',
             path: './public/static/firebase-messaging-sw.js',
+        },
+        {
+            filename: 'sw.js',
+            path: './public/static/sw.js',
         },
     ];
 

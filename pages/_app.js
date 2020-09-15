@@ -27,6 +27,7 @@ import getConfig from 'next/config';
 import graphRequest from '../src/api/graphql/request';
 import routeMiddleware from '../src/middlewares/route';
 import Notification from '../src/lib/firebase/notification';
+import firebase from '../src/lib/firebase/index';
 
 import '../src/styles/index.css';
 import '../src/styles/mediaquery.css';
@@ -87,6 +88,32 @@ class MyApp extends App {
     componentDidMount() {
         // initial firebase messaging
         Notification.init();
+        // handle if have message on focus
+        try {
+            const messaging = firebase.messaging();
+            // Handle incoming messages. Called when:
+            // - a message is received while the app has focus
+            // - the user clicks on an app notification created by a service worker
+            //   `messaging.setBackgroundMessageHandler` handler.
+            messaging.onMessage((payload) => {
+                navigator.serviceWorker.ready.then((registration) => {
+                    registration.showNotification('HQQ Go ditemukan!', {
+                        body: payload.data.body,
+                        vibrate: [200, 100, 200, 100, 200, 100, 200],
+                        data: payload.notification,
+                        actions: [
+                            {
+                                action: 'open-event',
+                                title: 'Buka Event',
+                            },
+                        ],
+                    });
+                });
+            });
+        } catch (err) {
+            console.log(err);
+        }
+
         // lazy load fonts. use this to load non critical fonts
         // Fonts();
         // Remove the server-side injected CSS.
