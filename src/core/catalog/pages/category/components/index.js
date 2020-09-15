@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import Router from 'next/router';
 import classNames from 'classnames';
@@ -88,6 +89,9 @@ const CategoryPage = ({
                     value={value}
                 />
             </div>
+            {categoryList && categoryList.cms_block && (
+                <div dangerouslySetInnerHTML={{ __html: categoryList.cms_block.content }} />
+            )}
             <Product
                 defaultSort={{ key: 'position', value: 'ASC' }}
                 // sementara di comment dlu, untuk custom filter memakai aggregations product

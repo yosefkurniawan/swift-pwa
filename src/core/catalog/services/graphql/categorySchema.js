@@ -30,6 +30,11 @@ export const getCategory = (
             image
             url_path
           }
+          cms_block {
+            content
+            identifier
+            title
+          } 
         }
     }
     `;
