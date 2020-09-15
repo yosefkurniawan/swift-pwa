@@ -58,7 +58,12 @@ const Product = (props) => {
     }
 
     config = generateConfig(query, config, elastic, availableFilter);
-    const { loading, data, fetchMore } = getProduct(config);
+    const { loading, data, fetchMore } = getProduct(config, {
+        variables: {
+            pageSize: 8,
+            currentPage: 1,
+        },
+    });
     let products = {};
     products = data && data.products ? data.products : {
         total_count: 0,
@@ -89,7 +94,7 @@ const Product = (props) => {
     const handleLoadMore = () => {
         setLoadmore(true);
         setPage(page + 1);
-        return fetchMore({
+        fetchMore({
             query: Schema.getProduct({
                 customFilter: typeof customFilter !== 'undefined',
                 search: config.search,
@@ -97,24 +102,21 @@ const Product = (props) => {
                 currentPage: page + 1,
                 filter: config.filter,
             }),
+            variables: {
+                pageSize: 8,
+                currentPage: page + 1,
+            },
             updateQuery: (
                 previousResult,
                 { fetchMoreResult },
             ) => {
                 setLoadmore(false);
-                const previousEntry = previousResult.products;
-                const newItems = fetchMoreResult.products.items;
                 return {
                     products: {
-                        // eslint-disable-next-line no-underscore-dangle
-                        __typename:
-                            // eslint-disable-next-line no-underscore-dangle
-                            previousEntry.__typename,
-                        total_count:
-                            previousEntry.total_count,
+                        ...fetchMoreResult.products,
                         items: [
-                            ...previousEntry.items,
-                            ...newItems,
+                            ...previousResult.products.items,
+                            ...fetchMoreResult.products.items,
                         ],
                     },
                 };

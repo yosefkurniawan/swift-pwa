@@ -57,12 +57,14 @@ export const getProductAgragations = () => gql`
  */
 
 export const getProduct = (config = {}) => gql`
-    {
-      products( search: "${config.search}" ,filter: ${filterProduct(config.filter)}, pageSize: ${
-    config.pageSize ? config.pageSize : 8
-},
-      currentPage: ${config.currentPage ? config.currentPage : 1}
-      ${
+    query getProducts(
+      $pageSize: Int,
+      $currentPage: Int,
+    ){
+    products( search: "${config.search}" ,filter: ${filterProduct(config.filter)},
+    pageSize: $pageSize,
+    currentPage: $currentPage
+    ${
     config.sort
         ? `, sort: {${config.sort.key} : ${config.sort.value}}`
         : ''
