@@ -63,7 +63,8 @@
         "summary": "Summary",
         "price": "Price",
         "shortQty": "Qty",
-        "action": "Action"
+        "action": "Action",
+        "extraFee": "Extra Fee"
     },
     "error": {
         "notFound": "Data not found",

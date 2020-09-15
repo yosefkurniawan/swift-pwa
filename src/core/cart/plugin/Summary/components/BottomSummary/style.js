@@ -69,7 +69,8 @@ const useStyles = makeStyles((theme) => ({
     itemContainer: {
         paddingBottom: 10,
         maxHeight: '40vh',
-        overflow: 'scroll',
+        overflowY: 'auto',
+        overflowX: 'none',
     },
     qtyOption: {
         marginTop: -10,
