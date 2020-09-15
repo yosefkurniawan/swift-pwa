@@ -15,7 +15,7 @@ const CoreSummary = (props) => {
         applied_reward_points = {},
         applied_giftcard = {},
         shipping_addresses = [],
-        // applied_extra_fee = {},
+        applied_extra_fee = {},
     } = dataCart;
 
     if (dataCart && items) {
@@ -32,12 +32,12 @@ const CoreSummary = (props) => {
 
         dataSummary.push({ item: 'Sub total', value: subtotal });
 
-        // if (applied_extra_fee && applied_extra_fee.extrafee_value) {
-        //     dataSummary.push({
-        //         item: applied_extra_fee.title || '',
-        //         value: formatPrice(applied_extra_fee.extrafee_value.value || 0, applied_extra_fee.extrafee_value.currency || globalCurrency),
-        //     });
-        // }
+        if (applied_extra_fee && applied_extra_fee.extrafee_value) {
+            dataSummary.push({
+                item: applied_extra_fee.title || '',
+                value: formatPrice(applied_extra_fee.extrafee_value.value || 0, applied_extra_fee.extrafee_value.currency || globalCurrency),
+            });
+        }
 
         if (shipping && shipping.selected_shipping_method) {
             const shippingMethod = shipping.selected_shipping_method;
@@ -48,19 +48,19 @@ const CoreSummary = (props) => {
         if (_.isArray(prices.discounts)) {
             const discounts = prices.discounts.map((disc) => {
                 const price = formatPrice(disc.amount.value, disc.amount.currency);
-                return { item: `${disc.label} - ${price}`, value: `${price}` };
+                return { item: `${disc.label} - ${price}`, value: `-${price}` };
             });
             dataSummary = dataSummary.concat(discounts);
         }
 
         if (applied_store_credit.is_use_store_credit) {
             const price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency);
-            dataSummary.push({ item: 'Store Credit', value: `${price}` });
+            dataSummary.push({ item: 'Store Credit', value: `-${price}` });
         }
 
         if (applied_reward_points.is_use_reward_points) {
             const price = formatPrice(Math.abs(applied_reward_points.reward_points_amount), globalCurrency);
-            dataSummary.push({ item: 'Reward Point ', value: `${price}` });
+            dataSummary.push({ item: 'Reward Point ', value: `-${price}` });
         }
 
         if (applied_giftcard) {

@@ -71,7 +71,7 @@ const Summary = (props) => {
                 {
                     summary.data.map((dt, index) => (
                         <ListItem className={styles.list} key={index}>
-                            <ListItemText className={styles.labelItem} primary={<Typography variant="span">{dt.item}</Typography>} />
+                            <ListItemText className={styles.labelItem} primary={<Typography variant="p" size="12">{dt.item}</Typography>} />
                             <ListItemSecondaryAction>
                                 <Typography variant="span" type="regular">
                                     {dt.value}
