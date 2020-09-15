@@ -39,6 +39,16 @@ const filterProduct = (filter) => {
     return queryFilter;
 };
 
+export const getProductAgragations = () => gql`
+  {
+    products(search:"") {
+      aggregations {
+        attribute_code
+      }
+    }
+  }
+`;
+
 /**
  * scema dynamic product
  * @param catId number

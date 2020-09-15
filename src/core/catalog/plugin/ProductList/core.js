@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helpers/generateQuery';
 import TagManager from 'react-gtm-module';
-import { getProduct } from '../../services/graphql';
+import { getProduct, getProductAgragations } from '../../services/graphql';
 import * as Schema from '../../services/graphql/productSchema';
 import getCategoryFromAgregations from '../../helpers/getCategory';
 import generateConfig from '../../helpers/generateConfig';
@@ -14,9 +14,9 @@ import Content from './components';
 const Product = (props) => {
     const {
         catId = 0, catalog_search_engine, customFilter, url_path, defaultSort, t,
-        categoryPath, ErrorMessage, storeConfig, ...other
+        categoryPath, ErrorMessage, storeConfig, query, path, availableFilter, ...other
     } = props;
-    const router = useRouter();
+
     const [page, setPage] = React.useState(1);
     const [loadmore, setLoadmore] = React.useState(false);
     const elastic = catalog_search_engine === 'elasticsuite';
@@ -27,8 +27,6 @@ const Product = (props) => {
         currentPage: 1,
         filter: [],
     };
-
-    const { path, query } = getQueryFromPath(router);
 
     // set default sort when there is no sort in query
     if (defaultSort && !query.sort) {
@@ -58,7 +56,8 @@ const Product = (props) => {
             value: catId,
         });
     }
-    config = generateConfig(query, config, elastic);
+
+    config = generateConfig(query, config, elastic, availableFilter);
     const { loading, data, fetchMore } = getProduct(config);
     let products = {};
     products = data && data.products ? data.products : {
@@ -190,4 +189,28 @@ Product.propTypes = {
     catalog_search_engine: PropTypes.string,
 };
 
-export default Product;
+const ProductWrapper = (props) => {
+    const router = useRouter();
+    const { path, query } = getQueryFromPath(router);
+
+    let availableFilter = [];
+    let loadingAgg;
+    if (Object.keys(query).length > 0) {
+        const { data: agg, loading } = getProductAgragations();
+        loadingAgg = loading;
+        availableFilter = agg && agg.products ? agg.products.aggregations : [];
+    }
+    if (loadingAgg) {
+        return <span />;
+    }
+    return (
+        <Product
+            {...props}
+            availableFilter={availableFilter}
+            path={path}
+            query={query}
+        />
+    );
+};
+
+export default ProductWrapper;
