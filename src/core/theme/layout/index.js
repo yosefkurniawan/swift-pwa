@@ -87,7 +87,7 @@ const Layout = (props) => {
     };
 
     if (!ogData['og:description']) {
-        ogData['og:description'] = storeConfig.default_description;
+        ogData['og:description'] = storeConfig.default_description || '';
     }
 
     if (features.facebookMetaId.enabled) {
