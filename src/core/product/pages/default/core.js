@@ -155,7 +155,7 @@ const ContentDetail = ({
             window.toastMessage({
                 open: true,
                 variant: 'warning',
-                text: t('wishlist:addWithoutLogin'),
+                text: t('catalog:wishlist:addWithoutLogin'),
             });
         }
     };
