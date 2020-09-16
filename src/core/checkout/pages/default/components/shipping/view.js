@@ -133,7 +133,12 @@ const ShippingView = (props) => {
                                         <div className={styles.labelAccordion}>
                                             <IconLabel label={item.group.replace('sg-', '')} />
                                             <Typography letter="uppercase" variant="span" type="bold">
-                                                {item.group.replace('sg-', '')}
+                                                {
+                                                    (t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
+                                                        === `shippingGrouping.${item.group.replace('sg-', '')}`)
+                                                        ? item.group.replace('pg-', '')
+                                                        : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
+                                                }
                                             </Typography>
                                         </div>
                                     </AccordionSummary>

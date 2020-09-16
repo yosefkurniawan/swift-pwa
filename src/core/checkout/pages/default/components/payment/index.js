@@ -10,7 +10,9 @@ export default function CustomizedExpansionPanels({
     t,
     storeConfig,
     PaymentView,
+    modules,
 }) {
+    const { labelPaymentGrouping } = modules.checkout;
     const { loading, data, selected } = checkout;
     const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
 
@@ -87,6 +89,7 @@ export default function CustomizedExpansionPanels({
             t={t}
             selected={selected}
             handlePayment={handlePayment}
+            labelPaymentGrouping={labelPaymentGrouping}
         />
     );
 }

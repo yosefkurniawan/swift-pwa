@@ -211,6 +211,11 @@ const modules = {
         extraFee: {
             enabled: true,
         },
+        labelPaymentGrouping: {
+            banktransfer: 'Bank Transfer',
+            creditcard: 'Credit Cart',
+            internetpayment: 'Internet Payment',
+        },
     },
     cart: {
         enabled: true,
