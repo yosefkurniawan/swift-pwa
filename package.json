@@ -3,6 +3,7 @@
   "version": "2.1.0",
   "private": true,
   "scripts": {
+    "assets:build": "webpack",
     "local": "cross-env APP_ENV=local NODE_ENV=development node server.js",
     "local:start": "cross-env APP_ENV=local NODE_ENV=production node server.js",
     "dev": "cross-env APP_ENV=dev NODE_ENV=development node server.js",
@@ -37,6 +38,7 @@
     "babel-eslint": "^10.1.0",
     "classnames": "^2.2.6",
     "clsx": "^1.1.0",
+    "concurrently": "^5.3.0",
     "cookie-session": "^1.4.0",
     "cross-fetch": "^3.0.4",
     "dayjs": "^1.8.27",
@@ -96,7 +98,9 @@
     "nodemon": "^2.0.3",
     "prettier": "2.0.4",
     "rimraf": "^3.0.2",
-    "webpack-bundle-analyzer": "^3.8.0"
+    "webpack": "^4.44.1",
+    "webpack-bundle-analyzer": "^3.8.0",
+    "webpack-cli": "^3.3.12"
   },
   "husky": {
     "hooks": {

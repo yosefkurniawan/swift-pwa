@@ -48,7 +48,6 @@ messaging.setBackgroundMessageHandler((payload) => {
 /* eslint-disable no-undef */
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
-    console.log(event);
     const { data } = event.notification;
     switch (data.type) {
     case 'open-event':
