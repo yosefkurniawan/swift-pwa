@@ -25,7 +25,7 @@ module.exports = withOffline({
     // },
     // generateInDevMode: true, // please comment if develop to production
     workboxOpts: {
-        importScripts: ['./sw.js'], // comment if disabled notifications
+        // importScripts: ['./sw.js'], // comment if disabled notifications
         swDest: process.env.NEXT_EXPORT ? 'service-worker.js' : 'static/service-worker.js',
         runtimeCaching: [
             {
