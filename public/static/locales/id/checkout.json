@@ -77,5 +77,20 @@
     "giftCartPlaceholder": "Nomor kartu hadiah",
     "yourOrderId": "Nomor Pesanan Anda",
     "checkOrder": "Cek Pesanan",
-    "cashbackInfo": "Selamat! Anda akan mendapatkan cashback $ dari promo $ ke store credit"
+    "cashbackInfo": "Selamat! Anda akan mendapatkan cashback $ dari promo $ ke store credit",
+    "paymentGrouping": {
+        "banktransfer": "Tranfer Bank",
+        "creditcard": "Kartu Kredit",
+        "internetpayment": "Pembayaran Internet",
+        "onlinepayment": "Pembayaran Online",
+        "installment": "Cicilan",
+        "others": "Lainya"
+    },
+    "shippingGrouping": {
+        "freeshipping": "Pengiriman gratis",
+        "express": "Pengiriman Kilat",
+        "nextday": "Next Day",
+        "reguler": "Reguler",
+        "others": "lainnya"
+    }
 }

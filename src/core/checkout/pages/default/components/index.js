@@ -129,6 +129,7 @@ const Content = (props) => {
                         t={t}
                         storeConfig={storeConfig}
                         PaymentView={PaymentView}
+                        modules={modules}
                     />
                     {modules.promo.enabled ? (
                         <Promo
