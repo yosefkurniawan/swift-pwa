@@ -124,7 +124,7 @@ const AdditionSelect = (props) => {
                         }));
                         if (item.frontend_type === 'checkbox' && item.enabled) {
                             return (
-                                <React.Fragment key={key}>
+                                <div className={styles.boxItem} key={key}>
                                     <Typography variant="span" type="bold" className="clear-margin-padding">
                                         {item.fee_name}
                                     </Typography>
@@ -137,12 +137,12 @@ const AdditionSelect = (props) => {
                                         classContainer={styles.checkboxContainer}
                                         onChange={(val) => handleChange(item.id_fee, val)}
                                     />
-                                </React.Fragment>
+                                </div>
                             );
                         }
                         if (item.frontend_type === 'radio' && item.enabled) {
                             return (
-                                <React.Fragment key={key}>
+                                <div className={styles.boxItem} key={key}>
                                     <Typography variant="span" type="bold" className="clear-margin-padding">
                                         {item.fee_name}
                                     </Typography>
@@ -153,20 +153,21 @@ const AdditionSelect = (props) => {
                                         onChange={(val) => handleChange(item.id_fee, val)}
                                         classContainer={styles.radio}
                                     />
-                                </React.Fragment>
+                                </div>
                             );
                         }
                         if (item.frontend_type === 'dropdown' && item.enabled) {
                             return (
-                                <Select
-                                    options={data}
-                                    label={item.fee_name}
-                                    key={key}
-                                    value={state[item.id_fee] ? state[item.id_fee] : ''}
-                                    className={styles.select}
-                                    onChange={(event) => handleChange(item.id_fee, event.target.value)}
-                                    helperText={t('common:form:select')}
-                                />
+                                <div className={styles.boxItem} key={key}>
+                                    <Select
+                                        options={data}
+                                        label={item.fee_name}
+                                        value={state[item.id_fee] ? state[item.id_fee] : ''}
+                                        className={styles.select}
+                                        onChange={(event) => handleChange(item.id_fee, event.target.value)}
+                                        helperText={t('common:form:select')}
+                                    />
+                                </div>
                             );
                         }
                     })
