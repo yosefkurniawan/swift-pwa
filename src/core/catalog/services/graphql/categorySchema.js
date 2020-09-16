@@ -35,6 +35,7 @@ export const getCategory = (
             identifier
             title
           } 
+          display_mode
         }
     }
     `;
