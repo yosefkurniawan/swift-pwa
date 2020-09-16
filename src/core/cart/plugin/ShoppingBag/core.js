@@ -35,7 +35,8 @@ const ShoppingBagIcon = ({ withLink, WihtLinkView, WithoutLinkView }) => {
     const getQty = getCountCart(cartId);
 
     // remove cart id if invalid
-    if (!getQty.data || getQty.error) {
+    // remove cart id if invalid
+    if (!getQty.loading && (!getQty.data || getQty.error)) {
         removeCartId();
     }
     const { data, client } = useQuery(localTotalCart);
