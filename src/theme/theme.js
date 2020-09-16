@@ -4,6 +4,7 @@ import {
     GRAY_SECONDARY, PRIMARY, SECONDARY, WHITE,
 } from './colors';
 import { FONT_24, FONT_DEFAULT, FONT_REGULAR } from './typography';
+import { BREAKPOINTS } from './vars';
 
 // Create a theme instance.
 const theme = createMuiTheme({
@@ -23,11 +24,7 @@ const theme = createMuiTheme({
     },
     breakpoints: {
         values: {
-            xs: 0,
-            sm: 768,
-            md: 1024,
-            lg: 1200,
-            xl: 1920,
+            ...BREAKPOINTS,
         },
     },
     overrides: {
