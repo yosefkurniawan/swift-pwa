@@ -20,8 +20,8 @@ import {
 import {
     getLoginInfo,
     getLastPathWithoutLogin,
-} from '@helpers/auth';
-// import Fonts from '@helpers/fonts';
+} from '@helper_auth';
+// import Fonts from '@helper_fonts';
 import TagManager from 'react-gtm-module';
 import PageProgressLoader from '@common_loaders/PageProgress';
 import getConfig from 'next/config';

@@ -5,8 +5,8 @@ import fetch from 'isomorphic-unfetch';
 import { graphqlEndpoint, HOST } from '@root/swift.config.js';
 import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
-import { removeCartId } from '@helpers/cartId';
-import { removeIsLoginFlagging } from '@helpers/auth';
+import { removeCartId } from '@helper_cartid';
+import { removeIsLoginFlagging } from '@helper_auth';
 import getConfig from 'next/config';
 
 // Only holds serverRuntimeConfig and publicRuntimeConfig

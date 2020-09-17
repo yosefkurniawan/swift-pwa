@@ -3,7 +3,7 @@
 const { GraphQLClient } = require('graphql-request');
 const { graphqlEndpoint } = require('../../../../swift.config');
 
-const { decrypt } = require('../../../helpers/encryption');
+const { decrypt } = require('../../../../core/helpers/encryption');
 
 function requestGraph(query, variables = {}, context = {}) {
     let token = '';

@@ -3,7 +3,7 @@
 const fetch = require('cross-fetch');
 const { print } = require('graphql');
 const { graphqlEndpoint } = require('../../../swift.config');
-const { decrypt } = require('../../helpers/encryption');
+const { decrypt } = require('../../../core/helpers/encryption');
 
 // make remote schema
 const fetcher = async ({
