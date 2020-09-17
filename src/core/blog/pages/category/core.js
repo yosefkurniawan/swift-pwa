@@ -8,7 +8,7 @@ import * as Schema from '../../services/graphql/schema';
 
 const Category = (props) => {
     const {
-        t, Skeleton, WarningInfo, Content, pageConfig, ...other
+        t, Skeleton, WarningInfo, Content, pageConfig, storeConfig, ...other
     } = props;
     const router = useRouter();
     const { id } = router.query;
@@ -50,7 +50,7 @@ const Category = (props) => {
             </DefaultLayout>
         );
     }
-    if (data && data.getBlogCategory.data.length > 0) {
+    if (data && data.getBlogCategory.data.length > 0 && loadBlog.data) {
         config.title = data.getBlogCategory.data[0].name;
         config.headerTitle = data.getBlogCategory.data[0].name;
 
@@ -84,12 +84,43 @@ const Category = (props) => {
             });
         };
 
+        const mediaUrl = storeConfig.base_media_url || '';
+        let items = [];
+        if (loadBlog.data.getBlogByFilter.items.length > 0) {
+            items = loadBlog.data.getBlogByFilter.items.map((item) => {
+                let { short_content, content } = item;
+                if (content && content !== '') {
+                    content = content.replace(/{{media url=&quot;/g, mediaUrl);
+                    content = content.replace(/&quot;}}/g, '');
+                }
+
+                if (short_content && short_content !== '') {
+                    short_content = short_content.replace(/{{media url=&quot;/g, mediaUrl);
+                    short_content = short_content.replace(/&quot;}}/g, '');
+                }
+
+                return {
+                    ...item,
+                    short_content,
+                    content,
+                };
+            });
+        }
+
+        const contentData = {
+            ...loadBlog.data,
+            getBlogByFilter: {
+                ...loadBlog.data.getBlogByFilter,
+                items,
+            },
+        };
+
         const contentprops = {
-            t, handleLoadMore, loadMore, page, pageSize, loading: loadBlog.loading, data: loadBlog.data, loadCategory,
+            t, handleLoadMore, loadMore, page, pageSize, loading: loadBlog.loading, data: contentData, loadCategory, storeConfig,
         };
 
         return (
-            <DefaultLayout {...props} pageConfig={config}>
+            <DefaultLayout {...props} pageConfig={config} storeConfig={storeConfig}>
                 <Content
                     {...contentprops}
                     {...other}
@@ -97,7 +128,7 @@ const Category = (props) => {
             </DefaultLayout>
         );
     } return (
-        <DefaultLayout pageConfig={config}>
+        <DefaultLayout pageConfig={config} storeConfig={storeConfig}>
             <WarningInfo variant="error" text={t('blog:error:notFound')} />
         </DefaultLayout>
     );
