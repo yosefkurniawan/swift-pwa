@@ -1,3 +1,3 @@
-import Page from '@core/rma/pages/history';
+import Page from '@core_modules/rma/pages/history';
 
 export default Page;

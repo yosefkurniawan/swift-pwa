@@ -1,4 +1,4 @@
-import Featured from '@core/brands/pages/default/components/featured';
+import Featured from '@core_modules/brands/pages/default/components/featured';
 
 const BrandsTemplate = (props) => {
     const { t, featured, all } = props;
