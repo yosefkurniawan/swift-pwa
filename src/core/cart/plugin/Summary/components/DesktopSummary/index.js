@@ -17,13 +17,12 @@ import useStyles from './style';
 const Summary = (props) => {
     const {
         t, summary, handleActionSummary = () => {}, loading, disabled,
-        showItems = false, items = [], hideButton = false,
+        showItems = false, items = [], hideButton = false, isDesktop,
     } = props;
     const styles = useStyles();
     const [openItem, setOpenItem] = React.useState(false);
-
     return (
-        <div className={styles.container}>
+        <div className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>
             <Typography variant="h1" type="regular" letter="capitalize">
                 Summary
             </Typography>
@@ -72,7 +71,7 @@ const Summary = (props) => {
                 {
                     summary.data.map((dt, index) => (
                         <ListItem className={styles.list} key={index}>
-                            <ListItemText className={styles.labelItem} primary={<Typography variant="span">{dt.item}</Typography>} />
+                            <ListItemText className={styles.labelItem} primary={<Typography variant="p" size="12">{dt.item}</Typography>} />
                             <ListItemSecondaryAction>
                                 <Typography variant="span" type="regular">
                                     {dt.value}

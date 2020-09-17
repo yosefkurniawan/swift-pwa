@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helpers/generateQuery';
 import TagManager from 'react-gtm-module';
-import { getProduct } from '../../services/graphql';
+import { getProduct, getProductAgragations } from '../../services/graphql';
 import * as Schema from '../../services/graphql/productSchema';
 import getCategoryFromAgregations from '../../helpers/getCategory';
 import generateConfig from '../../helpers/generateConfig';
@@ -14,9 +14,9 @@ import Content from './components';
 const Product = (props) => {
     const {
         catId = 0, catalog_search_engine, customFilter, url_path, defaultSort, t,
-        categoryPath, ErrorMessage, storeConfig, ...other
+        categoryPath, ErrorMessage, storeConfig, query, path, availableFilter, ...other
     } = props;
-    const router = useRouter();
+
     const [page, setPage] = React.useState(1);
     const [loadmore, setLoadmore] = React.useState(false);
     const elastic = catalog_search_engine === 'elasticsuite';
@@ -27,8 +27,6 @@ const Product = (props) => {
         currentPage: 1,
         filter: [],
     };
-
-    const { path, query } = getQueryFromPath(router);
 
     // set default sort when there is no sort in query
     if (defaultSort && !query.sort) {
@@ -58,8 +56,14 @@ const Product = (props) => {
             value: catId,
         });
     }
-    config = generateConfig(query, config, elastic);
-    const { loading, data, fetchMore } = getProduct(config);
+
+    config = generateConfig(query, config, elastic, availableFilter);
+    const { loading, data, fetchMore } = getProduct(config, {
+        variables: {
+            pageSize: 8,
+            currentPage: 1,
+        },
+    });
     let products = {};
     products = data && data.products ? data.products : {
         total_count: 0,
@@ -90,7 +94,7 @@ const Product = (props) => {
     const handleLoadMore = () => {
         setLoadmore(true);
         setPage(page + 1);
-        return fetchMore({
+        fetchMore({
             query: Schema.getProduct({
                 customFilter: typeof customFilter !== 'undefined',
                 search: config.search,
@@ -98,24 +102,21 @@ const Product = (props) => {
                 currentPage: page + 1,
                 filter: config.filter,
             }),
+            variables: {
+                pageSize: 8,
+                currentPage: page + 1,
+            },
             updateQuery: (
                 previousResult,
                 { fetchMoreResult },
             ) => {
                 setLoadmore(false);
-                const previousEntry = previousResult.products;
-                const newItems = fetchMoreResult.products.items;
                 return {
                     products: {
-                        // eslint-disable-next-line no-underscore-dangle
-                        __typename:
-                            // eslint-disable-next-line no-underscore-dangle
-                            previousEntry.__typename,
-                        total_count:
-                            previousEntry.total_count,
+                        ...fetchMoreResult.products,
                         items: [
-                            ...previousEntry.items,
-                            ...newItems,
+                            ...previousResult.products.items,
+                            ...fetchMoreResult.products.items,
                         ],
                     },
                 };
@@ -190,4 +191,28 @@ Product.propTypes = {
     catalog_search_engine: PropTypes.string,
 };
 
-export default Product;
+const ProductWrapper = (props) => {
+    const router = useRouter();
+    const { path, query } = getQueryFromPath(router);
+
+    let availableFilter = [];
+    let loadingAgg;
+    if (Object.keys(query).length > 0) {
+        const { data: agg, loading } = getProductAgragations();
+        loadingAgg = loading;
+        availableFilter = agg && agg.products ? agg.products.aggregations : [];
+    }
+    if (loadingAgg) {
+        return <span />;
+    }
+    return (
+        <Product
+            {...props}
+            availableFilter={availableFilter}
+            path={path}
+            query={query}
+        />
+    );
+};
+
+export default ProductWrapper;

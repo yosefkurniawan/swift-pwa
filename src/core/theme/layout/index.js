@@ -9,6 +9,9 @@ import Cookies from 'js-cookie';
 import { custDataNameCookie, features } from '@config';
 import { getHost } from '@helpers/config';
 import { breakPointsUp } from '@helpers/theme';
+import { BREAKPOINTS } from '@theme/vars';
+
+import PopupInstallAppMobile from '../components/custom-install-popup/mobile';
 
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
 const HeaderMobile = dynamic(() => import('@common_headermobile'), { ssr: true });
@@ -40,7 +43,7 @@ const Layout = (props) => {
         },
         backdropLoader: false,
     });
-    const [mainMinimumHeight, setMainMinimumHeight] = useState(0);
+    // const [mainMinimumHeight, setMainMinimumHeight] = useState(0);
     const refFooter = useRef(null);
     const refHeader = useRef(null);
 
@@ -84,7 +87,7 @@ const Layout = (props) => {
     };
 
     if (!ogData['og:description']) {
-        ogData['og:description'] = storeConfig.default_description;
+        ogData['og:description'] = storeConfig.default_description || '';
     }
 
     if (features.facebookMetaId.enabled) {
@@ -105,10 +108,30 @@ const Layout = (props) => {
             if (custData && custData.email) tagManagerArgs.dataLayer.customerId = custData.email;
             TagManager.dataLayer(tagManagerArgs);
         }
-        setMainMinimumHeight(refFooter.current.clientHeight + refHeader.current.clientHeight);
+        // setMainMinimumHeight(refFooter.current.clientHeight + refHeader.current.clientHeight);
     }, []);
 
     const desktop = breakPointsUp('sm');
+
+    // for checking layout
+    const sm = breakPointsUp(BREAKPOINTS.sm);
+    const md = breakPointsUp(BREAKPOINTS.md);
+    const lg = breakPointsUp(BREAKPOINTS.lg);
+
+    const checkResolution = () => {
+        if (headerDesktop) {
+            if (lg) { return '175px'; }
+            if (md) { return '175px'; }
+            if (sm) { return '170px'; }
+        }
+        return 0;
+    };
+
+    const styles = {
+        marginTop: checkResolution(),
+        marginBottom: pageConfig.bottomNav ? '60px' : 0,
+    };
+
     return (
         <>
             <Head>
@@ -136,7 +159,7 @@ const Layout = (props) => {
             </Head>
             <header ref={refHeader}>
                 <div className="hidden-mobile">
-                    { headerDesktop ? (<HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} />) : null }
+                    {headerDesktop ? (<HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} />) : null}
                 </div>
                 <div className="hidden-desktop">
                     {
@@ -146,8 +169,9 @@ const Layout = (props) => {
                     }
                 </div>
             </header>
+            {features.customInstallApp.enabled ? <PopupInstallAppMobile /> : null}
 
-            <main style={{ marginBottom: pageConfig.bottomNav ? '60px' : 0, minHeight: `calc(100vh - ${mainMinimumHeight}px)` }}>
+            <main style={{ ...styles }} id="maincontent">
                 <Loading open={state.backdropLoader} />
                 <Message
                     open={state.toastMessage.open}

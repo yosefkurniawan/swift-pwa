@@ -164,7 +164,13 @@ export const createCustomerAddress = (options = {}) => useMutation(Schema.create
     ...config(USING_INTERNAL),
 });
 
+export const updateExtraFee = (options = {}) => useMutation(Schema.updateExtraFee, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export default {
+    updateExtraFee,
     updatedDefaultAddress,
     updateCustomerAddress,
     createCustomerAddress,

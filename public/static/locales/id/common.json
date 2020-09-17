@@ -62,7 +62,9 @@
         "category": "Kategory",
         "summary": "Ringkasan",
         "price": "Harga",
-        "shortQty": "Jml"
+        "shortQty": "Jml",
+        "action": "Aksi",
+        "extraFee": "Biaya Tambahan"
     },
     "error": {
         "notFound" : "Data tidak di temukan",

@@ -17,6 +17,7 @@ export const getCustomer = () => useQuery(Schema.getCustomer, {
         request: 'internal',
         skip: typeof window === 'undefined',
     },
+    fetchPolicy: 'no-cache',
 });
 
 export const getCustomerOrder = () => useQuery(Schema.getCustomerOrder, {
@@ -83,6 +84,11 @@ export const createCustomerAddress = (options = {}) => useMutation(Schema.create
 });
 
 export const updateCustomer = (options = {}) => useMutation(Schema.updateCustomer, {
+    ...options,
+    ...config,
+});
+
+export const updateCustomerProfile = (options = {}) => useMutation(Schema.updateCustomerProfile, {
     ...options,
     ...config,
 });

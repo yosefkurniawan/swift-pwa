@@ -12,7 +12,7 @@ const CustomButton = ({
     children,
     disabled = false,
     fullWidth = false,
-    onClick = () => {},
+    onClick = () => { },
     loading = false,
     customRootStyle = {},
     href = null,
@@ -43,13 +43,13 @@ const CustomButton = ({
                     href={null}
                 >
                     {children}
+                    {loading && (
+                        <CircularProgress
+                            size={24}
+                            className={styles.buttonProgress}
+                        />
+                    )}
                 </Button>
-                {loading && (
-                    <CircularProgress
-                        size={24}
-                        className={styles.buttonProgress}
-                    />
-                )}
             </div>
         </div>
     );

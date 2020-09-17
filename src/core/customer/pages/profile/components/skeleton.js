@@ -1,5 +1,6 @@
 import Grid from '@material-ui/core/Grid';
 import Skeleton from '@material-ui/lab/Skeleton';
+import classNames from 'classnames';
 import useStyles from './style';
 
 const ProfilePageSkeleton = () => {
@@ -17,16 +18,22 @@ const ProfilePageSkeleton = () => {
         </Grid>
     );
     return (
-        <div className={styles.skeletonContainer}>
-            <TextFieldSkeleton />
-            <TextFieldSkeleton />
-            <TextFieldSkeleton />
-            <CheckboxSkeleton />
-            <CheckboxSkeleton />
-            <TextFieldSkeleton />
-            <Grid container className={styles.skeletonField} alignItems="center" direction="column">
-                <Skeleton className={styles.skeleton} variant="rect" width="90%" height={32} animation="wave" />
-            </Grid>
+        <div className={classNames('row', styles.skeletonContainer)}>
+            {/* <div className="col-lg-2 hidden-mobile">
+                <Skeleton animation="wave" variant="rect" height={540} width="100%" />
+            </div> */}
+            <div className="col-lg-10">
+
+                <TextFieldSkeleton />
+                <TextFieldSkeleton />
+                <TextFieldSkeleton />
+                <CheckboxSkeleton />
+                <CheckboxSkeleton />
+                <TextFieldSkeleton />
+                <Grid container className={styles.skeletonField} alignItems="center" direction="column">
+                    <Skeleton className={styles.skeleton} variant="rect" width="90%" height={32} animation="wave" />
+                </Grid>
+            </div>
         </div>
     );
 };

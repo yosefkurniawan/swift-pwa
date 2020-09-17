@@ -1,46 +1,27 @@
-import Button from '@common_button';
 import Typography from '@common_typography';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import Qty from '@common_qty';
 // import Router from 'next/router';
 import React from 'react';
+import Button from '@common_button';
 import useStyles from './style';
-
-const renderQty = () => {
-    const options = [];
-    // eslint-disable-next-line no-plusplus
-    for (let item = 1; item <= 10; item++) {
-        options.push(
-            <MenuItem key={item} value={item}>
-                {item}
-            </MenuItem>,
-        );
-    }
-    return options;
-};
 
 export default ({
     qty = 1,
-    handleQty = () => {},
-    handleAddToCart = () => {},
+    handleQty = () => { },
+    handleAddToCart = () => { },
     t,
     loading = false,
 }) => {
     const styles = useStyles();
-    const dataQty = renderQty(qty);
     return (
         <>
             <div className={styles.qty}>
-                <Typography variant="span">{t('common:title:qty')}</Typography>
-                <Select
-                    defaultValue={1}
+                <Typography type="bold" variant="span">{t('common:title:qty')}</Typography>
+                <Qty
                     value={qty}
                     onChange={handleQty}
-                    variant="outlined"
-                    disabled={loading}
-                >
-                    {dataQty}
-                </Select>
+                    max={10000}
+                />
             </div>
             <div className={styles.footer}>
                 <Button

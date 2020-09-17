@@ -31,7 +31,7 @@ const uriInternal = `${host}/graphql`;
 const logoutLink = onError((err) => {
     const { graphQLErrors, networkError } = err;
     if (networkError && typeof window !== 'undefined') {
-        // window.location.href = '/maintenance';
+        window.location.href = '/maintenance';
     } else if (graphQLErrors && graphQLErrors[0] && graphQLErrors[0].status === 401 && typeof window !== 'undefined') {
         removeCartId();
         removeIsLoginFlagging();

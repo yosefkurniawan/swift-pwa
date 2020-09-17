@@ -8,7 +8,7 @@
         "label": "Delivery Method",
         "homeDelivery": "Home Delivery",
         "homeDeliveryDesc": "We deliver your order to your home",
-        "pickupDelivery": "Pickup Delivery",
+        "pickupDelivery": "Pickup",
         "pickupDeliveryDesc": "Pickup your order at our store"
     },
     "pickupInformation": {
@@ -77,5 +77,20 @@
     "giftCartPlaceholder": "Gift Cart Number",
     "yourOrderId": "Your order number",
     "checkOrder": "Check Order",
-    "cashbackInfo": "Congratulation! You will get cashback $ from promo(s) $ into your store credit"
+    "cashbackInfo": "Congratulation! You will get cashback $ from promo(s) $ into your store credit",
+    "paymentGrouping": {
+        "banktransfer": "Bank Transfer",
+        "creditcard": "Credit Card",
+        "internetpayment": "Internet Payment",
+        "onlinepayment": "Online Payment",
+        "installment": "Installment",
+        "others": "Others"
+    },
+    "shippingGrouping": {
+        "freeshipping": "Free Shipping",
+        "express": "Express",
+        "nextday": "Next Day",
+        "reguler": "Reguler",
+        "others": "Others"
+    }
 }

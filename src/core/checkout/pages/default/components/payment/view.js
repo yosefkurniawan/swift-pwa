@@ -41,8 +41,11 @@ const PaymentView = (props) => {
     const styles = useStyles();
     let content;
     const [expanded, setExpanded] = React.useState(null);
+    const [expandedActive, setExpandedActive] = React.useState(true);
+
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
+        setExpandedActive(false);
     };
 
     if (loading.payment || loading.shipping || loading.all) {
@@ -52,6 +55,7 @@ const PaymentView = (props) => {
     } else if (data.paymentMethod.length !== 0 && storeConfig.payments_configuration) {
         let paymentConfig = JSON.parse(`${storeConfig.payments_configuration}`);
         const groups = paymentConfig ? Object.keys(paymentConfig) : [];
+        // create grouping by config
         paymentConfig = groups.map((key) => {
             const groupData = [];
             let config = paymentConfig[key];
@@ -64,12 +68,35 @@ const PaymentView = (props) => {
                     }
                 }
             }
+            let active = false;
+            if (groupData.length > 0) {
+                // ad active key if on group data selected payment method
+                if (selected.payment) {
+                    for (let idx = 0; idx < groupData.length; idx += 1) {
+                        const element = groupData[idx];
+                        if (element.code === selected.payment) {
+                            active = true;
+                        }
+                    }
+                }
+            }
             return {
                 group: key,
                 data: groupData,
+                active,
             };
         });
 
+        // check if have active on group data by default selected if
+        let itemActive = false;
+        if (paymentConfig) {
+            for (let idx = 0; idx < paymentConfig.length; idx += 1) {
+                const element = paymentConfig[idx];
+                if (element.active) {
+                    itemActive = true;
+                }
+            }
+        }
         content = (
             <div>
                 <Typography variant="p">{t('checkout:paymentSubtitle')}</Typography>
@@ -79,7 +106,9 @@ const PaymentView = (props) => {
                             if (item.data.length !== 0) {
                                 return (
                                     <ExpansionPanel
-                                        expanded={expanded === index}
+                                        expanded={expanded === index // if key index same with expanded active
+                                            || (item.active && expandedActive) // expand if item active and not change expand
+                                            || (!itemActive && expandedActive && index === 0)} // if dont have item active, set index 0 to active
                                         onChange={handleChange(index)}
                                         key={index}
                                     >
@@ -89,7 +118,12 @@ const PaymentView = (props) => {
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
                                             <Typography letter="uppercase" variant="span" type="bold">
-                                                {item.group.replace('pg-', '')}
+                                                {
+                                                    (t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
+                                                        === `paymentGrouping.${item.group.replace('pg-', '')}`)
+                                                        ? item.group.replace('pg-', '')
+                                                        : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
+                                                }
                                             </Typography>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails>

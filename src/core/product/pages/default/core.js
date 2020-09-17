@@ -107,6 +107,8 @@ const ContentDetail = ({
         priceTiers: item.price_tiers,
         // eslint-disable-next-line no-underscore-dangle
         productType: item.__typename,
+        specialFromDate: item.special_from_date,
+        specialToDate: item.special_to_date,
     });
     const [wishlist, setWishlist] = React.useState(false);
 
@@ -153,7 +155,7 @@ const ContentDetail = ({
             window.toastMessage({
                 open: true,
                 variant: 'warning',
-                text: t('wishlist:addWithoutLogin'),
+                text: t('catalog:wishlist:addWithoutLogin'),
             });
         }
     };

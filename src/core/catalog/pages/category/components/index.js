@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import Router from 'next/router';
 import classNames from 'classnames';
@@ -88,20 +89,34 @@ const CategoryPage = ({
                     value={value}
                 />
             </div>
-            <Product
-                defaultSort={{ key: 'position', value: 'ASC' }}
-                // sementara di comment dlu, untuk custom filter memakai aggregations product
-                // customFilter={customFilter.loading ? [] : customFilter.data.getFilterAttributeOptions.data}
-                catId={categoryList.id}
-                categoryPath={categoryList.url_path}
-                catalog_search_engine={storeConfig.catalog_search_engine}
-                t={t}
-                category={categoryTabs(categoryList.children)}
-                dataTabs={categoryTabs(categoryList.children)}
-                onChangeTabs={handleChange}
-                storeConfig={storeConfig}
-                {...other}
-            />
+            {
+                categoryList
+                && (categoryList.display_mode === 'PRODUCTS_AND_PAGE' || categoryList.display_mode === 'PAGE')
+                && categoryList.cms_block
+                && (
+                    <div dangerouslySetInnerHTML={{ __html: categoryList.cms_block.content }} />
+                )
+            }
+            {
+                categoryList
+                && (categoryList.display_mode === 'PRODUCTS_AND_PAGE' || categoryList.display_mode === 'PRODUCTS')
+                && (
+                    <Product
+                        defaultSort={{ key: 'position', value: 'ASC' }}
+                        // sementara di comment dlu, untuk custom filter memakai aggregations product
+                        // customFilter={customFilter.loading ? [] : customFilter.data.getFilterAttributeOptions.data}
+                        catId={categoryList.id}
+                        categoryPath={categoryList.url_path}
+                        catalog_search_engine={storeConfig.catalog_search_engine}
+                        t={t}
+                        category={categoryTabs(categoryList.children)}
+                        dataTabs={categoryTabs(categoryList.children)}
+                        onChangeTabs={handleChange}
+                        storeConfig={storeConfig}
+                        {...other}
+                    />
+                )
+            }
         </div>
     );
 };

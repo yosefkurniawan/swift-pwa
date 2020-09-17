@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        overflowX: 'hidden',
         ...CreatePadding(0, 0, 30, 0),
     },
     category: {
@@ -82,17 +83,23 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: 30,
         width: '100%',
         height: '100%',
+        [theme.breakpoints.down('sm')]: {
+            padding: '0',
+        },
     },
     featuresBox: {
         boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
         border: `1px solid ${GRAY_LIGHT}`,
         padding: 0,
+        [theme.breakpoints.down('sm')]: {
+            margin: '0 0 20px 0',
+        },
     },
     contentFeatured: {
         transition: '0.3s',
         borderTopLeftRadius: 5,
         borderBottomLeftRadius: 5,
-        padding: '20px 20px 0px 10px',
+        // padding: '20px 20px 0px 10px',
     },
     footerFeatured: {
         paddingBottom: 20,
@@ -109,6 +116,13 @@ const useStyles = makeStyles((theme) => ({
         ...Centering,
         backgroundColor: WHITE,
         height: '100%',
+        [theme.breakpoints.down('sm')]: {
+            marginBottom: '20px',
+        },
+    },
+    skeletonDesktop: {
+        display: 'flex',
+        justifyContent: 'center',
     },
 }));
 

@@ -1,10 +1,13 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { CreatePadding, FlexColumn } from '@theme/mixins';
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     container: {
         ...FlexColumn,
         ...CreatePadding(0, 30, 30, 30),
+        [theme.breakpoints.up('sm')]: {
+            ...CreatePadding(16, 0),
+        },
     },
     editContainer: {
         ...FlexColumn,

@@ -124,7 +124,7 @@ const Login = (props) => {
                 window.toastMessage({
                     open: true,
                     variant: 'error',
-                    text: e.message.split(':')[1] || t('login:failed'),
+                    text: e.message.split(':')[0] || t('login:failed'),
                 });
             });
     };

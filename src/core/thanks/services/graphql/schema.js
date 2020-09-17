@@ -6,10 +6,20 @@ export const getOrder = () => gql`
             data {
                 order_number
                 id
+                created_at
                 detail {
                     tax_amount
                     payment {
                         shipping_amount
+                        additional_information
+                        payment_additional_info {
+                            due_date
+                            method_title
+                            transaction_id
+                            transaction_time
+                            virtual_account
+                        }
+                        method
                     }
                     grand_total
                     total_qty_ordered

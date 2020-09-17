@@ -17,7 +17,7 @@ const Customer = (props) => {
         && customerNotificationList.customerNotificationList
         && customerNotificationList.customerNotificationList.totalUnread;
 
-    if (!data || loading || error) return <Skeleton />;
+    if (!data || loading || error) return <Layout {...props}><Skeleton /></Layout>;
     if (data) {
         userData = data;
         if (modules.wishlist.enabled) {
@@ -33,10 +33,10 @@ const Customer = (props) => {
     }
 
     if (customerNotificationList && customerNotificationList.customerNotificationList) {
-        userData.notification = customerNotificationList.customerNotificationList;
+        userData = { ...userData, notificationList: customerNotificationList.customerNotificationList };
     }
     if (customerOrders && customerOrders.customerOrders) {
-        userData.customerOrders = customerOrders.customerOrders;
+        userData = { ...userData, customerOrders: customerOrders.customerOrders };
     }
 
     const pushIf = (condition, ...elements) => (condition ? elements : []);

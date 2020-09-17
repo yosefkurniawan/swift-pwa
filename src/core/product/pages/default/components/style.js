@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
         position: 'relative',
         backgroundColor: WHITE,
         width: '100%',
+        [theme.breakpoints.down('sm')]: {
+            padding: '0',
+        },
     },
     header: {
         position: 'absolute',
@@ -54,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     btnAddToCard: {
-        ...CreateMargin(0, 8, 0, 0),
         width: '90%',
         [theme.breakpoints.up('sm')]: {
             width: 316,
@@ -63,7 +65,6 @@ const useStyles = makeStyles((theme) => ({
         bottom: 0,
         left: 0,
         opacity: 'none',
-        ...CenterAbsolute,
         color: WHITE,
         borderRadius: 100,
     },

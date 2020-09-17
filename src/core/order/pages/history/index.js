@@ -10,7 +10,7 @@ const DefaultOrder = (props) => (
 );
 
 DefaultOrder.getInitialProps = async () => ({
-    namespacesRequired: ['common', 'order'],
+    namespacesRequired: ['common', 'order', 'customer'],
 });
 
 export default withApollo({ ssr: true })(withTranslation()(DefaultOrder));

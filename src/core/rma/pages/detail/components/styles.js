@@ -8,7 +8,7 @@ import {
 } from '@theme/mixins';
 import { GRAY_PRIMARY } from '@theme/colors';
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     block: {
         ...CreateBorder(0, 0, '1px', 0, GRAY_PRIMARY),
         ...CreatePadding(30, 30, 30, 30),
@@ -16,8 +16,6 @@ export default makeStyles(() => ({
     },
     detail: {
         paddingTop: 0,
-        alignItems: 'center',
-        textAlign: 'center',
     },
 
     labelDetail: {
@@ -60,5 +58,54 @@ export default makeStyles(() => ({
     },
     btnPrintLabel: {
         width: '100%',
+    },
+    tableOuterContainer: {
+        paddingTop: 10,
+    },
+    tableContainer: {
+        boxShadow: 'none',
+    },
+    table: {
+        borderTop: 'none',
+        width: '100%',
+    },
+    tableRowResponsive: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'grid !important',
+            borderBottom: 'none',
+            padding: 10,
+        },
+    },
+    tableCellResponsive: {
+        border: 'none',
+        [theme.breakpoints.down('sm')]: {
+            border: 'none',
+            padding: '8px 0',
+        },
+    },
+    displayFlexRow: {
+        ...FlexRow,
+    },
+    mobLabel: {
+        width: '40%',
+        minWidth: '130px',
+        maxWidth: '200px',
+        position: 'relative',
+        paddingRight: 20,
+        '&::after': {
+            content: "':'",
+            display: 'block',
+            position: 'absolute',
+            right: '8px',
+            top: 0,
+        },
+    },
+    value: {
+        [theme.breakpoints.down('sm')]: {
+            width: '60%',
+        },
+    },
+    container: {
+        paddingBottom: 30,
     },
 }));

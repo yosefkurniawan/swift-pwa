@@ -21,7 +21,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Alert from '@material-ui/lab/Alert';
 import TableAddress from './table';
 import useStyles from './style';
-import SkeletonLoader from './skeleton';
+import { SkeletonMobile, SkeletonTable } from './skeleton';
+import ItemMobile from './ItemMobile';
 import Layout from '../../../components/layout';
 
 // Main Render Page
@@ -31,16 +32,53 @@ const Content = (props) => {
     const {
         loading, address, selectedAddressId,
         handleOpenNew, handleAddress, loadingAddress,
-        success, openNew, t,
+        success, openNew, t, handleChange,
     } = props;
     return (
         <Layout {...props}>
             <div className={styles.container}>
                 <div className={styles.tableOuterContainer}>
-                    <TableContainer component={Paper} className={styles.tableContainer}>
+                    <div className="hidden-desktop">
+                        {
+                            loading
+                                ? (<SkeletonMobile />)
+                                : address.length > 0 ? (
+                                    <>
+                                        {address.map((item, index) => (
+                                            <ItemMobile
+                                                first={index === 0}
+                                                handleAddress={handleAddress}
+                                                checked={item.id == selectedAddressId}
+                                                key={item.id}
+                                                addressId={item.id}
+                                                firstname={item.firstname}
+                                                lastname={item.lastname}
+                                                telephone={item.telephone}
+                                                postcode={item.postcode}
+                                                region={item.region.region}
+                                                city={item.city}
+                                                country={item.country_code}
+                                                street={item.street.join(' ')}
+                                                value={item.id}
+                                                customAttributes={item.custom_attributes}
+                                                defaultBilling={item.default_billing}
+                                                defaultShipping={item.default_shipping}
+                                                loadingAddress={loadingAddress}
+                                                success={success}
+                                                handleChange={handleChange}
+                                                selectedAddressId={selectedAddressId}
+                                                {...props}
+                                            />
+                                        ))}
+                                    </>
+                                ) : (<Alert severity="warning">{t('customer:address:emptyMessage')}</Alert>)
+                        }
+                    </div>
+                    <TableContainer component={Paper} className={[styles.tableContainer, 'hidden-mobile'].join(' ')}>
                         <Table className={styles.table} size="small" aria-label="a dense table">
                             <TableHead>
                                 <TableRow className={styles.tableRowHead}>
+                                    <TableCell align="left">Default</TableCell>
                                     <TableCell align="left">{t('customer:address:firstname')}</TableCell>
                                     <TableCell align="left">{t('customer:address:lastname')}</TableCell>
                                     <TableCell align="left">{t('customer:address:street')}</TableCell>
@@ -54,7 +92,7 @@ const Content = (props) => {
                             </TableHead>
                             <TableBody>
                                 {loading ? (
-                                    <SkeletonLoader />
+                                    <SkeletonTable />
                                 ) : address.length > 0 ? (
                                     <>
                                         {address.map((item) => (
@@ -77,13 +115,15 @@ const Content = (props) => {
                                                 defaultShipping={item.default_shipping}
                                                 loadingAddress={loadingAddress}
                                                 success={success}
+                                                handleChange={handleChange}
+                                                selectedAddressId={selectedAddressId}
                                                 {...props}
                                             />
                                         ))}
                                     </>
                                 ) : (
                                     <TableRow>
-                                        <TableCell colSpan={7}>
+                                        <TableCell colSpan={9}>
                                             <Alert severity="warning">{t('customer:address:emptyMessage')}</Alert>
                                         </TableCell>
                                     </TableRow>

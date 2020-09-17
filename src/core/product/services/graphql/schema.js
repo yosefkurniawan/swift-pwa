@@ -30,6 +30,8 @@ const productDetail = `
         category_name
       }
     }
+    special_from_date
+    special_to_date
 
     `;
 const priceRange = `

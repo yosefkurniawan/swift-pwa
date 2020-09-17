@@ -2,8 +2,9 @@ import Layout from '@layout';
 import { withTranslation } from '@i18n';
 
 const Error = (props) => {
-    const { statusCode, Content, pageConfig } = props;
-
+    const {
+        statusCode, Content, pageConfig, storeConfig,
+    } = props;
     const statusCodes = {
         400: 'Bad Request',
         404: 'This page could not be found',
@@ -18,7 +19,7 @@ const Error = (props) => {
         title,
     };
     return (
-        <Layout pageConfig={pageConfig || config} {...props}>
+        <Layout pageConfig={pageConfig || config} {...props} {...storeConfig}>
             <Content statusCode={statusCode} title={title} />
         </Layout>
     );

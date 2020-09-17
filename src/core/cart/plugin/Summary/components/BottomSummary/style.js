@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
         padding: 0,
         width: '100%',
         border: 'none',
-        boxShadow: 'none',
+        boxShadow: 'none !important',
     },
     expanBody: {
         width: '100%',
@@ -69,7 +69,8 @@ const useStyles = makeStyles((theme) => ({
     itemContainer: {
         paddingBottom: 10,
         maxHeight: '40vh',
-        overflow: 'scroll',
+        overflowY: 'auto',
+        overflowX: 'none',
     },
     qtyOption: {
         marginTop: -10,

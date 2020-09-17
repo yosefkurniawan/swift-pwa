@@ -10,7 +10,7 @@ const CoreDetail = (props) => {
     const router = useRouter();
     const { id } = router.query;
     const {
-        t, Skeleton, WarningInfo, Content, pageConfig = {}, ...other
+        t, Skeleton, WarningInfo, Content, pageConfig = {}, storeConfig, ...other
     } = props;
     const config = {
         title: 'Blog',
@@ -57,16 +57,28 @@ const CoreDetail = (props) => {
             );
         }
 
+        const mediaUrl = storeConfig.secure_base_media_url || '';
         config.title = data.getBlogByFilter.items[0].title;
         config.headerTitle = data.getBlogByFilter.items[0].title;
+
+        let { content } = data.getBlogByFilter.items[0];
+        if (content && content !== '') {
+            content = content.replace(/{{media url=&quot;/g, mediaUrl);
+            content = content.replace(/&quot;}}/g, '');
+        }
+        const dataContent = {
+            ...data.getBlogByFilter.items[0],
+            content,
+        };
 
         return (
             <DefaultLayout {...props} pageConfig={config}>
                 <Content
                     short={false}
                     t={t}
-                    {...data.getBlogByFilter.items[0]}
+                    {...dataContent}
                     {...other}
+                    storeConfig={storeConfig}
                 />
             </DefaultLayout>
         );

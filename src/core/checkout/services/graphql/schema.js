@@ -62,19 +62,6 @@ const cartSubSelection = `
             }
         }
     }
-    prices {
-        discounts {
-            amount {
-                value
-                currency
-            }
-            label
-        }
-        grand_total {
-            value
-            currency
-        }
-    }
     items {
         id
         quantity
@@ -146,6 +133,48 @@ const cartSubSelection = `
         }
         is_cashback
         total_cashback
+    }
+    addtional_fees {
+        data {
+          enabled
+          fee_name
+          frontend_type
+          id_fee
+          options {
+            default
+            label
+            option_id
+            price
+          }
+        }
+        show_on_cart
+      }
+    applied_extra_fee {
+        extrafee_value {
+          currency
+          value
+        }
+        select_options {
+          default
+          label
+          option_id
+          price
+        }
+        show_on_cart
+        title
+    }
+    prices {
+        discounts {
+            amount {
+                value
+                currency
+            }
+            label
+        }
+        grand_total {
+            value
+            currency
+        }
     }
 `;
 
@@ -677,4 +706,20 @@ export const createCustomerAddress = gql`
             default_shipping
         }
     }
+`;
+
+export const updateExtraFee = gql`
+mutation updateExtraFee(
+    $cart_id: String!,
+    $select_options: [SelectOptionFees],
+){
+    updateExtraFeeOnCart(input: {
+        cart_id: $cart_id,
+        select_options: $select_options
+    }) {
+        cart {
+            ${cartSubSelection}
+        }
+    }
+}
 `;

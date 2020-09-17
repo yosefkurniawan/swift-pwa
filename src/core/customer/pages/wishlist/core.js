@@ -3,15 +3,15 @@ import { getCartId, setCartId } from '@helpers/cartId';
 import { useQuery } from '@apollo/client';
 import Router from 'next/router';
 import Layout from '@layout';
+import CustomerLayout from '@core/customer/components/layout';
 import { getCartIdUser } from '../../services/graphql/schema';
 import { addSimpleProductsToCart, getCustomer, removeWishlist as gqlremoveWishlist } from '../../services/graphql';
 
 const Wishlist = (props) => {
     let wishlist = [];
     const {
-        Skeleton, Content, t, isLogin, pageConfig,
+        Content, t, isLogin, pageConfig, Skeleton,
     } = props;
-
     const config = {
         title: t('customer:wishlist:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)
@@ -30,7 +30,15 @@ const Wishlist = (props) => {
         skip: !isLogin || typeof window === 'undefined',
     });
 
-    if (!data || loading || error) return <Layout pageConfig={pageConfig || config} {...props}><Skeleton /></Layout>;
+    if (!data || loading || error) {
+        return (
+            <Layout pageConfig={pageConfig || config} {...props}>
+                <CustomerLayout {...props}>
+                    <Skeleton />
+                </CustomerLayout>
+            </Layout>
+        );
+    }
     if (data) {
         wishlist = data.customer.wishlist.items.map(({ id, product }) => ({
             ...product,
@@ -156,7 +164,7 @@ const Wishlist = (props) => {
                     ? totalSucces > 0
                         // eslint-disable-next-line max-len
                         ? `${t('customer:wishlist:addPartToBagSuccess').split('$'[0])} ${totalSucces} ${t('customer:wishlist:addPartToBagSuccess').split('$'[1])}`
-                        : errorCart[1] || t('product:failedAddCart')
+                        : errorCart[1] || t('customer:wishlist:failedAddCart')
                     : t('customer:wishlist:addAllToBagSuccess'),
                 variant: errorCart[0] ? 'error' : 'success',
             });

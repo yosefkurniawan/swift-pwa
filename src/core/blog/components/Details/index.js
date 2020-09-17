@@ -10,11 +10,13 @@ import Link from 'next/link';
 import useStyles from './style';
 import ShareIcons from '../ShareIcon';
 
-export default ({
-    title, publish_date, featured_image_url, featured_image_alt, content, url_key,
-    short_content, short = true, t,
-}) => {
-    const { link } = modules.blog;
+export default (props) => {
+    const {
+        title, publish_date, featured_image_url, featured_image_alt, url_key,
+        short = true, t, short_content, content,
+    } = props;
+
+    const { link, featuredImage } = modules.blog;
     const styles = useStyles();
     return (
         <div className={styles.containerItemBlog}>
@@ -26,22 +28,29 @@ export default ({
                 <Divider orientation="vertical" flexItem />
                 <ShareIcons url={`${getHost() + modules.blog.urlPath}/${url_key}`} />
             </div>
-            <div className={styles.imageBlogContainer}>
-                <img
-                    src={featured_image_url}
-                    alt={featured_image_alt}
-                    className={styles.imageBlog}
-                    onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = '/assets/img/placeholder.png';
-                    }}
-                />
-            </div>
+            {
+                featuredImage
+                    ? (
+
+                        <div className={styles.imageBlogContainer}>
+                            <img
+                                src={featured_image_url}
+                                alt={featured_image_alt}
+                                className={styles.imageBlog}
+                                onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = '/assets/img/placeholder.png';
+                                }}
+                            />
+                        </div>
+                    )
+                    : null
+            }
             {
                 !short
                     ? (
                         <>
-                            <div dangerouslySetInnerHTML={{ __html: content }} />
+                            <div classNames={styles.content} dangerouslySetInnerHTML={{ __html: content }} />
                             <div className={styles.shareBottom}>
                                 <Typography>
                                     {t('blog:share')}
@@ -53,10 +62,10 @@ export default ({
                         </>
                     ) : (
                         <>
-                            <div dangerouslySetInnerHTML={{ __html: short_content }} />
+                            <div className={styles.content} dangerouslySetInnerHTML={{ __html: short_content }} />
                             <Link href={link.detail.href} as={link.detail.as + url_key}>
                                 <a>
-                                    <Button>
+                                    <Button rootClassName={styles.btnRead}>
                                         <Typography color="white" letter="capitalize" varinat="span" type="semiBold">
                                             {t('blog:readMore')}
                                         </Typography>

@@ -13,6 +13,9 @@ export default makeStyles((theme) => ({
         height: '100%',
         fontSize: '12px',
         padding: 15,
+        [theme.breakpoints.up('sm')]: {
+            padding: '15px 5px',
+        },
     },
     tableOuterContainer: {
         paddingTop: 10,

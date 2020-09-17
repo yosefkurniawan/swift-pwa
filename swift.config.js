@@ -21,6 +21,9 @@ const graphqlEndpoint = {
 /* FEATURES CONFIGURATION
 /* --------------------------------------- */
 
+const installMessage = 'Get our free app.';
+const appName = 'Swift APP';
+
 /* Social Sharing */
 const shareIcon = {
     facebook: true,
@@ -149,6 +152,22 @@ const features = {
     vesMenu: {
         enabled: true,
     },
+    customInstallApp: {
+        enabled: true,
+    },
+    pushNotification: {
+        enabled: false,
+        config: {
+            apiKey: 'AIzaSyBwAPEXdjKf84q-T7tUxVJBcOJJ8hzrXTI',
+            authDomain: 'swift-pwa.firebaseapp.com',
+            databaseURL: 'https://swift-pwa.firebaseio.com',
+            projectId: 'swift-pwa',
+            storageBucket: 'swift-pwa.appspot.com',
+            messagingSenderId: '1029426161575',
+            appId: '1:1029426161575:web:2c57e3f74cb00e0132f882',
+            measurementId: 'G-VSRV1DJVSQ',
+        },
+    },
 };
 
 const modules = {
@@ -172,6 +191,7 @@ const modules = {
                 href: '/blog',
             },
         },
+        featuredImage: true,
     },
     brands: {
         enabled: true,
@@ -202,6 +222,9 @@ const modules = {
         pickupStore: {
             enabled: true,
         },
+        extraFee: {
+            enabled: true,
+        },
     },
     cart: {
         enabled: true,
@@ -230,6 +253,10 @@ const modules = {
     storecredit: {
         enabled: true,
         path: '/customer/account/storecredit',
+    },
+    storeLocator: {
+        enabled: true,
+        path: '/storelocator',
     },
     giftcard: {
         enabled: true,
@@ -345,4 +372,6 @@ module.exports = {
     nossrCache,
     recaptcha,
     modules,
+    installMessage,
+    appName,
 };

@@ -39,6 +39,16 @@ const filterProduct = (filter) => {
     return queryFilter;
 };
 
+export const getProductAgragations = () => gql`
+  {
+    products(search:"") {
+      aggregations {
+        attribute_code
+      }
+    }
+  }
+`;
+
 /**
  * scema dynamic product
  * @param catId number
@@ -47,12 +57,14 @@ const filterProduct = (filter) => {
  */
 
 export const getProduct = (config = {}) => gql`
-    {
-      products( search: "${config.search}" ,filter: ${filterProduct(config.filter)}, pageSize: ${
-    config.pageSize ? config.pageSize : 8
-},
-      currentPage: ${config.currentPage ? config.currentPage : 1}
-      ${
+    query getProducts(
+      $pageSize: Int,
+      $currentPage: Int,
+    ){
+    products( search: "${config.search}" ,filter: ${filterProduct(config.filter)},
+    pageSize: $pageSize,
+    currentPage: $currentPage
+    ${
     config.sort
         ? `, sort: {${config.sort.key} : ${config.sort.value}}`
         : ''
@@ -128,6 +140,9 @@ export const getProduct = (config = {}) => gql`
               }
             }
           }
+
+          special_from_date
+          special_to_date
           ${modules.catalog.productListing.configurableOptions ? `
           ... on ConfigurableProduct {
             configurable_options {
@@ -157,7 +172,6 @@ export const getProduct = (config = {}) => gql`
                   reviews_count
                 }`
         : ''}
-                
                 price_tiers {
                   discount {
                     percent_off
@@ -199,6 +213,8 @@ export const getProduct = (config = {}) => gql`
                     }
                   }
                 }
+                special_from_date
+                special_to_date
                 small_image{
                   url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
                   label

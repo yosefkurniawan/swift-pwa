@@ -74,7 +74,8 @@ const productDetail = `
       rating_summary
       reviews_count
     }
-
+    special_from_date
+    special_to_date
     `;
 const priceRange = `
     price_range {
