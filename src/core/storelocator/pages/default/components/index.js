@@ -2,7 +2,7 @@ import StoreLocatorMaps from './Maps';
 import SkeletonStoreLocator from './Skeleton';
 import StoreList from './StoreList';
 
-const StoreLocatorContent = ({ gmapKey, storeLocations }) => {
+const StoreLocatorContent = ({ gmapKey, storeLocations, t }) => {
     // state
     const [centerPosition, setCenterPosition] = React.useState({});
     const [selectedStore, setSelectedStore] = React.useState();
@@ -31,6 +31,7 @@ const StoreLocatorContent = ({ gmapKey, storeLocations }) => {
         <div className="row" style={{ padding: '0 16px' }}>
             <div className="col-xs-12 col-sm-4 col-md-3 last-xs first-sm">
                 <StoreList
+                    t={t}
                     storeList={storeList}
                     totalAllStore={storeLocations.length}
                     onClickListItem={(store) => {
@@ -41,6 +42,7 @@ const StoreLocatorContent = ({ gmapKey, storeLocations }) => {
             </div>
             <div className="col-xs-12 col-sm-8 col-md-9">
                 <StoreLocatorMaps
+                    t={t}
                     centerPosition={centerPosition}
                     mapPositions={storeList}
                     gmapKey={gmapKey}
@@ -53,7 +55,9 @@ const StoreLocatorContent = ({ gmapKey, storeLocations }) => {
 };
 
 const StoreLocatorContentWrapper = (props) => {
-    const { loading, storeLocations, storeConfig } = props;
+    const {
+        loading, storeLocations, storeConfig, t,
+    } = props;
     return (
         <>
             {
@@ -61,6 +65,7 @@ const StoreLocatorContentWrapper = (props) => {
                     ? <SkeletonStoreLocator />
                     : (
                         <StoreLocatorContent
+                            t={t}
                             gmapKey={storeConfig.icube_pinlocation_gmap_key}
                             storeLocations={storeLocations}
                         />

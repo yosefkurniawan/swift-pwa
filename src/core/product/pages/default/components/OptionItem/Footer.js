@@ -2,7 +2,7 @@ import Typography from '@common_typography';
 import Qty from '@common_qty';
 // import Router from 'next/router';
 import React from 'react';
-import Button from './components/Button';
+import Button from '@common_button';
 import useStyles from './style';
 
 export default ({

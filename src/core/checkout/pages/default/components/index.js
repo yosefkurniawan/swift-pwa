@@ -12,7 +12,7 @@ import GiftCard from './giftcard';
 import RewardPoint from './rewardpoint';
 import Credit from './credit';
 import PickupInfo from './PickupInformation';
-// import ExtraFee from './ExtreeFee';
+import ExtraFee from './ExtreeFee';
 import useStyles from './style';
 
 const Content = (props) => {
@@ -129,6 +129,7 @@ const Content = (props) => {
                         t={t}
                         storeConfig={storeConfig}
                         PaymentView={PaymentView}
+                        modules={modules}
                     />
                     {modules.promo.enabled ? (
                         <Promo
@@ -180,7 +181,7 @@ const Content = (props) => {
                             </div>
                         ) : null}
                     </div>
-                    {/* {modules.checkout.extraFee.enabled ? (
+                    {modules.checkout.extraFee.enabled ? (
                         <ExtraFee
                             checkout={checkout}
                             setCheckout={setCheckout}
@@ -189,7 +190,7 @@ const Content = (props) => {
                             t={t}
                             storeConfig={storeConfig}
                         />
-                    ) : null} */}
+                    ) : null}
                 </>
             </div>
             <div className="col-xs-12 col-sm-4 col-md-4 col-lg-3">

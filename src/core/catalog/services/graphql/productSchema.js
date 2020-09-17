@@ -39,6 +39,16 @@ const filterProduct = (filter) => {
     return queryFilter;
 };
 
+export const getProductAgragations = () => gql`
+  {
+    products(search:"") {
+      aggregations {
+        attribute_code
+      }
+    }
+  }
+`;
+
 /**
  * scema dynamic product
  * @param catId number
@@ -47,12 +57,14 @@ const filterProduct = (filter) => {
  */
 
 export const getProduct = (config = {}) => gql`
-    {
-      products( search: "${config.search}" ,filter: ${filterProduct(config.filter)}, pageSize: ${
-    config.pageSize ? config.pageSize : 8
-},
-      currentPage: ${config.currentPage ? config.currentPage : 1}
-      ${
+    query getProducts(
+      $pageSize: Int,
+      $currentPage: Int,
+    ){
+    products( search: "${config.search}" ,filter: ${filterProduct(config.filter)},
+    pageSize: $pageSize,
+    currentPage: $currentPage
+    ${
     config.sort
         ? `, sort: {${config.sort.key} : ${config.sort.value}}`
         : ''

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable-next-line jsx-a11y/click-events-have-key-events */
-import { getCartId, setCartId } from '@helpers/cartId';
+import { getCartId, setCartId, removeCartId } from '@helpers/cartId';
 import { getLoginInfo } from '@helpers/auth';
 import { useQuery } from '@apollo/client';
 import { localTotalCart } from '@services/graphql/schema/local';
@@ -33,6 +33,12 @@ const ShoppingBagIcon = ({ withLink, WihtLinkView, WithoutLinkView }) => {
         }
     }
     const getQty = getCountCart(cartId);
+
+    // remove cart id if invalid
+    // remove cart id if invalid
+    if (!getQty.loading && (!getQty.data || getQty.error)) {
+        removeCartId();
+    }
     const { data, client } = useQuery(localTotalCart);
     React.useEffect(() => {
         if (!getQty.loading && getQty.data) {

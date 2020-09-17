@@ -20,7 +20,7 @@ export default ({
             Cookies.remove(custDataNameCookie);
             removeIsLoginFlagging();
             removeCartId();
-            client.watchQuery({ query: localTotalCart, data: { totalCart: 0 } });
+            client.writeQuery({ query: localTotalCart, data: { totalCart: 0 } });
             Router.push('/customer/account/login');
         }).catch(() => {
             //

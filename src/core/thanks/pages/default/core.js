@@ -18,9 +18,6 @@ const PageStoreCredit = (props) => {
         pageType: 'purchase',
         ...pageConfig,
     };
-    let ordersFilter = {
-        data: [],
-    };
     const { data, loading, error } = getOrder(checkoutData);
 
     React.useEffect(() => {
@@ -73,28 +70,44 @@ const PageStoreCredit = (props) => {
         }
     }, []);
 
-    if (loading || !data) return <Skeleton />;
-    if (error) {
+    if (loading || !data) {
         return (
-            <ErrorInfo variant="error" text={debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')} />
+            <Layout t={t} {...other} pageConfig={config} storeConfig={storeConfig}>
+                <Skeleton />
+            </Layout>
         );
     }
-    if (data && data.ordersFilter) ordersFilter = data.ordersFilter;
+    if (error) {
+        return (
+            <Layout t={t} {...other} pageConfig={config} storeConfig={storeConfig}>
+                <ErrorInfo variant="error" text={debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')} />
+            </Layout>
+        );
+    }
     const handleCotinue = () => {
         const cdt = getCheckoutData();
         if (cdt) removeCheckoutData();
         Router.push('/');
     };
+    if (data && data.ordersFilter && data.ordersFilter.data.length > 0) {
+        const dateOrder = data.ordersFilter.data[0].created_at ? new Date(data.ordersFilter.data[0].created_at.replace(/-/g, '/')) : new Date();
+        return (
+            <Layout t={t} {...other} pageConfig={config} storeConfig={storeConfig}>
+                <Content
+                    {...other}
+                    t={t}
+                    handleCotinue={handleCotinue}
+                    ordersFilter={data.ordersFilter}
+                    checkoutData={checkoutData}
+                    storeConfig={storeConfig}
+                    dateOrder={dateOrder}
+                />
+            </Layout>
+        );
+    }
 
     return (
-        <Layout t={t} {...other} pageConfig={config} storeConfig={storeConfig}>
-            <Content
-                t={t}
-                handleCotinue={handleCotinue}
-                ordersFilter={ordersFilter}
-                checkoutData={checkoutData}
-            />
-        </Layout>
+        <ErrorInfo variant="warning" text={t('common:error:notFound')} />
     );
 };
 

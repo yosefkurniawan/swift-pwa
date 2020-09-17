@@ -118,7 +118,12 @@ const PaymentView = (props) => {
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
                                             <Typography letter="uppercase" variant="span" type="bold">
-                                                {item.group.replace('pg-', '')}
+                                                {
+                                                    (t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
+                                                        === `paymentGrouping.${item.group.replace('pg-', '')}`)
+                                                        ? item.group.replace('pg-', '')
+                                                        : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
+                                                }
                                             </Typography>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails>

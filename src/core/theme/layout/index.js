@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import { custDataNameCookie, features } from '@config';
 import { getHost } from '@helpers/config';
 import { breakPointsUp } from '@helpers/theme';
+import { BREAKPOINTS } from '@theme/vars';
 
 import PopupInstallAppMobile from '../components/custom-install-popup/mobile';
 
@@ -86,7 +87,7 @@ const Layout = (props) => {
     };
 
     if (!ogData['og:description']) {
-        ogData['og:description'] = storeConfig.default_description;
+        ogData['og:description'] = storeConfig.default_description || '';
     }
 
     if (features.facebookMetaId.enabled) {
@@ -113,15 +114,15 @@ const Layout = (props) => {
     const desktop = breakPointsUp('sm');
 
     // for checking layout
-    const sm = breakPointsUp('768');
-    const md = breakPointsUp('1024');
-    const lg = breakPointsUp('1250');
+    const sm = breakPointsUp(BREAKPOINTS.sm);
+    const md = breakPointsUp(BREAKPOINTS.md);
+    const lg = breakPointsUp(BREAKPOINTS.lg);
 
     const checkResolution = () => {
-        if (router.pathname !== '/checkout') {
-            if (lg) { return '170px'; }
-            if (md) { return '170px'; }
-            if (sm) { return '175px'; }
+        if (headerDesktop) {
+            if (lg) { return '175px'; }
+            if (md) { return '175px'; }
+            if (sm) { return '170px'; }
         }
         return 0;
     };
