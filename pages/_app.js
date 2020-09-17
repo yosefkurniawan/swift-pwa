@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-unused-vars */
@@ -14,7 +15,7 @@ import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import Cookie from 'js-cookie';
 import cookies from 'next-cookies';
 import {
-    expiredCokies, storeConfigNameCokie, GTM, custDataNameCookie,
+    expiredCokies, storeConfigNameCokie, GTM, custDataNameCookie, features,
 } from '@config';
 import {
     getLoginInfo,
@@ -26,6 +27,11 @@ import PageProgressLoader from '@common_loaders/PageProgress';
 import getConfig from 'next/config';
 import graphRequest from '../src/api/graphql/request';
 import routeMiddleware from '../src/middlewares/route';
+
+// sementara di comment dlu sampa nanti di gunakan
+// import Notification from '../src/lib/firebase/notification';
+// import firebase from '../src/lib/firebase/index';
+
 import '../src/styles/index.css';
 import '../src/styles/mediaquery.css';
 import '../src/styles/flexboxgrid.min.css';
@@ -83,6 +89,39 @@ class MyApp extends App {
     }
 
     componentDidMount() {
+        // sementara disabled dlu sampai nanti digunakan
+
+        // if (features.pushNotification.enabled) {
+        //     // initial firebase messaging
+        //     Notification.init();
+        //     // handle if have message on focus
+        //     try {
+        //         const messaging = firebase.messaging();
+        //         // Handle incoming messages. Called when:
+        //         // - a message is received while the app has focus
+        //         // - the user clicks on an app notification created by a service worker
+        //         //   `messaging.setBackgroundMessageHandler` handler.
+        //         messaging.onMessage((payload) => {
+        //             console.log(payload);
+        //             navigator.serviceWorker.ready.then((registration) => {
+        //                 registration.showNotification('HQQ Go ditemukan!', {
+        //                     body: payload.data.body,
+        //                     vibrate: [200, 100, 200, 100, 200, 100, 200],
+        //                     data: payload.notification,
+        //                     actions: [
+        //                         {
+        //                             action: 'open-event',
+        //                             title: 'Buka Event',
+        //                         },
+        //                     ],
+        //                 });
+        //             });
+        //         });
+        //     } catch (err) {
+        //         console.log(err);
+        //     }
+        // }
+
         // lazy load fonts. use this to load non critical fonts
         // Fonts();
         // Remove the server-side injected CSS.
