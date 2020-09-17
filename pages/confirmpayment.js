@@ -1,3 +1,3 @@
-import Page from '@core/confirmpayment/pages/default';
+import Page from '@core_modules/confirmpayment/pages/default';
 
 export default Page;

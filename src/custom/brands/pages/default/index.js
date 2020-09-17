@@ -1,10 +1,10 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib/apollo';
-import Brand from '@core/brands/pages/default/core';
+import Brand from '@core_modules/brands/pages/default/core';
 
 // your custom components import
 
-import Skeleton from '@core/brands/pages/default/components/skeleton';
+import Skeleton from '@core_modules/brands/pages/default/components/skeleton';
 
 // sample overide function
 import generateAllData from '../../helpers/generateAllData';

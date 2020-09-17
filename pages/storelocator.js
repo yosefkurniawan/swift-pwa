@@ -1,3 +1,3 @@
-import Page from '@core/storelocator/pages/default';
+import Page from '@core_modules/storelocator/pages/default';
 
 export default Page;

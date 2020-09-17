@@ -1,3 +1,3 @@
-import Page from '@core/register/pages/default';
+import Page from '@core_modules/register/pages/default';
 
 export default Page;

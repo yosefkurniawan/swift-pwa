@@ -1,3 +1,3 @@
-import Page from '@core/error/pages/default';
+import Page from '@core_modules/error/pages/default';
 
 export default Page;

@@ -1,3 +1,3 @@
-import Page from '@core/storecredit/pages/default';
+import Page from '@core_modules/storecredit/pages/default';
 
 export default Page;

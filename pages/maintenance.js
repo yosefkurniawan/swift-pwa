@@ -1,3 +1,3 @@
-import Page from '@core/maintenance/pages/default';
+import Page from '@core_modules/maintenance/pages/default';
 
 export default Page;
