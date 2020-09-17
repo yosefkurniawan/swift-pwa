@@ -4,6 +4,10 @@ import { Centering, CreateMargin } from '@theme/mixins';
 export default makeStyles((theme) => ({
     containerItemBlog: {
         padding: 15,
+        width: '79%',
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+        },
     },
     itemTitle: {
         fontSize: 20,
@@ -20,19 +24,18 @@ export default makeStyles((theme) => ({
     },
     imageBlogContainer: {
         width: '100%',
-        height: 320,
+        height: 'auto',
         ...CreateMargin(10, 0, 10, 0),
         [theme.breakpoints.down('xs')]: {
             ...Centering,
         },
         [theme.breakpoints.up('xs')]: {
-            maxHeight: 320,
+            maxHeight: 'auto',
         },
     },
     imageBlog: {
-        width: 'auto',
+        width: '100%',
         height: 'auto',
-        maxHeight: 320,
     },
     shareBottom: {
         display: 'flex',
@@ -40,5 +43,16 @@ export default makeStyles((theme) => ({
         marginBottom: 30,
         alignItems: 'center',
         marginTop: 30,
+    },
+    btnRead: {
+        textAlign: 'left',
+    },
+    content: {
+        fontSize: 12,
+        '& img': {
+            width: '100%',
+            height: 'auto',
+        },
+        paddingBottom: 20,
     },
 }));

@@ -178,6 +178,7 @@ const modules = {
                 href: '/blog',
             },
         },
+        featuredImage: true,
     },
     brands: {
         enabled: true,
