@@ -1,15 +1,15 @@
 {
-    "new": "new return for order ",
-    "product": "Products to return",
-    "selectAll": "Select All",
-    "deselectAll" : "Deselect All",
-    "history" : "My Return",
+    "new": "New returns for order ",
+    "product": "Product to returns",
+    "selectAll": "Select all",
+    "deselectAll" : "Deselect all",
+    "history" : "My returns",
     "form": {
-        "submit": "Submit Request",
-        "addSuccess": "New Request Rma has been sent successfully",
-        "addFailed": "New Request Rma failed to sent",
-        "updateSuccess": "Update Rma has been sent successfully",
-        "updateFailed": "Update Rma failed to sent",
+        "submit": "Submit request",
+        "addSuccess": "New request returns has been sent successfully",
+        "addFailed": "New request returns failed to sent",
+        "updateSuccess": "Update returns has been sent successfully",
+        "updateFailed": "Update returns failed to sent",
         "required": "This field is required",
         "itemNull": "Item order must be select minimun 1 item product",
         "label": {
@@ -26,34 +26,34 @@
     },
     "table": {
         "orderId": "Order ID",
-        "returnId" : "Return ID",
+        "returnId" : "Returns ID",
         "products": "Product(s)",
         "createdAt": "Crated At",
         "updatedAt": "Updated At",
-        "view": "View Detail"
+        "view": "View detail"
     },
     "empty": "Your not have returns request",
     "view": {
-        "label": "Manage RMA request ",
-        "packageCondition": "Package Condition",
-        "orderDate": "Order Date",
-        "myAddress": "My Address",
-        "updateButton": "Update Request",
-        "cancelButton": "Cancel Request",
-        "successUpdate": "Return has beed updated succesfully",
-        "failedUpdate": "Return update failed",
-        "confirmShipping": "Confirm Shipping and Update Request",
+        "label": "Manage returns request ",
+        "packageCondition": "Package condition",
+        "orderDate": "Order date",
+        "myAddress": "My address",
+        "updateButton": "Update request",
+        "cancelButton": "Cancel request",
+        "successUpdate": "Returns has beed updated succesfully",
+        "failedUpdate": "Returns update failed",
+        "confirmShipping": "Confirm shipping and update request",
         "cancelRequest": "Are you sure want to cancel this request?",
         "successCancel": "Request has been canceled successfully",
         "failedCancel": "Failed on canceling request",
-        "printLabel": "Print Label",
-        "confrimShipping": "Having clicked 'Yes', \n you won't be able to cancel RMA or make any changes. Please ensure that: <ol> <li>You have included the RMA Label inside the package </li> <li>You have sent the package to the RMA department</li> </ol> "
+        "printLabel": "Print label",
+        "confrimShipping": "Having clicked 'Yes', \n you won't be able to cancel returns or make any changes. Please ensure that: <ol> <li>You have included the returns Label inside the package </li> <li>You have sent the package to the retuns department</li> </ol> "
     },
-    "otherRequestRma": "Other return request for this product",
-    "noItemReturn": "No items to return",
+    "otherRequestRma": "Other returns request for this product",
+    "noItemReturn": "No items to returns",
     "error": {
-        "notFound" : "Contents Data not found",
-        "fetch": "Error during fetch data or connections, try again later"
+        "notFound" : "Content data not found",
+        "fetch": "Error during fetch data or connection, try again later"
     },
-    "loadMore": "Load More"
+    "loadMore": "Load more"
 }
