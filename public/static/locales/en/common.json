@@ -64,7 +64,8 @@
         "price": "Price",
         "shortQty": "Qty",
         "action": "Action",
-        "extraFee": "Extra Fee"
+        "extraFee": "Extra Fee",
+        "relatedProduct": "Related products"
     },
     "error": {
         "notFound": "Data not found",
