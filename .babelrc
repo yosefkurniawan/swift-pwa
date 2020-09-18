@@ -14,12 +14,16 @@
                     "@core": "./core",
                     "@core_modules": "./core/modules",
                     "@custom": "./src/custom",
-                    "@i18n": "./src/lib/i18n",
                     "@helpers": "./core/helpers",
                     "@services": "./core/services",
                     "@config" : "./swift.config.js",
-                    "@lib": "./src/lib",
                     // core
+                    // library
+                    "@lib": "./core/lib",
+                    "@lib_apollo": "./core/lib/apollo",
+                    "@lib_gtag": "./core/lib/gtag",
+                    "@lib_firebase": "./core/lib/firebase",
+                    "@i18n": "./core/lib/i18n",
                     // layout
                     "@layout" : "./core/modules/theme/layout",
                     // theme

@@ -16,7 +16,7 @@ const nextI18NextMiddleware = require('next-i18next/middleware').default;
 const { mergeSchemas } = require('graphql-tools');
 
 const LRUCache = require('lru-cache');
-const nextI18next = require('./src/lib/i18n');
+const nextI18next = require('./core/lib/i18n');
 const fetcher = require('./core/api/graphql');
 const resolver = require('./core/api/graphql/resolver/index');
 const { AuthSchema } = require('./core/api/graphql/schema/index');

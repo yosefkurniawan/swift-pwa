@@ -29,8 +29,8 @@ import graphRequest from '../core/api/graphql/request';
 import routeMiddleware from '../src/middlewares/route';
 
 // sementara di comment dlu sampa nanti di gunakan
-// import Notification from '../src/lib/firebase/notification';
-// import firebase from '../src/lib/firebase/index';
+// import Notification from '@lib_firebase/notification';
+// import firebase from '@lib_firebase/index';
 
 import '../core/styles/index.css';
 import '../core/styles/mediaquery.css';
