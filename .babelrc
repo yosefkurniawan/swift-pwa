@@ -18,6 +18,13 @@
                     "@services": "./core/services",
                     "@config" : "./swift.config.js",
                     // core
+                    // next custom
+                    "@next_headcustom": "./core/nextjs_custom/HeadCustom",
+                    "@next_nextscriptcustom": "./core/nextjs_custom/NextScriptCustom",
+                    // middleware
+                    "@middleware_route": "./core/middlewares/route",
+                    // api
+                    "@graphql_request" : "./core/api/graphql/request",
                     // library
                     "@lib": "./core/lib",
                     "@lib_apollo": "./core/lib/apollo",

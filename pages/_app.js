@@ -25,8 +25,8 @@ import {
 import TagManager from 'react-gtm-module';
 import PageProgressLoader from '@common_loaders/PageProgress';
 import getConfig from 'next/config';
-import graphRequest from '../core/api/graphql/request';
-import routeMiddleware from '../src/middlewares/route';
+import routeMiddleware from '@middleware_route';
+import graphRequest from '@graphql_request';
 
 // sementara di comment dlu sampa nanti di gunakan
 // import Notification from '@lib_firebase/notification';
