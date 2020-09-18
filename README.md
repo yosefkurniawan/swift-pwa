@@ -4,6 +4,17 @@ Demo: [https://pwa.getswift.asia/](https://pwa.getswift.asia/)
 
 ## Installation
 
+if you need to run on your local, in firstime you need to build static assets with command line
+
+```bash
+npm run assets:build
+# or
+yarn assets:build
+
+```
+
+only in firstime if no change code on static assets
+
 ### Without Docker
 1. run dev mode on local environment:
 ```bash
@@ -34,6 +45,7 @@ or, rebuild and run in one step:
 ```
 docker-compose -f ./docker/local/docker-compose.yml up -- build
 ```
+
 
 #### Dev environment (prod mode): 
 1. build: `docker-compose -f ./docker/dev/docker-compose.yml build`
@@ -68,7 +80,7 @@ const graphqlEndpoint = {
 };
 ```
 
-# Core modules
+## Core modules
 - [Blog](core/modules/blog/readme.md) 
 - [Brands](core/modules/brands/readme.md) 
 - [Cart](core/modules/cart/readme.md) 
@@ -95,3 +107,6 @@ const graphqlEndpoint = {
 - [Thanks](core/modules/thanks/readme.md) 
 - [Tracking Order](core/modules/trackingorder/readme.md) 
 - [Common components](core/modules/commons/readme.md)
+
+## [Helpers](core/helpers/readme.md) 
+## [Libraries](core/lib/readme.md) 

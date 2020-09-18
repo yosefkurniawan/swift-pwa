@@ -15,12 +15,20 @@
                     "@core_modules": "./core/modules",
                     "@custom": "./src/custom",
                     "@i18n": "./src/lib/i18n",
-                    "@theme": "./src/theme",
-                    "@helpers": "./src/helpers",
-                    "@services": "./src/services",
+                    "@helpers": "./core/helpers",
+                    "@services": "./core/services",
                     "@config" : "./swift.config.js",
                     "@lib": "./src/lib",
+                    // core
+                    // layout
                     "@layout" : "./core/modules/theme/layout",
+                    // theme
+                    "@theme": "./core/theme",
+                    "@theme_color": "./core/theme/colors",
+                    "@theme_mixins": "./core/theme/mixins",
+                    "@theme_theme": "./core/theme/theme",
+                    "@theme_typography": "./core/theme/typography",
+                    "@theme_vars": "./core/theme/vars",
                     // helper
                     "@helper_auth": "./core/helpers/auth",
                     "@helper_cartid": "./core/helpers/cartId",

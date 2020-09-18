@@ -1,4 +1,4 @@
-const { encrypt, decrypt } = require('../../../../core/helpers/encryption');
+const { encrypt, decrypt } = require('../../../helpers/encryption');
 
 const decryptState = (state) => {
     const raw = decrypt(state);

@@ -40,7 +40,6 @@ export const FONT_REGULAR = {
     fontWeight: 'reguler',
 };
 
-
 export const textAlign = (align = 'left') => ({
     textAlign: align,
 });
