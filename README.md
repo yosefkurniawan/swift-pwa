@@ -110,3 +110,4 @@ const graphqlEndpoint = {
 
 ## [Helpers](core/helpers/readme.md) 
 ## [Libraries](core/lib/readme.md) 
+## [Public](core/public/readme.md) 
