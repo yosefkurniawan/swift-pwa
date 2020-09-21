@@ -7,6 +7,15 @@ Demo: [https://pwa.getswift.asia/](https://pwa.getswift.asia/)
 if you need to run on your local, in firstime you need to build static assets with command line
 
 ```bash
+yarn install
+# or
+npm install
+```
+
+then
+
+
+```bash
 npm run assets:build
 # or
 yarn assets:build
