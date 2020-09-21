@@ -3,10 +3,10 @@
 import React from 'react';
 import Document, { Html, Main } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/core/styles';
-import theme from '@theme/theme';
+import theme from '@theme_theme';
 import { features } from '@config';
-import HeadCustom from '../src/nextjs_custom/HeadCustom';
-import NextScriptCustom from '../src/nextjs_custom/NextScriptCustom';
+import HeadCustom from '@next_headcustom';
+import NextScriptCustom from '@next_nextscriptcustom';
 
 export default class MyDocument extends Document {
     render() {

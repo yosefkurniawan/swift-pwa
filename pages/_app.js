@@ -9,7 +9,7 @@ import React from 'react';
 import App from 'next/app';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import theme from '@theme/theme';
+import theme from '@theme_theme';
 import { appWithTranslation } from '@i18n';
 import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import Cookie from 'js-cookie';
@@ -20,21 +20,21 @@ import {
 import {
     getLoginInfo,
     getLastPathWithoutLogin,
-} from '@helpers/auth';
-// import Fonts from '@helpers/fonts';
+} from '@helper_auth';
+// import Fonts from '@helper_fonts';
 import TagManager from 'react-gtm-module';
 import PageProgressLoader from '@common_loaders/PageProgress';
 import getConfig from 'next/config';
-import graphRequest from '../src/api/graphql/request';
-import routeMiddleware from '../src/middlewares/route';
+import routeMiddleware from '@middleware_route';
+import graphRequest from '@graphql_request';
 
 // sementara di comment dlu sampa nanti di gunakan
-// import Notification from '../src/lib/firebase/notification';
-// import firebase from '../src/lib/firebase/index';
+// import Notification from '@lib_firebase/notification';
+// import firebase from '@lib_firebase/index';
 
-import '../src/styles/index.css';
-import '../src/styles/mediaquery.css';
-import '../src/styles/flexboxgrid.min.css';
+import '../core/styles/index.css';
+import '../core/styles/mediaquery.css';
+import '../core/styles/flexboxgrid.min.css';
 
 const { publicRuntimeConfig } = getConfig();
 

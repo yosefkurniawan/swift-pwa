@@ -16,10 +16,10 @@ const nextI18NextMiddleware = require('next-i18next/middleware').default;
 const { mergeSchemas } = require('graphql-tools');
 
 const LRUCache = require('lru-cache');
-const nextI18next = require('./src/lib/i18n');
-const fetcher = require('./src/api/graphql');
-const resolver = require('./src/api/graphql/resolver/index');
-const { AuthSchema } = require('./src/api/graphql/schema/index');
+const nextI18next = require('./core/lib/i18n');
+const fetcher = require('./core/api/graphql');
+const resolver = require('./core/api/graphql/resolver/index');
+const { AuthSchema } = require('./core/api/graphql/schema/index');
 
 const { json } = express;
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
@@ -29,9 +29,9 @@ const {
     expiredToken, nossrCache, features,
 } = require('./swift.config');
 const { SESSION_SECRET } = require('./swift-server.config');
-const generateXml = require('./src/api/rest/xml');
-const captchaValidation = require('./src/api/rest/captcha');
-const firebaseValidation = require('./src/api/rest/firebase-cloud-messaging');
+const generateXml = require('./core/api/rest/xml');
+const captchaValidation = require('./core/api/rest/captcha');
+const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');
 
 // This is where we cache our rendered HTML pages
 const ssrCache = new LRUCache({

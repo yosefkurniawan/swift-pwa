@@ -65,8 +65,8 @@ import Skeleton from '@core_modules/thanks/pages/default/components/Skeleton';
 ```node
 
 import { withTranslation } from '@i18n';
-import { withApollo } from '@lib/apollo';
-import { getCheckoutDataFromRequest } from '@helpers/cookies';
+import { withApollo } from '@lib_apollo';
+import { getCheckoutDataFromRequest } from '@helper_cookies';
 import redirect from 'next-redirect';
 import Core from './core';
 import Skeleton from './components/Loader';

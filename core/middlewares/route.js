@@ -6,7 +6,7 @@
 import {
     setLastPathWithoutLogin,
     removeLastPathWithoutLogin,
-} from '@helpers/auth';
+} from '@helper_auth';
 import Router from 'next/router';
 
 import { modules } from '@config';

@@ -7,7 +7,7 @@ import {
     FONT_14,
     FONT_16,
     FONT_24,
-} from '@theme/typography';
+} from '@theme_typography';
 import {
     PRIMARY, RED, GREEN, ORANGE, WHITE, GRAY_SECONDARY,
 } from '@theme/colors';
