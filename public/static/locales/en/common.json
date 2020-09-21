@@ -55,8 +55,8 @@
         "qty": "Quantity",
         "color": "Color",
         "size": "Size",
-        "shortFilter": "Shorting & Filter",
-        "short": "Short By",
+        "shortFilter": "Sort & Filter",
+        "short": "Sort By",
         "search": "Search ...",
         "brand": "Brand",
         "category": "Category",
@@ -64,7 +64,8 @@
         "price": "Price",
         "shortQty": "Qty",
         "action": "Action",
-        "extraFee": "Extra Fee"
+        "extraFee": "Extra Fee",
+        "relatedProduct": "Related products"
     },
     "error": {
         "notFound": "Data not found",
