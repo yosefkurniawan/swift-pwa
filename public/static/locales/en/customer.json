@@ -36,7 +36,8 @@
     "state" : "State",
     "postcode" : "Zip/Postal code",
     "phone" : "Phone number",
-    "emptyMessage" : "You haven't added an address"
+    "emptyMessage" : "You haven't added an address",
+    "emptyPinPointMessage" : "Selected address does not have pin point. Please set it for possibility of using Instant Delivery Courier."
   },
   "menu": {
     "aboutUs": "About us",
