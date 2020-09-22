@@ -83,7 +83,7 @@ const recaptcha = {
 };
 
 const sentry = {
-    enabled: true,
+    enabled: false,
     enableMode: 'production',
     dsn: {
         local: 'https://9700d1051b5b4e13a450411af92303e2@o451158.ingest.sentry.io/5436645',
