@@ -89,7 +89,8 @@ const graphqlEndpoint = {
 };
 ```
 
-## Core modules
+## Core 
+### Modules
 - [Blog](core/modules/blog/readme.md) 
 - [Brands](core/modules/brands/readme.md) 
 - [Cart](core/modules/cart/readme.md) 
@@ -115,8 +116,9 @@ const graphqlEndpoint = {
 - [Store Credit](core/modules/storecredit/readme.md) 
 - [Thanks](core/modules/thanks/readme.md) 
 - [Tracking Order](core/modules/trackingorder/readme.md) 
+- [Store Locator](core/modules/storelocator/readme.md) 
 - [Common components](core/modules/commons/readme.md)
 
-## [Helpers](core/helpers/readme.md) 
-## [Libraries](core/lib/readme.md) 
-## [Public](core/public/readme.md) 
+### [Helpers](core/helpers/readme.md) 
+### [Libraries](core/lib/readme.md) 
+### [Public](core/public/readme.md) 
