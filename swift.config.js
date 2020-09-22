@@ -82,6 +82,17 @@ const recaptcha = {
     },
 };
 
+const sentry = {
+    enabled: false,
+    enableMode: 'production',
+    dsn: {
+        local: '',
+        dev: '',
+        stage: '',
+        prod: '',
+    },
+};
+
 /* List Of CMS Pages: [url-1, url-2, ..., url-n] */
 const cmsPages = ['about-us', 'aw-reward-points', 'privacy-policy-cookie-restriction-mode'];
 
@@ -356,6 +367,7 @@ const debuging = {
 };
 
 module.exports = {
+    sentry,
     debuging,
     GTM,
     HOST,
