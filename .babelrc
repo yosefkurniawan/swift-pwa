@@ -13,6 +13,7 @@
                     "@root": "./",
                     "@core": "./core",
                     "@core_modules": "./core/modules",
+                    "@core_minicart" : "./core/modules/cart/plugin/mini",
                     "@custom": "./src/custom",
                     "@helpers": "./core/helpers",
                     "@services": "./core/services",
