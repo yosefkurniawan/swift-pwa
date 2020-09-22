@@ -200,6 +200,15 @@ const modules = {
     catalog: {
         enabled: true,
         productListing: {
+            label: {
+                enabled: true,
+                new: {
+                    enabled: true,
+                },
+                sale: {
+                    enabled: true,
+                },
+            },
             configurableOptions: {
                 enabled: true,
             },
