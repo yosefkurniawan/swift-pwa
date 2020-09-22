@@ -83,13 +83,13 @@ const recaptcha = {
 };
 
 const sentry = {
-    enabled: false,
-    enableMode: 'production',
+    enabled: true,
+    enableMode: 'productions',
     dsn: {
-        local: '',
-        dev: '',
-        stage: '',
-        prod: '',
+        local: 'https://9700d1051b5b4e13a450411af92303e2@o451158.ingest.sentry.io/5436645',
+        dev: 'https://9700d1051b5b4e13a450411af92303e2@o451158.ingest.sentry.io/5436645',
+        stage: 'https://9700d1051b5b4e13a450411af92303e2@o451158.ingest.sentry.io/5436645',
+        prod: 'https://9700d1051b5b4e13a450411af92303e2@o451158.ingest.sentry.io/5436645',
     },
 };
 
