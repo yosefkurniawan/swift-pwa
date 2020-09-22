@@ -100,7 +100,7 @@
                     "@common_headerdesktop": "./core/modules/theme/components/header/desktop",
                     "@common_bottomnavigation": "./core/modules/theme/components/bottom-navigation/mobile",
                     "@common_footer": "./core/modules/theme/components/footer/desktop",
-                    "@common_label": "./core/modules/commons/SalesNewLabel"
+                    "@common_productlabel": "./core/modules/commons/ProductLabel"
                 }
             }
         ]
