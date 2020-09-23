@@ -82,6 +82,17 @@ const recaptcha = {
     },
 };
 
+const sentry = {
+    enabled: false,
+    enableMode: 'production',
+    dsn: {
+        local: 'https://9700d1051b5b4e13a450411af92303e2@o451158.ingest.sentry.io/5436645',
+        dev: 'https://9700d1051b5b4e13a450411af92303e2@o451158.ingest.sentry.io/5436645',
+        stage: 'https://9700d1051b5b4e13a450411af92303e2@o451158.ingest.sentry.io/5436645',
+        prod: 'https://9700d1051b5b4e13a450411af92303e2@o451158.ingest.sentry.io/5436645',
+    },
+};
+
 /* List Of CMS Pages: [url-1, url-2, ..., url-n] */
 const cmsPages = ['about-us', 'aw-reward-points', 'privacy-policy-cookie-restriction-mode'];
 
@@ -200,6 +211,15 @@ const modules = {
     catalog: {
         enabled: true,
         productListing: {
+            label: {
+                enabled: true,
+                new: {
+                    enabled: true,
+                },
+                sale: {
+                    enabled: true,
+                },
+            },
             configurableOptions: {
                 enabled: true,
             },
@@ -347,6 +367,7 @@ const debuging = {
 };
 
 module.exports = {
+    sentry,
     debuging,
     GTM,
     HOST,

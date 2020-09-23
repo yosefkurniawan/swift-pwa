@@ -15,6 +15,7 @@
                     "@core_modules": "./core/modules",
                     "@core_minicart" : "./core/modules/cart/plugin/mini",
                     "@custom": "./src/custom",
+                    "@middlewares": "./core/middlewares",
                     "@helpers": "./core/helpers",
                     "@services": "./core/services",
                     "@config" : "./swift.config.js",
@@ -100,7 +101,8 @@
                     "@common_headermobile": "./core/modules/theme/components/header/mobile",
                     "@common_headerdesktop": "./core/modules/theme/components/header/desktop",
                     "@common_bottomnavigation": "./core/modules/theme/components/bottom-navigation/mobile",
-                    "@common_footer": "./core/modules/theme/components/footer/desktop"
+                    "@common_footer": "./core/modules/theme/components/footer/desktop",
+                    "@common_productlabel": "./core/modules/commons/ProductLabel"
                 }
             }
         ]
