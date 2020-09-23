@@ -227,6 +227,11 @@ const modules = {
                 enabled: true,
             },
         },
+        pdp: {
+            popupDetailImage: {
+                enabled: true,
+            },
+        },
     },
     confirmpayment: {
         enabled: true,
