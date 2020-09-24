@@ -115,8 +115,8 @@ const loaderImage = '/assets/img/loader.svg';
 /* LOCAD DATA CACHE & COKIES
 /* --------------------------------------- */
 
-const expiredCokies = 6;
-const storeConfigNameCokie = 'storeConfig';
+const expiredCookies = 6;
+const storeConfigNameCookie = 'storeConfig';
 const nameCartId = 'nci';
 const custDataNameCookie = 'cdt';
 const nameCheckoutCookie = 'ccdt';
@@ -380,8 +380,8 @@ module.exports = {
     shareIcon,
     passwordStrength,
     languagesLabel,
-    expiredCokies,
-    storeConfigNameCokie,
+    expiredCookies,
+    storeConfigNameCookie,
     nameCartId,
     nameToken,
     expiredToken,
