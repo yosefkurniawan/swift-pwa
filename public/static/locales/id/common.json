@@ -37,7 +37,12 @@
     },
     "cart" : {
         "myCart": "Cart Saya",
-        "cardTotal": "Cart Subtotal"
+        "cardTotal": "Cart Subtotal",
+        "deleteSuccess": "Hapus item cart berhasil",
+        "deleteFailed": "Hapus item cart gagal",
+        "updateSuccess": "Update item cart berhasil",
+        "updateFailed": "Update item cart gagal",
+        "emptyCart": "ANDA TIDAK MEMILIKI ITEM DI KERANJANG BELANJA ANDA."
     },
     "subtotal": "Subtotal",
     "price": {
@@ -71,9 +76,7 @@
         "shortQty": "Jml",
         "action": "Aksi",
         "extraFee": "Biaya Tambahan",
-        "relatedProduct": "Relasi Produk",
-        "sale": "Diskon",
-        "new": "Baru"
+        "relatedProduct": "Relasi Produk"
     },
     "error": {
         "notFound" : "Data tidak di temukan",

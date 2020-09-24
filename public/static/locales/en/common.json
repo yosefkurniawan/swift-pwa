@@ -39,7 +39,12 @@
     },
     "cart": {
         "myCart": "My Cart",
-        "cardTotal": "Cart Subtotal"
+        "cardTotal": "Cart Subtotal",
+        "deleteSuccess": "Delete cart item success",
+        "deleteFailed": "Delete cart item failed",
+        "updateSuccess": "Update cart item success",
+        "updateFailed": "Update cart item failed",
+        "emptyCart": "YOU HAVE NO ITEMS IN YOUR SHOPPING CART."
     },
     "subtotal": "Subtotal",
     "price": {
@@ -72,9 +77,7 @@
         "shortQty": "Qty",
         "action": "Action",
         "extraFee": "Extra Fee",
-        "relatedProduct": "Related products",
-        "sale": "Sale",
-        "new": "New"
+        "relatedProduct": "Related products"
     },
     "error": {
         "notFound": "Data not found",
