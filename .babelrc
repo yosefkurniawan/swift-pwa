@@ -13,11 +13,12 @@
                     "@root": "./",
                     "@core": "./core",
                     "@core_modules": "./core/modules",
+                    "@core_minicart" : "./core/modules/cart/plugin/mini",
+                    "@custom": "./src/custom",
                     "@middlewares": "./core/middlewares",
                     "@helpers": "./core/helpers",
                     "@services": "./core/services",
                     "@config" : "./swift.config.js",
-                    "@custom": "./src",
                     // core
                     // next custom
                     "@next_headcustom": "./core/nextjs_custom/HeadCustom",
