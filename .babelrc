@@ -65,7 +65,7 @@
                     "@helper_zxcvbn": "./core/helpers/zxcvbn",
                     //commons components
                     "@common_button": "./core/modules/commons/Button",
-                    "@common_qty": "./core/modules/commons/ButtonQty",
+                    "@common_buttonqty": "./core/modules/commons/ButtonQty",
                     "@common_breadcrumb": "./core/modules/commons/Breadcrumb",
                     "@common_confirmdialog": "./core/modules/commons/ConfirmDialog",
                     "@common_dropfile": "./core/modules/commons/DropFile",
