@@ -3,6 +3,7 @@ import * as Schema from './schema';
 
 export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath));
 export const getConfigurableProduct = (sku) => useQuery(Schema.getConfigurableProduct(sku));
+export const getBundleProduct = (sku) => useQuery(Schema.getBundleProduct(sku));
 
 export const getReviews = (params) => useQuery(Schema.getReview(), {
     variables: {
@@ -24,6 +25,12 @@ export const addVirtualProductToCart = () => useMutation(Schema.addVirtualProduc
 });
 
 export const addConfigProductsToCart = () => useMutation(Schema.addConfigProductsToCart, {
+    context: {
+        request: 'internal',
+    },
+});
+
+export const addBundleProductsToCart = () => useMutation(Schema.addBundleProductsToCart, {
     context: {
         request: 'internal',
     },

@@ -135,4 +135,23 @@ export default makeStyles((theme) => ({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    customizeContainer: {
+        width: '100%',
+        height: 100,
+        backgroundColor: 'red',
+        visibility: 'hidden',
+        transition: 'top 1s ease',
+        opacity: '0',
+    },
+    customizeContainerOpen: {
+        visibility: 'visible',
+        transition: 'top 1s ease',
+        opacity: '1',
+    },
+    loadingCart: {
+        height: '100px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 }));

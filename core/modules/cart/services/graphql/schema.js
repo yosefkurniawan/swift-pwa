@@ -54,6 +54,17 @@ export const getCart = gql`
                   value_label
                 }
               }
+              ... on BundleCartItem {
+                bundle_options {
+                  label
+                  type
+                  values {
+                    label
+                    price
+                    quantity
+                  }
+                }
+              }
               prices {
                 discounts {
                   amount {
@@ -81,12 +92,12 @@ export const getCart = gql`
                   url
                   label
                 }
-                categories {
-                  name
-                }
                 url_key
                 sku
                 stock_status
+                categories {
+                  name
+                }
                 crosssell_products {
                   id
                   name
@@ -178,6 +189,17 @@ export const getMiniCart = gql`
                   value_label
                 }
               }
+              ... on BundleCartItem {
+                bundle_options {
+                  label
+                  type
+                  values {
+                    label
+                    price
+                    quantity
+                  }
+                }
+              }
               prices {
                 discounts {
                   amount {
@@ -205,66 +227,8 @@ export const getMiniCart = gql`
                   url
                   label
                 }
-                categories {
-                  name
-                }
                 url_key
                 sku
-                stock_status
-                crosssell_products {
-                  id
-                  name
-                  url_key
-                  sku
-                  thumbnail {
-                    url
-                  }
-                  small_image {
-                    url,
-                    label
-                  }
-                  price_tiers {
-                    discount {
-                      percent_off
-                      amount_off
-                    }
-                    final_price {
-                      currency
-                      value
-                    }
-                    quantity
-                  }
-                  price_range {
-                    maximum_price {
-                      discount {
-                        amount_off
-                        percent_off
-                      }
-                      final_price {
-                        currency
-                        value
-                      }
-                      regular_price {
-                        currency
-                        value
-                      }
-                    }
-                    minimum_price {
-                      discount {
-                        amount_off
-                        percent_off
-                      }
-                      final_price {
-                        currency
-                        value
-                      }
-                      regular_price {
-                        currency
-                        value
-                      }
-                    }
-                  }
-                }
               }
           }
         }

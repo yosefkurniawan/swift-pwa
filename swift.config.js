@@ -137,7 +137,7 @@ const features = {
         ConfigurableProduct: true,
         VirtualProduct: true,
         GroupedProduct: false,
-        BundleProduct: false,
+        BundleProduct: true,
         DownloadableProduct: false,
     },
     imageSize: {
