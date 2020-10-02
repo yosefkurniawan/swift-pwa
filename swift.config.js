@@ -132,6 +132,7 @@ const nameGlobalCookie = 'spwa';
 const nameToken = 'sk';
 const expiredToken = new Date(Date.now() + 1000 * 60 * 60);
 const expiredDefault = 365;
+const localResolverKey = 'resolver';
 
 const features = {
     ssrCache: true,
@@ -409,4 +410,5 @@ module.exports = {
     modules,
     installMessage,
     appName,
+    localResolverKey,
 };
