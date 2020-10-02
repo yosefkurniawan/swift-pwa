@@ -17,6 +17,14 @@ const graphqlEndpoint = {
     prod: 'https://b2cdemo.getswift.asia/graphql',
 };
 
+/* ipay88 url redirect for ovo payment */
+const IPAY_URL = {
+    local: 'https://swiftpwa-be.testingnow.me/ipayredirect/ipayredirect/?orderId=',
+    dev: 'https://swiftpwa-be.testingnow.me/ipayredirect/ipayredirect/?orderId=',
+    stage: 'https://swiftpwa-be.testingnow.me/ipayredirect/ipayredirect/?orderId=',
+    prod: 'https://b2cdemo.getswift.asia/ipayredirect/ipayredirect/?orderId=',
+};
+
 /* --------------------------------------- */
 /* FEATURES CONFIGURATION
 /* --------------------------------------- */
@@ -372,6 +380,7 @@ const debuging = {
 };
 
 module.exports = {
+    IPAY_URL,
     sentry,
     debuging,
     GTM,
