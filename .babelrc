@@ -63,6 +63,7 @@
                     "@helper_theme": "./core/helpers/theme",
                     "@helper_urlparser": "./core/helpers/urlParser",
                     "@helper_zxcvbn": "./core/helpers/zxcvbn",
+                    "@helper_localstorage": "./core/helpers/localstorage",
                     //commons components
                     "@common_button": "./core/modules/commons/Button",
                     "@common_buttonqty": "./core/modules/commons/ButtonQty",
