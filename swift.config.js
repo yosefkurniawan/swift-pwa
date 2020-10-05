@@ -372,6 +372,7 @@ const nossrCache = [
     '/checkout',
     '/checkout/cart',
     '/graphql',
+    '/checkout/onepage/success',
 ];
 
 const debuging = {
