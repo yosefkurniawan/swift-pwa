@@ -222,7 +222,7 @@ const modules = {
                 },
             },
             configurableOptions: {
-                enabled: true,
+                enabled: false,
             },
             rating: {
                 enabled: true,
