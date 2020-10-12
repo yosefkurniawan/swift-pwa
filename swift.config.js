@@ -212,7 +212,7 @@ const modules = {
     catalog: {
         enabled: true,
         productListing: {
-            desktopView: {
+            drawerFilterOnDesktop: {
                 enabled: false, // used if need to desktop view on large screen
             },
             label: {
