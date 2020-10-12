@@ -212,6 +212,9 @@ const modules = {
     catalog: {
         enabled: true,
         productListing: {
+            desktopView: {
+                enabled: false, // used if need to desktop view on large screen
+            },
             label: {
                 enabled: true,
                 new: {
