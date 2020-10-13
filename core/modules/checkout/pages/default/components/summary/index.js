@@ -5,7 +5,11 @@ import { setCheckoutData } from '@helper_cookies';
 import _ from 'lodash';
 import { localTotalCart } from '@services/graphql/schema/local';
 import SummaryPlugin from '@core_modules/cart/plugin/Summary';
+import { modules } from '@config';
+import getConfig from 'next/config';
 import gqlService from '../../../../services/graphql';
+
+const { publicRuntimeConfig } = getConfig();
 
 const Summary = ({
     t,
@@ -22,7 +26,6 @@ const Summary = ({
     const [orderId, setOrderId] = useState(null);
     const [snapOpened, setSnapOpened] = useState(false);
     const [snapClosed, setSnapClosed] = useState(false);
-    const [setGuestEmailAddressOnCart] = gqlService.setGuestEmailAddressOnCart(({ onError: () => {} }));
     const [getSnapToken, manageSnapToken] = gqlService.getSnapToken({ onError: () => {} });
     const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
     const [placeOrder] = gqlService.placeOrder({ onError: () => {} });
@@ -98,14 +101,6 @@ const Summary = ({
                     text: msg,
                 });
             } else {
-                if (isGuest) {
-                    result = await setGuestEmailAddressOnCart({ variables: { cartId: cart.id, email: formik.values.email } });
-
-                    if (!validateReponse(result, state)) {
-                        return;
-                    }
-                }
-
                 result = await placeOrder({ variables: { cartId: cart.id } });
 
                 state = { ...checkout };
@@ -128,6 +123,10 @@ const Summary = ({
                 if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {
                     setOrderId(orderNumber);
                     await getSnapToken({ variables: { orderId: orderNumber } });
+                } else if (checkout.data.cart.selected_payment_method.code.match(/ovo.*/)) {
+                    const env = typeof publicRuntimeConfig !== 'undefined' ? publicRuntimeConfig.appEnv : 'dev';
+                    const ipayUrl = modules.checkout.ipayUrl[env] || modules.checkout.ipayUrl.dev;
+                    window.location.href = ipayUrl + orderNumber;
                 } else {
                     handleOpenMessage({
                         variant: 'success',

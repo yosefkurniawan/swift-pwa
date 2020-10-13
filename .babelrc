@@ -63,6 +63,7 @@
                     "@helper_theme": "./core/helpers/theme",
                     "@helper_urlparser": "./core/helpers/urlParser",
                     "@helper_zxcvbn": "./core/helpers/zxcvbn",
+                    "@helper_localstorage": "./core/helpers/localstorage",
                     //commons components
                     "@common_button": "./core/modules/commons/Button",
                     "@common_buttonqty": "./core/modules/commons/ButtonQty",
@@ -102,7 +103,8 @@
                     "@common_headerdesktop": "./core/modules/theme/components/header/desktop",
                     "@common_bottomnavigation": "./core/modules/theme/components/bottom-navigation/mobile",
                     "@common_footer": "./core/modules/theme/components/footer/desktop",
-                    "@common_productlabel": "./core/modules/commons/ProductLabel"
+                    "@common_productlabel": "./core/modules/commons/ProductLabel",
+                    "@common_optionconfigurable": "./core/modules/commons/OptionConfigurable"
                 }
             }
         ]

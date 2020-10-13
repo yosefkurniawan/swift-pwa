@@ -124,6 +124,7 @@ const nameGlobalCookie = 'spwa';
 const nameToken = 'sk';
 const expiredToken = new Date(Date.now() + 1000 * 60 * 60);
 const expiredDefault = 365;
+const localResolverKey = 'resolver';
 
 const features = {
     ssrCache: true,
@@ -211,6 +212,9 @@ const modules = {
     catalog: {
         enabled: true,
         productListing: {
+            drawerFilterOnDesktop: {
+                enabled: false, // used if need to desktop view on large screen
+            },
             label: {
                 enabled: true,
                 new: {
@@ -221,7 +225,7 @@ const modules = {
                 },
             },
             configurableOptions: {
-                enabled: true,
+                enabled: false,
             },
             rating: {
                 enabled: true,
@@ -240,6 +244,12 @@ const modules = {
     checkout: {
         enabled: true,
         path: '/checkout',
+        ipayUrl: {
+            local: 'https://swiftpwa-be.testingnow.me/ipayredirect/ipayredirect/?orderId=',
+            dev: 'https://swiftpwa-be.testingnow.me/ipayredirect/ipayredirect/?orderId=',
+            stage: 'https://swiftpwa-be.testingnow.me/ipayredirect/ipayredirect/?orderId=',
+            prod: 'https://b2cdemo.getswift.asia/ipayredirect/ipayredirect/?orderId=',
+        },
         snapUrl: {
             dev: 'https://app.sandbox.midtrans.com/snap/snap.js',
             prod: 'https://app.midtrans.com/snap/snap.js',
@@ -365,6 +375,7 @@ const nossrCache = [
     '/checkout',
     '/checkout/cart',
     '/graphql',
+    '/checkout/onepage/success',
 ];
 
 const debuging = {
@@ -400,4 +411,5 @@ module.exports = {
     modules,
     installMessage,
     appName,
+    localResolverKey,
 };
