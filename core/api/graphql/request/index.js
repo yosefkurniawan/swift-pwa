@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-nested-ternary */
 const { GraphQLClient } = require('graphql-request');
-const { graphqlEndpoint } = require('../../../../swift.config');
+const { graphqlEndpoint } = require('@config');
 
 const { decrypt } = require('../../../helpers/encryption');
 

@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const {
     encryption: { key, algorithm },
-} = require('../../swift-server.config');
+} = require('@server_config');
 
 const iv = key.substr(0, 16);
 

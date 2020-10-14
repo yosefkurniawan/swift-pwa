@@ -1,5 +1,5 @@
 const qs = require('querystring');
-const { recaptcha } = require('../../../swift.config');
+const { recaptcha } = require('@config');
 
 module.exports = (req, res) => {
     const { response } = req.body;

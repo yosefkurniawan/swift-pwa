@@ -19,7 +19,7 @@ body.loading:after {
     transform: translateX(-50%) translateY(-50%);
     width: 60px;
     height: 60px;
-    background-image: url(../../public/assets/img/loader.svg);
+    background-image: url(assets/img/loader.svg);
     background-repeat: no-repeat;
     background-size: 100%;
     z-index: 9999;
@@ -136,16 +136,16 @@ a {
     display: block;
 }
 .cms-container .social-icon .icon-facebook:before {
-    background-image: url(../../public/assets/img/facebook.png);
+    background-image: url(assets/img/facebook.png);
 }
 .cms-container .social-icon .icon-twitter:before {
-    background-image: url(../../public/assets/img/twitter.png);
+    background-image: url(assets/img/twitter.png);
 }
 .cms-container .social-icon .icon-instagram:before {
-    background-image: url(../../public/assets/img/instagram.png);
+    background-image: url(assets/img/instagram.png);
 }
 .cms-container .social-icon .icon-pinterest:before {
-    background-image: url(../../public/assets/img/pinterest.png);
+    background-image: url(assets/img/pinterest.png);
 }
 .wrapper-brands .slick-track{
     display: flex;

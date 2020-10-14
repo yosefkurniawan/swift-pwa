@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-const { HOST, graphqlEndpoint } = require('../../swift.config');
+const { HOST, graphqlEndpoint } = require('@config');
 
 const getHost = () => {
     const globalHost = HOST[process.env.APP_ENV] || HOST.dev;

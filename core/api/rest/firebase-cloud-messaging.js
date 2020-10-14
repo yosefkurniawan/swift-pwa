@@ -1,4 +1,4 @@
-const { FCM_KEY_SERVER } = require('../../../swift-server.config');
+const { FCM_KEY_SERVER } = require('@server_config');
 
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-len */

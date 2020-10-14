@@ -3,7 +3,8 @@
 // Give the service worker access to Firebase Messaging.
 // Note that you can only use Firebase Messaging here, other Firebase libraries
 // are not available in the service worker.
-const { features } = require('../../swift.config');
+const path = require('path');
+const { features } = require(path.resolve(__dirname, '../../swift.config'));
 
 importScripts('https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/7.20.0/firebase-messaging.js');
