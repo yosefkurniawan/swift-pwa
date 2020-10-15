@@ -30,7 +30,9 @@
         "products": "Product(s)",
         "createdAt": "Crated At",
         "updatedAt": "Updated At",
-        "view": "View detail"
+        "view": "View detail",
+        "status": "Status",
+        "actions": "Action"
     },
     "empty": "Your not have returns request",
     "view": {
