@@ -36,7 +36,6 @@
     "@sentry/webpack-plugin": "^1.12.1",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-source-maps": "0.0.4-canary.1",
-    "add": "^2.0.6",
     "apollo-boost": "^0.4.7",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-link-http": "^1.5.16",
@@ -96,7 +95,6 @@
     "slick-carousel": "^1.8.1",
     "swiper": "^5.4.5",
     "webfontloader": "^1.6.28",
-    "yarn": "^1.22.10",
     "yup": "^0.28.3"
   },
   "devDependencies": {
