@@ -1,9 +1,11 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
 import { regexPhone } from '@helper_regex';
 import { useFormik } from 'formik';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
+import { groupingCity, groupingSubCity } from '@helpers/city';
 import { getCityByRegionId, getCountries as getAllCountries } from '../../services/graphql';
 
 const AddressFormDialog = (props) => {
@@ -43,6 +45,8 @@ const AddressFormDialog = (props) => {
             countries: null,
             region: null,
             city: null,
+            district: null,
+            village: null,
         },
         value: {
             country: { id: '', label: '' },
@@ -113,6 +117,8 @@ const AddressFormDialog = (props) => {
         country: Yup.string().nullable().required(t('validate:country:required')),
         region: Yup.string().nullable().required(t('validate:state:required')),
         city: Yup.string().nullable().required(t('validate:city:required')),
+        district: Yup.string().nullable().required('Kecamatan'),
+        village: Yup.string().nullable().required('Kelurahan'),
     });
 
     const formik = useFormik({
@@ -125,6 +131,8 @@ const AddressFormDialog = (props) => {
             country: '',
             region: '',
             city: '',
+            district: '',
+            village: '',
             postcode: postcode || '',
             maps: maps || '',
             defaultBilling: defaultBilling || false,
@@ -136,7 +144,7 @@ const AddressFormDialog = (props) => {
         onSubmit: async (values) => {
             const data = {
                 ...values,
-                city: _.isObject(values.city) ? values.city.label : values.city,
+                city: _.isObject(values.village) ? values.village.city : values.id,
                 countryCode: values.country.id,
                 region: _.isObject(values.region) ? values.region.code : values.region,
                 regionCode: _.isObject(values.region) ? values.region.code : null,
@@ -147,6 +155,10 @@ const AddressFormDialog = (props) => {
             };
 
             const type = addressId ? 'update' : 'add';
+
+            // remove split values
+            delete data.district;
+            delete data.village;
             if (onSubmitAddress) {
                 onSubmitAddress(data, type);
             }
@@ -202,13 +214,19 @@ const AddressFormDialog = (props) => {
         }
     }, [open]);
 
+    // set city and grouping
     useEffect(() => {
         if (responCities.data && !responCities.loading && !responCities.error) {
             const state = { ...addressState };
             const { data } = responCities;
             if (data.getCityByRegionId.item.length !== 0) {
-                state.dropdown.city = data.getCityByRegionId.item.map((item) => ({ ...item, id: item.id, label: item.city }));
+                state.dropdown.city = groupingCity(data.getCityByRegionId.item);
+                state.dropdown.district = null;
+                state.dropdown.village = null;
                 formik.setFieldValue('city', getCityByLabel(city, state.dropdown.city));
+                formik.setFieldValue('district', '');
+                formik.setFieldValue('village', '');
+                formik.setFieldValue('postcode', '');
             } else {
                 state.dropdown.city = null;
                 formik.setFieldValue('city', null);
@@ -221,6 +239,44 @@ const AddressFormDialog = (props) => {
             setAddressState(state);
         }
     }, [responCities]);
+
+    // get kecamatan if city change
+    React.useMemo(() => {
+        if (formik.values.city) {
+            const { data } = responCities;
+            const district = groupingSubCity(formik.values.city.label, 'district', data.getCityByRegionId.item);
+            const state = { ...addressState };
+            state.dropdown.district = district;
+            state.dropdown.village = null;
+
+            // reset village and district if change city
+            formik.setFieldValue('district', '');
+            formik.setFieldValue('village', '');
+            formik.setFieldValue('postcode', '');
+            setAddressState(state);
+        }
+    }, [formik.values.city]);
+
+    // get kelurahan if kecamatan change
+    React.useMemo(() => {
+        if (formik.values.district) {
+            const { data } = responCities;
+            const village = groupingSubCity(formik.values.district.label, 'village', data.getCityByRegionId.item);
+            const state = { ...addressState };
+            state.dropdown.village = village;
+
+            // reset village if district change
+            formik.setFieldValue('village', '');
+            formik.setFieldValue('postcode', '');
+            setAddressState(state);
+        }
+    }, [formik.values.district]);
+
+    React.useMemo(() => {
+        if (formik.values.village) {
+            formik.setFieldValue('postcode', formik.values.village.postcode);
+        }
+    }, [formik.values.village]);
 
     return (
         <Content

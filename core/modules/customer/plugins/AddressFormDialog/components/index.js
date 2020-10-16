@@ -154,6 +154,112 @@ const AddressView = (props) => {
         );
     };
 
+    const getDistrictRender = () => {
+        if (_.isArray(addressState.dropdown.district) && open) {
+            return (
+                <Autocomplete
+                    options={addressState.dropdown.district}
+                    getOptionLabel={(option) => (option.label ? option.label : '')}
+                    id="controlled-district"
+                    value={_.isEmpty(formik.values.district) ? null : formik.values.district}
+                    onChange={(event, newValue) => {
+                        formik.setFieldValue('district', newValue);
+                    }}
+                    renderInput={(params) => (
+                        <div
+                            style={{
+                                marginTop: '10px',
+                                marginBottom: '20px',
+                            }}
+                        >
+                            <TextField
+                                {...params}
+                                inputProps={{
+                                    ...params.inputProps,
+                                    autoComplete: 'no-autoComplete',
+                                }}
+                                name="district"
+                                label="Kecamatan"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                error={!!(formik.touched.district && formik.errors.district)}
+                            />
+                            <Typography variant="p" color={formik.touched.district && formik.errors.district ? 'red' : 'default'}>
+                                {formik.touched.district && formik.errors.district}
+                            </Typography>
+                        </div>
+                    )}
+                />
+            );
+        }
+
+        return (
+            <CustomTextField
+                autoComplete="no-autoComplete"
+                label="Kecamatan"
+                name="district"
+                value={formik.values.district || ''}
+                onChange={formik.handleChange}
+                error={!!(formik.touched.district && formik.errors.district)}
+                errorMessage={(formik.touched.district && formik.errors.district) || null}
+            />
+        );
+    };
+
+    const getVillageRender = () => {
+        if (_.isArray(addressState.dropdown.village) && open) {
+            return (
+                <Autocomplete
+                    options={addressState.dropdown.village}
+                    getOptionLabel={(option) => (option.label ? option.label : '')}
+                    id="controlled-village"
+                    value={_.isEmpty(formik.values.village) ? null : formik.values.village}
+                    onChange={(event, newValue) => {
+                        formik.setFieldValue('village', newValue);
+                    }}
+                    renderInput={(params) => (
+                        <div
+                            style={{
+                                marginTop: '10px',
+                                marginBottom: '20px',
+                            }}
+                        >
+                            <TextField
+                                {...params}
+                                inputProps={{
+                                    ...params.inputProps,
+                                    autoComplete: 'no-autoComplete',
+                                }}
+                                name="village"
+                                label="Kelurahan"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                error={!!(formik.touched.village && formik.errors.village)}
+                            />
+                            <Typography variant="p" color={formik.touched.village && formik.errors.village ? 'red' : 'default'}>
+                                {formik.touched.village && formik.errors.village}
+                            </Typography>
+                        </div>
+                    )}
+                />
+            );
+        }
+
+        return (
+            <CustomTextField
+                autoComplete="no-autoComplete"
+                label="Kelurahan"
+                name="village"
+                value={formik.values.village || ''}
+                onChange={formik.handleChange}
+                error={!!(formik.touched.village && formik.errors.village)}
+                errorMessage={(formik.touched.village && formik.errors.village) || null}
+            />
+        );
+    };
+
     return (
         <Dialog open={open} className={[styles.address_drawer].join(' ')} maxWidth="sm" fullWidth={!!isDesktop} fullScreen={!isDesktop}>
             <div className={styles.container}>
@@ -262,6 +368,8 @@ const AddressView = (props) => {
                         ) : null}
                         {getRegionRender()}
                         {getCityRender()}
+                        {getDistrictRender()}
+                        {getVillageRender()}
                         <CustomTextField
                             autoComplete="no-autoComplete"
                             label={t('common:form:postal')}
