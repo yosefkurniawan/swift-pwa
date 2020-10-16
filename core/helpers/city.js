@@ -18,6 +18,8 @@ export const groupingCity = (item) => {
                 label: collection[0],
                 name: collection[0],
                 id: element.id,
+                city: element.city,
+                postcode: element.postcode,
             };
         }
     }
