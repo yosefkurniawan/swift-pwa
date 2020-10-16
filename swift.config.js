@@ -269,6 +269,11 @@ const modules = {
     customer: {
         enabled: true,
         path: '/customer',
+        plugin: {
+            address: {
+                splitCity: true,
+            },
+        },
     },
     contact: {
         enabled: true,
