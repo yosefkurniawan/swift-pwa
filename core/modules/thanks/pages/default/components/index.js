@@ -1,6 +1,8 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import Button from '@common_button';
 import Typography from '@common_typography';
-import Link from 'next/link';
 import { formatPrice } from '@helper_currency';
 import formatDate from '@helper_date';
 import IconArrow from '@material-ui/icons/ArrowForwardIos';
@@ -10,6 +12,7 @@ import useStyles from './style';
 const View = (props) => {
     const {
         t, isLogin, checkoutData, handleCotinue, ordersFilter, storeConfig, dateOrder,
+        handleDetailOrder, handleConfirmPayment,
     } = props;
     const styles = useStyles();
     return (
@@ -26,11 +29,11 @@ const View = (props) => {
                 <Typography variant="span" className="clear-margin-padding" letter="none">
                     {`${t('thanks:yourOrderId')} : `}
                     {isLogin && isLogin === 1 ? (
-                        <Link href="/sales/order/view/order_id/[id]" as={`/sales/order/view/order_id/${checkoutData.order_number}`}>
-                            <a>
+                        <>
+                            <a onClick={handleDetailOrder} className={styles.link}>
                                 <b>{checkoutData.order_number}</b>
                             </a>
-                        </Link>
+                        </>
                     ) : <b>{checkoutData.order_number}</b>}
                 </Typography>
                 <Typography variant="span" className="clear-margin-padding" letter="none">
@@ -65,7 +68,7 @@ const View = (props) => {
                         ? (
                             <>
                                 <Button
-                                    href="/confirmpayment"
+                                    onClick={handleConfirmPayment}
                                     className={[styles.btnConfirmFirst].join(' ')}
                                     align="left"
                                 >
@@ -113,7 +116,10 @@ const View = (props) => {
                     (ordersFilter && ordersFilter.data[0].detail[0].payment.method === 'banktransfer')
                         ? (
                             <>
-                                <Button href="/confirmpayment" className={[styles.btnConfirm, styles.btnConfirmFirst].join(' ')}>
+                                <Button
+                                    onClick={handleConfirmPayment}
+                                    className={[styles.btnConfirm, styles.btnConfirmFirst].join(' ')}
+                                >
                                     <Typography
                                         variant="p"
                                         letter="uppercase"
