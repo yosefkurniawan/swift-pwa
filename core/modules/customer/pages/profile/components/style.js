@@ -3,6 +3,7 @@ import { CreatePadding, FlexColumn } from '@theme_mixins';
 
 export default makeStyles((theme) => ({
     container: {
+        width: '100%',
         ...FlexColumn,
         ...CreatePadding(0, 30, 30, 30),
         [theme.breakpoints.up('sm')]: {
