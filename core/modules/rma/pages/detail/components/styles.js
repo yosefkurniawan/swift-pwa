@@ -80,7 +80,6 @@ export default makeStyles((theme) => ({
         border: 'none',
         [theme.breakpoints.down('sm')]: {
             border: 'none',
-            padding: '1px 0',
         },
     },
     displayFlexRow: {
