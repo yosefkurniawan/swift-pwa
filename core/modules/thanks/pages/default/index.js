@@ -1,7 +1,7 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
 import { getCheckoutDataFromRequest } from '@helper_cookies';
-import redirect from 'next-redirect';
+import Router from 'next/router';
 import Core from './core';
 import Skeleton from './components/Loader';
 import Content from './components';
@@ -18,7 +18,14 @@ const Page = (props) => (
 
 Page.getInitialProps = async (ctx) => {
     const checkoutData = getCheckoutDataFromRequest(ctx);
-    if (!checkoutData) redirect(ctx, '/');
+    if (!checkoutData) {
+        if (ctx.res) {
+            ctx.res.statusCode = 302;
+            ctx.res.setHeader('Location', '/');
+            return { props: {}, namespacesRequired: ['common', 'thanks', 'home'] };
+        }
+        Router.push('/');
+    }
     return {
         query: ctx.query,
         checkoutData,
