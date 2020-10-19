@@ -20,6 +20,11 @@ const PageStoreCredit = (props) => {
     };
     const { data, loading, error } = getOrder(checkoutData);
 
+    if (typeof window !== 'undefined') {
+        const cdt = getCheckoutData();
+        if (!cdt) Router.push('/');
+    }
+
     React.useEffect(() => {
         if (data && data.ordersFilter && data.ordersFilter.data.length > 0) {
             let itemsProduct = [];
@@ -84,11 +89,27 @@ const PageStoreCredit = (props) => {
             </Layout>
         );
     }
-    const handleCotinue = () => {
+
+    const deleteCheckoutData = () => {
         const cdt = getCheckoutData();
         if (cdt) removeCheckoutData();
+    };
+
+    const handleCotinue = () => {
+        deleteCheckoutData();
         Router.push('/');
     };
+
+    const handleDetailOrder = () => {
+        deleteCheckoutData();
+        Router.push('/sales/order/view/order_id/[id]', `/sales/order/view/order_id/${checkoutData.order_number}`);
+    };
+
+    const handleConfirmPayment = () => {
+        deleteCheckoutData();
+        Router.push('/confirmpayment');
+    };
+
     if (data && data.ordersFilter && data.ordersFilter.data.length > 0) {
         const dateOrder = data.ordersFilter.data[0].created_at ? new Date(data.ordersFilter.data[0].created_at.replace(/-/g, '/')) : new Date();
         return (
@@ -101,6 +122,8 @@ const PageStoreCredit = (props) => {
                     checkoutData={checkoutData}
                     storeConfig={storeConfig}
                     dateOrder={dateOrder}
+                    handleDetailOrder={handleDetailOrder}
+                    handleConfirmPayment={handleConfirmPayment}
                 />
             </Layout>
         );

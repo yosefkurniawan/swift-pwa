@@ -121,6 +121,10 @@ export default makeStyles((theme) => ({
         justifyContent: 'space-arround',
     },
 
+    link: {
+        cursor: 'pointer',
+    },
+
     // media query
     '@media (max-width: 280px )': {
         container: {

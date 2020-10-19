@@ -212,6 +212,7 @@ const modules = {
     catalog: {
         enabled: true,
         productListing: {
+            pageSize: 10,
             drawerFilterOnDesktop: {
                 enabled: false, // used if need to desktop view on large screen
             },
@@ -268,6 +269,11 @@ const modules = {
     customer: {
         enabled: true,
         path: '/customer',
+        plugin: {
+            address: {
+                splitCity: true,
+            },
+        },
     },
     contact: {
         enabled: true,
