@@ -19,6 +19,8 @@
                     "@helpers": "./core/helpers",
                     "@services": "./core/services",
                     "@config" : "./swift.config.js",
+                    "@extension": "./extension",
+                    "@extension_module": "./extension/modules",
 
                     "@next_headcustom": "./core/nextjs_custom/HeadCustom",
                     "@next_nextscriptcustom": "./core/nextjs_custom/NextScriptCustom",
