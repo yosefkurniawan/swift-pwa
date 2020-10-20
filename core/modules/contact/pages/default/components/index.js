@@ -13,12 +13,8 @@ const ContactForm = (props) => {
     const styles = useStyles();
     const {
         t, formik, sitekey, handleChangeCaptcha, recaptchaRef,
+        message, setMessage, load,
     } = props;
-    const [message, setMessage] = React.useState({
-        open: false,
-        variant: 'success',
-        text: '',
-    });
     return (
         <form className={styles.container} onSubmit={formik.handleSubmit}>
             <Message
@@ -84,11 +80,24 @@ const ContactForm = (props) => {
                     </>
                 ) : null
             }
-            <Button className={styles.btn} type="submit">
+            <Button
+                disabled={load}
+                loading={load}
+                rootClassName="contact-btn-container"
+                align="left"
+                type="submit"
+            >
                 <Typography variant="span" letter="uppercase" color="white" type="bold">
                     {t('common:button:send')}
                 </Typography>
             </Button>
+            <style jsx global>
+                {`
+                    .contact-btn-container {
+                        margin-top: 50px;
+                    }
+                `}
+            </style>
         </form>
     );
 };
