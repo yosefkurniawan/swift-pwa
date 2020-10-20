@@ -24,7 +24,7 @@ const Banner = ({
     showArrow = true,
     speed = 500,
     autoplaySpeed = 4000,
-    actionImage = () => {},
+    actionImage = () => { },
     zoom = false,
     zoomRef = null,
 }) => {
@@ -61,6 +61,7 @@ const Banner = ({
         rtl: true,
         afterChange: () => setCount(count + 1),
         beforeChange: (current, next) => setIndex(next),
+        arrows: false,
     };
 
     return (

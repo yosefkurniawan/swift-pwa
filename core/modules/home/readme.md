@@ -8,7 +8,6 @@ First, enable your module on swift config with key ````home````
 copy `home.json` under locales folder and paste tp `static/locales` en and id
 
 this module use `common.json` so if custom, write on namespace required
-this module use external npm packe [`next-redirect`](https://www.npmjs.com/package/next-redirect) please install it.
 
 
 ## Use default template and no overide
@@ -100,7 +99,7 @@ export default withApollo({ ssr: true })(withTranslation()(Page));
 
 ### NOTE
 #### * `withApollo` and `withTranslation` must be place on first routing for peformance
-##### * if you want to overide module please add logic condition check checkout data and redirection use `next-redirect`. 
+##### * if you want to overide module please add logic condition check checkout data and redirection`. 
 
 
 # Component

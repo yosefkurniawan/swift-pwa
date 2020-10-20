@@ -73,14 +73,13 @@ export default makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             display: 'grid !important',
             borderBottom: 'none',
-            padding: 10,
+            padding: '0px 10px',
         },
     },
     tableCellResponsive: {
         border: 'none',
         [theme.breakpoints.down('sm')]: {
             border: 'none',
-            padding: '8px 0',
         },
     },
     displayFlexRow: {

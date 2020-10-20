@@ -10,11 +10,9 @@ export default makeStyles(() => ({
         ...FlexColumn,
         ...CreatePadding(30, 20, 20, 20),
     },
-    btn: {
-        marginTop: '22px',
-        marginBottom: '44px',
-        display: 'flex',
-        alignSelf: 'center',
+    btnSubmit: {
+        marginTop: 50,
+        textAlign: 'left',
     },
     message: {
         marginBottom: 30,

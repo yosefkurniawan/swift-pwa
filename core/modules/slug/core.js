@@ -6,8 +6,7 @@ import { getResolver } from './services/graphql';
 
 const ContainerResolver = (props) => {
     const {
-        CategoryPage, ProductPage, CmsPage,
-        resolver, contentProps, storeConfig, ...other
+        CategoryPage, ProductPage, CmsPage, resolver, contentProps, storeConfig, ...other
     } = props;
 
     React.useEffect(() => {
@@ -30,9 +29,7 @@ const ContainerResolver = (props) => {
 
 const Slug = (props) => {
     const {
-        slug, storeConfig,
-        ProductLoader, CategorySkeleton,
-        LoadingView, ...other
+        slug, storeConfig, ProductLoader, CategorySkeleton, LoadingView, ...other
     } = props;
 
     let localResolver;
@@ -46,9 +43,7 @@ const Slug = (props) => {
 
     // for cms pages, no need to add suffix
     url += cmsPages.find((cmsPage) => cmsPage === url) ? '' : suffix;
-    const {
-        error, loading, data,
-    } = getResolver(url);
+    const { error, loading, data } = getResolver(url);
 
     const config = {
         ogContent: {},
@@ -71,21 +66,15 @@ const Slug = (props) => {
             );
         }
         return (
-            <main style={{ backgroundColor: '#ffffff' }}>
+            <Layout storeConfig={storeConfig} pageConfig={config}>
                 <LoadingView open />
-            </main>
+            </Layout>
         );
     }
     const resolver = data.urlResolver ? data.urlResolver : {};
     const contentProps = { slug, storeConfig };
 
-    return (
-        <ContainerResolver
-            resolver={resolver}
-            {...other}
-            contentProps={contentProps}
-        />
-    );
+    return <ContainerResolver resolver={resolver} {...other} contentProps={contentProps} />;
 };
 
 export default Slug;

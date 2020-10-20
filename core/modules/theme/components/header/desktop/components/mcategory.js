@@ -9,9 +9,7 @@ import Thumbor from '@common_image';
 import getPath from '@helper_getpath';
 import { setResolver } from '@helper_localstorage';
 import Route from 'next/router';
-import {
-    features,
-} from '@config';
+import { features, cmsPages } from '@config';
 
 const generateLevel2 = (data, handleClick) => {
     const [active, setActive] = React.useState(0);
@@ -21,11 +19,7 @@ const generateLevel2 = (data, handleClick) => {
             <div className="nav-column nav-column-left col-lg-2">
                 {data.map((val, idx) => (
                     <React.Fragment key={idx}>
-                        <a
-                            onClick={() => handleClick(val)}
-                            className={active === idx ? 'active' : ''}
-                            onMouseEnter={() => setActive(idx)}
-                        >
+                        <a onClick={() => handleClick(val)} className={active === idx ? 'active' : ''} onMouseEnter={() => setActive(idx)}>
                             {val.name}
                         </a>
                     </React.Fragment>
@@ -42,11 +36,7 @@ const generateLevel2 = (data, handleClick) => {
                                 {lvl3.children.map((lvl4, id4) => (
                                     <li key={id4}>
                                         <>
-                                            <a
-                                                onClick={() => handleClick(lvl4)}
-                                            >
-                                                {lvl4.name}
-                                            </a>
+                                            <a onClick={() => handleClick(lvl4)}>{lvl4.name}</a>
                                         </>
                                     </li>
                                 ))}
@@ -93,11 +83,32 @@ const Menu = (props) => {
     const { data } = props;
     const menu = features.vesMenu.enabled ? data.vesMenu.items : data.categoryList[0].children;
     const handleClick = async (cat) => {
-        await setResolver({
-            type: 'CATEGORY',
-            id: cat.id,
-        });
-        Route.push('/[...slug]', cat.link ? getPath(cat.link) : `/${cat.url_path}`);
+        const link = cat.link ? getPath(cat.link) : `/${cat.url_path}`;
+        if (features.vesMenu.enabled) {
+            if (cat.link_type === 'category_link') {
+                await setResolver({
+                    type: 'CATEGORY',
+                    id: cat.id,
+                });
+                Route.push('/[...slug]', link);
+            } else {
+                const cms = cmsPages.find((cmsPage) => cmsPage === link.replace('/', ''));
+                if (cms) {
+                    await setResolver({
+                        type: 'CMS_PAGE',
+                    });
+                    Route.push('/[...slug]', link);
+                } else {
+                    Route.push(link);
+                }
+            }
+        } else {
+            await setResolver({
+                type: 'CATEGORY',
+                id: cat.id,
+            });
+            Route.push('/[...slug]', link);
+        }
     };
     return (
         <div className="menu-wrapper" role="navigation">
@@ -107,10 +118,7 @@ const Menu = (props) => {
                         return (
                             <li key={idx} role="menuitem">
                                 <>
-                                    <a
-                                        onClick={() => handleClick(val)}
-                                        dangerouslySetInnerHTML={{ __html: val.name }}
-                                    />
+                                    <a onClick={() => handleClick(val)} dangerouslySetInnerHTML={{ __html: val.name }} />
                                 </>
                                 {val.children.length > 0 ? (
                                     <div className="mega-menu row" aria-hidden="true" role="menu">

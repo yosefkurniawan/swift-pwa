@@ -171,7 +171,7 @@ class MyApp extends App {
     render() {
         const { Component, pageProps } = this.props;
         const storeCookie = helperCookies.get(storeConfigNameCookie);
-        if (!storeCookie) {
+        if (!storeCookie || storeCookie === null) {
             helperCookies.set(storeConfigNameCookie, pageProps.storeConfig);
         }
         pageProps.storeConfig = pageProps.storeConfig ? pageProps.storeConfig : {};

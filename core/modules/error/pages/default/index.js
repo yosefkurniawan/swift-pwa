@@ -4,7 +4,7 @@ import NextErrorComponent from 'next/error';
 import { sentry } from '@config';
 import Core from './core';
 import Content from './components';
-import graphRequest from '../../../../api/graphql';
+import graphRequest from '@graphql_request';
 
 const ErrorPage = (props) => <Core {...props} Content={Content} />;
 

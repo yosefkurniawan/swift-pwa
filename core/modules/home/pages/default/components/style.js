@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
         padding: '0 0 12px 0',
         width: '100%',
         postion: 'relative',
+        marginTop: '20px',
         '& .logo': {
             width: 100,
             top: 5,
