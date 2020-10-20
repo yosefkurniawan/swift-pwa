@@ -212,7 +212,7 @@ const Content = (props) => {
                     refSummary={SummaryRef}
                 />
             </div>
-            <div className="col-sm-8 hidden-mobile center">
+            <div className="col-xs-12 col-sm-8 hidden-mobile center">
                 <Button
                     customRootStyle={{ marginBottom: 80, marginTop: 50 }}
                     onClick={handleClick}

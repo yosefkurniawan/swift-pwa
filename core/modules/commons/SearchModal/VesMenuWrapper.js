@@ -1,4 +1,4 @@
-import { debuging } from '@config';
+import { debuging, cmsPages } from '@config';
 import { useTranslation } from '@i18n';
 import Alert from '@material-ui/lab/Alert';
 import { GraphCategory } from '@services/graphql';
@@ -20,9 +20,7 @@ const CategoryWrapper = () => {
     const [historyPosition, setHistoryPosition] = React.useState(-1);
     const [back, setBack] = React.useState(false);
 
-    const {
-        loading, data, error,
-    } = GraphCategory.getVesMenu({
+    const { loading, data, error } = GraphCategory.getVesMenu({
         variables: {
             alias: 'top-menu',
         },
@@ -62,13 +60,23 @@ const CategoryWrapper = () => {
     }
 
     const handleClickMenu = async (cat) => {
-        const link = getPath(cat.link);
-        if (link) {
+        const link = cat.link ? getPath(cat.link) : `/${cat.url_path}`;
+        if (cat.link_type === 'category_link') {
             await setResolver({
                 type: 'CATEGORY',
                 id: cat.id,
             });
             Router.push('/[...slug]', link);
+        } else {
+            const cms = cmsPages.find((cmsPage) => cmsPage === link.replace('/', ''));
+            if (cms) {
+                await setResolver({
+                    type: 'CMS_PAGE',
+                });
+                Router.push('/[...slug]', link);
+            } else {
+                Router.push(link);
+            }
         }
     };
 
@@ -123,29 +131,27 @@ const CategoryWrapper = () => {
 
     return (
         <>
-            {
-                !openSub ? (
-                    <VesMenu
-                        handleClickMenu={handleClickMenu}
-                        data={dataCat}
-                        historyPosition={historyPosition}
-                        historyData={historyData}
-                        openSub={openSub}
-                        onBackHistory={onBackHistory}
-                        handleOpenSub={handleOpenSub}
-                        back={back}
-                    />
-                ) : (
-                    <SubVesMenu
-                        open={openSub && dataSub !== null}
-                        data={dataSub}
-                        onBack={handleBackSub}
-                        handleOpenCat={handleOpenCat}
-                        handleClickMenu={handleClickMenu}
-                        back={back}
-                    />
-                )
-            }
+            {!openSub ? (
+                <VesMenu
+                    handleClickMenu={handleClickMenu}
+                    data={dataCat}
+                    historyPosition={historyPosition}
+                    historyData={historyData}
+                    openSub={openSub}
+                    onBackHistory={onBackHistory}
+                    handleOpenSub={handleOpenSub}
+                    back={back}
+                />
+            ) : (
+                <SubVesMenu
+                    open={openSub && dataSub !== null}
+                    data={dataSub}
+                    onBack={handleBackSub}
+                    handleOpenCat={handleOpenCat}
+                    handleClickMenu={handleClickMenu}
+                    back={back}
+                />
+            )}
         </>
     );
 };
