@@ -16,7 +16,7 @@ const CustomButton = ({
     loading = false,
     customRootStyle = {},
     href = null,
-    align = '',
+    align = 'center',
     ...other
 }) => {
     const styles = useStyles();
