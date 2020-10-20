@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import propTypes from 'prop-types';
 import Core from './core';
 import Content from './components';
@@ -10,7 +11,7 @@ const NotificationBell = (props) => (
 );
 
 NotificationBell.propTypes = {
-    withLink: propTypes.bool.isRequired,
+    withLink: propTypes.bool,
 };
 
 export default NotificationBell;
