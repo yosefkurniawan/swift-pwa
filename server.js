@@ -16,6 +16,7 @@ const nextI18NextMiddleware = require('next-i18next/middleware').default;
 const { mergeSchemas } = require('graphql-tools');
 
 const LRUCache = require('lru-cache');
+const cookieParser = require('cookie-parser');
 const nextI18next = require('./core/lib/i18n');
 const fetcher = require('./core/api/graphql');
 const resolver = require('./core/api/graphql/resolver/index');
@@ -87,6 +88,7 @@ async function renderAndCache(req, res) {
 (async () => {
     await app.prepare();
     const server = express();
+    server.use(cookieParser());
     // if ssr cache on
     if (features.ssrCache) {
         // handle next js request

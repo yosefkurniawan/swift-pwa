@@ -1,7 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
-import cookies from 'next-cookies';
 import redirect from 'next-redirect';
 import Core from './core';
 import CashbackInfo from './components/CashbackInfo';
@@ -49,7 +48,11 @@ const Page = (props) => (
 );
 
 Page.getInitialProps = async (ctx) => {
-    const cartId = cookies(ctx).nci || null;
+    const {
+        req,
+    } = ctx;
+    const data = req.cookies;
+    const cartId = data.nci || null;
 
     if (!cartId) {
         redirect(ctx, '/checkout/cart');

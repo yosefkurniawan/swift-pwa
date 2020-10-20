@@ -13,7 +13,6 @@ import theme from '@theme_theme';
 import { appWithTranslation } from '@i18n';
 import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import Cookie from 'js-cookie';
-import cookies from 'next-cookies';
 import helperCookies from '@helper_cookies';
 import {
     expiredCookies, storeConfigNameCookie, GTM, custDataNameCookie, features, sentry,
@@ -70,7 +69,7 @@ class MyApp extends App {
 
     static async getInitialProps({ Component, ctx }) {
         let pageProps = {};
-        const allcookie = cookies(ctx);
+
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
         }
@@ -81,12 +80,14 @@ class MyApp extends App {
         let isLogin = 0;
         let lastPathNoAuth = '';
         let customerData = {};
+        const allcookie = req ? req.cookies : {};
         if (typeof window !== 'undefined') {
             isLogin = getLoginInfo();
             lastPathNoAuth = getLastPathWithoutLogin();
             customerData = Cookie.getJSON(custDataNameCookie);
         } else {
             isLogin = allcookie.isLogin || 0;
+            console.log(isLogin);
             customerData = allcookie[custDataNameCookie];
             lastPathNoAuth = (req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth
                 && typeof req.session.lastPathNoAuth !== 'undefined')
@@ -171,7 +172,7 @@ class MyApp extends App {
     render() {
         const { Component, pageProps } = this.props;
         const storeCookie = helperCookies.get(storeConfigNameCookie);
-        if (!storeCookie || storeCookie === null) {
+        if (!storeCookie) {
             helperCookies.set(storeConfigNameCookie, pageProps.storeConfig);
         }
         pageProps.storeConfig = pageProps.storeConfig ? pageProps.storeConfig : {};
