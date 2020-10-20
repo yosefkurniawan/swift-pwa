@@ -5,7 +5,9 @@ const withOffline = require('next-offline');
 // const withCSS = require('@zeit/next-css');
 const withSourceMaps = require('@zeit/next-source-maps')();
 
-module.exports = withSourceMaps(withOffline({
+const withTranspileModules = require('next-transpile-modules')(['swift-pwa-core/core/modules']);
+
+module.exports = withTranspileModules(withSourceMaps(withOffline({
     publicRuntimeConfig: {
         appEnv: process.env.APP_ENV,
         rootDir: __dirname,
@@ -56,4 +58,4 @@ module.exports = withSourceMaps(withOffline({
     },
     // enable code below on Prod and increase the version everytime before running build script
     // generateBuildId: async () => 'swift-pwa-v1.0.0',
-}));
+})));

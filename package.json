@@ -75,6 +75,7 @@
     "next-cookies": "^2.0.3",
     "next-i18next": "^4.2.1",
     "next-offline": "^5.0.0",
+    "next-transpile-modules": "^4.1.0",
     "next-with-apollo": "^5.0.0",
     "prop-types": "^15.7.2",
     "react": "16.13.0",
@@ -92,11 +93,13 @@
     "react-swipeable-views-utils": "^0.13.9",
     "react-typed": "^1.2.0",
     "slick-carousel": "^1.8.1",
+    "swift-pwa-core": "git+https://github.com/icubeus/swift-pwa-core.git#develop-v2",
     "swiper": "^5.4.5",
     "webfontloader": "^1.6.28",
     "yup": "^0.28.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.3",
     "babel-plugin-module-resolver": "^4.0.0",
     "copy-webpack-plugin": "^6.1.0",
     "cross-env": "^7.0.2",
