@@ -136,6 +136,7 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: 20,
         [theme.breakpoints.down('sm')]: {
             paddingBottom: '0',
+            maxWidth: '70%',
         },
     },
     imgFeaturedContainer: {
