@@ -32,13 +32,11 @@ import * as Sentry from '@sentry/node';
 import { RewriteFrames } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
 
-// sementara di comment dlu sampa nanti di gunakan
+/**
+ * Uncomment codes below when firebase push notification configuration is enabled
+ **/
 // import Notification from '@lib_firebase/notification';
 // import firebase from '@lib_firebase/index';
-
-// import '../core/styles/index.css';
-// import '../core/styles/mediaquery.css';
-// import '../core/styles/flexboxgrid.min.css';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -113,8 +111,9 @@ class MyApp extends App {
     }
 
     componentDidMount() {
-        // sementara disabled dlu sampai nanti digunakan
-
+        /**
+         * Uncomment codes below when firebase push notification configuration is enabled
+         **/
         // if (features.pushNotification.enabled) {
         //     // initial firebase messaging
         //     Notification.init();
