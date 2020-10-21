@@ -80,7 +80,6 @@
     "react-swipeable-views-utils": "^0.13.9",
     "react-typed": "^1.2.0",
     "slick-carousel": "^1.8.1",
-    "swiper": "^5.4.5",
     "webfontloader": "^1.6.28",
     "yup": "^0.28.3"
   },
