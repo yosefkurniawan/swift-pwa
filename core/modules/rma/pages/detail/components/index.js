@@ -290,7 +290,7 @@ const DetailReturn = (props) => {
     const {
         data, Loader, loading, loadCustomerData,
     } = props;
-    if (loading || !data || loadCustomerData.loading) return <Layout {...props}><Loader /></Layout>;
+    if (loading || !data || (data && !data.detail_rma) || loadCustomerData.loading) return <Layout {...props}><Loader /></Layout>;
     return <DetailContent {...props} />;
 };
 
