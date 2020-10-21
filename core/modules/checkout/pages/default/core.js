@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import * as Yup from 'yup';
 import _ from 'lodash';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import { getCartId } from '@helpers/cartId';
@@ -272,16 +272,6 @@ const Checkout = (props) => {
             if (cdt) removeCheckoutData();
         }
     }, []);
-
-    useEffect(() => {
-        setCheckout({
-            ...checkout,
-            data: {
-                ...checkout.data,
-                isGuest: !isLogin,
-            },
-        });
-    }, [isLogin]);
 
     useEffect(() => {
         setCheckout({
