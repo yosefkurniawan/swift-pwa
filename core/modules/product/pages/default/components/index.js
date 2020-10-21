@@ -63,13 +63,6 @@ const ProductPage = (props) => {
         <FavoriteBorderOutlined className={styles.iconShare} />
     );
 
-    let contentCaraousel = '';
-    if (typeof window === 'undefined') {
-        contentCaraousel = <CarouselSkeleton />;
-    } else if (relateData.length > 0) {
-        contentCaraousel = <Caraousel data={relateData} Item={ProductItem} />;
-    }
-
     return (
         <>
             <div className="hidden-mobile">
@@ -253,11 +246,9 @@ const ProductPage = (props) => {
                         >
                             {t('common:title:relatedProduct')}
                         </Typography>
-                        {
-                            contentCaraousel
-                        }
+                        <Caraousel data={relateData} Item={ProductItem} />
                     </div>
-                ) : null}
+                ) : <CarouselSkeleton />}
 
                 {!desktop
                     ? (

@@ -78,9 +78,7 @@ export default makeStyles((theme) => ({
     },
     tableCellResponsive: {
         border: 'none',
-        [theme.breakpoints.down('sm')]: {
-            border: 'none',
-        },
+        borderBottom: 'none !important',
     },
     displayFlexRow: {
         ...FlexRow,
