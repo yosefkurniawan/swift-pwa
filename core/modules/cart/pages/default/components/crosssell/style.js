@@ -15,7 +15,7 @@ const useStyles = makeStyles(() => ({
         ...CreateMargin(30, 0, 30, 0),
     },
     margin: {
-        ...CreateMargin(0, 0, 120, 0),
+        // ...CreateMargin(0, 0, 120, 0),
     },
 }));
 

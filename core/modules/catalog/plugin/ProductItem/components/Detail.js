@@ -30,7 +30,7 @@ const Detail = (props) => {
                 </Button>
             )}
             <Link onClick={handleClick} className={styles.productLinkButton}>
-                <Typography variant="p" className={styles.clearMarginPadding} letter="capitalize">
+                <Typography variant="p" className={styles.productTitle} letter="capitalize">
                     {name}
                 </Typography>
             </Link>
