@@ -27,7 +27,7 @@ const CoreLanding = (props) => {
         email: '',
     };
     const loadCustomerData = getCustomer();
-    if (loadCustomerData.data && !loadCustomerData.loading) {
+    if (loadCustomerData.data && loadCustomerData.data.customer) {
         customerData = loadCustomerData.data.customer;
     }
     const paramsFormRma = {
@@ -62,8 +62,8 @@ const CoreLanding = (props) => {
     return (
         <DefaultLayout {...props} pageConfig={config}>
             <Content
-                {...contentprops}
                 {...other}
+                {...contentprops}
             />
         </DefaultLayout>
     );
