@@ -9,20 +9,21 @@ import { formatPrice } from '@helpers/currency';
 import Layout from '@layout';
 import Head from 'next/head';
 import { modules } from '@config';
+import Cookies from 'js-cookie';
 import gqlService from '../../services/graphql';
 
 const Checkout = (props) => {
     const {
         t,
         storeConfig,
-        isLogin,
         config,
         pageConfig,
         Content,
     } = props;
-    let { cartId } = props;
+    let { cartId, isLogin } = props;
     if (typeof window !== 'undefined') {
         cartId = getCartId();
+        isLogin = Cookies.get('isLogin');
     }
     const { snap_is_production, snap_client_key } = storeConfig;
     const configPage = {
