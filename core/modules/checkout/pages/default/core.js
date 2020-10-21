@@ -276,6 +276,16 @@ const Checkout = (props) => {
     useEffect(() => {
         setCheckout({
             ...checkout,
+            data: {
+                ...checkout.data,
+                isGuest: !isLogin,
+            },
+        });
+    }, [isLogin]);
+
+    useEffect(() => {
+        setCheckout({
+            ...checkout,
             loading: {
                 ...checkout.loading,
                 all: true,
