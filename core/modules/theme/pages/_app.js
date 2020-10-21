@@ -111,8 +111,9 @@ class MyApp extends App {
     }
 
     componentDidMount() {
-        // sementara disabled dlu sampai nanti digunakan
-
+        /**
+         * Uncomment codes below when firebase push notification configuration is enabled
+         **/
         // if (features.pushNotification.enabled) {
         //     // initial firebase messaging
         //     Notification.init();
