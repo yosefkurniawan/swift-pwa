@@ -1,6 +1,6 @@
 {
   "name": "swift-pwa",
-  "version": "2.3.0",
+  "version": "2.2.1",
   "private": true,
   "scripts": {
     "assets:build": "webpack",
