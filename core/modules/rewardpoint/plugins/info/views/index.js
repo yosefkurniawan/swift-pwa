@@ -10,7 +10,7 @@ const InfoTemplate = ({
         <Link href="/aw_rewardpoints/info">
             <a>
                 <div className={styles.account_point}>
-                    <p className={styles.account_point_title}>{t('rewardpoint:myPoint')}</p>
+                    <p className={styles.account_point_title}>{t('customer:menu:myPoint')}</p>
                     <h3 className={styles.account_point_summary}>
                         {loading || !data ? 'Loading ...' : error ? 0 : data.customerRewardPoints.balance}
                     </h3>
