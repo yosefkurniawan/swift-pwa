@@ -29,9 +29,12 @@ const useStyles = makeStyles((theme) => ({
 const CustomSkeleton = ({
     xsStyle, smStyle, mdStyle, lgStyle, xlStyle, className, ...props
 }) => {
-    const classes = useStyles({
-        xsStyle, smStyle, mdStyle, lgStyle, xlStyle,
-    });
+    let classes = '';
+    if (typeof window !== 'undefined') {
+        classes = useStyles({
+            xsStyle, smStyle, mdStyle, lgStyle, xlStyle,
+        });
+    }
 
     return (
         <Skeleton {...props} className={classNames(className, classes.skeleton)} />
