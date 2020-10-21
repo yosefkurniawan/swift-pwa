@@ -33,7 +33,7 @@ import { RewriteFrames } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
 
 /**
- * Uncomment codes below when firebase push notification configuration is enabled */
+ * Uncomment codes below when firebase push notification configuration is enabled
  **/
 // import Notification from '@lib_firebase/notification';
 // import firebase from '@lib_firebase/index';
