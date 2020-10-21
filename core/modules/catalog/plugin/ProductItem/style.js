@@ -2,15 +2,16 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
     CreatePadding, FlexColumn, Centering, CreateMargin, ClearMarginPadding, FlexRow,
 } from '@theme_mixins';
-import { GRAY_PRIMARY, PRIMARY, WHITE } from '@theme_color';
+import { GRAY_PRIMARY, PRIMARY } from '@theme_color';
 
-export default makeStyles((theme) => ({
+export default makeStyles(() => ({
     container: {},
     itemContainer: {
         width: '100%',
         display: 'inline-block',
         height: '100%',
         overflow: 'hidden',
+        ...CreatePadding(10, 10, 0, 10),
         ...CreateMargin(0, 0, 16, 0),
         position: 'relative',
         '& .MuiSkeleton-rect': {
@@ -19,19 +20,19 @@ export default makeStyles((theme) => ({
     },
     badgesNewSales: {
         position: 'absolute',
-        top: 5,
-        left: 5,
+        top: 0,
+        left: 0,
         right: 5,
         borderRadius: 5,
         zIndex: 1,
         ...FlexRow,
         justifyContent: 'space-between',
         width: '100%',
+        padding: 15,
     },
     imgItem: {
         width: '100%',
         ...Centering,
-        backgroundColor: WHITE,
     },
     imgProduct: {
         width: '100%',
@@ -39,10 +40,7 @@ export default makeStyles((theme) => ({
     },
     detailItem: {
         height: 'auto',
-        ...CreatePadding(14, 14, 14, 14),
-        [theme.breakpoints.up('sm')]: {
-            ...CreatePadding(28, 14, 14, 14),
-        },
+        paddingTop: 14,
         position: 'relative',
     },
     descItem: {
@@ -50,8 +48,8 @@ export default makeStyles((theme) => ({
         maxWidht: '80%',
         position: 'relative',
     },
-    clearMarginPadding: {
-        ...ClearMarginPadding,
+    productTitle: {
+        ...CreateMargin(0, 0, 5, 0),
     },
     btnFeed: {
         ...ClearMarginPadding,

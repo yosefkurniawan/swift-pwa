@@ -122,6 +122,11 @@ const useStyles = makeStyles((theme) => ({
             width: '100%',
         },
     },
+    mobileBottomSpace: {
+        [theme.breakpoints.down('sm')]: {
+            marginBottom: 140,
+        },
+    },
 }));
 
 export default useStyles;
