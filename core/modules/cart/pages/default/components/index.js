@@ -1,5 +1,7 @@
 import Route from 'next/router';
+import classNames from 'classnames';
 import Summary from '../../../plugin/Summary';
+import useStyles from './style';
 
 const Content = (props) => {
     const {
@@ -10,8 +12,9 @@ const Content = (props) => {
     const handleOnCheckoutClicked = () => {
         Route.push('/checkout');
     };
+    const styles = useStyles();
     return (
-        <div className="row">
+        <div className={classNames(styles.mobileBottomSpace, 'row')}>
             <div className="col-xs-12 col-sm-8 col-md-9" style={{ height: '100%' }}>
                 <ItemView
                     data={dataCart}
