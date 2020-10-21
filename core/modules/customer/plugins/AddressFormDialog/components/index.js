@@ -10,14 +10,13 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CustomTextField from '@common_textfield';
 import clsx from 'clsx';
 import Typography from '@common_typography';
-import { modules } from '@config';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import useStyles from './style';
 
 const AddressView = (props) => {
     const {
         t, open, setOpen, pageTitle, formik, addressState, setFromUseEffect, getCities, setAddressState,
-        mapPosition, handleDragPosition, disableDefaultAddress, loading, success, gmapKey,
+        mapPosition, handleDragPosition, disableDefaultAddress, loading, success, gmapKey, enableSplitCity,
     } = props;
     const styles = useStyles();
     const headerConfig = {
@@ -369,8 +368,8 @@ const AddressView = (props) => {
                         ) : null}
                         {getRegionRender()}
                         {getCityRender()}
-                        {modules.customer.plugin.address.splitCity ? getDistrictRender() : null}
-                        {modules.customer.plugin.address.splitCity ? getVillageRender() : null}
+                        {enableSplitCity ? getDistrictRender() : null}
+                        {enableSplitCity ? getVillageRender() : null}
                         <CustomTextField
                             autoComplete="no-autoComplete"
                             label={t('common:form:postal')}

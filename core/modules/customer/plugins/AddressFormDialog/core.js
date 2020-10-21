@@ -182,6 +182,14 @@ const AddressFormDialog = (props) => {
         },
     });
 
+    const [enableSplitCity, setEnableSplitCity] = React.useState(false);
+
+    // togle enableSplitCity, set true when countryId === 'ID' & splitCity config === true
+    React.useEffect(() => {
+        const countryId = formik.values.country && formik.values.country.id;
+        setEnableSplitCity(countryId === 'ID' && modules.customer.plugin.address.splitCity);
+    }, [formik.values.country]);
+
     const [getCities, responCities] = getCityByRegionId({});
 
     useEffect(() => {
@@ -334,6 +342,7 @@ const AddressFormDialog = (props) => {
             loading={loading}
             success={success}
             gmapKey={gmapKey}
+            enableSplitCity={enableSplitCity}
         />
     );
 };
