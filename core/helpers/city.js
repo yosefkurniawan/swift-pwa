@@ -40,7 +40,7 @@ export const groupingSubCity = (parent, type, item) => {
         const element = item[index];
         const collection = element.city.split(', ');
         if (collection[type === 'district' ? 0 : 1] === parent) {
-            const name = collection[type === 'district' ? 1 : 2].replace(/ /g, '_').toLowerCase();
+            const name = (collection[type === 'district' ? 1 : 2] || '').replace(/ /g, '_').toLowerCase();
             if (!group[name]) {
                 group[name] = {
                     id: element.id,

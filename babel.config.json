@@ -84,7 +84,6 @@
                     "@common_rangeslider": "swift-pwa-core/core/modules/commons/RangeSlider",
                     "@common_select": "swift-pwa-core/core/modules/commons/Select",
                     "@common_textfield": "swift-pwa-core/core/modules/commons/TextField",
-                    "@common_banner": "swift-pwa-core/core/modules/commons/Banner",
                     "@common_carousel": "swift-pwa-core/core/modules/commons/carousel",
                     "@common_image": "swift-pwa-core/core/modules/commons/Image",
                     "@common_backdrop": "swift-pwa-core/core/modules/commons/Backdrop",
