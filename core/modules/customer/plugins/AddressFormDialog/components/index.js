@@ -92,7 +92,7 @@ const AddressView = (props) => {
                 autoComplete="no-autoComplete"
                 label="State/Province"
                 name="region"
-                value={formik.values.region || ''}
+                value={formik.values.region ? formik.values.region.label : ''}
                 onChange={formik.handleChange}
                 error={!!(formik.touched.region && formik.errors.region)}
                 errorMessage={(formik.touched.region && formik.errors.region) || null}
@@ -110,7 +110,7 @@ const AddressView = (props) => {
                     value={_.isEmpty(formik.values.city) ? null : formik.values.city}
                     onChange={(event, newValue) => {
                         formik.setFieldValue('city', newValue);
-                        formik.setFieldValue('postcode', newValue.postcode);
+                        formik.setFieldValue('postcode', newValue ? newValue.postcode : '');
                     }}
                     renderInput={(params) => (
                         <div
@@ -146,7 +146,7 @@ const AddressView = (props) => {
                 autoComplete="no-autoComplete"
                 label="City"
                 name="city"
-                value={formik.values.city || ''}
+                value={formik.values.city ? formik.values.city.label : ''}
                 onChange={formik.handleChange}
                 error={!!(formik.touched.city && formik.errors.city)}
                 errorMessage={(formik.touched.city && formik.errors.city) || null}
@@ -199,7 +199,7 @@ const AddressView = (props) => {
                 autoComplete="no-autoComplete"
                 label="Kecamatan"
                 name="district"
-                value={formik.values.district || ''}
+                value={formik.values.district ? formik.values.district.label : ''}
                 onChange={formik.handleChange}
                 error={!!(formik.touched.district && formik.errors.district)}
                 errorMessage={(formik.touched.district && formik.errors.district) || null}
@@ -252,7 +252,7 @@ const AddressView = (props) => {
                 autoComplete="no-autoComplete"
                 label="Kelurahan"
                 name="village"
-                value={formik.values.village || ''}
+                value={formik.values.village ? formik.values.village.label : ''}
                 onChange={formik.handleChange}
                 error={!!(formik.touched.village && formik.errors.village)}
                 errorMessage={(formik.touched.village && formik.errors.village) || null}
