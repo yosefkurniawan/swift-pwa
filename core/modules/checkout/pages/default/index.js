@@ -1,8 +1,8 @@
 /* eslint-disable react/destructuring-assignment */
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
-import cookies from 'next-cookies';
 import Router from 'next/router';
+import Cookies from 'js-cookie';
 import Core from './core';
 import CashbackInfo from './components/CashbackInfo';
 import EmailView from './components/email/view';
@@ -49,7 +49,11 @@ const Page = (props) => (
 );
 
 Page.getInitialProps = async (ctx) => {
-    const cartId = cookies(ctx).nci || null;
+    const {
+        req,
+    } = ctx;
+    const data = typeof window === 'undefined' ? req.cookies : Cookies.getJSON();
+    const cartId = data.nci || null;
 
     if (!cartId) {
         if (ctx.res) {

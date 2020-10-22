@@ -9,7 +9,7 @@ const SkeletonLoader = () => {
         <div className="column row">
             <div className="col-lg-1 hidden-mobile">
                 <Skeleton
-                    marginBottom={27}
+                    marginbottom={27}
                     variant="rect"
                     animation="wave"
                     mdStyle={{
@@ -24,7 +24,7 @@ const SkeletonLoader = () => {
                     }}
                 />
                 <Skeleton
-                    marginBottom={27}
+                    marginbottom={27}
                     variant="rect"
                     animation="wave"
                     mdStyle={{
@@ -41,7 +41,7 @@ const SkeletonLoader = () => {
             </div>
             <div className="col-sm-12 col-xs-12 col-lg-5">
                 <Skeleton
-                    marginBottom={27}
+                    marginbottom={27}
                     variant="rect"
                     animation="wave"
                     xsStyle={{

@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import TableCell from '@material-ui/core/TableCell';
-import _ from 'lodash';
 import useStyles from './style';
 import { createCustomerAddress, updateCustomerAddress } from '../../../services/graphql';
 

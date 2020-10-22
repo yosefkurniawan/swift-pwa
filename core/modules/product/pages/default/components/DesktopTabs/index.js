@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -8,7 +9,6 @@ import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import HtmlParser from 'react-html-parser';
 import useStyles from '../ExpandDetail/style';
 import ListReviews from '../ListReviews';
 
@@ -63,7 +63,7 @@ const TabsView = (props) => {
                     {item.type === 'html'
                         ? (
                             <div className={styles.descriptionHtml}>
-                                {item.content && HtmlParser(item.content)}
+                                {item.content ? <span dangerouslySetInnerHTML={{ __html: item.content }} /> : null}
                             </div>
                         )
                         : item.type === 'array' && (

@@ -4,7 +4,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IcubeMaps from '@common_googlemaps';
 import Header from '@common_headermobile';
 import Button from '@common_button';
-import _ from 'lodash';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CustomTextField from '@common_textfield';
@@ -29,15 +28,14 @@ const AddressView = (props) => {
         [styles.addBtn]: !success,
     });
     const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('md'));
-
     const getRegionRender = () => {
-        if (_.isArray(addressState.dropdown.region) && open) {
+        if (addressState.dropdown.region && addressState.dropdown.region.length && open) {
             return (
                 <Autocomplete
                     options={addressState.dropdown.region}
                     getOptionLabel={(option) => (option.label ? option.label : '')}
                     id="controlled-region"
-                    value={_.isEmpty(formik.values.region) ? null : formik.values.region}
+                    value={!formik.values.region ? null : formik.values.region}
                     onClose={() => {
                         formik.setFieldValue('city', null);
                     }}
@@ -101,13 +99,13 @@ const AddressView = (props) => {
     };
 
     const getCityRender = () => {
-        if (_.isArray(addressState.dropdown.city) && open) {
+        if (addressState.dropdown.city && addressState.dropdown.city.length && open) {
             return (
                 <Autocomplete
                     options={addressState.dropdown.city}
                     getOptionLabel={(option) => (option.label ? option.label : '')}
                     id="controlled-city"
-                    value={_.isEmpty(formik.values.city) ? null : formik.values.city}
+                    value={!formik.values.city ? null : formik.values.city}
                     onChange={(event, newValue) => {
                         formik.setFieldValue('city', newValue);
                         formik.setFieldValue('postcode', newValue ? newValue.postcode : '');
@@ -155,13 +153,13 @@ const AddressView = (props) => {
     };
 
     const getDistrictRender = () => {
-        if (_.isArray(addressState.dropdown.district) && open) {
+        if (addressState.dropdown.district && addressState.dropdown.district.length && open) {
             return (
                 <Autocomplete
                     options={addressState.dropdown.district}
                     getOptionLabel={(option) => (option.label ? option.label : '')}
                     id="controlled-district"
-                    value={_.isEmpty(formik.values.district) ? null : formik.values.district}
+                    value={!formik.values.district ? null : formik.values.district}
                     onChange={(event, newValue) => {
                         formik.setFieldValue('district', newValue);
                     }}
@@ -208,13 +206,13 @@ const AddressView = (props) => {
     };
 
     const getVillageRender = () => {
-        if (_.isArray(addressState.dropdown.village) && open) {
+        if (addressState.dropdown.village && addressState.dropdown.village.length && open) {
             return (
                 <Autocomplete
                     options={addressState.dropdown.village}
                     getOptionLabel={(option) => (option.label ? option.label : '')}
                     id="controlled-village"
-                    value={_.isEmpty(formik.values.village) ? null : formik.values.village}
+                    value={!formik.values.village ? null : formik.values.village}
                     onChange={(event, newValue) => {
                         formik.setFieldValue('village', newValue);
                     }}
@@ -302,7 +300,7 @@ const AddressView = (props) => {
                             error={!!(formik.touched.street && formik.errors.street)}
                             errorMessage={(formik.touched.street && formik.errors.street) || null}
                         />
-                        {_.isArray(addressState.dropdown.countries) && open ? (
+                        {addressState.dropdown.countries && addressState.dropdown.countries.length && open ? (
                             <Autocomplete
                                 options={addressState.dropdown.countries}
                                 getOptionLabel={(option) => (option.label ? option.label : '')}
