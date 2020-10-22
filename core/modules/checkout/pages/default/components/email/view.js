@@ -11,7 +11,8 @@ import useStyles from '../style';
 
 const EmailView = (props) => {
     const {
-        t, formik, setAnchorEl, anchorEl, idButton, open, config, handleBlur,
+        t, formik, setAnchorEl, anchorEl, idButton, open, config,
+        handleSave, saved, handleBlur,
     } = props;
     const styles = useStyles();
 
@@ -34,7 +35,11 @@ const EmailView = (props) => {
                 {t('checkout:emailAddress')}
             </Typography>
             <div className={styles.emailContainer}>
-                <FormControl fullWidth error={!!(formik.touched.email && formik.errors.email)} className={styles.customFormControl}>
+                <FormControl
+                    fullWidth
+                    error={!!(formik.touched.email && formik.errors.email) || !!(formik.touched.oldEmail && formik.errors.oldEmail)}
+                    className={styles.customFormControl}
+                >
                     <Input
                         name="email"
                         placeholder="john.doe@gmail.com"
@@ -42,37 +47,47 @@ const EmailView = (props) => {
                         onChange={formik.handleChange}
                         onBlur={handleBlur}
                         endAdornment={(
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-describedby={idButton}
-                                    aria-label="toggle password visibility"
-                                    onClick={(event) => {
-                                        setAnchorEl(event.currentTarget);
-                                    }}
-                                >
-                                    <Help />
-                                </IconButton>
-                                <Popover
-                                    id={idButton}
-                                    open={open}
-                                    anchorEl={anchorEl}
-                                    anchorOrigin={{
-                                        vertical: 'center',
-                                        horizontal: 'left',
-                                    }}
-                                    transformOrigin={{
-                                        vertical: 'center',
-                                        horizontal: 'right',
-                                    }}
-                                    onClose={() => {
-                                        setAnchorEl(null);
-                                    }}
-                                >
-                                    <Typography variant="p">{t('checkout:emailHelper')}</Typography>
-                                </Popover>
-                            </InputAdornment>
+                            <>
+                                {
+                                    (!saved && formik.values.email !== '') ? (
+                                        <IconButton onClick={handleSave} variant="text">
+                                            <Typography>Save</Typography>
+                                        </IconButton>
+                                    ) : null
+                                }
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-describedby={idButton}
+                                        aria-label="toggle password visibility"
+                                        onClick={(event) => {
+                                            setAnchorEl(event.currentTarget);
+                                        }}
+                                    >
+                                        <Help />
+                                    </IconButton>
+                                    <Popover
+                                        id={idButton}
+                                        open={open}
+                                        anchorEl={anchorEl}
+                                        anchorOrigin={{
+                                            vertical: 'center',
+                                            horizontal: 'left',
+                                        }}
+                                        transformOrigin={{
+                                            vertical: 'center',
+                                            horizontal: 'right',
+                                        }}
+                                        onClose={() => {
+                                            setAnchorEl(null);
+                                        }}
+                                    >
+                                        <Typography variant="p">{t('checkout:emailHelper')}</Typography>
+                                    </Popover>
+                                </InputAdornment>
+                            </>
                         )}
                     />
+                    { !saved && formik.values.email !== '' && (<FormHelperText>Email Unsaved</FormHelperText>) }
                     {formik.touched.email && formik.errors.email ? <FormHelperText>{formik.errors.email || null}</FormHelperText> : null}
                 </FormControl>
             </div>
