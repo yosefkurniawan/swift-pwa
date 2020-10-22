@@ -38,7 +38,7 @@ class NextScriptCustom extends NextScript {
         );
 
         const initialFilterer = (props) => !props.src || !props.src.includes('chunk')
-        || props.src.includes('main') || props.src.includes('webpack') || props.src.includes('pages');
+        || props.src.includes('react') || props.src.includes('main') || props.src.includes('webpack') || props.src.includes('pages');
         const initialLoadScripts = scripts.filter(({ props }) => initialFilterer(props));
         const chunkedScripts = scripts.filter(({ props }) => !initialFilterer(props));
 

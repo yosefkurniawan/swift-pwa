@@ -204,9 +204,7 @@ const ProductPage = (props) => {
                             {' '}
                             <div className={styles.desc}>
                                 <Typography variant="span" type="regular" size="10">
-                                    {data.short_description.html
-                                        ? <span dangerouslySetInnerHTML={{ __html: data.short_description.html }} />
-                                        : null}
+                                    {data.short_description.html ? <span dangerouslySetInnerHTML={{ __html: data.short_description.html }} /> : null}
                                 </Typography>
                             </div>
                             <div>
