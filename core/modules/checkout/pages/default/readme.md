@@ -27,7 +27,6 @@ import CashbackInfo from '@core_modules/checkout/pages/default/components/Cashba
 import Layout from '@layout';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
-import redirect from 'next-redirect';
 import Head from 'next/head';
 import { modules } from '@config';
 import Core from './core';
@@ -72,7 +71,12 @@ Page.getInitialProps = async (ctx) => {
     const cartId = cookies(ctx).nci || null;
 
     if (!cartId) {
-        redirect(ctx, '/checkout/cart');
+        if (ctx.res) {
+            ctx.res.statusCode = 302;
+            ctx.res.setHeader('Location', '/checkout/cart');
+            return { props: {}, namespacesRequired: ['common', 'checkout', 'customer', 'validate'] };
+        }
+        Router.push('/checkout/cart');
     }
 
     return {

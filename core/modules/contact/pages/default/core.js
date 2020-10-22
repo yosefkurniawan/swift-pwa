@@ -23,11 +23,40 @@ const Contact = (props) => {
         variant: 'success',
         text: '',
     });
+    const [load, setLoad] = React.useState(false);
     const recaptchaRef = React.createRef();
-    const sitekey = (typeof publicRuntimeConfig !== 'undefined' && recaptcha.siteKey[publicRuntimeConfig.appEnv])
-        ? recaptcha.siteKey[publicRuntimeConfig.appEnv] : recaptcha.siteKey.dev;
+    const sitekey = typeof publicRuntimeConfig !== 'undefined' && recaptcha.siteKey[publicRuntimeConfig.appEnv]
+        ? recaptcha.siteKey[publicRuntimeConfig.appEnv]
+        : recaptcha.siteKey.dev;
 
     const [contactusFormSubmit] = gqlService.contactusFormSubmit();
+
+    const submitForm = async (values, resetForm) => {
+        contactusFormSubmit({
+            variables: {
+                email: values.email,
+                fullname: values.fullName,
+                message: values.message,
+                telephone: values.telephone,
+            },
+        })
+            .then(() => {
+                resetForm({});
+                setMessage({
+                    open: true,
+                    variant: 'success',
+                    text: t('contact:successSubmit'),
+                });
+            })
+            .catch(() => {
+                setMessage({
+                    open: true,
+                    variant: 'error',
+                    text: t('common:error:fetchError'),
+                });
+            });
+    };
+
     const formik = useFormik({
         initialValues: {
             fullName: '',
@@ -45,56 +74,45 @@ const Contact = (props) => {
         }),
         onSubmit: async (values, { resetForm }) => {
             window.backdropLoader(true);
-            fetch('/captcha-validation', {
-                method: 'post',
-                body: JSON.stringify({
-                    response: values.captcha,
-                }),
-                headers: { 'Content-Type': 'application/json' },
-            })
-                .then((data) => data.json())
-                .then((json) => {
-                    if (json.success) {
-                        contactusFormSubmit({
-                            variables: {
-                                email: values.email,
-                                fullname: values.fullName,
-                                message: values.message,
-                                telephone: values.telephone,
-                            },
-                        }).then(() => {
-                            resetForm({});
-                            setMessage({
-                                open: true,
-                                variant: 'success',
-                                text: t('contact:successSubmit'),
-                            });
-                        }).catch(() => {
+            setLoad(true);
+            if (recaptcha.enable) {
+                fetch('/captcha-validation', {
+                    method: 'post',
+                    body: JSON.stringify({
+                        response: values.captcha,
+                    }),
+                    headers: { 'Content-Type': 'application/json' },
+                })
+                    .then((data) => data.json())
+                    .then((json) => {
+                        if (json.success) {
+                            submitForm(values, resetForm);
+                        } else {
                             setMessage({
                                 open: true,
                                 variant: 'error',
-                                text: t('common:error:fetchError'),
+                                text: t('contact:failedSubmit'),
                             });
-                        });
-                    } else {
+                        }
+                        setLoad(false);
+                        window.backdropLoader(false);
+                    })
+                    .catch(() => {
+                        window.backdropLoader(false);
                         setMessage({
                             open: true,
                             variant: 'error',
-                            text: t('contact:failedSubmit'),
+                            text: t('common:error:fetchError'),
                         });
-                    }
-                    window.backdropLoader(false);
-                })
-                .catch(() => {
-                    window.backdropLoader(false);
-                    setMessage({
-                        open: true,
-                        variant: 'error',
-                        text: t('common:error:fetchError'),
+                        setLoad(false);
                     });
-                });
 
-            recaptchaRef.current.reset();
+                recaptchaRef.current.reset();
+            } else {
+                await submitForm(values, resetForm);
+                setLoad(false);
+                window.backdropLoader(false);
+            }
         },
     });
 
@@ -103,9 +121,7 @@ const Contact = (props) => {
     };
     const { error, loading, data } = gqlService.getCmsBlocks({ identifiers: [cmsContactIdentifiers] });
     if (error) {
-        return (
-            <ErrorInfo variant="error" text={debuging.originalError ? error.message.split(':')[1] : props.t('common:error:fetchError')} />
-        );
+        return <ErrorInfo variant="error" text={debuging.originalError ? error.message.split(':')[1] : props.t('common:error:fetchError')} />;
     }
 
     return (
@@ -117,11 +133,13 @@ const Contact = (props) => {
                 formik={formik}
                 error={error}
                 message={message}
+                setMessage={setMessage}
                 sitekey={sitekey}
                 loading={loading}
                 data={data}
                 recaptchaRef={recaptchaRef}
                 Skeleton={Skeleton}
+                load={load}
             />
         </Layout>
     );

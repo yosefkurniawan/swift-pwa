@@ -123,7 +123,9 @@ const useStyles = makeStyles((theme) => ({
         transition: '0.3s',
         borderTopLeftRadius: 5,
         borderBottomLeftRadius: 5,
-        // padding: '20px 20px 0px 10px',
+        [theme.breakpoints.up('sm')]: {
+            padding: 8,
+        },
     },
     contentMobileFeatured: {
         [theme.breakpoints.down('sm')]: {
@@ -134,6 +136,7 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: 20,
         [theme.breakpoints.down('sm')]: {
             paddingBottom: '0',
+            maxWidth: '70%',
         },
     },
     imgFeaturedContainer: {

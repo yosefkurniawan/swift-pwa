@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
-import redirect from 'next-redirect';
+import Router from 'next/router';
 import Core from './core';
 import CashbackInfo from './components/CashbackInfo';
 import EmailView from './components/email/view';
@@ -55,7 +55,12 @@ Page.getInitialProps = async (ctx) => {
     const cartId = data.nci || null;
 
     if (!cartId) {
-        redirect(ctx, '/checkout/cart');
+        if (ctx.res) {
+            ctx.res.statusCode = 302;
+            ctx.res.setHeader('Location', '/checkout/cart');
+            return { props: {}, namespacesRequired: ['common', 'checkout', 'customer', 'validate'] };
+        }
+        Router.push('/checkout/cart');
     }
 
     return {

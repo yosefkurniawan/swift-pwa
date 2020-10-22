@@ -94,10 +94,10 @@ export default makeStyles((theme) => ({
     },
     qty: {
         [theme.breakpoints.down('sm')]: {
-            ...CreateMargin(15, 30, 15, 15),
+            ...CreateMargin(0, 15, 30, 15),
             alignItems: 'center',
         },
-        marginBottom: 10,
+        ...CreateMargin(0, 15, 30, 0),
         ...FlexColumn,
     },
     select: {

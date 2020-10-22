@@ -288,9 +288,10 @@ const DetailContent = (props) => {
 
 const DetailReturn = (props) => {
     const {
-        data, Loader, loading, loadCustomerData,
+        data, Loader, loading, loadCustomerData, customerData,
     } = props;
-    if (loading || !data || loadCustomerData.loading) return <Layout {...props}><Loader /></Layout>;
+    if (loading || !data || (data && !data.detail_rma) || loadCustomerData.loading
+    || !customerData) return <Layout {...props}><Loader /></Layout>;
     return <DetailContent {...props} />;
 };
 
