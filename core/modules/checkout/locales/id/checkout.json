@@ -35,6 +35,7 @@
     "completePikcupInfo": "Silahkan lengkapi informasi pickup dan pilih lokasi toko pickup terlebih dahulu",
     "storesNotFound": "Tidak ada toko yang tersedia",
     "message": {
+        "unsavedEmail": "Email belum tersimpan",
         "problemConnection": "Terjadi gangguan pada koneksi Anda",
         "couponRemoved": "Kupon telah digunakan",
         "couponApplied": "Kupon tidak digunakan",

@@ -35,6 +35,7 @@
     "completePikcupInfo": "Please compleate pickup information & select store pickup",
     "storesNotFound": "No Stores avaliable",
     "message": {
+        "unsavedEmail": "Email unsaved",
         "problemConnection": "There is a problem with your connection",
         "couponRemoved": "Coupon has been removed",
         "couponApplied": "Coupon has been applied",
