@@ -45,7 +45,9 @@ const Email = (props) => {
     };
 
     useEffect(() => {
-        if (!saved && formik.values.email && formik.values.email !== '') {
+        if (!saved && formik.values.email
+            && formik.values.email !== '' && formik.values.oldEmail && formik.values.oldEmail !== ''
+            && formik.values.email === formik.values.oldEmail) {
             setSaved(true);
         }
     }, [formik.values.email]);

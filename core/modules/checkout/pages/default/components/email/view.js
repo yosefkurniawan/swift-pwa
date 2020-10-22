@@ -87,8 +87,9 @@ const EmailView = (props) => {
                             </>
                         )}
                     />
-                    { !saved && formik.values.email !== '' && (<FormHelperText>Email Unsaved</FormHelperText>) }
-                    {formik.touched.email && formik.errors.email ? <FormHelperText>{formik.errors.email || null}</FormHelperText> : null}
+                    { !saved && formik.values.email !== '' && (<FormHelperText>{t('checkout:message:unsavedEmail')}</FormHelperText>) }
+                    {(!!(formik.touched.email && formik.errors.email) || !!(formik.touched.oldEmail && formik.errors.oldEmail))
+                        ? <FormHelperText>{formik.errors.email || null}</FormHelperText> : null}
                 </FormControl>
             </div>
             {!isExternalLoginLink
