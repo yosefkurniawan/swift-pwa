@@ -29,7 +29,7 @@ import SkeletonView from '@core_modules/catalog/pages/category/components/Skelet
 
 ```node
 import Core from '@core_modules/catalog/pages/category/core';
-import BannerView from '@common_banner';
+import BannerView from '@common_slider';
 import BreadcrumbView from '@common_breadcrumb';
 import TabView from '@common_tabs';
 import { withTranslation } from '@i18n';

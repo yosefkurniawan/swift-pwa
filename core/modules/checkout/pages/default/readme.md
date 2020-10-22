@@ -27,7 +27,6 @@ import CashbackInfo from '@core_modules/checkout/pages/default/components/Cashba
 import Layout from '@layout';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
-import cookies from 'next-cookies';
 import Head from 'next/head';
 import { modules } from '@config';
 import Core from './core';

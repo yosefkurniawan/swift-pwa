@@ -2,6 +2,8 @@ import Radio from '@common_radio';
 import Button from '@common_button';
 import Skeleton from '@material-ui/lab/Skeleton';
 import classNames from 'classnames';
+import { breakPointsUp } from '@helper_theme';
+import Typography from '@common_typography';
 import useStyles from './style';
 import CheckboxSettings from './checkbox';
 import CheckboxView from './checkbox/view';
@@ -14,9 +16,10 @@ const SettingPage = (props) => {
     const {
         t, customer, setSettings, dataLang, lang, setLang, handleSave,
     } = props;
+    const desktop = breakPointsUp('sm');
     return (
         <Layout {...props}>
-            <div className={classNames('col-md-6', styles.container)}>
+            <div className={classNames('col-md-12', styles.container)}>
                 <div className={styles.block}>
                     {typeof customer.is_subscribed !== 'undefined' ? (
                         <CheckboxSettings
@@ -41,11 +44,13 @@ const SettingPage = (props) => {
                 </div>
                 <div className={styles.footer}>
                     <Button
-                        rootClassName={styles.btnContainer}
-                        className={styles.btnSave}
                         onClick={handleSave}
+                        fullWidth={!desktop}
+                        align={desktop ? 'left' : 'center'}
                     >
-                        {t('common:button:save')}
+                        <Typography letter="capitalize" color="white" type="bold">
+                            {t('common:button:save')}
+                        </Typography>
                     </Button>
                 </div>
             </div>

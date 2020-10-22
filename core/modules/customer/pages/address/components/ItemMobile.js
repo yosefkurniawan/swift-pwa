@@ -5,7 +5,6 @@ import Typography from '@common_typography';
 import AddressFormDialog from '@core_modules/customer/plugins/AddressFormDialog';
 import React, { useState } from 'react';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import _ from 'lodash';
 import useStyles from './style';
 
 const ItemAddress = (props) => {

@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import Router from 'next/router';
 import { modules } from '@config';
 import Carousel from '@common_slick/Caraousel';
 import ProductItem from '@core_modules/catalog/plugin/ProductItem';
@@ -10,6 +9,7 @@ import Typography from '@common_typography';
 import Button from '@common_button';
 import classNames from 'classnames';
 import { setResolver } from '@helper_localstorage';
+import Link from 'next/link';
 import useStyles from '../style';
 import Image from './Image';
 
@@ -26,21 +26,17 @@ const MobileView = ({
             id,
             type: 'CATEGORY',
         });
-        Router.push(
-            '/[...slug]',
-            `/${url_path}`,
-        );
     };
     return (
         <div className={classNames('col-xs-12 row', styles.features)}>
             <div className={classNames('col-xs-12', styles.labelCategory)}>
-                <>
+                <Link href="/[...slug]" as={`/${url_path}`}>
                     <a onClick={handleClick}>
                         <Typography letter="capitalize" type="bold" variant="h1" align="center">
                             {name || ''}
                         </Typography>
                     </a>
-                </>
+                </Link>
             </div>
             <div className={classNames('col-xs-12 row between-lg', styles.featuresBox, right ? 'reverse' : '')}>
                 <div
@@ -50,13 +46,16 @@ const MobileView = ({
                 >
                     {(category_image) ? (
                         <div className={styles.imgFeaturedItem}>
-                            <Image
-                                handleClick={handleClick}
-                                name={name}
-                                src={category_image}
-                                width={width}
-                                height={height}
-                            />
+                            <Link href="/[...slug]" as={`/${url_path}`}>
+                                <a onClick={handleClick} style={{ width: '100%' }}>
+                                    <Image
+                                        name={name}
+                                        src={category_image}
+                                        width={width}
+                                        height={height}
+                                    />
+                                </a>
+                            </Link>
                         </div>
                     ) : null}
                 </div>
@@ -66,13 +65,17 @@ const MobileView = ({
                             <Carousel data={products} showArrow={desktop} slideLg={category_image ? 4 : 6} Item={ProductItem} />
                         </div>
                         <div className={classNames('col-xs-12', styles.footerFeatured)}>
-                            <Button
-                                fullWidth
-                                variant="outlined"
-                                onClick={handleClick}
-                            >
-                                {t('common:button:viewAll')}
-                            </Button>
+                            <Link href="/[...slug]" as={`/${url_path}`}>
+                                <a>
+                                    <Button
+                                        fullWidth
+                                        variant="outlined"
+                                        onClick={handleClick}
+                                    >
+                                        {t('common:button:viewAll')}
+                                    </Button>
+                                </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

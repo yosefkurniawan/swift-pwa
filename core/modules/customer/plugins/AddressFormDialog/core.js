@@ -2,7 +2,6 @@
 /* eslint-disable consistent-return */
 import { regexPhone } from '@helper_regex';
 import { useFormik } from 'formik';
-import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { groupingCity, groupingSubCity } from '@helpers/city';
@@ -157,18 +156,18 @@ const AddressFormDialog = (props) => {
             const data = {
                 ...values,
                 countryCode: values.country.id,
-                region: _.isObject(values.region) ? values.region.code : values.region,
-                regionCode: _.isObject(values.region) ? values.region.code : null,
-                regionId: _.isObject(values.region) ? values.region.id : null,
+                region: values.region && values.region.code ? values.region.code : values.region,
+                regionCode: values.region && values.region.code ? values.region.code : null,
+                regionId: values.region && values.region.code ? values.region.id : null,
                 addressId,
                 latitude: String(mapPosition.lat),
                 longitude: String(mapPosition.lng),
             };
 
             if (modules.customer.plugin.address.splitCity) {
-                data.city = _.isObject(values.village) ? values.village.city : values.id;
+                data.city = values.village && values.village.city ? values.village.city : values.id;
             } else {
-                data.city = _.isObject(values.city) ? values.city.label : values.city;
+                data.city = values.city && values.city.label ? values.city.label : values.city;
             }
 
             const type = addressId ? 'update' : 'add';
@@ -181,6 +180,14 @@ const AddressFormDialog = (props) => {
             }
         },
     });
+
+    const [enableSplitCity, setEnableSplitCity] = React.useState(false);
+
+    // togle enableSplitCity, set true when countryId === 'ID' & splitCity config === true
+    React.useEffect(() => {
+        const countryId = formik.values.country && formik.values.country.id;
+        setEnableSplitCity(countryId === 'ID' && modules.customer.plugin.address.splitCity);
+    }, [formik.values.country]);
 
     const [getCities, responCities] = getCityByRegionId({});
 
@@ -205,7 +212,7 @@ const AddressFormDialog = (props) => {
             }
             setAddressState(state);
 
-            if (_.isArray(state.dropdown.region) && region) {
+            if (state.dropdown.region && state.dropdown.region.length && region) {
                 const selectedRegion = getRegionByLabel(region);
                 formik.setFieldValue('region', selectedRegion);
                 if (selectedRegion) {
@@ -334,6 +341,7 @@ const AddressFormDialog = (props) => {
             loading={loading}
             success={success}
             gmapKey={gmapKey}
+            enableSplitCity={enableSplitCity}
         />
     );
 };

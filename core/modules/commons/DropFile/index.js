@@ -92,6 +92,7 @@ const DropFile = ({
         color: '#bdbdbd',
         outline: 'none',
         transition: 'breturn .24s ease-in-out',
+        cursor: 'pointer',
     };
 
     const activeStyle = {

@@ -7,7 +7,7 @@ import {
     Centering,
     FlexColumn,
 } from '@theme_mixins';
-import { GRAY_PRIMARY } from '@theme_color';
+import { GRAY_PRIMARY, WHITE } from '@theme_color';
 
 export default makeStyles(() => ({
     container: {
@@ -31,6 +31,10 @@ export default makeStyles(() => ({
         height: 43,
         ...Centering,
         backgroundColor: GRAY_PRIMARY,
+        '& .text-name': {
+            color: WHITE,
+            textShadow: '0 0 black',
+        },
     },
     customerProfile: {
         ...FlexColumn,

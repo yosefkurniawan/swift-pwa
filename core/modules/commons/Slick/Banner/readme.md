@@ -12,7 +12,7 @@ this component use some dependency and **required**, so you need to install
 
 **1. Import module to your component**
 ````
-import Banner from '@common_banner';
+import Banner from '@common_slider';
 ````
 or 
 ````
