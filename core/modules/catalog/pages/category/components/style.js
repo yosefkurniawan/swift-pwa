@@ -11,6 +11,8 @@ const useStyles = makeStyles(() => ({
     headContainer: {
         position: 'relative',
         backgroundColor: GRAY_PRIMARY,
+        width: '100%',
+        height: 'auto',
     },
     headContainerNoBanner: {
         backgroundColor: WHITE,
