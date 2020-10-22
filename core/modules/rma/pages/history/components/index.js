@@ -193,7 +193,7 @@ const HistoryContent = (props) => {
                                                         <div className={styles.value}>
                                                             <Button
                                                                 variant="text"
-                                                                className="clear-margin-padding"
+                                                                className="clear-margin-padding text-center"
                                                                 onClick={() => Router.push(
                                                                     '/rma/customer/view/id/[id]',
                                                                     `/rma/customer/view/id/${val.increment_id}`,

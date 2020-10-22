@@ -8,36 +8,36 @@ import { WHITE, PRIMARY } from '@theme_color';
 import Thumbor from '@common_image';
 import getPath from '@helper_getpath';
 import { setResolver } from '@helper_localstorage';
-import Route from 'next/router';
 import { features, cmsPages } from '@config';
+import Link from 'next/link';
 
-const generateLevel2 = (data, handleClick) => {
+const generateLevel2 = (data, handleClick, generateLink) => {
     const [active, setActive] = React.useState(0);
     const child = data[active];
     return (
         <>
             <div className="nav-column nav-column-left col-lg-2">
                 {data.map((val, idx) => (
-                    <React.Fragment key={idx}>
+                    <Link key={idx} href={generateLink(val)[0]} as={generateLink(val)[1]}>
                         <a onClick={() => handleClick(val)} className={active === idx ? 'active' : ''} onMouseEnter={() => setActive(idx)}>
                             {val.name}
                         </a>
-                    </React.Fragment>
+                    </Link>
                 ))}
             </div>
             <div className="nav-column nav-column-right col-lg-10 row">
                 <div className={`${child.image_path ? 'col-lg-9' : 'col-lg-12'} row`}>
                     {child.children.map((lvl3, id3) => (
                         <div className="col-lg-3" key={id3}>
-                            <>
+                            <Link href={generateLink(lvl3)[0]} as={generateLink(lvl3)[1]}>
                                 <a onClick={() => handleClick(lvl3)}>{lvl3.name}</a>
-                            </>
+                            </Link>
                             <ul className="list-item__menu">
                                 {lvl3.children.map((lvl4, id4) => (
                                     <li key={id4}>
-                                        <>
+                                        <Link href={generateLink(lvl4)[0]} as={generateLink(lvl4)[1]}>
                                             <a onClick={() => handleClick(lvl4)}>{lvl4.name}</a>
-                                        </>
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>
@@ -82,6 +82,20 @@ const generateLevel2 = (data, handleClick) => {
 const Menu = (props) => {
     const { data } = props;
     const menu = features.vesMenu.enabled ? data.vesMenu.items : data.categoryList[0].children;
+    const generateLink = (cat) => {
+        const link = cat.link ? getPath(cat.link) : `/${cat.url_path}`;
+        if (features.vesMenu.enabled) {
+            if (cat.link_type === 'category_link') {
+                return ['/[...slug]', link];
+            }
+            const cms = cmsPages.find((cmsPage) => cmsPage === link.replace('/', ''));
+            if (cms) {
+                return ['/[...slug]', link];
+            }
+            return [link, link];
+        }
+        return ['/[...slug]', link];
+    };
     const handleClick = async (cat) => {
         const link = cat.link ? getPath(cat.link) : `/${cat.url_path}`;
         if (features.vesMenu.enabled) {
@@ -90,16 +104,12 @@ const Menu = (props) => {
                     type: 'CATEGORY',
                     id: cat.id,
                 });
-                Route.push('/[...slug]', link);
             } else {
                 const cms = cmsPages.find((cmsPage) => cmsPage === link.replace('/', ''));
                 if (cms) {
                     await setResolver({
                         type: 'CMS_PAGE',
                     });
-                    Route.push('/[...slug]', link);
-                } else {
-                    Route.push(link);
                 }
             }
         } else {
@@ -107,7 +117,6 @@ const Menu = (props) => {
                 type: 'CATEGORY',
                 id: cat.id,
             });
-            Route.push('/[...slug]', link);
         }
     };
     return (
@@ -117,12 +126,12 @@ const Menu = (props) => {
                     if ((val.include_in_menu || features.vesMenu.enabled) && val.name) {
                         return (
                             <li key={idx} role="menuitem">
-                                <>
+                                <Link href={generateLink(val)[0]} as={generateLink(val)[1]}>
                                     <a onClick={() => handleClick(val)} dangerouslySetInnerHTML={{ __html: val.name }} />
-                                </>
+                                </Link>
                                 {val.children.length > 0 ? (
                                     <div className="mega-menu row" aria-hidden="true" role="menu">
-                                        {generateLevel2(val.children, handleClick)}
+                                        {generateLevel2(val.children, handleClick, generateLink)}
                                     </div>
                                 ) : null}
                             </li>

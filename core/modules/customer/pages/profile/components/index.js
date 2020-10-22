@@ -192,8 +192,11 @@ const ProfileForm = (props) => {
                     fullWidth={!desktop}
                     type="submit"
                     loading={updateCustomerStatus.loading || changeCustomerPasswordStatus.loading}
+                    align={desktop ? 'left' : 'center'}
                 >
-                    {t('common:button:save')}
+                    <Typography letter="capitalize" color="white" type="bold">
+                        {t('common:button:save')}
+                    </Typography>
                 </Button>
             </div>
         </form>
