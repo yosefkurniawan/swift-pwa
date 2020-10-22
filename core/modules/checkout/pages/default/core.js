@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import * as Yup from 'yup';
-import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
@@ -128,7 +127,7 @@ const Checkout = (props) => {
         const payment = cart.selected_payment_method && cart.selected_payment_method.code;
         const billing = cart.billing_address;
 
-        if (email && _.isEmpty(formik.values.email)) {
+        if (email && !formik.values.email) {
             formik.setFieldValue('email', email || '');
         }
 

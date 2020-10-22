@@ -2,6 +2,7 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
 import Router from 'next/router';
+import Cookies from 'js-cookie';
 import Core from './core';
 import CashbackInfo from './components/CashbackInfo';
 import EmailView from './components/email/view';
@@ -51,7 +52,7 @@ Page.getInitialProps = async (ctx) => {
     const {
         req,
     } = ctx;
-    const data = req.cookies;
+    const data = typeof window === 'undefined' ? req.cookies : Cookies.getJSON();
     const cartId = data.nci || null;
 
     if (!cartId) {
