@@ -36,6 +36,9 @@ main {
     margin: 0 !important;
     padding: 0 !important;
 }
+.text-center {
+    text-align: center;
+}
 .half-width {
     width: 50%;
 }

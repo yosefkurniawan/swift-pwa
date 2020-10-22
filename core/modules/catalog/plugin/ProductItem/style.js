@@ -17,6 +17,9 @@ export default makeStyles(() => ({
         '& .MuiSkeleton-rect': {
             paddingBottom: '120%',
         },
+        '& a': {
+            cursor: 'pointer',
+        },
     },
     badgesNewSales: {
         position: 'absolute',

@@ -30,7 +30,7 @@ export default makeStyles((theme) => ({
     btnSave: {
         width: '100%',
         [theme.breakpoints.up('sm')]: {
-            width: 'fit-content',
+            // width: 'fit-content',
         },
     },
     btnContainer: {
