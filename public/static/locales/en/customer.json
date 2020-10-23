@@ -12,7 +12,7 @@
   },
   "setting": {
     "title": "Settings",
-    "newslater": "Newsletter subscriptions",
+    "newsletter": "Newsletter subscriptions",
     "language": "Language"
   },
   "profile" : {
