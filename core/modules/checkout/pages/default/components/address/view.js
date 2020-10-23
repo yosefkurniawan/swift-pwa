@@ -16,9 +16,9 @@ const AddressView = (props) => {
     } = props;
     const { dest_latitude, dest_longitude } = (data && data.cart && data.cart.dest_location) || {};
     const gmapKey = other && other.storeConfig && other.storeConfig.icube_pinlocation_gmap_key;
+    const { formik } = other;
 
     const [openAddress, setOpenAddress] = React.useState(false);
-
     return (
         <div className={styles.block}>
             <style jsx>
@@ -83,7 +83,13 @@ const AddressView = (props) => {
                     />
                     {loading.addresses || loading.all ? null : (
                         <Button
-                            variant="outlined"
+                            variant={
+                                (formik.values.email !== '' && formik.values.email !== formik.values.oldEmail)
+                                    ? 'contained' : 'outlined'
+                            }
+                            disabled={
+                                formik.values.email !== '' && formik.values.email !== formik.values.oldEmail
+                            }
                             // href={data.isGuest ? null : '/customer/account/address'}
                             onClick={
                                 data.isGuest
