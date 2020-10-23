@@ -63,6 +63,13 @@ const ProductPage = (props) => {
         <FavoriteBorderOutlined className={styles.iconShare} />
     );
 
+    let contentCaraousel = '';
+    if (typeof window === 'undefined') {
+        contentCaraousel = <CarouselSkeleton />;
+    } else if (relateData.length > 0) {
+        contentCaraousel = <Caraousel data={relateData} Item={ProductItem} />;
+    }
+
     return (
         <>
             <div className="hidden-mobile">
@@ -244,10 +251,13 @@ const ProductPage = (props) => {
                             className={styles.carouselTitle}
                         >
                             {t('common:title:relatedProduct')}
+                            asdas
                         </Typography>
-                        <Caraousel data={relateData} Item={ProductItem} />
+                        {
+                            contentCaraousel
+                        }
                     </div>
-                ) : <CarouselSkeleton />}
+                ) : null}
 
                 {!desktop
                     ? (
