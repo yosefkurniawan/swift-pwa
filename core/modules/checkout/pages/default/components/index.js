@@ -104,6 +104,7 @@ const Content = (props) => {
                                 AddressView={AddressView}
                                 manageCustomer={manageCustomer}
                                 storeConfig={storeConfig}
+                                formik={formik}
                             />
                         ) : (
                             <PickupInfo
