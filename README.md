@@ -1,6 +1,6 @@
 This is SwiftPWA base project bootstrapped with [Next.js](https://nextjs.org/).
 
-Demo: [https://pwa.getswift.asia/](https://pwa.getswift.asia/)
+Demo: [https://swiftpwa.testingnow.me/](https://swiftpwa.testingnow.me/)
 
 ## Pre-Installation (Development only!)
 1. clone repo swift-pwa, then run: npm install or yarn install
@@ -98,34 +98,7 @@ const graphqlEndpoint = {
 
 ## Core 
 ### Modules
-- [Blog](core/modules/blog/readme.md) 
-- [Brands](core/modules/brands/readme.md) 
-- [Cart](core/modules/cart/readme.md) 
-- [Catalog](core/modules/catalog/readme.md) 
-- [Checkout](core/modules/checkout/readme.md) 
-- [CMS](core/modules/cms/readme.md) 
-- [Confirm Payment](core/modules/confirmpayment/readme.md) 
-- [Contact](core/modules/contact/readme.md) 
-- [Customer](core/modules/customer/readme.md) 
-- [Product](core/modules/product/readme.md) 
-- [Error](core/modules/error/readme.md) 
-- [Forgot Password](core/modules/forgotpassword/readme.md) 
-- [Home](core/modules/home/readme.md) 
-- [Login](core/modules/login/readme.md) 
-- [Maintenance](core/modules/maintenance/readme.md) 
-- [Notification](core/modules/notification/readme.md) 
-- [Order](core/modules/order/readme.md) 
-- [Register](core/modules/register/readme.md) 
-- [Reward Point](core/modules/rewardpoint/readme.md) 
-- [RMA](core/modules/rma/readme.md) 
-- [Search Result](core/modules/searchresult/readme.md) 
-- [Slug](core/modules/slug/readme.md) 
-- [Store Credit](core/modules/storecredit/readme.md) 
-- [Thanks](core/modules/thanks/readme.md) 
-- [Tracking Order](core/modules/trackingorder/readme.md) 
-- [Store Locator](core/modules/storelocator/readme.md) 
-- [Common components](core/modules/commons/readme.md)
-
+Core modules are served as a package in separate repo: https://github.com/icubeus/swift-pwa-core
 ### [Helpers](core/helpers/readme.md) 
 ### [Libraries](core/lib/readme.md) 
 ### [Public](core/public/readme.md) 
