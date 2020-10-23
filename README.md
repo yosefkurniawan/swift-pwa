@@ -2,6 +2,13 @@ This is SwiftPWA base project bootstrapped with [Next.js](https://nextjs.org/).
 
 Demo: [https://pwa.getswift.asia/](https://pwa.getswift.asia/)
 
+## Pre-Installation (Development only!)
+1. clone repo swift-pwa, then run: npm install or yarn install
+2. clone repo swift-pwa-core
+3. in local directory ~/swift-pwa-core, run: npm link or yarn link
+4. in local directory ~/swift-pwa, run: npm link swift-pwa-core or yarn link swift-pwa-core
+5. Any changes in ~/swift-pwa-core will be reflected in ~/swift-pwa/node_modules/swift-pwa-core
+
 ## Installation
 
 if you need to run on your local, in firstime you need to build static assets with command line
