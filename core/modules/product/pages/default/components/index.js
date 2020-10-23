@@ -64,9 +64,7 @@ const ProductPage = (props) => {
     );
 
     let contentCaraousel = '';
-    if (typeof window === 'undefined') {
-        contentCaraousel = <CarouselSkeleton />;
-    } else if (relateData.length > 0) {
+    if (typeof window !== 'undefined' && relateData.length > 0) {
         contentCaraousel = <Caraousel data={relateData} Item={ProductItem} />;
     }
 
@@ -251,7 +249,6 @@ const ProductPage = (props) => {
                             className={styles.carouselTitle}
                         >
                             {t('common:title:relatedProduct')}
-                            asdas
                         </Typography>
                         {
                             contentCaraousel
