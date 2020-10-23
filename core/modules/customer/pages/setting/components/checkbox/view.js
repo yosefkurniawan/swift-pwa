@@ -4,7 +4,7 @@ const CheckboxView = ({
     t, data, value, onChange,
 }) => (
     <Checkbox
-        label={t('customer:setting:newslater')}
+        label={t('customer:setting:newsletter')}
         flex="column"
         data={data}
         value={value}
