@@ -104,4 +104,4 @@ Click [here](core/public/readme.md) for more detail.
 
 # Overriding
 Do not ever touch files under under [core](core) folder!
-Do override in [src](src] folder instead!
+Do override in [src](src) folder instead!
