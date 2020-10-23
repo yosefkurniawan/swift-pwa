@@ -2,82 +2,11 @@ This is SwiftPWA base project bootstrapped with [Next.js](https://nextjs.org/).
 
 Demo: [https://swiftpwa.testingnow.me/](https://swiftpwa.testingnow.me/)
 
-## Pre-Installation (Development only!)
-1. clone repo swift-pwa, then run: npm install or yarn install
-2. clone repo swift-pwa-core
-3. in local directory ~/swift-pwa-core, run: npm link or yarn link
-4. in local directory ~/swift-pwa, run: npm link swift-pwa-core or yarn link swift-pwa-core
-5. Any changes in ~/swift-pwa-core will be reflected in ~/swift-pwa/node_modules/swift-pwa-core
 
-## Installation
-
-if you need to run on your local, in firstime you need to build static assets with command line
-
-```bash
-yarn install
-# or
-npm install
-```
-
-then
-
-
-```bash
-npm run assets:build
-# or
-yarn assets:build
-
-```
-
-only in firstime if no change code on static assets
-
-### Without Docker
-1. run dev mode on local environment:
-```bash
-npm run local
-# or
-yarn local
-```
-or, run prod mode on local environment:
-```bash
-npm run local:start
-# or
-yarn local:start
-```
-2. Open [http://localhost:3000](http://localhost:3000) on browser to see the frontend.
-
-### With Docker
-#### Local environment (dev mode): 
-1. build:
-```
-docker-compose -f ./docker/local/docker-compose.yml build
-```
-2. run: 
-```
-docker-compose -f ./docker/local/docker-compose.yml up
-```
-
-or, rebuild and run in one step:
-```
-docker-compose -f ./docker/local/docker-compose.yml up -- build
-```
-
-
-#### Dev environment (prod mode): 
-1. build: `docker-compose -f ./docker/dev/docker-compose.yml build`
-2. run: `docker-compose -f ./docker/dev/docker-compose.yml up`
-
-or, rebuild and run in one step: `docker-compose -f ./docker/dev/docker-compose.yml up --build`
-
-#### Prod environment (prod mode):
-1. build: `docker-compose build`
-2. run: `docker-composer up`
-
-or, rebuild and run in one step: `docker-compose up --build`
-
-## Setup Host and Graphql Endpoint
-1. open file swift.config.js
-2. edit the host of each environment at this line:
+## Pre-Installation
+### Setup Host and Graphql Endpoint
+1. Open file [swift.config.js](swift.config.js)
+2. Edit the host of each environment at thes lines:
 ```
 const HOST = {
     local: 'http://localhost:3000'
@@ -86,7 +15,7 @@ const HOST = {
     prod: '[prod url]',
 };
 ```
-3. Edit Gql endpoint of each environment at this line:
+3. Edit GraphQl endpoint of each environment at these lines:
 ```
 const graphqlEndpoint = {
     local: '[gql endpoint for local]'
@@ -96,9 +25,76 @@ const graphqlEndpoint = {
 };
 ```
 
-## Core 
+## Installation
+You can run SwiftPWA with or without docker.
+### Without Docker
+#### Dev mode
+1. Build static assets (do once only for the first time)
+```
+npm run assets:build
+# or
+yarn assets:build
+```
+2. Run it (sample for local environment):
+```bash
+npm run local
+# or
+yarn local
+``` 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:bulb: Please find more commands for another environments in [package.json](package.json)  
+
+3. Open [http://localhost:3000](http://localhost:3000) on browser to see the frontend.
+
+#### Prod mode
+1. Build the static assets and the project
+```bash
+npm run build
+# or
+yarn build
+```
+2. Run it (sample for local environment):
+```bash
+npm run local:start
+# or
+yarn local:start
+```
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:bulb: Please find more commands for another environments in [package.json](package.json)  
+
+3. Open [http://localhost:3000](http://localhost:3000) on browser to see the frontend.
+
+### With Docker
+#### Local environment (dev mode): 
+1. build: `docker-compose -f ./docker/local/docker-compose.yml build`
+2. run: `docker-compose -f ./docker/local/docker-compose.yml up`
+
+
+Alternatively, build and run in one step: `docker-compose -f ./docker/local/docker-compose.yml up --build`
+
+
+#### Dev environment (prod mode): 
+1. build: `docker-compose -f ./docker/dev/docker-compose.yml build`
+2. run: `docker-compose -f ./docker/dev/docker-compose.yml up`
+
+Alternatively, build and run in one step: `docker-compose -f ./docker/dev/docker-compose.yml up --build`
+
+#### Prod environment (prod mode):
+1. build: `docker-compose build`
+2. run: `docker-composer up`
+
+Alternatively, build and run in one step: `docker-compose up --build`
+
+## The SwiftPWA Cores
 ### Modules
 Core modules are served as a package in separate repo: https://github.com/icubeus/swift-pwa-core
+
+#### SwiftPWA Core Modules Development Approach
+This approach should be done only in purpose of adjusting any files in the [swift-pwa-core](https://github.com/icubeus/swift-pwa-core/) modules.
+1. Clone repo [swift-pwa](https://github.com/icubeus/swift-pwa/) (this repo), then follow the [general installation of SwiftPWA](https://github.com/icubeus/swift-pwa#installation)
+2. Clone repo [swift-pwa-core](https://github.com/icubeus/swift-pwa-core/)
+3. In local directory ~/swift-pwa-core, run: `npm link` or `yarn link`
+4. In local directory ~/swift-pwa, run: `npm link swift-pwa-core` or `yarn link swift-pwa-core`
+5. Any changes in ~/swift-pwa-core will be reflected in ~/swift-pwa/node_modules/swift-pwa-core
+
 ### [Helpers](core/helpers/readme.md) 
 ### [Libraries](core/lib/readme.md) 
 ### [Public](core/public/readme.md) 
