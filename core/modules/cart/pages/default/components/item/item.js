@@ -35,6 +35,11 @@ const ItemView = (props) => {
                     height={features.imageSize.product.height}
                     quality={80}
                 />
+                {
+                    prices.price.value === 0 ? (
+                        <span>{t('common:title:free')}</span>
+                    ) : null
+                }
             </div>
             <div className={styles.itemInfo}>
                 <Link
