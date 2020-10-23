@@ -324,6 +324,28 @@ const AddressFormDialog = (props) => {
         }
     }, [formik.values.village]);
 
+    // clear child location value when clear parent location
+    // example: clear country => clear region
+    React.useEffect(() => {
+        if (!formik.values.country) formik.setFieldValue('region', '');
+    }, [formik.values.country]);
+
+    React.useEffect(() => {
+        if (!formik.values.region) formik.setFieldValue('city', '');
+    }, [formik.values.region]);
+
+    React.useEffect(() => {
+        if (!formik.values.city) formik.setFieldValue('district', '');
+    }, [formik.values.city]);
+
+    React.useEffect(() => {
+        if (!formik.values.district) formik.setFieldValue('village', '');
+    }, [formik.values.district]);
+
+    React.useEffect(() => {
+        if (!formik.values.village) formik.setFieldValue('postcode', '');
+    }, [formik.values.village]);
+
     return (
         <Content
             t={t}
