@@ -32,6 +32,7 @@ const AddressView = (props) => {
         if (addressState.dropdown.region && addressState.dropdown.region.length && open) {
             return (
                 <Autocomplete
+                    disabled={!formik.values.country}
                     options={addressState.dropdown.region}
                     getOptionLabel={(option) => (option.label ? option.label : '')}
                     id="controlled-region"
@@ -87,6 +88,7 @@ const AddressView = (props) => {
 
         return (
             <CustomTextField
+                disabled={!formik.values.country}
                 autoComplete="no-autoComplete"
                 label="State/Province"
                 name="region"
@@ -102,6 +104,7 @@ const AddressView = (props) => {
         if (addressState.dropdown.city && addressState.dropdown.city.length && open) {
             return (
                 <Autocomplete
+                    disabled={!formik.values.region}
                     options={addressState.dropdown.city}
                     getOptionLabel={(option) => (option.label ? option.label : '')}
                     id="controlled-city"
@@ -141,6 +144,7 @@ const AddressView = (props) => {
 
         return (
             <CustomTextField
+                disabled={!formik.values.region}
                 autoComplete="no-autoComplete"
                 label="City"
                 name="city"
@@ -156,6 +160,7 @@ const AddressView = (props) => {
         if (addressState.dropdown.district && addressState.dropdown.district.length && open) {
             return (
                 <Autocomplete
+                    disabled={!formik.values.city}
                     options={addressState.dropdown.district}
                     getOptionLabel={(option) => (option.label ? option.label : '')}
                     id="controlled-district"
@@ -194,6 +199,7 @@ const AddressView = (props) => {
 
         return (
             <CustomTextField
+                disabled={!formik.values.city}
                 autoComplete="no-autoComplete"
                 label="Kecamatan"
                 name="district"
@@ -209,6 +215,7 @@ const AddressView = (props) => {
         if (addressState.dropdown.village && addressState.dropdown.village.length && open) {
             return (
                 <Autocomplete
+                    disabled={!formik.values.district}
                     options={addressState.dropdown.village}
                     getOptionLabel={(option) => (option.label ? option.label : '')}
                     id="controlled-village"
@@ -247,6 +254,7 @@ const AddressView = (props) => {
 
         return (
             <CustomTextField
+                disabled={!formik.values.district}
                 autoComplete="no-autoComplete"
                 label="Kelurahan"
                 name="village"
