@@ -101,3 +101,7 @@ Click [here](core/helpers/readme.md) for more detail.
 Click [here](core/lib/readme.md) for more detail.
 ### Public
 Click [here](core/public/readme.md) for more detail.
+
+# Overriding
+Do not ever touch files under under [core](core) folder!
+Do override instead!
