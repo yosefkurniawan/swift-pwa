@@ -73,7 +73,7 @@ const Caraousel = (props) => {
                 settings: {
                     slidesToShow: data.length < slideXs ? data.length : slideXs,
                     slidesToScroll: 1,
-                    centerMode: true,
+                    centerMode: data.length !== 1,
                     className: 'slider',
                 },
             },
