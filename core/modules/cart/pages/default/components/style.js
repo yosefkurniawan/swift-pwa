@@ -1,6 +1,6 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
-    PRIMARY, WHITE_IMPORTANT, RED, WHITE,
+    PRIMARY, WHITE_IMPORTANT, GREEN, WHITE,
 } from '@theme_color';
 import {
     FlexColumn,
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
             zIndex: 1,
             minWidth: 20,
             minHeight: 15,
-            backgroundColor: RED,
+            backgroundColor: GREEN,
             color: WHITE,
             fontWeight: '700',
             fontSize: 10,

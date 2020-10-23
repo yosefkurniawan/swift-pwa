@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import {
-    WHITE, BLACK, GRAY_LIGHT, RED,
+    WHITE, BLACK, GRAY_LIGHT, GREEN,
 } from '@theme_color';
 import {
     Centering,
@@ -103,7 +103,7 @@ const useStyles = makeStyles(() => ({
                     zIndex: 1,
                     minWidth: 15,
                     minHeight: 10,
-                    backgroundColor: RED,
+                    backgroundColor: GREEN,
                     color: WHITE,
                     fontWeight: '700',
                     fontSize: 8,

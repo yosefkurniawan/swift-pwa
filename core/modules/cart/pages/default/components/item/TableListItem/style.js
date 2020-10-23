@@ -1,6 +1,6 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { FlexColumn, FlexRow, Centering } from '@theme_mixins';
-import { RED, WHITE } from '@theme_color';
+import { GREEN, WHITE } from '@theme_color';
 
 export default makeStyles((theme) => ({
     rowCenter: {
@@ -79,7 +79,7 @@ export default makeStyles((theme) => ({
             zIndex: 1,
             minWidth: 20,
             minHeight: 15,
-            backgroundColor: RED,
+            backgroundColor: GREEN,
             color: WHITE,
             fontWeight: '700',
             fontSize: 10,
