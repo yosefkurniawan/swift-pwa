@@ -399,7 +399,7 @@ const AddressView = (props) => {
                                     checked={formik.values.defaultBilling}
                                     onChange={() => formik.setFieldValue('defaultBilling', !formik.values.defaultBilling)}
                                     name="defaultBilling"
-                                    control={<Checkbox name="newslater" color="primary" size="small" />}
+                                    control={<Checkbox name="newsletter" color="primary" size="small" />}
                                     label={(
                                         <Typography variant="p" letter="capitalize" className="row center">
                                             {t('customer:address:useBilling')}
@@ -412,7 +412,7 @@ const AddressView = (props) => {
                                     checked={formik.values.defaultShipping}
                                     onChange={() => formik.setFieldValue('defaultShipping', !formik.values.defaultShipping)}
                                     name="defaultShipping"
-                                    control={<Checkbox name="newslater" color="primary" size="small" />}
+                                    control={<Checkbox name="newsletter" color="primary" size="small" />}
                                     label={(
                                         <Typography variant="p" letter="capitalize" className="row center">
                                             {t('customer:address:useShipping')}
