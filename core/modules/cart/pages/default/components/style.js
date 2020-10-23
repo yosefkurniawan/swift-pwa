@@ -1,10 +1,13 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { PRIMARY, WHITE_IMPORTANT } from '@theme_color';
+import {
+    PRIMARY, WHITE_IMPORTANT, GREEN, WHITE,
+} from '@theme_color';
 import {
     FlexColumn,
     FlexRow,
     CreatePadding,
     CreateMargin,
+    Centering,
 } from '@theme_mixins';
 import { FONT_14, FONT_BIG } from '@theme_typography';
 
@@ -51,6 +54,24 @@ const useStyles = makeStyles((theme) => ({
     itemImgWrapper: {
         flex: 1,
         maxWidth: 200,
+        position: 'relative',
+        '& span': {
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            zIndex: 1,
+            minWidth: 20,
+            minHeight: 15,
+            backgroundColor: GREEN,
+            color: WHITE,
+            fontWeight: '700',
+            fontSize: 10,
+            padding: 5,
+            borderRadius: 5,
+            ...Centering,
+            marginLeft: 'auto',
+            marginRight: 5,
+        },
     },
     itemImg: {
         width: '100%',

@@ -108,6 +108,7 @@ const useStyles = makeStyles((theme) => ({
             marginTop: 10,
             marginBottom: 10,
         },
+        cursor: 'pointer',
     },
     featuresBox: {
         boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',

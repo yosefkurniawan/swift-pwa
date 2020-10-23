@@ -85,7 +85,6 @@
                     "@common_rangeslider": "./core/modules/commons/RangeSlider",
                     "@common_select": "./core/modules/commons/Select",
                     "@common_textfield": "./core/modules/commons/TextField",
-                    "@common_banner": "./core/modules/commons/Banner",
                     "@common_carousel": "./core/modules/commons/carousel",
                     "@common_image": "./core/modules/commons/Image",
                     "@common_backdrop": "./core/modules/commons/Backdrop",

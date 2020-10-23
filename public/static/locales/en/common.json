@@ -79,7 +79,8 @@
         "extraFee": "Extra Fee",
         "relatedProduct": "Related products",
         "sale": "Sale",
-        "new": "New"
+        "new": "New",
+        "free": "Free"
     },
     "error": {
         "notFound": "Data not found",

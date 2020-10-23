@@ -78,7 +78,7 @@ const GiftCard = (props) => {
                                 errorMessage={search.error || ''}
                             />
                             <Button onClick={handleSearch}>
-                                <Typography letter="capitalize" color="white">
+                                <Typography letter="capitalize" color="white" type="bold">
                                     {t('customer:giftCard:buttonSearch')}
                                 </Typography>
                             </Button>

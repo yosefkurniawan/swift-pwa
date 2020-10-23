@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import propTypes from 'prop-types';
 import Core from './core';
 import WihtLinkView from './components/WithLink';
@@ -12,7 +13,7 @@ const ShoppingBag = (props) => (
 );
 
 ShoppingBag.propTypes = {
-    withLink: propTypes.bool.isRequired,
+    withLink: propTypes.bool,
 };
 
 export default ShoppingBag;

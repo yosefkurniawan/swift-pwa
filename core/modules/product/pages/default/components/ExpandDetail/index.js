@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -9,7 +10,6 @@ import Typography from '@common_typography';
 import ExpandMoreIcon from '@material-ui/icons/Add';
 import Minimize from '@material-ui/icons/Minimize';
 import classNames from 'classnames';
-import HtmlParser from 'react-html-parser';
 import useStyles from './style';
 
 export default function ExpandDetail({ data = [1, 2, 3] }) {
@@ -60,7 +60,7 @@ export default function ExpandDetail({ data = [1, 2, 3] }) {
                             item.type === 'html'
                                 ? (
                                     <div className={styles.descriptionHtml}>
-                                        {item.content && HtmlParser(item.content)}
+                                        {item.content ? <span dangerouslySetInnerHTML={{ __html: item.content }} /> : null}
                                     </div>
                                 )
                                 : item.type === 'array' && (

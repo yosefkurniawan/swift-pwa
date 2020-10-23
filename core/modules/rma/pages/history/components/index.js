@@ -193,7 +193,7 @@ const HistoryContent = (props) => {
                                                         <div className={styles.value}>
                                                             <Button
                                                                 variant="text"
-                                                                className="clear-margin-padding"
+                                                                className="clear-margin-padding text-center"
                                                                 onClick={() => Router.push(
                                                                     '/rma/customer/view/id/[id]',
                                                                     `/rma/customer/view/id/${val.increment_id}`,
@@ -218,7 +218,7 @@ const HistoryContent = (props) => {
                                     <TableRow>
                                         <TablePagination
                                             rowsPerPageOptions={[10, 20, 50, { label: 'All', value: -1 }]}
-                                            colSpan={6}
+                                            colSpan={7}
                                             count={data.getCustomerRequestAwRma.total_count || 0}
                                             rowsPerPage={pageSize}
                                             page={page}
@@ -234,7 +234,7 @@ const HistoryContent = (props) => {
                                 </>
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={6}>
+                                    <TableCell colSpan={7}>
                                         <Alert severity="warning">{t('rma:empty')}</Alert>
                                     </TableCell>
                                 </TableRow>

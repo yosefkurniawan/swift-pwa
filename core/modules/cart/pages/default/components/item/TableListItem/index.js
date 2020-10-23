@@ -122,6 +122,11 @@ const TableListProduct = ({
                                                                 />
                                                             </a>
                                                         </Link>
+                                                        {
+                                                            val.prices.price.value === 0 ? (
+                                                                <span>Free</span>
+                                                            ) : null
+                                                        }
                                                     </div>
                                                 </TableCell>
                                                 <TableCell

@@ -71,17 +71,17 @@ const CategoryPage = ({
                 <div className={classNames(styles.breadcrumbs, 'hidden-mobile')}>
                     <BreadcrumbView data={breadcrumbsData} />
                 </div>
-                {dataBanner.length > 0
-                    ? (
-                        <div className={styles.headContainer}>
+                <div className={styles.headContainer} style={{ width: '100%', height: 'auto' }}>
+                    {dataBanner.length > 0
+                        ? (
                             <BannerView
                                 data={dataBanner}
                                 width={features.imageSize.category.width}
                                 height={features.imageSize.category.height}
+                                showArrow={dataBanner.length > 1}
                             />
-                            {' '}
-                        </div>
-                    ) : null}
+                        ) : null}
+                </div>
                 <div className={classNames(styles.breadcrumbs, 'hidden-desktop')}>
                     <BreadcrumbView data={breadcrumbsData} />
                 </div>

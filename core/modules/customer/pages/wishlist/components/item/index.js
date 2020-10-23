@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import Button from '@common_button';
 import PriceFormat from '@common_priceformat';
 import Typography from '@common_typography';
@@ -7,6 +10,7 @@ import Delete from '@material-ui/icons/Delete';
 import Link from 'next/link';
 import Image from '@common_image';
 import { features } from '@config';
+import { setResolver } from '@helper_localstorage';
 import useStyles from './style';
 
 const WishlistComp = ({
@@ -23,6 +27,11 @@ const WishlistComp = ({
     const handleAddToCart = () => {
         handleToCart({
             sku, url_key, wishlistItemId, __typename,
+        });
+    };
+    const handleClick = async () => {
+        await setResolver({
+            type: 'PRODUCT',
         });
     };
     return (
@@ -46,7 +55,7 @@ const WishlistComp = ({
                 </div>
                 <div className={styles.content}>
                     <Link href="/[...slug]" as={`/${url_key}`}>
-                        <a>
+                        <a onClick={handleClick}>
                             <Typography variant="p">{name}</Typography>
                         </a>
                     </Link>

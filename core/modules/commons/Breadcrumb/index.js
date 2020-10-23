@@ -11,6 +11,9 @@ import Router from 'next/router';
 const useStyles = makeStyles({
     root: {
         marginBottom: 0,
+        '& a': {
+            cursor: 'pointer',
+        },
     },
 });
 

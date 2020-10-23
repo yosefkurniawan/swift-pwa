@@ -1,4 +1,4 @@
-import BannerView from '@common_banner';
+import Banner from '@common_slick/Banner';
 import BreadcrumbView from '@common_breadcrumb';
 import TabView from '@common_tabs';
 import { withTranslation } from '@i18n';
@@ -8,7 +8,7 @@ import Content from './components';
 
 const CategoryPage = (props) => (
     <Core
-        BannerView={BannerView}
+        BannerView={Banner}
         BreadcrumbView={BreadcrumbView}
         TabView={TabView}
         SkeletonView={SkeletonView}

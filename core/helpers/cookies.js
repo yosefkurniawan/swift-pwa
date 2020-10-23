@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import server from 'next-cookies';
 import { nameCheckoutCookie, expiredDefault, nameGlobalCookie } from '@config';
 
 export const getCheckoutData = () => {
@@ -8,7 +7,10 @@ export const getCheckoutData = () => {
 };
 
 export const getCheckoutDataFromRequest = (ctx) => {
-    const data = server(ctx);
+    const {
+        req,
+    } = ctx;
+    const data = req.cookies;
     return data[nameCheckoutCookie];
 };
 
@@ -31,7 +33,10 @@ export const getCookies = (key) => {
 };
 
 export const getCookiesFromRequest = (ctx, key) => {
-    const data = server(ctx);
+    const {
+        req,
+    } = ctx;
+    const data = req.cookies;
     return data[nameGlobalCookie][key];
 };
 
