@@ -8,7 +8,7 @@ import { features } from '@config';
 import setDefaultWhenEmpty from '@helper_checkimagesrc';
 import classNames from 'classnames';
 import { setResolver } from '@helper_localstorage';
-import Router from 'next/router';
+import Link from 'next/link';
 import useStyles from './style';
 import Thumbor from '../Image';
 
@@ -23,16 +23,12 @@ const SpanCategory = (props) => {
             id,
             type: 'CATEGORY',
         });
-        Router.push(
-            '/[...slug]',
-            `/${url}`,
-        );
     };
     return (
         <div className={styles.container}>
             <div className={classNames('row center middle-sm', right ? 'reverse' : '')}>
                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    <div>
+                    <Link href="/[...slug]" as={`/${url}`}>
                         <a onClick={handleClick}>
                             <Thumbor
                                 src={setDefaultWhenEmpty(imageSrc)}
@@ -47,24 +43,28 @@ const SpanCategory = (props) => {
                                 height={features.imageSize.category.height}
                             />
                         </a>
-                    </div>
+                    </Link>
                 </div>
                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <div className={styles.contentContainer}>
-                        <Typography variant="title" type="bold" align="center">
-                            {name}
-                        </Typography>
+                        <Link href="/[...slug]" as={`/${url}`}>
+                            <a onClick={handleClick}>
+                                <Typography variant="title" type="bold" align="center">
+                                    {name}
+                                </Typography>
+                            </a>
+                        </Link>
                         <Typography size="12" align="center">
                             {/* eslint-disable-next-line react/no-danger */}
                             <div dangerouslySetInnerHTML={{ __html: description }} />
                         </Typography>
-                        <div>
+                        <Link href="/[...slug]" as={`/${url}`}>
                             <a onClick={handleClick}>
                                 <Typography variant="span" type="bold" className={styles.textBtn}>
                                     {t('common:button:shop')}
                                 </Typography>
                             </a>
-                        </div>
+                        </Link>
                     </div>
                 </div>
             </div>

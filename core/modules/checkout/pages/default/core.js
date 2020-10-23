@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import * as Yup from 'yup';
-import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
@@ -9,20 +8,35 @@ import { formatPrice } from '@helpers/currency';
 import Layout from '@layout';
 import Head from 'next/head';
 import { modules } from '@config';
+import Cookies from 'js-cookie';
 import gqlService from '../../services/graphql';
+
+function equalTo(ref, msg) {
+    return this.test({
+        name: 'equalTo',
+        exclusive: false,
+        message: msg || 'Error not same data',
+        params: {
+            reference: ref.path,
+        },
+        test(value) {
+            return value === this.resolve(ref);
+        },
+    });
+}
 
 const Checkout = (props) => {
     const {
         t,
         storeConfig,
-        isLogin,
         config,
         pageConfig,
         Content,
     } = props;
-    let { cartId } = props;
+    let { cartId, isLogin } = props;
     if (typeof window !== 'undefined') {
         cartId = getCartId();
+        isLogin = Cookies.get('isLogin');
     }
     const { snap_is_production, snap_client_key } = storeConfig;
     const configPage = {
@@ -90,6 +104,9 @@ const Checkout = (props) => {
             pickupInformation: false,
             selectStore: false,
         },
+        disabled: {
+            address: false,
+        },
     });
 
     // start init graphql
@@ -98,17 +115,21 @@ const Checkout = (props) => {
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
     // end init graphql
 
+    Yup.addMethod(Yup.string, 'equalTo', equalTo);
+
     const CheckoutSchema = Yup.object().shape({
         email: checkout.data.isGuest ? Yup.string().nullable().email(t('validate:email:wrong')).required(t('validate:email.required')) : null,
         address: Yup.object().nullable().required(t('validate:required')),
         shipping: checkout.selected.delivery === 'home' && Yup.object().nullable().required(t('validate:required')),
         payment: Yup.string().nullable().required(t('validate:required')),
         billing: Yup.object().nullable().required(t('validate:required')),
+        oldEmail: checkout.data.isGuest ? Yup.string().equalTo(Yup.ref('email')) : null,
     });
 
     const formik = useFormik({
         initialValues: {
             email: '',
+            oldEmail: '',
             coupon: '',
             giftCard: '',
             address: null,
@@ -127,8 +148,9 @@ const Checkout = (props) => {
         const payment = cart.selected_payment_method && cart.selected_payment_method.code;
         const billing = cart.billing_address;
 
-        if (email && _.isEmpty(formik.values.email)) {
+        if (email && !formik.values.email) {
             formik.setFieldValue('email', email || '');
+            formik.setFieldValue('oldEmail', email || '');
         }
 
         if (cart.applied_coupons) {
@@ -271,6 +293,16 @@ const Checkout = (props) => {
             if (cdt) removeCheckoutData();
         }
     }, []);
+
+    useEffect(() => {
+        setCheckout({
+            ...checkout,
+            data: {
+                ...checkout.data,
+                isGuest: !isLogin,
+            },
+        });
+    }, [isLogin]);
 
     useEffect(() => {
         setCheckout({

@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable-next-line jsx-a11y/click-events-have-key-events */
@@ -78,7 +79,7 @@ const ShoppingBagIcon = ({ withLink, WihtLinkView, WithoutLinkView }) => {
 };
 
 ShoppingBagIcon.propTypes = {
-    withLink: propTypes.bool.isRequired,
+    withLink: propTypes.bool,
     WihtLinkView: propTypes.func.isRequired,
     WithoutLinkView: propTypes.func.isRequired,
 };

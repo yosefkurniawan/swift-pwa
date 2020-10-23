@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { setCartId, removeCartId } from '@helper_cartid';
 import { setCheckoutData } from '@helper_cookies';
-import _ from 'lodash';
 import { localTotalCart } from '@services/graphql/schema/local';
 import SummaryPlugin from '@core_modules/cart/plugin/Summary';
 import { modules } from '@config';
@@ -88,8 +87,7 @@ const Summary = ({
 
         await formik.submitForm();
         formValidation = await formik.validateForm();
-
-        if (_.isEmpty(formValidation)) {
+        if (Object.keys(formValidation).length === 0 && formValidation.constructor === Object) {
             if (checkout.selected.delivery === 'pickup'
                 && (checkout.error.pickupInformation || checkout.error.selectStore)) {
                 state.loading.order = false;

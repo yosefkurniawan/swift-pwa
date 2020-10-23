@@ -1,5 +1,4 @@
 import { formatPrice } from '@helper_currency';
-import _ from 'lodash';
 
 const CoreSummary = (props) => {
     const {
@@ -44,8 +43,7 @@ const CoreSummary = (props) => {
             const price = formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency);
             dataSummary.push({ item: 'shipping', value: price });
         }
-
-        if (_.isArray(prices.discounts)) {
+        if (prices && prices.discounts && prices.discounts.length) {
             const discounts = prices.discounts.map((disc) => {
                 const price = formatPrice(disc.amount.value, disc.amount.currency);
                 return { item: `${disc.label} - ${price}`, value: `-${price}` };

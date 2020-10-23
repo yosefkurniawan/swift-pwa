@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 /* eslint-disable array-callback-return */
 import Button from '@common_button';
 import PriceFormat from '@common_priceformat';
@@ -12,7 +13,6 @@ import ShareOutlined from '@material-ui/icons/ShareOutlined';
 import classNames from 'classnames';
 import ProductItem from '@core_modules/catalog/plugin/ProductItem';
 import React from 'react';
-import HtmlParser from 'react-html-parser';
 import { getHost } from '@helper_config';
 import Breadcrumb from '@common_breadcrumb';
 import RatingStar from '@common_ratingstar';
@@ -211,8 +211,7 @@ const ProductPage = (props) => {
                             {' '}
                             <div className={styles.desc}>
                                 <Typography variant="span" type="regular" size="10">
-                                    {data.short_description.html
-                                && HtmlParser(data.short_description.html)}
+                                    {data.short_description.html ? <span dangerouslySetInnerHTML={{ __html: data.short_description.html }} /> : null}
                                 </Typography>
                             </div>
                             <div>
