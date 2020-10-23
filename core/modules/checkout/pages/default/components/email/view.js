@@ -7,12 +7,13 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Popover from '@material-ui/core/Popover';
 import Help from '@material-ui/icons/Help';
 import Button from '@common_button';
+import Spiner from '@material-ui/core/CircularProgress';
 import useStyles from '../style';
 
 const EmailView = (props) => {
     const {
         t, formik, setAnchorEl, anchorEl, idButton, open, config,
-        handleSave, saved, handleBlur,
+        handleBlur, load,
     } = props;
     const styles = useStyles();
 
@@ -37,7 +38,7 @@ const EmailView = (props) => {
             <div className={styles.emailContainer}>
                 <FormControl
                     fullWidth
-                    error={!!(formik.touched.email && formik.errors.email) || !!(formik.touched.oldEmail && formik.errors.oldEmail)}
+                    error={!!(formik.errors.email && formik.touched.email)}
                     className={styles.customFormControl}
                 >
                     <Input
@@ -49,10 +50,8 @@ const EmailView = (props) => {
                         endAdornment={(
                             <>
                                 {
-                                    (!saved && formik.values.email !== '') ? (
-                                        <IconButton onClick={handleSave} variant="text">
-                                            <Typography>Save</Typography>
-                                        </IconButton>
+                                    load ? (
+                                        <Spiner size="1rem" />
                                     ) : null
                                 }
                                 <InputAdornment position="end">
@@ -87,8 +86,8 @@ const EmailView = (props) => {
                             </>
                         )}
                     />
-                    { !saved && formik.values.email !== '' && (<FormHelperText>{t('checkout:message:unsavedEmail')}</FormHelperText>) }
-                    {(!!(formik.touched.email && formik.errors.email) || !!(formik.touched.oldEmail && formik.errors.oldEmail))
+                    {/* { !saved && formik.values.email !== '' && (<FormHelperText>{t('checkout:message:unsavedEmail')}</FormHelperText>) } */}
+                    {(formik.touched.email && formik.errors.email)
                         ? <FormHelperText>{formik.errors.email || null}</FormHelperText> : null}
                 </FormControl>
             </div>
