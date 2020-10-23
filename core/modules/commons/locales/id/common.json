@@ -78,7 +78,8 @@
         "extraFee": "Biaya Tambahan",
         "relatedProduct": "Relasi Produk",
         "sale": "Diskon",
-        "new": "Baru"
+        "new": "Baru",
+        "free": "Free"
     },
     "error": {
         "notFound" : "Data tidak di temukan",

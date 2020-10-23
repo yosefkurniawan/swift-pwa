@@ -1,5 +1,6 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { FlexColumn, FlexRow } from '@theme_mixins';
+import { FlexColumn, FlexRow, Centering } from '@theme_mixins';
+import { RED, WHITE } from '@theme_color';
 
 export default makeStyles((theme) => ({
     rowCenter: {
@@ -70,6 +71,25 @@ export default makeStyles((theme) => ({
     productImgContainer: {
         width: 105,
         height: 130,
+        position: 'relative',
+        '& span': {
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            zIndex: 1,
+            minWidth: 20,
+            minHeight: 15,
+            backgroundColor: RED,
+            color: WHITE,
+            fontWeight: '700',
+            fontSize: 10,
+            padding: 5,
+            borderRadius: 5,
+            ...Centering,
+            marginLeft: 'auto',
+            marginRight: 5,
+            textTransform: 'uppercase',
+        },
     },
 
     productImg: {

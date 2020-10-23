@@ -4,11 +4,13 @@
 import Link from 'next/link';
 import Thumbor from '@common_image';
 import { formatPrice } from '@helper_currency';
+import { useTranslation } from '@i18n';
 
 const Item = (props) => {
     const {
         quantity, prices, product, deleteCart, updateCart, id, configurable_options, bundle_options,
     } = props;
+    const { t } = useTranslation(['common']);
     return (
         <li>
             <div className="product">
@@ -19,6 +21,9 @@ const Item = (props) => {
                         alt={product.small_image.label}
                         style={{ width: '75px', height: '75px' }}
                     />
+                    {
+                        prices.row_total.value === 0 ? (<span>{t('common:title:free')}</span>) : null
+                    }
                 </a>
                 <div className="product-item-details">
                     <strong className="product-item-name">
