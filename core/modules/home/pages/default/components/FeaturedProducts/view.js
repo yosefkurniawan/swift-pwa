@@ -6,7 +6,7 @@ import Carousel from '@common_slick/Caraousel';
 import ProductItem from '@core_modules/catalog/plugin/ProductItem';
 import { breakPointsUp } from '@helper_theme';
 import Typography from '@common_typography';
-import Button from '@common_button';
+import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
 import { setResolver } from '@helper_localstorage';
 import Link from 'next/link';
@@ -29,14 +29,16 @@ const MobileView = ({
     };
     return (
         <div className={classNames('col-xs-12 row', styles.features)}>
-            <div className={classNames('col-xs-12', styles.labelCategory)}>
-                <Link href="/[...slug]" as={`/${url_path}`}>
-                    <a onClick={handleClick}>
-                        <Typography letter="capitalize" type="bold" variant="h1" align="center">
-                            {name || ''}
-                        </Typography>
-                    </a>
-                </Link>
+            <div className={classNames('col-xs-12')}>
+                <div className={styles.labelCategory}>
+                    <Link href="/[...slug]" as={`/${url_path}`}>
+                        <a onClick={handleClick}>
+                            <Typography letter="capitalize" type="bold" variant="h1" align="center">
+                                {name || ''}
+                            </Typography>
+                        </a>
+                    </Link>
+                </div>
             </div>
             <div className={classNames('col-xs-12 row between-lg', styles.featuresBox, right ? 'reverse' : '')}>
                 <div
@@ -64,18 +66,22 @@ const MobileView = ({
                         <div className={classNames('col-xs-12', styles.contentMobileFeatured)}>
                             <Carousel data={products} showArrow={desktop} slideLg={category_image ? 4 : 6} Item={ProductItem} />
                         </div>
-                        <div className={classNames('col-xs-12', styles.footerFeatured)}>
-                            <Link href="/[...slug]" as={`/${url_path}`}>
-                                <a>
-                                    <Button
-                                        fullWidth
-                                        variant="outlined"
-                                        onClick={handleClick}
-                                    >
-                                        {t('common:button:viewAll')}
-                                    </Button>
-                                </a>
-                            </Link>
+                        <div className={classNames('col-xs-12')}>
+                            <div className={ styles.footerFeatured}>
+                                <Link href="/[...slug]" as={`/${url_path}`}>
+                                    <a>
+                                        <Button
+                                            variant="outlined"
+                                            onClick={handleClick}
+                                            className={styles.buttonViewAllHome}
+                                        >
+                                            <Typography type="bold" variant="span" letter="uppercase">
+                                                {t('common:button:viewAll')}
+                                            </Typography>
+                                        </Button>
+                                    </a>
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>

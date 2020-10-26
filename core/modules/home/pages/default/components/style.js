@@ -72,7 +72,8 @@ const useStyles = makeStyles((theme) => ({
     labelCategory: {
         paddingTop: 20,
         paddingBottom: 20,
-        textAlign: 'center',
+        display: 'flex',
+        justifyContent: 'center',
         [theme.breakpoints.down('sm')]: {
             paddingTop: 10,
             paddingBottom: 10,
@@ -108,7 +109,6 @@ const useStyles = makeStyles((theme) => ({
             marginTop: 10,
             marginBottom: 10,
         },
-        cursor: 'pointer',
     },
     featuresBox: {
         boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
@@ -135,9 +135,14 @@ const useStyles = makeStyles((theme) => ({
     },
     footerFeatured: {
         paddingBottom: 20,
+        ...Centering,
+        '& a': {
+            width: '100%'
+        },
         [theme.breakpoints.down('sm')]: {
-            paddingBottom: '0',
-            maxWidth: '70%',
+            '& a': {
+                width: '75%'
+            },
         },
     },
     imgFeaturedContainer: {
@@ -159,6 +164,13 @@ const useStyles = makeStyles((theme) => ({
     skeletonDesktop: {
         display: 'flex',
         justifyContent: 'center',
+    },
+    buttonViewAllHome: {
+        width: '100%',
+        margin: 'auto',
+        [theme.breakpoints.up('sm')]: {
+            maxWidth: 375,
+        },
     },
 }));
 

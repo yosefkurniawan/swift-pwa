@@ -9,6 +9,7 @@ export default makeStyles(() => ({
         height: 47,
         ...CreateMargin(11, 11, 11, 11),
         ...Centering,
+        cursor: 'pointer',
     },
     bordered: {
         ...CreateBorder('3px', '3px', '3px', '3px', PRIMARY),
