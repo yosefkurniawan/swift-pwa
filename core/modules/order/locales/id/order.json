@@ -48,5 +48,12 @@
     "view": "Lihat pesanan",
     "billingAddress": "Alamat penagihan",
     "orderInfo": "Informasi pemesanan",
-    "orderItem": "Semua item pemesanan"
+    "orderItem": "Semua item pemesanan",
+    "labelStatus": {
+        "pending": "Menunggu konfirmasi",
+        "processing": "Sedang di proses",
+        "shipping": "Sedang di kirim",
+        "complete": "Pesanan selesai",
+        "canceled": "Pesanan di batalkan"
+    }
 }
