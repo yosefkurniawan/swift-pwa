@@ -5,6 +5,10 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
 import { formatPrice } from '@helper_currency';
 
 const resultItem = ({ t, orders }) => {
@@ -22,24 +26,38 @@ const resultItem = ({ t, orders }) => {
             { primary: t('trackingorder:shippingMethod'), secondary: detail.shipping_methods.shipping_description },
         ];
         return (
-            <List>
-                {items.map((item, i) => (
-                    <ListItem key={i}>
-                        <ListItemText
-                            primary={(
-                                <Typography letter="capitalize">
-                                    {item.primary}
-                                </Typography>
-                            )}
-                        />
-                        <ListItemSecondaryAction>
-                            <Typography variant="span" type="bold">
-                                {item.secondary}
-                            </Typography>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                ))}
-            </List>
+            <div className="row">
+                <div className="col-xs-12">
+                    <List>
+                        {items.map((item, i) => (
+                            <ListItem key={i}>
+                                <ListItemText
+                                    primary={(
+                                        <Typography letter="capitalize">
+                                            {item.primary}
+                                        </Typography>
+                                    )}
+                                />
+                                <ListItemSecondaryAction>
+                                    <Typography variant="span" type="bold">
+                                        {item.secondary}
+                                    </Typography>
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                        ))}
+                    </List>
+                </div>
+                <div className="col-xs-12">
+                    <Divider />
+                    <Stepper activeStep={1} orientation="vertical">
+                        {['Selection on drop point','Courier on the way'].map((label, index) => (
+                        <Step key={index}>
+                            <StepLabel>{label}</StepLabel>
+                        </Step>
+                        ))}
+                    </Stepper>
+                </div>
+            </div>
         );
     }
     return <Alert severity="warning">{t('trackingorder:orderNotFound')}</Alert>;
