@@ -12,12 +12,14 @@ import useStyles from '../style';
 import ItemProduct from './product';
 import Footer from './footer';
 import Table from './TableListItem';
+import OrderStatusIcon from './OrderStatusIcon';
 
 const DetailOrder = (props) => {
     const {
         t, detail, currency, features,
     } = props;
     const styles = useStyles();
+    console.log(detail)
     let items = [];
     if (detail.length > 0 && detail[0].detail[0].items.length) {
         const itemsChild = detail[0].detail[0].items.filter((item) => {
@@ -44,6 +46,9 @@ const DetailOrder = (props) => {
                         <Typography variant="span" className="clear-margin-padding">
                             {formatDate(detail[0].created_at)}
                         </Typography>
+                    </div>
+                    <div>
+                        <OrderStatusIcon status={detail[0].status} t={t} />
                     </div>
                     <div className={classNames(styles.block)}>
                         <div className="row center-xs start-sm start-sm start-md start-lg">
