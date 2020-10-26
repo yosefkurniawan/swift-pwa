@@ -57,6 +57,10 @@ const AddressFormDialog = (props) => {
 
     const [isFromUseEffect, setFromUseEffect] = useState(false);
 
+    const [enableSplitCity, setEnableSplitCity] = React.useState(
+        country === 'ID' && modules.customer.plugin.address.splitCity
+    );
+
     const getRegionByLabel = (label, dataRegion = null) => {
         const data = dataRegion || addressState.dropdown.region;
         return data.find((item) => item.label === label) ? data.find((item) => item.label === label) : null;
@@ -138,7 +142,7 @@ const AddressFormDialog = (props) => {
     };
 
     // add initial value if split city enabled
-    if (modules.customer.plugin.address.splitCity) {
+    if (enableSplitCity) {
         ValidationAddress.district = Yup.string().nullable().required('Kecamatan');
         ValidationAddress.village = Yup.string().nullable().required('Kelurahan');
 
@@ -149,7 +153,6 @@ const AddressFormDialog = (props) => {
     const AddressSchema = Yup.object().shape(ValidationAddress);
 
     const formik = useFormik({
-        enableReinitialize: true,
         initialValues: InitialValue,
         validationSchema: AddressSchema,
         onSubmit: async (values) => {
@@ -164,7 +167,7 @@ const AddressFormDialog = (props) => {
                 longitude: String(mapPosition.lng),
             };
 
-            if (modules.customer.plugin.address.splitCity) {
+            if (enableSplitCity) {
                 data.city = values.village && values.village.city ? values.village.city : values.id;
             } else {
                 data.city = values.city && values.city.label ? values.city.label : values.city;
@@ -180,8 +183,6 @@ const AddressFormDialog = (props) => {
             }
         },
     });
-
-    const [enableSplitCity, setEnableSplitCity] = React.useState(false);
 
     // togle enableSplitCity, set true when countryId === 'ID' & splitCity config === true
     React.useEffect(() => {
@@ -244,7 +245,7 @@ const AddressFormDialog = (props) => {
             const state = { ...addressState };
             const { data } = responCities;
             if (data.getCityByRegionId.item.length !== 0) {
-                if (modules.customer.plugin.address.splitCity) {
+                if (enableSplitCity) {
                     state.dropdown.city = groupingCity(data.getCityByRegionId.item);
                     state.dropdown.district = null;
                     state.dropdown.village = null;
@@ -277,7 +278,7 @@ const AddressFormDialog = (props) => {
     // get kecamatan if city change
     React.useMemo(() => {
         if (formik.values.city) {
-            if (modules.customer.plugin.address.splitCity) {
+            if (enableSplitCity) {
                 const { data } = responCities;
                 const district = groupingSubCity(formik.values.city.label, 'district', data.getCityByRegionId.item);
                 const state = { ...addressState };
