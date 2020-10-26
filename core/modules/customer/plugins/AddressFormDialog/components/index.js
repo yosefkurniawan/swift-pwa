@@ -92,7 +92,7 @@ const AddressView = (props) => {
                 autoComplete="no-autoComplete"
                 label="State/Province"
                 name="region"
-                value={formik.values.region ? formik.values.region.label : ''}
+                value={(formik.values.region && formik.values.region.label) || formik.values.region || ''}
                 onChange={(e) => formik.setFieldValue('region', {code: e.target.value, label: e.target.value}) }
                 error={!!(formik.touched.region && formik.errors.region)}
                 errorMessage={(formik.touched.region && formik.errors.region) || null}
@@ -148,7 +148,7 @@ const AddressView = (props) => {
                 autoComplete="no-autoComplete"
                 label="City"
                 name="city"
-                value={formik.values.city ? formik.values.city.label : ''}
+                value={(formik.values.city && formik.values.city.label) || formik.values.city || ''}
                 onChange={(e) => formik.setFieldValue('city', {code: e.target.value, label: e.target.value}) }
                 error={!!(formik.touched.city && formik.errors.city)}
                 errorMessage={(formik.touched.city && formik.errors.city) || null}

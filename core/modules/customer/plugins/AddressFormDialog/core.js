@@ -295,7 +295,7 @@ const AddressFormDialog = (props) => {
                 }
                 setAddressState(state);
             } else {
-                formik.setFieldValue('postcode', formik.values.city.postcode);
+                formik.setFieldValue('postcode', formik.values.city.postcode || postcode);
             }
         }
     }, [formik.values.city]);
