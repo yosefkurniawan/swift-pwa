@@ -4,7 +4,7 @@ import Button from '@common_button';
 import PriceFormat from '@common_priceformat';
 import Banner from '@common_slick/BannerThumbnail';
 // import Caraousel from '@common_slick/Caraousel';
-import CarouselSkeleton from '@common_slick/Caraousel/Skeleton';
+// import CarouselSkeleton from '@common_slick/Caraousel/Skeleton';
 import Typography from '@common_typography';
 import IconButton from '@material-ui/core/IconButton';
 import Favorite from '@material-ui/icons/Favorite';
@@ -128,11 +128,9 @@ const ProductPage = (props) => {
                     </div>
                 </div>
                 <div className={classNames(styles.body, 'col-xs-12 col-lg-6')}>
-                    {!desktop ? (
-                        <div className={styles.titleContainer}>
-                            <Breadcrumb data={breadcrumbsData} variant="text" />
-                        </div>
-                    ) : null}
+                    <div className={classNames(styles.titleContainer, 'hidden-desktop')}>
+                        <Breadcrumb data={breadcrumbsData} variant="text" />
+                    </div>
 
                     <div className={styles.titleContainer}>
                         <div className={styles.titlePriceContainer}>
@@ -155,15 +153,14 @@ const ProductPage = (props) => {
                             >
                                 {favoritIcon}
                             </IconButton>
-                            {!desktop ? (
+                            <div className="hidden-desktop">
                                 <IconButton
                                     className={classNames(styles.btnShare, 'hidden-desktop')}
                                     onClick={() => setOpenShare(true)}
                                 >
                                     <ShareOutlined className={styles.iconShare} />
                                 </IconButton>
-                            ) : null}
-
+                            </div>
                         </div>
                     </div>
                     <div className={styles.titleContainer}>
@@ -190,56 +187,53 @@ const ProductPage = (props) => {
                         </Typography>
                     </div>
 
-                    {!desktop ? (
-                        <div className="hidden-desktop">
-                            <div className={styles.titleContainer}>
-                                <div className={styles.ratingContainer}>
-                                    <RatingStar value={reviewValue || 0} />
-                                    <Typography
-                                        variant="p"
-                                        type="regular"
-                                        letter="capitalize"
-                                    >
-                                        {data.review.reviews_count || 0}
-                                        {' '}
-                                        {t('product:review')}
-                                    </Typography>
-                                </div>
-                            </div>
-                            {' '}
-                            <div className={styles.desc}>
-                                <Typography variant="span" type="regular" size="10">
-                                    {data.short_description.html ? <span dangerouslySetInnerHTML={{ __html: data.short_description.html }} /> : null}
+                    <div className="hidden-desktop">
+                        <div className={styles.titleContainer}>
+                            <div className={styles.ratingContainer}>
+                                <RatingStar value={reviewValue || 0} />
+                                <Typography
+                                    variant="p"
+                                    type="regular"
+                                    letter="capitalize"
+                                >
+                                    {data.review.reviews_count || 0}
+                                    {' '}
+                                    {t('product:review')}
                                 </Typography>
                             </div>
-                            <div>
-                                <ExpandDetail data={expandData} />
-                            </div>
                         </div>
-                    )
-                        : (
-                            <>
-                                <DesktopOptions
-                                    {...props}
-                                    setOpen={setOpenOption}
-                                    setBanner={setBanner}
-                                    setPrice={setPrice}
-                                />
-                                <div className={styles.desktopShareIcon}>
-                                    <Typography className={styles.shareTitle} variant="title">
-                                        {t('product:shareTitle')}
-                                    </Typography>
-                                    <ItemShare link={getHost() + route.asPath} />
-                                </div>
-                            </>
-                        )}
+                        {' '}
+                        <div className={styles.desc}>
+                            <Typography variant="span" type="regular" size="10">
+                                {data.short_description.html ? <span dangerouslySetInnerHTML={{ __html: data.short_description.html }} /> : null}
+                            </Typography>
+                        </div>
+                        <div>
+                            <ExpandDetail data={expandData} />
+                        </div>
+                    </div>
+                    <div className="hidden-mobile">
+                        <DesktopOptions
+                            {...props}
+                            setOpen={setOpenOption}
+                            setBanner={setBanner}
+                            setPrice={setPrice}
+                        />
+                        <div className={styles.desktopShareIcon}>
+                            <Typography className={styles.shareTitle} variant="title">
+                                {t('product:shareTitle')}
+                            </Typography>
+                            <ItemShare link={getHost() + route.asPath} />
+                        </div>
+                    </div>
 
                 </div>
-                {!desktop ? <ListReviews {...props} /> : (
-                    <div className={classNames(styles.tabs, 'col-xs-12 col-lg-12')}>
-                        <TabsView {...props} dataInfo={expandData} />
-                    </div>
-                )}
+                <div className="hidden-desktop">
+                    <ListReviews {...props} />
+                </div>
+                <div className={classNames(styles.tabs, 'col-xs-12 col-lg-12 hidden-mobile')}>
+                    <TabsView {...props} dataInfo={expandData} />
+                </div>
                 {relateData.length !== 0 ? (
                     <div className={classNames(styles.carouselContainer, 'col-xs-12 col-lg-12')}>
                         <Typography
@@ -256,28 +250,25 @@ const ProductPage = (props) => {
                     </div>
                 ) : null}
 
-                {!desktop
-                    ? (
-                        <div className={classNames(styles.footer, 'hidden-desktop')}>
-                            <Button
-                                className={styles.btnAddToCard}
-                                color="primary"
-                                onClick={handleOption}
-                                disabled={data && data.stock_status === 'OUT_STOCK'}
-                            >
-                                <Typography
-                                    variant="span"
-                                    align="center"
-                                    type="bold"
-                                    letter="uppercase"
-                                    color="white"
-                                >
-                                    {t('product:addToCart')}
-                                </Typography>
-                            </Button>
-                        </div>
-                    )
-                    : null }
+                <div className={classNames(styles.footer, 'hidden-desktop')}>
+                    <Button
+                        className={styles.btnAddToCard}
+                        color="primary"
+                        onClick={handleOption}
+                        disabled={data && data.stock_status === 'OUT_STOCK'}
+                    >
+                        <Typography
+                            variant="span"
+                            align="center"
+                            type="bold"
+                            letter="uppercase"
+                            color="white"
+                        >
+                            {t('product:addToCart')}
+                        </Typography>
+                    </Button>
+                </div>
+
             </div>
         </>
     );
