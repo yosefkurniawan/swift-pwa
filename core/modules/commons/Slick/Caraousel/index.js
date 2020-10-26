@@ -73,7 +73,7 @@ const Caraousel = (props) => {
                 settings: {
                     slidesToShow: data.length < slideXs ? data.length : slideXs,
                     slidesToScroll: 1,
-                    centerMode: data.length !== 1,
+                    centerMode: true,
                     className: 'slider',
                 },
             },
@@ -81,7 +81,7 @@ const Caraousel = (props) => {
     };
 
     return (
-        <div className={styles.caraousel}>
+        <div className={classNames('carousel', styles.caraousel)}>
             <Slider ref={(slider) => sliderRef = slider} {...settings}>
                 {
                     data && data.length > 0 && data.map((item, key) => (
@@ -101,6 +101,14 @@ const Caraousel = (props) => {
                     </>
                 ) : null
             }
+            <style jsx global>
+                {`
+                    .carousel .slick-track {
+                        margin-left: auto;
+                        margin-right: auto;
+                    }
+                `}
+            </style>
         </div>
     );
 };
