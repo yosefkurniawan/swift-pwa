@@ -11,7 +11,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import { formatPrice } from '@helper_currency';
 
-const resultItem = ({ t, orders }) => {
+const resultItem = ({ t, orders, storeConfig }) => {
     const data = orders.data[0];
     if (orders.data.length > 0) {
         let { detail } = data;
@@ -21,7 +21,7 @@ const resultItem = ({ t, orders }) => {
             { primary: t('trackingorder:shippedTo'), secondary: `${detail.shipping_address.firstname} ${detail.shipping_address.lastname}` },
             { primary: t('trackingorder:orderId'), secondary: data.order_number },
             { primary: t('trackingorder:status'), secondary: data.status },
-            { primary: t('trackingorder:orderTotal'), secondary: formatPrice(data.grand_total, 'USD') },
+            { primary: t('trackingorder:orderTotal'), secondary: formatPrice(data.grand_total, storeConfig.base_currency_code ) },
             { primary: t('trackingorder:paymentMethod'), secondary: detail.payment.payment_additional_info.method_title },
             { primary: t('trackingorder:shippingMethod'), secondary: detail.shipping_methods.shipping_description },
         ];

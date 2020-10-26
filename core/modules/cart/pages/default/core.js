@@ -89,7 +89,7 @@ const Cart = (props) => {
             eventLabel: itemProps.product.name,
             label: itemProps.product.name,
             ecommerce: {
-                currencyCode: itemProps.prices.price.currency || 'IDR',
+                currencyCode: itemProps.prices.price.currency || storeConfig.base_currency_code,
                 remove: {
                     cartItem: itemProps.id,
                     quantity: itemProps.quantity,
@@ -185,7 +185,7 @@ const Cart = (props) => {
                 pageName: t('cart:pageTitle'),
                 pageType: 'cart',
                 ecommerce: {
-                    currency: storeConfig.base_currency_code || 'IDR',
+                    currency: storeConfig.base_currency_code ,
                     impressions: crosssellData.map((product, index) => ({
                         name: product.name,
                         id: product.sku,
@@ -213,7 +213,7 @@ const Cart = (props) => {
                     eventLabel: itemProps.product.name,
                     label: itemProps.product.name,
                     ecommerce: {
-                        currencyCode: itemProps.prices.price.currency || 'IDR',
+                        currencyCode: itemProps.prices.price.currency ,
                         add: {
                             products: [{
                                 name: itemProps.product.name,
