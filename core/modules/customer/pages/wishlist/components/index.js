@@ -38,7 +38,7 @@ const Content = (props) => {
                         disabled={loading || wishlist.length === 0}
                         className={styles.btnWishlist}
                     >
-                        <Typography variant="title" type="regular" letter="capitalize" color="white">
+                        <Typography variant="span" type="bold" letter="uppercase" color="white">
                             {t('customer:wishlist:addAllToBag')}
                         </Typography>
                     </Button>

@@ -97,13 +97,7 @@ const Product = (props) => {
             await setLoadmore(true);
             setPage(page + 1);
             fetchMore({
-                query: Schema.getProduct({
-                    customFilter: typeof customFilter !== 'undefined',
-                    search: config.search,
-                    pageSize: config.pageSize,
-                    currentPage: page + 1,
-                    filter: config.filter,
-                }),
+                query: Schema.getProduct({ ...config, currentPage: page + 1 }),
                 variables: {
                     pageSize: modules.catalog.productListing.pageSize || 10,
                     currentPage: page + 1,

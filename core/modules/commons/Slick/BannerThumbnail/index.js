@@ -29,7 +29,7 @@ const Banner = ({
     zoomRef = null,
 }) => {
     const styles = useStyles();
-    const [slideIndex, setIndex] = useState(data.length - 1);
+    const [slideIndex, setIndex] = useState(0);
     const [count, setCount] = useState(0);
     let sliderRef = React.createRef();
     const dotActive = data.length > 1
@@ -40,14 +40,14 @@ const Banner = ({
         if (slideIndex === data.length - 1) {
             sliderRef.slickGoTo(0);
         } else {
-            sliderRef.slickGoTo(slideIndex + 1);
+            sliderRef.slickGoTo(slideIndex - 1);
         }
     };
     const handleRightArrow = () => {
         if (slideIndex === 0) {
             sliderRef.slickGoTo(data.length - 1);
         } else {
-            sliderRef.slickGoTo(slideIndex - 1);
+            sliderRef.slickGoTo(slideIndex + 1);
         }
     };
     const settings = {
@@ -58,24 +58,22 @@ const Banner = ({
         autoplay: autoPlay,
         speed,
         autoplaySpeed,
-        rtl: true,
         afterChange: () => setCount(count + 1),
         beforeChange: (current, next) => setIndex(next),
         arrows: false,
     };
-
     return (
         <div className={styles.container}>
             {thumbnail ? (
                 <div>
                     {data.map((item, id) => (
                         <div
-                            className={slideIndex === data.length - (id + 1)
+                            className={slideIndex === id
                                 ? classNames(styles.thumbnail, styles.thumbnailActive, 'hidden-mobile')
                                 : classNames(styles.thumbnail, 'hidden-mobile')}
                             key={id}
                             onClick={() => {
-                                sliderRef.slickGoTo(data.length - (id + 1));
+                                sliderRef.slickGoTo(id);
                             }}
                         >
                             <Thumbor

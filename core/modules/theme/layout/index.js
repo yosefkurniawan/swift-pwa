@@ -9,7 +9,6 @@ import Cookies from 'js-cookie';
 import { custDataNameCookie, features } from '@config';
 import { getHost } from '@helper_config';
 import { breakPointsUp } from '@helper_theme';
-import { BREAKPOINTS } from '@theme_vars';
 
 import PopupInstallAppMobile from '../components/custom-install-popup/mobile';
 import Copyright from '../components/footer/desktop/components/copyright';
@@ -114,22 +113,7 @@ const Layout = (props) => {
 
     const desktop = breakPointsUp('sm');
 
-    // for checking layout
-    const sm = breakPointsUp(BREAKPOINTS.sm);
-    const md = breakPointsUp(BREAKPOINTS.md);
-    const lg = breakPointsUp(BREAKPOINTS.lg);
-
-    const checkResolution = () => {
-        if (headerDesktop) {
-            if (lg) { return '175px'; }
-            if (md) { return '175px'; }
-            if (sm) { return '170px'; }
-        }
-        return 0;
-    };
-
     const styles = {
-        marginTop: checkResolution(),
         marginBottom: pageConfig.bottomNav ? '60px' : 0,
     };
 
@@ -172,7 +156,7 @@ const Layout = (props) => {
                 </div>
             </header>
 
-            <main style={{ ...styles }} id="maincontent">
+            <main style={{ ...styles }} className="main-app" id="maincontent">
                 <Loading open={state.backdropLoader} />
                 <Message
                     open={state.toastMessage.open}
