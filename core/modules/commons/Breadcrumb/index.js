@@ -14,6 +14,12 @@ const useStyles = makeStyles({
         '& a': {
             cursor: 'pointer',
         },
+
+        '& p': {
+            marginLeft: 0,
+        },
+
+        marginBottom: 20,
     },
 });
 
