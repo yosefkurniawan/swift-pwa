@@ -47,5 +47,12 @@
     "view": "View Order",
     "billingAddress": "Billing address",
     "orderInfo": "Order information",
-    "orderItem": "Items order"
+    "orderItem": "Items order",
+    "labelStatus": {
+        "pending": "Waiting for confirmation",
+        "processing": "Processing",
+        "shipping": "Shipping",
+        "complete": "Order complete",
+        "canceled": "Order cancel"
+    }
 }
