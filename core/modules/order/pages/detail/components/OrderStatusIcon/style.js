@@ -1,196 +1,194 @@
-import { PRIMARY, WHITE, GRAY_PRIMARY } from "@theme_color";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import { Centering } from "@theme_mixins";
+import { PRIMARY, WHITE, GRAY_PRIMARY } from '@theme_color';
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import { Centering } from '@theme_mixins';
 
 export const lineStyle = {
-  alternativeLabel: {
-    top: 35,
-    '@media (max-width: 768px )': {
-        top: 20,
+    alternativeLabel: {
+        top: 30,
+        '@media (max-width: 768px )': {
+            top: 20,
+        },
     },
-  },
-  active: {
-    "& $line": {
-      background: PRIMARY,
+    active: {
+        '& $line': {
+            background: PRIMARY,
+        },
     },
-  },
-  completed: {
-    "& $line": {
-      background: PRIMARY,
+    completed: {
+        '& $line': {
+            background: PRIMARY,
+        },
     },
-  },
-  line: {
-    height: 3,
-    border: 0,
-    backgroundColor: PRIMARY,
-    borderRadius: 1,
-  },
+    line: {
+        height: 3,
+        border: 0,
+        backgroundColor: PRIMARY,
+        borderRadius: 1,
+    },
 };
 
 const configStyleIcon = {
-  backgroundPosition: "center top",
-  backgroundSize: "100% 100%",
-  backgroundPosition: "center",
-  width: 30,
-  height: 30,
+    backgroundPosition: 'center top',
+    backgroundSize: '100% 100%',
+    backgroundPosition: 'center',
+    width: 20,
+    height: 20,
+};
+
+const configIconSm = {
+    width: 20,
+    height: 20,
 };
 
 export const useIconStyles = makeStyles((theme) => ({
-label: {
-    [theme.breakpoints.down('xs')]: {
-        fontSize: 9,
+    container: {
+        width: '100%',
+        maxWidth: 700,
     },
-},
-  iconContainer: {
-    width: 70,
-    height: 70,
-    borderRadius: 100,
-    zIndex: 7,
-    ...Centering,
-    [theme.breakpoints.down('xs')]: {
-        width: 40,
-        height: 40,
+    stepLabel: {
+        marginTop: '5px !important',
     },
-  },
-  iconContainerinactive: {
-    background: GRAY_PRIMARY,
-  },
-  iconContainerskip: {
-    background: PRIMARY,
-  },
-  iconContaineractive: {
-    background: WHITE,
-    border: `3px solid ${PRIMARY}`,
-  },
+    label: {
+        [theme.breakpoints.down('xs')]: {
+            fontSize: 9,
+        },
+    },
+    iconContainer: {
+        width: 60,
+        height: 60,
+        borderRadius: 100,
+        zIndex: 7,
+        ...Centering,
+        [theme.breakpoints.down('xs')]: {
+            width: 40,
+            height: 40,
+        },
+    },
+    iconContainerinactive: {
+        background: GRAY_PRIMARY,
+    },
+    iconContainerskip: {
+        background: PRIMARY,
+    },
+    iconContaineractive: {
+        background: WHITE,
+        border: `3px solid ${PRIMARY}`,
+    },
 
-  // icon pending
+    // icon pending
 
-  iconpendinginactive: {
-    ...configStyleIcon,
-    [theme.breakpoints.down('xs')]: {
-        width: 20,
-        height: 20,
+    iconpendinginactive: {
+        ...configStyleIcon,
+        [theme.breakpoints.down('xs')]: {
+            ...configIconSm,
+        },
+        backgroundImage: 'url(/assets/img/order_status/waiting-gray.svg)',
     },
-    backgroundImage: "url(/assets/img/order_status/waiting-gray.svg)",
-  },
-  iconpendingactive: {
-    ...configStyleIcon,
-    [theme.breakpoints.down('xs')]: {
-        width: 20,
-        height: 20,
+    iconpendingactive: {
+        ...configStyleIcon,
+        [theme.breakpoints.down('xs')]: {
+            ...configIconSm,
+        },
+        backgroundImage: 'url(/assets/img/order_status/waiting-black.svg)',
     },
-    backgroundImage: "url(/assets/img/order_status/waiting-black.svg)",
-  },
-  iconpendingskip: {
-    ...configStyleIcon,
-    [theme.breakpoints.down('xs')]: {
-        width: 20,
-        height: 20,
+    iconpendingskip: {
+        ...configStyleIcon,
+        [theme.breakpoints.down('xs')]: {
+            ...configIconSm,
+        },
+        backgroundImage: 'url(/assets/img/order_status/waiting-white.svg)',
     },
-    backgroundImage: "url(/assets/img/order_status/waiting-white.svg)",
-  },
 
-  // icon processing
-  iconprocessinginactive: {
-    ...configStyleIcon,
-    [theme.breakpoints.down('xs')]: {
-        width: 20,
-        height: 20,
+    // icon processing
+    iconprocessinginactive: {
+        ...configStyleIcon,
+        [theme.breakpoints.down('xs')]: {
+            ...configIconSm,
+        },
+        backgroundImage: 'url(/assets/img/order_status/processing-gray.svg)',
     },
-    backgroundImage: "url(/assets/img/order_status/processing-gray.svg)",
-  },
-  iconprocessingactive: {
-    ...configStyleIcon,
-    [theme.breakpoints.down('xs')]: {
-        width: 20,
-        height: 20,
+    iconprocessingactive: {
+        ...configStyleIcon,
+        [theme.breakpoints.down('xs')]: {
+            width: 20,
+            height: 20,
+        },
+        backgroundImage: 'url(/assets/img/order_status/processing-black.svg)',
     },
-    backgroundImage: "url(/assets/img/order_status/processing-black.svg)",
-  },
-  iconprocessingskip: {
-    ...configStyleIcon,
-    [theme.breakpoints.down('xs')]: {
-        width: 20,
-        height: 20,
+    iconprocessingskip: {
+        ...configStyleIcon,
+        [theme.breakpoints.down('xs')]: {
+            ...configIconSm,
+        },
+        backgroundImage: 'url(/assets/img/order_status/processing-white.svg)',
     },
-    backgroundImage: "url(/assets/img/order_status/processing-white.svg)",
-  },
 
-  // icon shipping
+    // icon shipping
 
-  iconshippinginactive: {
-    ...configStyleIcon,
-    [theme.breakpoints.down('xs')]: {
-        width: 20,
-        height: 20,
+    iconshippinginactive: {
+        ...configStyleIcon,
+        [theme.breakpoints.down('xs')]: {
+            ...configIconSm,
+        },
+        backgroundImage: 'url(/assets/img/order_status/shipping-gray.svg)',
     },
-    backgroundImage: "url(/assets/img/order_status/shipping-gray.svg)",
-  },
-  iconshippingactive: {
-    ...configStyleIcon,
-    [theme.breakpoints.down('xs')]: {
-        width: 20,
-        height: 20,
+    iconshippingactive: {
+        ...configStyleIcon,
+        [theme.breakpoints.down('xs')]: {
+            ...configIconSm,
+        },
+        backgroundImage: 'url(/assets/img/order_status/shipping-black.svg)',
     },
-    backgroundImage: "url(/assets/img/order_status/shipping-black.svg)",
-  },
-  iconshippingskip: {
-    ...configStyleIcon,
-    [theme.breakpoints.down('xs')]: {
-        width: 20,
-        height: 20,
+    iconshippingskip: {
+        ...configStyleIcon,
+        [theme.breakpoints.down('xs')]: {
+            ...configIconSm,
+        },
+        backgroundImage: 'url(/assets/img/order_status/shipping-white.svg)',
     },
-    backgroundImage: "url(/assets/img/order_status/shipping-white.svg)",
-  },
 
-  // icon completed
-  iconcompleteinactive: {
-    ...configStyleIcon,
-    [theme.breakpoints.down('xs')]: {
-        width: 20,
-        height: 20,
+    // icon completed
+    iconcompleteinactive: {
+        ...configStyleIcon,
+        [theme.breakpoints.down('xs')]: {
+            ...configIconSm,
+        },
+        backgroundImage: 'url(/assets/img/order_status/completed-gray.svg)',
     },
-    backgroundImage: "url(/assets/img/order_status/completed-gray.svg)",
-  },
-  iconcompleteactive: {
-    ...configStyleIcon,
-    [theme.breakpoints.down('xs')]: {
-        width: 20,
-        height: 20,
+    iconcompleteactive: {
+        ...configStyleIcon,
+        [theme.breakpoints.down('xs')]: {
+            ...configIconSm,
+        },
+        backgroundImage: 'url(/assets/img/order_status/completed-black.svg)',
     },
-    backgroundImage: "url(/assets/img/order_status/completed-black.svg)",
-  },
-  iconcompleteskip: {
-    ...configStyleIcon,
-    [theme.breakpoints.down('xs')]: {
-        width: 20,
-        height: 20,
+    iconcompleteskip: {
+        ...configStyleIcon,
+        [theme.breakpoints.down('xs')]: {
+            ...configIconSm,
+        },
+        backgroundImage: 'url(/assets/img/order_status/completed-white.svg)',
     },
-    backgroundImage: "url(/assets/img/order_status/completed-white.svg)",
-  },
-  // icon canceled
-  iconcanceledinactive: {
-    ...configStyleIcon,
-    [theme.breakpoints.down('xs')]: {
-        width: 20,
-        height: 20,
+    // icon canceled
+    iconcanceledinactive: {
+        ...configStyleIcon,
+        [theme.breakpoints.down('xs')]: {
+            ...configIconSm,
+        },
+        backgroundImage: 'url(/assets/img/order_status/completed-gray.svg)',
     },
-    backgroundImage: "url(/assets/img/order_status/completed-gray.svg)",
-  },
-  iconcanceledactive: {
-    ...configStyleIcon,
-    [theme.breakpoints.down('xs')]: {
-        width: 20,
-        height: 20,
+    iconcanceledactive: {
+        ...configStyleIcon,
+        [theme.breakpoints.down('xs')]: {
+            ...configIconSm,
+        },
+        backgroundImage: 'url(/assets/img/order_status/completed-black.svg)',
     },
-    backgroundImage: "url(/assets/img/order_status/completed-black.svg)",
-  },
-  iconcanceledskip: {
-    ...configStyleIcon,
-    [theme.breakpoints.down('xs')]: {
-        width: 20,
-        height: 20,
+    iconcanceledskip: {
+        ...configStyleIcon,
+        [theme.breakpoints.down('xs')]: {
+            ...configIconSm,
+        },
+        backgroundImage: 'url(/assets/img/order_status/completed-white.svg)',
     },
-    backgroundImage: "url(/assets/img/order_status/completed-white.svg)",
-  },
 }));

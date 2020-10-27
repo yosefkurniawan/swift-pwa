@@ -47,7 +47,7 @@ const DetailOrder = (props) => {
                             {formatDate(detail[0].created_at)}
                         </Typography>
                     </div>
-                    <div>
+                    <div className={styles.blockIcon}>
                         <OrderStatusIcon status={detail[0].status} t={t} />
                     </div>
                     <div className={classNames(styles.block)}>

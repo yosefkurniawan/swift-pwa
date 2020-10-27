@@ -30,7 +30,7 @@ const useStyles = makeStyles(() => ({
         padding: '16px 16px 0',
     },
     categoryName: {
-        padding: '16px 16px 0',
+        padding: '0px 16px 0',
         margin: 0,
     },
 }));
