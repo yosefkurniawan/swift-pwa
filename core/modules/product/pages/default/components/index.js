@@ -26,9 +26,9 @@ import RightDrawer from './RightDrawer';
 import SharePopup from './SharePopup';
 import ModalPopupImage from './ModalPopupImage';
 
-const DesktopOptions = dynamic(() => import('./OptionItem/DesktopOptions'), { ssr: false });
-const TabsView = dynamic(() => import('./DesktopTabs'), { ssr: false });
-const ItemShare = dynamic(() => import('./SharePopup/item'), { ssr: false });
+const DesktopOptions = dynamic(() => import('./OptionItem/DesktopOptions'), { ssr: true });
+const TabsView = dynamic(() => import('./DesktopTabs'), { ssr: true });
+const ItemShare = dynamic(() => import('./SharePopup/item'), { ssr: true });
 const Caraousel = dynamic(() => import('@common_slick/Caraousel'), { ssr: false });
 
 const ProductPage = (props) => {
