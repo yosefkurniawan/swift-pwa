@@ -4,6 +4,7 @@ import {
     FlexColumn,
     FlexRow,
     CreateMargin,
+    Centering,
 } from '@theme_mixins';
 
 export default makeStyles((theme) => ({
@@ -81,4 +82,7 @@ export default makeStyles((theme) => ({
             margin: '15px auto',
         },
     },
+    blockIcon: {
+        ...Centering
+    }
 }));
