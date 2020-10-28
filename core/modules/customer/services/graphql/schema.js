@@ -455,3 +455,18 @@ export const getCustomerOrder = gql`
     }
   }
 `;
+
+export const subscribeNewsletter = gql`
+    mutation updateCustomer(
+        $email: String!,
+    ) {
+      subscribe(input:{
+        email:$email
+      }){
+      status{
+          code
+          message
+          response
+      }}
+    }
+`;

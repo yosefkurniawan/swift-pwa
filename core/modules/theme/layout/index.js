@@ -6,9 +6,10 @@ import Head from 'next/head';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
-import { custDataNameCookie, features } from '@config';
+import { custDataNameCookie, features, modules } from '@config';
 import { getHost } from '@helper_config';
 import { breakPointsUp } from '@helper_theme';
+import Newsletter from '@core_modules/customer/plugins/Newsletter';
 
 import PopupInstallAppMobile from '../components/custom-install-popup/mobile';
 import Copyright from '../components/footer/desktop/components/copyright';
@@ -169,6 +170,12 @@ const Layout = (props) => {
             </main>
             <footer ref={refFooter}>
                 <div className="hidden-mobile">
+                    {
+                        modules.customer.plugin.newsletter.enabled ? (
+                            <Newsletter />
+                        ) : null
+                    }
+
                     {
                         footer ? (
                             <Footer
