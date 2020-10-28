@@ -273,6 +273,9 @@ const modules = {
             address: {
                 splitCity: true,
             },
+            newsletter: {
+                enabled: true,
+            },
         },
     },
     contact: {
