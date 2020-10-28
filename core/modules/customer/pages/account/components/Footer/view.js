@@ -12,6 +12,7 @@ import {
 import { setResolver } from '@helper_localstorage';
 import SocialMediaLink from '../SocialMedia';
 import SocialMediaView from '../SocialMedia/view';
+import NewsletterDialog from '../Newsletter';
 import useStyles from './style';
 
 const FooterView = (props) => {
@@ -19,14 +20,20 @@ const FooterView = (props) => {
     const {
         t, isLogin, handleLogout, modules,
     } = props;
+    const [openNewsletter, setOpenNewsletter] = React.useState(false);
     const handleClick = async (link) => {
         await setResolver({
             type: 'CMS_PAGE',
         });
         router.push('/[...slug]', link);
     };
+
+    const handleToogleNewsletter = () => {
+        setOpenNewsletter(!openNewsletter);
+    };
     return (
         <div className={styles.account_block}>
+            <NewsletterDialog open={openNewsletter} handleClose={handleToogleNewsletter} />
             <ul className={styles.account_navigation}>
 
                 {
@@ -88,6 +95,16 @@ const FooterView = (props) => {
                             <Link href="/sales/order/track">
                                 <a className={styles.account_navigation_link}>{t('customer:menu:trackingOrder')}</a>
                             </Link>
+                        </li>
+                    ) : null
+                }
+
+                {
+                    modules.customer.plugin.newsletter.enabled ? (
+                        <li className={styles.account_navigation_item}>
+                            <Button className={styles.account_navigation_link} variant="text" onClick={handleToogleNewsletter}>
+                                <a className={styles.account_navigation_link}>{t('common:newsletter:title')}</a>
+                            </Button>
                         </li>
                     ) : null
                 }

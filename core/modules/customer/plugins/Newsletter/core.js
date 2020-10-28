@@ -40,7 +40,7 @@ const Newsletter = (props) => {
         },
     });
 
-    return <NewsletterView formik={formik} loading={result.loading} t={t} />;
+    return <NewsletterView formik={formik} loading={result.loading} t={t} {...props} />;
 };
 
 export default withApollo({ ssr: true })(withTranslation()(Newsletter));

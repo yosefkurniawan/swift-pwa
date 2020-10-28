@@ -1,6 +1,6 @@
 import Core from './core';
 import NewsletterView from './components/index';
 
-const NewsletterDefault = () => <Core NewsletterView={NewsletterView} />;
+const NewsletterDefault = (props) => <Core NewsletterView={NewsletterView} {...props} />;
 
 export default NewsletterDefault;

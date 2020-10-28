@@ -113,6 +113,26 @@ const NewsletterView = (props) => {
                         color: #fff;
                         border-radius: 20px;
                     }
+                    @media screen and (max-width: 767px) {
+                        .newsletter-container {
+                            background: #fff;
+                        }
+                        .title {
+                            display: none;
+                        }
+                        .block-newsletter {
+                            max-width: 100%;
+                            width: 90%;
+                        }
+                        .actions {
+                            display: block;
+                            margin-top: 10px;
+                        }
+                        .action.subscribe {
+                            width: 100%;
+                            margin-left: 0;
+                        }
+                     }
                 `}
             </style>
         </div>
