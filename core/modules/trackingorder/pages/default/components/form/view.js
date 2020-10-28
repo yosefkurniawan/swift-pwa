@@ -1,17 +1,15 @@
 import Button from '@common_button';
 import TextField from '@common_textfield';
 import Typography from '@common_typography';
-import Modal from '../modal';
 import useStyles from '../style';
 
 const FormTemplate = (props) => {
     const {
-        formik, handleOpenDialog, orderField, openDialog, t,
+        formik, t,
     } = props;
     const styles = useStyles();
     return (
         <>
-            <Modal open={openDialog} handleOpenDialog={handleOpenDialog} orderField={orderField} {...props} />
             <form className={styles.container} onSubmit={formik.handleSubmit}>
                 <TextField
                     label={t('trackingtrackingorder:email')}

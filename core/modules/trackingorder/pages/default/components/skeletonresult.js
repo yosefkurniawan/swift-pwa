@@ -4,7 +4,7 @@ import useStyles from './style';
 const SkeleteonTracking = () => {
     const styles = useStyles();
     return (
-        <table style={{ width: '100%' }}>
+        <table style={{ width: '100%', padding: '0 20px' }}>
             <tbody>
                 {[1, 2, 3, 4, 5, 6, 7].map((i) => (
                     <tr key={i}>

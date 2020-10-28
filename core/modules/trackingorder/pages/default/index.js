@@ -5,6 +5,7 @@ import Skeleton from './components/skeletonform';
 import FormView from './components/form/view';
 import ResultView from './components/result/view';
 import SkeletonResult from './components/skeletonresult';
+import DetailView from './components/modal';
 
 const DefaultTracking = (props) => (
     <Core
@@ -13,6 +14,7 @@ const DefaultTracking = (props) => (
         ResultView={ResultView}
         Skeleton={Skeleton}
         SkeletonResult={SkeletonResult}
+        DetailView={DetailView}
     />
 );
 
