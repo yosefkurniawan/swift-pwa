@@ -120,6 +120,8 @@ export const getCustomerCartId = () => useLazyQuery(Schema.getCartIdUser, {
 
 export const newPassword = () => useMutation(Schema.setNewPassword);
 
+export const subscribeNewsletter = () => useMutation(Schema.subscribeNewsletter);
+
 export default {
     getCountries, getCityByRegionId, customerNotificationList, getCustomer, getCustomerOrder,
 };

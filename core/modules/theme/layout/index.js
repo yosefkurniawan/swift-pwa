@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import { custDataNameCookie, features } from '@config';
 import { getHost } from '@helper_config';
 import { breakPointsUp } from '@helper_theme';
+import Newsletter from '@core_modules/customer/plugins/Newsletter';
 
 import PopupInstallAppMobile from '../components/custom-install-popup/mobile';
 import Copyright from '../components/footer/desktop/components/copyright';
@@ -169,6 +170,7 @@ const Layout = (props) => {
             </main>
             <footer ref={refFooter}>
                 <div className="hidden-mobile">
+                    <Newsletter />
                     {
                         footer ? (
                             <Footer

@@ -21,7 +21,7 @@ const FooterView = (props) => {
             <style jsx global>
                 {`
                     .wrapper-footer {
-                        background-color: #f4f4f4;
+                        background-color: #fff;
                         padding : 0;
                         margin-top: 40px;
                     }
