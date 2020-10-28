@@ -110,5 +110,10 @@
     "message": {
         "feedSuccess": "Product success added to wishlist",
         "feedFailed": "Add to wishlist failed"
+    },
+    "newsletter": {
+        "title": "SIGN UP NEWSLETTER",
+        "placeholder": "Enter your email address",
+        "buttonLabel": "Subscribe"
     }
 }

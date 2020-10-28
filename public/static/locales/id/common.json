@@ -78,8 +78,8 @@
         "extraFee": "Biaya Tambahan",
         "relatedProduct": "Relasi Produk",
         "sale": "Diskon",
-        "new": "Baru",        
-        "free": "Gratis"
+        "new": "Baru",
+        "free": "Free"
     },
     "error": {
         "notFound" : "Data tidak di temukan",
@@ -109,5 +109,10 @@
     "message": {
         "feedSuccess": "Produk berhasil di tambahkan ke wishlist",
         "feedFailed": "Tambah wishlist gagal"
+    },
+    "newsletter": {
+        "title": "DAFTAR NEWSLETTER",
+        "placeholder": "Masukkan alamat email Anda",
+        "buttonLabel": "Langganan"
     }
 }
