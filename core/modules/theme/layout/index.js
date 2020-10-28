@@ -118,6 +118,10 @@ const Layout = (props) => {
         marginBottom: pageConfig.bottomNav ? '60px' : 0,
     };
 
+    if (!headerDesktop) {
+        styles.marginTop = 0;
+    }
+
     return (
         <>
             <Head>
