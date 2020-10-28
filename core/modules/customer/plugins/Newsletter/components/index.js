@@ -97,8 +97,8 @@ const NewsletterView = (props) => {
                         vertical-align: baseline;
                         width: 100%;
                         box-sizing: border-box;
-                        margin-right: 35px;
-                        padding: 0 0 0 5px;
+                        padding: 0 20px 0;
+                        min-width: 300px;
                     }
                     .action.subscribe {
                         background: #000;
@@ -108,10 +108,11 @@ const NewsletterView = (props) => {
                         text-transform: uppercase;
                         padding: 11px 15px;
                         height: 40px;
-                        margin-left: 10px;
+                        margin-left: 20px;
                         white-space: nowrap;
                         color: #fff;
                         border-radius: 20px;
+                        cursor: pointer;
                     }
                     @media screen and (max-width: 767px) {
                         .newsletter-container {
@@ -126,7 +127,7 @@ const NewsletterView = (props) => {
                         }
                         .actions {
                             display: block;
-                            margin-top: 10px;
+                            margin-top: 20px;
                         }
                         .action.subscribe {
                             width: 100%;
