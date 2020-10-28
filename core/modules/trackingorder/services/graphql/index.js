@@ -1,8 +1,8 @@
 /* eslint-disable import/prefer-default-export */
-import { useQuery } from '@apollo/client';
+import { useQuery, useLazyQuery } from '@apollo/client';
 import * as Schema from './schema';
 
-export const getTrackingOrder = (params) => useQuery(Schema.getTrackingOrder, {
+export const getTrackingOrder = (params) => useLazyQuery(Schema.getTrackingOrder, {
     context: {
         request: 'internal',
     },

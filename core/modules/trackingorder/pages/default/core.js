@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import Layout from '@layout';
-import { getCustomer } from '../../services/graphql';
+import { getCustomer, getTrackingOrder } from '../../services/graphql';
 import Content from './components/form';
 
 const Tracking = (props) => {
@@ -15,6 +15,12 @@ const Tracking = (props) => {
         bottomNav: false,
     };
 
+    const [orderField, setOrderField] = React.useState({
+        email: '',
+        order_id: ''
+    });
+    const [getTrackOrder, { loading, data, error, refetch, called }] = getTrackingOrder({ ...orderField });
+
     if (isLogin) {
         const { data, loading } = getCustomer();
         if (loading) {
@@ -28,7 +34,20 @@ const Tracking = (props) => {
             customer = data.customer;
         }
     }
-    return <Layout {...props} pageConfig={pageConfig || config}><Content {...props} email={customer.email || ''} /></Layout>;
+    return (
+        <Layout {...props} pageConfig={pageConfig || config}>
+            <Content
+                {...props} 
+                email={customer.email || ''}
+                getTrackOrder={getTrackOrder} 
+                loading={loading}
+                data={data}
+                error={error}
+                orderField={orderField}
+                setOrderField={setOrderField}
+            />
+        </Layout>
+    );
 };
 
 Tracking.propTypes = {
