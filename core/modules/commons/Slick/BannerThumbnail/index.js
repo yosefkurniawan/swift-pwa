@@ -37,18 +37,10 @@ const Banner = ({
         : styles.hide;
     const dotItem = data.length > 1 ? styles.dotsItem : styles.hide;
     const handleLeftArrow = () => {
-        if (slideIndex === data.length - 1) {
-            sliderRef.slickGoTo(0);
-        } else {
-            sliderRef.slickGoTo(slideIndex - 1);
-        }
+        sliderRef.slickGoTo(slideIndex - 1);
     };
     const handleRightArrow = () => {
-        if (slideIndex === 0) {
-            sliderRef.slickGoTo(data.length - 1);
-        } else {
-            sliderRef.slickGoTo(slideIndex + 1);
-        }
+        sliderRef.slickGoTo(slideIndex + 1);
     };
     const settings = {
         // className: thumbnail ? 'slick-thumbnail' : 'slick-pwa',
@@ -105,15 +97,15 @@ const Banner = ({
                                         />
                                     </Zoom>
                                 ) : (
-                                    <ImageSlide
-                                        height={height}
-                                        customClass={styles.customClass}
-                                        width={width}
-                                        noLink={noLink}
-                                        key={key}
-                                        {...item}
-                                    />
-                                )
+                                        <ImageSlide
+                                            height={height}
+                                            customClass={styles.customClass}
+                                            width={width}
+                                            noLink={noLink}
+                                            key={key}
+                                            {...item}
+                                        />
+                                    )
                             }
                         </div>
                     ))}
