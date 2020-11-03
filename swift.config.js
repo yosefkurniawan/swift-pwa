@@ -321,6 +321,17 @@ const modules = {
     trackingorder: {
         enabled: true,
         path: '/sales/order/track',
+        fieldDetail: {
+            shipperid: ['name', 'description', 'updateDate'],
+            gosend: [
+                'bookingType', 'buyerAddressName', 'buyerAddressDetail',
+                'driverId', 'driverName', 'insuranceDetails', 'liveTrackingUrl',
+                'receiverName', 'sellerAddressDetail', 'sellerAddressName',
+                'status', 'cancelDescription',
+                'orderArrivalTime', 'orderClosedTime', 'orderCreatedTime',
+
+            ],
+        },
     },
     thanks: {
         enabled: true,
