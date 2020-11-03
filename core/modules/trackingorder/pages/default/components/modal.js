@@ -10,6 +10,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Alert from '@material-ui/lab/Alert';
+import formatDate from '@helper_date';
 import { startCase } from 'lodash';
 import {modules} from '@config';
 import dayjs from 'dayjs';
@@ -57,7 +58,7 @@ const ModalResult = (props) => {
                             }
                             
                             if (secondary !== null && secondary.length <= 30 ) {
-                                const date = dayjs(secondary).format('YYYY MM DD HH:mm:ss')
+                                const date = formatDate(secondary)
                                 if (date !== 'Invalid Date') secondary = date;
                             }
                             items.push({
