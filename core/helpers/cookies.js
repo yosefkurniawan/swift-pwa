@@ -7,11 +7,15 @@ export const getCheckoutData = () => {
 };
 
 export const getCheckoutDataFromRequest = (ctx) => {
-    const {
-        req,
-    } = ctx;
-    const data = req.cookies;
-    return data[nameCheckoutCookie];
+    if (ctx && ctx.req && ctx.req.cookies) {
+        const {
+            req,
+        } = ctx;
+        const data = req.cookies;
+        return data[nameCheckoutCookie];
+    }
+
+    return null;
 };
 
 export const setCheckoutData = (data) => {
