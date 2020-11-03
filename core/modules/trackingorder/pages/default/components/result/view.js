@@ -6,10 +6,15 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Alert from '@material-ui/lab/Alert';
-import Divider from '@material-ui/core/Divider';
 import Button from '@common_button';
 import classNames from 'classnames';
-import { startCase } from 'lodash';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableRow from '@material-ui/core/TableRow';
+
+import {checkJson} from '../../helpers/checkJson';
 import useStyles from '../style';
 
 const resultItem = ({ t, orders, storeConfig, openModal }) => {
@@ -18,7 +23,6 @@ const resultItem = ({ t, orders, storeConfig, openModal }) => {
     if (orders.data.length > 0) {
         let { detail } = data;
         detail = detail[0];
-        let isShiper = !detail.shipping_methods.shipping_description.match(/go-send/i);
         const items = [
             { primary: t('trackingorder:orderStatus'), secondary: data.status_label },
             {
@@ -41,40 +45,24 @@ const resultItem = ({ t, orders, storeConfig, openModal }) => {
             },
         ];
 
+    
         if (detail.shipping_methods.shipping_detail[0].data_detail) {
             let dt = detail.shipping_methods.shipping_detail[0].data_detail;
-            if (dt.includes(':')) {
-                dt = dt.replace(/'/g, '`');
-                dt = dt.replace(/"/g, "'");
-                dt = dt.replace(/`/g, '"');
+            dt = dt.replace(/'/g, '`');
+            dt = dt.replace(/"/g, "'");
+            dt = dt.replace(/`/g, '"');
+            if (checkJson(dt) && !JSON.parse(dt).errors) {
                 dt = JSON.parse(dt);
-                if (!isShiper) {
-                    items.push({
-                        primary: t('trackingorder:trackingOrder'),
-                        secondary: (
-                            <Button variant="text" onClick={openModal}>
-                                <Typography type="bold" decoration="underline">
-                                    {dt.orderNo}
-                                </Typography>
-                            </Button>
-                        ),
-                    });
-                } else {
-                    items.push({
-                        primary: t('trackingorder:trackingOrder'),
-                        secondary: detail.shipping_methods.track_number,
-                    });
-                    items.push({
-                        primary: '',
-                        secondary: '',
-                    });
-                    Object.keys(dt).map((key) => {
-                        items.push({
-                            primary: startCase(key),
-                            secondary: dt[key],
-                        });
-                    });
-                }
+                items.push({
+                    primary: t('trackingorder:trackingOrder'),
+                    secondary: (
+                        <Button variant="text" onClick={openModal} align="left" className={styles.btnTrackOrder}>
+                            <Typography type="bold" decoration="underline">
+                                {detail.shipping_methods.track_number}
+                            </Typography>
+                        </Button>
+                    ),
+                });
             } else {
                 items.push({
                     primary: t('trackingorder:trackingOrder'),
@@ -85,22 +73,44 @@ const resultItem = ({ t, orders, storeConfig, openModal }) => {
         return (
             <div className={classNames(styles.container, 'row')}>
                 <div className="col-xs-12">
-                    <Divider />
-                </div>
-                <div className="col-xs-12">
                     <Typography variant="title" size="16" className="label-result">
                         {t('trackingorder:trackingInformation')}
                     </Typography>
                 </div>
-                <div className="col-xs-12">
+                <div className="col-xs-12 hidden-mobile">
+                    <TableContainer className={styles.tableContainer}>
+                        <Table className={styles.table} aria-label="simple table">
+                            <TableBody>
+                                {items.map((item, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell component="th" scope="row" className={styles.labelTable}>
+                                            <Typography align="left" letter="capitalize" className="clear-margin-padding">
+                                                {item.primary}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="left" className={styles.valueTable}>
+                                            <Typography variant="span" type="regular" className="clear-margin-padding">
+                                                {item.secondary}
+                                            </Typography>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
+                <div className="col-xs-12 hidden-desktop">
                     <List>
                         {items.map((item, i) => (
                             <ListItem key={i}>
                                 <ListItemText
-                                  className={styles.label}
-                                  primary={(
-                                    <Typography align="left" letter="capitalize" className="clear-margin-padding">{item.primary}</Typography>
-                                  )} />
+                                    className={styles.label}
+                                    primary={
+                                        <Typography align="left" letter="capitalize" className="clear-margin-padding">
+                                            {item.primary}
+                                        </Typography>
+                                    }
+                                />
                                 <ListItemSecondaryAction className={styles.detail}>
                                     <Typography variant="span" type="regular" className="clear-margin-padding">
                                         {item.secondary}

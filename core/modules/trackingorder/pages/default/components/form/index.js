@@ -2,10 +2,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 const FormCom = (props) => {
-    const {
-        setOrderField, t, email, FormView, data, loading, error, SkeletonResult,
-        DetailView, ResultView, getTrackOrder, ...other 
-    } = props;
+    const { setOrderField, t, email, FormView, data, loading, error, SkeletonResult, DetailView, ResultView, getTrackOrder, ...other } = props;
     const [openResult, setOpenResult] = React.useState(false);
     const [openModal, setOpenModal] = React.useState(false);
 
@@ -32,16 +29,14 @@ const FormCom = (props) => {
     const handleOpenResult = (val) => {
         setOpenResult(val);
     };
-    
+
     return (
         <>
             <div className="row">
-                <div className="col-md-6 col-xs-12">
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <FormView {...props} formik={formik} handleOpenResult={handleOpenResult} openResult={openResult} />
                 </div>
-            </div>
-            <div className="row">
-                <div className="col-md-6 col-xs-12">
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     {openResult ? (
                         loading || !data ? (
                             <SkeletonResult />
@@ -54,7 +49,6 @@ const FormCom = (props) => {
                      ) : null}
                 </div>
             </div>
-           
         </>
     );
 };

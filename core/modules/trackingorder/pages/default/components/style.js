@@ -29,5 +29,35 @@ export default makeStyles((theme) => ({
         [theme.breakpoints.down('xs')] : {
             borderBottom: `1px solid ${GRAY_PRIMARY}`
         }
+    },
+    title: {
+        marginLeft: '25px !important',
+        marginBottom: 20
+    },
+    labelTable: {
+        width: '40%',
+        background: GRAY_PRIMARY,
+        padding: '10px 20px 10px 20px'
+    },
+    valueTable: {
+        padding: '10px 20px 10px 20px'
+    },
+    tableContainer: {
+        borderRadius: 5,
+        border: `1px solid ${GRAY_PRIMARY}`,
+        marginTop: 15,
+    },
+    table: {
+        width: '100%',
+    },
+    btnTrackOrder: {
+        padding: 0,
+        marginLeft: -10,
+    },
+    btnSeacrh: {
+        textAlign : 'left',
+        [theme.breakpoints.down('xs')] : {
+            textAlign: 'center'
+        }
     }
 }));

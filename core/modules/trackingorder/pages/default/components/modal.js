@@ -11,7 +11,11 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Alert from '@material-ui/lab/Alert';
 import { startCase } from 'lodash';
+import {modules} from '@config';
+import dayjs from 'dayjs';
+import Link from 'next/link';
 
+import {checkJson} from '../helpers/checkJson';
 import useStyles from './style';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
@@ -19,6 +23,7 @@ const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={r
 const ModalResult = (props) => {
     const { open, setOpen, t, orders } = props;
     const styles = useStyles();
+    const {trackingorder} = modules;
 
     const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('md'));
 
@@ -28,19 +33,39 @@ const ModalResult = (props) => {
             let { detail } = data;
             detail = detail[0];
             const items = [];
+            let gosend = detail.shipping_methods.shipping_description.match(/go-send/i);
             if (detail.shipping_methods.shipping_detail[0].data_detail) {
                 let dt = detail.shipping_methods.shipping_detail[0].data_detail;
-                if (dt.includes(':')) {
-                    dt = dt.replace(/'/g, '`');
-                    dt = dt.replace(/"/g, "'");
-                    dt = dt.replace(/`/g, '"');
+                dt = dt.replace(/'/g, '`');
+                dt = dt.replace(/"/g, "'");
+                dt = dt.replace(/`/g, '"');
+                if (checkJson(dt) && !JSON.parse(dt).errors) {
                     dt = JSON.parse(dt);
-                    Object.keys(dt).map((key) => {
-                        items.push({
-                            primary: startCase(key),
-                            secondary: dt[key],
-                        });
-                    });
+                    const keys = Object.keys(dt);
+                    const listField = gosend ? trackingorder.fieldDetail.gosend : trackingorder.fieldDetail.shipperid;
+                    for (let idx = 0; idx < keys.length; idx += 1) {
+                        if (listField.includes(keys[idx])) {
+                            let secondary = dt[keys[idx]];
+                            if (secondary !== null && secondary !== '' && secondary.includes('http')) {
+                                secondary = (
+                                    <Link href={secondary}>
+                                        <a target="_blank" className="item-link">
+                                            {secondary}
+                                        </a>
+                                    </Link>
+                                )
+                            }
+                            
+                            if (secondary !== null && secondary.length <= 30 ) {
+                                const date = dayjs(secondary).format('YYYY MM DD HH:mm:ss')
+                                if (date !== 'Invalid Date') secondary = date;
+                            }
+                            items.push({
+                                primary: startCase(keys[idx]),
+                                secondary,
+                            });
+                        }
+                    }
                 } else {
                     items.push({
                         primary: t('trackingorder:status'),
@@ -73,6 +98,10 @@ const ModalResult = (props) => {
                             .label-result {
                                 font-size: 20px;
                                 margin-top: 30px;
+                            }
+                            .item-link {
+                                font-weight: bold;
+                                text-decoration: underline;
                             }
                         `}
                     </style>
