@@ -12,7 +12,6 @@ const cookieSession = require('cookie-session');
 const express = require('express');
 const next = require('next');
 const http = require('http');
-const nextI18NextMiddleware = require('next-i18next/middleware').default;
 const { mergeSchemas } = require('graphql-tools');
 
 const LRUCache = require('lru-cache');
@@ -123,7 +122,7 @@ async function renderAndCache(req, res) {
     }
 
     await nextI18next.initPromise;
-    server.use(nextI18NextMiddleware(nextI18next));
+    // server.use(nextI18NextMiddleware(nextI18next));
     server.use(cookieSession({
         name: 'qwt-swift',
         keys: [SESSION_SECRET],
