@@ -7,7 +7,6 @@ import Button from '@common_button';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CustomTextField from '@common_textfield';
-import clsx from 'clsx';
 import Typography from '@common_typography';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import useStyles from './style';
@@ -23,10 +22,7 @@ const AddressView = (props) => {
         header: 'relative',
         headerBackIcon: 'close',
     };
-    const addBtn = clsx({
-        [styles.addBtnSuccess]: success,
-        [styles.addBtn]: !success,
-    });
+    const addBtn = success ? styles.addBtnSuccess : styles.addBtn;
     const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('md'));
     const getRegionRender = () => {
         if (addressState.dropdown.region && addressState.dropdown.region.length && open) {
@@ -93,7 +89,7 @@ const AddressView = (props) => {
                 label="State/Province"
                 name="region"
                 value={(formik.values.region && formik.values.region.label) || formik.values.region || ''}
-                onChange={(e) => formik.setFieldValue('region', {code: e.target.value, label: e.target.value}) }
+                onChange={(e) => formik.setFieldValue('region', { code: e.target.value, label: e.target.value })}
                 error={!!(formik.touched.region && formik.errors.region)}
                 errorMessage={(formik.touched.region && formik.errors.region) || null}
             />
@@ -149,7 +145,7 @@ const AddressView = (props) => {
                 label="City"
                 name="city"
                 value={(formik.values.city && formik.values.city.label) || formik.values.city || ''}
-                onChange={(e) => formik.setFieldValue('city', {code: e.target.value, label: e.target.value}) }
+                onChange={(e) => formik.setFieldValue('city', { code: e.target.value, label: e.target.value })}
                 error={!!(formik.touched.city && formik.errors.city)}
                 errorMessage={(formik.touched.city && formik.errors.city) || null}
             />
