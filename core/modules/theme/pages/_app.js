@@ -85,7 +85,6 @@ class MyApp extends App {
             customerData = Cookie.getJSON(custDataNameCookie);
         } else {
             isLogin = allcookie.isLogin || 0;
-            console.log(isLogin);
             customerData = allcookie[custDataNameCookie];
             lastPathNoAuth = (req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth
                 && typeof req.session.lastPathNoAuth !== 'undefined')
