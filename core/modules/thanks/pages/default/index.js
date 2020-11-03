@@ -28,7 +28,7 @@ Page.getInitialProps = async (ctx) => {
     }
     return {
         query: ctx.query,
-        checkoutData,
+        checkoutData: typeof checkoutData === 'string' ? JSON.parse(checkoutData) : checkoutData,
         namespacesRequired: ['common', 'thanks'],
     };
 };
