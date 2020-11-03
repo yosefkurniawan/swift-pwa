@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
             '& .MuiGrid-spacing-xs-2': {
                 marginTop: 10,
             },
+            marginTop: 0,
         },
     },
     skeleton: {
