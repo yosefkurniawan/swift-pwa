@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
 /* eslint-disable no-unused-vars */
+import LazyImage from './LazyImage';
 
 const imgError = (image) => {
     image.onerror = '';
@@ -20,6 +21,7 @@ const Image = ({
             paddingTop: `${(height / width) * 100}%`,
         }}
     >
+
         {!lazy ? (
             <img
                 data-pagespeed-no-defer
@@ -38,7 +40,21 @@ const Image = ({
                 alt={alt}
                 {...other}
             />
-        ) : null}
+        ) : (
+            <LazyImage
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    position: 'absolute',
+                    top: '0',
+                    left: '0',
+                }}
+                src={
+                    `https://thumbor.sirclocdn.xyz/unsafe/${width}x${height}/filters:format(webp)/${src}`
+                }
+                alt={alt}
+            />
+        )}
     </div>
 );
 

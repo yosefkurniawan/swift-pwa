@@ -65,7 +65,7 @@ export const getProduct = (config = {}) => gql`
   pageSize: $pageSize,
   currentPage: $currentPage
   ${
-    config.sort
+    config.sort && config.sort.key && config.sort.key !== 'position'
         ? `, sort: {${config.sort.key} : ${config.sort.value}}`
         : ''
 }

@@ -23,6 +23,7 @@ const ImageDetail = (props) => {
                 height={features.imageSize.product.height}
                 quality={80}
                 alt={small_image && small_image.url ? small_image.label : name}
+                lazy
             />
         </Link>
     );

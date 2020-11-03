@@ -112,7 +112,6 @@ const CategoryPage = ({
                     && (!categoryList.display_mode || categoryList.display_mode === 'PRODUCTS_AND_PAGE' || categoryList.display_mode === 'PRODUCTS')
                     && (
                         <Product
-                            defaultSort={{ key: 'position', value: 'ASC' }}
                             // sementara di comment dlu, untuk custom filter memakai aggregations product
                             // customFilter={customFilter.loading ? [] : customFilter.data.getFilterAttributeOptions.data}
                             catId={categoryList.id}
