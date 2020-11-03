@@ -18,7 +18,7 @@ const PageStoreCredit = (props) => {
         pageType: 'purchase',
         ...pageConfig,
     };
-    const { data, loading, error } = getOrder(checkoutData);
+    const { data, loading, error } = getOrder(typeof checkoutData === 'string' ? JSON.parse(checkoutData) : checkoutData);
 
     if (typeof window !== 'undefined') {
         const cdt = getCheckoutData();
