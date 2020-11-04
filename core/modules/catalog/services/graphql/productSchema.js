@@ -143,7 +143,6 @@ export const getProduct = (config = {}) => gql`
 
         special_from_date
         special_to_date
-        new
         new_from_date
         new_to_date
         sale
@@ -232,7 +231,6 @@ export const getProduct = (config = {}) => gql`
               }
               special_from_date
               special_to_date
-              new
               new_from_date
               new_to_date
               sale
