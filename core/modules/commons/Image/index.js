@@ -1,61 +1,48 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
 /* eslint-disable no-unused-vars */
-import LazyImage from './LazyImage';
+import React from 'react';
+import Image from 'next/image';
 
-const imgError = (image) => {
-    image.onerror = '';
-    image.src = '/assets/img/placeholder.png';
-    return true;
+const CustomImage = ({
+    src,
+    width = 500,
+    height = 500,
+    className = '',
+    alt = 'Image',
+    quality = 100,
+    lazy = false,
+    optimize = true,
+}) => {
+    const onError = (event) => {
+        event.target.classList.add('has-error');
+    };
+
+    return (
+        <>
+            <Image
+                src={
+                    `https://thumbor.sirclocdn.xyz/unsafe/${width}x${height}/filters:format(webp)/${src}`
+                }
+                width={width}
+                height={height}
+                alt={alt}
+                loading={lazy ? 'lazy' : 'eager'}
+                unoptimized={!optimize}
+                onError={onError}
+                quality={quality}
+                className={className}
+            />
+            <style jsx global>
+                {`
+                    img.has-error {
+                        // fallback to placeholder image on error
+                        content: url(/assets/img/placeholder.png);
+                    }
+                `}
+            </style>
+        </>
+    );
 };
 
-const Image = ({
-    src, width = 500, height = 500, className = '', alt = 'Image', quality = 100, style = {}, lazy = false, ...other
-}) => (
-    <div
-        // ref={imgContainer}
-        style={{
-            backgroundColor: '#eee',
-            width: '100%',
-            position: 'relative',
-            paddingTop: `${(height / width) * 100}%`,
-        }}
-    >
-
-        {!lazy ? (
-            <img
-                data-pagespeed-no-defer
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    position: 'absolute',
-                    top: '0',
-                    left: '0',
-                }}
-                className={`img ${className}`}
-                src={
-                    `https://thumbor.sirclocdn.xyz/unsafe/${width}x${height}/filters:format(webp)/${src}`
-                }
-                onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
-                alt={alt}
-                {...other}
-            />
-        ) : (
-            <LazyImage
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    position: 'absolute',
-                    top: '0',
-                    left: '0',
-                }}
-                src={
-                    `https://thumbor.sirclocdn.xyz/unsafe/${width}x${height}/filters:format(webp)/${src}`
-                }
-                alt={alt}
-            />
-        )}
-    </div>
-);
-
-export default Image;
+export default CustomImage;
