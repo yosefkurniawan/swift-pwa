@@ -31,7 +31,6 @@ export const getFeaturedProducts = gql`
                         id
                         name
                         url_key
-                        new
                         new_from_date
                         new_to_date
                         canonical_url
