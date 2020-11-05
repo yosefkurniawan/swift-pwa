@@ -2,7 +2,7 @@ const { encrypt, decrypt } = require('../../../helpers/encryption');
 
 const decryptState = (state) => {
     const raw = decrypt(state);
-    const res = raw.split('-');
+    const res = raw.split('|');
     const token = res[0];
     const cartId = res[1];
 
