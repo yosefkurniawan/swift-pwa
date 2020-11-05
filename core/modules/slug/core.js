@@ -25,7 +25,7 @@ const ContainerResolver = (props) => {
 
 const Slug = (props) => {
     const {
-        slug, storeConfig, ProductLoader, CategorySkeleton, LoadingView, ...other
+        slug, storeConfig, ProductLoader, CategorySkeleton, LoadingView, t, ...other
     } = props;
 
     let url = slug.join('/');
@@ -43,7 +43,7 @@ const Slug = (props) => {
     if (error) return <Error statusCode={500} />;
     if (loading) {
         return (
-            <Layout storeConfig={storeConfig} pageConfig={config}>
+            <Layout storeConfig={storeConfig} pageConfig={config} t={t}>
                 <LoadingView open />
             </Layout>
         );
@@ -65,8 +65,6 @@ const SlugContainer = (props) => {
         }
         localResolver = getLocalResolver();
         const resolver = localResolver[key];
-        console.log(resolver);
-        console.log(key);
         if (resolver && resolver.type) {
             resolver.relative_url = key;
             return <ContainerResolver resolver={resolver} {...props} contentProps={contentProps} />;

@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
-import schema from './schema';
+import schema, { getCmsBlocks as getCmsBlocksSchema } from './schema';
 
 export const getCategories = () => useQuery(schema.categories);
 export const getCategoryByName = (name) => useLazyQuery(schema.getCategoryByName(name));
@@ -20,7 +20,7 @@ export const removeToken = () => useMutation(schema.removeToken, {
     },
 });
 
-export const getCmsBlocks = (variables) => useQuery(schema.getCmsBlocks, { variables });
+export const getCmsBlocks = (variables) => useQuery(getCmsBlocksSchema, { variables });
 
 export default {
     getCmsBlocks,

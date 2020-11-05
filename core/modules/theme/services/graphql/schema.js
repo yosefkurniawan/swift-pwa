@@ -189,7 +189,6 @@ export default {
     categories,
     getCustomer,
     removeToken,
-    getCmsBlocks,
     vesMenu,
     getProduct,
     getCategoryByName,

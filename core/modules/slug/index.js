@@ -1,4 +1,5 @@
 import { withApollo } from '@lib_apollo';
+import { withTranslation } from '@i18n';
 import CategoryPage from '@core_modules/catalog/pages/category';
 import ProductPage from '@core_modules/product/pages/default';
 import CmsPage from '@core_modules/cms/pages/default';
@@ -34,4 +35,4 @@ Page.getInitialProps = async ({ query, req }) => ({
         }${window.location.port ? `:${window.location.port}` : ''}`,
 });
 
-export default withApollo({ ssr: true })(Page);
+export default withApollo({ ssr: true })(withTranslation()(Page));
