@@ -31,13 +31,16 @@ const CustomImage = ({
                 unoptimized={!optimize}
                 onError={onError}
                 quality={quality}
-                className={className}
+                className={`img-bg-load ${className}`}
             />
             <style jsx global>
                 {`
                     img.has-error {
                         // fallback to placeholder image on error
                         content: url(/assets/img/placeholder.png);
+                    }
+                    .img-bg-load {
+                        background: #f8f8f8;
                     }
                 `}
             </style>
