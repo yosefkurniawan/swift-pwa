@@ -21,6 +21,7 @@ import {
     getLoginInfo,
     getLastPathWithoutLogin,
 } from '@helper_auth';
+import { setResolver } from '@helper_localstorage';
 // import Fonts from '@helper_fonts';
 import TagManager from 'react-gtm-module';
 import PageProgressLoader from '@common_loaders/PageProgress';
@@ -162,6 +163,7 @@ class MyApp extends App {
         // remove config cookie if page reload
         if (typeof window !== 'undefined') {
             window.onbeforeunload = function () {
+                setResolver({});
                 helperCookies.remove(storeConfigNameCookie);
             };
         }

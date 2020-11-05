@@ -5,7 +5,7 @@ import { setCookies } from '@helper_cookies';
 import { useTranslation } from '@i18n';
 import route from 'next/router';
 import React from 'react';
-import { setResolver } from '@helper_localstorage';
+import { setResolver, getResolver } from '@helper_localstorage';
 import classNames from 'classnames';
 import { addWishlist } from '../../services/graphql';
 import useStyles from './style';
@@ -54,9 +54,11 @@ const ProductItem = (props) => {
     };
 
     const handleClick = async () => {
-        await setResolver({
+        const urlResolver = getResolver();
+        urlResolver[`/${url_key}`] = {
             type: 'PRODUCT',
-        });
+        };
+        await setResolver(urlResolver);
         setCookies('lastCategory', categorySelect);
         route.push('/[...slug]', `/${url_key}`);
     };

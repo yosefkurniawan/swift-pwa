@@ -1,6 +1,8 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable prefer-destructuring */
 import Error from '@core_modules/error/pages/default';
 import { cmsPages } from '@root/swift.config.js';
-import { getResolver as getLocalResolver, setResolver } from '@helper_localstorage';
+import { getResolver as getLocalResolver } from '@helper_localstorage';
 import Layout from '@layout';
 import { getResolver } from './services/graphql';
 
@@ -8,12 +10,6 @@ const ContainerResolver = (props) => {
     const {
         CategoryPage, ProductPage, CmsPage, resolver, contentProps, storeConfig, ...other
     } = props;
-
-    React.useEffect(() => {
-        if (typeof window !== 'undefined') {
-            setResolver('');
-        }
-    }, []);
 
     if (resolver.type === 'CATEGORY') {
         return <CategoryPage {...contentProps} categoryId={resolver.id} {...other} />;
@@ -32,11 +28,6 @@ const Slug = (props) => {
         slug, storeConfig, ProductLoader, CategorySkeleton, LoadingView, ...other
     } = props;
 
-    let localResolver;
-    if (typeof window !== 'undefined') {
-        localResolver = getLocalResolver();
-    }
-
     let url = slug.join('/');
     // suffix based on storeConfig
     const suffix = (storeConfig || {}).category_url_suffix || '.html';
@@ -51,20 +42,6 @@ const Slug = (props) => {
 
     if (error) return <Error statusCode={500} />;
     if (loading) {
-        if (localResolver && localResolver.type === 'PRODUCT') {
-            return (
-                <Layout storeConfig={storeConfig} pageConfig={config}>
-                    <ProductLoader />
-                </Layout>
-            );
-        }
-        if (localResolver && localResolver.type === 'CATEGORY') {
-            return (
-                <Layout storeConfig={storeConfig} pageConfig={config}>
-                    <CategorySkeleton />
-                </Layout>
-            );
-        }
         return (
             <Layout storeConfig={storeConfig} pageConfig={config}>
                 <LoadingView open />
@@ -73,8 +50,29 @@ const Slug = (props) => {
     }
     const resolver = data.urlResolver ? data.urlResolver : {};
     const contentProps = { slug, storeConfig };
-
     return <ContainerResolver resolver={resolver} {...other} contentProps={contentProps} />;
 };
 
-export default Slug;
+const SlugContainer = (props) => {
+    const { slug, storeConfig } = props;
+    let localResolver;
+    if (typeof window !== 'undefined') {
+        const contentProps = { slug, storeConfig };
+        let key = '';
+        for (let index = 0; index < slug.length; index++) {
+            const element = slug[index];
+            key += `/${element}`;
+        }
+        localResolver = getLocalResolver();
+        const resolver = localResolver[key];
+        console.log(resolver);
+        console.log(key);
+        if (resolver && resolver.type) {
+            resolver.relative_url = key;
+            return <ContainerResolver resolver={resolver} {...props} contentProps={contentProps} />;
+        }
+    }
+    return <Slug {...props} />;
+};
+
+export default SlugContainer;
