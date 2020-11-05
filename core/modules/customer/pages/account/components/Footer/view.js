@@ -9,7 +9,7 @@ import router from 'next/router';
 import {
     enableSocialMediaLink,
 } from '@config';
-import { setResolver } from '@helper_localstorage';
+import { setResolver, getResolver } from '@helper_localstorage';
 import SocialMediaLink from '../SocialMedia';
 import SocialMediaView from '../SocialMedia/view';
 import NewsletterDialog from '../Newsletter';
@@ -22,9 +22,11 @@ const FooterView = (props) => {
     } = props;
     const [openNewsletter, setOpenNewsletter] = React.useState(false);
     const handleClick = async (link) => {
-        await setResolver({
+        const urlResolver = getResolver();
+        urlResolver[link] = {
             type: 'CMS_PAGE',
-        });
+        };
+        await setResolver(urlResolver);
         router.push('/[...slug]', link);
     };
 

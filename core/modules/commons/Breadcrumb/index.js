@@ -5,12 +5,11 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Chip from '@material-ui/core/Chip';
 import Typography from '@common_typography';
 import NavigateNext from '@material-ui/icons/NavigateNext';
-import { setResolver } from '@helper_localstorage';
+import { setResolver, getResolver } from '@helper_localstorage';
 import Router from 'next/router';
 
 const useStyles = makeStyles({
     root: {
-        marginBottom: 0,
         '& a': {
             cursor: 'pointer',
         },
@@ -18,17 +17,18 @@ const useStyles = makeStyles({
         '& p': {
             marginLeft: 0,
         },
-
         marginBottom: 20,
     },
 });
 
 const CustomBreadcrumb = ({ data = [], variant = 'text' }) => {
     const handleClick = async (url, id) => {
-        await setResolver({
-            id,
+        const urlResolver = getResolver();
+        urlResolver[url] = {
             type: 'CATEGORY',
-        });
+            id,
+        };
+        await setResolver(urlResolver);
         Router.push(
             '/[...slug]',
             `${url}`,
