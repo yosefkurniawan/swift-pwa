@@ -47,8 +47,9 @@ const ReviewDialogView = (props) => {
                         placeholder={t('product:nickname')}
                         label={t('product:nickname')}
                         className={styles.textField}
-                        error={!!Formik.errors.nickname}
-                        errorMessage={Formik.errors.nickname || null}
+                        error={!!(Formik.touched.nickname && Formik.errors.nickname)}
+                        errorMessage={(Formik.touched.nickname && Formik.errors.nickname) || null}
+
                     />
                     <TextField
                         name="title"
@@ -56,8 +57,8 @@ const ReviewDialogView = (props) => {
                         value={Formik.values.title}
                         label={t('product:title')}
                         className={styles.textField}
-                        error={!!Formik.errors.title}
-                        errorMessage={Formik.errors.title || null}
+                        error={!!(Formik.touched.title && Formik.errors.title)}
+                        errorMessage={(Formik.touched.title && Formik.errors.title) || null}
                     />
                     <TextField
                         name="detail"
@@ -68,8 +69,8 @@ const ReviewDialogView = (props) => {
                         className={styles.textField}
                         multiline
                         row="4"
-                        error={!!Formik.errors.detail}
-                        errorMessage={Formik.errors.detail || null}
+                        error={!!(Formik.touched.detail && Formik.errors.detail)}
+                        errorMessage={(Formik.touched.detail && Formik.errors.detail) || null}
                     />
                     <div className={styles.ratingContainer}>
                         <Typography variant="p" type="semiBold">
@@ -81,10 +82,10 @@ const ReviewDialogView = (props) => {
                             onChange={(event, newValue) => {
                                 Formik.setFieldValue('rating', newValue);
                             }}
-                        />
-                        {Formik.errors.rating && (
+                        />                        
+                        {Formik.touched.rating && Formik.errors.rating && (
                             <Typography variant="p" color="red">
-                                {Formik.errors.rating || ''}
+                                {Formik.touched.rating && Formik.errors.rating || ''}
                             </Typography>
                         )}
                     </div>
