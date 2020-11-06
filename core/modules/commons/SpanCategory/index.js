@@ -7,7 +7,7 @@ import { useTranslation } from '@i18n';
 import { features } from '@config';
 import setDefaultWhenEmpty from '@helper_checkimagesrc';
 import classNames from 'classnames';
-import { setResolver } from '@helper_localstorage';
+import { setResolver, getResolver } from '@helper_localstorage';
 import Link from 'next/link';
 import useStyles from './style';
 import Thumbor from '../Image';
@@ -18,18 +18,20 @@ const SpanCategory = (props) => {
     } = props;
     const { t } = useTranslation(['common']);
     const styles = useStyles();
-    const handleClick = async () => {
-        await setResolver({
-            id,
+    const handleClick = async (link) => {
+        const urlResolver = getResolver();
+        urlResolver[link] = {
             type: 'CATEGORY',
-        });
+            id,
+        };
+        await setResolver(urlResolver);
     };
     return (
         <div className={styles.container}>
             <div className={classNames('row center middle-sm', right ? 'reverse' : '')}>
                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <Link href="/[...slug]" as={`/${url}`}>
-                        <a onClick={handleClick}>
+                        <a onClick={() => handleClick(`/${url}`)}>
                             <Thumbor
                                 src={setDefaultWhenEmpty(imageSrc)}
                                 alt={name}

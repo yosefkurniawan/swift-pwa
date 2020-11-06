@@ -10,7 +10,7 @@ import Delete from '@material-ui/icons/Delete';
 import Link from 'next/link';
 import Image from '@common_image';
 import { features } from '@config';
-import { setResolver } from '@helper_localstorage';
+import { setResolver, getResolver } from '@helper_localstorage';
 import useStyles from './style';
 
 const WishlistComp = ({
@@ -29,10 +29,12 @@ const WishlistComp = ({
             sku, url_key, wishlistItemId, __typename,
         });
     };
-    const handleClick = async () => {
-        await setResolver({
+    const handleClick = async (link) => {
+        const urlResolver = getResolver();
+        urlResolver[link] = {
             type: 'PRODUCT',
-        });
+        };
+        await setResolver(urlResolver);
     };
     return (
         <>
@@ -55,7 +57,7 @@ const WishlistComp = ({
                 </div>
                 <div className={styles.content}>
                     <Link href="/[...slug]" as={`/${url_key}`}>
-                        <a onClick={handleClick}>
+                        <a onClick={() => handleClick(`/${url_key}`)}>
                             <Typography variant="p">{name}</Typography>
                         </a>
                     </Link>

@@ -1,6 +1,6 @@
 import noReload from '@helper_noreload';
 import { useRouter } from 'next/router';
-import { setResolver } from '@helper_localstorage';
+import { setResolver, getResolver } from '@helper_localstorage';
 import { getCmsBlocks } from '../../../services/graphql';
 
 const Footer = (props) => {
@@ -20,9 +20,11 @@ const Footer = (props) => {
 
     const linkAction = async (type, link) => {
         if (type === 'cms') {
-            await setResolver({
+            const urlResolver = getResolver();
+            urlResolver[link] = {
                 type: 'CMS_PAGE',
-            });
+            };
+            await setResolver(urlResolver);
             router.push('/[...slug]', link);
         } else {
             router.push('/[...slug]', link);
