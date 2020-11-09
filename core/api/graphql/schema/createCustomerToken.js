@@ -33,6 +33,7 @@ const customerSchema = makeExecutableSchema({
             result: Boolean
             isLogin: Boolean
             cartId: String
+            redirect_path: String
         }
 
         type internalDeleteSessionOutput {
