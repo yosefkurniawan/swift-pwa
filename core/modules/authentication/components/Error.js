@@ -7,14 +7,13 @@ const style = {
     margin: 20,
 };
 
-const Error = ({ counter }) => {
+const Error = ({ counter, message }) => {
     const [countDown, setCountDown] = useState(counter);
-
     useEffect(() => {
         setTimeout(() => {
             if (countDown > 0) {
                 setCountDown(countDown - 1);
-            } else {
+            } else if (window && window.backdropLoader) {
                 window.backdropLoader(true);
             }
         }, 1000);
@@ -22,7 +21,7 @@ const Error = ({ counter }) => {
     return (
         <div>
             <Alert severity="error" style={style}>
-                <AlertTitle>Something went wrong.</AlertTitle>
+                <AlertTitle>{message || 'Something went wrong.'}</AlertTitle>
                 <Typography variant="inherit">
                     You will be redirected back to the store in
                     {' '}
