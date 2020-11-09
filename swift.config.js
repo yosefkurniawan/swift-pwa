@@ -183,6 +183,10 @@ const features = {
 };
 
 const modules = {
+    authentication: {
+        enabled: true,
+        path: '/authentication',
+    },
     about: {
         enabled: true,
         path: '/about-us',
@@ -395,6 +399,7 @@ const nossrCache = [
     '/checkout',
     '/checkout/cart',
     '/graphql',
+    '/authentication',
     '/checkout/onepage/success',
 ];
 
