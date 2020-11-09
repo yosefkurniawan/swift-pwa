@@ -20,6 +20,7 @@ const Authentication = (props) => {
 
     const { Content, query, storeConfig } = props;
     const [authFailed, setAuthFailed] = React.useState(false);
+    const [errorMessage, setErrorMessage] = React.useState(null);
 
     const [generateSessionGql] = generateSession();
     const [deleteSessionGql] = deleteSession();
@@ -61,6 +62,7 @@ const Authentication = (props) => {
                         }
                     } else {
                         setAuthFailed(true);
+                        setErrorMessage('Token has expired');
                         backToStore();
                     }
                 }).catch(() => {
@@ -80,7 +82,7 @@ const Authentication = (props) => {
                 <Head>
                     <title>Loading...</title>
                 </Head>
-                <Error counter={counter} />
+                <Error message={errorMessage} counter={counter} />
             </>
         );
     }
