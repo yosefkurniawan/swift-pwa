@@ -1,4 +1,13 @@
 const { encrypt, decrypt } = require('../../../helpers/encryption');
+const requestGraph = require('../request');
+
+const query = `
+{
+    customer {
+      email
+    }
+  }
+`;
 
 const decryptState = (state) => {
     const raw = decrypt(state);
@@ -17,6 +26,15 @@ const decryptState = (state) => {
 
 const internalGenerateSession = async (parent, { state }, context) => {
     const { token, cartId, redirect_path } = decryptState(state);
+    const res = await requestGraph(query, { }, context, { token });
+    if (res.response && res.response.errors) {
+        return {
+            result: false,
+            cartId: null,
+            isLogin: false,
+            redirect_path: '/',
+        };
+    }
     if (typeof state !== 'undefined' && state) {
         if (token) {
             context.session.token = encrypt(token);
