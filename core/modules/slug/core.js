@@ -1,7 +1,6 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable prefer-destructuring */
 import Error from '@core_modules/error/pages/default';
-import { cmsPages } from '@root/swift.config.js';
 import { getResolver as getLocalResolver } from '@helper_localstorage';
 import Layout from '@layout';
 import { getResolver } from './services/graphql';
@@ -28,6 +27,7 @@ const Slug = (props) => {
         slug, storeConfig, ProductLoader, CategorySkeleton, LoadingView, t, ...other
     } = props;
 
+    const cmsPages = storeConfig && storeConfig.cms_page ? storeConfig.cms_page.split(',') : [];
     let url = slug.join('/');
     // suffix based on storeConfig
     const suffix = (storeConfig || {}).category_url_suffix || '.html';

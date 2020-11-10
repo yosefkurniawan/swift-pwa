@@ -8,7 +8,7 @@ import { WHITE, PRIMARY } from '@theme_color';
 import Thumbor from '@common_image';
 import getPath from '@helper_getpath';
 import { setResolver, getResolver } from '@helper_localstorage';
-import { features, cmsPages } from '@config';
+import { features } from '@config';
 import Link from 'next/link';
 
 const generateLevel2 = (data, handleClick, generateLink) => {
@@ -80,7 +80,8 @@ const generateLevel2 = (data, handleClick, generateLink) => {
 };
 
 const Menu = (props) => {
-    const { data } = props;
+    const { data, storeConfig } = props;
+    const cmsPages = storeConfig && storeConfig.cms_page ? storeConfig.cms_page.split(',') : [];
     const menu = features.vesMenu.enabled ? data.vesMenu.items : data.categoryList[0].children;
     const generateLink = (cat) => {
         const link = cat.link ? getPath(cat.link) : `/${cat.url_path}`;
