@@ -32,7 +32,7 @@ const internalGenerateSession = async (parent, { state }, context) => {
             result: false,
             cartId: null,
             isLogin: false,
-            redirect_path: '/',
+            redirect_path,
         };
     }
     if (typeof state !== 'undefined' && state) {
