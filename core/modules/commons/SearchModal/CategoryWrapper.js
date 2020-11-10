@@ -1,10 +1,10 @@
 import { debuging } from '@config';
 import { useTranslation } from '@i18n';
 import Alert from '@material-ui/lab/Alert';
-import { GraphCategory } from '@services/graphql';
 import React from 'react';
 import Router from 'next/router';
 import { setResolver, getResolver } from '@helper_localstorage';
+import { getCategories } from '@core_modules/theme/services/graphql/index';
 import Category from './Category';
 import SubCategory from './SubCategory';
 import CategorySkeleton from './CategorySkeleton';
@@ -13,7 +13,7 @@ const CategoryWrapper = (props) => {
     const {
         openedCategory, showCat, openSub, slideCat, showSubCat, closeSub,
     } = props;
-    const { loading, data, error } = GraphCategory.getCategories();
+    const { loading, data, error } = getCategories();
     const { t } = useTranslation(['common']);
 
     if (loading) return <CategorySkeleton />;
