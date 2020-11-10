@@ -17,7 +17,7 @@
                     "@custom": "./src/custom",
                     "@middlewares": "./core/middlewares",
                     "@helpers": "./core/helpers",
-                    "@services": "./core/services",
+                    "@services": "swift-pwa-core/core/services",
                     "@config" : "./swift.config.js",
                     "@extension": "./extension",
                     "@extension_module": "./extension/modules",
