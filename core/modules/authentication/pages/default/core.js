@@ -9,9 +9,9 @@ import Error from '../../components/Error';
 
 const counter = 3; // seconds
 
-const backToStore = () => {
+const backToStore = (redirect_path = '/') => {
     setTimeout(() => {
-        window.location.replace('/');
+        window.location.replace(redirect_path);
     }, counter * 1000);
 };
 
@@ -47,7 +47,9 @@ const Authentication = (props) => {
 
             deleteSessionGql().then(() => {
                 generateSessionGql({ variables }).then(({ data }) => {
-                    const { result, cartId, isLogin } = data.internalGenerateSession;
+                    const {
+                        result, cartId, isLogin, redirect_path,
+                    } = data.internalGenerateSession;
                     if (result) {
                         objectProps = data.internalGenerateSession;
                         if (isLogin) {
@@ -63,7 +65,7 @@ const Authentication = (props) => {
                     } else {
                         setAuthFailed(true);
                         setErrorMessage('Token has expired');
-                        backToStore();
+                        backToStore(redirect_path || '/');
                     }
                 }).catch(() => {
                     setAuthFailed(true);
