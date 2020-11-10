@@ -479,8 +479,8 @@ export const setGuestEmailAddressOnCart = gql`
 `;
 
 export const placeOrder = gql`
-    mutation($cartId: String!) {
-        placeOrder(input: { cart_id: $cartId }) {
+    mutation($cartId: String!, $origin: String!) {
+        placeOrder(input: { cart_id: $cartId, origin: $origin }) {
             order {
                 order_number
                 order_id

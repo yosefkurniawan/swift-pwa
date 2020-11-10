@@ -4,7 +4,7 @@ import { setCartId, removeCartId } from '@helper_cartid';
 import { setCheckoutData } from '@helper_cookies';
 import { localTotalCart } from '@services/graphql/schema/local';
 import SummaryPlugin from '@core_modules/cart/plugin/Summary';
-import { modules } from '@config';
+import { modules, originName } from '@config';
 import getConfig from 'next/config';
 import gqlService from '../../../../services/graphql';
 
@@ -99,7 +99,7 @@ const Summary = ({
                     text: msg,
                 });
             } else {
-                result = await placeOrder({ variables: { cartId: cart.id } });
+                result = await placeOrder({ variables: { cartId: cart.id, origin: originName } });
 
                 state = { ...checkout };
                 state.loading.order = false;
