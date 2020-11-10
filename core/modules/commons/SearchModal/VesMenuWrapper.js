@@ -1,4 +1,4 @@
-import { debuging, cmsPages } from '@config';
+import { debuging } from '@config';
 import { useTranslation } from '@i18n';
 import Alert from '@material-ui/lab/Alert';
 import { getVesMenu } from '@core_modules/theme/services/graphql/index';
@@ -20,11 +20,14 @@ const CategoryWrapper = () => {
     const [historyPosition, setHistoryPosition] = React.useState(-1);
     const [back, setBack] = React.useState(false);
 
-    const { loading, data, error } = getVesMenu({
+    const {
+        loading, data, error, storeConfig,
+    } = getVesMenu({
         variables: {
             alias: 'top-menu',
         },
     });
+    const cmsPages = storeConfig && storeConfig.cms_page ? storeConfig.cms_page.split(',') : [];
 
     React.useMemo(() => {
         if (dataCat === null && !loading && data) {
