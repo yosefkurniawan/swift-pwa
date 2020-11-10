@@ -54,7 +54,7 @@ const AddressView = (props) => {
                                 {...params}
                                 inputProps={{
                                     ...params.inputProps,
-                                    autoComplete: 'no-autoComplete',
+                                    autoComplete: 'off',
                                 }}
                                 name="state"
                                 label={t('common:form:state')}
@@ -85,7 +85,7 @@ const AddressView = (props) => {
         return (
             <CustomTextField
                 disabled={!formik.values.country}
-                autoComplete="no-autoComplete"
+                autoComplete="off"
                 label="State/Province"
                 name="region"
                 value={(formik.values.region && formik.values.region.label) || formik.values.region || ''}
@@ -120,7 +120,7 @@ const AddressView = (props) => {
                                 {...params}
                                 inputProps={{
                                     ...params.inputProps,
-                                    autoComplete: 'no-autoComplete',
+                                    autoComplete: 'off',
                                 }}
                                 name="city"
                                 label={t('common:form:city')}
@@ -141,7 +141,7 @@ const AddressView = (props) => {
         return (
             <CustomTextField
                 disabled={!formik.values.region}
-                autoComplete="no-autoComplete"
+                autoComplete="off"
                 label="City"
                 name="city"
                 value={(formik.values.city && formik.values.city.label) || formik.values.city || ''}
@@ -175,7 +175,7 @@ const AddressView = (props) => {
                                 {...params}
                                 inputProps={{
                                     ...params.inputProps,
-                                    autoComplete: 'no-autoComplete',
+                                    autoComplete: 'off',
                                 }}
                                 name="district"
                                 label="Kecamatan"
@@ -196,7 +196,7 @@ const AddressView = (props) => {
         return (
             <CustomTextField
                 disabled={!formik.values.city}
-                autoComplete="no-autoComplete"
+                autoComplete="off"
                 label="Kecamatan"
                 name="district"
                 value={formik.values.district ? formik.values.district.label : ''}
@@ -230,7 +230,7 @@ const AddressView = (props) => {
                                 {...params}
                                 inputProps={{
                                     ...params.inputProps,
-                                    autoComplete: 'no-autoComplete',
+                                    autoComplete: 'off',
                                 }}
                                 name="village"
                                 label="Kelurahan"
@@ -251,7 +251,7 @@ const AddressView = (props) => {
         return (
             <CustomTextField
                 disabled={!formik.values.district}
-                autoComplete="no-autoComplete"
+                autoComplete="off"
                 label="Kelurahan"
                 name="village"
                 value={formik.values.village ? formik.values.village.label : ''}
@@ -278,7 +278,7 @@ const AddressView = (props) => {
                 <div className={[styles.address_form].join(' ')}>
                     <form onSubmit={formik.handleSubmit} autoComplete="off">
                         <CustomTextField
-                            autoComplete="no-autoComplete"
+                            autoComplete="off"
                             label={t('common:form:firstName')}
                             name="firstname"
                             value={formik.values.firstname}
@@ -287,7 +287,7 @@ const AddressView = (props) => {
                             errorMessage={(formik.touched.firstname && formik.errors.firstname) || null}
                         />
                         <CustomTextField
-                            autoComplete="no-autoComplete"
+                            autoComplete="off"
                             label={t('common:form:lastName')}
                             name="lastname"
                             value={formik.values.lastname}
@@ -296,7 +296,7 @@ const AddressView = (props) => {
                             errorMessage={(formik.touched.lastname && formik.errors.lastname) || null}
                         />
                         <CustomTextField
-                            autoComplete="no-autoComplete"
+                            autoComplete="off"
                             label={t('common:form:street')}
                             name="street"
                             value={formik.values.street}
@@ -335,7 +335,7 @@ const AddressView = (props) => {
                                             {...params}
                                             inputProps={{
                                                 ...params.inputProps,
-                                                autoComplete: 'no-autoComplete',
+                                                autoComplete: 'off',
                                             }}
                                             name="country"
                                             label={t('common:form:country')}
@@ -373,7 +373,7 @@ const AddressView = (props) => {
                         {enableSplitCity ? getDistrictRender() : null}
                         {enableSplitCity ? getVillageRender() : null}
                         <CustomTextField
-                            autoComplete="no-autoComplete"
+                            autoComplete="off"
                             label={t('common:form:postal')}
                             name="postcode"
                             value={formik.values.postcode}
@@ -382,7 +382,7 @@ const AddressView = (props) => {
                             errorMessage={(formik.touched.postcode && formik.errors.postcode) || null}
                         />
                         <CustomTextField
-                            autoComplete="no-autoComplete"
+                            autoComplete="off"
                             label={t('common:form:phoneNumber')}
                             name="telephone"
                             value={formik.values.telephone}
