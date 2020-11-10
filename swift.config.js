@@ -93,9 +93,6 @@ const sentry = {
     },
 };
 
-/* List Of CMS Pages: [url-1, url-2, ..., url-n] */
-const cmsPages = ['about-us', 'aw-reward-points', 'privacy-policy-cookie-restriction-mode'];
-
 /* Contact Us */
 // identifiers for cmsBlocks in contact page
 const cmsContactIdentifiers = 'weltpixel_contact_page';
@@ -422,7 +419,6 @@ module.exports = {
     nameToken,
     expiredToken,
     expiredDefault,
-    cmsPages,
     loaderImage,
     cmsContactIdentifiers,
     cmsSocialMediaLinkIdentifiers,
