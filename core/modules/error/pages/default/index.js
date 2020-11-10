@@ -2,9 +2,9 @@ import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import * as Sentry from '@sentry/node';
 import NextErrorComponent from 'next/error';
 import { sentry } from '@config';
+import graphRequest from '@graphql_request';
 import Core from './core';
 import Content from './components';
-import graphRequest from '@graphql_request';
 
 const ErrorPage = (props) => <Core {...props} Content={Content} />;
 

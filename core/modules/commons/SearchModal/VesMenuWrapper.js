@@ -1,7 +1,7 @@
 import { debuging, cmsPages } from '@config';
 import { useTranslation } from '@i18n';
 import Alert from '@material-ui/lab/Alert';
-import { GraphCategory } from '@services/graphql';
+import { getVesMenu } from '@core_modules/theme/services/graphql/index';
 import React from 'react';
 import Router from 'next/router';
 import getPath from '@helper_getpath';
@@ -20,7 +20,7 @@ const CategoryWrapper = () => {
     const [historyPosition, setHistoryPosition] = React.useState(-1);
     const [back, setBack] = React.useState(false);
 
-    const { loading, data, error } = GraphCategory.getVesMenu({
+    const { loading, data, error } = getVesMenu({
         variables: {
             alias: 'top-menu',
         },
