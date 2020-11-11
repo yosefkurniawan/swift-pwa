@@ -49,14 +49,14 @@ const setLastPathNoAuth = (req, value = '') => {
 
 const routeMiddleware = (params) => {
     const {
-        req, res, query, asPath, isLogin, lastPathNoAuth,
+        req, res, query, pathname, isLogin, lastPathNoAuth,
     } = params;
     /**
      * middleware enabled or disabled feature
      */
     for (const key in modules) {
         const feature = modules[key];
-        if (asPath.indexOf(feature.path) >= 0 && !feature.enabled) {
+        if (pathname.indexOf(feature.path) >= 0 && !feature.enabled) {
             if (typeof window !== 'undefined') {
                 window.location.href = '/';
             } else if (res) {
@@ -70,7 +70,7 @@ const routeMiddleware = (params) => {
     }
 
     if (isLogin) {
-        const allow = routeNoAuth(asPath);
+        const allow = routeNoAuth(pathname);
         if (!allow) {
             if (query.redirect && query.redirect !== '') {
                 if (typeof window !== 'undefined') {
@@ -91,13 +91,13 @@ const routeMiddleware = (params) => {
             typeof window !== 'undefined' ? removeLastPathWithoutLogin() : setLastPathNoAuth(req, '');
         }
     } else {
-        const allow = routeWithAuth(asPath);
+        const allow = routeWithAuth(pathname);
         if (!allow) {
             if (typeof window !== 'undefined') {
                 Router.push('/customer/account/login');
-                setLastPathWithoutLogin(asPath);
+                setLastPathWithoutLogin(pathname);
             } else {
-                setLastPathNoAuth(req, asPath);
+                setLastPathNoAuth(req, pathname);
                 res.redirect('/customer/account/login');
             }
         } else {
