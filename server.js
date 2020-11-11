@@ -1,25 +1,20 @@
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-unused-vars */
 
 const {
     ApolloServer,
-    gql,
-    introspectSchema,
-    makeRemoteExecutableSchema,
 } = require('apollo-server-express');
 const cookieSession = require('cookie-session');
 const express = require('express');
 const next = require('next');
 const http = require('http');
-const { mergeSchemas } = require('graphql-tools');
+const { mergeSchemas } = require('@graphql-tools/merge');
 
 const LRUCache = require('lru-cache');
 const cookieParser = require('cookie-parser');
 const nextI18next = require('./core/lib/i18n');
 const fetcher = require('./core/api/graphql');
-const resolver = require('./core/api/graphql/resolver/index');
-const { AuthSchema } = require('./core/api/graphql/schema/index');
+const AuthSchema = require('./core/api/graphql/schema/index');
 
 const { json } = express;
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
@@ -36,6 +31,7 @@ const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');
 // This is where we cache our rendered HTML pages
 const ssrCache = new LRUCache({
     max: 100 * 1024 * 1024, /* cache size will be 100 MB using `return n.length` as length() function */
+    // eslint-disable-next-line no-unused-vars
     length(n, key) {
         return n.length;
     },
@@ -132,14 +128,13 @@ async function renderAndCache(req, res) {
     server.use(json({ limit: '2mb' }));
 
     if (fetcher) {
-        const schema = makeRemoteExecutableSchema({
-            schema: await introspectSchema(fetcher),
-            fetcher,
-        });
+        // const schema = makeRemoteExecutableSchema({
+        //     schema: await introspectSchema(fetcher),
+        //     fetcher,
+        // });
 
         const schemas = mergeSchemas({
-            schemas: [schema, AuthSchema],
-            resolvers: resolver,
+            schemas: [AuthSchema],
         });
 
         // handle server graphql endpoint use `/graphql`
