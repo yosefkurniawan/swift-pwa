@@ -264,7 +264,7 @@ const modules = {
             enabled: true,
         },
         cashback: {
-            enabled: false,
+            enabled: true,
         },
     },
     cart: {
