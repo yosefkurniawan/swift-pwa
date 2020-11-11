@@ -60,14 +60,15 @@ const Content = (props) => {
             </div>
             <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8" style={containerStyle || {}}>
                 {
-                    checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
-                        <CashbackInfoView
-                            message={chasbackMessage}
-                            price={checkout.data.cart.applied_cashback.data[0].amount}
-                            currency={storeConfig.base_currency_code}
-                            promo_name={checkout.data.cart.applied_cashback.data[0].promo_name}
-                        />
-                    )
+                    modules.checkout.cashback.enabled && checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback
+                        && (
+                            <CashbackInfoView
+                                message={chasbackMessage}
+                                price={checkout.data.cart.applied_cashback.data[0].amount}
+                                currency={storeConfig.base_currency_code}
+                                promo_name={checkout.data.cart.applied_cashback.data[0].promo_name}
+                            />
+                        )
                 }
                 <>
                     {

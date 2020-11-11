@@ -1,4 +1,7 @@
 import { gql } from '@apollo/client';
+import config from '@config';
+
+const { modules } = config;
 
 const cartPickupStorePerson = `
 pickup_store_person {
@@ -71,6 +74,85 @@ const cartShippingAddress = `
     }
 `;
 
+const applied_store_credit = `
+applied_store_credit {
+    store_credit_amount
+    is_use_store_credit
+}
+`;
+
+const applied_cashback = `
+applied_cashback {
+    data {
+        amount
+        promo_name
+    }
+    is_cashback
+    total_cashback
+}
+`;
+
+const applied_reward_points = `
+applied_reward_points {
+    is_use_reward_points
+    reward_points_amount
+}
+`;
+
+const applied_coupons = `
+applied_coupons {
+    code
+}
+`;
+
+const applied_extrafee = `
+applied_extra_fee {
+    extrafee_value {
+      currency
+      value
+    }
+    select_options {
+      default
+      label
+      option_id
+      price
+    }
+    show_on_cart
+    title
+}
+addtional_fees {
+    data {
+      enabled
+      fee_name
+      frontend_type
+      id_fee
+      options {
+        default
+        label
+        option_id
+        price
+      }
+    }
+    show_on_cart
+}
+`;
+
+const applied_giftcard = `
+applied_gift_cards {
+    applied_balance {
+        currency
+        value
+    }
+    code
+    current_balance {
+        currency
+        value
+    }
+    expiration_date
+}
+
+`;
+
 const cartRequiredSelection = `
     id
     email
@@ -87,61 +169,13 @@ const cartRequiredSelection = `
     selected_payment_method {
         code
     }
-    applied_store_credit {
-        store_credit_amount
-        is_use_store_credit
-    }
-    applied_giftcard {
-        giftcard_amount
-        giftcard_detail {
-            giftcard_amount_used
-            giftcard_code
-        }
-    }
-    applied_reward_points {
-        is_use_reward_points
-        reward_points_amount
-    }
-    applied_cashback {
-        data {
-            amount
-            promo_name
-        }
-        is_cashback
-        total_cashback
-    }
-    applied_coupons {
-        code
-    }
-    applied_extra_fee {
-        extrafee_value {
-          currency
-          value
-        }
-        select_options {
-          default
-          label
-          option_id
-          price
-        }
-        show_on_cart
-        title
-    }
-    addtional_fees {
-        data {
-          enabled
-          fee_name
-          frontend_type
-          id_fee
-          options {
-            default
-            label
-            option_id
-            price
-          }
-        }
-        show_on_cart
-    }
+   ${modules.storecredit.enabled ? applied_store_credit : ''}
+   ${modules.checkout.cashback.enabled ? applied_cashback : ''}
+   ${modules.rewardpoint.enabled ? applied_reward_points : ''}
+   ${modules.promo.enabled ? applied_coupons : ''}
+   ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
+   ${modules.giftcard.enabled ? applied_giftcard : ''}
+    
     prices {
         discounts {
             amount {
@@ -247,16 +281,16 @@ export const getCustomer = gql`
                 longitude
                 latitude
             }
-            store_credit {
+            ${modules.storecredit.enabled ? `store_credit {
                 current_balance {
                     value
                 }
                 enabled
-            }
-            gift_card {
+            }` : ''}
+            ${modules.giftcard.enabled ? `gift_card {
                 giftcard_balance
                 giftcard_code
-            }
+            }` : ''}
         }
     }
 `;
