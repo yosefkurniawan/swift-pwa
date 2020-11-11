@@ -73,7 +73,7 @@ class MyApp extends App {
             pageProps = await Component.getInitialProps(ctx);
         }
         const {
-            res, asPath, query, req,
+            res, pathname, query, req,
         } = ctx;
         // check if login from server
         let isLogin = 0;
@@ -93,7 +93,7 @@ class MyApp extends App {
         }
         isLogin = parseInt(isLogin);
         routeMiddleware({
-            res, req, query, asPath, isLogin, lastPathNoAuth,
+            res, req, query, pathname, isLogin, lastPathNoAuth,
         });
 
         let storeConfig = helperCookies.get(storeConfigNameCookie);
