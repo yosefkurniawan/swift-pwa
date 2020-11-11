@@ -86,7 +86,12 @@ const ForgotPassword = (props) => {
                             }}
                         />
                     )}
-                    <Button disabled={disabled || load} className={styles.btn} fullWidth type="submit">
+                    <Button
+                        disabled={data && data.otpConfig.otp_enable[0].enable_otp_forgot_password && (disabled || load)}
+                        className={styles.btn}
+                        fullWidth
+                        type="submit"
+                    >
                         <Typography variant="span" type="bold" letter="uppercase" color="white">
                             {t('common:button:send')}
                         </Typography>
