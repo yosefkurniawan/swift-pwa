@@ -1,10 +1,12 @@
 import { formatPrice } from '@helper_currency';
+import config from '@config';
 
 const CoreSummary = (props) => {
     const {
         DesktopView, MobileView, isDesktop, dataCart, globalCurrency = 'IDR',
         ...other
     } = props;
+    const { modules } = config;
     let dataSummary = [];
     let total = 0;
     const {
@@ -31,7 +33,7 @@ const CoreSummary = (props) => {
 
         dataSummary.push({ item: 'Sub total', value: subtotal });
 
-        if (applied_extra_fee && applied_extra_fee.extrafee_value) {
+        if (modules.checkout.extraFee.enabled && applied_extra_fee && applied_extra_fee.extrafee_value) {
             dataSummary.push({
                 item: applied_extra_fee.title || '',
                 value: formatPrice(applied_extra_fee.extrafee_value.value || 0, applied_extra_fee.extrafee_value.currency || globalCurrency),
@@ -51,17 +53,17 @@ const CoreSummary = (props) => {
             dataSummary = dataSummary.concat(discounts);
         }
 
-        if (applied_store_credit.is_use_store_credit) {
+        if (modules.storecredit.enabled && applied_store_credit.is_use_store_credit) {
             const price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency);
             dataSummary.push({ item: 'Store Credit', value: `-${price}` });
         }
 
-        if (applied_reward_points.is_use_reward_points) {
+        if (modules.rewardpoint.enabled && applied_reward_points.is_use_reward_points) {
             const price = formatPrice(Math.abs(applied_reward_points.reward_points_amount), globalCurrency);
             dataSummary.push({ item: 'Reward Point ', value: `-${price}` });
         }
 
-        if (applied_giftcard) {
+        if (modules.giftcard.enabled && applied_giftcard) {
             const giftCards = applied_giftcard.giftcard_detail.map((item) => {
                 const price = formatPrice(Math.abs(item.giftcard_amount_used), globalCurrency);
                 return { item: `Gift Card (${item.giftcard_code}) - ${price}`, value: `-${price}` };

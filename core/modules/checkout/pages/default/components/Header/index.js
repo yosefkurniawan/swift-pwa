@@ -23,6 +23,8 @@ const HeaderCheckout = ({
 
                 #header img {
                     cursor: pointer;
+                    max-height: 125px;
+                    width: auto;
                 }
             `}
         </style>
