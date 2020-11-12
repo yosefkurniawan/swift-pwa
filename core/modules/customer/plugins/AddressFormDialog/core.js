@@ -191,53 +191,54 @@ const AddressFormDialog = (props) => {
     }, [formik.values.country]);
 
     const [getCities, responCities] = getCityByRegionId({});
+    React.useMemo(() => {
+        if (open) {
+            const state = { ...addressState };
 
-    useEffect(() => {
-        const state = { ...addressState };
+            formik.setFieldValue('country', country);
+            formik.setFieldValue('region', region);
 
-        formik.setFieldValue('country', country);
-        formik.setFieldValue('region', region);
+            getCountries();
+            if (gqlCountries.data && open) {
+                state.countries = gqlCountries.data.countries;
+                state.dropdown.countries = state.countries.map((item) => ({
+                    id: item.id,
+                    label: item.full_name_locale,
+                    available_regions: item.available_regions,
+                }));
 
-        getCountries();
-        if (gqlCountries.data && open) {
-            state.countries = gqlCountries.data.countries;
-            state.dropdown.countries = state.countries.map((item) => ({
-                id: item.id,
-                label: item.full_name_locale,
-                available_regions: item.available_regions,
-            }));
-
-            if (country) {
-                state.dropdown.region = getRegionByCountry(country, gqlCountries.data.countries);
-                formik.setFieldValue('country', getCountryByCode(country, state.dropdown.countries));
-            }
-            setAddressState(state);
-
-            if (state.dropdown.region && state.dropdown.region.length && region) {
-                const selectedRegion = getRegionByLabel(region);
-                formik.setFieldValue('region', selectedRegion);
-                if (selectedRegion) {
-                    setFromUseEffect(true);
-                    getCities({ variables: { regionId: selectedRegion.id } });
+                if (country) {
+                    state.dropdown.region = getRegionByCountry(country, gqlCountries.data.countries);
+                    formik.setFieldValue('country', getCountryByCode(country, state.dropdown.countries));
                 }
-            } else {
-                formik.setFieldValue('city', city);
+                setAddressState(state);
+
+                if (state.dropdown.region && state.dropdown.region.length && region) {
+                    const selectedRegion = getRegionByLabel(region);
+                    formik.setFieldValue('region', selectedRegion);
+                    if (selectedRegion) {
+                        setFromUseEffect(true);
+                        getCities({ variables: { regionId: selectedRegion.id } });
+                    }
+                } else {
+                    formik.setFieldValue('city', city);
+                }
+            }
+
+            // only set current location for add mode
+            if (typeof window !== 'undefined' && navigator && navigator.geolocation && !addressId) {
+                return navigator.geolocation.getCurrentPosition(displayLocationInfo);
+            }
+
+            // update map position after edit data
+            if (open && latitude && longitude) {
+                setMapPosition({
+                    lat: latitude,
+                    lng: longitude,
+                });
             }
         }
-
-        // only set current location for add mode
-        if (navigator.geolocation && !addressId) {
-            return navigator.geolocation.getCurrentPosition(displayLocationInfo);
-        }
-
-        // update map position after edit data
-        if (open && latitude && longitude) {
-            setMapPosition({
-                lat: latitude,
-                lng: longitude,
-            });
-        }
-    }, [open]);
+    }, [open, gqlCountries.data]);
 
     // set city and grouping
     useEffect(() => {
