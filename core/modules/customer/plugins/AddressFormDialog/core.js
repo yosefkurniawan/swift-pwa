@@ -58,7 +58,7 @@ const AddressFormDialog = (props) => {
     const [isFromUseEffect, setFromUseEffect] = useState(false);
 
     const [enableSplitCity, setEnableSplitCity] = React.useState(
-        country === 'ID' && modules.customer.plugin.address.splitCity
+        country === 'ID' && modules.customer.plugin.address.splitCity,
     );
 
     const getRegionByLabel = (label, dataRegion = null) => {
