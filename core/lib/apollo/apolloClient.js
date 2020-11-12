@@ -35,7 +35,7 @@ const logoutLink = onError((err) => {
     } else if (graphQLErrors && graphQLErrors[0] && graphQLErrors[0].status === 401 && typeof window !== 'undefined') {
         removeCartId();
         removeIsLoginFlagging();
-        window.location.href = '/customer/account/login';
+        window.location.href = '/customer/account/login?resetcache';
     }
 });
 
