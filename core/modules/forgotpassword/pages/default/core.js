@@ -82,11 +82,10 @@ const ForgotPassword = (props) => {
     const handleSwitch = () => {
         setToast({ ...toast, open: false });
         setUseEmail(!useEmail);
+        if (data && data.otpConfig.otp_enable[0].enable_otp_forgot_password) {
+            setDisabled(!disabled);
+        }
     };
-
-    React.useEffect(() => {
-        setDisabled(!useEmail);
-    }, [useEmail]);
 
     return (
         <Layout pageConfig={pageConfig || config} {...props}>
