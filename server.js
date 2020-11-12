@@ -8,13 +8,11 @@ const cookieSession = require('cookie-session');
 const express = require('express');
 const next = require('next');
 const http = require('http');
-const { mergeSchemas } = require('@graphql-tools/merge');
 
 const LRUCache = require('lru-cache');
 const cookieParser = require('cookie-parser');
+const remoteSchema = require('./core/api/graphql');
 const nextI18next = require('./core/lib/i18n');
-const fetcher = require('./core/api/graphql');
-const AuthSchema = require('./core/api/graphql/schema/index');
 
 const { json } = express;
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
@@ -127,41 +125,31 @@ async function renderAndCache(req, res) {
 
     server.use(json({ limit: '2mb' }));
 
-    if (fetcher) {
-        // const schema = makeRemoteExecutableSchema({
-        //     schema: await introspectSchema(fetcher),
-        //     fetcher,
-        // });
-
-        const schemas = mergeSchemas({
-            schemas: [AuthSchema],
-        });
-
-        // handle server graphql endpoint use `/graphql`
-        const serverGraph = new ApolloServer({
-            schema: schemas,
-            context: ({ req }) => req,
-            playground: {
-                endpoint: '/graphql',
-                settings: {
-                    'editor.theme': 'light',
-                },
+    const schemas = await remoteSchema();
+    // handle server graphql endpoint use `/graphql`
+    const serverGraph = new ApolloServer({
+        schema: schemas,
+        context: ({ req }) => req,
+        playground: {
+            endpoint: '/graphql',
+            settings: {
+                'editor.theme': 'light',
             },
-            formatError: (err) => {
-                if (err.message === 'graphql-authorization') {
-                    return {
-                        message: err.message,
-                        extensions: {
-                            category: 'graphql-authorization',
-                        },
-                        status: 401,
-                    };
-                }
-                return err;
-            },
-        });
-        serverGraph.applyMiddleware({ app: server });
-    }
+        },
+        formatError: (err) => {
+            if (err.message === 'graphql-authorization') {
+                return {
+                    message: err.message,
+                    extensions: {
+                        category: 'graphql-authorization',
+                    },
+                    status: 401,
+                };
+            }
+            return err;
+        },
+    });
+    serverGraph.applyMiddleware({ app: server });
 
     server.get('/sitemap.xml', generateXml);
     server.post('/captcha-validation', captchaValidation);
