@@ -19,9 +19,7 @@ const HistoryContent = (props) => {
         loading, data, error, t, pageSize, page, handleChangePage, handleChangePageSize, Loader, WarningInfo,
     } = props;
     const styles = useStyles();
-    if (loading || !data) {
-        return <Layout {...props}><Loader /></Layout>;
-    }
+
     if (error) {
         return (
             <Layout {...props} title={t('customer:menu:return')}>
@@ -30,11 +28,15 @@ const HistoryContent = (props) => {
         );
     }
 
+    if (loading || !data) {
+        return <Layout {...props}><Loader /></Layout>;
+    }
+
     if (!loading && data) {
         if (data.getCustomerRequestAwRma.items.length === 0) {
             return (
                 <Layout {...props} title={t('customer:menu:return')}>
-                    <WarningInfo variant="error" text={t('rma:error:notFound')} />
+                    <WarningInfo variant="warning" text={t('rma:error:notFound')} />
                 </Layout>
             );
         }
