@@ -272,6 +272,9 @@ const modules = {
         extraFee: {
             enabled: true,
         },
+        cashback: {
+            enabled: true,
+        },
     },
     cart: {
         enabled: true,

@@ -35,7 +35,8 @@ const logoutLink = onError((err) => {
     } else if (graphQLErrors && graphQLErrors[0] && graphQLErrors[0].status === 401 && typeof window !== 'undefined') {
         removeCartId();
         removeIsLoginFlagging();
-        window.location.href = '/customer/account/login';
+        // reference https://stackoverflow.com/questions/10339567/javascript-clear-cache-on-redirect
+        window.location.href = `/customer/account/login?n=${new Date().getTime()}`;
     }
 });
 
