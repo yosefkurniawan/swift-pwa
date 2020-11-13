@@ -87,6 +87,12 @@ const ForgotPassword = (props) => {
         }
     };
 
+    React.useEffect(() => {
+        if (data && !data.otpConfig.otp_enable[0].enable_otp_forgot_password) {
+            setUseEmail(true);
+        }
+    }, [useEmail]);
+
     return (
         <Layout pageConfig={pageConfig || config} {...props}>
             <Content
