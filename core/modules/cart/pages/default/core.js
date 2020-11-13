@@ -185,7 +185,7 @@ const Cart = (props) => {
                 pageName: t('cart:pageTitle'),
                 pageType: 'cart',
                 ecommerce: {
-                    currency: storeConfig.base_currency_code ,
+                    currency: storeConfig.base_currency_code,
                     impressions: crosssellData.map((product, index) => ({
                         name: product.name,
                         id: product.sku,
@@ -213,7 +213,7 @@ const Cart = (props) => {
                     eventLabel: itemProps.product.name,
                     label: itemProps.product.name,
                     ecommerce: {
-                        currencyCode: itemProps.prices.price.currency ,
+                        currencyCode: itemProps.prices.price.currency,
                         add: {
                             products: [{
                                 name: itemProps.product.name,
