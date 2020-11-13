@@ -145,14 +145,7 @@ applied_giftcard {
         giftcard_code
     }
 }
- 
-`;
 
-const pickup_item_store_info = `
-pickup_item_store_info {
-    is_pickup
-    loc_code
-}
 `;
 
 const pickup_item_store_info = `
