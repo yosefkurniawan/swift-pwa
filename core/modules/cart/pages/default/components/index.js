@@ -25,7 +25,11 @@ const Content = (props) => {
                     handleFeed={handleFeed}
                     toggleEditDrawer={toggleEditDrawer}
                 />
-                <CrossSellView {...props} editMode={editMode} data={crosssell} />
+                {
+                    (crosssell.length > 0) ?
+                        <CrossSellView {...props} editMode={editMode} data={crosssell} />
+                    : null
+                }
                 {editItem.id ? (
                     <EditDrawerView {...props} {...editItem} open={openEditDrawer} toggleOpen={toggleEditDrawer} updateItem={updateItem} />
                 ) : null}
