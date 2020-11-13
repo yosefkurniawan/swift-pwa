@@ -16,6 +16,7 @@ import GiftCardView from './components/giftcard/view';
 import FieldPointView from '../../components/fieldcode';
 import RewardPointView from './components/rewardpoint/view';
 import StoreCreditView from './components/credit/view';
+import ExtraFeeView from './components/ExtreeFee/view';
 import Content from './components';
 import HeaderView from './components/Header';
 
@@ -36,6 +37,7 @@ const Page = (props) => (
         StoreCreditView={StoreCreditView}
         Content={Content}
         HeaderView={HeaderView}
+        ExtraFeeView={ExtraFeeView}
         pageConfig={{
             title: props.t('checkout:pageTitle'),
             header: 'relative', // available values: "absolute", "relative", false (default)
