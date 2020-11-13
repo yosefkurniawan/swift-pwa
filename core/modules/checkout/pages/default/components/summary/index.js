@@ -3,7 +3,7 @@ import { useApolloClient } from '@apollo/client';
 import { setCartId, removeCartId } from '@helper_cartid';
 import { setCheckoutData } from '@helper_cookies';
 import { localTotalCart } from '@services/graphql/schema/local';
-import SummaryPlugin from '@core_modules/cart/plugin/Summary';
+import SummaryPlugin from '@plugin_summary';
 import { modules, originName } from '@config';
 import getConfig from 'next/config';
 import gqlService from '../../../../services/graphql';

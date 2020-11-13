@@ -155,6 +155,13 @@ pickup_item_store_info {
 }
 `;
 
+const pickup_item_store_info = `
+pickup_item_store_info {
+    is_pickup
+    loc_code
+}
+`;
+
 const cartRequiredSelection = `
     id
     email
