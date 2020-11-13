@@ -138,19 +138,21 @@ addtional_fees {
 `;
 
 const applied_giftcard = `
-applied_gift_cards {
-    applied_balance {
-        currency
-        value
+applied_giftcard {
+    giftcard_amount
+    giftcard_detail {
+        giftcard_amount_used
+        giftcard_code
     }
-    code
-    current_balance {
-        currency
-        value
-    }
-    expiration_date
 }
+ 
+`;
 
+const pickup_item_store_info = `
+pickup_item_store_info {
+    is_pickup
+    loc_code
+}
 `;
 
 const cartRequiredSelection = `
@@ -307,10 +309,7 @@ export const getCart = gql`
                         value_label
                     }
                 }
-                pickup_item_store_info {
-                    is_pickup
-                    loc_code
-                }
+                ${modules.checkout.pickupStore.enabled ? pickup_item_store_info : ''}
                 prices {
                     row_total {
                         currency
@@ -347,7 +346,7 @@ export const getCart = gql`
                 dest_latitude
                 dest_longitude
             }
-            ${cartPickupStorePerson}
+            ${modules.checkout.pickupStore.enabled ? cartPickupStorePerson : ''}
             ${cartShippingAddress}
             ${cartBillingAddress}
             ${cartAvailableShippingMethods}
