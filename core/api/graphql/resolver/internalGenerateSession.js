@@ -26,17 +26,27 @@ const decryptState = (state) => {
 
 const internalGenerateSession = async (parent, { state }, context) => {
     const { token, cartId, redirect_path } = decryptState(state);
-    const res = await requestGraph(query, { }, context, { token });
-    if (res.response && res.response.errors) {
+    if (token && token !== '') {
+        const res = await requestGraph(query, { }, context, { token });
+        if (res.response && res.response.errors) {
+            return {
+                result: false,
+                cartId: null,
+                isLogin: false,
+                redirect_path,
+            };
+        }
+        context.session.token = encrypt(token);
         return {
-            result: false,
-            cartId: null,
-            isLogin: false,
+            result: true,
+            cartId,
+            isLogin: !!token,
             redirect_path,
+
         };
     }
     if (typeof state !== 'undefined' && state) {
-        if (token) {
+        if (token && token !== '') {
             context.session.token = encrypt(token);
         }
         return {
