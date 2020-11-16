@@ -101,7 +101,7 @@ const SearchPage = (props) => {
                         </Toolbar>
                     </AppBar>
                     {open ? vesMenu ? (
-                        <VesMenuWrapper />
+                        <VesMenuWrapper handleCloseModal={handleCloseModal} />
                     ) : (
                         <CategoryWrapper
                             {...props}
@@ -111,6 +111,7 @@ const SearchPage = (props) => {
                             slideCat={slideCat}
                             showSubCat={showSubCat}
                             closeSub={closeSub}
+                            handleCloseModal={handleCloseModal}
                         />
                     ) : null}
                 </div>

@@ -11,7 +11,7 @@ import CategorySkeleton from './CategorySkeleton';
 
 const CategoryWrapper = (props) => {
     const {
-        openedCategory, showCat, openSub, slideCat, showSubCat, closeSub,
+        openedCategory, showCat, openSub, slideCat, showSubCat, closeSub, handleCloseModal = () => {},
     } = props;
     const { loading, data, error } = getCategories();
     const { t } = useTranslation(['common']);
@@ -37,6 +37,7 @@ const CategoryWrapper = (props) => {
     }
 
     const handleClickMenu = async (cat, type = 'CATEGORY') => {
+        handleCloseModal();
         const link = cat.url_path;
         if (link) {
             const urlResolver = getResolver();
