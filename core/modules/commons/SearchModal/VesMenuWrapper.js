@@ -10,7 +10,7 @@ import CategorySkeleton from './CategorySkeleton';
 import SubVesMenu from './SubVesMenu';
 import VesMenu from './VesMenu';
 
-const CategoryWrapper = () => {
+const CategoryWrapper = ({ handleCloseModal = () => {} }) => {
     // const {
     //     openedCategory, showCat, openSub, slideCat, showSubCat, closeSub,
     // } = props;
@@ -63,6 +63,7 @@ const CategoryWrapper = () => {
     }
 
     const handleClickMenu = async (cat) => {
+        handleCloseModal();
         const link = cat.link ? getPath(cat.link) : `/${cat.url_path}`;
         const urlResolver = getResolver();
         if (cat.link_type === 'category_link') {
