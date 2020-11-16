@@ -95,7 +95,8 @@ const AddressView = (props) => {
 
         return (
             <CustomTextField
-                disabled={!formik.values.country}
+                disabled={!formik.values.country
+                    || !addressState.dropdown.region || (addressState.dropdown.region && !addressState.dropdown.region.length)}
                 autoComplete="new-password"
                 label={t('common:form:country')}
                 name="countries"
