@@ -8,10 +8,13 @@ export default makeStyles((theme) => ({
     container: {
         ...FlexColumn,
         display: 'flex',
+        '&> div:first-child': {
+            ...CreateBorder('1px', 0, '1px', 0, GRAY_PRIMARY),
+        },
     },
     itemContainer: {
         ...FlexRow,
-        ...CreatePadding(15, 15, 15, 15),
+        ...CreatePadding(11, 15, 9, 8),
         ...CreateBorder(0, 0, '1px', 0, GRAY_PRIMARY),
     },
 
@@ -28,6 +31,30 @@ export default makeStyles((theme) => ({
 
     columnLabel: {
         width: '30%',
+    },
+
+    columnLabelId: {
+        width: '14%',
+    },
+
+    columnLabelDate: {
+        width: '12%',
+    },
+
+    columnLabelShipped: {
+        width: '23%',
+    },
+
+    columnLabelTotal: {
+        width: '16%',
+    },
+
+    columnLabelStatus: {
+        width: '16%',
+    },
+
+    columnLabelAction: {
+        width: '10%',
     },
 
     detailItem: {
