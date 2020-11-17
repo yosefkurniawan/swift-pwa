@@ -140,8 +140,11 @@ const AddressView = (props) => {
                                 inputProps={{
                                     ...params.inputProps,
                                     autoComplete: 'new-password',
+                                    autocorrect: 'off',
+                                    autocapitalize: 'none',
+                                    spellcheck: 'false',
                                 }}
-                                name="state"
+                                name={`state_${new Date().getTime()}`}
                                 label={t('common:form:state')}
                                 InputLabelProps={{
                                     shrink: true,
@@ -207,8 +210,11 @@ const AddressView = (props) => {
                                 inputProps={{
                                     ...params.inputProps,
                                     autoComplete: 'new-password',
+                                    autocorrect: 'off',
+                                    autocapitalize: 'none',
+                                    spellcheck: 'false',
                                 }}
-                                name="city"
+                                name={`city_${new Date().getTime()}`}
                                 label={t('common:form:city')}
                                 InputLabelProps={{
                                     shrink: true,
@@ -263,9 +269,11 @@ const AddressView = (props) => {
                                 {...params}
                                 inputProps={{
                                     ...params.inputProps,
-                                    autoComplete: 'new-password',
+                                    autocorrect: 'off',
+                                    autocapitalize: 'none',
+                                    spellcheck: 'false',
                                 }}
-                                name="district"
+                                name={`district_${new Date().getTime()}`}
                                 label="Kecamatan"
                                 InputLabelProps={{
                                     shrink: true,
@@ -318,9 +326,11 @@ const AddressView = (props) => {
                                 {...params}
                                 inputProps={{
                                     ...params.inputProps,
-                                    autoComplete: 'new-password',
+                                    autocorrect: 'off',
+                                    autocapitalize: 'none',
+                                    spellcheck: 'false',
                                 }}
-                                name="village"
+                                name={`village_${new Date().getTime()}`}
                                 label="Kelurahan"
                                 InputLabelProps={{
                                     shrink: true,
