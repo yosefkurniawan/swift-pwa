@@ -104,7 +104,11 @@
                     "@common_bottomnavigation": "swift-pwa-core/core/modules/theme/components/bottom-navigation/mobile",
                     "@common_footer": "swift-pwa-core/core/modules/theme/components/footer/desktop",
                     "@common_productlabel": "swift-pwa-core/core/modules/commons/ProductLabel",
-                    "@common_optionconfigurable": "swift-pwa-core/core/modules/commons/OptionConfigurable"
+                    "@common_optionconfigurable": "swift-pwa-core/core/modules/commons/OptionConfigurable",
+
+
+                    "@plugin_summary": "swift-pwa-core/core/modules/cart/plugin/Summary",
+                    "@plugin_addressform": "swift-pwa-core/core/modules/customer/plugins/AddressFormDialog"
                 }
             }
         ]

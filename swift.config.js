@@ -1,6 +1,7 @@
 /* --------------------------------------- */
 /* STORE CONFIGURATION
 /* --------------------------------------- */
+const magentoCommerce = false; // setup uses magento commerce or community
 
 const HOST = {
     local: 'http://localhost:3000',
@@ -438,4 +439,5 @@ module.exports = {
     appName,
     localResolverKey,
     originName,
+    magentoCommerce,
 };
