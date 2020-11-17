@@ -43,6 +43,7 @@ const Content = (props) => {
         modules,
         HeaderView,
         manageCustomer,
+        ExtraFeeView,
     } = props;
 
     const styles = useStyles();
@@ -72,7 +73,7 @@ const Content = (props) => {
                 }
                 <>
                     {
-                        storeConfig.pickup_store ? (
+                        modules.checkout.pickupStore.enabled ? (
                             <Delivery
                                 t={t}
                                 DeliveryView={DeliveryView}
@@ -194,6 +195,7 @@ const Content = (props) => {
                             handleOpenMessage={handleOpenMessage}
                             t={t}
                             storeConfig={storeConfig}
+                            ExtraFeeView={ExtraFeeView}
                         />
                     ) : null}
                 </>

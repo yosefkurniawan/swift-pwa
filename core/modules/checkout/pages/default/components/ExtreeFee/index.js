@@ -1,24 +1,14 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
 import React from 'react';
-import Typography from '@common_typography';
-import Radio from '@common_radio';
-import Select from '@common_select';
-import Checkbox from '@common_checkbox';
-import classanames from 'classnames';
-import { formatPrice } from '@helper_currency';
-import Skeleton from '@material-ui/lab/Skeleton';
 import gqlService from '../../../../services/graphql';
-
-import useStyles from './style';
 
 const AdditionSelect = (props) => {
     const {
-        t, checkout, setCheckout, storeConfig,
+        t, checkout, setCheckout, storeConfig, ExtraFeeView,
     } = props;
     const [updateExtraFee] = gqlService.updateExtraFee();
     const { data: { cart }, loading } = checkout;
-    const styles = useStyles();
     const [state, setState] = React.useState({});
     const globalCurrency = storeConfig.default_display_currency_code || 'IDR';
 
@@ -63,16 +53,6 @@ const AdditionSelect = (props) => {
         }
     }, [checkout]);
 
-    if (loading.all) {
-        return (
-            <div className={styles.container}>
-                <Skeleton variant="text" width="40%" height={35} />
-                <Skeleton variant="text" width="80%" height={30} />
-                <Skeleton variant="text" width="80%" height={30} />
-            </div>
-        );
-    }
-
     const handleChange = async (key, value) => {
         window.backdropLoader(true);
         const newState = { ...state, [key]: value };
@@ -115,67 +95,15 @@ const AdditionSelect = (props) => {
     };
     if (cart && cart.addtional_fees && cart.addtional_fees.data && cart.addtional_fees.data.length > 0) {
         return (
-            <div className={styles.container}>
-                <Typography variant="title" type="bold" className={classanames(styles.title)}>{t('common:title:extraFee')}</Typography>
-                {
-                    cart.addtional_fees.data.map((item, key) => {
-                        const data = item.options.map((option) => ({
-                            ...option,
-                            originalLabel: option.label,
-                            label: `${option.label} (${formatPrice(option.price, globalCurrency)})`,
-                            value: JSON.stringify(option),
-                        }));
-                        if (item.frontend_type === 'checkbox' && item.enabled) {
-                            return (
-                                <div className={styles.boxItem} key={key}>
-                                    <Typography variant="span" type="bold" className="clear-margin-padding">
-                                        {item.fee_name}
-                                    </Typography>
-                                    <Checkbox
-                                        key={key}
-                                        flex="column"
-                                        data={data}
-                                        value={state[item.id_fee] ? state[item.id_fee] : []}
-                                        classCheckbox={styles.checkbox}
-                                        classContainer={styles.checkboxContainer}
-                                        onChange={(val) => handleChange(item.id_fee, val)}
-                                    />
-                                </div>
-                            );
-                        }
-                        if (item.frontend_type === 'radio' && item.enabled) {
-                            return (
-                                <div className={styles.boxItem} key={key}>
-                                    <Typography variant="span" type="bold" className="clear-margin-padding">
-                                        {item.fee_name}
-                                    </Typography>
-                                    <Radio
-                                        flex="column"
-                                        valueData={data}
-                                        value={state[item.id_fee] ? state[item.id_fee] : ''}
-                                        onChange={(val) => handleChange(item.id_fee, val)}
-                                        classContainer={styles.radio}
-                                    />
-                                </div>
-                            );
-                        }
-                        if (item.frontend_type === 'dropdown' && item.enabled) {
-                            return (
-                                <div className={styles.boxItem} key={key}>
-                                    <Select
-                                        options={data}
-                                        label={item.fee_name}
-                                        value={state[item.id_fee] ? state[item.id_fee] : ''}
-                                        className={styles.select}
-                                        onChange={(event) => handleChange(item.id_fee, event.target.value)}
-                                        helperText={t('common:form:select')}
-                                    />
-                                </div>
-                            );
-                        }
-                    })
-                }
-            </div>
+            <ExtraFeeView
+                state={state}
+                globalCurrency={globalCurrency}
+                storeConfig={storeConfig}
+                t={t}
+                handleChange={handleChange}
+                loading={loading}
+                cart={cart}
+            />
         );
     }
 

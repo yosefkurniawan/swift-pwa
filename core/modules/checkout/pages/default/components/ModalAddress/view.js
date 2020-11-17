@@ -5,7 +5,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Skeleton from '@material-ui/lab/Skeleton';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Add from '@material-ui/icons/Add';
-import AddressFormDialog from '@core_modules/customer/plugins/AddressFormDialog';
+import AddressFormDialog from '@plugin_addressform';
 import Typography from '@common_typography';
 import ItemAddress from './Item';
 import useStyles from './style';

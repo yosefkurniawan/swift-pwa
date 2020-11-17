@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import config from '@config';
 
-const { modules } = config;
+const { modules, magentoCommerce } = config;
 
 const cartPickupStorePerson = `
 pickup_store_person {
@@ -74,7 +74,19 @@ const cartShippingAddress = `
     }
 `;
 
-const applied_store_credit = `
+const applied_store_credit = magentoCommerce ? `
+applied_store_credit {
+    applied_balance {
+      currency
+      value
+    }
+    current_balance {
+      currency
+      value
+    }
+    enabled
+}
+` : `
 applied_store_credit {
     store_credit_amount
     is_use_store_credit
@@ -145,7 +157,7 @@ applied_giftcard {
         giftcard_code
     }
 }
- 
+
 `;
 
 const pickup_item_store_info = `
@@ -171,12 +183,13 @@ const cartRequiredSelection = `
     selected_payment_method {
         code
     }
-   ${modules.storecredit.enabled ? applied_store_credit : ''}
+    
    ${modules.checkout.cashback.enabled ? applied_cashback : ''}
    ${modules.rewardpoint.enabled ? applied_reward_points : ''}
    ${modules.promo.enabled ? applied_coupons : ''}
    ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
    ${modules.giftcard.enabled ? applied_giftcard : ''}
+   ${modules.storecredit.enabled ? applied_store_credit : ''}
     
     prices {
         discounts {
@@ -286,6 +299,7 @@ export const getCustomer = gql`
             ${modules.storecredit.enabled ? `store_credit {
                 current_balance {
                     value
+                    currency
                 }
                 enabled
             }` : ''}

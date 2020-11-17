@@ -319,7 +319,7 @@ const Checkout = (props) => {
 
         if (!manageCustomer.data && isLogin) {
             getCustomer();
-            getRewardPoint();
+            if (modules.rewardpoint.enabled) getRewardPoint();
         }
 
         const loadCart = isLogin ? manageCustomer.data && !dataCart : !dataCart;
