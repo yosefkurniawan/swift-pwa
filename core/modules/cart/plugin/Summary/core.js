@@ -6,7 +6,7 @@ const CoreSummary = (props) => {
         DesktopView, MobileView, isDesktop, dataCart, globalCurrency = 'IDR',
         ...other
     } = props;
-    const { modules } = config;
+    const { modules, magentoCommerce } = config;
     let dataSummary = [];
     let total = 0;
     const {
@@ -14,10 +14,17 @@ const CoreSummary = (props) => {
         items = [],
         applied_store_credit = {},
         applied_reward_points = {},
-        applied_giftcard = {},
         shipping_addresses = [],
         applied_extra_fee = {},
     } = dataCart;
+
+    let {
+        applied_giftcard = {},
+    } = dataCart;
+
+    if (magentoCommerce) {
+        applied_giftcard = dataCart.applied_gift_cards;
+    }
 
     if (dataCart && items) {
         const sumTotalItem = items.reduce(
@@ -27,7 +34,7 @@ const CoreSummary = (props) => {
             }),
             { value: 0 },
         );
-        const subtotal = formatPrice(sumTotalItem.value, sumTotalItem.currency);
+        const subtotal = formatPrice(sumTotalItem.value, sumTotalItem.currency || globalCurrency);
         total = prices.grand_total;
         const [shipping] = shipping_addresses;
 
@@ -36,7 +43,7 @@ const CoreSummary = (props) => {
         if (modules.checkout.extraFee.enabled && applied_extra_fee && applied_extra_fee.extrafee_value) {
             dataSummary.push({
                 item: applied_extra_fee.title || '',
-                value: formatPrice(applied_extra_fee.extrafee_value.value || 0, applied_extra_fee.extrafee_value.currency || globalCurrency),
+                value: formatPrice(applied_extra_fee.extrafee_value.value || 0, globalCurrency),
             });
         }
 
@@ -53,9 +60,14 @@ const CoreSummary = (props) => {
             dataSummary = dataSummary.concat(discounts);
         }
 
-        if (modules.storecredit.enabled && applied_store_credit.is_use_store_credit) {
-            const price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency);
-            dataSummary.push({ item: 'Store Credit', value: `-${price}` });
+        if (modules.storecredit.enabled) {
+            let price = '';
+            if (magentoCommerce && applied_store_credit.applied_balance && applied_store_credit.applied_balance.value > 0) {
+                price = formatPrice(Math.abs(applied_store_credit.applied_balance.value), globalCurrency);
+            } else if (applied_store_credit.is_use_store_credit) {
+                price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency);
+            }
+            if (price !== '') dataSummary.push({ item: 'Store Credit', value: `-${price}` });
         }
 
         if (modules.rewardpoint.enabled && applied_reward_points.is_use_reward_points) {
@@ -64,10 +76,20 @@ const CoreSummary = (props) => {
         }
 
         if (modules.giftcard.enabled && applied_giftcard) {
-            const giftCards = applied_giftcard.giftcard_detail.map((item) => {
-                const price = formatPrice(Math.abs(item.giftcard_amount_used), globalCurrency);
-                return { item: `Gift Card (${item.giftcard_code}) - ${price}`, value: `-${price}` };
-            });
+            let giftCards = [];
+            if (magentoCommerce) {
+                if (applied_giftcard && applied_giftcard.length > 0) {
+                    giftCards = applied_giftcard.map((item) => {
+                        const price = formatPrice(Math.abs(item.applied_balance.value), globalCurrency);
+                        return { item: `Gift Card (${item.code}) - ${price}`, value: `-${price}` };
+                    });
+                }
+            } else {
+                giftCards = applied_giftcard.giftcard_detail.map((item) => {
+                    const price = formatPrice(Math.abs(item.giftcard_amount_used), globalCurrency);
+                    return { item: `Gift Card (${item.giftcard_code}) - ${price}`, value: `-${price}` };
+                });
+            }
             dataSummary = dataSummary.concat(giftCards);
         }
     }
