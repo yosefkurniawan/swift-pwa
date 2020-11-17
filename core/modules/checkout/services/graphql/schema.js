@@ -149,7 +149,19 @@ addtional_fees {
 }
 `;
 
-const applied_giftcard = `
+const applied_giftcard = magentoCommerce ? `
+applied_gift_cards {
+    applied_balance {
+      currency
+      value
+    }
+    code
+    current_balance {
+      currency
+      value
+    }
+}
+` : `
 applied_giftcard {
     giftcard_amount
     giftcard_detail {
@@ -190,6 +202,7 @@ const cartRequiredSelection = `
    ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
    ${modules.giftcard.enabled ? applied_giftcard : ''}
    ${modules.storecredit.enabled ? applied_store_credit : ''}
+  
     
     prices {
         discounts {
@@ -206,7 +219,19 @@ const cartRequiredSelection = `
     }
 `;
 
-export const applyGiftCardToCart = gql`
+export const applyGiftCardToCart = magentoCommerce ? gql`
+mutation($cartId: String! $code: String!){
+    applyGiftCardToCart(input: {
+      cart_id: $cartId,
+      gift_card_code:$code
+    }) {
+      cart {
+        id
+        ${cartRequiredSelection}
+      }
+    }
+  }
+` : gql`
     mutation($cartId: String! $code: String!) {
         applyGiftCardToCart(
             input: {
@@ -222,20 +247,32 @@ export const applyGiftCardToCart = gql`
     }
 `;
 
-export const removeGiftCardFromCart = gql`
-    mutation($cartId: String! $code: String!) {
-        removeGiftCardFromCart(
-            input: {
-                cart_id: $cartId,
-                giftcard_code: $code,
-            }
-        ) {
-            cart {
-                id
-                ${cartRequiredSelection}
-            }
+export const removeGiftCardFromCart = magentoCommerce ? gql`
+mutation($cartId: String! $code: String!) {
+    removeGiftCardFromCart(input: {
+    cart_id: $cartId,
+    gift_card_code: $code
+  }) {
+    cart {
+      id
+      ${cartRequiredSelection}
+    }
+  }
+}
+` : gql`
+mutation($cartId: String! $code: String!) {
+    removeGiftCardFromCart(
+        input: {
+            cart_id: $cartId,
+            giftcard_code: $code,
+        }
+    ) {
+        cart {
+            id
+            ${cartRequiredSelection}
         }
     }
+}
 `;
 
 export const applyStoreCreditToCart = gql`
@@ -303,7 +340,7 @@ export const getCustomer = gql`
                 }
                 enabled
             }` : ''}
-            ${modules.giftcard.enabled ? `gift_card {
+            ${(!magentoCommerce && modules.giftcard.enabled) ? `gift_card {
                 giftcard_balance
                 giftcard_code
             }` : ''}

@@ -80,9 +80,15 @@ const Summary = ({
                 return;
             }
 
-            state.data.cart = result.data.setPaymentMethodOnCart.cart;
+            state.data.cart = {
+                ...state.data.cart,
+                ...result.data.setPaymentMethodOnCart.cart,
+            };
             setCheckout(state);
-            updateFormik(result.data.setPaymentMethodOnCart.cart);
+            updateFormik({
+                ...state.data.cart,
+                ...result.data.setPaymentMethodOnCart.cart,
+            });
         }
 
         await formik.submitForm();

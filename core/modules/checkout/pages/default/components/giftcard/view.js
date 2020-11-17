@@ -1,6 +1,5 @@
 import Typography from '@common_typography';
 import Chip from '@material-ui/core/Chip';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import useStyles from '../style';
 import FieldPoint from '../../../../components/fieldcode';
 
@@ -23,6 +22,7 @@ const GiftCardView = (props) => {
                 error={!!formik.errors.giftCard}
                 errorMessage={formik.errors.giftCard}
                 styles={styles}
+                loading={checkout.loading.giftCard}
             />
             {appliedGiftCards.length || giftCards.length ? (
                 <div className={styles.giftcardInfoContainer}>
@@ -71,7 +71,6 @@ const GiftCardView = (props) => {
                     )}
                 </div>
             ) : null}
-            {checkout.loading.giftCard && <CircularProgress className={styles.largeCircular} size={30} />}
         </>
     );
 };
