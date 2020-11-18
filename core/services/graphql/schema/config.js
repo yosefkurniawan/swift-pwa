@@ -1,5 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-import { useMagentoCommerce } from '@config';
 
 export const storeConfig = `
     {
@@ -42,7 +41,7 @@ export const storeConfig = `
             snap_is_production
             aw_blog_general_enabled
             pickup_store
-            ${useMagentoCommerce ? 'cms_page' : ''}
+            cms_page
         }
     }
 `;
