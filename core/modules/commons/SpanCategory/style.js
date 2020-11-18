@@ -8,6 +8,10 @@ const useStyles = makeStyles(() => ({
         position: 'relative',
         backgroundColor: WHITE,
         padding: 0,
+        '& img.has-error': {
+            height: 'auto !important',
+            maxHeight: 'fit-content !important',
+        },
     },
     imageContainer: {
         minWidth: 345,
