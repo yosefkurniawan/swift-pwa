@@ -19,8 +19,10 @@ const Summary = ({
     updateFormik,
     config,
     refSummary,
+    storeConfig,
 }) => {
     const { order: loading, all: disabled } = checkout.loading;
+    const globalCurrency = storeConfig.default_display_currency_code;
     const client = useApolloClient();
     const [orderId, setOrderId] = useState(null);
     const [snapOpened, setSnapOpened] = useState(false);
@@ -251,6 +253,7 @@ const Summary = ({
                         isDesktop={false}
                         showItems
                         label={t('checkout:placeOrder')}
+                        globalCurrency={globalCurrency}
                     />
                 </div>
                 <SummaryPlugin
@@ -262,6 +265,7 @@ const Summary = ({
                     isDesktop
                     showItems
                     hideButton
+                    globalCurrency={globalCurrency}
                 />
             </>
         );
