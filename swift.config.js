@@ -1,7 +1,7 @@
 /* --------------------------------------- */
 /* STORE CONFIGURATION
 /* --------------------------------------- */
-const magentoCommerce = false; // setup uses magento commerce or community
+const useMagentoCommerce = false; // setup uses magento commerce or community
 
 const HOST = {
     local: 'http://localhost:3000',
@@ -312,6 +312,7 @@ const modules = {
     storecredit: {
         enabled: true,
         path: '/customer/account/storecredit',
+        useCommerceModule: false,
     },
     storeLocator: {
         enabled: true,
@@ -320,6 +321,7 @@ const modules = {
     giftcard: {
         enabled: true,
         path: '/awgiftcard/card',
+        useCommerceModule: false,
     },
     login: {
         enabled: true,
@@ -448,5 +450,5 @@ module.exports = {
     appName,
     localResolverKey,
     originName,
-    magentoCommerce,
+    useMagentoCommerce,
 };
