@@ -38,7 +38,7 @@ const Checkout = (props) => {
         cartId = getCartId();
         isLogin = Cookies.get('isLogin');
     }
-    const { snap_is_production, snap_client_key } = storeConfig;
+    const { snap_is_production, snap_client_key, base_currency_code = 'IDR' } = storeConfig;
     const configPage = {
         title: t('checkout:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)
@@ -222,7 +222,7 @@ const Checkout = (props) => {
                 label: `${item.method_title} ${item.carrier_title}`,
                 value: {
                     name: { carrier_code: item.carrier_code, method_code: item.method_code },
-                    price: formatPrice(item.amount.value, item.amount.currency),
+                    price: formatPrice(item.amount.value, item.amount.currency || base_currency_code),
                 },
             }));
         }
@@ -231,7 +231,7 @@ const Checkout = (props) => {
             const shippingMethod = shipping.selected_shipping_method;
             state.selected.shipping = {
                 name: { carrier_code: shippingMethod.carrier_code, method_code: shippingMethod.method_code },
-                price: formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency),
+                price: formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency || base_currency_code),
             };
             if (shippingMethod.carrier_code === 'pickup' && shippingMethod.method_code === 'pickup') {
                 const custAddress = cart.shipping_addresses[0];
