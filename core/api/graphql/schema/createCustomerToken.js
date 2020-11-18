@@ -1,56 +1,48 @@
-const { makeExecutableSchema, addMockFunctionsToSchema } = require('graphql-tools');
+const typeDefs = `
+type Token {
+    originalToken: String
+    token: String
+    message: String
+}
 
-const { gql } = require('apollo-server-express');
+type Query {
+    getCustomerToken: Token
+}
 
-const customerSchema = makeExecutableSchema({
-    typeDefs: gql`
-        type Token {
-            originalToken: String
-            token: String
-            message: String
-        }
+type RevokeCustomerTokenOutput {
+    result: Boolean
+}
 
-        type Query {
-            getCustomerToken: Token
-        }
+input internalCreateCustomerTokenInput {
+    firstname: String
+    lastname: String
+    email: String
+    password: String
+    phonenumber: String
+    is_subscribed: Boolean
+    otp: String
+    whatsapp_number: String
+}
 
-        type RevokeCustomerTokenOutput {
-            result: Boolean
-        }
+type internalGenerateSessionOutput {
+    result: Boolean
+    isLogin: Boolean
+    cartId: String
+    redirect_path: String
+}
 
-        input internalCreateCustomerTokenInput {
-            firstname: String
-            lastname: String
-            email: String
-            password: String
-            phonenumber: String
-            is_subscribed: Boolean
-            otp: String
-            whatsapp_number: String
-        }
+type internalDeleteSessionOutput {
+    result: Boolean
+}
 
-        type internalGenerateSessionOutput {
-            result: Boolean
-            isLogin: Boolean
-            cartId: String
-            redirect_path: String
-        }
+type Mutation {
+    internalGenerateCustomerToken(username: String!, password: String!): Token
+    internalCreateCustomerToken(input: internalCreateCustomerTokenInput): Token
+    internalGenerateCustomerTokenOtp(username: String!, otp: String!): Token
+    internalDeleteCustomerToken: RevokeCustomerTokenOutput
+    internalGenerateSession(state: String!): internalGenerateSessionOutput
+    internalDeleteSession: internalDeleteSessionOutput
+}
+`;
 
-        type internalDeleteSessionOutput {
-            result: Boolean
-        }
-
-        type Mutation {
-            internalGenerateCustomerToken(username: String!, password: String!): Token
-            internalCreateCustomerToken(input: internalCreateCustomerTokenInput): Token
-            internalGenerateCustomerTokenOtp(username: String!, otp: String!): Token
-            internalDeleteCustomerToken: RevokeCustomerTokenOutput
-            internalGenerateSession(state: String!): internalGenerateSessionOutput
-            internalDeleteSession: internalDeleteSessionOutput
-        }
-    `,
-});
-
-addMockFunctionsToSchema({ schema: customerSchema });
-
-module.exports = customerSchema;
+module.exports = typeDefs;
