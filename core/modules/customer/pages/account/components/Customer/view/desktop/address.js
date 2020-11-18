@@ -29,6 +29,7 @@ const AddressView = (props) => {
     const { addresses } = customer;
     let defaultShiping = {};
     let defaultBilling = {};
+    let defaultAddress = false;
 
     for (let index = 0; index < addresses.length; index++) {
         const addr = addresses[index];
@@ -39,7 +40,12 @@ const AddressView = (props) => {
         if (addr.default_shipping && !defaultShiping.id) {
             defaultShiping = addr;
         }
+
+        if (addr.default_billing === true || addr.default_shipping === true) {
+            defaultAddress = true;
+        }
     }
+
     return (
         <>
             <h2 className={styles.infoTitle}>
@@ -49,7 +55,7 @@ const AddressView = (props) => {
                 </Link>
             </h2>
             <hr />
-            {addresses.length > 0 ? (
+            {addresses.length > 0 && defaultAddress ? (
                 <div className="row">
                     <div className="col-lg-6">
                         <h3>{t('customer:address:defaultBilling')}</h3>
