@@ -63,26 +63,28 @@ const CategoryWrapper = ({ handleCloseModal = () => {} }) => {
     }
 
     const handleClickMenu = async (cat) => {
-        handleCloseModal();
-        const link = cat.link ? getPath(cat.link) : `/${cat.url_path}`;
-        const urlResolver = getResolver();
-        if (cat.link_type === 'category_link') {
-            urlResolver[link] = {
-                type: 'CATEGORY',
-                id: cat.category_id,
-            };
-            await setResolver(urlResolver);
-            Router.push('/[...slug]', link);
-        } else {
-            const cms = cmsPages.find((cmsPage) => cmsPage === link.replace('/', ''));
-            if (cms) {
+        if (cat.link) {
+            handleCloseModal();
+            const link = cat.link ? getPath(cat.link) : `/${cat.url_path}`;
+            const urlResolver = getResolver();
+            if (cat.link_type === 'category_link') {
                 urlResolver[link] = {
-                    type: 'CMS_PAGE',
+                    type: 'CATEGORY',
+                    id: cat.category_id,
                 };
                 await setResolver(urlResolver);
                 Router.push('/[...slug]', link);
             } else {
-                Router.push(link);
+                const cms = cmsPages.find((cmsPage) => cmsPage === link.replace('/', ''));
+                if (cms) {
+                    urlResolver[link] = {
+                        type: 'CMS_PAGE',
+                    };
+                    await setResolver(urlResolver);
+                    Router.push('/[...slug]', link);
+                } else {
+                    Router.push(link);
+                }
             }
         }
     };

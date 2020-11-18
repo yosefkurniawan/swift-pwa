@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/no-danger */
@@ -131,9 +132,14 @@ const Menu = (props) => {
                     if ((val.include_in_menu || features.vesMenu.enabled) && val.name) {
                         return (
                             <li key={idx} role="menuitem">
-                                <Link href={generateLink(val)[0]} as={generateLink(val)[1]}>
-                                    <a onClick={() => handleClick(val)} dangerouslySetInnerHTML={{ __html: val.name }} />
-                                </Link>
+                                {val.link ? (
+                                    <Link href={generateLink(val)[0]} as={generateLink(val)[1]}>
+                                        <a onClick={() => handleClick(val)} dangerouslySetInnerHTML={{ __html: val.name }} />
+                                    </Link>
+                                ) : (
+                                    <a href="#" dangerouslySetInnerHTML={{ __html: val.name }} />
+                                ) }
+
                                 {val.children.length > 0 ? (
                                     <div className="mega-menu row" aria-hidden="true" role="menu">
                                         {generateLevel2(val.children, handleClick, generateLink)}
