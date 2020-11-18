@@ -6,7 +6,7 @@ const CoreSummary = (props) => {
         DesktopView, MobileView, isDesktop, dataCart, globalCurrency = 'IDR',
         ...other
     } = props;
-    const { modules, magentoCommerce } = config;
+    const { modules } = config;
     let dataSummary = [];
     let total = 0;
     const {
@@ -22,7 +22,7 @@ const CoreSummary = (props) => {
         applied_giftcard = {},
     } = dataCart;
 
-    if (magentoCommerce) {
+    if (modules.giftcard.useCommerceModule) {
         applied_giftcard = dataCart.applied_gift_cards;
     }
 
@@ -62,7 +62,7 @@ const CoreSummary = (props) => {
 
         if (modules.storecredit.enabled) {
             let price = '';
-            if (magentoCommerce && applied_store_credit.applied_balance && applied_store_credit.applied_balance.value > 0) {
+            if (modules.storecredit.useCommerceModule && applied_store_credit.applied_balance && applied_store_credit.applied_balance.value > 0) {
                 price = formatPrice(Math.abs(applied_store_credit.applied_balance.value), globalCurrency);
             } else if (applied_store_credit.is_use_store_credit) {
                 price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency);
@@ -77,7 +77,7 @@ const CoreSummary = (props) => {
 
         if (modules.giftcard.enabled && applied_giftcard) {
             let giftCards = [];
-            if (magentoCommerce) {
+            if (modules.giftcard.useCommerceModule) {
                 if (applied_giftcard && applied_giftcard.length > 0) {
                     giftCards = applied_giftcard.map((item) => {
                         const price = formatPrice(Math.abs(item.applied_balance.value), globalCurrency);

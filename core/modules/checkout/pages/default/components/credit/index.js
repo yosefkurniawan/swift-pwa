@@ -1,4 +1,4 @@
-import { modules, magentoCommerce } from '@config';
+import { modules } from '@config';
 
 import gqlService from '../../../../services/graphql';
 
@@ -35,13 +35,13 @@ const DiscountSection = (props) => {
             ...checkout.data.cart.applied_store_credit,
         };
 
-        if (magentoCommerce) {
+        if (modules.storecredit.useCommerceModule) {
             store_credit.is_use_store_credit = checkout.data.cart.applied_store_credit.applied_balance.value > 0;
         }
 
         credit = store_credit.current_balance.value || 0;
         credit = store_credit.is_use_store_credit
-            ? `${magentoCommerce ? store_credit.applied_balance.value : store_credit.store_credit_amount}` : credit;
+            ? `${modules.storecredit.useCommerceModule ? store_credit.applied_balance.value : store_credit.store_credit_amount}` : credit;
         total = checkout.data.cart.prices.grand_total.value;
     }
 

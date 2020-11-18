@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import config from '@config';
 
-const { modules, magentoCommerce } = config;
+const { modules } = config;
 
 const cartPickupStorePerson = `
 pickup_store_person {
@@ -74,7 +74,7 @@ const cartShippingAddress = `
     }
 `;
 
-const applied_store_credit = magentoCommerce ? `
+const applied_store_credit = modules.storecredit.useCommerceModule ? `
 applied_store_credit {
     applied_balance {
       currency
@@ -149,7 +149,7 @@ addtional_fees {
 }
 `;
 
-const applied_giftcard = magentoCommerce ? `
+const applied_giftcard = modules.giftcard.useCommerceModule ? `
 applied_gift_cards {
     applied_balance {
       currency
@@ -219,7 +219,7 @@ const cartRequiredSelection = `
     }
 `;
 
-export const applyGiftCardToCart = magentoCommerce ? gql`
+export const applyGiftCardToCart = modules.giftcard.useCommerceModule ? gql`
 mutation($cartId: String! $code: String!){
     applyGiftCardToCart(input: {
       cart_id: $cartId,
@@ -247,7 +247,7 @@ mutation($cartId: String! $code: String!){
     }
 `;
 
-export const removeGiftCardFromCart = magentoCommerce ? gql`
+export const removeGiftCardFromCart = modules.giftcard.useCommerceModule ? gql`
 mutation($cartId: String! $code: String!) {
     removeGiftCardFromCart(input: {
     cart_id: $cartId,
@@ -340,7 +340,7 @@ export const getCustomer = gql`
                 }
                 enabled
             }` : ''}
-            ${(!magentoCommerce && modules.giftcard.enabled) ? `gift_card {
+            ${(!modules.giftcard.useCommerceModule && modules.giftcard.enabled) ? `gift_card {
                 giftcard_balance
                 giftcard_code
             }` : ''}

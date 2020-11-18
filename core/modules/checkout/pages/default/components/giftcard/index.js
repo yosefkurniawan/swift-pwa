@@ -1,4 +1,4 @@
-import { modules, magentoCommerce } from '@config';
+import { modules } from '@config';
 import gqlService from '../../../../services/graphql';
 
 const GiftCard = (props) => {
@@ -16,14 +16,16 @@ const GiftCard = (props) => {
     let appliedGiftCards = [];
 
     if (checkout.data.customer && checkout.data.cart) {
-        if (magentoCommerce) {
+        if (modules.giftcard.useCommerceModule) {
             if (checkout.data.cart.applied_gift_cards && checkout.data.cart.applied_gift_cards.length > 0) {
                 appliedGiftCards = checkout.data.cart.applied_gift_cards.map((item) => item.code);
             }
         } else {
             appliedGiftCards = checkout.data.cart.applied_giftcard.giftcard_detail.map((item) => item.giftcard_code);
         }
-        if (!magentoCommerce) giftCards = checkout.data.customer.gift_card.filter((item) => !appliedGiftCards.includes(item.giftcard_code));
+        if (!modules.giftcard.useCommerceModule) {
+            giftCards = checkout.data.customer.gift_card.filter((item) => !appliedGiftCards.includes(item.giftcard_code));
+        }
     }
 
     const handleApplyGift = async (code = null) => {
