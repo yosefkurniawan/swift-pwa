@@ -135,8 +135,7 @@ const AddressFormDialog = (props) => {
         city: '',
         postcode: postcode || '',
         maps: maps || '',
-        defaultBilling: defaultBilling || false,
-        defaultShipping: defaultShipping || false,
+        defaultShippingBilling: defaultShipping || defaultBilling,
         regionCode: '',
         regionId: '',
     };
@@ -158,6 +157,8 @@ const AddressFormDialog = (props) => {
         onSubmit: async (values) => {
             const data = {
                 ...values,
+                defaultBilling: values.defaultShippingBilling,
+                defaultShipping: values.defaultShippingBilling,
                 countryCode: values.country.id,
                 region: values.region && values.region.code ? values.region.code : values.region,
                 regionCode: values.region && values.region.code ? values.region.code : null,
