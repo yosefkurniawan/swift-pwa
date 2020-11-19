@@ -36,7 +36,8 @@
     "state" : "Provinsi",
     "postcode" : "Kode pos",
     "phone" : "Telepon",
-    "emptyMessage" : "Kamu belum menambahkan alamat"
+    "emptyMessage" : "Kamu belum menambahkan alamat",
+    "useDefault" : "Gunakan sebagai default"
   },
   "menu": {
     "aboutUs": "Tentang kami",

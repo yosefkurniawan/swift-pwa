@@ -36,7 +36,8 @@
     "state" : "State",
     "postcode" : "Zip/Postal code",
     "phone" : "Phone number",
-    "emptyMessage" : "You haven't added an address"
+    "emptyMessage" : "You haven't added an address",
+    "useDefault" : "Use as default"
   },
   "menu": {
     "aboutUs": "About us",
