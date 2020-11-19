@@ -37,7 +37,8 @@
     "postcode" : "Kode pos",
     "phone" : "Telepon",
     "emptyMessage" : "Kamu belum menambahkan alamat",
-    "emptyPinPointMessage" : "Alamat yang Anda pilih belum punya pin point. Silakan set pin point untuk menggunakan kurir Instant Delivery."
+    "emptyPinPointMessage" : "Alamat yang Anda pilih belum punya pin point. Silakan set pin point untuk menggunakan kurir Instant Delivery.",
+    "useDefault" : "Gunakan sebagai default"
   },
   "menu": {
     "aboutUs": "Tentang kami",
