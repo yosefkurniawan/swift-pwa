@@ -175,7 +175,7 @@ const Layout = (props) => {
             <footer ref={refFooter}>
                 <div className="hidden-mobile">
                     {
-                        modules.customer.plugin.newsletter.enabled ? (
+                        modules.customer.plugin.newsletter.enabled && footer ? (
                             <Newsletter />
                         ) : null
                     }
