@@ -11,6 +11,7 @@ const Item = (props) => {
         quantity, prices, product, deleteCart, updateCart, id, configurable_options, bundle_options,
     } = props;
     const { t } = useTranslation(['common']);
+    console.log(product);
     return (
         <li>
             <div className="product">
@@ -19,7 +20,6 @@ const Item = (props) => {
                         className="product-image-photo"
                         src={product.small_image.url}
                         alt={product.small_image.label}
-                        style={{ width: '75px', height: '75px' }}
                     />
                     {
                         prices.row_total.value === 0 ? (<span>{t('common:title:free')}</span>) : null
