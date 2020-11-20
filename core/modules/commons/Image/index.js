@@ -6,8 +6,8 @@ import Image from 'next/image';
 
 const CustomImage = ({
     src,
-    width = 61,
-    height = 75,
+    width = 500,
+    height = 500,
     className = '',
     alt = 'Image',
     quality = 100,
