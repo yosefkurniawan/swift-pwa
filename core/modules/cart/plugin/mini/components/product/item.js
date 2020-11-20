@@ -11,7 +11,6 @@ const Item = (props) => {
         quantity, prices, product, deleteCart, updateCart, id, configurable_options, bundle_options,
     } = props;
     const { t } = useTranslation(['common']);
-    console.log(product);
     return (
         <li>
             <div className="product">
