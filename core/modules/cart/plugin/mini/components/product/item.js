@@ -19,7 +19,8 @@ const Item = (props) => {
                         className="product-image-photo"
                         src={product.small_image.url}
                         alt={product.small_image.label}
-                        style={{ width: '75px', height: '75px' }}
+                        width={61}
+                        height={75}
                     />
                     {
                         prices.row_total.value === 0 ? (<span>{t('common:title:free')}</span>) : null
