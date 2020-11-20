@@ -32,15 +32,10 @@ const ModalAddressCustomer = (props) => {
     }, [customer]);
 
     // handle open modal add adress button
-    const handleOpenNew = (type = 'new', editData = {}) => {
+    const handleOpenNew = (type = 'new') => {
         setOpen(!open);
         setOpenNew(!openNew);
         setTypeAddress(type);
-        if (type === 'update') {
-            setDataEdit(editData);
-        } else {
-            setDataEdit({});
-        }
     };
 
     // handle change selected address
@@ -112,6 +107,8 @@ const ModalAddressCustomer = (props) => {
             typeAddress={typeAddress}
             dataEdit={dataEdit}
             setDataEdit={setDataEdit}
+            manageCustomer={manageCustomer}
+            updateAddress={updateAddress}
             {...other}
         />
     );

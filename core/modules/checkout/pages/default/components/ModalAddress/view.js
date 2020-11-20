@@ -7,7 +7,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Add from '@material-ui/icons/Add';
 import AddressFormDialog from '@plugin_addressform';
 import Typography from '@common_typography';
-import ItemAddress from './Item';
+import ItemAddress from '../ItemModalAddress';
 import useStyles from './style';
 
 const AddressView = (props) => {
@@ -15,6 +15,7 @@ const AddressView = (props) => {
         t, open, setOpen, loading, success,
         address, handleAddress, selectedAddressId, loadingAddress,
         handleChange, handleOpenNew, openNew, typeAddress, dataEdit,
+        updateAddress, manageCustomer,
     } = props;
     const styles = useStyles();
     const headerConfig = {
@@ -54,6 +55,8 @@ const AddressView = (props) => {
                     success={success}
                     t={t}
                     handleOpenNew={handleOpenNew}
+                    manageCustomer={manageCustomer}
+                    updateAddress={updateAddress}
                 />
             ));
         }
