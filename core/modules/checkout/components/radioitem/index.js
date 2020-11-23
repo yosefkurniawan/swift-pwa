@@ -10,6 +10,7 @@ const RadioDeliveryItem = (props) => {
     const {
         value,
         label,
+        promoLabel,
         selected,
         onChange = () => {},
         borderBottom = true,
@@ -22,15 +23,45 @@ const RadioDeliveryItem = (props) => {
     const labelType = selected ? 'bold' : 'regular';
     const rootStyle = borderBottom ? styles.root : styles.rootRmBorder;
     let rightSide;
+    let shippingLabel;
 
     if (image) {
         rightSide = <img src={image} className={styles.imgList} alt="cimb" />;
     }
 
-    if (value && value.price) {
+    if (value && value.price !== value.original_price) {
         rightSide = (
-            <Typography variant="p" type={labelType}>
+            <>
+                <Typography variant="p" type={labelType} className={styles.originalPrice}>
+                    {value.original_price}
+                </Typography>
+                <Typography variant="p" type={labelType} className={styles.promo}>
+                    {value.price}
+                </Typography>
+            </>
+        );
+    } else if (value && value.price) {
+        rightSide = (
+            <Typography variant="p" type={labelType} className={styles.notPromo}>
                 {value.price}
+            </Typography>
+        );
+    }
+
+    if (promoLabel !== '') {
+        shippingLabel = (
+            <Typography variant="p" type={labelType} className={styles.promoLabel}>
+                {label}
+                {' '}
+                (
+                {promoLabel}
+                )
+            </Typography>
+        );
+    } else {
+        shippingLabel = (
+            <Typography variant="p" type={labelType} className={styles.noPromoLabel}>
+                {label}
             </Typography>
         );
     }
@@ -39,9 +70,7 @@ const RadioDeliveryItem = (props) => {
         <div className={rootStyle} onClick={handleChange}>
             <Radio color="default" size="small" checked={selected} />
             <div className={classNames(styles.labelContainer, classContent)}>
-                <Typography variant="p" type={labelType}>
-                    {label}
-                </Typography>
+                {shippingLabel}
                 {rightSide}
             </div>
         </div>

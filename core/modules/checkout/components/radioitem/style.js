@@ -23,4 +23,16 @@ export default makeStyles(() => ({
     labelContainerActive: {
         fontWeight: 'bold',
     },
+    originalPrice: {
+        textDecoration: 'line-through',
+        marginLeft: 'auto',
+    },
+    promo: {
+        marginLeft: '20px',
+        fontWeight: 'bold',
+    },
+    notPromo: {
+        marginLeft: 'auto',
+        fontWeight: 'normal',
+    },
 }));

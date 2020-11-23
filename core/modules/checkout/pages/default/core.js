@@ -77,6 +77,7 @@ const Checkout = (props) => {
             shipping: {
                 name: { carrier_code: null, method_code: null },
                 price: null,
+                original_price: null,
             },
             payment: null,
             billing: null,
@@ -220,9 +221,11 @@ const Checkout = (props) => {
             state.data.shippingMethods = availableShipping.map((item) => ({
                 ...item,
                 label: `${item.method_title} ${item.carrier_title}`,
+                promoLabel: `${item.shipping_promo_name}`,
                 value: {
                     name: { carrier_code: item.carrier_code, method_code: item.method_code },
                     price: formatPrice(item.amount.value, item.amount.currency || base_currency_code),
+                    original_price: formatPrice(item.price_incl_tax.value, item.amount.currency),
                 },
             }));
         }
@@ -232,6 +235,7 @@ const Checkout = (props) => {
             state.selected.shipping = {
                 name: { carrier_code: shippingMethod.carrier_code, method_code: shippingMethod.method_code },
                 price: formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency || base_currency_code),
+                original_price: formatPrice(shippingMethod.price_incl_tax.value, shippingMethod.amount.currency),
             };
             if (shippingMethod.carrier_code === 'pickup' && shippingMethod.method_code === 'pickup') {
                 const custAddress = cart.shipping_addresses[0];
