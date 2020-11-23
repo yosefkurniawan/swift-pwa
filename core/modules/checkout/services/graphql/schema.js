@@ -23,6 +23,10 @@ const cartAvailableShippingMethods = `
                 value
                 currency
             }
+            shipping_promo_name
+            price_incl_tax {
+                value
+            }
         }
     }
 `;
