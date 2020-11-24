@@ -176,7 +176,7 @@ const features = {
         enabled: true,
     },
     pushNotification: {
-        enabled: false,
+        enabled: true,
         config: {
             apiKey: 'AIzaSyCD0ZuTMcNi3PSsJH9LD21v7_XA1sVLjdI',
             authDomain: 'swiftpwa-firebase.firebaseapp.com',
