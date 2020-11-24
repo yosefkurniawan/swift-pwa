@@ -143,6 +143,9 @@ const useStyles = makeStyles((theme) => ({
     },
     ratingContainer: {
         ...FlexRow,
+        [theme.breakpoints.up('sm')]: {
+            marginBottom: 20,
+        },
     },
     btnLoadReview: {
         ...Centering,
