@@ -26,7 +26,7 @@ export default makeStyles((theme) => ({
         backgroundColor: WHITE,
         transform: 'rotate(-90deg)',
         position: 'absolute',
-        top: '35vh',
+        top: '50vh',
         right: -65,
         cursor: 'pointer',
         [theme.breakpoints.up('sm')]: {
@@ -63,7 +63,7 @@ export default makeStyles((theme) => ({
         transform: 'rotate(-90deg)',
         borderRadius: '10px 10px 0px 0px',
         position: 'absolute',
-        top: '35vh',
+        top: '50vh',
         width: 164,
         ...Centering,
         cursor: 'pointer',
