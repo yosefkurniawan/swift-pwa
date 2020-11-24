@@ -35,8 +35,8 @@ import { Integrations } from '@sentry/tracing';
 /**
  * Uncomment codes below when firebase push notification configuration is enabled
  * */
-// import Notification from '@lib_firebase/notification';
-// import firebase from '@lib_firebase/index';
+import Notification from '@lib_firebase/notification';
+import firebase from '@lib_firebase/index';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -115,36 +115,37 @@ class MyApp extends App {
         /**
          * Uncomment codes below when firebase push notification configuration is enabled
          * */
-        // if (features.pushNotification.enabled) {
-        //     // initial firebase messaging
-        //     Notification.init();
-        //     // handle if have message on focus
-        //     try {
-        //         const messaging = firebase.messaging();
-        //         // Handle incoming messages. Called when:
-        //         // - a message is received while the app has focus
-        //         // - the user clicks on an app notification created by a service worker
-        //         //   `messaging.setBackgroundMessageHandler` handler.
-        //         messaging.onMessage((payload) => {
-        //             console.log(payload);
-        //             navigator.serviceWorker.ready.then((registration) => {
-        //                 registration.showNotification('HQQ Go ditemukan!', {
-        //                     body: payload.data.body,
-        //                     vibrate: [200, 100, 200, 100, 200, 100, 200],
-        //                     data: payload.notification,
-        //                     actions: [
-        //                         {
-        //                             action: 'open-event',
-        //                             title: 'Buka Event',
-        //                         },
-        //                     ],
-        //                 });
-        //             });
-        //         });
-        //     } catch (err) {
-        //         console.log(err);
-        //     }
-        // }
+        if (features.pushNotification.enabled) {
+            // initial firebase messaging
+            Notification.init();
+            // handle if have message on focus
+            try {
+                const messaging = firebase.messaging();
+                // Handle incoming messages. Called when:
+                // - a message is received while the app has focus
+                // - the user clicks on an app notification created by a service worker
+                //   `messaging.setBackgroundMessageHandler` handler.
+                messaging.onMessage((payload) => {
+                    navigator.serviceWorker.ready.then((registration) => {
+                        registration.showNotification(payload.data.title, {
+                            body: payload.data.body,
+                            vibrate: [200, 100, 200, 100, 200, 100, 200],
+                            icon: payload.data.icons || '',
+                            image: payload.data.image || '',
+                            data: payload.data,
+                            actions: [
+                                {
+                                    action: 'open-page',
+                                    title: 'Open',
+                                },
+                            ],
+                        });
+                    });
+                });
+            } catch (err) {
+                console.log(err);
+            }
+        }
 
         // lazy load fonts. use this to load non critical fonts
         // Fonts();
