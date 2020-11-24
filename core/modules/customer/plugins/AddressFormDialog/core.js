@@ -196,6 +196,12 @@ const AddressFormDialog = (props) => {
         if (open) {
             const state = { ...addressState };
 
+            formik.setFieldValue('firstname', firstname);
+            formik.setFieldValue('lastname', lastname);
+            formik.setFieldValue('street', street);
+            formik.setFieldValue('telephone', telephone);
+            formik.setFieldValue('postcode', postcode);
+
             formik.setFieldValue('country', country);
             formik.setFieldValue('region', region);
 
@@ -256,10 +262,6 @@ const AddressFormDialog = (props) => {
                         const defaultValue = splitCityValue(city);
                         formik.setFieldValue('city', getCityByLabel(defaultValue[0], state.dropdown.city));
                     }
-
-                    formik.setFieldValue('district', '');
-                    formik.setFieldValue('village', '');
-                    formik.setFieldValue('postcode', '');
                 } else {
                     state.dropdown.city = data.getCityByRegionId.item.map((item) => ({ ...item, id: item.id, label: item.city }));
                     formik.setFieldValue('city', getCityByLabel(city, state.dropdown.city));
