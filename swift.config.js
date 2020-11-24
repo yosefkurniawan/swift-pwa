@@ -176,16 +176,18 @@ const features = {
         enabled: true,
     },
     pushNotification: {
-        enabled: false,
+        enabled: true,
         config: {
-            apiKey: 'AIzaSyBwAPEXdjKf84q-T7tUxVJBcOJJ8hzrXTI',
-            authDomain: 'swift-pwa.firebaseapp.com',
-            databaseURL: 'https://swift-pwa.firebaseio.com',
-            projectId: 'swift-pwa',
-            storageBucket: 'swift-pwa.appspot.com',
-            messagingSenderId: '1029426161575',
-            appId: '1:1029426161575:web:2c57e3f74cb00e0132f882',
-            measurementId: 'G-VSRV1DJVSQ',
+            apiKey: 'AIzaSyCD0ZuTMcNi3PSsJH9LD21v7_XA1sVLjdI',
+            authDomain: 'swiftpwa-firebase.firebaseapp.com',
+            databaseURL: 'https://swiftpwa-firebase.firebaseio.com',
+            projectId: 'swiftpwa-firebase',
+            storageBucket: 'swiftpwa-firebase.appspot.com',
+            messagingSenderId: '731430387766',
+            appId: '1:731430387766:web:af85ac9f9559c873309897',
+            measurementId: 'G-DP22E2CL8G',
+            // key from cloud messaging sertificat web push
+            pairKey: 'BBIzfGdH56tlTaV1jxqaWA_n47trFqy51WjcCn9Fa1-7xzmY4iBwBlGQjO1e_bRBEx9kq4o8q4zyl14JuXSIC-k',
         },
     },
 };

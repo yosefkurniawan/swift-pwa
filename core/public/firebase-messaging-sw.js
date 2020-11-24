@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-plusplus */
 /* eslint-disable no-restricted-globals */
 /* global importScripts, firebase */
 // Give the service worker access to Firebase Messaging.
@@ -24,10 +26,11 @@ messaging.setBackgroundMessageHandler((payload) => {
         payload,
     );
     // Customize notification here
-    const notificationTitle = 'Background Message Title';
+    const notificationTitle = payload.data.title;
     const notificationOptions = {
-        body: 'Background Message body.',
-        icon: '/firebase-logo.png',
+        body: payload.data.body,
+        icon: payload.data.icons || '',
+        image: payload.data.image || '',
         data: payload,
     };
 
@@ -42,12 +45,28 @@ messaging.setBackgroundMessageHandler((payload) => {
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
     const { data } = event.notification;
-    switch (data.type) {
-    case 'open-event':
-        event.waitUntil(clients.openWindow(`/go/detail/${data.eventId}`));
-        break;
-    default:
-        event.waitUntil(clients.openWindow('/'));
-        break;
-    }
+    const urlToOpen = new URL(`${self.location.origin}/${data.data.path}`, self.location.origin).href;
+
+    const promiseChain = clients.matchAll({
+        type: 'window',
+        includeUncontrolled: true,
+    })
+        .then((windowClients) => {
+            let matchingClient = null;
+
+            for (let i = 0; i < windowClients.length; i++) {
+                const windowClient = windowClients[i];
+                if (windowClient.url === urlToOpen) {
+                    matchingClient = windowClient;
+                    break;
+                }
+            }
+
+            if (matchingClient) {
+                return matchingClient.focus();
+            }
+            return clients.openWindow(urlToOpen);
+        });
+
+    event.waitUntil(promiseChain);
 });
