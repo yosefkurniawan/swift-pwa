@@ -37,7 +37,8 @@
     "postcode" : "Zip/Postal code",
     "phone" : "Phone number",
     "emptyMessage" : "You haven't added an address",
-    "emptyPinPointMessage" : "Selected address does not have pin point. Please set it for possibility of using Instant Delivery Courier."
+    "emptyPinPointMessage" : "Selected address does not have pin point. Please set it for possibility of using Instant Delivery Courier.",
+    "useDefault" : "Use as default"
   },
   "menu": {
     "aboutUs": "About us",

@@ -1,6 +1,7 @@
 /* --------------------------------------- */
 /* STORE CONFIGURATION
 /* --------------------------------------- */
+const useMagentoCommerce = false; // setup uses magento commerce or community
 
 const HOST = {
     local: 'http://localhost:3000',
@@ -126,6 +127,15 @@ const localResolverKey = 'resolver';
 
 const features = {
     ssrCache: true,
+    crm: {
+        enabled: false,
+        graphqlEndpoint: {
+            local: 'http://swiftcrm.testingnow.me/graphql',
+            dev: 'http://swiftcrm.testingnow.me/graphql',
+            stage: 'http://swiftcrm.testingnow.me/graphql',
+            prod: 'http://swiftcrm.testingnow.me/graphql',
+        },
+    },
     facebookMetaId: {
         enabled: false,
         app_id: '', // if enabled add fb app id here. e.g. 3080154482073095
@@ -304,6 +314,7 @@ const modules = {
     storecredit: {
         enabled: true,
         path: '/customer/account/storecredit',
+        useCommerceModule: false,
     },
     storeLocator: {
         enabled: true,
@@ -312,6 +323,7 @@ const modules = {
     giftcard: {
         enabled: true,
         path: '/awgiftcard/card',
+        useCommerceModule: false,
     },
     login: {
         enabled: true,
@@ -440,4 +452,5 @@ module.exports = {
     appName,
     localResolverKey,
     originName,
+    useMagentoCommerce,
 };
