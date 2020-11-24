@@ -10,6 +10,7 @@ import { custDataNameCookie, features, modules } from '@config';
 import { getHost } from '@helper_config';
 import { breakPointsUp } from '@helper_theme';
 import Newsletter from '@core_modules/customer/plugins/Newsletter';
+import useStyles from './style';
 
 import PopupInstallAppMobile from '../components/custom-install-popup/mobile';
 import Copyright from '../components/footer/desktop/components/copyright';
@@ -23,6 +24,7 @@ const ScrollToTop = dynamic(() => import('@common_scrolltotop'), { ssr: false })
 const Footer = dynamic(() => import('@common_footer'), { ssr: true });
 
 const Layout = (props) => {
+    const footerStyles = useStyles();
     const {
         pageConfig,
         children,
@@ -172,7 +174,7 @@ const Layout = (props) => {
                 {children}
                 {desktop ? <ScrollToTop {...props} /> : null}
             </main>
-            <footer ref={refFooter}>
+            <footer className={footerStyles.footerContainer} ref={refFooter}>
                 <div className="hidden-mobile">
                     {
                         modules.customer.plugin.newsletter.enabled && footer ? (
