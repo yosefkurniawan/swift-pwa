@@ -13,7 +13,7 @@ const encryption = {
 
 /* key server fcm */
 const fcm = {
-    topic: 'flash_sale',
+    topic: 'notifications',
     FCM_KEY_SERVER: 'AAAAqkymADY:APA91bHBOetzmkBWOhij2_UUv6gz9anWO7k_7xzQUBZqY5x0TNlFDZ5TUZQvkGuaQ2z4_2J1VXEayHh4ueTi855CuSuHViXE5AmRcIItKL38yK8ArxlHBA2fC6ONPRcpq9ki3lJvtoMj',
 };
 
