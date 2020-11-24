@@ -34,7 +34,10 @@ const Caraousel = dynamic(() => import('@common_slick/Caraousel'), { ssr: false 
 const ProductPage = (props) => {
     const styles = useStyles();
     const {
-        t, data, openOption, handleOption,
+        t,
+        data,
+        openOption,
+        handleOption,
         setOpenOption,
         setBanner,
         setPrice,
@@ -57,11 +60,7 @@ const ProductPage = (props) => {
 
     const desktop = breakPointsUp('sm');
 
-    const favoritIcon = wishlist ? (
-        <Favorite className={styles.iconShare} />
-    ) : (
-        <FavoriteBorderOutlined className={styles.iconShare} />
-    );
+    const favoritIcon = wishlist ? <Favorite className={styles.iconShare} /> : <FavoriteBorderOutlined className={styles.iconShare} />;
 
     let contentCaraousel = '';
     if (typeof window !== 'undefined' && relateData.length > 0) {
@@ -71,34 +70,13 @@ const ProductPage = (props) => {
     return (
         <>
             <div className="hidden-mobile">
-                {
-                    data && data.upsell_products && data.upsell_products.length > 0 && (
-                        <RightDrawer
-                            open={openDrawer}
-                            setOpen={() => setOpenDrawer(!openDrawer)}
-                            {...props}
-                        />
-                    )
-                }
-                <ModalPopupImage
-                    open={openImageDetail}
-                    setOpen={handleOpenImageDetail}
-                    banner={banner}
-                />
+                {data && data.upsell_products && data.upsell_products.length > 0 && (
+                    <RightDrawer open={openDrawer} setOpen={() => setOpenDrawer(!openDrawer)} {...props} />
+                )}
+                <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} />
             </div>
-            <OptionItem
-                {...props}
-                open={openOption}
-                setOpen={() => setOpenOption(!openOption)}
-                setBanner={setBanner}
-                setPrice={setPrice}
-            />
-            <SharePopup
-                open={openShare}
-                setOpen={() => setOpenShare(!openShare)}
-                link={getHost() + route.asPath}
-                {...props}
-            />
+            <OptionItem {...props} open={openOption} setOpen={() => setOpenOption(!openOption)} setBanner={setBanner} setPrice={setPrice} />
+            <SharePopup open={openShare} setOpen={() => setOpenShare(!openShare)} link={getHost() + route.asPath} {...props} />
             <div className={classNames(styles.container, 'row')}>
                 <div className="col-lg-12 hidden-mobile">
                     <Breadcrumb data={breadcrumbsData} variant="text" />
@@ -116,15 +94,9 @@ const ProductPage = (props) => {
                         actionImage={desktop ? handleOpenImageDetail : () => {}}
                     />
                     <div className="hidden-desktop">
-                        {
-                            data && data.upsell_products && data.upsell_products.length > 0 && (
-                                <RightDrawer
-                                    open={openDrawer}
-                                    setOpen={() => setOpenDrawer(!openDrawer)}
-                                    {...props}
-                                />
-                            )
-                        }
+                        {data && data.upsell_products && data.upsell_products.length > 0 && (
+                            <RightDrawer open={openDrawer} setOpen={() => setOpenDrawer(!openDrawer)} {...props} />
+                        )}
                     </div>
                 </div>
                 <div className={classNames(styles.body, 'col-xs-12 col-lg-6')}>
@@ -134,30 +106,17 @@ const ProductPage = (props) => {
 
                     <div className={styles.titleContainer}>
                         <div className={styles.titlePriceContainer}>
-                            <Typography
-                                variant="title"
-                                type="bold"
-                                letter="capitalize"
-                                className={classNames(styles.title, 'clear-margin-padding')}
-                            >
+                            <Typography variant="title" type="bold" letter="capitalize" className={classNames(styles.title, 'clear-margin-padding')}>
                                 {data.name}
                             </Typography>
-                            <PriceFormat
-                                {...price}
-                            />
+                            <PriceFormat {...price} />
                         </div>
                         <div className={styles.shareContainer}>
-                            <IconButton
-                                className={styles.btnShare}
-                                onClick={handleWishlist}
-                            >
+                            <IconButton className={styles.btnShare} onClick={handleWishlist}>
                                 {favoritIcon}
                             </IconButton>
                             <div className="hidden-desktop">
-                                <IconButton
-                                    className={classNames(styles.btnShare, 'hidden-desktop')}
-                                    onClick={() => setOpenShare(true)}
-                                >
+                                <IconButton className={classNames(styles.btnShare, 'hidden-desktop')} onClick={() => setOpenShare(true)}>
                                     <ShareOutlined className={styles.iconShare} />
                                 </IconButton>
                             </div>
@@ -165,20 +124,11 @@ const ProductPage = (props) => {
                     </div>
                     <div className={styles.titleContainer}>
                         <div className={classNames('row', styles.sku)}>
-                            <Typography
-                                className="clear-margin-padding"
-                                variant="p"
-                                type="regular"
-                                letter="capitalize"
-                            >
+                            <Typography className="clear-margin-padding" variant="p" type="regular" letter="capitalize">
                                 SKU#:
                                 {' '}
                             </Typography>
-                            <Typography
-                                variant="p"
-                                type="bold"
-                                letter="none"
-                            >
+                            <Typography variant="p" type="bold" letter="none">
                                 {data.sku || ''}
                             </Typography>
                         </div>
@@ -187,21 +137,18 @@ const ProductPage = (props) => {
                         </Typography>
                     </div>
 
-                    <div className="hidden-desktop">
-                        <div className={styles.titleContainer}>
-                            <div className={styles.ratingContainer}>
-                                <RatingStar value={reviewValue || 0} />
-                                <Typography
-                                    variant="p"
-                                    type="regular"
-                                    letter="capitalize"
-                                >
-                                    {data.review.reviews_count || 0}
-                                    {' '}
-                                    {t('product:review')}
-                                </Typography>
-                            </div>
+                    <div className={styles.titleContainer}>
+                        <div className={styles.ratingContainer}>
+                            <RatingStar value={reviewValue || 0} />
+                            <Typography variant="p" type="regular" letter="capitalize">
+                                {data.review.reviews_count || 0}
+                                {' '}
+                                {t('product:review')}
+                            </Typography>
                         </div>
+                    </div>
+
+                    <div className="hidden-desktop">
                         {' '}
                         <div className={styles.desc}>
                             <Typography variant="span" type="regular" size="10">
@@ -213,12 +160,7 @@ const ProductPage = (props) => {
                         </div>
                     </div>
                     <div className="hidden-mobile">
-                        <DesktopOptions
-                            {...props}
-                            setOpen={setOpenOption}
-                            setBanner={setBanner}
-                            setPrice={setPrice}
-                        />
+                        <DesktopOptions {...props} setOpen={setOpenOption} setBanner={setBanner} setPrice={setPrice} />
                         <div className={styles.desktopShareIcon}>
                             <Typography className={styles.shareTitle} variant="title">
                                 {t('product:shareTitle')}
@@ -226,7 +168,6 @@ const ProductPage = (props) => {
                             <ItemShare link={getHost() + route.asPath} />
                         </div>
                     </div>
-
                 </div>
                 <div className="hidden-desktop">
                     <ListReviews {...props} />
@@ -236,17 +177,10 @@ const ProductPage = (props) => {
                 </div>
                 {relateData.length !== 0 ? (
                     <div className={classNames(styles.carouselContainer, 'col-xs-12 col-lg-12')}>
-                        <Typography
-                            variant="h1"
-                            component="h2"
-                            align="center"
-                            className={styles.carouselTitle}
-                        >
+                        <Typography variant="h1" component="h2" align="center" className={styles.carouselTitle}>
                             {t('common:title:relatedProduct')}
                         </Typography>
-                        {
-                            contentCaraousel
-                        }
+                        {contentCaraousel}
                     </div>
                 ) : null}
 
@@ -257,18 +191,11 @@ const ProductPage = (props) => {
                         onClick={handleOption}
                         disabled={data && data.stock_status === 'OUT_STOCK'}
                     >
-                        <Typography
-                            variant="span"
-                            align="center"
-                            type="bold"
-                            letter="uppercase"
-                            color="white"
-                        >
+                        <Typography variant="span" align="center" type="bold" letter="uppercase" color="white">
                             {t('product:addToCart')}
                         </Typography>
                     </Button>
                 </div>
-
             </div>
         </>
     );
