@@ -176,6 +176,8 @@ const features = {
             messagingSenderId: '1029426161575',
             appId: '1:1029426161575:web:2c57e3f74cb00e0132f882',
             measurementId: 'G-VSRV1DJVSQ',
+            // key from cloud messaging sertificat web push
+            pairKey: 'BJpXgmqEUC3PWbCac7_xLYd4_SBPPwTl43YeZH3VQBlizfh61uwlxVWmRxsisOVieVVHH_fJ_ifxyOqvPhZTqac',
         },
     },
 };

@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-empty */
+import { features } from '@config';
 import firebase from './index';
 
 const notification = {
@@ -48,9 +49,7 @@ const notification = {
             // messaging.usePublicVapidKey(
             //   "BNLpFKMYBkoD5UoMz4YqVWVQkcSWJ3kxJQkhlAPclwZiZ0gLKYSsjolscS_7r6SX_qoNviXmEGTLweNuEzGNSng"
             // )
-            messaging.usePublicVapidKey(
-                'BJpXgmqEUC3PWbCac7_xLYd4_SBPPwTl43YeZH3VQBlizfh61uwlxVWmRxsisOVieVVHH_fJ_ifxyOqvPhZTqac',
-            );
+            messaging.usePublicVapidKey(features.pushNotification.config.pairKey);
 
             // request notification
             Notification.requestPermission().then((permission) => {

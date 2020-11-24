@@ -1,11 +1,11 @@
-const { FCM_KEY_SERVER } = require('../../../swift-server.config');
+const { fcm } = require('../../../swift-server.config');
 
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 module.exports = (req, res) => {
     const { token } = req.body;
-    const topic = 'flash_sale';
-    const keyserver = `key=${FCM_KEY_SERVER}`;
+    const { topic } = fcm;
+    const keyserver = `key=${fcm.FCM_KEY_SERVER}`;
 
     if (req.session.fcm_token !== token) {
         fetch(`https://iid.googleapis.com/iid/v1/${token}/rel/topics/${topic}`, {
