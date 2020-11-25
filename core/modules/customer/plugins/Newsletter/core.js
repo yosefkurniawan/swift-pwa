@@ -34,7 +34,7 @@ const Newsletter = (props) => {
                     window.toastMessage({
                         open: true,
                         variant: 'error',
-                        text: e.message.split(':')[1],
+                        text: e.message.split(':')[1] || t('common:newsletter:emailFormat'),
                     });
                 });
         },
