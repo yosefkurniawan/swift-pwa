@@ -133,12 +133,7 @@ class MyApp extends App {
                             icon: payload.data.icons || '',
                             image: payload.data.image || '',
                             data: payload.data,
-                            actions: [
-                                {
-                                    action: 'open-page',
-                                    title: 'Open',
-                                },
-                            ],
+                            requireInteraction: true,
                         });
                     });
                 });
