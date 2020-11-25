@@ -25,6 +25,8 @@ const NewsletterView = (props) => {
                                                 placeholder={t('common:newsletter:placeholder')}
                                                 value={formik.values.email}
                                                 onChange={formik.handleChange}
+                                                error={!!formik.errors.email}
+                                                errorMessage={formik.errors.email || null}
                                             />
                                         </label>
                                     </div>
@@ -36,6 +38,15 @@ const NewsletterView = (props) => {
                                         type="submit"
                                         disabled={loading}
                                         aria-label="Subscribe"
+                                        onClick={() => (formik.values.email === ''
+                                            ? window.toastMessage(
+                                                {
+                                                    open: true,
+                                                    variant: 'error',
+                                                    text: t('common:newsletter:emptyValue'),
+                                                },
+                                            )
+                                            : '')}
                                     >
                                         {loading ? <CircularProgress color="inherit" size={14} />
                                             : <span>{t('common:newsletter:buttonLabel')}</span> }
