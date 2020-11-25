@@ -114,6 +114,8 @@
     "newsletter": {
         "title": "SIGN UP NEWSLETTER",
         "placeholder": "Enter your email address",
-        "buttonLabel": "Subscribe"
+        "buttonLabel": "Subscribe",
+        "emailFormat": "Invalid email format",
+        "emptyValue": "Please insert email address"
     }
 }

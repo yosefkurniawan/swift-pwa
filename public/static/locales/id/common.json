@@ -113,6 +113,8 @@
     "newsletter": {
         "title": "DAFTAR NEWSLETTER",
         "placeholder": "Masukkan alamat email Anda",
-        "buttonLabel": "Langganan"
+        "buttonLabel": "Langganan",
+        "emailFormat": "Format email salah",
+        "emptyValue": "Harap masukkan alamat email"
     }
 }
