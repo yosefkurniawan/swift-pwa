@@ -133,6 +133,7 @@ class MyApp extends App {
                             icon: payload.data.icons || '',
                             image: payload.data.image || '',
                             data: payload.data,
+                            requireInteraction: true,
                             actions: [
                                 {
                                     action: 'open-page',
