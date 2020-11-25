@@ -20,7 +20,7 @@ firebase.initializeApp(firebaseConfig);
 // messages.
 const messaging = firebase.messaging();
 
-messaging.setBackgroundMessageHandler((payload) => {
+messaging.onBackgroundMessage((payload) => {
     console.log(
         '[firebase-messaging-sw.js] Received background message ',
         payload,
@@ -31,6 +31,7 @@ messaging.setBackgroundMessageHandler((payload) => {
         body: payload.data.body,
         icon: payload.data.icons || '',
         image: payload.data.image || '',
+        requireInteraction: true,
         data: payload,
     };
 
@@ -45,7 +46,14 @@ messaging.setBackgroundMessageHandler((payload) => {
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
     const { data } = event.notification;
-    const urlToOpen = new URL(`${self.location.origin}/${data.data.path}`, self.location.origin).href;
+
+    let { path } = data.data;
+
+    if (path.charAt(0) === '/') {
+        path = path.substring(1);
+    }
+
+    const urlToOpen = new URL(`${self.location.origin}/${path}`, self.location.origin).href;
 
     const promiseChain = clients.matchAll({
         type: 'window',
