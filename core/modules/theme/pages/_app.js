@@ -134,12 +134,6 @@ class MyApp extends App {
                             image: payload.data.image || '',
                             data: payload.data,
                             requireInteraction: true,
-                            actions: [
-                                {
-                                    action: 'open-page',
-                                    title: 'Open',
-                                },
-                            ],
                         });
                     });
                 });
