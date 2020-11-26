@@ -73,8 +73,6 @@ const RadioDeliveryItem = (props) => {
         );
     }
 
-    console.log(promoLabel);
-
     return (
         <div className={rootStyle} onClick={handleChange}>
             <Radio color="default" size="small" checked={selected} />
