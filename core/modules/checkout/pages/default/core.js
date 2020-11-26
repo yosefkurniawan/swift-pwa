@@ -235,7 +235,8 @@ const Checkout = (props) => {
             state.selected.shipping = {
                 name: { carrier_code: shippingMethod.carrier_code, method_code: shippingMethod.method_code },
                 price: formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency || base_currency_code),
-                original_price: formatPrice(shippingMethod.price_incl_tax.value, shippingMethod.amount.currency),
+                original_price: shippingMethod.price_incl_tax && shippingMethod.price_incl_tax.value
+                    ? formatPrice(shippingMethod.price_incl_tax.value, shippingMethod.amount.currency) : 0,
             };
             if (shippingMethod.carrier_code === 'pickup' && shippingMethod.method_code === 'pickup') {
                 const custAddress = cart.shipping_addresses[0];
