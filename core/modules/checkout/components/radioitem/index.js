@@ -48,23 +48,32 @@ const RadioDeliveryItem = (props) => {
         );
     }
 
-    if (promoLabel !== '') {
+    if (promoLabel === '' || typeof promoLabel === 'undefined') {
         shippingLabel = (
-            <Typography variant="p" type={labelType} className={styles.promoLabel}>
-                {label}
-                {' '}
-                (
-                {promoLabel}
-                )
-            </Typography>
+            <>
+                <Typography variant="p" type={labelType} className={styles.originalLabel}>
+                    {label}
+                </Typography>
+            </>
         );
     } else {
         shippingLabel = (
-            <Typography variant="p" type={labelType} className={styles.noPromoLabel}>
-                {label}
-            </Typography>
+            <>
+                <Typography variant="p" type={labelType} className={styles.originalLabel}>
+                    {label}
+                </Typography>
+                <Typography variant="p" type={labelType}>
+                    <span>
+                        (
+                        {promoLabel}
+                        )
+                    </span>
+                </Typography>
+            </>
         );
     }
+
+    console.log(promoLabel);
 
     return (
         <div className={rootStyle} onClick={handleChange}>
