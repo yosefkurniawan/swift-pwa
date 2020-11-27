@@ -49,9 +49,9 @@ const PageStoreCredit = (props) => {
                         products: itemsProduct.map((product) => ({
                             name: product.name,
                             id: product.sku,
-                            category: product.categories[0].name || '',
+                            category: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
                             price: JSON.stringify(product.price),
-                            list: product.categories[0].name || '',
+                            list: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
                             quantity: JSON.stringify(product.qty_ordered),
                             dimension4: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
                             dimension5: JSON.stringify(product.rating.total),
