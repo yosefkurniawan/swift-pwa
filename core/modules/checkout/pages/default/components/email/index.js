@@ -9,6 +9,7 @@ const Email = (props) => {
         setCheckout,
         handleOpenMessage,
         t,
+        cartId,
     } = props;
     const [anchorEl, setAnchorEl] = useState(null);
     const [setGuestEmailAddressOnCart] = gqlService.setGuestEmailAddressOnCart(({ onError: () => {} }));
@@ -20,8 +21,14 @@ const Email = (props) => {
     const handleBlur = async () => {
         formik.setFieldTouched('email', true);
         if (formik.values.email !== formik.values.oldEmail && !formik.errors.email) {
+            const idCart = checkout && checkout.data && checkout.data.cart && checkout.data.cart.id;
             setLoad(true);
-            const result = await setGuestEmailAddressOnCart({ variables: { cartId: checkout.data.cart.id, email: formik.values.email } });
+            const result = await setGuestEmailAddressOnCart({
+                variables: {
+                    cartId: idCart ? checkout.data.cart.id : cartId,
+                    email: formik.values.email,
+                },
+            });
             if (!result || result.errors) {
                 handleOpenMessage({
                     variant: 'error',

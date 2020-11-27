@@ -12,19 +12,20 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Alert from '@material-ui/lab/Alert';
 import formatDate from '@helper_date';
 import { startCase } from 'lodash';
-import {modules} from '@config';
-import dayjs from 'dayjs';
+import { modules } from '@config';
 import Link from 'next/link';
 
-import {checkJson} from '../helpers/checkJson';
+import { checkJson } from '../helpers/checkJson';
 import useStyles from './style';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 const ModalResult = (props) => {
-    const { open, setOpen, t, orders } = props;
+    const {
+        open, setOpen, t, orders,
+    } = props;
     const styles = useStyles();
-    const {trackingorder} = modules;
+    const { trackingorder } = modules;
 
     const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('md'));
 
@@ -32,9 +33,9 @@ const ModalResult = (props) => {
         const data = orders.data[0];
         if (orders.data.length > 0) {
             let { detail } = data;
-            detail = detail[0];
+            [detail] = detail;
             const items = [];
-            let gosend = detail.shipping_methods.shipping_description.match(/go-send/i);
+            const gosend = detail.shipping_methods.shipping_description.match(/go-send/i);
             if (detail.shipping_methods.shipping_detail[0].data_detail) {
                 let dt = detail.shipping_methods.shipping_detail[0].data_detail;
                 dt = dt.replace(/'/g, '`');
@@ -54,11 +55,11 @@ const ModalResult = (props) => {
                                             {secondary}
                                         </a>
                                     </Link>
-                                )
+                                );
                             }
-                            
-                            if (secondary !== null && secondary.length <= 30 ) {
-                                const date = formatDate(secondary)
+
+                            if (secondary !== null && secondary.length <= 30) {
+                                const date = formatDate(secondary);
                                 if (date !== 'Invalid Date') secondary = date;
                             }
                             items.push({
@@ -80,13 +81,14 @@ const ModalResult = (props) => {
                         <List>
                             {items.map((item, i) => (
                                 <ListItem key={i} className={styles.listItem}>
-                                    <ListItemText 
+                                    <ListItemText
                                         className={styles.label}
                                         primary={(
-                                            <Typography letter="capitalize"  className="clear-margin-padding">{item.primary}</Typography>
-                                        )} />
+                                            <Typography letter="capitalize" className="clear-margin-padding">{item.primary}</Typography>
+                                        )}
+                                    />
                                     <ListItemSecondaryAction className={styles.detail}>
-                                        <Typography variant="span" type="regular"  className="clear-margin-padding">
+                                        <Typography variant="span" type="regular" className="clear-margin-padding">
                                             {item.secondary}
                                         </Typography>
                                     </ListItemSecondaryAction>

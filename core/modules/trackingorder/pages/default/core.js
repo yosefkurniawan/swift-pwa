@@ -17,29 +17,29 @@ const Tracking = (props) => {
 
     const [orderField, setOrderField] = React.useState({
         email: '',
-        order_id: ''
+        order_id: '',
     });
-    const [getTrackOrder, { loading, data, error, refetch, called }] = getTrackingOrder({ ...orderField });
+    const [getTrackOrder, { loading, data, error }] = getTrackingOrder({ ...orderField });
 
     if (isLogin) {
-        const { data, loading } = getCustomer();
-        if (loading) {
+        const { data: dataCustomer, loading: loadCustomer } = getCustomer();
+        if (loadCustomer) {
             return (
                 <Layout {...props} pageConfig={pageConfig || config}>
                     <Skeleton />
                 </Layout>
             );
         }
-        if (data && data.customer) {
-            customer = data.customer;
+        if (dataCustomer && dataCustomer.customer) {
+            customer = dataCustomer.customer;
         }
     }
     return (
         <Layout {...props} pageConfig={pageConfig || config}>
             <Content
-                {...props} 
+                {...props}
                 email={customer.email || ''}
-                getTrackOrder={getTrackOrder} 
+                getTrackOrder={getTrackOrder}
                 loading={loading}
                 data={data}
                 error={error}
