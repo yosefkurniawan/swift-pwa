@@ -23,7 +23,6 @@ const RadioDeliveryItem = (props) => {
     const labelType = selected ? 'bold' : 'regular';
     const rootStyle = borderBottom ? styles.root : styles.rootRmBorder;
     let rightSide;
-    let shippingLabel;
 
     if (image) {
         rightSide = <img src={image} className={styles.imgList} alt="cimb" />;
@@ -48,30 +47,20 @@ const RadioDeliveryItem = (props) => {
         );
     }
 
-    if (promoLabel === '' || typeof promoLabel === 'undefined') {
-        shippingLabel = (
-            <>
-                <Typography variant="p" type={labelType} className={styles.originalLabel}>
-                    {label}
-                </Typography>
-            </>
-        );
-    } else {
-        shippingLabel = (
-            <>
-                <Typography variant="p" type={labelType} className={styles.originalLabel}>
-                    {label}
-                </Typography>
+    const shippingLabel = (
+        <>
+            <Typography variant="p" type={labelType} className={styles.originalLabel}>
+                {label}
+            </Typography>
+            {promoLabel ? (
                 <Typography variant="p" type={labelType}>
-                    <span>
-                        (
-                        {promoLabel}
-                        )
-                    </span>
+                    (
+                    {promoLabel}
+                    )
                 </Typography>
-            </>
-        );
-    }
+            ) : null}
+        </>
+    );
 
     return (
         <div className={rootStyle} onClick={handleChange}>

@@ -16,6 +16,7 @@ const CoreSummary = (props) => {
         applied_reward_points = {},
         shipping_addresses = [],
         applied_extra_fee = {},
+        applied_coupons = [],
     } = dataCart;
 
     let {
@@ -91,6 +92,13 @@ const CoreSummary = (props) => {
                 });
             }
             dataSummary = dataSummary.concat(giftCards);
+        }
+
+        if (modules.promo.enabled && applied_coupons && applied_coupons.length > 0) {
+            dataSummary.push({
+                item: `Promo (${applied_coupons[0].code})`,
+                value: '',
+            });
         }
     }
 

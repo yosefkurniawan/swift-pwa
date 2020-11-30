@@ -186,14 +186,17 @@ const Cart = (props) => {
                 pageType: 'cart',
                 ecommerce: {
                     currency: storeConfig.base_currency_code,
-                    impressions: crosssellData.map((product, index) => ({
-                        name: product.name,
-                        id: product.sku,
-                        category: product.categories[0].name || '',
-                        price: product.price_range.minimum_price.regular_price.value,
-                        list: 'Crossel Products',
-                        position: index + 1,
-                    })),
+                    impressions: crosssellData.map((product, index) => {
+                        const category = product.categories && product.categories.length > 0 && product.categories[0].name;
+                        return {
+                            name: product.name,
+                            id: product.sku,
+                            category: category || '',
+                            price: product.price_range.minimum_price.regular_price.value,
+                            list: 'Crossel Products',
+                            position: index + 1,
+                        };
+                    }),
                 },
                 event: 'impression',
                 eventCategory: 'Ecommerce',

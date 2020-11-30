@@ -44,6 +44,7 @@ const Content = (props) => {
         HeaderView,
         manageCustomer,
         ExtraFeeView,
+        cartId,
     } = props;
 
     const styles = useStyles();
@@ -94,6 +95,7 @@ const Content = (props) => {
                         config={config}
                         setCheckout={setCheckout}
                         handleOpenMessage={handleOpenMessage}
+                        cartId={cartId}
                     />
                     {
                         checkout.selected.delivery === 'home' ? (
