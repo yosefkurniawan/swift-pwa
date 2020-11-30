@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 /* eslint-disable array-callback-return */
 /* eslint-disable guard-for-in */
 import React from 'react';
@@ -93,32 +94,34 @@ const Product = (props) => {
     };
 
     const handleLoadMore = async () => {
-        if (fetchMore && typeof fetchMore !== 'undefined') {
-            await setLoadmore(true);
-            setPage(page + 1);
-            fetchMore({
-                query: Schema.getProduct({ ...config, currentPage: page + 1 }),
-                variables: {
-                    pageSize: modules.catalog.productListing.pageSize || 10,
-                    currentPage: page + 1,
-                },
-                updateQuery: (
-                    previousResult,
-                    { fetchMoreResult },
-                ) => {
-                    setLoadmore(false);
-                    return {
-                        products: {
-                            ...fetchMoreResult.products,
-                            items: [
-                                ...previousResult.products.items,
-                                ...fetchMoreResult.products.items,
-                            ],
-                        },
-                    };
-                },
-            });
-        }
+        try {
+            if (fetchMore && typeof fetchMore !== 'undefined') {
+                await setLoadmore(true);
+                setPage(page + 1);
+                fetchMore({
+                    query: Schema.getProduct({ ...config, currentPage: page + 1 }),
+                    variables: {
+                        pageSize: modules.catalog.productListing.pageSize || 10,
+                        currentPage: page + 1,
+                    },
+                    updateQuery: (
+                        previousResult,
+                        { fetchMoreResult },
+                    ) => {
+                        setLoadmore(false);
+                        return {
+                            products: {
+                                ...fetchMoreResult.products,
+                                items: [
+                                    ...previousResult.products.items,
+                                    ...fetchMoreResult.products.items,
+                                ],
+                            },
+                        };
+                    },
+                });
+            }
+        } catch (error) {}
     };
 
     React.useEffect(() => {

@@ -46,21 +46,18 @@ const PageStoreCredit = (props) => {
                             tax: JSON.stringify(data.ordersFilter.data[0].detail[0].tax_amount),
                             shipping: JSON.stringify(data.ordersFilter.data[0].detail[0].payment.shipping_amount),
                         },
-                        products: itemsProduct.map((product) => {
-                            const category = product.categories && product.categories.length > 0 && product.categories[0].name;
-                            return {
-                                name: product.name,
-                                id: product.sku,
-                                category: category || '',
-                                price: JSON.stringify(product.price),
-                                list: product.categories[0].name || '',
-                                quantity: JSON.stringify(product.qty_ordered),
-                                dimension4: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
-                                dimension5: JSON.stringify(product.rating.total),
-                                dimension6: JSON.stringify(product.rating.value),
-                                dimension7: data.ordersFilter.data[0].detail[0].discount_amount !== 0 ? 'YES' : 'NO',
-                            };
-                        }),
+                        products: itemsProduct.map((product) => ({
+                            name: product.name,
+                            id: product.sku,
+                            category: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
+                            price: JSON.stringify(product.price),
+                            list: product.categories && product.categories.length > 0 ? product.categories[0].name : '',
+                            quantity: JSON.stringify(product.qty_ordered),
+                            dimension4: product.quantity_and_stock_status.is_in_stock ? 'In stock' : 'Out stock',
+                            dimension5: JSON.stringify(product.rating.total),
+                            dimension6: JSON.stringify(product.rating.value),
+                            dimension7: data.ordersFilter.data[0].detail[0].discount_amount !== 0 ? 'YES' : 'NO',
+                        })),
                     },
                     currencyCode: storeConfig.base_currency_code || 'IDR',
                 },
