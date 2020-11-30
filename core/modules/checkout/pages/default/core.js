@@ -342,6 +342,45 @@ const Checkout = (props) => {
         }
     }, [manageCustomer.data, dataCart]);
 
+    React.useMemo(() => {
+        if (checkout.data.cart) {
+            const { cart } = checkout.data;
+            const state = { ...checkout };
+            // init shipping address
+            const [shipping] = cart.shipping_addresses ? cart.shipping_addresses : null;
+            if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
+                const availableShipping = shipping.available_shipping_methods.filter((x) => x.available && x.carrier_code !== 'pickup');
+                state.data.shippingMethods = availableShipping.map((item) => ({
+                    ...item,
+                    label: `${item.method_title} ${item.carrier_title}`,
+                    promoLabel: `${item.shipping_promo_name}`,
+                    value: {
+                        name: { carrier_code: item.carrier_code, method_code: item.method_code },
+                        price: formatPrice(item.amount.value, item.amount.currency),
+                        original_price: formatPrice(item.price_incl_tax.value, item.amount.currency),
+                    },
+                }));
+            }
+
+            if (shipping && shipping.selected_shipping_method && shipping.available_shipping_methods
+                && shipping.available_shipping_methods.length > 0) {
+                const shippingMethod = shipping.selected_shipping_method;
+                const availableShipping = shipping.available_shipping_methods.filter(
+                    (x) => x.available && x.carrier_code === shippingMethod.carrier_code && x.method_code === shippingMethod.method_code,
+                );
+                const original_price = availableShipping && availableShipping.length > 0 && availableShipping[0].price_incl_tax;
+                state.selected.shipping = {
+                    name: { carrier_code: shippingMethod.carrier_code, method_code: shippingMethod.method_code },
+                    price: formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency),
+                    original_price: shippingMethod.price_incl_tax && shippingMethod.price_incl_tax.value
+                        ? formatPrice(shippingMethod.price_incl_tax.value, shippingMethod.amount.currency) : 0,
+                };
+            }
+
+            setCheckout(state);
+        }
+    }, [checkout.data.cart]);
+
     const handleOpenMessage = async ({ variant, text }) => {
         const state = { ...checkout };
         window.toastMessage({

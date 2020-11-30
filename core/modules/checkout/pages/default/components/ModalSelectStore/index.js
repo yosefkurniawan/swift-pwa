@@ -110,7 +110,9 @@ const ModalSelectStore = ({
 
     const getStyle = (key, index) => {
         let classname;
-        if (Object.keys(checkout.selectStore).length > 0) {
+        if (selected.key && selected.key === key) {
+            classname = classNames(styles.card, styles.cardActive);
+        } else if (Object.keys(checkout.selectStore).length > 0 && !selected.key) {
             if (key === checkout.selectStore.code) {
                 classname = classNames(styles.card, styles.cardActive);
             } else if (index === listStores.length - 1) {
@@ -122,8 +124,6 @@ const ModalSelectStore = ({
             classname = classNames(styles.card, styles.cardActive, styles.cardLast);
         } else if (index === listStores.length - 1) {
             classname = classNames(styles.card, styles.cardLast);
-        } else if (key === selected.key) {
-            classname = classNames(styles.card, styles.cardActive);
         } else {
             classname = styles.card;
         }
