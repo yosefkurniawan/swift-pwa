@@ -169,7 +169,7 @@ const Checkout = (props) => {
         const { cart } = dataCart;
         const state = { ...checkout };
 
-        if (cart.items.length === 0) {
+        if (cart && cart.items && cart.items.length === 0) {
             window.location.replace(config.cartRedirect && config.cartRedirect.link ? config.cartRedirect.link : '/checkout/cart');
         }
 

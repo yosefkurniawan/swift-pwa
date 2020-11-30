@@ -8,8 +8,8 @@ const Result = ({
     const { loading, data } = getTrackingOrder({ email, order_id });
     return (
         <>
-            {loading ? <SkeletonResult /> : (
-                <ResultView  {...other} t={t} orders={data.ordersFilter} />
+            {(loading || !data || !data.ordersFilter) ? <SkeletonResult /> : (
+                <ResultView {...other} t={t} orders={data.ordersFilter} />
             )}
         </>
     );
