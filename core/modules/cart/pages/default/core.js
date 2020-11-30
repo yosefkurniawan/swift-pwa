@@ -185,7 +185,7 @@ const Cart = (props) => {
                 pageName: t('cart:pageTitle'),
                 pageType: 'cart',
                 ecommerce: {
-                    currency: storeConfig.base_currency_code,
+                    currency: storeConfig && storeConfig.base_currency_code ? storeConfig.base_currency_code : 'IDR',
                     impressions: crosssellData.map((product, index) => {
                         const category = product.categories && product.categories.length > 0 && product.categories[0].name;
                         return {
