@@ -188,7 +188,7 @@ const Checkout = (props) => {
         state.data.isCouponAppliedToCart = cart && cart.applied_coupons ? cart.applied_coupons : false;
 
         // init shipping address
-        const [shipping] = cart.shipping_addresses ? cart.shipping_addresses : null;
+        const [shipping] = cart && cart.shipping_addresses ? cart.shipping_addresses : null;
 
         if (shipping) {
             state.selected.address = {
