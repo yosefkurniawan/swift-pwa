@@ -12,7 +12,7 @@ import useParentStyles from '../style';
 
 const PickupInformation = (props) => {
     const {
-        t, checkout, setCheckout,
+        t, checkout, setCheckout, formik,
     } = props;
     const classes = useStyles();
     const styles = useParentStyles();
@@ -85,6 +85,9 @@ const PickupInformation = (props) => {
                         variant="text"
                         className="clear-margin-padding"
                         onClick={() => handleOpen('openModalInfo')}
+                        disabled={
+                            formik.values.email !== '' && formik.values.email !== formik.values.oldEmail
+                        }
                     >
                         <Typography variant="span" letter="uppercase" type="bold">
                             {t('checkout:pickupInformation:changePickupInformation')}
@@ -128,6 +131,9 @@ const PickupInformation = (props) => {
                                 variant="text"
                                 className="clear-margin-padding"
                                 onClick={() => handleOpen('openModalSelectStore')}
+                                disabled={
+                                    formik.values.email !== '' && formik.values.email !== formik.values.oldEmail
+                                }
                             >
                                 <Typography variant="span" letter="uppercase" type="bold">
                                     {t('checkout:pickupInformation:changePickupLocation')}

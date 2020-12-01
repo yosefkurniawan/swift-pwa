@@ -123,7 +123,7 @@ const Checkout = (props) => {
         address: Yup.object().nullable().required(t('validate:required')),
         shipping: checkout.selected.delivery === 'home' && Yup.object().nullable().required(t('validate:required')),
         payment: Yup.string().nullable().required(t('validate:required')),
-        billing: Yup.object().nullable().required(t('validate:required')),
+        billing: checkout.selected.delivery === 'home' && Yup.object().nullable().required(t('validate:required')),
         oldEmail: checkout.data.isGuest ? Yup.string().equalTo(Yup.ref('email')) : null,
     });
 
