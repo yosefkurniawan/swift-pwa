@@ -62,7 +62,7 @@ const DiscountSection = (props) => {
             action={handlePromo}
             onChange={formik.handleChange}
             value={formik.values.coupon}
-            disabled={checkout.loading.coupon}
+            disabled={checkout.loading.coupon || !checkout.data.cart}
             toggleField={checkout.data.isCouponAppliedToCart}
             loading={checkout.loading.coupon}
             error={!!formik.errors.coupon}
