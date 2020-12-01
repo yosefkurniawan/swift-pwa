@@ -133,7 +133,7 @@ const Product = (props) => {
                     eventAction: 'Impression',
                     eventLabel: categoryPath ? `category ${categoryPath}` : '',
                     ecommerce: {
-                        currencyCode: storeConfig.base_currency_code || 'IDR',
+                        currencyCode: storeConfig && storeConfig.base_currency_code ? storeConfig.base_currency_code : 'IDR',
                         impressions: data.products.items.map((product, index) => {
                             let categoryProduct = '';
                             // eslint-disable-next-line no-unused-expressions

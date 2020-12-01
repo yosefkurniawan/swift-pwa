@@ -15,7 +15,9 @@ const generateConfig = (query, config, elastic, availableFilter = []) => {
     // eslint-disable-next-line no-restricted-syntax
     for (const q in query) {
         if (q === 'q') {
-            resolveConfig.search = query[q];
+            let search = query[q];
+            search = search.replace(/[^a-zA-Z ]/g, '');
+            resolveConfig.search = search;
         } else if (q === 'sort' && query[q] !== '') {
             resolveConfig.sort = JSON.parse(query[q]);
         } else if (q === 'priceRange') {

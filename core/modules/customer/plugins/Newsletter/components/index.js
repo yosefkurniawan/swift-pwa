@@ -25,8 +25,8 @@ const NewsletterView = (props) => {
                                                 placeholder={t('common:newsletter:placeholder')}
                                                 value={formik.values.email}
                                                 onChange={formik.handleChange}
-                                                error={!!formik.errors.email}
-                                                errorMessage={formik.errors.email || null}
+                                                error={(!!formik.errors.email).toString()}
+                                                errormessage={formik.errors.email || null}
                                             />
                                         </label>
                                     </div>
