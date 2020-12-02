@@ -62,7 +62,10 @@ export default function createApolloClient(initialState, ctx) {
         ssrMode: Boolean(ctx),
         link: logoutLink.concat(link),
         cache: new InMemoryCache({ fragmentMatcher }).restore(initialState),
-        connectToDevTools: true,
+        // reference https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools
+        // eslint-disable-next-line no-underscore-dangle
+        connectToDevTools: typeof window !== 'undefined' && window.__APOLLO_CLIENT__
+        && (typeof publicRuntimeConfig !== 'undefined' && publicRuntimeConfig.appEnv === 'local'),
         resolvers: {},
     });
 }
