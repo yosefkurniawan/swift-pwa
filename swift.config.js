@@ -84,6 +84,7 @@ const recaptcha = {
     },
 };
 
+// error management monitoring
 const sentry = {
     enabled: false,
     enableMode: 'production',
@@ -92,6 +93,18 @@ const sentry = {
         dev: 'https://c60fbed461fd49da9455730ba70da8a6@o484453.ingest.sentry.io/5537614',
         stage: 'https://c60fbed461fd49da9455730ba70da8a6@o484453.ingest.sentry.io/5537614',
         prod: 'https://c60fbed461fd49da9455730ba70da8a6@o484453.ingest.sentry.io/5537614',
+    },
+};
+
+const rollbar = {
+    enabled: true,
+    config: {
+        accessToken: '76876f52664341b4a1981c4618723bda',
+        captureUncaught: true,
+        captureUnhandledRejections: true,
+        payload: {
+            environment: 'production',
+        },
     },
 };
 
@@ -453,4 +466,5 @@ module.exports = {
     localResolverKey,
     originName,
     useMagentoCommerce,
+    rollbar,
 };
