@@ -97,7 +97,7 @@ const sentry = {
 };
 
 const rollbar = {
-    enabled: true,
+    enabled: false,
     config: {
         accessToken: '76876f52664341b4a1981c4618723bda',
         captureUncaught: true,
