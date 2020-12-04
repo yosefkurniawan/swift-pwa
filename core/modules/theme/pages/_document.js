@@ -35,6 +35,10 @@ export default class MyDocument extends Document {
                             />
                         )
                         : null}
+                    <script dangerouslySetInnerHTML={{
+                        __html: `window.APP_ENV = '${process.env.APP_ENV || 'prod'}'`,
+                    }}
+                    />
                 </HeadCustom>
                 <body className="loading">
                     <Main />

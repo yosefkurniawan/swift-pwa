@@ -78,6 +78,7 @@ CustomTypography.propTypes = {
         'span',
         'title',
         'label',
+        'inherit',
     ]),
     type: PropTypes.oneOf(['bold', 'italic', 'semiBold', 'regular']),
     letter: PropTypes.oneOf(['uppercase', 'capitalize', 'lowercase', 'none']),
