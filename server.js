@@ -169,6 +169,10 @@ async function renderAndCache(req, res) {
             filename: 'sw.js',
             path: './public/static/sw.js',
         },
+        {
+            filename: '.well-known/assetlinks.json',
+            path: './public/static/assetlinks.json',
+        },
     ];
 
     serviceWorkers.forEach(({ filename, path }) => {
