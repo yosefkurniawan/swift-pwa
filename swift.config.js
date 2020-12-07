@@ -102,9 +102,6 @@ const rollbar = {
         accessToken: '76876f52664341b4a1981c4618723bda',
         captureUncaught: true,
         captureUnhandledRejections: true,
-        payload: {
-            environment: 'production',
-        },
     },
 };
 
