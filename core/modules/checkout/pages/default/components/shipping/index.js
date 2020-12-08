@@ -31,7 +31,7 @@ const Shipping = (props) => {
             window.backdropLoader(false);
             setCheckout(state);
 
-            if (updatedCart) {
+            if (updatedCart && updatedCart.data) {
                 updatedCart = {
                     ...checkout.data.cart,
                     ...updatedCart.data.setShippingMethodsOnCart.cart,
