@@ -117,28 +117,43 @@ const Summary = ({
                     return;
                 }
 
-                const orderNumber = result.data.placeOrder.order.order_number;
-                setCheckoutData({
-                    email: isGuest ? formik.values.email : cart.email,
-                    order_number: orderNumber,
-                    order_id: result.data.placeOrder.order.order_id,
-                });
-                client.query({ query: localTotalCart, data: { totalCart: 0 } });
-                await removeCartId();
-
-                if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {
-                    setOrderId(orderNumber);
-                    await getSnapToken({ variables: { orderId: orderNumber } });
-                } else if (checkout.data.cart.selected_payment_method.code.match(/ovo.*/)) {
-                    const env = typeof publicRuntimeConfig !== 'undefined' ? publicRuntimeConfig.appEnv : 'dev';
-                    const ipayUrl = modules.checkout.ipayUrl[env] || modules.checkout.ipayUrl.dev;
-                    window.location.href = ipayUrl + orderNumber;
-                } else {
-                    handleOpenMessage({
-                        variant: 'success',
-                        text: t('checkout:message:placeOrder'),
+                let orderNumber = '';
+                if (result.data && result.data.placeOrder && result.data.placeOrder.order && result.data.placeOrder.order.order_number) {
+                    orderNumber = result.data.placeOrder.order.order_number;
+                }
+                if (orderNumber && orderNumber !== '') {
+                    setCheckoutData({
+                        email: isGuest ? formik.values.email : cart.email,
+                        order_number: orderNumber,
+                        order_id: result.data.placeOrder.order.order_id,
                     });
-                    window.location.replace(generatesuccessRedirect(orderNumber));
+                    client.query({ query: localTotalCart, data: { totalCart: 0 } });
+                    await removeCartId();
+
+                    if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {
+                        setOrderId(orderNumber);
+                        await getSnapToken({ variables: { orderId: orderNumber } });
+                    } else if (checkout.data.cart.selected_payment_method.code.match(/ovo.*/)) {
+                        const env = typeof publicRuntimeConfig !== 'undefined' ? publicRuntimeConfig.appEnv : 'dev';
+                        const ipayUrl = modules.checkout.ipayUrl[env] || modules.checkout.ipayUrl.dev;
+                        window.location.href = ipayUrl + orderNumber;
+                    } else {
+                        handleOpenMessage({
+                            variant: 'success',
+                            text: t('checkout:message:placeOrder'),
+                        });
+                        window.location.replace(generatesuccessRedirect(orderNumber));
+                    }
+                } else {
+                    state.loading.order = false;
+                    setCheckout(state);
+
+                    const msg = t('checkout:message:serverError');
+
+                    handleOpenMessage({
+                        variant: 'error',
+                        text: msg,
+                    });
                 }
             }
         } else {
