@@ -14,10 +14,12 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 
-import {checkJson} from '../../helpers/checkJson';
+import { checkJson } from '../../helpers/checkJson';
 import useStyles from '../style';
 
-const resultItem = ({ t, orders, storeConfig, openModal }) => {
+const resultItem = ({
+    t, orders, storeConfig, openModal,
+}) => {
     const styles = useStyles();
     const data = orders.data[0];
     if (orders.data.length > 0) {
@@ -33,7 +35,7 @@ const resultItem = ({ t, orders, storeConfig, openModal }) => {
             { primary: t('trackingorder:status'), secondary: data.status_label || data.status },
             {
                 primary: t('trackingorder:orderTotal'),
-                secondary: formatPrice(data.grand_total, storeConfig.base_currency_code),
+                secondary: formatPrice(data.grand_total, storeConfig.base_currency_code || 'USD'),
             },
             {
                 primary: t('trackingorder:paymentMethod'),
@@ -45,7 +47,6 @@ const resultItem = ({ t, orders, storeConfig, openModal }) => {
             },
         ];
 
-    
         if (detail.shipping_methods.shipping_detail[0].data_detail) {
             let dt = detail.shipping_methods.shipping_detail[0].data_detail;
             dt = dt.replace(/'/g, '`');
@@ -105,11 +106,11 @@ const resultItem = ({ t, orders, storeConfig, openModal }) => {
                             <ListItem key={i}>
                                 <ListItemText
                                     className={styles.label}
-                                    primary={
+                                    primary={(
                                         <Typography align="left" letter="capitalize" className="clear-margin-padding">
                                             {item.primary}
                                         </Typography>
-                                    }
+                                    )}
                                 />
                                 <ListItemSecondaryAction className={styles.detail}>
                                     <Typography variant="span" type="regular" className="clear-margin-padding">
