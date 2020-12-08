@@ -134,8 +134,8 @@ const Summary = ({
                         setOrderId(orderNumber);
                         await getSnapToken({ variables: { orderId: orderNumber } });
                     } else if (checkout.data.cart.selected_payment_method.code.match(/ovo.*/)) {
-                        const env = typeof publicRuntimeConfig !== 'undefined' ? publicRuntimeConfig.appEnv : 'dev';
-                        const ipayUrl = modules.checkout.ipayUrl[env] || modules.checkout.ipayUrl.dev;
+                        const env = typeof publicRuntimeConfig !== 'undefined' ? publicRuntimeConfig.appEnv : 'prod';
+                        const ipayUrl = modules.checkout.ipayUrl[env] || modules.checkout.ipayUrl.prod;
                         window.location.href = ipayUrl + orderNumber;
                     } else {
                         handleOpenMessage({
