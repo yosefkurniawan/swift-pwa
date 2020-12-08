@@ -284,7 +284,9 @@ const AddressFormDialog = (props) => {
         if (formik.values.city) {
             if (enableSplitCity) {
                 const { data } = responCities;
-                const district = groupingSubCity(formik.values.city.label, 'district', data.getCityByRegionId.item);
+                const district = data && data.getCityByRegionId
+                    ? groupingSubCity(formik.values.city.label, 'district', data.getCityByRegionId.item)
+                    : null;
                 const state = { ...addressState };
                 state.dropdown.district = district;
                 state.dropdown.village = null;
