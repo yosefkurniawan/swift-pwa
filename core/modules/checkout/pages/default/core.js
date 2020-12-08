@@ -47,7 +47,7 @@ const Checkout = (props) => {
         pageType: 'checkout',
     };
 
-    const url = snap_is_production === '1' ? modules.checkout.snapUrl.prod : modules.checkout.snapUrl.dev;
+    const url = snap_is_production === '0' ? modules.checkout.snapUrl.dev : modules.checkout.snapUrl.prod;
 
     const [checkout, setCheckout] = useState({
         order_id: '',
