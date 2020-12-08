@@ -113,7 +113,8 @@ const Summary = ({
                 state.loading.order = false;
                 setCheckout(state);
 
-                if (!validateReponse(result, state)) {
+                if (!validateReponse(result, state) || !result.data || !result.data.placeOrder
+                || !result.data.placeOrder.order || result.data.placeOrder.order.order_number) {
                     return;
                 }
 
