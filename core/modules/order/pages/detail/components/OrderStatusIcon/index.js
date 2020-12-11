@@ -11,7 +11,7 @@ const CustomConnector = withStyles(lineStyle)(StepConnector);
 
 const IconStep = ({ status, activeStatus }) => {
     const styles = useIconStyles();
-    console.log(activeStatus);
+
     return (
         <div className={classNames(styles.iconContainer, styles[`iconContainer${activeStatus}`])}>
             <span className={styles[`icon${status + activeStatus}`]} />
@@ -22,6 +22,7 @@ const IconStep = ({ status, activeStatus }) => {
 const OrderStatusIcon = ({ status, t }) => {
     const styles = useIconStyles();
     let steps = ['pending', 'processing', 'shipping', 'complete'];
+
     if (status === 'canceled') {
         steps = ['pending', 'canceled'];
     }
@@ -29,29 +30,42 @@ const OrderStatusIcon = ({ status, t }) => {
     const generateIconStyle = (active, statusIcon) => {
         if (active) {
             return 'active';
-        } else {
-            if (steps.indexOf(statusIcon) < steps.indexOf(status)) {
-                return 'skip';
-            }
-            return 'inactive';
         }
+
+        if (steps.indexOf(statusIcon) < steps.indexOf(status)) {
+            return 'skip';
+        }
+        return 'inactive';
     };
 
-    const generateLabel = (label) => {
-        return t(`order:labelStatus:${label}`);
-    };
+    const generateLabel = (label) => t(`order:labelStatus:${label}`);
+
+    let active = steps.indexOf(status);
+    if (status === 'ready_to_ship') {
+        active = 1;
+    }
 
     return (
-        <div className={styles.container}>
-            <Stepper alternativeLabel activeStep={steps.indexOf(status)} connector={<CustomConnector />}>
+        <div
+            className={styles.container}
+        >
+            <Stepper
+                alternativeLabel
+                activeStep={active}
+                connector={<CustomConnector />}
+            >
                 {steps.map((label) => (
                     <Step key={label}>
                         <StepLabel
                             StepIconComponent={(props) => (
-                                <IconStep {...props} status={label} activeStatus={generateIconStyle(props.active, label)} />
+                                <IconStep
+                                    {...props}
+                                    status={label}
+                                    activeStatus={generateIconStyle(props.active, label)}
+                                />
                             )}
                             classes={{
-                              label: styles.stepLabel
+                                label: styles.stepLabel,
                             }}
                         >
                             <Typography variant="span" letter="capitalize" className={classNames('clear-margin-padding', styles.label)}>
