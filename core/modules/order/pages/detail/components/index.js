@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
@@ -19,7 +20,6 @@ const DetailOrder = (props) => {
         t, detail, currency, features,
     } = props;
     const styles = useStyles();
-    console.log(detail)
     let items = [];
     if (detail.length > 0 && detail[0].detail[0].items.length) {
         const itemsChild = detail[0].detail[0].items.filter((item) => {
@@ -110,12 +110,15 @@ const DetailOrder = (props) => {
                                         </Typography>
                                         <Typography variant="span" className="clear-margin-padding">
                                             {detail[0].detail[0].pickup_store.pickup_person.name}
+                                            <br />
                                         </Typography>
                                         <Typography variant="span" className="clear-margin-padding">
                                             {`Hp : ${detail[0].detail[0].pickup_store.pickup_person.handphone}`}
+                                            <br />
                                         </Typography>
                                         <Typography variant="span" className="clear-margin-padding">
                                             {`Email : ${detail[0].detail[0].pickup_store.pickup_person.email}`}
+                                            <br />
                                         </Typography>
                                     </div>
                                 )
