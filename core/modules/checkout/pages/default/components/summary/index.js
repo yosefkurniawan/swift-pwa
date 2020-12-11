@@ -127,7 +127,9 @@ const Summary = ({
                         order_number: orderNumber,
                         order_id: result.data.placeOrder.order.order_id,
                     });
-                    client.query({ query: localTotalCart, data: { totalCart: 0 } });
+                    if (client && client.query && typeof client.query === 'function') {
+                        await client.query({ query: localTotalCart, data: { totalCart: 0 } });
+                    }
                     await removeCartId();
 
                     if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {
