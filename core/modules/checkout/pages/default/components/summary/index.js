@@ -176,42 +176,44 @@ const Summary = ({
     // Start - Manage Snap Pop Up When Opened (Waiting Response From SnapToken)
     if (manageSnapToken.data && orderId && !snapOpened) {
         const snapToken = manageSnapToken.data.getSnapTokenByOrderId.snap_token;
-        snap.pay(snapToken, {
-            async onSuccess() {
-                window.location.replace(generatesuccessRedirect(orderId));
-            },
-            async onPending() {
-                window.location.replace(generatesuccessRedirect(orderId));
-            },
-            async onError() {
-                window.backdropLoader(true);
-                getSnapOrderStatusByOrderId({
-                    variables: {
-                        orderId,
-                    },
-                });
+        if (snap && snap.pay) {
+            snap.pay(snapToken, {
+                async onSuccess() {
+                    window.location.replace(generatesuccessRedirect(orderId));
+                },
+                async onPending() {
+                    window.location.replace(generatesuccessRedirect(orderId));
+                },
+                async onError() {
+                    window.backdropLoader(true);
+                    getSnapOrderStatusByOrderId({
+                        variables: {
+                            orderId,
+                        },
+                    });
 
-                if (!checkout.data.isGuest) {
-                    getCustCartId();
-                }
+                    if (!checkout.data.isGuest) {
+                        getCustCartId();
+                    }
 
-                setSnapOpened(true);
-            },
-            async onClose() {
-                window.backdropLoader(true);
-                getSnapOrderStatusByOrderId({
-                    variables: {
-                        orderId,
-                    },
-                });
+                    setSnapOpened(true);
+                },
+                async onClose() {
+                    window.backdropLoader(true);
+                    getSnapOrderStatusByOrderId({
+                        variables: {
+                            orderId,
+                        },
+                    });
 
-                if (!checkout.data.isGuest) {
-                    getCustCartId();
-                }
+                    if (!checkout.data.isGuest) {
+                        getCustCartId();
+                    }
 
-                setSnapOpened(true);
-            },
-        });
+                    setSnapOpened(true);
+                },
+            });
+        }
     }
     // End - Manage Snap Pop Up When Opened (Waitinge Response From SnapToken)
 

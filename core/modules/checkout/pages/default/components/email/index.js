@@ -37,10 +37,12 @@ const Email = (props) => {
                 setLoad(false);
             } else {
                 await formik.setFieldValue('oldEmail', formik.values.email);
-                state.data.cart = {
-                    ...state.data.cart,
-                    ...result.data.setGuestEmailOnCart.cart,
-                };
+                if (result.data && result.data.setGuestEmailAddressOnCart && result.data.setGuestEmailAddressOnCart) {
+                    state.data.cart = {
+                        ...state.data.cart,
+                        ...result.data.setGuestEmailOnCart.cart,
+                    };
+                }
                 setCheckout(state);
                 setLoad(false);
             }
