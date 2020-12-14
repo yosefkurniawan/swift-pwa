@@ -220,7 +220,7 @@ const Checkout = (props) => {
             const availableShipping = shipping.available_shipping_methods.filter((x) => x.available && x.carrier_code !== 'pickup');
             state.data.shippingMethods = availableShipping.map((item) => ({
                 ...item,
-                label: `${item.method_title === null ? '' : `${item.method_title}-`} ${item.carrier_title} `,
+                label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
                 promoLabel: `${item.shipping_promo_name}`,
                 value: {
                     name: { carrier_code: item.carrier_code, method_code: item.method_code },
@@ -352,7 +352,7 @@ const Checkout = (props) => {
                 const availableShipping = shipping.available_shipping_methods.filter((x) => x.available && x.carrier_code !== 'pickup');
                 state.data.shippingMethods = availableShipping.map((item) => ({
                     ...item,
-                    label: `${item.method_title === null ? '' : `${item.method_title}-`} ${item.carrier_title} `,
+                    label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
                     promoLabel: `${item.shipping_promo_name}`,
                     value: {
                         name: { carrier_code: item.carrier_code, method_code: item.method_code },
