@@ -11,7 +11,6 @@ const CustomConnector = withStyles(lineStyle)(StepConnector);
 
 const IconStep = ({ status, activeStatus }) => {
     const styles = useIconStyles();
-
     return (
         <div className={classNames(styles.iconContainer, styles[`iconContainer${activeStatus}`])}>
             <span className={styles[`icon${status + activeStatus}`]} />
@@ -19,10 +18,14 @@ const IconStep = ({ status, activeStatus }) => {
     );
 };
 
-const OrderStatusIcon = ({ status, t }) => {
+const OrderStatusIcon = (props) => {
+    const { t } = props;
+    let { status } = props;
+    if (status === 'ready_to_ship') {
+        status = 'processing';
+    }
     const styles = useIconStyles();
     let steps = ['pending', 'processing', 'shipping', 'complete'];
-
     if (status === 'canceled') {
         steps = ['pending', 'canceled'];
     }
@@ -31,7 +34,6 @@ const OrderStatusIcon = ({ status, t }) => {
         if (active) {
             return 'active';
         }
-
         if (steps.indexOf(statusIcon) < steps.indexOf(status)) {
             return 'skip';
         }
@@ -40,29 +42,14 @@ const OrderStatusIcon = ({ status, t }) => {
 
     const generateLabel = (label) => t(`order:labelStatus:${label}`);
 
-    let active = steps.indexOf(status);
-    if (status === 'ready_to_ship') {
-        active = 1;
-    }
-
     return (
-        <div
-            className={styles.container}
-        >
-            <Stepper
-                alternativeLabel
-                activeStep={active}
-                connector={<CustomConnector />}
-            >
+        <div className={styles.container}>
+            <Stepper alternativeLabel activeStep={steps.indexOf(status)} connector={<CustomConnector />}>
                 {steps.map((label) => (
                     <Step key={label}>
                         <StepLabel
-                            StepIconComponent={(props) => (
-                                <IconStep
-                                    {...props}
-                                    status={label}
-                                    activeStatus={generateIconStyle(props.active, label)}
-                                />
+                            StepIconComponent={(prop) => (
+                                <IconStep {...prop} status={label} activeStatus={generateIconStyle(prop.active, label)} />
                             )}
                             classes={{
                                 label: styles.stepLabel,
