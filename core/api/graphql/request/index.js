@@ -17,7 +17,8 @@ function requestGraph(query, variables = {}, context = {}, config = {}) {
         const headers = {
             Authorization: token,
         };
-        const client = new GraphQLClient(`${graphqlEndpoint[process.env.APP_ENV] || graphqlEndpoint.dev}`, {
+        const appEnv = typeof window !== 'undefined' ? window.APP_ENV : process.env.APP_ENV;
+        const client = new GraphQLClient(`${graphqlEndpoint[appEnv] || graphqlEndpoint.prod}`, {
             headers,
         });
         console.log(client);

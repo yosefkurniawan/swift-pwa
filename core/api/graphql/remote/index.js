@@ -12,7 +12,8 @@ const executor = async ({ document, variables, context }) => {
             token = context.session.token;
         }
         const query = print(document);
-        const fetchResult = await fetch(graphqlEndpoint[process.env.APP_ENV] || graphqlEndpoint.dev, {
+        const appEnv = typeof window !== 'undefined' ? window.APP_ENV : process.env.APP_ENV;
+        const fetchResult = await fetch(graphqlEndpoint[appEnv] || graphqlEndpoint.prod, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
