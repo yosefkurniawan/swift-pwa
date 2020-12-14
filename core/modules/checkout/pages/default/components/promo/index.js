@@ -33,14 +33,16 @@ const DiscountSection = (props) => {
             }
         } else {
             const result = await removeCouponFromCart({ variables: { cartId: checkout.data.cart.id } });
-            cart = result && {
-                ...state.data.cart,
-                ...result.data.removeCouponFromCart.cart,
-            };
-            handleOpenMessage({
-                variant: 'success',
-                text: t('checkout:message:couponRemoved'),
-            });
+            if (result && result.data && result.data.removeCouponFromCart && result.data.removeCouponFromCart.cart) {
+                cart = result && {
+                    ...state.data.cart,
+                    ...result.data.removeCouponFromCart.cart,
+                };
+                handleOpenMessage({
+                    variant: 'success',
+                    text: t('checkout:message:couponRemoved'),
+                });
+            }
         }
 
         state.loading.coupon = false;
