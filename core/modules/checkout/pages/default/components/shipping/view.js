@@ -64,7 +64,7 @@ const ShippingView = (props) => {
         content = <Loader />;
     } else if (data.shippingMethods.length !== 0) {
         const available = data.shippingMethods;
-        const config = JSON.parse(`${storeConfig.shipments_configuration}`);
+        const config = storeConfig.shipments_configuration ? JSON.parse(`${storeConfig.shipments_configuration}`) : {};
         const group = config ? Object.keys(config) : [];
         const shipping = [];
         for (let index = 0; index < group.length; index += 1) {
