@@ -61,9 +61,6 @@ const useStyles = makeStyles((theme) => ({
             justifyContent: 'center',
             backgroundColor: WHITE,
         },
-        [theme.breakpoints.down('sm')]: {
-            paddingTop: 0,
-        },
     },
     thumborImage: {
         width: '100%',
@@ -73,9 +70,6 @@ const useStyles = makeStyles((theme) => ({
         left: '0',
         [theme.breakpoints.up('sm')]: {
             height: 'auto',
-            position: 'unset',
-        },
-        [theme.breakpoints.down('sm')]: {
             position: 'unset',
         },
     },
