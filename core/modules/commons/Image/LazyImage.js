@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const placeHolder = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=';
+const placeHolder = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAQAAADVobXoAAAAEElEQVR42mM8858BDBhhDAArAgOZPzQZFwAAAABJRU5ErkJggg==';
 
 const LazyImage = ({ src, alt, style = {} }) => {
     const [imageSrc, setImageSrc] = useState(placeHolder);

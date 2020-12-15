@@ -1,4 +1,4 @@
-import Banner from '@common_slick/Banner';
+import Banner from '@common_image/LazyImage';
 import BreadcrumbView from '@common_breadcrumb';
 import TabView from '@common_tabs';
 import { withTranslation } from '@i18n';
