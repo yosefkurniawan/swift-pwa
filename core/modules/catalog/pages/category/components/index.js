@@ -75,10 +75,11 @@ const CategoryPage = ({
                     {dataBanner.length > 0
                         ? (
                             <BannerView
-                                data={dataBanner}
+                                src={dataBanner[0].imageUrl}
                                 width={features.imageSize.category.width}
                                 height={features.imageSize.category.height}
                                 showArrow={dataBanner.length > 1}
+                                style={{width: '100%', height: 'auto'}}
                             />
                         ) : null}
                 </div>
