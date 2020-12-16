@@ -249,7 +249,7 @@ const AddressFormDialog = (props) => {
 
     // set city and grouping
     useEffect(() => {
-        if (responCities.data && !responCities.loading && !responCities.error) {
+        if (responCities && responCities.data && !responCities.loading && !responCities.error && responCities.data.getCityByRegionId) {
             const state = { ...addressState };
             const { data } = responCities;
             if (data.getCityByRegionId.item.length !== 0) {

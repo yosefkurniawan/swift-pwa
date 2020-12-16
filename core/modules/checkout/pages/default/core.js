@@ -173,10 +173,15 @@ const Checkout = (props) => {
             window.location.replace(config.cartRedirect && config.cartRedirect.link ? config.cartRedirect.link : '/checkout/cart');
         }
 
-        const { customer } = state.data.isGuest ? {} : manageCustomer.data;
-        const [address] = customer
-            ? customer.addresses.filter((item) => item.default_shipping)
-            : [null];
+        let customer;
+        let address;
+
+        if (!state.data.isGuest && manageCustomer && manageCustomer.data && manageCustomer.data.customer) {
+            customer = manageCustomer.data.customer;
+            [address] = customer
+                ? customer.addresses.filter((item) => item.default_shipping)
+                : [null];
+        }
 
         state.data.defaultAddress = customer ? address : null;
 
@@ -337,7 +342,7 @@ const Checkout = (props) => {
             window.location.replace('/checkout/cart');
         }
 
-        if (dataCart) {
+        if (dataCart && dataCart.cart) {
             initData();
         }
     }, [manageCustomer.data, dataCart]);
