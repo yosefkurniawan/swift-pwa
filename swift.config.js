@@ -432,7 +432,12 @@ const debuging = {
     originalError: false,
 };
 
+const general = {
+    defaultCurrencyCode: 'IDR',
+};
+
 module.exports = {
+    general,
     sentry,
     debuging,
     GTM,
