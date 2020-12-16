@@ -19,12 +19,19 @@ const DiscountSection = (props) => {
         setCheckout(state);
         const isApplied = !state.data.isCouponAppliedToCart;
 
+        let cartId = '';
+        if (checkout && checkout.data && checkout.data.cart && checkout.data.cart.id) {
+            cartId = checkout.data.cart.id;
+        }
+
         if (isApplied) {
-            const result = await applyCouponTocart({ variables: { cartId: checkout.data.cart.id, coupon: formik.values.coupon } });
-            cart = result && {
-                ...state.data.cart,
-                ...result.data.applyCouponToCart.cart,
-            };
+            const result = await applyCouponTocart({ variables: { cartId, coupon: formik.values.coupon } });
+            if (result && result.data && result.data.applyCouponToCart && result.data.applyCouponToCart.cart) {
+                cart = {
+                    ...state.data.cart,
+                    ...result.data.applyCouponToCart.cart,
+                };
+            }
             if (cart) {
                 handleOpenMessage({
                     variant: 'success',
@@ -32,7 +39,7 @@ const DiscountSection = (props) => {
                 });
             }
         } else {
-            const result = await removeCouponFromCart({ variables: { cartId: checkout.data.cart.id } });
+            const result = await removeCouponFromCart({ variables: { cartId } });
             if (result && result.data && result.data.removeCouponFromCart && result.data.removeCouponFromCart.cart) {
                 cart = result && {
                     ...state.data.cart,
