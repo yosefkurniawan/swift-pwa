@@ -26,7 +26,7 @@ export default function CustomizedExpansionPanels({
 
             state = { ...checkout };
 
-            if (result) {
+            if (result && result.data && result.data.setPaymentMethodOnCart && result.data.setPaymentMethodOnCart.cart) {
                 const mergeCart = {
                     ...state.data.cart,
                     ...result.data.setPaymentMethodOnCart.cart,
