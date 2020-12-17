@@ -27,7 +27,7 @@ module.exports = {
     plugins: ['react'],
     rules: {
         'camelcase': 'off',
-        indent: ['error', 4],
+        'indent': ['error', 4],
         'react/react-in-jsx-scope': 'off',
         'react/jsx-indent': ['error', 4],
         'react/jsx-indent-props': ['error', 4],
@@ -51,6 +51,7 @@ module.exports = {
                 paths: ['@material-ui/core', '@material-ui/icons', '@material-ui/lab'],
             },
         ],
+        'import/no-extraneous-dependencies': 'off'
     },
     settings: {
         'import/parser': 'babel-eslint',

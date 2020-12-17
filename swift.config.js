@@ -1,6 +1,7 @@
 /* --------------------------------------- */
 /* STORE CONFIGURATION
 /* --------------------------------------- */
+const useMagentoCommerce = false; // setup uses magento commerce or community
 
 const HOST = {
     local: 'http://localhost:3000',
@@ -23,6 +24,7 @@ const graphqlEndpoint = {
 
 const installMessage = 'Get our free app.';
 const appName = 'Swift APP';
+const originName = 'pwa';
 
 /* Social Sharing */
 const shareIcon = {
@@ -82,19 +84,26 @@ const recaptcha = {
     },
 };
 
+// error management monitoring
 const sentry = {
     enabled: false,
     enableMode: 'production',
     dsn: {
-        local: 'https://9700d1051b5b4e13a450411af92303e2@o451158.ingest.sentry.io/5436645',
-        dev: 'https://9700d1051b5b4e13a450411af92303e2@o451158.ingest.sentry.io/5436645',
-        stage: 'https://9700d1051b5b4e13a450411af92303e2@o451158.ingest.sentry.io/5436645',
-        prod: 'https://9700d1051b5b4e13a450411af92303e2@o451158.ingest.sentry.io/5436645',
+        local: 'https://c60fbed461fd49da9455730ba70da8a6@o484453.ingest.sentry.io/5537614',
+        dev: 'https://c60fbed461fd49da9455730ba70da8a6@o484453.ingest.sentry.io/5537614',
+        stage: 'https://c60fbed461fd49da9455730ba70da8a6@o484453.ingest.sentry.io/5537614',
+        prod: 'https://c60fbed461fd49da9455730ba70da8a6@o484453.ingest.sentry.io/5537614',
     },
 };
 
-/* List Of CMS Pages: [url-1, url-2, ..., url-n] */
-const cmsPages = ['about-us', 'aw-reward-points', 'privacy-policy-cookie-restriction-mode'];
+const rollbar = {
+    enabled: false,
+    config: {
+        accessToken: '76876f52664341b4a1981c4618723bda',
+        captureUncaught: true,
+        captureUnhandledRejections: true,
+    },
+};
 
 /* Contact Us */
 // identifiers for cmsBlocks in contact page
@@ -128,6 +137,15 @@ const localResolverKey = 'resolver';
 
 const features = {
     ssrCache: true,
+    crm: {
+        enabled: false,
+        graphqlEndpoint: {
+            local: 'http://swiftcrm.testingnow.me/graphql',
+            dev: 'http://swiftcrm.testingnow.me/graphql',
+            stage: 'http://swiftcrm.testingnow.me/graphql',
+            prod: 'http://swiftcrm.testingnow.me/graphql',
+        },
+    },
     facebookMetaId: {
         enabled: false,
         app_id: '', // if enabled add fb app id here. e.g. 3080154482073095
@@ -170,19 +188,25 @@ const features = {
     pushNotification: {
         enabled: false,
         config: {
-            apiKey: 'AIzaSyBwAPEXdjKf84q-T7tUxVJBcOJJ8hzrXTI',
-            authDomain: 'swift-pwa.firebaseapp.com',
-            databaseURL: 'https://swift-pwa.firebaseio.com',
-            projectId: 'swift-pwa',
-            storageBucket: 'swift-pwa.appspot.com',
-            messagingSenderId: '1029426161575',
-            appId: '1:1029426161575:web:2c57e3f74cb00e0132f882',
-            measurementId: 'G-VSRV1DJVSQ',
+            apiKey: 'AIzaSyCD0ZuTMcNi3PSsJH9LD21v7_XA1sVLjdI',
+            authDomain: 'swiftpwa-firebase.firebaseapp.com',
+            databaseURL: 'https://swiftpwa-firebase.firebaseio.com',
+            projectId: 'swiftpwa-firebase',
+            storageBucket: 'swiftpwa-firebase.appspot.com',
+            messagingSenderId: '731430387766',
+            appId: '1:731430387766:web:af85ac9f9559c873309897',
+            measurementId: 'G-DP22E2CL8G',
+            // key from cloud messaging sertificat web push
+            pairKey: 'BBIzfGdH56tlTaV1jxqaWA_n47trFqy51WjcCn9Fa1-7xzmY4iBwBlGQjO1e_bRBEx9kq4o8q4zyl14JuXSIC-k',
         },
     },
 };
 
 const modules = {
+    authentication: {
+        enabled: true,
+        path: '/authentication',
+    },
     about: {
         enabled: true,
         path: '/about-us',
@@ -212,6 +236,7 @@ const modules = {
     catalog: {
         enabled: true,
         productListing: {
+            pageSize: 10,
             drawerFilterOnDesktop: {
                 enabled: false, // used if need to desktop view on large screen
             },
@@ -260,6 +285,9 @@ const modules = {
         extraFee: {
             enabled: true,
         },
+        cashback: {
+            enabled: true,
+        },
     },
     cart: {
         enabled: true,
@@ -268,6 +296,14 @@ const modules = {
     customer: {
         enabled: true,
         path: '/customer',
+        plugin: {
+            address: {
+                splitCity: true,
+            },
+            newsletter: {
+                enabled: true,
+            },
+        },
     },
     contact: {
         enabled: true,
@@ -288,6 +324,7 @@ const modules = {
     storecredit: {
         enabled: true,
         path: '/customer/account/storecredit',
+        useCommerceModule: false,
     },
     storeLocator: {
         enabled: true,
@@ -296,6 +333,7 @@ const modules = {
     giftcard: {
         enabled: true,
         path: '/awgiftcard/card',
+        useCommerceModule: false,
     },
     login: {
         enabled: true,
@@ -312,6 +350,17 @@ const modules = {
     trackingorder: {
         enabled: true,
         path: '/sales/order/track',
+        fieldDetail: {
+            shipperid: ['name', 'description', 'updateDate'],
+            gosend: [
+                'bookingType', 'buyerAddressName', 'buyerAddressDetail',
+                'driverId', 'driverName', 'insuranceDetails', 'liveTrackingUrl',
+                'receiverName', 'sellerAddressDetail', 'sellerAddressName',
+                'status', 'cancelDescription',
+                'orderArrivalTime', 'orderClosedTime', 'orderCreatedTime',
+
+            ],
+        },
     },
     thanks: {
         enabled: true,
@@ -375,6 +424,7 @@ const nossrCache = [
     '/checkout',
     '/checkout/cart',
     '/graphql',
+    '/authentication',
     '/checkout/onepage/success',
 ];
 
@@ -382,7 +432,12 @@ const debuging = {
     originalError: false,
 };
 
+const general = {
+    defaultCurrencyCode: 'IDR',
+};
+
 module.exports = {
+    general,
     sentry,
     debuging,
     GTM,
@@ -397,7 +452,6 @@ module.exports = {
     nameToken,
     expiredToken,
     expiredDefault,
-    cmsPages,
     loaderImage,
     cmsContactIdentifiers,
     cmsSocialMediaLinkIdentifiers,
@@ -412,4 +466,7 @@ module.exports = {
     installMessage,
     appName,
     localResolverKey,
+    originName,
+    useMagentoCommerce,
+    rollbar,
 };

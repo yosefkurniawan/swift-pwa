@@ -5,7 +5,13 @@ const withOffline = require('next-offline');
 // const withCSS = require('@zeit/next-css');
 const withSourceMaps = require('@zeit/next-source-maps')();
 
-module.exports = withSourceMaps(withOffline({
+const withTranspileModules = require('next-transpile-modules')(['swift-pwa-core/core/modules', 'swift-pwa-core/core/services']);
+
+module.exports = withTranspileModules(withSourceMaps(withOffline({
+    images: {
+        domains: ['thumbor.sirclocdn.xyz'],
+        loader: 'default',
+    },
     publicRuntimeConfig: {
         appEnv: process.env.APP_ENV,
         rootDir: __dirname,
@@ -23,6 +29,9 @@ module.exports = withSourceMaps(withOffline({
         //     analyzerMode: 'static',
         //     reportFilename: './analyze/client.html',
         // }));
+        config.plugins.push(new webpack.ProvidePlugin({
+            React: 'react',
+        }));
         if (!isServer) {
             // eslint-disable-next-line no-param-reassign
             config.resolve.alias['@sentry/node'] = '@sentry/browser';
@@ -31,7 +40,7 @@ module.exports = withSourceMaps(withOffline({
     },
     // generateInDevMode: true, // please comment if develop to production
     workboxOpts: {
-        // importScripts: ['./sw.js'], // comment if disabled notifications
+        importScripts: ['./sw.js'], // comment if disabled notifications
         swDest: process.env.NEXT_EXPORT ? 'service-worker.js' : 'static/service-worker.js',
         runtimeCaching: [
             {
@@ -56,4 +65,4 @@ module.exports = withSourceMaps(withOffline({
     },
     // enable code below on Prod and increase the version everytime before running build script
     // generateBuildId: async () => 'swift-pwa-v1.0.0',
-}));
+})));

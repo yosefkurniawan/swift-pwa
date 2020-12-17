@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import server from 'next-cookies';
 import { nameCheckoutCookie, expiredDefault, nameGlobalCookie } from '@config';
 
 export const getCheckoutData = () => {
@@ -8,8 +7,15 @@ export const getCheckoutData = () => {
 };
 
 export const getCheckoutDataFromRequest = (ctx) => {
-    const data = server(ctx);
-    return data[nameCheckoutCookie];
+    if (ctx && ctx.req && ctx.req.cookies) {
+        const {
+            req,
+        } = ctx;
+        const data = req.cookies;
+        return data[nameCheckoutCookie];
+    }
+
+    return null;
 };
 
 export const setCheckoutData = (data) => {
@@ -31,7 +37,10 @@ export const getCookies = (key) => {
 };
 
 export const getCookiesFromRequest = (ctx, key) => {
-    const data = server(ctx);
+    const {
+        req,
+    } = ctx;
+    const data = req.cookies;
     return data[nameGlobalCookie][key];
 };
 
@@ -66,12 +75,16 @@ const set = (key, value) => {
 };
 
 const get = (key) => {
-    const subKeys = Cookies.getJSON(`__${key}_subKeys`);
-    if (subKeys) {
-        const str = subKeys.split(',').reduce((result, subKey) => result + Cookies.getJSON(`__${key}_${subKey}`), '');
-        return JSON.parse(str || null);
+    try {
+        const subKeys = Cookies.getJSON(`__${key}_subKeys`);
+        if (subKeys) {
+            const str = subKeys.split(',').reduce((result, subKey) => result + Cookies.getJSON(`__${key}_${subKey}`), '');
+            return JSON.parse(str || null);
+        }
+        return JSON.parse(Cookies.getJSON(key) || null);
+    } catch (error) {
+        return {};
     }
-    return JSON.parse(Cookies.getJSON(key) || null);
 };
 
 const remove = (key) => {
@@ -79,6 +92,7 @@ const remove = (key) => {
     if (subKeys) {
         subKeys.split(',').forEach((subKey) => Cookies.remove(`__${key}_${subKey}`));
         Cookies.remove(`__${key}_subKeys`);
+        Cookies.remove(key);
     } else {
         Cookies.remove(key);
     }

@@ -12,7 +12,8 @@ const getPath = (href = '') => {
         }
         return path;
     }
-    const env = process.env.APP_ENV === 'local' ? 'dev' : process.env.APP_ENV;
+    const appEnv = typeof window !== 'undefined' ? window.APP_ENV : process.env.APP_ENV;
+    const env = appEnv === 'local' ? 'dev' : appEnv;
     let url = graphqlEndpoint[env] || 'dev';
     url = url.replace('/graphql', '');
     let path = href.replace('.html', '');

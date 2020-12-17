@@ -1,58 +1,24 @@
-/* eslint-disable no-console */
-/* eslint-disable no-param-reassign */
-const fetch = require('cross-fetch');
-const { print } = require('graphql');
-const { graphqlEndpoint } = require('../../../swift.config');
-const { decrypt } = require('../../helpers/encryption');
+const { mergeSchemas } = require('@graphql-tools/merge');
+const SwiftRemoteSchema = require('./remote');
+const CrmRemoteSchema = require('./remote/crm');
+const AuthSchema = require('./schema/index');
+const { features } = require('../../../swift.config');
 
-// make remote schema
-const fetcher = async ({
-    query: queryDocument, variables, operationName, context,
-}) => {
-    try {
-        let token = '';
-        if (context) {
-            token = context.graphqlContext.session.token;
-        }
-        const query = print(queryDocument);
-        const fetchResult = await fetch(graphqlEndpoint[process.env.APP_ENV] || graphqlEndpoint.dev, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: token ? `Bearer ${decrypt(token)}` : '',
-            },
-            body: JSON.stringify({ query, variables, operationName }),
+const executor = async () => {
+    const SwiftSchema = await SwiftRemoteSchema();
+    const CrmSchema = await CrmRemoteSchema();
+    let schemas = null;
+    if (features.crm.enabled) {
+        schemas = mergeSchemas({
+            schemas: [AuthSchema, CrmSchema, SwiftSchema],
         });
-        const response = await fetchResult.json();
-        if (response.errors) {
-            const err = response.errors[0];
-            if (err.extensions.category === 'graphql-authorization') {
-                return {
-                    errors: [
-                        {
-                            message: err.extensions.category,
-                            extensions: err.extensions,
-                        },
-                    ],
-                    data: response.data,
-                };
-            }
-            return {
-                errors: [
-                    {
-                        message: err.message,
-                        extensions: err.extensions,
-                    },
-                ],
-                data: response.data,
-            };
-        }
-        return response;
-    } catch (error) {
-        console.error('There was an uncaught error', error);
-        // process.exit(1); // mandatory (as per the Node docs)
-        return false;
+    } else {
+        schemas = mergeSchemas({
+            schemas: [AuthSchema, SwiftSchema],
+        });
     }
+
+    return schemas;
 };
 
-module.exports = fetcher;
+module.exports = executor;

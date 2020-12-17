@@ -3,7 +3,8 @@ const { recaptcha } = require('../../../swift.config');
 
 module.exports = (req, res) => {
     const { response } = req.body;
-    const secret = recaptcha.serverKey[process.env.APP_ENV] || recaptcha.serverKey.dev;
+    const appEnv = typeof window !== 'undefined' ? window.APP_ENV : process.env.APP_ENV;
+    const secret = recaptcha.serverKey[appEnv] || recaptcha.serverKey.prod;
     fetch('https://www.google.com/recaptcha/api/siteverify', {
         method: 'post',
         body: qs.stringify({

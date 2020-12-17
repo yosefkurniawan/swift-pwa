@@ -24,7 +24,13 @@ export const getLocalStorage = (key) => {
 
 export const setResolver = (data) => setLocalStorage(localResolverKey, data);
 
-export const getResolver = () => getLocalStorage(localResolverKey);
+export const getResolver = () => {
+    const resolver = getLocalStorage(localResolverKey);
+    if (!resolver || typeof resolver !== 'object') {
+        return {};
+    }
+    return resolver;
+};
 
 export default {
     setLocalStorage,

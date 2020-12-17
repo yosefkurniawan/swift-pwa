@@ -5,9 +5,11 @@ const { graphqlEndpoint } = require('../../../../swift.config');
 
 const { decrypt } = require('../../../helpers/encryption');
 
-function requestGraph(query, variables = {}, context = {}) {
+function requestGraph(query, variables = {}, context = {}, config = {}) {
     let token = '';
-    if (context.session || context.headers) {
+    if (config.token) {
+        token = `Bearer ${config.token}`;
+    } else if (context.session || context.headers) {
         token = context.session.token ? `Bearer ${decrypt(context.session.token)}`
             : context.headers.authorization ? context.headers.authorization : '';
     }
@@ -15,7 +17,8 @@ function requestGraph(query, variables = {}, context = {}) {
         const headers = {
             Authorization: token,
         };
-        const client = new GraphQLClient(`${graphqlEndpoint[process.env.APP_ENV] || graphqlEndpoint.dev}`, {
+        const appEnv = typeof window !== 'undefined' ? window.APP_ENV : process.env.APP_ENV;
+        const client = new GraphQLClient(`${graphqlEndpoint[appEnv] || graphqlEndpoint.prod}`, {
             headers,
         });
         console.log(client);

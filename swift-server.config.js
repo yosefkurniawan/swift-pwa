@@ -12,7 +12,10 @@ const encryption = {
 };
 
 /* key server fcm */
-const FCM_KEY_SERVER = 'AAAA766Up6c:APA91bH2dV9Nz5ox_jlhoh8BocmCnbfMjs0zjnamaPd1WsQgGn_VyQdVLnfBH5F01oJ592MZ4p-txdObjRl8C_dTr0zvhJWIBBT73X_4G2q7w0Jj-EOHSebgn10jvjuqskd2ZGZpbc1n';
+const fcm = {
+    topic: 'notifications',
+    FCM_KEY_SERVER: 'AAAAqkymADY:APA91bHBOetzmkBWOhij2_UUv6gz9anWO7k_7xzQUBZqY5x0TNlFDZ5TUZQvkGuaQ2z4_2J1VXEayHh4ueTi855CuSuHViXE5AmRcIItKL38yK8ArxlHBA2fC6ONPRcpq9ki3lJvtoMj',
+};
 
 /* Cookie */
 const SESSION_SECRET = 'asdasdd1212ads12!!!@**DADxx1';
@@ -20,5 +23,5 @@ const SESSION_SECRET = 'asdasdd1212ads12!!!@**DADxx1';
 module.exports = {
     encryption,
     SESSION_SECRET,
-    FCM_KEY_SERVER,
+    fcm,
 };

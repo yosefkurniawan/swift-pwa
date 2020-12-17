@@ -30,12 +30,13 @@ const uriInternal = `${host}/graphql`;
 // handle if token expired
 const logoutLink = onError((err) => {
     const { graphQLErrors, networkError } = err;
-    if (networkError && typeof window !== 'undefined' && graphQLErrors[0].status > 500) {
+    if (networkError && typeof window !== 'undefined' && graphQLErrors && graphQLErrors.length > 0 && graphQLErrors[0].status > 500) {
         window.location.href = '/maintenance';
     } else if (graphQLErrors && graphQLErrors[0] && graphQLErrors[0].status === 401 && typeof window !== 'undefined') {
         removeCartId();
         removeIsLoginFlagging();
-        window.location.href = '/customer/account/login';
+        // reference https://stackoverflow.com/questions/10339567/javascript-clear-cache-on-redirect
+        window.location.href = `/customer/account/login?n=${new Date().getTime()}`;
     }
 });
 
@@ -61,7 +62,10 @@ export default function createApolloClient(initialState, ctx) {
         ssrMode: Boolean(ctx),
         link: logoutLink.concat(link),
         cache: new InMemoryCache({ fragmentMatcher }).restore(initialState),
-        connectToDevTools: true,
+        // reference https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools
+        // eslint-disable-next-line no-underscore-dangle
+        connectToDevTools: typeof window !== 'undefined' && window.__APOLLO_CLIENT__
+        && (typeof publicRuntimeConfig !== 'undefined' && publicRuntimeConfig.appEnv === 'local'),
         resolvers: {},
     });
 }
