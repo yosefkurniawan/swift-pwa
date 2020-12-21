@@ -211,14 +211,28 @@ const cartRequiredSelection = `
     prices {
         discounts {
             amount {
-                value
                 currency
+                value
             }
             label
         }
-        grand_total {
-            value
+        subtotal_excluding_tax {
             currency
+            value
+        }
+        subtotal_including_tax {
+            currency
+            value
+        }
+        applied_taxes {
+            amount {
+                value
+                currency
+            }
+        }
+        grand_total {
+            currency
+            value
         }
     }
 `;
@@ -370,6 +384,10 @@ export const getCart = gql`
                         currency
                         value
                     }
+                    row_total_including_tax {
+                        currency
+                        value
+                    }
                     discounts {
                         amount {
                             currency
@@ -378,6 +396,10 @@ export const getCart = gql`
                         label
                     }
                     price {
+                        value
+                        currency
+                    }
+                    price_including_tax {
                         value
                         currency
                     }

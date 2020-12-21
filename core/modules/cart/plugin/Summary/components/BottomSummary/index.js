@@ -55,7 +55,8 @@ const CheckoutDrawer = ({
                                                         <div className="col-xs-6">
                                                             <Typography variant="p" align="right">
                                                                 {formatPrice(
-                                                                    item.prices.price.value * item.quantity, item.prices.price.currency || 'IDR',
+                                                                    item.prices.row_total_including_tax.value,
+                                                                    item.prices.row_total_including_tax.currency || 'IDR',
                                                                 )}
                                                             </Typography>
                                                         </div>

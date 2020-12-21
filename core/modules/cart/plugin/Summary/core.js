@@ -28,18 +28,28 @@ const CoreSummary = (props) => {
     }
 
     if (dataCart && items) {
-        const sumTotalItem = items.reduce(
-            (prev, curr) => ({
-                value: prev.value + curr.prices.row_total.value,
-                currency: curr.prices.row_total.currency,
-            }),
-            { value: 0 },
-        );
-        const subtotal = formatPrice(sumTotalItem.value, sumTotalItem.currency || globalCurrency);
+        let subtotal;
+        if (prices && prices.applied_taxes && prices.applied_taxes.length) {
+            subtotal = formatPrice(prices.subtotal_excluding_tax.value, prices.subtotal_excluding_tax.currency || globalCurrency);
+        } else {
+            subtotal = formatPrice(prices.subtotal_including_tax.value, prices.subtotal_including_tax.currency || globalCurrency);
+        }
         total = prices.grand_total;
         const [shipping] = shipping_addresses;
 
-        dataSummary.push({ item: 'Sub total', value: subtotal });
+        dataSummary.push({ item: 'Sub Total', value: subtotal });
+
+        if (prices && prices.applied_taxes && prices.applied_taxes.length) {
+            const taxes = prices.applied_taxes.reduce(
+                (prev, curr) => ({
+                    value: prev.value + curr.amount.value,
+                    currency: curr.amount.currency,
+                }),
+                { value: 0 },
+            );
+            const price = formatPrice(taxes.value, taxes.currency);
+            dataSummary.push({ item: 'Tax', value: price });
+        }
 
         if (modules.checkout.extraFee.enabled && applied_extra_fee && applied_extra_fee.extrafee_value) {
             dataSummary.push({

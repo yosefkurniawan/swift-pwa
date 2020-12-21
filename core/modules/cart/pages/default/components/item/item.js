@@ -92,7 +92,7 @@ const ItemView = (props) => {
                     </div>
                 </div>
                 <div className={styles.itemPrice}>
-                    {formatPrice(prices.price.value, prices.price.currency)}
+                    {formatPrice(prices.price_including_tax.value, prices.price_including_tax.currency)}
                 </div>
             </div>
 

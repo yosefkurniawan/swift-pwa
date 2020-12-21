@@ -175,7 +175,7 @@ const TableListProduct = ({
                                                     className={styles.noBorder}
                                                 >
                                                     <Typography variant="span" align="right" letter="capitalize">
-                                                        {formatPrice(val.prices.price.value, val.prices.price.currency)}
+                                                        {formatPrice(val.prices.price_including_tax.value, val.prices.price_including_tax.currency)}
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell
@@ -191,7 +191,10 @@ const TableListProduct = ({
                                                     className={styles.noBorder}
                                                 >
                                                     <Typography variant="span" align="right" letter="capitalize">
-                                                        {formatPrice((val.prices.price.value * val.quantity), val.prices.price.currency)}
+                                                        {formatPrice(
+                                                            val.prices.row_total_including_tax.value,
+                                                            val.prices.row_total_including_tax.currency,
+                                                        )}
                                                     </Typography>
                                                 </TableCell>
                                                 {/* <TableCell
