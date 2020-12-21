@@ -1,8 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
+import {
+    ApolloClient, HttpLink, InMemoryCache, ApolloLink, from,
+} from '@apollo/client';
 import { RetryLink } from 'apollo-link-retry';
 import fetch from 'isomorphic-unfetch';
-import { graphqlEndpoint, HOST } from '@root/swift.config.js';
+import { graphqlEndpoint, HOST, storeCode } from '@root/swift.config.js';
 import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { removeCartId } from '@helper_cartid';
@@ -55,12 +57,31 @@ const link = new RetryLink().split(
     }),
 );
 
+/**
+ * Meddleware to customize headers
+ */
+const middlewareHeader = new ApolloLink((operation, forward) => {
+    const additionalHeader = storeCode ? { store: storeCode } : {};
+    operation.setContext(({ headers = {} }) => ({
+        headers: {
+            ...headers,
+            ...additionalHeader,
+        },
+    }));
+
+    return forward(operation);
+});
+
 export default function createApolloClient(initialState, ctx) {
     // The `ctx` (NextPageContext) will only be present on the server.
     // use it to extract auth headers (ctx.req) or similar.
     return new ApolloClient({
         ssrMode: Boolean(ctx),
-        link: logoutLink.concat(link),
+        link: from([
+            middlewareHeader,
+            logoutLink,
+            link,
+        ]),
         cache: new InMemoryCache({ fragmentMatcher }).restore(initialState),
         // reference https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools
         // eslint-disable-next-line no-underscore-dangle
