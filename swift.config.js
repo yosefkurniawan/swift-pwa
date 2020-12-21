@@ -2,6 +2,7 @@
 /* STORE CONFIGURATION
 /* --------------------------------------- */
 const useMagentoCommerce = false; // setup uses magento commerce or community
+const storeCode = ''; // fill it with any store code when the magento is setup with multiple stores. leave it empty to use default store.
 
 const HOST = {
     local: 'http://localhost:3000',
@@ -439,6 +440,7 @@ const general = {
 module.exports = {
     general,
     sentry,
+    storeCode,
     debuging,
     GTM,
     HOST,
