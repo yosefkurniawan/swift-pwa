@@ -21,6 +21,8 @@ const orderOutput = `
             state
             status
             subtotal
+            subtotal_incl_tax
+            tax_amount
             total_item_count
             total_paid
             total_qty_ordered
@@ -80,6 +82,7 @@ const orderOutput = `
                 name
                 qty_ordered
                 price
+                price_incl_tax
                 discount_amount
                 image_url
                 categories {
@@ -94,6 +97,7 @@ const orderOutput = `
                     is_in_stock
                     qty
                 }
+                row_total_incl_tax
             }
             aw_rma {
                 status

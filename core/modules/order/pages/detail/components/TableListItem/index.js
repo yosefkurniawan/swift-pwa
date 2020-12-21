@@ -8,11 +8,10 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@common_typography';
 import { formatPrice } from '@helper_currency';
 import Alert from '@material-ui/lab/Alert';
-import classNames from 'classnames';
 import useStyles from './style';
 
 const TableListProduct = ({
-    data, t, currency, detail,
+    data, t, currency,
 }) => {
     const styles = useStyles();
     return (
@@ -90,7 +89,7 @@ const TableListProduct = ({
                                             align="right"
                                         >
                                             <Typography variant="span" align="right" letter="capitalize">
-                                                {formatPrice(val.price, currency)}
+                                                {formatPrice(val.price_incl_tax, currency)}
                                             </Typography>
                                         </TableCell>
                                         <TableCell
@@ -104,99 +103,12 @@ const TableListProduct = ({
                                             align="right"
                                         >
                                             <Typography variant="span" align="right" letter="capitalize">
-                                                {formatPrice((val.price * val.qty_ordered), currency)}
+                                                {formatPrice(val.row_total_incl_tax, currency)}
                                             </Typography>
                                         </TableCell>
                                     </TableRow>
                                 ))
                             }
-                            {detail[0].detail[0].subtotal && (
-                                <TableRow>
-                                    <TableCell colSpan={5} align="right" className={classNames(styles.noBorder, styles.summary)}>
-                                        <Typography variant="span" letter="capitalize">
-                                            {t('common:subtotal')}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="right" className={classNames(styles.noBorder, styles.summary)}>
-
-                                        <Typography variant="span" letter="capitalize">
-                                            {formatPrice(detail[0].detail[0].subtotal, currency)}
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                            {detail[0].detail[0].payment && (
-                                <TableRow>
-                                    <TableCell colSpan={5} align="right" className={styles.noBorder}>
-                                        <Typography variant="span" letter="capitalize">
-                                            {t('order:shipping')}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="right" className={styles.noBorder}>
-                                        <Typography variant="span" letter="capitalize">
-                                            {formatPrice(detail[0].detail[0].payment.shipping_amount, currency)}
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                            {detail[0].detail[0].discount_amount ? (
-                                <TableRow>
-                                    <TableCell colSpan={5} align="right" className={styles.noBorder}>
-                                        <Typography variant="span" letter="capitalize">
-                                            {t('order:discount')}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="right" className={styles.noBorder}>
-                                        <Typography variant="span" letter="capitalize">
-                                            {formatPrice(detail[0].detail[0].discount_amount, currency)}
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-                            ) : null}
-                            {detail[0].detail[0].aw_store_credit.is_use_store_credit ? (
-                                <TableRow>
-                                    <TableCell colSpan={5} align="right" className={styles.noBorder}>
-                                        <Typography variant="span" letter="capitalize">
-                                            {t('order:credit')}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="right" className={styles.noBorder}>
-                                        <Typography variant="span" letter="capitalize">
-                                            {formatPrice(detail[0].detail[0].aw_store_credit.store_credit_amount, currency)}
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-                            ) : null}
-                            {detail[0].detail[0].aw_giftcard.giftcard_amount ? (
-                                <TableRow>
-                                    <TableCell colSpan={5} align="right" className={styles.noBorder}>
-                                        <Typography variant="span" letter="capitalize">
-                                            {t('order:giftcard')}
-                                            {' '}
-                                            (
-                                            { detail[0].detail[0].aw_giftcard.giftcard_detail[0].giftcard_code }
-                                            )
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="right" className={styles.noBorder}>
-                                        <Typography variant="span" letter="capitalize">
-                                            {formatPrice(-detail[0].detail[0].aw_giftcard.giftcard_amount, currency)}
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-                            ) : null}
-                            <TableRow>
-                                <TableCell colSpan={5} align="right" className={styles.noBorder}>
-                                    <Typography align="right" variant="title" size="14" type="bold" letter="capitalize">
-                                        Grand Total
-                                    </Typography>
-                                </TableCell>
-                                <TableCell align="right" className={styles.noBorder}>
-                                    <Typography variant="span" type="bold" letter="capitalize" size="14">
-                                        {detail[0].detail[0].grand_total && formatPrice(detail[0].detail[0].grand_total, currency)}
-                                    </Typography>
-                                </TableCell>
-                            </TableRow>
                         </>
                     ) : (
                         <TableRow>

@@ -22,11 +22,17 @@ const DetailOrder = (props) => {
     const styles = useStyles();
     let items = [];
     if (detail.length > 0 && detail[0].detail[0].items.length) {
-        const itemsChild = detail[0].detail[0].items.filter((item) => {
-            if (item.parent_item_id !== null) return item;
+        const configurableProduct = [];
+        detail[0].detail[0].items.map((item) => {
+            if (item.parent_item_id == null) {
+                const tmp = {};
+                const child = detail[0].detail[0].items.filter((childItem) => childItem.parent_item_id === item.item_id);
+                tmp.name = child.length ? child[0].name : item.name;
+                configurableProduct.push({ ...item, ...tmp });
+            }
         });
-        const simpleData = detail[0].detail[0].items.filter((item) => !itemsChild.find(({ sku }) => item.sku === sku) && item);
-        items = [...itemsChild, ...simpleData];
+        const simpleProduct = detail[0].detail[0].items.filter((item) => !configurableProduct.find(({ sku }) => item.sku === sku) && item);
+        items = [...configurableProduct, ...simpleProduct];
     }
     if (detail.length > 0) {
         return (
@@ -213,23 +219,37 @@ const DetailOrder = (props) => {
                                         data={items}
                                         t={t}
                                         currency={currency}
-                                        detail={detail}
                                     />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className={classNames('hidden-desktop', styles.block)}>
+                    <div className={classNames(styles.block)}>
                         <div className="row end-md">
                             <div className="col-xs-12 col-sm-6 col-md-8 hidden-mobile" />
                             <div className="col-xs-12 col-sm-6 col-md-4">
-                                {detail[0].detail[0].subtotal && (
+                                {(detail[0].detail[0].subtotal || detail[0].detail[0].subtotal_incl_tax) && (
                                     <div className={styles.listSummary}>
                                         <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
                                             Sub total
                                         </Typography>
                                         <Typography variant="span" letter="capitalize">
-                                            {formatPrice(detail[0].detail[0].subtotal, currency)}
+                                            {formatPrice(
+                                                detail[0].detail[0].tax_amount
+                                                    ? detail[0].detail[0].subtotal
+                                                    : detail[0].detail[0].subtotal_incl_tax,
+                                                currency,
+                                            )}
+                                        </Typography>
+                                    </div>
+                                )}
+                                {detail[0].detail[0].tax_amount && (
+                                    <div className={styles.listSummary}>
+                                        <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
+                                            {t('common:tax')}
+                                        </Typography>
+                                        <Typography variant="span" letter="capitalize">
+                                            {formatPrice(detail[0].detail[0].tax_amount, currency)}
                                         </Typography>
                                     </div>
                                 )}

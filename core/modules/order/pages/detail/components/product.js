@@ -5,7 +5,7 @@ import Image from '@common_image';
 import useStyles from '../style';
 
 const ItemProduct = ({
-    name, price, qty_ordered, currency, t, image_url, features: { imageSize },
+    name, price_incl_tax, row_total_incl_tax, qty_ordered, currency, t, image_url, features: { imageSize },
 }) => {
     const styles = useStyles();
     return (
@@ -26,7 +26,7 @@ const ItemProduct = ({
                     {t('common:title:price')}
                     {' '}
                     :
-                    {formatPrice(price, currency)}
+                    {formatPrice(price_incl_tax, currency)}
                 </Typography>
                 <Typography variant="span" className={styles.textDetail}>
                     {t('common:title:qty')}
@@ -38,7 +38,7 @@ const ItemProduct = ({
                     {t('common:subtotal')}
                     {' '}
                     :
-                    {formatPrice((price * qty_ordered), currency)}
+                    {formatPrice(row_total_incl_tax, currency)}
                 </Typography>
                 <div className="flex-grow" />
             </div>
