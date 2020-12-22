@@ -9,7 +9,7 @@ import useStyles from '../../styles';
 const ItemProductView = (props) => {
     const {
         checked, disabled, handleChange, name,
-        image_url, price, currency,
+        image_url, price_incl_tax, currency,
     } = props;
     const styles = useStyles();
     return (
@@ -29,7 +29,7 @@ const ItemProductView = (props) => {
                 <Typography variant="span" type="semiBold">
                     {name || ''}
                 </Typography>
-                <Typography variant="span">{formatPrice(price, currency)}</Typography>
+                <Typography variant="span">{formatPrice(price_incl_tax, currency)}</Typography>
                 <div className="flex-grow" />
             </div>
         </div>

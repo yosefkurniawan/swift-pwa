@@ -23,7 +23,7 @@ const Item = (props) => {
                         height={75}
                     />
                     {
-                        prices.row_total.value === 0 ? (<span>{t('common:title:free')}</span>) : null
+                        prices.row_total_including_tax.value === 0 ? (<span>{t('common:title:free')}</span>) : null
                     }
                 </a>
                 <div className="product-item-details">
@@ -85,7 +85,7 @@ const Item = (props) => {
                     </div>
                     <div className="item-price">
                         {formatPrice(
-                            prices.row_total.value, prices.row_total.currency || 'IDR',
+                            prices.row_total_including_tax.value, prices.row_total_including_tax.currency || 'IDR',
                         )}
                     </div>
                 </div>

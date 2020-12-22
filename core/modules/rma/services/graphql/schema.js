@@ -29,6 +29,7 @@ export const getFormDataRma = gql`
                 name
                 other_rma_request
                 price
+                price_incl_tax
                 qty_returnable
                 sku
                 image_url
@@ -149,7 +150,7 @@ detail_rma {
         item_id
         qty_rma 
         price
-        
+        price_incl_tax
         sku
         custom_fields {
             field {

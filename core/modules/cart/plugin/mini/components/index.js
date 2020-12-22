@@ -48,7 +48,7 @@ const MiniComponent = (props) => {
                             </span>
                             <span>
                                 {data.prices ? formatPrice(
-                                    data.prices.subtotal_excluding_tax.value, data.prices.subtotal_excluding_tax.currency || 'IDR',
+                                    data.prices.subtotal_including_tax.value, data.prices.subtotal_including_tax.currency || 'IDR',
                                 ) : '-'}
                             </span>
                         </div>
