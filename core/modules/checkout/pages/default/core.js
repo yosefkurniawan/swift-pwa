@@ -143,7 +143,7 @@ const Checkout = (props) => {
     });
 
     const updateFormik = (cart) => {
-        const [address] = cart.shipping_addresses ? cart.shipping_addresses : null;
+        const address = (cart && cart.shipping_addresses && cart.shipping_addresses.length > 0) ? cart.shipping_addresses[0] : null;
         const shipping = address && address.selected_shipping_method;
         const { email } = cart;
         const payment = cart.selected_payment_method && cart.selected_payment_method.code;
@@ -193,7 +193,7 @@ const Checkout = (props) => {
         state.data.isCouponAppliedToCart = cart && cart.applied_coupons ? cart.applied_coupons : false;
 
         // init shipping address
-        const [shipping] = cart && cart.shipping_addresses ? cart.shipping_addresses : null;
+        const shipping = (cart && cart.shipping_addresses && cart.shipping_addresses.length > 0) ? cart.shipping_addresses[0] : null;
 
         if (shipping) {
             state.selected.address = {
@@ -352,7 +352,7 @@ const Checkout = (props) => {
             const { cart } = checkout.data;
             const state = { ...checkout };
             // init shipping address
-            const [shipping] = cart.shipping_addresses ? cart.shipping_addresses : null;
+            const shipping = (cart && cart.shipping_addresses && cart.shipping_addresses.length > 0) ? cart.shipping_addresses[0] : null;
             if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
                 const availableShipping = shipping.available_shipping_methods.filter((x) => x.available && x.carrier_code !== 'pickup');
                 state.data.shippingMethods = availableShipping.map((item) => ({

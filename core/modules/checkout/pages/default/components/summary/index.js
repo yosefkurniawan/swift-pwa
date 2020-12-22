@@ -174,7 +174,8 @@ const Summary = ({
     };
 
     // Start - Manage Snap Pop Up When Opened (Waiting Response From SnapToken)
-    if (manageSnapToken.data && orderId && !snapOpened) {
+    if (manageSnapToken.data && orderId && !snapOpened && manageSnapToken.data.getSnapTokenByOrderId
+        && manageSnapToken.data.getSnapTokenByOrderId.snap_token) {
         const snapToken = manageSnapToken.data.getSnapTokenByOrderId.snap_token;
         if (snap && snap.pay) {
             snap.pay(snapToken, {
