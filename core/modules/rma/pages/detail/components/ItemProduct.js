@@ -8,7 +8,7 @@ import useStyles from './styles';
 
 const ItemProduct = (props) => {
     const {
-        name, qty_rma, price, image_url,
+        name, qty_rma, price_incl_tax, image_url,
         currency = 'IDR', custom_fields,
     } = props;
     const { t } = useTranslation(['return']);
@@ -29,7 +29,7 @@ const ItemProduct = (props) => {
                 </div>
                 <div className={styles.detailItem}>
                     <Typography variant="span">{name}</Typography>
-                    <Typography variant="span">{formatPrice(price, currency)}</Typography>
+                    <Typography variant="span">{formatPrice(price_incl_tax, currency)}</Typography>
                     <Typography variant="span" className={styles.textDetail}>
                         {t('common:title:qty')}
                         {' '}
