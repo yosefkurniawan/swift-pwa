@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import { gql } from '@apollo/client';
 
 const orderOutput = `
@@ -116,6 +117,13 @@ const orderOutput = `
                 store_credit_amount
                 store_credit_reimbursed
             }
+
+            applied_extra_fee {
+                extrafee_value {
+                  value
+                }
+                title
+              }
         }
     }
 `;

@@ -39,12 +39,7 @@ const DetailOrder = (props) => {
             <Layout t={t} wishlist={[]} activeMenu="/sales/order/history">
                 <div className="column">
                     <div className={classNames('hidden-mobile', styles.blockHeader)}>
-                        <Typography
-                            variant="h1"
-                            letter="uppercase"
-                            type="regular"
-                            className={classNames('clear-margin-padding', styles.headerTitle)}
-                        >
+                        <Typography variant="h1" letter="uppercase" type="regular" className={classNames('clear-margin-padding', styles.headerTitle)}>
                             {t('order:order')}
                             {' # '}
                             {detail[0].order_number || ''}
@@ -84,10 +79,9 @@ const DetailOrder = (props) => {
                             </div>
                             <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
-                                    {
-                                        detail[0].detail[0].pickup_store && detail[0].detail[0].pickup_store.is_using_pickup_store
-                                            ? t('order:pickupAt') : t('order:shippedTo')
-                                    }
+                                    {detail[0].detail[0].pickup_store && detail[0].detail[0].pickup_store.is_using_pickup_store
+                                        ? t('order:pickupAt')
+                                        : t('order:shippedTo')}
                                 </Typography>
                                 <Typography variant="span" className="clear-margin-padding">
                                     {detail[0].detail[0].shipping_address.firstname || ''}
@@ -107,28 +101,25 @@ const DetailOrder = (props) => {
                                     {detail[0].detail[0].shipping_address.postcode || ''}
                                 </Typography>
                             </div>
-                            {
-                                detail[0].detail[0].pickup_store && detail[0].detail[0].pickup_store.is_using_pickup_store
-                                && (
-                                    <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                        <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
-                                            {t('order:pickupBy')}
-                                        </Typography>
-                                        <Typography variant="span" className="clear-margin-padding">
-                                            {detail[0].detail[0].pickup_store.pickup_person.name}
-                                            <br />
-                                        </Typography>
-                                        <Typography variant="span" className="clear-margin-padding">
-                                            {`Hp : ${detail[0].detail[0].pickup_store.pickup_person.handphone}`}
-                                            <br />
-                                        </Typography>
-                                        <Typography variant="span" className="clear-margin-padding">
-                                            {`Email : ${detail[0].detail[0].pickup_store.pickup_person.email}`}
-                                            <br />
-                                        </Typography>
-                                    </div>
-                                )
-                            }
+                            {detail[0].detail[0].pickup_store && detail[0].detail[0].pickup_store.is_using_pickup_store && (
+                                <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                    <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
+                                        {t('order:pickupBy')}
+                                    </Typography>
+                                    <Typography variant="span" className="clear-margin-padding">
+                                        {detail[0].detail[0].pickup_store.pickup_person.name}
+                                        <br />
+                                    </Typography>
+                                    <Typography variant="span" className="clear-margin-padding">
+                                        {`Hp : ${detail[0].detail[0].pickup_store.pickup_person.handphone}`}
+                                        <br />
+                                    </Typography>
+                                    <Typography variant="span" className="clear-margin-padding">
+                                        {`Email : ${detail[0].detail[0].pickup_store.pickup_person.email}`}
+                                        <br />
+                                    </Typography>
+                                </div>
+                            )}
                             <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                     {t('order:orderStatus')}
@@ -139,9 +130,7 @@ const DetailOrder = (props) => {
                             </div>
                             <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
-                                    {
-                                        t('order:billingAddress')
-                                    }
+                                    {t('order:billingAddress')}
                                 </Typography>
                                 <Typography variant="span" className="clear-margin-padding">
                                     {detail[0].detail[0].billing_address.firstname || ''}
@@ -174,17 +163,17 @@ const DetailOrder = (props) => {
                                     {t('order:paymentMethod')}
                                 </Typography>
                                 {Object.keys(detail[0].detail[0].payment.payment_additional_info).map((item) => {
-                                    if (item !== '__typename' && detail[0].detail[0].payment.payment_additional_info[item] !== ''
-                                        && detail[0].detail[0].payment.payment_additional_info[item] !== null) {
+                                    if (
+                                        item !== '__typename'
+                                        && detail[0].detail[0].payment.payment_additional_info[item] !== ''
+                                        && detail[0].detail[0].payment.payment_additional_info[item] !== null
+                                    ) {
                                         return (
                                             <React.Fragment key={item}>
                                                 <Typography variant="p" type="bold" letter="capitalize" className={styles.labelDetailSm}>
                                                     {item.replace('_', ' ')}
                                                 </Typography>
-                                                <Typography
-                                                    variant="span"
-                                                    className="clear-margin-padding"
-                                                >
+                                                <Typography variant="span" className="clear-margin-padding">
                                                     {detail[0].detail[0].payment.payment_additional_info[item] || ''}
                                                 </Typography>
                                             </React.Fragment>
@@ -193,7 +182,6 @@ const DetailOrder = (props) => {
                                 })}
                             </div>
                         </div>
-
                     </div>
                     <div className={styles.block}>
                         <div className="row center-xs start-sm start-sm start-md start-lg">
@@ -210,16 +198,12 @@ const DetailOrder = (props) => {
                             <div className="col-xs-12">
                                 <div className="hidden-desktop">
                                     {items.length > 0
-                                    && items.map((item, key) => (
-                                        <ItemProduct t={t} key={key} {...item} currency={currency} features={features} />
-                                    ))}
+                                        && items.map((item, key) => (
+                                            <ItemProduct t={t} key={key} {...item} currency={currency} features={features} />
+                                        ))}
                                 </div>
                                 <div className="hidden-mobile">
-                                    <Table
-                                        data={items}
-                                        t={t}
-                                        currency={currency}
-                                    />
+                                    <Table data={items} t={t} currency={currency} />
                                 </div>
                             </div>
                         </div>
@@ -235,9 +219,7 @@ const DetailOrder = (props) => {
                                         </Typography>
                                         <Typography variant="span" letter="capitalize">
                                             {formatPrice(
-                                                detail[0].detail[0].tax_amount
-                                                    ? detail[0].detail[0].subtotal
-                                                    : detail[0].detail[0].subtotal_incl_tax,
+                                                detail[0].detail[0].tax_amount ? detail[0].detail[0].subtotal : detail[0].detail[0].subtotal_incl_tax,
                                                 currency,
                                             )}
                                         </Typography>
@@ -289,11 +271,28 @@ const DetailOrder = (props) => {
                                             {t('order:giftcard')}
                                             {' '}
                                             (
-                                            { detail[0].detail[0].aw_giftcard.giftcard_detail[0].giftcard_code }
+                                            {detail[0].detail[0].aw_giftcard.giftcard_detail[0].giftcard_code}
                                             )
                                         </Typography>
                                         <Typography variant="span" letter="capitalize">
                                             {formatPrice(-detail[0].detail[0].aw_giftcard.giftcard_amount, currency)}
+                                        </Typography>
+                                    </div>
+                                ) : null}
+                                {detail[0].detail[0].applied_extra_fee ? (
+                                    <div className={styles.listSummary}>
+                                        <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
+                                            {t('order:giftcard')}
+                                            {' '}
+                                            (
+                                            {detail[0].detail[0].applied_extra_fee.title}
+                                            )
+                                        </Typography>
+                                        <Typography variant="span" letter="capitalize">
+                                            {formatPrice(
+                                                detail[0].detail[0].applied_extra_fee.extrafee_value.value,
+                                                detail[0].detail[0].applied_extra_fee.extrafee_value.currency,
+                                            )}
                                         </Typography>
                                     </div>
                                 ) : null}
@@ -312,7 +311,6 @@ const DetailOrder = (props) => {
                         <Footer {...props} />
                     </div>
                 </div>
-
             </Layout>
         );
     }
