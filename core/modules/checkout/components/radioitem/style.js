@@ -20,6 +20,9 @@ export default makeStyles(() => ({
         width: '100%',
         alignItems: 'center',
     },
+    labelBox: {
+        flex: 1,
+    },
     labelContainerActive: {
         fontWeight: 'bold',
     },
@@ -28,7 +31,7 @@ export default makeStyles(() => ({
         marginLeft: 'auto',
     },
     promo: {
-        marginLeft: '20px',
+        marginLeft: 'auto',
         fontWeight: 'bold',
     },
     notPromo: {
