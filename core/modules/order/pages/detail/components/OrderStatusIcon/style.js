@@ -30,7 +30,6 @@ export const lineStyle = {
 const configStyleIcon = {
     backgroundPosition: 'center top',
     backgroundSize: '100% 100%',
-    backgroundPosition: 'center',
     width: 20,
     height: 20,
 };
@@ -57,7 +56,7 @@ export const useIconStyles = makeStyles((theme) => ({
         width: 60,
         height: 60,
         borderRadius: 100,
-        zIndex: 7,
+        zIndex: 0,
         ...Centering,
         [theme.breakpoints.down('xs')]: {
             width: 40,
