@@ -38,9 +38,18 @@ const Address = (props) => {
     if (data.isGuest) {
         dialogProps = address
             ? {
-                region: address.region.label,
-                country: address.country.code,
-                city: address.city,
+                region: {
+                    region_id: address.region.code,
+                    name: address.region.label,
+                },
+                country: {
+                    id: address.country.code,
+                    full_name_locale: address.country.label,
+                },
+                city: {
+                    id: address.city,
+                    city: address.city,
+                },
                 street,
                 firstname: address.firstname,
                 lastname: address.lastname,

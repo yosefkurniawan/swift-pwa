@@ -105,7 +105,7 @@ const TableAddress = (props) => {
                         <div className={styles.mobLabel}>
                             <b>{t('customer:address:city')}</b>
                         </div>
-                        <div className={styles.value}>{city}</div>
+                        <div className={styles.value}>{city.city || ''}</div>
                     </div>
                 </TableCell>
                 <TableCell
@@ -116,7 +116,7 @@ const TableAddress = (props) => {
                         <div className={styles.mobLabel}>
                             <b>{t('customer:address:country')}</b>
                         </div>
-                        <div className={styles.value}>{country}</div>
+                        <div className={styles.value}>{country.full_name_locale || ''}</div>
                     </div>
                 </TableCell>
                 <TableCell
@@ -127,7 +127,7 @@ const TableAddress = (props) => {
                         <div className={styles.mobLabel}>
                             <b>{t('customer:address:state')}</b>
                         </div>
-                        <div className={styles.value}>{region}</div>
+                        <div className={styles.value}>{region.name || ''}</div>
                     </div>
                 </TableCell>
                 <TableCell

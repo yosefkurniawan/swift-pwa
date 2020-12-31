@@ -8,6 +8,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable consistent-return */
 // Library
+import React from 'react';
 import AddressFormDialog from '@core_modules/customer/plugins/AddressFormDialog';
 import Button from '@common_button';
 import Add from '@material-ui/icons/Add';
@@ -36,6 +37,17 @@ const Content = (props) => {
     } = props;
     return (
         <Layout {...props}>
+            <AddressFormDialog
+                onSubmitAddress={(data, type) => {
+                    handleAddress(data, type);
+                }}
+                loading={loadingAddress || loading}
+                success={success}
+                disableDefaultAddress
+                open={openNew}
+                setOpen={() => handleOpenNew(!openNew)}
+                {...props}
+            />
             <div className={styles.container}>
                 <div className={styles.tableOuterContainer}>
                     <div className="hidden-desktop">
@@ -50,15 +62,23 @@ const Content = (props) => {
                                                 first={index === 0}
                                                 handleAddress={handleAddress}
                                                 checked={item.id == selectedAddressId}
-                                                key={item.id}
+                                                key={index}
                                                 addressId={item.id}
                                                 firstname={item.firstname}
                                                 lastname={item.lastname}
                                                 telephone={item.telephone}
-                                                postcode={item.postcode}
-                                                region={item.region.region}
-                                                city={item.city}
-                                                country={item.country_code}
+                                                region={{
+                                                    region_id: item.region.region_code,
+                                                    name: item.region.region,
+                                                }}
+                                                country={{
+                                                    id: item.country.code,
+                                                    full_name_locale: item.country.label,
+                                                }}
+                                                city={{
+                                                    id: item.city,
+                                                    city: item.city,
+                                                }}
                                                 street={item.street.join(' ')}
                                                 value={item.id}
                                                 defaultBilling={item.default_billing}
@@ -106,9 +126,18 @@ const Content = (props) => {
                                                 lastname={item.lastname}
                                                 telephone={item.telephone}
                                                 postcode={item.postcode}
-                                                region={item.region.region}
-                                                city={item.city}
-                                                country={item.country_code}
+                                                region={{
+                                                    region_id: item.region.region_code,
+                                                    name: item.region.region,
+                                                }}
+                                                country={{
+                                                    id: item.country.code,
+                                                    full_name_locale: item.country.label,
+                                                }}
+                                                city={{
+                                                    id: item.city,
+                                                    city: item.city,
+                                                }}
                                                 street={item.street.join(' ')}
                                                 value={item.id}
                                                 defaultBilling={item.default_billing}
@@ -138,16 +167,6 @@ const Content = (props) => {
                         <Add />
                     </Button>
                 </div>
-                <AddressFormDialog
-                    {...props}
-                    onSubmitAddress={(data, type) => {
-                        handleAddress(data, type);
-                    }}
-                    loading={loadingAddress}
-                    success={success}
-                    open={openNew}
-                    setOpen={() => handleOpenNew(!openNew)}
-                />
             </div>
         </Layout>
     );
