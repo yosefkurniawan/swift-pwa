@@ -21,7 +21,7 @@ import {
     getLoginInfo,
     getLastPathWithoutLogin,
 } from '@helper_auth';
-import { setResolver } from '@helper_localstorage';
+import { setResolver, testLocalStorage } from '@helper_localstorage';
 // import Fonts from '@helper_fonts';
 import TagManager from 'react-gtm-module';
 import PageProgressLoader from '@common_loaders/PageProgress';
@@ -174,18 +174,8 @@ class MyApp extends App {
             helperCookies.set(storeConfigNameCookie, pageProps.storeConfig);
         }
         pageProps.storeConfig = pageProps.storeConfig ? pageProps.storeConfig : {};
-        const lsTest = () => {
-            const test = 'test';
-            try {
-                localStorage.setItem(test, test);
-                localStorage.removeItem(test);
-                return true;
-            } catch (e) {
-                return false;
-            }
-        };
-        if (lsTest() === false) {
-            // available
+        if (typeof window !== 'undefined' && testLocalStorage() === false) {
+            // not available
             return (
                 <ThemeProvider theme={theme}>
                     {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
