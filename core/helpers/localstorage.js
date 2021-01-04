@@ -1,6 +1,6 @@
 import { localResolverKey } from '@config';
 
-const testCookies = () => {
+export const testLocalStorage = () => {
     const test = 'test';
     try {
         localStorage.setItem(test, test);
@@ -12,7 +12,7 @@ const testCookies = () => {
 };
 
 export const setLocalStorage = (key, data) => {
-    if (typeof window !== 'undefined' && testCookies() === true) {
+    if (typeof window !== 'undefined' && testLocalStorage() === true) {
         let localData = data;
         if (data && data !== null) {
             localData = JSON.stringify(data);
@@ -23,7 +23,7 @@ export const setLocalStorage = (key, data) => {
 };
 
 export const getLocalStorage = (key) => {
-    if (typeof window !== 'undefined' && testCookies() === true) {
+    if (typeof window !== 'undefined' && testLocalStorage() === true) {
         const data = localStorage.getItem(key);
         if (data && data !== null) {
             return JSON.parse(data);
