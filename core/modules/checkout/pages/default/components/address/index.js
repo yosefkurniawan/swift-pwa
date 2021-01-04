@@ -130,11 +130,11 @@ const Address = (props) => {
                 }).then((resBilling) => {
                     updateAddressState(resBilling);
                     resolve();
-                }).catch(() => {
-                    reject();
+                }).catch((e) => {
+                    reject(e);
                 });
-            }).catch(() => {
-                reject();
+            }).catch((e) => {
+                reject(e);
             });
         } else {
             setShippingAddressById({
@@ -151,11 +151,11 @@ const Address = (props) => {
                 }).then((resBilling) => {
                     updateAddressState(resBilling);
                     resolve();
-                }).catch(() => {
-                    reject();
+                }).catch((e) => {
+                    reject(e);
                 });
-            }).catch(() => {
-                reject();
+            }).catch((e) => {
+                reject(e);
             });
         }
     });
