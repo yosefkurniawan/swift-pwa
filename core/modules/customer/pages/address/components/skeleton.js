@@ -1,4 +1,3 @@
-import React from 'react';
 import Skeleton from '@material-ui/lab/Skeleton';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';

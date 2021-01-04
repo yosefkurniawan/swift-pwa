@@ -36,7 +36,7 @@ const AddressView = (props) => {
         } else {
             content = address.map((item) => (
                 <ItemAddress
-                    // {...item}
+                    {...item}
                     checked={item.id === selectedAddressId}
                     key={item.id}
                     addressId={item.id}
@@ -44,18 +44,9 @@ const AddressView = (props) => {
                     lastname={item.lastname}
                     telephone={item.telephone}
                     postcode={item.postcode}
-                    region={{
-                        region_id: item.region.region_code,
-                        name: item.region.region,
-                    }}
-                    country={{
-                        id: item.country.code,
-                        full_name_locale: item.country.label,
-                    }}
-                    city={{
-                        id: item.city,
-                        city: item.city,
-                    }}
+                    region={item.region.region}
+                    city={item.city}
+                    country={item.country_code}
                     street={item.street.join(' ')}
                     value={item.id}
                     defaultBilling={item.default_billing}
