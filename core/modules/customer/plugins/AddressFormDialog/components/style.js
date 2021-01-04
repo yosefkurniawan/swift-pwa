@@ -13,10 +13,6 @@ const useStyles = makeStyles((theme) => ({
     colorPrimary: {
         color: PRIMARY,
     },
-    boxField: {
-        marginTop: '0px',
-        marginBottom: '20px',
-    },
     appBar: {
         backgroundColor: 'white',
         boxShadow: 'none',

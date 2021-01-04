@@ -37,17 +37,16 @@ const ItemAddress = (props) => {
     const styles = useStyles();
     return (
         <>
+            <AddressFormDialog
+                {...props}
+                open={open}
+                onSubmitAddress={handleAddress}
+                loading={loadingAddress}
+                success={success}
+                setOpen={() => setOpen(!open)}
+                pageTitle={t('customer:address:editTitle')}
+            />
             <div className="column">
-                <AddressFormDialog
-                    {...props}
-                    open={open}
-                    onSubmitAddress={handleAddress}
-                    loading={loadingAddress}
-                    success={success}
-                    setOpen={() => setOpen(!open)}
-                    pageTitle={t('customer:address:editTitle')}
-                    key={Math.random() + new Date().getTime()}
-                />
                 <div className={[styles.address_content, first ? styles.address_content_first : ''].join(' ')}>
                     <RadioGroup row aria-label="position" onChange={handleChange} name="position" value={selectedAddressId}>
                         <FormControlLabel
@@ -65,9 +64,9 @@ const ItemAddress = (props) => {
                                         ,
                                     </Typography>
                                     <Typography className={[styles.address_text].join(' ')} variant="p">
-                                        {city !== '' && `${city.city}, `}
-                                        {region !== '' && `${region.name}, `}
-                                        {country !== '' && `${country.full_name_locale}, `}
+                                        {city !== '' && `${city}, `}
+                                        {region !== '' && `${region}, `}
+                                        {country !== '' && `${country}, `}
                                         {postcode !== '' && postcode}
                                     </Typography>
                                     <Typography className={[styles.address_text].join(' ')} variant="p">
