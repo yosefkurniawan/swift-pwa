@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import { gql } from '@apollo/client';
 
 const orderOutput = `
@@ -116,6 +117,13 @@ const orderOutput = `
                 store_credit_amount
                 store_credit_reimbursed
             }
+
+            applied_extra_fee {
+                extrafee_value {
+                  value
+                }
+                title
+              }
         }
     }
 `;
@@ -128,10 +136,30 @@ export const getOrder = gql`
     }
 `;
 
+export const getCustomerOrder = gql`
+    query getCustomerOrder($pageSize: Int, $currentPage: Int) {
+        customer {
+            orders(pageSize: $pageSize, currentPage: $currentPage) {
+                ${orderOutput}
+            }
+        }
+    }
+`;
+
 export const getOrderDetail = gql`
     query getCustomerOrder($order_id: String) {
         customerOrders(filters: { ids: { eq: $order_id } }) {
             ${orderOutput}
+        }
+    }
+`;
+
+export const getCustomerOrderDetail = gql`
+    query getCustomerOrder($order_id: String) {
+        customer {
+            orders(filters: { ids: { eq: $order_id } }) {
+                ${orderOutput}
+            }
         }
     }
 `;

@@ -39,7 +39,7 @@ const HistoryOrder = (props) => {
     });
 
     React.useEffect(() => {
-        if (!loading && data && data.customerOrders.items && data.customerOrders.items.length) {
+        if (!loading && data && data.customer.orders && data.customer.orders.items.length) {
             setLoadMore(false);
         }
     }, [loading, data]);
@@ -70,7 +70,7 @@ const HistoryOrder = (props) => {
             <Content
                 {...props}
                 loadMore={loadMore}
-                data={data.customerOrders}
+                data={data.customer.orders}
                 page={page}
                 pageSize={pageSize}
                 loading={loading}

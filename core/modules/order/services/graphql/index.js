@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import * as Schema from './schema';
 
-export const getOrder = (params) => useQuery(Schema.getOrder, {
+export const getOrder = (params) => useQuery(Schema.getCustomerOrder, {
     context: {
         request: 'internal',
     },
@@ -9,7 +9,7 @@ export const getOrder = (params) => useQuery(Schema.getOrder, {
     skip: typeof window === 'undefined',
 });
 
-export const getOrderDetail = (params) => useQuery(Schema.getOrderDetail, {
+export const getOrderDetail = (params) => useQuery(Schema.getCustomerOrderDetail, {
     context: {
         request: 'internal',
     },

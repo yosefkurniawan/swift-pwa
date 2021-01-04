@@ -8,14 +8,7 @@ import useStyles from './style';
 const RadioDeliveryItem = (props) => {
     const styles = useStyles();
     const {
-        value,
-        label,
-        promoLabel,
-        selected,
-        onChange = () => {},
-        borderBottom = true,
-        image = null,
-        classContent = '',
+        value, label, promoLabel, selected, onChange = () => {}, borderBottom = true, image = null, classContent = '',
     } = props;
     const handleChange = () => {
         onChange(value);
@@ -30,25 +23,33 @@ const RadioDeliveryItem = (props) => {
 
     if (value && value.price !== value.original_price) {
         rightSide = (
-            <>
-                <Typography variant="p" type={labelType} className={styles.originalPrice}>
-                    {value.original_price}
-                </Typography>
-                <Typography variant="p" type={labelType} className={styles.promo}>
-                    {value.price}
-                </Typography>
-            </>
+            <div className="row between-xs">
+                <div className="col-xs-12 col-sm-6">
+                    <Typography variant="p" type={labelType} className={styles.originalPrice} align="right">
+                        {value.original_price}
+                    </Typography>
+                </div>
+                <div className="col-xs-12 col-sm-6">
+                    <Typography variant="p" type={labelType} className={styles.promo} align="right">
+                        {value.price}
+                    </Typography>
+                </div>
+            </div>
         );
     } else if (value && value.price) {
         rightSide = (
-            <Typography variant="p" type={labelType} className={styles.notPromo}>
-                {value.price}
-            </Typography>
+            <div className="row">
+                <div className="col-xs-12 col-sm-6">
+                    <Typography variant="p" type={labelType} className={styles.notPromo} align="right">
+                        {value.price}
+                    </Typography>
+                </div>
+            </div>
         );
     }
 
     const shippingLabel = (
-        <>
+        <div>
             <Typography variant="p" type={labelType} className={styles.originalLabel}>
                 {label}
             </Typography>
@@ -59,7 +60,7 @@ const RadioDeliveryItem = (props) => {
                     )
                 </Typography>
             ) : null}
-        </>
+        </div>
     );
 
     return (

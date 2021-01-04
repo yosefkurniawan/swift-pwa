@@ -6,8 +6,10 @@ import { features } from '@config';
 import { getOrderDetail } from '../../services/graphql';
 
 const OrderDetail = (props) => {
-    const { t, Content, Skeleton, ...other } = props;
-    const {storeConfig} = other;
+    const {
+        t, Content, Skeleton, ...other
+    } = props;
+    const { storeConfig } = other;
     const router = useRouter();
     const { id } = router.query;
     let detail = [];
@@ -30,11 +32,11 @@ const OrderDetail = (props) => {
             </Layout>
         );
     }
-    if (!loading && data && data.customerOrders) {
+    if (!loading && data && data.customer.orders) {
         // eslint-disable-next-line prefer-destructuring
-        detail = data.customerOrders.items;
+        detail = data.customer.orders.items;
     }
-    const currency = detail.length > 0 ? detail[0].detail[0].global_currency_code : storeConfig.base_currency_code ;
+    const currency = detail.length > 0 ? detail[0].detail[0].global_currency_code : storeConfig.base_currency_code;
 
     pageConfig = {
         title: `${t('order:order')} # ${router.query.id}`,
