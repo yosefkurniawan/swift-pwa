@@ -38,6 +38,8 @@ import { Integrations } from '@sentry/tracing';
 import Notification from '@lib_firebase/notification';
 import firebase from '@lib_firebase/index';
 
+import ModalCookies from '../components/modalCookies';
+
 const { publicRuntimeConfig } = getConfig();
 
 if (sentry.enabled && typeof publicRuntimeConfig !== 'undefined' && sentry.dsn[publicRuntimeConfig.appEnv]) {
@@ -172,6 +174,27 @@ class MyApp extends App {
             helperCookies.set(storeConfigNameCookie, pageProps.storeConfig);
         }
         pageProps.storeConfig = pageProps.storeConfig ? pageProps.storeConfig : {};
+        const lsTest = () => {
+            const test = 'test';
+            try {
+                localStorage.setItem(test, test);
+                localStorage.removeItem(test);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        };
+        if (lsTest() === false) {
+            // available
+            return (
+                <ThemeProvider theme={theme}>
+                    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                    <CssBaseline />
+                    <ModalCookies {...pageProps} />
+                </ThemeProvider>
+            );
+        }
+
         return (
             <>
                 <ThemeProvider theme={theme}>
