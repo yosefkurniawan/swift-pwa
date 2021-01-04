@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { groupingCity, groupingSubCity } from '@helpers/city';
 import { modules } from '@config';
-import { getCityByRegionId, getCountries as getAllCountries } from '../../services/graphql';
+import { getCityByRegionId, getCountries as getAllCountries, getRegions } from '../../services/graphql';
 
 const AddressFormDialog = (props) => {
     const {
@@ -14,7 +14,7 @@ const AddressFormDialog = (props) => {
         lastname = '',
         street = '',
         postcode = '',
-        country = 'ID',
+        country = null,
         region = null,
         city = null,
         telephone = '',
@@ -39,6 +39,8 @@ const AddressFormDialog = (props) => {
     const gmapKey = (storeConfig || {}).icube_pinlocation_gmap_key;
 
     const [getCountries, gqlCountries] = getAllCountries();
+    const [getRegion, resultRegion] = getRegions();
+    const [getCities, responCities] = getCityByRegionId({});
     const [addressState, setAddressState] = useState({
         countries: null,
         dropdown: {
@@ -82,11 +84,11 @@ const AddressFormDialog = (props) => {
         return null;
     };
 
-    const getCountryByCode = (code, countries = null) => {
-        let data = countries || addressState.dropdown.countries;
-        data = data.find((item) => item.id === code);
-        return data || null;
-    };
+    // const getCountryByCode = (code, countries = null) => {
+    //     let data = countries || addressState.dropdown.countries;
+    //     data = data.find((item) => item.id === code);
+    //     return data || null;
+    // };
 
     const getCityByLabel = (label, dataCity = null) => {
         const data = dataCity || addressState.dropdown.city;
@@ -130,9 +132,15 @@ const AddressFormDialog = (props) => {
         lastname: lastname || '',
         telephone: telephone || '',
         street: street || '',
-        country: '',
-        region: '',
-        city: '',
+        country: country || {
+            full_name_locale: 'Indonesia',
+            id: 'ID',
+        },
+        region: region || {
+            region_id: 688,
+            name: 'Bali',
+        },
+        city: city || null,
         postcode: postcode || '',
         maps: maps || '',
         defaultShippingBilling: defaultShipping || defaultBilling,
@@ -162,7 +170,7 @@ const AddressFormDialog = (props) => {
                 countryCode: values.country.id,
                 region: values.region && values.region.code ? values.region.code : values.region,
                 regionCode: values.region && values.region.code ? values.region.code : null,
-                regionId: values.region && values.region.code ? values.region.id : null,
+                regionId: values.region && values.region.code ? values.region.region_id : null,
                 addressId,
                 latitude: String(mapPosition.lat),
                 longitude: String(mapPosition.lng),
@@ -171,7 +179,7 @@ const AddressFormDialog = (props) => {
             if (enableSplitCity) {
                 data.city = values.village && values.village.city ? values.village.city : values.id;
             } else {
-                data.city = values.city && values.city.label ? values.city.label : values.city;
+                data.city = values.city && values.city.city ? values.city.city : values.city;
             }
 
             const type = addressId ? 'update' : 'add';
@@ -191,7 +199,6 @@ const AddressFormDialog = (props) => {
         setEnableSplitCity(countryId === 'ID' && modules.customer.plugin.address.splitCity);
     }, [formik.values.country]);
 
-    const [getCities, responCities] = getCityByRegionId({});
     React.useMemo(() => {
         if (open) {
             const state = { ...addressState };
@@ -202,11 +209,11 @@ const AddressFormDialog = (props) => {
             formik.setFieldValue('telephone', telephone);
             formik.setFieldValue('postcode', postcode);
 
-            formik.setFieldValue('country', country);
-            formik.setFieldValue('region', region);
+            // formik.setFieldValue('country', country);
+            // formik.setFieldValue('region', region);
+            // formik.setFieldValue('city', city);
 
-            getCountries();
-            if (gqlCountries.data && open) {
+            if (gqlCountries.data && open && enableSplitCity) {
                 state.countries = gqlCountries.data.countries;
                 state.dropdown.countries = state.countries.map((item) => ({
                     id: item.id,
@@ -215,8 +222,8 @@ const AddressFormDialog = (props) => {
                 }));
 
                 if (country) {
-                    state.dropdown.region = getRegionByCountry(country, gqlCountries.data.countries);
-                    formik.setFieldValue('country', getCountryByCode(country, state.dropdown.countries));
+                    state.dropdown.region = getRegionByCountry(country.id, gqlCountries.data.countries);
+                    // formik.setFieldValue('country', getCountryByCode(country.id, state.dropdown.countries));
                 }
                 setAddressState(state);
 
@@ -225,7 +232,7 @@ const AddressFormDialog = (props) => {
                     formik.setFieldValue('region', selectedRegion);
                     if (selectedRegion) {
                         setFromUseEffect(true);
-                        getCities({ variables: { regionId: selectedRegion.id } });
+                        // getCities({ variables: { regionId: selectedRegion.id } });
                     }
                 } else {
                     formik.setFieldValue('city', city);
@@ -247,19 +254,27 @@ const AddressFormDialog = (props) => {
         }
     }, [open, gqlCountries.data]);
 
+    // React.useMemo(() => {
+    //     if (formik.values.country && gqlCountries && gqlCountries.data && gqlCountries.data.countries) {
+    //         const state = { ...addressState };
+    //         state.dropdown.region = getRegionByCountry(formik.values.country.id, gqlCountries.data.countries);
+    //         setAddressState(state);
+    //     }
+    // }, [formik.values.country]);
+
     // set city and grouping
     useEffect(() => {
         if (responCities && responCities.data && !responCities.loading && !responCities.error && responCities.data.getCityByRegionId) {
             const state = { ...addressState };
             const { data } = responCities;
-            if (data.getCityByRegionId.item.length !== 0) {
+            if (data.getCityByRegionId.item && data.getCityByRegionId.item.length !== 0) {
                 if (enableSplitCity) {
                     state.dropdown.city = groupingCity(data.getCityByRegionId.item);
                     state.dropdown.district = null;
                     state.dropdown.village = null;
                     // get default value by split city
                     if (city && !formik.values.city) {
-                        const defaultValue = splitCityValue(city);
+                        const defaultValue = splitCityValue(city.city);
                         formik.setFieldValue('city', getCityByLabel(defaultValue[0], state.dropdown.city));
                     }
                 } else {
@@ -282,7 +297,11 @@ const AddressFormDialog = (props) => {
     // get kecamatan if city change
     React.useMemo(() => {
         if (formik.values.city) {
-            if (enableSplitCity) {
+            if (enableSplitCity && responCities
+                && responCities.data && !responCities.loading
+                && !responCities.error && responCities.data.getCityByRegionId
+                && responCities.data.getCityByRegionId.item
+            ) {
                 const { data } = responCities;
                 const district = data && data.getCityByRegionId
                     ? groupingSubCity(formik.values.city.label, 'district', data.getCityByRegionId.item)
@@ -291,8 +310,12 @@ const AddressFormDialog = (props) => {
                 state.dropdown.district = district;
                 state.dropdown.village = null;
                 if (city && !formik.values.district) {
-                    const defaultValue = splitCityValue(city);
-                    formik.setFieldValue('district', getCityByLabel(defaultValue[1], state.dropdown.district));
+                    const defaultValue = splitCityValue(city.city);
+                    // formik.setFieldValue('district', getCityByLabel(defaultValue[1], state.dropdown.district));
+                    formik.setFieldValue('district', {
+                        id: defaultValue[1],
+                        label: defaultValue[1],
+                    });
                 } else {
                     // reset village and district if change city
                     formik.setFieldValue('district', '');
@@ -308,14 +331,22 @@ const AddressFormDialog = (props) => {
 
     // get kelurahan if kecamatan change
     React.useMemo(() => {
-        if (formik.values.district) {
+        if (formik.values.district && responCities
+            && responCities.data && !responCities.loading
+                && !responCities.error && responCities.data.getCityByRegionId
+                && responCities.data.getCityByRegionId.item
+        ) {
             const { data } = responCities;
             const village = groupingSubCity(formik.values.district.label, 'village', data.getCityByRegionId.item);
             const state = { ...addressState };
             state.dropdown.village = village;
             if (city && !formik.values.village) {
-                const defaultValue = splitCityValue(city);
-                formik.setFieldValue('village', getCityByLabel(defaultValue[2], state.dropdown.village));
+                const defaultValue = splitCityValue(city.city);
+                // formik.setFieldValue('village', getCityByLabel(defaultValue[2], state.dropdown.village));
+                formik.setFieldValue('village', {
+                    id: defaultValue[2],
+                    label: defaultValue[2],
+                });
             } else {
                 // reset village if district change
                 formik.setFieldValue('village', '');
@@ -363,6 +394,7 @@ const AddressFormDialog = (props) => {
             addressState={addressState}
             setFromUseEffect={setFromUseEffect}
             getCities={getCities}
+            responCities={responCities}
             setAddressState={setAddressState}
             mapPosition={mapPosition}
             handleDragPosition={handleDragPosition}
@@ -371,6 +403,10 @@ const AddressFormDialog = (props) => {
             success={success}
             gmapKey={gmapKey}
             enableSplitCity={enableSplitCity}
+            getCountries={getCountries}
+            resultCountries={gqlCountries}
+            getRegion={getRegion}
+            resultRegion={resultRegion}
         />
     );
 };
