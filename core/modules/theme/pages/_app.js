@@ -21,7 +21,7 @@ import {
     getLoginInfo,
     getLastPathWithoutLogin,
 } from '@helper_auth';
-import { setResolver } from '@helper_localstorage';
+import { setResolver, testLocalStorage } from '@helper_localstorage';
 // import Fonts from '@helper_fonts';
 import TagManager from 'react-gtm-module';
 import PageProgressLoader from '@common_loaders/PageProgress';
@@ -37,6 +37,8 @@ import { Integrations } from '@sentry/tracing';
  * */
 import Notification from '@lib_firebase/notification';
 import firebase from '@lib_firebase/index';
+
+import ModalCookies from '../components/modalCookies';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -172,6 +174,17 @@ class MyApp extends App {
             helperCookies.set(storeConfigNameCookie, pageProps.storeConfig);
         }
         pageProps.storeConfig = pageProps.storeConfig ? pageProps.storeConfig : {};
+        if (typeof window !== 'undefined' && testLocalStorage() === false) {
+            // not available
+            return (
+                <ThemeProvider theme={theme}>
+                    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                    <CssBaseline />
+                    <ModalCookies {...pageProps} />
+                </ThemeProvider>
+            );
+        }
+
         return (
             <>
                 <ThemeProvider theme={theme}>
