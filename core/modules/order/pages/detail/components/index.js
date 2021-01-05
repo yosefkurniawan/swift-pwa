@@ -282,11 +282,7 @@ const DetailOrder = (props) => {
                                 {detail[0].detail[0].applied_extra_fee ? (
                                     <div className={styles.listSummary}>
                                         <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
-                                            {t('order:giftcard')}
-                                            {' '}
-                                            (
                                             {detail[0].detail[0].applied_extra_fee.title}
-                                            )
                                         </Typography>
                                         <Typography variant="span" letter="capitalize">
                                             {formatPrice(
