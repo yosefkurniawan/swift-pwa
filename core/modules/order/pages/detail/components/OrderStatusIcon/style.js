@@ -56,7 +56,7 @@ export const useIconStyles = makeStyles((theme) => ({
         width: 60,
         height: 60,
         borderRadius: 100,
-        zIndex: 0,
+        zIndex: 2,
         ...Centering,
         [theme.breakpoints.down('xs')]: {
             width: 40,
