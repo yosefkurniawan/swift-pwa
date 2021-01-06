@@ -56,7 +56,7 @@ const ItemAddress = (props) => {
                                 <Typography className={[styles.address_text].join(' ')} variant="p">
                                     {city !== '' && `${city}, `}
                                     {region !== '' && `${region}, `}
-                                    {country !== '' && `${country}, `}
+                                    {country !== '' && `${country.full_name_locale || ''}, `}
                                     {postcode !== '' && postcode}
                                 </Typography>
                                 <Typography className={[styles.address_text].join(' ')} variant="p">

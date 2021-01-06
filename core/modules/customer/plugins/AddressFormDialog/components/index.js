@@ -9,12 +9,14 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CustomTextField from '@common_textfield';
 import Typography from '@common_typography';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import CustomAutocomplete from '@core_modules/commons/AutoComplete';
 import useStyles from './style';
 
 const AddressView = (props) => {
     const {
-        t, open, setOpen, pageTitle, formik, addressState, setFromUseEffect, getCities, setAddressState,
+        t, open, setOpen, pageTitle, formik, addressState, setAddressState,
         mapPosition, handleDragPosition, disableDefaultAddress, loading, success, gmapKey, enableSplitCity,
+        getCountries, responCountries, getRegion, responRegion,
     } = props;
     const styles = useStyles();
     const headerConfig = {
@@ -25,88 +27,37 @@ const AddressView = (props) => {
     const addBtn = success ? styles.addBtnSuccess : styles.addBtn;
     const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('md'));
 
-    const getCountriesRender = () => {
-        if (addressState.dropdown.countries && addressState.dropdown.countries.length && open) {
-            return (
-                <Autocomplete
-                    options={addressState.dropdown.countries}
-                    getOptionLabel={(option) => (option.label ? option.label : '')}
-                    id="controlled-demo"
-                    value={formik.values.country}
-                    onClose={() => {
-                        formik.setFieldValue('region', null);
-                        formik.setFieldValue('city', null);
-                    }}
-                    onChange={(event, newValue) => {
-                        const state = { ...addressState };
-                        state.dropdown.region = newValue ? newValue.available_regions : null;
-                        state.dropdown.region = !state.dropdown.region || state.dropdown.region.map((item) => (
-                            { ...item, label: item.name }));
-                        state.dropdown.city = null;
-
-                        setAddressState(state);
-                        formik.setFieldValue('country', newValue);
-                    }}
-                    renderInput={(params) => (
-                        <div
-                            style={{
-                                marginTop: '10px',
-                                marginBottom: '20px',
-                            }}
-                        >
-                            <TextField
-                                {...params}
-                                inputProps={{
-                                    ...params.inputProps,
-                                    autoComplete: 'new-password',
-                                }}
-                                name="country"
-                                label={t('common:form:country')}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                onKeyDown={(event) => {
-                                    if (event.key !== 'Enter' && event.key !== 'Tab') {
-                                        const state = {
-                                            ...addressState,
-                                        };
-                                        state.dropdown.region = null;
-                                        state.dropdown.city = null;
-                                        state.value.region = {
-                                            id: '',
-                                            label: '',
-                                        };
-                                        setAddressState(state);
-
-                                        formik.setFieldValue('region', null);
-                                        formik.setFieldValue('city', null);
-                                    }
-                                }}
-                                error={!!(formik.touched.country && formik.errors.country)}
-                            />
-                            <Typography variant="p" color={formik.touched.country && formik.errors.country ? 'red' : 'default'}>
-                                {formik.touched.country && formik.errors.country}
-                            </Typography>
-                        </div>
-                    )}
-                />
-            );
-        }
-
-        return (
-            <CustomTextField
-                disabled={!formik.values.country
-                    || !addressState.dropdown.region || (addressState.dropdown.region && !addressState.dropdown.region.length)}
-                autoComplete="new-password"
+    const getCountriesRender = () => (
+        <div className={styles.boxField}>
+            <CustomAutocomplete
+                enableCustom={false}
+                mode="lazy"
+                value={formik.values.country}
+                onChange={(e) => {
+                    formik.setFieldValue('country', e);
+                    formik.setFieldValue('region', null);
+                    if (e && e.id) {
+                        getRegion({
+                            variables: {
+                                country_id: e.id,
+                            },
+                        });
+                    }
+                }}
+                loading={responCountries.loading}
+                options={
+                    responCountries
+                    && responCountries.data
+                    && responCountries.data.countries
+                }
+                getOptions={getCountries}
+                name="country"
                 label={t('common:form:country')}
-                name="countries"
-                value={(formik.values.countries && formik.values.countries.label) || formik.values.countries || ''}
-                onChange={(e) => formik.setFieldValue('countries', { code: e.target.value, label: e.target.value })}
-                error={!!(formik.touched.countries && formik.errors.countries)}
-                errorMessage={(formik.touched.countries && formik.errors.countries) || null}
+                primaryKey="id"
+                labelKey="full_name_locale"
             />
-        );
-    };
+        </div>
+    );
 
     // regions is state/province
     const getRegionRender = () => {
@@ -115,7 +66,7 @@ const AddressView = (props) => {
                 <Autocomplete
                     disabled={!formik.values.country}
                     options={addressState.dropdown.region}
-                    getOptionLabel={(option) => (option.label ? option.label : '')}
+                    getOptionLabel={(option) => (option.name ? option.name : '')}
                     id="controlled-region"
                     value={!formik.values.region ? null : formik.values.region}
                     onClose={() => {
@@ -123,10 +74,6 @@ const AddressView = (props) => {
                     }}
                     onChange={async (event, newValue) => {
                         formik.setFieldValue('region', newValue);
-                        if (newValue) {
-                            setFromUseEffect(false);
-                            getCities({ variables: { regionId: newValue.id } });
-                        }
                     }}
                     renderInput={(params) => (
                         <div
@@ -140,9 +87,9 @@ const AddressView = (props) => {
                                 inputProps={{
                                     ...params.inputProps,
                                     autoComplete: 'new-password',
-                                    autocorrect: 'off',
-                                    autocapitalize: 'none',
-                                    spellcheck: 'false',
+                                    autoCorrect: 'off',
+                                    autoCapitalize: 'none',
+                                    spellCheck: 'false',
                                 }}
                                 name={`state_${new Date().getTime()}`}
                                 label={t('common:form:state')}
@@ -172,7 +119,7 @@ const AddressView = (props) => {
 
         return (
             <CustomTextField
-                disabled={!formik.values.country}
+                disabled={!formik.values.country || responRegion.loading}
                 autoComplete="new-password"
                 label="State/Province"
                 name="region"
@@ -210,9 +157,9 @@ const AddressView = (props) => {
                                 inputProps={{
                                     ...params.inputProps,
                                     autoComplete: 'new-password',
-                                    autocorrect: 'off',
-                                    autocapitalize: 'none',
-                                    spellcheck: 'false',
+                                    autoCorrect: 'off',
+                                    autoCapitalize: 'none',
+                                    spellCheck: 'false',
                                 }}
                                 name={`city_${new Date().getTime()}`}
                                 label={t('common:form:city')}
@@ -269,9 +216,9 @@ const AddressView = (props) => {
                                 {...params}
                                 inputProps={{
                                     ...params.inputProps,
-                                    autocorrect: 'off',
-                                    autocapitalize: 'none',
-                                    spellcheck: 'false',
+                                    autoCorrect: 'off',
+                                    autoCapitalize: 'none',
+                                    spellCheck: 'false',
                                 }}
                                 name={`district_${new Date().getTime()}`}
                                 label="Kecamatan"
@@ -326,9 +273,9 @@ const AddressView = (props) => {
                                 {...params}
                                 inputProps={{
                                     ...params.inputProps,
-                                    autocorrect: 'off',
-                                    autocapitalize: 'none',
-                                    spellcheck: 'false',
+                                    autoCorrect: 'off',
+                                    autoCapitalize: 'none',
+                                    spellCheck: 'false',
                                 }}
                                 name={`village_${new Date().getTime()}`}
                                 label="Kelurahan"
