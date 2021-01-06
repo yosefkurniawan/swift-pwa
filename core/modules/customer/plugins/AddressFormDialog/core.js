@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { groupingCity, groupingSubCity } from '@helpers/city';
 import { modules } from '@config';
-import { getCityByRegionId, getCountries as getAllCountries } from '../../services/graphql';
+import { getCityByRegionId, getCountries as getAllCountries, getRegions } from '../../services/graphql';
 
 const AddressFormDialog = (props) => {
     const {
@@ -38,7 +38,8 @@ const AddressFormDialog = (props) => {
 
     const gmapKey = (storeConfig || {}).icube_pinlocation_gmap_key;
 
-    const [getCountries, gqlCountries] = getAllCountries();
+    const [getCountries, responCountries] = getAllCountries();
+    const [getRegion, responRegion] = getRegions();
     const [addressState, setAddressState] = useState({
         countries: null,
         dropdown: {
@@ -60,33 +61,6 @@ const AddressFormDialog = (props) => {
     const [enableSplitCity, setEnableSplitCity] = React.useState(
         country === 'ID' && modules.customer.plugin.address.splitCity,
     );
-
-    const getRegionByLabel = (label, dataRegion = null) => {
-        const data = dataRegion || addressState.dropdown.region;
-        return data.find((item) => item.label === label) ? data.find((item) => item.label === label) : null;
-    };
-
-    const getRegionByCountry = (dataCountry, countries = null) => {
-        let data = countries || addressState.countries;
-        data = data.find((item) => item.id === dataCountry);
-
-        if (data) {
-            if (data.available_regions) {
-                return data.available_regions.map((item) => ({
-                    ...item,
-                    label: item.name,
-                }));
-            }
-        }
-
-        return null;
-    };
-
-    const getCountryByCode = (code, countries = null) => {
-        let data = countries || addressState.dropdown.countries;
-        data = data.find((item) => item.id === code);
-        return data || null;
-    };
 
     const getCityByLabel = (label, dataCity = null) => {
         const data = dataCity || addressState.dropdown.city;
@@ -130,7 +104,10 @@ const AddressFormDialog = (props) => {
         lastname: lastname || '',
         telephone: telephone || '',
         street: street || '',
-        country: '',
+        country: {
+            id: 'ID',
+            full_name_locale: 'Indonesia',
+        },
         region: '',
         city: '',
         postcode: postcode || '',
@@ -162,7 +139,7 @@ const AddressFormDialog = (props) => {
                 countryCode: values.country.id,
                 region: values.region && values.region.code ? values.region.code : values.region,
                 regionCode: values.region && values.region.code ? values.region.code : null,
-                regionId: values.region && values.region.code ? values.region.id : null,
+                regionId: values.region && values.region.code ? values.region.region_id : null,
                 addressId,
                 latitude: String(mapPosition.lat),
                 longitude: String(mapPosition.lng),
@@ -194,8 +171,6 @@ const AddressFormDialog = (props) => {
     const [getCities, responCities] = getCityByRegionId({});
     React.useMemo(() => {
         if (open) {
-            const state = { ...addressState };
-
             formik.setFieldValue('firstname', firstname);
             formik.setFieldValue('lastname', lastname);
             formik.setFieldValue('street', street);
@@ -205,31 +180,12 @@ const AddressFormDialog = (props) => {
             formik.setFieldValue('country', country);
             formik.setFieldValue('region', region);
 
-            getCountries();
-            if (gqlCountries.data && open) {
-                state.countries = gqlCountries.data.countries;
-                state.dropdown.countries = state.countries.map((item) => ({
-                    id: item.id,
-                    label: item.full_name_locale,
-                    available_regions: item.available_regions,
-                }));
-
-                if (country) {
-                    state.dropdown.region = getRegionByCountry(country, gqlCountries.data.countries);
-                    formik.setFieldValue('country', getCountryByCode(country, state.dropdown.countries));
-                }
-                setAddressState(state);
-
-                if (state.dropdown.region && state.dropdown.region.length && region) {
-                    const selectedRegion = getRegionByLabel(region);
-                    formik.setFieldValue('region', selectedRegion);
-                    if (selectedRegion) {
-                        setFromUseEffect(true);
-                        getCities({ variables: { regionId: selectedRegion.id } });
-                    }
-                } else {
-                    formik.setFieldValue('city', city);
-                }
+            if (country && country.id) {
+                getRegion({
+                    variables: {
+                        country_id: country.id,
+                    },
+                });
             }
 
             // only set current location for add mode
@@ -245,7 +201,26 @@ const AddressFormDialog = (props) => {
                 });
             }
         }
-    }, [open, gqlCountries.data]);
+    }, [open]);
+
+    useEffect(() => {
+        if (responRegion.data && responRegion.data.getRegions
+            && responRegion.data.getRegions.item && responRegion.data.getRegions.item.length > 0) {
+            const state = { ...addressState };
+            if (region && typeof region === 'string') {
+                const selectRegion = responRegion.data.getRegions.item.filter((item) => item.name === region);
+                if (selectRegion && selectRegion.length > 0) formik.setFieldValue('region', selectRegion[0]);
+            }
+            state.dropdown.region = responRegion.data.getRegions.item;
+            setAddressState(state);
+        }
+    }, [responRegion.data]);
+
+    useEffect(() => {
+        if (formik.values.region && formik.values.region.region_id) {
+            getCities({ variables: { regionId: formik.values.region.region_id } });
+        }
+    }, [formik.values.region]);
 
     // set city and grouping
     useEffect(() => {
@@ -371,6 +346,10 @@ const AddressFormDialog = (props) => {
             success={success}
             gmapKey={gmapKey}
             enableSplitCity={enableSplitCity}
+            getCountries={getCountries}
+            responCountries={responCountries}
+            getRegion={getRegion}
+            responRegion={responRegion}
         />
     );
 };

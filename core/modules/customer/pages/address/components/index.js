@@ -58,7 +58,10 @@ const Content = (props) => {
                                                 postcode={item.postcode}
                                                 region={item.region.region}
                                                 city={item.city}
-                                                country={item.country_code}
+                                                country={{
+                                                    id: item.country.code,
+                                                    full_name_locale: item.country.label,
+                                                }}
                                                 street={item.street.join(' ')}
                                                 value={item.id}
                                                 defaultBilling={item.default_billing}
@@ -108,7 +111,10 @@ const Content = (props) => {
                                                 postcode={item.postcode}
                                                 region={item.region.region}
                                                 city={item.city}
-                                                country={item.country_code}
+                                                country={{
+                                                    id: item.country.code,
+                                                    full_name_locale: item.country.label,
+                                                }}
                                                 street={item.street.join(' ')}
                                                 value={item.id}
                                                 defaultBilling={item.default_billing}

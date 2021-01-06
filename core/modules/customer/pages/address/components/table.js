@@ -116,7 +116,7 @@ const TableAddress = (props) => {
                         <div className={styles.mobLabel}>
                             <b>{t('customer:address:country')}</b>
                         </div>
-                        <div className={styles.value}>{country}</div>
+                        <div className={styles.value}>{country.full_name_locale || ''}</div>
                     </div>
                 </TableCell>
                 <TableCell

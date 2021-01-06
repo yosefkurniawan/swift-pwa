@@ -342,6 +342,10 @@ export const getCustomer = gql`
                 lastname
                 postcode
                 country_code
+                country {
+                    code
+                    label
+                }
                 region {
                     region
                     region_code
@@ -835,6 +839,10 @@ export const updateCustomerAddress = gql`
             lastname
             postcode
             country_code
+            country {
+                code
+                label
+            }
             region {
                 region
                 region_code
