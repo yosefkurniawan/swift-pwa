@@ -14,7 +14,10 @@ const AddressFormDialog = (props) => {
         lastname = '',
         street = '',
         postcode = '',
-        country = 'ID',
+        country = {
+            id: 'ID',
+            full_name_locale: 'Indonesia',
+        },
         region = null,
         city = null,
         telephone = '',
@@ -180,7 +183,7 @@ const AddressFormDialog = (props) => {
             formik.setFieldValue('country', country);
             formik.setFieldValue('region', region);
 
-            if (country && country.id) {
+            if (country && country.id && addressId) {
                 getRegion({
                     variables: {
                         country_id: country.id,
@@ -338,6 +341,7 @@ const AddressFormDialog = (props) => {
             addressState={addressState}
             setFromUseEffect={setFromUseEffect}
             getCities={getCities}
+            responCities={responCities}
             setAddressState={setAddressState}
             mapPosition={mapPosition}
             handleDragPosition={handleDragPosition}

@@ -16,7 +16,7 @@ const AddressView = (props) => {
     const {
         t, open, setOpen, pageTitle, formik, addressState, setAddressState,
         mapPosition, handleDragPosition, disableDefaultAddress, loading, success, gmapKey, enableSplitCity,
-        getCountries, responCountries, getRegion, responRegion,
+        getCountries, responCountries, getRegion, responRegion, responCities,
     } = props;
     const styles = useStyles();
     const headerConfig = {
@@ -33,10 +33,13 @@ const AddressView = (props) => {
                 enableCustom={false}
                 mode="lazy"
                 value={formik.values.country}
-                onChange={(e) => {
+                onChange={async (e) => {
                     formik.setFieldValue('country', e);
                     formik.setFieldValue('region', null);
                     if (e && e.id) {
+                        const state = { ...addressState };
+                        state.dropdown.region = [];
+                        await setAddressState(state);
                         getRegion({
                             variables: {
                                 country_id: e.id,
@@ -61,7 +64,7 @@ const AddressView = (props) => {
 
     // regions is state/province
     const getRegionRender = () => {
-        if (addressState.dropdown.region && addressState.dropdown.region.length && open) {
+        if (addressState.dropdown.region && addressState.dropdown.region.length > 0 && open) {
             return (
                 <Autocomplete
                     disabled={!formik.values.country}
@@ -119,12 +122,22 @@ const AddressView = (props) => {
 
         return (
             <CustomTextField
-                disabled={!formik.values.country || responRegion.loading}
+                disabled={!formik.values.country}
+                loading={responRegion.loading}
                 autoComplete="new-password"
                 label="State/Province"
                 name="region"
-                value={(formik.values.region && formik.values.region.label) || formik.values.region || ''}
-                onChange={(e) => formik.setFieldValue('region', { code: e.target.value, label: e.target.value })}
+                value={formik.values.region || ''}
+                onChange={(e) => formik.setFieldValue('region', e.target.value)}
+                onFocus={() => {
+                    if (formik.values.country && formik.values.country.id) {
+                        getRegion({
+                            variables: {
+                                country_id: formik.values.country.id,
+                            },
+                        });
+                    }
+                }}
                 error={!!(formik.touched.region && formik.errors.region)}
                 errorMessage={(formik.touched.region && formik.errors.region) || null}
             />
@@ -133,7 +146,7 @@ const AddressView = (props) => {
 
     // city or kabupaten
     const getCityRender = () => {
-        if (addressState.dropdown.city && addressState.dropdown.city.length && open) {
+        if (addressState.dropdown.city && addressState.dropdown.city.length > 0 && open) {
             return (
                 <Autocomplete
                     disabled={!formik.values.region}
@@ -179,13 +192,13 @@ const AddressView = (props) => {
 
         return (
             <CustomTextField
-                disabled={!formik.values.region || !addressState.dropdown.city
-                     || (addressState.dropdown.city && addressState.dropdown.city.length === 0)}
+                disabled={!formik.values.region}
+                loading={responCities.loading}
                 autoComplete="new-password"
                 label="City"
                 name="city"
-                value={(formik.values.city && formik.values.city.label) || formik.values.city || ''}
-                onChange={(e) => formik.setFieldValue('city', { code: e.target.value, label: e.target.value })}
+                value={formik.values.city || ''}
+                onChange={(e) => formik.setFieldValue('city', e.target.value)}
                 error={!!(formik.touched.city && formik.errors.city)}
                 errorMessage={(formik.touched.city && formik.errors.city) || null}
             />
