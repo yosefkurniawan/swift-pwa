@@ -1,6 +1,6 @@
 {
   "name": "swift-pwa",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "private": true,
   "scripts": {
     "assets:build": "webpack",
@@ -73,7 +73,7 @@
     "react-share": "^4.1.0",
     "react-slick": "^0.27.10",
     "slick-carousel": "^1.8.1",
-    "swift-pwa-core": "git+https://9113b5995a6d85a72df6578146ffbde1c1aee8fb:x-oauth-basic@github.com/icubeus/swift-pwa-core.git#2.3.3",
+    "swift-pwa-core": "git+https://9113b5995a6d85a72df6578146ffbde1c1aee8fb:x-oauth-basic@github.com/icubeus/swift-pwa-core.git#2.3.4",
     "swiper": "^5.4.5",
     "webfontloader": "^1.6.28",
     "yup": "^0.28.3"
