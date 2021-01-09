@@ -39,6 +39,7 @@ const AddressView = (props) => {
                     if (e && e.id) {
                         const state = { ...addressState };
                         state.dropdown.region = [];
+                        state.dropdown.city = [];
                         await setAddressState(state);
                         getRegion({
                             variables: {

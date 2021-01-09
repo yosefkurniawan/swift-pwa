@@ -223,6 +223,12 @@ const AddressFormDialog = (props) => {
         if (formik.values.region && formik.values.region.region_id) {
             getCities({ variables: { regionId: formik.values.region.region_id } });
         }
+        if (enableSplitCity) {
+            const state = { ...addressState };
+            state.dropdown.district = null;
+            state.dropdown.village = null;
+            setAddressState(state);
+        }
     }, [formik.values.region]);
 
     // set city and grouping
