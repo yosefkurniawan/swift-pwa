@@ -147,7 +147,8 @@ const AddressView = (props) => {
 
     // city or kabupaten
     const getCityRender = () => {
-        if (addressState.dropdown.city && addressState.dropdown.city.length > 0 && open) {
+        if (addressState.dropdown.city && addressState.dropdown.city.length
+            && addressState.dropdown.city.length > 0 && open) {
             return (
                 <Autocomplete
                     disabled={!formik.values.region}
@@ -208,7 +209,8 @@ const AddressView = (props) => {
 
     // district / kecamatan
     const getDistrictRender = () => {
-        if (addressState.dropdown.district && addressState.dropdown.district.length && open) {
+        if (addressState.dropdown.district && addressState.dropdown.district.length
+            && addressState.dropdown.district.length > 0 && open) {
             return (
                 <Autocomplete
                     disabled={!formik.values.city}
@@ -265,7 +267,8 @@ const AddressView = (props) => {
     };
 
     const getVillageRender = () => {
-        if (addressState.dropdown.village && addressState.dropdown.village.length && open) {
+        if (addressState.dropdown.village && addressState.dropdown.village.length
+            && addressState.dropdown.village.length > 0 && open) {
             return (
                 <Autocomplete
                     disabled={!formik.values.district}
@@ -307,18 +310,7 @@ const AddressView = (props) => {
             );
         }
 
-        return (
-            <CustomTextField
-                disabled={!formik.values.district}
-                autoComplete="new-password"
-                label="Kelurahan"
-                name="village"
-                value={formik.values.village ? formik.values.village.label : ''}
-                onChange={formik.handleChange}
-                error={!!(formik.touched.village && formik.errors.village)}
-                errorMessage={(formik.touched.village && formik.errors.village) || null}
-            />
-        );
+        return null;
     };
 
     return (

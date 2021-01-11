@@ -59,8 +59,6 @@ const AddressFormDialog = (props) => {
         },
     });
 
-    const [isFromUseEffect, setFromUseEffect] = useState(false);
-
     const [enableSplitCity, setEnableSplitCity] = React.useState(
         country === 'ID' && modules.customer.plugin.address.splitCity,
     );
@@ -123,7 +121,10 @@ const AddressFormDialog = (props) => {
     // add initial value if split city enabled
     if (enableSplitCity) {
         ValidationAddress.district = Yup.string().nullable().required('Kecamatan');
-        ValidationAddress.village = Yup.string().nullable().required('Kelurahan');
+        ValidationAddress.village = Yup.string().nullable().test('check-village', 'Kelurahan', (value) => {
+            if (addressState.dropdown.village && addressState.dropdown.village.length > 0 && !value) return false;
+            return true;
+        });
 
         InitialValue.district = '';
         InitialValue.village = '';
@@ -147,11 +148,17 @@ const AddressFormDialog = (props) => {
                 latitude: String(mapPosition.lat),
                 longitude: String(mapPosition.lng),
             };
-
+            const defaultCity = values.city && values.city.label ? values.city.label : values.city;
             if (enableSplitCity) {
-                data.city = values.village && values.village.city ? values.village.city : values.id;
+                if (values.village) {
+                    data.city = values.village.city ? values.village.city : defaultCity;
+                } else if (values.district) {
+                    data.city = values.district.city ? values.district.city : defaultCity;
+                } else {
+                    data.city = defaultCity;
+                }
             } else {
-                data.city = values.city && values.city.label ? values.city.label : values.city;
+                data.city = defaultCity;
             }
 
             const type = addressId ? 'update' : 'add';
@@ -220,14 +227,19 @@ const AddressFormDialog = (props) => {
     }, [responRegion.data]);
 
     useEffect(() => {
-        if (formik.values.region && formik.values.region.region_id) {
-            getCities({ variables: { regionId: formik.values.region.region_id } });
-        }
-        if (enableSplitCity) {
-            const state = { ...addressState };
-            state.dropdown.district = null;
-            state.dropdown.village = null;
-            setAddressState(state);
+        if (formik.values.region) {
+            if (formik.values.region.region_id) {
+                getCities({ variables: { regionId: formik.values.region.region_id } });
+
+                if (enableSplitCity) {
+                    const state = { ...addressState };
+                    state.dropdown.district = null;
+                    state.dropdown.village = null;
+                    setAddressState(state);
+                }
+            } else {
+                formik.setFieldValue('city', city);
+            }
         }
     }, [formik.values.region]);
 
@@ -242,20 +254,13 @@ const AddressFormDialog = (props) => {
                     state.dropdown.district = null;
                     state.dropdown.village = null;
                     // get default value by split city
-                    if (city && !formik.values.city) {
+                    if (city) {
                         const defaultValue = splitCityValue(city);
                         formik.setFieldValue('city', getCityByLabel(defaultValue[0], state.dropdown.city));
                     }
                 } else {
                     state.dropdown.city = data.getCityByRegionId.item.map((item) => ({ ...item, id: item.id, label: item.city }));
                     formik.setFieldValue('city', getCityByLabel(city, state.dropdown.city));
-                }
-            } else {
-                state.dropdown.city = null;
-                formik.setFieldValue('city', null);
-                if (isFromUseEffect) {
-                    formik.setFieldValue('city', city);
-                    setFromUseEffect(false);
                 }
             }
 
@@ -266,7 +271,9 @@ const AddressFormDialog = (props) => {
     // get kecamatan if city change
     React.useMemo(() => {
         if (formik.values.city) {
-            if (enableSplitCity) {
+            if (enableSplitCity && responCities
+                && responCities.data && !responCities.loading
+                && !responCities.error && responCities.data.getCityByRegionId) {
                 const { data } = responCities;
                 const district = data && data.getCityByRegionId
                     ? groupingSubCity(formik.values.city.label, 'district', data.getCityByRegionId.item)
@@ -292,7 +299,9 @@ const AddressFormDialog = (props) => {
 
     // get kelurahan if kecamatan change
     React.useMemo(() => {
-        if (formik.values.district) {
+        if (formik.values.district && enableSplitCity && responCities
+            && responCities.data && !responCities.loading
+            && !responCities.error && responCities.data.getCityByRegionId) {
             const { data } = responCities;
             const village = groupingSubCity(formik.values.district.label, 'village', data.getCityByRegionId.item);
             const state = { ...addressState };
@@ -345,7 +354,6 @@ const AddressFormDialog = (props) => {
             pageTitle={pageTitle}
             formik={formik}
             addressState={addressState}
-            setFromUseEffect={setFromUseEffect}
             getCities={getCities}
             responCities={responCities}
             setAddressState={setAddressState}
