@@ -45,6 +45,7 @@ const AddressFormDialog = (props) => {
     const [getRegion, responRegion] = getRegions();
     const [addressState, setAddressState] = useState({
         countries: null,
+        allCity: [],
         dropdown: {
             countries: null,
             region: null,
@@ -210,6 +211,12 @@ const AddressFormDialog = (props) => {
                     lng: longitude,
                 });
             }
+
+            if (region && typeof region === 'string' && addressState.dropdown.region
+                && addressState.dropdown.region.length && addressState.dropdown.region.length > 0) {
+                const selectRegion = addressState.dropdown.region.filter((item) => item.name === region);
+                if (selectRegion && selectRegion.length > 0) formik.setFieldValue('region', selectRegion[0]);
+            }
         }
     }, [open]);
 
@@ -229,7 +236,21 @@ const AddressFormDialog = (props) => {
     useEffect(() => {
         if (formik.values.region) {
             if (formik.values.region.region_id) {
-                getCities({ variables: { regionId: formik.values.region.region_id } });
+                if (addressState.dropdown.city && addressState.dropdown.city.length
+                    && addressState.dropdown.city.length > 0) {
+                    const defaultValue = splitCityValue(city);
+                    const valueCity = getCityByLabel(defaultValue[0], addressState.dropdown.city);
+                    if (!valueCity) {
+                        getCities({ variables: { regionId: formik.values.region.region_id } });
+                    } else {
+                        formik.setFieldValue('city', valueCity);
+                    }
+                    formik.setFieldValue('district', '');
+                    formik.setFieldValue('village', '');
+                    // formik.setFieldValue('postcode', '');
+                } else {
+                    getCities({ variables: { regionId: formik.values.region.region_id } });
+                }
 
                 if (enableSplitCity) {
                     const state = { ...addressState };
@@ -237,7 +258,7 @@ const AddressFormDialog = (props) => {
                     state.dropdown.village = null;
                     setAddressState(state);
                 }
-            } else {
+            } else if (formik.values.region === region) {
                 formik.setFieldValue('city', city);
             }
         }
@@ -249,6 +270,7 @@ const AddressFormDialog = (props) => {
             const state = { ...addressState };
             const { data } = responCities;
             if (data.getCityByRegionId.item.length !== 0) {
+                state.allCity = data.getCityByRegionId.item;
                 if (enableSplitCity) {
                     state.dropdown.city = groupingCity(data.getCityByRegionId.item);
                     state.dropdown.district = null;
@@ -262,67 +284,103 @@ const AddressFormDialog = (props) => {
                     state.dropdown.city = data.getCityByRegionId.item.map((item) => ({ ...item, id: item.id, label: item.city }));
                     formik.setFieldValue('city', getCityByLabel(city, state.dropdown.city));
                 }
-            }
 
-            setAddressState(state);
+                setAddressState(state);
+            } else if (enableSplitCity && city) {
+                state.dropdown.city = data.getCityByRegionId.item.map((item) => ({ ...item, id: item.id, label: item.city }));
+                formik.setFieldValue('city', getCityByLabel(city, state.dropdown.city));
+            } else {
+                formik.setFieldValue('city', city);
+            }
         }
     }, [responCities]);
 
     // get kecamatan if city change
     React.useMemo(() => {
         if (formik.values.city) {
-            if (enableSplitCity && responCities
-                && responCities.data && !responCities.loading
-                && !responCities.error && responCities.data.getCityByRegionId) {
+            const state = { ...addressState };
+            if (addressState.allCity && addressState.allCity.length
+                && addressState.allCity.length > 0) {
+                const district = groupingSubCity(formik.values.city.label, 'district', addressState.allCity);
+                state.dropdown.district = district;
+                setAddressState(state);
+                let districtValue = '';
+                if (city) {
+                    const defaultValue = splitCityValue(city);
+                    districtValue = getCityByLabel(defaultValue[1], district);
+                }
+
+                formik.setFieldValue('district', districtValue);
+                formik.setFieldValue('village', '');
+                // formik.setFieldValue('postcode', '');
+            } else if (enableSplitCity && responCities
+                    && responCities.data && !responCities.loading
+                    && !responCities.error && responCities.data.getCityByRegionId) {
                 const { data } = responCities;
                 const district = data && data.getCityByRegionId
                     ? groupingSubCity(formik.values.city.label, 'district', data.getCityByRegionId.item)
                     : null;
-                const state = { ...addressState };
                 state.dropdown.district = district;
                 state.dropdown.village = null;
                 if (city && !formik.values.district) {
                     const defaultValue = splitCityValue(city);
-                    formik.setFieldValue('district', getCityByLabel(defaultValue[1], state.dropdown.district));
+                    const districtValue = getCityByLabel(defaultValue[1], state.dropdown.district);
+                    if (districtValue) formik.setFieldValue('district', districtValue);
                 } else {
                     // reset village and district if change city
                     formik.setFieldValue('district', '');
-                    formik.setFieldValue('village', '');
-                    formik.setFieldValue('postcode', '');
                 }
+
+                formik.setFieldValue('village', '');
+                // formik.setFieldValue('postcode', '');
                 setAddressState(state);
             } else {
-                formik.setFieldValue('postcode', formik.values.city.postcode || postcode);
+                // formik.setFieldValue('postcode', formik.values.city.postcode || postcode);
             }
         }
     }, [formik.values.city]);
 
     // get kelurahan if kecamatan change
     React.useMemo(() => {
-        if (formik.values.district && enableSplitCity && responCities
+        const state = { ...addressState };
+        if (addressState.allCity && addressState.allCity.length
+            && addressState.allCity.length > 0) {
+            if (formik.values.district && formik.values.district.label) {
+                const village = groupingSubCity(formik.values.district.label, 'village', addressState.allCity);
+                state.dropdown.village = village;
+            }
+            let villageValue = '';
+            if (city) {
+                const defaultValue = splitCityValue(city);
+                villageValue = getCityByLabel(defaultValue[2], state.dropdown.village);
+            }
+            formik.setFieldValue('village', villageValue);
+            if (villageValue && villageValue !== '') {
+                // formik.setFieldValue('postcode', '');
+            } else if (formik.values.district) {
+                // formik.setFieldValue('postcode', formik.values.postcode || postcode);
+            }
+        } else if (formik.values.district && enableSplitCity && responCities
             && responCities.data && !responCities.loading
             && !responCities.error && responCities.data.getCityByRegionId) {
             const { data } = responCities;
             const village = groupingSubCity(formik.values.district.label, 'village', data.getCityByRegionId.item);
-            const state = { ...addressState };
             state.dropdown.village = village;
-            if (city && !formik.values.village) {
+            if (city && !formik.values.village && enableSplitCity) {
                 const defaultValue = splitCityValue(city);
-                formik.setFieldValue('village', getCityByLabel(defaultValue[2], state.dropdown.village));
+                const villageValue = getCityByLabel(defaultValue[2], state.dropdown.village);
+                if (villageValue) {
+                    formik.setFieldValue('village', villageValue);
+                }
+                // formik.setFieldValue('postcode', formik.values.district.postcode || postcode);
             } else {
                 // reset village if district change
                 formik.setFieldValue('village', '');
-                formik.setFieldValue('postcode', '');
+                // formik.setFieldValue('postcode', '');
             }
             setAddressState(state);
         }
     }, [formik.values.district]);
-
-    React.useMemo(() => {
-        if (formik.values.village) {
-            formik.setFieldValue('postcode', formik.values.village.postcode);
-        }
-    }, [formik.values.village]);
 
     // clear child location value when clear parent location
     // example: clear country => clear region
@@ -343,7 +401,7 @@ const AddressFormDialog = (props) => {
     }, [formik.values.district]);
 
     React.useEffect(() => {
-        if (!formik.values.village) formik.setFieldValue('postcode', '');
+        if (formik.values.village && enableSplitCity) formik.setFieldValue('postcode', formik.values.village.postcode);
     }, [formik.values.village]);
 
     return (

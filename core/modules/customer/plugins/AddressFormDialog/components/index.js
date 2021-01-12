@@ -17,6 +17,7 @@ const AddressView = (props) => {
         t, open, setOpen, pageTitle, formik, addressState, setAddressState,
         mapPosition, handleDragPosition, disableDefaultAddress, loading, success, gmapKey, enableSplitCity,
         getCountries, responCountries, getRegion, responRegion, responCities,
+        getCities,
     } = props;
     const styles = useStyles();
     const headerConfig = {
@@ -35,11 +36,15 @@ const AddressView = (props) => {
                 value={formik.values.country}
                 onChange={async (e) => {
                     formik.setFieldValue('country', e);
-                    formik.setFieldValue('region', null);
+                    formik.setFieldValue('region', '');
+                    formik.setFieldValue('city', '');
+                    formik.setFieldValue('district', '');
+                    formik.setFieldValue('village', '');
+                    formik.setFieldValue('postcode', '');
                     if (e && e.id) {
                         const state = { ...addressState };
-                        state.dropdown.region = [];
-                        state.dropdown.city = [];
+                        state.dropdown.region = null;
+                        state.dropdown.city = null;
                         await setAddressState(state);
                         getRegion({
                             variables: {
@@ -73,11 +78,20 @@ const AddressView = (props) => {
                     getOptionLabel={(option) => (option.name ? option.name : '')}
                     id="controlled-region"
                     value={!formik.values.region ? null : formik.values.region}
-                    onClose={() => {
-                        formik.setFieldValue('city', null);
-                    }}
                     onChange={async (event, newValue) => {
                         formik.setFieldValue('region', newValue);
+                        formik.setFieldValue('city', '');
+                        formik.setFieldValue('district', '');
+                        formik.setFieldValue('village', '');
+                        formik.setFieldValue('postcode', '');
+                        if (newValue && newValue.region_id) {
+                            const state = { ...addressState };
+                            state.dropdown.city = null;
+                            await setAddressState(state);
+                            getCities({
+                                variables: { regionId: newValue.region_id },
+                            });
+                        }
                     }}
                     renderInput={(params) => (
                         <div
@@ -129,7 +143,13 @@ const AddressView = (props) => {
                 label="State/Province"
                 name="region"
                 value={formik.values.region || ''}
-                onChange={(e) => formik.setFieldValue('region', e.target.value)}
+                onChange={(e) => {
+                    formik.setFieldValue('region', e.target.value);
+                    formik.setFieldValue('city', '');
+                    formik.setFieldValue('district', '');
+                    formik.setFieldValue('village', '');
+                    formik.setFieldValue('postcode', '');
+                }}
                 onFocus={() => {
                     if (formik.values.country && formik.values.country.id) {
                         getRegion({
@@ -158,7 +178,9 @@ const AddressView = (props) => {
                     value={!formik.values.city ? null : formik.values.city}
                     onChange={(event, newValue) => {
                         formik.setFieldValue('city', newValue);
-                        formik.setFieldValue('postcode', newValue ? newValue.postcode : '');
+                        formik.setFieldValue('district', '');
+                        formik.setFieldValue('village', '');
+                        formik.setFieldValue('postcode', '');
                     }}
                     renderInput={(params) => (
                         <div
@@ -200,7 +222,12 @@ const AddressView = (props) => {
                 label="City"
                 name="city"
                 value={formik.values.city || ''}
-                onChange={(e) => formik.setFieldValue('city', e.target.value)}
+                onChange={(e) => {
+                    formik.setFieldValue('city', e.target.value);
+                    formik.setFieldValue('district', '');
+                    formik.setFieldValue('village', '');
+                    formik.setFieldValue('postcode', '');
+                }}
                 error={!!(formik.touched.city && formik.errors.city)}
                 errorMessage={(formik.touched.city && formik.errors.city) || null}
             />
@@ -220,6 +247,8 @@ const AddressView = (props) => {
                     value={!formik.values.district ? null : formik.values.district}
                     onChange={(event, newValue) => {
                         formik.setFieldValue('district', newValue);
+                        formik.setFieldValue('village', '');
+                        formik.setFieldValue('postcode', '');
                     }}
                     renderInput={(params) => (
                         <div
@@ -255,11 +284,16 @@ const AddressView = (props) => {
         return (
             <CustomTextField
                 disabled={!formik.values.city}
+                loading={responCities.loading}
                 autoComplete="new-password"
                 label="Kecamatan"
                 name="district"
                 value={formik.values.district ? formik.values.district.label : ''}
-                onChange={formik.handleChange}
+                onChange={(e) => {
+                    formik.setFieldValue('district', e.target.value);
+                    formik.setFieldValue('village', '');
+                    formik.setFieldValue('postcode', '');
+                }}
                 error={!!(formik.touched.district && formik.errors.district)}
                 errorMessage={(formik.touched.district && formik.errors.district) || null}
             />
@@ -278,6 +312,7 @@ const AddressView = (props) => {
                     value={!formik.values.village ? null : formik.values.village}
                     onChange={(event, newValue) => {
                         formik.setFieldValue('village', newValue);
+                        formik.setFieldValue('postcode', '');
                     }}
                     renderInput={(params) => (
                         <div
