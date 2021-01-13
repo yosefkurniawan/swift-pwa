@@ -66,6 +66,7 @@ const AddressFormDialog = (props) => {
 
     const getCityByLabel = (label, dataCity = null) => {
         const data = dataCity || addressState.dropdown.city;
+        if (!data || data.length === 0) return null;
         return data.find((item) => item.label === label) ? data.find((item) => item.label === label) : null;
     };
 
@@ -190,6 +191,7 @@ const AddressFormDialog = (props) => {
 
             formik.setFieldValue('country', country);
             formik.setFieldValue('region', region);
+            formik.setFieldValue('city', city);
 
             if (country && country.id && addressId) {
                 getRegion({
@@ -289,8 +291,6 @@ const AddressFormDialog = (props) => {
             } else if (enableSplitCity && city) {
                 state.dropdown.city = data.getCityByRegionId.item.map((item) => ({ ...item, id: item.id, label: item.city }));
                 formik.setFieldValue('city', getCityByLabel(city, state.dropdown.city));
-            } else {
-                formik.setFieldValue('city', city);
             }
         }
     }, [responCities]);
@@ -389,7 +389,9 @@ const AddressFormDialog = (props) => {
     }, [formik.values.country]);
 
     React.useEffect(() => {
-        if (!formik.values.region) formik.setFieldValue('city', '');
+        if (!formik.values.region) {
+            formik.setFieldValue('city', '');
+        }
     }, [formik.values.region]);
 
     React.useEffect(() => {
