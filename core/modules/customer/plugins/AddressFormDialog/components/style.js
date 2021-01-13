@@ -10,6 +10,10 @@ const useStyles = makeStyles((theme) => ({
         width: ' 100%',
         alignSelf: 'center',
     },
+    boxField: {
+        marginTop: '0px',
+        marginBottom: '20px',
+    },
     colorPrimary: {
         color: PRIMARY,
     },

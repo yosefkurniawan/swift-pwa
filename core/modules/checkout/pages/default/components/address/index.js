@@ -39,7 +39,10 @@ const Address = (props) => {
         dialogProps = address
             ? {
                 region: address.region.label,
-                country: address.country.code,
+                country: {
+                    id: address.country.code,
+                    full_name_locale: address.country.label,
+                },
                 city: address.city,
                 street,
                 firstname: address.firstname,
@@ -58,7 +61,7 @@ const Address = (props) => {
         content = t('checkout:message:address:add');
     } else if (address) {
         content = `${address.firstname} ${address.lastname} ${street} 
-        ${address.city} ${address.region && address.region.label} ${address.postcode} ${address.telephone}`;
+        ${address.city} ${address.region && address.region.label} ${address.country.label} ${address.postcode} ${address.telephone}`;
     } else {
         content = t('checkout:message:address:default');
     }
