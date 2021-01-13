@@ -42,14 +42,17 @@ export const groupingSubCity = (parent, type, item) => {
         if (collection[type === 'district' ? 0 : 1] === parent) {
             const name = (collection[type === 'district' ? 1 : 2] || '').replace(/ /g, '_').toLowerCase();
             if (!group[name]) {
-                group[name] = {
-                    id: element.id,
-                    parent: collection[type === 'district' ? 0 : 1],
-                    label: collection[type === 'district' ? 1 : 2],
-                    name: collection[type === 'district' ? 1 : 2],
-                    city: element.city,
-                    postcode: element.postcode,
-                };
+                if (typeof collection[type === 'district' ? 1 : 2] !== 'undefined'
+                    && typeof collection[type === 'district' ? 1 : 2] !== 'undefined') {
+                    group[name] = {
+                        id: element.id,
+                        parent: collection[type === 'district' ? 0 : 1],
+                        label: collection[type === 'district' ? 1 : 2],
+                        name: collection[type === 'district' ? 1 : 2],
+                        city: element.city,
+                        postcode: element.postcode,
+                    };
+                }
             }
         }
     }
