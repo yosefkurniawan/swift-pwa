@@ -53,11 +53,6 @@ const AddressFormDialog = (props) => {
             district: null,
             village: null,
         },
-        value: {
-            country: { id: '', label: '' },
-            region: { id: '', label: '' },
-            city: { id: '', label: '' },
-        },
     });
 
     const [enableSplitCity, setEnableSplitCity] = React.useState(
@@ -137,7 +132,7 @@ const AddressFormDialog = (props) => {
     const formik = useFormik({
         initialValues: InitialValue,
         validationSchema: AddressSchema,
-        onSubmit: async (values) => {
+        onSubmit: async (values, { resetForm }) => {
             const data = {
                 ...values,
                 defaultBilling: values.defaultShippingBilling,
@@ -170,6 +165,11 @@ const AddressFormDialog = (props) => {
             delete data.village;
             if (onSubmitAddress) {
                 onSubmitAddress(data, type);
+                if (!addressId) {
+                    setTimeout(() => {
+                        resetForm();
+                    }, 1500);
+                }
             }
         },
     });
@@ -193,7 +193,7 @@ const AddressFormDialog = (props) => {
             formik.setFieldValue('region', region);
             formik.setFieldValue('city', city);
 
-            if (country && country.id && addressId) {
+            if (country && country.id) {
                 getRegion({
                     variables: {
                         country_id: country.id,
@@ -203,7 +203,7 @@ const AddressFormDialog = (props) => {
 
             // only set current location for add mode
             if (typeof window !== 'undefined' && navigator && navigator.geolocation && !addressId) {
-                return navigator.geolocation.getCurrentPosition(displayLocationInfo);
+                navigator.geolocation.getCurrentPosition(displayLocationInfo);
             }
 
             // update map position after edit data

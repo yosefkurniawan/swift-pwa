@@ -70,7 +70,7 @@ const Content = (props) => {
                                                 success={success}
                                                 handleChange={handleChange}
                                                 selectedAddressId={selectedAddressId}
-                                                {...props}
+                                                t={t}
                                             />
                                         ))}
                                     </>
@@ -123,7 +123,7 @@ const Content = (props) => {
                                                 success={success}
                                                 handleChange={handleChange}
                                                 selectedAddressId={selectedAddressId}
-                                                {...props}
+                                                t={t}
                                             />
                                         ))}
                                     </>
