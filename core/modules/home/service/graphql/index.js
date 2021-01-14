@@ -9,6 +9,12 @@ fetchPolicy = 'cache-first';
 export const getBannerSlider = () => useQuery(Schema.getBannerSlider, {
     fetchPolicy,
 });
+
+export const getSlider = (options = {}) => useQuery(Schema.getSlider, {
+    fetchPolicy,
+    ...options,
+});
+
 export const getFeaturedProducts = (variables) => useQuery(Schema.getFeaturedProducts, {
     variables,
     fetchPolicy,
@@ -18,4 +24,6 @@ export const getCategoryList = (variables) => useQuery(Schema.getCategoryList, {
     fetchPolicy,
 });
 
-export default { getCategoryList, getBannerSlider, getFeaturedProducts };
+export default {
+    getCategoryList, getBannerSlider, getFeaturedProducts, getSlider,
+};
