@@ -1,6 +1,23 @@
 import { gql } from '@apollo/client';
 import { features } from '@config';
 
+export const getSlider = gql`
+query getSlider($title: String!){
+    slider(
+        input: {title: $title}
+    ) {
+    slider_id
+    images {
+        image_id
+        image_url
+        thumb_image_url
+        mobile_image_url
+        url_redirection
+    }
+  }
+}
+`;
+
 export const getBannerSlider = gql`
     {
         getHomepageSlider {
@@ -85,4 +102,6 @@ export const getCategoryList = gql`
     }
 `;
 
-export default { getBannerSlider, getCategoryList, getFeaturedProducts };
+export default {
+    getBannerSlider, getCategoryList, getFeaturedProducts, getSlider,
+};

@@ -1,7 +1,9 @@
 /* eslint-disable consistent-return */
+import config from '@config';
 import gqlService from '../../../../service/graphql';
 
 const BannerSlider = (props) => {
+    const { home } = config.modules;
     const {
         storeConfig, t, BannerSliderSkeleton, ErrorInfo, BannerView,
     } = props;
@@ -9,7 +11,11 @@ const BannerSlider = (props) => {
     if (typeof window === 'undefined') {
         return <BannerSliderSkeleton logoUrl={logoUrl} />;
     }
-    const { loading, data, error } = gqlService.getBannerSlider();
+    const { loading, data, error } = gqlService.getSlider({
+        variables: {
+            title: home.bannerSlider.title,
+        },
+    });
     if (loading && !data) {
         return <BannerSliderSkeleton logoUrl={logoUrl} />;
     }
@@ -18,14 +24,14 @@ const BannerSlider = (props) => {
             <ErrorInfo variant="error" text={t('home:errorFetchData')} />
         );
     }
-    if (!data || data.getHomepageSlider.images.length === 0) {
+    if (!data || data.slider.images.length === 0) {
         return (
             <ErrorInfo variant="warning" text={t('home:nullData')} />
         );
     }
 
-    if (data && data.getHomepageSlider) {
-        const bannerImages = data.getHomepageSlider.images.map((image) => ({
+    if (data && data.slider) {
+        const bannerImages = data.slider.images.map((image) => ({
             imageUrl: image.image_url,
             mobileImageUrl: image.mobile_image_url || image.image_url,
             link: image.url_redirection,
