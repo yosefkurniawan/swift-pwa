@@ -389,6 +389,7 @@ const modules = {
         },
         bannerSlider: {
             enable: true,
+            title: 'Client App Homepage Slider',
         },
     },
     promo: {
