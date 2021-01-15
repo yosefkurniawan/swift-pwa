@@ -3,6 +3,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import classNames from 'classnames';
 import Typography from '@common_typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import useStyles from './style';
 
 const CustomTextField = ({
@@ -17,6 +18,7 @@ const CustomTextField = ({
     error = false,
     errorMessage = '',
     variant = 'standard',
+    loading = false,
     footer,
     ...other
 }) => {
@@ -24,7 +26,7 @@ const CustomTextField = ({
     const customClass = classNames(styles.container, className);
     return (
         <FormControl
-            disabled={disabled}
+            disabled={disabled || loading}
             fullWidth={fullWidth}
             error={error}
             variant={variant}
@@ -42,6 +44,15 @@ const CustomTextField = ({
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
+                endAdornment={
+                    (
+                        <>
+                            {loading ? (
+                                <CircularProgress color="inherit" size={20} />
+                            ) : null}
+                        </>
+                    )
+                }
                 {...other}
             />
             {React.isValidElement(footer) ? (

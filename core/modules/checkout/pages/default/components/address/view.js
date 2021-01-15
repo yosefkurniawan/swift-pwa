@@ -19,6 +19,7 @@ const AddressView = (props) => {
     const { formik } = other;
 
     const [openAddress, setOpenAddress] = React.useState(false);
+    const ref = React.useRef();
     return (
         <div className={styles.block}>
             <style jsx>
@@ -47,7 +48,7 @@ const AddressView = (props) => {
                 </div>
                 <div>
                     <AddressFormDialog
-                        {...dialogProps}
+                        ref={ref}
                         t={t}
                         onSubmitAddress={async (dataAddress) => {
                             const { cart } = checkout.data;
@@ -80,6 +81,7 @@ const AddressView = (props) => {
                         }}
                         pageTitle={t('checkout:address:addTitle')}
                         {...other}
+                        {...dialogProps}
                     />
                     {loading.addresses || loading.all ? null : (
                         <Button

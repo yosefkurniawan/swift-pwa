@@ -130,7 +130,7 @@ const AddressCustomer = (props) => {
     return (
         <Layout pageConfig={pageConfig || config} {...props}>
             <Content
-                {...props}
+                t={t}
                 loading={loading}
                 address={address}
                 selectedAddressId={selectedAddressId}

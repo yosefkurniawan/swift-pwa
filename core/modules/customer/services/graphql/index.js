@@ -8,6 +8,8 @@ const config = {
     },
 };
 
+export const getRegions = () => useLazyQuery(Schema.getRegion);
+
 export const getCountries = () => useLazyQuery(Schema.getCountries);
 
 export const getCityByRegionId = (options = {}) => useLazyQuery(Schema.getCityByRegionId, { ...options, fetchPolicy: 'network-only' });

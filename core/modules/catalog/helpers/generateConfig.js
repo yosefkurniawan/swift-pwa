@@ -16,7 +16,7 @@ const generateConfig = (query, config, elastic, availableFilter = []) => {
     for (const q in query) {
         if (q === 'q') {
             let search = query[q];
-            search = search.replace(/[^a-zA-Z ]/g, '');
+            search = search.replace(/[^a-zA-Z0-9 ]/g, '');
             resolveConfig.search = search;
         } else if (q === 'sort' && query[q] !== '') {
             resolveConfig.sort = JSON.parse(query[q]);
