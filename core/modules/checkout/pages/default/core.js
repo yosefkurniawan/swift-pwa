@@ -213,10 +213,12 @@ const Checkout = (props) => {
                 city: address.city,
                 region: {
                     label: address.region.region,
+                    code: address.region.region_code,
                 },
                 postcode: address.postcode,
                 telephone: address.telephone,
                 street: address.street,
+                country: address.country,
             };
         }
 
