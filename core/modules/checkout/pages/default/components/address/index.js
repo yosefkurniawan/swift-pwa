@@ -61,7 +61,8 @@ const Address = (props) => {
         content = t('checkout:message:address:add');
     } else if (address) {
         content = `${address.firstname} ${address.lastname} ${street} 
-        ${address.city} ${address.region && address.region.label} ${address.country.label} ${address.postcode} ${address.telephone}`;
+        ${address.city} ${address.region && address.region.label} 
+        ${address.country && address.country.label} ${address.postcode} ${address.telephone}`;
     } else {
         content = t('checkout:message:address:default');
     }
