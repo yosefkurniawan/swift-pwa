@@ -1,4 +1,5 @@
 const path = require('path');
+const { assetsVersion } = require('./swift.config');
 
 module.exports = {
     mode: 'production',
@@ -8,7 +9,7 @@ module.exports = {
         sw: './core/public/sw.js',
     },
     output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, 'public/static'),
+        filename: `[name].${assetsVersion}.js`,
+        path: path.resolve(__dirname, 'public/static/firebase'),
     },
 };

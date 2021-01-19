@@ -31,3 +31,4 @@ package-lock.json
 /public/static/sw.js
 /public/static/firebase-messaging-sw.js
 /public/static/install.js
+/public/static/firebase/*
