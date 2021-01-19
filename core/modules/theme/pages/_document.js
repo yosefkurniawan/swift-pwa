@@ -4,7 +4,7 @@ import React from 'react';
 import Document, { Html, Main } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import theme from '@theme_theme';
-import { features, rollbar } from '@config';
+import { features, rollbar, assetsVersion } from '@config';
 import HeadCustom from '@next_headcustom';
 import NextScriptCustom from '@next_nextscriptcustom';
 
@@ -27,7 +27,7 @@ export default class MyDocument extends Document {
                     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,500i,600,700,900&display=swap" rel="stylesheet" />
                     <link rel="stylesheet" type="text/css" charSet="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
                     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
-                    {features.customInstallApp.enabled ? <script src="/static/install.js" /> : ''}
+                    {features.customInstallApp.enabled ? <script src={`/static/firebase/install.${assetsVersion}.js`} /> : ''}
                     {rollbar && rollbar.enabled
                         ? (
                             <script
