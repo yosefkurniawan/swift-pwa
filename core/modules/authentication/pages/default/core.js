@@ -7,20 +7,22 @@ import { setCartId, removeCartId } from '@helpers/cartId';
 import { generateSession, deleteSession } from '../../services/graphql';
 import Error from '../../components/Error';
 
-const counter = 3; // seconds
+// const counter = 3; // seconds
 
-const backToStore = (redirect_path = '/') => {
-    setTimeout(() => {
-        window.location.replace(redirect_path);
-    }, counter * 1000);
-};
+// const backToStore = (redirect_path = '/') => {
+//     setTimeout(() => {
+//         window.location.replace(redirect_path);
+//     }, counter * 1000);
+// };
 
 const Authentication = (props) => {
     const router = useRouter();
 
-    const { Content, query, storeConfig } = props;
+    const {
+        Content, query, storeConfig, t,
+    } = props;
     const [authFailed, setAuthFailed] = React.useState(false);
-    const [errorMessage, setErrorMessage] = React.useState(null);
+    const [load, setLoad] = React.useState(true);
 
     const [generateSessionGql] = generateSession();
     const [deleteSessionGql] = deleteSession();
@@ -48,7 +50,7 @@ const Authentication = (props) => {
             deleteSessionGql().then(() => {
                 generateSessionGql({ variables }).then(({ data }) => {
                     const {
-                        result, cartId, isLogin, redirect_path,
+                        result, cartId, isLogin,
                     } = data.internalGenerateSession;
                     if (result) {
                         objectProps = data.internalGenerateSession;
@@ -57,6 +59,7 @@ const Authentication = (props) => {
                             setLogin(1, expired);
                         }
                         setCartId(cartId, expired);
+                        setLoad(false);
                         if (objectProps && objectProps.redirect_path && objectProps.redirect_path !== '') {
                             router.push(objectProps.redirect_path);
                         } else {
@@ -64,19 +67,32 @@ const Authentication = (props) => {
                         }
                     } else {
                         setAuthFailed(true);
-                        setErrorMessage('Token has expired');
-                        backToStore(redirect_path || '/');
+                        setLoad(false);
+                        // backToStore(redirect_path || '/');
                     }
                 }).catch(() => {
                     setAuthFailed(true);
-                    backToStore();
+                    setLoad(false);
+                    // backToStore();
                 });
             }).catch(() => {
                 setAuthFailed(true);
-                backToStore();
+                setLoad(false);
+                // backToStore();
             });
         }
     }, [query.state]);
+
+    if (load) {
+        return (
+            <>
+                <Head>
+                    <title>Loading...</title>
+                </Head>
+                <Content />
+            </>
+        );
+    }
 
     if (authFailed) {
         return (
@@ -84,7 +100,7 @@ const Authentication = (props) => {
                 <Head>
                     <title>Loading...</title>
                 </Head>
-                <Error message={errorMessage} counter={counter} />
+                <Error t={t} />
             </>
         );
     }

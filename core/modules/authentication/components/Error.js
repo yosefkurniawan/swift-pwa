@@ -1,33 +1,49 @@
-import { useState, useEffect } from 'react';
-import Alert from '@material-ui/lab/Alert';
-import AlertTitle from '@material-ui/lab/AlertTitle';
 import Typography from '@common_typography';
+import Button from '@common_button';
+import { getStoreHost } from '@helpers/config';
+import getConfig from 'next/config';
 
-const style = {
-    margin: 20,
-};
+import useStyle from './style';
 
-const Error = ({ counter, message }) => {
-    const [countDown, setCountDown] = useState(counter);
-    useEffect(() => {
-        setTimeout(() => {
-            if (countDown > 0) {
-                setCountDown(countDown - 1);
-            } else if (window && window.backdropLoader) {
-                window.backdropLoader(true);
-            }
-        }, 1000);
-    });
+// Only holds serverRuntimeConfig and publicRuntimeConfig
+const { publicRuntimeConfig } = getConfig();
+
+const Error = ({ t }) => {
+    const styles = useStyle();
+
+    const handleReload = () => {
+        if (typeof window !== 'undefined') {
+            window.location.reload();
+        }
+    };
+
+    const handleBackToStore = () => {
+        if (typeof window !== 'undefined') {
+            window.location.replace(
+                getStoreHost(typeof publicRuntimeConfig !== 'undefined' ? publicRuntimeConfig.appEnv : 'prod'),
+            );
+        }
+    };
+
     return (
-        <div>
-            <Alert severity="error" style={style}>
-                <AlertTitle>{message || 'Something went wrong.'}</AlertTitle>
-                <Typography variant="inherit">
-                    You will be redirected back to the store in
-                    {' '}
-                    <strong>{countDown}</strong>
+        <div className={styles.container}>
+            <img src="/assets/img/ghosts.png" alt="ghost-error" className={styles.img} />
+            <Typography variant="h1" type="bold">
+                {t('checkout:error:title')}
+            </Typography>
+            <Typography variant="span" type="semiBold" color="gray" align="center">
+                {t('checkout:error:message')}
+            </Typography>
+            <Button variant="text" onClick={handleReload}>
+                <Typography variant="title" type="semiBold" color="red">
+                    {t('checkout:error:try')}
                 </Typography>
-            </Alert>
+            </Button>
+            <Button variant="text" onClick={handleBackToStore}>
+                <Typography variant="span" type="semiBold">
+                    {t('checkout:error:backToStore')}
+                </Typography>
+            </Button>
         </div>
     );
 };
