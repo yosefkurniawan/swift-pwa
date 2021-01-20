@@ -89,5 +89,11 @@
         "nextday": "Next day",
         "reguler": "Reguler",
         "others": "Others"
+    },
+    "error": {
+        "title": "Something went wrong.",
+        "message": "There was a slight problem with your request, please try again or go back to store",
+        "try": "Retry",
+        "backToStore": "Back to store"
     }
 }
