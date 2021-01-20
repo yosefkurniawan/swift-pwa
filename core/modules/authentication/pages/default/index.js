@@ -1,5 +1,6 @@
 import { withApollo } from '@lib_apollo';
 import Loader from '@common_loaders/Backdrop';
+import { withTranslation } from '@i18n';
 import Core from './core';
 // import { decrypt } from '@helpers/encryption';
 
@@ -16,8 +17,8 @@ Page.getInitialProps = async (ctx) => {
     }
     return {
         query: req.query,
-        namespacesRequired: ['common'],
+        namespacesRequired: ['common', 'checkout'],
     };
 };
 
-export default withApollo({ ssr: false })(Page);
+export default withApollo({ ssr: false })(withTranslation()(Page));

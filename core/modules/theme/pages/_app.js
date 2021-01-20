@@ -32,6 +32,8 @@ import * as Sentry from '@sentry/node';
 import { RewriteFrames } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
 
+import { unregister } from 'next-offline/runtime';
+
 /**
  * Uncomment codes below when firebase push notification configuration is enabled
  * */
@@ -39,6 +41,8 @@ import Notification from '@lib_firebase/notification';
 import firebase from '@lib_firebase/index';
 
 import ModalCookies from '../components/modalCookies';
+
+let deferredPrompt;
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -114,6 +118,17 @@ class MyApp extends App {
     }
 
     componentDidMount() {
+        // add custom service worker
+        if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production' && typeof document !== 'undefined') {
+            if (document.readyState === 'complete') {
+                this.registerServiceWorker();
+            } else {
+                window.addEventListener('load', () => {
+                    this.registerServiceWorker();
+                });
+            }
+        }
+
         /**
          * Uncomment codes below when firebase push notification configuration is enabled
          * */
@@ -165,6 +180,21 @@ class MyApp extends App {
                 helperCookies.remove(storeConfigNameCookie);
             };
         }
+    }
+
+    componentWillUnmount() {
+        unregister();
+    }
+
+    registerServiceWorker() {
+        navigator.serviceWorker.register('/service-worker.js').then(
+            (registration) => {
+                console.log('Service Worker registration successful with scope: ', registration.scope);
+            },
+            (err) => {
+                console.log('Service Worker registration failed: ', err);
+            },
+        );
     }
 
     render() {
