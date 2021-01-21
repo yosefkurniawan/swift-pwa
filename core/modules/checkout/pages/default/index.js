@@ -66,15 +66,13 @@ Page.getInitialProps = async (ctx) => {
         urlRedirect = getStoreHost();
     }
 
-    console.log(urlRedirect);
-
     if (!cartId) {
         if (ctx.res) {
             ctx.res.statusCode = 302;
             ctx.res.setHeader('Location', urlRedirect);
             return { props: {}, namespacesRequired: ['common', 'checkout', 'customer', 'validate'] };
         }
-        Router.push(urlRedirect);
+        if (typeof window !== 'undefined') Router.push(urlRedirect);
     }
 
     return {
