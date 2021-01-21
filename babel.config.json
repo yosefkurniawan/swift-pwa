@@ -22,7 +22,7 @@
                     "@extension": "./extension",
                     "@extension_module": "./extension/modules",
 
-                    "@home_page": "swift-pwa-core/core/modules/checkout/pages/default",
+                    "@home_page": "swift-pwa-core/core/modules/home/pages/default",
 
                     "@next_headcustom": "./core/nextjs_custom/HeadCustom",
                     "@next_nextscriptcustom": "./core/nextjs_custom/NextScriptCustom",

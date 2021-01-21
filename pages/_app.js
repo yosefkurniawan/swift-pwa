@@ -6,5 +6,6 @@ import _app from '@core_modules/theme/pages/_app';
 import '../core/styles/index.css';
 import '../core/styles/mediaquery.css';
 import '../core/styles/flexboxgrid.min.css';
+import '../src/styles/customcheckout.css';
 
 export default _app;

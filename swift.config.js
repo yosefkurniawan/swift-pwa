@@ -270,7 +270,7 @@ const modules = {
     },
     checkout: {
         enabled: true,
-        checkoutOnly: true,
+        checkoutOnly: false,
         path: '/checkout',
         ipayUrl: {
             local: 'https://swiftpwa-be.testingnow.me/ipayredirect/ipayredirect/?orderId=',
