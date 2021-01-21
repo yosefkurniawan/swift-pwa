@@ -10,6 +10,7 @@ import Head from 'next/head';
 import { modules } from '@config';
 import Cookies from 'js-cookie';
 import gqlService from '../../services/graphql';
+import { getCartCallbackUrl, getLoginCallbackUrl, getSuccessCallbackUrl } from './helpers/config';
 
 function equalTo(ref, msg) {
     return this.test({
@@ -29,10 +30,23 @@ const Checkout = (props) => {
     const {
         t,
         storeConfig,
-        config,
         pageConfig,
         Content,
     } = props;
+
+    const config = {
+        successRedirect: {
+            link: getSuccessCallbackUrl(),
+            orderId: true,
+        },
+        cartRedirect: {
+            link: getCartCallbackUrl(),
+        },
+        loginRedirect: {
+            link: getLoginCallbackUrl(),
+        },
+    };
+
     let { cartId, isLogin } = props;
     if (typeof window !== 'undefined') {
         cartId = getCartId();
@@ -408,6 +422,7 @@ const Checkout = (props) => {
         updateFormik,
         setCheckout,
         manageCustomer,
+        config,
     };
 
     return (
