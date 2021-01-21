@@ -85,7 +85,8 @@
     "error": {
         "notFound": "Data not found",
         "fileReject": "Cannot upload, Files must be a type ",
-        "fetchError": "Connection Error. Please try again later."
+        "fetchError": "Connection Error. Please try again later.",
+        "browser": "Browser not supported"
     },
     "fileUpload": {
         "reject": "Cannot upload, Files must be a type ",
@@ -109,7 +110,8 @@
     },
     "message": {
         "feedSuccess": "Product success added to wishlist",
-        "feedFailed": "Add to wishlist failed"
+        "feedFailed": "Add to wishlist failed",
+        "browserError": "Please change browsers or check cookie settings, javascript settings or others"
     },
     "newsletter": {
         "title": "SIGN UP NEWSLETTER",

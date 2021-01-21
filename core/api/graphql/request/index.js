@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-nested-ternary */
 const { GraphQLClient } = require('graphql-request');
-const { graphqlEndpoint } = require('../../../../swift.config');
+const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
 
 const { decrypt } = require('../../../helpers/encryption');
 
@@ -14,8 +14,10 @@ function requestGraph(query, variables = {}, context = {}, config = {}) {
             : context.headers.authorization ? context.headers.authorization : '';
     }
     return new Promise((resolve) => {
+        const additionalHeader = storeCode ? { store: storeCode } : {};
         const headers = {
             Authorization: token,
+            ...additionalHeader,
         };
         const appEnv = typeof window !== 'undefined' ? window.APP_ENV : process.env.APP_ENV;
         const client = new GraphQLClient(`${graphqlEndpoint[appEnv] || graphqlEndpoint.prod}`, {

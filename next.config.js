@@ -8,6 +8,7 @@ const withSourceMaps = require('@zeit/next-source-maps')();
 const withTranspileModules = require('next-transpile-modules')(['swift-pwa-core/core/modules', 'swift-pwa-core/core/services']);
 
 module.exports = withTranspileModules(withSourceMaps(withOffline({
+    dontAutoRegisterSw: true,
     images: {
         domains: ['thumbor.sirclocdn.xyz'],
         loader: 'default',

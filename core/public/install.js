@@ -44,8 +44,8 @@ function hideInstallPromotion() {
         const date = new Date();
         // add a day
         date.setDate(date.getDate() + 1);
-        localStorage.setItem('hideInstallPopup', true);
-        localStorage.setItem('expiredHideInstallPopup', date.getDate());
+        localStorage.removeItem('hideInstallPopup', true);
+        localStorage.removeItem('expiredHideInstallPopup', date.getDate());
     } else {
         const elDesktop = document.getElementById('popup-desktop__install');
         if (elDesktop) {

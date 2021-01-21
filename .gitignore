@@ -24,7 +24,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-yarn.lock
 package-lock.json
 
 #sitemap
@@ -32,3 +31,4 @@ package-lock.json
 /public/static/sw.js
 /public/static/firebase-messaging-sw.js
 /public/static/install.js
+/public/static/firebase/*
