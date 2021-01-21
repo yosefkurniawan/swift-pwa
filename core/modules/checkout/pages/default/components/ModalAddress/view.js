@@ -80,7 +80,7 @@ const AddressView = (props) => {
                 {...dataEdit}
             />
             <Dialog open={open} className={[styles.address_drawer].join(' ')} maxWidth="sm" fullWidth={!!isDesktop} fullScreen={!isDesktop}>
-                <div className={styles.container}>
+                <div className={styles.container} id="checkoutListAddress">
                     <Header
                         pageConfig={headerConfig}
                         LeftComponent={{

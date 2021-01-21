@@ -12,9 +12,10 @@ const ShippingView = (props) => {
     const classes = useStyles();
     const styles = useStylesRoot();
     const checkStyles = (delivery) => ((checkout.selected.delivery === delivery)
-        ? classNames(classes.item, classes.active) : classes.item);
+        ? classNames(classes.item, classes.active, `${delivery}Delivery`)
+        : classNames(classes.item, `${delivery}Delivery`));
     return (
-        <div className={styles.block}>
+        <div id="checkoutDeliveryMethod" className={styles.block}>
             <Typography variant="title" type="bold" letter="uppercase">
                 {t('checkout:deliveryMethod:label')}
             </Typography>

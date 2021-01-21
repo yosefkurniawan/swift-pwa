@@ -10,7 +10,7 @@ const RewardPointView = (props) => {
         checkout, t, handleUsePoint, loading, reward_point, total,
     } = props;
     return (
-        <div className={styles.cardPoint}>
+        <div className={styles.cardPoint} id="checkoutRewardPoint">
             <div className="column">
                 <Typography variant="span" letter="capitalize">
                     {checkout.data.cart.applied_reward_points.is_use_reward_points

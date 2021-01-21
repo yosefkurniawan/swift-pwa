@@ -20,7 +20,7 @@ const AddressView = (props) => {
 
     const [openAddress, setOpenAddress] = React.useState(false);
     return (
-        <div className={styles.block}>
+        <div className={styles.block} id="checkoutAddress">
             <style jsx>
                 {`
                     .alert-empty-pin-point :global(.MuiAlert-icon) {

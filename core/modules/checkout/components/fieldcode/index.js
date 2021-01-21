@@ -20,10 +20,10 @@ const FieldPoint = ({
 }) => {
     const styles = useStyles();
     return (
-        <div className={classNames(styles.block, styles.rmBorder)}>
+        <div className={classNames(styles.block, styles.rmBorder)} id={id}>
             <div className={styles.fieldPoinContainer}>
                 <TextField
-                    id={id}
+                    id={`${id}Textfield`}
                     name={name}
                     disabled={!!(disabled || toggleField)}
                     value={value}
