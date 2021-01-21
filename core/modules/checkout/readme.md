@@ -20,3 +20,5 @@ this module use 3rd party, so you need install before install this module
 1. formik
 
 then you can install module [Checkout](pages/default/readme.md)  
+
+if you will install pwa only for checkout [PWA Checkout Only](pwacheckout.md)
