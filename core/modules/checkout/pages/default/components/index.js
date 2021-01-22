@@ -56,7 +56,7 @@ const Content = (props) => {
         }
     };
     return (
-        <div className={classNames(styles.mobileBottomSpace, 'row between-lg')}>
+        <div id="checkout" className={classNames(styles.mobileBottomSpace, 'row between-lg')}>
             <div className="col-xs-12 center hidden-mobile">
                 <HeaderView t={t} storeConfig={storeConfig} />
             </div>

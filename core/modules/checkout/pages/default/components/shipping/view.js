@@ -18,7 +18,7 @@ import {
 } from './style';
 
 const IconLabel = withStyles(IconAccordion)(
-    ({ classes, label }) => <div className={classes[label]} />,
+    ({ classes, label }) => <div id={`${label}Icon`} className={classes[label]} />,
 );
 
 const Accordion = withStyles(ExpanPanelStyle)(MuiAccordion);
@@ -131,7 +131,7 @@ const ShippingView = (props) => {
                                 >
                                     <AccordionSummary
                                         aria-controls="panel1d-content"
-                                        id="panel1d-header"
+                                        id={`panel-${item.group}`}
                                         expandIcon={<Arrow className={styles.icon} />}
                                     >
                                         <div className={styles.labelAccordion}>
@@ -183,7 +183,7 @@ const ShippingView = (props) => {
         content = <Typography variant="p">{t('checkout:noShipping')}</Typography>;
     }
     return (
-        <div className={styles.block}>
+        <div className={styles.block} id="checkoutShipping">
             <Typography variant="title" type="bold" letter="uppercase">
                 {t('checkout:shippingMethod')}
             </Typography>

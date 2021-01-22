@@ -114,7 +114,7 @@ const PaymentView = (props) => {
                                     >
                                         <ExpansionPanelSummary
                                             aria-controls="panel1d-content"
-                                            id="panel1d-header"
+                                            id={`panel-${item.group}`}
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
                                             <Typography letter="uppercase" variant="span" type="bold">
@@ -156,7 +156,7 @@ const PaymentView = (props) => {
     }
 
     return (
-        <div className={styles.block}>
+        <div className={styles.block} id="checkoutPayment">
             <Typography variant="title" type="bold" letter="uppercase">
                 {t('checkout:payment')}
             </Typography>

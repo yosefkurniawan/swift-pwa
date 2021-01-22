@@ -5,7 +5,7 @@ import Typography from '@common_typography';
 const CashbackInfo = ({
     message, price, currency = 'IDR', promo_name,
 }) => (
-    <div className="m-15">
+    <div id="checkoutCashbackInfo" className="m-15">
         <Alert saverity="success">
             { message[0] }
             <Typography type="bold">

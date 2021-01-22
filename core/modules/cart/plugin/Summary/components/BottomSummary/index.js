@@ -27,7 +27,7 @@ const CheckoutDrawer = ({
     const { data, total } = summary;
     return (
         <Slide direction="up" in={!editMode} mountOnEnter unmountOnExit>
-            <div className={styles.checkoutBox}>
+            <div className={styles.checkoutBox} id="bottomSummary">
                 <ExpansionPanel expanded={expanded === 1} onChange={handleChange(1)} className={styles.expand}>
                     <ExpansionPanelSummary
                         classes={{
@@ -47,6 +47,7 @@ const CheckoutDrawer = ({
                                                 <div
                                                     className="col-xs-12 row"
                                                     key={index}
+                                                    id="bottomListItemProductSummary"
                                                 >
                                                     <div className="col-xs-12 row between-xs clear-margin-padding">
                                                         <div className="col-xs-6">

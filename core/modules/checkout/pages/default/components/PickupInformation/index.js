@@ -36,7 +36,7 @@ const PickupInformation = (props) => {
         });
     };
     return (
-        <div className={styles.block}>
+        <div className={styles.block} id="checkoutPickupStore">
             <ModalPickupInformation
                 open={openModal.openModalInfo}
                 setOpen={() => handleOpen('openModalInfo')}

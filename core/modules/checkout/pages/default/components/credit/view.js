@@ -10,7 +10,7 @@ const StoreCreditView = (props) => {
         store_credit, credit, storeConfig, checkout, handleUseCredit, total, t,
     } = props;
     return (
-        <div className={styles.cardPoint}>
+        <div className={styles.cardPoint} id="checkoutUserCredit">
             <div className="column">
                 <Typography variant="span" letter="capitalize">
                     {store_credit.is_use_store_credit ? t('checkout:myCredit:used') : t('checkout:myCredit:title')}

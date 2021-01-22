@@ -22,7 +22,7 @@ const Summary = (props) => {
     const styles = useStyles();
     const [openItem, setOpenItem] = React.useState(false);
     return (
-        <div className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>
+        <div id="desktopSummary" className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>
             <Typography variant="h1" type="regular" letter="capitalize">
                 Summary
             </Typography>
@@ -44,7 +44,11 @@ const Summary = (props) => {
                                 <div className={classNames('row')}>
                                     {
                                         items.map((item, index) => (
-                                            <div className={classNames('col-xs-12 row between-xs', styles.list, styles.listProduct)} key={index}>
+                                            <div
+                                                id="listItemProductSummary"
+                                                className={classNames('col-xs-12 row between-xs', styles.list, styles.listProduct)}
+                                                key={index}
+                                            >
                                                 <div className="col-xs-4">
                                                     <img src={item.product.small_image.url} alt={item.product.name} className={styles.imgProduct} />
                                                 </div>
@@ -73,7 +77,7 @@ const Summary = (props) => {
             <List>
                 {
                     summary.data.map((dt, index) => (
-                        <ListItem className={styles.list} key={index}>
+                        <ListItem className={classNames(styles.list, 'listSummary')} key={index}>
                             <ListItemText className={styles.labelItem} primary={<Typography variant="p" size="12">{dt.item}</Typography>} />
                             <ListItemSecondaryAction>
                                 <Typography variant="span" type="regular">
@@ -83,7 +87,7 @@ const Summary = (props) => {
                         </ListItem>
                     ))
                 }
-                <ListItem className={styles.list}>
+                <ListItem className={classNames(styles.list, 'listSummary')}>
                     <ListItemText primary={<Typography variant="title" type="bold">Total</Typography>} />
                     <ListItemSecondaryAction>
                         <Typography variant="title" type="bold">

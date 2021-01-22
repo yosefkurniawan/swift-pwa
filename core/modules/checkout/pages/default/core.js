@@ -5,11 +5,14 @@ import { useFormik } from 'formik';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import { getCartId } from '@helpers/cartId';
 import { formatPrice } from '@helpers/currency';
+import Router from 'next/router';
 import Layout from '@layout';
 import Head from 'next/head';
 import { modules } from '@config';
+import { getStoreHost } from '@helpers/config';
 import Cookies from 'js-cookie';
 import gqlService from '../../services/graphql';
+import { getCartCallbackUrl, getLoginCallbackUrl, getSuccessCallbackUrl } from '../../helpers/config';
 
 function equalTo(ref, msg) {
     return this.test({
@@ -29,14 +32,34 @@ const Checkout = (props) => {
     const {
         t,
         storeConfig,
-        config,
         pageConfig,
         Content,
     } = props;
+
+    const config = {
+        successRedirect: {
+            link: getSuccessCallbackUrl(),
+            orderId: true,
+        },
+        cartRedirect: {
+            link: getCartCallbackUrl(),
+        },
+        loginRedirect: {
+            link: getLoginCallbackUrl(),
+        },
+    };
+
     let { cartId, isLogin } = props;
+    let urlRedirect = '/checkout/cart';
+    if (modules.checkout.checkoutOnly) {
+        urlRedirect = getStoreHost();
+    }
     if (typeof window !== 'undefined') {
-        cartId = getCartId();
+        if (!cartId) cartId = getCartId();
         isLogin = Cookies.get('isLogin');
+        if (!cartId) {
+            Router.push(urlRedirect);
+        }
     }
     const { snap_is_production, snap_client_key, base_currency_code = 'IDR' } = storeConfig;
     const configPage = {
@@ -408,6 +431,7 @@ const Checkout = (props) => {
         updateFormik,
         setCheckout,
         manageCustomer,
+        config,
     };
 
     return (

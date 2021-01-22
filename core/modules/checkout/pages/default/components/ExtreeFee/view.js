@@ -26,7 +26,7 @@ const ExtraFeeView = ({
     }
     return (
         <>
-            <div className={styles.container}>
+            <div className={styles.container} id="checkoutExtraFee">
                 <Typography variant="title" type="bold" className={classanames(styles.title)}>{t('common:title:extraFee')}</Typography>
                 {
                     cart.addtional_fees.data.map((item, key) => {

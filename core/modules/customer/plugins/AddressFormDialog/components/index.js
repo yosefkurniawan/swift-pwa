@@ -31,6 +31,7 @@ const AddressView = (props) => {
     const getCountriesRender = () => (
         <div className={styles.boxField}>
             <CustomAutocomplete
+                id="country"
                 enableCustom={false}
                 mode="lazy"
                 value={formik.values.country}
@@ -350,7 +351,7 @@ const AddressView = (props) => {
 
     return (
         <Dialog open={open} className={[styles.address_drawer].join(' ')} maxWidth="sm" fullWidth={!!isDesktop} fullScreen={!isDesktop}>
-            <div className={styles.container}>
+            <div className={styles.container} id="formAddress">
                 <Header
                     pageConfig={headerConfig}
                     LeftComponent={{
