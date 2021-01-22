@@ -138,6 +138,7 @@ const expiredDefault = 365;
 const localResolverKey = 'resolver';
 
 const features = {
+    useCustomStyle: false,
     ssrCache: true,
     crm: {
         enabled: false,
@@ -270,6 +271,7 @@ const modules = {
     },
     checkout: {
         enabled: true,
+        checkoutOnly: false,
         path: '/checkout',
         ipayUrl: {
             local: 'https://swiftpwa-be.testingnow.me/ipayredirect/ipayredirect/?orderId=',
