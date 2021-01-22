@@ -12,7 +12,7 @@ import { modules } from '@config';
 import { getStoreHost } from '@helpers/config';
 import Cookies from 'js-cookie';
 import gqlService from '../../services/graphql';
-import { getCartCallbackUrl, getLoginCallbackUrl, getSuccessCallbackUrl } from './helpers/config';
+import { getCartCallbackUrl, getLoginCallbackUrl, getSuccessCallbackUrl } from '../../helpers/config';
 
 function equalTo(ref, msg) {
     return this.test({
