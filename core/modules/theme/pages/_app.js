@@ -31,12 +31,7 @@ import graphRequest from '@graphql_request';
 import * as Sentry from '@sentry/node';
 import { RewriteFrames } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
-
 import { unregister } from 'next-offline/runtime';
-
-/**
- * Uncomment codes below when firebase push notification configuration is enabled
- * */
 import Notification from '@lib_firebase/notification';
 import firebase from '@lib_firebase/index';
 
@@ -46,6 +41,10 @@ let deferredPrompt;
 
 const { publicRuntimeConfig } = getConfig();
 
+/*
+ * ---------------------------------------------
+ * SENTRY INITIALIZATION
+ */
 if (sentry.enabled && typeof publicRuntimeConfig !== 'undefined' && sentry.dsn[publicRuntimeConfig.appEnv]) {
     const distDir = `${publicRuntimeConfig.rootDir}/.next`;
     Sentry.init({
@@ -81,7 +80,12 @@ class MyApp extends App {
         const {
             res, pathname, query, req,
         } = ctx;
-        // check if login from server
+
+        /*
+         * ---------------------------------------------
+         * MAINTAIN LOGIN FLAG
+         * check if login from server
+         */
         let isLogin = 0;
         let lastPathNoAuth = '';
         let customerData = {};
@@ -98,10 +102,20 @@ class MyApp extends App {
                 ? req.session.lastPathNoAuth : '/customer/account';
         }
         isLogin = parseInt(isLogin);
+
+        /*
+         * ---------------------------------------------
+         * CALLING ROUTING MIDDLEWARE
+         */
         routeMiddleware({
             res, req, query, pathname, isLogin, lastPathNoAuth,
         });
 
+        /*
+         * ---------------------------------------------
+         * GET CONFIGURATIONS FROM COOKIES
+         * TO BE PROVIDED INTO PAGE PROPS
+         */
         let storeConfig = helperCookies.get(storeConfigNameCookie);
         if (!(storeConfig && storeConfig.secure_base_media_url)) {
             // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
@@ -109,7 +123,10 @@ class MyApp extends App {
             storeConfig = storeConfig.storeConfig;
         }
 
-        // add get session from server
+        /*
+         * ---------------------------------------------
+         * RETURNS
+         */
         return {
             pageProps: {
                 ...pageProps, storeConfig, isLogin, lastPathNoAuth, customerData,
@@ -118,7 +135,10 @@ class MyApp extends App {
     }
 
     componentDidMount() {
-        // add custom service worker
+        /*
+         * ---------------------------------------------
+         * ADDING CUSTOM SERVICE WORKER
+         */
         if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production' && typeof document !== 'undefined') {
             if (document.readyState === 'complete') {
                 this.registerServiceWorker();
@@ -129,9 +149,10 @@ class MyApp extends App {
             }
         }
 
-        /**
-         * Uncomment codes below when firebase push notification configuration is enabled
-         * */
+        /*
+         * ---------------------------------------------
+         * FIREBASE INITIALIZATION
+         */
         if (features.pushNotification.enabled) {
             // initial firebase messaging
             Notification.init();
@@ -159,21 +180,39 @@ class MyApp extends App {
             }
         }
 
-        // lazy load fonts. use this to load non critical fonts
+        /*
+         * LAZY LOADING FONTS
+         * Use this to load non critical fonts
+         */
         // Fonts();
-        // Remove the server-side injected CSS.
+
+        /*
+         * ---------------------------------------------
+         * REMOVE THE SERVER SIDE INJECTED CSS
+         * This is for speed performanc purpose
+         */
         const jssStyles = document.querySelector('#jss-server-side');
         if (jssStyles) {
             jssStyles.parentElement.removeChild(jssStyles);
         }
-        // GTM & GA
-        const tagManagerArgs = {
-            gtmId: (typeof publicRuntimeConfig !== 'undefined' && GTM.gtmId[publicRuntimeConfig.appEnv])
-                ? GTM.gtmId[publicRuntimeConfig.appEnv] : GTM.gtmId.dev,
-        };
 
+        /*
+         * ---------------------------------------------
+         * GTM INITIALIZATION
+         */
+        const tagManagerArgs = {
+            gtmId:
+                typeof publicRuntimeConfig !== 'undefined' && GTM.gtmId[publicRuntimeConfig.appEnv]
+                    ? GTM.gtmId[publicRuntimeConfig.appEnv]
+                    : GTM.gtmId.dev,
+        };
         if (GTM.enable) TagManager.initialize(tagManagerArgs);
-        // remove config cookie if page reload
+
+        /*
+         * ---------------------------------------------
+         * COOKIE CLEARANCE
+         * remove config cookie if the page is reloaded
+         */
         if (typeof window !== 'undefined') {
             window.onbeforeunload = function () {
                 setResolver({});
