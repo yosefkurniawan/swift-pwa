@@ -17,9 +17,10 @@ import Error from '../../components/Error';
 
 const Authentication = (props) => {
     const router = useRouter();
+    const { state } = router.query;
 
     const {
-        Content, query, storeConfig, t,
+        Content, storeConfig, t,
     } = props;
     const [authFailed, setAuthFailed] = React.useState(false);
     const [load, setLoad] = React.useState(true);
@@ -38,9 +39,9 @@ const Authentication = (props) => {
     };
 
     React.useEffect(() => {
-        if (query.state) {
+        if (state) {
             const variables = {
-                state: query.state,
+                state,
             };
 
             // reset login and cart id first
@@ -61,6 +62,7 @@ const Authentication = (props) => {
                         setCartId(cartId, expired);
                         setLoad(false);
                         if (objectProps && objectProps.redirect_path && objectProps.redirect_path !== '') {
+                            console.log('redirect', objectProps.redirect_path);
                             router.push(objectProps.redirect_path);
                         } else {
                             router.push('/');
@@ -81,7 +83,7 @@ const Authentication = (props) => {
                 // backToStore();
             });
         }
-    }, [query.state]);
+    }, [state]);
 
     if (load) {
         return (
