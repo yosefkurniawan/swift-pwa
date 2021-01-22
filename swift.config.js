@@ -138,6 +138,7 @@ const expiredDefault = 365;
 const localResolverKey = 'resolver';
 
 const features = {
+    useCustomStyle: false,
     ssrCache: true,
     crm: {
         enabled: false,
