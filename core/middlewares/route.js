@@ -10,6 +10,8 @@ import {
 import Router from 'next/router';
 
 import { modules } from '@config';
+import { getStoreHost } from '@helpers/config';
+import { availableRoute } from './routeServer';
 
 export const routeNoAuth = (path) => {
     const route = [
@@ -102,6 +104,25 @@ const routeMiddleware = (params) => {
             }
         } else {
             typeof window !== 'undefined' ? removeLastPathWithoutLogin() : setLastPathWithoutLogin(req, '');
+        }
+    }
+
+    if (modules.checkout.checkoutOnly) {
+        const allow = availableRoute(pathname.trim().split('?')[0]);
+        if (!allow) {
+            if (typeof window !== 'undefined') {
+                window.location.href = getStoreHost(window.APP_ENV);
+            } else {
+                res.statusCode = 302;
+                res.setHeader('Location', getStoreHost());
+            }
+        } else if (typeof window !== 'undefined') {
+            const destinationUrl = pathname;
+            const currentUrl = window.sessionStorage.getItem('currentUrl');
+            const prevUrl = window.sessionStorage.getItem('prevUrl');
+            if (destinationUrl === '/' && currentUrl === '/' && prevUrl === '/') {
+                window.location.href = getStoreHost(window.APP_ENV);
+            }
         }
     }
 };
