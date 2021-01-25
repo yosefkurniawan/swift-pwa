@@ -373,6 +373,23 @@ export const getCustomer = gql`
 export const getCart = gql`
     query Cart($cartId: String!) {
         cart(cart_id: $cartId) {
+            dest_location {
+                dest_latitude
+                dest_longitude
+            }
+            ${modules.checkout.pickupStore.enabled ? cartPickupStorePerson : ''}
+            ${cartShippingAddress}
+            ${cartBillingAddress}
+            ${cartAvailableShippingMethods}
+            ${cartAvailablePaymentMethods}
+            ${cartRequiredSelection}
+        }
+    }
+`;
+
+export const getItemCart = gql`
+    query Cart($cartId: String!) {
+        cart(cart_id: $cartId) {
             items {
                 id
                 quantity
@@ -423,16 +440,6 @@ export const getCart = gql`
                     }
                 }
             }
-            dest_location {
-                dest_latitude
-                dest_longitude
-            }
-            ${modules.checkout.pickupStore.enabled ? cartPickupStorePerson : ''}
-            ${cartShippingAddress}
-            ${cartBillingAddress}
-            ${cartAvailableShippingMethods}
-            ${cartAvailablePaymentMethods}
-            ${cartRequiredSelection}
         }
     }
 `;
