@@ -3,7 +3,11 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable import/named */
 import React, { useState } from 'react';
-import { createCustomerAddress, updateCustomerAddress, updatedDefaultAddress as gqlUpdateDefaulAddress } from '../../../../services/graphql';
+import gqlService, {
+    createCustomerAddress,
+    updateCustomerAddress,
+    updatedDefaultAddress as gqlUpdateDefaulAddress,
+} from '../../../../services/graphql';
 
 const ModalAddressCustomer = (props) => {
     const {
@@ -22,12 +26,24 @@ const ModalAddressCustomer = (props) => {
     const [openNew, setOpenNew] = useState(false);
     const [typeAddress, setTypeAddress] = useState('new');
     const [dataEdit, setDataEdit] = useState({});
-
+    const [getAddress, { loading, data: addressCustomer }] = gqlService.getAddressCustomer();
     React.useEffect(() => {
+        if (open) {
+            getAddress();
+            const newCheckout = { ...checkout };
+            if (addressCustomer && !loading) {
+                manageCustomer.data.customer.addresses = addressCustomer.customer.addresses;
+                newCheckout.data.customer = manageCustomer.data.customer;
+                setCheckout(newCheckout);
+            }
+        }
+    }, [open]);
+    React.useEffect(() => {
+        const newCustomer = checkout.data.customer;
         if (customer) {
-            const selectedAddress = customer.addresses.find((addr) => addr.default_shipping);
+            const selectedAddress = newCustomer.addresses.find((addr) => addr.default_shipping);
             setSelectedAddressId(selectedAddress ? selectedAddress.id : null);
-            setAddresses(customer.addresses);
+            setAddresses(newCustomer.addresses);
         }
     }, [customer]);
 
@@ -91,9 +107,13 @@ const ModalAddressCustomer = (props) => {
             manageCustomer.refetch();
         }
     };
+    if (loading) {
+        return null;
+    }
     return (
         <Content
-            loading={checkout.loading.addresses}
+            loading={loading}
+            addressCustomer={addressCustomer}
             address={address}
             selectedAddressId={selectedAddressId}
             handleChange={handleChange}

@@ -323,12 +323,9 @@ export const removeStoreCreditFromCart = gql`
     }
 `;
 
-export const getCustomer = gql`
+export const getAddressCustomer = gql`
     query {
         customer {
-            firstname
-            lastname
-            email
             addresses {
                 id
                 city
@@ -355,6 +352,16 @@ export const getCustomer = gql`
                 longitude
                 latitude
             }
+        }
+    }
+`;
+
+export const getCustomer = gql`
+    query {
+        customer {
+            firstname
+            lastname
+            email
             ${modules.storecredit.enabled ? `store_credit {
                 current_balance {
                     value
@@ -370,7 +377,7 @@ export const getCustomer = gql`
     }
 `;
 
-export const getCart = gql`
+export const getItemCart = gql`
     query Cart($cartId: String!) {
         cart(cart_id: $cartId) {
             items {
@@ -423,6 +430,12 @@ export const getCart = gql`
                     }
                 }
             }
+        }
+    }
+`;
+export const getCart = gql`
+    query Cart($cartId: String!) {
+        cart(cart_id: $cartId) {
             dest_location {
                 dest_latitude
                 dest_longitude
