@@ -14,7 +14,6 @@ const ModalAddressCustomer = (props) => {
         Content, checkout, setOpen, setCheckout, setAddress, open, manageCustomer, ...other
     } = props;
     // graphql
-    const { customer } = checkout.data;
     const [updatedDefaultAddress] = gqlUpdateDefaulAddress();
     const [updateAddress] = updateCustomerAddress();
     const [addAddress] = createCustomerAddress();
@@ -30,22 +29,21 @@ const ModalAddressCustomer = (props) => {
     React.useEffect(() => {
         if (open) {
             getAddress();
-            const newCheckout = { ...checkout };
-            if (addressCustomer && !loading) {
-                manageCustomer.data.customer.addresses = addressCustomer.customer.addresses;
-                newCheckout.data.customer = manageCustomer.data.customer;
-                setCheckout(newCheckout);
-            }
         }
     }, [open]);
+
     React.useEffect(() => {
-        const newCustomer = checkout.data.customer;
-        if (customer) {
+        const newCheckout = { ...checkout };
+        if (addressCustomer && !loading) {
+            manageCustomer.data.customer.addresses = addressCustomer.customer.addresses;
+            newCheckout.data.customer = manageCustomer.data.customer;
+            setCheckout(newCheckout);
+            const newCustomer = checkout.data.customer;
             const selectedAddress = newCustomer.addresses.find((addr) => addr.default_shipping);
             setSelectedAddressId(selectedAddress ? selectedAddress.id : null);
             setAddresses(newCustomer.addresses);
         }
-    }, [customer]);
+    }, [addressCustomer]);
 
     // handle open modal add adress button
     const handleOpenNew = (type = 'new') => {
@@ -107,9 +105,7 @@ const ModalAddressCustomer = (props) => {
             manageCustomer.refetch();
         }
     };
-    if (loading) {
-        return null;
-    }
+
     return (
         <Content
             loading={loading}
