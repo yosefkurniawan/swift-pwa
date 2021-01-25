@@ -136,6 +136,7 @@ const Checkout = (props) => {
     // start init graphql
     const [getCustomer, manageCustomer] = gqlService.getCustomer();
     const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
+    const [getItemCart, { data: itemCart, error: errorItem }] = gqlService.getItemCart();
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
     // end init graphql
 
@@ -162,7 +163,7 @@ const Checkout = (props) => {
             billing: null,
         },
         validationSchema: CheckoutSchema,
-        onSubmit: () => {},
+        onSubmit: () => { },
     });
 
     const updateFormik = (cart) => {
@@ -190,7 +191,9 @@ const Checkout = (props) => {
 
     const initData = () => {
         const { cart } = dataCart;
+        const { items } = itemCart.cart;
         const state = { ...checkout };
+        cart.items = items;
 
         if (cart && cart.items && cart.items.length === 0) {
             window.location.replace(config.cartRedirect && config.cartRedirect.link ? config.cartRedirect.link : '/checkout/cart');
@@ -357,20 +360,21 @@ const Checkout = (props) => {
             if (modules.rewardpoint.enabled) getRewardPoint();
         }
 
-        const loadCart = isLogin ? manageCustomer.data && !dataCart : !dataCart;
+        const loadCart = isLogin ? manageCustomer.data && !dataCart && !itemCart : !dataCart && !itemCart;
 
         if (loadCart) {
             getCart({ variables: { cartId } });
+            getItemCart({ variables: { cartId } });
         }
 
-        if (errorCart) {
+        if (errorCart && errorItem) {
             window.location.replace('/checkout/cart');
         }
 
-        if (dataCart && dataCart.cart) {
+        if (dataCart && dataCart.cart && itemCart && itemCart.cart) {
             initData();
         }
-    }, [manageCustomer.data, dataCart]);
+    }, [manageCustomer.data, dataCart, itemCart]);
 
     React.useMemo(() => {
         if (checkout.data.cart) {
