@@ -2,7 +2,7 @@
 const fetch = require('cross-fetch');
 const { print } = require('graphql');
 const { wrapSchema, introspectSchema } = require('@graphql-tools/wrap');
-const { graphqlEndpoint } = require('../../../../swift.config');
+const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
 const { decrypt } = require('../../../helpers/encryption');
 
 const executor = async ({ document, variables, context }) => {
@@ -13,11 +13,13 @@ const executor = async ({ document, variables, context }) => {
         }
         const query = print(document);
         const appEnv = typeof window !== 'undefined' ? window.APP_ENV : process.env.APP_ENV;
+        const additionalHeader = storeCode ? { store: storeCode } : {};
         const fetchResult = await fetch(graphqlEndpoint[appEnv] || graphqlEndpoint.prod, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: token ? `Bearer ${decrypt(token)}` : '',
+                ...additionalHeader,
             },
             body: JSON.stringify({ query, variables }),
         });
