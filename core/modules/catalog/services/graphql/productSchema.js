@@ -145,7 +145,7 @@ export const getProduct = (config = {}) => gql`
         special_to_date
         new_from_date
         new_to_date
-        sale
+        ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
         ${modules.catalog.productListing.configurableOptions.enabled ? `
         ... on ConfigurableProduct {
           configurable_options {
@@ -233,7 +233,7 @@ export const getProduct = (config = {}) => gql`
               special_to_date
               new_from_date
               new_to_date
-              sale
+              ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
               small_image{
                 url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
                 label

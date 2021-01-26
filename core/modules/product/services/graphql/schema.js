@@ -1,12 +1,12 @@
 /* eslint-disable no-plusplus */
 import { gql } from '@apollo/client';
-import { features } from '@config';
+import { features, modules } from '@config';
 
 const productDetail = `
     id
     name
     sku
-    sale
+    ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
     stock_status
     url_key
     __typename
