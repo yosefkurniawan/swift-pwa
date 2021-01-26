@@ -323,12 +323,9 @@ export const removeStoreCreditFromCart = gql`
     }
 `;
 
-export const getCustomer = gql`
+export const getAddressCustomer = gql`
     query {
         customer {
-            firstname
-            lastname
-            email
             addresses {
                 id
                 city
@@ -355,6 +352,16 @@ export const getCustomer = gql`
                 longitude
                 latitude
             }
+        }
+    }
+`;
+
+export const getCustomer = gql`
+    query {
+        customer {
+            firstname
+            lastname
+            email
             ${modules.storecredit.enabled ? `store_credit {
                 current_balance {
                     value
@@ -366,23 +373,6 @@ export const getCustomer = gql`
                 giftcard_balance
                 giftcard_code
             }` : ''}
-        }
-    }
-`;
-
-export const getCart = gql`
-    query Cart($cartId: String!) {
-        cart(cart_id: $cartId) {
-            dest_location {
-                dest_latitude
-                dest_longitude
-            }
-            ${modules.checkout.pickupStore.enabled ? cartPickupStorePerson : ''}
-            ${cartShippingAddress}
-            ${cartBillingAddress}
-            ${cartAvailableShippingMethods}
-            ${cartAvailablePaymentMethods}
-            ${cartRequiredSelection}
         }
     }
 `;
@@ -440,6 +430,22 @@ export const getItemCart = gql`
                     }
                 }
             }
+        }
+    }
+`;
+export const getCart = gql`
+    query Cart($cartId: String!) {
+        cart(cart_id: $cartId) {
+            dest_location {
+                dest_latitude
+                dest_longitude
+            }
+            ${modules.checkout.pickupStore.enabled ? cartPickupStorePerson : ''}
+            ${cartShippingAddress}
+            ${cartBillingAddress}
+            ${cartAvailableShippingMethods}
+            ${cartAvailablePaymentMethods}
+            ${cartRequiredSelection}
         }
     }
 `;

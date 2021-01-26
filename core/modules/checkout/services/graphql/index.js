@@ -20,6 +20,13 @@ export const getCustomer = (options = {}) => useLazyQuery(Schema.getCustomer, {
     errorPolicy: 'all',
 });
 
+export const getAddressCustomer = (options = {}) => useLazyQuery(Schema.getAddressCustomer, {
+    ...options,
+    ...config(USING_INTERNAL),
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'all',
+});
+
 export const getCart = (options = {}) => useLazyQuery(Schema.getCart, {
     ...options,
     ...config(USING_INTERNAL),
@@ -184,6 +191,7 @@ export default {
     getCustomerCartId,
     mergeCart,
     getCustomer,
+    getAddressCustomer,
     getCart,
     getItemCart,
     getRewardPoint,

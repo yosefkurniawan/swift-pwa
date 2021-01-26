@@ -202,7 +202,7 @@ const Checkout = (props) => {
         let customer;
         let address;
 
-        if (!state.data.isGuest && manageCustomer && manageCustomer.data && manageCustomer.data.customer) {
+        if (!state.data.isGuest && manageCustomer && manageCustomer.data && manageCustomer.data.customer && manageCustomer.data.customer.addresses) {
             customer = manageCustomer.data.customer;
             [address] = customer
                 ? customer.addresses.filter((item) => item.default_shipping)
