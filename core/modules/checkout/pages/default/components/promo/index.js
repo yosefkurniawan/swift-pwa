@@ -67,6 +67,7 @@ const DiscountSection = (props) => {
     return (
         <PromoView
             id="coupon"
+            name="coupon"
             placeholder="Promo Code"
             action={handlePromo}
             onChange={formik.handleChange}
