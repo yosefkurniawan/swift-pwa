@@ -23,7 +23,6 @@ export const getCustomer = (options = {}) => useLazyQuery(Schema.getCustomer, {
 export const getAddressCustomer = (options = {}) => useLazyQuery(Schema.getAddressCustomer, {
     ...options,
     ...config(USING_INTERNAL),
-    fetchPolicy: 'cache',
     errorPolicy: 'all',
 });
 
