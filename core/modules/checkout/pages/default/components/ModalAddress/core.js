@@ -2,7 +2,7 @@
 /* eslint-disable radix */
 /* eslint-disable no-plusplus */
 /* eslint-disable import/named */
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import gqlService, {
     createCustomerAddress,
     updateCustomerAddress,
@@ -25,7 +25,8 @@ const ModalAddressCustomer = (props) => {
     const [openNew, setOpenNew] = useState(false);
     const [typeAddress, setTypeAddress] = useState('new');
     const [dataEdit, setDataEdit] = useState({});
-    const [getAddress, { loading, data: addressCustomer }] = gqlService.getAddressCustomer();
+    const [getAddress, { loading, data: addressCustomer, refetch: _refetch }] = gqlService.getAddressCustomer();
+    const refetch = useCallback(() => { setTimeout(() => _refetch(), 0); }, [_refetch]);
     React.useEffect(() => {
         if (open) {
             getAddress();
@@ -33,15 +34,12 @@ const ModalAddressCustomer = (props) => {
     }, [open]);
 
     React.useEffect(() => {
-        const newCheckout = { ...checkout };
-        if (addressCustomer && !loading) {
-            manageCustomer.data.customer.addresses = addressCustomer.customer.addresses;
-            newCheckout.data.customer = manageCustomer.data.customer;
-            setCheckout(newCheckout);
-            const newCustomer = checkout.data.customer;
-            const selectedAddress = newCustomer.addresses.find((addr) => addr.default_shipping);
+        // const newCheckout = { ...checkout };
+        if (addressCustomer && !loading && addressCustomer.customer
+            && addressCustomer.customer.addresses && addressCustomer.customer.addresses.length > 0) {
+            const selectedAddress = addressCustomer.customer.addresses.find((addr) => addr.default_shipping);
             setSelectedAddressId(selectedAddress ? selectedAddress.id : null);
-            setAddresses(newCustomer.addresses);
+            setAddresses(addressCustomer.customer.addresses);
         }
     }, [addressCustomer]);
 
@@ -102,7 +100,12 @@ const ModalAddressCustomer = (props) => {
         if (openNew && !open) {
             setOpenNew(false);
             setOpen(true);
-            manageCustomer.refetch();
+            if (refetch && typeof refetch === 'function') {
+                refetch();
+            }
+            if (manageCustomer.refetch && typeof manageCustomer.refetch() === 'function') {
+                manageCustomer.refetch();
+            }
         }
     };
 
