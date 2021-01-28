@@ -66,6 +66,29 @@ const cartShippingAddress = `
         city
         postcode
         telephone
+        selected_shipping_method {
+            method_code
+            carrier_code
+            amount {
+                value
+                currency
+            }
+        }
+        available_shipping_methods {
+            available
+            method_code
+            carrier_code
+            method_title
+            carrier_title
+            amount {
+                value
+                currency
+            }
+            shipping_promo_name
+            price_incl_tax {
+                value
+            }
+        }
         region {
             code
             label
@@ -505,15 +528,11 @@ export const setBillingAddressById = gql`
     mutation setBillingAddressById($addressId: Int!, $cartId: String!) {
         setBillingAddressOnCart(input: { cart_id: $cartId, billing_address: { same_as_shipping: true, customer_address_id: $addressId } }) {
             cart {
-                id
                 dest_location {
                     dest_latitude
                     dest_longitude
                 }
                 ${cartShippingAddress}
-                ${cartBillingAddress}
-                ${cartAvailableShippingMethods}
-                ${cartRequiredSelection}
             }
         }
     }
@@ -555,15 +574,11 @@ export const setBillingAddressByInput = gql`
             }
         ) {
             cart {
-                id
                 dest_location {
                     dest_latitude
                     dest_longitude
                 }
                 ${cartShippingAddress}
-                ${cartBillingAddress}
-                ${cartAvailableShippingMethods}
-                ${cartRequiredSelection}
             }
         }
     }
