@@ -13,7 +13,7 @@ const Shipping = (props) => {
     const handleShipping = async (val) => {
         if (val) {
             const { cart } = checkout.data;
-            const { carrier_code, method_code } = val.name;
+            const [carrier_code, method_code] = val.split('_');
             let state = { ...checkout };
             state.selected.shipping = val;
             window.backdropLoader(true);
