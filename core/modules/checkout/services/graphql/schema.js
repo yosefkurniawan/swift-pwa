@@ -206,53 +206,19 @@ pickup_item_store_info {
 }
 `;
 
-const prices = `
-prices {
-    discounts {
-        amount {
-            currency
-            value
-        }
-        label
-    }
-    subtotal_excluding_tax {
-        currency
-        value
-    }
-    subtotal_including_tax {
-        currency
-        value
-    }
-    applied_taxes {
-        amount {
-            value
-            currency
-        }
-    }
-    grand_total {
-        currency
-        value
-    }
-}
-`;
-
-const shipping_addresses = `
-shipping_addresses {
-    selected_shipping_method {
-        method_code
-        carrier_code
-        amount {
-            value
-            currency
-        }
-    }
-}
-`;
-
 const cartRequiredSelection = `
     id
     email
-    ${shipping_addresses}
+    shipping_addresses {
+        selected_shipping_method {
+            method_code
+            carrier_code
+            amount {
+                value
+                currency
+            }
+        }
+    }
     selected_payment_method {
         code
     }
@@ -263,7 +229,35 @@ const cartRequiredSelection = `
    ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
    ${modules.giftcard.enabled ? applied_giftcard : ''}
    ${modules.storecredit.enabled ? applied_store_credit : ''}
-   ${prices}
+  
+    
+    prices {
+        discounts {
+            amount {
+                currency
+                value
+            }
+            label
+        }
+        subtotal_excluding_tax {
+            currency
+            value
+        }
+        subtotal_including_tax {
+            currency
+            value
+        }
+        applied_taxes {
+            amount {
+                value
+                currency
+            }
+        }
+        grand_total {
+            currency
+            value
+        }
+    }
 `;
 
 export const applyGiftCardToCart = modules.giftcard.useCommerceModule ? gql`
@@ -596,13 +590,7 @@ export const setShippingMethod = gql`
             cart {
                 id
                 ${cartAvailablePaymentMethods}
-                selected_payment_method {
-                    code
-                }
-                ${modules.checkout.cashback.enabled ? applied_cashback : ''}
-                ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
-                ${prices}
-                
+                ${cartRequiredSelection}
             }
         }
     }
