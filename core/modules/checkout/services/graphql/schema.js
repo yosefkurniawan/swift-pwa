@@ -616,10 +616,13 @@ export const setPaymentMethod = gql`
         setPaymentMethodOnCart(input: { cart_id: $cartId, payment_method: { code: $code } }) {
             cart {
                 id
-                selected_payment_method {
-                    code
-                }
-                ${cartRequiredSelection}
+                ${selected_payment_method}
+                ${modules.checkout.cashback.enabled ? applied_cashback : ''}
+                ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
+                ${modules.rewardpoint.enabled ? applied_reward_points : ''}
+                ${modules.giftcard.enabled ? applied_giftcard : ''}
+                ${modules.storecredit.enabled ? applied_store_credit : ''}
+                ${prices}
             }
         }
     }
