@@ -206,22 +206,60 @@ pickup_item_store_info {
 }
 `;
 
+const shipping_addresses = `
+shipping_addresses {
+    selected_shipping_method {
+        method_code
+        carrier_code
+        amount {
+            value
+            currency
+        }
+    }
+}
+`;
+
+const selected_payment_method = `
+selected_payment_method {
+    code
+}
+`;
+
+const prices = `
+prices {
+    discounts {
+        amount {
+            currency
+            value
+        }
+        label
+    }
+    subtotal_excluding_tax {
+        currency
+        value
+    }
+    subtotal_including_tax {
+        currency
+        value
+    }
+    applied_taxes {
+        amount {
+            value
+            currency
+        }
+    }
+    grand_total {
+        currency
+        value
+    }
+}
+`;
+
 const cartRequiredSelection = `
     id
     email
-    shipping_addresses {
-        selected_shipping_method {
-            method_code
-            carrier_code
-            amount {
-                value
-                currency
-            }
-        }
-    }
-    selected_payment_method {
-        code
-    }
+    ${shipping_addresses}
+    ${selected_payment_method}
     
    ${modules.checkout.cashback.enabled ? applied_cashback : ''}
    ${modules.rewardpoint.enabled ? applied_reward_points : ''}
@@ -229,35 +267,9 @@ const cartRequiredSelection = `
    ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
    ${modules.giftcard.enabled ? applied_giftcard : ''}
    ${modules.storecredit.enabled ? applied_store_credit : ''}
-  
+  ${prices}
     
-    prices {
-        discounts {
-            amount {
-                currency
-                value
-            }
-            label
-        }
-        subtotal_excluding_tax {
-            currency
-            value
-        }
-        subtotal_including_tax {
-            currency
-            value
-        }
-        applied_taxes {
-            amount {
-                value
-                currency
-            }
-        }
-        grand_total {
-            currency
-            value
-        }
-    }
+    
 `;
 
 export const applyGiftCardToCart = modules.giftcard.useCommerceModule ? gql`
@@ -589,8 +601,11 @@ export const setShippingMethod = gql`
         setShippingMethodsOnCart(input: { cart_id: $cartId, shipping_methods: { carrier_code: $carrierCode, method_code: $methodCode } }) {
             cart {
                 id
+                ${shipping_addresses}
                 ${cartAvailablePaymentMethods}
-                ${cartRequiredSelection}
+                ${modules.checkout.cashback.enabled ? applied_cashback : ''}
+                ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
+                ${prices}
             }
         }
     }
