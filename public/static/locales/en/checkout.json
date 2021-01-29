@@ -95,5 +95,6 @@
         "message": "There was a slight problem with your request, please try again or go back to store",
         "try": "Retry",
         "backToStore": "Back to store"
-    }
+    },
+    "cartError": "Something went wrong during fetching the cart data"
 }
