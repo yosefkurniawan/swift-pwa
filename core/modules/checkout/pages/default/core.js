@@ -11,6 +11,7 @@ import Head from 'next/head';
 import { modules } from '@config';
 import { getStoreHost } from '@helpers/config';
 import Cookies from 'js-cookie';
+import Toast from '@common_toast';
 import gqlService from '../../services/graphql';
 import { getCartCallbackUrl, getLoginCallbackUrl, getSuccessCallbackUrl } from '../../helpers/config';
 
@@ -133,6 +134,7 @@ const Checkout = (props) => {
         },
     });
 
+    const [isError, setError] = useState(false);
     // start init graphql
     const [getCustomer, manageCustomer] = gqlService.getCustomer();
     const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
@@ -370,7 +372,8 @@ const Checkout = (props) => {
         }
 
         if (errorCart && errorItem) {
-            window.location.replace('/checkout/cart');
+            setError(true);
+            // window.location.replace('/checkout/cart');
         }
 
         if (dataCart && dataCart.cart && itemCart && itemCart.cart) {
@@ -457,6 +460,12 @@ const Checkout = (props) => {
                 {...contentProps}
                 {...props}
                 modules={modules}
+            />
+            <Toast
+                open={isError}
+                message={t('checkout:cartError')}
+                variant="error"
+                setOpen={setError}
             />
         </Layout>
     );
