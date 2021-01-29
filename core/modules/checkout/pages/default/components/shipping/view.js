@@ -89,10 +89,11 @@ const ShippingView = (props) => {
             if (groupData.length > 0) {
                 // ad active key if on group data selected payment method
                 let active = false;
-                if (selected.shipping && selected.shipping.name) {
+                if (selected.shipping) {
                     for (let idx = 0; idx < groupData.length; idx += 1) {
                         const element = groupData[idx];
-                        if (element.method_code === selected.shipping.name.method_code) {
+                        const activeIdentifer = `${element.carrier_code}_${element.method_code}`;
+                        if (activeIdentifer === selected.shipping) {
                             active = true;
                         }
                     }
