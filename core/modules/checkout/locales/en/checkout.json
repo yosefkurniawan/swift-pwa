@@ -89,5 +89,6 @@
         "nextday": "Next day",
         "reguler": "Reguler",
         "others": "Others"
-    }
+    },
+    "cartError": "Something went wrong during fetching the cart data.yys"
 }

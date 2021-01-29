@@ -459,7 +459,7 @@ const Checkout = (props) => {
             />
             <Toast
                 open={isError}
-                message="Something went wrong during fetching the cart data."
+                message={t('checkout:cartError')}
                 variant="error"
                 setOpen={setError}
             />
