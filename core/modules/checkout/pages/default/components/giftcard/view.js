@@ -12,6 +12,7 @@ const GiftCardView = (props) => {
         <>
             <FieldPoint
                 id="giftCard"
+                name="giftCard"
                 placeholder="Gift Card Code"
                 action={() => {
                     handleApplyGift();
