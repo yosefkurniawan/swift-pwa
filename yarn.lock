@@ -10603,9 +10603,9 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-"swift-pwa-core@git+https://9113b5995a6d85a72df6578146ffbde1c1aee8fb:x-oauth-basic@github.com/icubeus/swift-pwa-core.git#2.3.5":
-  version "2.3.5"
-  resolved "git+https://9113b5995a6d85a72df6578146ffbde1c1aee8fb:x-oauth-basic@github.com/icubeus/swift-pwa-core.git#84c47cef2871e5ca2dd9978d4335482b1ad0234f"
+"swift-pwa-core@git+https://9113b5995a6d85a72df6578146ffbde1c1aee8fb:x-oauth-basic@github.com/icubeus/swift-pwa-core.git#2.3.6":
+  version "2.3.6"
+  resolved "git+https://9113b5995a6d85a72df6578146ffbde1c1aee8fb:x-oauth-basic@github.com/icubeus/swift-pwa-core.git#8211af42cd3eb65dc60039cccaa5c4d2e508aed0"
 
 swiper@^5.4.5:
   version "5.4.5"
