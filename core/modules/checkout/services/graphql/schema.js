@@ -258,8 +258,6 @@ prices {
 const cartRequiredSelection = `
     id
     email
-    ${shipping_addresses}
-    ${selected_payment_method}
     
    ${modules.checkout.cashback.enabled ? applied_cashback : ''}
    ${modules.rewardpoint.enabled ? applied_reward_points : ''}
