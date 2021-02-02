@@ -270,6 +270,11 @@ const cartRequiredSelection = `
     
 `;
 
+const emailSelection = `
+    id
+    email
+`;
+
 export const applyGiftCardToCart = modules.giftcard.useCommerceModule ? gql`
 mutation($cartId: String! $code: String!){
     applyGiftCardToCart(input: {
@@ -630,7 +635,7 @@ export const setGuestEmailAddressOnCart = gql`
     mutation($cartId: String!, $email: String!) {
         setGuestEmailOnCart(input: { cart_id: $cartId, email: $email }) {
             cart {
-                ${cartRequiredSelection}
+                ${emailSelection}
             }
         }
     }
