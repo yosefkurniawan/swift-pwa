@@ -1,4 +1,4 @@
-import { debuging } from '@config';
+import { debuging, features } from '@config';
 import { useTranslation } from '@i18n';
 import Alert from '@material-ui/lab/Alert';
 import { getVesMenu } from '@core_modules/theme/services/graphql/index';
@@ -24,7 +24,7 @@ const CategoryWrapper = ({ handleCloseModal = () => {} }) => {
         loading, data, error, storeConfig,
     } = getVesMenu({
         variables: {
-            alias: 'top-menu',
+            alias: features.vesMenu.alias,
         },
     });
     const cmsPages = storeConfig && storeConfig.cms_page ? storeConfig.cms_page.split(',') : [];

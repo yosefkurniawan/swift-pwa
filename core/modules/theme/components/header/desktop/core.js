@@ -20,7 +20,7 @@ const CoreTopNavigation = (props) => {
 
     const { data, loading } = features.vesMenu.enabled ? getVesMenu({
         variables: {
-            alias: 'top-menu',
+            alias: features.vesMenu.alias,
         },
     }) : getCategories();
     let customerData = {};
