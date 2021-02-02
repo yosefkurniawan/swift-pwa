@@ -14,7 +14,7 @@ const GiftCard = (props) => {
     const [removeGiftCardFromCart] = gqlService.removeGiftCardFromCart({ onError: () => { } });
     let giftCards = [];
     let appliedGiftCards = [];
-    if (!checkout.data.isGuest && checkout.data.cart) {
+    if (checkout.data.cart) {
         if (modules.giftcard.useCommerceModule) {
             if (checkout.data.cart.applied_gift_cards && checkout.data.cart.applied_gift_cards.length > 0) {
                 appliedGiftCards = checkout.data.cart.applied_gift_cards.map((item) => item.code);
