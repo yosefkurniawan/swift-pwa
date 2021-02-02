@@ -259,6 +259,9 @@ const modules = {
             rating: {
                 enabled: true,
             },
+            brand: {
+                enabled: true,
+            },
         },
         pdp: {
             popupDetailImage: {
