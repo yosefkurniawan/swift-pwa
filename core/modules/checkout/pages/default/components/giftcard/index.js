@@ -10,12 +10,11 @@ const GiftCard = (props) => {
         formik,
         GiftCardView,
     } = props;
-    const [applyGiftCardToCart] = gqlService.applyGiftCardToCart({ onError: () => {} });
-    const [removeGiftCardFromCart] = gqlService.removeGiftCardFromCart({ onError: () => {} });
+    const [applyGiftCardToCart] = gqlService.applyGiftCardToCart({ onError: () => { } });
+    const [removeGiftCardFromCart] = gqlService.removeGiftCardFromCart({ onError: () => { } });
     let giftCards = [];
     let appliedGiftCards = [];
-
-    if (checkout.data.customer && checkout.data.cart) {
+    if (!checkout.data.isGuest && checkout.data.cart) {
         if (modules.giftcard.useCommerceModule) {
             if (checkout.data.cart.applied_gift_cards && checkout.data.cart.applied_gift_cards.length > 0) {
                 appliedGiftCards = checkout.data.cart.applied_gift_cards.map((item) => item.code);
@@ -24,7 +23,9 @@ const GiftCard = (props) => {
             appliedGiftCards = checkout.data.cart.applied_giftcard.giftcard_detail.map((item) => item.giftcard_code);
         }
         if (!modules.giftcard.useCommerceModule) {
-            giftCards = checkout.data.customer.gift_card.filter((item) => !appliedGiftCards.includes(item.giftcard_code));
+            if (checkout.data.customer) {
+                giftCards = checkout.data.customer.gift_card.filter((item) => !appliedGiftCards.includes(item.giftcard_code));
+            }
         }
     }
 
