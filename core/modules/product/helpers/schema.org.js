@@ -1,7 +1,6 @@
 /* eslint-disable radix */
 import { getHost } from '@helper_config';
 import { StripHtmlTags } from '@helper_text';
-import { modules } from '@config';
 
 const generate = (product) => {
     let today = new Date();
@@ -23,7 +22,7 @@ const generate = (product) => {
         gtin14: product.id,
         gtin8: product.id,
         mpn: product.id,
-        brand: modules.catalog.productListing.brand.enabled ? product.brand : '',
+        brand: product.brand,
         offers: {
             '@type': 'Offer',
             priceCurrency: product.price_range.minimum_price.final_price.currency,

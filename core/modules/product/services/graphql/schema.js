@@ -119,7 +119,7 @@ export const getProduct = (url) => {
               description {
                 html
               }
-              ${modules.catalog.productListing.brand.enabled ? 'brand' : ''}
+              brand
               short_description {
                 html
               }
