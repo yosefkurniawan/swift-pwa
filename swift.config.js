@@ -184,6 +184,7 @@ const features = {
     },
     vesMenu: {
         enabled: true,
+        alias: 'top-menu',
     },
     customInstallApp: {
         enabled: true,
