@@ -13,19 +13,35 @@ export default function CustomizedExpansionPanels({
 }) {
     const { loading, data, selected } = checkout;
     const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => { } });
-    const [isLoader, setLoader] = React.useState(false);
 
     const handlePayment = async (val) => {
         if (val) {
             const { cart } = checkout.data;
-            let state = { ...checkout };
+            let state = {
+                ...checkout,
+                loading: {
+                    ...checkout.loading,
+                    all: false,
+                    shipping: true,
+                    payment: true,
+                    extraFee: true,
+                },
+            };
             state.selected.payment = val;
-            setLoader(true);
             setCheckout(state);
 
             const result = await setPaymentMethod({ variables: { cartId: cart.id, code: val } });
 
-            state = { ...checkout };
+            state = {
+                ...checkout,
+                loading: {
+                    ...checkout.loading,
+                    all: false,
+                    shipping: false,
+                    payment: false,
+                    extraFee: false,
+                },
+            };
 
             if (result && result.data && result.data.setPaymentMethodOnCart && result.data.setPaymentMethodOnCart.cart) {
                 const mergeCart = {
@@ -40,7 +56,6 @@ export default function CustomizedExpansionPanels({
                     text: t('checkout:message:problemConnection'),
                 });
             }
-            setLoader(false);
             setCheckout(state);
 
             const selectedPayment = data.paymentMethod.filter((item) => item.code === val);
@@ -92,7 +107,6 @@ export default function CustomizedExpansionPanels({
             t={t}
             selected={selected}
             handlePayment={handlePayment}
-            isSkeleton={isLoader}
         />
     );
 }

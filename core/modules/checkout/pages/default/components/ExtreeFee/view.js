@@ -12,7 +12,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import useStyles from './style';
 
 const ExtraFeeView = ({
-    cart, globalCurrency, t, state, handleChange, loading, isSkeleton,
+    cart, globalCurrency, t, state, handleChange, loading,
 }) => {
     const styles = useStyles();
     const Loader = () => (
@@ -22,7 +22,7 @@ const ExtraFeeView = ({
             <Skeleton variant="text" width="80%" height={30} />
         </div>
     );
-    if (loading.all || isSkeleton) {
+    if (loading.all || loading.extraFee) {
         return <Loader />;
     }
     return (

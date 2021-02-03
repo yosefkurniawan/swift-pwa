@@ -10,14 +10,21 @@ const Shipping = (props) => {
 
     const { loading, data, selected } = checkout;
     const [setShippingMethod] = gqlService.setShippingMethod({ onError: () => { } });
-    const [isLoader, setLoader] = React.useState(false);
     const handleShipping = async (val) => {
         if (val) {
             const { cart } = checkout.data;
             const [carrier_code, method_code] = val.split('_');
-            let state = { ...checkout };
+            let state = {
+                ...checkout,
+                loading: {
+                    ...checkout.loading,
+                    all: false,
+                    shipping: true,
+                    payment: true,
+                    extraFee: true,
+                },
+            };
             state.selected.shipping = val;
-            setLoader(true);
             setCheckout(state);
 
             let updatedCart = await setShippingMethod({
@@ -28,8 +35,16 @@ const Shipping = (props) => {
                 },
             });
 
-            state = { ...checkout };
-            setLoader(false);
+            state = {
+                ...checkout,
+                loading: {
+                    ...checkout.loading,
+                    all: false,
+                    shipping: false,
+                    payment: false,
+                    extraFee: false,
+                },
+            };
             setCheckout(state);
 
             if (updatedCart && updatedCart.data) {
@@ -105,7 +120,6 @@ const Shipping = (props) => {
             loading={loading}
             selected={selected}
             data={data}
-            isSkeleton={isLoader}
         />
     );
 };
