@@ -83,7 +83,7 @@ const AdditionSelect = (props) => {
                 all: false,
                 shipping: true,
                 payment: true,
-                extraFee: true,
+                extraFee: false,
             },
         };
         setCheckout(isState);

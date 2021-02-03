@@ -19,7 +19,7 @@ const Shipping = (props) => {
                 loading: {
                     ...checkout.loading,
                     all: false,
-                    shipping: true,
+                    shipping: false,
                     payment: true,
                     extraFee: true,
                 },
