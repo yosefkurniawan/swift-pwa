@@ -10,6 +10,7 @@ const AdditionSelect = (props) => {
     const [updateExtraFee] = gqlService.updateExtraFee();
     const { data: { cart }, loading } = checkout;
     const [state, setState] = React.useState({});
+    const [isLoader, setLoader] = React.useState(false);
     const globalCurrency = storeConfig.default_display_currency_code || 'IDR';
 
     React.useEffect(() => {
@@ -54,7 +55,7 @@ const AdditionSelect = (props) => {
     }, [checkout]);
 
     const handleChange = async (key, value) => {
-        window.backdropLoader(true);
+        setLoader(true);
         const newState = { ...state, [key]: value };
         await setState(newState);
         const keyState = Object.keys(newState);
@@ -90,7 +91,7 @@ const AdditionSelect = (props) => {
                 ...res.data.updateExtraFeeOnCart.cart,
             };
             await setCheckout(checkoutData);
-            window.backdropLoader(false);
+            setLoader(false);
         }).catch(() => window.backdropLoader(false));
     };
     if (cart && cart.addtional_fees && cart.addtional_fees.data && cart.addtional_fees.data.length > 0) {
@@ -103,6 +104,7 @@ const AdditionSelect = (props) => {
                 handleChange={handleChange}
                 loading={loading}
                 cart={cart}
+                isSkeleton={isLoader}
             />
         );
     }

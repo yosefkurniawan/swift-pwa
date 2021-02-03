@@ -12,17 +12,18 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import useStyles from './style';
 
 const ExtraFeeView = ({
-    cart, globalCurrency, t, state, handleChange, loading,
+    cart, globalCurrency, t, state, handleChange, loading, isSkeleton,
 }) => {
     const styles = useStyles();
-    if (loading.all) {
-        return (
-            <div className={styles.container}>
-                <Skeleton variant="text" width="40%" height={35} />
-                <Skeleton variant="text" width="80%" height={30} />
-                <Skeleton variant="text" width="80%" height={30} />
-            </div>
-        );
+    const Loader = () => (
+        <div className={styles.container}>
+            <Skeleton variant="text" width="40%" height={35} />
+            <Skeleton variant="text" width="80%" height={30} />
+            <Skeleton variant="text" width="80%" height={30} />
+        </div>
+    );
+    if (loading.all || isSkeleton) {
+        return <Loader />;
     }
     return (
         <>

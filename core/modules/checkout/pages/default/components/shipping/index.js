@@ -1,3 +1,4 @@
+import React from 'react';
 import TagManager from 'react-gtm-module';
 import gqlService from '../../../../services/graphql';
 
@@ -8,15 +9,15 @@ const Shipping = (props) => {
     } = props;
 
     const { loading, data, selected } = checkout;
-    const [setShippingMethod] = gqlService.setShippingMethod({ onError: () => {} });
-
+    const [setShippingMethod] = gqlService.setShippingMethod({ onError: () => { } });
+    const [isLoader, setLoader] = React.useState(false);
     const handleShipping = async (val) => {
         if (val) {
             const { cart } = checkout.data;
             const [carrier_code, method_code] = val.split('_');
             let state = { ...checkout };
             state.selected.shipping = val;
-            window.backdropLoader(true);
+            setLoader(true);
             setCheckout(state);
 
             let updatedCart = await setShippingMethod({
@@ -28,7 +29,7 @@ const Shipping = (props) => {
             });
 
             state = { ...checkout };
-            window.backdropLoader(false);
+            setLoader(false);
             setCheckout(state);
 
             if (updatedCart && updatedCart.data) {
@@ -104,6 +105,7 @@ const Shipping = (props) => {
             loading={loading}
             selected={selected}
             data={data}
+            isSkeleton={isLoader}
         />
     );
 };
