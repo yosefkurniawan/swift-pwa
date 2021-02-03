@@ -10,7 +10,6 @@ const AdditionSelect = (props) => {
     const [updateExtraFee] = gqlService.updateExtraFee();
     const { data: { cart }, loading } = checkout;
     const [state, setState] = React.useState({});
-    const [isLoader, setLoader] = React.useState(false);
     const globalCurrency = storeConfig.default_display_currency_code || 'IDR';
 
     React.useEffect(() => {
@@ -55,7 +54,6 @@ const AdditionSelect = (props) => {
     }, [checkout]);
 
     const handleChange = async (key, value) => {
-        setLoader(true);
         const newState = { ...state, [key]: value };
         await setState(newState);
         const keyState = Object.keys(newState);
@@ -78,7 +76,17 @@ const AdditionSelect = (props) => {
                 });
             }
         }
-
+        const isState = {
+            ...checkout,
+            loading: {
+                ...checkout.loading,
+                all: false,
+                shipping: true,
+                payment: true,
+                extraFee: true,
+            },
+        };
+        setCheckout(isState);
         updateExtraFee({
             variables: {
                 cart_id: cart.id,
@@ -89,9 +97,15 @@ const AdditionSelect = (props) => {
             checkoutData.data.cart = {
                 ...checkoutData.data.cart,
                 ...res.data.updateExtraFeeOnCart.cart,
+                loading: {
+                    ...checkout.loading,
+                    all: false,
+                    shipping: false,
+                    payment: false,
+                    extraFee: false,
+                },
             };
             await setCheckout(checkoutData);
-            setLoader(false);
         }).catch(() => window.backdropLoader(false));
     };
     if (cart && cart.addtional_fees && cart.addtional_fees.data && cart.addtional_fees.data.length > 0) {
@@ -104,7 +118,6 @@ const AdditionSelect = (props) => {
                 handleChange={handleChange}
                 loading={loading}
                 cart={cart}
-                isSkeleton={isLoader}
             />
         );
     }

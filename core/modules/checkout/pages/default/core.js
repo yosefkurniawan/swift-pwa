@@ -117,6 +117,7 @@ const Checkout = (props) => {
             coupon: false,
             storeCredit: false,
             giftCard: false,
+            extraFee: false,
         },
         status: {
             addresses: false,

@@ -48,7 +48,6 @@ const ShippingView = (props) => {
         selected,
         handleShipping,
         data,
-        isSkeleton,
         t,
     } = props;
     let content;
@@ -61,7 +60,7 @@ const ShippingView = (props) => {
     if (checkout.selected.delivery === 'pickup') {
         const price = formatPrice(0, storeConfig.base_currency_code || 'IDR');
         content = <DeliveryItem value={{ price }} label={t('checkout:pickupStore')} selected borderBottom={false} />;
-    } else if (loading.shipping || loading.addresses || loading.all || isSkeleton) {
+    } else if (loading.shipping || loading.addresses || loading.all) {
         content = <Loader />;
     } else if (data.shippingMethods.length !== 0) {
         const available = data.shippingMethods;

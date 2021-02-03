@@ -36,7 +36,7 @@ const ExpansionPanelDetails = withStyles(ExpanDetailStyle)(
 
 const PaymentView = (props) => {
     const {
-        loading, data, checkout, storeConfig, t, handlePayment, selected, isSkeleton,
+        loading, data, checkout, storeConfig, t, handlePayment, selected,
     } = props;
     const styles = useStyles();
     let content;
@@ -48,7 +48,7 @@ const PaymentView = (props) => {
         setExpandedActive(false);
     };
 
-    if (loading.payment || loading.shipping || loading.all || isSkeleton) {
+    if (loading.payment || loading.shipping || loading.all) {
         content = <Loader />;
     } else if (data.cart.prices.grand_total.value === 0) {
         content = <Typography variant="p">{t('checkout:noNeedPayment')}</Typography>;
