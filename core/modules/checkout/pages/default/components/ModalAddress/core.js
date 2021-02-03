@@ -63,12 +63,30 @@ const ModalAddressCustomer = (props) => {
                 }
             }
 
-            await updatedDefaultAddress({
+            const dataAddress = await updatedDefaultAddress({
                 variables: {
                     addressId,
                     street: detail.street[0],
                 },
             });
+
+            if (dataAddress && dataAddress.data && dataAddress.data.updateCustomerAddress) {
+                const shipping = dataAddress.data.updateCustomerAddress;
+                checkout.selected.address = {
+                    firstname: shipping.firstname,
+                    lastname: shipping.lastname,
+                    city: shipping.city,
+                    region: {
+                        ...shipping.region,
+                        label: shipping.region.region,
+                    },
+                    country: shipping.country,
+                    postcode: shipping.postcode,
+                    telephone: shipping.telephone,
+                    street: shipping.street,
+                };
+                await setCheckout(checkout);
+            }
 
             const { cart } = checkout.data;
 
