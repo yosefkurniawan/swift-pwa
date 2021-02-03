@@ -255,6 +255,33 @@ prices {
 }
 `;
 
+const addressData = `
+    id
+    city
+    default_billing
+    default_shipping
+    extension_attributes {
+        attribute_code
+        value
+    }
+    firstname
+    lastname
+    postcode
+    country_code
+    country {
+        code
+        label   
+    }
+    region {
+        region
+        region_code
+    }
+    street
+    telephone
+    longitude
+    latitude
+`;
+
 const cartRequiredSelection = `
     id
     email
@@ -365,30 +392,7 @@ export const getAddressCustomer = gql`
     query {
         customer {
             addresses {
-                id
-                city
-                default_billing
-                default_shipping
-                extension_attributes {
-                    attribute_code
-                    value
-                }
-                firstname
-                lastname
-                postcode
-                country_code
-                country {
-                    code
-                    label
-                }
-                region {
-                    region
-                    region_code
-                }
-                street
-                telephone
-                longitude
-                latitude
+                ${addressData}
             }
         }
     }
@@ -547,7 +551,24 @@ export const setBillingAddressById = gql`
                     dest_latitude
                     dest_longitude
                 }
-                ${cartShippingAddress}
+                shipping_addresses {
+                    available_shipping_methods {
+                        available
+                        method_code
+                        carrier_code
+                        method_title
+                        carrier_title
+                        amount {
+                            value
+                            currency
+                        }
+                        shipping_promo_name
+                        price_incl_tax {
+                            value
+                        }
+                    }
+                }
+
             }
         }
     }
@@ -832,10 +853,7 @@ mutation mergeCart(
 export const updatedDefaultAddress = gql`
     mutation updatedDefaultAddress($addressId: Int!, $street: String!) {
         updateCustomerAddress(id: $addressId, input: { default_billing: true, default_shipping: true, street: [$street] }) {
-            id
-            city
-            default_billing
-            default_shipping
+            ${addressData}
         }
     }
 `;
@@ -876,30 +894,7 @@ export const updateCustomerAddress = gql`
                 latitude: $latitude
             }
         ) {
-            id
-            city
-            default_billing
-            default_shipping
-            extension_attributes {
-                attribute_code
-                value
-            }
-            firstname
-            lastname
-            postcode
-            country_code
-            country {
-                code
-                label
-            }
-            region {
-                region
-                region_code
-            }
-            street
-            telephone
-            longitude
-            latitude
+            ${addressData}
         }
     }
 `;
@@ -938,10 +933,7 @@ export const createCustomerAddress = gql`
                 latitude: $latitude
             }
         ) {
-            id
-            city
-            default_billing
-            default_shipping
+            ${addressData}
         }
     }
 `;
