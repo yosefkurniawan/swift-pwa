@@ -165,14 +165,26 @@ class MyApp extends App {
                 //   `messaging.setBackgroundMessageHandler` handler.
                 messaging.onMessage((payload) => {
                     navigator.serviceWorker.ready.then((registration) => {
-                        registration.showNotification(payload.data.title, {
-                            body: payload.data.body,
-                            vibrate: [200, 100, 200, 100, 200, 100, 200],
-                            icon: payload.data.icons || '',
-                            image: payload.data.image || '',
-                            data: payload.data,
-                            requireInteraction: true,
-                        });
+                        // This prevents to show one notification for each tab
+                        setTimeout(() => {
+                            const { notification } = payload.data;
+                            const lastNotification = localStorage.getItem('lastNotification');
+                            const lastNotificationTime = parseInt(localStorage.getItem('lastNotificationTime') || 0);
+                            const isDifferentContent = lastNotification !== notification;
+                            const isMoreThanOneMinute = lastNotificationTime - Date.now() > 60 * 1000;
+                            if (isDifferentContent || isMoreThanOneMinute) {
+                                localStorage.setItem('lastNotification', notification);
+                                localStorage.setItem('lastNotificationTime', Date.now());
+                                registration.showNotification(payload.data.title, {
+                                    body: payload.data.body,
+                                    vibrate: [200, 100, 200, 100, 200, 100, 200],
+                                    icon: payload.data.icons || '',
+                                    image: payload.data.image || '',
+                                    data: payload.data,
+                                    requireInteraction: true,
+                                });
+                            }
+                        }, Math.random() * 1000);
                     });
                 });
             } catch (err) {
