@@ -7,7 +7,7 @@ import _ from 'lodash';
 import ModalAddress from '../ModalAddress';
 import useStyles from '../style';
 
-const CLOSE_ADDRESS_DIALOG = 750;
+const CLOSE_ADDRESS_DIALOG = 350;
 
 const AddressView = (props) => {
     const styles = useStyles();

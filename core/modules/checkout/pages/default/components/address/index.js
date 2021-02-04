@@ -55,7 +55,7 @@ const Address = (props) => {
 
     let content;
 
-    if (loading.addresses || loading.all) {
+    if (loading.addresses) {
         content = <Loader />;
     } else if (data.isGuest && !address) {
         content = t('checkout:message:address:add');
@@ -96,8 +96,10 @@ const Address = (props) => {
 
     const setAddress = (selectedAddress, cart) => new Promise((resolve, reject) => {
         const state = { ...checkout };
-        state.loading.addresses = true;
-        setCheckout(state);
+        if (checkout.data.isGuest) {
+            state.loading.addresses = true;
+            setCheckout(state);
+        }
         const { latitude, longitude } = selectedAddress;
 
         if (checkout.data.isGuest) {
@@ -108,7 +110,13 @@ const Address = (props) => {
                     latitude,
                     longitude,
                 },
-            }).then(() => {
+            }).then(async (resAddress) => {
+                const [shipping] = resAddress.data.setShippingAddressesOnCart.cart.shipping_addresses;
+                if (shipping) {
+                    checkout.selected.address = shipping;
+                    checkout.loading.addresses = false;
+                    await setCheckout(checkout);
+                }
                 setBillingAddressByInput({
                     variables: {
                         cartId: cart.id,
