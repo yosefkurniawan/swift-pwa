@@ -170,8 +170,8 @@ class MyApp extends App {
                             const { notification } = payload.data;
                             const lastNotification = localStorage.getItem('lastNotification');
                             const lastNotificationTime = parseInt(localStorage.getItem('lastNotificationTime') || 0);
-                            const isDifferentContent = lastNotification !== notification;
-                            const isMoreThanOneMinute = lastNotificationTime - Date.now() > 60 * 1000;
+                            const isDifferentContent = notification !== lastNotification;
+                            const isMoreThanOneMinute = Date.now() - lastNotificationTime > 60 * 1000;
                             if (isDifferentContent || isMoreThanOneMinute) {
                                 localStorage.setItem('lastNotification', notification);
                                 localStorage.setItem('lastNotificationTime', Date.now());
