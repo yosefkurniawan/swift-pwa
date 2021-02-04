@@ -6,6 +6,7 @@ import { localTotalCart } from '@services/graphql/schema/local';
 import SummaryPlugin from '@plugin_summary';
 import { modules, originName } from '@config';
 import getConfig from 'next/config';
+import Skeleton from '@material-ui/lab/Skeleton';
 import gqlService from '../../../../services/graphql';
 
 const { publicRuntimeConfig } = getConfig();
@@ -259,15 +260,24 @@ const Summary = ({
             };
         }
     }, [refSummary]);
+    const Loader = () => (
+        <>
+            <Skeleton variant="rect" width="100%" height={300} animation="wave" style={{ marginBottom: 5 }} />
+            <Skeleton variant="rect" width="100%" height={50} animation="wave" style={{ marginBottom: 5 }} />
+        </>
+    );
+    if (checkout.loading.all) {
+        return <Loader />;
+    }
 
-    if (checkout && checkout.data && checkout.data.cart) {
+    if (checkout && checkout.data && checkout.data.cart && checkout.loading) {
         return (
             <>
                 <div className="hidden-desktop">
                     <SummaryPlugin
                         t={t}
                         loading={loading}
-                        isLoader={checkout.loading}
+                        isLoader={checkout.loading.order}
                         disabled={disabled}
                         handleActionSummary={handlePlaceOrder}
                         dataCart={checkout.data.cart}
@@ -280,7 +290,7 @@ const Summary = ({
                 <SummaryPlugin
                     t={t}
                     loading={loading}
-                    isLoader={checkout.loading}
+                    isLoader={checkout.loading.order}
                     handleActionSummary={handlePlaceOrder}
                     dataCart={checkout.data.cart}
                     disabled={disabled}
