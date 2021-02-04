@@ -23,8 +23,9 @@ export default function CustomizedExpansionPanels({
                     ...checkout.loading,
                     all: false,
                     shipping: true,
-                    payment: true,
+                    payment: false,
                     extraFee: true,
+                    order: true,
                 },
             };
             state.selected.payment = val;
@@ -40,6 +41,7 @@ export default function CustomizedExpansionPanels({
                     shipping: false,
                     payment: false,
                     extraFee: false,
+                    order: false,
                 },
             };
 

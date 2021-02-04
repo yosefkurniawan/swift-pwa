@@ -155,6 +155,7 @@ const ShippingView = (props) => {
                                                 valueData={item.data}
                                                 CustomItem={DeliveryItem}
                                                 classContainer={styles.radioShiping}
+                                                storeConfig={storeConfig}
                                                 propsItem={{
                                                     borderBottom: false,
                                                     classContent: styles.listShippingGroup,

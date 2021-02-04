@@ -11,16 +11,29 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { formatPrice } from '@helper_currency';
 import classNames from 'classnames';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import useStyles from './style';
 
 const Summary = (props) => {
     const {
-        t, summary, handleActionSummary = () => {}, loading, disabled,
+        t, summary, handleActionSummary = () => { }, loading, disabled,
         showItems = false, items = [], hideButton = false, isDesktop,
+        isLoader,
     } = props;
     const styles = useStyles();
     const [openItem, setOpenItem] = React.useState(false);
+    const Loader = () => (
+        <div id="desktopSummary" className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>
+            <Skeleton variant="rect" width="100%" height={150} animation="wave" style={{ marginBottom: 10 }} />
+            <Skeleton variant="rect" width="100%" height={150} animation="wave" style={{ marginBottom: 10 }} />
+            <Skeleton variant="rect" width="100%" height={150} animation="wave" style={{ marginBottom: 10 }} />
+        </div>
+    );
+    if (isLoader.order || isLoader.all) {
+        return <Loader />;
+    }
+
     return (
         <div id="desktopSummary" className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>
             <Typography variant="h1" type="regular" letter="capitalize">
