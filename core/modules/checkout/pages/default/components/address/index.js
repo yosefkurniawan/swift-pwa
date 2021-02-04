@@ -55,7 +55,7 @@ const Address = (props) => {
 
     let content;
 
-    if (loading.addresses) {
+    if (loading.addresses || loading.all) {
         content = <Loader />;
     } else if (data.isGuest && !address) {
         content = t('checkout:message:address:add');
