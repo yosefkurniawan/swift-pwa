@@ -85,6 +85,7 @@ const ModalAddressCustomer = (props) => {
                     telephone: shipping.telephone,
                     street: shipping.street,
                 };
+                checkout.loading.addresses = false;
                 await setCheckout(checkout);
             }
 
