@@ -53,6 +53,9 @@ const ModalAddressCustomer = (props) => {
     // handle change selected address
     const handleChange = async (event) => {
         if (selectedAddressId !== event.target.value) {
+            const state = { ...checkout };
+            state.loading.addresses = true;
+            await setCheckout(state);
             setOpen(false);
             const addressId = parseInt(event.target.value);
             setSelectedAddressId(addressId);
@@ -85,8 +88,8 @@ const ModalAddressCustomer = (props) => {
                     telephone: shipping.telephone,
                     street: shipping.street,
                 };
-                checkout.loading.addresses = false;
-                await setCheckout(checkout);
+                state.loading.addresses = false;
+                await setCheckout(state);
             }
 
             const { cart } = checkout.data;
