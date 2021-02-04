@@ -25,12 +25,27 @@ const Summary = (props) => {
     const [openItem, setOpenItem] = React.useState(false);
     const Loader = () => (
         <div id="desktopSummary" className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>
-            <Skeleton variant="rect" width="100%" height={150} animation="wave" style={{ marginBottom: 10 }} />
-            <Skeleton variant="rect" width="100%" height={150} animation="wave" style={{ marginBottom: 10 }} />
-            <Skeleton variant="rect" width="100%" height={150} animation="wave" style={{ marginBottom: 10 }} />
+            <Typography variant="h1" type="regular" letter="capitalize">
+                Summary
+            </Typography>
+            <ListItem className={classNames(styles.list, 'listSummary')}>
+                <Skeleton variant="rect" width="100%" height={50} animation="wave" style={{ marginBottom: 10 }} />
+            </ListItem>
+            <ListItem className={classNames(styles.list, 'listSummary')}>
+                <Skeleton variant="rect" width="100%" height={50} animation="wave" style={{ marginBottom: 10 }} />
+            </ListItem>
+            <ListItem className={classNames(styles.list, 'listSummary')}>
+                <Skeleton variant="rect" width="100%" height={50} animation="wave" style={{ marginBottom: 10 }} />
+            </ListItem>
+            <List>
+                <ListItem className={classNames(styles.list, 'listSummary')}>
+                    <ListItemText primary={<Typography variant="title" type="bold">Total</Typography>} />
+                    <Skeleton variant="rect" width="60%" height={50} animation="wave" style={{ marginBottom: 10, marginleft: 50 }} />
+                </ListItem>
+            </List>
         </div>
     );
-    if (isLoader.order || isLoader.all) {
+    if (isLoader) {
         return <Loader />;
     }
 

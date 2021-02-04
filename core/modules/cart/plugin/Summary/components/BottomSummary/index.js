@@ -48,7 +48,7 @@ const CheckoutDrawer = ({
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={styles.expanBody}>
                         {
-                            isLoader.order ? <Loader /> : (
+                            isLoader ? <Loader /> : (
                                 <>
                                     {
                                         showItems
@@ -110,7 +110,7 @@ const CheckoutDrawer = ({
                             )
                         }
                         {
-                            isLoader.order ? <Loader />
+                            isLoader ? <Loader />
                                 : (
                                     <List>
                                         {
