@@ -48,7 +48,7 @@ const PaymentView = (props) => {
         setExpandedActive(false);
     };
 
-    if (loading.payment || loading.shipping || loading.all) {
+    if (loading.payment || loading.all) {
         content = <Loader />;
     } else if (data.cart.prices.grand_total.value === 0) {
         content = <Typography variant="p">{t('checkout:noNeedPayment')}</Typography>;

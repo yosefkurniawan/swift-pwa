@@ -27,10 +27,10 @@ const Summary = ({
     const [orderId, setOrderId] = useState(null);
     const [snapOpened, setSnapOpened] = useState(false);
     const [snapClosed, setSnapClosed] = useState(false);
-    const [getSnapToken, manageSnapToken] = gqlService.getSnapToken({ onError: () => {} });
-    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
-    const [placeOrder] = gqlService.placeOrder({ onError: () => {} });
-    const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => {} });
+    const [getSnapToken, manageSnapToken] = gqlService.getSnapToken({ onError: () => { } });
+    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => { } });
+    const [placeOrder] = gqlService.placeOrder({ onError: () => { } });
+    const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => { } });
     const [getCustCartId, manageCustCartId] = gqlService.getCustomerCartId();
     const [mergeCart] = gqlService.mergeCart();
 
@@ -267,6 +267,7 @@ const Summary = ({
                     <SummaryPlugin
                         t={t}
                         loading={loading}
+                        isLoader={checkout.loading}
                         disabled={disabled}
                         handleActionSummary={handlePlaceOrder}
                         dataCart={checkout.data.cart}
@@ -279,6 +280,7 @@ const Summary = ({
                 <SummaryPlugin
                     t={t}
                     loading={loading}
+                    isLoader={checkout.loading}
                     handleActionSummary={handlePlaceOrder}
                     dataCart={checkout.data.cart}
                     disabled={disabled}

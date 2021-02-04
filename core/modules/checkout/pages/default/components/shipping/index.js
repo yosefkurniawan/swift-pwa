@@ -22,6 +22,7 @@ const Shipping = (props) => {
                     shipping: false,
                     payment: true,
                     extraFee: true,
+                    order: true,
                 },
             };
             state.selected.shipping = val;
@@ -43,6 +44,7 @@ const Shipping = (props) => {
                     shipping: false,
                     payment: false,
                     extraFee: false,
+                    order: false,
                 },
             };
             setCheckout(state);

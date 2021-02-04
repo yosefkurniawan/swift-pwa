@@ -3,12 +3,14 @@
 import Typography from '@common_typography';
 import Radio from '@material-ui/core/Radio';
 import classNames from 'classnames';
+import { formatPrice } from '@helpers/currency';
 import useStyles from './style';
 
 const RadioDeliveryItem = (props) => {
     const styles = useStyles();
     const {
-        value, label, promoLabel, selected, onChange = () => {}, borderBottom = true, image = null, classContent = '',
+        value, label, promoLabel, selected, onChange = () => { }, borderBottom = true, image = null, classContent = '',
+        amount, price_incl_tax, storeConfig,
     } = props;
     const handleChange = () => {
         onChange(value);
@@ -20,28 +22,28 @@ const RadioDeliveryItem = (props) => {
     if (image) {
         rightSide = <img src={image} className={styles.imgList} alt="cimb" />;
     }
-
-    if (value && value.price !== value.original_price) {
+    const base_currency_code = storeConfig ? storeConfig.base_currency_code : 'RP';
+    if (amount && price_incl_tax && amount.value !== price_incl_tax.value) {
         rightSide = (
             <div className="row between-xs">
                 <div className="col-xs-12 col-sm-6">
                     <Typography variant="p" type={labelType} className={styles.originalPrice} align="right">
-                        {value.original_price}
+                        {formatPrice(amount.value, amount.currency || base_currency_code)}
                     </Typography>
                 </div>
                 <div className="col-xs-12 col-sm-6">
                     <Typography variant="p" type={labelType} className={styles.promo} align="right">
-                        {value.price}
+                        {formatPrice(price_incl_tax.value, amount.currency || base_currency_code)}
                     </Typography>
                 </div>
             </div>
         );
-    } else if (value && value.price) {
+    } else if (price_incl_tax && price_incl_tax.value) {
         rightSide = (
             <div className="row">
                 <div className="col-xs-12 col-sm-6">
                     <Typography variant="p" type={labelType} className={styles.notPromo} align="right">
-                        {value.price}
+                        {formatPrice(price_incl_tax.value, amount.currency || base_currency_code)}
                     </Typography>
                 </div>
             </div>
