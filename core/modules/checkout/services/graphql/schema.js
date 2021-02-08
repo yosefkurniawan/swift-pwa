@@ -251,17 +251,6 @@ available_shipping_methods {
 }
 `;
 
-const selected_shipping_method = `
-selected_shipping_method {
-    method_code
-    carrier_code
-    amount {
-        value
-        currency
-    }
-}
-`;
-
 const shortAddressData = `
         firstname
         lastname
@@ -282,9 +271,21 @@ const shortAddressData = `
 
 const cartShippingAddress = `
     shipping_addresses {
-        ${shortAddressData}
-        ${selected_shipping_method}
-        ${available_shipping_methods}
+        firstname
+        lastname
+        street
+        city
+        postcode
+        telephone
+        region {
+            code
+            label
+        }
+        company
+        country {
+            code
+            label
+        }
     }
 `;
 
