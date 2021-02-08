@@ -616,8 +616,9 @@ export const setShippingMethod = gql`
         setShippingMethodsOnCart(input: { cart_id: $cartId, shipping_methods: { carrier_code: $carrierCode, method_code: $methodCode } }) {
             cart {
                 id
-                
-                ${cartAvailablePaymentMethods}
+                shipping_addresses {
+                    ${selected_shipping_method}
+                }
                 ${modules.checkout.cashback.enabled ? applied_cashback : ''}
                 ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
                 ${prices}
