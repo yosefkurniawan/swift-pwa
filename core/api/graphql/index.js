@@ -5,10 +5,10 @@ const AuthSchema = require('./schema/index');
 const { features } = require('../../../swift.config');
 
 const executor = async () => {
-    const SwiftSchema = await SwiftRemoteSchema();
-    const CrmSchema = await CrmRemoteSchema();
     let schemas = null;
+    const SwiftSchema = await SwiftRemoteSchema();
     if (features.crm.enabled) {
+        const CrmSchema = await CrmRemoteSchema();
         schemas = mergeSchemas({
             schemas: [AuthSchema, CrmSchema, SwiftSchema],
         });
