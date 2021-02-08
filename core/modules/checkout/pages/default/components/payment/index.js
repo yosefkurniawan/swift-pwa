@@ -22,7 +22,7 @@ export default function CustomizedExpansionPanels({
                 loading: {
                     ...checkout.loading,
                     all: false,
-                    shipping: true,
+                    shipping: false,
                     payment: false,
                     extraFee: true,
                     order: true,
