@@ -30,7 +30,17 @@ const GiftCard = (props) => {
     }
 
     const handleApplyGift = async (code = null) => {
-        let state = { ...checkout };
+        let state = {
+            ...checkout,
+            loading: {
+                ...checkout.loading,
+                all: false,
+                shipping: false,
+                payment: true,
+                extraFee: false,
+                order: true,
+            },
+        };
         state.loading.giftCard = true;
         setCheckout(state);
 
@@ -61,11 +71,32 @@ const GiftCard = (props) => {
         }
 
         state.loading.giftCard = false;
-        setCheckout(state);
+        const finalState = {
+            ...state,
+            loading: {
+                ...checkout.loading,
+                all: false,
+                shipping: false,
+                payment: false,
+                extraFee: false,
+                order: false,
+            },
+        };
+        setCheckout(finalState);
     };
 
     const handleRemoveGift = async (code) => {
-        let state = { ...checkout };
+        let state = {
+            ...checkout,
+            loading: {
+                ...checkout.loading,
+                all: false,
+                shipping: false,
+                payment: true,
+                extraFee: false,
+                order: true,
+            },
+        };
         state.loading.giftCard = true;
         setCheckout(state);
 
@@ -91,7 +122,18 @@ const GiftCard = (props) => {
         }
 
         state.loading.giftCard = false;
-        setCheckout(state);
+        const finalState = {
+            ...state,
+            loading: {
+                ...checkout.loading,
+                all: false,
+                shipping: false,
+                payment: false,
+                extraFee: false,
+                order: false,
+            },
+        };
+        setCheckout(finalState);
     };
 
     if (modules.giftcard.enabled) {

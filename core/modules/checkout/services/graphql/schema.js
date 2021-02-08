@@ -317,6 +317,7 @@ mutation($cartId: String! $code: String!){
       cart {
         id
         ${cartRequiredSelection}
+        ${cartAvailablePaymentMethods}
       }
     }
   }
@@ -331,6 +332,7 @@ mutation($cartId: String! $code: String!){
             cart {
                 id
                 ${cartRequiredSelection}
+                ${cartAvailablePaymentMethods}
             }
         }
     }
@@ -345,6 +347,7 @@ mutation($cartId: String! $code: String!) {
     cart {
       id
       ${cartRequiredSelection}
+      ${cartAvailablePaymentMethods}
     }
   }
 }
@@ -359,6 +362,7 @@ mutation($cartId: String! $code: String!) {
         cart {
             id
             ${cartRequiredSelection}
+            ${cartAvailablePaymentMethods}
         }
     }
 }
@@ -668,6 +672,7 @@ export const applyCouponToCart = gql`
                     code
                 }
                 ${cartRequiredSelection}
+                ${cartAvailablePaymentMethods}
             }
         }
     }
@@ -682,6 +687,7 @@ export const removeCouponFromCart = gql`
                     code
                 }
                 ${cartRequiredSelection}
+                ${cartAvailablePaymentMethods}
             }
         }
     }
