@@ -1,5 +1,8 @@
 /* eslint-disable linebreak-style */
 import { gql } from '@apollo/client';
+import config from '@config';
+
+const { modules } = config;
 
 const orderOutput = `
     current_page
@@ -27,14 +30,14 @@ const orderOutput = `
             total_item_count
             total_paid
             total_qty_ordered
-            pickup_store {
+            ${modules.checkout.pickupStore.enabled ? `pickup_store {
                 is_using_pickup_store
                 pickup_person  {
                     email
                     handphone
                     name
                 }
-            }
+            }` : ''}
             payment {
                 additional_information
                 payment_additional_info {
@@ -71,11 +74,11 @@ const orderOutput = `
             shipping_methods {
                 shipping_description
             }
-            coupon {
+            ${modules.promo.enabled ? `coupon {
                 code
                 rule_name
                 is_use_coupon
-            }
+            }` : ''}
             items {
                 item_id
                 parent_item_id
@@ -99,31 +102,31 @@ const orderOutput = `
                     qty
                 }
                 row_total_incl_tax
-            }
-            aw_rma {
+            }          
+
+            ${modules.rma.enabled ? `aw_rma {
                 status
-            }
-            
-            aw_giftcard {
+            } ` : ''}           
+            ${modules.giftcard.enabled ? `aw_giftcard {
                 giftcard_amount
                 giftcard_detail {
                     giftcard_code
                     giftcard_amount_used
                 }
-            }
-            
-            aw_store_credit {
+            }` : ''}
+            ${modules.storecredit.enabled ? `aw_store_credit {
                 is_use_store_credit
                 store_credit_amount
                 store_credit_reimbursed
-            }
-
-            applied_extra_fee {
+            }` : ''}
+            
+            ${modules.checkout.extraFee.enabled ? `applied_extra_fee {
                 extrafee_value {
                   value
                 }
                 title
-              }
+              }` : ''}
+            
         }
     }
 `;
