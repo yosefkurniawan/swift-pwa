@@ -300,7 +300,7 @@ const Checkout = (props) => {
         }
 
         // init payment method
-        if ((shipping && shipping.selected_shipping_method && cart.available_payment_methods)) {
+        if ((cart.available_payment_methods)) {
             state.data.paymentMethod = cart.available_payment_methods.map((method) => ({
                 ...method,
                 label: method.title,
