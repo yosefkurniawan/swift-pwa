@@ -169,12 +169,9 @@ class MyApp extends App {
                         setTimeout(() => {
                             const { notification } = payload.data;
                             const lastNotification = localStorage.getItem('lastNotification');
-                            const lastNotificationTime = parseInt(localStorage.getItem('lastNotificationTime') || 0);
                             const isDifferentContent = notification !== lastNotification;
-                            const isMoreThanOneMinute = Date.now() - lastNotificationTime > 60 * 1000;
-                            if (isDifferentContent || isMoreThanOneMinute) {
+                            if (isDifferentContent) {
                                 localStorage.setItem('lastNotification', notification);
-                                localStorage.setItem('lastNotificationTime', Date.now());
                                 registration.showNotification(payload.data.title, {
                                     body: payload.data.body,
                                     vibrate: [200, 100, 200, 100, 200, 100, 200],
