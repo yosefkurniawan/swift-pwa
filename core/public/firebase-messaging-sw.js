@@ -16,6 +16,45 @@ const firebaseConfig = features.pushNotification.config;
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+class CustomPushEvent extends Event {
+    constructor(data) {
+        super('push');
+        Object.assign(this, data);
+        this.custom = true;
+    }
+}
+
+/*
+ * https://github.com/firebase/quickstart-js/issues/71 GAMBIARRA!
+ * Overrides push notification data, to avoid having 'notification' key and firebase blocking
+ * the message handler from being called
+ */
+self.addEventListener('push', (e) => {
+    // Skip if event is our own custom event
+    if (e.custom) return;
+
+    // Keep old event data to override
+    const oldData = e.data;
+
+    // remove notification key to prevent default notifications (background)
+    const newEvent = new CustomPushEvent({
+        data: {
+            json() {
+                const newData = oldData.json();
+                delete newData.notification;
+                return newData;
+            },
+        },
+        waitUntil: e.waitUntil.bind(e),
+    });
+
+    // Stop event propagation
+    e.stopImmediatePropagation();
+
+    // Dispatch the new wrapped event
+    dispatchEvent(newEvent);
+});
+
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
 const messaging = firebase.messaging();
