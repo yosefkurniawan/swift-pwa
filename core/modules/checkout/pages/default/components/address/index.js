@@ -81,7 +81,9 @@ const Address = (props) => {
                 price: formatPrice(shipping.amount.value, shipping.amount.currency),
             },
         }));
-
+        if (shippingAddress.selected_shipping_method === null) {
+            state.selected.shipping = null;
+        }
         state.data.shippingMethods = shippingMethods;
         state.loading.addresses = false;
         const mergeCart = {
