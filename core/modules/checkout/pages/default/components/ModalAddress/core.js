@@ -30,6 +30,17 @@ const ModalAddressCustomer = (props) => {
     React.useEffect(() => {
         if (open) {
             getAddress();
+            if (checkout.selected.address && checkout.selected.address.country
+                && addressCustomer && !loading && addressCustomer.customer
+            && addressCustomer.customer.addresses && addressCustomer.customer.addresses.length > 0) {
+                const checkoutAddress = checkout.selected.address;
+                // eslint-disable-next-line arrow-body-style
+                const selectedAddress = addressCustomer.customer.addresses.filter((add) => {
+                    return `${add.street[0].replace(' ', '-')}-${add.firstname}-${add.telephone}`
+                    === `${checkoutAddress.street[0].replace(' ', '-')}-${checkoutAddress.firstname}-${checkoutAddress.telephone}`;
+                });
+                setSelectedAddressId(selectedAddress && selectedAddress.length > 0 ? selectedAddress[0].id : null);
+            }
         }
     }, [open]);
 
@@ -38,6 +49,7 @@ const ModalAddressCustomer = (props) => {
         if (addressCustomer && !loading && addressCustomer.customer
             && addressCustomer.customer.addresses && addressCustomer.customer.addresses.length > 0) {
             const selectedAddress = addressCustomer.customer.addresses.find((addr) => addr.default_shipping);
+
             setSelectedAddressId(selectedAddress ? selectedAddress.id : null);
             setAddresses(addressCustomer.customer.addresses);
         }
