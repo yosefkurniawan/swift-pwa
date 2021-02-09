@@ -37,6 +37,7 @@
     "message": {
         "unsavedEmail": "Email belum tersimpan",
         "problemConnection": "Terjadi gangguan pada koneksi Anda",
+        "emptyShippingError": "Silakan isi alamat dan pilih metode pengiriman dahulu",
         "couponRemoved": "Kupon telah digunakan",
         "couponApplied": "Kupon tidak digunakan",
         "giftCardApplied": "Gift card telah digunakan",
