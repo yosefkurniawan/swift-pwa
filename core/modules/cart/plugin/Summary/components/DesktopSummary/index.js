@@ -29,20 +29,18 @@ const Summary = (props) => {
                 Summary
             </Typography>
             <ListItem className={classNames(styles.list, 'listSummary')}>
-                <Skeleton variant="rect" width="100%" height={50} animation="wave" style={{ marginBottom: 10 }} />
+                <Skeleton variant="rect" width="100%" height="30px" animation="wave" />
             </ListItem>
             <ListItem className={classNames(styles.list, 'listSummary')}>
-                <Skeleton variant="rect" width="100%" height={50} animation="wave" style={{ marginBottom: 10 }} />
+                <Skeleton variant="rect" width="100%" height="30px" animation="wave" />
             </ListItem>
             <ListItem className={classNames(styles.list, 'listSummary')}>
-                <Skeleton variant="rect" width="100%" height={50} animation="wave" style={{ marginBottom: 10 }} />
+                <Skeleton variant="rect" width="100%" height="30px" animation="wave" />
             </ListItem>
-            <List>
-                <ListItem className={classNames(styles.list, 'listSummary')}>
-                    <ListItemText primary={<Typography variant="title" type="bold">Total</Typography>} />
-                    <Skeleton variant="rect" width="60%" height={50} animation="wave" style={{ marginBottom: 10, marginleft: 50 }} />
-                </ListItem>
-            </List>
+            <ListItem className={classNames(styles.list, 'listSummary')}>
+                <ListItemText primary={<Typography variant="title" type="bold">Total</Typography>} />
+                <Skeleton variant="rect" width="60%" height="30px" animation="wave" />
+            </ListItem>
         </div>
     );
     if (isLoader) {
