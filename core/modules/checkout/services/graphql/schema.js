@@ -495,6 +495,7 @@ export const getCart = gql`
             ${cartAvailableShippingMethods}
             ${cartAvailablePaymentMethods}
             ${cartRequiredSelection}
+            ${selected_payment_method}
         }
     }
 `;
