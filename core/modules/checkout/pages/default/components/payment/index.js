@@ -55,7 +55,7 @@ export default function CustomizedExpansionPanels({
             } else {
                 handleOpenMessage({
                     variant: 'error',
-                    text: t('checkout:message:commandError'),
+                    text: t('checkout:message:emptyShippingError'),
                 });
             }
             setCheckout(state);

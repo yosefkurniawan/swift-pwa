@@ -55,7 +55,7 @@
             "add": "Silahkan menambahkan alamat pengiriman",
             "default": "Tidak ada alamat pengiriman yang dipilih"
         },
-        "commandError": "Silakan isi alamat dan pilih metode pengiriman dahulu"
+        "emptyShippingError": "Silakan isi alamat dan pilih metode pengiriman dahulu"
     },
     "checkBalance": "Cek sisa",
     "myPoint": {

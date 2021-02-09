@@ -55,7 +55,7 @@
             "add": "Please add shipping address",
             "default": "No Default Address"
         },
-        "commandError": "Please set address and select shipping method steps first"
+        "emptyShippingError": "Please set address and select shipping method steps first"
     },
     "checkBalance": "Check balance",
     "myPoint": {
