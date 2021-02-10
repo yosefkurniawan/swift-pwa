@@ -9,12 +9,22 @@ const DiscountSection = (props) => {
         formik,
         PromoView,
     } = props;
-    const [applyCouponTocart] = gqlService.applyCouponToCart({ onError: () => {} });
-    const [removeCouponFromCart] = gqlService.removeCouponFromCart({ onError: () => {} });
+    const [applyCouponTocart] = gqlService.applyCouponToCart({ onError: () => { } });
+    const [removeCouponFromCart] = gqlService.removeCouponFromCart({ onError: () => { } });
 
     const handlePromo = async () => {
         let cart;
-        const state = { ...checkout };
+        const state = {
+            ...checkout,
+            loading: {
+                ...checkout.loading,
+                all: false,
+                shipping: false,
+                payment: true,
+                extraFee: false,
+                order: true,
+            },
+        };
         state.loading.coupon = true;
         setCheckout(state);
         const isApplied = !state.data.isCouponAppliedToCart;
@@ -61,7 +71,18 @@ const DiscountSection = (props) => {
             await formik.setFieldError('coupon', t('checkout:message:couponError'));
         }
 
-        setCheckout(state);
+        const finalState = {
+            ...state,
+            loading: {
+                ...checkout.loading,
+                all: false,
+                shipping: false,
+                payment: false,
+                extraFee: false,
+                order: false,
+            },
+        };
+        setCheckout(finalState);
     };
 
     return (

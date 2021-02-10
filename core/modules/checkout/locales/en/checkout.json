@@ -1,10 +1,10 @@
 {
     "pageTitle": "Checkout",
-    "shippingAddress" : "Shipping address",
+    "shippingAddress": "Shipping address",
     "address": {
         "addTitle": "New address"
     },
-    "deliveryMethod" : {
+    "deliveryMethod": {
         "label": "Delivery method",
         "homeDelivery": "Home delivery",
         "homeDeliveryDesc": "We deliver your order to your home",
@@ -21,10 +21,10 @@
         "selectStoreLocation": "Select store location"
     },
     "pickupStore": "Pickup at store",
-    "shippingMethod" : "shipping method",
-    "payment" : "payment",
-    "placeOrder" : "Place order",
-    "paymentSubtitle" : "Select your payment method",
+    "shippingMethod": "shipping method",
+    "payment": "payment",
+    "placeOrder": "Place order",
+    "paymentSubtitle": "Select your payment method",
     "emailAddress": "Email address",
     "emailHelper": "We'll send your order confirmation here.",
     "haveAccount": "Already have an account? Login Here",
@@ -54,7 +54,8 @@
         "address": {
             "add": "Please add shipping address",
             "default": "No Default Address"
-        }
+        },
+        "emptyShippingError": "Please set address and select shipping method steps first"
     },
     "checkBalance": "Check balance",
     "myPoint": {
@@ -89,5 +90,6 @@
         "nextday": "Next day",
         "reguler": "Reguler",
         "others": "Others"
-    }
+    },
+    "cartError": "Something went wrong during fetching the cart data"
 }

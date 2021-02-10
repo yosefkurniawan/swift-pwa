@@ -11,16 +11,42 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { formatPrice } from '@helper_currency';
 import classNames from 'classnames';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import useStyles from './style';
 
 const Summary = (props) => {
     const {
-        t, summary, handleActionSummary = () => {}, loading, disabled,
+        t, summary, handleActionSummary = () => { }, loading, disabled,
         showItems = false, items = [], hideButton = false, isDesktop,
+        isLoader,
     } = props;
     const styles = useStyles();
     const [openItem, setOpenItem] = React.useState(false);
+    const Loader = () => (
+        <div id="desktopSummary" className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>
+            <Typography variant="h1" type="regular" letter="capitalize">
+                Summary
+            </Typography>
+            <ListItem className={classNames(styles.list, 'listSummary')}>
+                <Skeleton variant="rect" width="100%" height="30px" animation="wave" />
+            </ListItem>
+            <ListItem className={classNames(styles.list, 'listSummary')}>
+                <Skeleton variant="rect" width="100%" height="30px" animation="wave" />
+            </ListItem>
+            <ListItem className={classNames(styles.list, 'listSummary')}>
+                <Skeleton variant="rect" width="100%" height="30px" animation="wave" />
+            </ListItem>
+            <ListItem className={classNames(styles.list, 'listSummary')}>
+                <ListItemText primary={<Typography variant="title" type="bold">Total</Typography>} />
+                <Skeleton variant="rect" width="60%" height="30px" animation="wave" />
+            </ListItem>
+        </div>
+    );
+    if (isLoader) {
+        return <Loader />;
+    }
+
     return (
         <div id="desktopSummary" className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>
             <Typography variant="h1" type="regular" letter="capitalize">

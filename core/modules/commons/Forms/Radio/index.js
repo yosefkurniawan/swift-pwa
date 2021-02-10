@@ -38,6 +38,7 @@ function CustomRadio({
     errorMessage = '',
     propsItem = {},
     disabled = false,
+    storeConfig,
 }) {
     const styles = useStyles();
 
@@ -72,6 +73,7 @@ function CustomRadio({
                         selected={JSON.stringify(value) === JSON.stringify(item.value)}
                         onChange={handleChangeCustom}
                         className={classItem}
+                        storeConfig={storeConfig}
                         {...propsItem}
                     />
                 ) : (

@@ -81,14 +81,10 @@ const Address = (props) => {
                 price: formatPrice(shipping.amount.value, shipping.amount.currency),
             },
         }));
-
-        const addressKeys = Object.keys(shippingAddress);
-        const allowedKeys = addressKeys.filter((item) => item !== 'available_shipping_methods');
-        const dataAddress = _.pick(shippingAddress, allowedKeys);
-
+        if (shippingAddress.selected_shipping_method === null) {
+            state.selected.shipping = null;
+        }
         state.data.shippingMethods = shippingMethods;
-        state.selected.address = dataAddress;
-        state.selected.shipping = shippingAddress.selected_shipping_method;
         state.loading.addresses = false;
         const mergeCart = {
             ...state.data.cart,
@@ -102,8 +98,10 @@ const Address = (props) => {
 
     const setAddress = (selectedAddress, cart) => new Promise((resolve, reject) => {
         const state = { ...checkout };
-        state.loading.addresses = true;
-        setCheckout(state);
+        if (checkout.data.isGuest) {
+            state.loading.addresses = true;
+            setCheckout(state);
+        }
         const { latitude, longitude } = selectedAddress;
 
         if (checkout.data.isGuest) {
@@ -114,7 +112,13 @@ const Address = (props) => {
                     latitude,
                     longitude,
                 },
-            }).then(() => {
+            }).then(async (resAddress) => {
+                const [shipping] = resAddress.data.setShippingAddressesOnCart.cart.shipping_addresses;
+                if (shipping) {
+                    checkout.selected.address = shipping;
+                    checkout.loading.addresses = false;
+                    await setCheckout(checkout);
+                }
                 setBillingAddressByInput({
                     variables: {
                         cartId: cart.id,
@@ -209,7 +213,9 @@ const Address = (props) => {
     useEffect(() => {
         if (address) {
             const option = `${address.firstname} ${address.lastname} ${street} 
-            ${address.city} ${address.region.label} ${address.postcode} ${address.telephone}`;
+            ${address.city} 
+            ${(address.region && address.region.label) ? address.region.label : address.region || ''} 
+            ${address.postcode} ${address.telephone}`;
             const dataLayer = {
                 pageType: 'checkout',
                 pageName: 'Checkout',

@@ -11,6 +11,7 @@ import Head from 'next/head';
 import { modules } from '@config';
 import { getStoreHost } from '@helpers/config';
 import Cookies from 'js-cookie';
+import Toast from '@common_toast';
 import gqlService from '../../services/graphql';
 import { getCartCallbackUrl, getLoginCallbackUrl, getSuccessCallbackUrl } from '../../helpers/config';
 
@@ -116,6 +117,7 @@ const Checkout = (props) => {
             coupon: false,
             storeCredit: false,
             giftCard: false,
+            extraFee: false,
         },
         status: {
             addresses: false,
@@ -133,9 +135,11 @@ const Checkout = (props) => {
         },
     });
 
+    const [isError, setError] = useState(false);
     // start init graphql
     const [getCustomer, manageCustomer] = gqlService.getCustomer();
     const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
+    const [getItemCart, { data: itemCart, error: errorItem }] = gqlService.getItemCart();
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
     // end init graphql
 
@@ -162,7 +166,7 @@ const Checkout = (props) => {
             billing: null,
         },
         validationSchema: CheckoutSchema,
-        onSubmit: () => {},
+        onSubmit: () => { },
     });
 
     const updateFormik = (cart) => {
@@ -190,7 +194,9 @@ const Checkout = (props) => {
 
     const initData = () => {
         const { cart } = dataCart;
+        const { items } = itemCart.cart;
         const state = { ...checkout };
+        cart.items = items;
 
         if (cart && cart.items && cart.items.length === 0) {
             window.location.replace(config.cartRedirect && config.cartRedirect.link ? config.cartRedirect.link : '/checkout/cart');
@@ -199,7 +205,7 @@ const Checkout = (props) => {
         let customer;
         let address;
 
-        if (!state.data.isGuest && manageCustomer && manageCustomer.data && manageCustomer.data.customer) {
+        if (!state.data.isGuest && manageCustomer && manageCustomer.data && manageCustomer.data.customer && manageCustomer.data.customer.addresses) {
             customer = manageCustomer.data.customer;
             [address] = customer
                 ? customer.addresses.filter((item) => item.default_shipping)
@@ -252,22 +258,24 @@ const Checkout = (props) => {
                 ...item,
                 label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
                 promoLabel: `${item.shipping_promo_name}`,
-                value: {
-                    name: { carrier_code: item.carrier_code, method_code: item.method_code },
-                    price: formatPrice(item.amount.value, item.amount.currency || base_currency_code),
-                    original_price: formatPrice(item.price_incl_tax.value, item.amount.currency),
-                },
+                value: `${item.carrier_code}_${item.method_code}`,
+                // value: {
+                //     name: { carrier_code: item.carrier_code, method_code: item.method_code },
+                //     price: formatPrice(item.amount.value, item.amount.currency || base_currency_code),
+                //     original_price: formatPrice(item.price_incl_tax.value, item.amount.currency),
+                // },
             }));
         }
 
         if (shipping && shipping.selected_shipping_method) {
             const shippingMethod = shipping.selected_shipping_method;
-            state.selected.shipping = {
-                name: { carrier_code: shippingMethod.carrier_code, method_code: shippingMethod.method_code },
-                price: formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency || base_currency_code),
-                original_price: shippingMethod.price_incl_tax && shippingMethod.price_incl_tax.value
-                    ? formatPrice(shippingMethod.price_incl_tax.value, shippingMethod.amount.currency) : 0,
-            };
+            state.selected.shipping = `${shippingMethod.carrier_code}_${shippingMethod.method_code}`;
+            // state.selected.shipping = {
+            //     name: { carrier_code: shippingMethod.carrier_code, method_code: shippingMethod.method_code },
+            //     price: formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency || base_currency_code),
+            //     original_price: shippingMethod.price_incl_tax && shippingMethod.price_incl_tax.value
+            //         ? formatPrice(shippingMethod.price_incl_tax.value, shippingMethod.amount.currency) : formatPrice(0, base_currency_code),
+            // };
             if (shippingMethod.carrier_code === 'pickup' && shippingMethod.method_code === 'pickup') {
                 const custAddress = cart.shipping_addresses[0];
                 state.selected.delivery = 'pickup';
@@ -292,7 +300,7 @@ const Checkout = (props) => {
         }
 
         // init payment method
-        if ((shipping && shipping.selected_shipping_method && cart.available_payment_methods)) {
+        if ((cart.available_payment_methods)) {
             state.data.paymentMethod = cart.available_payment_methods.map((method) => ({
                 ...method,
                 label: method.title,
@@ -357,20 +365,22 @@ const Checkout = (props) => {
             if (modules.rewardpoint.enabled) getRewardPoint();
         }
 
-        const loadCart = isLogin ? manageCustomer.data && !dataCart : !dataCart;
+        const loadCart = isLogin ? manageCustomer.data && !dataCart && !itemCart : !dataCart && !itemCart;
 
         if (loadCart) {
             getCart({ variables: { cartId } });
+            getItemCart({ variables: { cartId } });
         }
 
-        if (errorCart) {
-            window.location.replace('/checkout/cart');
+        if (errorCart && errorItem) {
+            setError(true);
+            // window.location.replace('/checkout/cart');
         }
 
-        if (dataCart && dataCart.cart) {
+        if (dataCart && dataCart.cart && itemCart && itemCart.cart) {
             initData();
         }
-    }, [manageCustomer.data, dataCart]);
+    }, [manageCustomer.data, dataCart, itemCart]);
 
     React.useMemo(() => {
         if (checkout.data.cart) {
@@ -384,11 +394,12 @@ const Checkout = (props) => {
                     ...item,
                     label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
                     promoLabel: `${item.shipping_promo_name}`,
-                    value: {
-                        name: { carrier_code: item.carrier_code, method_code: item.method_code },
-                        price: formatPrice(item.amount.value, item.amount.currency),
-                        original_price: formatPrice(item.price_incl_tax.value, item.amount.currency),
-                    },
+                    value: `${item.carrier_code}_${item.method_code}`,
+                    // value: {
+                    //     name: { carrier_code: item.carrier_code, method_code: item.method_code },
+                    //     price: formatPrice(item.amount.value, item.amount.currency),
+                    //     original_price: formatPrice(item.price_incl_tax.value, item.amount.currency),
+                    // },
                 }));
             }
 
@@ -399,12 +410,13 @@ const Checkout = (props) => {
                     (x) => x.available && x.carrier_code === shippingMethod.carrier_code && x.method_code === shippingMethod.method_code,
                 );
                 const original_price = availableShipping && availableShipping.length > 0 && availableShipping[0].price_incl_tax;
-                state.selected.shipping = {
-                    name: { carrier_code: shippingMethod.carrier_code, method_code: shippingMethod.method_code },
-                    price: formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency),
-                    original_price: shippingMethod.price_incl_tax && shippingMethod.price_incl_tax.value
-                        ? formatPrice(shippingMethod.price_incl_tax.value, shippingMethod.amount.currency) : 0,
-                };
+                // state.selected.shipping = {
+                //     name: { carrier_code: shippingMethod.carrier_code, method_code: shippingMethod.method_code },
+                //     price: formatPrice(shippingMethod.amount.value, shippingMethod.amount.currency),
+                //     original_price: shippingMethod.price_incl_tax && shippingMethod.price_incl_tax.value
+                //         ? formatPrice(shippingMethod.price_incl_tax.value, shippingMethod.amount.currency) : formatPrice(0, base_currency_code),
+                // };
+                state.selected.shipping = `${shippingMethod.carrier_code}_${shippingMethod.method_code}`;
             }
 
             setCheckout(state);
@@ -449,6 +461,12 @@ const Checkout = (props) => {
                 {...contentProps}
                 {...props}
                 modules={modules}
+            />
+            <Toast
+                open={isError}
+                message={t('checkout:cartError')}
+                variant="error"
+                setOpen={setError}
             />
         </Layout>
     );

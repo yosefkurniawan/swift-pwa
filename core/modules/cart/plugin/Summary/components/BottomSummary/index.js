@@ -14,10 +14,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { formatPrice } from '@helper_currency';
 import Divider from '@material-ui/core/Divider';
 import classNames from 'classnames';
+import Skeleton from '@material-ui/lab/Skeleton';
 import useStyles from './style';
 
 const CheckoutDrawer = ({
     editMode, t, summary, handleActionSummary, loading, disabled, showItems = false, items = [], label = '',
+    isLoader,
 }) => {
     const styles = useStyles();
     const [expanded, setExpanded] = useState(null);
@@ -25,6 +27,13 @@ const CheckoutDrawer = ({
         setExpanded(newExpanded ? panel : false);
     };
     const { data, total } = summary;
+    const Loader = () => (
+        <>
+            <Skeleton variant="text" width="100%" height={20} animation="wave" style={{ marginBottom: 10 }} />
+            <Skeleton variant="text" width="80%" height={20} animation="wave" style={{ marginBottom: 10 }} />
+            <Skeleton variant="text" width="60%" height={20} animation="wave" style={{ marginBottom: 10 }} />
+        </>
+    );
     return (
         <Slide direction="up" in={!editMode} mountOnEnter unmountOnExit>
             <div className={styles.checkoutBox} id="bottomSummary">
@@ -39,79 +48,97 @@ const CheckoutDrawer = ({
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={styles.expanBody}>
                         {
-                            showItems ? (
+                            isLoader ? <Loader /> : (
                                 <>
-                                    <div className={classNames('row', styles.itemContainer)}>
-                                        {
-                                            items.map((item, index) => (
-                                                <div
-                                                    className="col-xs-12 row"
-                                                    key={index}
-                                                    id="bottomListItemProductSummary"
-                                                >
-                                                    <div className="col-xs-12 row between-xs clear-margin-padding">
-                                                        <div className="col-xs-6">
-                                                            <Typography variant="p">{item.product.name}</Typography>
-                                                        </div>
-                                                        <div className="col-xs-6">
-                                                            <Typography variant="p" align="right">
-                                                                {formatPrice(
-                                                                    item.prices.row_total_including_tax.value,
-                                                                    item.prices.row_total_including_tax.currency || 'IDR',
-                                                                )}
-                                                            </Typography>
-                                                        </div>
-                                                    </div>
-                                                    <div className={classNames('col-xs-12', styles.qtyOption)}>
-                                                        <Typography variant="p">
-                                                            {
-                                                                item.configurable_options && item.configurable_options.length > 0
-                                                                    && (`${t('common:variant')} : ${
-                                                                        item.configurable_options.map((option, key) => {
-                                                                            if (key !== item.configurable_options.length - 1) {
-                                                                                return `${option.value_label} `;
+                                    {
+                                        showItems
+                                            ? (
+                                                <>
+                                                    <div className={classNames('row', styles.itemContainer)}>
+                                                        {
+                                                            items.map((item, index) => (
+                                                                <div
+                                                                    className="col-xs-12 row"
+                                                                    key={index}
+                                                                    id="bottomListItemProductSummary"
+                                                                >
+                                                                    <div className="col-xs-12 row between-xs clear-margin-padding">
+                                                                        <div className="col-xs-6">
+                                                                            <Typography variant="p">{item.product.name}</Typography>
+                                                                        </div>
+                                                                        <div className="col-xs-6">
+                                                                            <Typography variant="p" align="right">
+                                                                                {formatPrice(
+                                                                                    item.prices.row_total_including_tax.value,
+                                                                                    item.prices.row_total_including_tax.currency || 'IDR',
+                                                                                )}
+                                                                            </Typography>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={classNames('col-xs-12', styles.qtyOption)}>
+                                                                        <Typography variant="p">
+                                                                            {
+                                                                                item.configurable_options
+                                                                            && item.configurable_options.length > 0
+                                                                            && (
+                                                                                `
+                                                                                ${t('common:variant')} 
+                                                                                : 
+                                                                                ${
+                                                                                item.configurable_options.map((option, key) => {
+                                                                                    if (key !== item.configurable_options.length - 1) {
+                                                                                        return `${option.value_label} `;
+                                                                                    }
+                                                                                    return ` ${option.value_label}`;
+                                                                                })
+                                                                                }`
+                                                                            )
                                                                             }
-                                                                            return ` ${option.value_label}`;
-                                                                        })
-                                                                    }`)
-                                                            }
                                                             &nbsp; &nbsp; &nbsp;
-                                                            {`${t('common:title:shortQty')} : ${item.quantity}`}
-                                                        </Typography>
+                                                                            {`${t('common:title:shortQty')} : ${item.quantity}`}
+                                                                        </Typography>
+                                                                    </div>
+                                                                </div>
+                                                            ))
+                                                        }
                                                     </div>
-                                                </div>
+                                                    <Divider />
+                                                </>
+                                            ) : null
+                                    }
+                                </>
+                            )
+                        }
+                        {
+                            isLoader ? <Loader />
+                                : (
+                                    <List>
+                                        {
+                                            data.map((dt, index) => (
+                                                <ListItem className={styles.list} key={index}>
+                                                    <ListItemText
+                                                        className={styles.labelItem}
+                                                        primary={<Typography variant="p" size="12">{dt.item}</Typography>}
+                                                    />
+                                                    <ListItemSecondaryAction>
+                                                        <Typography variant="span" type="regular">
+                                                            {dt.value}
+                                                        </Typography>
+                                                    </ListItemSecondaryAction>
+                                                </ListItem>
                                             ))
                                         }
-                                    </div>
-                                    <Divider />
-                                </>
-                            ) : null
+                                        <ListItem className={styles.list}>
+                                            <ListItemText primary={<Typography variant="title" type="bold">Total</Typography>} />
+                                            <ListItemSecondaryAction>
+                                                <Typography variant="title" type="bold">
+                                                    {total.currency ? formatPrice(total.value, total.currency) : null}
+                                                </Typography>
+                                            </ListItemSecondaryAction>
+                                        </ListItem>
+                                    </List>
+                                )
                         }
-                        <List>
-                            {
-                                data.map((dt, index) => (
-                                    <ListItem className={styles.list} key={index}>
-                                        <ListItemText
-                                            className={styles.labelItem}
-                                            primary={<Typography variant="p" size="12">{dt.item}</Typography>}
-                                        />
-                                        <ListItemSecondaryAction>
-                                            <Typography variant="span" type="regular">
-                                                {dt.value}
-                                            </Typography>
-                                        </ListItemSecondaryAction>
-                                    </ListItem>
-                                ))
-                            }
-                            <ListItem className={styles.list}>
-                                <ListItemText primary={<Typography variant="title" type="bold">Total</Typography>} />
-                                <ListItemSecondaryAction>
-                                    <Typography variant="title" type="bold">
-                                        {total.currency ? formatPrice(total.value, total.currency) : null}
-                                    </Typography>
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        </List>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 {

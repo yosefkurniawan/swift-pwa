@@ -54,7 +54,8 @@
         "address": {
             "add": "Silahkan menambahkan alamat pengiriman",
             "default": "Tidak ada alamat pengiriman yang dipilih"
-        }
+        },
+        "emptyShippingError": "Silakan isi alamat dan pilih metode pengiriman dahulu"
     },
     "checkBalance": "Cek sisa",
     "myPoint": {
@@ -89,5 +90,6 @@
         "nextday": "Next day",
         "reguler": "Reguler",
         "others": "Lainnya"
-    }
+    },
+    "cartError": "Ada yang salah saat mengambil data keranjang"
 }

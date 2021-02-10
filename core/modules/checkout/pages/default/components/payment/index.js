@@ -12,19 +12,38 @@ export default function CustomizedExpansionPanels({
     PaymentView,
 }) {
     const { loading, data, selected } = checkout;
-    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
+    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => { } });
 
     const handlePayment = async (val) => {
         if (val) {
             const { cart } = checkout.data;
-            let state = { ...checkout };
+            let state = {
+                ...checkout,
+                loading: {
+                    ...checkout.loading,
+                    all: false,
+                    shipping: false,
+                    payment: false,
+                    extraFee: true,
+                    order: true,
+                },
+            };
             state.selected.payment = val;
-            window.backdropLoader(true);
             setCheckout(state);
 
             const result = await setPaymentMethod({ variables: { cartId: cart.id, code: val } });
 
-            state = { ...checkout };
+            state = {
+                ...checkout,
+                loading: {
+                    ...checkout.loading,
+                    all: false,
+                    shipping: false,
+                    payment: false,
+                    extraFee: false,
+                    order: false,
+                },
+            };
 
             if (result && result.data && result.data.setPaymentMethodOnCart && result.data.setPaymentMethodOnCart.cart) {
                 const mergeCart = {
@@ -34,12 +53,12 @@ export default function CustomizedExpansionPanels({
                 state.data.cart = mergeCart;
                 updateFormik(mergeCart);
             } else {
+                state.selected.payment = null;
                 handleOpenMessage({
                     variant: 'error',
-                    text: t('checkout:message:problemConnection'),
+                    text: t('checkout:message:emptyShippingError'),
                 });
             }
-            window.backdropLoader(false);
             setCheckout(state);
 
             const selectedPayment = data.paymentMethod.filter((item) => item.code === val);

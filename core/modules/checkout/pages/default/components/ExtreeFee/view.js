@@ -15,14 +15,15 @@ const ExtraFeeView = ({
     cart, globalCurrency, t, state, handleChange, loading,
 }) => {
     const styles = useStyles();
-    if (loading.all) {
-        return (
-            <div className={styles.container}>
-                <Skeleton variant="text" width="40%" height={35} />
-                <Skeleton variant="text" width="80%" height={30} />
-                <Skeleton variant="text" width="80%" height={30} />
-            </div>
-        );
+    const Loader = () => (
+        <div className={styles.container}>
+            <Skeleton variant="text" width="40%" height={35} />
+            <Skeleton variant="text" width="80%" height={30} />
+            <Skeleton variant="text" width="80%" height={30} />
+        </div>
+    );
+    if (loading.all || loading.extraFee) {
+        return <Loader />;
     }
     return (
         <>

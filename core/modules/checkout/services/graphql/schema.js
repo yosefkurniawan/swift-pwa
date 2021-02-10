@@ -58,26 +58,6 @@ const cartBillingAddress = `
     }
 `;
 
-const cartShippingAddress = `
-    shipping_addresses {
-        firstname
-        lastname
-        street
-        city
-        postcode
-        telephone
-        region {
-            code
-            label
-        }
-        company
-        country {
-            code
-            label
-        }
-    }
-`;
-
 const applied_store_credit = modules.storecredit.useCommerceModule ? `
 applied_store_credit {
     applied_balance {
@@ -183,22 +163,134 @@ pickup_item_store_info {
 }
 `;
 
+const selected_payment_method = `
+selected_payment_method {
+    code
+}
+`;
+
+const prices = `
+prices {
+    discounts {
+        amount {
+            currency
+            value
+        }
+        label
+    }
+    subtotal_excluding_tax {
+        currency
+        value
+    }
+    subtotal_including_tax {
+        currency
+        value
+    }
+    applied_taxes {
+        amount {
+            value
+            currency
+        }
+    }
+    grand_total {
+        currency
+        value
+    }
+}
+`;
+
+const addressData = `
+    id
+    city
+    default_billing
+    default_shipping
+    extension_attributes {
+        attribute_code
+        value
+    }
+    firstname
+    lastname
+    postcode
+    country_code
+    country {
+        code
+        label   
+    }
+    region {
+        region
+        region_code
+    }
+    street
+    telephone
+    longitude
+    latitude
+`;
+
+const dest_location = `
+    dest_location {
+        dest_latitude
+        dest_longitude
+    }
+`;
+
+const available_shipping_methods = `
+available_shipping_methods {
+    available
+    method_code
+    carrier_code
+    method_title
+    carrier_title
+    amount {
+        value
+        currency
+    }
+    shipping_promo_name
+    price_incl_tax {
+        value
+    }
+}
+`;
+
+const selected_shipping_method = `
+selected_shipping_method {
+    method_code
+    carrier_code
+    amount {
+        value
+        currency
+    }
+}
+`;
+
+const shortAddressData = `
+        firstname
+        lastname
+        street
+        city
+        postcode
+        telephone
+        region {
+            code
+            label
+        }
+        company
+        country {
+            code
+            label
+        }
+`;
+
+const cartShippingAddress = `
+    shipping_addresses {
+        ${shortAddressData}
+        ${selected_shipping_method}
+        ${available_shipping_methods}
+    }
+`;
+
 const cartRequiredSelection = `
     id
     email
-    shipping_addresses {
-        selected_shipping_method {
-            method_code
-            carrier_code
-            amount {
-                value
-                currency
-            }
-        }
-    }
-    selected_payment_method {
-        code
-    }
     
    ${modules.checkout.cashback.enabled ? applied_cashback : ''}
    ${modules.rewardpoint.enabled ? applied_reward_points : ''}
@@ -206,35 +298,14 @@ const cartRequiredSelection = `
    ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
    ${modules.giftcard.enabled ? applied_giftcard : ''}
    ${modules.storecredit.enabled ? applied_store_credit : ''}
-  
+  ${prices}
     
-    prices {
-        discounts {
-            amount {
-                currency
-                value
-            }
-            label
-        }
-        subtotal_excluding_tax {
-            currency
-            value
-        }
-        subtotal_including_tax {
-            currency
-            value
-        }
-        applied_taxes {
-            amount {
-                value
-                currency
-            }
-        }
-        grand_total {
-            currency
-            value
-        }
-    }
+    
+`;
+
+const emailSelection = `
+    id
+    email
 `;
 
 export const applyGiftCardToCart = modules.giftcard.useCommerceModule ? gql`
@@ -246,6 +317,7 @@ mutation($cartId: String! $code: String!){
       cart {
         id
         ${cartRequiredSelection}
+        ${cartAvailablePaymentMethods}
       }
     }
   }
@@ -260,6 +332,7 @@ mutation($cartId: String! $code: String!){
             cart {
                 id
                 ${cartRequiredSelection}
+                ${cartAvailablePaymentMethods}
             }
         }
     }
@@ -274,6 +347,7 @@ mutation($cartId: String! $code: String!) {
     cart {
       id
       ${cartRequiredSelection}
+      ${cartAvailablePaymentMethods}
     }
   }
 }
@@ -288,6 +362,7 @@ mutation($cartId: String! $code: String!) {
         cart {
             id
             ${cartRequiredSelection}
+            ${cartAvailablePaymentMethods}
         }
     }
 }
@@ -323,38 +398,22 @@ export const removeStoreCreditFromCart = gql`
     }
 `;
 
+export const getAddressCustomer = gql`
+    query {
+        customer {
+            addresses {
+                ${addressData}
+            }
+        }
+    }
+`;
+
 export const getCustomer = gql`
     query {
         customer {
             firstname
             lastname
             email
-            addresses {
-                id
-                city
-                default_billing
-                default_shipping
-                extension_attributes {
-                    attribute_code
-                    value
-                }
-                firstname
-                lastname
-                postcode
-                country_code
-                country {
-                    code
-                    label
-                }
-                region {
-                    region
-                    region_code
-                }
-                street
-                telephone
-                longitude
-                latitude
-            }
             ${modules.storecredit.enabled ? `store_credit {
                 current_balance {
                     value
@@ -370,7 +429,7 @@ export const getCustomer = gql`
     }
 `;
 
-export const getCart = gql`
+export const getItemCart = gql`
     query Cart($cartId: String!) {
         cart(cart_id: $cartId) {
             items {
@@ -423,16 +482,20 @@ export const getCart = gql`
                     }
                 }
             }
-            dest_location {
-                dest_latitude
-                dest_longitude
-            }
+        }
+    }
+`;
+export const getCart = gql`
+    query Cart($cartId: String!) {
+        cart(cart_id: $cartId) {
+            ${dest_location}
             ${modules.checkout.pickupStore.enabled ? cartPickupStorePerson : ''}
             ${cartShippingAddress}
             ${cartBillingAddress}
             ${cartAvailableShippingMethods}
             ${cartAvailablePaymentMethods}
             ${cartRequiredSelection}
+            ${selected_payment_method}
         }
     }
 `;
@@ -483,6 +546,9 @@ export const setShippingAddressByInput = gql`
         ) {
             cart {
                 id
+                shipping_addresses {
+                    ${shortAddressData}
+                }
             }
         }
     }
@@ -492,15 +558,12 @@ export const setBillingAddressById = gql`
     mutation setBillingAddressById($addressId: Int!, $cartId: String!) {
         setBillingAddressOnCart(input: { cart_id: $cartId, billing_address: { same_as_shipping: true, customer_address_id: $addressId } }) {
             cart {
-                id
-                dest_location {
-                    dest_latitude
-                    dest_longitude
+                ${dest_location}
+                shipping_addresses {
+                    ${available_shipping_methods}
+                    ${selected_shipping_method}
                 }
-                ${cartShippingAddress}
-                ${cartBillingAddress}
-                ${cartAvailableShippingMethods}
-                ${cartRequiredSelection}
+
             }
         }
     }
@@ -542,15 +605,8 @@ export const setBillingAddressByInput = gql`
             }
         ) {
             cart {
-                id
-                dest_location {
-                    dest_latitude
-                    dest_longitude
-                }
+                ${dest_location}
                 ${cartShippingAddress}
-                ${cartBillingAddress}
-                ${cartAvailableShippingMethods}
-                ${cartRequiredSelection}
             }
         }
     }
@@ -561,8 +617,12 @@ export const setShippingMethod = gql`
         setShippingMethodsOnCart(input: { cart_id: $cartId, shipping_methods: { carrier_code: $carrierCode, method_code: $methodCode } }) {
             cart {
                 id
-                ${cartAvailablePaymentMethods}
-                ${cartRequiredSelection}
+                shipping_addresses {
+                    ${selected_shipping_method}
+                }
+                ${modules.checkout.cashback.enabled ? applied_cashback : ''}
+                ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
+                ${prices}
             }
         }
     }
@@ -573,10 +633,13 @@ export const setPaymentMethod = gql`
         setPaymentMethodOnCart(input: { cart_id: $cartId, payment_method: { code: $code } }) {
             cart {
                 id
-                selected_payment_method {
-                    code
-                }
-                ${cartRequiredSelection}
+                ${selected_payment_method}
+                ${modules.checkout.cashback.enabled ? applied_cashback : ''}
+                ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
+                ${modules.rewardpoint.enabled ? applied_reward_points : ''}
+                ${modules.giftcard.enabled ? applied_giftcard : ''}
+                ${modules.storecredit.enabled ? applied_store_credit : ''}
+                ${prices}
             }
         }
     }
@@ -586,7 +649,7 @@ export const setGuestEmailAddressOnCart = gql`
     mutation($cartId: String!, $email: String!) {
         setGuestEmailOnCart(input: { cart_id: $cartId, email: $email }) {
             cart {
-                ${cartRequiredSelection}
+                ${emailSelection}
             }
         }
     }
@@ -612,6 +675,7 @@ export const applyCouponToCart = gql`
                     code
                 }
                 ${cartRequiredSelection}
+                ${cartAvailablePaymentMethods}
             }
         }
     }
@@ -626,6 +690,7 @@ export const removeCouponFromCart = gql`
                     code
                 }
                 ${cartRequiredSelection}
+                ${cartAvailablePaymentMethods}
             }
         }
     }
@@ -783,10 +848,7 @@ mutation mergeCart(
 export const updatedDefaultAddress = gql`
     mutation updatedDefaultAddress($addressId: Int!, $street: String!) {
         updateCustomerAddress(id: $addressId, input: { default_billing: true, default_shipping: true, street: [$street] }) {
-            id
-            city
-            default_billing
-            default_shipping
+            ${addressData}
         }
     }
 `;
@@ -827,30 +889,7 @@ export const updateCustomerAddress = gql`
                 latitude: $latitude
             }
         ) {
-            id
-            city
-            default_billing
-            default_shipping
-            extension_attributes {
-                attribute_code
-                value
-            }
-            firstname
-            lastname
-            postcode
-            country_code
-            country {
-                code
-                label
-            }
-            region {
-                region
-                region_code
-            }
-            street
-            telephone
-            longitude
-            latitude
+            ${addressData}
         }
     }
 `;
@@ -889,10 +928,7 @@ export const createCustomerAddress = gql`
                 latitude: $latitude
             }
         ) {
-            id
-            city
-            default_billing
-            default_shipping
+            ${addressData}
         }
     }
 `;

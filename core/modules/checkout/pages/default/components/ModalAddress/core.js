@@ -2,15 +2,18 @@
 /* eslint-disable radix */
 /* eslint-disable no-plusplus */
 /* eslint-disable import/named */
-import React, { useState } from 'react';
-import { createCustomerAddress, updateCustomerAddress, updatedDefaultAddress as gqlUpdateDefaulAddress } from '../../../../services/graphql';
+import React, { useState, useCallback } from 'react';
+import gqlService, {
+    createCustomerAddress,
+    updateCustomerAddress,
+    updatedDefaultAddress as gqlUpdateDefaulAddress,
+} from '../../../../services/graphql';
 
 const ModalAddressCustomer = (props) => {
     const {
         Content, checkout, setOpen, setCheckout, setAddress, open, manageCustomer, ...other
     } = props;
     // graphql
-    const { customer } = checkout.data;
     const [updatedDefaultAddress] = gqlUpdateDefaulAddress();
     const [updateAddress] = updateCustomerAddress();
     const [addAddress] = createCustomerAddress();
@@ -22,14 +25,35 @@ const ModalAddressCustomer = (props) => {
     const [openNew, setOpenNew] = useState(false);
     const [typeAddress, setTypeAddress] = useState('new');
     const [dataEdit, setDataEdit] = useState({});
+    const [getAddress, { loading, data: addressCustomer, refetch: _refetch }] = gqlService.getAddressCustomer();
+    const refetch = useCallback(() => { setTimeout(() => _refetch(), 0); }, [_refetch]);
+    React.useEffect(() => {
+        if (open) {
+            getAddress();
+            if (checkout.selected.address && checkout.selected.address.country
+                && addressCustomer && !loading && addressCustomer.customer
+            && addressCustomer.customer.addresses && addressCustomer.customer.addresses.length > 0) {
+                const checkoutAddress = checkout.selected.address;
+                // eslint-disable-next-line arrow-body-style
+                const selectedAddress = addressCustomer.customer.addresses.filter((add) => {
+                    return `${add.street[0].replace(' ', '-')}-${add.firstname}-${add.telephone}`
+                    === `${checkoutAddress.street[0].replace(' ', '-')}-${checkoutAddress.firstname}-${checkoutAddress.telephone}`;
+                });
+                setSelectedAddressId(selectedAddress && selectedAddress.length > 0 ? selectedAddress[0].id : null);
+            }
+        }
+    }, [open]);
 
     React.useEffect(() => {
-        if (customer) {
-            const selectedAddress = customer.addresses.find((addr) => addr.default_shipping);
+        // const newCheckout = { ...checkout };
+        if (addressCustomer && !loading && addressCustomer.customer
+            && addressCustomer.customer.addresses && addressCustomer.customer.addresses.length > 0) {
+            const selectedAddress = addressCustomer.customer.addresses.find((addr) => addr.default_shipping);
+
             setSelectedAddressId(selectedAddress ? selectedAddress.id : null);
-            setAddresses(customer.addresses);
+            setAddresses(addressCustomer.customer.addresses);
         }
-    }, [customer]);
+    }, [addressCustomer]);
 
     // handle open modal add adress button
     const handleOpenNew = (type = 'new') => {
@@ -41,6 +65,9 @@ const ModalAddressCustomer = (props) => {
     // handle change selected address
     const handleChange = async (event) => {
         if (selectedAddressId !== event.target.value) {
+            const state = { ...checkout };
+            state.loading.addresses = true;
+            await setCheckout(state);
             setOpen(false);
             const addressId = parseInt(event.target.value);
             setSelectedAddressId(addressId);
@@ -51,12 +78,31 @@ const ModalAddressCustomer = (props) => {
                 }
             }
 
-            await updatedDefaultAddress({
+            const dataAddress = await updatedDefaultAddress({
                 variables: {
                     addressId,
                     street: detail.street[0],
                 },
             });
+
+            if (dataAddress && dataAddress.data && dataAddress.data.updateCustomerAddress) {
+                const shipping = dataAddress.data.updateCustomerAddress;
+                checkout.selected.address = {
+                    firstname: shipping.firstname,
+                    lastname: shipping.lastname,
+                    city: shipping.city,
+                    region: {
+                        ...shipping.region,
+                        label: shipping.region.region,
+                    },
+                    country: shipping.country,
+                    postcode: shipping.postcode,
+                    telephone: shipping.telephone,
+                    street: shipping.street,
+                };
+                state.loading.addresses = false;
+                await setCheckout(state);
+            }
 
             const { cart } = checkout.data;
 
@@ -88,12 +134,19 @@ const ModalAddressCustomer = (props) => {
         if (openNew && !open) {
             setOpenNew(false);
             setOpen(true);
-            manageCustomer.refetch();
+            if (refetch && typeof refetch === 'function') {
+                refetch();
+            }
+            if (manageCustomer.refetch && typeof manageCustomer.refetch() === 'function') {
+                manageCustomer.refetch();
+            }
         }
     };
+
     return (
         <Content
-            loading={checkout.loading.addresses}
+            loading={loading}
+            addressCustomer={addressCustomer}
             address={address}
             selectedAddressId={selectedAddressId}
             handleChange={handleChange}
