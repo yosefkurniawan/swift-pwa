@@ -168,16 +168,19 @@ class MyApp extends App {
                         // This prevents to show one notification for each tab
                         setTimeout(() => {
                             const { notification } = payload.data;
+                            console.log(
+                                '[firebase-messaging-sw.js] Received background message ',
+                                payload,
+                            );
                             const lastNotification = localStorage.getItem('lastNotification');
-                            const isDifferentContent = notification !== lastNotification;
+                            const isDifferentContent = payload.data.updated_date !== lastNotification;
                             if (isDifferentContent) {
-                                localStorage.setItem('lastNotification', notification);
+                                localStorage.setItem('lastNotification', payload.data.updated_date);
                                 registration.showNotification(payload.data.title, {
                                     body: payload.data.body,
                                     vibrate: [200, 100, 200, 100, 200, 100, 200],
                                     icon: payload.data.icons || '',
                                     image: payload.data.image || '',
-                                    data: payload.data,
                                     requireInteraction: true,
                                 });
                             }
