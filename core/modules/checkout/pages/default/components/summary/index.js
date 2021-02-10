@@ -135,7 +135,10 @@ const Summary = ({
                     if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {
                         setOrderId(orderNumber);
                         await getSnapToken({ variables: { orderId: orderNumber } });
-                    } else if (checkout.data.cart.selected_payment_method.code.match(/ovo.*/)) {
+                    } else if (
+                        checkout.data.cart.selected_payment_method.code.match(/ovo.*/)
+                        || checkout.data.cart.selected_payment_method.code.match(/ipay88*/)
+                    ) {
                         const env = typeof publicRuntimeConfig !== 'undefined' ? publicRuntimeConfig.appEnv : 'prod';
                         const ipayUrl = modules.checkout.ipayUrl[env] || modules.checkout.ipayUrl.prod;
                         window.location.href = ipayUrl + orderNumber;
