@@ -53,6 +53,7 @@ export default function CustomizedExpansionPanels({
                 state.data.cart = mergeCart;
                 updateFormik(mergeCart);
             } else {
+                state.selected.payment = null;
                 handleOpenMessage({
                     variant: 'error',
                     text: t('checkout:message:emptyShippingError'),
