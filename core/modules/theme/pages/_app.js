@@ -168,10 +168,6 @@ class MyApp extends App {
                         // This prevents to show one notification for each tab
                         setTimeout(() => {
                             const { notification } = payload.data;
-                            console.log(
-                                '[firebase-messaging-sw.js] Received background message ',
-                                payload,
-                            );
                             const lastNotification = localStorage.getItem('lastNotification');
                             const isDifferentContent = payload.data.updated_date !== lastNotification;
                             if (isDifferentContent) {
