@@ -5,7 +5,8 @@ import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { groupingCity, groupingSubCity } from '@helpers/city';
-import { modules } from '@config';
+import { modules, storeConfigNameCookie } from '@config';
+import helperCookies from '@helper_cookies';
 import { getCityByRegionId, getCountries as getAllCountries, getRegions } from '../../services/graphql';
 
 const AddressFormDialog = (props) => {
@@ -36,9 +37,12 @@ const AddressFormDialog = (props) => {
         pageTitle,
         disableDefaultAddress = false,
         Content,
-        storeConfig,
     } = props;
+    let { storeConfig } = props;
 
+    if (!storeConfig && typeof window !== 'undefined') {
+        storeConfig = helperCookies.get(storeConfigNameCookie);
+    }
     const gmapKey = (storeConfig || {}).icube_pinlocation_gmap_key;
 
     const [getCountries, responCountries] = getAllCountries();

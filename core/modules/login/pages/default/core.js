@@ -171,7 +171,9 @@ const Login = (props) => {
             window.backdropLoader(false);
             window.toastMessage({ open: true, variant: 'success', text: t('login:success') });
             if (query && query.redirect) {
-                Router.push(query.redirect);
+                setTimeout(() => {
+                    Router.push(query.redirect);
+                }, 1500);
             } else if (redirectLastPath && redirectLastPath !== '') {
                 Router.push(redirectLastPath);
             } else {
@@ -184,13 +186,15 @@ const Login = (props) => {
                     destionationCartId: custCartId,
                 },
             })
-                .then(() => {
-                    setCartId(custCartId, expired);
-                    setDisabled(false);
+                .then(async () => {
+                    await setCartId(custCartId, expired);
+                    await setDisabled(false);
                     window.backdropLoader(false);
                     window.toastMessage({ open: true, variant: 'success', text: t('login:success') });
                     if (query && query.redirect) {
-                        Router.push(query.redirect);
+                        setTimeout(() => {
+                            Router.push(query.redirect);
+                        }, 1500);
                     } else if (redirectLastPath && redirectLastPath !== '') {
                         Router.push(redirectLastPath);
                     } else {
