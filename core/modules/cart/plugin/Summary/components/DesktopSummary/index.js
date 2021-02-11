@@ -3,6 +3,7 @@
 import React from 'react';
 import Button from '@common_button';
 import Typography from '@common_typography';
+import Thumbor from '@common_image';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -76,7 +77,13 @@ const Summary = (props) => {
                                                 key={index}
                                             >
                                                 <div className="col-xs-4">
-                                                    <img src={item.product.small_image.url} alt={item.product.name} className={styles.imgProduct} />
+                                                    <Thumbor
+                                                        className="product-image-photo"
+                                                        src={item.product.small_image.url}
+                                                        alt={item.product.name}
+                                                        width={61}
+                                                        height={75}
+                                                    />
                                                 </div>
                                                 <div className={classNames('col-xs-8', styles.bodyProductItem)}>
                                                     <Typography variant="span">{item.product.name}</Typography>
