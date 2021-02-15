@@ -5,7 +5,6 @@ import Typography from '@common_typography';
 import Radio from '@common_radio';
 import Select from '@common_select';
 import Checkbox from '@common_checkbox';
-import classanames from 'classnames';
 import { formatPrice } from '@helper_currency';
 import Skeleton from '@material-ui/lab/Skeleton';
 
@@ -28,7 +27,7 @@ const ExtraFeeView = ({
     return (
         <>
             <div className={styles.container} id="checkoutExtraFee">
-                <Typography variant="title" type="bold" className={classanames(styles.title)}>{t('common:title:extraFee')}</Typography>
+                {/* <Typography variant="title" type="bold" className={classanames(styles.title)}>{t('common:title:extraFee')}</Typography> */}
                 {
                     cart.addtional_fees.data.map((item, key) => {
                         const data = item.options.map((option) => ({
@@ -44,6 +43,7 @@ const ExtraFeeView = ({
                                         {item.fee_name}
                                     </Typography>
                                     <Checkbox
+                                        label=""
                                         key={key}
                                         flex="column"
                                         data={data}
