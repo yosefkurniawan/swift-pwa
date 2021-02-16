@@ -67,6 +67,7 @@ const ModalAddressCustomer = (props) => {
         if (selectedAddressId !== event.target.value) {
             const state = { ...checkout };
             state.loading.addresses = true;
+            state.loading.order = true;
             await setCheckout(state);
             setOpen(false);
             const addressId = parseInt(event.target.value);
@@ -101,6 +102,7 @@ const ModalAddressCustomer = (props) => {
                     street: shipping.street,
                 };
                 state.loading.addresses = false;
+                state.loading.order = false;
                 await setCheckout(state);
             }
 

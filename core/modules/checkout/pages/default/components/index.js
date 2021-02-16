@@ -61,32 +61,27 @@ const Content = (props) => {
                 <HeaderView t={t} storeConfig={storeConfig} />
             </div>
             <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8" style={containerStyle || {}}>
-                {
-                    modules.checkout.cashback.enabled && checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback
-                        && (
-                            <CashbackInfoView
-                                message={chasbackMessage}
-                                price={checkout.data.cart.applied_cashback.data[0].amount}
-                                currency={storeConfig.base_currency_code}
-                                promo_name={checkout.data.cart.applied_cashback.data[0].promo_name}
-                            />
-                        )
-                }
+                {modules.checkout.cashback.enabled && checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
+                    <CashbackInfoView
+                        message={chasbackMessage}
+                        price={checkout.data.cart.applied_cashback.data[0].amount}
+                        currency={storeConfig.base_currency_code}
+                        promo_name={checkout.data.cart.applied_cashback.data[0].promo_name}
+                    />
+                )}
                 <>
-                    {
-                        modules.checkout.pickupStore.enabled ? (
-                            <Delivery
-                                t={t}
-                                DeliveryView={DeliveryView}
-                                Skeleton={DeliverySkeleton}
-                                formik={formik}
-                                checkout={checkout}
-                                setCheckout={setCheckout}
-                                handleOpenMessage={handleOpenMessage}
-                                storeConfig={storeConfig}
-                            />
-                        ) : null
-                    }
+                    {modules.checkout.pickupStore.enabled ? (
+                        <Delivery
+                            t={t}
+                            DeliveryView={DeliveryView}
+                            Skeleton={DeliverySkeleton}
+                            formik={formik}
+                            checkout={checkout}
+                            setCheckout={setCheckout}
+                            handleOpenMessage={handleOpenMessage}
+                            storeConfig={storeConfig}
+                        />
+                    ) : null}
                     <Email
                         t={t}
                         formik={formik}
@@ -97,28 +92,21 @@ const Content = (props) => {
                         handleOpenMessage={handleOpenMessage}
                         cartId={cartId}
                     />
-                    {
-                        checkout.selected.delivery === 'home' ? (
-                            <Address
-                                checkout={checkout}
-                                t={t}
-                                setCheckout={setCheckout}
-                                defaultAddress={checkout.data.defaultAddress}
-                                updateFormik={updateFormik}
-                                AddressView={AddressView}
-                                manageCustomer={manageCustomer}
-                                storeConfig={storeConfig}
-                                formik={formik}
-                            />
-                        ) : (
-                            <PickupInfo
-                                t={t}
-                                formik={formik}
-                                checkout={checkout}
-                                setCheckout={setCheckout}
-                            />
-                        )
-                    }
+                    {checkout.selected.delivery === 'home' ? (
+                        <Address
+                            checkout={checkout}
+                            t={t}
+                            setCheckout={setCheckout}
+                            defaultAddress={checkout.data.defaultAddress}
+                            updateFormik={updateFormik}
+                            AddressView={AddressView}
+                            manageCustomer={manageCustomer}
+                            storeConfig={storeConfig}
+                            formik={formik}
+                        />
+                    ) : (
+                        <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
+                    )}
                     <Shipping
                         t={t}
                         checkout={checkout}
@@ -131,8 +119,47 @@ const Content = (props) => {
                     />
 
                     <div className={classNames(styles.block)}>
-                        <Typography variant="title" type="bold" letter="uppercase">{t('checkout:feePromoLabel')}</Typography>
+                        <Typography variant="title" type="bold" letter="uppercase">
+                            {t('checkout:feePromoLabel')}
+                        </Typography>
                         <div className="row">
+                            {modules.checkout.extraFee.enabled ? (
+                                <ExtraFee
+                                    checkout={checkout}
+                                    setCheckout={setCheckout}
+                                    updateFormik={updateFormik}
+                                    handleOpenMessage={handleOpenMessage}
+                                    t={t}
+                                    storeConfig={storeConfig}
+                                    ExtraFeeView={ExtraFeeView}
+                                />
+                            ) : null}
+                            {modules.promo.enabled ? (
+                                <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">
+                                    <Promo
+                                        t={t}
+                                        checkout={checkout}
+                                        setCheckout={setCheckout}
+                                        handleOpenMessage={handleOpenMessage}
+                                        formik={formik}
+                                        storeConfig={storeConfig}
+                                        PromoView={PromoView}
+                                    />
+                                </div>
+                            ) : null}
+                            {modules.giftcard.enabled ? (
+                                <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">
+                                    <GiftCard
+                                        t={t}
+                                        checkout={checkout}
+                                        setCheckout={setCheckout}
+                                        handleOpenMessage={handleOpenMessage}
+                                        formik={formik}
+                                        storeConfig={storeConfig}
+                                        GiftCardView={GiftCardView}
+                                    />
+                                </div>
+                            ) : null}
                             {modules.rewardpoint.enabled ? (
                                 <div className="col-xs-12 col-sm-12 col-md-6 col-xl-6">
                                     <RewardPoint
@@ -158,44 +185,6 @@ const Content = (props) => {
                                         StoreCreditView={StoreCreditView}
                                     />
                                 </div>
-                            ) : null}
-                            {modules.promo.enabled ? (
-                                <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">
-                                    <Promo
-                                        t={t}
-                                        checkout={checkout}
-                                        setCheckout={setCheckout}
-                                        handleOpenMessage={handleOpenMessage}
-                                        formik={formik}
-                                        storeConfig={storeConfig}
-                                        PromoView={PromoView}
-                                    />
-                                </div>
-                            ) : null }
-                            {modules.giftcard.enabled ? (
-                                <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">
-                                    <GiftCard
-                                        t={t}
-                                        checkout={checkout}
-                                        setCheckout={setCheckout}
-                                        handleOpenMessage={handleOpenMessage}
-                                        formik={formik}
-                                        storeConfig={storeConfig}
-                                        GiftCardView={GiftCardView}
-                                    />
-                                </div>
-                            ) : null }
-
-                            {modules.checkout.extraFee.enabled ? (
-                                <ExtraFee
-                                    checkout={checkout}
-                                    setCheckout={setCheckout}
-                                    updateFormik={updateFormik}
-                                    handleOpenMessage={handleOpenMessage}
-                                    t={t}
-                                    storeConfig={storeConfig}
-                                    ExtraFeeView={ExtraFeeView}
-                                />
                             ) : null}
                         </div>
                     </div>
