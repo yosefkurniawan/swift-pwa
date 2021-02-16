@@ -3,7 +3,7 @@ import Component from './view';
 import { updateCustomerAddress } from '../../../../services/graphql';
 
 const ItemAddressCore = (props) => {
-    const { manageCustomer } = props;
+    const { manageCustomer, handleChange } = props;
     const [updateAddress] = updateCustomerAddress();
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
@@ -15,7 +15,16 @@ const ItemAddressCore = (props) => {
             variables: {
                 ...data,
             },
-        }).then(() => {
+        }).then(async () => {
+            if (data.defaultShippingBilling) {
+                await new Promise(() => {
+                    handleChange({
+                        target: {
+                            value: data.addressId,
+                        },
+                    });
+                });
+            }
             setSuccess(true);
             setLoading(false);
             setTimeout(() => {

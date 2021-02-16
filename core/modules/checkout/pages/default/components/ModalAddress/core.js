@@ -50,7 +50,9 @@ const ModalAddressCustomer = (props) => {
             && addressCustomer.customer.addresses && addressCustomer.customer.addresses.length > 0) {
             const selectedAddress = addressCustomer.customer.addresses.find((addr) => addr.default_shipping);
 
-            setSelectedAddressId(selectedAddress ? selectedAddress.id : null);
+            if (checkout.selected.address) {
+                setSelectedAddressId(selectedAddress ? selectedAddress.id : null);
+            }
             setAddresses(addressCustomer.customer.addresses);
         }
     }, [addressCustomer]);
@@ -88,7 +90,7 @@ const ModalAddressCustomer = (props) => {
 
             if (dataAddress && dataAddress.data && dataAddress.data.updateCustomerAddress) {
                 const shipping = dataAddress.data.updateCustomerAddress;
-                checkout.selected.address = {
+                state.selected.address = {
                     firstname: shipping.firstname,
                     lastname: shipping.lastname,
                     city: shipping.city,
@@ -115,6 +117,7 @@ const ModalAddressCustomer = (props) => {
     // handle add address
     const handleAddress = async (data) => {
         setLoadingAddress(true);
+        const state = { ...checkout };
         if (!success) {
             if (typeAddress === 'update') {
                 await updateAddress({
@@ -127,6 +130,26 @@ const ModalAddressCustomer = (props) => {
                     variables: {
                         ...data,
                     },
+                }).then(async (res) => {
+                    if (res.data && res.data.createCustomerAddress && res.data.createCustomerAddress.id) {
+                        const shipping = res.data.createCustomerAddress;
+                        state.selected.address = {
+                            firstname: shipping.firstname,
+                            lastname: shipping.lastname,
+                            city: shipping.city,
+                            region: {
+                                ...shipping.region,
+                                label: shipping.region.region,
+                            },
+                            country: shipping.country,
+                            postcode: shipping.postcode,
+                            telephone: shipping.telephone,
+                            street: shipping.street,
+                        };
+                        state.loading.addresses = false;
+                        state.loading.order = false;
+                        await setCheckout(state);
+                    }
                 });
             }
         }

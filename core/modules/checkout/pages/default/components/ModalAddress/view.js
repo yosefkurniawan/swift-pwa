@@ -60,6 +60,7 @@ const AddressView = (props) => {
                     handleOpenNew={handleOpenNew}
                     manageCustomer={manageCustomer}
                     updateAddress={updateAddress}
+                    handleChange={handleChange}
                 />
             ));
         }
