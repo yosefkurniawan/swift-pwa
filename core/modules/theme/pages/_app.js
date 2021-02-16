@@ -167,17 +167,21 @@ class MyApp extends App {
                     navigator.serviceWorker.ready.then((registration) => {
                         // This prevents to show one notification for each tab
                         setTimeout(() => {
-                            const { notification } = payload.data;
+                            console.log(
+                                '[firebase-messaging-sw.js] Received foreground message ',
+                                payload,
+                            );
                             const lastNotification = localStorage.getItem('lastNotification');
                             const isDifferentContent = payload.data.updated_date !== lastNotification;
                             if (isDifferentContent) {
-                                localStorage.setItem('lastNotification', payload.data.updated_date);
+                                localStorage.setItem('lastNotification', payload.data.updated_date+payload.data.title);
                                 registration.showNotification(payload.data.title, {
                                     body: payload.data.body,
                                     vibrate: [200, 100, 200, 100, 200, 100, 200],
                                     icon: payload.data.icons || '',
                                     image: payload.data.image || '',
                                     requireInteraction: true,
+                                    data : payload.data
                                 });
                             }
                         }, Math.random() * 1000);
