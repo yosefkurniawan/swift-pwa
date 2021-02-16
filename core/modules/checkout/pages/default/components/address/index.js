@@ -29,6 +29,7 @@ const Address = (props) => {
     const [setShippingAddressByInput] = gqlService.setShippingAddressByInput();
     const [setBillingAddressById] = gqlService.setBillingAddressById();
     const [setBillingAddressByInput] = gqlService.setBillingAddressByInput();
+    const [setDefaultAddress] = gqlService.updatedDefaultAddress();
 
     const { address } = checkout.selected;
     const { loading, data } = checkout;
@@ -96,7 +97,7 @@ const Address = (props) => {
         updateFormik(mergeCart);
     };
 
-    const setAddress = (selectedAddress, cart) => new Promise((resolve, reject) => {
+    const setAddress = (selectedAddress, cart, firstLoad = false) => new Promise((resolve, reject) => {
         const state = { ...checkout };
         if (checkout.data.isGuest) {
             state.loading.addresses = true;
@@ -136,77 +137,70 @@ const Address = (props) => {
                 reject(e);
             });
         } else {
-            setShippingAddressById({
-                variables: {
-                    cartId: cart.id,
-                    addressId: selectedAddress.id,
-                },
-            }).then(() => {
-                setBillingAddressById({
+            const setShippingBilling = () => {
+                setShippingAddressById({
                     variables: {
                         cartId: cart.id,
                         addressId: selectedAddress.id,
                     },
-                }).then((resBilling) => {
-                    updateAddressState(resBilling);
-                    resolve();
+                }).then(() => {
+                    setBillingAddressById({
+                        variables: {
+                            cartId: cart.id,
+                            addressId: selectedAddress.id,
+                        },
+                    }).then((resBilling) => {
+                        updateAddressState(resBilling);
+                        resolve();
+                    }).catch((e) => {
+                        reject(e);
+                    });
                 }).catch((e) => {
                     reject(e);
                 });
-            }).catch((e) => {
-                reject(e);
-            });
+            };
+            if (firstLoad) {
+                state.loading.addresses = true;
+                setCheckout(state);
+                setDefaultAddress({
+                    variables: {
+                        addressId: selectedAddress.id,
+                        street: selectedAddress.street[0],
+                    },
+                }).then((dataAddress) => {
+                    if (dataAddress && dataAddress.data && dataAddress.data.updateCustomerAddress) {
+                        const shipping = dataAddress.data.updateCustomerAddress;
+                        checkout.selected.address = {
+                            firstname: shipping.firstname,
+                            lastname: shipping.lastname,
+                            city: shipping.city,
+                            region: {
+                                ...shipping.region,
+                                label: shipping.region.region,
+                            },
+                            country: shipping.country,
+                            postcode: shipping.postcode,
+                            telephone: shipping.telephone,
+                            street: shipping.street,
+                        };
+                        state.loading.addresses = false;
+                        state.loading.order = false;
+                        setCheckout(state);
+                    }
+                    setShippingBilling();
+                }).catch((e) => {
+                    reject(e);
+                });
+            } else {
+                setShippingBilling();
+            }
         }
     });
-
-    const isAddressNotSame = (current = null, previous = null, prevDestLocation = null) => {
-        if (previous) {
-            const currentDestLatitude = current.latitude;
-            const currentDestLongitude = current.longitude;
-
-            const currentStringfy = JSON.stringify({
-                city: current.city,
-                country_code: current.country_code,
-                firstname: current.firstname,
-                lastname: current.lastname,
-                postcode: current.postcode,
-                regionLabel: current.region.region,
-                street: current.street,
-                telephhone: current.telephone,
-                dest_latitude: currentDestLatitude,
-                dest_longitude: currentDestLongitude,
-            });
-
-            const previousStringfy = JSON.stringify({
-                city: previous.city,
-                country_code: previous.country.code,
-                firstname: previous.firstname,
-                lastname: previous.lastname,
-                postcode: previous.postcode,
-                regionLabel: previous.region.label,
-                street: previous.street,
-                telephhone: previous.telephone,
-                dest_latitude: typeof prevDestLocation.dest_latitude !== 'undefined' ? prevDestLocation.dest_latitude : null,
-                dest_longitude: typeof prevDestLocation.dest_longitude !== 'undefined' ? prevDestLocation.dest_longitude : null,
-            });
-
-            return currentStringfy !== previousStringfy;
-        }
-
-        return true;
-    };
 
     useEffect(() => {
         if (defaultAddress && !checkout.data.isGuest) {
             const { cart } = checkout.data;
-            const [prevAddress] = cart.shipping_addresses;
-            let prevDestLocation = null;
-            if (typeof cart.dest_location !== 'undefined') {
-                prevDestLocation = cart.dest_location;
-            }
-            if (isAddressNotSame(defaultAddress, prevAddress, prevDestLocation)) {
-                setAddress(defaultAddress, cart);
-            }
+            setAddress(defaultAddress, cart, true);
         }
     }, [defaultAddress]);
 
