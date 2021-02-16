@@ -103,7 +103,7 @@ export default makeStyles((theme) => ({
         position: 'relative',
     },
     giftcardInfoContainer: {
-        ...CreateMargin(-30, 30, 30, 30),
+        ...CreateMargin(-30, 10, 30, 5),
     },
     giftCard: {
         marginLeft: '5px',
