@@ -129,6 +129,77 @@ const Content = (props) => {
                         storeConfig={storeConfig}
                         ShippingView={ShippingView}
                     />
+
+                    <div className={classNames(styles.block)}>
+                        <Typography variant="title" type="bold" letter="uppercase">{t('checkout:feePromoLabel')}</Typography>
+                        <div className="row">
+                            {modules.rewardpoint.enabled ? (
+                                <div className="col-xs-12 col-sm-12 col-md-6 col-xl-6">
+                                    <RewardPoint
+                                        t={t}
+                                        checkout={checkout}
+                                        setCheckout={setCheckout}
+                                        handleOpenMessage={handleOpenMessage}
+                                        formik={formik}
+                                        storeConfig={storeConfig}
+                                        RewardPointView={RewardPointView}
+                                    />
+                                </div>
+                            ) : null}
+                            {modules.storecredit.enabled ? (
+                                <div className="col-xs-12 col-sm-12 col-md-6 col-xl-6">
+                                    <Credit
+                                        t={t}
+                                        checkout={checkout}
+                                        setCheckout={setCheckout}
+                                        handleOpenMessage={handleOpenMessage}
+                                        formik={formik}
+                                        storeConfig={storeConfig}
+                                        StoreCreditView={StoreCreditView}
+                                    />
+                                </div>
+                            ) : null}
+                            {modules.promo.enabled ? (
+                                <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">
+                                    <Promo
+                                        t={t}
+                                        checkout={checkout}
+                                        setCheckout={setCheckout}
+                                        handleOpenMessage={handleOpenMessage}
+                                        formik={formik}
+                                        storeConfig={storeConfig}
+                                        PromoView={PromoView}
+                                    />
+                                </div>
+                            ) : null }
+                            {modules.giftcard.enabled ? (
+                                <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">
+                                    <GiftCard
+                                        t={t}
+                                        checkout={checkout}
+                                        setCheckout={setCheckout}
+                                        handleOpenMessage={handleOpenMessage}
+                                        formik={formik}
+                                        storeConfig={storeConfig}
+                                        GiftCardView={GiftCardView}
+                                    />
+                                </div>
+                            ) : null }
+
+                            {modules.checkout.extraFee.enabled ? (
+                                <ExtraFee
+                                    checkout={checkout}
+                                    setCheckout={setCheckout}
+                                    updateFormik={updateFormik}
+                                    handleOpenMessage={handleOpenMessage}
+                                    t={t}
+                                    storeConfig={storeConfig}
+                                    ExtraFeeView={ExtraFeeView}
+                                />
+                            ) : null}
+                        </div>
+                    </div>
+
                     <PaymentList
                         checkout={checkout}
                         setCheckout={setCheckout}
@@ -139,67 +210,6 @@ const Content = (props) => {
                         PaymentView={PaymentView}
                         modules={modules}
                     />
-                    {modules.promo.enabled ? (
-                        <Promo
-                            t={t}
-                            checkout={checkout}
-                            setCheckout={setCheckout}
-                            handleOpenMessage={handleOpenMessage}
-                            formik={formik}
-                            storeConfig={storeConfig}
-                            PromoView={PromoView}
-                        />
-                    ) : null }
-                    {modules.giftcard.enabled ? (
-                        <GiftCard
-                            t={t}
-                            checkout={checkout}
-                            setCheckout={setCheckout}
-                            handleOpenMessage={handleOpenMessage}
-                            formik={formik}
-                            storeConfig={storeConfig}
-                            GiftCardView={GiftCardView}
-                        />
-                    ) : null }
-                    <div className={classNames(styles.block, 'row')}>
-                        {modules.rewardpoint.enabled ? (
-                            <div className="col-xs-12 col-sm-12 col-md-6 col-xl-6">
-                                <RewardPoint
-                                    t={t}
-                                    checkout={checkout}
-                                    setCheckout={setCheckout}
-                                    handleOpenMessage={handleOpenMessage}
-                                    formik={formik}
-                                    storeConfig={storeConfig}
-                                    RewardPointView={RewardPointView}
-                                />
-                            </div>
-                        ) : null}
-                        {modules.storecredit.enabled ? (
-                            <div className="col-xs-12 col-sm-12 col-md-6 col-xl-6">
-                                <Credit
-                                    t={t}
-                                    checkout={checkout}
-                                    setCheckout={setCheckout}
-                                    handleOpenMessage={handleOpenMessage}
-                                    formik={formik}
-                                    storeConfig={storeConfig}
-                                    StoreCreditView={StoreCreditView}
-                                />
-                            </div>
-                        ) : null}
-                    </div>
-                    {modules.checkout.extraFee.enabled ? (
-                        <ExtraFee
-                            checkout={checkout}
-                            setCheckout={setCheckout}
-                            updateFormik={updateFormik}
-                            handleOpenMessage={handleOpenMessage}
-                            t={t}
-                            storeConfig={storeConfig}
-                            ExtraFeeView={ExtraFeeView}
-                        />
-                    ) : null}
                 </>
             </div>
             <div className="col-xs-12 col-sm-4 col-md-4 col-lg-3">

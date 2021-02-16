@@ -215,7 +215,6 @@ const Checkout = (props) => {
         state.data.defaultAddress = customer ? address : null;
 
         // init cart & customer
-        state.data.customer = customer;
         state.data.cart = cart;
 
         // init coupon
@@ -381,6 +380,14 @@ const Checkout = (props) => {
             initData();
         }
     }, [manageCustomer.data, dataCart, itemCart]);
+
+    React.useEffect(() => {
+        if (manageCustomer && manageCustomer.data && manageCustomer.data.customer) {
+            const state = { ...checkout };
+            state.data.customer = manageCustomer.data.customer;
+            setCheckout(state);
+        }
+    }, [manageCustomer.data]);
 
     React.useMemo(() => {
         if (checkout.data.cart) {

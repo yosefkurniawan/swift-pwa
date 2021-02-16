@@ -1,12 +1,10 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { GRAY_PRIMARY } from '@theme_color';
-import { CreateBorder, CreatePadding, FlexColumn } from '@theme_mixins';
+import { CreatePadding, FlexColumn } from '@theme_mixins';
 
 export default makeStyles(() => ({
     container: {
         ...FlexColumn,
-        ...CreateBorder('1px', 0, '1px', 0, GRAY_PRIMARY),
-        ...CreatePadding(20, 20, 20, 20),
+        ...CreatePadding(0, 20, 0, 20),
     },
     title: {
         marginBottom: 0,
