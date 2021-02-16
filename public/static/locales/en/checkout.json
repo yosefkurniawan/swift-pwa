@@ -97,5 +97,6 @@
         "try": "Retry",
         "backToStore": "Back to store"
     },
-    "cartError": "Something went wrong during fetching the cart data"
+    "cartError": "Something went wrong during fetching the cart data",
+    "feePromoLabel" :"Fee & promotion"
 }

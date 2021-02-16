@@ -21,7 +21,7 @@
         "selectStoreLocation": "Pilih lokasi toko"
     },
     "pickupStore": "Ambil di toko",
-    "shippingMethod" : "Cara pengantaran",
+    "shippingMethod" : "Cara pengiriman",
     "payment" : "Pembayaran",
     "placeOrder" : "Buat pesanan",
     "paymentSubtitle" : "Pilih metode pembayaran",
@@ -97,5 +97,6 @@
         "try": "Coba lagi",
         "backToStore": "Kembali ke toko"
     },
-    "cartError": "Ada yang salah saat mengambil data keranjang"
+    "cartError": "Ada yang salah saat mengambil data keranjang",
+    "feePromoLabel" :"Biaya & promosi"
 }
