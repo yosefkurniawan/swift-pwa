@@ -6,6 +6,10 @@
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
     const data = event.notification;
+    console.log(
+        ' Received foreground message ',
+        event,
+    );
     const urlToOpen = new URL(`${self.location.origin}/${data.data.path}`, self.location.origin).href;
 
     const promiseChain = clients.matchAll({

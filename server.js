@@ -163,11 +163,11 @@ async function renderAndCache(req, res) {
     const serviceWorkers = [
         {
             filename: 'firebase-messaging-sw.js',
-            path: `./public/static/firebase/firebase-messaging-sw.${assetsVersion}.js`,
+            path: `./public/static/firebase/firebase-messaging-background.${assetsVersion}.js`,
         },
         {
             filename: 'sw.js',
-            path: `./public/static/firebase/sw.${assetsVersion}.js`,
+            path: `./public/static/firebase/firebase-messaging-foreground.${assetsVersion}.js`,
         },
         {
             filename: '.well-known/assetlinks.json',

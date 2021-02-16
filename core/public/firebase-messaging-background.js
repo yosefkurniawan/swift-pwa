@@ -35,13 +35,12 @@ self.addEventListener('push', (e) => {
 
     // Keep old event data to override
     const oldData = e.data;
-
+    
     // remove notification key to prevent default notifications (background)
     const newEvent = new CustomPushEvent({
         data: {
             json() {
                 const newData = oldData.json();
-                delete newData.notification;
                 return newData;
             },
         },
@@ -71,9 +70,8 @@ messaging.onBackgroundMessage((payload) => {
         icon: payload.data.icons || '',
         image: payload.data.image || '',
         requireInteraction: true,
-        data: payload,
+        data : payload.data
     };
-
     return self.registration.showNotification(
         notificationTitle,
         notificationOptions,
@@ -84,15 +82,12 @@ messaging.onBackgroundMessage((payload) => {
 /* eslint-disable no-undef */
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
-    const { data } = event.notification;
-
-    let { path } = data.data;
-
-    if (path.charAt(0) === '/') {
-        path = path.substring(1);
-    }
-
-    const urlToOpen = new URL(`${self.location.origin}/${path}`, self.location.origin).href;
+    const data = event.notification;
+    console.log(
+        ' Received foreground message ',
+        event,
+    );
+    const urlToOpen = new URL(`${self.location.origin}/${data.data.path}`, self.location.origin).href;
 
     const promiseChain = clients.matchAll({
         type: 'window',

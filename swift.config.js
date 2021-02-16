@@ -3,7 +3,7 @@
 /* --------------------------------------- */
 const useMagentoCommerce = false; // setup uses magento commerce or community
 const storeCode = ''; // fill it with any store code when the magento is setup with multiple stores. leave it empty to use default store.
-const assetsVersion = '1.0.2';
+const assetsVersion = '1.0.4';
 
 const HOST = {
     local: 'http://localhost:3000',
@@ -190,7 +190,7 @@ const features = {
         enabled: true,
     },
     pushNotification: {
-        enabled: false,
+        enabled: true,
         config: {
             apiKey: 'AIzaSyCD0ZuTMcNi3PSsJH9LD21v7_XA1sVLjdI',
             authDomain: 'swiftpwa-firebase.firebaseapp.com',
@@ -234,7 +234,7 @@ const modules = {
         featuredImage: true,
     },
     brands: {
-        enabled: true,
+        enabled: false,
         path: '/brands',
     },
     catalog: {
