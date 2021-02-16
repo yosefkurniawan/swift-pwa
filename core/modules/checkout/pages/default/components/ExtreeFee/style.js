@@ -5,6 +5,7 @@ export default makeStyles(() => ({
     container: {
         ...FlexColumn,
         ...CreatePadding(0, 20, 0, 20),
+        width: '100%',
     },
     title: {
         marginBottom: 0,
