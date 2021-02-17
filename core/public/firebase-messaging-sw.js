@@ -7,14 +7,16 @@
 // are not available in the service worker.
 const { features } = require('../../swift.config');
 
-importScripts('https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/7.20.0/firebase-messaging.js');
+importScripts('https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/8.2.7/firebase-messaging.js');
 
 // Initialize the Firebase app in the service worker by passing in the
 // messagingSenderId.
 const firebaseConfig = features.pushNotification.config;
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.

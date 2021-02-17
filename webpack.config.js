@@ -6,7 +6,7 @@ module.exports = {
     entry: {
         install: './core/public/install.js',
         'firebase-messaging-sw': './core/public/firebase-messaging-sw.js',
-        sw: './core/public/sw.js',
+        sw: './core/public/service-worker.js',
     },
     output: {
         filename: `[name].${assetsVersion}.js`,
