@@ -31,13 +31,12 @@ messaging.onBackgroundMessage((payload) => {
     const notificationTitle = payload.data.title;
     const notificationOptions = {
         body: payload.data.body,
-        icon: payload.data.icons || '',
-        image: payload.data.image || '',
+        icon: payload.data.icons || '/icon.png',
         requireInteraction: true,
         data: payload,
     };
 
-    return self.registration.showNotification(
+    self.registration.showNotification(
         notificationTitle,
         notificationOptions,
     );
