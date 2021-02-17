@@ -165,14 +165,26 @@ class MyApp extends App {
                 //   `messaging.setBackgroundMessageHandler` handler.
                 messaging.onMessage((payload) => {
                     navigator.serviceWorker.ready.then((registration) => {
-                        registration.showNotification(payload.data.title, {
-                            body: payload.data.body,
-                            vibrate: [200, 100, 200, 100, 200, 100, 200],
-                            icon: payload.data.icons || '',
-                            image: payload.data.image || '',
-                            data: payload.data,
-                            requireInteraction: true,
-                        });
+                        // This prevents to show one notification for each tab
+                        setTimeout(() => {
+                            console.log(
+                                '[firebase-messaging-sw.js] Received foreground message ',
+                                payload,
+                            );
+                            const lastNotification = localStorage.getItem('lastNotification');
+                            const isDifferentContent = payload.data.updated_date !== lastNotification;
+                            if (isDifferentContent) {
+                                localStorage.setItem('lastNotification', payload.data.updated_date+payload.data.title);
+                                registration.showNotification(payload.data.title, {
+                                    body: payload.data.body,
+                                    vibrate: [200, 100, 200, 100, 200, 100, 200],
+                                    icon: payload.data.icons || '',
+                                    image: payload.data.image || '',
+                                    requireInteraction: true,
+                                    data : payload.data
+                                });
+                            }
+                        }, Math.random() * 1000);
                     });
                 });
             } catch (err) {
