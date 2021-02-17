@@ -409,6 +409,9 @@ const Checkout = (props) => {
                 ? customer.addresses.filter((item) => item.default_shipping)
                 : [null];
             state.data.defaultAddress = customer ? address : null;
+            if (!customer.addresses || customer.addresses.length === 0) {
+                state.loading.addresses = false;
+            }
             setCheckout(state);
         }
     }, [addressCustomer]);
