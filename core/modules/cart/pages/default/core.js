@@ -1,11 +1,13 @@
 /* eslint-disable radix */
 /* eslint-disable no-plusplus */
 import { useState } from 'react';
-import { getCartId } from '@helper_cartid';
-import { useMutation } from '@apollo/client';
+import { getCartId, setCartId } from '@helper_cartid';
+import { useMutation, useLazyQuery } from '@apollo/client';
 import TagManager from 'react-gtm-module';
+import { useRouter } from 'next/router';
 import Layout from '@layout';
-import { getCartData, addWishlist as mutationWishlist } from '../../services/graphql';
+import { localTotalCart } from '@services/graphql/schema/local';
+import { addWishlist as mutationWishlist, reOrder as mutationReOrder } from '../../services/graphql';
 import * as Schema from '../../services/graphql/schema';
 
 const getCrossSellProduct = (items) => {
@@ -25,6 +27,8 @@ const Cart = (props) => {
         t, token, isLogin, EmptyView, SkeletonView, pageConfig, Content, storeConfig, ...other
     } = props;
 
+    const router = useRouter();
+    const { paymentFailed, order_id } = router.query;
     const dataCart = {
         id: null,
         total_quantity: 0,
@@ -36,6 +40,7 @@ const Cart = (props) => {
     const [editMode, setEditMode] = useState(false);
     const [editItem, setEditItem] = useState({});
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
+    const [loadingCart, setLoadingCart] = useState(true);
     let cartId = '';
     const config = {
         title: t('cart:pageTitle'),
@@ -45,7 +50,6 @@ const Cart = (props) => {
         bottomNav: false,
         pageType: 'cart',
     };
-    let loadingCart = true;
     let crosssell = [];
 
     const toggleEditMode = () => {
@@ -61,26 +65,86 @@ const Cart = (props) => {
     const [actDeleteItem, deleteData] = useMutation(Schema.deleteCartitem);
     const [actUpdateItem, update] = useMutation(Schema.updateCartitem);
 
-    let tmpData = null;
-    if (typeof window !== 'undefined') {
-        cartId = getCartId();
-        if (cartId) {
-            const { loading, data } = getCartData(cartId);
-            loadingCart = loading;
-            if (!loading && data && data.cart) {
-                tmpData = data.cart;
-            }
-        } else {
-            loadingCart = false;
-        }
-    }
+    // reorder
+    const [reOrder, responseReorder] = mutationReOrder();
 
-    React.useMemo(() => {
-        if (!loadingCart && tmpData && tmpData.id) {
-            setCart({ ...tmpData });
+    // getCartDataLazzy
+    const [getCart, responseCart] = useLazyQuery(Schema.getCart, {
+        context: {
+            request: 'internal',
+        },
+        fetchPolicy: 'no-cache',
+    });
+
+    React.useEffect(() => {
+        if (paymentFailed && order_id) {
+            reOrder({
+                variables: {
+                    order_id,
+                },
+            });
+        } else {
+            cartId = getCartId();
+            if (cartId) {
+                if (getCart && !responseCart.called) {
+                    getCart({
+                        variables: {
+                            cartId,
+                        },
+                    });
+                }
+            } else {
+                setLoadingCart(false);
+            }
         }
-    },
-    [loadingCart]);
+    }, []);
+
+    React.useEffect(() => {
+        if (responseReorder && responseReorder.data && responseReorder.data.reorder && responseReorder.data.reorder.cart_id) {
+            const { cart_id } = responseReorder.data.reorder;
+            if (typeof window !== 'undefined') {
+                if (cart_id) {
+                    setCartId(cart_id);
+                    if (paymentFailed && order_id) {
+                        setTimeout(() => {
+                            router.push('/checkout/cart');
+                        }, 1000);
+                    }
+                    if (getCart && !responseCart.called) {
+                        getCart({
+                            variables: {
+                                cartId: cart_id,
+                            },
+                        });
+                    }
+                }
+            }
+        }
+    }, [responseReorder]);
+
+    React.useEffect(() => {
+        if (responseCart.loading) setLoadingCart(true);
+        if (responseCart && responseCart.data && responseCart.data.cart) {
+            setCart(responseCart.data.cart);
+            if (responseCart.client && responseCart.data.cart.total_quantity && responseCart.data.cart.total_quantity > 0) {
+                responseCart.client.writeQuery({
+                    query: localTotalCart,
+                    data: { totalCart: responseCart.data.cart.total_quantity },
+                });
+            }
+            setLoadingCart(false);
+        }
+
+        if (responseCart.error) {
+            setLoadingCart(false);
+        }
+    }, [responseCart]);
+
+    // React.useMemo(() => {
+    //     if (!loadingCart && tmpData && tmpData.id) {
+    //         setCart({ ...tmpData });
+    //     }
+    // }, [loadingCart]);
 
     // delete items
     const deleteItem = (itemProps) => {
@@ -113,24 +177,26 @@ const Cart = (props) => {
             context: {
                 request: 'internal',
             },
-        }).then(() => {
-            loadingCart = true;
-            toggleEditMode();
-            window.backdropLoader(false);
-            window.toastMessage({
-                open: true,
-                text: t('cart:deleteSuccess'),
-                variant: 'success',
+        })
+            .then(() => {
+                setLoadingCart(true);
+                toggleEditMode();
+                window.backdropLoader(false);
+                window.toastMessage({
+                    open: true,
+                    text: t('cart:deleteSuccess'),
+                    variant: 'success',
+                });
+            })
+            .catch((e) => {
+                toggleEditMode();
+                window.backdropLoader(false);
+                window.toastMessage({
+                    open: true,
+                    text: e.message.split(':')[1] || t('cart:deleteFailed'),
+                    variant: 'error',
+                });
             });
-        }).catch((e) => {
-            toggleEditMode();
-            window.backdropLoader(false);
-            window.toastMessage({
-                open: true,
-                text: e.message.split(':')[1] || t('cart:deleteFailed'),
-                variant: 'error',
-            });
-        });
     };
 
     // update items
@@ -145,38 +211,38 @@ const Cart = (props) => {
             context: {
                 request: 'internal',
             },
-        }).then(() => {
-            toggleEditMode();
-            window.backdropLoader(false);
-            window.toastMessage({
-                open: true,
-                text: t('cart:updateSuccess'),
-                variant: 'success',
+        })
+            .then(() => {
+                toggleEditMode();
+                window.backdropLoader(false);
+                window.toastMessage({
+                    open: true,
+                    text: t('cart:updateSuccess'),
+                    variant: 'success',
+                });
+            })
+            .catch((e) => {
+                toggleEditMode();
+                window.backdropLoader(false);
+                window.toastMessage({
+                    open: true,
+                    text: e.message.split(':')[1] || t('cart:updateFailed'),
+                    variant: 'error',
+                });
             });
-        }).catch((e) => {
-            toggleEditMode();
-            window.backdropLoader(false);
-            window.toastMessage({
-                open: true,
-                text: e.message.split(':')[1] || t('cart:updateFailed'),
-                variant: 'error',
-            });
-        });
     };
 
     React.useMemo(() => {
         if (!update.loading && update.data && update.data.updateCartItems) {
             setCart({ ...update.data.updateCartItems.cart });
         }
-    },
-    [update.loading]);
+    }, [update.loading]);
 
     React.useMemo(() => {
         if (!deleteData.loading && deleteData.data && deleteData.data.removeItemFromCart) {
             setCart(Object.assign(cart, deleteData.data.removeItemFromCart.cart));
         }
-    },
-    [deleteData.loading]);
+    }, [deleteData.loading]);
 
     React.useMemo(() => {
         if (cart.items.length > 0) {
@@ -218,14 +284,16 @@ const Cart = (props) => {
                     ecommerce: {
                         currencyCode: itemProps.prices.price.currency,
                         add: {
-                            products: [{
-                                name: itemProps.product.name,
-                                id: itemProps.product.sku,
-                                price: itemProps.prices.price.value || 0,
-                                category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
-                                list: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
-                                dimensions4: itemProps.product.stock_status,
-                            }],
+                            products: [
+                                {
+                                    name: itemProps.product.name,
+                                    id: itemProps.product.sku,
+                                    price: itemProps.prices.price.value || 0,
+                                    category: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                                    list: itemProps.product.categories.length > 0 ? itemProps.product.categories[0].name : '',
+                                    dimensions4: itemProps.product.stock_status,
+                                },
+                            ],
                         },
                     },
                 },
@@ -258,7 +326,11 @@ const Cart = (props) => {
     };
 
     if (loadingCart) {
-        return <Layout pageConfig={config || pageConfig} {...props}><SkeletonView /></Layout>;
+        return (
+            <Layout pageConfig={config || pageConfig} {...props}>
+                <SkeletonView />
+            </Layout>
+        );
     }
 
     crosssell = getCrossSellProduct(cart.items);
@@ -282,10 +354,7 @@ const Cart = (props) => {
         };
         return (
             <Layout pageConfig={config || pageConfig} {...props}>
-                <Content
-                    {...contentProps}
-                    {...other}
-                />
+                <Content {...contentProps} {...other} />
             </Layout>
         );
     }
