@@ -10,7 +10,7 @@ import Typography from '@common_typography';
 import Link from 'next/link';
 import formatDate from '@helper_date';
 import Alert from '@material-ui/lab/Alert';
-import Layout from '@core_modules/customer/components/layout';
+import Layout from '@layout_customer';
 import useStyles from '../style';
 
 const DefaultView = (props) => {

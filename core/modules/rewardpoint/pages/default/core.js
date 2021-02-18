@@ -1,6 +1,6 @@
 import urlParser from '@helper_urlparser';
 import Layout from '@layout';
-import CustomerLayout from '@core_modules/customer/components/layout';
+import CustomerLayout from '@layout_customer';
 import PropTypes from 'prop-types';
 import { debuging } from '@config';
 import { getRewardPoint } from '../../services/graphql';

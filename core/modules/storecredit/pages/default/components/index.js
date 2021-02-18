@@ -11,7 +11,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import Alert from '@material-ui/lab/Alert';
 import { formatPrice } from '@helper_currency';
 import formatDate from '@helper_date';
-import Layout from '@core_modules/customer/components/layout';
+import Layout from '@layout_customer';
 import useStyles from './style';
 import SkeletonStoreCredit from './skeleton';
 

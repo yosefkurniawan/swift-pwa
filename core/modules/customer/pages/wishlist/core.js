@@ -3,7 +3,7 @@ import { getCartId, setCartId } from '@helper_cartid';
 import { useQuery } from '@apollo/client';
 import Router from 'next/router';
 import Layout from '@layout';
-import CustomerLayout from '@core_modules/customer/components/layout';
+import CustomerLayout from '@layout_customer';
 import { getCartIdUser } from '../../services/graphql/schema';
 import { addSimpleProductsToCart, getCustomer, removeWishlist as gqlremoveWishlist } from '../../services/graphql';
 

@@ -1,7 +1,7 @@
 import Layout from '@layout';
 import { debuging } from '@config';
 import PropTypes from 'prop-types';
-import CustomerLayout from '@core_modules/customer/components/layout';
+import CustomerLayout from '@layout_customer';
 import { getOrder } from '../../services/graphql';
 
 const HistoryOrder = (props) => {
