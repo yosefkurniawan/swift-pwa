@@ -234,7 +234,7 @@ const modules = {
         featuredImage: true,
     },
     brands: {
-        enabled: true,
+        enabled: false,
         path: '/brands',
     },
     catalog: {
