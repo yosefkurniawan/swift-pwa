@@ -6,11 +6,11 @@ import TextField from '@common_textfield';
 import PasswordField from '@common_password';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Layout from '@layout_customer';
 
 import classNames from 'classnames';
 import { breakPointsUp } from '@helper_theme';
 import useStyles from './style';
-import Layout from '../../../components/layout';
 
 const ProfileForm = (props) => {
     const styles = useStyles();
