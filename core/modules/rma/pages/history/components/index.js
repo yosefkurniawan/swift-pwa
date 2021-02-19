@@ -11,7 +11,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Alert from '@material-ui/lab/Alert';
 import Router from 'next/router';
-import Layout from '@core_modules/customer/components/layout';
+import Layout from '@layout_customer';
 import useStyles from './styles';
 
 const HistoryContent = (props) => {

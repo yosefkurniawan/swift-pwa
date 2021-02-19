@@ -7,7 +7,7 @@ import Typography from '@common_typography';
 import Button from '@common_button';
 import Alert from '@material-ui/lab/Alert';
 import React from 'react';
-import Layout from '@core_modules/customer/components/layout';
+import Layout from '@layout_customer';
 import useStyles from './style';
 import Item from './item';
 

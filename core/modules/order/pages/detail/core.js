@@ -1,5 +1,5 @@
 import Layout from '@layout';
-import CustomerLayout from '@core_modules/customer/components/layout';
+import CustomerLayout from '@layout_customer';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { features } from '@config';

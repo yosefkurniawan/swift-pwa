@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import formatDate from '@helper_date';
 import { formatPrice } from '@helper_currency';
 import Alert from '@material-ui/lab/Alert';
-import Layout from '@core_modules/customer/components/layout';
+import Layout from '@layout_customer';
 import useStyles from '../style';
 import ItemProduct from './product';
 import Footer from './footer';

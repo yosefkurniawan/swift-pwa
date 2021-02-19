@@ -19,11 +19,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Alert from '@material-ui/lab/Alert';
+import Layout from '@layout_customer';
 import TableAddress from './table';
 import useStyles from './style';
 import { SkeletonMobile, SkeletonTable } from './skeleton';
 import ItemMobile from './ItemMobile';
-import Layout from '../../../components/layout';
 
 // Main Render Page
 const Content = (props) => {

@@ -4,7 +4,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@common_typography';
 import Alert from '@material-ui/lab/Alert/Alert';
-import Layout from '@core_modules/customer/components/layout';
+import Layout from '@layout_customer';
 import Skeleton from './skeleton';
 
 const NotificationList = (props) => {
