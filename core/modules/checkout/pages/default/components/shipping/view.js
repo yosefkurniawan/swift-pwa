@@ -11,25 +11,16 @@ import DeliveryItem from '../../../../components/radioitem';
 import useStyles from '../style';
 
 import {
-    ExpanDetailStyle,
-    ExpanPanelStyle,
-    ExpanSummaryStyle,
-    IconAccordion,
+    ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle, IconAccordion,
 } from './style';
 
-const IconLabel = withStyles(IconAccordion)(
-    ({ classes, label }) => <div id={`${label}Icon`} className={classes[label]} />,
-);
+const IconLabel = withStyles(IconAccordion)(({ classes, label }) => <div id={`${label}Icon`} className={classes[label]} />);
 
 const Accordion = withStyles(ExpanPanelStyle)(MuiAccordion);
 
-const AccordionSummary = withStyles(ExpanSummaryStyle)(
-    MuiAccordionSummary,
-);
+const AccordionSummary = withStyles(ExpanSummaryStyle)(MuiAccordionSummary);
 
-const AccordionDetails = withStyles(ExpanDetailStyle)(
-    MuiAccordionDetails,
-);
+const AccordionDetails = withStyles(ExpanDetailStyle)(MuiAccordionDetails);
 
 const Loader = () => (
     <>
@@ -42,13 +33,7 @@ const Loader = () => (
 const ShippingView = (props) => {
     const styles = useStyles();
     const {
-        checkout,
-        storeConfig,
-        loading,
-        selected,
-        handleShipping,
-        data,
-        t,
+        isOnlyVirtualProductOnCart, checkout, storeConfig, loading, selected, handleShipping, data, t,
     } = props;
     let content;
     const [expanded, setExpanded] = React.useState(null);
@@ -124,9 +109,11 @@ const ShippingView = (props) => {
                         if (item.data.length !== 0) {
                             return (
                                 <Accordion
-                                    expanded={expanded === keyIndex // if key index same with expanded active
+                                    expanded={
+                                        expanded === keyIndex // if key index same with expanded active
                                         || (item.active && expandedActive) // expand if item active and not change expand
-                                        || (!itemActive && expandedActive && keyIndex === 0)} // if dont have item active, set index 0 to active
+                                        || (!itemActive && expandedActive && keyIndex === 0)
+                                    } // if dont have item active, set index 0 to active
                                     onChange={handleChange(keyIndex)}
                                     key={keyIndex}
                                 >
@@ -138,12 +125,10 @@ const ShippingView = (props) => {
                                         <div className={styles.labelAccordion}>
                                             <IconLabel label={item.group.replace('sg-', '')} />
                                             <Typography letter="uppercase" variant="span" type="bold">
-                                                {
-                                                    (t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
-                                                        === `shippingGrouping.${item.group.replace('sg-', '')}`)
-                                                        ? item.group.replace('pg-', '')
-                                                        : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
-                                                }
+                                                {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
+                                                === `shippingGrouping.${item.group.replace('sg-', '')}`
+                                                    ? item.group.replace('pg-', '')
+                                                    : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
                                             </Typography>
                                         </div>
                                     </AccordionSummary>
@@ -184,7 +169,8 @@ const ShippingView = (props) => {
     } else {
         content = <Typography variant="p">{t('checkout:noShipping')}</Typography>;
     }
-    return (
+
+    return isOnlyVirtualProductOnCart ? null : (
         <div className={styles.block} id="checkoutShipping">
             <Typography variant="title" type="bold" letter="uppercase">
                 {t('checkout:shippingMethod')}

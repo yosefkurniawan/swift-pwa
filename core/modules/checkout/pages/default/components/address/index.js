@@ -15,14 +15,7 @@ const Loader = () => (
 
 const Address = (props) => {
     const {
-        checkout,
-        t,
-        setCheckout,
-        defaultAddress,
-        updateFormik,
-        AddressView,
-        storeConfig,
-        ...other
+        isOnlyVirtualProductOnCart, checkout, t, setCheckout, defaultAddress, updateFormik, AddressView, storeConfig, ...other
     } = props;
 
     const [setShippingAddressById] = gqlService.setShippingAddress();
@@ -73,15 +66,18 @@ const Address = (props) => {
 
         const updatedCart = result.data.setBillingAddressOnCart.cart;
         const [shippingAddress] = updatedCart.shipping_addresses;
+        let shippingMethods = [];
+        if (shippingAddress !== undefined || shippingAddress !== null) {
+            shippingMethods = shippingAddress.available_shipping_methods.map((shipping) => ({
+                ...shipping,
+                label: `${shipping.method_title} ${shipping.carrier_title}`,
+                value: {
+                    name: { carrier_code: shipping.carrier_code, method_code: shipping.method_code },
+                    price: formatPrice(shipping.amount.value, shipping.amount.currency),
+                },
+            }));
+        }
 
-        const shippingMethods = shippingAddress.available_shipping_methods.map((shipping) => ({
-            ...shipping,
-            label: `${shipping.method_title} ${shipping.carrier_title}`,
-            value: {
-                name: { carrier_code: shipping.carrier_code, method_code: shipping.method_code },
-                price: formatPrice(shipping.amount.value, shipping.amount.currency),
-            },
-        }));
         if (shippingAddress.selected_shipping_method === null) {
             state.selected.shipping = null;
         }
@@ -113,29 +109,47 @@ const Address = (props) => {
                     latitude,
                     longitude,
                 },
-            }).then(async (resAddress) => {
-                const [shipping] = resAddress.data.setShippingAddressesOnCart.cart.shipping_addresses;
-                if (shipping) {
-                    checkout.selected.address = shipping;
-                    checkout.loading.addresses = false;
-                    await setCheckout(checkout);
-                }
-                setBillingAddressByInput({
-                    variables: {
-                        cartId: cart.id,
-                        ...selectedAddress,
-                        latitude,
-                        longitude,
-                    },
-                }).then((resBilling) => {
-                    updateAddressState(resBilling);
-                    resolve();
-                }).catch((e) => {
+            })
+                .then(async (resAddress) => {
+                    const [shipping] = resAddress.data.setShippingAddressesOnCart.cart.shipping_addresses;
+                    if (shipping) {
+                        checkout.selected.address = shipping;
+                        checkout.loading.addresses = false;
+                        await setCheckout(checkout);
+                    }
+                    setBillingAddressByInput({
+                        variables: {
+                            cartId: cart.id,
+                            ...selectedAddress,
+                            latitude,
+                            longitude,
+                        },
+                    })
+                        .then((resBilling) => {
+                            updateAddressState(resBilling);
+                            resolve();
+                        })
+                        .catch((e) => {
+                            reject(e);
+                        });
+                })
+                .catch((e) => {
                     reject(e);
                 });
-            }).catch((e) => {
-                reject(e);
-            });
+        } else if (isOnlyVirtualProductOnCart) {
+            setBillingAddressById({
+                variables: {
+                    cartId: cart.id,
+                    addressId: selectedAddress.id,
+                },
+            })
+                .then((resBilling) => {
+                    updateAddressState(resBilling);
+                    resolve();
+                })
+                .catch((e) => {
+                    reject(e);
+                });
         } else {
             const setShippingBilling = () => {
                 setShippingAddressById({
@@ -143,21 +157,25 @@ const Address = (props) => {
                         cartId: cart.id,
                         addressId: selectedAddress.id,
                     },
-                }).then(() => {
-                    setBillingAddressById({
-                        variables: {
-                            cartId: cart.id,
-                            addressId: selectedAddress.id,
-                        },
-                    }).then((resBilling) => {
-                        updateAddressState(resBilling);
-                        resolve();
-                    }).catch((e) => {
+                })
+                    .then(() => {
+                        setBillingAddressById({
+                            variables: {
+                                cartId: cart.id,
+                                addressId: selectedAddress.id,
+                            },
+                        })
+                            .then((resBilling) => {
+                                updateAddressState(resBilling);
+                                resolve();
+                            })
+                            .catch((e) => {
+                                reject(e);
+                            });
+                    })
+                    .catch((e) => {
                         reject(e);
                     });
-                }).catch((e) => {
-                    reject(e);
-                });
             };
             if (firstLoad) {
                 state.loading.addresses = true;
@@ -167,30 +185,32 @@ const Address = (props) => {
                         addressId: selectedAddress.id,
                         street: selectedAddress.street[0],
                     },
-                }).then((dataAddress) => {
-                    if (dataAddress && dataAddress.data && dataAddress.data.updateCustomerAddress) {
-                        const shipping = dataAddress.data.updateCustomerAddress;
-                        checkout.selected.address = {
-                            firstname: shipping.firstname,
-                            lastname: shipping.lastname,
-                            city: shipping.city,
-                            region: {
-                                ...shipping.region,
-                                label: shipping.region.region,
-                            },
-                            country: shipping.country,
-                            postcode: shipping.postcode,
-                            telephone: shipping.telephone,
-                            street: shipping.street,
-                        };
-                        state.loading.addresses = false;
-                        state.loading.order = false;
-                        setCheckout(state);
-                    }
-                    setShippingBilling();
-                }).catch((e) => {
-                    reject(e);
-                });
+                })
+                    .then((dataAddress) => {
+                        if (dataAddress && dataAddress.data && dataAddress.data.updateCustomerAddress) {
+                            const shipping = dataAddress.data.updateCustomerAddress;
+                            checkout.selected.address = {
+                                firstname: shipping.firstname,
+                                lastname: shipping.lastname,
+                                city: shipping.city,
+                                region: {
+                                    ...shipping.region,
+                                    label: shipping.region.region,
+                                },
+                                country: shipping.country,
+                                postcode: shipping.postcode,
+                                telephone: shipping.telephone,
+                                street: shipping.street,
+                            };
+                            state.loading.addresses = false;
+                            state.loading.order = false;
+                            setCheckout(state);
+                        }
+                        setShippingBilling();
+                    })
+                    .catch((e) => {
+                        reject(e);
+                    });
             } else {
                 setShippingBilling();
             }
@@ -208,7 +228,7 @@ const Address = (props) => {
         if (address) {
             const option = `${address.firstname} ${address.lastname} ${street} 
             ${address.city} 
-            ${(address.region && address.region.label) ? address.region.label : address.region || ''} 
+            ${address.region && address.region.label ? address.region.label : address.region || ''} 
             ${address.postcode} ${address.telephone}`;
             const dataLayer = {
                 pageType: 'checkout',
@@ -251,6 +271,7 @@ const Address = (props) => {
             address={address}
             content={content}
             storeConfig={storeConfig}
+            isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
             {...other}
         />
     );

@@ -12,7 +12,18 @@ const CLOSE_ADDRESS_DIALOG = 350;
 const AddressView = (props) => {
     const styles = useStyles();
     const {
-        data, checkout, setAddress, setCheckout, t, dialogProps, loading, address, content, manageCustomer, ...other
+        data,
+        checkout,
+        setAddress,
+        setCheckout,
+        t,
+        dialogProps,
+        loading,
+        address,
+        content,
+        manageCustomer,
+        isOnlyVirtualProductOnCart,
+        ...other
     } = props;
     const { dest_latitude, dest_longitude } = (data && data.cart && data.cart.dest_location) || {};
     const gmapKey = other && other.storeConfig && other.storeConfig.icube_pinlocation_gmap_key;
@@ -41,7 +52,7 @@ const AddressView = (props) => {
             <div className={styles.addressContainer}>
                 <div className={styles.addressText}>
                     <Typography variant="title" type="bold" letter="uppercase">
-                        {t('checkout:shippingAddress')}
+                        {isOnlyVirtualProductOnCart ? t('checkout:billingAddress') : t('checkout:shippingAddress')}
                     </Typography>
                     <Typography variant="p">{content}</Typography>
                 </div>
@@ -83,13 +94,8 @@ const AddressView = (props) => {
                     />
                     {loading.addresses || loading.all ? null : (
                         <Button
-                            variant={
-                                (formik.values.email !== '' && formik.values.email !== formik.values.oldEmail)
-                                    ? 'contained' : 'outlined'
-                            }
-                            disabled={
-                                formik.values.email !== '' && formik.values.email !== formik.values.oldEmail
-                            }
+                            variant={formik.values.email !== '' && formik.values.email !== formik.values.oldEmail ? 'contained' : 'outlined'}
+                            disabled={formik.values.email !== '' && formik.values.email !== formik.values.oldEmail}
                             // href={data.isGuest ? null : '/customer/account/address'}
                             onClick={
                                 data.isGuest
@@ -115,9 +121,13 @@ const AddressView = (props) => {
                 </div>
             </div>
             <div className="alert-empty-pin-point">
-                {gmapKey && address && !(loading.addresses || loading.all)
-                    && ((!dest_latitude || !dest_longitude) || (dest_latitude === '0' && dest_longitude === '0')) && (
-                    <Alert style={{ fontSize: 10 }} severity="warning">{t('customer:address:emptyPinPointMessage')}</Alert>
+                {gmapKey
+                    && address
+                    && !(loading.addresses || loading.all)
+                    && (!dest_latitude || !dest_longitude || (dest_latitude === '0' && dest_longitude === '0')) && (
+                    <Alert style={{ fontSize: 10 }} severity="warning">
+                        {t('customer:address:emptyPinPointMessage')}
+                    </Alert>
                 )}
             </div>
         </div>

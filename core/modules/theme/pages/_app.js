@@ -174,14 +174,14 @@ class MyApp extends App {
                             const lastNotification = localStorage.getItem('lastNotification');
                             const isDifferentContent = payload.data.updated_date !== lastNotification;
                             if (isDifferentContent) {
-                                localStorage.setItem('lastNotification', payload.data.updated_date+payload.data.title);
+                                localStorage.setItem('lastNotification', payload.data.updated_date + payload.data.title);
                                 registration.showNotification(payload.data.title, {
                                     body: payload.data.body,
                                     vibrate: [200, 100, 200, 100, 200, 100, 200],
                                     icon: payload.data.icons || '',
                                     image: payload.data.image || '',
                                     requireInteraction: true,
-                                    data : payload.data
+                                    data: payload.data,
                                 });
                             }
                         }, Math.random() * 1000);

@@ -4,12 +4,11 @@ import gqlService from '../../../../services/graphql';
 
 const Shipping = (props) => {
     const {
-        t, checkout, setCheckout, updateFormik, handleOpenMessage,
-        storeConfig, ShippingView,
+        t, checkout, setCheckout, updateFormik, handleOpenMessage, storeConfig, isOnlyVirtualProductOnCart, ShippingView,
     } = props;
 
     const { loading, data, selected } = checkout;
-    const [setShippingMethod] = gqlService.setShippingMethod({ onError: () => { } });
+    const [setShippingMethod] = gqlService.setShippingMethod({ onError: () => {} });
     const handleShipping = async (val) => {
         if (val) {
             const { cart } = checkout.data;
@@ -121,6 +120,7 @@ const Shipping = (props) => {
             loading={loading}
             selected={selected}
             data={data}
+            isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
         />
     );
 };
