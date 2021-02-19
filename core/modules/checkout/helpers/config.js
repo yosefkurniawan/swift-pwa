@@ -3,6 +3,7 @@ import { modules } from '@config';
 
 const { checkoutOnly } = modules.checkout;
 
+//URL config redirect
 export const getCartCallbackUrl = () => (!checkoutOnly ? `/checkout/cart` : `${getHost()}/checkout/cart`);
 
 export const getSuccessCallbackUrl = () => {
