@@ -36,6 +36,7 @@
                     "@i18n": "./core/lib/i18n",
 
                     "@layout" : "swift-pwa-core/core/modules/theme/layout",
+                    "@layout_customer": "swift-pwa-core/core/modules/customer/components/layout",
 
                     "@theme": "./core/theme",
                     "@theme_color": "./core/theme/colors",
