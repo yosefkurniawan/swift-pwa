@@ -31,10 +31,7 @@ function equalTo(ref, msg) {
 
 const Checkout = (props) => {
     const {
-        t,
-        storeConfig,
-        pageConfig,
-        Content,
+        t, storeConfig, pageConfig, Content,
     } = props;
 
     const config = {
@@ -143,15 +140,40 @@ const Checkout = (props) => {
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
     // end init graphql
 
+    /**
+     * check on shipping cart item only virtual product
+     * @return {bool}
+     */
+    const isOnlyVirtualProductOnCart = React.useMemo(() => {
+        const { cart } = checkout.data;
+        const cartItems = cart?.items;
+        if (cartItems) {
+            const cartItemsFilter = cartItems.filter((item) => {
+                const { __typename } = item.product;
+                return __typename === 'VirtualProduct';
+            });
+
+            /**
+             * if cartitems and cartItemsFilter length same
+             * it's mean cart only contain virtual product
+             */
+            const isAllVirtual = cartItems.length === cartItemsFilter.length;
+            if (isAllVirtual) return true;
+        }
+        return false;
+    }, [checkout?.data?.cart]);
+
     Yup.addMethod(Yup.string, 'equalTo', equalTo);
 
     const CheckoutSchema = Yup.object().shape({
         email: checkout.data.isGuest ? Yup.string().nullable().email(t('validate:email:wrong')).required(t('validate:email.required')) : null,
-        address: Yup.object().nullable().required(t('validate:required')),
-        shipping: checkout.selected.delivery === 'home' && Yup.object().nullable().required(t('validate:required')),
         payment: Yup.string().nullable().required(t('validate:required')),
-        billing: checkout.selected.delivery === 'home' && Yup.object().nullable().required(t('validate:required')),
         oldEmail: checkout.data.isGuest ? Yup.string().equalTo(Yup.ref('email')) : null,
+        address: isOnlyVirtualProductOnCart ? null : Yup.object().nullable().required(t('validate:required')),
+        billing: checkout.selected.delivery === 'home' && Yup.object().nullable().required(t('validate:required')),
+        shipping: isOnlyVirtualProductOnCart
+            ? null
+            : checkout.selected.delivery === 'home' && Yup.object().nullable().required(t('validate:required')),
     });
 
     const formik = useFormik({
@@ -166,11 +188,11 @@ const Checkout = (props) => {
             billing: null,
         },
         validationSchema: CheckoutSchema,
-        onSubmit: () => { },
+        onSubmit: () => {},
     });
 
     const updateFormik = (cart) => {
-        const address = (cart && cart.shipping_addresses && cart.shipping_addresses.length > 0) ? cart.shipping_addresses[0] : null;
+        const address = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
         const shipping = address && address.selected_shipping_method;
         const { email } = cart;
         const payment = cart.selected_payment_method && cart.selected_payment_method.code;
@@ -207,9 +229,7 @@ const Checkout = (props) => {
 
         if (!state.data.isGuest && manageCustomer && manageCustomer.data && manageCustomer.data.customer && manageCustomer.data.customer.addresses) {
             customer = manageCustomer.data.customer;
-            [address] = customer
-                ? customer.addresses.filter((item) => item.default_shipping)
-                : [null];
+            [address] = customer ? customer.addresses.filter((item) => item.default_shipping) : [null];
         }
 
         state.data.defaultAddress = customer ? address : null;
@@ -221,7 +241,7 @@ const Checkout = (props) => {
         state.data.isCouponAppliedToCart = cart && cart.applied_coupons ? cart.applied_coupons : false;
 
         // init shipping address
-        const shipping = (cart && cart.shipping_addresses && cart.shipping_addresses.length > 0) ? cart.shipping_addresses[0] : null;
+        const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
 
         if (shipping) {
             state.selected.address = {
@@ -299,7 +319,7 @@ const Checkout = (props) => {
         }
 
         // init payment method
-        if ((cart.available_payment_methods)) {
+        if (cart.available_payment_methods) {
             state.data.paymentMethod = cart.available_payment_methods.map((method) => ({
                 ...method,
                 label: method.title,
@@ -394,7 +414,7 @@ const Checkout = (props) => {
             const { cart } = checkout.data;
             const state = { ...checkout };
             // init shipping address
-            const shipping = (cart && cart.shipping_addresses && cart.shipping_addresses.length > 0) ? cart.shipping_addresses[0] : null;
+            const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
             if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
                 const availableShipping = shipping.available_shipping_methods.filter((x) => x.available && x.carrier_code !== 'pickup');
                 state.data.shippingMethods = availableShipping.map((item) => ({
@@ -410,8 +430,12 @@ const Checkout = (props) => {
                 }));
             }
 
-            if (shipping && shipping.selected_shipping_method && shipping.available_shipping_methods
-                && shipping.available_shipping_methods.length > 0) {
+            if (
+                shipping
+                && shipping.selected_shipping_method
+                && shipping.available_shipping_methods
+                && shipping.available_shipping_methods.length > 0
+            ) {
                 const shippingMethod = shipping.selected_shipping_method;
                 const availableShipping = shipping.available_shipping_methods.filter(
                     (x) => x.available && x.carrier_code === shippingMethod.carrier_code && x.method_code === shippingMethod.method_code,
@@ -451,30 +475,17 @@ const Checkout = (props) => {
         setCheckout,
         manageCustomer,
         config,
+        isOnlyVirtualProductOnCart,
     };
 
     return (
-
         <Layout pageConfig={configPage || pageConfig} {...props}>
             <Head>
-                <script
-                    type="text/javascript"
-                    src={url}
-                    data-client-key={snap_client_key}
-                />
+                <script type="text/javascript" src={url} data-client-key={snap_client_key} />
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
-            <Content
-                {...contentProps}
-                {...props}
-                modules={modules}
-            />
-            <Toast
-                open={isError}
-                message={t('checkout:cartError')}
-                variant="error"
-                setOpen={setError}
-            />
+            <Content {...contentProps} {...props} modules={modules} />
+            <Toast open={isError} message={t('checkout:cartError')} variant="error" setOpen={setError} />
         </Layout>
     );
 };

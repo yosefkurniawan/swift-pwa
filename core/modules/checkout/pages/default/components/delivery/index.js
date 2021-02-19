@@ -7,46 +7,45 @@ import useStyles from '../style';
 
 const DeliveryComp = (props) => {
     const {
-        t, checkout, setCheckout,
-        handleOpenMessage, storeConfig, DeliveryView, Skeleton,
+        t, checkout, setCheckout, handleOpenMessage, storeConfig, DeliveryView, Skeleton, isOnlyVirtualProductOnCart,
     } = props;
     const [removePickupStore] = gqlService.removePickupStore();
     const styles = useStyles();
     const handleSelect = async (delivery) => {
         await window.backdropLoader(true);
-        if (delivery === 'home'
-            && Object.keys(checkout.selectStore).length > 0
-            && Object.keys(checkout.pickupInformation).length > 0) {
+        if (delivery === 'home' && Object.keys(checkout.selectStore).length > 0 && Object.keys(checkout.pickupInformation).length > 0) {
             removePickupStore({
                 variables: {
                     cart_id: checkout.data.cart.id,
                 },
-            }).then(async (res) => {
-                await setCheckout({
-                    ...checkout,
-                    data: {
-                        ...checkout.data,
-                        cart: {
-                            ...checkout.data.cart,
-                            ...res.data.removePickupStore,
+            })
+                .then(async (res) => {
+                    await setCheckout({
+                        ...checkout,
+                        data: {
+                            ...checkout.data,
+                            cart: {
+                                ...checkout.data.cart,
+                                ...res.data.removePickupStore,
+                            },
                         },
-                    },
-                    selected: {
-                        ...checkout.selected,
-                        delivery,
-                        address: checkout.data.isGuest ? null : checkout.selected.address,
-                    },
-                    selectStore: {},
-                    pickupInformation: {},
+                        selected: {
+                            ...checkout.selected,
+                            delivery,
+                            address: checkout.data.isGuest ? null : checkout.selected.address,
+                        },
+                        selectStore: {},
+                        pickupInformation: {},
+                    });
+                    await window.backdropLoader(false);
+                })
+                .catch(() => {
+                    handleOpenMessage({
+                        variant: 'error',
+                        text: t('checkout:message:problemConnection'),
+                    });
+                    window.backdropLoader(false);
                 });
-                await window.backdropLoader(false);
-            }).catch(() => {
-                handleOpenMessage({
-                    variant: 'error',
-                    text: t('checkout:message:problemConnection'),
-                });
-                window.backdropLoader(false);
-            });
         } else if (delivery === 'pickup') {
             const selectedShipping = checkout.data.shippingMethods.filter(({ method_code }) => method_code === 'pickup');
             const dataLayer = {
@@ -113,9 +112,8 @@ const DeliveryComp = (props) => {
         }
     };
     if (checkout.loading.all) return <Skeleton styles={styles} />;
-    return (
-        <DeliveryView {...props} handleSelect={handleSelect} />
-    );
+    if (isOnlyVirtualProductOnCart) return null;
+    return <DeliveryView {...props} handleSelect={handleSelect} />;
 };
 
 export default DeliveryComp;

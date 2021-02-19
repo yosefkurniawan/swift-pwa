@@ -12,15 +12,7 @@ import gqlService from '../../../../services/graphql';
 const { publicRuntimeConfig } = getConfig();
 
 const Summary = ({
-    t,
-    checkout,
-    setCheckout,
-    handleOpenMessage,
-    formik,
-    updateFormik,
-    config,
-    refSummary,
-    storeConfig,
+    t, checkout, setCheckout, handleOpenMessage, formik, updateFormik, config, refSummary, storeConfig,
 }) => {
     const { order: loading, all: disabled } = checkout.loading;
     const globalCurrency = storeConfig.default_display_currency_code;
@@ -28,10 +20,10 @@ const Summary = ({
     const [orderId, setOrderId] = useState(null);
     const [snapOpened, setSnapOpened] = useState(false);
     const [snapClosed, setSnapClosed] = useState(false);
-    const [getSnapToken, manageSnapToken] = gqlService.getSnapToken({ onError: () => { } });
-    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => { } });
-    const [placeOrder] = gqlService.placeOrder({ onError: () => { } });
-    const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => { } });
+    const [getSnapToken, manageSnapToken] = gqlService.getSnapToken({ onError: () => {} });
+    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
+    const [placeOrder] = gqlService.placeOrder({ onError: () => {} });
+    const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => {} });
     const [getCustCartId, manageCustCartId] = gqlService.getCustomerCartId();
     const [mergeCart] = gqlService.mergeCart();
 
@@ -75,7 +67,7 @@ const Summary = ({
         state.loading.order = true;
         setCheckout(state);
 
-        if (cart.prices.grand_total.value === 0 && (cart.selected_payment_method && cart.selected_payment_method.code !== 'free')) {
+        if (cart.prices.grand_total.value === 0 && cart.selected_payment_method && cart.selected_payment_method.code !== 'free') {
             state = { ...checkout };
             result = await setPaymentMethod({ variables: { cartId: cart.id, code: 'free' } });
 
@@ -96,9 +88,9 @@ const Summary = ({
 
         await formik.submitForm();
         formValidation = await formik.validateForm();
+
         if (Object.keys(formValidation).length === 0 && formValidation.constructor === Object) {
-            if (checkout.selected.delivery === 'pickup'
-                && (checkout.error.pickupInformation || checkout.error.selectStore)) {
+            if (checkout.selected.delivery === 'pickup' && (checkout.error.pickupInformation || checkout.error.selectStore)) {
                 state.loading.order = false;
                 setCheckout(state);
 
@@ -166,9 +158,7 @@ const Summary = ({
             state.loading.order = false;
             setCheckout(state);
 
-            const msg = checkout.data.isGuest
-                ? t('checkout:message:guestFormValidation')
-                : t('checkout:message:customerFormValidation');
+            const msg = checkout.data.isGuest ? t('checkout:message:guestFormValidation') : t('checkout:message:customerFormValidation');
 
             handleOpenMessage({
                 variant: 'error',
@@ -178,8 +168,13 @@ const Summary = ({
     };
 
     // Start - Manage Snap Pop Up When Opened (Waiting Response From SnapToken)
-    if (manageSnapToken.data && orderId && !snapOpened && manageSnapToken.data.getSnapTokenByOrderId
-        && manageSnapToken.data.getSnapTokenByOrderId.snap_token) {
+    if (
+        manageSnapToken.data
+        && orderId
+        && !snapOpened
+        && manageSnapToken.data.getSnapTokenByOrderId
+        && manageSnapToken.data.getSnapTokenByOrderId.snap_token
+    ) {
         const snapToken = manageSnapToken.data.getSnapTokenByOrderId.snap_token;
         if (snap && snap.pay) {
             snap.pay(snapToken, {
@@ -235,13 +230,15 @@ const Summary = ({
                         sourceCartId: cart_id,
                         destionationCartId: customerCartId,
                     },
-                }).then(async () => {
-                    await setCartId(customerCartId);
-                    setOrderId(null);
-                    window.location.replace(generateCartRedirect());
-                }).catch(() => {
-                    window.location.replace(generateCartRedirect());
-                });
+                })
+                    .then(async () => {
+                        await setCartId(customerCartId);
+                        setOrderId(null);
+                        window.location.replace(generateCartRedirect());
+                    })
+                    .catch(() => {
+                        window.location.replace(generateCartRedirect());
+                    });
             } else {
                 setCartId(customerCartId);
                 setOrderId(null);

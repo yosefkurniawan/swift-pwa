@@ -28,6 +28,7 @@ const Content = (props) => {
         formik,
         t,
         setCheckout,
+        isOnlyVirtualProductOnCart,
         handleOpenMessage,
         EmailView,
         config,
@@ -80,6 +81,7 @@ const Content = (props) => {
                             setCheckout={setCheckout}
                             handleOpenMessage={handleOpenMessage}
                             storeConfig={storeConfig}
+                            isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
                         />
                     ) : null}
                     <Email
@@ -103,6 +105,7 @@ const Content = (props) => {
                             manageCustomer={manageCustomer}
                             storeConfig={storeConfig}
                             formik={formik}
+                            isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
                         />
                     ) : (
                         <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
@@ -116,6 +119,7 @@ const Content = (props) => {
                         handleOpenMessage={handleOpenMessage}
                         storeConfig={storeConfig}
                         ShippingView={ShippingView}
+                        isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
                     />
 
                     <div className={classNames(styles.block)}>
@@ -215,6 +219,7 @@ const Content = (props) => {
                     SummaryView={SummaryView}
                     // eslint-disable-next-line no-return-assign
                     refSummary={SummaryRef}
+                    isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
                 />
             </div>
             <div className="col-xs-12 col-sm-8 hidden-mobile center">
