@@ -1,8 +1,8 @@
 // Library
 import React from 'react';
 import { modules } from '@config';
+import Layout from '@layout_customer';
 import gqlService from '../../../../services/graphql';
-import Layout from '../../../../components/layout';
 
 const Customer = (props) => {
     const {
