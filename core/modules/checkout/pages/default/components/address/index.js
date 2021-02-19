@@ -65,15 +65,18 @@ const Address = (props) => {
 
         const updatedCart = result.data.setBillingAddressOnCart.cart;
         const [shippingAddress] = updatedCart.shipping_addresses;
+        let shippingMethods = [];
+        if (shippingAddress !== undefined || shippingAddress !== null) {
+            shippingMethods = shippingAddress.available_shipping_methods.map((shipping) => ({
+                ...shipping,
+                label: `${shipping.method_title} ${shipping.carrier_title}`,
+                value: {
+                    name: { carrier_code: shipping.carrier_code, method_code: shipping.method_code },
+                    price: formatPrice(shipping.amount.value, shipping.amount.currency),
+                },
+            }));
+        }
 
-        const shippingMethods = shippingAddress.available_shipping_methods.map((shipping) => ({
-            ...shipping,
-            label: `${shipping.method_title} ${shipping.carrier_title}`,
-            value: {
-                name: { carrier_code: shipping.carrier_code, method_code: shipping.method_code },
-                price: formatPrice(shipping.amount.value, shipping.amount.currency),
-            },
-        }));
         if (shippingAddress.selected_shipping_method === null) {
             state.selected.shipping = null;
         }
