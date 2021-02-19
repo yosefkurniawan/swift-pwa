@@ -3,7 +3,8 @@ import { modules } from '@config';
 
 const { checkoutOnly } = modules.checkout;
 
-export const getCartCallbackUrl = () => (!checkoutOnly ? `${getStoreHost()}checkout/cart` : `${getHost()}/checkout/cart`);
+//URL config redirect
+export const getCartCallbackUrl = () => (!checkoutOnly ? `/checkout/cart` : `${getHost()}/checkout/cart`);
 
 export const getSuccessCallbackUrl = () => {
     if (checkoutOnly) return `${getStoreHost()}pwacheckout/onepage/success`;
