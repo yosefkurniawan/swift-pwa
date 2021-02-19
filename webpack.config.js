@@ -5,8 +5,8 @@ module.exports = {
     mode: 'production',
     entry: {
         install: './core/public/install.js',
-        'firebase-messaging-background': './core/public/firebase-messaging-background.js',
-        'firebase-messaging-foreground': './core/public/firebase-messaging-foreground.js',
+        'firebase-messaging-sw': './core/public/firebase-messaging-sw.js',
+        sw: './core/public/service-worker.js',
     },
     output: {
         filename: `[name].${assetsVersion}.js`,
