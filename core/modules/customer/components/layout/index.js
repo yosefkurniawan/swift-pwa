@@ -56,7 +56,6 @@ const Layout = (props) => {
         <div className="row">
             <div className="col-md-2 col-xs-12 hidden-mobile">
                 <div className={styles.listMenuContainer}>
-                    <h1>Hello</h1>
                     <ul className={styles.listMenu}>
                         {menu.map((val, idx) => (
                             <li
