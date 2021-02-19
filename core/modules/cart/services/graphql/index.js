@@ -44,3 +44,9 @@ export const getCountCart = (cartId) => useQuery(Schema.getCountCart, {
     },
     skip: cartId === '' || typeof cartId === 'undefined',
 });
+
+export const reOrder = () => useMutation(Schema.reOrder, {
+    context: {
+        request: 'internal',
+    },
+});

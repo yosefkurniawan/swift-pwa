@@ -4,10 +4,10 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import classNames from 'classnames';
 import { breakPointsUp } from '@helper_theme';
 import Typography from '@common_typography';
+import Layout from '@layout_customer';
 import useStyles from './style';
 import CheckboxSettings from './checkbox';
 import CheckboxView from './checkbox/view';
-import Layout from '../../../components/layout';
 
 const subData = [{ value: 'subscribed', label: 'Subscribtion' }];
 

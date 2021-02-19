@@ -393,3 +393,12 @@ export const getCountCart = gql`
         }
     }
 `;
+
+// reorder
+export const reOrder = gql`
+mutation reOrder($order_id: String!) {
+  reorder(input: {order_id: $order_id}) {
+    cart_id
+  }
+}
+`;

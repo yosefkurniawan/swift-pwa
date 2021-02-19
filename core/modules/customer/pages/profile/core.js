@@ -1,5 +1,5 @@
 import Layout from '@layout';
-import CustomerLayout from '@core_modules/customer/components/layout';
+import CustomerLayout from '@layout_customer';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { regexPhone } from '@helper_regex';

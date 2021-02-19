@@ -2,7 +2,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import ConfirmModal from '@common_confirmdialog';
-import Layout from '@core_modules/customer/components/layout';
+import Layout from '@layout_customer';
 import { updateRma, cancelRma } from '@core_modules/rma/services/graphql';
 import ItemField from './ItemField';
 import useStyles from './styles';

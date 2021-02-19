@@ -10,7 +10,7 @@ import Button from '@common_button';
 import TextField from '@common_textfield';
 import { formatPrice } from '@helper_currency';
 import { debuging } from '@config';
-import Layout from '@core_modules/customer/components/layout';
+import Layout from '@layout_customer';
 import ModalDetail from './detail';
 import DetailView from './detail/view';
 import useStyles from './style';
