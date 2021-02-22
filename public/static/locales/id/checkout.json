@@ -1,6 +1,7 @@
 {
     "pageTitle": "Checkout",
     "shippingAddress" : "Alamat pengiriman",
+    "billingAddress": "Billing address",
     "address": {
         "addTitle": "Alamat baru"
     },
