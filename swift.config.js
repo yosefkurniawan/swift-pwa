@@ -12,12 +12,20 @@ const HOST = {
     prod: 'https://pwa.getswift.asia',
 };
 
+/* Magento BASE URL */
+const BASEURL = {
+    local: 'https://swiftpwa-be.testingnow.me',
+    dev: 'https://swiftpwa-be.testingnow.me',
+    stage: 'https://swiftpwa-be.testingnow.me',
+    prod: 'https://b2cdemo.getswift.asia',
+};
+
 /* Magento GraphQL Endpoint */
 const graphqlEndpoint = {
-    local: 'https://swiftpwa-be.testingnow.me/graphql',
-    dev: 'https://swiftpwa-be.testingnow.me/graphql',
-    stage: 'https://swiftpwa-be.testingnow.me/graphql',
-    prod: 'https://b2cdemo.getswift.asia/graphql',
+    local: `${BASEURL.local}/graphql`,
+    dev: `${BASEURL.dev}/graphql`,
+    stage: `${BASEURL.stage}/graphql`,
+    prod: `${BASEURL.prod}/graphql`,
 };
 
 /* --------------------------------------- */
@@ -275,10 +283,10 @@ const modules = {
         checkoutOnly: false,
         path: '/checkout',
         ipayUrl: {
-            local: 'https://swiftpwa-be.testingnow.me/ipayredirect/ipayredirect/?orderId=',
-            dev: 'https://swiftpwa-be.testingnow.me/ipayredirect/ipayredirect/?orderId=',
-            stage: 'https://swiftpwa-be.testingnow.me/ipayredirect/ipayredirect/?orderId=',
-            prod: 'https://b2cdemo.getswift.asia/ipayredirect/ipayredirect/?orderId=',
+            local: `${BASEURL.local}/ipayredirect/ipayredirect/?orderId=`,
+            dev: `${BASEURL.dev}/ipayredirect/ipayredirect/?orderId=`,
+            stage: `${BASEURL.stage}/ipayredirect/ipayredirect/?orderId=`,
+            prod: `${BASEURL.prod}/ipayredirect/ipayredirect/?orderId=`,
         },
         snapUrl: {
             dev: 'https://app.sandbox.midtrans.com/snap/snap.js',
@@ -358,12 +366,21 @@ const modules = {
         fieldDetail: {
             shipperid: ['name', 'description', 'updateDate'],
             gosend: [
-                'bookingType', 'buyerAddressName', 'buyerAddressDetail',
-                'driverId', 'driverName', 'insuranceDetails', 'liveTrackingUrl',
-                'receiverName', 'sellerAddressDetail', 'sellerAddressName',
-                'status', 'cancelDescription',
-                'orderArrivalTime', 'orderClosedTime', 'orderCreatedTime',
-
+                'bookingType',
+                'buyerAddressName',
+                'buyerAddressDetail',
+                'driverId',
+                'driverName',
+                'insuranceDetails',
+                'liveTrackingUrl',
+                'receiverName',
+                'sellerAddressDetail',
+                'sellerAddressName',
+                'status',
+                'cancelDescription',
+                'orderArrivalTime',
+                'orderClosedTime',
+                'orderCreatedTime',
             ],
         },
     },
