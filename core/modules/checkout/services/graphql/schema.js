@@ -559,6 +559,7 @@ export const setBillingAddressById = gql`
         setBillingAddressOnCart(input: { cart_id: $cartId, billing_address: { same_as_shipping: true, customer_address_id: $addressId } }) {
             cart {
                 ${dest_location}
+                ${cartBillingAddress}
                 shipping_addresses {
                     ${available_shipping_methods}
                     ${selected_shipping_method}
