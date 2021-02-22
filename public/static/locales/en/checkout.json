@@ -1,6 +1,7 @@
 {
     "pageTitle": "Checkout",
     "shippingAddress" : "Shipping address",
+    "billingAddress": "Billing address",
     "address": {
         "addTitle": "New address"
     },
