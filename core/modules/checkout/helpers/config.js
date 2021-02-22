@@ -21,4 +21,10 @@ export const getLoginCallbackUrl = () => {
     return '/customer/account/login?redirect=/checkout';
 };
 
+/**
+ * [GET] [URL] [IPAY88] redirect url
+ * @return {string} [IPAY88] redirect url
+ */
+export const getIpayUrl = () => `${getStoreHost()}ipayredirect/ipayredirect/?orderId=`;
+
 export default { getCartCallbackUrl, getSuccessCallbackUrl, getLoginCallbackUrl };
