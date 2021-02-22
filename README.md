@@ -2,6 +2,8 @@ This is SwiftPWA base project bootstrapped with [Next.js](https://nextjs.org/).
 
 Demo: [https://swiftpwa.testingnow.me/](https://swiftpwa.testingnow.me/)
 
+Roadmap: [Click here!](https://icubeus.github.io/swift-pwa/roadmap.html)
+
 
 ## Pre-Installation
 ### Setup Host and Graphql Endpoint
