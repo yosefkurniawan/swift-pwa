@@ -607,6 +607,7 @@ export const setBillingAddressByInput = gql`
         ) {
             cart {
                 ${dest_location}
+                ${cartBillingAddress}
                 ${cartShippingAddress}
             }
         }

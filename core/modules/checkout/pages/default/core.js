@@ -53,7 +53,7 @@ const Checkout = (props) => {
         urlRedirect = getStoreHost();
     }
     if (typeof window !== 'undefined') {
-        cartId = getCartId();
+        // cartId = getCartId();
         isLogin = Cookies.get('isLogin');
         if (!cartId) {
             Router.push(urlRedirect);
@@ -390,7 +390,7 @@ const Checkout = (props) => {
         }
 
         if (dataCart && dataCart.cart && dataCart.cart.shipping_addresses
-            && dataCart.cart.shipping_addresses.length === 0) {
+            && dataCart.cart.shipping_addresses.length === 0 && !checkout.data.isGuest) {
             setCheckout({
                 ...checkout,
                 loading: {
