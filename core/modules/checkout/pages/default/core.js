@@ -4,18 +4,18 @@ import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import { getCartId } from '@helpers/cartId';
-import { formatPrice } from '@helpers/currency';
+import { modules } from '@config';
+import { getStoreHost } from '@helpers/config';
+
 import Router from 'next/router';
 import Layout from '@layout';
 import Head from 'next/head';
-import { modules } from '@config';
-import { getStoreHost } from '@helpers/config';
 import Cookies from 'js-cookie';
 import Toast from '@common_toast';
-import gqlService from '../../services/graphql';
 import {
-    getCartCallbackUrl, getLoginCallbackUrl, getSuccessCallbackUrl, getIpayUrl,
+    getSuccessCallbackUrl, getLoginCallbackUrl, getCartCallbackUrl, getIpayUrl,
 } from '../../helpers/config';
+import gqlService from '../../services/graphql';
 
 function equalTo(ref, msg) {
     return this.test({
