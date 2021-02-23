@@ -1,7 +1,9 @@
 import { getStoreHost, getHost } from '@helpers/config';
 import { modules } from '@config';
+import getConfig from 'next/config';
 
-const { checkoutOnly } = modules.checkout;
+const { checkoutOnly, ipayUrl } = modules.checkout;
+const { publicRuntimeConfig } = getConfig();
 
 //URL config redirect
 export const getCartCallbackUrl = () => (!checkoutOnly ? `/checkout/cart` : `${getHost()}/checkout/cart`);
@@ -20,6 +22,16 @@ export const getLoginCallbackUrl = () => {
         return `${getStoreHost()}customer/account/login/referer/${urlBase64}`;
     }
     return '/customer/account/login?redirect=/checkout';
+};
+
+/**
+ * [GET] [URL] [IPAY88] redirect url
+ * @return {string} [IPAY88] redirect url
+ */
+export const getIpayUrl = () => {
+    const appEnv = typeof publicRuntimeConfig !== 'undefined' ? publicRuntimeConfig.appEnv : 'prod';
+    const redirectIpay = `${getStoreHost()}${ipayUrl[appEnv]}`;
+    return redirectIpay;
 };
 
 export default { getCartCallbackUrl, getSuccessCallbackUrl, getLoginCallbackUrl };
