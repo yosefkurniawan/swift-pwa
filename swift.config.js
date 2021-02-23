@@ -12,20 +12,12 @@ const HOST = {
     prod: 'https://pwa.getswift.asia',
 };
 
-/* Magento BASE URL */
-const BASEURL = {
-    local: 'https://swiftpwa-be.testingnow.me',
-    dev: 'https://swiftpwa-be.testingnow.me',
-    stage: 'https://swiftpwa-be.testingnow.me',
-    prod: 'https://b2cdemo.getswift.asia',
-};
-
 /* Magento GraphQL Endpoint */
 const graphqlEndpoint = {
-    local: `${BASEURL.local}/graphql`,
-    dev: `${BASEURL.dev}/graphql`,
-    stage: `${BASEURL.stage}/graphql`,
-    prod: `${BASEURL.prod}/graphql`,
+    local: 'https://swiftpwa-be.testingnow.me/graphql',
+    dev: 'https://swiftpwa-be.testingnow.me/graphql',
+    stage: 'https://swiftpwa-be.testingnow.me/graphql',
+    prod: 'https://b2cdemo.getswift.asia/graphql',
 };
 
 /* --------------------------------------- */
@@ -283,10 +275,10 @@ const modules = {
         checkoutOnly: false,
         path: '/checkout',
         ipayUrl: {
-            local: `${BASEURL.local}/ipayredirect/ipayredirect/?orderId=`,
-            dev: `${BASEURL.dev}/ipayredirect/ipayredirect/?orderId=`,
-            stage: `${BASEURL.stage}/ipayredirect/ipayredirect/?orderId=`,
-            prod: `${BASEURL.prod}/ipayredirect/ipayredirect/?orderId=`,
+            local: 'ipayredirect/ipayredirect/?orderId=',
+            dev: 'ipayredirect/ipayredirect/?orderId=',
+            stage: 'ipayredirect/ipayredirect/?orderId=',
+            prod: 'ipayredirect/ipayredirect/?orderId=',
         },
         snapUrl: {
             dev: 'https://app.sandbox.midtrans.com/snap/snap.js',
