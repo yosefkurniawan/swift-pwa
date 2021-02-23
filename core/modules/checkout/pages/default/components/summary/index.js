@@ -3,13 +3,11 @@ import { useApolloClient } from '@apollo/client';
 import { setCartId, removeCartId } from '@helper_cartid';
 import { setCheckoutData } from '@helper_cookies';
 import { localTotalCart } from '@services/graphql/schema/local';
+import { originName } from '@config';
+
 import SummaryPlugin from '@plugin_summary';
-import { modules, originName } from '@config';
-import getConfig from 'next/config';
 import Skeleton from '@material-ui/lab/Skeleton';
 import gqlService from '../../../../services/graphql';
-
-const { publicRuntimeConfig } = getConfig();
 
 const Summary = ({
     t, checkout, setCheckout, handleOpenMessage, formik, updateFormik, config, refSummary, storeConfig,
@@ -56,6 +54,13 @@ const Summary = ({
             return config.cartRedirect.link;
         }
         return '/checkout/cart';
+    };
+
+    const generateIpayRedirect = (orderNumber) => {
+        if (config && config.ipay && config.ipay.link) {
+            return config.ipay.link + orderNumber;
+        }
+        return '/checkout/onepage/success';
     };
 
     const handlePlaceOrder = async () => {
@@ -132,9 +137,7 @@ const Summary = ({
                         checkout.data.cart.selected_payment_method.code.match(/ovo.*/)
                         || checkout.data.cart.selected_payment_method.code.match(/ipay88*/)
                     ) {
-                        const env = typeof publicRuntimeConfig !== 'undefined' ? publicRuntimeConfig.appEnv : 'prod';
-                        const ipayUrl = modules.checkout.ipayUrl[env] || modules.checkout.ipayUrl.prod;
-                        window.location.href = ipayUrl + orderNumber;
+                        window.location.href = generateIpayRedirect(orderNumber);
                     } else {
                         handleOpenMessage({
                             variant: 'success',
