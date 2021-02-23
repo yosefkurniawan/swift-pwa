@@ -4,18 +4,16 @@ import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import { getCartId } from '@helpers/cartId';
-import { modules } from '@config';
-import { getStoreHost } from '@helpers/config';
-
+import { formatPrice } from '@helpers/currency';
 import Router from 'next/router';
 import Layout from '@layout';
 import Head from 'next/head';
+import { modules } from '@config';
+import { getStoreHost } from '@helpers/config';
 import Cookies from 'js-cookie';
 import Toast from '@common_toast';
-import {
-    getSuccessCallbackUrl, getLoginCallbackUrl, getCartCallbackUrl, getIpayUrl,
-} from '../../helpers/config';
 import gqlService from '../../services/graphql';
+import { getCartCallbackUrl, getLoginCallbackUrl, getSuccessCallbackUrl } from '../../helpers/config';
 
 function equalTo(ref, msg) {
     return this.test({
@@ -47,9 +45,6 @@ const Checkout = (props) => {
         loginRedirect: {
             link: getLoginCallbackUrl(),
         },
-        ipay: {
-            link: getIpayUrl(),
-        },
     };
 
     let { cartId, isLogin } = props;
@@ -58,7 +53,7 @@ const Checkout = (props) => {
         urlRedirect = getStoreHost();
     }
     if (typeof window !== 'undefined') {
-        cartId = getCartId();
+        // cartId = getCartId();
         isLogin = Cookies.get('isLogin');
         if (!cartId) {
             Router.push(urlRedirect);
@@ -285,6 +280,7 @@ const Checkout = (props) => {
                 label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
                 promoLabel: `${item.shipping_promo_name}`,
                 value: `${item.carrier_code}_${item.method_code}`,
+
             }));
         }
 
@@ -393,7 +389,8 @@ const Checkout = (props) => {
             // window.location.replace('/checkout/cart');
         }
 
-        if (dataCart && dataCart.cart && dataCart.cart.shipping_addresses && dataCart.cart.shipping_addresses.length === 0) {
+        if (dataCart && dataCart.cart && dataCart.cart.shipping_addresses
+            && dataCart.cart.shipping_addresses.length === 0 && !checkout.data.isGuest) {
             setCheckout({
                 ...checkout,
                 loading: {
@@ -425,15 +422,12 @@ const Checkout = (props) => {
         const state = { ...checkout };
         let customer;
         let address;
-        if (
-            !state.data.isGuest
-            && addressCustomer
-            && addressCustomer.data
-            && addressCustomer.data.customer
-            && addressCustomer.data.customer.addresses
-        ) {
+        if (!state.data.isGuest && addressCustomer && addressCustomer.data
+            && addressCustomer.data.customer && addressCustomer.data.customer.addresses) {
             customer = addressCustomer.data.customer;
-            [address] = customer ? customer.addresses.filter((item) => item.default_shipping) : [null];
+            [address] = customer
+                ? customer.addresses.filter((item) => item.default_shipping)
+                : [null];
             state.data.defaultAddress = customer ? address : null;
             if (!customer.addresses || customer.addresses.length === 0) {
                 state.loading.addresses = false;
