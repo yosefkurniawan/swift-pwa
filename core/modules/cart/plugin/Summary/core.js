@@ -104,12 +104,12 @@ const CoreSummary = (props) => {
             dataSummary = dataSummary.concat(giftCards);
         }
 
-        if (modules.promo.enabled && applied_coupons && applied_coupons.length > 0) {
-            dataSummary.push({
-                item: `Promo (${applied_coupons[0].code})`,
-                value: '',
-            });
-        }
+        // if (modules.promo.enabled && applied_coupons && applied_coupons.length > 0) {
+        //     dataSummary.push({
+        //         item: `Promo (${applied_coupons[0].code})`,
+        //         value: '',
+        //     });
+        // }
     }
 
     if (isDesktop) {
