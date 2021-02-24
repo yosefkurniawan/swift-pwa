@@ -145,7 +145,7 @@ const CheckoutDrawer = ({
                     expanded === null || expanded === false ? (
                         <div className={styles.summary}>
                             <Typography variant="span" type="bold" align="center" letter="capitalize" className={styles.subtotal}>
-                                Total
+                                Total&nbsp;
                             </Typography>
                             <Typography variant="span" type="bold" align="center" letter="capitalize" className={styles.subtotal}>
                                 {total.currency ? formatPrice(total.value, total.currency) : null}
