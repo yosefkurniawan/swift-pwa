@@ -186,20 +186,20 @@ const Login = (props) => {
                     destionationCartId: custCartId,
                 },
             })
-                .then(async () => {
-                    await setCartId(custCartId, expired);
+                .then(async (res) => {
+                    await setCartId(res.data.mergeCarts.id, expired);
                     await setDisabled(false);
                     window.backdropLoader(false);
                     window.toastMessage({ open: true, variant: 'success', text: t('login:success') });
-                    if (query && query.redirect) {
-                        setTimeout(() => {
+                    setTimeout(() => {
+                        if (query && query.redirect) {
                             Router.push(query.redirect);
-                        }, 1500);
-                    } else if (redirectLastPath && redirectLastPath !== '') {
-                        Router.push(redirectLastPath);
-                    } else {
-                        Router.push('/customer/account');
-                    }
+                        } else if (redirectLastPath && redirectLastPath !== '') {
+                            Router.push(redirectLastPath);
+                        } else {
+                            Router.push('/customer/account');
+                        }
+                    }, 1500);
                 })
                 .catch(() => {});
         } else if (query && query.redirect) {

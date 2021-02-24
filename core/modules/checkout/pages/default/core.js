@@ -53,7 +53,7 @@ const Checkout = (props) => {
         urlRedirect = getStoreHost();
     }
     if (typeof window !== 'undefined') {
-        // cartId = getCartId();
+        cartId = getCartId();
         isLogin = Cookies.get('isLogin');
         if (!cartId) {
             Router.push(urlRedirect);
