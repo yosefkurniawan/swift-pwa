@@ -1,6 +1,6 @@
 {
   "name": "swift-pwa-core",
-  "version": "2.3.6",
+  "version": "2.3.7",
   "private": true,
   "devDependencies": {
     "@babel/core": "^7.12.3",
