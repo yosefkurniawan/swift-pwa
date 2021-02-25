@@ -2,9 +2,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import Drawer from '@material-ui/core/Drawer';
 import { useRouter } from 'next/router';
 import { formatPrice } from '@helper_currency';
+
+import Drawer from '@material-ui/core/Drawer';
 import Skeleton from './skeleton';
 import ItemCart from './product';
 import useStyles from './style';
@@ -15,6 +16,7 @@ const MiniComponent = (props) => {
         open, setOpen, count, t, loading, data, deleteCart, updateCart,
     } = props;
     const styles = useStyles();
+
     return (
         <Drawer anchor="right" open={open} onClose={setOpen}>
             <div className={styles.container}>
@@ -24,21 +26,10 @@ const MiniComponent = (props) => {
                         {' '}
                         Items
                     </span>
-                    <span>
-                        {t('common:cart:myCart')}
-                    </span>
-                    <span onClick={setOpen}>
-                        {t('common:button:close')}
-                    </span>
+                    <span>{t('common:cart:myCart')}</span>
+                    <span onClick={setOpen}>{t('common:button:close')}</span>
                 </div>
-                {loading || !data.items ? <Skeleton /> : (
-                    <ItemCart
-                        data={data.items}
-                        t={t}
-                        deleteCart={deleteCart}
-                        updateCart={updateCart}
-                    />
-                )}
+                {loading || !data.items ? <Skeleton /> : <ItemCart data={data.items} t={t} deleteCart={deleteCart} updateCart={updateCart} />}
                 {data && data.total_quantity > 0 ? (
                     <div className={styles.mini_bottom}>
                         <div className="sub-total">
@@ -47,9 +38,9 @@ const MiniComponent = (props) => {
                                 :
                             </span>
                             <span>
-                                {data.prices ? formatPrice(
-                                    data.prices.subtotal_including_tax.value, data.prices.subtotal_including_tax.currency || 'IDR',
-                                ) : '-'}
+                                {data.prices
+                                    ? formatPrice(data.prices.subtotal_including_tax.value, data.prices.subtotal_including_tax.currency || 'IDR')
+                                    : '-'}
                             </span>
                         </div>
                         <div
@@ -74,7 +65,6 @@ const MiniComponent = (props) => {
                         </div>
                     </div>
                 ) : null}
-
             </div>
         </Drawer>
     );
