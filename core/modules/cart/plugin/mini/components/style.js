@@ -2,9 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
     WHITE, BLACK, GRAY_LIGHT, GREEN,
 } from '@theme_color';
-import {
-    Centering,
-} from '@theme_mixins';
+import { Centering } from '@theme_mixins';
 
 const useStyles = makeStyles(() => ({
     container: {
@@ -49,6 +47,7 @@ const useStyles = makeStyles(() => ({
         '& .edit-cart': {
             display: 'flex',
             justifyContent: 'center',
+            backgroundColor: 'white',
             alignItems: 'center',
             height: 40,
             cursor: 'pointer',
@@ -83,6 +82,9 @@ const useStyles = makeStyles(() => ({
         padding: '0',
         listStyle: 'none none',
         textTransform: 'uppercase',
+        overflowX: 'hidden',
+        overflowY: 'auto',
+        height: '100%',
         '& li': {
             padding: '5px 0px',
             position: 'relative',

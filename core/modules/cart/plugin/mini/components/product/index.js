@@ -9,15 +9,11 @@ const ItemCart = (props) => {
     if (data.length === 0) {
         return <div className={styles.emptyCart}>{t('common:cart:emptyCart')}</div>;
     }
+    const heightFinal = window.innerHeight - 200;
     return (
-        <ol className={styles.miniCartItems}>
+        <ol className={styles.miniCartItems} style={{ height: heightFinal }}>
             {data.map((val, idx) => (
-                <Item
-                    {...val}
-                    key={idx}
-                    deleteCart={deleteCart}
-                    updateCart={updateCart}
-                />
+                <Item {...val} key={idx} deleteCart={deleteCart} updateCart={updateCart} />
             ))}
         </ol>
     );
