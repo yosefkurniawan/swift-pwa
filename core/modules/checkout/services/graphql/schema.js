@@ -11,26 +11,6 @@ pickup_store_person {
 }
 `;
 
-const cartAvailableShippingMethods = `
-    shipping_addresses {
-        available_shipping_methods {
-            available
-            method_code
-            carrier_code
-            method_title
-            carrier_title
-            amount {
-                value
-                currency
-            }
-            shipping_promo_name
-            price_incl_tax {
-                value
-            }
-        }
-    }
-`;
-
 const cartAvailablePaymentMethods = `
     available_payment_methods {
         code
@@ -490,11 +470,10 @@ export const getCart = gql`
         cart(cart_id: $cartId) {
             ${dest_location}
             ${modules.checkout.pickupStore.enabled ? cartPickupStorePerson : ''}
-            ${cartShippingAddress}
-            ${cartBillingAddress}
-            ${cartAvailableShippingMethods}
             ${cartAvailablePaymentMethods}
             ${cartRequiredSelection}
+            ${cartShippingAddress}
+            ${cartBillingAddress}
             ${selected_payment_method}
         }
     }
@@ -677,6 +656,7 @@ export const applyCouponToCart = gql`
                     code
                 }
                 ${cartRequiredSelection}
+                ${cartShippingAddress}
                 ${cartAvailablePaymentMethods}
             }
         }
@@ -692,6 +672,7 @@ export const removeCouponFromCart = gql`
                     code
                 }
                 ${cartRequiredSelection}
+                ${cartShippingAddress}
                 ${cartAvailablePaymentMethods}
             }
         }
