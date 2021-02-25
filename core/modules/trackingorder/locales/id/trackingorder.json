@@ -1,0 +1,14 @@
+{   
+    "email": "Email",
+    "shippedTo": "Dikirim ke",
+    "shippingMethod": "Metode pengiriman",
+    "paymentMethod": "Metode pembayaran",
+    "shipping": "Pengiriman & Perawatan",
+    "trackingOrder": "Lacak pesanan",
+    "orderId": "Nomor pesanan",
+    "trackingInformation": "Informasi pesanan",
+    "orderStatus": "Status pesanan",
+    "status": "Status",
+    "orderTotal": "Total pesanan",
+    "orderNotFound": "Maaf, nomor pesanan tidak ditemukan"
+}
