@@ -23,17 +23,17 @@ const RadioDeliveryItem = (props) => {
         rightSide = <img src={image} className={styles.imgList} alt="cimb" />;
     }
     const base_currency_code = storeConfig ? storeConfig.base_currency_code : 'RP';
-    if (amount && price_incl_tax && amount.value !== price_incl_tax.value) {
+    if (amount && price_incl_tax && price_incl_tax.value > amount.value) {
         rightSide = (
             <div className="row between-xs">
                 <div className="col-xs-12 col-sm-6">
                     <Typography variant="p" type={labelType} className={styles.originalPrice} align="right">
-                        {formatPrice(amount.value, amount.currency || base_currency_code)}
+                        {formatPrice(price_incl_tax.value, amount.currency || base_currency_code)}
                     </Typography>
                 </div>
                 <div className="col-xs-12 col-sm-6">
                     <Typography variant="p" type={labelType} className={styles.promo} align="right">
-                        {formatPrice(price_incl_tax.value, amount.currency || base_currency_code)}
+                        {formatPrice(amount.value, amount.currency || base_currency_code)}
                     </Typography>
                 </div>
             </div>
