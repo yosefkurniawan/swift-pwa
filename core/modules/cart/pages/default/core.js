@@ -41,7 +41,6 @@ const Cart = (props) => {
     const [editItem, setEditItem] = useState({});
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
     const [loadingCart, setLoadingCart] = useState(true);
-    let cartId = '';
     const config = {
         title: t('cart:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)
@@ -84,7 +83,7 @@ const Cart = (props) => {
                 },
             });
         } else {
-            cartId = getCartId();
+            const cartId = getCartId();
             if (cartId) {
                 if (getCart && !responseCart.called) {
                     getCart({
@@ -169,6 +168,9 @@ const Cart = (props) => {
 
         TagManager.dataLayer({ dataLayer });
         window.backdropLoader(true);
+
+        const cartId = getCartId();
+        setLoadingCart(true);
         actDeleteItem({
             variables: {
                 cartId,
@@ -179,7 +181,7 @@ const Cart = (props) => {
             },
         })
             .then(() => {
-                setLoadingCart(true);
+                setLoadingCart(false);
                 toggleEditMode();
                 window.backdropLoader(false);
                 window.toastMessage({
@@ -189,6 +191,7 @@ const Cart = (props) => {
                 });
             })
             .catch((e) => {
+                setLoadingCart(false);
                 toggleEditMode();
                 window.backdropLoader(false);
                 window.toastMessage({
@@ -202,6 +205,8 @@ const Cart = (props) => {
     // update items
     const updateItem = (itemData) => {
         window.backdropLoader(true);
+
+        const cartId = getCartId();
         actUpdateItem({
             variables: {
                 cartId,
@@ -336,31 +341,32 @@ const Cart = (props) => {
     crosssell = getCrossSellProduct(cart.items);
     const globalCurrency = storeConfig.default_display_currency_code;
 
-    if (cart.id && cart.items.length > 0 && cart.total_quantity > 0) {
-        const contentProps = {
-            dataCart: cart,
-            t,
-            handleFeed,
-            toggleEditMode,
-            editMode,
-            deleteItem,
-            toggleEditDrawer,
-            crosssell,
-            editItem,
-            openEditDrawer,
-            updateItem,
-            storeConfig,
-            globalCurrency,
-        };
+    if (!loadingCart && cart.items.length < 1) {
         return (
             <Layout pageConfig={config || pageConfig} {...props}>
-                <Content {...contentProps} {...other} />
+                <EmptyView t={t} />
             </Layout>
         );
     }
+
+    const contentProps = {
+        dataCart: cart,
+        t,
+        handleFeed,
+        toggleEditMode,
+        editMode,
+        deleteItem,
+        toggleEditDrawer,
+        crosssell,
+        editItem,
+        openEditDrawer,
+        updateItem,
+        storeConfig,
+        globalCurrency,
+    };
     return (
         <Layout pageConfig={config || pageConfig} {...props}>
-            <EmptyView t={t} />
+            <Content {...contentProps} {...other} />
         </Layout>
     );
 };
