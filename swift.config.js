@@ -1,6 +1,9 @@
 /* --------------------------------------- */
 /* STORE CONFIGURATION
 /* --------------------------------------- */
+const useMagentoCommerce = false; // setup uses magento commerce or community
+const storeCode = ''; // fill it with any store code when the magento is setup with multiple stores. leave it empty to use default store.
+const assetsVersion = '1.0.5';
 
 const HOST = {
     local: 'http://localhost:3000',
@@ -20,6 +23,10 @@ const graphqlEndpoint = {
 /* --------------------------------------- */
 /* FEATURES CONFIGURATION
 /* --------------------------------------- */
+
+const installMessage = 'Get our free app.';
+const appName = 'Swift APP';
+const originName = 'pwa';
 
 /* Social Sharing */
 const shareIcon = {
@@ -55,7 +62,9 @@ const languagesLabel = {
 const GTM = {
     enable: false,
     gtmId: {
+        local: '', // sample: GTM-N76V8KQ
         dev: '', // sample: GTM-N76V8KQ
+        stage: '', // sample: GTM-N76V8KQ
         prod: '', // sample: GTM-N76V8KQ
     },
 };
@@ -64,34 +73,39 @@ const GTM = {
 const recaptcha = {
     enable: false,
     siteKey: {
+        local: '', // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
         dev: '', // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
+        stage: '', // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
         prod: '', // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
     },
     serverKey: {
+        local: '', // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
         dev: '', // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
+        stage: '', // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
         prod: '', // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
     },
 };
 
-/* Store Credit, Reward Point, Gift Card */
-const customerFeautres = {
-    storeCredit: true,
-    rewardPoint: true,
-    giftCard: true,
-    confirmPayment: true,
-    pickupStore: true,
+// error management monitoring
+const sentry = {
+    enabled: false,
+    enableMode: 'production',
+    dsn: {
+        local: 'https://c60fbed461fd49da9455730ba70da8a6@o484453.ingest.sentry.io/5537614',
+        dev: 'https://c60fbed461fd49da9455730ba70da8a6@o484453.ingest.sentry.io/5537614',
+        stage: 'https://c60fbed461fd49da9455730ba70da8a6@o484453.ingest.sentry.io/5537614',
+        prod: 'https://c60fbed461fd49da9455730ba70da8a6@o484453.ingest.sentry.io/5537614',
+    },
 };
 
-/* Blog */
-const blog = {
-    urlPath: '/blog',
+const rollbar = {
+    enabled: false,
+    config: {
+        accessToken: '76876f52664341b4a1981c4618723bda',
+        captureUncaught: true,
+        captureUnhandledRejections: true,
+    },
 };
-
-/* Brand Page */
-const showBrandPage = true;
-
-/* List Of CMS Pages: [url-1, url-2, ..., url-n] */
-const cmsPages = ['about-us', 'aw-reward-points'];
 
 /* Contact Us */
 // identifiers for cmsBlocks in contact page
@@ -108,60 +122,306 @@ const enableSocialMediaLink = true;
 /* Loader */
 const loaderImage = '/assets/img/loader.svg';
 
-/* config general size image used on frontend */
-const imageSize = {
-    product: {
-        width: 240,
-        height: 300,
-    },
-    homeSlider: {
-        width: 960,
-        height: 1120,
-    },
-    category: {
-        width: 960,
-        height: 577,
-    },
-};
-
 /* --------------------------------------- */
 /* LOCAD DATA CACHE & COKIES
 /* --------------------------------------- */
 
-const expiredCokies = 6;
-const storeConfigNameCokie = 'storeConfig';
+const expiredCookies = 6;
+const storeConfigNameCookie = 'storeConfig';
 const nameCartId = 'nci';
 const custDataNameCookie = 'cdt';
 const nameCheckoutCookie = 'ccdt';
 const nameGlobalCookie = 'spwa';
-
-const keyEncrypt = 'I wrote code anything searching bug and coffe';
-const algorithm = 'aes-256-cbc';
-
 const nameToken = 'sk';
 const expiredToken = new Date(Date.now() + 1000 * 60 * 60);
 const expiredDefault = 365;
-
-const SESSION_SECRET = 'asdasdd1212ads12!!!@**DADxx1';
+const localResolverKey = 'resolver';
 
 const features = {
+    useCustomStyle: false,
     ssrCache: true,
+    crm: {
+        enabled: false,
+        graphqlEndpoint: {
+            local: 'http://swiftcrm.testingnow.me/graphql',
+            dev: 'http://swiftcrm.testingnow.me/graphql',
+            stage: 'http://swiftcrm.testingnow.me/graphql',
+            prod: 'http://swiftcrm.testingnow.me/graphql',
+        },
+    },
     facebookMetaId: {
         enabled: false,
         app_id: '', // if enabled add fb app id here. e.g. 3080154482073095
     },
-    productListing: {
-        configurableOptions: false,
-        rating: false,
-        wishlist: true,
-    },
+    // masuk module -> pindah jika module sudah siap
     productAvailableToCart: {
         SimpleProduct: true,
         ConfigurableProduct: true,
         VirtualProduct: true,
         GroupedProduct: false,
-        BundleProduct: false,
+        BundleProduct: true,
         DownloadableProduct: false,
+    },
+    imageSize: {
+        product: {
+            width: 240,
+            height: 300,
+        },
+        homeSlider: {
+            mobile: {
+                width: 960,
+                height: 1120,
+            },
+            desktop: {
+                width: 1800,
+                height: 750,
+            },
+        },
+        category: {
+            width: 960,
+            height: 577,
+        },
+    },
+    vesMenu: {
+        enabled: true,
+        alias: 'top-menu',
+    },
+    customInstallApp: {
+        enabled: true,
+    },
+    pushNotification: {
+        enabled: true,
+        config: {
+            apiKey: 'AIzaSyCD0ZuTMcNi3PSsJH9LD21v7_XA1sVLjdI',
+            authDomain: 'swiftpwa-firebase.firebaseapp.com',
+            databaseURL: 'https://swiftpwa-firebase.firebaseio.com',
+            projectId: 'swiftpwa-firebase',
+            storageBucket: 'swiftpwa-firebase.appspot.com',
+            messagingSenderId: '731430387766',
+            appId: '1:731430387766:web:af85ac9f9559c873309897',
+            measurementId: 'G-DP22E2CL8G',
+            // key from cloud messaging sertificat web push
+            pairKey: 'BBIzfGdH56tlTaV1jxqaWA_n47trFqy51WjcCn9Fa1-7xzmY4iBwBlGQjO1e_bRBEx9kq4o8q4zyl14JuXSIC-k',
+        },
+    },
+};
+
+const modules = {
+    authentication: {
+        enabled: true,
+        path: '/authentication',
+    },
+    about: {
+        enabled: true,
+        path: '/about-us',
+    },
+    blog: {
+        enabled: true,
+        path: '/blog',
+        link: {
+            detail: {
+                href: '/blog/[id]',
+                as: '/blog/',
+            },
+            category: {
+                href: '/blog/category/[id]',
+                as: '/blog/category/',
+            },
+            default: {
+                href: '/blog',
+            },
+        },
+        featuredImage: true,
+    },
+    brands: {
+        enabled: false,
+        path: '/brands',
+    },
+    catalog: {
+        enabled: true,
+        productListing: {
+            pageSize: 10,
+            drawerFilterOnDesktop: {
+                enabled: false, // used if need to desktop view on large screen
+            },
+            label: {
+                enabled: true,
+                new: {
+                    enabled: true,
+                },
+                sale: {
+                    enabled: true,
+                },
+            },
+            configurableOptions: {
+                enabled: false,
+            },
+            rating: {
+                enabled: true,
+            },
+        },
+        pdp: {
+            popupDetailImage: {
+                enabled: true,
+            },
+        },
+    },
+    confirmpayment: {
+        enabled: true,
+        path: '/confirmpayment',
+    },
+    checkout: {
+        enabled: true,
+        checkoutOnly: false,
+        path: '/checkout',
+        ipayUrl: {
+            local: 'ipayredirect/ipayredirect/?orderId=',
+            dev: 'ipayredirect/ipayredirect/?orderId=',
+            stage: 'ipayredirect/ipayredirect/?orderId=',
+            prod: 'ipayredirect/ipayredirect/?orderId=',
+        },
+        snapUrl: {
+            dev: 'https://app.sandbox.midtrans.com/snap/snap.js',
+            prod: 'https://app.midtrans.com/snap/snap.js',
+        },
+        pickupStore: {
+            enabled: true,
+        },
+        extraFee: {
+            enabled: true,
+        },
+        cashback: {
+            enabled: true,
+        },
+    },
+    cart: {
+        enabled: true,
+        path: '/checkout/cart',
+    },
+    customer: {
+        enabled: true,
+        path: '/customer',
+        plugin: {
+            address: {
+                splitCity: true,
+            },
+            newsletter: {
+                enabled: true,
+            },
+        },
+    },
+    contact: {
+        enabled: true,
+        path: '/contact',
+    },
+    forgotpassword: {
+        enabled: true,
+        path: '/customer/account/forgotpassword',
+    },
+    rewardpoint: {
+        enabled: true,
+        path: '/aw_rewardpoints/info',
+    },
+    rma: {
+        enabled: true,
+        path: '/rma/customer',
+    },
+    storecredit: {
+        enabled: true,
+        path: '/customer/account/storecredit',
+        useCommerceModule: false,
+    },
+    storeLocator: {
+        enabled: true,
+        path: '/storelocator',
+    },
+    giftcard: {
+        enabled: true,
+        path: '/awgiftcard/card',
+        useCommerceModule: false,
+    },
+    login: {
+        enabled: true,
+        path: '/customer/account/login',
+    },
+    notification: {
+        enabled: true,
+        path: 'inboxnotification/notification',
+    },
+    register: {
+        enabled: true,
+        path: '/customer/account/create',
+    },
+    trackingorder: {
+        enabled: true,
+        path: '/sales/order/track',
+        fieldDetail: {
+            shipperid: ['name', 'description', 'updateDate'],
+            gosend: [
+                'bookingType',
+                'buyerAddressName',
+                'buyerAddressDetail',
+                'driverId',
+                'driverName',
+                'insuranceDetails',
+                'liveTrackingUrl',
+                'receiverName',
+                'sellerAddressDetail',
+                'sellerAddressName',
+                'status',
+                'cancelDescription',
+                'orderArrivalTime',
+                'orderClosedTime',
+                'orderCreatedTime',
+            ],
+        },
+    },
+    thanks: {
+        enabled: true,
+        path: '/checkout/onepage/success',
+    },
+    home: {
+        enabled: true,
+        featuresProduct: {
+            enable: true,
+            url_key: 'homepage-featured-products',
+        },
+        categoryList: {
+            enable: true,
+            url_key: 'homepage-featured-categories',
+            imageSize: {
+                mobile: {
+                    width: 960,
+                    height: 577,
+                },
+                desktop: {
+                    width: 404,
+                    height: 465,
+                },
+            },
+        },
+        bannerSlider: {
+            enable: true,
+            title: 'Client App Homepage Slider',
+        },
+    },
+    promo: {
+        enabled: true,
+    },
+    order: {
+        enabled: true,
+        path: '/sales/order',
+    },
+    wishlist: {
+        enabled: true,
+        path: '/wishlist',
+    },
+    maintenance: {
+        enabled: true,
+        path: '/maintenance',
+    },
+    error: {
+        enabled: true,
     },
 };
 
@@ -179,42 +439,51 @@ const nossrCache = [
     '/checkout',
     '/checkout/cart',
     '/graphql',
+    '/authentication',
+    '/checkout/onepage/success',
 ];
 
 const debuging = {
     originalError: false,
 };
 
+const general = {
+    defaultCurrencyCode: 'IDR',
+};
+
 module.exports = {
+    assetsVersion,
+    general,
+    sentry,
+    storeCode,
     debuging,
-    blog,
     GTM,
     HOST,
     graphqlEndpoint,
     shareIcon,
     passwordStrength,
     languagesLabel,
-    expiredCokies,
-    storeConfigNameCokie,
+    expiredCookies,
+    storeConfigNameCookie,
     nameCartId,
-    keyEncrypt,
-    algorithm,
     nameToken,
     expiredToken,
     expiredDefault,
-    cmsPages,
     loaderImage,
     cmsContactIdentifiers,
     cmsSocialMediaLinkIdentifiers,
-    SESSION_SECRET,
-    imageSize,
     custDataNameCookie,
-    customerFeautres,
     nameCheckoutCookie,
     nameGlobalCookie,
-    showBrandPage,
     enableSocialMediaLink,
     features,
     nossrCache,
     recaptcha,
+    modules,
+    installMessage,
+    appName,
+    localResolverKey,
+    originName,
+    useMagentoCommerce,
+    rollbar,
 };

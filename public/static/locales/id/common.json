@@ -29,7 +29,20 @@
         "clear": "Bersihkan",
         "verify": "Verifikasi",
         "shop": "Beli Sekarang",
-        "sendOtp": "Kirim OTP"
+        "sendOtp": "Kirim OTP",
+        "submit": "Kirimkan",
+        "viewAll": "Lihat Semua",
+        "goCheckout": "Checkout",
+        "viewandedit": "Lihat dan Ubah"
+    },
+    "cart" : {
+        "myCart": "Cart Saya",
+        "cardTotal": "Cart Subtotal",
+        "deleteSuccess": "Hapus item cart berhasil",
+        "deleteFailed": "Hapus item cart gagal",
+        "updateSuccess": "Update item cart berhasil",
+        "updateFailed": "Update item cart gagal",
+        "emptyCart": "ANDA TIDAK MEMILIKI ITEM DI KERANJANG BELANJA ANDA."
     },
     "subtotal": "Subtotal",
     "price": {
@@ -47,7 +60,7 @@
         "city": "Kota",
         "country": "Negara",
         "street": "Alamat Jalan",
-        "postal": "Code Pos"
+        "postal": "Kode Pos"
     },
     "title": {
         "qty": "Jumlah",
@@ -57,16 +70,53 @@
         "short": "Urutkan dari",
         "search": "Pencarian ...",
         "brand": "Brand",
-        "category": "Kategory"
+        "category": "Kategory",
+        "summary": "Ringkasan",
+        "price": "Harga",
+        "shortQty": "Jml",
+        "action": "Aksi",
+        "extraFee": "Biaya Tambahan",
+        "relatedProduct": "Relasi Produk",
+        "sale": "Diskon",
+        "new": "Baru",
+        "free": "Free"
     },
     "error": {
         "notFound" : "Data tidak di temukan",
         "fileReject": "Tidak dapat mengupload file harus ber type ",
-        "fetchError": "Terjadi kesalahan. Silakan coba lagi nanti"
+        "fetchError": "Terjadi kesalahan. Silakan coba lagi nanti",
+        "browser": "Browser tidak didukung"
     },
     "fileUpload": {
         "reject": "Tidak dapat mengupload, file harus ber type  ",
         "dragActive": "Taruh file kesini ...",
         "dragNonActive": "Tarik dan taruh file kesini, atau klik untuk pilih file"
+    },
+    "menu" : {
+        "confirmpayment" : "Konfirmasi Pembayaran",
+        "trackingorder" : "Lacak Pesanan",
+        "sign" : "Masuk",
+        "register" : "Buat Akun",
+        "or" : "Atau",
+        "notification": "Notifikasi",
+        "myaccount": "Akun Saya",
+        "mywishlist": "Daftar Saya",
+        "signout": "keluar"
+    },
+    "header": {
+        "welcome": "Selamat Datang!",
+        "hi": "Hai, $!"
+    },
+    "message": {
+        "feedSuccess": "Produk berhasil di tambahkan ke wishlist",
+        "feedFailed": "Tambah wishlist gagal",
+        "browserError": "Silahkan ganti browser atau cek setingan cookies, javascript atau lainnya"
+    },
+    "newsletter": {
+        "title": "DAFTAR NEWSLETTER",
+        "placeholder": "Masukkan alamat email Anda",
+        "buttonLabel": "Langganan",
+        "emailFormat": "Format email salah",
+        "emptyValue": "Harap masukkan alamat email"
     }
 }

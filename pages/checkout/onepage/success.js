@@ -1,3 +1,3 @@
-import Page from '@pages/thanks';
+import Page from '@core_modules/thanks/pages/default';
 
 export default Page;

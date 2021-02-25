@@ -1,100 +1,101 @@
 {
   "dashboard": {
-    "pageTitle": "Customer Dashboard"
-  },
-  "register": {
-    "pageTitle": "Create New Account",
-    "title": "Register",
-    "button": "Create an Account",
-    "subscribe": "Sign up for newslater",
-    "isWhatsapp": "Phone number is registered in whatsapp",
-    "success": "Registration is success",
-    "failed": "Registration failed"
-  },
-  "login": {
-    "haveAccount": "If you have an account",
-    "pageTitle": "Sign In",
-    "forgotPassword": "forgot password",
-    "notHaveAccount": "Don't have an account?",
-    "switchPhone": "Login with phone number",
-    "success": "Login is success",
-    "failed": "Login failed"
-  },
-  "forgotPassword": {
-    "title": "reset password",
-    "content": "Get instruction sent to this email that explain how to reset your password.",
-    "success": "Submitting forgot password form is success.",
-    "failed": "Submitting forgot password form is failed.",
-    "useEmail": "send resert password with email",
-    "successEmail1": "if there is an account associated with",
-    "successEmail2": " you will receive an email with a link to reset your password"
+    "pageTitle": "Customer dashboard"
   },
   "newPassword": {
     "title": "Change new password",
-    "success": "Password has been updated successfully",
+    "success": "Password has been update successfully",
     "failed": "Failed on updating password"
   },
   "button": {
     "logout": "Sign out"
   },
   "setting": {
-    "title": "Setting",
-    "newslater": "NEWSLETTER SUBSCRIPTIONS",
+    "title": "Settings",
+    "newsletter": "Newsletter subscriptions",
     "language": "Language"
   },
   "profile" : {
-      "title" : "my account",
+      "title" : "My account",
       "successUpdate": "Profile has been updated",
       "successChangePass": "Password has been updated"
   },
   "address" : {
-    "pageTitle" : "Address Book",
+    "pageTitle" : "Address book",
     "addTitle" : "Add new address",
     "editTitle" : "Edit address",
-    "useBilling" : "use as my default billing address",
-    "useShipping" : "use as my default shipping address"
-  },
-  "storeCredit" : {
-    "balance" : "Current balance: ",
-    "transactionId" : "Transaction ID ",
-    "adjustment" : "Store Credit Adjustment ",
-    "creditbalance" : "Store Credit Balance",
-    "comment" : "Comment",
-    "transactionDate" : "Transaction Date",
-    "editEmail" : "Edit Email Preferences",
-    "emptyMessage" : "You have no transactions.",
-    "item" : "Item(s)"
+    "defaultBilling": "Default billing address",
+    "defaultShiping": "Default shiping address",
+    "useBilling" : "Use as my default billing address",
+    "useShipping" : "Use as my default shipping address",
+    "firstname" : "First name",
+    "lastname" : "Last name",
+    "street" : "Street addres",
+    "city" : "City",
+    "country" : "Country",
+    "state" : "State",
+    "postcode" : "Zip/Postal code",
+    "phone" : "Phone number",
+    "emptyMessage" : "You haven't added an address",
+    "emptyPinPointMessage" : "Selected address does not have pin point. Please set it for possibility of using Instant Delivery Courier.",
+    "useDefault" : "Use as default"
   },
   "menu": {
-    "aboutUs": "About Us",
-    "contactUs": "Contact Us",
-    "myPoint": "My Point",
-    "myOrder": "My Order",
-    "myAccount": "My Account",
-    "address": "Address Book",
+    "aboutUs": "About us",
+    "contactUs": "Contact us",
+    "myPoint": "My point",
+    "myOrder": "My order",
+    "myAccount": "My account",
+    "address": "Address book",
+    "findAStore": "Find a Store",
     "setting": "Settings",
-    "storeCredit": "Store Credit",
-    "readMore": "Read More",
-    "rewardPoint": "Reward Points",
+    "storeCredit": "Store credit",
+    "readMore": "Read more",
+    "rewardPoint": "Reward points",
     "blog": "Blog",
-    "return": "My Returns",
-    "confirmPayment": "Confirm Payment"
+    "return": "My returns",
+    "confirmPayment": "Confirm payment",
+    "accountInformation": "Account information",
+    "notification": "Notifications",
+    "viewall" : "View all",
+    "trackingOrder": "Tracking Order"
   },
   "giftCard": {
     "notFound": "You don't have gift card item",
-    "inputSearch": "Enter Gift Card code",
+    "inputSearch": "Enter gift card code",
     "buttonSearch": "Check status & balance",
     "required": "Code is required"
   },
-  "rewardPoint": {
-    "balanceTitle": "Current balance is ",
-    "canbeTitle": "Total can be redeem at checkout is ",
-    "learnMore": "To learn abaout point reward program. $ Click here",
-    "transactionId" : "Transaction ID",
-    "balance": "Balance",
-    "comment": "Comment",
-    "expired" : "Expired Date",
-    "point": "Point",
-    "transactionDate": "Transaction Date"
-  }
+  "haveAccount": "If you have an account",
+  "notHaveAccount": "Don't have an account?",
+  "isWhatsapp": "Phone number is registered in whatsapp",
+  "wishlist": {
+    "pageTitle": "Wishlist",
+    "title" : "Wishlist",
+    "removeSuccess": "Item has been removed from wishlist",
+    "removeFailed": "Failed on removing item from wishlist",
+    "addToBag": "add to bag",
+    "addAllToBag": "add all to bag",
+    "addSuccess": "Item has been added into your wishlist",
+    "addFailed": "Failed on adding item into wishlist",
+    "notFound": "You have no items in your wishlist",
+    "warningDelete": "Are you sure to remove this item from wishlist?",
+    "addAllToBagSuccess": "All items in wishlist have been added into your bag",
+    "addPartToBagSuccess": "$ items in wishlist have been added to your bag",
+    "failedAddToBagOption" : "Please select option for some products",
+    "successAddCart": "Item has been added into your bag",
+    "failedAddCart": "Failed on adding item into your bag",
+    "addWithoutLogin": "Please login to add this item to your wishlist"
+  },
+  "order": {
+    "recentOrder" : "Recent order",
+    "order" : "Order",
+    "date": "Date",
+    "shippedTo": "Shipped to",
+    "orderTotal": "Order total",
+    "status": "Status",
+    "action": "Action"
+  },
+  "notHaveNotification" : "You don't have notification yet",
+  "notHaveOrder" : "Empty order history"
 }

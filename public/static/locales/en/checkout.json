@@ -1,32 +1,32 @@
 {
     "pageTitle": "Checkout",
-    "shippingAddress" : "Shipping Address",
+    "shippingAddress" : "Shipping address",
+    "billingAddress": "Billing address",
+    "address": {
+        "addTitle": "New address"
+    },
     "deliveryMethod" : {
-        "label": "Delivery Method",
-        "homeDelivery": "Home Delivery",
+        "label": "Delivery method",
+        "homeDelivery": "Home delivery",
         "homeDeliveryDesc": "We deliver your order to your home",
-        "pickupDelivery": "Pickup Delivery",
+        "pickupDelivery": "Pickup",
         "pickupDeliveryDesc": "Pickup your order at our store"
     },
     "pickupInformation": {
-        "label": "Pickup Information",
+        "label": "Pickup information",
         "pickupPerson": "Pickup person",
         "pickupAtLabel": "You will pick up your order at",
         "pickupNote": "We will send you an email when your order is ready (within 2 hours for order placed by 7pm local time). Note: Bring valid goverment ID such as driver license or password",
-        "changePickupInformation": "Change Pickup Information",
-        "changePickupLocation": "Change Pickup Location",
-        "selectStoreLocation": "Select Store Location"
+        "changePickupInformation": "Change pickup information",
+        "changePickupLocation": "Change pickup location",
+        "selectStoreLocation": "Select store location"
     },
     "pickupStore": "Pickup at store",
-    "shippingMethod" : "shipping Method",
+    "shippingMethod" : "shipping method",
     "payment" : "payment",
-    "placeOrder" : "place Order",
+    "placeOrder" : "Place order",
     "paymentSubtitle" : "Select your payment method",
-    "thanks" : "Thank you",
-    "forOrder" : "for your order",
-    "thanksDetail" : "We'll send you a confirmation email with details & tracking info.",
-    "continue" : "Continue Shopping",
-    "emailAddress": "Email Address",
+    "emailAddress": "Email address",
     "emailHelper": "We'll send your order confirmation here.",
     "haveAccount": "Already have an account? Login Here",
     "noPayment": "There is no payment method available. Please set address and shipping method.",
@@ -36,7 +36,9 @@
     "completePikcupInfo": "Please compleate pickup information & select store pickup",
     "storesNotFound": "No Stores avaliable",
     "message": {
+        "unsavedEmail": "Email is not yet saved",
         "problemConnection": "There is a problem with your connection",
+        "emptyShippingError": "Please set address and select shipping method steps first",
         "couponRemoved": "Coupon has been removed",
         "couponApplied": "Coupon has been applied",
         "giftCardApplied": "Coupon has been applied",
@@ -58,11 +60,11 @@
     },
     "checkBalance": "Check balance",
     "myPoint": {
-        "title": "My Points",
+        "title": "My points",
         "button": "Use my points",
         "removeButton": "Remove my points",
         "used": "Used",
-        "rewardPoints": "Reward Points"
+        "rewardPoints": "Reward points"
     },
     "myCredit": {
         "title": "My Credit",
@@ -71,8 +73,31 @@
         "removeButton": "Remove my credit"
     },
     "promoCodePlaceholder": "Promo code",
-    "giftCartPlaceholder": "Gift Cart Number",
+    "giftCartPlaceholder": "Gift cart number",
     "yourOrderId": "Your order number",
     "checkOrder": "Check Order",
-    "cashbackInfo": "Congratulation! You will get cashback $ from promo(s) $ into your store credit"
+    "cashbackInfo": "Congratulation! You will get cashback $ from promo(s) $ into your store credit",
+    "paymentGrouping": {
+        "banktransfer": "Bank transfer",
+        "creditcard": "Credit card",
+        "internetpayment": "Internet payment",
+        "onlinepayment": "Online payment",
+        "installment": "Installment",
+        "others": "Others"
+    },
+    "shippingGrouping": {
+        "freeshipping": "Free shipping",
+        "express": "Express",
+        "nextday": "Next day",
+        "reguler": "Reguler",
+        "others": "Others"
+    },
+    "error": {
+        "title": "Something went wrong.",
+        "message": "There was a slight problem with your request, please try again or go back to store",
+        "try": "Retry",
+        "backToStore": "Back to store"
+    },
+    "cartError": "Something went wrong during fetching the cart data",
+    "feePromoLabel" :"Fee & promotion"
 }

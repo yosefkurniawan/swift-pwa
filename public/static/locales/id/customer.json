@@ -2,33 +2,6 @@
   "dashboard": {
     "pageTitle": "Beranda Pelanggan"
   },
-  "register": {
-    "pageTitle": "Daftar Akun Baru",
-    "title": "Daftar",
-    "button": "Buat Akun",
-    "subscribe": "Daftar untuk berlangganan",
-    "isWhatsapp": "Nomor telephone telah terdaftar di Whatsapp",
-    "success": "Pendaftaran berhasil",
-    "failed": "Pendaftaran gagal"
-  },
-  "login": {
-    "haveAccount": "Jika sudah punya akun",
-    "pageTitle": "Masuk",
-    "forgotPassword": "Lupa Password",
-    "notHaveAccount": "Belum mempunyai akun ?",
-    "switchPhone": "Login dengan nomor telepon",
-    "success": "Masuk berhasil",
-    "failed": "Masuk gagal"
-  },
-  "forgotPassword": {
-    "title": "Lupa password",
-    "content": "Dapatkan instruksi ke email kamu untuk mengganti password.",
-    "success": "Form pengajuan reset password berhasil dikirimkan.",
-    "failed": "Form pengajuan reset password gagal dikirimkan.",
-    "useEmail": "kirim reset password dengan email",
-    "successEmail1": "Jika ada akun yang dikaitkan dengan ",
-    "successEmail2": " Anda akan menerima email dengan tautan untuk mereset kata sandi Anda"
-  },
   "newPassword": {
     "title": "Ubah password",
     "success": "Password berhasil diperbarui",
@@ -39,11 +12,11 @@
   },
   "setting" : {
     "title" : "Pengaturan",
-    "newslater" : "Langganan buletin",
+    "newsletter" : "Langganan buletin",
     "language" : "Bahasa"
   },
   "profile" : {
-    "title" : "akun saya",
+    "title" : "Akun saya",
     "successUpdate": "Profil berhasil diperbarui",
     "successChangePass": "Password berhasil diperbarui"
   },
@@ -51,34 +24,41 @@
     "pageTitle" : "Daftar alamat",
     "addTitle" : "Tambah alamat baru",
     "editTitle" : "Ubah alamat",
-    "useBilling" : "gunakan sebagai alamat default pembayaran",
-    "useShipping" : "gunakan sebagai alamat default pengiriman"
-  },
-  "storeCredit" : {
-    "balance" : "Saldo saat ini: ",
-    "transactionId" : "ID Transaksi",
-    "adjustment" : "Store Credit Tambahan",
-    "creditbalance" : "Store Credit Saldo",
-    "comment" : "Catatan",
-    "transactionDate" : "Tanggal Transaksi",
-    "editEmail" : "Ubah Pengaturan Email",
-    "emptyMessage" : "You have no transactions.",
-    "item" : "Item"
+    "defaultBilling": "Alamat pembayaran default ",
+    "defaultShiping": "Alamat pengiriman default",
+    "useBilling" : "Gunakan sebagai alamat default pembayaran",
+    "useShipping" : "Gunakan sebagai alamat default pengiriman",
+    "firstname" : "Nama depan",
+    "lastname" : "Nama akhir",
+    "street" : "Alamat lengkap",
+    "city" : "Kota/Kecamatan",
+    "country" : "Negara",
+    "state" : "Provinsi",
+    "postcode" : "Kode pos",
+    "phone" : "Telepon",
+    "emptyMessage" : "Kamu belum menambahkan alamat",
+    "emptyPinPointMessage" : "Alamat yang Anda pilih belum punya pin point. Silakan set pin point untuk menggunakan kurir Instant Delivery.",
+    "useDefault" : "Gunakan sebagai default"
   },
   "menu": {
-    "aboutUs": "Tentang Kami",
-    "contactUs": "Hubungi Kami",
-    "myPoint": "Point Saya",
-    "myOrder": "Pesanan Saya",
-    "myAccount": "Akun Saya",
-    "address": "Buku Alamat",
+    "aboutUs": "Tentang kami",
+    "contactUs": "Hubungi kami",
+    "myPoint": "Point saya",
+    "myOrder": "Pesanan saya",
+    "myAccount": "Akun saya",
+    "address": "Buku alamat",
+    "findAStore": "Lihat lokasi store",
     "setting": "Pengaturan",
-    "storeCredit": "Store Credit",
+    "storeCredit": "Store credit",
     "readMore": "Selengkapnya",
-    "rewardPoint": "Reward Poin",
+    "rewardPoint": "Reward poin",
     "blog": "Artikel",
-    "return": "Retur Saya",
-    "confirmPayment": "Konfirmasi Pembayaran"
+    "return": "Retur saya",
+    "confirmPayment": "Konfirmasi pembayaran",
+    "accountInformation": "Informasi akun",
+    "notification": "Notifikasi",
+    "viewall" : "Lihat semua",
+    "trackingOrder": "Lacak Pesanan"
   },
   "giftCard": {
     "notFound": "Anda tidak memiliki gift card",
@@ -86,15 +66,36 @@
     "buttonSearch": "Cek sisa dan status",
     "required": "Code tidak boleh kosong"
   },
-  "rewardPoint": {
-    "balanceTitle": "Sisa Poin Anda adalah ",
-    "canbeTitle": "Total yang dapat di redeem saat checkout adalah ",
-    "learnMore": "Untuk mempelajari tentant reward poin. $ Klik disini",
-    "transactionId" : "ID Transaksi",
-    "balance": "Sisa saldo",
-    "comment": "Komentar",
-    "expired" : "Masa berlaku",
-    "point": "Poin",
-    "transactionDate": "Tanggal Transaksi"
-  }
+  "haveAccount": "Jika sudah punya akun",
+  "notHaveAccount": "Belum mempunyai akun ?",
+  "isWhatsapp": "Nomor telephone telah terdaftar di whatsapp",
+  "wishlist": {
+    "pageTitle": "Wishlist",
+    "title": "Wishlist",
+    "removeSucess": "Produk berhasil dihapus dari wishlist",
+    "removeFailed": "Produk gagal dihapus dari wishlist",
+    "addSuccess": "Produk berhasil ditambahkan ke wishlist",
+    "addFailed": "Produk gagal ditambahkan ke wishlist",
+    "addToBag": "Tambah ke keranjang",
+    "addAllToBag": "Tambah semua ke keranjang",
+    "notFound": "Kamu tidak memiliki produk di wishlist",
+    "warningDelete": "Anda yakin mau menghapus produk ini dari wishlist?",
+    "addAllToBagSuccess": "Semua produk di wishlist berhasil ditambahkan ke keranjang",
+    "addPartToBagSuccess": "$ produk berhasil ditambahkan ke keranjang",
+    "failedAddToBagOption": "Silahkan pilih opsi terlebih dahulu untuk beberapa produk",
+    "successAddCart": "Produk berhasil ditambahkan ke keranjang",
+    "failedAddCart": "Produk gagal ditambahkan ke keranjang",
+    "addWithoutLogin": "Silahkan masuk untuk menambahkan produk ini ke wishlist"
+  },
+  "order": {
+    "recentOrder" : "Order terbaru",
+    "order" : "Order",
+    "date": "Tanggal",
+    "shippedTo": "Pengiriman",
+    "orderTotal": "Total order",
+    "status": "Status",
+    "action": "Aksi"
+  },
+  "notHaveNotification" : "Anda belum mempunyai notifikasi",
+  "notHaveOrder" : "Riwayat transaksi kosong"
 }

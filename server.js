@@ -1,39 +1,35 @@
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-unused-vars */
 
 const {
     ApolloServer,
-    gql,
-    introspectSchema,
-    makeRemoteExecutableSchema,
 } = require('apollo-server-express');
 const cookieSession = require('cookie-session');
 const express = require('express');
 const next = require('next');
 const http = require('http');
-const nextI18NextMiddleware = require('next-i18next/middleware').default;
-const { mergeSchemas } = require('graphql-tools');
 
 const LRUCache = require('lru-cache');
-const nextI18next = require('./src/lib/i18n');
-const fetcher = require('./src/api/graphql');
-const resolver = require('./src/api/graphql/resolver/index');
-const { AuthSchema } = require('./src/api/graphql/schema/index');
+const cookieParser = require('cookie-parser');
+const remoteSchema = require('./core/api/graphql');
+const nextI18next = require('./core/lib/i18n');
 
 const { json } = express;
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
 
 const {
-    expiredToken, SESSION_SECRET, nossrCache, features,
+    expiredToken, nossrCache, features, assetsVersion,
 } = require('./swift.config');
-const generateXml = require('./src/api/rest/xml');
-const captchaValidation = require('./src/api/rest/captcha');
+const { SESSION_SECRET } = require('./swift-server.config');
+const generateXml = require('./core/api/rest/xml');
+const captchaValidation = require('./core/api/rest/captcha');
+const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');
 
 // This is where we cache our rendered HTML pages
 const ssrCache = new LRUCache({
     max: 100 * 1024 * 1024, /* cache size will be 100 MB using `return n.length` as length() function */
+    // eslint-disable-next-line no-unused-vars
     length(n, key) {
         return n.length;
     },
@@ -85,6 +81,7 @@ async function renderAndCache(req, res) {
 (async () => {
     await app.prepare();
     const server = express();
+    server.use(cookieParser());
     // if ssr cache on
     if (features.ssrCache) {
         // handle next js request
@@ -119,7 +116,7 @@ async function renderAndCache(req, res) {
     }
 
     await nextI18next.initPromise;
-    server.use(nextI18NextMiddleware(nextI18next));
+    // server.use(nextI18NextMiddleware(nextI18next));
     server.use(cookieSession({
         name: 'qwt-swift',
         keys: [SESSION_SECRET],
@@ -128,45 +125,61 @@ async function renderAndCache(req, res) {
 
     server.use(json({ limit: '2mb' }));
 
-    if (fetcher) {
-        const schema = makeRemoteExecutableSchema({
-            schema: await introspectSchema(fetcher),
-            fetcher,
-        });
-
-        const schemas = mergeSchemas({
-            schemas: [schema, AuthSchema],
-            resolvers: resolver,
-        });
-
-        // handle server graphql endpoint use `/graphql`
-        const serverGraph = new ApolloServer({
-            schema: schemas,
-            context: ({ req }) => req,
-            playground: {
-                endpoint: '/graphql',
-                settings: {
-                    'editor.theme': 'light',
-                },
+    const schemas = await remoteSchema();
+    // handle server graphql endpoint use `/graphql`
+    const serverGraph = new ApolloServer({
+        schema: schemas,
+        context: ({ req }) => req,
+        playground: {
+            endpoint: '/graphql',
+            settings: {
+                'editor.theme': 'light',
             },
-            formatError: (err) => {
-                if (err.message === 'graphql-authorization') {
-                    return {
-                        message: err.message,
-                        extensions: {
-                            category: 'graphql-authorization',
-                        },
-                        status: 401,
-                    };
-                }
-                return err;
-            },
-        });
-        serverGraph.applyMiddleware({ app: server });
-    }
+        },
+        formatError: (err) => {
+            if (err.message === 'graphql-authorization') {
+                return {
+                    message: err.message,
+                    extensions: {
+                        category: 'graphql-authorization',
+                    },
+                    status: 401,
+                };
+            }
+            return err;
+        },
+    });
+    serverGraph.applyMiddleware({ app: server });
 
     server.get('/sitemap.xml', generateXml);
     server.post('/captcha-validation', captchaValidation);
+
+    // add firebase validation
+    server.post('/auth/fcm-token', firebaseValidation);
+
+    /**
+     * configuration firebase messaging
+     *   */
+    const serviceWorkers = [
+        {
+            filename: 'firebase-messaging-sw.js',
+            path: `./public/static/firebase/firebase-messaging-sw.${assetsVersion}.js`,
+        },
+        {
+            filename: 'sw.js',
+            path: `./public/static/firebase/sw.${assetsVersion}.js`,
+        },
+        {
+            filename: '.well-known/assetlinks.json',
+            path: './public/static/assetlinks.json',
+        },
+    ];
+
+    serviceWorkers.forEach(({ filename, path }) => {
+        server.get(`/${filename}`, (req, res) => {
+            app.serveStatic(req, res, path);
+        });
+    });
 
     // server.get('*', (req, res) => handle(req, res));
     server.get('*', (req, res) => {

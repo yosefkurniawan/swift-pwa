@@ -1,10 +1,10 @@
 {
     "pageTitle": "Kontak",
-    "contactUs": "Hubungi Kami",
-    "fullName": "Nama",
+    "contactUs": "Hubungi kami",
+    "fullName": "Nama lengkap",
     "email": "Email",
     "message": "Pesan",
     "telephone": "Telepon",
     "successSubmit": "Sukses mengirim pesan",
-    "failedSubmit": "Gagal mengirim pesan, silahkan periksa inputan atau koneksi anda"
+    "failedSubmit": "Gagal mengirim pesan, silahkan periksa masukan atau koneksi Anda"
 }

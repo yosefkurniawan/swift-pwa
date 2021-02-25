@@ -1,42 +1,44 @@
 {
     "pageTitle": "Checkout",
-    "shippingAddress" : "Alamat Pengiriman",
+    "shippingAddress" : "Alamat pengiriman",
+    "billingAddress": "Billing address",
+    "address": {
+        "addTitle": "Alamat baru"
+    },
     "deliveryMethod" : {
         "label": "Cara pengantaran",
-        "homeDelivery": "Home Delivery",
-        "homeDeliveryDesc": "Kami akan mengantarkan ke rumah anda",
-        "pickupDelivery": "Ambil sendiri",
+        "homeDelivery": "Home delivery",
+        "homeDeliveryDesc": "Kami akan mengantarkan ke rumah Anda",
+        "pickupDelivery": "Pickup",
         "pickupDeliveryDesc": "Ambil sendiri barang di toko"
     },
     "pickupInformation": {
-        "label": "Informasi Pengambilan",
+        "label": "Informasi pengambilan",
         "pickupPerson": "Orang yang mengambil",
         "pickupAtLabel": "Anda akan mengambil pesanan di ",
-        "pickupNote": "Kami akan mengirimkan email kepada Anda ketika pesanan Anda siap (dalam 2 jam untuk pesanan dilakukan pukul 19:00 waktu setempat). Catatan: Bawa ID pemerintah yang berlaku seperti SIM atau kata sandi",
+        "pickupNote": "Kami akan mengirimkan email kepada Anda ketika pesanan Anda siap (dalam 2 jam untuk pesanan dilakukan pukul 19:00 waktu setempat). Catatan: bawa ID pemerintah yang berlaku seperti SIM atau kata sandi",
         "changePickupInformation": "Ubah informasi pengambilan",
         "changePickupLocation": "Ubah lokasi pengambilan",
         "selectStoreLocation": "Pilih lokasi toko"
     },
     "pickupStore": "Ambil di toko",
-    "shippingMethod" : "cara pengntaran",
-    "payment" : "pembayaran",
-    "placeOrder" : "buat pesanan",
-    "paymentSubtitle" : "Pilih metode pembayaranmu",
-    "thanks" : "Terima kasih",
-    "forOrder" : "untuk pembelian Anda",
-    "thanksDetail" : "Kami akan mengirimkan email detail pesanan dan infromasi pengiriman",
-    "continue" : "Lanjutkan Belanja",
+    "shippingMethod" : "Cara pengiriman",
+    "payment" : "Pembayaran",
+    "placeOrder" : "Buat pesanan",
+    "paymentSubtitle" : "Pilih metode pembayaran",
     "emailAddress": "Alamat Email",
     "emailHelper": "Kami akan meingirimkan konfirmasi order pada email ini.",
-    "haveAccount": "Anda sudah memiliki akun? Silahkan masuk disini",
+    "haveAccount": "Anda sudah memiliki akun? silahkan masuk Disini",
     "noPayment": "Tidak tersedia metode pembayaran. Silahkan masukan alamat dan pilih metode pengiriman terlebih dahulu.",
     "noPaymentPickup": "Tidak tersedia metode pembayaran. Silahkan lengkapi informasi pickup store terlebih dahulu.",
-    "noNeedPayment": "Tidak dibutuhkan pembyaran untuk order ini",
+    "noNeedPayment": "Tidak dibutuhkan pembayaran untuk order ini",
     "noShipping": "Tidak tersedia metode pengiriman untuk alamat yang dipilih",
     "completePikcupInfo": "Silahkan lengkapi informasi pickup dan pilih lokasi toko pickup terlebih dahulu",
     "storesNotFound": "Tidak ada toko yang tersedia",
     "message": {
+        "unsavedEmail": "Email belum tersimpan",
         "problemConnection": "Terjadi gangguan pada koneksi Anda",
+        "emptyShippingError": "Silakan isi alamat dan pilih metode pengiriman dahulu",
         "couponRemoved": "Kupon telah digunakan",
         "couponApplied": "Kupon tidak digunakan",
         "giftCardApplied": "Gift card telah digunakan",
@@ -56,23 +58,46 @@
             "default": "Tidak ada alamat pengiriman yang dipilih"
         }
     },
-    "checkBalance": "Cek Sisa",
+    "checkBalance": "Cek sisa",
     "myPoint": {
-        "title": "Poin Saya",
+        "title": "Poin saya",
         "button": "Gunakan poin",
         "removeButton": "Hapus poin saya",
         "used": "Menggunakan",
-        "rewardPoints": "Reward Point"
+        "rewardPoints": "Reward point"
     },
     "myCredit": {
-        "title": "Kredit Saya",
-        "used" : "Kredit di Gunakan",
-        "button": "Gunakan Kredit",
+        "title": "Kredit saya",
+        "used" : "Kredit di gunakan",
+        "button": "Gunakan kredit",
         "removeButton": "Hapus kredit saya"
     },
-    "promoCodePlaceholder": "Kode Promo",
+    "promoCodePlaceholder": "Kode promo",
     "giftCartPlaceholder": "Nomor kartu hadiah",
-    "yourOrderId": "Nomor Pesanan Anda",
-    "checkOrder": "Cek Pesanan",
-    "cashbackInfo": "Selamat! Anda akan mendapatkan cashback $ dari promo $ ke store credit"
+    "yourOrderId": "Nomor pesanan Anda",
+    "checkOrder": "Cek pesanan",
+    "cashbackInfo": "Selamat! Anda akan mendapatkan cashback $ dari promo $ ke store credit",
+    "paymentGrouping": {
+        "banktransfer": "Tranfer bank",
+        "creditcard": "Kartu kredit",
+        "internetpayment": "Pembayaran internet",
+        "onlinepayment": "Pembayaran online",
+        "installment": "Cicilan",
+        "others": "Lainnya"
+    },
+    "shippingGrouping": {
+        "freeshipping": "Pengiriman gratis",
+        "express": "Pengiriman kilat",
+        "nextday": "Next day",
+        "reguler": "Reguler",
+        "others": "Lainnya"
+    },
+    "error": {
+        "title": "Ada kesalahan.",
+        "message": "Ada sedikit masalah dengan permintaan Anda, coba lagi atau kembali ke toko",
+        "try": "Coba lagi",
+        "backToStore": "Kembali ke toko"
+    },
+    "cartError": "Ada yang salah saat mengambil data keranjang",
+    "feePromoLabel" :"Biaya & promosi"
 }
