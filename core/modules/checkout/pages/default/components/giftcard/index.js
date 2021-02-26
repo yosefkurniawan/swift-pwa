@@ -19,7 +19,8 @@ const GiftCard = (props) => {
             if (checkout.data.cart.applied_gift_cards && checkout.data.cart.applied_gift_cards.length > 0) {
                 appliedGiftCards = checkout.data.cart.applied_gift_cards.map((item) => item.code);
             }
-        } else {
+        } else if (checkout.data.cart.applied_giftcard
+            && checkout.data.cart.applied_giftcard.giftcard_detail && checkout.data.cart.applied_giftcard.giftcard_detail.length > 0) {
             appliedGiftCards = checkout.data.cart.applied_giftcard.giftcard_detail.map((item) => item.giftcard_code);
         }
         if (!modules.giftcard.useCommerceModule) {
