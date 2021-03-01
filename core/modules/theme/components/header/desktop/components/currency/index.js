@@ -97,7 +97,7 @@ const ComponentCurrencyExchange = (props) => {
         LocalStorage.setLocalStorage('APP_CURRENCY', dataStore);
         setCurrencyState(dataStore);
 
-        window.location.reload();
+        window.location.href = '/';
     };
 
     const propsOther = {
