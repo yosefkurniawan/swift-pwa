@@ -6,6 +6,7 @@ export const getCategories = () => useQuery(schema.categories);
 export const getCategoryByName = (name) => useLazyQuery(schema.getCategoryByName(name));
 export const getProduct = (key) => useLazyQuery(schema.getProduct(key));
 export const getVesMenu = (options) => useQuery(schema.vesMenu, options);
+export const getCurrency = () => useLazyQuery(schema.getCurrencySchema);
 
 export const getCustomer = () => useQuery(schema.getCustomer, {
     context: {
@@ -30,4 +31,5 @@ export default {
     getVesMenu,
     getProduct,
     getCategoryByName,
+    getCurrency,
 };
