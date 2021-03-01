@@ -158,20 +158,9 @@ const Address = (props) => {
                         addressId: selectedAddress.id,
                     },
                 })
-                    .then(() => {
-                        setBillingAddressById({
-                            variables: {
-                                cartId: cart.id,
-                                addressId: selectedAddress.id,
-                            },
-                        })
-                            .then((resBilling) => {
-                                updateAddressState(resBilling);
-                                resolve();
-                            })
-                            .catch((e) => {
-                                reject(e);
-                            });
+                    .then((resBilling) => {
+                        updateAddressState(resBilling);
+                        resolve();
                     })
                     .catch((e) => {
                         reject(e);

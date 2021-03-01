@@ -237,7 +237,7 @@ const AddressFormDialog = (props) => {
             state.dropdown.region = responRegion.data.getRegions.item;
             setAddressState(state);
         }
-    }, [responRegion.data]);
+    }, [responRegion]);
 
     useEffect(() => {
         if (formik.values.region) {
