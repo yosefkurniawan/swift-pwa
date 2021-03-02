@@ -9,10 +9,7 @@ import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { removeCartId } from '@helper_cartid';
 import { removeIsLoginFlagging } from '@helper_auth';
-import getConfig from 'next/config';
-
-// Only holds serverRuntimeConfig and publicRuntimeConfig
-const { publicRuntimeConfig } = getConfig();
+import { getAppEnv } from '@helpers/env';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData: {
@@ -22,11 +19,13 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
     },
 });
 
-const uri = (typeof publicRuntimeConfig !== 'undefined' && graphqlEndpoint[publicRuntimeConfig.appEnv])
-    ? graphqlEndpoint[publicRuntimeConfig.appEnv] : graphqlEndpoint.dev;
+const appEnv = getAppEnv();
 
-const host = (typeof publicRuntimeConfig !== 'undefined' && HOST[publicRuntimeConfig.appEnv])
-    ? HOST[publicRuntimeConfig.appEnv] : HOST.dev;
+const uri = (graphqlEndpoint[appEnv])
+    ? graphqlEndpoint[appEnv] : graphqlEndpoint.dev;
+
+const host = (HOST[appEnv])
+    ? HOST[appEnv] : HOST.dev;
 
 const uriInternal = `${host}/graphql`;
 // handle if token expired
@@ -86,7 +85,7 @@ export default function createApolloClient(initialState, ctx) {
         // reference https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools
         // eslint-disable-next-line no-underscore-dangle
         connectToDevTools: typeof window !== 'undefined' && window.__APOLLO_CLIENT__
-        && (typeof publicRuntimeConfig !== 'undefined' && publicRuntimeConfig.appEnv === 'local'),
+        && (appEnv === 'local'),
         resolvers: {},
     });
 }
