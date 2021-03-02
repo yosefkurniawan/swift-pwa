@@ -26,8 +26,8 @@ export const getLoginCallbackUrl = () => {
  * [GET] [URL] [IPAY88] redirect url
  * @return {string} [IPAY88] redirect url
  */
-export const getIpayUrl = () => {
-    const redirectIpay = `${getStoreHost()}${ipayUrl}`;
+export const getIpayUrl = (orderNumber) => {
+    const redirectIpay = `${getStoreHost()}${ipayUrl + orderNumber}`;
     return redirectIpay;
 };
 

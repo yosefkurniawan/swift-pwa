@@ -47,9 +47,6 @@ const Checkout = (props) => {
         loginRedirect: {
             link: getLoginCallbackUrl(),
         },
-        ipay: {
-            link: getIpayUrl(),
-        },
     };
 
     let { cartId, isLogin } = props;
