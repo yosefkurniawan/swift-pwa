@@ -106,41 +106,37 @@ applied_giftcard {
 
 `;
 
-const cartRequiredSelection = `
-id
-total_quantity
-${modules.checkout.cashback.enabled ? applied_cashback : ''}
-${modules.rewardpoint.enabled ? applied_reward_points : ''}
-${modules.promo.enabled ? applied_coupons : ''}
-${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
-${modules.storecredit.enabled ? applied_store_credit : ''}
+const prices = `
 prices {
-    discounts {
-        amount {
-            currency
-            value
-        }
-        label
-    }
-    subtotal_excluding_tax {
-        currency
-        value
-    }
-    subtotal_including_tax {
-        currency
-        value
-    }
-    applied_taxes {
-        amount {
-            value
-            currency
-        }
-    }
-    grand_total {
-        currency
-        value
-    }
+  discounts {
+      amount {
+          currency
+          value
+      }
+      label
+  }
+  subtotal_excluding_tax {
+      currency
+      value
+  }
+  subtotal_including_tax {
+      currency
+      value
+  }
+  applied_taxes {
+      amount {
+          value
+          currency
+      }
+  }
+  grand_total {
+      currency
+      value
+  }
 }
+`;
+
+const items = `
 items {
   id
   quantity
@@ -184,8 +180,8 @@ items {
       currency
       value
     }
-}
-product {
+  }
+  product {
     id
     name
     small_image {
@@ -254,6 +250,18 @@ product {
     }
   }
 }
+`;
+
+const cartRequiredSelection = `
+id
+total_quantity
+${modules.checkout.cashback.enabled ? applied_cashback : ''}
+${modules.rewardpoint.enabled ? applied_reward_points : ''}
+${modules.promo.enabled ? applied_coupons : ''}
+${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
+${modules.storecredit.enabled ? applied_store_credit : ''}
+${prices}
+${items}
 `;
 export const getCart = gql`
     query getCartData($cartId: String!) {
@@ -347,7 +355,9 @@ export const deleteCartitem = gql`
         input: { cart_id: $cartId, cart_item_id: $cart_item_id }
       ) {
         cart {
-          ${cartRequiredSelection}
+          id
+          total_quantity
+          ${items}
         }
       }
     }
