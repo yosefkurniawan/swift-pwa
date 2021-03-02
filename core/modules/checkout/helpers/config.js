@@ -1,6 +1,5 @@
 import { getStoreHost, getHost } from '@helpers/config';
 import { modules } from '@config';
-import { getAppEnv } from '@helpers/env';
 
 const { checkoutOnly, ipayUrl } = modules.checkout;
 
@@ -28,8 +27,7 @@ export const getLoginCallbackUrl = () => {
  * @return {string} [IPAY88] redirect url
  */
 export const getIpayUrl = () => {
-    const appEnv = getAppEnv() || 'prod';
-    const redirectIpay = `${getStoreHost()}${ipayUrl[appEnv]}`;
+    const redirectIpay = `${getStoreHost()}${ipayUrl}`;
     return redirectIpay;
 };
 
