@@ -4,6 +4,7 @@ const { print } = require('graphql');
 const { wrapSchema, introspectSchema } = require('@graphql-tools/wrap');
 const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
 const { decrypt } = require('../../../helpers/encryption');
+const { getAppEnv } = require('../../../helpers/env');
 
 const executor = async ({ document, variables, context }) => {
     try {
@@ -12,7 +13,7 @@ const executor = async ({ document, variables, context }) => {
             token = context.session.token;
         }
         const query = print(document);
-        const appEnv = typeof window !== 'undefined' ? window.APP_ENV : process.env.APP_ENV;
+        const appEnv = getAppEnv();
         const additionalHeader = storeCode ? { store: storeCode } : {};
         const fetchResult = await fetch(graphqlEndpoint[appEnv] || graphqlEndpoint.prod, {
             method: 'POST',

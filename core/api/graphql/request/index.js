@@ -4,6 +4,7 @@ const { GraphQLClient } = require('graphql-request');
 const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
 
 const { decrypt } = require('../../../helpers/encryption');
+const { getAppEnv } = require('../../../helpers/env');
 
 function requestGraph(query, variables = {}, context = {}, config = {}) {
     let token = '';
@@ -19,7 +20,7 @@ function requestGraph(query, variables = {}, context = {}, config = {}) {
             Authorization: token,
             ...additionalHeader,
         };
-        const appEnv = typeof window !== 'undefined' ? window.APP_ENV : process.env.APP_ENV;
+        const appEnv = getAppEnv();
         const client = new GraphQLClient(`${graphqlEndpoint[appEnv] || graphqlEndpoint.prod}`, {
             headers,
         });
