@@ -13,7 +13,8 @@
   "setting": {
     "title": "Settings",
     "newsletter": "Newsletter subscriptions",
-    "language": "Language"
+    "language": "Language",
+    "currency": "Currency"
   },
   "profile" : {
       "title" : "My account",

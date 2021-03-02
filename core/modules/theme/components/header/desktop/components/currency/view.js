@@ -4,9 +4,13 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+/**
+ * useStyle
+ */
 const useStyles = makeStyles(() => ({
     listItemText: {
         fontSize: '.7em', // Insert your required size
@@ -15,25 +19,44 @@ const useStyles = makeStyles(() => ({
 }));
 
 const ViewCurrency = (props) => {
-    const classes = useStyles();
     const {
-        t, id, open, loading, anchorEl, currencyState, handleClick, handleClose, setDefaultCurrency,
+        t, title, id, open, anchorEl, currencyState, handleClick, handleClose, setDefaultCurrency, loading,
     } = props;
-    const anchorOrigin = { vertical: 'bottom', horizontal: 'center' };
-    const transforOrigin = { vertical: 'top', horizontal: 'center' };
+    const classes = useStyles();
+    const anchorOrigin = { vertical: 'bottom', horizontal: 'left' };
+    const transforOrigin = { vertical: 'top', horizontal: 'left' };
 
+    /**
+     * loading state
+     */
     if (loading) {
         return (
             <div>
-                {t('theme:loading')}
-                ...
+                {title && <Skeleton style={{ padding: 0 }} variant="rect" width={100} height={10} />}
+                <Skeleton style={{ display: 'inline-block', padding: 0 }} variant="rect" width={100} height={10} />
             </div>
         );
     }
+
+    /**
+     * not loading && check data
+     */
+    if (!loading && currencyState !== null) {
+        if (currencyState.exchange_rates.length === 1) return null;
+    }
+
+    /**
+     * rendering
+     */
     return (
         <div>
+            {title && (
+                <div>
+                    <strong style={{ fontSize: 12, textTransform: 'uppercase' }}>{title}</strong>
+                </div>
+            )}
             <Button onClick={handleClick} style={{ padding: '0px', fontSize: '1em' }}>
-                {t('theme:currency')}
+                {t('common:menu:currency')}
                 :&nbsp;
                 <strong>{currencyState === null ? '' : currencyState.default_display_currency_code}</strong>
             </Button>
@@ -55,7 +78,7 @@ const ViewCurrency = (props) => {
                                 >
                                     <ListItemText
                                         classes={{ primary: classes.listItemText }}
-                                        primary={`${t('theme:menu:changeto')} ${currency_to}`}
+                                        primary={`${t('common:menu:changeto')} ${currency_to}`}
                                     />
                                 </ListItem>
                             );

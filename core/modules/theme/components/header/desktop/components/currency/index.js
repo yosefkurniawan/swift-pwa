@@ -9,7 +9,6 @@ import ViewCurrency from './view';
 import { getCurrency } from '../../../../../services/graphql';
 
 const ComponentCurrencyExchange = (props) => {
-    const { t } = props;
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
@@ -97,11 +96,10 @@ const ComponentCurrencyExchange = (props) => {
         LocalStorage.setLocalStorage('APP_CURRENCY', dataStore);
         setCurrencyState(dataStore);
 
-        window.location.href = '/';
+        window.location.reload();
     };
 
     const propsOther = {
-        t,
         id,
         open,
         data,
@@ -113,7 +111,7 @@ const ComponentCurrencyExchange = (props) => {
         setDefaultCurrency,
     };
 
-    return <ViewCurrency {...propsOther} />;
+    return <ViewCurrency {...props} {...propsOther} />;
 };
 
 export default ComponentCurrencyExchange;

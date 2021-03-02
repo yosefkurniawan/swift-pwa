@@ -4,9 +4,6 @@
         "trackingorder" : "Lacak Pesanan",
         "sign" : "Masuk",
         "register" : "Buat Akun",
-        "or" : "Atau",
-        "currency": "Mata Uang",
-        "loading": "Menunggu",
-        "changeto": "Ganti ke"
+        "or" : "Atau"
     }
 }

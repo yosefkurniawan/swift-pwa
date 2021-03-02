@@ -1,10 +1,11 @@
+import { breakPointsUp } from '@helper_theme';
 import Radio from '@common_radio';
 import Button from '@common_button';
 import Skeleton from '@material-ui/lab/Skeleton';
 import classNames from 'classnames';
-import { breakPointsUp } from '@helper_theme';
 import Typography from '@common_typography';
 import Layout from '@layout_customer';
+import ComponentCurrencyExchange from '@common_headerdesktop/components/currency';
 import useStyles from './style';
 import CheckboxSettings from './checkbox';
 import CheckboxView from './checkbox/view';
@@ -30,24 +31,18 @@ const SettingPage = (props) => {
                             data={subData}
                             CheckboxView={CheckboxView}
                         />
-                    ) : <Skeleton variant="rect" height={80} />}
-
+                    ) : (
+                        <Skeleton variant="rect" height={80} />
+                    )}
                 </div>
                 <div className={styles.block}>
-                    <Radio
-                        label={t('customer:setting:language')}
-                        flex="column"
-                        valueData={dataLang}
-                        value={lang}
-                        onChange={setLang}
-                    />
+                    <Radio label={t('customer:setting:language')} flex="column" valueData={dataLang} value={lang} onChange={setLang} />
+                </div>
+                <div className={styles.block}>
+                    <ComponentCurrencyExchange title={t('customer:setting:currency')} {...props} />
                 </div>
                 <div className={styles.footer}>
-                    <Button
-                        onClick={handleSave}
-                        fullWidth={!desktop}
-                        align={desktop ? 'left' : 'center'}
-                    >
+                    <Button onClick={handleSave} fullWidth={!desktop} align={desktop ? 'left' : 'center'}>
                         <Typography letter="capitalize" color="white" type="bold">
                             {t('common:button:save')}
                         </Typography>

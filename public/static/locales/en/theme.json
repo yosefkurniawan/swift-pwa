@@ -4,9 +4,6 @@
         "trackingorder" : "Tracking Order",
         "sign" : "Sign",
         "register" : "Create Account",
-        "or" : "or",
-        "currency": "Currency",
-        "loading": "Loading",
-        "changeto": "Change to"
+        "or" : "or"
     }
 }

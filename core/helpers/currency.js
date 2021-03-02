@@ -33,7 +33,10 @@ export const formatPrice = (value, currency = general.defaultCurrencyCode) => {
     const default_locales = 'en-US';
 
     /* --- CHANGE TO CURRENT CURRENCY --- */
-    const APP_CURRENCY = localStorage.getItem('APP_CURRENCY');
+    /**
+     * window === undefined to handle localstorage from reload
+     */
+    const APP_CURRENCY = typeof window === 'undefined' ? null : localStorage.getItem('APP_CURRENCY');
     if (APP_CURRENCY !== null) {
         const getCurrent = getCurrentCurrency({ APP_CURRENCY, value });
         currency = getCurrent.currency;

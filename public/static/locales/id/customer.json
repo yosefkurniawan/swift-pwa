@@ -13,7 +13,8 @@
   "setting" : {
     "title" : "Pengaturan",
     "newsletter" : "Langganan buletin",
-    "language" : "Bahasa"
+    "language" : "Bahasa",
+    "currency": "Mata Uang"
   },
   "profile" : {
     "title" : "Akun saya",

@@ -101,7 +101,10 @@
         "notification": "Notifikasi",
         "myaccount": "Akun Saya",
         "mywishlist": "Daftar Saya",
-        "signout": "keluar"
+        "signout": "keluar",
+        "currency": "Mata Uang",
+        "loading": "Menunggu",
+        "changeto": "Ganti ke"
     },
     "header": {
         "welcome": "Selamat Datang!",
