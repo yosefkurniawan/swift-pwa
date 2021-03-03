@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 const { general } = require('@config');
+const cookies = require('js-cookie');
 
 /**
  * [METHOD] get currency [CURRENT] value
@@ -36,7 +37,7 @@ export const formatPrice = (value, currency = general.defaultCurrencyCode) => {
     /**
      * window === undefined to handle localstorage from reload
      */
-    const APP_CURRENCY = typeof window === 'undefined' ? null : localStorage.getItem('APP_CURRENCY');
+    const APP_CURRENCY = typeof window === 'undefined' ? null : cookies.get('app_currency');
     if (APP_CURRENCY !== null) {
         const getCurrent = getCurrentCurrency({ APP_CURRENCY, value });
         currency = getCurrent.currency;

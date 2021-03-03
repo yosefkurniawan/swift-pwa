@@ -5,7 +5,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import classNames from 'classnames';
 import Typography from '@common_typography';
 import Layout from '@layout_customer';
-import ComponentCurrencyExchange from '@common_headerdesktop/components/currency';
+import ComponentCurrencyExchange from '@common_currency';
 import useStyles from './style';
 import CheckboxSettings from './checkbox';
 import CheckboxView from './checkbox/view';

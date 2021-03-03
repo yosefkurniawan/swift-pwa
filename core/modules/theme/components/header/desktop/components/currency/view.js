@@ -25,6 +25,8 @@ const ViewCurrency = (props) => {
     const classes = useStyles();
     const anchorOrigin = { vertical: 'bottom', horizontal: 'left' };
     const transforOrigin = { vertical: 'top', horizontal: 'left' };
+    const styleTitle = { fontSize: 12, textTransform: 'uppercase' };
+    const styleButtonCurrency = { fontFamily: 'Montserrat', padding: '0px', fontSize: title ? '12px' : '1em' };
 
     /**
      * loading state
@@ -50,17 +52,21 @@ const ViewCurrency = (props) => {
      */
     return (
         <div>
+            {/* [CURRENCY] TITLE */}
             {title && (
                 <div>
-                    <strong style={{ fontSize: 12, textTransform: 'uppercase' }}>{title}</strong>
+                    <strong style={styleTitle}>{title}</strong>
                 </div>
             )}
-            <Button onClick={handleClick} style={{ padding: '0px', fontSize: '1em' }}>
+
+            {/* [CURRENCY] BUTTON */}
+            <Button onClick={handleClick} style={styleButtonCurrency}>
                 {t('common:menu:currency')}
                 :&nbsp;
                 <strong>{currencyState === null ? '' : currencyState.default_display_currency_code}</strong>
             </Button>
 
+            {/* [CURRENCY] LIST */}
             <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose} anchorOrigin={anchorOrigin} transformOrigin={transforOrigin}>
                 <List component="nav">
                     {currencyState !== null
