@@ -112,6 +112,12 @@ export const removeWishlist = () => useMutation(Schema.removeWishlist, {
     },
 });
 
+export const removeAddress = () => useMutation(Schema.removeAddress, {
+    context: {
+        request: 'internal',
+    },
+});
+
 export const getCustomerCartId = () => useLazyQuery(Schema.getCartIdUser, {
     context: {
         request: 'internal',

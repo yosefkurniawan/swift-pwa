@@ -3,15 +3,16 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { regexPhone } from '@helper_regex';
 import { cmsContactIdentifiers, recaptcha, debuging } from '@config';
-import getConfig from 'next/config';
+import { getAppEnv } from '@helpers/env';
 import gqlService from '../../services/graphql';
-
-const { publicRuntimeConfig } = getConfig();
 
 const Contact = (props) => {
     const {
         Content, t, pageConfig, ErrorInfo, Skeleton,
     } = props;
+
+    const appEnv = getAppEnv();
+
     const Config = {
         title: t('contact:pageTitle'),
         headerTitle: t('contact:pageTitle'),
@@ -25,8 +26,8 @@ const Contact = (props) => {
     });
     const [load, setLoad] = React.useState(false);
     const recaptchaRef = React.createRef();
-    const sitekey = typeof publicRuntimeConfig !== 'undefined' && recaptcha.siteKey[publicRuntimeConfig.appEnv]
-        ? recaptcha.siteKey[publicRuntimeConfig.appEnv]
+    const sitekey = recaptcha.siteKey[appEnv]
+        ? recaptcha.siteKey[appEnv]
         : recaptcha.siteKey.dev;
 
     const [contactusFormSubmit] = gqlService.contactusFormSubmit();

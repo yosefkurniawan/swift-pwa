@@ -13,7 +13,9 @@ import { getStoreHost } from '@helpers/config';
 import Cookies from 'js-cookie';
 import Toast from '@common_toast';
 import gqlService from '../../services/graphql';
-import { getCartCallbackUrl, getLoginCallbackUrl, getSuccessCallbackUrl } from '../../helpers/config';
+import {
+    getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl,
+} from '../../helpers/config';
 
 function equalTo(ref, msg) {
     return this.test({

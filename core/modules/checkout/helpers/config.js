@@ -1,12 +1,10 @@
 import { getStoreHost, getHost } from '@helpers/config';
 import { modules } from '@config';
-import getConfig from 'next/config';
 
 const { checkoutOnly, ipayUrl } = modules.checkout;
-const { publicRuntimeConfig } = getConfig();
 
-//URL config redirect
-export const getCartCallbackUrl = () => (!checkoutOnly ? `/checkout/cart` : `${getHost()}/checkout/cart`);
+// URL config redirect
+export const getCartCallbackUrl = () => (!checkoutOnly ? '/checkout/cart' : `${getHost()}/checkout/cart`);
 
 export const getSuccessCallbackUrl = () => {
     if (checkoutOnly) return `${getStoreHost()}pwacheckout/onepage/success`;
@@ -28,9 +26,8 @@ export const getLoginCallbackUrl = () => {
  * [GET] [URL] [IPAY88] redirect url
  * @return {string} [IPAY88] redirect url
  */
-export const getIpayUrl = () => {
-    const appEnv = typeof publicRuntimeConfig !== 'undefined' ? publicRuntimeConfig.appEnv : 'prod';
-    const redirectIpay = `${getStoreHost()}${ipayUrl[appEnv]}`;
+export const getIpayUrl = (orderNumber) => {
+    const redirectIpay = `${getStoreHost()}${ipayUrl + orderNumber}`;
     return redirectIpay;
 };
 

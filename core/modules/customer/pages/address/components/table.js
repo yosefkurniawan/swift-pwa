@@ -28,6 +28,8 @@ const TableAddress = (props) => {
         t,
         selectedAddressId,
         handleChange,
+        removeAddress,
+        addressId,
         // eslint-disable-next-line no-unused-vars
     } = props;
     const [open, setOpen] = useState(false);
@@ -164,6 +166,22 @@ const TableAddress = (props) => {
                         </div>
                     </div>
                 </TableCell>
+                {
+                    selectedAddressId !== addressId ? (
+                        <TableCell
+                            className={styles.tableCellResponsive}
+                            align="left"
+                        >
+                            <div className={styles.displayFlexRow}>
+                                <div className={styles.value}>
+                                    <Typography className={[styles.address_remove].join(' ')} variant="span" onClick={() => removeAddress(addressId)}>
+                                        {t('customer:address:removeTitle')}
+                                    </Typography>
+                                </div>
+                            </div>
+                        </TableCell>
+                    ) : null
+                }
             </TableRow>
         </>
     );

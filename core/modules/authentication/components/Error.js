@@ -1,15 +1,13 @@
 import Typography from '@common_typography';
 import Button from '@common_button';
 import { getStoreHost } from '@helpers/config';
-import getConfig from 'next/config';
+import { getAppEnv } from '@helpers/env';
 
 import useStyle from './style';
 
-// Only holds serverRuntimeConfig and publicRuntimeConfig
-const { publicRuntimeConfig } = getConfig();
-
 const Error = ({ t }) => {
     const styles = useStyle();
+    const appEnv = getAppEnv();
 
     const handleReload = () => {
         if (typeof window !== 'undefined') {
@@ -20,7 +18,7 @@ const Error = ({ t }) => {
     const handleBackToStore = () => {
         if (typeof window !== 'undefined') {
             window.location.replace(
-                getStoreHost(typeof publicRuntimeConfig !== 'undefined' ? publicRuntimeConfig.appEnv : 'prod'),
+                getStoreHost(appEnv || 'prod'),
             );
         }
     };

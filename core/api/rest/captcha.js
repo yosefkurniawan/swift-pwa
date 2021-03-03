@@ -1,9 +1,10 @@
 const qs = require('querystring');
 const { recaptcha } = require('../../../swift.config');
+const { getAppEnv } = require('../../helpers/env');
 
 module.exports = (req, res) => {
     const { response } = req.body;
-    const appEnv = typeof window !== 'undefined' ? window.APP_ENV : process.env.APP_ENV;
+    const appEnv = getAppEnv();
     const secret = recaptcha.serverKey[appEnv] || recaptcha.serverKey.prod;
     fetch('https://www.google.com/recaptcha/api/siteverify', {
         method: 'post',
