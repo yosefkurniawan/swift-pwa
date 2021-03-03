@@ -5,9 +5,6 @@ import gqlService from '../../../../service/graphql';
 const CategoryList = ({
     storeConfig, t, CategoryListSkeleton, ErrorInfo, CategoryListView,
 }) => {
-    if (typeof window === 'undefined') {
-        return <CategoryListSkeleton />;
-    }
     const { home } = modules;
     const { loading, data, error } = gqlService.getCategoryList({
         url_key: home.categoryList.url_key,
@@ -25,22 +22,18 @@ const CategoryList = ({
         );
     }
 
+    if (typeof window !== 'undefined') {
+        if (document.getElementById('home-category')) {
+            document.getElementById('home-category').classList.remove('hide');
+        }
+    }
+
     if (!loading && data && data.categoryList.length > 0) {
         return (
-            <>
-                {data.categoryList[0].children.map((category, i) => (
-                    <CategoryListView
-                        storeConfig={storeConfig}
-                        id={category.id}
-                        imageSrc={category.image_path}
-                        name={category.name}
-                        description={category.description}
-                        url={category.url_path}
-                        key={i}
-                        right={(i + 1) % 2 === 0}
-                    />
-                ))}
-            </>
+            <CategoryListView
+                storeConfig={storeConfig}
+                data={data.categoryList[0].children}
+            />
         );
     }
 };

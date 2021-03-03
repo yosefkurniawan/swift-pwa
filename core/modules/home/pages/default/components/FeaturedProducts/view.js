@@ -131,7 +131,7 @@ const MobileView = ({
 const FeaturedView = ({ data = [], t }) => {
     const styles = useStyles();
     return (
-        <div className={classNames('row center-xs', styles.contentContainer)}>
+        <div className={classNames('row center-xs', styles.contentContainer, 'hide')} id="home-featured">
             {data.map((category, i) => {
                 const products = category.products.items.map((product) => ({
                     ...product,

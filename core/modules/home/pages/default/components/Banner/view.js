@@ -8,7 +8,7 @@ const BannerView = (props) => {
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
     return (
-        <div className={styles.header}>
+        <div className={classNames(styles.header, 'hide')} id="home-banner">
             <div className={classNames(styles.logo, 'hidden-desktop')}>
                 <img src={logoUrl} alt="logo" className={styles.imgLogo} />
             </div>
