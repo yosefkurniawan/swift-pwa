@@ -24,6 +24,7 @@
     "pageTitle" : "Address book",
     "addTitle" : "Add new address",
     "editTitle" : "Edit address",
+    "removeTitle": "Remove address",
     "defaultBilling": "Default billing address",
     "defaultShiping": "Default shiping address",
     "useBilling" : "Use as my default billing address",

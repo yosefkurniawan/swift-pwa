@@ -32,7 +32,7 @@ const Content = (props) => {
     const {
         loading, address, selectedAddressId,
         handleOpenNew, handleAddress, loadingAddress,
-        success, openNew, t, handleChange,
+        success, openNew, t, handleChange, removeAddress,
     } = props;
     return (
         <Layout {...props}>
@@ -102,6 +102,7 @@ const Content = (props) => {
                                             <TableAddress
                                                 {...item}
                                                 handleAddress={handleAddress}
+                                                removeAddress={removeAddress}
                                                 checked={item.id == selectedAddressId}
                                                 key={item.id}
                                                 addressId={item.id}
