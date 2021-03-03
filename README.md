@@ -1,9 +1,13 @@
 This is SwiftPWA base project bootstrapped with [Next.js](https://nextjs.org/).
 
 Demo: [https://pwa.getswift.asia/](https://pwa.getswift.asia/)
+
 Roadmap: [Click here](https://icubeus.github.io/swift-pwa/roadmap.html)
+
 Release Note: [Click here](https://github.com/icubeus/swift-pwa/releases)
+
 Stable branch: `master` 
+
 Development branch: `develop-v2`
 
 ## Pre-Installation
