@@ -6,7 +6,11 @@ import React, { useEffect, useState } from 'react';
 import Layout from '@layout';
 import _ from 'lodash';
 import {
-    createCustomerAddress, updateCustomerAddress, updatedDefaultAddress as gqlUpdateDefaulAddress, getCustomer as gqlGetCustomer,
+    createCustomerAddress,
+    removeAddress as gqlRemoveAddress,
+    updateCustomerAddress,
+    updatedDefaultAddress as gqlUpdateDefaulAddress,
+    getCustomer as gqlGetCustomer,
 } from '../../services/graphql';
 
 const AddressCustomer = (props) => {
@@ -22,6 +26,7 @@ const AddressCustomer = (props) => {
     const [updatedDefaultAddress] = gqlUpdateDefaulAddress();
     const [updateAddress] = updateCustomerAddress();
     const [addAddress] = createCustomerAddress();
+    const [removeAddress] = gqlRemoveAddress();
     const getCustomer = gqlGetCustomer();
     // state
     const [address, setAddress] = useState([]);
@@ -127,6 +132,25 @@ const AddressCustomer = (props) => {
             handleDialogSubmit();
         }, 1000);
     };
+
+    const setRemoveAddress = async (addressId) => {
+        setLoadingAddress(true);
+        if (!success) {
+            if (addressId) {
+                await removeAddress({
+                    variables: {
+                        id: addressId,
+                    },
+                });
+            }
+        }
+
+        setSuccess(true);
+        setLoadingAddress(false);
+        _.delay(async () => {
+            await getCustomer.refetch();
+        }, 1000);
+    };
     return (
         <Layout pageConfig={pageConfig || config} {...props}>
             <Content
@@ -138,6 +162,7 @@ const AddressCustomer = (props) => {
                 handleChange={handleChange}
                 handleOpenNew={handleOpenNew}
                 handleAddress={handleAddress}
+                removeAddress={setRemoveAddress}
                 loadingAddress={loadingAddress}
                 success={success}
                 openNew={openNew}

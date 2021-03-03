@@ -421,6 +421,12 @@ export const removeWishlist = gql`
     }
 `;
 
+export const removeAddress = gql`
+    mutation deleteCustomerAddress($id: Int!){
+        deleteCustomerAddress(id: $id)
+    }
+`;
+
 export const getCartIdUser = gql`
     {
         customerCart {

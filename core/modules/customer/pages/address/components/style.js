@@ -128,6 +128,12 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '12px',
         margin: '0',
     },
+    address_remove: {
+        cursor: 'pointer',
+        textDecoration: 'underline',
+        fontSize: '12px',
+        margin: '0',
+    },
     address_edit_mobile: {
         marginLeft: 57,
     },
