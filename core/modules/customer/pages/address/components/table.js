@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import TableCell from '@material-ui/core/TableCell';
+import ConfirmationDelete from '@common_confirmdialog';
 import useStyles from './style';
 import { createCustomerAddress, updateCustomerAddress } from '../../../services/graphql';
 
@@ -33,14 +34,25 @@ const TableAddress = (props) => {
         // eslint-disable-next-line no-unused-vars
     } = props;
     const [open, setOpen] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
     React.useEffect(() => {
         if (open && success) {
             setOpen(false);
         }
     }, [loadingAddress]);
     const styles = useStyles();
+    const handleRemoveAddress = () => {
+        removeAddress(addressId);
+        setOpenDelete(true);
+    };
     return (
         <>
+            <ConfirmationDelete
+                open={openDelete}
+                handleCancel={() => setOpenDelete(!openDelete)}
+                handleYes={handleRemoveAddress}
+                message={t('customer:address:warningDelete')}
+            />
             <AddressFormDialog
                 {...props}
                 open={open}
@@ -96,51 +108,19 @@ const TableAddress = (props) => {
                         <div className={styles.mobLabel}>
                             <b>{t('customer:address:street')}</b>
                         </div>
-                        <div className={styles.value}>{street}</div>
-                    </div>
-                </TableCell>
-                <TableCell
-                    className={styles.tableCellResponsive}
-                    align="left"
-                >
-                    <div className={styles.displayFlexRow}>
-                        <div className={styles.mobLabel}>
-                            <b>{t('customer:address:city')}</b>
+                        <div className={styles.value}>
+                            {street}
+                            ,
+                            <br />
+                            {city}
+                            ,
+                            {region}
+                            ,
+                            <br />
+                            {country.full_name_locale || ''}
+                            ,
+                            {postcode}
                         </div>
-                        <div className={styles.value}>{city}</div>
-                    </div>
-                </TableCell>
-                <TableCell
-                    className={styles.tableCellResponsive}
-                    align="left"
-                >
-                    <div className={styles.displayFlexRow}>
-                        <div className={styles.mobLabel}>
-                            <b>{t('customer:address:country')}</b>
-                        </div>
-                        <div className={styles.value}>{country.full_name_locale || ''}</div>
-                    </div>
-                </TableCell>
-                <TableCell
-                    className={styles.tableCellResponsive}
-                    align="left"
-                >
-                    <div className={styles.displayFlexRow}>
-                        <div className={styles.mobLabel}>
-                            <b>{t('customer:address:state')}</b>
-                        </div>
-                        <div className={styles.value}>{region}</div>
-                    </div>
-                </TableCell>
-                <TableCell
-                    className={styles.tableCellResponsive}
-                    align="left"
-                >
-                    <div className={styles.displayFlexRow}>
-                        <div className={styles.mobLabel}>
-                            <b>{t('customer:address:postcode')}</b>
-                        </div>
-                        <div className={styles.value}>{postcode}</div>
                     </div>
                 </TableCell>
                 <TableCell
@@ -166,22 +146,23 @@ const TableAddress = (props) => {
                         </div>
                     </div>
                 </TableCell>
-                {
-                    selectedAddressId !== addressId ? (
-                        <TableCell
-                            className={styles.tableCellResponsive}
-                            align="left"
-                        >
-                            <div className={styles.displayFlexRow}>
-                                <div className={styles.value}>
-                                    <Typography className={[styles.address_remove].join(' ')} variant="span" onClick={() => removeAddress(addressId)}>
-                                        {t('customer:address:removeTitle')}
-                                    </Typography>
+                <TableCell
+                    className={styles.tableCellResponsive}
+                    align="left"
+                >
+                    {
+                        selectedAddressId !== addressId
+                            ? (
+                                <div className={styles.displayFlexRow}>
+                                    <div className={styles.value}>
+                                        <Typography className={[styles.address_remove].join(' ')} variant="span" onClick={() => setOpenDelete(true)}>
+                                            {t('customer:address:removeTitle')}
+                                        </Typography>
+                                    </div>
                                 </div>
-                            </div>
-                        </TableCell>
-                    ) : null
-                }
+                            ) : null
+                    }
+                </TableCell>
             </TableRow>
         </>
     );

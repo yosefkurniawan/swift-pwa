@@ -85,11 +85,8 @@ const Content = (props) => {
                                     <TableCell align="left">{t('customer:address:firstname')}</TableCell>
                                     <TableCell align="left">{t('customer:address:lastname')}</TableCell>
                                     <TableCell align="left">{t('customer:address:street')}</TableCell>
-                                    <TableCell align="left">{t('customer:address:city')}</TableCell>
-                                    <TableCell align="left">{t('customer:address:country')}</TableCell>
-                                    <TableCell align="left">{t('customer:address:state')}</TableCell>
-                                    <TableCell align="left">{t('customer:address:postcode')}</TableCell>
                                     <TableCell align="left">{t('customer:address:phone')}</TableCell>
+                                    <TableCell align="left"> </TableCell>
                                     <TableCell align="left"> </TableCell>
                                 </TableRow>
                             </TableHead>

@@ -135,6 +135,7 @@ const AddressCustomer = (props) => {
 
     const setRemoveAddress = async (addressId) => {
         setLoadingAddress(true);
+        setLoading(true);
         if (!success) {
             if (addressId) {
                 await removeAddress({
@@ -145,10 +146,11 @@ const AddressCustomer = (props) => {
             }
         }
 
-        setSuccess(true);
-        setLoadingAddress(false);
         _.delay(async () => {
             await getCustomer.refetch();
+            setSuccess(true);
+            setLoadingAddress(false);
+            setLoading(false);
         }, 1000);
     };
     return (

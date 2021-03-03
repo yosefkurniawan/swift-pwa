@@ -24,14 +24,14 @@
     "pageTitle" : "Daftar alamat",
     "addTitle" : "Tambah alamat baru",
     "editTitle" : "Ubah alamat",
-    "removeTitle": "Hapus alamat",
+    "removeTitle": "Hapus",
     "defaultBilling": "Alamat pembayaran default ",
     "defaultShiping": "Alamat pengiriman default",
     "useBilling" : "Gunakan sebagai alamat default pembayaran",
     "useShipping" : "Gunakan sebagai alamat default pengiriman",
     "firstname" : "Nama depan",
     "lastname" : "Nama akhir",
-    "street" : "Alamat lengkap",
+    "street" : "Alamat",
     "city" : "Kota/Kecamatan",
     "country" : "Negara",
     "state" : "Provinsi",
@@ -39,7 +39,8 @@
     "phone" : "Telepon",
     "emptyMessage" : "Kamu belum menambahkan alamat",
     "emptyPinPointMessage" : "Alamat yang Anda pilih belum punya pin point. Silakan set pin point untuk menggunakan kurir Instant Delivery.",
-    "useDefault" : "Gunakan sebagai default"
+    "useDefault" : "Gunakan sebagai default",
+    "warningDelete": "Anda yakin mau menghapus alamat ini?"
   },
   "menu": {
     "aboutUs": "Tentang kami",
