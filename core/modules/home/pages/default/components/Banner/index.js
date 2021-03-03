@@ -8,9 +8,7 @@ const BannerSlider = (props) => {
         storeConfig, t, BannerSliderSkeleton, ErrorInfo, BannerView,
     } = props;
     const logoUrl = `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`;
-    if (typeof window === 'undefined') {
-        return <BannerSliderSkeleton logoUrl={logoUrl} />;
-    }
+
     const { loading, data, error } = gqlService.getSlider({
         variables: {
             title: home.bannerSlider.title,
@@ -20,14 +18,16 @@ const BannerSlider = (props) => {
         return <BannerSliderSkeleton logoUrl={logoUrl} />;
     }
     if (error) {
-        return (
-            <ErrorInfo variant="error" text={t('home:errorFetchData')} />
-        );
+        return <ErrorInfo variant="error" text={t('home:errorFetchData')} />;
     }
     if (!data || data.slider.images.length === 0) {
-        return (
-            <ErrorInfo variant="warning" text={t('home:nullData')} />
-        );
+        return <ErrorInfo variant="warning" text={t('home:nullData')} />;
+    }
+
+    if (typeof window !== 'undefined') {
+        if (document.getElementById('home-banner')) {
+            document.getElementById('home-banner').classList.remove('hide');
+        }
     }
 
     if (data && data.slider) {
@@ -37,10 +37,7 @@ const BannerSlider = (props) => {
             link: image.url_redirection,
         }));
         return (
-            <BannerView
-                logoUrl={logoUrl}
-                images={bannerImages}
-            />
+            <BannerView logoUrl={logoUrl} images={bannerImages} />
         );
     }
 

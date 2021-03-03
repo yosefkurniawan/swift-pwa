@@ -15,6 +15,15 @@ const useStyles = makeStyles((theme) => ({
         overflowX: 'hidden',
         ...CreatePadding(0, 0, 30, 0),
     },
+    containerCategory: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        overflowX: 'hidden',
+    },
     category: {
         height: '100%',
         width: '100%',
@@ -138,11 +147,11 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: 20,
         ...Centering,
         '& a': {
-            width: '100%'
+            width: '100%',
         },
         [theme.breakpoints.down('sm')]: {
             '& a': {
-                width: '75%'
+                width: '75%',
             },
         },
     },
