@@ -22,18 +22,28 @@ const CategoryList = ({
         );
     }
 
-    if (typeof window !== 'undefined') {
-        if (document.getElementById('home-category')) {
-            document.getElementById('home-category').classList.remove('hide');
+    React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            if (document.getElementById('home-category')) {
+                document.getElementById('home-category').classList.remove('hide');
+            }
+            if (document.getElementById('home-category-skeleton')) {
+                document.getElementById('home-category-skeleton').classList.add('hide');
+            }
         }
-    }
+    }, []);
 
     if (!loading && data && data.categoryList.length > 0) {
         return (
-            <CategoryListView
-                storeConfig={storeConfig}
-                data={data.categoryList[0].children}
-            />
+            <>
+                <div className="full-width" id="home-category-skeleton">
+                    <CategoryListSkeleton />
+                </div>
+                <CategoryListView
+                    storeConfig={storeConfig}
+                    data={data.categoryList[0].children}
+                />
+            </>
         );
     }
 };

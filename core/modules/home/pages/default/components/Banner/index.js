@@ -24,11 +24,16 @@ const BannerSlider = (props) => {
         return <ErrorInfo variant="warning" text={t('home:nullData')} />;
     }
 
-    if (typeof window !== 'undefined') {
-        if (document.getElementById('home-banner')) {
-            document.getElementById('home-banner').classList.remove('hide');
+    React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            if (document.getElementById('home-banner')) {
+                document.getElementById('home-banner').classList.remove('hide');
+            }
+            if (document.getElementById('home-banner-skeleton')) {
+                document.getElementById('home-banner-skeleton').classList.add('hide');
+            }
         }
-    }
+    }, []);
 
     if (data && data.slider) {
         const bannerImages = data.slider.images.map((image) => ({
@@ -37,7 +42,12 @@ const BannerSlider = (props) => {
             link: image.url_redirection,
         }));
         return (
-            <BannerView logoUrl={logoUrl} images={bannerImages} />
+            <>
+                <div className="full-width" id="home-banner-skeleton">
+                    <BannerSliderSkeleton logoUrl={logoUrl} />
+                </div>
+                <BannerView logoUrl={logoUrl} images={bannerImages} />
+            </>
         );
     }
 
