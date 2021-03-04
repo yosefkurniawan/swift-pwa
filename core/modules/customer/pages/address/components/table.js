@@ -111,14 +111,22 @@ const TableAddress = (props) => {
                         <div className={styles.value}>
                             {street}
                             ,
+                            {' '}
+                            {' '}
                             <br />
                             {city}
                             ,
+                            {' '}
+                            {' '}
                             {region}
                             ,
+                            {' '}
+                            {' '}
                             <br />
                             {country.full_name_locale || ''}
                             ,
+                            {' '}
+                            {' '}
                             {postcode}
                         </div>
                     </div>

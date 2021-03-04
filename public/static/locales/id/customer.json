@@ -23,7 +23,7 @@
   "address" : {
     "pageTitle" : "Daftar alamat",
     "addTitle" : "Tambah alamat baru",
-    "editTitle" : "Ubah alamat",
+    "editTitle" : "Ubah",
     "removeTitle": "Hapus",
     "defaultBilling": "Alamat pembayaran default ",
     "defaultShiping": "Alamat pengiriman default",
