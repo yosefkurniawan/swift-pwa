@@ -24,23 +24,25 @@ const BannerSlider = (props) => {
         return <ErrorInfo variant="warning" text={t('home:nullData')} />;
     }
 
-    React.useEffect(() => {
-        if (typeof window !== 'undefined') {
-            if (document.getElementById('home-banner')) {
-                document.getElementById('home-banner').classList.remove('hide');
-            }
-            if (document.getElementById('home-banner-skeleton')) {
-                document.getElementById('home-banner-skeleton').classList.add('hide');
-            }
-        }
-    }, []);
-
     if (data && data.slider) {
         const bannerImages = data.slider.images.map((image) => ({
             imageUrl: image.image_url,
             mobileImageUrl: image.mobile_image_url || image.image_url,
             link: image.url_redirection,
         }));
+
+        if (typeof window !== 'undefined') {
+            setTimeout(() => {
+                if (typeof window !== 'undefined') {
+                    if (document.getElementById('home-banner')) {
+                        document.getElementById('home-banner').classList.remove('hide');
+                    }
+                    if (document.getElementById('home-banner-skeleton')) {
+                        document.getElementById('home-banner-skeleton').classList.add('hide');
+                    }
+                }
+            }, 500);
+        }
         return (
             <>
                 <div className="full-width" id="home-banner-skeleton">

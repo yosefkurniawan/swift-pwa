@@ -18,19 +18,18 @@ const FeaturedProducts = ({
         return <ErrorInfo variant="warning" text={t('home:nullData')} />;
     }
 
-    React.useEffect(() => {
-        if (typeof window !== 'undefined') {
-            if (document.getElementById('home-featured')) {
-                document.getElementById('home-featured').classList.remove('hide');
-            }
-
-            if (document.getElementById('home-featured-skeleton')) {
-                document.getElementById('home-featured-skeleton').classList.add('hide');
-            }
-        }
-    }, []);
-
     if (!loading && data && data.categoryList.length > 0) {
+        if (typeof window !== 'undefined') {
+            setTimeout(() => {
+                if (document.getElementById('home-featured')) {
+                    document.getElementById('home-featured').classList.remove('hide');
+                }
+
+                if (document.getElementById('home-featured-skeleton')) {
+                    document.getElementById('home-featured-skeleton').classList.add('hide');
+                }
+            }, 500);
+        }
         return (
             <>
                 <div className="full-width" id="home-featured-skeleton">

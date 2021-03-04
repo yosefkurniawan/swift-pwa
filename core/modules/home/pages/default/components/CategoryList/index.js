@@ -22,18 +22,19 @@ const CategoryList = ({
         );
     }
 
-    React.useEffect(() => {
-        if (typeof window !== 'undefined') {
-            if (document.getElementById('home-category')) {
-                document.getElementById('home-category').classList.remove('hide');
-            }
-            if (document.getElementById('home-category-skeleton')) {
-                document.getElementById('home-category-skeleton').classList.add('hide');
-            }
-        }
-    }, []);
-
     if (!loading && data && data.categoryList.length > 0) {
+        if (typeof window !== 'undefined') {
+            setTimeout(() => {
+                if (typeof window !== 'undefined') {
+                    if (document.getElementById('home-category') !== 'undefined') {
+                        document.getElementById('home-category').classList.remove('hide');
+                    }
+                    if (document.getElementById('home-category-skeleton') !== 'undefined') {
+                        document.getElementById('home-category-skeleton').classList.add('hide');
+                    }
+                }
+            }, 500);
+        }
         return (
             <>
                 <div className="full-width" id="home-category-skeleton">
