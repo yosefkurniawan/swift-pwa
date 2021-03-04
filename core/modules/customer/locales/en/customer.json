@@ -23,7 +23,7 @@
   "address" : {
     "pageTitle" : "Address book",
     "addTitle" : "Add new address",
-    "editTitle" : "Edit address",
+    "editTitle" : "Edit",
     "removeTitle": "Remove",
     "defaultBilling": "Default billing address",
     "defaultShiping": "Default shiping address",
