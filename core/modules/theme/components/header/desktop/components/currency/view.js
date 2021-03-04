@@ -20,18 +20,20 @@ const useStyles = makeStyles(() => ({
 
 const ViewCurrency = (props) => {
     const {
-        t, title, id, open, anchorEl, currencyState, handleClick, handleClose, setDefaultCurrency, loading,
+        t, title, id, open, anchorEl, currencyState, handleClick, handleClose, setDefaultCurrency, loading, app_cookies,
     } = props;
+    const { cookies_currency } = app_cookies;
     const classes = useStyles();
-    const anchorOrigin = { vertical: 'bottom', horizontal: 'left' };
-    const transforOrigin = { vertical: 'top', horizontal: 'left' };
+    const anchorOrigin = { vertical: 'bottom', horizontal: 'right' };
+    const transforOrigin = { vertical: 'top', horizontal: 'right' };
     const styleTitle = { fontSize: 12, textTransform: 'uppercase' };
     const styleButtonCurrency = { fontFamily: 'Montserrat', padding: '0px', fontSize: title ? '12px' : '1em' };
 
+    const isEmptyCookiesCurrency = cookies_currency === undefined || cookies_currency === null;
     /**
      * loading state
      */
-    if (loading) {
+    if (loading && isEmptyCookiesCurrency) {
         return (
             <div>
                 {title && <Skeleton style={{ padding: 0 }} variant="rect" width={100} height={10} />}
@@ -45,6 +47,17 @@ const ViewCurrency = (props) => {
      */
     if (!loading && currencyState !== null) {
         if (currencyState.exchange_rates.length === 1) return null;
+    }
+
+    /**
+     * default currency
+     */
+    let finalDefaultCurrency = '';
+    if (currencyState !== null) {
+        finalDefaultCurrency = currencyState.default_display_currency_code;
+    } else if (!isEmptyCookiesCurrency) {
+        const currencyObject = JSON.parse(cookies_currency);
+        finalDefaultCurrency = currencyObject.default_display_currency_code;
     }
 
     /**
@@ -63,7 +76,7 @@ const ViewCurrency = (props) => {
             <Button onClick={handleClick} style={styleButtonCurrency}>
                 {t('common:menu:currency')}
                 :&nbsp;
-                <strong>{currencyState === null ? '' : currencyState.default_display_currency_code}</strong>
+                <strong>{finalDefaultCurrency}</strong>
             </Button>
 
             {/* [CURRENCY] LIST */}
