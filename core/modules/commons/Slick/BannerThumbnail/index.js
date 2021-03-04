@@ -42,6 +42,12 @@ const Banner = ({
     const handleRightArrow = () => {
         sliderRef.slickGoTo(slideIndex + 1);
     };
+
+    const afterChange = () => {
+        setCount(count + 1);
+        console.log('afterChange() Triggered');
+    };
+
     const settings = {
         // className: thumbnail ? 'slick-thumbnail' : 'slick-pwa',
         infinite: false,
@@ -50,10 +56,14 @@ const Banner = ({
         autoplay: autoPlay,
         speed,
         autoplaySpeed,
-        afterChange: () => setCount(count + 1),
+        afterChange: () => afterChange(),
         beforeChange: (current, next) => setIndex(next),
         arrows: false,
     };
+
+    if (count > 0) {
+        return 'loading cuy';
+    }
     return (
         <div className={styles.container}>
             {thumbnail ? (
@@ -97,15 +107,15 @@ const Banner = ({
                                         />
                                     </Zoom>
                                 ) : (
-                                        <ImageSlide
-                                            height={height}
-                                            customClass={styles.customClass}
-                                            width={width}
-                                            noLink={noLink}
-                                            key={key}
-                                            {...item}
-                                        />
-                                    )
+                                    <ImageSlide
+                                        height={height}
+                                        customClass={styles.customClass}
+                                        width={width}
+                                        noLink={noLink}
+                                        key={key}
+                                        {...item}
+                                    />
+                                )
                             }
                         </div>
                     ))}
