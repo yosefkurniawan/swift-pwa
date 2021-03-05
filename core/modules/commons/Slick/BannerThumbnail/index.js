@@ -42,6 +42,7 @@ const Banner = ({
     const handleRightArrow = () => {
         sliderRef.slickGoTo(slideIndex + 1);
     };
+
     const settings = {
         // className: thumbnail ? 'slick-thumbnail' : 'slick-pwa',
         infinite: false,
@@ -54,6 +55,7 @@ const Banner = ({
         beforeChange: (current, next) => setIndex(next),
         arrows: false,
     };
+
     return (
         <div className={styles.container}>
             {thumbnail ? (
@@ -97,15 +99,15 @@ const Banner = ({
                                         />
                                     </Zoom>
                                 ) : (
-                                        <ImageSlide
-                                            height={height}
-                                            customClass={styles.customClass}
-                                            width={width}
-                                            noLink={noLink}
-                                            key={key}
-                                            {...item}
-                                        />
-                                    )
+                                    <ImageSlide
+                                        height={height}
+                                        customClass={styles.customClass}
+                                        width={width}
+                                        noLink={noLink}
+                                        key={key}
+                                        {...item}
+                                    />
+                                )
                             }
                         </div>
                     ))}
