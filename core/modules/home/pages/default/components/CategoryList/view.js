@@ -5,7 +5,7 @@ import useStyles from '../style';
 const CategoryListView = ({ data = [], ...other }) => {
     const styles = useStyles();
     return (
-        <div className={classNames(styles.containerCategory, 'hide')} id="home-category">
+        <div className={classNames(styles.containerCategory)} id="home-category">
             { data.map((category, i) => (
                 <div
                     key={i}
