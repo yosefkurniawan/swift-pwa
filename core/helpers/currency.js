@@ -37,8 +37,8 @@ export const formatPrice = (value, currency = general.defaultCurrencyCode) => {
     /**
      * window === undefined to handle localstorage from reload
      */
-    const APP_CURRENCY = typeof window === 'undefined' ? null : cookies.get('app_currency');
-    if (APP_CURRENCY !== null) {
+    const APP_CURRENCY = typeof window === 'undefined' ? undefined : cookies.get('app_currency');
+    if (APP_CURRENCY !== undefined) {
         const getCurrent = getCurrentCurrency({ APP_CURRENCY, value });
         currency = getCurrent.currency;
         value = getCurrent.value;

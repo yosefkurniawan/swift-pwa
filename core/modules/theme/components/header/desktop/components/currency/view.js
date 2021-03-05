@@ -22,7 +22,7 @@ const ViewCurrency = (props) => {
     const {
         t, title, id, open, anchorEl, currencyState, handleClick, handleClose, setDefaultCurrency, loading, app_cookies,
     } = props;
-    const { cookies_currency } = app_cookies;
+    const cookies_currency = app_cookies?.cookies_currency;
     const classes = useStyles();
     const anchorOrigin = { vertical: 'bottom', horizontal: 'right' };
     const transforOrigin = { vertical: 'top', horizontal: 'right' };
