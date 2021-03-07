@@ -12,7 +12,7 @@ const Caraousel = (props) => {
     const {
         data = [], xs = 767, sm = 1024, md = 1200,
         slideXs = 1, slideSm = 3, slideMd = 4, slideLg = 6,
-        showArrow = true, Item, ...other
+        showArrow = true, Item, onReInit = () => {}, ...other
     } = props;
 
     const styles = useStyles();
@@ -82,7 +82,7 @@ const Caraousel = (props) => {
 
     return (
         <div className={classNames('carousel', styles.caraousel)}>
-            <Slider ref={(slider) => sliderRef = slider} {...settings}>
+            <Slider onInit={onReInit} ref={(slider) => sliderRef = slider} {...settings}>
                 {
                     data && data.length > 0 && data.map((item, key) => (
                         <Item key={key} {...item} {...other} />

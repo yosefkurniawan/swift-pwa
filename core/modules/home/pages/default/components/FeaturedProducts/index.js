@@ -19,23 +19,22 @@ const FeaturedProducts = ({
     }
 
     if (!loading && data && data.categoryList.length > 0) {
-        if (typeof window !== 'undefined') {
-            setTimeout(() => {
+        const onReInit = () => {
+            if (typeof window !== 'undefined') {
                 if (document.getElementById('home-featured')) {
                     document.getElementById('home-featured').classList.remove('hide');
                 }
-
                 if (document.getElementById('home-featured-skeleton')) {
                     document.getElementById('home-featured-skeleton').classList.add('hide');
                 }
-            }, 500);
-        }
+            }
+        };
         return (
             <>
                 <div className="full-width" id="home-featured-skeleton">
                     <FeaturedSkeleton />
                 </div>
-                <FeaturedView data={data.categoryList[0].children} t={t} />
+                <FeaturedView onReInit={onReInit} data={data.categoryList[0].children} t={t} />
             </>
         );
     }
