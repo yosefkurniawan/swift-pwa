@@ -116,8 +116,8 @@ class MyApp extends App {
          * GET CONFIGURATIONS FROM COOKIES
          * TO BE PROVIDED INTO PAGE PROPS
          */
-        let storeConfig = helperCookies.get(storeConfigNameCookie);
-        if (!(storeConfig && storeConfig.secure_base_media_url)) {
+        let storeConfig = helperCookies.get(storeConfigNameCookie) || pageProps.storeConfig;
+        if (!pageProps.storeConfig && (!storeConfig || typeof window === 'undefined')) {
             // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
             storeConfig = await graphRequest(ConfigSchema);
             storeConfig = storeConfig.storeConfig;

@@ -1,8 +1,6 @@
 import Skeleton from '@common_skeleton';
 import Grid from '@material-ui/core/Grid';
 import classNames from 'classnames';
-import { breakPointsUp } from '@helper_theme';
-import { modules } from '@config';
 import useStyles from '../style';
 
 const CarouselProductSkeleton = () => {
@@ -23,7 +21,7 @@ const CarouselProductSkeleton = () => {
     );
     return (
         <div style={{ padding: '24px 0 12px 0', width: '100%' }}>
-            <Grid container>
+            <Grid container wrap="nowrap">
                 <Grid item xs={3} md={3} sm={4} style={{ padding: '0 6px 0 12px' }}>
                     <SliderSkeleton />
                 </Grid>
@@ -41,60 +39,41 @@ const CarouselProductSkeleton = () => {
     );
 };
 
-const CategoryListSkeleteon = () => {
+const FeaturedSkeleteon = () => {
     const styles = useStyles();
-    const desktop = breakPointsUp('sm');
-    const { categoryList } = modules.home;
-    const width = desktop
-        ? categoryList.imageSize.desktop.width
-        : categoryList.imageSize.mobile.width;
-    const height = desktop
-        ? categoryList.imageSize.desktop.height
-        : categoryList.imageSize.mobile.height;
     return (
-        <div className={styles.skeletonWrapper}>
-            <Grid container spacing={2} direction="column" alignItems="center">
-                <div
-                    className={classNames(
-                        'col-xs-12 row between-lg',
-                        styles.featuresBox,
-                    )}
-                    style={{ width: '85%' }}
-                >
-
-                    <div
-                        className={classNames(
-                            'col-xs-12 col-sm-12 col-lg-4 hidden-mobile',
-                            styles.imgFeaturedContainer,
-                        )}
-                    >
-                        <div className={styles.imgFeaturedItem}>
-                            <Skeleton height={height} width={width} variant="rect" />
+        <div className={classNames('row center-xs', styles.contentContainer)}>
+            {[1, 2].map((key) => (
+                <div key={key} className={classNames('col-xs-12 row', styles.features)}>
+                    <div className={classNames('col-xs-12')}>
+                        <div className={styles.labelCategory}>
+                            <Skeleton variant="text" height={45} width={200} />
                         </div>
                     </div>
-
-                    <div
-                        className={classNames(
-                            'col-xs-12 col-sm-12 col-lg-8',
-                        )}
-                    >
-                        <div className={classNames('row center-xs', styles.contentFeatured)}>
-                            <div
-                                className={classNames('col-xs-12', styles.contentMobileFeatured)}
-                            >
-                                <CarouselProductSkeleton />
+                    <div className={classNames('col-xs-12 row between-lg', styles.featuresBox, key === 0 ? 'reverse' : '')} style={{ width: '85%' }}>
+                        <div className={classNames('col-xs-12 col-sm-12 col-lg-4 hidden-mobile hidden-sm', styles.imgFeaturedContainer)}>
+                            <div className={styles.imgFeaturedItem}>
+                                <Skeleton height="100%" width="100%" variant="rect" />
                             </div>
-                            <div className={classNames('col-xs-12')}>
-                                <div className={styles.footerFeatured}>
-                                    <Skeleton height={45} width={150} variant="rect" />
+                        </div>
+
+                        <div className={classNames('col-xs-12 col-sm-12 col-lg-8')}>
+                            <div className={classNames('row center-xs', styles.contentFeatured)}>
+                                <div className={classNames('col-xs-12', styles.contentMobileFeatured)}>
+                                    <CarouselProductSkeleton />
+                                </div>
+                                <div className={classNames('col-xs-12')}>
+                                    <div className={styles.footerFeatured}>
+                                        <Skeleton height={45} width={150} variant="rect" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </Grid>
+            ))}
         </div>
     );
 };
 
-export default CategoryListSkeleteon;
+export default FeaturedSkeleteon;
