@@ -13,7 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
  */
 const useStyles = makeStyles(() => ({
     listItemText: {
-        fontSize: '.7em', // Insert your required size
+        fontSize: '.6rem', // Insert your required size
         textTransform: 'uppercase',
     },
 }));
@@ -24,6 +24,7 @@ const ViewCurrency = (props) => {
     } = props;
     const cookies_currency = app_cookies?.cookies_currency;
     const classes = useStyles();
+    const buttonRef = React.useRef();
     const anchorOrigin = { vertical: 'bottom', horizontal: 'right' };
     const transforOrigin = { vertical: 'top', horizontal: 'right' };
     const styleTitle = { fontSize: 12, textTransform: 'uppercase' };
@@ -33,7 +34,7 @@ const ViewCurrency = (props) => {
     /**
      * loading state
      */
-    if (loading && isEmptyCookiesCurrency) {
+    if (loading || isEmptyCookiesCurrency || currencyState === null) {
         return (
             <div>
                 {title && <Skeleton style={{ padding: 0 }} variant="rect" width={100} height={10} />}
@@ -46,7 +47,9 @@ const ViewCurrency = (props) => {
      * not loading && check data
      */
     if (!loading && currencyState !== null) {
-        if (currencyState.exchange_rates.length === 1) return null;
+        if (currencyState.exchange_rates.length <= 1) {
+            return null;
+        }
     }
 
     /**
@@ -73,14 +76,22 @@ const ViewCurrency = (props) => {
             )}
 
             {/* [CURRENCY] BUTTON */}
-            <Button onClick={handleClick} style={styleButtonCurrency}>
+            <Button ref={buttonRef} onClick={handleClick} style={styleButtonCurrency}>
                 {t('common:menu:currency')}
                 :&nbsp;
                 <strong>{finalDefaultCurrency}</strong>
             </Button>
 
             {/* [CURRENCY] LIST */}
-            <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose} anchorOrigin={anchorOrigin} transformOrigin={transforOrigin}>
+            <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={anchorOrigin}
+                transformOrigin={transforOrigin}
+                container={buttonRef.current}
+            >
                 <List component="nav">
                     {currencyState !== null
                         && currencyState.exchange_rates.map((item, index) => {

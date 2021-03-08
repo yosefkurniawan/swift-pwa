@@ -14,7 +14,7 @@ const ComponentCurrencyExchange = (props) => {
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
-    const [actGetCurrency, { data, loading }] = getCurrency();
+    const { data, loading } = getCurrency();
     const [currencyState, setCurrencyState] = useState(null);
 
     const mount = useRef();
@@ -35,8 +35,7 @@ const ComponentCurrencyExchange = (props) => {
             const getCurrencyFromStorage = async () => {
                 try {
                     /** [GET] Currency */
-                    if (data === undefined) actGetCurrency();
-                    else {
+                    if (data && data.currency) {
                         /** [SET] Currency if not store in local storage */
                         const { currency } = data;
                         const { base_currency_code } = currency;
@@ -72,7 +71,9 @@ const ComponentCurrencyExchange = (props) => {
      * [METHOD] handle click popover
      * @param {*} event
      */
-    const handleClick = (event) => setAnchorEl(event.currentTarget);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
 
     /**
      * [METHOD] handle close popover
@@ -94,6 +95,25 @@ const ComponentCurrencyExchange = (props) => {
 
         window.location.reload();
     };
+
+    React.useMemo(() => {
+        if (mount.current) {
+            if (open) {
+                const header = document.getElementById('header');
+                const checkScrollTop = () => {
+                    // handle show hide header
+                    if (header) {
+                        if (document.getElementById(id) && window.pageYOffset > 100) {
+                            handleClose();
+                        }
+                    }
+                };
+                window.addEventListener('scroll', checkScrollTop);
+            } else {
+                window.removeEventListener('scroll', () => {}, false);
+            }
+        }
+    }, [open]);
 
     const propsOther = {
         id,
