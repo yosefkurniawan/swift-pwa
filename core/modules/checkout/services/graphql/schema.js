@@ -669,6 +669,56 @@ export const applyCouponToCart = gql`
                 ${cartRequiredSelection}
                 ${cartShippingAddress}
                 ${cartAvailablePaymentMethods}
+                items {
+                    id
+                    quantity
+                    ... on ConfigurableCartItem {
+                        configurable_options {
+                            option_label
+                            value_label
+                        }
+                    }
+                    ${modules.checkout.pickupStore.enabled ? pickup_item_store_info : ''}
+                    prices {
+                        row_total {
+                            currency
+                            value
+                        }
+                        row_total_including_tax {
+                            currency
+                            value
+                        }
+                        discounts {
+                            amount {
+                                currency
+                                value
+                            }
+                            label
+                        }
+                        price {
+                            value
+                            currency
+                        }
+                        price_including_tax {
+                            value
+                            currency
+                        }
+                    }
+                    product {
+                        id
+                        name
+                        categories {
+                        name
+                        }
+                        url_key
+                        sku
+                        stock_status
+                        small_image {
+                            url
+                            label
+                        }
+                    }
+                }
             }
         }
     }
@@ -685,6 +735,56 @@ export const removeCouponFromCart = gql`
                 ${cartRequiredSelection}
                 ${cartShippingAddress}
                 ${cartAvailablePaymentMethods}
+                items {
+                    id
+                    quantity
+                    ... on ConfigurableCartItem {
+                        configurable_options {
+                            option_label
+                            value_label
+                        }
+                    }
+                    ${modules.checkout.pickupStore.enabled ? pickup_item_store_info : ''}
+                    prices {
+                        row_total {
+                            currency
+                            value
+                        }
+                        row_total_including_tax {
+                            currency
+                            value
+                        }
+                        discounts {
+                            amount {
+                                currency
+                                value
+                            }
+                            label
+                        }
+                        price {
+                            value
+                            currency
+                        }
+                        price_including_tax {
+                            value
+                            currency
+                        }
+                    }
+                    product {
+                        id
+                        name
+                        categories {
+                        name
+                        }
+                        url_key
+                        sku
+                        stock_status
+                        small_image {
+                            url
+                            label
+                        }
+                    }
+                }
             }
         }
     }
