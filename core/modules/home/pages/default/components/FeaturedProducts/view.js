@@ -21,6 +21,7 @@ const MobileView = ({
     right = false,
     t,
     id,
+    ...other
 }) => {
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
@@ -102,6 +103,7 @@ const MobileView = ({
                                 showArrow={desktop}
                                 slideLg={category_image ? 4 : 6}
                                 Item={ProductItem}
+                                {...other}
                             />
                         </div>
                         <div className={classNames('col-xs-12')}>
@@ -128,7 +130,7 @@ const MobileView = ({
     );
 };
 
-const FeaturedView = ({ data = [], t }) => {
+const FeaturedView = ({ data = [], t, ...other }) => {
     const styles = useStyles();
     return (
         <div className={classNames('row center-xs', styles.contentContainer, 'hide')} id="home-featured">
@@ -150,6 +152,7 @@ const FeaturedView = ({ data = [], t }) => {
                         id={category.id}
                         right={(i + 1) % 2 === 0}
                         t={t}
+                        {...other}
                     />
                 );
             })}
