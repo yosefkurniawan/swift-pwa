@@ -10,7 +10,6 @@ pickup_store_person {
     name
 }
 `;
-
 const cartAvailablePaymentMethods = `
     available_payment_methods {
         code
@@ -142,6 +141,58 @@ pickup_item_store_info {
     loc_code
 }
 `;
+
+const itemsProduct = `
+items {
+    id
+    quantity
+    ... on ConfigurableCartItem {
+        configurable_options {
+            option_label
+            value_label
+        }
+    }
+    ${modules.checkout.pickupStore.enabled ? pickup_item_store_info : ''}
+    prices {
+        row_total {
+            currency
+            value
+        }
+        row_total_including_tax {
+            currency
+            value
+        }
+        discounts {
+            amount {
+                currency
+                value
+            }
+            label
+        }
+        price {
+            value
+            currency
+        }
+        price_including_tax {
+            value
+            currency
+        }
+    }
+    product {
+        id
+        name
+        categories {
+        name
+        }
+        url_key
+        sku
+        stock_status
+        small_image {
+            url
+            label
+        }
+    }
+}`;
 
 const selected_payment_method = `
 selected_payment_method {
@@ -412,56 +463,7 @@ export const getCustomer = gql`
 export const getItemCart = gql`
     query Cart($cartId: String!) {
         cart(cart_id: $cartId) {
-            items {
-                id
-                quantity
-                ... on ConfigurableCartItem {
-                    configurable_options {
-                        option_label
-                        value_label
-                    }
-                }
-                ${modules.checkout.pickupStore.enabled ? pickup_item_store_info : ''}
-                prices {
-                    row_total {
-                        currency
-                        value
-                    }
-                    row_total_including_tax {
-                        currency
-                        value
-                    }
-                    discounts {
-                        amount {
-                            currency
-                            value
-                        }
-                        label
-                    }
-                    price {
-                        value
-                        currency
-                    }
-                    price_including_tax {
-                        value
-                        currency
-                    }
-                }
-                product {
-                    id
-                    name
-                    categories {
-                    name
-                    }
-                    url_key
-                    sku
-                    stock_status
-                    small_image {
-                        url
-                        label
-                    }
-                }
-            }
+            ${itemsProduct}
         }
     }
 `;
@@ -669,6 +671,7 @@ export const applyCouponToCart = gql`
                 ${cartRequiredSelection}
                 ${cartShippingAddress}
                 ${cartAvailablePaymentMethods}
+                ${itemsProduct}
             }
         }
     }
@@ -685,6 +688,7 @@ export const removeCouponFromCart = gql`
                 ${cartRequiredSelection}
                 ${cartShippingAddress}
                 ${cartAvailablePaymentMethods}
+                ${itemsProduct}
             }
         }
     }
