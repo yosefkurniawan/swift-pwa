@@ -1,17 +1,16 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import { useApolloClient } from '@apollo/client';
-import ProductByVariant, {
-    generateValue,
-    generateAvailableCombination,
-    handleSelected,
-} from '@helper_productbyvariant';
+import ProductByVariant, { generateValue, generateAvailableCombination, handleSelected } from '@helper_productbyvariant';
 import { getLoginInfo } from '@helper_auth';
 import { getCartId, setCartId } from '@helper_cartid';
 import TagManager from 'react-gtm-module';
 import { localTotalCart } from '@services/graphql/schema/local';
 import {
-    addConfigProductsToCart, getConfigurableProduct, getGuestCartId as queryGetGuestCartId, getCustomerCartId,
+    addConfigProductsToCart,
+    getConfigurableProduct,
+    getGuestCartId as queryGetGuestCartId,
+    getCustomerCartId,
 } from '../../../../../../services/graphql';
 
 const OptionsItemConfig = (props) => {
@@ -20,15 +19,15 @@ const OptionsItemConfig = (props) => {
         setPrice,
         t,
         data: {
-            __typename, sku, media_gallery, image,
-            price_range, price_tiers, name, categories,
-            stock_status,
+            __typename, sku, media_gallery, image, price_range, price_tiers, name, categories,
         },
         setOpen,
         loading,
         setLoading,
         ConfigurableView,
         Footer,
+        setStockStatus,
+        stockStatus,
     } = props;
 
     const client = useApolloClient();
@@ -44,12 +43,12 @@ const OptionsItemConfig = (props) => {
 
     const handleSelect = async (value, key) => {
         const selectedOption = handleSelected(selectConfigurable, key, value);
-
         const comb = configProduct.data && generateAvailableCombination(selectedOption, configProduct.data.products.items[0]);
         setCombination({ ...comb });
         setSelectConfigurable({
             ...selectedOption,
         });
+        // console.log(configProduct.data.products.items[0].variants);
         const product = await ProductByVariant(selectedOption, configProduct.data.products.items[0].variants);
         if (product && JSON.stringify(product) !== '{}') {
             setSelectedProduct({ ...product });
@@ -75,6 +74,7 @@ const OptionsItemConfig = (props) => {
                 // eslint-disable-next-line no-underscore-dangle
                 productType: product.__typename,
             });
+            setStockStatus(product.stock_status);
         } else {
             const bannerData = [];
             if (media_gallery.length > 0) {
@@ -98,6 +98,7 @@ const OptionsItemConfig = (props) => {
                 // eslint-disable-next-line no-underscore-dangle
                 productType: __typename,
             });
+            setStockStatus('OUT_OF_STOCK');
         }
 
         firstSelected.code = key;
@@ -170,15 +171,17 @@ const OptionsItemConfig = (props) => {
                         ecommerce: {
                             currencyCode: price_range.minimum_price.regular_price.currency || 'USD',
                             add: {
-                                products: [{
-                                    name,
-                                    id: sku,
-                                    price: price_range.minimum_price.regular_price.value || 0,
-                                    category: categories.length > 0 ? categories[0].name : '',
-                                    list: categories.length > 0 ? categories[0].name : '',
-                                    quantity: qty,
-                                    dimensions4: stock_status,
-                                }],
+                                products: [
+                                    {
+                                        name,
+                                        id: sku,
+                                        price: price_range.minimum_price.regular_price.value || 0,
+                                        category: categories.length > 0 ? categories[0].name : '',
+                                        list: categories.length > 0 ? categories[0].name : '',
+                                        quantity: qty,
+                                        dimensions4: stockStatus,
+                                    },
+                                ],
                             },
                         },
                     },
@@ -218,7 +221,7 @@ const OptionsItemConfig = (props) => {
     }, [selectConfigurable]);
     return (
         <>
-            { options.map((data, index) => (
+            {options.map((data, index) => (
                 <ConfigurableView
                     key={index}
                     option={data.options}
@@ -230,7 +233,16 @@ const OptionsItemConfig = (props) => {
                     configProduct={configProduct}
                 />
             ))}
-            <Footer qty={qty} handleAddToCart={handleAddToCart} setQty={setQty} t={t} loading={loading || configProduct.loading} />
+
+            <Footer
+                qty={qty}
+                handleAddToCart={handleAddToCart}
+                setQty={setQty}
+                t={t}
+                loading={loading || configProduct.loading}
+                disabled={!selectedProduct || !selectedProduct.sku || stockStatus === 'OUT_OF_STOCK'}
+            />
+
         </>
     );
 };

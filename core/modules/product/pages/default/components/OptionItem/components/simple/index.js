@@ -115,6 +115,7 @@ const OptionsitemSimple = ({
             handleAddToCart={handleAddToCart}
             t={t}
             loading={loading}
+            disabled={stock_status === 'OUT_OF_STOCK'}
         />
     );
 };

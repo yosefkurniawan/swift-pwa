@@ -21,6 +21,9 @@ const Accordion = withStyles({
             margin: 'auto',
         },
     },
+    disabled: {
+        background: '#fff !important',
+    },
     expanded: {},
 })(MuiAccordion);
 
@@ -50,19 +53,21 @@ const AccordionDetails = withStyles(() => ({
 
 const BundleView = (props) => {
     const {
-        t, data, items, changeQty, generateBundlePrice, selectOptions, handleAddToCart, loading,
+        t, data, items, changeQty, generateBundlePrice, selectOptions,
+        handleAddToCart, loading, disabled,
     } = props;
     const [open, setOpen] = React.useState(false || (typeof window !== 'undefined' && window.innerWidth <= 768));
     const styles = useStyles();
     return (
         <div>
-            <Accordion square expanded={open} onChange={() => setOpen(!open)}>
+            <Accordion disabled={disabled} square expanded={open} onChange={() => setOpen(!open)}>
                 <AccordionSummary className="hidden-mobile" aria-controls="panel1d-content" id="panel1d-header">
                     <Button
                         className={styles.btnAddToCard}
                         color="primary"
                         onClick={() => {}}
                         loading={(loading && !data) || !data}
+                        disabled={disabled}
                     >
                         <Typography
                             align="center"

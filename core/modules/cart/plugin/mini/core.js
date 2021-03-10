@@ -9,6 +9,7 @@ const MiniCart = (props) => {
         Content, open, setOpen, count, t,
     } = props;
     const [cart, setCart] = React.useState({ items: [] });
+    const [errorCart, setErrorCart] = React.useState(false);
     let loadingCart = false;
     let dataCart = null;
     let getCartData = () => {};
@@ -27,12 +28,34 @@ const MiniCart = (props) => {
             });
             loadingCart = data.loading;
             if (!data.loading && data.data && data.data.cart) {
-                dataCart = data.data.cart;
+                const itemsCart = data.data.cart.items.filter((item) => item !== null);
+                dataCart = {
+                    ...data.data.cart,
+                    items: itemsCart,
+                };
             }
         } else {
             loadingCart = false;
         }
     }
+
+    React.useMemo(() => {
+        if (data.error) {
+            const errorList = [];
+            if (data.error && data.error.graphQLErrors
+                && data.error.graphQLErrors.length > 0) {
+                for (let idx = 0; idx < data.error.graphQLErrors.length; idx += 1) {
+                    const { message } = data.error.graphQLErrors[idx];
+                    const regexp = new RegExp(/stock/i);
+                    if (message && regexp.test(message)) {
+                        errorList.push(message);
+                    }
+                }
+            }
+            setErrorCart(errorList);
+        }
+    }, [data]);
+
     React.useMemo(() => {
         if (dataCart && dataCart.id) {
             setCart({ ...dataCart });
@@ -65,6 +88,7 @@ const MiniCart = (props) => {
     React.useMemo(() => {
         if (open && typeof window !== 'undefined' && cartId && cartId !== '') {
             setCart({ ...{ items: [] } });
+            setErrorCart([]);
             getCartData();
             loadingCart = true;
         }
@@ -132,6 +156,7 @@ const MiniCart = (props) => {
             data={cart}
             deleteCart={deleteCart}
             updateCart={updateCart}
+            errorCart={errorCart}
             t={t}
         />
     );

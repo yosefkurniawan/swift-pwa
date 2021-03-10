@@ -11,6 +11,7 @@ const Footer = ({
     handleAddToCart = () => { },
     t,
     loading = false,
+    disabled = false,
 }) => {
     const styles = useStyles();
     return (
@@ -21,6 +22,7 @@ const Footer = ({
                     value={qty}
                     onChange={setQty}
                     max={10000}
+                    disabled={disabled}
                 />
             </div>
             <div className={styles.footer}>
@@ -29,6 +31,7 @@ const Footer = ({
                     color="primary"
                     onClick={handleAddToCart}
                     loading={loading}
+                    disabled={disabled}
                 >
                     <Typography
                         align="center"

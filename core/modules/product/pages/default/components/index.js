@@ -56,6 +56,7 @@ const ProductPage = (props) => {
         relateData,
         openImageDetail,
         handleOpenImageDetail,
+        stockStatus,
     } = props;
 
     const desktop = breakPointsUp('sm');
@@ -133,7 +134,7 @@ const ProductPage = (props) => {
                             </Typography>
                         </div>
                         <Typography variant="p" type="bold" letter="uppercase">
-                            {data.stock_status.replace('_', ' ') || ''}
+                            {stockStatus.replace(/_/g, ' ') || ''}
                         </Typography>
                     </div>
 

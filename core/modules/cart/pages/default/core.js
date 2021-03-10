@@ -37,6 +37,7 @@ const Cart = (props) => {
         items: [],
     };
     const [cart, setCart] = React.useState(dataCart);
+    const [errorCart, setErrorCart] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [editItem, setEditItem] = useState({});
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
@@ -73,6 +74,7 @@ const Cart = (props) => {
             request: 'internal',
         },
         fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
     });
 
     React.useEffect(() => {
@@ -124,7 +126,12 @@ const Cart = (props) => {
     React.useEffect(() => {
         if (responseCart.loading) setLoadingCart(true);
         if (responseCart && responseCart.data && responseCart.data.cart) {
-            setCart(responseCart.data.cart);
+            const itemsCart = responseCart.data.cart.items.filter((item) => item !== null);
+            const carts = {
+                ...responseCart.data.cart,
+                items: itemsCart,
+            };
+            setCart(carts);
             if (responseCart.client && responseCart.data.cart.total_quantity && responseCart.data.cart.total_quantity > 0) {
                 responseCart.client.writeQuery({
                     query: localTotalCart,
@@ -135,6 +142,18 @@ const Cart = (props) => {
         }
 
         if (responseCart.error) {
+            const errorList = [];
+            if (responseCart.error && responseCart.error.graphQLErrors
+                && responseCart.error.graphQLErrors.length > 0) {
+                for (let idx = 0; idx < responseCart.error.graphQLErrors.length; idx += 1) {
+                    const { message } = responseCart.error.graphQLErrors[idx];
+                    const regexp = new RegExp(/stock/i);
+                    if (message && regexp.test(message)) {
+                        errorList.push(message);
+                    }
+                }
+            }
+            setErrorCart(errorList);
             setLoadingCart(false);
         }
     }, [responseCart]);
@@ -363,6 +382,7 @@ const Cart = (props) => {
         updateItem,
         storeConfig,
         globalCurrency,
+        errorCart,
     };
     return (
         <Layout pageConfig={config || pageConfig} {...props}>

@@ -272,18 +272,16 @@ export default function productByVariant(options = {}, variants = []) {
     let spesificProduct = {};
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < variants.length; index++) {
-        const { attributes, product } = variants[index];
+        const { attributes } = variants[index];
         let isSpesific = false;
-        if (product.stock_status === 'IN_STOCK') {
-            // eslint-disable-next-line no-plusplus
-            for (let idxAtt = 0; idxAtt < attributes.length; idxAtt++) {
-                if (typeof options[attributes[idxAtt].code] !== 'undefined') {
-                    if (options[attributes[idxAtt].code] === attributes[idxAtt].value_index) {
-                        isSpesific = true;
-                    } else {
-                        isSpesific = false;
-                        break;
-                    }
+        // eslint-disable-next-line no-plusplus
+        for (let idxAtt = 0; idxAtt < attributes.length; idxAtt++) {
+            if (typeof options[attributes[idxAtt].code] !== 'undefined') {
+                if (options[attributes[idxAtt].code] === attributes[idxAtt].value_index) {
+                    isSpesific = true;
+                } else {
+                    isSpesific = false;
+                    break;
                 }
             }
         }
