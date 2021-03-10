@@ -1,10 +1,14 @@
 import { makeStyles } from '@material-ui/core/styles';
 import {
-    WHITE, BLACK, GRAY_LIGHT, GREEN,
+    WHITE, BLACK, GRAY_LIGHT, GREEN, GRAY_SECONDARY,
 } from '@theme_color';
 import { Centering } from '@theme_mixins';
 
 const useStyles = makeStyles(() => ({
+    alert: {
+        margin: 5,
+        fontSize: 12,
+    },
     container: {
         width: '390px',
         height: '100vh',
@@ -75,6 +79,9 @@ const useStyles = makeStyles(() => ({
             justifyContent: 'center',
             alignItems: 'center',
             fontSize: 10,
+        },
+        '& .disabled-button': {
+            backgroundColor: GRAY_SECONDARY,
         },
     },
     miniCartItems: {

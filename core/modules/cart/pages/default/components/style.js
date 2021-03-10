@@ -12,6 +12,9 @@ import {
 import { FONT_14, FONT_BIG } from '@theme_typography';
 
 const useStyles = makeStyles((theme) => ({
+    alert: {
+        margin: 15,
+    },
     container: {
         width: '100%',
         height: '100%',

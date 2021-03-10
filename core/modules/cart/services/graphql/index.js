@@ -33,6 +33,7 @@ export const getMiniCartData = (cartId) => useLazyQuery(Schema.getMiniCart,
             request: 'internal',
         },
         fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
     });
 
 export const getCountCart = (cartId) => useQuery(Schema.getCountCart, {

@@ -1,12 +1,13 @@
 import Route from 'next/router';
 import classNames from 'classnames';
+import Alert from '@material-ui/lab/Alert';
 import Summary from '../../../plugin/Summary';
 import useStyles from './style';
 
 const Content = (props) => {
     const {
         ItemView, CrossSellView, CheckoutDrawerView, dataCart, t, handleFeed,
-        toggleEditMode, editMode, deleteItem, toggleEditDrawer, crosssell,
+        toggleEditMode, editMode, deleteItem, toggleEditDrawer, crosssell, errorCart,
         EditDrawerView, editItem, openEditDrawer, updateItem, SummaryView, ...other
     } = props;
     const handleOnCheckoutClicked = () => {
@@ -16,6 +17,11 @@ const Content = (props) => {
     return (
         <div className={classNames(styles.mobileBottomSpace, 'row')}>
             <div className="col-xs-12 col-sm-8 col-md-9" style={{ height: '100%' }}>
+                { errorCart && errorCart.length > 0 && errorCart.map((item, key) => (
+                    <Alert className={styles.alert} severity="error" key={key}>
+                        {item}
+                    </Alert>
+                )) }
                 <ItemView
                     data={dataCart}
                     t={t}
@@ -34,11 +40,25 @@ const Content = (props) => {
                     <EditDrawerView {...props} {...editItem} open={openEditDrawer} toggleOpen={toggleEditDrawer} updateItem={updateItem} />
                 ) : null}
                 <div className="hidden-desktop">
-                    <Summary isDesktop={false} t={t} dataCart={dataCart} {...other} handleActionSummary={handleOnCheckoutClicked} />
+                    <Summary
+                        disabled={errorCart && errorCart.length > 0}
+                        isDesktop={false}
+                        t={t}
+                        dataCart={dataCart}
+                        {...other}
+                        handleActionSummary={handleOnCheckoutClicked}
+                    />
                 </div>
             </div>
             <div className="col-xs-12 col-sm-4 col-md-3 hidden-mobile">
-                <Summary isDesktop t={t} dataCart={dataCart} {...other} handleActionSummary={handleOnCheckoutClicked} />
+                <Summary
+                    disabled={errorCart && errorCart.length > 0}
+                    isDesktop
+                    t={t}
+                    dataCart={dataCart}
+                    {...other}
+                    handleActionSummary={handleOnCheckoutClicked}
+                />
             </div>
         </div>
     );
