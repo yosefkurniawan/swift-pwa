@@ -112,6 +112,7 @@ const ContentDetail = ({
         specialFromDate: item.special_from_date,
         specialToDate: item.special_to_date,
     });
+    const [stockStatus, setStockStatus] = React.useState(item.stock_status);
     const [wishlist, setWishlist] = React.useState(false);
 
     const [addWishlist] = mutationAddWishlist();
@@ -262,6 +263,8 @@ const ContentDetail = ({
             config={modules.catalog.pdp}
             openImageDetail={openImageDetail}
             handleOpenImageDetail={handleOpenImageDetail}
+            stockStatus={stockStatus}
+            setStockStatus={setStockStatus}
         />
     );
 };

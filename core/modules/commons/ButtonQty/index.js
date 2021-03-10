@@ -4,11 +4,13 @@ import React from 'react';
 import classNames from 'classnames';
 import useStyles from './style';
 
-const ButtonQty = ({ value = 1, onChange, max = 100 }) => {
+const ButtonQty = ({
+    value = 1, onChange, max = 100, disabled = false,
+}) => {
     const styles = useStyles();
     const [localValue, setLocalValue] = React.useState(value);
     const handleMinus = () => {
-        if (localValue > 1 && localValue <= max) {
+        if (!disabled && localValue > 1 && localValue <= max) {
             if (onChange) {
                 onChange(localValue - 1);
             }
@@ -16,7 +18,7 @@ const ButtonQty = ({ value = 1, onChange, max = 100 }) => {
         }
     };
     const handlePlus = () => {
-        if (localValue > 0 && localValue < max) {
+        if (!disabled && localValue > 0 && localValue < max) {
             if (onChange) {
                 onChange(localValue + 1);
             }
@@ -45,11 +47,13 @@ const ButtonQty = ({ value = 1, onChange, max = 100 }) => {
             setLocalValue(parseInt(val, 0));
         }
     };
+    const disabledMin = disabled || localValue === 1;
+    const disableMax = disabled || localValue === max;
     return (
         <div className={styles.box}>
-            <div className={classNames(styles.minus, localValue === 1 ? styles.disabled : '')} onClick={handleMinus}>-</div>
-            <input value={localValue} className={styles.input} type="number" onChange={handleLocalChange} />
-            <div className={classNames(styles.plus, localValue === max ? styles.disabled : '')} onClick={handlePlus}>+</div>
+            <div className={classNames(styles.minus, disabledMin ? styles.disabled : '')} onClick={handleMinus}>-</div>
+            <input disabled={disabled} value={localValue} className={styles.input} type="number" onChange={handleLocalChange} />
+            <div className={classNames(styles.plus, disableMax ? styles.disabled : '')} onClick={handlePlus}>+</div>
         </div>
     );
 };

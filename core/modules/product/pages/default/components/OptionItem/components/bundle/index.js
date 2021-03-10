@@ -219,6 +219,7 @@ const OptionsItemsBundle = (props) => {
             handleAddToCart={handleAddToCart}
             loading={loading || loadingAdd}
             t={t}
+            disabled={stock_status === 'OUT_OF_STOCK'}
         />
     );
 };
