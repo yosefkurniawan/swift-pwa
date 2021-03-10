@@ -30,7 +30,7 @@ const ViewCurrency = (props) => {
     const styleTitle = { fontSize: 12, textTransform: 'uppercase' };
     const styleButtonCurrency = { fontFamily: 'Montserrat', padding: '0px', fontSize: title ? '12px' : '1em' };
 
-    const isEmptyCookiesCurrency = cookies_currency === undefined || cookies_currency === null;
+    const isEmptyCookiesCurrency = currencyState === undefined || currencyState === null;
     /**
      * loading state
      */
