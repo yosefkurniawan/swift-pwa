@@ -274,7 +274,7 @@ const modules = {
         enabled: true,
         checkoutOnly: false,
         path: '/checkout',
-        ipayUrl: 'ipayredirect/ipayredirect/?orderId=',
+        ipayUrl: 'ipay88/ipayredirect/?orderId=',
         snapUrl: {
             dev: 'https://app.sandbox.midtrans.com/snap/snap.js',
             prod: 'https://app.midtrans.com/snap/snap.js',
