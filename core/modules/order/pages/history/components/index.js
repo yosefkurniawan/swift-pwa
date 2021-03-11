@@ -1,3 +1,7 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-undef */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable eqeqeq */
 import classNames from 'classnames';
@@ -20,7 +24,7 @@ import useStyles from '../style';
 
 const DefaultView = (props) => {
     const {
-        data, t, page, storeConfig,
+        data, t, page, storeConfig, reOrder,
         pageSize, handleChangePage, handleChangePageSize, loadMore,
     } = props;
     const styles = useStyles();
@@ -217,6 +221,9 @@ const DefaultView = (props) => {
                                                                             </Link>
                                                                         )
                                                                         }
+                                                                        <a onClick={() => reOrder(val.order_number)}>
+                                                                            <Typography variant="span">{t('order:reorder')}</Typography>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </TableCell>
