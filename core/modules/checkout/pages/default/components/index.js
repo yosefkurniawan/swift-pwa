@@ -59,7 +59,12 @@ const Content = (props) => {
     return (
         <div id="checkout" className={classNames(styles.mobileBottomSpace, 'row between-lg')}>
             <div className="col-xs-12 center hidden-mobile">
-                <HeaderView t={t} storeConfig={storeConfig} />
+                <HeaderView
+                    t={t}
+                    storeConfig={storeConfig}
+                    checkout={checkout}
+                    setCheckout={setCheckout}
+                />
             </div>
             <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8" style={containerStyle || {}}>
                 {modules.checkout.cashback.enabled && checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (

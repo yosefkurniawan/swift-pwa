@@ -17,6 +17,12 @@ const cartAvailablePaymentMethods = `
     }
 `;
 
+const cartAvailFreeItems = `
+available_free_items{
+    sku
+    quantity
+}`;
+
 const cartBillingAddress = `
     billing_address {
         city
@@ -477,6 +483,7 @@ export const getCart = gql`
             ${cartShippingAddress}
             ${cartBillingAddress}
             ${selected_payment_method}
+            ${cartAvailFreeItems}
         }
     }
 `;
@@ -672,6 +679,7 @@ export const applyCouponToCart = gql`
                 ${cartShippingAddress}
                 ${cartAvailablePaymentMethods}
                 ${itemsProduct}
+                ${cartAvailFreeItems}
             }
         }
     }
@@ -689,6 +697,7 @@ export const removeCouponFromCart = gql`
                 ${cartShippingAddress}
                 ${cartAvailablePaymentMethods}
                 ${itemsProduct}
+                ${cartAvailFreeItems}
             }
         }
     }

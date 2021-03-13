@@ -1,7 +1,11 @@
 import Link from 'next/link';
+import PromoModalItem from '../PromoModalItem';
 
 const HeaderCheckout = ({
     storeConfig,
+    checkout,
+    setCheckout,
+    t,
 }) => (
     <div id="header">
         <Link href="/">
@@ -11,6 +15,12 @@ const HeaderCheckout = ({
                 alt="logo"
             />
         </Link>
+        <PromoModalItem
+            t={t}
+            storeConfig={storeConfig}
+            checkout={checkout}
+            setCheckout={setCheckout}
+        />
         <style jsx>
             {`
                  #header {
