@@ -60,68 +60,63 @@ export const getCmsBlocks = gql`
 export const getCustomer = gql`
     {
         customer {
-        id
-        firstname
-        lastname
-        email
+            id
+            firstname
+            lastname
+            email
         }
         wishlist {
-        items {
-            id
-        }
+            items {
+                id
+            }
         }
     }
 `;
 
 export const removeToken = gql`
-mutation {
-  internalDeleteCustomerToken{
-    result
-  }
-}
+    mutation {
+        internalDeleteCustomerToken {
+            result
+        }
+    }
 `;
 
 export const vesMenu = gql`
-    query getVesMenu(
-        $alias: String!
-    ) {
-        vesMenu(
-          alias: $alias
-        )
-        {
-          menu_id
-          name
-          items {
-            id
-            name
-            link
-            content_type
-            link_type
-            category_id
+    query getVesMenu($alias: String!) {
+        vesMenu(alias: $alias) {
             menu_id
-            children {
-              id
-              name
-              link
-              link_type
-              category_id
-              children {
-               id
-               name
-               link
-               link_type
-               category_id
-               children {
+            name
+            items {
                 id
                 name
                 link
+                content_type
                 link_type
+                category_id
+                menu_id
+                children {
+                    id
+                    name
+                    link
+                    link_type
+                    category_id
+                    children {
+                        id
+                        name
+                        link
+                        link_type
+                        category_id
+                        children {
+                            id
+                            name
+                            link
+                            link_type
+                        }
+                    }
                 }
-              }
             }
-          }
         }
-      }
+    }
 `;
 
 /**
@@ -160,9 +155,9 @@ export const getProduct = (key) => {
 };
 
 /**
- * scema dynamic resolver url
+ * schema dynamic resolver url
  * @param name String
- * @returns grapql query
+ * @returns graphql query
  */
 
 export const getCategoryByName = (name) => {
@@ -185,11 +180,33 @@ export const getCategoryByName = (name) => {
     return query;
 };
 
+/**
+ * [SCHEMA] get currency
+ * @param null
+ * @return {graphql}
+ */
+export const getCurrencySchema = gql`
+    {
+        currency {
+            base_currency_code
+            base_currency_symbol
+            default_display_currency_code
+            default_display_currency_symbol
+            available_currency_codes
+            exchange_rates {
+                currency_to
+                rate
+            }
+        }
+    }
+`;
+
 export default {
     categories,
     getCustomer,
     removeToken,
     vesMenu,
+    getCurrencySchema,
     getProduct,
     getCategoryByName,
 };
