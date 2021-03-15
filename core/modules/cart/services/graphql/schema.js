@@ -363,6 +363,19 @@ export const deleteCartitem = gql`
     }
 `;
 
+export const deleteCartItemOnPage = gql`
+    mutation deleteCartItem($cartId: String!, $cart_item_id: Int!) {
+      removeItemFromCart(
+        input: { cart_id: $cartId, cart_item_id: $cart_item_id }
+      ) {
+        cart {
+          ${applied_giftcard}
+          ${cartRequiredSelection}
+        }
+      }
+    }
+`;
+
 export const updateCartitem = gql`
     mutation updateCartItems($cartId: String!, $cart_item_id: Int!, $quantity: Float!) {
       updateCartItems(
