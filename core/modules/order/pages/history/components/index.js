@@ -222,7 +222,9 @@ const DefaultView = (props) => {
                                                                         )
                                                                         }
                                                                         <a onClick={() => reOrder(val.order_number)}>
-                                                                            <Typography variant="span">{t('order:reorder')}</Typography>
+                                                                            <Typography variant="span" type="regular" decoration="underline">
+                                                                                {t('order:reorder')}
+                                                                            </Typography>
                                                                         </a>
                                                                     </div>
                                                                 </div>
