@@ -28,7 +28,7 @@ const Cart = (props) => {
     } = props;
 
     const router = useRouter();
-    const { paymentFailed, order_id } = router.query;
+    const { paymentFailed, orderId } = router.query;
     const dataCart = {
         id: null,
         total_quantity: 0,
@@ -78,10 +78,10 @@ const Cart = (props) => {
     });
 
     React.useEffect(() => {
-        if (paymentFailed && order_id) {
+        if (paymentFailed && orderId) {
             reOrder({
                 variables: {
-                    order_id,
+                    order_id: orderId,
                 },
             });
         } else {
@@ -106,7 +106,7 @@ const Cart = (props) => {
             if (typeof window !== 'undefined') {
                 if (cart_id) {
                     setCartId(cart_id);
-                    if (paymentFailed && order_id) {
+                    if (paymentFailed && orderId) {
                         setTimeout(() => {
                             router.push('/checkout/cart');
                         }, 1000);
