@@ -61,5 +61,8 @@
     "maps": {
         "required": "Lokasi maps tidak boleh kosong"
     },
+    "guest": {
+        "wrong": "Anda harus login terlebih dahulu"
+    },
     "required": "tidak boleh kosong"
 }

@@ -14,7 +14,7 @@ import useStyles from './style';
 
 const Login = (props) => {
     const {
-        formik, otpConfig, isOtp, setIsOtp, t, setDisabled, disabled, loading, formikOtp,
+        formik, otpConfig, isOtp, setIsOtp, t, setDisabled, disabled, loading, formikOtp, toastMessage,
     } = props;
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
@@ -193,6 +193,7 @@ const Login = (props) => {
                         </div>
                     </div>
                 </div>
+                {toastMessage}
             </div>
         </div>
     );
