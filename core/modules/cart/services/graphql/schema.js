@@ -254,6 +254,7 @@ items {
 
 const cartRequiredSelection = `
 id
+errorItems
 total_quantity
 ${modules.checkout.cashback.enabled ? applied_cashback : ''}
 ${modules.rewardpoint.enabled ? applied_reward_points : ''}
@@ -276,6 +277,7 @@ export const getMiniCart = gql`
     query getCartData($cartId: String!) {
         cart(cart_id: $cartId) {
             id
+            errorItems
             total_quantity
             prices {
                 discounts {
@@ -343,6 +345,7 @@ export const getMiniCart = gql`
                 }
                 url_key
                 sku
+                stock_status
               }
           }
         }

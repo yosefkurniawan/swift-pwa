@@ -99,6 +99,17 @@ const useStyles = makeStyles(() => ({
             '& .product': {
                 minHeight: 80,
                 display: 'flow-root',
+                '& .oos-info': {
+                    paddingLeft: 88,
+                    paddingTop: 10,
+                    '& .oos-info-content': {
+                        padding: 5,
+                        borderRadius: 10,
+                        fontSize: 12,
+                        color: 'rgb(102, 9, 27)',
+                        backgroundColor: 'rgb(255, 231, 236)',
+                    },
+                },
             },
             '& .product-item-photo': {
                 float: 'left',

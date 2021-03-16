@@ -89,6 +89,12 @@ const Item = (props) => {
                         )}
                     </div>
                 </div>
+
+                { product.stock_status === 'OUT_OF_STOCK' && (
+                    <div className="oos-info">
+                        <span className="oos-info-content">{t('common:cart:oos')}</span>
+                    </div>
+                ) }
                 <div
                     className="delete"
                     onClick={() => {
@@ -97,6 +103,7 @@ const Item = (props) => {
                 >
                     x
                 </div>
+
             </div>
         </li>
     );

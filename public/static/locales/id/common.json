@@ -42,7 +42,8 @@
         "deleteFailed": "Hapus item cart gagal",
         "updateSuccess": "Update item cart berhasil",
         "updateFailed": "Update item cart gagal",
-        "emptyCart": "ANDA TIDAK MEMILIKI ITEM DI KERANJANG BELANJA ANDA."
+        "emptyCart": "ANDA TIDAK MEMILIKI ITEM DI KERANJANG BELANJA ANDA.",
+        "oos": "Stok habis"
     },
     "subtotal": "Subtotal",
     "price": {
