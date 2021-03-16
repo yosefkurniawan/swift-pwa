@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import * as Schema from './schema';
 
 export const getOrder = (params) => useQuery(Schema.getCustomerOrder, {
@@ -17,6 +17,13 @@ export const getOrderDetail = (params) => useQuery(Schema.getCustomerOrderDetail
     skip: typeof window === 'undefined',
 });
 
+export const reOrder = () => useMutation(Schema.reOrder, {
+    context: {
+        request: 'internal',
+    },
+});
+
 export default {
     getOrder,
+    reOrder,
 };

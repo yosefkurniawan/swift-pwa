@@ -85,6 +85,9 @@ const useStyles = makeStyles((theme) => ({
         ...CreatePadding(0, 12, 0, 12),
         position: 'relative',
         paddingBottom: 30,
+        '& .alert': {
+            marginTop: 10,
+        },
     },
     itemName: {
         textDecoration: 'none',
