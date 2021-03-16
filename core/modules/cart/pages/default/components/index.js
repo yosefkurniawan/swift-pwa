@@ -1,6 +1,5 @@
 import Route from 'next/router';
 import classNames from 'classnames';
-import Alert from '@material-ui/lab/Alert';
 import Summary from '../../../plugin/Summary';
 import useStyles from './style';
 
@@ -17,11 +16,6 @@ const Content = (props) => {
     return (
         <div className={classNames(styles.mobileBottomSpace, 'row')}>
             <div className="col-xs-12 col-sm-8 col-md-9" style={{ height: '100%' }}>
-                { errorCart && errorCart.length > 0 && errorCart.map((item, key) => (
-                    <Alert className={styles.alert} severity="error" key={key}>
-                        {item}
-                    </Alert>
-                )) }
                 <ItemView
                     data={dataCart}
                     t={t}
