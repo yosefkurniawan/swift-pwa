@@ -61,7 +61,15 @@ const Checkout = (props) => {
             Router.push(urlRedirect);
         }
     }
-    const { snap_is_production, snap_client_key, base_currency_code = 'IDR' } = storeConfig;
+
+    const {
+        snap_is_production, snap_client_key, base_currency_code = 'IDR', allow_guest_checkout,
+    } = storeConfig;
+    if (!allow_guest_checkout && !Cookies.get('isLogin')) {
+        urlRedirect = 'customer/account/login?redirect=/checkout&error=guest';
+        Router.push(urlRedirect);
+    }
+
     const configPage = {
         title: t('checkout:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)

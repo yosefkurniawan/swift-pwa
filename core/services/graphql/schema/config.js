@@ -38,6 +38,7 @@ export const storeConfig = `
             payments_configuration
             shipments_configuration
             snap_client_key
+            allow_guest_checkout
             snap_is_production
             aw_blog_general_enabled
             pickup_store
