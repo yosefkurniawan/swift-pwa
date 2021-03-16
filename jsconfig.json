@@ -110,6 +110,7 @@
             "@common_scrolltotop": ["core/modules/commons/ScrollToTop"],
             "@common_headermobile": ["core/modules/theme/components/header/mobile"],
             "@common_headerdesktop": ["core/modules/theme/components/header/desktop"],
+            "@common_currency": ["core/modules/theme/components/header/desktop/components/currency"],
             "@common_bottomnavigation": ["core/modules/theme/components/bottom-navigation/mobile"],
             "@common_footer": ["core/modules/theme/components/footer/desktop"],
             "@common_productlabel": ["core/modules/commons/ProductLabel"],

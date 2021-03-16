@@ -25,14 +25,9 @@ const Footer = dynamic(() => import('@common_footer'), { ssr: true });
 
 const Layout = (props) => {
     const footerStyles = useStyles();
+
     const {
-        pageConfig,
-        children,
-        CustomHeader = false,
-        i18n, storeConfig = {},
-        isLogin,
-        headerProps = {},
-        t,
+        pageConfig, children, app_cookies, CustomHeader = false, i18n, storeConfig = {}, isLogin, headerProps = {}, t,
     } = props;
     const {
         ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true,
@@ -143,23 +138,22 @@ const Layout = (props) => {
                 })}
                 <title>{pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa'}</title>
                 {schemaOrg
-                    ? (
-                        schemaOrg.map((val, idx) => (
-                            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} key={idx} />
-                        ))
-                    ) : null}
+                    ? schemaOrg.map((val, idx) => (
+                        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} key={idx} />
+                    ))
+                    : null}
             </Head>
             {features.customInstallApp.enabled ? <PopupInstallAppMobile /> : null}
             <header ref={refHeader}>
                 <div className="hidden-mobile">
-                    {headerDesktop ? (<HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} />) : null}
+                    {headerDesktop ? <HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} app_cookies={app_cookies} /> : null}
                 </div>
                 <div className="hidden-desktop">
-                    {
-                        React.isValidElement(CustomHeader)
-                            ? <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
-                            : <HeaderMobile {...headerProps} pageConfig={pageConfig} />
-                    }
+                    {React.isValidElement(CustomHeader) ? (
+                        <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
+                    ) : (
+                        <HeaderMobile {...headerProps} pageConfig={pageConfig} />
+                    )}
                 </div>
             </header>
 
@@ -176,28 +170,12 @@ const Layout = (props) => {
             </main>
             <footer className={footerStyles.footerContainer} ref={refFooter}>
                 <div className="hidden-mobile">
-                    {
-                        modules.customer.plugin.newsletter.enabled && footer ? (
-                            <Newsletter />
-                        ) : null
-                    }
+                    {modules.customer.plugin.newsletter.enabled && footer ? <Newsletter /> : null}
 
-                    {
-                        footer ? (
-                            <Footer
-                                storeConfig={storeConfig}
-                            />
-                        ) : null
-                    }
-                    <Copyright
-                        storeConfig={storeConfig}
-                    />
+                    {footer ? <Footer storeConfig={storeConfig} /> : null}
+                    <Copyright storeConfig={storeConfig} />
                 </div>
-                {
-                    desktop
-                        ? null
-                        : <BottomNavigation active={pageConfig.bottomNav} />
-                }
+                {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} />}
             </footer>
         </>
     );

@@ -44,7 +44,8 @@
         "deleteFailed": "Delete cart item failed",
         "updateSuccess": "Update cart item success",
         "updateFailed": "Update cart item failed",
-        "emptyCart": "YOU HAVE NO ITEMS IN YOUR SHOPPING CART."
+        "emptyCart": "YOU HAVE NO ITEMS IN YOUR SHOPPING CART.",
+        "oos": "Out of stock"
     },
     "subtotal": "Subtotal",
     "price": {
@@ -102,7 +103,10 @@
         "notification": "Notification",
         "myaccount": "My Account",
         "mywishlist": "My Wishlist",
-        "signout": "Sign Out"
+        "signout": "Sign Out",
+        "currency": "Currency",
+        "loading": "Loading",
+        "changeto": "Change to"
     },
     "header": {
         "welcome": "Welcome!",

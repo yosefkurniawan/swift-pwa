@@ -7,37 +7,33 @@
 /* eslint-disable max-len */
 import React from 'react';
 import App from 'next/app';
-import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '@theme_theme';
-import { appWithTranslation } from '@i18n';
-import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import Cookie from 'js-cookie';
 import helperCookies from '@helper_cookies';
+
+import { ThemeProvider } from '@material-ui/core/styles';
+import { appWithTranslation } from '@i18n';
+import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
 import {
-    expiredCookies, storeConfigNameCookie, GTM, custDataNameCookie, features, sentry,
+    storeConfigNameCookie, GTM, custDataNameCookie, features, sentry,
 } from '@config';
-import {
-    getLoginInfo,
-    getLastPathWithoutLogin,
-} from '@helper_auth';
+import { getLoginInfo, getLastPathWithoutLogin } from '@helper_auth';
 import { setResolver, testLocalStorage } from '@helper_localstorage';
-// import Fonts from '@helper_fonts';
+import { RewriteFrames } from '@sentry/integrations';
+import { Integrations } from '@sentry/tracing';
+import { unregister } from 'next-offline/runtime';
+
 import TagManager from 'react-gtm-module';
 import PageProgressLoader from '@common_loaders/PageProgress';
 import getConfig from 'next/config';
 import routeMiddleware from '@middleware_route';
 import graphRequest from '@graphql_request';
-import * as Sentry from '@sentry/node';
-import { RewriteFrames } from '@sentry/integrations';
-import { Integrations } from '@sentry/tracing';
-import { unregister } from 'next-offline/runtime';
 import Notification from '@lib_firebase/notification';
 import firebase from '@lib_firebase/index';
 
+import * as Sentry from '@sentry/node';
 import ModalCookies from '../components/modalCookies';
-
-let deferredPrompt;
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -97,18 +93,29 @@ class MyApp extends App {
         } else {
             isLogin = allcookie.isLogin || 0;
             customerData = allcookie[custDataNameCookie];
-            lastPathNoAuth = (req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth
-                && typeof req.session.lastPathNoAuth !== 'undefined')
-                ? req.session.lastPathNoAuth : '/customer/account';
+            lastPathNoAuth = req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
+                ? req.session.lastPathNoAuth
+                : '/customer/account';
         }
         isLogin = parseInt(isLogin);
+
+        /*
+         * ---------------------------------------------
+         * [COOKIES] OTHER
+         */
+        const app_cookies = { cookies_currency: req ? req.cookies.app_currency : null };
 
         /*
          * ---------------------------------------------
          * CALLING ROUTING MIDDLEWARE
          */
         routeMiddleware({
-            res, req, query, pathname, isLogin, lastPathNoAuth,
+            res,
+            req,
+            query,
+            pathname,
+            isLogin,
+            lastPathNoAuth,
         });
 
         /*
@@ -129,7 +136,12 @@ class MyApp extends App {
          */
         return {
             pageProps: {
-                ...pageProps, storeConfig, isLogin, lastPathNoAuth, customerData,
+                ...pageProps,
+                app_cookies,
+                storeConfig,
+                isLogin,
+                lastPathNoAuth,
+                customerData,
             },
         };
     }
@@ -167,10 +179,7 @@ class MyApp extends App {
                     navigator.serviceWorker.ready.then((registration) => {
                         // This prevents to show one notification for each tab
                         setTimeout(() => {
-                            console.log(
-                                '[firebase-messaging-sw.js] Received foreground message ',
-                                payload,
-                            );
+                            console.log('[firebase-messaging-sw.js] Received foreground message ', payload);
                             const lastNotification = localStorage.getItem('lastNotification');
                             const isDifferentContent = payload.data.updated_date !== lastNotification;
                             if (isDifferentContent) {
@@ -278,4 +287,4 @@ class MyApp extends App {
         );
     }
 }
-export default (appWithTranslation(MyApp));
+export default appWithTranslation(MyApp);

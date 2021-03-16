@@ -4,25 +4,25 @@ import { removeCartId } from '@helper_cartid';
 import Cookies from 'js-cookie';
 import { useApolloClient } from '@apollo/client';
 import { localTotalCart } from '@services/graphql/schema/local';
-import {
-    custDataNameCookie, features,
-} from '@config';
+import { custDataNameCookie, features } from '@config';
 import {
     getCategories, getCustomer, removeToken, getVesMenu,
 } from '../../../services/graphql';
 
 const CoreTopNavigation = (props) => {
     const {
-        Content, storeConfig, t, isLogin,
+        Content, storeConfig, t, app_cookies, isLogin,
     } = props;
     const [value, setValue] = React.useState('');
     const [deleteTokenGql] = removeToken();
 
-    const { data, loading } = features.vesMenu.enabled ? getVesMenu({
-        variables: {
-            alias: features.vesMenu.alias,
-        },
-    }) : getCategories();
+    const { data, loading } = features.vesMenu.enabled
+        ? getVesMenu({
+            variables: {
+                alias: features.vesMenu.alias,
+            },
+        })
+        : getCategories();
     let customerData = {};
     if (isLogin && typeof window !== 'undefined') {
         const customer = getCustomer();
@@ -33,15 +33,17 @@ const CoreTopNavigation = (props) => {
     const client = useApolloClient();
 
     const handleLogout = () => {
-        deleteTokenGql().then(() => {
-            Cookies.remove(custDataNameCookie);
-            removeIsLoginFlagging();
-            removeCartId();
-            client.writeQuery({ query: localTotalCart, data: { totalCart: 0 } });
-            Router.push('/customer/account/login');
-        }).catch(() => {
-            //
-        });
+        deleteTokenGql()
+            .then(() => {
+                Cookies.remove(custDataNameCookie);
+                removeIsLoginFlagging();
+                removeCartId();
+                client.writeQuery({ query: localTotalCart, data: { totalCart: 0 } });
+                Router.push('/customer/account/login');
+            })
+            .catch(() => {
+                //
+            });
     };
 
     const handleSearch = (ev) => {
@@ -75,6 +77,7 @@ const CoreTopNavigation = (props) => {
             customer={customerData}
             handleLogout={handleLogout}
             value={value}
+            app_cookies={app_cookies}
         />
     );
 };

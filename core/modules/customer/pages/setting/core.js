@@ -6,7 +6,7 @@ import { getCustomerSettings } from '../../services/graphql';
 
 const SettingsPage = (props) => {
     const {
-        t, Content, i18n, pageConfig,
+        t, Content, i18n, pageConfig, app_cookies,
     } = props;
     const config = {
         title: t('customer:setting:title'),
@@ -74,6 +74,7 @@ const SettingsPage = (props) => {
                 lang={lang}
                 setLang={setLang}
                 handleSave={handleSave}
+                app_cookies={app_cookies}
             />
         </Layout>
     );

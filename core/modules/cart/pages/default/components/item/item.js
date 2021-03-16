@@ -5,7 +5,7 @@ import CreateOutlined from '@material-ui/icons/CreateOutlined';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import DeleteOutlineOutlined from '@material-ui/icons/DeleteOutlineOutlined';
 import { formatPrice } from '@helper_currency';
-
+import Alert from '@material-ui/lab/Alert';
 import { features } from '@config';
 import Image from '@common_image';
 import useStyles from '../style';
@@ -91,6 +91,11 @@ const ItemView = (props) => {
                         {quantity}
                     </div>
                 </div>
+                {product.stock_status === 'OUT_OF_STOCK' && (
+                    <Alert severity="error" className="alert m-15">
+                        { t('cart:oos') }
+                    </Alert>
+                )}
                 <div className={styles.itemPrice}>
                     {formatPrice(prices.price_including_tax.value, prices.price_including_tax.currency)}
                 </div>
