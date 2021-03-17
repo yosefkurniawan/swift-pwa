@@ -546,6 +546,47 @@ export const setShippingAddressByInput = gql`
     }
 `;
 
+export const setBillingAddressVirtualProduct = gql`
+    mutation setBillingAddressById(
+            $cartId: String!,
+            $city: String!
+            $countryCode: String!
+            $firstname: String!
+            $lastname: String!
+            $telephone: String!
+            $postcode: String!
+            $street: String!
+            $region: String!
+            $latitude: String
+            $longitude: String
+        ) {
+        setBillingAddressOnCart(input: { 
+                cart_id: $cartId, 
+                billing_address: { 
+                    same_as_shipping: true, 
+                    address:{
+                        city: $city
+                        country_code: $countryCode
+                        firstname: $firstname
+                        lastname: $lastname
+                        telephone: $telephone
+                        region: $region
+                        street: [$street]
+                        postcode: $postcode
+                        latitude: $latitude
+                        longitude: $longitude
+                        save_in_address_book: true
+                    } 
+            } 
+        }) {
+            cart {
+                ${cartBillingAddress}
+
+            }
+        }
+    }
+`;
+
 export const setBillingAddressById = gql`
     mutation setBillingAddressById($addressId: Int!, $cartId: String!) {
         setBillingAddressOnCart(input: { cart_id: $cartId, billing_address: { same_as_shipping: true, customer_address_id: $addressId } }) {
