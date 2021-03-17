@@ -1,6 +1,7 @@
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Link from 'next/link';
+import ComponentCurrencyExchange from './currency';
 
 const ViewTop = (props) => {
     const {
@@ -72,6 +73,9 @@ const ViewTop = (props) => {
                     {' '}
                 </li>
             ) : null}
+            <li>
+                <ComponentCurrencyExchange {...props} />
+            </li>
 
             <style jsx>
                 {`

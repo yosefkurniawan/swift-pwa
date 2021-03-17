@@ -61,5 +61,8 @@
     "maps": {
         "required": "Maps location is required"
     },
+    "guest": {
+        "wrong": "You must login first"
+    },
     "required": "is required"
 }

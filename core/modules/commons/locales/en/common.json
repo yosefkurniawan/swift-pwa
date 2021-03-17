@@ -101,7 +101,10 @@
         "notification": "Notification",
         "myaccount": "My Account",
         "mywishlist": "My Wishlist",
-        "signout": "Sign Out"
+        "signout": "Sign Out",
+        "currency": "Currency",
+        "loading": "Loading",
+        "changeto": "Change to"
     },
     "header": {
         "welcome": "Welcome!",

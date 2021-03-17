@@ -1,13 +1,16 @@
 import Layout from '@layout';
 import { debuging } from '@config';
+import { setCartId } from '@helper_cartid';
 import PropTypes from 'prop-types';
 import CustomerLayout from '@layout_customer';
-import { getOrder } from '../../services/graphql';
+import { useRouter } from 'next/router';
+import { getOrder, reOrder as mutationReorder } from '../../services/graphql';
 
 const HistoryOrder = (props) => {
     const {
         t, Content, Skeleton, ErrorView, size,
     } = props;
+    const router = useRouter();
     const pageConfig = {
         title: t('order:title'),
         header: 'relative', // available values: "absolute", "relative", false (default)
@@ -17,6 +20,8 @@ const HistoryOrder = (props) => {
     const [page, setPage] = React.useState(0);
     const [pageSize, setPageSize] = React.useState(size || 10);
     const [loadMore, setLoadMore] = React.useState(false);
+
+    const [actionReorder] = mutationReorder();
 
     const handleChangePage = (event, newPage) => {
         if (newPage > page) {
@@ -65,6 +70,27 @@ const HistoryOrder = (props) => {
         );
     }
 
+    const reOrder = (order_id) => {
+        if (order_id && order_id !== '') {
+            window.backdropLoader(true);
+            actionReorder({
+                variables: {
+                    order_id,
+                },
+            }).then(async (res) => {
+                if (res.data && res.data.reorder && res.data.reorder.cart_id) {
+                    await setCartId(res.data.reorder.cart_id);
+                    setTimeout(() => {
+                        router.push('/checkout/cart');
+                    }, 1000);
+                }
+                window.backdropLoader(false);
+            }).catch(() => {
+                window.backdropLoader(false);
+            });
+        }
+    };
+
     return (
         <Layout pageConfig={pageConfig} {...props}>
             <Content
@@ -76,6 +102,7 @@ const HistoryOrder = (props) => {
                 loading={loading}
                 handleChangePage={handleChangePage}
                 handleChangePageSize={handleChangePageSize}
+                reOrder={reOrder}
             />
         </Layout>
     );

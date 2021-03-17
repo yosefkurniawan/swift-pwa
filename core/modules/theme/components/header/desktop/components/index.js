@@ -15,14 +15,14 @@ import OptionAutocomplete from './autocomplete/view';
 
 const ViewTopNavigation = (props) => {
     const {
-        storeConfig, handleSearch, searchByClick, setValue, value, data, loading, t, isLogin, customer, handleLogout,
+        storeConfig, handleSearch, searchByClick, setValue, value, data, loading, t, isLogin, customer, handleLogout, app_cookies,
     } = props;
     return (
         <div id="header">
             <div className="row header-top">
                 <main style={{ width: '97%' }}>
                     {features.customInstallApp.enabled ? <DesktopInstallApp /> : null}
-                    <TopMenu t={t} isLogin={isLogin} data={customer} handleLogout={handleLogout} />
+                    <TopMenu t={t} isLogin={isLogin} data={customer} handleLogout={handleLogout} app_cookies={app_cookies} />
                 </main>
             </div>
             <main style={{ width: '100%', maxWidth: 'unset' }}>
@@ -39,15 +39,17 @@ const ViewTopNavigation = (props) => {
                             </div>
                         </div>
                         <div className="header-middle__center">
-                            <div className="header-small__menu">
-                                {loading ? null : <Menu data={data} storeConfig={storeConfig} />}
-                            </div>
+                            <div className="header-small__menu">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
                         </div>
                         <div className="header-middle__right">
                             <div className="box">
                                 <div className="header-middle__icons">
-                                    <div className="notification"><NotificationBell withLink /></div>
-                                    <div className="shopping-bag"><ShoppingBagIcon withLink /></div>
+                                    <div className="notification">
+                                        <NotificationBell withLink />
+                                    </div>
+                                    <div className="shopping-bag">
+                                        <ShoppingBagIcon withLink />
+                                    </div>
                                 </div>
                                 <div className="header-middle__search">
                                     {/* <TextField
@@ -56,18 +58,9 @@ const ViewTopNavigation = (props) => {
                                         onChange={(e) => setValue(e.target.value)}
                                         onKeyPress={(e) => handleSearch(e)}
                                     /> */}
-                                    <Autocomplete
-                                        setValue={setValue}
-                                        handleSearch={handleSearch}
-                                        OptionsItem={OptionAutocomplete}
-                                    />
+                                    <Autocomplete setValue={setValue} handleSearch={handleSearch} OptionsItem={OptionAutocomplete} />
                                     <div className="search-icon">
-                                        <IconButton
-                                            disabled={value === ''}
-                                            edge="start"
-                                            onClick={searchByClick}
-                                            aria-label="close"
-                                        >
+                                        <IconButton disabled={value === ''} edge="start" onClick={searchByClick} aria-label="close">
                                             <SearchIcon />
                                         </IconButton>
                                     </div>
@@ -77,11 +70,8 @@ const ViewTopNavigation = (props) => {
                     </div>
 
                     <div className="row menu-category">
-                        <div className="col-xs-12">
-                            {loading ? null : <Menu data={data} storeConfig={storeConfig} />}
-                        </div>
+                        <div className="col-xs-12">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
                     </div>
-
                 </div>
             </main>
             <style jsx>
@@ -89,18 +79,18 @@ const ViewTopNavigation = (props) => {
                     #header {
                         height: 170px;
                     }
-                    .header-main{
+                    .header-main {
                         max-width: 1440px;
                         width: 97%;
                         margin: 0 auto;
                     }
                     @media (min-width: 768px) {
-                        #header{
+                        #header {
                             position: fixed;
                             width: 100%;
-                            background:white;
-                            z-index:3;
-                            top:0;
+                            background: white;
+                            z-index: 3;
+                            top: 0;
                             transition: top 1s ease;
                         }
                     }
@@ -160,7 +150,7 @@ const ViewTopNavigation = (props) => {
                         float: right;
                         position: relative;
                     }
-                    .menu-category{
+                    .menu-category {
                         width: fit-content;
                     }
                 `}

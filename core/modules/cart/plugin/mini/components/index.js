@@ -4,7 +4,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useRouter } from 'next/router';
 import { formatPrice } from '@helper_currency';
-import Alert from '@material-ui/lab/Alert';
 
 import Drawer from '@material-ui/core/Drawer';
 import Skeleton from './skeleton';
@@ -30,13 +29,6 @@ const MiniComponent = (props) => {
                     <span>{t('common:cart:myCart')}</span>
                     <span onClick={setOpen}>{t('common:button:close')}</span>
                 </div>
-                <div>
-                    { errorCart && errorCart.length > 0 && errorCart.map((item, key) => (
-                        <Alert className={styles.alert} severity="error" key={key}>
-                            {item}
-                        </Alert>
-                    )) }
-                </div>
                 {loading || !data.items ? <Skeleton /> : <ItemCart data={data.items} t={t} deleteCart={deleteCart} updateCart={updateCart} />}
                 {data && data.total_quantity > 0 ? (
                     <div className={styles.mini_bottom}>
@@ -60,19 +52,19 @@ const MiniComponent = (props) => {
                         >
                             {t('common:button:viewandedit')}
                         </div>
-                        <div className="checkout">
-                            <div
-                                className={disabled ? 'checkout-button disabled-button' : 'checkout-button'}
-                                onClick={() => {
-                                    if (!disabled) {
+                        { !disabled && (
+                            <div className="checkout">
+                                <div
+                                    className="checkout-button"
+                                    onClick={() => {
                                         setOpen();
                                         router.push('/checkout');
-                                    }
-                                }}
-                            >
-                                {t('common:button:goCheckout')}
+                                    }}
+                                >
+                                    {t('common:button:goCheckout')}
+                                </div>
                             </div>
-                        </div>
+                        ) }
                     </div>
                 ) : null}
             </div>

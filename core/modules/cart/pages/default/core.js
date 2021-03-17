@@ -28,7 +28,7 @@ const Cart = (props) => {
     } = props;
 
     const router = useRouter();
-    const { paymentFailed, order_id } = router.query;
+    const { paymentFailed, orderId } = router.query;
     const dataCart = {
         id: null,
         total_quantity: 0,
@@ -62,7 +62,7 @@ const Cart = (props) => {
     };
 
     // delete item from cart
-    const [actDeleteItem, deleteData] = useMutation(Schema.deleteCartitem);
+    const [actDeleteItem, deleteData] = useMutation(Schema.deleteCartItemOnPage);
     const [actUpdateItem, update] = useMutation(Schema.updateCartitem);
 
     // reorder
@@ -78,10 +78,10 @@ const Cart = (props) => {
     });
 
     React.useEffect(() => {
-        if (paymentFailed && order_id) {
+        if (paymentFailed && orderId) {
             reOrder({
                 variables: {
-                    order_id,
+                    order_id: orderId,
                 },
             });
         } else {
@@ -106,7 +106,7 @@ const Cart = (props) => {
             if (typeof window !== 'undefined') {
                 if (cart_id) {
                     setCartId(cart_id);
-                    if (paymentFailed && order_id) {
+                    if (paymentFailed && orderId) {
                         setTimeout(() => {
                             router.push('/checkout/cart');
                         }, 1000);
@@ -264,7 +264,7 @@ const Cart = (props) => {
 
     React.useMemo(() => {
         if (!deleteData.loading && deleteData.data && deleteData.data.removeItemFromCart) {
-            setCart(Object.assign(cart, deleteData.data.removeItemFromCart.cart));
+            setCart({ ...deleteData.data.removeItemFromCart.cart });
         }
     }, [deleteData.loading]);
 
