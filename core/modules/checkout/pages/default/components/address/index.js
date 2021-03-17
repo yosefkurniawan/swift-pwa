@@ -65,26 +65,31 @@ const Address = (props) => {
     const updateAddressState = (result) => {
         const state = { ...checkout };
         const updatedCart = result.data.setBillingAddressOnCart.cart;
-        const [shippingAddress] = updatedCart?.shipping_addresses;
-        let shippingMethods = [];
-        if (shippingAddress !== undefined || shippingAddress !== null) {
-            shippingMethods = shippingAddress.available_shipping_methods.map((shipping) => ({
-                ...shipping,
-                label: `${shipping.method_title} ${shipping.carrier_title}`,
-                value: {
-                    name: { carrier_code: shipping.carrier_code, method_code: shipping.method_code },
-                    price: formatPrice(shipping.amount.value, shipping.amount.currency),
-                },
-            }));
-        }
-
-        if (shippingAddress) {
-            if (shippingAddress.selected_shipping_method === null) {
-                state.selected.shipping = null;
+        if (isOnlyVirtualProductOnCart) {
+            state.selected.billing = updatedCart?.billing_address;
+            state.selected.address = updatedCart?.billing_address;
+        } else {
+            const [shippingAddress] = updatedCart.shipping_addresses;
+            let shippingMethods = [];
+            if (shippingAddress !== undefined || shippingAddress !== null) {
+                shippingMethods = shippingAddress.available_shipping_methods.map((shipping) => ({
+                    ...shipping,
+                    label: `${shipping.method_title} ${shipping.carrier_title}`,
+                    value: {
+                        name: { carrier_code: shipping.carrier_code, method_code: shipping.method_code },
+                        price: formatPrice(shipping.amount.value, shipping.amount.currency),
+                    },
+                }));
             }
-        }
 
-        state.data.shippingMethods = shippingMethods;
+            if (shippingAddress) {
+                if (shippingAddress.selected_shipping_method === null) {
+                    state.selected.shipping = null;
+                }
+            }
+
+            state.data.shippingMethods = shippingMethods;
+        }
         state.loading.addresses = false;
         const mergeCart = {
             ...state.data.cart,
@@ -110,6 +115,8 @@ const Address = (props) => {
                     variables: {
                         cartId: cart.id,
                         ...selectedAddress,
+                        latitude,
+                        longitude,
                     },
                 })
                     .then((resBilling) => {
