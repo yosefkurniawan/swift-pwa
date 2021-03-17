@@ -88,4 +88,7 @@ export default makeStyles(() => ({
         right: '45px',
         textAlign: 'right',
     },
+    btnAddToCart: {
+        width: '100%', alignItems: 'center', paddingTop: 20, bottom: 0,
+    },
 }));

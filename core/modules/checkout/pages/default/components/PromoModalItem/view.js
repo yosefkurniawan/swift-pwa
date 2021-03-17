@@ -6,80 +6,59 @@ import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@common_typography';
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
+import RedeemIcon from '@material-ui/icons/Redeem';
 import ProductItem from '@core_modules/catalog/plugin/ProductItem';
 import useStyles from './style';
-import { getProductBySku, addWishlist as mutationAddWishlist } from '../../../../../product/services/graphql';
 
 const Caraousel = dynamic(() => import('@common_slick/Caraousel'), { ssr: false });
 
-const ItemView = (props) => {
+const PromoModalItemView = (props) => {
     const {
-        t, checkout, setCheckout, formik, Content, isLogin,
+        items, handleAddToCart, handleClickOpen, handleClose, open,
     } = props;
     const styles = useStyles();
-    const dataArray = [];
-
-    const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    let contentCaraousel = '';
-    console.log(checkout);
-    if (checkout && checkout.data) {
-        if (checkout.data.cart) {
-            if (checkout.data.cart.available_free_items) {
-                if (checkout.data.cart.available_free_items.length > 0) {
-                    for (const [key, value] of Object.entries(checkout.data.cart.available_free_items)) {
-                        // console.log(value.sku, key);
-                        dataArray.push(value.sku);
-                    }
-                }
-            }
-        }
-    }
-    if (dataArray) {
-        const { data } = getProductBySku({ variables: { sku: dataArray } });
-        if (data && data.products) {
-            if (data.products.items.length > 0) {
-                contentCaraousel = <Caraousel data={data.products.items} Item={ProductItem} />;
-            }
-        }
-    }
 
     return (
         <div>
-            {(checkout.data && checkout.data.cart && checkout.data.cart.available_free_items) && (
-                <>
-                    <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-                        Open dialog
+            <div className={styles.freeItemContainer}>
+                <RedeemIcon />
+            &nbsp;
+                <span>
+                    Select your
+                    <Button variant="text" color="primary" onClick={handleClickOpen}>
+                        <Typography type="bold" letter="uppercase">
+                            Free Gift!
+                        </Typography>
                     </Button>
-                    <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-                        <MuiDialogTitle disableTypography className={styles.root} id="customized-dialog-title">
-                            <Typography variant="h6">Promo Items</Typography>
-                            {handleClose ? (
-                                <IconButton aria-label="close" className={styles.closeButton} onClick={handleClose}>
-                                    <CloseIcon />
-                                </IconButton>
-                            ) : null}
-                        </MuiDialogTitle>
-                        <div className={styles.padding}>
-                            <div className={classNames(styles.carouselContainer, 'col-xs-12 col-lg-12')}>
-                                {contentCaraousel}
-                            </div>
-                        </div>
-                    </Dialog>
-                </>
-            )}
+                </span>
+
+                <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="md">
+                    <MuiDialogTitle disableTypography className={styles.root} id="customized-dialog-title">
+                        <Typography variant="h6">Free Promo Items</Typography>
+                        {handleClose ? (
+                            <IconButton aria-label="close" className={styles.closeButton} onClick={handleClose}>
+                                <CloseIcon />
+                            </IconButton>
+                        ) : null}
+                    </MuiDialogTitle>
+                    <div className={classNames(styles.carouselContainer, 'col-xs-12 col-lg-12')}>
+                        <Caraousel
+                            data={items}
+                            Item={ProductItem}
+                            enableAddToCart
+                            handleAddToCart={handleAddToCart}
+                            enableWishlist={false}
+                            enablePrice={false}
+                            enableRating={false}
+                        />
+                    </div>
+                </Dialog>
+            </div>
         </div>
     );
 };
 
-export default ItemView;
+export default PromoModalItemView;

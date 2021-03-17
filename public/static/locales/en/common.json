@@ -35,7 +35,8 @@
         "viewAll": "View All",
         "close": "Close",
         "goCheckout": "Go to checkout",
-        "viewandedit": "View and Edit"
+        "viewandedit": "View and Edit",
+        "addToCart": "Add To Cart"
     },
     "cart": {
         "myCart": "My Cart",

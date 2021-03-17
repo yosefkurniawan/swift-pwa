@@ -259,6 +259,9 @@ const modules = {
             rating: {
                 enabled: true,
             },
+            addToCart: {
+                enabled: false,
+            },
         },
         pdp: {
             popupDetailImage: {

@@ -14,10 +14,10 @@ import ConfigurableOpt from './components/ConfigurableProductItem';
 const ProductItem = (props) => {
     const {
         id, url_key = '', categorySelect, review, ImageProductView, DetailProductView, LabelView, className = '',
-        ...other
+        handleAddToCart: customAddToCart, ...other
     } = props;
     const styles = useStyles();
-    const { t } = useTranslation(['catalog']);
+    const { t } = useTranslation(['catalog', 'common']);
     const [feed, setFeed] = React.useState(false);
     const [spesificProduct, setSpesificProduct] = React.useState({});
 
@@ -63,6 +63,17 @@ const ProductItem = (props) => {
         route.push('/[...slug]', `/${url_key}`);
     };
 
+    const handleAddToCart = () => {
+        if (customAddToCart && typeof customAddToCart === 'function') {
+            customAddToCart({ id, ...other });
+        } else {
+            window.backdropLoader(true);
+            setTimeout(() => {
+                window.backdropLoader(false);
+            });
+        }
+    };
+
     const ratingValue = review && review.rating_summary ? parseInt(review.rating_summary, 0) / 20 : 0;
     const DetailProps = {
         spesificProduct,
@@ -70,6 +81,7 @@ const ProductItem = (props) => {
         handleFeed,
         ratingValue,
         feed,
+        handleAddToCart,
     };
     return (
         <>
@@ -83,7 +95,7 @@ const ProductItem = (props) => {
                     <ImageProductView handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
                 </div>
                 <div className={styles.detailItem}>
-                    <DetailProductView {...DetailProps} {...other} />
+                    <DetailProductView t={t} {...DetailProps} {...other} />
                     {modules.catalog.productListing.configurableOptions.enabled ? (
                         <ConfigurableOpt setSpesificProduct={setSpesificProduct} {...other} />
                     ) : null}

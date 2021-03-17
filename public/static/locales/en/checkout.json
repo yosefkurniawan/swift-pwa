@@ -56,7 +56,9 @@
         "address": {
             "add": "Please add shipping address",
             "default": "No Default Address"
-        }
+        },
+        "addFreeItemPromoSuccess": "Free item success add to cart",
+        "addFreeItemPromoFailed": "Free item failed add to cart"
     },
     "checkBalance": "Check balance",
     "myPoint": {
