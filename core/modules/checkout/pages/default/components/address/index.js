@@ -23,6 +23,7 @@ const Address = (props) => {
     const [setBillingAddressById] = gqlService.setBillingAddressById();
     const [setBillingAddressByInput] = gqlService.setBillingAddressByInput();
     const [setDefaultAddress] = gqlService.updatedDefaultAddress();
+    const [setBillingAddressVirtualProduct] = gqlService.setBillingAddressVirtualProduct();
 
     const { address } = checkout.selected;
     const { loading, data } = checkout;
@@ -63,25 +64,32 @@ const Address = (props) => {
 
     const updateAddressState = (result) => {
         const state = { ...checkout };
-
         const updatedCart = result.data.setBillingAddressOnCart.cart;
-        const [shippingAddress] = updatedCart.shipping_addresses;
-        let shippingMethods = [];
-        if (shippingAddress !== undefined || shippingAddress !== null) {
-            shippingMethods = shippingAddress.available_shipping_methods.map((shipping) => ({
-                ...shipping,
-                label: `${shipping.method_title} ${shipping.carrier_title}`,
-                value: {
-                    name: { carrier_code: shipping.carrier_code, method_code: shipping.method_code },
-                    price: formatPrice(shipping.amount.value, shipping.amount.currency),
-                },
-            }));
-        }
+        if (isOnlyVirtualProductOnCart) {
+            state.selected.billing = updatedCart?.billing_address;
+            state.selected.address = updatedCart?.billing_address;
+        } else {
+            const [shippingAddress] = updatedCart.shipping_addresses;
+            let shippingMethods = [];
+            if (shippingAddress !== undefined || shippingAddress !== null) {
+                shippingMethods = shippingAddress.available_shipping_methods.map((shipping) => ({
+                    ...shipping,
+                    label: `${shipping.method_title} ${shipping.carrier_title}`,
+                    value: {
+                        name: { carrier_code: shipping.carrier_code, method_code: shipping.method_code },
+                        price: formatPrice(shipping.amount.value, shipping.amount.currency),
+                    },
+                }));
+            }
 
-        if (shippingAddress.selected_shipping_method === null) {
-            state.selected.shipping = null;
+            if (shippingAddress) {
+                if (shippingAddress.selected_shipping_method === null) {
+                    state.selected.shipping = null;
+                }
+            }
+
+            state.data.shippingMethods = shippingMethods;
         }
-        state.data.shippingMethods = shippingMethods;
         state.loading.addresses = false;
         const mergeCart = {
             ...state.data.cart,
@@ -102,40 +110,58 @@ const Address = (props) => {
         const { latitude, longitude } = selectedAddress;
 
         if (checkout.data.isGuest) {
-            setShippingAddressByInput({
-                variables: {
-                    cartId: cart.id,
-                    ...selectedAddress,
-                    latitude,
-                    longitude,
-                },
-            })
-                .then(async (resAddress) => {
-                    const [shipping] = resAddress.data.setShippingAddressesOnCart.cart.shipping_addresses;
-                    if (shipping) {
-                        checkout.selected.address = shipping;
-                        checkout.loading.addresses = false;
-                        await setCheckout(checkout);
-                    }
-                    setBillingAddressByInput({
-                        variables: {
-                            cartId: cart.id,
-                            ...selectedAddress,
-                            latitude,
-                            longitude,
-                        },
-                    })
-                        .then((resBilling) => {
-                            updateAddressState(resBilling);
-                            resolve();
-                        })
-                        .catch((e) => {
-                            reject(e);
-                        });
+            if (isOnlyVirtualProductOnCart) {
+                setBillingAddressVirtualProduct({
+                    variables: {
+                        cartId: cart.id,
+                        ...selectedAddress,
+                        latitude,
+                        longitude,
+                    },
                 })
-                .catch((e) => {
-                    reject(e);
-                });
+                    .then((resBilling) => {
+                        updateAddressState(resBilling);
+                        resolve();
+                    })
+                    .catch((e) => {
+                        reject(e);
+                    });
+            } else {
+                setShippingAddressByInput({
+                    variables: {
+                        cartId: cart.id,
+                        ...selectedAddress,
+                        latitude,
+                        longitude,
+                    },
+                })
+                    .then(async (resAddress) => {
+                        const [shipping] = resAddress.data.setShippingAddressesOnCart.cart.shipping_addresses;
+                        if (shipping) {
+                            checkout.selected.address = shipping;
+                            checkout.loading.addresses = false;
+                            await setCheckout(checkout);
+                        }
+                        setBillingAddressByInput({
+                            variables: {
+                                cartId: cart.id,
+                                ...selectedAddress,
+                                latitude,
+                                longitude,
+                            },
+                        })
+                            .then((resBilling) => {
+                                updateAddressState(resBilling);
+                                resolve();
+                            })
+                            .catch((e) => {
+                                reject(e);
+                            });
+                    })
+                    .catch((e) => {
+                        reject(e);
+                    });
+            }
         } else if (isOnlyVirtualProductOnCart) {
             setBillingAddressById({
                 variables: {
