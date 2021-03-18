@@ -126,10 +126,16 @@ export const getCustomerCartId = () => useLazyQuery(Schema.getCartIdUser, {
     fetchPolicy: 'no-cache',
 });
 
+export const reOrder = () => useMutation(Schema.reOrder, {
+    context: {
+        request: 'internal',
+    },
+});
+
 export const newPassword = () => useMutation(Schema.setNewPassword);
 
 export const subscribeNewsletter = () => useMutation(Schema.subscribeNewsletter);
 
 export default {
-    getCountries, getCityByRegionId, customerNotificationList, getCustomer, getCustomerOrder,
+    getCountries, getCityByRegionId, customerNotificationList, getCustomer, getCustomerOrder, reOrder,
 };

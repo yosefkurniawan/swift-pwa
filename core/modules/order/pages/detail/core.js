@@ -3,7 +3,8 @@ import CustomerLayout from '@layout_customer';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { features } from '@config';
-import { getOrderDetail } from '../../services/graphql';
+import { setCartId } from '@helper_cartid';
+import { getOrderDetail, reOrder as mutationReorder } from '../../services/graphql';
 
 const OrderDetail = (props) => {
     const {
@@ -23,6 +24,7 @@ const OrderDetail = (props) => {
         order_id: id,
     });
     const { loading, data, error } = getOrderDetail(params);
+    const [actionReorder] = mutationReorder();
     if (loading || !data || error) {
         return (
             <Layout pageConfig={pageConfig} {...props}>
@@ -44,9 +46,31 @@ const OrderDetail = (props) => {
         headerTitle: `${t('order:order')} #${detail.length > 0 ? detail[0].order_number : ''}`,
         bottomNav: false,
     };
+
+    const reOrder = () => {
+        if (id && id !== '') {
+            window.backdropLoader(true);
+            actionReorder({
+                variables: {
+                    order_id: id,
+                },
+            }).then(async (res) => {
+                if (res.data && res.data.reorder && res.data.reorder.cart_id) {
+                    await setCartId(res.data.reorder.cart_id);
+                    setTimeout(() => {
+                        router.push('/checkout/cart');
+                    }, 1000);
+                }
+                window.backdropLoader(false);
+            }).catch(() => {
+                window.backdropLoader(false);
+            });
+        }
+    };
+
     return (
         <Layout pageConfig={pageConfig} {...props}>
-            <Content {...props} detail={detail} currency={currency} features={features} />
+            <Content {...props} detail={detail} currency={currency} features={features} reOrder={reOrder} />
         </Layout>
     );
 };
@@ -57,8 +81,8 @@ OrderDetail.propTypes = {
 };
 
 OrderDetail.defaultProps = {
-    Content: () => {},
-    Skeleton: () => {},
+    Content: () => { },
+    Skeleton: () => { },
 };
 
 export default OrderDetail;

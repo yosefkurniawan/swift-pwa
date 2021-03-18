@@ -1,4 +1,5 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import { GRAY_PRIMARY } from '@theme_color';
 import {
     CreatePadding,
     FlexColumn,
@@ -83,6 +84,23 @@ export default makeStyles((theme) => ({
         },
     },
     blockIcon: {
-        ...Centering
-    }
+        ...Centering,
+    },
+
+    wrapperButton: {
+        width: 80,
+        border: `1px solid ${GRAY_PRIMARY}`,
+        ...CreatePadding(5, 5, 5, 5),
+        ...CreateMargin(5, 0, 0, 0),
+        ...Centering,
+    },
+
+    reorderButton: {
+        backgroundColor: 'Transparent',
+        backgroundRepeat: 'no-repeat',
+        border: 'none',
+        cursor: 'pointer',
+        overflow: 'hidden',
+        outline: 'none',
+    },
 }));

@@ -12,7 +12,9 @@ import { formatPrice } from '@helper_currency';
 import formatDate from '@helper_date';
 
 const OrderView = (props) => {
-    const { customerOrders, styles, t } = props;
+    const {
+        customerOrders, styles, t, reOrder,
+    } = props;
     return (
         <>
             <h2 className={styles.infoTitle}>
@@ -38,6 +40,7 @@ const OrderView = (props) => {
                                     <TableCell>{t('customer:order:orderTotal')}</TableCell>
                                     <TableCell>{t('customer:order:status')}</TableCell>
                                     <TableCell>{t('customer:order:action')}</TableCell>
+                                    <TableCell />
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -67,6 +70,15 @@ const OrderView = (props) => {
                                                         <Link href={`/sales/order/view/order_id/${val.order_number}`}>
                                                             <a className={styles.desktopLink}>Detail</a>
                                                         </Link>
+                                                    </TableCell>
+                                                    <TableCell component="td" scope="row">
+                                                        <button
+                                                            type="button"
+                                                            className={styles.reorderButton}
+                                                            onClick={() => reOrder(val.order_number)}
+                                                        >
+                                                            Reorder
+                                                        </button>
                                                     </TableCell>
                                                 </TableRow>
                                             ))}
