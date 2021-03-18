@@ -17,7 +17,7 @@ import OrderStatusIcon from './OrderStatusIcon';
 
 const DetailOrder = (props) => {
     const {
-        t, detail, currency, features,
+        t, detail, currency, features, reOrder,
     } = props;
     const styles = useStyles();
     let items = [];
@@ -299,6 +299,17 @@ const DetailOrder = (props) => {
                                     <Typography variant="title" type="bold" letter="capitalize">
                                         {detail[0].detail[0].grand_total && formatPrice(detail[0].detail[0].grand_total, currency)}
                                     </Typography>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-xs-12 col-sm-12 col-md-8">
+                                <div className={styles.wrapperButton}>
+                                    <button type="button" className={styles.reorderButton} onClick={reOrder}>
+                                        <Typography variant="span" type="regular">
+                                            {t('order:reorder')}
+                                        </Typography>
+                                    </button>
                                 </div>
                             </div>
                         </div>
