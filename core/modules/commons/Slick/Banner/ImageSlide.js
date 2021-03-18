@@ -21,13 +21,13 @@ const ImageSlide = ({
     if (noLink) {
         return (
             <Thumbor
-                mobileImageUrl={mobileImageUrl}
-                imageUrl={imageUrl}
-                alt={href}
+                src={imageUrl}
+                srcMobile={mobileImageUrl}
+                width={width || features.imageSize.homeSlider.desktop.width}
+                height={height || features.imageSize.homeSlider.desktop.height}
                 widthMobile={width || features.imageSize.homeSlider.mobile.width}
                 heightMobile={height || features.imageSize.homeSlider.mobile.height}
-                widthDesktop={width || features.imageSize.homeSlider.desktop.width}
-                heightDesktop={height || features.imageSize.homeSlider.desktop.height}
+                alt={href}
                 quality={100}
                 className={
                     contentWidth === 'auto'
@@ -41,13 +41,13 @@ const ImageSlide = ({
         <Link href={isSlug ? '/[...slug]' : href} {...(isSlug && { as: href })}>
             <a>
                 <Thumbor
-                    mobileImageUrl={mobileImageUrl}
-                    imageUrl={imageUrl}
-                    alt={href}
+                    src={imageUrl}
+                    srcMobile={mobileImageUrl}
+                    width={features.imageSize.homeSlider.desktop.width}
+                    height={features.imageSize.homeSlider.desktop.height}
                     widthMobile={features.imageSize.homeSlider.mobile.width}
                     heightMobile={features.imageSize.homeSlider.mobile.height}
-                    widthDesktop={features.imageSize.homeSlider.desktop.width}
-                    heightDesktop={features.imageSize.homeSlider.desktop.height}
+                    alt={href}
                     quality={100}
                     className={contentWidth === 'auto' ? classNames(styles.imageSliderAuto, styles.imageSlider) : styles.imageSlider}
                     contentWidth={contentWidth}
