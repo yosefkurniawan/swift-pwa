@@ -254,13 +254,13 @@ const modules = {
                 },
             },
             configurableOptions: {
-                enabled: false,
+                enabled: true,
             },
             rating: {
                 enabled: true,
             },
             addToCart: {
-                enabled: false,
+                enabled: true,
             },
         },
         pdp: {

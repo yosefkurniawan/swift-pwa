@@ -7,6 +7,8 @@ import route from 'next/router';
 import React from 'react';
 import { setResolver, getResolver } from '@helper_localstorage';
 import classNames from 'classnames';
+import Typography from '@common_typography';
+import CommonButton from '@common_button';
 import { addWishlist } from '../../services/graphql';
 import useStyles from './style';
 import ConfigurableOpt from './components/ConfigurableProductItem';
@@ -14,7 +16,7 @@ import ConfigurableOpt from './components/ConfigurableProductItem';
 const ProductItem = (props) => {
     const {
         id, url_key = '', categorySelect, review, ImageProductView, DetailProductView, LabelView, className = '',
-        handleAddToCart: customAddToCart, ...other
+        handleAddToCart: customAddToCart, enableAddToCart, ...other
     } = props;
     const styles = useStyles();
     const { t } = useTranslation(['catalog', 'common']);
@@ -70,7 +72,7 @@ const ProductItem = (props) => {
             window.backdropLoader(true);
             setTimeout(() => {
                 window.backdropLoader(false);
-            });
+            }, 3000);
         }
     };
 
@@ -83,22 +85,34 @@ const ProductItem = (props) => {
         feed,
         handleAddToCart,
     };
+    const showAddToCart = typeof enableAddToCart !== 'undefined' ? enableAddToCart : modules.catalog.productListing.addToCart.enabled;
     return (
         <>
             <div className={classNames(styles.itemContainer, className)}>
                 {
                     modules.catalog.productListing.label.enabled && LabelView ? (
-                        <LabelView {...other} spesificProduct={spesificProduct} />
+                        <LabelView t={t} {...other} spesificProduct={spesificProduct} />
                     ) : null
                 }
                 <div className={styles.imgItem}>
-                    <ImageProductView handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
+                    <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
                 </div>
                 <div className={styles.detailItem}>
                     <DetailProductView t={t} {...DetailProps} {...other} />
                     {modules.catalog.productListing.configurableOptions.enabled ? (
-                        <ConfigurableOpt setSpesificProduct={setSpesificProduct} {...other} />
+                        <ConfigurableOpt t={t} setSpesificProduct={setSpesificProduct} {...other} />
                     ) : null}
+                    {
+                        showAddToCart && (
+                            <div className={styles.btnAddToCart}>
+                                <CommonButton align="center" color="primary" size="small" onClick={handleAddToCart}>
+                                    <Typography variant="p" color="white">
+                                        {t('common:button:addToCart')}
+                                    </Typography>
+                                </CommonButton>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </>

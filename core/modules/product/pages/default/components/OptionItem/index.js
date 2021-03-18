@@ -4,16 +4,12 @@ import Dialog from '@material-ui/core/Dialog';
 import Fade from '@material-ui/core/Fade';
 // import Router from 'next/router';
 import React from 'react';
-import ConfigurableOption from './components/configurable';
-import ConfigurableView from './components/configurable/view';
-import BundleView from './components/bundle/view';
-import DownloadView from './components/download/view';
-import SimpleOption from './components/simple';
-import VirtualOption from './components/virtual';
-import DownloadOption from './components/download';
-import BundleOption from './components/bundle';
+import ConfigurableOption from '../../../../plugin/OptionItem/ConfigurableOption';
+import SimpleOption from '../../../../plugin/OptionItem/SimpeProduct';
+import VirtualOption from '../../../../plugin/OptionItem/Virtual';
+import DownloadOption from '../../../../plugin/OptionItem/Download';
+import BundleOption from '../../../../plugin/OptionItem/BundleOption';
 import useStyles from './style';
-import Footer from './Footer';
 
 const Transition = React.forwardRef((props, ref) => (
     <Fade ref={ref} {...props} />
@@ -49,8 +45,6 @@ const OptionDialog = (props) => {
                                 {...props}
                                 loading={loading}
                                 setLoading={setLoading}
-                                ConfigurableView={ConfigurableView}
-                                Footer={Footer}
                             />
                         )}
 
@@ -59,8 +53,6 @@ const OptionDialog = (props) => {
                                 {...props}
                                 loading={loading}
                                 setLoading={setLoading}
-                                BundleView={BundleView}
-                                Footer={Footer}
                             />
                         )}
 
@@ -69,7 +61,6 @@ const OptionDialog = (props) => {
                                 {...props}
                                 loading={loading}
                                 setLoading={setLoading}
-                                Footer={Footer}
                             />
                         )}
 
@@ -78,7 +69,6 @@ const OptionDialog = (props) => {
                                 {...props}
                                 loading={loading}
                                 setLoading={setLoading}
-                                Footer={Footer}
                             />
                         )}
 
@@ -87,8 +77,6 @@ const OptionDialog = (props) => {
                                 {...props}
                                 loading={loading}
                                 setLoading={setLoading}
-                                DownloadView={DownloadView}
-                                Footer={Footer}
                             />
                         )}
                     </div>

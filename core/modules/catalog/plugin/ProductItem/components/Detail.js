@@ -3,7 +3,6 @@ import Button from '@material-ui/core/IconButton';
 import PriceFormat from '@common_priceformat';
 import RatingStar from '@common_ratingstar';
 import Typography from '@common_typography';
-import CommonButton from '@common_button';
 import { modules } from '@config';
 import Link from '@material-ui/core/Link';
 import React from 'react';
@@ -15,12 +14,11 @@ import useStyles from '../style';
 const Detail = (props) => {
     const {
         spesificProduct, handleClick, name, handleFeed, ratingValue, __typename, price_range, price_tiers,
-        feed, special_from_date, special_to_date, enableAddToCart, t, handleAddToCart, enableWishlist,
+        feed, special_from_date, special_to_date, enableWishlist,
         enableRating, enablePrice = true,
     } = props;
     const styles = useStyles();
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
-    const showAddToCart = typeof enableAddToCart !== 'undefined' ? enableAddToCart : modules.catalog.productListing.addToCart.enabled;
     const FeedIcon = feed ? <Favorite className={classFeedActive} /> : <FavoriteBorderOutlined className={styles.iconFeed} />;
     const showWishlist = typeof enableWishlist !== 'undefined' ? enableWishlist : modules.wishlist.enabled;
     const showRating = typeof enableRating !== 'undefined' ? enableRating : modules.catalog.productListing.rating;
@@ -51,17 +49,6 @@ const Detail = (props) => {
                     specialToDate={special_to_date}
                 />
             ) }
-            {
-                showAddToCart && (
-                    <div className={styles.btnAddToCart}>
-                        <CommonButton align="center" color="primary" size="small" onClick={handleAddToCart}>
-                            <Typography variant="p" color="white">
-                                {t('common:button:addToCart')}
-                            </Typography>
-                        </CommonButton>
-                    </div>
-                )
-            }
         </div>
     );
 };
