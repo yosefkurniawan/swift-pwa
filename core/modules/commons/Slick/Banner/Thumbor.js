@@ -9,12 +9,15 @@ const Image = ({
     const thumborLink = (width, height, src) => `https://thumbor.sirclocdn.xyz/unsafe/${width}x${height}/filters:format(webp)/${src}`;
     return (
         <div
-        // ref={imgContainer}
+            // ref={imgContainer}
             className={styles.thumborContainer}
         >
             {!lazy ? (
                 <picture>
-                    <source srcSet={thumborLink(widthDesktop, heightDesktop, imageUrl)} media={`(min-width: ${BREAKPOINTS.sm}px)`} />
+                    <source
+                        srcSet={imageUrl ? thumborLink(widthDesktop, heightDesktop, imageUrl) : null}
+                        media={`(min-width: ${BREAKPOINTS.sm}px)`}
+                    />
                     <img
                         data-pagespeed-no-defer
                         className={classNames(styles.thumborImage, className)}
