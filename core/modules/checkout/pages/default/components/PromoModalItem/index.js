@@ -20,7 +20,14 @@ const PromoModalItem = (props) => {
         setOpen(false);
     };
 
-    const handleAddToCart = async (data) => {
+    const handleAddToCart = async (params) => {
+        let data = params;
+        if (params.childProduct && params.parentProduct) {
+            data = {
+                ...params.childProduct,
+                freeItemsData: params.parentProduct.freeItemsData,
+            };
+        }
         let state = {
             ...checkout,
             loading: {

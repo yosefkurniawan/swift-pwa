@@ -3,11 +3,8 @@
 // import SelectColor from '@common_forms/SelectColor';
 // import SelectSize from '@common_forms/SelectSize';
 // import { formatPrice } from '@helper_currency';
-import Typography from '@common_typography';
-import ButtonQty from '@common_buttonqty';
-import React from 'react';
-import Button from '@common_button';
-import useStyles from './style';
+
+import Footer from '../components/Footer';
 
 const Checkbox = ({
     val, handleOption,
@@ -37,8 +34,8 @@ const DownloadView = (props) => {
     const {
         items, handleOption, disabled, loading,
         showQty = true, qty, setQty, handleAddToCart, t,
+        showAddToCart = true, ...other
     } = props;
-    const styles = useStyles();
     return (
         <>
             <div className="options-container">
@@ -47,36 +44,17 @@ const DownloadView = (props) => {
                 ))}
                 <br />
             </div>
-            { showQty && (
-                <div className={styles.qty}>
-                    <Typography type="bold" variant="span">{t('common:title:qty')}</Typography>
-                    <ButtonQty
-                        value={qty}
-                        onChange={setQty}
-                        max={10000}
-                        disabled={disabled}
-                    />
-                </div>
-            ) }
-            <div className={styles.SimpleOptionView}>
-                <Button
-                    className={styles.btnAddToCard}
-                    color="primary"
-                    onClick={handleAddToCart}
-                    loading={loading}
-                    disabled={disabled}
-                >
-                    <Typography
-                        align="center"
-                        type="bold"
-                        letter="uppercase"
-                        color="white"
-                        variant="span"
-                    >
-                        {t('product:addToCart')}
-                    </Typography>
-                </Button>
-            </div>
+            <Footer
+                loading={loading}
+                disabled={disabled}
+                showQty={showQty}
+                handleAddToCart={handleAddToCart}
+                qty={qty}
+                setQty={setQty}
+                t={t}
+                showAddToCart={showAddToCart}
+                {...other}
+            />
         </>
     );
 };

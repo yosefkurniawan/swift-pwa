@@ -8,7 +8,7 @@ import TagManager from 'react-gtm-module';
 import { addVirtualProductToCart, getGuestCartId as queryGetGuestCartId, getCustomerCartId } from '../../../services/graphql';
 
 const CoreOptionsItemVirtual = ({
-    setOpen,
+    setOpen = () => {},
     t,
     data,
     View,

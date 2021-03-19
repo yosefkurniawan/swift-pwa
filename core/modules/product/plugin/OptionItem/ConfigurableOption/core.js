@@ -15,11 +15,11 @@ import {
 
 const OptionsItemConfig = (props) => {
     const {
-        setBanner,
-        setPrice,
+        setBanner = () => {},
+        setPrice = () => {},
         t,
         data,
-        setOpen,
+        setOpen = () => {},
         ConfigurableView,
         Footer,
         setStockStatus = () => {},
@@ -28,13 +28,15 @@ const OptionsItemConfig = (props) => {
         View,
         loading: customLoading,
         setLoading: setCustomLoading,
+        handleSelecteProduct = () => {},
         ...other
     } = props;
 
     const client = useApolloClient();
 
     const {
-        __typename, sku, media_gallery, image, price_range, price_tiers, name, categories,
+        __typename, sku, media_gallery, image, price_range, price_tiers,
+        small_image, name, categories,
     } = data;
 
     const [selectConfigurable, setSelectConfigurable] = React.useState({});
@@ -64,6 +66,7 @@ const OptionsItemConfig = (props) => {
         const product = await ProductByVariant(selectedOption, configProduct.data.products.items[0].variants);
         if (product && JSON.stringify(product) !== '{}') {
             setSelectedProduct({ ...product });
+            handleSelecteProduct({ ...product });
             const bannerData = [];
             if (product.media_gallery.length > 0) {
                 // eslint-disable-next-line array-callback-return
@@ -74,9 +77,15 @@ const OptionsItemConfig = (props) => {
                     });
                 });
             } else {
+                let imageUrl = '';
+                if (product.image) {
+                    imageUrl = product.image.url;
+                } else if (product.small_image) {
+                    imageUrl = product.small_image.url;
+                }
                 bannerData.push({
                     link: '#',
-                    imageUrl: product.image.url,
+                    imageUrl,
                 });
             }
             setBanner(bannerData);
@@ -89,7 +98,7 @@ const OptionsItemConfig = (props) => {
             setStockStatus(product.stock_status);
         } else {
             const bannerData = [];
-            if (media_gallery.length > 0) {
+            if (media_gallery && media_gallery.length > 0) {
                 // eslint-disable-next-line array-callback-return
                 media_gallery.map((media) => {
                     bannerData.push({
@@ -98,9 +107,15 @@ const OptionsItemConfig = (props) => {
                     });
                 });
             } else {
+                let imageUrl = '';
+                if (image) {
+                    imageUrl = image.url;
+                } else if (small_image) {
+                    imageUrl = small_image.url;
+                }
                 bannerData.push({
                     link: '#',
-                    imageUrl: image.url,
+                    imageUrl,
                 });
             }
             setBanner(bannerData);
@@ -111,6 +126,7 @@ const OptionsItemConfig = (props) => {
                 productType: __typename,
             });
             setStockStatus('OUT_OF_STOCK');
+            handleSelecteProduct({ ...data });
         }
 
         firstSelected.code = key;
@@ -133,26 +149,27 @@ const OptionsItemConfig = (props) => {
     const [error, setError] = React.useState({});
 
     const handleAddToCart = async () => {
-        if (CustomAddToCart && typeof CustomAddToCart === 'function') {
-            CustomAddToCart({
-                parentProduct: data,
-                childProduct: selectedProduct,
-            });
-        } else {
-            const errorMessage = {
-                variant: 'error',
-                text: t('product:failedAddCart'),
-                open: true,
-            };
-            const errorData = {};
-            // eslint-disable-next-line array-callback-return
-            configProduct.data.products.items[0].configurable_options.map((option) => {
-                if (selectConfigurable[option.attribute_code] === '' || !selectConfigurable[option.attribute_code]) {
-                    errorData[option.attribute_code] = `${option.attribute_code} ${t('validate:required')}`;
-                }
-            });
-            setError(errorData);
-            if (JSON.stringify(errorData) === '{}') {
+        const errorMessage = {
+            variant: 'error',
+            text: t('product:failedAddCart'),
+            open: true,
+        };
+        const errorData = {};
+        // eslint-disable-next-line array-callback-return
+        configProduct.data.products.items[0].configurable_options.map((option) => {
+            if (selectConfigurable[option.attribute_code] === '' || !selectConfigurable[option.attribute_code]) {
+                errorData[option.attribute_code] = `${option.attribute_code} ${t('validate:required')}`;
+            }
+        });
+        setError(errorData);
+
+        if (JSON.stringify(errorData) === '{}') {
+            if (CustomAddToCart && typeof CustomAddToCart === 'function') {
+                CustomAddToCart({
+                    parentProduct: data,
+                    childProduct: selectedProduct,
+                });
+            } else {
                 setLoading(true);
                 if (!cartId || cartId === '' || cartId === undefined) {
                     if (!isLogin) {
@@ -229,14 +246,16 @@ const OptionsItemConfig = (props) => {
     };
 
     React.useEffect(() => {
-        if (configProduct.data && options.length === 0) {
+        if (configProduct.data && configProduct.data.products.items.length > 0
+            && options.length === 0 && configProduct.data.products.items[0].configurable_options) {
             const op = generateValue(selectConfigurable, configProduct.data.products.items[0].configurable_options, combination);
             setOptions(op);
         }
     }, [configProduct]);
 
     React.useMemo(() => {
-        if (configProduct.data) {
+        if (configProduct.data && configProduct.data.products.items.length > 0
+            && configProduct.data.products.items[0].configurable_options) {
             const op = generateValue(selectConfigurable, configProduct.data.products.items[0].configurable_options, combination);
             setOptions(op);
         }

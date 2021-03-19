@@ -10,6 +10,7 @@ import useStyles from './style';
 const ItemConfigurableView = (props) => {
     const {
         option, selected, value, handleSelect, error, loading, configProduct,
+        ...other
     } = props;
     const styles = useStyles();
     const classItem = styles.stylesItemOption;
@@ -44,6 +45,7 @@ const ItemConfigurableView = (props) => {
                 error={!!error[option.attribute_code] && !selected[option.attribute_code]}
                 errorMessage={error[option.attribute_code] ? error[option.attribute_code] : ''}
                 disabled={loading}
+                {...other}
             />
         );
     }

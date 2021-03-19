@@ -8,7 +8,7 @@ import TagManager from 'react-gtm-module';
 import { addSimpleProductsToCart, getGuestCartId as queryGetGuestCartId, getCustomerCartId } from '../../../services/graphql';
 
 const CoreSimpleOptionItem = ({
-    setOpen,
+    setOpen = () => {},
     t,
     data,
     View,
@@ -111,6 +111,7 @@ const CoreSimpleOptionItem = ({
                         setOpen(false);
                     })
                     .catch((e) => {
+                        console.log(e);
                         setLoading(false);
                         window.toastMessage({
                             ...errorMessage,

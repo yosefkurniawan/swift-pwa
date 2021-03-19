@@ -49,6 +49,7 @@ const PromoModalItemView = (props) => {
                             data={items}
                             Item={ProductItem}
                             enableAddToCart
+                            enableOption
                             handleAddToCart={handleAddToCart}
                             enableWishlist={false}
                             enablePrice={false}
