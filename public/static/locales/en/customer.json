@@ -61,7 +61,8 @@
     "accountInformation": "Account information",
     "notification": "Notifications",
     "viewall" : "View all",
-    "trackingOrder": "Tracking Order"
+    "trackingOrder": "Tracking Order",
+    "myDownload": "My Downloadable Products"
   },
   "giftCard": {
     "notFound": "You don't have gift card item",
