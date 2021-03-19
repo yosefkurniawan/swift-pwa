@@ -1,6 +1,6 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
-    CreatePadding, FlexColumn, CreateBorder, FlexRow,
+    CreatePadding, FlexColumn, CreateBorder, FlexRow, CreateMargin,
 } from '@theme_mixins';
 import { GRAY_PRIMARY } from '@theme_color';
 
@@ -16,6 +16,10 @@ export default makeStyles((theme) => ({
         ...FlexRow,
         ...CreatePadding(11, 15, 9, 8),
         ...CreateBorder(0, 0, '1px', 0, GRAY_PRIMARY),
+    },
+
+    linkDownload: {
+        ...CreateMargin(0, 0, 0, 21),
     },
 
     imageItem: {

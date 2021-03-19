@@ -18,6 +18,7 @@ const Layout = (props) => {
     const menu = [
         { href: '/customer/account', title: t('customer:menu:myAccount') },
         { href: '/sales/order/history', title: t('customer:menu:myOrder') },
+        { href: '/sales/downloadable/history', title: t('customer:menu:myDownload') },
         { href: '/customer/account/profile', title: t('customer:menu:accountInformation') },
         { href: '/customer/account/address', title: t('customer:menu:address') },
         ...pushIf(modules.giftcard.enabled, {
