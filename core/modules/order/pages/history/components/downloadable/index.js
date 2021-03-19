@@ -19,10 +19,12 @@ import formatDate from '@helper_date';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import Link from 'next/link';
 import useStyles from '../../style';
+import { SkeletonContent } from '../skeleton';
 
 const DefaultView = (props) => {
     const {
         data, t,
+        loadMore,
     } = props;
     const styles = useStyles();
     return (
@@ -47,150 +49,173 @@ const DefaultView = (props) => {
                         </TableHead>
                         <TableBody>
                             {
-                                data.length > 0
-                                    ? (
-                                        <>
-                                            {
-                                                data.map((val, index) => (
-                                                    <TableRow className={styles.tableRowResponsive} key={index}>
-                                                        <TableCell
-                                                            className={styles.tableCellResponsive}
-                                                            align="left"
-                                                            data-th={(
-                                                                <Typography align="center" type="bold" letter="capitalize">
-                                                                    {`${t('order:order')} #`}
-                                                                </Typography>
-                                                            )}
-                                                        >
-                                                            <div className={styles.displayFlexRow}>
-                                                                <div className={styles.mobLabel}>
+                                loadMore ? (
+                                    <TableRow>
+                                        <TableCell colSpan={6} rowSpan={10}>
+                                            <SkeletonContent />
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                                    : data.length > 0
+                                        ? (
+                                            <>
+                                                {
+                                                    data.map((val, index) => (
+                                                        <TableRow className={styles.tableRowResponsive} key={index}>
+                                                            <TableCell
+                                                                className={styles.tableCellResponsive}
+                                                                align="left"
+                                                                data-th={(
                                                                     <Typography align="center" type="bold" letter="capitalize">
                                                                         {`${t('order:order')} #`}
                                                                     </Typography>
+                                                                )}
+                                                            >
+                                                                <div className={styles.displayFlexRow}>
+                                                                    <div className={styles.mobLabel}>
+                                                                        <Typography align="center" type="bold" letter="capitalize">
+                                                                            {`${t('order:order')} #`}
+                                                                        </Typography>
+                                                                    </div>
+                                                                    <div className={styles.value}>
+                                                                        <Typography variant="span" letter="capitalize">
+                                                                            <Link
+                                                                                href="/sales/order/view/order_id/[id]"
+                                                                                as={`/sales/order/view/order_id/${val.order_increment_id}`}
+                                                                            >
+                                                                                <a>
+                                                                                    <Typography variant="span" type="regular" decoration="underline">
+                                                                                        {val.order_increment_id}
+                                                                                    </Typography>
+                                                                                </a>
+                                                                            </Link>
+                                                                        </Typography>
+                                                                    </div>
                                                                 </div>
-                                                                <div className={styles.value}>
-                                                                    <Typography variant="span" letter="capitalize">
-                                                                        <Link
-                                                                            href="/sales/order/view/order_id/[id]"
-                                                                            as={`/sales/order/view/order_id/${val.order_increment_id}`}
-                                                                        >
-                                                                            <a>
-                                                                                <Typography variant="span" type="regular" decoration="underline">
-                                                                                    {val.order_increment_id}
-                                                                                </Typography>
-                                                                            </a>
-                                                                        </Link>
-                                                                    </Typography>
-                                                                </div>
-                                                            </div>
-                                                        </TableCell>
-                                                        <TableCell
-                                                            className={styles.tableCellResponsive}
-                                                            align="left"
-                                                            data-th={(
-                                                                <Typography align="center" type="bold" letter="capitalize">
-                                                                    {t('order:date')}
-                                                                </Typography>
-                                                            )}
-                                                        >
-                                                            <div className={styles.displayFlexRow}>
-                                                                <div className={styles.mobLabel}>
+                                                            </TableCell>
+                                                            <TableCell
+                                                                className={styles.tableCellResponsive}
+                                                                align="left"
+                                                                data-th={(
                                                                     <Typography align="center" type="bold" letter="capitalize">
-                                                                        {`${t('order:date')}`}
+                                                                        {t('order:date')}
                                                                     </Typography>
+                                                                )}
+                                                            >
+                                                                <div className={styles.displayFlexRow}>
+                                                                    <div className={styles.mobLabel}>
+                                                                        <Typography align="center" type="bold" letter="capitalize">
+                                                                            {`${t('order:date')}`}
+                                                                        </Typography>
+                                                                    </div>
+                                                                    <div className={styles.value}>
+                                                                        <Typography variant="span" letter="capitalize">
+                                                                            {formatDate(val.date, 'M/DD/YY')}
+                                                                        </Typography>
+                                                                    </div>
                                                                 </div>
-                                                                <div className={styles.value}>
-                                                                    <Typography variant="span" letter="capitalize">
-                                                                        {formatDate(val.date, 'M/DD/YY')}
-                                                                    </Typography>
-                                                                </div>
-                                                            </div>
-                                                        </TableCell>
-                                                        <TableCell
-                                                            className={styles.tableCellResponsive}
-                                                            align="left"
-                                                            data-th={(
-                                                                <Typography align="center" type="bold" letter="capitalize">
-                                                                    {t('order:title')}
-                                                                </Typography>
-                                                            )}
-                                                        >
-                                                            <div className={styles.displayFlexRow}>
-                                                                <div className={styles.mobLabel}>
+                                                            </TableCell>
+                                                            <TableCell
+                                                                className={styles.tableCellResponsive}
+                                                                align="left"
+                                                                data-th={(
                                                                     <Typography align="center" type="bold" letter="capitalize">
-                                                                        {`${t('order:title')}`}
+                                                                        {t('order:title')}
                                                                     </Typography>
-                                                                </div>
-                                                                <div className={styles.value}>
-                                                                    <Typography variant="span" letter="capitalize">
-                                                                        {val.title}
-                                                                        { val.status == 'available'
+                                                                )}
+                                                            >
+                                                                <div className={styles.displayFlexRow}>
+                                                                    <div className={styles.mobLabel}>
+                                                                        <Typography align="center" type="bold" letter="capitalize">
+                                                                            {`${t('order:title')}`}
+                                                                        </Typography>
+                                                                    </div>
+                                                                    <div className={styles.value}>
+                                                                        <Typography variant="span" letter="capitalize">
+                                                                            {val.title}
+                                                                            { val.status == 'available'
                                                                         && (
                                                                             <a download className={styles.linkDownload} target="_blank" rel="noreferrer" href={val.download_url}>
                                                                                 <GetAppIcon color="action" />
                                                                                 {val.link_title}
                                                                             </a>
                                                                         )}
-                                                                    </Typography>
+                                                                        </Typography>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </TableCell>
-                                                        <TableCell
-                                                            className={styles.tableCellResponsive}
-                                                            align="left"
-                                                            data-th={(
-                                                                <Typography align="center" type="bold" letter="capitalize">
-                                                                    {t('order:status')}
-                                                                </Typography>
-                                                            )}
-                                                        >
-                                                            <div className={styles.displayFlexRow}>
-                                                                <div className={styles.mobLabel}>
+                                                            </TableCell>
+                                                            <TableCell
+                                                                className={styles.tableCellResponsive}
+                                                                align="left"
+                                                                data-th={(
                                                                     <Typography align="center" type="bold" letter="capitalize">
                                                                         {t('order:status')}
                                                                     </Typography>
+                                                                )}
+                                                            >
+                                                                <div className={styles.displayFlexRow}>
+                                                                    <div className={styles.mobLabel}>
+                                                                        <Typography align="center" type="bold" letter="capitalize">
+                                                                            {t('order:status')}
+                                                                        </Typography>
+                                                                    </div>
+                                                                    <div className={styles.value}>
+                                                                        <Typography variant="span" letter="capitalize">
+                                                                            {val.status}
+                                                                        </Typography>
+                                                                    </div>
                                                                 </div>
-                                                                <div className={styles.value}>
-                                                                    <Typography variant="span" letter="capitalize">
-                                                                        {val.status}
-                                                                    </Typography>
-                                                                </div>
-                                                            </div>
-                                                        </TableCell>
-                                                        <TableCell
-                                                            className={styles.tableCellResponsive}
-                                                            align="left"
-                                                            data-th={(
-                                                                <Typography align="center" type="bold" letter="capitalize">
-                                                                    Remaining Downloads
-                                                                </Typography>
-                                                            )}
-                                                        >
-                                                            <div className={styles.displayFlexRow}>
-                                                                <div className={styles.mobLabel}>
+                                                            </TableCell>
+                                                            <TableCell
+                                                                className={styles.tableCellResponsive}
+                                                                align="left"
+                                                                data-th={(
                                                                     <Typography align="center" type="bold" letter="capitalize">
                                                                         Remaining Downloads
                                                                     </Typography>
+                                                                )}
+                                                            >
+                                                                <div className={styles.displayFlexRow}>
+                                                                    <div className={styles.mobLabel}>
+                                                                        <Typography align="center" type="bold" letter="capitalize">
+                                                                            Remaining Downloads
+                                                                        </Typography>
+                                                                    </div>
+                                                                    <div className={styles.value}>
+                                                                        <Typography variant="span" letter="capitalize">
+                                                                            {val.remaining_downloads}
+                                                                        </Typography>
+                                                                    </div>
                                                                 </div>
-                                                                <div className={styles.value}>
-                                                                    <Typography variant="span" letter="capitalize">
-                                                                        {val.remaining_downloads}
-                                                                    </Typography>
-                                                                </div>
-                                                            </div>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                ))
-                                            }
-                                        </>
-                                    )
-                                    : (
-                                        <TableRow>
-                                            <TableCell colSpan={6}>
-                                                <Alert severity="warning">{t('order:notFound')}</Alert>
-                                            </TableCell>
-                                        </TableRow>
-                                    )
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))
+                                                }
+                                                {/* <TableRow>
+                                                <TablePagination
+                                                    rowsPerPageOptions={[10, 20, 50, { label: 'All', value: -1 }]}
+                                                    colSpan={6}
+                                                    count={data.length || 0}
+                                                    rowsPerPage={10}
+                                                    page={0}
+                                                    labelRowsPerPage="Limit"
+                                                    SelectProps={{
+                                                        inputProps: { 'aria-label': 'rows per page' },
+                                                        native: true,
+                                                    }}
+                                                    onChangePage={handleChangePage}
+                                                    onChangeRowsPerPage={handleChangePageSize}
+                                                />
+                                            </TableRow> */}
+                                            </>
+                                        )
+                                        : (
+                                            <TableRow>
+                                                <TableCell colSpan={6}>
+                                                    <Alert severity="warning">{t('order:notFound')}</Alert>
+                                                </TableCell>
+                                            </TableRow>
+                                        )
                             }
                         </TableBody>
                     </Table>

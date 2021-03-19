@@ -77,30 +77,32 @@ const DetailOrder = (props) => {
                                     {formatDate(detail[0].created_at)}
                                 </Typography>
                             </div>
-                            <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
-                                    {detail[0].detail[0].pickup_store && detail[0].detail[0].pickup_store.is_using_pickup_store
-                                        ? t('order:pickupAt')
-                                        : t('order:shippedTo')}
-                                </Typography>
-                                <Typography variant="span" className="clear-margin-padding">
-                                    {detail[0].detail[0].shipping_address.firstname || ''}
-                                    {' '}
-                                    {detail[0].detail[0].shipping_address.lastname || ''}
-                                    <br />
-                                    {detail[0].detail[0].shipping_address.street || ''}
-                                    <br />
-                                    {detail[0].detail[0].shipping_address.city || ''}
-                                    <br />
-                                    {detail[0].detail[0].shipping_address.region || ''}
-                                    <br />
-                                    {detail[0].detail[0].shipping_address.country_id || ''}
-                                    <br />
-                                    {detail[0].detail[0].shipping_address.telephone || ''}
-                                    <br />
-                                    {detail[0].detail[0].shipping_address.postcode || ''}
-                                </Typography>
-                            </div>
+                            { detail[0].detail[0].shipping_address.length > 0 && (
+                                <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                    <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
+                                        {detail[0].detail[0].pickup_store && detail[0].detail[0].pickup_store.is_using_pickup_store
+                                            ? t('order:pickupAt')
+                                            : t('order:shippedTo')}
+                                    </Typography>
+                                    <Typography variant="span" className="clear-margin-padding">
+                                        {detail[0].detail[0].shipping_address.firstname || ''}
+                                        {' '}
+                                        {detail[0].detail[0].shipping_address.lastname || ''}
+                                        <br />
+                                        {detail[0].detail[0].shipping_address.street || ''}
+                                        <br />
+                                        {detail[0].detail[0].shipping_address.city || ''}
+                                        <br />
+                                        {detail[0].detail[0].shipping_address.region || ''}
+                                        <br />
+                                        {detail[0].detail[0].shipping_address.country_id || ''}
+                                        <br />
+                                        {detail[0].detail[0].shipping_address.telephone || ''}
+                                        <br />
+                                        {detail[0].detail[0].shipping_address.postcode || ''}
+                                    </Typography>
+                                </div>
+                            )}
                             {detail[0].detail[0].pickup_store && detail[0].detail[0].pickup_store.is_using_pickup_store && (
                                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                     <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
@@ -150,14 +152,16 @@ const DetailOrder = (props) => {
                                     {detail[0].detail[0].billing_address.postcode || ''}
                                 </Typography>
                             </div>
-                            <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
-                                    {t('order:shippingMethod')}
-                                </Typography>
-                                <Typography variant="span" className="clear-margin-padding">
-                                    {detail[0].detail[0].shipping_methods.shipping_description || ''}
-                                </Typography>
-                            </div>
+                            { detail[0].detail[0].shipping_address.length > 0 && (
+                                <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                    <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
+                                        {t('order:shippingMethod')}
+                                    </Typography>
+                                    <Typography variant="span" className="clear-margin-padding">
+                                        {detail[0].detail[0].shipping_methods.shipping_description || ''}
+                                    </Typography>
+                                </div>
+                            )}
                             <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                     {t('order:paymentMethod')}

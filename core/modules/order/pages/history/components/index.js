@@ -4,6 +4,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable eqeqeq */
+/* eslint-disable max-len */
+
 import classNames from 'classnames';
 import Typography from '@common_typography';
 import Layout from '@layout_customer';
@@ -128,8 +130,9 @@ const DefaultView = (props) => {
                                                                     </div>
                                                                     <div className={styles.value}>
                                                                         <Typography variant="span">
-                                                                            {`${val.detail[0].shipping_address.firstname} `}
-                                                                            {val.detail[0].shipping_address.lastname}
+                                                                            {val.detail[0].shipping_address.firstname || val.detail[0].billing_address.firstname}
+                                                                            {' '}
+                                                                            {val.detail[0].shipping_address.lastname || val.detail[0].billing_address.lastname}
                                                                         </Typography>
                                                                     </div>
                                                                 </div>
