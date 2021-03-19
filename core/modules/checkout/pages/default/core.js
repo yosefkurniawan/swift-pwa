@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable eqeqeq */
 import * as Yup from 'yup';
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
@@ -168,7 +169,7 @@ const Checkout = (props) => {
              * if cartitems and cartItemsFilter length same
              * it's mean cart only contain virtual product
              */
-            const isAllVirtual = cartItems.length === cartItemsFilter.length;
+            const isAllVirtual = cartItems.length === cartItemsFilter.length && cartItems.length == 1;
             if (isAllVirtual) return true;
         }
         return false;
