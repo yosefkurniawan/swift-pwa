@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import { getCartId } from '@helpers/cartId';
-import { formatPrice } from '@helpers/currency';
 import Router from 'next/router';
 import Layout from '@layout';
 import Head from 'next/head';
@@ -162,7 +161,7 @@ const Checkout = (props) => {
         if (cartItems) {
             const cartItemsFilter = cartItems.filter((item) => {
                 const { __typename } = item.product;
-                return __typename === 'VirtualProduct';
+                return __typename === 'VirtualProduct' || 'DownloadableProduct';
             });
 
             /**

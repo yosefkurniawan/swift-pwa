@@ -7,8 +7,10 @@ import React from 'react';
 import ConfigurableOption from './components/configurable';
 import ConfigurableView from './components/configurable/view';
 import BundleView from './components/bundle/view';
+import DownloadView from './components/download/view';
 import SimpleOption from './components/simple';
 import VirtualOption from './components/virtual';
+import DownloadOption from './components/download';
 import BundleOption from './components/bundle';
 import useStyles from './style';
 import Footer from './Footer';
@@ -76,6 +78,16 @@ const OptionDialog = (props) => {
                                 {...props}
                                 loading={loading}
                                 setLoading={setLoading}
+                                Footer={Footer}
+                            />
+                        )}
+
+                        {__typename === 'DownloadableProduct' && (
+                            <DownloadOption
+                                {...props}
+                                loading={loading}
+                                setLoading={setLoading}
+                                DownloadView={DownloadView}
                                 Footer={Footer}
                             />
                         )}

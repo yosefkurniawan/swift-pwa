@@ -4,6 +4,7 @@
     "notFound": "Order not found",
     "shippedTo": "Shipped to",
     "pickupAt": "Pickup at",
+    "remaining": "Remaining Downloads",
     "pickupBy": "Pickup by",
     "shippingMethod": "Shipping method",
     "paymentMethod": "Payment method",

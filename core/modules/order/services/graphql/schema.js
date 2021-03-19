@@ -149,6 +149,22 @@ export const getCustomerOrder = gql`
     }
 `;
 
+export const getCustomerOrderDownloadable = gql`
+    query{
+        customerDownloadableProducts{
+        items{
+        date
+            download_url
+            order_increment_id
+            remaining_downloads
+            status
+            link_title
+            title
+        }
+        }
+    }
+`;
+
 export const getOrderDetail = gql`
     query getCustomerOrder($order_id: String) {
         customerOrders(filters: { ids: { eq: $order_id } }) {

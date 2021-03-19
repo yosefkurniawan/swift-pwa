@@ -8,6 +8,12 @@ export const getOrder = (params) => useQuery(Schema.getCustomerOrder, {
     variables: params,
     skip: typeof window === 'undefined',
 });
+export const getOrderDownloadable = () => useQuery(Schema.getCustomerOrderDownloadable, {
+    context: {
+        request: 'internal',
+    },
+    skip: typeof window === 'undefined',
+});
 
 export const getOrderDetail = (params) => useQuery(Schema.getCustomerOrderDetail, {
     context: {

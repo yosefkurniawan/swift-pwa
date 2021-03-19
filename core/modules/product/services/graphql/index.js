@@ -2,8 +2,12 @@ import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import * as Schema from './schema';
 
 export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath));
+export const getProductBySku = (params) => useQuery(Schema.getProductBySku(), {
+    ...params,
+});
 export const getConfigurableProduct = (sku) => useQuery(Schema.getConfigurableProduct(sku));
 export const getBundleProduct = (sku) => useQuery(Schema.getBundleProduct(sku));
+export const getDownloadroduct = (sku) => useQuery(Schema.getDownloadProduct(sku));
 
 export const getReviews = (params) => useQuery(Schema.getReview(), {
     variables: {
@@ -24,6 +28,12 @@ export const addSimpleProductsToCart = () => useMutation(Schema.addSimpleProduct
 });
 
 export const addVirtualProductToCart = () => useMutation(Schema.addVirtualProductToCart, {
+    context: {
+        request: 'internal',
+    },
+});
+
+export const addDownloadProductToCart = () => useMutation(Schema.addDownloadableProductsToCart, {
     context: {
         request: 'internal',
     },

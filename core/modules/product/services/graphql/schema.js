@@ -148,6 +148,53 @@ export const getProduct = (url) => {
     return query;
 };
 
+export const getProductBySku = () => {
+    const query = gql`query(
+      $sku: [String]
+    ){
+        products(
+            search: "" ,filter: {
+              sku: {
+                in: $sku
+              }
+            }
+          ) {
+            items {
+              ${productDetail}
+              ${priceRange}
+              ${priceTiers}
+              description {
+                html
+              }
+              ${modules.brands.enabled ? 'brand' : ''}
+              short_description {
+                html
+              }
+              more_info {
+                label
+                value
+              }
+              upsell_products {
+                ${productDetail}
+                ${priceRange}
+                ${priceTiers}
+              }
+              media_gallery {
+                label,
+                url
+              }
+              related_products {
+               ${productDetail}
+               ${priceRange}
+               ${priceTiers}
+              }
+            }
+            total_count
+          }
+    }`;
+    return query;
+};
+
 export const getBundleProduct = (sku) => {
     const query = gql`{
     products(
@@ -195,6 +242,33 @@ export const getBundleProduct = (sku) => {
       }
     }
   }`;
+    return query;
+};
+
+export const getDownloadProduct = (sku) => {
+    const query = gql`{
+      products(
+        search: "" ,filter: {
+          sku: {
+            eq: "${sku}"
+          }
+        }
+      ) {
+        items {
+          ... on DownloadableProduct {
+            id
+            name
+            url_key
+            downloadable_product_links {
+              id
+              uid
+              title
+              price
+            }
+          }
+        }
+      }
+    }`;
     return query;
 };
 
@@ -310,6 +384,48 @@ mutation addVirtualProductToCart(
   }
 `;
 
+export const addDownloadableProductsToCart = gql`
+mutation(
+  $cartId : String!,
+  $sku: String!,
+  $qty: Float!,
+  $download_product_link: [DownloadableProductLinksInput]
+) {
+  addDownloadableProductsToCart(
+    input: {
+      cart_id: $cartId
+      cart_items: {
+        data: {
+          sku: $sku
+          quantity: $qty
+        }
+        downloadable_product_links: $download_product_link
+      }
+    }
+  ) {
+    cart {
+      total_quantity
+      items {
+        product {
+          sku
+        }
+        quantity
+        ... on DownloadableCartItem {
+          links {
+            title
+            price
+          }
+          samples {
+            title
+            sample_url
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
 export const addConfigProductsToCart = gql`
 mutation (
   $cartId: String!,
@@ -338,22 +454,44 @@ mutation (
 `;
 
 export const addBundleProductsToCart = gql`
-  mutation (
-    $cartId: String!,
-    $cartItems: [BundleProductCartItemInput]!
+mutation(
+  $cartId : String!,
+  $sku: String!,
+  $qty: Float!,
+  $download_product_link: [DownloadableProductLinksInput]
+) {
+  addDownloadableProductsToCart(
+    input: {
+      cart_id: $cartId
+      cart_items: {
+        data: {
+          sku: $sku
+          quantity: $qty
+        }
+        downloadable_product_links: $download_product_link
+      }
+    }
   ) {
-        addBundleProductsToCart(
-          input: {
-            cart_id: $cartId
-            cart_items: $cartItems
+    cart {
+      items {
+        product {
+          sku
+        }
+        quantity
+        ... on DownloadableCartItem {
+          links {
+            title
+            price
           }
-        ) {
-          cart {
-            id
-            total_quantity
+          samples {
+            title
+            sample_url
           }
         }
       }
+    }
+  }
+}
 `;
 
 export const addReview = gql`

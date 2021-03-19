@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable brace-style */
 /**
  * function to get combination available
@@ -244,6 +245,17 @@ export const handleSelected = (selected, key, value) => {
                 delete result[selectKey[index]];
             }
         }
+    } else {
+        result[key] = value;
+    }
+    return result;
+};
+
+// eslint-disable-next-line no-unused-vars
+export const handleSelectedDownload = (selected, key, value) => {
+    const result = { ...selected };
+    if (result.hasOwnProperty(key)) {
+        delete result[key];
     } else {
         result[key] = value;
     }
