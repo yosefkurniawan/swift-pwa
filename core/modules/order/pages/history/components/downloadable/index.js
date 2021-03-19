@@ -17,6 +17,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Alert from '@material-ui/lab/Alert';
 import formatDate from '@helper_date';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import Link from 'next/link';
 import useStyles from '../../style';
 
 const DefaultView = (props) => {
@@ -39,7 +40,7 @@ const DefaultView = (props) => {
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="left"><Typography variant="span" type="bold">{t('order:date')}</Typography></TableCell>
-                                <TableCell align="left"><Typography variant="span" type="bold">{t('order:title')}</Typography></TableCell>
+                                <TableCell align="left"><Typography variant="span" type="bold">{t('order:titleDownload')}</Typography></TableCell>
                                 <TableCell align="left"><Typography variant="span" type="bold">{t('order:status')}</Typography></TableCell>
                                 <TableCell align="left"><Typography variant="span" type="bold">{t('order:remaining')}</Typography></TableCell>
                             </TableRow>
@@ -69,7 +70,16 @@ const DefaultView = (props) => {
                                                                 </div>
                                                                 <div className={styles.value}>
                                                                     <Typography variant="span" letter="capitalize">
-                                                                        {val.order_increment_id}
+                                                                        <Link
+                                                                            href="/sales/order/view/order_id/[id]"
+                                                                            as={`/sales/order/view/order_id/${val.order_increment_id}`}
+                                                                        >
+                                                                            <a>
+                                                                                <Typography variant="span" type="regular" decoration="underline">
+                                                                                    {val.order_increment_id}
+                                                                                </Typography>
+                                                                            </a>
+                                                                        </Link>
                                                                     </Typography>
                                                                 </div>
                                                             </div>
