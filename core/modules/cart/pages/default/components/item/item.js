@@ -8,6 +8,7 @@ import { formatPrice } from '@helper_currency';
 import Alert from '@material-ui/lab/Alert';
 import { features } from '@config';
 import Image from '@common_image';
+import Typography from '@common_typography';
 import useStyles from '../style';
 import ConfirmationDelete from '../confirmDelete';
 
@@ -15,7 +16,7 @@ const ItemView = (props) => {
     const {
         t, confirmDel, handleDelete, setConfirmDel,
         product, configurable_options, quantity, prices, handleAddWishlist,
-        editMode, toggleEditDrawer, bundle_options,
+        editMode, toggleEditDrawer, bundle_options, links,
     } = props;
     const styles = useStyles();
     return (
@@ -59,6 +60,23 @@ const ItemView = (props) => {
                             {item.value_label}
                         </div>
                     )) : null}
+                    {
+                        links && links.length > 0 && (
+                            <div className="col-xs-12 row option-link-mobile">
+                                <Typography variant="span" letter="capitalize" type="bold">
+                                    Downloads :
+                                    {' '}
+                                </Typography>
+                                <div className="column">
+                                    { links.map((item, idx) => (
+                                        <Typography variant="span" letter="capitalize" key={idx}>
+                                            {item.title}
+                                        </Typography>
+                                    )) }
+                                </div>
+                            </div>
+                        )
+                    }
                     {bundle_options && bundle_options.length ? (
                         <div className="product-options">
                             {bundle_options.map((val, idx) => (

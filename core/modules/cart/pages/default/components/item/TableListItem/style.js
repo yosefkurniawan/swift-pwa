@@ -20,8 +20,11 @@ export default makeStyles((theme) => ({
         boxShadow: 'none',
         width: '100%',
         '& .product-options': {
-            paddingLeft: 20,
+            paddingLeft: 5,
             fontSize: 11,
+        },
+        '& .option-link': {
+            marginLeft: 0,
         },
     },
     table: {
