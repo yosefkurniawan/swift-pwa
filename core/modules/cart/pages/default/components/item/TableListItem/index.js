@@ -133,51 +133,74 @@ const TableListProduct = ({
                                                     align="left"
                                                     className={styles.noBorder}
                                                 >
-                                                    <Link
-                                                        href="/[...slug]"
-                                                        as={`/${val.product.url_key}`}
-                                                    >
-                                                        <a>
-                                                            <Typography variant="span" letter="capitalize">
-                                                                {val.product.name}
-                                                                { val.configurable_options ? val.configurable_options.map((item, idx) => (
-                                                                    <div key={idx}>
-                                                                        {item.option_label}
+                                                    <div className="row">
+                                                        <div className="col-xs-12">
+                                                            <Link
+                                                                href="/[...slug]"
+                                                                as={`/${val.product.url_key}`}
+                                                            >
+                                                                <a>
+                                                                    <Typography variant="span" letter="capitalize">
+                                                                        {val.product.name}
+                                                                    </Typography>
+                                                                </a>
+                                                            </Link>
+                                                        </div>
+                                                        <div className="col-xs-12 column">
+                                                            { val.configurable_options ? val.configurable_options.map((item, idx) => (
+                                                                <Typography variant="span" letter="capitalize" key={idx}>
+                                                                    <strong>{item.option_label}</strong>
+                                                                    {' '}
+                                                                    :
+                                                                    {' '}
+                                                                    {item.value_label}
+                                                                </Typography>
+                                                            )) : null}
+                                                        </div>
+                                                        {
+                                                            val.links && val.links.length > 0 && (
+                                                                <div className="col-xs-12 row option-link">
+                                                                    <Typography variant="span" letter="capitalize" type="bold">
+                                                                        Downloads :
                                                                         {' '}
-                                                                        :
-                                                                        {' '}
-                                                                        {item.value_label}
+                                                                    </Typography>
+                                                                    <div className="column">
+                                                                        { val.links.map((item, idx) => (
+                                                                            <Typography variant="span" letter="capitalize" key={idx}>
+                                                                                {item.title}
+                                                                            </Typography>
+                                                                        )) }
                                                                     </div>
-                                                                )) : null}
-                                                                {val.bundle_options && val.bundle_options.length ? (
-                                                                    <div className="product-options">
-                                                                        {val.bundle_options.map((value, idx) => (
-                                                                            <div className="option-wrapper" key={idx}>
-                                                                                <strong>{value.label}</strong>
+                                                                </div>
+                                                            )
+                                                        }
+                                                    </div>
+                                                    {val.bundle_options && val.bundle_options.length ? (
+                                                        <div className="product-options">
+                                                            {val.bundle_options.map((value, idx) => (
+                                                                <div className="option-wrapper" key={idx}>
+                                                                    <strong>{value.label}</strong>
+                                                                    {' '}
+                                                                    :
+                                                                    <div className="option-wrapper__item">
+                                                                        {value.values.map((item, idt) => (
+                                                                            <div key={idt}>
+                                                                                {item.quantity}
                                                                                 {' '}
-                                                                                :
-                                                                                <div className="option-wrapper__item">
-                                                                                    {value.values.map((item, idt) => (
-                                                                                        <div key={idt}>
-                                                                                            {item.quantity}
-                                                                                            {' '}
-                                                                                            x
-                                                                                            {item.label}
-                                                                                            {' '}
-                                                                                            <strong>
-                                                                                                + $
-                                                                                                {item.price}
-                                                                                            </strong>
-                                                                                        </div>
-                                                                                    ))}
-                                                                                </div>
+                                                                                x
+                                                                                {item.label}
+                                                                                {' '}
+                                                                                <strong>
+                                                                                    + $
+                                                                                    {item.price}
+                                                                                </strong>
                                                                             </div>
                                                                         ))}
                                                                     </div>
-                                                                ) : null}
-                                                            </Typography>
-                                                        </a>
-                                                    </Link>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    ) : null}
                                                     {val.bundle_options && val.bundle_options.length ? (
                                                         <div className="product-options">
                                                             {val.bundle_options.map((bundle, idb) => (

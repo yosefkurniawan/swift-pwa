@@ -157,6 +157,11 @@ items {
       }
     }
   }
+  ... on DownloadableCartItem {
+    links {
+      title
+    }
+  }
   prices {
     discounts {
       amount {
@@ -314,6 +319,11 @@ export const getMiniCart = gql`
                     price
                     quantity
                   }
+                }
+              }
+              ... on DownloadableCartItem {
+                links {
+                  title
                 }
               }
               prices {
