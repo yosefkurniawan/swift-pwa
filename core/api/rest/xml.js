@@ -154,7 +154,7 @@ const getXmlData = async (res) => {
                         <image:loc>
                         ${img.url.replace('&', '&amp;')}
                         </image:loc>
-                        <image:title>${img.label.replace('&', '&amp;')}</image:title>
+                        <image:title>${img && img.label && img.label.replace('&', '&amp;')}</image:title>
                     </image:image>
                 `;
             }
