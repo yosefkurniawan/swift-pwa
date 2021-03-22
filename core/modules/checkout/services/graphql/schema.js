@@ -17,6 +17,22 @@ const cartAvailablePaymentMethods = `
     }
 `;
 
+const cartAvailFreeItems = `
+available_free_items {
+    sku
+    quantity
+    promo_item_data {
+        ruleId
+        minimalPrice
+        discountItem
+        isDeleted
+        qtyToProcess
+        __typename
+    }
+    __typename
+  }
+`;
+
 const cartBillingAddress = `
     billing_address {
         city
@@ -329,8 +345,8 @@ const cartRequiredSelection = `
    ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
    ${modules.giftcard.enabled ? applied_giftcard : ''}
    ${modules.storecredit.enabled ? applied_store_credit : ''}
-  ${prices}
-    
+   ${prices}
+   ${cartAvailFreeItems}
     
 `;
 
@@ -987,4 +1003,30 @@ mutation updateExtraFee(
         }
     }
 }
+`;
+
+export const addProductToCartPromo = gql`
+mutation addProductsToCartPromo(
+    $cart_id: String!,
+    $cart_items: [CartItemPromoInput]!
+) {
+    addProductsToCartPromo(
+      input: {
+        cart_id: $cart_id
+        cart_items: $cart_items
+      }
+    ) {
+      cart {
+        id
+        applied_coupons {
+            code
+        }
+        ${cartRequiredSelection}
+        ${cartShippingAddress}
+        ${cartAvailablePaymentMethods}
+        ${itemsProduct}
+        ${cartAvailFreeItems}
+      }
+    }
+  }
 `;

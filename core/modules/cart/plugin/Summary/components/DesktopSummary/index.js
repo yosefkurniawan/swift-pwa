@@ -90,10 +90,12 @@ const Summary = (props) => {
                                                     <div className="flex-grow" />
                                                     <Typography variant="span">{`${t('common:title:shortQty')} : ${item.quantity}`}</Typography>
                                                     <Typography variant="span" size="14" letter="uppercase">
-                                                        {formatPrice(
-                                                            item.prices.price_including_tax.value,
-                                                            item.prices.price_including_tax.currency || 'IDR',
-                                                        )}
+                                                        {item.prices.row_total_including_tax.value === 0
+                                                            ? t('common:title:free')
+                                                            : formatPrice(
+                                                                item.prices.price_including_tax.value,
+                                                                item.prices.price_including_tax.currency || 'IDR',
+                                                            )}
                                                     </Typography>
 
                                                 </div>

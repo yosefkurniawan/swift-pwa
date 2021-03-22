@@ -1,10 +1,10 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
-    CreatePadding, FlexColumn, Centering, CreateMargin, ClearMarginPadding, FlexRow,
+    CreatePadding, FlexColumn, Centering, CreateMargin, ClearMarginPadding, FlexRow, CenterAbsolute,
 } from '@theme_mixins';
-import { GRAY_PRIMARY, PRIMARY } from '@theme_color';
+import { GRAY_PRIMARY, PRIMARY, WHITE } from '@theme_color';
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     container: {},
     itemContainer: {
         width: '100%',
@@ -87,5 +87,33 @@ export default makeStyles(() => ({
         top: '-4px',
         right: '45px',
         textAlign: 'right',
+    },
+    btnAddToCart: {
+        width: '100%', alignItems: 'center', paddingTop: 20, bottom: 0,
+    },
+    itemConfigurable: {
+        width: '20px !important',
+        height: '20px !important',
+        ...CreateMargin(5, 5, 5, 5),
+    },
+    customBtnAddToCard: {
+        [theme.breakpoints.down('sm')]: {
+            ...CenterAbsolute,
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: 150,
+            float: 'left',
+            maxWidth: '75%',
+            ...CenterAbsolute,
+        },
+        ...CreateMargin(0, 8, 0, 0),
+        width: '100%',
+        height: 35,
+        bottom: 0,
+        left: 0,
+        opacity: 'none',
+        color: WHITE,
+        borderRadius: 100,
+        fontSize: 12,
     },
 }));

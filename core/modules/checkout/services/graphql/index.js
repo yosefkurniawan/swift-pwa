@@ -187,6 +187,10 @@ export const updateExtraFee = (options = {}) => useMutation(Schema.updateExtraFe
     ...config(USING_INTERNAL),
 });
 
+export const addProductToCartPromo = () => useMutation(Schema.addProductToCartPromo, {
+    ...config(USING_INTERNAL),
+});
+
 export default {
     updateExtraFee,
     updatedDefaultAddress,

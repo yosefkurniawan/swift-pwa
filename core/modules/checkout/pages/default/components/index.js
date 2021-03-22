@@ -14,6 +14,7 @@ import RewardPoint from './rewardpoint';
 import Credit from './credit';
 import PickupInfo from './PickupInformation';
 import ExtraFee from './ExtreeFee';
+import PromoModalItem from './PromoModalItem';
 import useStyles from './style';
 
 const Content = (props) => {
@@ -46,6 +47,7 @@ const Content = (props) => {
         manageCustomer,
         ExtraFeeView,
         cartId,
+        PromoModalItemView,
     } = props;
 
     const styles = useStyles();
@@ -60,10 +62,16 @@ const Content = (props) => {
         <div id="checkout" className={classNames(styles.mobileBottomSpace, 'row between-lg')}>
             <div className="col-xs-12 center hidden-mobile">
                 <HeaderView
+                    storeConfig={storeConfig}
+                />
+            </div>
+            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <PromoModalItem
                     t={t}
                     storeConfig={storeConfig}
                     checkout={checkout}
                     setCheckout={setCheckout}
+                    PromoModalItemView={PromoModalItemView}
                 />
             </div>
             <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8" style={containerStyle || {}}>

@@ -382,8 +382,16 @@ export const deleteCartItemOnPage = gql`
         input: { cart_id: $cartId, cart_item_id: $cart_item_id }
       ) {
         cart {
+          id
+          total_quantity
           ${applied_giftcard}
-          ${cartRequiredSelection}
+          ${modules.checkout.cashback.enabled ? applied_cashback : ''}
+          ${modules.rewardpoint.enabled ? applied_reward_points : ''}
+          ${modules.promo.enabled ? applied_coupons : ''}
+          ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
+          ${modules.storecredit.enabled ? applied_store_credit : ''}
+          ${prices}
+          ${items}
         }
       }
     }
