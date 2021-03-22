@@ -200,7 +200,7 @@ const Checkout = (props) => {
             billing: null,
         },
         validationSchema: CheckoutSchema,
-        onSubmit: () => {},
+        onSubmit: () => { },
     });
 
     const updateFormik = (cart) => {
@@ -234,6 +234,13 @@ const Checkout = (props) => {
 
         if (cart && cart.items && cart.items.length === 0) {
             window.location.replace(config.cartRedirect && config.cartRedirect.link ? config.cartRedirect.link : '/checkout/cart');
+        } else {
+            cart.items.map((item) => {
+                if (item.product && item.product.stock_status === 'OUT_OF_STOCK') {
+                    window.location.replace(config.cartRedirect && config.cartRedirect.link ? config.cartRedirect.link : '/checkout/cart');
+                }
+                return null;
+            });
         }
 
         let customer;
