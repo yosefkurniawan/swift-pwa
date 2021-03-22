@@ -102,10 +102,11 @@ const useStyles = makeStyles(() => ({
                 '& .oos-info': {
                     paddingLeft: 88,
                     paddingTop: 10,
+                    marginBottom: 5,
                     '& .oos-info-content': {
                         padding: 5,
                         borderRadius: 10,
-                        fontSize: 12,
+                        fontSize: 10,
                         color: 'rgb(102, 9, 27)',
                         backgroundColor: 'rgb(255, 231, 236)',
                     },
