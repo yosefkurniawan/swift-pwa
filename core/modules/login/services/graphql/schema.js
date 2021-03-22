@@ -111,6 +111,7 @@ export const getCustomer = gql`
     customer {
       id
       firstname
+      lastname
       email
       phonenumber
       whatsapp_number
