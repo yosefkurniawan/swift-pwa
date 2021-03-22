@@ -103,6 +103,7 @@ const MobileView = ({
                                 showArrow={desktop}
                                 slideLg={category_image ? 4 : 6}
                                 Item={ProductItem}
+                                enableAddToCart={false}
                                 {...other}
                             />
                         </div>

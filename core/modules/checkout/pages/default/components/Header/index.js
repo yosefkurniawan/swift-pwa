@@ -16,7 +16,7 @@ const HeaderCheckout = ({
                  #header {
                     height: 170px;
                     display: flex;
-                    flex-direction: row;
+                    flex-direction: column;
                     justify-content: center;
                     align-items: center;
                 }

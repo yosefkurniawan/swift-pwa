@@ -33,7 +33,8 @@
         "submit": "Kirimkan",
         "viewAll": "Lihat Semua",
         "goCheckout": "Checkout",
-        "viewandedit": "Lihat dan Ubah"
+        "viewandedit": "Lihat dan Ubah",
+        "addToCart": "Tambah ke Keranjang"
     },
     "cart" : {
         "myCart": "Cart Saya",

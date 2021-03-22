@@ -7,17 +7,17 @@ import route from 'next/router';
 import React from 'react';
 import { setResolver, getResolver } from '@helper_localstorage';
 import classNames from 'classnames';
+import ConfigurableOpt from '@core_modules/product/plugin/OptionItem';
 import { addWishlist } from '../../services/graphql';
 import useStyles from './style';
-import ConfigurableOpt from './components/ConfigurableProductItem';
 
 const ProductItem = (props) => {
     const {
         id, url_key = '', categorySelect, review, ImageProductView, DetailProductView, LabelView, className = '',
-        ...other
+        enableAddToCart, enableOption, ...other
     } = props;
     const styles = useStyles();
-    const { t } = useTranslation(['catalog']);
+    const { t } = useTranslation(['catalog', 'common']);
     const [feed, setFeed] = React.useState(false);
     const [spesificProduct, setSpesificProduct] = React.useState({});
 
@@ -71,21 +71,38 @@ const ProductItem = (props) => {
         ratingValue,
         feed,
     };
+    const showAddToCart = typeof enableAddToCart !== 'undefined' ? enableAddToCart : modules.catalog.productListing.addToCart.enabled;
+    const showOption = typeof enableOption !== 'undefined'
+        ? enableOption : modules.catalog.productListing.configurableOptions.enabled;
     return (
         <>
             <div className={classNames(styles.itemContainer, className)}>
                 {
                     modules.catalog.productListing.label.enabled && LabelView ? (
-                        <LabelView {...other} spesificProduct={spesificProduct} />
+                        <LabelView t={t} {...other} spesificProduct={spesificProduct} />
                     ) : null
                 }
                 <div className={styles.imgItem}>
-                    <ImageProductView handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
+                    <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
                 </div>
                 <div className={styles.detailItem}>
-                    <DetailProductView {...DetailProps} {...other} />
-                    {modules.catalog.productListing.configurableOptions.enabled ? (
-                        <ConfigurableOpt setSpesificProduct={setSpesificProduct} {...other} />
+                    <DetailProductView t={t} {...DetailProps} {...other} />
+                    {showOption ? (
+                        <ConfigurableOpt
+                            enableBundle={false}
+                            enableDownload={false}
+                            t={t}
+                            data={other}
+                            showQty={false}
+                            handleSelecteProduct={setSpesificProduct}
+                            showAddToCart={showAddToCart}
+                            propsItem={{
+                                className: styles.itemConfigurable,
+                            }}
+                            customStyleBtnAddToCard={styles.customBtnAddToCard}
+                            labelAddToCart="Add to cart"
+                            {...other}
+                        />
                     ) : null}
                 </div>
             </div>

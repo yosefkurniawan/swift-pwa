@@ -21,6 +21,7 @@ import StoreCreditView from './components/credit/view';
 import ExtraFeeView from './components/ExtreeFee/view';
 import Content from './components';
 import HeaderView from './components/Header';
+import PromoModalItemView from './components/PromoModalItem/view';
 
 const Page = (props) => (
     <Core
@@ -40,6 +41,7 @@ const Page = (props) => (
         Content={Content}
         HeaderView={HeaderView}
         ExtraFeeView={ExtraFeeView}
+        PromoModalItemView={PromoModalItemView}
         pageConfig={{
             title: props.t('checkout:pageTitle'),
             header: 'relative', // available values: "absolute", "relative", false (default)
