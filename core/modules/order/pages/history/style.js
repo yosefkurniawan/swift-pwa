@@ -20,6 +20,9 @@ export default makeStyles((theme) => ({
 
     linkDownload: {
         ...CreateMargin(0, 0, 0, 21),
+        [theme.breakpoints.down('sm')]: {
+            marginLeft: 0,
+        },
     },
 
     imageItem: {
@@ -134,6 +137,11 @@ export default makeStyles((theme) => ({
         },
     },
     value: {
+        [theme.breakpoints.down('sm')]: {
+            width: '50%',
+        },
+    },
+    valueDownload: {
         [theme.breakpoints.down('sm')]: {
             width: '50%',
         },

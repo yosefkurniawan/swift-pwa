@@ -17,6 +17,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Alert from '@material-ui/lab/Alert';
 import formatDate from '@helper_date';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import Button from '@material-ui/core/Button';
+import classNames from 'classnames';
 import Link from 'next/link';
 import useStyles from '../../style';
 import { SkeletonContent } from '../skeleton';
@@ -130,17 +132,31 @@ const DefaultView = (props) => {
                                                                             {`${t('order:title')}`}
                                                                         </Typography>
                                                                     </div>
-                                                                    <div className={styles.value}>
+                                                                    <div className={classNames(styles.valueDownload)}>
                                                                         <Typography variant="span" letter="capitalize">
                                                                             {val.title}
-                                                                            { val.status == 'available'
+                                                                        </Typography>
+                                                                        { val.status == 'available'
                                                                         && (
-                                                                            <a download className={styles.linkDownload} target="_blank" rel="noreferrer" href={val.download_url}>
-                                                                                <GetAppIcon color="action" />
-                                                                                {val.link_title}
+                                                                            <a
+                                                                                download
+                                                                                className={styles.linkDownload}
+                                                                                target="_blank"
+                                                                                rel="noreferrer"
+                                                                                href={val.download_url}
+                                                                            >
+                                                                                <Button
+                                                                                    variant="text"
+                                                                                    startIcon={<GetAppIcon color="action" />}
+                                                                                    size="small"
+                                                                                    disableRipple
+                                                                                >
+                                                                                    <Typography variant="span" letter="capitalize">
+                                                                                        {val.link_title}
+                                                                                    </Typography>
+                                                                                </Button>
                                                                             </a>
                                                                         )}
-                                                                        </Typography>
                                                                     </div>
                                                                 </div>
                                                             </TableCell>
