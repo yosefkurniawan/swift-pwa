@@ -345,8 +345,8 @@ const cartRequiredSelection = `
    ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
    ${modules.giftcard.enabled ? applied_giftcard : ''}
    ${modules.storecredit.enabled ? applied_store_credit : ''}
-  ${prices}
-    
+   ${prices}
+   ${cartAvailFreeItems}
     
 `;
 
