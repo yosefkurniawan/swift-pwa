@@ -57,6 +57,11 @@ export const setBillingAddressById = (options = {}) => useMutation(Schema.setBil
     ...config(USING_INTERNAL),
 });
 
+export const setBillingAddressVirtualProduct = (options = {}) => useMutation(Schema.setBillingAddressVirtualProduct, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export const setBillingAddressByInput = (options = {}) => useMutation(Schema.setBillingAddressByInput, {
     ...options,
     ...config(USING_INTERNAL),
@@ -201,6 +206,7 @@ export default {
     setShippingAddress,
     setShippingMethod,
     setBillingAddressById,
+    setBillingAddressVirtualProduct,
     setBillingAddressByInput,
     setShippingAddressByInput,
     placeOrder,

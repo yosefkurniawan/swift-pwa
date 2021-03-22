@@ -120,6 +120,15 @@ const useStyles = makeStyles(() => ({
         fontSize: 12,
         marginLeft: 30,
     },
+    reorderButton: {
+        fontSize: 12,
+        backgroundColor: 'Transparent',
+        backgroundRepeat: 'no-repeat',
+        border: 'none',
+        cursor: 'pointer',
+        overflow: 'hidden',
+        outline: 'none',
+    },
 }));
 
 export default useStyles;

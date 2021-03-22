@@ -8,12 +8,15 @@ import Router from 'next/router';
 import Cookies from 'js-cookie';
 import { regexPhone } from '@helper_regex';
 import { useFormik } from 'formik';
+import dynamic from 'next/dynamic';
 import * as Yup from 'yup';
 import {
     getToken, getTokenOtp, removeToken as deleteToken, otpConfig as queryOtpConfig,
     getCustomerCartId, mergeCart as mutationMergeCart,
 } from '../../services/graphql';
 import { getCustomer } from '../../services/graphql/schema';
+
+const Message = dynamic(() => import('@common_toast'), { ssr: false });
 
 const Login = (props) => {
     const {
@@ -32,8 +35,42 @@ const Login = (props) => {
     const [disabled, setDisabled] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [cusIsLogin, setIsLogin] = React.useState(0);
+    const [state, setState] = React.useState({
+        toastMessage: {
+            open: true,
+            variant: 'error',
+            text: t('validate:guest:wrong'),
+        },
+        backdropLoader: false,
+    });
 
     let cartId = '';
+    const handleCloseMessage = () => {
+        setState({
+            ...state,
+            toastMessage: {
+                ...state.toastMessage,
+                open: false,
+            },
+        });
+    };
+    let toastMessage = '';
+    if (typeof window !== 'undefined') {
+        const res = window.location.href.split('&');
+        if (res[1]) {
+            const error = res[1].split('error=');
+            if (error[1]) {
+                toastMessage = (
+                    <Message
+                        open={state.toastMessage.open}
+                        variant={state.toastMessage.variant}
+                        setOpen={handleCloseMessage}
+                        message={state.toastMessage.text}
+                    />
+                );
+            }
+        }
+    }
     let redirectLastPath = lastPathNoAuth;
     const expired = storeConfig.oauth_access_token_lifetime_customer
         ? new Date(Date.now() + parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) * 3600000)
@@ -220,6 +257,7 @@ const Login = (props) => {
                 disabled={disabled}
                 loading={loading}
                 formikOtp={formikOtp}
+                toastMessage={toastMessage}
             />
         </Layout>
     );

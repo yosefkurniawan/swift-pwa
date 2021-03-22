@@ -1,12 +1,10 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint max-len: ["error", { "code": 180 }] */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-undef */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable eqeqeq */
-/* eslint-disable max-len */
-
-import classNames from 'classnames';
 import Typography from '@common_typography';
 import Layout from '@layout_customer';
 import Paper from '@material-ui/core/Paper';
@@ -16,18 +14,17 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import TablePagination from '@material-ui/core/TablePagination';
 import Alert from '@material-ui/lab/Alert';
 import formatDate from '@helper_date';
-import { formatPrice } from '@helper_currency';
+import GetAppIcon from '@material-ui/icons/GetApp';
 import Link from 'next/link';
-import { SkeletonContent } from './skeleton';
-import useStyles from '../style';
+import useStyles from '../../style';
+import { SkeletonContent } from '../skeleton';
 
 const DefaultView = (props) => {
     const {
-        data, t, page, storeConfig, reOrder,
-        pageSize, handleChangePage, handleChangePageSize, loadMore,
+        data, t,
+        loadMore,
     } = props;
     const styles = useStyles();
     return (
@@ -45,13 +42,9 @@ const DefaultView = (props) => {
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="left"><Typography variant="span" type="bold">{t('order:date')}</Typography></TableCell>
-                                <TableCell align="left"><Typography variant="span" type="bold">{t('order:shippedTo')}</Typography></TableCell>
-                                <TableCell align="left"><Typography variant="span" type="bold">{t('order:orderTotal')}</Typography></TableCell>
+                                <TableCell align="left"><Typography variant="span" type="bold">{t('order:titleDownload')}</Typography></TableCell>
                                 <TableCell align="left"><Typography variant="span" type="bold">{t('order:status')}</Typography></TableCell>
-                                <TableCell align="left">
-                                    <Typography variant="span" type="bold">{t('order:action')}</Typography>
-                                    {' '}
-                                </TableCell>
+                                <TableCell align="left"><Typography variant="span" type="bold">{t('order:remaining')}</Typography></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -63,11 +56,11 @@ const DefaultView = (props) => {
                                         </TableCell>
                                     </TableRow>
                                 )
-                                    : data && data.items.length > 0
+                                    : data.length > 0
                                         ? (
                                             <>
                                                 {
-                                                    data.items.map((val, index) => (
+                                                    data.map((val, index) => (
                                                         <TableRow className={styles.tableRowResponsive} key={index}>
                                                             <TableCell
                                                                 className={styles.tableCellResponsive}
@@ -86,7 +79,16 @@ const DefaultView = (props) => {
                                                                     </div>
                                                                     <div className={styles.value}>
                                                                         <Typography variant="span" letter="capitalize">
-                                                                            {val.order_number}
+                                                                            <Link
+                                                                                href="/sales/order/view/order_id/[id]"
+                                                                                as={`/sales/order/view/order_id/${val.order_increment_id}`}
+                                                                            >
+                                                                                <a>
+                                                                                    <Typography variant="span" type="regular" decoration="underline">
+                                                                                        {val.order_increment_id}
+                                                                                    </Typography>
+                                                                                </a>
+                                                                            </Link>
                                                                         </Typography>
                                                                     </div>
                                                                 </div>
@@ -108,7 +110,7 @@ const DefaultView = (props) => {
                                                                     </div>
                                                                     <div className={styles.value}>
                                                                         <Typography variant="span" letter="capitalize">
-                                                                            {formatDate(val.created_at, 'M/DD/YY')}
+                                                                            {formatDate(val.date, 'M/DD/YY')}
                                                                         </Typography>
                                                                     </div>
                                                                 </div>
@@ -118,43 +120,26 @@ const DefaultView = (props) => {
                                                                 align="left"
                                                                 data-th={(
                                                                     <Typography align="center" type="bold" letter="capitalize">
-                                                                        {t('order:shippedTo')}
+                                                                        {t('order:title')}
                                                                     </Typography>
                                                                 )}
                                                             >
                                                                 <div className={styles.displayFlexRow}>
                                                                     <div className={styles.mobLabel}>
                                                                         <Typography align="center" type="bold" letter="capitalize">
-                                                                            {t('order:shippedTo')}
-                                                                        </Typography>
-                                                                    </div>
-                                                                    <div className={styles.value}>
-                                                                        <Typography variant="span">
-                                                                            {val.detail[0].shipping_address.firstname || val.detail[0].billing_address.firstname}
-                                                                            {' '}
-                                                                            {val.detail[0].shipping_address.lastname || val.detail[0].billing_address.lastname}
-                                                                        </Typography>
-                                                                    </div>
-                                                                </div>
-                                                            </TableCell>
-                                                            <TableCell
-                                                                className={styles.tableCellResponsive}
-                                                                align="left"
-                                                                data-th={(
-                                                                    <Typography align="center" type="bold" letter="capitalize">
-                                                                        {t('order:orderTotal')}
-                                                                    </Typography>
-                                                                )}
-                                                            >
-                                                                <div className={styles.displayFlexRow}>
-                                                                    <div className={styles.mobLabel}>
-                                                                        <Typography align="center" type="bold" letter="capitalize">
-                                                                            {t('order:orderTotal')}
+                                                                            {`${t('order:title')}`}
                                                                         </Typography>
                                                                     </div>
                                                                     <div className={styles.value}>
                                                                         <Typography variant="span" letter="capitalize">
-                                                                            {formatPrice(val.grand_total, storeConfig.base_currency_code || 'IDR')}
+                                                                            {val.title}
+                                                                            { val.status == 'available'
+                                                                        && (
+                                                                            <a download className={styles.linkDownload} target="_blank" rel="noreferrer" href={val.download_url}>
+                                                                                <GetAppIcon color="action" />
+                                                                                {val.link_title}
+                                                                            </a>
+                                                                        )}
                                                                         </Typography>
                                                                     </div>
                                                                 </div>
@@ -176,7 +161,7 @@ const DefaultView = (props) => {
                                                                     </div>
                                                                     <div className={styles.value}>
                                                                         <Typography variant="span" letter="capitalize">
-                                                                            {val.status_label}
+                                                                            {val.status}
                                                                         </Typography>
                                                                     </div>
                                                                 </div>
@@ -186,74 +171,44 @@ const DefaultView = (props) => {
                                                                 align="left"
                                                                 data-th={(
                                                                     <Typography align="center" type="bold" letter="capitalize">
-                                                                        {t('order:action')}
+                                                                        Remaining Downloads
                                                                     </Typography>
                                                                 )}
                                                             >
                                                                 <div className={styles.displayFlexRow}>
                                                                     <div className={styles.mobLabel}>
                                                                         <Typography align="center" type="bold" letter="capitalize">
-                                                                            {t('order:action')}
+                                                                            Remaining Downloads
                                                                         </Typography>
                                                                     </div>
-                                                                    <div className={classNames(styles.value, styles.action)}>
-                                                                        <Link
-                                                                            href="/sales/order/view/order_id/[id]"
-                                                                            as={`/sales/order/view/order_id/${val.order_number}`}
-                                                                        >
-                                                                            <a className={
-                                                                                (val.detail[0].aw_rma && val.detail[0].aw_rma.status)
-                                                                                    ? styles.linkView : ''
-                                                                            }
-                                                                            >
-                                                                                <Typography variant="span" type="regular" decoration="underline">
-                                                                                    {t('order:view')}
-                                                                                </Typography>
-                                                                            </a>
-                                                                        </Link>
-                                                                        {
-                                                                            (val.detail[0].aw_rma && val.detail[0].aw_rma.status)
-                                                                        && (
-                                                                            <Link
-                                                                                href="/rma/customer/new/order_id/[id]"
-                                                                                as={`/rma/customer/new/order_id/${val.order_number}`}
-                                                                            >
-                                                                                <a>
-                                                                                    <Typography variant="span">{t('order:smReturn')}</Typography>
-                                                                                </a>
-                                                                            </Link>
-                                                                        )
-                                                                        }
-                                                                        <a onClick={() => reOrder(val.order_number)}>
-                                                                            <Typography variant="span" type="regular" decoration="underline">
-                                                                                {t('order:reorder')}
-                                                                            </Typography>
-                                                                        </a>
+                                                                    <div className={styles.value}>
+                                                                        <Typography variant="span" letter="capitalize">
+                                                                            {val.remaining_downloads}
+                                                                        </Typography>
                                                                     </div>
                                                                 </div>
                                                             </TableCell>
                                                         </TableRow>
                                                     ))
                                                 }
-                                                <TableRow>
-                                                    <TablePagination
-                                                        rowsPerPageOptions={[10, 20, 50, { label: 'All', value: -1 }]}
-                                                        colSpan={6}
-                                                        count={data.total_count || 0}
-                                                        rowsPerPage={pageSize}
-                                                        page={page}
-                                                        labelRowsPerPage="Limit"
-                                                        SelectProps={{
-                                                            inputProps: { 'aria-label': 'rows per page' },
-                                                            native: true,
-                                                        }}
-                                                        onChangePage={handleChangePage}
-                                                        onChangeRowsPerPage={handleChangePageSize}
-                                                    />
-                                                </TableRow>
+                                                {/* <TableRow>
+                                                <TablePagination
+                                                    rowsPerPageOptions={[10, 20, 50, { label: 'All', value: -1 }]}
+                                                    colSpan={6}
+                                                    count={data.length || 0}
+                                                    rowsPerPage={10}
+                                                    page={0}
+                                                    labelRowsPerPage="Limit"
+                                                    SelectProps={{
+                                                        inputProps: { 'aria-label': 'rows per page' },
+                                                        native: true,
+                                                    }}
+                                                    onChangePage={handleChangePage}
+                                                    onChangeRowsPerPage={handleChangePageSize}
+                                                />
+                                            </TableRow> */}
                                             </>
                                         )
-
                                         : (
                                             <TableRow>
                                                 <TableCell colSpan={6}>

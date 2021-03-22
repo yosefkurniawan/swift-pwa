@@ -58,7 +58,6 @@ const OptionsItemDownload = ({
         setSelectDownloadable({
             ...selectedOption,
         });
-        console.log(selectedOption);
         for (const [key, value] of Object.entries(selectedOption)) {
             final_price_sum += value;
         }
@@ -85,7 +84,6 @@ const OptionsItemDownload = ({
         for (const [key, value] of Object.entries(selectDownloadable)) {
             options.push({ link_id: parseFloat(key) });
         }
-        console.log(JSON.stringify(options));
         setLoadingAdd(true);
         const errorMessage = {
             variant: 'error',
@@ -153,7 +151,6 @@ const OptionsItemDownload = ({
                     setOpen(false);
                 })
                 .catch((e) => {
-                    console.log(e);
                     setLoadingAdd(false);
                     window.toastMessage({
                         ...errorMessage,

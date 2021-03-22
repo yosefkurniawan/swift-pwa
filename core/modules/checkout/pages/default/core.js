@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable eqeqeq */
 import * as Yup from 'yup';
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
 import { getCartId } from '@helpers/cartId';
-import { formatPrice } from '@helpers/currency';
 import Router from 'next/router';
 import Layout from '@layout';
 import Head from 'next/head';
@@ -61,7 +61,15 @@ const Checkout = (props) => {
             Router.push(urlRedirect);
         }
     }
-    const { snap_is_production, snap_client_key, base_currency_code = 'IDR' } = storeConfig;
+
+    const {
+        snap_is_production, snap_client_key, base_currency_code = 'IDR', allow_guest_checkout,
+    } = storeConfig;
+    if (!allow_guest_checkout && !Cookies.get('isLogin')) {
+        urlRedirect = 'customer/account/login?redirect=/checkout&error=guest';
+        Router.push(urlRedirect);
+    }
+
     const configPage = {
         title: t('checkout:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)
@@ -154,14 +162,14 @@ const Checkout = (props) => {
         if (cartItems) {
             const cartItemsFilter = cartItems.filter((item) => {
                 const { __typename } = item.product;
-                return __typename === 'VirtualProduct';
+                return __typename === 'VirtualProduct' || 'DownloadableProduct';
             });
 
             /**
              * if cartitems and cartItemsFilter length same
              * it's mean cart only contain virtual product
              */
-            const isAllVirtual = cartItems.length === cartItemsFilter.length;
+            const isAllVirtual = cartItems.length === cartItemsFilter.length && cartItems.length == 1;
             if (isAllVirtual) return true;
         }
         return false;

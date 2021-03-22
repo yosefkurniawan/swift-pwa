@@ -493,7 +493,6 @@ export const getCart = gql`
             ${cartShippingAddress}
             ${cartBillingAddress}
             ${selected_payment_method}
-            ${cartAvailFreeItems}
         }
     }
 `;
@@ -558,6 +557,47 @@ export const setShippingAddressByInput = gql`
                 shipping_addresses {
                     ${shortAddressData}
                 }
+            }
+        }
+    }
+`;
+
+export const setBillingAddressVirtualProduct = gql`
+    mutation setBillingAddressById(
+            $cartId: String!,
+            $city: String!
+            $countryCode: String!
+            $firstname: String!
+            $lastname: String!
+            $telephone: String!
+            $postcode: String!
+            $street: String!
+            $region: String!
+            $latitude: String
+            $longitude: String
+        ) {
+        setBillingAddressOnCart(input: { 
+                cart_id: $cartId, 
+                billing_address: { 
+                    same_as_shipping: true, 
+                    address:{
+                        city: $city
+                        country_code: $countryCode
+                        firstname: $firstname
+                        lastname: $lastname
+                        telephone: $telephone
+                        region: $region
+                        street: [$street]
+                        postcode: $postcode
+                        latitude: $latitude
+                        longitude: $longitude
+                        save_in_address_book: true
+                    } 
+            } 
+        }) {
+            cart {
+                ${cartBillingAddress}
+
             }
         }
     }
@@ -689,7 +729,6 @@ export const applyCouponToCart = gql`
                 ${cartShippingAddress}
                 ${cartAvailablePaymentMethods}
                 ${itemsProduct}
-                ${cartAvailFreeItems}
             }
         }
     }
@@ -707,7 +746,6 @@ export const removeCouponFromCart = gql`
                 ${cartShippingAddress}
                 ${cartAvailablePaymentMethods}
                 ${itemsProduct}
-                ${cartAvailFreeItems}
             }
         }
     }
