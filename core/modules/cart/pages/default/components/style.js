@@ -88,6 +88,14 @@ const useStyles = makeStyles((theme) => ({
         '& .alert': {
             marginTop: 10,
         },
+        '& .product-options': {
+            '& .option-wrapper': {
+                fontSize: 10,
+                '& .option-wrapper__item': {
+                    paddingLeft: 10,
+                },
+            },
+        },
     },
     itemName: {
         textDecoration: 'none',

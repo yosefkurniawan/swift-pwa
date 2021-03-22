@@ -140,6 +140,41 @@ const TableListProduct = ({
                                                         <a>
                                                             <Typography variant="span" letter="capitalize">
                                                                 {val.product.name}
+                                                                { val.configurable_options ? val.configurable_options.map((item, idx) => (
+                                                                    <div key={idx}>
+                                                                        {item.option_label}
+                                                                        {' '}
+                                                                        :
+                                                                        {' '}
+                                                                        {item.value_label}
+                                                                    </div>
+                                                                )) : null}
+                                                                {val.bundle_options && val.bundle_options.length ? (
+                                                                    <div className="product-options">
+                                                                        {val.bundle_options.map((value, idx) => (
+                                                                            <div className="option-wrapper" key={idx}>
+                                                                                <strong>{value.label}</strong>
+                                                                                {' '}
+                                                                                :
+                                                                                <div className="option-wrapper__item">
+                                                                                    {value.values.map((item, idt) => (
+                                                                                        <div key={idt}>
+                                                                                            {item.quantity}
+                                                                                            {' '}
+                                                                                            x
+                                                                                            {item.label}
+                                                                                            {' '}
+                                                                                            <strong>
+                                                                                                + $
+                                                                                                {item.price}
+                                                                                            </strong>
+                                                                                        </div>
+                                                                                    ))}
+                                                                                </div>
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                ) : null}
                                                             </Typography>
                                                         </a>
                                                     </Link>
