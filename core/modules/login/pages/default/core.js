@@ -94,6 +94,7 @@ const Login = (props) => {
             request: 'internal',
         },
         skip: !cusIsLogin,
+        fetchPolicy: 'no-cache',
     });
 
     // handle revoke token

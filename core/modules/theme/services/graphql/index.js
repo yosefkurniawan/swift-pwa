@@ -13,6 +13,7 @@ export const getCustomer = () => useQuery(schema.getCustomer, {
         request: 'internal',
         skip: typeof window === 'undefined',
     },
+    fetchPolicy: 'no-cache',
 });
 
 export const removeToken = () => useMutation(schema.removeToken, {
