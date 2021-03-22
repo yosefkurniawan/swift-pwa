@@ -50,7 +50,8 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 20,
         '& .product-options': {
             fontSize: 11,
-            paddingLeft: 20,
+            paddingLeft: 0,
+            marginTop: 10,
             marginBottom: 20,
         },
     },
@@ -87,6 +88,17 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: 30,
         '& .alert': {
             marginTop: 10,
+        },
+        '& .product-options': {
+            '& .option-wrapper': {
+                fontSize: 10,
+                '& .option-wrapper__item': {
+                    paddingLeft: 0,
+                },
+            },
+        },
+        '& .option-link-mobile': {
+            paddingLeft: 5,
         },
     },
     itemName: {
