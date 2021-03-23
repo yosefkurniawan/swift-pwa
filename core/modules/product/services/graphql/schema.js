@@ -454,44 +454,22 @@ mutation (
 `;
 
 export const addBundleProductsToCart = gql`
-mutation(
-  $cartId : String!,
-  $sku: String!,
-  $qty: Float!,
-  $download_product_link: [DownloadableProductLinksInput]
+mutation (
+  $cartId: String!,
+  $cartItems: [BundleProductCartItemInput]!
 ) {
-  addDownloadableProductsToCart(
-    input: {
-      cart_id: $cartId
-      cart_items: {
-        data: {
-          sku: $sku
-          quantity: $qty
+      addBundleProductsToCart(
+        input: {
+          cart_id: $cartId
+          cart_items: $cartItems
         }
-        downloadable_product_links: $download_product_link
-      }
-    }
-  ) {
-    cart {
-      items {
-        product {
-          sku
-        }
-        quantity
-        ... on DownloadableCartItem {
-          links {
-            title
-            price
-          }
-          samples {
-            title
-            sample_url
-          }
+      ) {
+        cart {
+          id
+          total_quantity
         }
       }
     }
-  }
-}
 `;
 
 export const addReview = gql`
