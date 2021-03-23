@@ -282,11 +282,13 @@ const TableListProduct = ({
                                             </TableRow>
                                             <TableRow>
                                                 {(val && val.product.stock_status === 'OUT_OF_STOCK') ? (
-                                                    <TableCell colSpan={3}>
-                                                        <Alert severity="error">
-                                                            { t('cart:oos') }
-                                                        </Alert>
-                                                    </TableCell>
+                                                    <>
+                                                        <TableCell colSpan={3}>
+                                                            <Alert severity="error" style={{ width: '11vw' }}>
+                                                                {t('cart:oos')}
+                                                            </Alert>
+                                                        </TableCell>
+                                                    </>
                                                 ) : (<TableCell colSpan={3} />)}
                                                 <TableCell
                                                     align="right"
