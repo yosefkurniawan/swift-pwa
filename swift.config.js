@@ -47,7 +47,7 @@ const passwordStrength = {
 };
 
 /* Translation */
-const translatable = {
+const translation = {
     defaultLanguage: 'id', // just change to your default language
     languages: ['en', 'id'], // array code language what you want
     // language label code
@@ -491,5 +491,5 @@ module.exports = {
     originName,
     useMagentoCommerce,
     rollbar,
-    translatable,
+    translation,
 };

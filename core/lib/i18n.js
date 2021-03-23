@@ -1,14 +1,14 @@
 const NextI18Next = require('next-i18next').default;
 const path = require('path');
-const { translatable } = require('../../swift.config');
+const { translation } = require('../../swift.config');
 
 const localeSubpaths = {};
 
 module.exports = new NextI18Next({
-    otherLanguages: translatable.languages.filter((lang) => lang !== translatable.defaultLanguage),
+    otherLanguages: translation.languages.filter((lang) => lang !== translation.defaultLanguage),
     localeSubpaths,
-    defaultLanguage: translatable.defaultLanguage,
-    fallbackLng: translatable.languages,
+    defaultLanguage: translation.defaultLanguage,
+    fallbackLng: translation.languages,
     localePath: path.resolve('./public/static/locales'),
     shallowRender: true,
     serverLanguageDetection: false,
