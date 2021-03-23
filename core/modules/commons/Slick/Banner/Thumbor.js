@@ -1,12 +1,12 @@
 import classNames from 'classnames';
 import { BREAKPOINTS } from '@theme_vars';
+import { generateThumborUrl } from '@helpers/image';
 import useStyles from './style';
 
 const Image = ({
     className = '', alt = 'Image', lazy = false, src, srcMobile, width, height, widthMobile, heightMobile,
 }) => {
     const styles = useStyles();
-    const thumborLink = (_width, _height, _src) => `https://thumbor.sirclocdn.xyz/unsafe/${_width}x${_height}/filters:format(webp)/${_src}`;
     return (
         <div
             // ref={imgContainer}
@@ -15,12 +15,12 @@ const Image = ({
             {!lazy ? (
                 <picture>
                     {srcMobile ? (
-                        <source srcSet={thumborLink(widthMobile, heightMobile, srcMobile)} media={`(max-width: ${BREAKPOINTS.sm}px)`} />
+                        <source srcSet={generateThumborUrl(srcMobile, widthMobile, heightMobile)} media={`(max-width: ${BREAKPOINTS.sm}px)`} />
                     ) : null}
                     <img
                         data-pagespeed-no-defer
                         className={classNames(styles.thumborImage, className)}
-                        src={thumborLink(width, height, src)}
+                        src={generateThumborUrl(src, width, height)}
                         onError={(e) => {
                             e.target.onerror = null;
                             e.target.src = '/assets/img/placeholder.png';
