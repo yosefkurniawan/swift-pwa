@@ -3,6 +3,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import Image from 'next/image';
+import { generateThumborUrl } from '@helpers/image';
 
 const CustomImage = ({
     src,
@@ -21,9 +22,7 @@ const CustomImage = ({
     return (
         <>
             <Image
-                src={
-                    `https://thumbor.sirclocdn.xyz/unsafe/${width}x${height}/filters:format(webp)/${src}`
-                }
+                src={generateThumborUrl(src, width, height)}
                 width={width}
                 height={height}
                 alt={alt}

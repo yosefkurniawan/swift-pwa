@@ -204,6 +204,9 @@ const features = {
             pairKey: 'BBIzfGdH56tlTaV1jxqaWA_n47trFqy51WjcCn9Fa1-7xzmY4iBwBlGQjO1e_bRBEx9kq4o8q4zyl14JuXSIC-k',
         },
     },
+    thumbor: {
+        url: 'https://thumbor.sirclocdn.xyz/unsafe/widthxheight/filters:format(webp)/',
+    },
 };
 
 const modules = {
