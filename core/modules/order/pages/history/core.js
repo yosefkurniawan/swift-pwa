@@ -4,6 +4,7 @@ import { setCartId } from '@helper_cartid';
 import PropTypes from 'prop-types';
 import CustomerLayout from '@layout_customer';
 import { useRouter } from 'next/router';
+import { getHost } from '@helpers/config';
 import { getOrder, reOrder as mutationReorder } from '../../services/graphql';
 
 const HistoryOrder = (props) => {
@@ -91,6 +92,10 @@ const HistoryOrder = (props) => {
         }
     };
 
+    const returnUrl = (order_number) => {
+        window.location.replace(`${getHost()}/rma/customer/new/order_id/${order_number}`);
+    };
+
     return (
         <Layout pageConfig={pageConfig} {...props}>
             <Content
@@ -103,6 +108,7 @@ const HistoryOrder = (props) => {
                 handleChangePage={handleChangePage}
                 handleChangePageSize={handleChangePageSize}
                 reOrder={reOrder}
+                returnUrl={returnUrl}
             />
         </Layout>
     );
