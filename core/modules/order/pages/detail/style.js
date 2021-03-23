@@ -93,6 +93,7 @@ export default makeStyles((theme) => ({
         ...CreatePadding(5, 5, 5, 5),
         ...CreateMargin(5, 0, 0, 0),
         ...Centering,
+        marginRight: 10,
     },
 
     reorderButton: {

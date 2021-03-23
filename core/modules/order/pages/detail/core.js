@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { features } from '@config';
 import { setCartId } from '@helper_cartid';
+import { getHost } from '@helpers/config';
 import { getOrderDetail, reOrder as mutationReorder } from '../../services/graphql';
 
 const OrderDetail = (props) => {
@@ -68,9 +69,20 @@ const OrderDetail = (props) => {
         }
     };
 
+    const returnUrl = (order_number) => {
+        window.location.replace(`${getHost()}/rma/customer/new/order_id/${order_number}`);
+    };
+
     return (
         <Layout pageConfig={pageConfig} {...props}>
-            <Content {...props} detail={detail} currency={currency} features={features} reOrder={reOrder} />
+            <Content
+                {...props}
+                detail={detail}
+                currency={currency}
+                features={features}
+                returnUrl={returnUrl}
+                reOrder={reOrder}
+            />
         </Layout>
     );
 };
