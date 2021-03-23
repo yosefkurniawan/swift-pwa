@@ -47,9 +47,14 @@ const passwordStrength = {
 };
 
 /* Translation */
-const languagesLabel = {
-    id: 'Bahasa Indonesia',
-    en: 'English',
+const translatable = {
+    defaultLanguage: 'id', // just change to your default language
+    languages: ['en', 'id'], // array code language what you want
+    // language label code
+    languagesLabel: {
+        en: 'English',
+        id: 'Bahasa Indonesia',
+    },
 };
 
 /* Google Tag Manager
@@ -463,7 +468,6 @@ module.exports = {
     graphqlEndpoint,
     shareIcon,
     passwordStrength,
-    languagesLabel,
     expiredCookies,
     storeConfigNameCookie,
     nameCartId,
@@ -487,4 +491,5 @@ module.exports = {
     originName,
     useMagentoCommerce,
     rollbar,
+    translatable,
 };

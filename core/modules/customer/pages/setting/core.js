@@ -1,6 +1,6 @@
 import Layout from '@layout';
 import { useMutation } from '@apollo/client';
-import { languagesLabel } from '@config';
+import { translatable } from '@config';
 import * as Schema from '../../services/graphql/schema';
 import { getCustomerSettings } from '../../services/graphql';
 
@@ -19,7 +19,7 @@ const SettingsPage = (props) => {
     const dataLang = [];
     languages.forEach((lang) => {
         dataLang.push({
-            label: languagesLabel[lang],
+            label: translatable.languagesLabel[lang],
             value: lang,
         });
     });
