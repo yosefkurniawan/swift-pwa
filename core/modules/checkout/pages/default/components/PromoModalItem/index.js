@@ -125,10 +125,12 @@ const PromoModalItem = (props) => {
                             qtyFreeItem += product[0].quantity;
                         }
                     }
-                    items.push({
-                        freeItemsData: freeItemsData[0],
-                        ...item,
-                    });
+                    if (dataArray.find((dt) => dt === item.sku)) {
+                        items.push({
+                            freeItemsData: freeItemsData[0],
+                            ...item,
+                        });
+                    }
                 }
 
                 if (qtyFreeItem < checkout.data.cart.available_free_items[0].quantity) {
