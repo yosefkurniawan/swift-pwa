@@ -114,6 +114,7 @@ const useStyles = makeStyles(() => ({
     },
     desktopLink: {
         fontSize: 12,
+        textDecoration: 'underline',
     },
     desktopLinkHeader: {
         fontWeight: 'normal',
@@ -128,6 +129,7 @@ const useStyles = makeStyles(() => ({
         cursor: 'pointer',
         overflow: 'hidden',
         outline: 'none',
+        marginLeft: 15,
     },
 }));
 
