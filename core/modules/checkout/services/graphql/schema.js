@@ -1018,14 +1018,8 @@ mutation addProductsToCartPromo(
     ) {
       cart {
         id
-        applied_coupons {
-            code
-        }
-        ${cartRequiredSelection}
-        ${cartShippingAddress}
-        ${cartAvailablePaymentMethods}
+        ${prices}
         ${itemsProduct}
-        ${cartAvailFreeItems}
       }
     }
   }
