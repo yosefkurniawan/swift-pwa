@@ -23,7 +23,7 @@ const Detail = (props) => {
     const showWishlist = typeof enableWishlist !== 'undefined' ? enableWishlist : modules.wishlist.enabled;
     const showRating = typeof enableRating !== 'undefined' ? enableRating : modules.catalog.productListing.rating;
     return (
-        <div className={styles.descItem} style={{ ...(showWishlist ? {} : { alignItems: 'center' }) }}>
+        <div className={styles.descItem}>
             {showWishlist && (
                 <Button
                     className={styles.btnFeed}

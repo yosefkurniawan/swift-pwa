@@ -9,6 +9,7 @@ const ConfigurableView = (props) => {
     const {
         loading, disabled, showQty = true, handleAddToCart, qty, setQty,
         t, showAddToCart = true, customStyleBtnAddToCard = '', labelAddToCart = '',
+        maxQty = 10000,
     } = props;
     const styles = useStyles();
     return (
@@ -19,7 +20,7 @@ const ConfigurableView = (props) => {
                     <ButtonQty
                         value={qty}
                         onChange={setQty}
-                        max={10000}
+                        max={maxQty}
                         disabled={disabled}
                     />
                 </div>

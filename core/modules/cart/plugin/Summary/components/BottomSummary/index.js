@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import Slide from '@material-ui/core/Slide';
 import Typography from '@common_typography';
 import Button from '@common_button';
@@ -15,11 +17,13 @@ import { formatPrice } from '@helper_currency';
 import Divider from '@material-ui/core/Divider';
 import classNames from 'classnames';
 import Skeleton from '@material-ui/lab/Skeleton';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteOutlineOutlined from '@material-ui/icons/DeleteOutlineOutlined';
 import useStyles from './style';
 
 const CheckoutDrawer = ({
     editMode, t, summary, handleActionSummary, loading, disabled, showItems = false, items = [], label = '',
-    isLoader,
+    isLoader, deleteCart, updateCart, withAction,
 }) => {
     const styles = useStyles();
     const [expanded, setExpanded] = useState(null);
@@ -81,7 +85,8 @@ const CheckoutDrawer = ({
                                                                                 item.configurable_options
                                                                             && item.configurable_options.length > 0
                                                                             && (
-                                                                                `
+                                                                                <>
+                                                                                    {`
                                                                                 ${t('common:variant')} 
                                                                                 : 
                                                                                 ${
@@ -91,13 +96,55 @@ const CheckoutDrawer = ({
                                                                                     }
                                                                                     return ` ${option.value_label}`;
                                                                                 })
-                                                                                }`
+                                                                                }`}
+                                                                                    <br />
+                                                                                </>
                                                                             )
                                                                             }
-                                                            &nbsp; &nbsp; &nbsp;
                                                                             {`${t('common:title:shortQty')} : ${item.quantity}`}
                                                                         </Typography>
                                                                     </div>
+                                                                    { withAction && (
+                                                                        <div
+                                                                            className={
+                                                                                classNames(
+                                                                                    'col-xs-12  row between-xs clear-margin-padding',
+                                                                                    styles.action,
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            <div className="col-xs-6">
+                                                                                <span
+                                                                                    className="item-minus qty-update"
+                                                                                    onClick={() => {
+                                                                                        if (item.quantity > 1) {
+                                                                                            setExpanded(false);
+                                                                                            updateCart(item.id, item.quantity - 1);
+                                                                                        }
+                                                                                    }}
+                                                                                />
+                                                                                <span className="item-count">{item.quantity}</span>
+                                                                                <span
+                                                                                    className="item-plus qty-update"
+                                                                                    onClick={() => {
+                                                                                        setExpanded(false);
+                                                                                        updateCart(item.id, item.quantity + 1);
+                                                                                    }}
+                                                                                />
+                                                                            </div>
+                                                                            <div
+                                                                                className="col-xs-6 delete"
+                                                                                onClick={() => {
+                                                                                    setExpanded(0);
+                                                                                    deleteCart(item.id);
+                                                                                }}
+                                                                            >
+                                                                                <IconButton className="delete-button" color="inherit">
+                                                                                    <DeleteOutlineOutlined className="icon-delete" />
+                                                                                </IconButton>
+                                                                            </div>
+                                                                        </div>
+                                                                    ) }
                                                                 </div>
                                                             ))
                                                         }

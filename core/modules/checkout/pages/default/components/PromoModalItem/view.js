@@ -18,6 +18,7 @@ const Caraousel = dynamic(() => import('@common_slick/Caraousel'), { ssr: false 
 const PromoModalItemView = (props) => {
     const {
         items, handleAddToCart, handleClickOpen, handleClose, open,
+        availableMaxQty,
     } = props;
     const styles = useStyles();
 
@@ -38,6 +39,7 @@ const PromoModalItemView = (props) => {
                 <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="md">
                     <MuiDialogTitle disableTypography className={styles.root} id="customized-dialog-title">
                         <Typography variant="h6">Free Promo Items</Typography>
+                        <Typography variant="span">{`Available max quatity : ${availableMaxQty}`}</Typography>
                         {handleClose ? (
                             <IconButton aria-label="close" className={styles.closeButton} onClick={handleClose}>
                                 <CloseIcon />
@@ -54,6 +56,8 @@ const PromoModalItemView = (props) => {
                             enableWishlist={false}
                             enablePrice={false}
                             enableRating={false}
+                            showQty
+                            maxQty={availableMaxQty}
                         />
                     </div>
                 </Dialog>

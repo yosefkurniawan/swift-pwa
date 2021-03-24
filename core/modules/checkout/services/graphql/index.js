@@ -191,6 +191,15 @@ export const addProductToCartPromo = () => useMutation(Schema.addProductToCartPr
     ...config(USING_INTERNAL),
 });
 
+// action item cart
+export const deleteItemCart = () => useMutation(Schema.deleteCartitem, {
+    ...config(USING_INTERNAL),
+});
+
+export const updateItemCart = () => useMutation(Schema.updateCartitem, {
+    ...config(USING_INTERNAL),
+});
+
 export default {
     updateExtraFee,
     updatedDefaultAddress,
@@ -225,4 +234,6 @@ export default {
     getPickupStore,
     setPickupStore,
     removePickupStore,
+    deleteItemCart,
+    updateItemCart,
 };

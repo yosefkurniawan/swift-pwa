@@ -166,8 +166,14 @@ const OptionsItemConfig = (props) => {
         if (JSON.stringify(errorData) === '{}') {
             if (CustomAddToCart && typeof CustomAddToCart === 'function') {
                 CustomAddToCart({
-                    parentProduct: data,
-                    childProduct: selectedProduct,
+                    parentProduct: {
+                        ...data,
+                        qty: parseFloat(qty),
+                    },
+                    childProduct: {
+                        ...selectedProduct,
+                        qty: parseFloat(qty),
+                    },
                 });
             } else {
                 setLoading(true);

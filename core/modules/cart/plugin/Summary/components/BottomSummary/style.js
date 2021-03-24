@@ -76,6 +76,38 @@ const useStyles = makeStyles((theme) => ({
         marginTop: -10,
         marginBottom: 5,
     },
+    action: {
+        marginTop: -15,
+        marginBottom: 5,
+        '& .item-minus': {
+            cursor: 'pointer',
+            '&::after': {
+                fontSize: 16,
+                content: '"<"',
+            },
+        },
+        '& .item-count': {
+            padding: '0px 10px',
+            fontSize: 14,
+        },
+        '& .item-plus': {
+            cursor: 'pointer',
+            fontSize: 16,
+            '&::after': {
+                content: '">"',
+            },
+        },
+        '& .delete': {
+            textAlign: 'right',
+            '& .delete-button': {
+                width: 20,
+                height: 20,
+            },
+            '& .icon-delete': {
+                fontSize: 16,
+            },
+        },
+    },
     list: {
         padding: 0,
     },

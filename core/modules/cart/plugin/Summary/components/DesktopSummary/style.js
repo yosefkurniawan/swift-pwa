@@ -40,6 +40,16 @@ const useStyles = makeStyles(() => ({
 
     listProduct: {
         padding: 20,
+        position: 'relative',
+        '& .delete': {
+            position: 'absolute',
+            top: 22,
+            right: 0,
+            fontSize: 15,
+            cursor: 'pointer',
+            width: 10,
+            height: 10,
+        },
     },
     imgProduct: {
         width: 75,
@@ -68,6 +78,21 @@ const useStyles = makeStyles(() => ({
     },
     bodyProductItem: {
         ...FlexColumn,
+        '& .item-minus': {
+            cursor: 'pointer',
+            '&::after': {
+                content: '"<"',
+            },
+        },
+        '& .item-count': {
+            padding: '0px 10px',
+        },
+        '& .item-plus': {
+            cursor: 'pointer',
+            '&::after': {
+                content: '">"',
+            },
+        },
     },
 }));
 
