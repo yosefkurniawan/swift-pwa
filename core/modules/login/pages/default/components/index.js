@@ -36,12 +36,6 @@ const Login = (props) => {
     } = props;
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
-    console.log(features.socialLogin.facebook);
-    console.log(firebase.auth.GoogleAuthProvider.PROVIDER_ID);
-    console.log(firebase.auth.FacebookAuthProvider.PROVIDER_ID);
-    console.log(firebase.auth.TwitterAuthProvider.PROVIDER_ID);
-    console.log(firebase.auth.GithubAuthProvider.PROVIDER_ID);
-    console.log(firebase.auth.EmailAuthProvider.PROVIDER_ID);
 
     return (
         <div className={styles.container}>
