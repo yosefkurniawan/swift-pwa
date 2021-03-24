@@ -36,7 +36,7 @@ const PromoModalItem = (props) => {
         await setCheckout(state);
         await window.backdropLoader(true);
         await handleClose();
-        mutationAddToCart({
+        await mutationAddToCart({
             variables: {
                 cart_id: checkout.data.cart.id,
                 cart_items: [{
@@ -76,13 +76,10 @@ const PromoModalItem = (props) => {
                 variant: 'error',
             });
         });
-
-        const finalState = {
-            ...checkout,
-        };
-        finalState.loading.payment = true;
-        finalState.loading.order = true;
-        await setCheckout(finalState);
+        state = { ...checkout };
+        state.loading.payment = false;
+        state.loading.order = false;
+        await setCheckout(state);
     };
 
     let availableMaxQty = 0;
