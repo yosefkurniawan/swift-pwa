@@ -5,6 +5,7 @@ import PasswordField from '@common_password';
 import Button from '@common_button';
 import Typography from '@common_typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { features } from '@config';
 import Switch from '@material-ui/core/Switch';
 import Divider from '@material-ui/core/Divider';
 import { breakPointsUp } from '@helper_theme';
@@ -18,11 +19,11 @@ import useStyles from './style';
 const uiConfig = {
     signInFlow: 'popup',
     signInOptions: [
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-        firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-        firebase.auth.GithubAuthProvider.PROVIDER_ID,
-        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        features.socialLogin.google ? firebase.auth.GoogleAuthProvider.PROVIDER_ID : '',
+        features.socialLogin.facebook ? firebase.auth.FacebookAuthProvider.PROVIDER_ID : '',
+        features.socialLogin.twitter ? firebase.auth.TwitterAuthProvider.PROVIDER_ID : '',
+        features.socialLogin.github ? firebase.auth.GithubAuthProvider.PROVIDER_ID : '',
+        features.socialLogin.email ? firebase.auth.EmailAuthProvider.PROVIDER_ID : '',
     ],
     callbacks: {
         signInSuccess: () => false,
@@ -35,6 +36,13 @@ const Login = (props) => {
     } = props;
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
+    console.log(features.socialLogin.facebook);
+    console.log(firebase.auth.GoogleAuthProvider.PROVIDER_ID);
+    console.log(firebase.auth.FacebookAuthProvider.PROVIDER_ID);
+    console.log(firebase.auth.TwitterAuthProvider.PROVIDER_ID);
+    console.log(firebase.auth.GithubAuthProvider.PROVIDER_ID);
+    console.log(firebase.auth.EmailAuthProvider.PROVIDER_ID);
+
     return (
         <div className={styles.container}>
             {!desktop && otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login && (

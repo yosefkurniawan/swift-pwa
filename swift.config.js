@@ -189,6 +189,13 @@ const features = {
     customInstallApp: {
         enabled: true,
     },
+    socialLogin: {
+        facebook: false,
+        google: true,
+        twitter: false,
+        github: true,
+        email: false,
+    },
     pushNotification: {
         enabled: true,
         config: {
