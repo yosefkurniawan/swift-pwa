@@ -202,11 +202,7 @@ const DefaultView = (props) => {
                                                                             href="/sales/order/view/order_id/[id]"
                                                                             as={`/sales/order/view/order_id/${val.order_number}`}
                                                                         >
-                                                                            <a className={
-                                                                                (val.detail[0].aw_rma && val.detail[0].aw_rma.status)
-                                                                                    ? styles.linkView : ''
-                                                                            }
-                                                                            >
+                                                                            <a>
                                                                                 <Typography variant="span" type="regular" decoration="underline">
                                                                                     {t('order:view')}
                                                                                 </Typography>
