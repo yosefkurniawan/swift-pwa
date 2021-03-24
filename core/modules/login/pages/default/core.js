@@ -1,4 +1,6 @@
 /* eslint-disable no-use-before-define */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-shadow */
 import Layout from '@layout';
 import { setLogin, getLastPathWithoutLogin } from '@helper_auth';
 import { setCartId, getCartId } from '@helper_cartid';
@@ -10,9 +12,11 @@ import { regexPhone } from '@helper_regex';
 import { useFormik } from 'formik';
 import dynamic from 'next/dynamic';
 import * as Yup from 'yup';
+import firebase from 'firebase/app';
+import React from 'react';
 import {
     getToken, getTokenOtp, removeToken as deleteToken, otpConfig as queryOtpConfig,
-    getCustomerCartId, mergeCart as mutationMergeCart,
+    getCustomerCartId, mergeCart as mutationMergeCart, socialLogin,
 } from '../../services/graphql';
 import { getCustomer } from '../../services/graphql/schema';
 
@@ -35,6 +39,53 @@ const Login = (props) => {
     const [disabled, setDisabled] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [cusIsLogin, setIsLogin] = React.useState(0);
+    const [actSocialLogin] = socialLogin();
+
+    // Listen to the Firebase Auth state and set the local state.
+
+    React.useEffect(() => {
+        const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
+            if (firebase.auth().currentUser) {
+                const fullname = user.displayName.split(' ');
+                const firstName = fullname[0];
+                let lastName = '';
+                const { email } = user;
+                fullname.forEach((entry) => {
+                    if (entry != firstName) {
+                        lastName += `${entry} `;
+                    }
+                });
+                firebase.auth().currentUser.getIdToken(true).then((user) => {
+                    setDisabled(true);
+                    setLoading(true);
+                    window.backdropLoader(true);
+                    actSocialLogin({
+                        variables: {
+                            email,
+                            socialtoken: user,
+                            firstname: firstName,
+                            lastname: lastName,
+                        },
+                    }).then(async () => {
+                        setLogin(1, expired);
+                        await setIsLogin(1);
+                        getCart();
+                    }).catch((e) => {
+                        setDisabled(false);
+                        setLoading(false);
+                        window.backdropLoader(false);
+                        window.toastMessage({
+                            open: true,
+                            variant: 'error',
+                            text: e.message.split(':')[0] || t('login:failed'),
+                        });
+                    });
+                });
+            }
+        });
+        return () => unregisterAuthObserver();
+    }, []);
+
     const [state, setState] = React.useState({
         toastMessage: {
             open: true,

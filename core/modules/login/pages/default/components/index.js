@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+import React from 'react';
 import TextField from '@common_textfield';
 import PasswordField from '@common_password';
 import Button from '@common_button';
@@ -7,10 +9,25 @@ import Switch from '@material-ui/core/Switch';
 import Divider from '@material-ui/core/Divider';
 import { breakPointsUp } from '@helper_theme';
 import classNames from 'classnames';
+import firebase from 'firebase/app';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import OtpBlock from '../../../plugins/otp';
 import OtpView from '../../../plugins/otp/view';
-
 import useStyles from './style';
+
+const uiConfig = {
+    signInFlow: 'popup',
+    signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+        firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+        firebase.auth.GithubAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+    ],
+    callbacks: {
+        signInSuccess: () => false,
+    },
+};
 
 const Login = (props) => {
     const {
@@ -87,6 +104,9 @@ const Login = (props) => {
                                                         {loading ? 'Loading' : t('login:pageTitle')}
                                                     </Typography>
                                                 </Button>
+                                            </div>
+                                            <div className="col-xs-12 col-sm-12">
+                                                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
                                             </div>
                                             <div className="col-xs-12 col-sm-12">
                                                 <Button
