@@ -99,5 +99,5 @@ const remove = (key) => {
 };
 
 export default {
-    set, get, remove,
+    set, get, remove, setCookies, getCookies,
 };
