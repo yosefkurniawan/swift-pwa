@@ -1,5 +1,6 @@
 import { formatPrice } from '@helper_currency';
 import config from '@config';
+import propTypes from 'prop-types';
 
 const CoreSummary = (props) => {
     const {
@@ -16,7 +17,6 @@ const CoreSummary = (props) => {
         applied_reward_points = {},
         shipping_addresses = [],
         applied_extra_fee = {},
-        applied_coupons = [],
     } = dataCart;
 
     let {
@@ -114,13 +114,30 @@ const CoreSummary = (props) => {
 
     if (isDesktop) {
         return (
-            <DesktopView items={items} summary={{ total, data: dataSummary }} isDesktop={isDesktop} {...other} />
+            <DesktopView
+                items={items}
+                summary={{ total, data: dataSummary }}
+                isDesktop={isDesktop}
+                {...other}
+            />
         );
     }
 
     return (
         <MobileView items={items} summary={{ total, data: dataSummary }} {...other} />
     );
+};
+
+CoreSummary.propTypes = {
+    deleteCart: propTypes.func,
+    updateCart: propTypes.func,
+    withAction: propTypes.bool,
+};
+
+CoreSummary.defaultProps = {
+    deleteCart: () => {},
+    updateCart: () => {},
+    withAction: false,
 };
 
 export default CoreSummary;

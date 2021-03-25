@@ -1005,6 +1005,7 @@ mutation updateExtraFee(
 }
 `;
 
+// add free promo item
 export const addProductToCartPromo = gql`
 mutation addProductsToCartPromo(
     $cart_id: String!,
@@ -1018,15 +1019,41 @@ mutation addProductsToCartPromo(
     ) {
       cart {
         id
-        applied_coupons {
-            code
-        }
-        ${cartRequiredSelection}
-        ${cartShippingAddress}
-        ${cartAvailablePaymentMethods}
+        ${prices}
         ${itemsProduct}
-        ${cartAvailFreeItems}
       }
     }
   }
+`;
+
+// action item cart
+export const deleteCartitem = gql`
+    mutation deleteCartItem($cartId: String!, $cart_item_id: Int!) {
+      removeItemFromCart(
+        input: { cart_id: $cartId, cart_item_id: $cart_item_id }
+      ) {
+        cart {
+          ${cartRequiredSelection}
+          total_quantity
+          ${itemsProduct}
+        }
+      }
+    }
+`;
+
+export const updateCartitem = gql`
+    mutation updateCartItems($cartId: String!, $cart_item_id: Int!, $quantity: Float!) {
+      updateCartItems(
+        input: { 
+          cart_id: $cartId,
+          cart_items: {cart_item_id: $cart_item_id, quantity: $quantity }
+        }
+      ) {
+        cart {
+            ${cartRequiredSelection}
+            total_quantity
+            ${itemsProduct}
+        }
+      }
+    }
 `;

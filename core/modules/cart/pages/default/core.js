@@ -386,7 +386,7 @@ const Cart = (props) => {
     };
     return (
         <Layout pageConfig={config || pageConfig} {...props}>
-            <Content {...contentProps} {...other} />
+            <Content {...other} {...contentProps} />
         </Layout>
     );
 };

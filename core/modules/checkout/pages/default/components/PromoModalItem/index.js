@@ -30,23 +30,17 @@ const PromoModalItem = (props) => {
         }
         let state = {
             ...checkout,
-            loading: {
-                ...checkout.loading,
-                all: false,
-                shipping: false,
-                payment: true,
-                extraFee: false,
-                order: true,
-            },
         };
+        state.loading.payment = true;
+        state.loading.order = true;
         await setCheckout(state);
         await window.backdropLoader(true);
         await handleClose();
-        mutationAddToCart({
+        await mutationAddToCart({
             variables: {
                 cart_id: checkout.data.cart.id,
                 cart_items: [{
-                    quantity: 1,
+                    quantity: data.qty || 1,
                     sku: data.sku,
                     promo_item_data: {
                         ruleId: data.freeItemsData.promo_item_data.ruleId,
@@ -82,25 +76,19 @@ const PromoModalItem = (props) => {
                 variant: 'error',
             });
         });
-
-        const finalState = {
-            ...checkout,
-            loading: {
-                ...checkout.loading,
-                all: false,
-                shipping: false,
-                payment: false,
-                extraFee: false,
-                order: false,
-            },
-        };
-        await setCheckout(finalState);
+        state = { ...checkout };
+        state.loading.payment = false;
+        state.loading.order = false;
+        await setCheckout(state);
     };
+
+    let availableMaxQty = 0;
 
     if (checkout && checkout.data) {
         if (checkout.data.cart) {
             if (checkout.data.cart.available_free_items) {
                 if (checkout.data.cart.available_free_items.length > 0) {
+                    availableMaxQty = checkout.data.cart.available_free_items[0].quantity;
                     for (const [key, value] of Object.entries(checkout.data.cart.available_free_items)) {
                         // console.log(value.sku, key);
                         dataArray.push(value.sku);
@@ -133,6 +121,8 @@ const PromoModalItem = (props) => {
                     }
                 }
 
+                availableMaxQty -= qtyFreeItem;
+
                 if (qtyFreeItem < checkout.data.cart.available_free_items[0].quantity) {
                     itemsData = items;
                 }
@@ -149,6 +139,7 @@ const PromoModalItem = (props) => {
                 handleClickOpen={handleClickOpen}
                 handleClose={handleClose}
                 open={open}
+                availableMaxQty={availableMaxQty}
             />
         );
     }

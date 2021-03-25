@@ -44,7 +44,10 @@ const CoreOptionsItemVirtual = ({
 
     const handleAddToCart = async () => {
         if (CustomAddToCart && typeof CustomAddToCart === 'function') {
-            CustomAddToCart(data);
+            CustomAddToCart({
+                ...data,
+                qty: parseFloat(qty),
+            });
         } else {
             setLoading(true);
             const errorMessage = {
