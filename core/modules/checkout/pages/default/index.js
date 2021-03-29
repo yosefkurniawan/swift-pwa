@@ -5,7 +5,6 @@ import Router from 'next/router';
 import Cookies from 'js-cookie';
 import { modules } from '@config';
 import { getStoreHost } from '@helpers/config';
-import { getLoginCallbackUrl } from '@core_modules/checkout/helpers/config';
 import Core from './core';
 import CashbackInfo from './components/CashbackInfo';
 import EmailView from './components/email/view';
@@ -63,14 +62,6 @@ Page.getInitialProps = async (ctx) => {
     const { checkoutOnly } = modules.checkout;
     const data = typeof window === 'undefined' ? req.cookies : Cookies.getJSON();
     const cartId = data.nci || null;
-    if (data && data.spwa && !data.spwa.allow_guest_checkout && !data.isLogin) {
-        const redirectLogin = getLoginCallbackUrl({ errorGuest: true });
-        if (ctx.res) {
-            ctx.res.statusCode = 302;
-            ctx.res.setHeader('Location', redirectLogin);
-            return { props: {}, namespacesRequired: ['common', 'validate', 'login'] };
-        }
-    }
 
     let urlRedirect = '/checkout/cart';
     if (checkoutOnly) {
