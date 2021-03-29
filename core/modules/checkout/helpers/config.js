@@ -11,13 +11,16 @@ export const getSuccessCallbackUrl = () => {
     return `${getHost()}/checkout/onepage/success`;
 };
 
-export const getLoginCallbackUrl = () => {
+export const getLoginCallbackUrl = ({ errorGuest = false }) => {
     const data = `${getStoreHost()}checkout`;
     // eslint-disable-next-line no-buffer-constructor
     const buffer = Buffer.from(data);
     const urlBase64 = buffer.toString('base64');
     if (checkoutOnly) {
         return `${getStoreHost()}customer/account/login/referer/${urlBase64}`;
+    }
+    if (errorGuest) {
+        return 'customer/account/login?redirect=/checkout&error=guest';
     }
     return '/customer/account/login?redirect=/checkout';
 };
