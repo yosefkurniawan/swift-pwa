@@ -20,11 +20,13 @@ const CustomButton = ({
     ...other
 }) => {
     const styles = useStyles();
-    const customClass = classNames(
+    let customClass = classNames(
         styles.container,
-        className,
         fullWidth && styles.fullWidth,
     );
+    if (className && className !== '') {
+        customClass = classNames(className, fullWidth && styles.fullWidth);
+    }
     const rootClass = classNames(
         styles.loadRoot,
         styles[`${align}Align`],
