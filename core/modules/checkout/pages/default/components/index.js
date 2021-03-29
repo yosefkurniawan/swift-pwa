@@ -65,15 +65,6 @@ const Content = (props) => {
                     storeConfig={storeConfig}
                 />
             </div>
-            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <PromoModalItem
-                    t={t}
-                    storeConfig={storeConfig}
-                    checkout={checkout}
-                    setCheckout={setCheckout}
-                    PromoModalItemView={PromoModalItemView}
-                />
-            </div>
             <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8" style={containerStyle || {}}>
                 {modules.checkout.cashback.enabled && checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
                     <CashbackInfoView
@@ -219,6 +210,13 @@ const Content = (props) => {
                 </>
             </div>
             <div className="col-xs-12 col-sm-4 col-md-4 col-lg-3">
+                <PromoModalItem
+                    t={t}
+                    storeConfig={storeConfig}
+                    checkout={checkout}
+                    setCheckout={setCheckout}
+                    PromoModalItemView={PromoModalItemView}
+                />
                 <Summary
                     {...props}
                     loading={checkout.loading.order}

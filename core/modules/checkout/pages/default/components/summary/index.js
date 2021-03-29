@@ -280,7 +280,11 @@ const Summary = ({
     const setLoadSummary = (load) => {
         const state = { ...checkout };
         window.backdropLoader(load);
+        state.loading.addresses = load;
         state.loading.order = load;
+        state.loading.shipping = load;
+        state.loading.payment = load;
+        state.loading.extraFee = load;
         setCheckout(state);
     };
 
@@ -297,13 +301,15 @@ const Summary = ({
                 request: 'internal',
             },
         }).then((res) => {
-            setCart({ ...res.data.updateCartItems.cart });
-            setLoadSummary(false);
-            window.toastMessage({
-                open: true,
-                text: t('common:cart:updateSuccess'),
-                variant: 'success',
-            });
+            if (res && res.data && res.data.updateCartItems && res.data.updateCartItems.cart) {
+                setLoadSummary(false);
+                window.toastMessage({
+                    open: true,
+                    text: t('common:cart:updateSuccess'),
+                    variant: 'success',
+                });
+                setCart({ ...res.data.updateCartItems.cart });
+            }
         }).catch((e) => {
             setLoadSummary(false);
             window.toastMessage({
@@ -325,13 +331,20 @@ const Summary = ({
                 request: 'internal',
             },
         }).then((res) => {
-            setCart({ ...res.data.removeItemFromCart.cart });
-            setLoadSummary(false);
-            window.toastMessage({
-                open: true,
-                text: t('common:cart:deleteSuccess'),
-                variant: 'success',
-            });
+            if (res && res.data && res.data.removeItemFromCart && res.data.removeItemFromCart.cart) {
+                setLoadSummary(false);
+                window.toastMessage({
+                    open: true,
+                    text: t('common:cart:deleteSuccess'),
+                    variant: 'success',
+                });
+                if (res.data.removeItemFromCart.cart.items === null
+                    || res.data.removeItemFromCart.cart.items.length === 0) {
+                    window.location.replace(generateCartRedirect());
+                } else {
+                    setCart({ ...res.data.removeItemFromCart.cart });
+                }
+            }
         }).catch((e) => {
             setLoadSummary(false);
             window.toastMessage({

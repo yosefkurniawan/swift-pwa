@@ -22,9 +22,34 @@ const PromoModalItemView = (props) => {
     } = props;
     const styles = useStyles();
 
+    const [triger, setTriger] = React.useState(false);
+    const maxHeigtToShow = 51;
+
+    React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const header = document.getElementById('header');
+            const checkScrollTop = () => {
+                // handle show hide header
+                if (header) {
+                    if (window.pageYOffset > 51) {
+                        header.classList.add('header-small');
+                    } else {
+                        header.classList.remove('header-small');
+                    }
+                }
+                if (!triger && window.pageYOffset > maxHeigtToShow) {
+                    setTriger(true);
+                } else if (triger && window.pageYOffset < maxHeigtToShow) {
+                    setTriger(false);
+                }
+            };
+            window.addEventListener('scroll', checkScrollTop);
+        }
+    }, [window, triger]);
+
     return (
-        <div>
-            <div className={styles.freeItemContainer}>
+        <>
+            <div className={triger ? styles.freeItemContainerMobileFixed : styles.freeItemContainer}>
                 <RedeemIcon />
             &nbsp;
                 <span>
@@ -35,34 +60,33 @@ const PromoModalItemView = (props) => {
                         </Typography>
                     </Button>
                 </span>
-
-                <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="md">
-                    <MuiDialogTitle disableTypography className={styles.root} id="customized-dialog-title">
-                        <Typography variant="h6">Free Promo Items</Typography>
-                        <Typography variant="span">{`Available max quatity : ${availableMaxQty}`}</Typography>
-                        {handleClose ? (
-                            <IconButton aria-label="close" className={styles.closeButton} onClick={handleClose}>
-                                <CloseIcon />
-                            </IconButton>
-                        ) : null}
-                    </MuiDialogTitle>
-                    <div className={classNames(styles.carouselContainer, 'col-xs-12 col-lg-12')}>
-                        <Caraousel
-                            data={items}
-                            Item={ProductItem}
-                            enableAddToCart
-                            enableOption
-                            handleAddToCart={handleAddToCart}
-                            enableWishlist={false}
-                            enablePrice={false}
-                            enableRating={false}
-                            showQty
-                            maxQty={availableMaxQty}
-                        />
-                    </div>
-                </Dialog>
             </div>
-        </div>
+            <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="md">
+                <MuiDialogTitle disableTypography className={styles.root} id="customized-dialog-title">
+                    <Typography variant="h6">Free Promo Items</Typography>
+                    <Typography variant="span">{`Available max quatity : ${availableMaxQty}`}</Typography>
+                    {handleClose ? (
+                        <IconButton aria-label="close" className={styles.closeButton} onClick={handleClose}>
+                            <CloseIcon />
+                        </IconButton>
+                    ) : null}
+                </MuiDialogTitle>
+                <div className={classNames(styles.carouselContainer, 'col-xs-12 col-lg-12')}>
+                    <Caraousel
+                        data={items}
+                        Item={ProductItem}
+                        enableAddToCart
+                        enableOption
+                        handleAddToCart={handleAddToCart}
+                        enableWishlist={false}
+                        enablePrice={false}
+                        enableRating={false}
+                        showQty
+                        maxQty={availableMaxQty}
+                    />
+                </div>
+            </Dialog>
+        </>
     );
 };
 

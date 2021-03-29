@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { GRAY_PRIMARY } from '@theme_color';
+import { GRAY_LIGHT, GRAY_PRIMARY } from '@theme_color';
 import { FlexRow } from '@theme_mixins';
 
 const useStyles = makeStyles((theme) => ({
@@ -31,12 +31,33 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             padding: 10,
         },
-        [theme.breakpoints.up('md')]: {
-            marginTop: -50,
+        ...FlexRow,
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: GRAY_LIGHT,
+        position: 'sticky',
+        top: 50,
+        [theme.breakpoints.down('xs')]: {
+            position: 'fixed',
+            top: 50,
+            width: '100%',
+        },
+    },
+    freeItemContainerMobileFixed: {
+        [theme.breakpoints.up('sm')]: {
+            padding: 10,
         },
         ...FlexRow,
         alignItems: 'center',
         justifyContent: 'center',
+        background: GRAY_LIGHT,
+        position: 'sticky',
+        top: 50,
+        [theme.breakpoints.down('xs')]: {
+            position: 'fixed',
+            top: 0,
+            width: '100%',
+        },
     },
 }));
 
