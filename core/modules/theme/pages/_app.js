@@ -262,7 +262,9 @@ class MyApp extends App {
         const storeCookie = helperCookies.get(storeConfigNameCookie);
         if (!storeCookie) {
             helperCookies.set(storeConfigNameCookie, pageProps.storeConfig);
-            helperCookies.setCookies('allow_guest_checkout', pageProps.storeConfig.allow_guest_checkout);
+            if (pageProps.storeConfig && pageProps.storeConfig.allow_guest_checkout) {
+                helperCookies.setCookies('allow_guest_checkout', pageProps.storeConfig.allow_guest_checkout);
+            }
         }
         pageProps.storeConfig = pageProps.storeConfig ? pageProps.storeConfig : {};
         if (typeof window !== 'undefined' && testLocalStorage() === false) {
