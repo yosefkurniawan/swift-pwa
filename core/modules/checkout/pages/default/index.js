@@ -62,14 +62,6 @@ Page.getInitialProps = async (ctx) => {
     const { checkoutOnly } = modules.checkout;
     const data = typeof window === 'undefined' ? req.cookies : Cookies.getJSON();
     const cartId = data.nci || null;
-    if (data && data.spwa && !data.spwa.allow_guest_checkout && !data.isLogin) {
-        const redirectLogin = 'customer/account/login?redirect=/checkout&error=guest';
-        if (ctx.res) {
-            ctx.res.statusCode = 302;
-            ctx.res.setHeader('Location', redirectLogin);
-            return { props: {}, namespacesRequired: ['common', 'validate', 'login'] };
-        }
-    }
 
     let urlRedirect = '/checkout/cart';
     if (checkoutOnly) {
