@@ -235,6 +235,20 @@ const Login = (props) => {
                 </div>
                 {toastMessage}
             </div>
+            <style jsx global>
+                {`
+                    .firebaseui-container {
+                        display: flex !important;
+                        flex-direaction: column !important;
+                        justify-content: flex-start !important;
+                        max-width: 100% !important;
+                    }
+
+                    .firebaseui-card-content {
+                        padding: 0px !important;
+                    }
+                `}
+            </style>
         </div>
     );
 };
