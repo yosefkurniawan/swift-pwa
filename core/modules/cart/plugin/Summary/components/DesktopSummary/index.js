@@ -20,7 +20,7 @@ const Summary = (props) => {
     const {
         t, summary, handleActionSummary = () => { }, loading, disabled,
         showItems = false, items = [], hideButton = false, isDesktop,
-        isLoader,
+        isLoader, deleteCart, updateCart, withAction,
     } = props;
     const styles = useStyles();
     const [openItem, setOpenItem] = React.useState(false);
@@ -76,6 +76,16 @@ const Summary = (props) => {
                                                 className={classNames('col-xs-12 row between-xs', styles.list, styles.listProduct)}
                                                 key={index}
                                             >
+                                                { withAction && (
+                                                    <div
+                                                        className="delete"
+                                                        onClick={() => {
+                                                            deleteCart(item.id);
+                                                        }}
+                                                    >
+                                                        x
+                                                    </div>
+                                                ) }
                                                 <div className="col-xs-4">
                                                     <Thumbor
                                                         className="product-image-photo"
@@ -88,7 +98,28 @@ const Summary = (props) => {
                                                 <div className={classNames('col-xs-8', styles.bodyProductItem)}>
                                                     <Typography variant="span">{item.product.name}</Typography>
                                                     <div className="flex-grow" />
-                                                    <Typography variant="span">{`${t('common:title:shortQty')} : ${item.quantity}`}</Typography>
+                                                    {
+                                                        withAction && (
+                                                            <div>
+                                                                <span
+                                                                    className="item-minus qty-update"
+                                                                    onClick={() => {
+                                                                        if (item.quantity > 1) {
+                                                                            updateCart(item.id, item.quantity - 1);
+                                                                        }
+                                                                    }}
+                                                                />
+                                                                <span className="item-count">{item.quantity}</span>
+
+                                                                <span
+                                                                    className="item-plus qty-update"
+                                                                    onClick={() => {
+                                                                        updateCart(item.id, item.quantity + 1);
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        )
+                                                    }
                                                     <Typography variant="span" size="14" letter="uppercase">
                                                         {item.prices.row_total_including_tax.value === 0
                                                             ? t('common:title:free')

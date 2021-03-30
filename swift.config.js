@@ -47,9 +47,14 @@ const passwordStrength = {
 };
 
 /* Translation */
-const languagesLabel = {
-    id: 'Bahasa Indonesia',
-    en: 'English',
+const translation = {
+    defaultLanguage: 'en', // just change to your default language
+    languages: ['en', 'id'], // array code language what you want
+    // language label code
+    languagesLabel: {
+        en: 'English',
+        id: 'Bahasa Indonesia',
+    },
 };
 
 /* Google Tag Manager
@@ -214,6 +219,9 @@ const features = {
             // key from cloud messaging sertificat web push
             pairKey: 'BBIzfGdH56tlTaV1jxqaWA_n47trFqy51WjcCn9Fa1-7xzmY4iBwBlGQjO1e_bRBEx9kq4o8q4zyl14JuXSIC-k',
         },
+    },
+    thumbor: {
+        url: 'https://thumbor.sirclocdn.xyz/unsafe/widthxheight/filters:format(webp)/',
     },
 };
 
@@ -471,7 +479,6 @@ module.exports = {
     graphqlEndpoint,
     shareIcon,
     passwordStrength,
-    languagesLabel,
     expiredCookies,
     storeConfigNameCookie,
     nameCartId,
@@ -495,4 +502,5 @@ module.exports = {
     originName,
     useMagentoCommerce,
     rollbar,
+    translation,
 };

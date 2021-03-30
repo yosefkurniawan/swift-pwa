@@ -28,6 +28,7 @@ const DefaultView = (props) => {
     const {
         data, t, page, storeConfig, reOrder,
         pageSize, handleChangePage, handleChangePageSize, loadMore,
+        returnUrl,
     } = props;
     const styles = useStyles();
     return (
@@ -201,11 +202,7 @@ const DefaultView = (props) => {
                                                                             href="/sales/order/view/order_id/[id]"
                                                                             as={`/sales/order/view/order_id/${val.order_number}`}
                                                                         >
-                                                                            <a className={
-                                                                                (val.detail[0].aw_rma && val.detail[0].aw_rma.status)
-                                                                                    ? styles.linkView : ''
-                                                                            }
-                                                                            >
+                                                                            <a>
                                                                                 <Typography variant="span" type="regular" decoration="underline">
                                                                                     {t('order:view')}
                                                                                 </Typography>
@@ -213,16 +210,11 @@ const DefaultView = (props) => {
                                                                         </Link>
                                                                         {
                                                                             (val.detail[0].aw_rma && val.detail[0].aw_rma.status)
-                                                                        && (
-                                                                            <Link
-                                                                                href="/rma/customer/new/order_id/[id]"
-                                                                                as={`/rma/customer/new/order_id/${val.order_number}`}
-                                                                            >
-                                                                                <a>
-                                                                                    <Typography variant="span">{t('order:smReturn')}</Typography>
+                                                                            && (
+                                                                                <a onClick={() => returnUrl(val.order_number)}>
+                                                                                    <Typography variant="span" type="regular" decoration="underline">{t('order:smReturn')}</Typography>
                                                                                 </a>
-                                                                            </Link>
-                                                                        )
+                                                                            )
                                                                         }
                                                                         <a onClick={() => reOrder(val.order_number)}>
                                                                             <Typography variant="span" type="regular" decoration="underline">

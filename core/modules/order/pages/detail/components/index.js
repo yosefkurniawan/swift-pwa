@@ -17,7 +17,7 @@ import OrderStatusIcon from './OrderStatusIcon';
 
 const DetailOrder = (props) => {
     const {
-        t, detail, currency, features, reOrder,
+        t, detail, currency, features, reOrder, returnUrl,
     } = props;
     const styles = useStyles();
     let items = [];
@@ -77,7 +77,7 @@ const DetailOrder = (props) => {
                                     {formatDate(detail[0].created_at)}
                                 </Typography>
                             </div>
-                            { detail[0].detail[0].shipping_address.length > 0 && (
+                            {detail[0].detail[0].shipping_address.length > 0 && (
                                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                     <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                         {detail[0].detail[0].pickup_store && detail[0].detail[0].pickup_store.is_using_pickup_store
@@ -152,7 +152,7 @@ const DetailOrder = (props) => {
                                     {detail[0].detail[0].billing_address.postcode || ''}
                                 </Typography>
                             </div>
-                            { detail[0].detail[0].shipping_address.length > 0 && (
+                            {detail[0].detail[0].shipping_address.length > 0 && (
                                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                     <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                         {t('order:shippingMethod')}
@@ -308,12 +308,30 @@ const DetailOrder = (props) => {
                         </div>
                         <div className="row">
                             <div className="col-xs-12 col-sm-12 col-md-8">
-                                <div className={styles.wrapperButton}>
-                                    <button type="button" className={styles.reorderButton} onClick={reOrder}>
-                                        <Typography variant="span" type="regular">
-                                            {t('order:reorder')}
-                                        </Typography>
-                                    </button>
+                                <div className="row">
+                                    <div className={styles.wrapperButton}>
+                                        <button type="button" className={styles.reorderButton} onClick={reOrder}>
+                                            <Typography variant="span" type="regular">
+                                                {t('order:reorder')}
+                                            </Typography>
+                                        </button>
+                                    </div>
+                                    {
+                                        (detail[0].detail[0].aw_rma && detail[0].detail[0].aw_rma.status)
+                                        && (
+                                            <div className={styles.wrapperButton}>
+                                                <button
+                                                    type="button"
+                                                    className={styles.reorderButton}
+                                                    onClick={() => returnUrl(detail[0].order_number)}
+                                                >
+                                                    <Typography variant="span" type="regular">
+                                                        {t('order:smReturn')}
+                                                    </Typography>
+                                                </button>
+                                            </div>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>

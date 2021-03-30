@@ -1,17 +1,22 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { getProductBySku } from '../../../../../product/services/graphql';
+import { getProductBySku as SchemaGetProductBySku } from '@core_modules/product/services/graphql/schema';
+import { useLazyQuery } from '@apollo/client';
 import { addProductToCartPromo } from '../../../../services/graphql';
 
 const PromoModalItem = (props) => {
     const {
         t, checkout, setCheckout, PromoModalItemView,
     } = props;
-    const dataArray = [];
-
     const [open, setOpen] = React.useState(false);
+    const [itemsData, setItemsData] = React.useState([]);
+    const [dataArray, setDataArray] = React.useState([]);
+    const [availableMaxQty, setAvailableMaxQty] = React.useState(0);
+
     const [mutationAddToCart] = addProductToCartPromo();
+
+    const [getProductBySku, dataProducts] = useLazyQuery(SchemaGetProductBySku());
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -30,23 +35,17 @@ const PromoModalItem = (props) => {
         }
         let state = {
             ...checkout,
-            loading: {
-                ...checkout.loading,
-                all: false,
-                shipping: false,
-                payment: true,
-                extraFee: false,
-                order: true,
-            },
         };
+        state.loading.payment = true;
+        state.loading.order = true;
         await setCheckout(state);
         await window.backdropLoader(true);
         await handleClose();
-        mutationAddToCart({
+        await mutationAddToCart({
             variables: {
                 cart_id: checkout.data.cart.id,
                 cart_items: [{
-                    quantity: 1,
+                    quantity: data.qty || 1,
                     sku: data.sku,
                     promo_item_data: {
                         ruleId: data.freeItemsData.promo_item_data.ruleId,
@@ -82,63 +81,76 @@ const PromoModalItem = (props) => {
                 variant: 'error',
             });
         });
-
-        const finalState = {
-            ...checkout,
-            loading: {
-                ...checkout.loading,
-                all: false,
-                shipping: false,
-                payment: false,
-                extraFee: false,
-                order: false,
-            },
-        };
-        await setCheckout(finalState);
+        state = { ...checkout };
+        state.loading.payment = false;
+        state.loading.order = false;
+        await setCheckout(state);
     };
 
-    if (checkout && checkout.data) {
-        if (checkout.data.cart) {
-            if (checkout.data.cart.available_free_items) {
-                if (checkout.data.cart.available_free_items.length > 0) {
-                    for (const [key, value] of Object.entries(checkout.data.cart.available_free_items)) {
-                        // console.log(value.sku, key);
-                        dataArray.push(value.sku);
+    React.useMemo(() => {
+        if (checkout && checkout.data) {
+            if (checkout.data.cart) {
+                if (checkout.data.cart.available_free_items) {
+                    if (checkout.data.cart.available_free_items.length > 0) {
+                        setAvailableMaxQty(checkout.data.cart.available_free_items[0].quantity);
+                        const newDataArray = [];
+                        for (const [key, value] of Object.entries(checkout.data.cart.available_free_items)) {
+                            // console.log(value.sku, key);
+                            newDataArray.push(value.sku);
+                        }
+                        setDataArray(newDataArray);
+                    } else {
+                        setDataArray([]);
                     }
+                } else {
+                    setDataArray([]);
                 }
             }
         }
-    }
-    let itemsData = [];
-    if (dataArray) {
-        const { data } = getProductBySku({ variables: { sku: dataArray } });
-        if (data && data.products) {
-            if (data.products.items.length > 0) {
-                const items = [];
-                let qtyFreeItem = 0;
-                for (let idx = 0; idx < data.products.items.length; idx += 1) {
-                    const item = data.products.items[idx];
-                    const product = checkout.data.cart.items.filter((pd) => pd.product.sku === item.sku);
-                    const freeItemsData = checkout.data.cart.available_free_items.filter((val) => val.sku === item.sku);
-                    if (product && product.length > 0) {
-                        if (product && product.length > 0 && product[0].quantity) {
-                            qtyFreeItem += product[0].quantity;
-                        }
+    }, [checkout.data.cart]);
+
+    React.useEffect(() => {
+        if (dataArray && dataArray.length > 0) {
+            getProductBySku({ variables: { sku: dataArray } });
+        } else {
+            setAvailableMaxQty(0);
+            setItemsData([]);
+        }
+    }, [dataArray]);
+
+    React.useEffect(() => {
+        if (checkout.data && checkout.data.cart && checkout.data.cart.items && checkout.data.cart.items.length > 0
+            && !dataProducts.loading && dataProducts.data && dataProducts.data.products && dataProducts.data.products.items
+            && dataProducts.data.products.items.length > 0
+        ) {
+            const items = [];
+            let qtyFreeItem = 0;
+            for (let idx = 0; idx < dataProducts.data.products.items.length; idx += 1) {
+                const item = dataProducts.data.products.items[idx];
+                const product = checkout.data.cart.items.filter((pd) => pd.product.sku === item.sku);
+                const freeItemsData = checkout.data.cart.available_free_items.filter((val) => val.sku === item.sku);
+                if (product && product.length > 0) {
+                    if (product && product.length > 0 && product[0].quantity) {
+                        qtyFreeItem += product[0].quantity;
                     }
+                }
+                if (dataArray.find((dt) => dt === item.sku)) {
                     items.push({
                         freeItemsData: freeItemsData[0],
                         ...item,
                     });
                 }
+            }
 
-                if (qtyFreeItem < checkout.data.cart.available_free_items[0].quantity) {
-                    itemsData = items;
-                }
+            setAvailableMaxQty(availableMaxQty - qtyFreeItem);
+
+            if (qtyFreeItem < checkout.data.cart.available_free_items[0].quantity) {
+                setItemsData(items);
             }
         }
-    }
+    }, [dataProducts]);
 
-    if (itemsData && itemsData.length > 0) {
+    if (itemsData && itemsData.length > 0 && availableMaxQty > 0) {
         return (
             <PromoModalItemView
                 {...props}
@@ -147,6 +159,7 @@ const PromoModalItem = (props) => {
                 handleClickOpen={handleClickOpen}
                 handleClose={handleClose}
                 open={open}
+                availableMaxQty={availableMaxQty}
             />
         );
     }

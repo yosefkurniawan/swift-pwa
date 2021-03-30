@@ -1005,6 +1005,7 @@ mutation updateExtraFee(
 }
 `;
 
+// add free promo item
 export const addProductToCartPromo = gql`
 mutation addProductsToCartPromo(
     $cart_id: String!,
@@ -1018,15 +1019,56 @@ mutation addProductsToCartPromo(
     ) {
       cart {
         id
-        applied_coupons {
-            code
-        }
-        ${cartRequiredSelection}
-        ${cartShippingAddress}
-        ${cartAvailablePaymentMethods}
-        ${itemsProduct}
+        ${prices}
         ${cartAvailFreeItems}
+        ${itemsProduct}
       }
     }
   }
+`;
+
+// action item cart
+export const deleteCartitem = gql`
+    mutation deleteCartItem($cartId: String!, $cart_item_id: Int!) {
+      removeItemFromCart(
+        input: { cart_id: $cartId, cart_item_id: $cart_item_id }
+      ) {
+        cart {            
+            id
+            total_quantity
+            ${applied_giftcard}
+            ${modules.checkout.cashback.enabled ? applied_cashback : ''}
+            ${modules.rewardpoint.enabled ? applied_reward_points : ''}
+            ${modules.promo.enabled ? applied_coupons : ''}
+            ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
+            ${modules.storecredit.enabled ? applied_store_credit : ''}
+            ${prices}
+            ${cartAvailFreeItems}
+            ${cartShippingAddress}
+            ${cartAvailablePaymentMethods}
+            ${itemsProduct}
+            ${cartRequiredSelection}
+        }
+      }
+    }
+`;
+
+export const updateCartitem = gql`
+    mutation updateCartItems($cartId: String!, $cart_item_id: Int!, $quantity: Float!) {
+      updateCartItems(
+        input: { 
+          cart_id: $cartId,
+          cart_items: {cart_item_id: $cart_item_id, quantity: $quantity }
+        }
+      ) {
+        cart {
+            id
+            total_quantity
+            ${cartRequiredSelection}
+            ${cartShippingAddress}
+            ${cartAvailablePaymentMethods}
+            ${itemsProduct}
+        }
+      }
+    }
 `;

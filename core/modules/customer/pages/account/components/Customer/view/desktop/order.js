@@ -70,14 +70,12 @@ const OrderView = (props) => {
                                                         <Link href={`/sales/order/view/order_id/${val.order_number}`}>
                                                             <a className={styles.desktopLink}>Detail</a>
                                                         </Link>
-                                                    </TableCell>
-                                                    <TableCell component="td" scope="row">
                                                         <button
                                                             type="button"
                                                             className={styles.reorderButton}
                                                             onClick={() => reOrder(val.order_number)}
                                                         >
-                                                            Reorder
+                                                            <a className={styles.desktopLink}>Reorder</a>
                                                         </button>
                                                     </TableCell>
                                                 </TableRow>

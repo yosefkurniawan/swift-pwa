@@ -39,6 +39,7 @@ const Content = (props) => {
                         isDesktop={false}
                         t={t}
                         dataCart={dataCart}
+                        editMode={editMode}
                         {...other}
                         handleActionSummary={handleOnCheckoutClicked}
                     />
@@ -50,6 +51,7 @@ const Content = (props) => {
                     isDesktop
                     t={t}
                     dataCart={dataCart}
+                    editMode={editMode}
                     {...other}
                     handleActionSummary={handleOnCheckoutClicked}
                 />

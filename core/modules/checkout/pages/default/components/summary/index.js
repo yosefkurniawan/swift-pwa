@@ -26,6 +26,10 @@ const Summary = ({
     const [getCustCartId, manageCustCartId] = gqlService.getCustomerCartId();
     const [mergeCart] = gqlService.mergeCart();
 
+    // mutation update delete
+    const [actDeleteItem] = gqlService.deleteItemCart();
+    const [actUpdateItem] = gqlService.updateItemCart();
+
     const validateReponse = (response, parentState) => {
         const state = parentState;
         if ((response && response.errors) || !response) {
@@ -267,6 +271,90 @@ const Summary = ({
         return <Loader />;
     }
 
+    const setCart = (cart = {}) => {
+        const state = { ...checkout };
+        state.data.cart = { ...state.data.cart, ...cart };
+        setCheckout(state);
+    };
+
+    const setLoadSummary = (load) => {
+        const state = { ...checkout };
+        window.backdropLoader(load);
+        state.loading.addresses = load;
+        state.loading.order = load;
+        state.loading.shipping = load;
+        state.loading.payment = load;
+        state.loading.extraFee = load;
+        setCheckout(state);
+    };
+
+    // update items
+    const updateCart = (id, qty) => {
+        setLoadSummary(true);
+        actUpdateItem({
+            variables: {
+                cartId: checkout.data.cart.id,
+                cart_item_id: parseInt(id, 0),
+                quantity: qty,
+            },
+            context: {
+                request: 'internal',
+            },
+        }).then((res) => {
+            if (res && res.data && res.data.updateCartItems && res.data.updateCartItems.cart) {
+                setLoadSummary(false);
+                window.toastMessage({
+                    open: true,
+                    text: t('common:cart:updateSuccess'),
+                    variant: 'success',
+                });
+                setCart({ ...res.data.updateCartItems.cart });
+            }
+        }).catch((e) => {
+            setLoadSummary(false);
+            window.toastMessage({
+                open: true,
+                text: e.message.split(':')[1] || t('common:cart:updateFailed'),
+                variant: 'error',
+            });
+        });
+    };
+
+    const deleteCart = (id) => {
+        setLoadSummary(true);
+        actDeleteItem({
+            variables: {
+                cartId: checkout.data.cart.id,
+                cart_item_id: parseInt(id, 0),
+            },
+            context: {
+                request: 'internal',
+            },
+        }).then((res) => {
+            if (res && res.data && res.data.removeItemFromCart && res.data.removeItemFromCart.cart) {
+                setLoadSummary(false);
+                window.toastMessage({
+                    open: true,
+                    text: t('common:cart:deleteSuccess'),
+                    variant: 'success',
+                });
+                if (res.data.removeItemFromCart.cart.items === null
+                    || res.data.removeItemFromCart.cart.items.length === 0) {
+                    window.location.replace(generateCartRedirect());
+                } else {
+                    setCart({ ...res.data.removeItemFromCart.cart });
+                }
+            }
+        }).catch((e) => {
+            setLoadSummary(false);
+            window.toastMessage({
+                open: true,
+                text: e.message.split(':')[1] || t('common:cart:deleteFailed'),
+                variant: 'error',
+            });
+        });
+    };
+
     if (checkout && checkout.data && checkout.data.cart && checkout.loading) {
         return (
             <>
@@ -282,6 +370,9 @@ const Summary = ({
                         showItems
                         label={t('checkout:placeOrder')}
                         globalCurrency={globalCurrency}
+                        updateCart={updateCart}
+                        deleteCart={deleteCart}
+                        withAction
                     />
                 </div>
                 <SummaryPlugin
@@ -295,6 +386,9 @@ const Summary = ({
                     showItems
                     hideButton
                     globalCurrency={globalCurrency}
+                    updateCart={updateCart}
+                    deleteCart={deleteCart}
+                    withAction
                 />
             </>
         );

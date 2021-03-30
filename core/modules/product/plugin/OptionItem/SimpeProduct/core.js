@@ -43,7 +43,10 @@ const CoreSimpleOptionItem = ({
 
     const handleAddToCart = async () => {
         if (CustomAddToCart && typeof CustomAddToCart === 'function') {
-            CustomAddToCart(data);
+            CustomAddToCart({
+                ...data,
+                qty: parseFloat(qty),
+            });
         } else {
             setLoading(true);
             const errorMessage = {
@@ -111,7 +114,6 @@ const CoreSimpleOptionItem = ({
                         setOpen(false);
                     })
                     .catch((e) => {
-                        console.log(e);
                         setLoading(false);
                         window.toastMessage({
                             ...errorMessage,
