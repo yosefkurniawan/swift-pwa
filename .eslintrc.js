@@ -14,12 +14,11 @@ module.exports = {
         React: 'writable',
         snap: true,
     },
-    parser: "babel-eslint",
     parserOptions: {
         ecmaFeatures: {
             jsx: true,
         },
-        ecmaVersion: 2018,
+        ecmaVersion: 2020,
         sourceType: 'module',
         allowImportExportEverywhere: false,
         codeFrame: false,
@@ -51,11 +50,10 @@ module.exports = {
                 paths: ['@material-ui/core', '@material-ui/icons', '@material-ui/lab'],
             },
         ],
-        'import/no-extraneous-dependencies': 'off'
+        'import/no-extraneous-dependencies': 'off',
+        'import/no-unresolved': 'off'
     },
     settings: {
-        'import/parser': 'babel-eslint',
-        'import/resolver': 'eslint-import-resolver-babel-module',
         'import/ignore': 'node_modules',
     },
 };

@@ -41,6 +41,9 @@ main {
 .half-width {
     width: 50%;
 }
+.full-width {
+    width: 100%;
+}
 .hide {
     display: none !important;
 }
@@ -58,6 +61,7 @@ main {
 a {
     text-decoration: none;
     color: inherit;
+    cursor: pointer;
 }
 .row-center {
     align-items: center;

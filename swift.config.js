@@ -47,9 +47,14 @@ const passwordStrength = {
 };
 
 /* Translation */
-const languagesLabel = {
-    id: 'Bahasa Indonesia',
-    en: 'English',
+const translation = {
+    defaultLanguage: 'en', // just change to your default language
+    languages: ['en', 'id'], // array code language what you want
+    // language label code
+    languagesLabel: {
+        en: 'English',
+        id: 'Bahasa Indonesia',
+    },
 };
 
 /* Google Tag Manager
@@ -139,7 +144,7 @@ const localResolverKey = 'resolver';
 
 const features = {
     useCustomStyle: false,
-    ssrCache: true,
+    ssrCache: false,
     crm: {
         enabled: false,
         graphqlEndpoint: {
@@ -204,6 +209,9 @@ const features = {
             pairKey: 'BBIzfGdH56tlTaV1jxqaWA_n47trFqy51WjcCn9Fa1-7xzmY4iBwBlGQjO1e_bRBEx9kq4o8q4zyl14JuXSIC-k',
         },
     },
+    thumbor: {
+        url: 'https://thumbor.sirclocdn.xyz/unsafe/widthxheight/filters:format(webp)/',
+    },
 };
 
 const modules = {
@@ -259,6 +267,9 @@ const modules = {
             rating: {
                 enabled: true,
             },
+            addToCart: {
+                enabled: false,
+            },
         },
         pdp: {
             popupDetailImage: {
@@ -274,12 +285,7 @@ const modules = {
         enabled: true,
         checkoutOnly: false,
         path: '/checkout',
-        ipayUrl: {
-            local: 'ipayredirect/ipayredirect/?orderId=',
-            dev: 'ipayredirect/ipayredirect/?orderId=',
-            stage: 'ipayredirect/ipayredirect/?orderId=',
-            prod: 'ipayredirect/ipayredirect/?orderId=',
-        },
+        ipayUrl: 'ipay88/ipayredirect/?orderId=',
         snapUrl: {
             dev: 'https://app.sandbox.midtrans.com/snap/snap.js',
             prod: 'https://app.midtrans.com/snap/snap.js',
@@ -462,7 +468,6 @@ module.exports = {
     graphqlEndpoint,
     shareIcon,
     passwordStrength,
-    languagesLabel,
     expiredCookies,
     storeConfigNameCookie,
     nameCartId,
@@ -486,4 +491,5 @@ module.exports = {
     originName,
     useMagentoCommerce,
     rollbar,
+    translation,
 };

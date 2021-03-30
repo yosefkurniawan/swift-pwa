@@ -1,6 +1,6 @@
 {
   "name": "swift-pwa",
-  "version": "2.3.7",
+  "version": "2.4.0",
   "private": true,
   "scripts": {
     "assets:build": "webpack",
@@ -61,7 +61,6 @@
     "next": "10.0.3",
     "next-i18next": "^7.0.1",
     "next-offline": "^5.0.0",
-    "next-transpile-modules": "^4.1.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -73,22 +72,17 @@
     "react-share": "^4.1.0",
     "react-slick": "^0.27.10",
     "slick-carousel": "^1.8.1",
-    "swift-pwa-core": "git+https://9113b5995a6d85a72df6578146ffbde1c1aee8fb:x-oauth-basic@github.com/icubeus/swift-pwa-core.git#2.3.7",
     "swiper": "^5.4.5",
     "webfontloader": "^1.6.28",
     "yup": "^0.28.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.3",
     "@sentry/webpack-plugin": "^1.12.1",
-    "babel-eslint": "^10.1.0",
-    "babel-plugin-module-resolver": "^4.0.0",
     "concurrently": "^5.3.0",
     "copy-webpack-plugin": "^6.1.0",
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
-    "eslint-import-resolver-babel-module": "^5.1.2",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",

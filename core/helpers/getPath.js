@@ -1,4 +1,5 @@
 import { graphqlEndpoint } from '@config';
+import { getAppEnv } from './env';
 
 const getPath = (href = '') => {
     if (href && href !== '' && typeof window !== 'undefined') {
@@ -12,7 +13,7 @@ const getPath = (href = '') => {
         }
         return path;
     }
-    const appEnv = typeof window !== 'undefined' ? window.APP_ENV : process.env.APP_ENV;
+    const appEnv = getAppEnv();
     const env = appEnv === 'local' ? 'dev' : appEnv;
     let url = graphqlEndpoint[env] || 'dev';
     url = url.replace('/graphql', '');

@@ -108,7 +108,7 @@ const getXmlData = async (res) => {
             if (category[index].include_in_menu) {
                 content += `
                 <url>
-                    <loc>${getHost()}/${category[index].url_path.replace('&', '&amp;')}</loc>
+                    <loc>${getHost()}/${category[index] && category[index].url_path && category[index].url_path.replace('&', '&amp;')}</loc>
                     <lastmod>${category[index].updated_at}</lastmod>
                     <changefreq>daily</changefreq>
                     <priority>0.5</priority>
@@ -118,7 +118,7 @@ const getXmlData = async (res) => {
                     const children1 = category[index].children[child1];
                     content += `
                     <url>
-                        <loc>${getHost()}/${children1.url_path.replace('&', '&amp;')}</loc>
+                        <loc>${getHost()}/${children1 && children1.url_path && children1.url_path.replace('&', '&amp;')}</loc>
                         <lastmod>${children1.updated_at}</lastmod>
                         <changefreq>daily</changefreq>
                         <priority>0.5</priority>
@@ -128,7 +128,7 @@ const getXmlData = async (res) => {
                         const children2 = children1.children[child2];
                         content += `
                     <url>
-                        <loc>${getHost()}/${children2.url_path.replace('&', '&amp;')}</loc>
+                        <loc>${getHost()}/${children2 && children2.url_path && children2.url_path.replace('&', '&amp;')}</loc>
                         <lastmod>${children2.updated_at}</lastmod>
                         <changefreq>daily</changefreq>
                         <priority>0.5</priority>
@@ -142,7 +142,7 @@ const getXmlData = async (res) => {
         // generate product sitemap
         for (let index = 0; index < products.length; index++) {
             content += `<url>
-                <loc>${getHost()}/${products[index].url_key.replace('&', '&amp;')}</loc>
+                <loc>${getHost()}/${products[index] && products[index].url_key && products[index].url_key.replace('&', '&amp;')}</loc>
                 <lastmod>${products[index].updated_at}</lastmod>
                 <changefreq>daily</changefreq>
                 <priority>1.0</priority>
@@ -152,9 +152,9 @@ const getXmlData = async (res) => {
                 content += `
                     <image:image>
                         <image:loc>
-                        ${img.url.replace('&', '&amp;')}
+                        ${img && img.url && img.url.replace('&', '&amp;')}
                         </image:loc>
-                        <image:title>${img.label.replace('&', '&amp;')}</image:title>
+                        <image:title>${img && img.label && img.label.replace('&', '&amp;')}</image:title>
                     </image:image>
                 `;
             }
@@ -162,8 +162,10 @@ const getXmlData = async (res) => {
             content += `
             <PageMap xmlns="http://www.google.com/schemas/sitemap-pagemap/1.0">
                 <DataObject type="thumbnail">
-                <Attribute name="name" value="${products[index].url_key.replace('&', '&amp;')}"/>
-                <Attribute name="src" value="${products[index].small_image.url.replace('&', '&amp;')}"/>
+                <Attribute name="name" value="${products[index] && products[index].url_key && products[index].url_key.replace('&', '&amp;')}"/>
+                <Attribute name="src" value="${products[index] && products[index].small_image
+                    && products[index].small_image.url
+                    && products[index].small_image.url.replace('&', '&amp;')}"/>
                 </DataObject>
             </PageMap>
             `;

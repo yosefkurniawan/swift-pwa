@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable brace-style */
 /**
  * function to get combination available
@@ -251,6 +252,17 @@ export const handleSelected = (selected, key, value) => {
 };
 
 // eslint-disable-next-line no-unused-vars
+export const handleSelectedDownload = (selected, key, value) => {
+    const result = { ...selected };
+    if (result.hasOwnProperty(key)) {
+        delete result[key];
+    } else {
+        result[key] = value;
+    }
+    return result;
+};
+
+// eslint-disable-next-line no-unused-vars
 export const CheckAvailableOptions = (availableCombination = [], option = {}, value) => {
     let available = false;
     for (let index = 0; index < availableCombination.length; index += 1) {
@@ -272,18 +284,16 @@ export default function productByVariant(options = {}, variants = []) {
     let spesificProduct = {};
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < variants.length; index++) {
-        const { attributes, product } = variants[index];
+        const { attributes } = variants[index];
         let isSpesific = false;
-        if (product.stock_status === 'IN_STOCK') {
-            // eslint-disable-next-line no-plusplus
-            for (let idxAtt = 0; idxAtt < attributes.length; idxAtt++) {
-                if (typeof options[attributes[idxAtt].code] !== 'undefined') {
-                    if (options[attributes[idxAtt].code] === attributes[idxAtt].value_index) {
-                        isSpesific = true;
-                    } else {
-                        isSpesific = false;
-                        break;
-                    }
+        // eslint-disable-next-line no-plusplus
+        for (let idxAtt = 0; idxAtt < attributes.length; idxAtt++) {
+            if (typeof options[attributes[idxAtt].code] !== 'undefined') {
+                if (options[attributes[idxAtt].code] === attributes[idxAtt].value_index) {
+                    isSpesific = true;
+                } else {
+                    isSpesific = false;
+                    break;
                 }
             }
         }
