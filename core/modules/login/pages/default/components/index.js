@@ -16,26 +16,44 @@ import OtpBlock from '../../../plugins/otp';
 import OtpView from '../../../plugins/otp/view';
 import useStyles from './style';
 
-const uiConfig = {
-    signInFlow: 'popup',
-    signInOptions: [
-        features.socialLogin.google ? firebase.auth.GoogleAuthProvider.PROVIDER_ID : '',
-        features.socialLogin.facebook ? firebase.auth.FacebookAuthProvider.PROVIDER_ID : '',
-        features.socialLogin.twitter ? firebase.auth.TwitterAuthProvider.PROVIDER_ID : '',
-        features.socialLogin.github ? firebase.auth.GithubAuthProvider.PROVIDER_ID : '',
-        features.socialLogin.email ? firebase.auth.EmailAuthProvider.PROVIDER_ID : '',
-    ],
-    callbacks: {
-        signInSuccess: () => false,
-    },
-};
-
 const Login = (props) => {
     const {
         formik, otpConfig, isOtp, setIsOtp, t, setDisabled, disabled, loading, formikOtp, toastMessage,
     } = props;
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
+
+    const signInOptions = [];
+
+    if (firebase && firebase.auth) {
+        if (features.socialLogin.google && firebase.auth.GoogleAuthProvider && firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
+            signInOptions.push(firebase.auth.GoogleAuthProvider.PROVIDER_ID);
+        }
+
+        if (features.socialLogin.facebook && firebase.auth.FacebookAuthProvider && firebase.auth.FacebookAuthProvider.PROVIDER_ID) {
+            signInOptions.push(firebase.auth.FacebookAuthProvider.PROVIDER_ID);
+        }
+
+        if (features.socialLogin.twitter && firebase.auth.TwitterAuthProvider && firebase.auth.TwitterAuthProvider.PROVIDER_ID) {
+            signInOptions.push(firebase.auth.TwitterAuthProvider.PROVIDER_ID);
+        }
+
+        if (features.socialLogin.github && firebase.auth.GithubAuthProvider && firebase.auth.GithubAuthProvider.PROVIDER_ID) {
+            signInOptions.push(firebase.auth.GithubAuthProvider.PROVIDER_ID);
+        }
+
+        if (features.socialLogin.email && firebase.auth.EmailAuthProvider && firebase.auth.EmailAuthProvider.PROVIDER_ID) {
+            signInOptions.push(firebase.auth.EmailAuthProvider.PROVIDER_ID);
+        }
+    }
+
+    const uiConfig = {
+        signInFlow: 'popup',
+        signInOptions,
+        callbacks: {
+            signInSuccess: () => false,
+        },
+    };
 
     return (
         <div className={styles.container}>
