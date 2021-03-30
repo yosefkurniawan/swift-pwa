@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         background: ORANGE,
         position: 'sticky',
-        top: 35,
+        top: 37,
         color: WHITE,
         '& span': {
             color: WHITE,
