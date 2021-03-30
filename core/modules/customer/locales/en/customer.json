@@ -12,7 +12,8 @@
   },
   "setting": {
     "title": "Settings",
-    "newsletter": "Newsletter subscriptions",
+    "newsletter": "Newsletter",
+    "newsletter_subscription": "Newsletter subscriptions",
     "language": "Language",
     "currency": "Currency"
   },

@@ -2,14 +2,17 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable no-lonely-if */
 /* eslint-disable no-console */
-import { useEffect, useRef, useState } from 'react';
+import {
+    useEffect, useRef, useState, useMemo,
+} from 'react';
 import cookies from 'js-cookie';
-import ViewCurrency from './view';
+import { getCurrency } from '../../services/graphql';
 
-import { getCurrency } from '../../../../../services/graphql';
+import ViewSwitcherCurrency from './view';
 
 const COOKIES_APP_CURRENCY = 'app_currency';
-const ComponentCurrencyExchange = (props) => {
+
+const SwitcherCurrency = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
@@ -32,7 +35,7 @@ const ComponentCurrencyExchange = (props) => {
      */
     useEffect(() => {
         if (mount.current) {
-            const getCurrencyFromStorage = async () => {
+            const getCurrencyFromStorage = () => {
                 try {
                     /** [GET] Currency */
                     if (data && data.currency) {
@@ -96,7 +99,10 @@ const ComponentCurrencyExchange = (props) => {
         window.location.reload();
     };
 
-    React.useMemo(() => {
+    /**
+     * [useMemo]
+     */
+    useMemo(() => {
         if (mount.current) {
             if (open) {
                 const header = document.getElementById('header');
@@ -127,7 +133,7 @@ const ComponentCurrencyExchange = (props) => {
         setDefaultCurrency,
     };
 
-    return <ViewCurrency {...props} {...propsOther} />;
+    return <ViewSwitcherCurrency {...props} {...propsOther} />;
 };
 
-export default ComponentCurrencyExchange;
+export default SwitcherCurrency;

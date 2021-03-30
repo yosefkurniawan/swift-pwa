@@ -426,6 +426,10 @@ const modules = {
         enabled: true,
         path: '/maintenance',
     },
+    setting: {
+        enabled: true,
+        path: '/setting',
+    },
     error: {
         enabled: true,
     },
@@ -439,7 +443,7 @@ const nossrCache = [
     '/awgiftcard/card',
     '/customer/account/storecredit',
     '/inboxnotification/notification',
-    '/customer/setting',
+    '/customer/newsletter',
     '/rma/customer',
     '/confirmpayment',
     '/checkout',

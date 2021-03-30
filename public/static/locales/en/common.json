@@ -105,9 +105,7 @@
         "myaccount": "My Account",
         "mywishlist": "My Wishlist",
         "signout": "Sign Out",
-        "currency": "Currency",
-        "loading": "Loading",
-        "changeto": "Change to"
+        "loading": "Loading"
     },
     "header": {
         "welcome": "Welcome!",
@@ -124,5 +122,11 @@
         "buttonLabel": "Subscribe",
         "emailFormat": "Invalid email format",
         "emptyValue": "Please insert email address"
+    },
+    "setting": {
+        "title": "Setting",
+        "language": "Language",
+        "currency": "Currency",
+        "changeto": "Change to"
     }
 }

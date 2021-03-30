@@ -104,7 +104,8 @@
         "signout": "Sign Out",
         "currency": "Currency",
         "loading": "Loading",
-        "changeto": "Change to"
+        "changeto": "Change to",
+        "setting": "Setting"
     },
     "header": {
         "welcome": "Welcome!",
