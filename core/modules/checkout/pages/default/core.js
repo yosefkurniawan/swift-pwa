@@ -67,7 +67,9 @@ const Checkout = (props) => {
     } = storeConfig;
     if (storeConfig && !allow_guest_checkout && !isLogin) {
         urlRedirect = getLoginCallbackUrl({ errorGuest: true });
-        Router.push(urlRedirect);
+        if (typeof window !== 'undefined') {
+            Router.push(urlRedirect);
+        }
     }
 
     const configPage = {
