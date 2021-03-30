@@ -194,13 +194,6 @@ const features = {
     customInstallApp: {
         enabled: true,
     },
-    socialLogin: {
-        facebook: false,
-        google: true,
-        twitter: false,
-        github: true,
-        email: false,
-    },
     firebase: {
         config: {
             apiKey: 'AIzaSyCD0ZuTMcNi3PSsJH9LD21v7_XA1sVLjdI',
@@ -212,12 +205,19 @@ const features = {
             appId: '1:731430387766:web:af85ac9f9559c873309897',
             measurementId: 'G-DP22E2CL8G',
         },
-    },
-    pushNotification: {
-        enabled: true,
-        config: {
-            // key from cloud messaging sertificat web push
-            pairKey: 'BBIzfGdH56tlTaV1jxqaWA_n47trFqy51WjcCn9Fa1-7xzmY4iBwBlGQjO1e_bRBEx9kq4o8q4zyl14JuXSIC-k',
+        socialLogin: {
+            facebook: false,
+            google: true,
+            twitter: false,
+            github: true,
+            email: false,
+        },
+        pushNotification: {
+            enabled: true,
+            config: {
+                // key from cloud messaging sertificat web push
+                pairKey: 'BBIzfGdH56tlTaV1jxqaWA_n47trFqy51WjcCn9Fa1-7xzmY4iBwBlGQjO1e_bRBEx9kq4o8q4zyl14JuXSIC-k',
+            },
         },
     },
     thumbor: {

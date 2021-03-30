@@ -26,23 +26,23 @@ const Login = (props) => {
     const signInOptions = [];
 
     if (firebase && firebase.auth) {
-        if (features.socialLogin.google && firebase.auth.GoogleAuthProvider && firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
+        if (features.firebase.socialLogin.google && firebase.auth.GoogleAuthProvider && firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
             signInOptions.push(firebase.auth.GoogleAuthProvider.PROVIDER_ID);
         }
 
-        if (features.socialLogin.facebook && firebase.auth.FacebookAuthProvider && firebase.auth.FacebookAuthProvider.PROVIDER_ID) {
+        if (features.firebase.socialLogin.facebook && firebase.auth.FacebookAuthProvider && firebase.auth.FacebookAuthProvider.PROVIDER_ID) {
             signInOptions.push(firebase.auth.FacebookAuthProvider.PROVIDER_ID);
         }
 
-        if (features.socialLogin.twitter && firebase.auth.TwitterAuthProvider && firebase.auth.TwitterAuthProvider.PROVIDER_ID) {
+        if (features.firebase.socialLogin.twitter && firebase.auth.TwitterAuthProvider && firebase.auth.TwitterAuthProvider.PROVIDER_ID) {
             signInOptions.push(firebase.auth.TwitterAuthProvider.PROVIDER_ID);
         }
 
-        if (features.socialLogin.github && firebase.auth.GithubAuthProvider && firebase.auth.GithubAuthProvider.PROVIDER_ID) {
+        if (features.firebase.socialLogin.github && firebase.auth.GithubAuthProvider && firebase.auth.GithubAuthProvider.PROVIDER_ID) {
             signInOptions.push(firebase.auth.GithubAuthProvider.PROVIDER_ID);
         }
 
-        if (features.socialLogin.email && firebase.auth.EmailAuthProvider && firebase.auth.EmailAuthProvider.PROVIDER_ID) {
+        if (features.firebase.socialLogin.email && firebase.auth.EmailAuthProvider && firebase.auth.EmailAuthProvider.PROVIDER_ID) {
             signInOptions.push(firebase.auth.EmailAuthProvider.PROVIDER_ID);
         }
     }
