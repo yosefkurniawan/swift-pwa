@@ -1,34 +1,23 @@
 import Layout from '@layout';
 import { useMutation } from '@apollo/client';
-import { translation } from '@config';
-import * as Schema from '../../services/graphql/schema';
 import { getCustomerSettings } from '../../services/graphql';
 
-const SettingsPage = (props) => {
+import * as Schema from '../../services/graphql/schema';
+
+const NewsletterPage = (props) => {
     const {
-        t, Content, i18n, pageConfig, app_cookies,
+        t, Content, pageConfig, app_cookies,
     } = props;
     const config = {
-        title: t('customer:setting:title'),
+        title: t('customer:setting:newsletter'),
         header: 'relative', // available values: "absolute", "relative", false (default)
-        headerTitle: t('customer:setting:title'),
+        headerTitle: t('customer:setting:newsletter'),
         bottomNav: false,
     };
-
-    const { languages, language } = i18n;
-    const dataLang = [];
-    languages.forEach((lang) => {
-        dataLang.push({
-            label: translation.languagesLabel[lang],
-            value: lang,
-        });
-    });
 
     const [settings, setSettings] = React.useState({
         is_subscribed: false,
     });
-
-    const [lang, setLang] = React.useState(language);
 
     const [actUpdateCustomer, resultUpdate] = useMutation(Schema.updateCustomer);
     if (!resultUpdate.loading && typeof window !== 'undefined' && window.backdropLoader) {
@@ -46,7 +35,6 @@ const SettingsPage = (props) => {
                 request: 'internal',
             },
         });
-        i18n.changeLanguage(lang);
     };
     let customer = {};
     if (typeof window !== 'undefined') {
@@ -64,20 +52,12 @@ const SettingsPage = (props) => {
             });
         }
     }, [customer]);
+
     return (
         <Layout {...props} pageConfig={pageConfig || config}>
-            <Content
-                t={t}
-                customer={customer}
-                setSettings={setSettings}
-                dataLang={dataLang}
-                lang={lang}
-                setLang={setLang}
-                handleSave={handleSave}
-                app_cookies={app_cookies}
-            />
+            <Content t={t} customer={customer} setSettings={setSettings} handleSave={handleSave} app_cookies={app_cookies} />
         </Layout>
     );
 };
 
-export default SettingsPage;
+export default NewsletterPage;

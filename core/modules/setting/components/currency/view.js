@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Popover from '@material-ui/core/Popover';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -18,17 +18,17 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const ViewCurrency = (props) => {
+const ViewSwitcherCurrency = (props) => {
     const {
         t, title, id, open, anchorEl, currencyState, handleClick, handleClose, setDefaultCurrency, loading, app_cookies,
     } = props;
     const cookies_currency = app_cookies?.cookies_currency;
     const classes = useStyles();
-    const buttonRef = React.useRef();
+    const buttonRef = useRef();
     const anchorOrigin = { vertical: 'bottom', horizontal: 'right' };
     const transforOrigin = { vertical: 'top', horizontal: 'right' };
     const styleTitle = { fontSize: 12, textTransform: 'uppercase' };
-    const styleButtonCurrency = { fontFamily: 'Montserrat', padding: '0px', fontSize: title ? '12px' : '1em' };
+    const styleButton = { fontFamily: 'Montserrat', padding: '0px', fontSize: title ? '12px' : '1em' };
 
     const isEmptyCookiesCurrency = currencyState === undefined || currencyState === null;
     /**
@@ -76,8 +76,8 @@ const ViewCurrency = (props) => {
             )}
 
             {/* [CURRENCY] BUTTON */}
-            <Button ref={buttonRef} onClick={handleClick} style={styleButtonCurrency}>
-                {t('common:menu:currency')}
+            <Button ref={buttonRef} onClick={handleClick} style={styleButton}>
+                {t('common:setting:currency')}
                 :&nbsp;
                 <strong>{finalDefaultCurrency}</strong>
             </Button>
@@ -108,7 +108,7 @@ const ViewCurrency = (props) => {
                                 >
                                     <ListItemText
                                         classes={{ primary: classes.listItemText }}
-                                        primary={`${t('common:menu:changeto')} ${currency_to}`}
+                                        primary={`${t('common:setting:changeto')} ${currency_to}`}
                                     />
                                 </ListItem>
                             );
@@ -119,4 +119,4 @@ const ViewCurrency = (props) => {
     );
 };
 
-export default ViewCurrency;
+export default ViewSwitcherCurrency;
