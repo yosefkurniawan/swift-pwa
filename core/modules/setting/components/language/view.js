@@ -64,10 +64,7 @@ const ViewSwitcherLanguage = (props) => {
                             const isCurrent = item.value === lang.value;
                             return isCurrent ? null : (
                                 <ListItem button key={`language-${index}`} onClick={() => onClickLanguage({ item })}>
-                                    <ListItemText
-                                        classes={{ primary: classes.listItemText }}
-                                        primary={`${t('common:setting:changeto')} ${item.label}`}
-                                    />
+                                    <ListItemText classes={{ primary: classes.listItemText }} primary={`${item.label}`} />
                                 </ListItem>
                             );
                         })}

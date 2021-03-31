@@ -20,22 +20,38 @@ const NewsletterPage = (props) => {
     });
 
     const [actUpdateCustomer, resultUpdate] = useMutation(Schema.updateCustomer);
+
     if (!resultUpdate.loading && typeof window !== 'undefined' && window.backdropLoader) {
         setTimeout(() => {
             window.backdropLoader(false);
+            window.toastMessage({
+                open: true,
+                text: t('customer:setting:newsletter_success'),
+                variant: 'success',
+            });
         }, 500);
     }
-    const handleSave = () => {
+
+    const handleSave = async () => {
         window.backdropLoader(true);
-        actUpdateCustomer({
-            variables: {
-                isSubscribed: settings.is_subscribed,
-            },
-            context: {
-                request: 'internal',
-            },
-        });
+        try {
+            await actUpdateCustomer({
+                variables: {
+                    isSubscribed: settings.is_subscribed,
+                },
+                context: {
+                    request: 'internal',
+                },
+            });
+        } catch (e) {
+            await window.toastMessage({
+                open: true,
+                text: e.message.split(':')[1] || t('customer:setting:newsletter_error'),
+                variant: 'error',
+            });
+        }
     };
+
     let customer = {};
     if (typeof window !== 'undefined') {
         const { data } = getCustomerSettings();
@@ -43,6 +59,7 @@ const NewsletterPage = (props) => {
             customer = data.customer;
         }
     }
+
     React.useEffect(() => {
         if (customer.is_subscribed) {
             setSettings({

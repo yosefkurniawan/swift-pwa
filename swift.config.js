@@ -53,7 +53,7 @@ const translation = {
     // language label code
     languagesLabel: {
         en: 'English',
-        id: 'Bahasa Indonesia',
+        id: 'Indonesia',
     },
 };
 
