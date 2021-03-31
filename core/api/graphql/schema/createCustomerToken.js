@@ -24,6 +24,13 @@ input internalCreateCustomerTokenInput {
     whatsapp_number: String
 }
 
+input internalCreateSocialLoginInput {
+    firstname: String
+    lastname: String
+    email: String
+    socialtoken: String
+}
+
 type internalGenerateSessionOutput {
     result: Boolean
     isLogin: Boolean
@@ -38,6 +45,7 @@ type internalDeleteSessionOutput {
 type Mutation {
     internalGenerateCustomerToken(username: String!, password: String!): Token
     internalCreateCustomerToken(input: internalCreateCustomerTokenInput): Token
+    internalCreateSocialLogin(input: internalCreateSocialLoginInput): Token
     internalGenerateCustomerTokenOtp(username: String!, otp: String!): Token
     internalDeleteCustomerToken: RevokeCustomerTokenOutput
     internalGenerateSession(state: String!): internalGenerateSessionOutput

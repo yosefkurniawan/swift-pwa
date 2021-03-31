@@ -12,7 +12,7 @@ const CheckboxSettings = (props) => {
     return (
         <CheckboxView
             t={t}
-            label={t('customer:setting:newsletter')}
+            label={t('customer:setting:newsletter_subscription')}
             flex="column"
             data={data}
             value={checkData}

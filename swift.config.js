@@ -53,7 +53,7 @@ const translation = {
     // language label code
     languagesLabel: {
         en: 'English',
-        id: 'Bahasa Indonesia',
+        id: 'Indonesia',
     },
 };
 
@@ -194,8 +194,7 @@ const features = {
     customInstallApp: {
         enabled: true,
     },
-    pushNotification: {
-        enabled: true,
+    firebase: {
         config: {
             apiKey: 'AIzaSyCD0ZuTMcNi3PSsJH9LD21v7_XA1sVLjdI',
             authDomain: 'swiftpwa-firebase.firebaseapp.com',
@@ -205,8 +204,20 @@ const features = {
             messagingSenderId: '731430387766',
             appId: '1:731430387766:web:af85ac9f9559c873309897',
             measurementId: 'G-DP22E2CL8G',
-            // key from cloud messaging sertificat web push
-            pairKey: 'BBIzfGdH56tlTaV1jxqaWA_n47trFqy51WjcCn9Fa1-7xzmY4iBwBlGQjO1e_bRBEx9kq4o8q4zyl14JuXSIC-k',
+        },
+        socialLogin: {
+            facebook: false,
+            google: true,
+            twitter: false,
+            github: true,
+            email: false,
+        },
+        pushNotification: {
+            enabled: true,
+            config: {
+                // key from cloud messaging sertificat web push
+                pairKey: 'BBIzfGdH56tlTaV1jxqaWA_n47trFqy51WjcCn9Fa1-7xzmY4iBwBlGQjO1e_bRBEx9kq4o8q4zyl14JuXSIC-k',
+            },
         },
     },
     thumbor: {
@@ -426,6 +437,10 @@ const modules = {
         enabled: true,
         path: '/maintenance',
     },
+    setting: {
+        enabled: true,
+        path: '/setting',
+    },
     error: {
         enabled: true,
     },
@@ -439,7 +454,7 @@ const nossrCache = [
     '/awgiftcard/card',
     '/customer/account/storecredit',
     '/inboxnotification/notification',
-    '/customer/setting',
+    '/customer/newsletter',
     '/rma/customer',
     '/confirmpayment',
     '/checkout',

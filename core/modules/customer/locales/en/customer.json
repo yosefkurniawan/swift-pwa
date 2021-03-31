@@ -12,7 +12,10 @@
   },
   "setting": {
     "title": "Settings",
-    "newsletter": "Newsletter subscriptions",
+    "newsletter": "Newsletter",
+    "newsletter_subscription": "Newsletter subscriptions",
+    "newsletter_success": "Newsletter has been update successfully",
+    "newsletter_error": "Failed on updating newsletter",
     "language": "Language",
     "currency": "Currency"
   },

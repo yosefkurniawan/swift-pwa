@@ -1,7 +1,8 @@
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Link from 'next/link';
-import ComponentCurrencyExchange from './currency';
+import SwitcherLanguage from '@common_language';
+import SwitcherCurrency from '@common_currency';
 
 const ViewTop = (props) => {
     const {
@@ -74,7 +75,10 @@ const ViewTop = (props) => {
                 </li>
             ) : null}
             <li>
-                <ComponentCurrencyExchange {...props} />
+                <SwitcherLanguage {...props} />
+            </li>
+            <li>
+                <SwitcherCurrency {...props} />
             </li>
 
             <style jsx>

@@ -165,7 +165,7 @@ class MyApp extends App {
          * ---------------------------------------------
          * FIREBASE INITIALIZATION
          */
-        if (features.pushNotification.enabled) {
+        if (features.firebase.pushNotification.enabled) {
             // initial firebase messaging
             Notification.init();
             // handle if have message on focus

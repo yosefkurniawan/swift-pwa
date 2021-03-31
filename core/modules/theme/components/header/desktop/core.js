@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 import Router from 'next/router';
 import { removeIsLoginFlagging } from '@helper_auth';
 import { removeCartId } from '@helper_cartid';
 import Cookies from 'js-cookie';
 import { useApolloClient } from '@apollo/client';
 import { localTotalCart } from '@services/graphql/schema/local';
+import firebase from 'firebase/app';
 import { custDataNameCookie, features } from '@config';
 import {
     getCategories, getCustomer, removeToken, getVesMenu,
@@ -38,6 +40,12 @@ const CoreTopNavigation = (props) => {
                 Cookies.remove(custDataNameCookie);
                 removeIsLoginFlagging();
                 removeCartId();
+                firebase.auth().signOut().then(() => {
+                    // Sign-out successful.
+                }).catch((error) => {
+                    // An error happened.
+                    // console.log(error);
+                });
                 client.writeQuery({ query: localTotalCart, data: { totalCart: 0 } });
                 Router.push('/customer/account/login');
             })
