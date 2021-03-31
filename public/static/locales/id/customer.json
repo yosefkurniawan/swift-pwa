@@ -13,7 +13,9 @@
   "setting" : {
     "title" : "Pengaturan",
     "newsletter" : "Buletin",
-    "newsletter_subscription": "Newsletter subscriptions",
+    "newsletter_subscription": "Langganan Buletin",
+    "newsletter_success": "Buletin berhasil diperbarui",
+    "newsletter_error": "Buletin gagal diperbarui",
     "language" : "Bahasa",
     "currency": "Mata Uang"
   },
