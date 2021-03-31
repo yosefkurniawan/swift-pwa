@@ -20,6 +20,13 @@ export const removeToken = () => useMutation(Schema.removeToken, {
 });
 
 export const requestOtpRegister = () => useMutation(Schema.requestOtpRegister);
+export const socialLogin = () => useMutation(Schema.socialLogin, {
+    context: {
+        request: 'internal',
+    },
+    skip: typeof window === 'undefined',
+});
+
 export const checkOtpRegister = () => useMutation(Schema.checkOtpRegister);
 export const requestOtpLogin = () => useMutation(Schema.requestOtpLogin);
 export const checkOtpLogin = () => useMutation(Schema.checkOtpLogin);

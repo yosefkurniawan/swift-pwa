@@ -1,15 +1,19 @@
+/* eslint-disable no-nested-ternary */
+import React from 'react';
 import TextField from '@common_textfield';
 import PasswordField from '@common_password';
 import Button from '@common_button';
 import Typography from '@common_typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { features } from '@config';
 import Switch from '@material-ui/core/Switch';
 import Divider from '@material-ui/core/Divider';
 import { breakPointsUp } from '@helper_theme';
 import classNames from 'classnames';
+import firebase from 'firebase/app';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import OtpBlock from '../../../plugins/otp';
 import OtpView from '../../../plugins/otp/view';
-
 import useStyles from './style';
 
 const Login = (props) => {
@@ -18,6 +22,39 @@ const Login = (props) => {
     } = props;
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
+
+    const signInOptions = [];
+
+    if (firebase && firebase.auth) {
+        if (features.firebase.socialLogin.google && firebase.auth.GoogleAuthProvider && firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
+            signInOptions.push(firebase.auth.GoogleAuthProvider.PROVIDER_ID);
+        }
+
+        if (features.firebase.socialLogin.facebook && firebase.auth.FacebookAuthProvider && firebase.auth.FacebookAuthProvider.PROVIDER_ID) {
+            signInOptions.push(firebase.auth.FacebookAuthProvider.PROVIDER_ID);
+        }
+
+        if (features.firebase.socialLogin.twitter && firebase.auth.TwitterAuthProvider && firebase.auth.TwitterAuthProvider.PROVIDER_ID) {
+            signInOptions.push(firebase.auth.TwitterAuthProvider.PROVIDER_ID);
+        }
+
+        if (features.firebase.socialLogin.github && firebase.auth.GithubAuthProvider && firebase.auth.GithubAuthProvider.PROVIDER_ID) {
+            signInOptions.push(firebase.auth.GithubAuthProvider.PROVIDER_ID);
+        }
+
+        if (features.firebase.socialLogin.email && firebase.auth.EmailAuthProvider && firebase.auth.EmailAuthProvider.PROVIDER_ID) {
+            signInOptions.push(firebase.auth.EmailAuthProvider.PROVIDER_ID);
+        }
+    }
+
+    const uiConfig = {
+        signInFlow: 'popup',
+        signInOptions,
+        callbacks: {
+            signInSuccess: () => false,
+        },
+    };
+
     return (
         <div className={styles.container}>
             {!desktop && otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login && (
@@ -87,6 +124,9 @@ const Login = (props) => {
                                                         {loading ? 'Loading' : t('login:pageTitle')}
                                                     </Typography>
                                                 </Button>
+                                            </div>
+                                            <div className="col-xs-12 col-sm-12">
+                                                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
                                             </div>
                                             <div className="col-xs-12 col-sm-12">
                                                 <Button
@@ -195,6 +235,20 @@ const Login = (props) => {
                 </div>
                 {toastMessage}
             </div>
+            <style jsx global>
+                {`
+                    .firebaseui-container {
+                        display: flex !important;
+                        flex-direaction: column !important;
+                        justify-content: flex-start !important;
+                        max-width: 100% !important;
+                    }
+
+                    .firebaseui-card-content {
+                        padding: 0px !important;
+                    }
+                `}
+            </style>
         </div>
     );
 };

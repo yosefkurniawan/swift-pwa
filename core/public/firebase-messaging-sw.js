@@ -12,7 +12,7 @@ importScripts('https://www.gstatic.com/firebasejs/8.2.7/firebase-messaging.js');
 
 // Initialize the Firebase app in the service worker by passing in the
 // messagingSenderId.
-const firebaseConfig = features.pushNotification.config;
+const firebaseConfig = features.firebase.config;
 // Initialize Firebase
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
