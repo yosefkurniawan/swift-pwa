@@ -1,0 +1,51 @@
+import React from 'react';
+import Typography from '@common_typography';
+import classNames from 'classnames';
+import Footer from '../components/Footer';
+import useStyles from './style';
+import Item from './Item';
+
+const GroupedProductOptionView = ({
+    t, loading, disabled,
+    handleAddToCart = () => {},
+    loadData = false,
+    optionsData = [],
+    itemsCart,
+    setItemsCart,
+    ...other
+}) => {
+    const styles = useStyles();
+    return (
+        <div className={styles.container}>
+            { (!loadData && optionsData.length > 0) ? (
+                <div className={styles.itemsBox}>
+                    <div className={classNames(styles.item, styles.header)}>
+                        <Typography type="bold">Product Name</Typography>
+                        <Typography type="bold">Qty</Typography>
+                    </div>
+                    {
+                        optionsData.map((item, key) => (
+                            <Item
+                                key={key}
+                                {...item}
+                                itemsCart={itemsCart}
+                                setItemsCart={setItemsCart}
+                            />
+                        ))
+                    }
+                </div>
+            ) : null }
+            <Footer
+                loading={loading}
+                disabled={disabled}
+                showQty={false}
+                handleAddToCart={handleAddToCart}
+                t={t}
+                showAddToCart
+                {...other}
+            />
+        </div>
+    );
+};
+
+export default GroupedProductOptionView;

@@ -3,6 +3,7 @@ import SimpleOption from '../../../../plugin/OptionItem/SimpeProduct';
 import VirtualOption from '../../../../plugin/OptionItem/Virtual';
 import DownloadOption from '../../../../plugin/OptionItem/Download';
 import BundleOption from '../../../../plugin/OptionItem/BundleOption';
+import GroupedOption from '../../../../plugin/OptionItem/GroupedProduct';
 
 const Options = (props) => {
     const { data } = props;
@@ -34,6 +35,12 @@ const Options = (props) => {
             )}
             {__typename === 'DownloadableProduct' && (
                 <DownloadOption
+                    {...props}
+                />
+            )}
+
+            {__typename === 'GroupedProduct' && (
+                <GroupedOption
                     {...props}
                 />
             )}

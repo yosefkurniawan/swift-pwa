@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import * as Schema from './schema';
+import * as OptionSchema from './optionSchema';
 
 export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath));
 export const getProductBySku = (params) => useQuery(Schema.getProductBySku(), {
@@ -8,6 +9,10 @@ export const getProductBySku = (params) => useQuery(Schema.getProductBySku(), {
 export const getConfigurableProduct = (sku) => useQuery(Schema.getConfigurableProduct(sku));
 export const getBundleProduct = (sku) => useQuery(Schema.getBundleProduct(sku));
 export const getDownloadroduct = (sku) => useQuery(Schema.getDownloadProduct(sku));
+export const getGroupedProduct = (sku) => useQuery(OptionSchema.getGroupedProduct, {
+    variables: { sku },
+    skip: !sku,
+});
 
 export const getReviews = (params) => useQuery(Schema.getReview(), {
     variables: {

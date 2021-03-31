@@ -163,7 +163,7 @@ const features = {
         SimpleProduct: true,
         ConfigurableProduct: true,
         VirtualProduct: true,
-        GroupedProduct: false,
+        GroupedProduct: true,
         BundleProduct: true,
         DownloadableProduct: false,
     },
