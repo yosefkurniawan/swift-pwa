@@ -53,13 +53,23 @@ const ItemGrouped = ({
                     specialToDate={product.special_to_date}
                 />
             </div>
-            <input
-                className={styles.inputQty}
-                type="number"
-                onChange={handleLocalChange}
-                disabled={disabled}
-                value={localValue}
-            />
+            {
+                product.stock_status === 'OUT_OF_STOCK'
+                    ? (
+                        <Typography variant="p" type="bold" letter="uppercase">
+                            {product.stock_status.replace(/_/g, ' ') || ''}
+                        </Typography>
+                    )
+                    : (
+                        <input
+                            className={styles.inputQty}
+                            type="number"
+                            onChange={handleLocalChange}
+                            disabled={disabled}
+                            value={localValue}
+                        />
+                    )
+            }
         </div>
     );
 };

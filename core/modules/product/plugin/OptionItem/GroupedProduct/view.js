@@ -20,8 +20,8 @@ const GroupedProductOptionView = ({
             { (!loadData && optionsData.length > 0) ? (
                 <div className={styles.itemsBox}>
                     <div className={classNames(styles.item, styles.header)}>
-                        <Typography type="bold">Product Name</Typography>
-                        <Typography type="bold">Qty</Typography>
+                        <Typography type="bold">{t('common:product:titleProduct')}</Typography>
+                        <Typography type="bold">{t('common:title:shortQty')}</Typography>
                     </div>
                     {
                         optionsData.map((item, key) => (
