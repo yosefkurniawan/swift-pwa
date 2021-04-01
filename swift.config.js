@@ -253,7 +253,7 @@ const modules = {
         featuredImage: true,
     },
     brands: {
-        enabled: false,
+        enabled: true,
         path: '/brands',
     },
     catalog: {
