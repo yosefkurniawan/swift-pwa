@@ -13,11 +13,11 @@ Page.getInitialProps = async (ctx) => {
     if (!req.query.state) {
         ctx.res.statusCode = 302;
         ctx.res.setHeader('Location', '/');
-        return { props: {}, namespacesRequired: ['common'] };
+        return { props: {}, namespacesRequired: ['common', 'checkout', 'customer', 'validate'] };
     }
     return {
         query: req.query,
-        namespacesRequired: ['common', 'checkout'],
+        namespacesRequired: ['common', 'checkout', 'customer', 'validate'],
     };
 };
 
