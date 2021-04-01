@@ -9,12 +9,17 @@ const { getAppEnv } = require('../../../helpers/env');
 const executor = async ({ document, variables, context }) => {
     try {
         let token = '';
+        let selectStore = '';
         if (context) {
             token = context.session.token;
+            selectStore = context.cookies.select_store;
+        }
+        if (storeCode) {
+            selectStore = storeCode;
         }
         const query = print(document);
         const appEnv = getAppEnv();
-        const additionalHeader = storeCode ? { store: storeCode } : {};
+        const additionalHeader = (selectStore && selectStore !== '') ? { store: selectStore } : {};
         const fetchResult = await fetch(graphqlEndpoint[appEnv] || graphqlEndpoint.prod, {
             method: 'POST',
             headers: {

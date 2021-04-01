@@ -8,6 +8,13 @@ const { getAppEnv } = require('../../../helpers/env');
 
 function requestGraph(query, variables = {}, context = {}, config = {}) {
     let token = '';
+    let selectStore = '';
+    if (context && context.cookies) {
+        selectStore = context.cookies.select_store;
+    }
+    if (storeCode) {
+        selectStore = storeCode;
+    }
     if (config.token) {
         token = `Bearer ${config.token}`;
     } else if (context.session || context.headers) {
@@ -15,7 +22,7 @@ function requestGraph(query, variables = {}, context = {}, config = {}) {
             : context.headers.authorization ? context.headers.authorization : '';
     }
     return new Promise((resolve) => {
-        const additionalHeader = storeCode ? { store: storeCode } : {};
+        const additionalHeader = (selectStore && selectStore !== '') ? { store: selectStore } : {};
         const headers = {
             Authorization: token,
             ...additionalHeader,

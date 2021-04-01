@@ -3,14 +3,29 @@ import React, { useState, useEffect, useRef } from 'react';
 import { withTranslation } from '@i18n';
 import { translation } from '@config';
 import cookies from 'js-cookie';
+import Skeleton from '@material-ui/lab/Skeleton';
+import { getStores } from '../../services/graphql';
 import ViewLanguage from './view';
 
 const COOKIES_APP_LANG = 'app_lang';
+const COOKIES_SELECT_STORE = 'select_store';
 
 const SwitcherLanguage = (props) => {
     const { i18n, onCallbackLanguage } = props;
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+
+    // get stores
+    const { loading, data } = getStores();
+    if (loading) {
+        return (
+            <div>
+                {props.title && <Skeleton style={{ padding: 0 }} variant="rect" width={100} height={10} />}
+                <Skeleton style={{ display: 'inline-block', padding: 0 }} variant="rect" width={100} height={10} />
+            </div>
+        );
+    }
+
     const id = open ? 'simple-popover' : undefined;
     const mount = useRef();
 
@@ -68,12 +83,21 @@ const SwitcherLanguage = (props) => {
     /**
      * [METHOD] on click language
      */
-    const onClickLanguage = ({ item }) => {
-        i18n.changeLanguage(item.value);
-        cookies.set(COOKIES_APP_LANG, item);
+    const onClickLanguage = async ({ item }) => {
+        if (data && data.availableStores && data.availableStores.length > 0) {
+            const selectStore = data.availableStores.find((store) => store.locale.match(item.value));
+
+            if (selectStore && selectStore.code) {
+                await cookies.set(COOKIES_SELECT_STORE, selectStore.code);
+            } else {
+                await cookies.remove(COOKIES_SELECT_STORE);
+            }
+        }
+        await i18n.changeLanguage(item.value);
+        await cookies.set(COOKIES_APP_LANG, item);
         setLang(item);
         handleClose();
-        window.location.reload();
+        // window.location.reload();
     };
 
     const propsOther = {

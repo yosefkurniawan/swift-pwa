@@ -22,6 +22,16 @@ export const getCurrencySchema = gql`
     }
 `;
 
+export const getStores = gql`
+{
+  availableStores {
+    locale
+    store_name
+    code    
+  }
+}
+`;
+
 export default {
     getCurrencySchema,
 };
