@@ -92,7 +92,7 @@ const Login = (props) => {
                                     </div>
                                     <form onSubmit={formik.handleSubmit}>
                                         <div className="row center-xs start-sm">
-                                            <div className="col-xs-12 col-sm-12">
+                                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <TextField
                                                     name="username"
                                                     label="Email"
@@ -103,7 +103,7 @@ const Login = (props) => {
                                                     errorMessage={formik.errors.username || null}
                                                 />
                                             </div>
-                                            <div className="col-xs-12  col-sm-12">
+                                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <PasswordField
                                                     name="password"
                                                     label="Password"
@@ -115,7 +115,7 @@ const Login = (props) => {
                                                     showVisible
                                                 />
                                             </div>
-                                            <div className="col-xs-12 col-sm-12">
+                                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <Button
                                                     className={styles.generalButton}
                                                     fullWidth={!desktop}
@@ -128,12 +128,12 @@ const Login = (props) => {
                                                     </Typography>
                                                 </Button>
                                             </div>
-                                            <div className="col-xs-12 col-sm-12">
+                                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 { !socialLoginMethodLoading && (
                                                     <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
                                                 )}
                                             </div>
-                                            <div className="col-xs-12 col-sm-12">
+                                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <Button
                                                     fullWidth={false}
                                                     variant="text"

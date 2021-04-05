@@ -21,13 +21,14 @@ const SwitcherLanguage = (props) => {
     });
 
     const dataLang = [];
-    languages.forEach((langItem) => {
-        dataLang.push({
-            label: translation.languagesLabel[langItem],
-            value: langItem,
+    if (languages && languages.length > 0) {
+        languages.forEach((langItem) => {
+            dataLang.push({
+                label: translation.languagesLabel[langItem],
+                value: langItem,
+            });
         });
-    });
-
+    }
     /**
      * [useEffect] life cycle react
      */
