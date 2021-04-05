@@ -74,6 +74,10 @@ export const getCustomerCartId = () => useLazyQuery(ActionSchema.getCartIdUser, 
     fetchPolicy: 'no-cache',
 });
 
-export const addProductsToCart = () => useMutation(ActionSchema.addProductToCart);
+export const addProductsToCart = () => useMutation(ActionSchema.addProductToCart, {
+    context: {
+        request: 'internal',
+    },
+});
 
 export default { getProduct };
