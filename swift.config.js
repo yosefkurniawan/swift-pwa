@@ -205,13 +205,6 @@ const features = {
             appId: '1:731430387766:web:af85ac9f9559c873309897',
             measurementId: 'G-DP22E2CL8G',
         },
-        socialLogin: {
-            facebook: false,
-            google: true,
-            twitter: false,
-            github: true,
-            email: false,
-        },
         pushNotification: {
             enabled: true,
             config: {
