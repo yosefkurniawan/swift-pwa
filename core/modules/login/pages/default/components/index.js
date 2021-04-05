@@ -5,7 +5,6 @@ import PasswordField from '@common_password';
 import Button from '@common_button';
 import Typography from '@common_typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { features } from '@config';
 import Switch from '@material-ui/core/Switch';
 import Divider from '@material-ui/core/Divider';
 import { breakPointsUp } from '@helper_theme';
@@ -19,31 +18,35 @@ import useStyles from './style';
 const Login = (props) => {
     const {
         formik, otpConfig, isOtp, setIsOtp, t, setDisabled, disabled, loading, formikOtp, toastMessage,
+        socialLoginMethodData, socialLoginMethodLoading,
     } = props;
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
 
     const signInOptions = [];
 
-    if (firebase && firebase.auth) {
-        if (features.firebase.socialLogin.google && firebase.auth.GoogleAuthProvider && firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
-            signInOptions.push(firebase.auth.GoogleAuthProvider.PROVIDER_ID);
-        }
+    if (firebase && firebase.auth && socialLoginMethodData && socialLoginMethodData.length > 0) {
+        for (let idx = 0; idx < socialLoginMethodData.length; idx += 1) {
+            const code = socialLoginMethodData[idx];
+            if (code.match(/google/i) && firebase.auth.GoogleAuthProvider && firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
+                signInOptions.push(firebase.auth.GoogleAuthProvider.PROVIDER_ID);
+            }
 
-        if (features.firebase.socialLogin.facebook && firebase.auth.FacebookAuthProvider && firebase.auth.FacebookAuthProvider.PROVIDER_ID) {
-            signInOptions.push(firebase.auth.FacebookAuthProvider.PROVIDER_ID);
-        }
+            if (code.match(/facebook/i) && firebase.auth.FacebookAuthProvider && firebase.auth.FacebookAuthProvider.PROVIDER_ID) {
+                signInOptions.push(firebase.auth.FacebookAuthProvider.PROVIDER_ID);
+            }
 
-        if (features.firebase.socialLogin.twitter && firebase.auth.TwitterAuthProvider && firebase.auth.TwitterAuthProvider.PROVIDER_ID) {
-            signInOptions.push(firebase.auth.TwitterAuthProvider.PROVIDER_ID);
-        }
+            if (code.match(/twitter/i) && firebase.auth.TwitterAuthProvider && firebase.auth.TwitterAuthProvider.PROVIDER_ID) {
+                signInOptions.push(firebase.auth.TwitterAuthProvider.PROVIDER_ID);
+            }
 
-        if (features.firebase.socialLogin.github && firebase.auth.GithubAuthProvider && firebase.auth.GithubAuthProvider.PROVIDER_ID) {
-            signInOptions.push(firebase.auth.GithubAuthProvider.PROVIDER_ID);
-        }
+            if (code.match(/github/i) && firebase.auth.GithubAuthProvider && firebase.auth.GithubAuthProvider.PROVIDER_ID) {
+                signInOptions.push(firebase.auth.GithubAuthProvider.PROVIDER_ID);
+            }
 
-        if (features.firebase.socialLogin.email && firebase.auth.EmailAuthProvider && firebase.auth.EmailAuthProvider.PROVIDER_ID) {
-            signInOptions.push(firebase.auth.EmailAuthProvider.PROVIDER_ID);
+            if (code.match(/email/i) && firebase.auth.EmailAuthProvider && firebase.auth.EmailAuthProvider.PROVIDER_ID) {
+                signInOptions.push(firebase.auth.EmailAuthProvider.PROVIDER_ID);
+            }
         }
     }
 
@@ -126,7 +129,9 @@ const Login = (props) => {
                                                 </Button>
                                             </div>
                                             <div className="col-xs-12 col-sm-12">
-                                                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+                                                { !socialLoginMethodLoading && (
+                                                    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+                                                )}
                                             </div>
                                             <div className="col-xs-12 col-sm-12">
                                                 <Button

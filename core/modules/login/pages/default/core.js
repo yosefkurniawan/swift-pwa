@@ -16,7 +16,7 @@ import firebase from 'firebase/app';
 import React from 'react';
 import {
     getToken, getTokenOtp, removeToken as deleteToken, otpConfig as queryOtpConfig,
-    getCustomerCartId, mergeCart as mutationMergeCart, socialLogin,
+    getCustomerCartId, mergeCart as mutationMergeCart, socialLogin, getSigninMethodSocialLogin,
 } from '../../services/graphql';
 import { getCustomer } from '../../services/graphql/schema';
 
@@ -39,7 +39,6 @@ const Login = (props) => {
     const [disabled, setDisabled] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [cusIsLogin, setIsLogin] = React.useState(0);
-    const [actSocialLogin] = socialLogin();
 
     // Listen to the Firebase Auth state and set the local state.
 
@@ -139,6 +138,11 @@ const Login = (props) => {
     const [getCustomerTokenOtp] = getTokenOtp();
     const [getCart, cartData] = getCustomerCartId();
     const [mergeCart, { called }] = mutationMergeCart();
+
+    const [actSocialLogin] = socialLogin();
+
+    // get login method social login
+    const socialLoginMethod = getSigninMethodSocialLogin();
     const otpConfig = queryOtpConfig();
     const custData = useQuery(getCustomer, {
         context: {
@@ -297,6 +301,13 @@ const Login = (props) => {
             Router.push(redirectLastPath);
         }
     }
+    let socialLoginMethodData = [];
+    if (socialLoginMethod.data && socialLoginMethod.data.getSigninMethodSocialLogin
+        && socialLoginMethod.data.getSigninMethodSocialLogin.signin_method_allowed
+        && socialLoginMethod.data.getSigninMethodSocialLogin.signin_method_allowed !== '') {
+        socialLoginMethodData = socialLoginMethod.data.getSigninMethodSocialLogin.signin_method_allowed.split(',');
+    }
+
     return (
         <Layout {...props} pageConfig={pageConfig || config}>
             <Content
@@ -310,6 +321,8 @@ const Login = (props) => {
                 loading={loading}
                 formikOtp={formikOtp}
                 toastMessage={toastMessage}
+                socialLoginMethodLoading={socialLoginMethod.loading}
+                socialLoginMethodData={socialLoginMethodData}
             />
         </Layout>
     );
