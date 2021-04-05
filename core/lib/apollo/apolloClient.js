@@ -5,12 +5,13 @@ import {
 } from '@apollo/client';
 import { RetryLink } from 'apollo-link-retry';
 import fetch from 'isomorphic-unfetch';
-import { graphqlEndpoint, HOST, storeCode } from '@root/swift.config.js';
+import { graphqlEndpoint, HOST } from '@root/swift.config.js';
 import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { removeCartId } from '@helper_cartid';
 import { removeIsLoginFlagging } from '@helper_auth';
 import { getAppEnv } from '@helpers/env';
+import { getStoreCodeClient } from '@helpers/store';
 import firebase from 'firebase/app';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
@@ -68,7 +69,11 @@ const link = new RetryLink().split(
  * Meddleware to customize headers
  */
 const middlewareHeader = new ApolloLink((operation, forward) => {
-    const additionalHeader = storeCode ? { store: storeCode } : {};
+    const additionalHeader = {};
+    const storeCode = getStoreCodeClient();
+    if (storeCode && storeCode !== '') {
+        additionalHeader.store = storeCode;
+    }
     operation.setContext(({ headers = {} }) => ({
         headers: {
             ...headers,

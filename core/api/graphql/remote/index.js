@@ -2,21 +2,20 @@
 const fetch = require('cross-fetch');
 const { print } = require('graphql');
 const { wrapSchema, introspectSchema } = require('@graphql-tools/wrap');
-const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
+const { graphqlEndpoint } = require('../../../../swift.config');
 const { decrypt } = require('../../../helpers/encryption');
 const { getAppEnv } = require('../../../helpers/env');
+const { getStoreCodeServer } = require('../../../helpers/store');
 
 const executor = async ({ document, variables, context }) => {
     try {
         let token = '';
-        let selectStore = '';
+        const selectStore = getStoreCodeServer(context);
+
         if (context) {
             token = context.session.token;
-            selectStore = context.cookies.select_store;
         }
-        if (storeCode) {
-            selectStore = storeCode;
-        }
+
         const query = print(document);
         const appEnv = getAppEnv();
         const additionalHeader = (selectStore && selectStore !== '') ? { store: selectStore } : {};

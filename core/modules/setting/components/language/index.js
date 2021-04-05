@@ -1,14 +1,14 @@
 /* eslint-disable no-return-assign */
 import React, { useState, useEffect, useRef } from 'react';
 import { withTranslation } from '@i18n';
-import { translation } from '@config';
+import { translation, selectLanguageCookie, selectStoreCookie } from '@config';
 import cookies from 'js-cookie';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { getStores } from '../../services/graphql';
 import ViewLanguage from './view';
 
-const COOKIES_APP_LANG = 'app_lang';
-const COOKIES_SELECT_STORE = 'select_store';
+const COOKIES_APP_LANG = selectLanguageCookie;
+const COOKIES_SELECT_STORE = selectStoreCookie;
 
 const SwitcherLanguage = (props) => {
     const { i18n, onCallbackLanguage } = props;

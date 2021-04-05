@@ -1,20 +1,15 @@
 /* eslint-disable no-console */
 /* eslint-disable no-nested-ternary */
 const { GraphQLClient } = require('graphql-request');
-const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
+const { graphqlEndpoint } = require('../../../../swift.config');
 
 const { decrypt } = require('../../../helpers/encryption');
 const { getAppEnv } = require('../../../helpers/env');
+const { getStoreCodeServer } = require('../../../helpers/store');
 
 function requestGraph(query, variables = {}, context = {}, config = {}) {
     let token = '';
-    let selectStore = '';
-    if (context && context.cookies) {
-        selectStore = context.cookies.select_store;
-    }
-    if (storeCode) {
-        selectStore = storeCode;
-    }
+    const selectStore = getStoreCodeServer(context);
     if (config.token) {
         token = `Bearer ${config.token}`;
     } else if (context.session || context.headers) {
