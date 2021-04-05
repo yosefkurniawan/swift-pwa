@@ -165,7 +165,7 @@ const features = {
         SimpleProduct: true,
         ConfigurableProduct: true,
         VirtualProduct: true,
-        GroupedProduct: false,
+        GroupedProduct: true,
         BundleProduct: true,
         DownloadableProduct: false,
     },
@@ -255,7 +255,7 @@ const modules = {
         featuredImage: true,
     },
     brands: {
-        enabled: false,
+        enabled: true,
         path: '/brands',
     },
     catalog: {
