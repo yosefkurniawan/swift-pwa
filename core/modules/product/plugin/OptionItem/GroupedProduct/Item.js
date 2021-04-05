@@ -5,7 +5,7 @@ import Typography from '@common_typography';
 import useStyles from './style';
 
 const ItemGrouped = ({
-    max = 10,
+    max = 10000,
     disabled = false,
     product,
     itemsCart = {},

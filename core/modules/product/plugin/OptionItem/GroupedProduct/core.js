@@ -43,10 +43,10 @@ const GroupedProductOption = ({
         const cartItems = [];
         const keys = Object.keys(itemsCart);
         for (let no = 0; no < keys.length; no += 1) {
-            if (itemsCart[keys[no]] && itemsCart[keys[0]] > 0) {
+            if (itemsCart[keys[no]] && itemsCart[keys[no]] > 0) {
                 cartItems.push({
                     sku: keys[no],
-                    quantity: parseFloat(itemsCart[keys[0]]),
+                    quantity: parseFloat(itemsCart[keys[no]]),
                 });
             }
         }
