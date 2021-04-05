@@ -163,8 +163,17 @@ export const otpConfig = gql`
     }
 `;
 
+export const getSigninMethodSocialLogin = gql`
+{
+    getSigninMethodSocialLogin{
+      signin_method_allowed
+    }
+  }
+`;
+
 export default {
     getCustomerToken,
     getCustomerTokenOtp,
     removeToken,
+    getSigninMethodSocialLogin,
 };
