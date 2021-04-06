@@ -323,6 +323,9 @@ const modules = {
     contact: {
         enabled: true,
         path: '/contact',
+        recaptcha: {
+            enabled: true,
+        },
     },
     forgotpassword: {
         enabled: true,
@@ -353,6 +356,9 @@ const modules = {
     login: {
         enabled: true,
         path: '/customer/account/login',
+        recaptcha: {
+            enabled: true,
+        },
     },
     notification: {
         enabled: true,
@@ -361,6 +367,9 @@ const modules = {
     register: {
         enabled: true,
         path: '/customer/account/create',
+        recaptcha: {
+            enabled: true,
+        },
     },
     trackingorder: {
         enabled: true,

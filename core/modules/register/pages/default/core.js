@@ -2,7 +2,9 @@ import Layout from '@layout';
 
 import { setLogin } from '@helper_auth';
 import { setCartId, getCartId } from '@helper_cartid';
-import { expiredToken, custDataNameCookie, recaptcha } from '@config';
+import {
+    expiredToken, custDataNameCookie, recaptcha, modules,
+} from '@config';
 import Cookies from 'js-cookie';
 import { useQuery } from '@apollo/client';
 
@@ -29,6 +31,9 @@ const Register = (props) => {
         headerTitle: t('register:title'),
         bottomNav: false,
     };
+
+    // enable recaptcha
+    const enableRecaptcha = recaptcha.enable && modules.register.recaptcha.enabled;
 
     const [phoneIsWa, setPhoneIsWa] = React.useState(false);
     const [cusIsLogin, setIsLogin] = React.useState(0);
@@ -71,7 +76,7 @@ const Register = (props) => {
         phoneNumber: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
         whatsappNumber: Yup.string().required(t('validate:whatsappNumber:required')).matches(regexPhone, t('validate:whatsappNumber:wrong')),
         otp: otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_register && Yup.number().required('Otp is required'),
-        captcha: recaptcha.enable && Yup.string().required(`Captcha ${t('validate:required')}`),
+        captcha: enableRecaptcha && Yup.string().required(`Captcha ${t('validate:required')}`),
     });
 
     const handleSendRegister = (values, resetForm) => {
@@ -113,7 +118,7 @@ const Register = (props) => {
         onSubmit: (values, { resetForm }) => {
             setdisabled(true);
             window.backdropLoader(true);
-            if (recaptcha.enable) {
+            if (enableRecaptcha) {
                 fetch('/captcha-validation', {
                     method: 'post',
                     body: JSON.stringify({
@@ -226,7 +231,7 @@ const Register = (props) => {
                 handleChangePhone={handleChangePhone}
                 handleWa={handleWa}
                 phoneIsWa={phoneIsWa}
-                recaptcha={recaptcha}
+                enableRecaptcha={enableRecaptcha}
                 sitekey={sitekey}
                 handleChangeCaptcha={handleChangeCaptcha}
                 disabled={disabled}

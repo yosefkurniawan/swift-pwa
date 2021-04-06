@@ -17,7 +17,7 @@ const RegisterView = ({
     handleChangePhone,
     handleWa,
     phoneIsWa,
-    recaptcha,
+    enableRecaptcha,
     sitekey,
     handleChangeCaptcha,
     disabled,
@@ -138,11 +138,11 @@ const RegisterView = ({
                                 {t('register:subscribe')}
                             </Typography>
                         )}
-                        className={recaptcha.enable && styles.subscribe}
+                        className={enableRecaptcha && styles.subscribe}
                     />
 
                     {
-                        recaptcha.enable ? (
+                        enableRecaptcha ? (
                             <>
                                 <ReCAPTCHA
                                     sitekey={sitekey}
