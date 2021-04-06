@@ -5,7 +5,9 @@ import Layout from '@layout';
 import { setLogin, getLastPathWithoutLogin } from '@helper_auth';
 import { setCartId, getCartId } from '@helper_cartid';
 import { useQuery } from '@apollo/client';
-import { expiredToken, custDataNameCookie } from '@config';
+import {
+    expiredToken, custDataNameCookie, recaptcha, modules,
+} from '@config';
 import Router from 'next/router';
 import Cookies from 'js-cookie';
 import { regexPhone } from '@helper_regex';
@@ -14,6 +16,7 @@ import dynamic from 'next/dynamic';
 import * as Yup from 'yup';
 import firebase from 'firebase/app';
 import React from 'react';
+import { getAppEnv } from '@helpers/env';
 import {
     getToken, getTokenOtp, removeToken as deleteToken, otpConfig as queryOtpConfig,
     getCustomerCartId, mergeCart as mutationMergeCart, socialLogin, getSigninMethodSocialLogin,
@@ -21,6 +24,7 @@ import {
 import { getCustomer } from '../../services/graphql/schema';
 
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
+const appEnv = getAppEnv();
 
 const Login = (props) => {
     const {
@@ -175,13 +179,18 @@ const Login = (props) => {
         setDisabled(isOtp);
     }, [isOtp]);
 
+    // enable recaptcha
+    const enableRecaptcha = recaptcha.enable && modules.login.recaptcha.enabled;
+
     const LoginSchema = Yup.object().shape({
         username: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
         password: Yup.string().required(t('validate:password:required')),
+        captcha: enableRecaptcha && Yup.string().required(t('validate:captcha:required')),
     });
     const LoginOtpSchema = Yup.object().shape({
         username: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
         otp: Yup.number().required('Otp is required'),
+        captcha: enableRecaptcha && Yup.string().required(t('validate:captcha:required')),
     });
 
     const handleSubmit = (formOtp, variables) => {
@@ -194,44 +203,86 @@ const Login = (props) => {
         setDisabled(true);
         setLoading(true);
         window.backdropLoader(true);
-        getTokenCustomer({
-            variables,
-        })
-            .then(async (res) => {
-                let token = '';
-                if (formOtp) {
-                    token = res.data.internalGenerateCustomerTokenOtp.token;
-                } else {
-                    token = res.data.internalGenerateCustomerToken.token;
-                }
-                if (token) {
-                    setLogin(1, expired);
-                    await setIsLogin(1);
-                    getCart();
-                }
+        const sendData = (data) => {
+            getTokenCustomer({
+                variables: data,
             })
-            .catch((e) => {
-                setDisabled(false);
-                setLoading(false);
-                window.backdropLoader(false);
-                window.toastMessage({
-                    open: true,
-                    variant: 'error',
-                    text: e.message.split(':')[0] || t('login:failed'),
+                .then(async (res) => {
+                    let token = '';
+                    if (formOtp) {
+                        token = res.data.internalGenerateCustomerTokenOtp.token;
+                    } else {
+                        token = res.data.internalGenerateCustomerToken.token;
+                    }
+                    if (token) {
+                        setLogin(1, expired);
+                        await setIsLogin(1);
+                        getCart();
+                    }
+                })
+                .catch((e) => {
+                    setDisabled(false);
+                    setLoading(false);
+                    window.backdropLoader(false);
+                    window.toastMessage({
+                        open: true,
+                        variant: 'error',
+                        text: e.message.split(':')[0] || t('login:failed'),
+                    });
                 });
-            });
+        };
+        if (enableRecaptcha) {
+            fetch('/captcha-validation', {
+                method: 'post',
+                body: JSON.stringify({
+                    response: variables.captcha,
+                }),
+                headers: { 'Content-Type': 'application/json' },
+            })
+                .then((data) => data.json())
+                .then((json) => {
+                    if (json.success) {
+                        sendData(variables);
+                    } else {
+                        setDisabled(false);
+                        setLoading(false);
+                        window.backdropLoader(false);
+                        window.toastMessage({
+                            open: true,
+                            variant: 'error',
+                            text: t('register:failed'),
+                        });
+                    }
+                })
+                .catch(() => {
+                    setDisabled(false);
+                    setLoading(false);
+                    window.backdropLoader(false);
+                    window.toastMessage({
+                        open: true,
+                        variant: 'error',
+                        text: t('common:error:fetchError'),
+                    });
+                });
+
+            recaptchaRef.current.reset();
+        } else {
+            sendData(variables);
+        }
     };
 
     const formikOtp = useFormik({
         initialValues: {
             username: '',
             otp: '',
+            captcha: '',
         },
         validationSchema: LoginOtpSchema,
         onSubmit: (values) => {
             const variables = {
                 username: values.username,
                 otp: values.otp,
+                captcha: values.captcha,
             };
             handleSubmit(true, variables);
         },
@@ -242,12 +293,14 @@ const Login = (props) => {
             username: '',
             password: '',
             otp: '',
+            captcha: '',
         },
         validationSchema: LoginSchema,
         onSubmit: (values) => {
             const variables = {
                 username: values.username,
                 password: values.password,
+                captcha: values.captcha,
             };
             handleSubmit(false, variables);
         },
@@ -308,6 +361,14 @@ const Login = (props) => {
         socialLoginMethodData = socialLoginMethod.data.getSigninMethodSocialLogin.signin_method_allowed.split(',');
     }
 
+    const handleChangeCaptcha = (value) => {
+        formik.setFieldValue('captcha', value || '');
+    };
+
+    const recaptchaRef = React.createRef();
+    const sitekey = (recaptcha.siteKey[appEnv])
+        ? recaptcha.siteKey[appEnv] : recaptcha.siteKey.dev;
+
     return (
         <Layout {...props} pageConfig={pageConfig || config}>
             <Content
@@ -323,6 +384,10 @@ const Login = (props) => {
                 toastMessage={toastMessage}
                 socialLoginMethodLoading={socialLoginMethod.loading}
                 socialLoginMethodData={socialLoginMethodData}
+                enableRecaptcha={enableRecaptcha}
+                sitekey={sitekey}
+                handleChangeCaptcha={handleChangeCaptcha}
+                recaptchaRef={recaptchaRef}
             />
         </Layout>
     );

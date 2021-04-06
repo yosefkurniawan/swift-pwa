@@ -353,6 +353,9 @@ const modules = {
     login: {
         enabled: true,
         path: '/customer/account/login',
+        recaptcha: {
+            enabled: true,
+        },
     },
     notification: {
         enabled: true,

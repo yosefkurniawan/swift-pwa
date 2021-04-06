@@ -64,5 +64,9 @@
     "guest": {
         "wrong": "You must login first"
     },
-    "required": "is required"
+    "required": "is required",
+    "captcha": {
+        "required": "Captcha is required",
+        "wrong": "Captcha is not valid"
+    }
 }

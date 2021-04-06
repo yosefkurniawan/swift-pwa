@@ -11,6 +11,7 @@ import { breakPointsUp } from '@helper_theme';
 import classNames from 'classnames';
 import firebase from 'firebase/app';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import ReCAPTCHA from 'react-google-recaptcha';
 import OtpBlock from '../../../plugins/otp';
 import OtpView from '../../../plugins/otp/view';
 import useStyles from './style';
@@ -19,6 +20,7 @@ const Login = (props) => {
     const {
         formik, otpConfig, isOtp, setIsOtp, t, setDisabled, disabled, loading, formikOtp, toastMessage,
         socialLoginMethodData, socialLoginMethodLoading,
+        enableRecaptcha, sitekey, handleChangeCaptcha, recaptchaRef,
     } = props;
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
@@ -115,6 +117,22 @@ const Login = (props) => {
                                                     showVisible
                                                 />
                                             </div>
+                                            <div className="col-xs-12  col-sm-12">
+                                                {
+                                                    enableRecaptcha ? (
+                                                        <>
+                                                            <ReCAPTCHA
+                                                                sitekey={sitekey}
+                                                                onChange={handleChangeCaptcha}
+                                                                ref={recaptchaRef}
+                                                            />
+                                                            {formik.errors.captcha && (
+                                                                <Typography color="red">{formik.errors.captcha}</Typography>
+                                                            )}
+                                                        </>
+                                                    ) : null
+                                                }
+                                            </div>
                                             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <Button
                                                     className={styles.generalButton}
@@ -188,6 +206,22 @@ const Login = (props) => {
                                                         errorMessage: (formikOtp.touched.otp && formikOtp.errors.otp) || null,
                                                     }}
                                                 />
+                                            </div>
+                                            <div className="col-xs-12  col-sm-12">
+                                                {
+                                                    enableRecaptcha ? (
+                                                        <>
+                                                            <ReCAPTCHA
+                                                                sitekey={sitekey}
+                                                                onChange={handleChangeCaptcha}
+                                                                ref={recaptchaRef}
+                                                            />
+                                                            {formik.errors.captcha && (
+                                                                <Typography color="red">{formik.errors.captcha}</Typography>
+                                                            )}
+                                                        </>
+                                                    ) : null
+                                                }
                                             </div>
                                             <div className="col-xs-12 col-sm-12">
                                                 <Button
