@@ -5,15 +5,15 @@ import gqlService from '../../../../service/graphql';
 const BannerSlider = (props) => {
     const { home } = config.modules;
     const {
-        storeConfig, t, BannerSliderSkeleton, ErrorInfo, BannerView,
+        storeConfig, t, BannerSliderSkeleton, ErrorInfo, BannerView, slider_id,
     } = props;
     const logoUrl = `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`;
-
     const { loading, data, error } = gqlService.getSlider({
         variables: {
-            title: home.bannerSlider.title,
+            input: slider_id === undefined ? { title: home.bannerSlider.title } : { id: slider_id },
         },
     });
+
     if (loading && !data) {
         return <BannerSliderSkeleton logoUrl={logoUrl} />;
     }
