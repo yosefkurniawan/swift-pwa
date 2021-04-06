@@ -176,7 +176,7 @@ const Login = (props) => {
                             </div>
                         </div>
                         {
-                            (isOtp || desktop) && (
+                            (isOtp || desktop) && (otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login) && (
                                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div className={classNames(styles.spanLabel, 'hidden-mobile')}>
                                         <Typography type="bold" variant="p" className="clear-margin-padding">
