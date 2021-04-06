@@ -91,6 +91,7 @@ const Checkout = (props) => {
             paymentMethod: [],
             isGuest: false,
             isCouponAppliedToCart: false,
+            order_comment: null,
             rewardPoints: {},
             credit: 0,
             message: {
@@ -150,7 +151,7 @@ const Checkout = (props) => {
     const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
     const [getItemCart, { data: itemCart, error: errorItem }] = gqlService.getItemCart();
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
-
+    const [getOrderComment, orderComment] = gqlService.getOrderComment({ onError: () => { } });
     const [getCustomerAddress, addressCustomer] = gqlService.getAddressCustomer();
     // end init graphql
 
@@ -195,6 +196,7 @@ const Checkout = (props) => {
             email: '',
             oldEmail: '',
             coupon: '',
+            orderComment: '',
             giftCard: '',
             address: null,
             shipping: null,
@@ -211,7 +213,6 @@ const Checkout = (props) => {
         const { email } = cart;
         const payment = cart.selected_payment_method && cart.selected_payment_method.code;
         const billing = cart.billing_address;
-
         if (email && !formik.values.email) {
             formik.setFieldValue('email', email || '');
             formik.setFieldValue('oldEmail', email || '');
@@ -355,6 +356,11 @@ const Checkout = (props) => {
             state.data.rewardPoints = rewardPoint.data.customerRewardPoints;
         }
 
+        if (orderComment && orderComment.data && orderComment.data.getOrderComment) {
+            state.data.order_comment = orderComment.data.getOrderComment;
+            formik.setFieldValue('orderComment', orderComment.data.getOrderComment.order_comment);
+        }
+
         state.loading.all = false;
 
         setCheckout(state);
@@ -395,6 +401,8 @@ const Checkout = (props) => {
             getCustomer();
             if (modules.rewardpoint.enabled) getRewardPoint();
         }
+
+        if (modules.checkout.orderComment.enabled) getOrderComment({ variables: { cartId } });
 
         const loadCart = isLogin ? manageCustomer.data && !dataCart && !itemCart : !dataCart && !itemCart;
 

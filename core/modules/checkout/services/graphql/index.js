@@ -200,6 +200,19 @@ export const updateItemCart = () => useMutation(Schema.updateCartitem, {
     ...config(USING_INTERNAL),
 });
 
+export const addOrderComment = () => useMutation(Schema.addOrderComment, {
+    ...config(USING_INTERNAL),
+});
+
+export const removeOrderComment = () => useMutation(Schema.removeOrderComment, {
+    ...config(USING_INTERNAL),
+});
+
+export const getOrderComment = (options = {}) => useLazyQuery(Schema.getOrderComment, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export default {
     updateExtraFee,
     updatedDefaultAddress,
@@ -236,4 +249,7 @@ export default {
     removePickupStore,
     deleteItemCart,
     updateItemCart,
+    addOrderComment,
+    removeOrderComment,
+    getOrderComment,
 };
