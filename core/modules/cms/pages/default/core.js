@@ -3,10 +3,9 @@ import { getCmsPage } from '../../services/graphql';
 
 const CmsSlug = (props) => {
     const {
-        Content, pageConfig, t, slug,
+        Content, pageConfig, t, slug, ...other
     } = props;
     const { data, error, loading } = getCmsPage({ identifier: slug[0] });
-
     const Config = {
         title: data && data.cmsPage ? data.cmsPage.title : '',
         headerTitle: data && data.cmsPage ? data.cmsPage.title : '',
@@ -16,12 +15,7 @@ const CmsSlug = (props) => {
 
     return (
         <Layout {...props} pageConfig={pageConfig || Config}>
-            <Content
-                data={data}
-                t={t}
-                loading={loading}
-                error={error}
-            />
+            <Content data={data} t={t} loading={loading} error={error} {...other} />
         </Layout>
     );
 };

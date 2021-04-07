@@ -6,12 +6,7 @@ const BannerSliderSkeleteon = ({ logoUrl }) => {
     return (
         <div className={styles.skeletonWrapper}>
             <img src={logoUrl} className="logo hidden-desktop" alt="Logo" />
-            <Skeleton
-                variant="rect"
-                animation="wave"
-                xsStyle={{ width: '100%', height: '60vw' }}
-                mdStyle={{ width: '100%', height: '577px' }}
-            />
+            <Skeleton variant="rect" animation="wave" xsStyle={{ width: '100%', height: '60vw' }} mdStyle={{ width: '100%', height: '577px' }} />
         </div>
     );
 };
