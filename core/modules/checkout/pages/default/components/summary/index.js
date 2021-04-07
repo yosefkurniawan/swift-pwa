@@ -3,7 +3,7 @@ import { useApolloClient } from '@apollo/client';
 import { setCartId, removeCartId } from '@helper_cartid';
 import { setCheckoutData } from '@helper_cookies';
 import { localTotalCart } from '@services/graphql/schema/local';
-import { originName } from '@config';
+import { originName, modules } from '@config';
 
 import SummaryPlugin from '@plugin_summary';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -19,10 +19,11 @@ const Summary = ({
     const [orderId, setOrderId] = useState(null);
     const [snapOpened, setSnapOpened] = useState(false);
     const [snapClosed, setSnapClosed] = useState(false);
-    const [getSnapToken, manageSnapToken] = gqlService.getSnapToken({ onError: () => {} });
-    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
-    const [placeOrder] = gqlService.placeOrder({ onError: () => {} });
-    const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => {} });
+    const [getSnapToken, manageSnapToken] = gqlService.getSnapToken({ onError: () => { } });
+    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => { } });
+    const [placeOrder] = gqlService.placeOrder({ onError: () => { } });
+    const [placeOrderWithOrderComment] = gqlService.placeOrderWithOrderComment({ onError: () => { } });
+    const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => { } });
     const [getCustCartId, manageCustCartId] = gqlService.getCustomerCartId();
     const [mergeCart] = gqlService.mergeCart();
 
@@ -103,7 +104,17 @@ const Summary = ({
                     text: msg,
                 });
             } else {
-                result = await placeOrder({ variables: { cartId: cart.id, origin: originName } });
+                if (modules.checkout.orderComment.enabled && formik.values.orderComment !== '') {
+                    result = await placeOrderWithOrderComment({
+                        variables: {
+                            cartId: cart.id,
+                            origin: originName,
+                            orderComment: formik.values.orderComment,
+                        },
+                    });
+                } else {
+                    result = await placeOrder({ variables: { cartId: cart.id, origin: originName } });
+                }
 
                 state = { ...checkout };
                 state.loading.order = false;

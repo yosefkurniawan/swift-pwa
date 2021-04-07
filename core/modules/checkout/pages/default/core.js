@@ -151,7 +151,6 @@ const Checkout = (props) => {
     const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
     const [getItemCart, { data: itemCart, error: errorItem }] = gqlService.getItemCart();
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
-    const [getOrderComment, orderComment] = gqlService.getOrderComment({ onError: () => { } });
     const [getCustomerAddress, addressCustomer] = gqlService.getAddressCustomer();
     // end init graphql
 
@@ -356,11 +355,6 @@ const Checkout = (props) => {
             state.data.rewardPoints = rewardPoint.data.customerRewardPoints;
         }
 
-        if (orderComment && orderComment.data && orderComment.data.getOrderComment) {
-            state.data.order_comment = orderComment.data.getOrderComment;
-            formik.setFieldValue('orderComment', orderComment.data.getOrderComment.order_comment);
-        }
-
         state.loading.all = false;
 
         setCheckout(state);
@@ -401,8 +395,6 @@ const Checkout = (props) => {
             getCustomer();
             if (modules.rewardpoint.enabled) getRewardPoint();
         }
-
-        if (modules.checkout.orderComment.enabled) getOrderComment({ variables: { cartId } });
 
         const loadCart = isLogin ? manageCustomer.data && !dataCart && !itemCart : !dataCart && !itemCart;
 

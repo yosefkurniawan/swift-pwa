@@ -107,6 +107,11 @@ export const placeOrder = (options = {}) => useMutation(Schema.placeOrder, {
     ...config(USING_INTERNAL),
 });
 
+export const placeOrderWithOrderComment = (options = {}) => useMutation(Schema.placeOrderWithOrderComment, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export const getSnapToken = (options = {}) => useLazyQuery(Schema.getSnapToken, {
     ...options,
     ...config(NOT_USING_INTERNAL),
@@ -204,15 +209,6 @@ export const addOrderComment = () => useMutation(Schema.addOrderComment, {
     ...config(USING_INTERNAL),
 });
 
-export const removeOrderComment = () => useMutation(Schema.removeOrderComment, {
-    ...config(USING_INTERNAL),
-});
-
-export const getOrderComment = (options = {}) => useLazyQuery(Schema.getOrderComment, {
-    ...options,
-    ...config(USING_INTERNAL),
-});
-
 export default {
     updateExtraFee,
     updatedDefaultAddress,
@@ -232,6 +228,7 @@ export default {
     setBillingAddressByInput,
     setShippingAddressByInput,
     placeOrder,
+    placeOrderWithOrderComment,
     setPaymentMethod,
     setGuestEmailAddressOnCart,
     applyCouponToCart,
@@ -250,6 +247,4 @@ export default {
     deleteItemCart,
     updateItemCart,
     addOrderComment,
-    removeOrderComment,
-    getOrderComment,
 };
