@@ -1,11 +1,11 @@
 /* eslint-disable no-return-assign */
 import React, { useEffect, useState, useRef } from 'react';
 
-import { getUserFeed } from '@core_modules/cms/services/rest/instagram';
+import { getUserFeed, getTagFeed } from '@core_modules/cms/services/rest/instagram';
 
 const WidgetInstagram = (props) => {
     const {
-        feed_type, resolution, user_name, limit,
+        feed_type, resolution, user_name, limit, tag_name,
     } = props;
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
@@ -19,12 +19,15 @@ const WidgetInstagram = (props) => {
         mount.current = true;
         if (mount.current) {
             const getInstagramFeed = async () => {
+                setLoading(true);
                 if (feed_type === 'user') {
-                    setLoading(true);
                     const dataInstagram = await getUserFeed(user_name, limitData);
                     setData(dataInstagram);
-                    setLoading(false);
+                } else if (feed_type === 'tagged') {
+                    const dataInstagram = await getTagFeed(tag_name, limitData);
+                    setData(dataInstagram);
                 }
+                setLoading(false);
             };
 
             getInstagramFeed();
@@ -33,11 +36,11 @@ const WidgetInstagram = (props) => {
         return () => (mount.current = false);
     }, []);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <div>Loading Widget...</div>;
 
     // prettier-ignore
-    return data.length < 1 ? 'not found images' : data.map((item) => (
-        <a href={item.url} target="__blank">
+    return data.length < 1 ? 'not found images' : data.map((item, index) => (
+        <a href={item.url} target="__blank" key={item.src + index}>
             <img style={{ width: size }} src={item.src} alt={item.alt} />
         </a>
     ));

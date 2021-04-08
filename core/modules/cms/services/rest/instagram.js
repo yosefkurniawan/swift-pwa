@@ -16,3 +16,17 @@ export const getUserFeed = async (username, limitData) => {
         console.error(error);
     }
 };
+
+/**
+ * get tag feed
+ * @return {object}
+ */
+export const getTagFeed = async (tagname, limitData) => {
+    try {
+        const res = await InstagramHelper.getFeedTag(tagname);
+        const media = res.slice(0, limitData);
+        return media;
+    } catch (error) {
+        console.error(error);
+    }
+};
