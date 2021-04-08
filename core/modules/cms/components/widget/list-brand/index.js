@@ -12,7 +12,7 @@ const WidgetListBrand = (props) => {
     const featured = data?.getBrandList?.featured;
     const desktop = breakPointsUp('sm');
 
-    return <Featured t={t} featured={featured} desktop={desktop} />;
+    return <Featured useTitle={false} t={t} featured={featured} desktop={desktop} />;
 };
 
 export default withTranslation()(WidgetListBrand);

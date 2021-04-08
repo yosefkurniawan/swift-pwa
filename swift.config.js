@@ -163,7 +163,7 @@ const features = {
         SimpleProduct: true,
         ConfigurableProduct: true,
         VirtualProduct: true,
-        GroupedProduct: false,
+        GroupedProduct: true,
         BundleProduct: true,
         DownloadableProduct: false,
     },
@@ -204,13 +204,6 @@ const features = {
             messagingSenderId: '731430387766',
             appId: '1:731430387766:web:af85ac9f9559c873309897',
             measurementId: 'G-DP22E2CL8G',
-        },
-        socialLogin: {
-            facebook: false,
-            google: true,
-            twitter: false,
-            github: true,
-            email: false,
         },
         pushNotification: {
             enabled: true,
@@ -330,6 +323,9 @@ const modules = {
     contact: {
         enabled: true,
         path: '/contact',
+        recaptcha: {
+            enabled: true,
+        },
     },
     forgotpassword: {
         enabled: true,
@@ -360,6 +356,9 @@ const modules = {
     login: {
         enabled: true,
         path: '/customer/account/login',
+        recaptcha: {
+            enabled: true,
+        },
     },
     notification: {
         enabled: true,
@@ -368,6 +367,9 @@ const modules = {
     register: {
         enabled: true,
         path: '/customer/account/create',
+        recaptcha: {
+            enabled: true,
+        },
     },
     trackingorder: {
         enabled: true,
