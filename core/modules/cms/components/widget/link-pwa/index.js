@@ -1,17 +1,42 @@
 import React from 'react';
 import Link from 'next/link';
 
+import Button from '@common_button';
+
 const WidgetPwaLink = (props) => {
-    const { cms, custom, label = 'Sample Link' } = props;
+    const {
+        link_type, type, image, url, text = 'Sample Link',
+    } = props;
 
-    const isCms = cms !== undefined;
-    const isCustom = custom !== undefined;
-    const url = cms !== undefined ? `/${cms}` : custom;
+    if (!url) return <span>no url found in pwa link widget</span>;
 
-    if (!isCms && !isCustom) return <span>no url found in pwa link widget</span>;
+    /**
+     * [LINK] button
+     * @return {link-button}
+     */
+    if (link_type === 'button') {
+        return <Button href={url}>{text}</Button>;
+    }
+
+    /**
+     * [LINK] image
+     * @return {link}
+     */
+    if (link_type === 'image') {
+        return (
+            <Link href={url}>
+                <img src={image} alt={`${type}-${link_type}`} />
+            </Link>
+        );
+    }
+
+    /**
+     * [LINK] default || text
+     * @return {link}
+     */
     return (
         <Link href={url}>
-            <a>{label}</a>
+            <a>{text}</a>
         </Link>
     );
 };
