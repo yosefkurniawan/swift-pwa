@@ -17,7 +17,8 @@
         "nickname": "Nickname is required",
         "rating": "Rating is required",
         "title": "Title is required",
-        "detail": "Detail is required"
+        "detail": "Detail is required",
+        "fieldRequired": "This field is required"
     },
     "addRateSuccess": "Thanks for review this product",
     "addRateFailed": "Upload your review is failed",

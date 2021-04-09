@@ -2,6 +2,7 @@ import { getCartId, setCartId } from '@helper_cartid';
 import { getLoginInfo } from '@helper_auth';
 import { useApolloClient } from '@apollo/client';
 import { localTotalCart } from '@services/graphql/schema/local';
+import { modules } from '@config';
 // import Router from 'next/router';
 import React, { useState } from 'react';
 import TagManager from 'react-gtm-module';
@@ -15,6 +16,9 @@ const CoreSimpleOptionItem = ({
     handleAddToCart: CustomAddToCart,
     loading: customLoading,
     setLoading: setCustomLoading,
+    checkCustomizableOptionsValue,
+    errorCustomizableOptions,
+    customizableOptions,
     ...other
 }) => {
     const [qty, setQty] = React.useState(1);
@@ -41,7 +45,17 @@ const CoreSimpleOptionItem = ({
         setLoading = setCustomLoading;
     }
 
-    const handleAddToCart = async () => {
+    const addToCart = async () => {
+        const customizable_options = [];
+        if (modules.product.customizableOptions.enabled && customizableOptions && customizableOptions.length > 0) {
+            customizableOptions.map((op) => {
+                customizable_options.push({
+                    id: op.option_id,
+                    value_string: op.value,
+                });
+                return op;
+            });
+        }
         if (CustomAddToCart && typeof CustomAddToCart === 'function') {
             CustomAddToCart({
                 ...data,
@@ -101,6 +115,7 @@ const CoreSimpleOptionItem = ({
                         cartId,
                         sku,
                         qty: parseFloat(qty),
+                        customizable_options,
                     },
                 })
                     .then((res) => {
@@ -121,6 +136,17 @@ const CoreSimpleOptionItem = ({
                         });
                     });
             }
+        }
+    };
+
+    const handleAddToCart = async () => {
+        if (modules.product.customizableOptions.enabled) {
+            const check = await checkCustomizableOptionsValue();
+            if (check) {
+                addToCart();
+            }
+        } else {
+            addToCart();
         }
     };
 

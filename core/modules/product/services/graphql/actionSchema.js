@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { modules } from '@config';
 
 export const createCartIdGuest = gql`
     mutation {
@@ -25,10 +26,14 @@ mutation addSimpleProductsToCart(
     $cartId: String!,
     $qty: Float!,
     $sku: String!,
+    ${modules.product.customizableOptions.enabled
+      && '$customizable_options: [CustomizableOptionInput]'}
 ) {
     addSimpleProductsToCart(input:{
       cart_id: $cartId,
       cart_items: {
+        ${modules.product.customizableOptions.enabled
+          && ' customizable_options: $customizable_options'}
         data: {
           quantity: $qty,
           sku: $sku

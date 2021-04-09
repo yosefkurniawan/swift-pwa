@@ -83,6 +83,8 @@ const ContentDetail = ({
 
     // const client = useApolloClient();
 
+    // if (typeof window !== 'undefined') console.log(item);
+
     const bannerData = [];
     if (item.media_gallery.length > 0) {
         // eslint-disable-next-line array-callback-return
@@ -114,6 +116,10 @@ const ContentDetail = ({
     });
     const [stockStatus, setStockStatus] = React.useState(item.stock_status);
     const [wishlist, setWishlist] = React.useState(false);
+
+    // Customizable Options
+    const [customizableOptions, setCustomizableOptions] = React.useState([]);
+    const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
 
     const [addWishlist] = mutationAddWishlist();
 
@@ -237,6 +243,48 @@ const ContentDetail = ({
         setOpenImageDetail(!openImageDetail);
     };
 
+    const checkCustomizableOptionsValue = async () => {
+        if (item.options && item.options.length > 0) {
+            const requiredOptions = item.options.filter((op) => op.required);
+            if (requiredOptions.length > 0) {
+                if (customizableOptions.length > 0) {
+                    let countError = 0;
+                    const optionsError = [];
+                    for (let idx = 0; idx < requiredOptions.length; idx += 1) {
+                        const op = requiredOptions[idx];
+                        const findValue = customizableOptions.find((val) => val.option_id === op.option_id);
+                        if (findValue.length === 0) {
+                            optionsError.push(op);
+                            countError += 1;
+                        }
+                    }
+                    if (countError > 0) {
+                        await setErrorCustomizableOptions(optionsError);
+                        return false;
+                    }
+                    return true;
+                }
+                await setErrorCustomizableOptions(requiredOptions);
+
+                return false;
+            }
+        }
+        return true;
+    };
+
+    React.useEffect(() => {
+        if (customizableOptions.length > 0 && errorCustomizableOptions.length > 0) {
+            const errorCustomizable = errorCustomizableOptions.filter((err) => {
+                const findValue = customizableOptions.find((op) => op.option_id === err.option_id);
+                if (findValue.length > 0) {
+                    return err.option_id !== findValue[0].option_id;
+                }
+                return false;
+            });
+            setErrorCustomizableOptions(errorCustomizable);
+        }
+    }, [customizableOptions]);
+
     return (
         <Content
             data={product.items[0]}
@@ -265,6 +313,10 @@ const ContentDetail = ({
             handleOpenImageDetail={handleOpenImageDetail}
             stockStatus={stockStatus}
             setStockStatus={setStockStatus}
+            customizableOptions={customizableOptions}
+            setCustomizableOptions={setCustomizableOptions}
+            errorCustomizableOptions={errorCustomizableOptions}
+            checkCustomizableOptionsValue={checkCustomizableOptionsValue}
         />
     );
 };
