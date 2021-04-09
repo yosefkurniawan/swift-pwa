@@ -17,6 +17,11 @@ export const getOrder = (params) => useQuery(Schema.getOrder(), {
     skip: !params,
 });
 
+export const getPaymentInformation = (params) => useQuery(Schema.getPaymentInformation(), {
+    variables: params,
+    skip: !params,
+});
+
 export const getPaymentBankList = (options = {}) => useLazyQuery(Schema.getPaymentBankList, {
     ...options,
     ...config(USING_INTERNAL),
@@ -27,4 +32,5 @@ export const getPaymentBankList = (options = {}) => useLazyQuery(Schema.getPayme
 export default {
     getOrder,
     getPaymentBankList,
+    getPaymentInformation,
 };

@@ -11,8 +11,8 @@ import useStyles from './style';
 
 const View = (props) => {
     const {
-        t, isLogin, checkoutData, handleCotinue, ordersFilter, storeConfig, dateOrder,
-        handleDetailOrder, handleConfirmPayment, bankList,
+        t, isLogin, checkoutData, handleCotinue, ordersFilter, storeConfig,
+        handleDetailOrder, handleConfirmPayment, bankList, paymentInformation,
     } = props;
     const styles = useStyles();
     return (
@@ -78,9 +78,21 @@ const View = (props) => {
                                 {t('thanks:bankInfo').split('$')[1]}
                             </Typography>
                             <Typography variant="span" className={styles.dateOver}>
-                                {`${t('thanks:bankInfo2')} `}
-                                {ordersFilter
-                                    && formatDate(dateOrder.setTime(dateOrder.getTime() + 111600000), 'dddd, DD MMM HH:mm WIB')}
+                                {
+                                    ordersFilter && paymentInformation && paymentInformation.OrderPaymentInformation
+                                    && paymentInformation.OrderPaymentInformation.due_date
+                                    && (
+                                        <>
+                                            {`${t('thanks:bankInfo2')} `}
+                                            {
+                                                formatDate(
+                                                    paymentInformation.OrderPaymentInformation.due_date,
+                                                    'dddd, DD MMM HH:mm WIB',
+                                                )
+                                            }
+                                        </>
+                                    )
+                                }
                             </Typography>
                         </div>
                     )
