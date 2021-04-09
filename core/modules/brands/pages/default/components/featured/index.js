@@ -4,17 +4,12 @@ import ItemFeatured from './Item';
 
 const FeaturedBrands = (props) => {
     const {
-        featured = [], t, desktop, logo,
+        featured = [], t, desktop, logo, useTitle = true,
     } = props;
     return (
         <>
-            <h4 align="center">{t('brands:featuredBrands')}</h4>
-            <Carousel
-                showArrow={desktop}
-                slslideLg={logo ? 4 : 6}
-                data={featured}
-                Item={ItemFeatured}
-            />
+            {useTitle && <h4 align="center">{t('brands:featuredBrands')}</h4>}
+            <Carousel showArrow={desktop} slslideLg={logo ? 4 : 6} data={featured} Item={ItemFeatured} />
         </>
     );
 };

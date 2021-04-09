@@ -9,6 +9,7 @@ import SimpleOption from '../../../../plugin/OptionItem/SimpeProduct';
 import VirtualOption from '../../../../plugin/OptionItem/Virtual';
 import DownloadOption from '../../../../plugin/OptionItem/Download';
 import BundleOption from '../../../../plugin/OptionItem/BundleOption';
+import GroupedOption from '../../../../plugin/OptionItem/GroupedProduct';
 import useStyles from './style';
 
 const Transition = React.forwardRef((props, ref) => (
@@ -77,6 +78,11 @@ const OptionDialog = (props) => {
                                 {...props}
                                 loading={loading}
                                 setLoading={setLoading}
+                            />
+                        )}
+                        {__typename === 'GroupedProduct' && (
+                            <GroupedOption
+                                {...props}
                             />
                         )}
                     </div>

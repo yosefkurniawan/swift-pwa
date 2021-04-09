@@ -10,14 +10,14 @@ const useStyles = makeStyles((theme) => ({
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
     },
-    '@keyframes spiner': {
+    '@keyframes backdrop': {
         '0%': { transform: 'rotate(0deg)' },
         '100%': { transform: 'rotate(360deg)' },
     },
-    loader: {
+    loaderBackdrop: {
         width: 60,
         height: 60,
-        animationName: '$spiner',
+        animationName: '$backdrop',
         animation: '1.5s linear infinite',
     },
     loaderGif: {
@@ -40,7 +40,7 @@ const CustomBackdrop = ({ open, className }) => {
     ) {
         image = (
             <img
-                className={styles.loader}
+                className={styles.loaderBackdrop}
                 src={loaderImage}
                 alt={loaderImage}
             />

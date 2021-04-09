@@ -27,6 +27,8 @@ export const socialLogin = () => useMutation(Schema.socialLogin, {
     skip: typeof window === 'undefined',
 });
 
+export const getSigninMethodSocialLogin = () => useQuery(Schema.getSigninMethodSocialLogin);
+
 export const checkOtpRegister = () => useMutation(Schema.checkOtpRegister);
 export const requestOtpLogin = () => useMutation(Schema.requestOtpLogin);
 export const checkOtpLogin = () => useMutation(Schema.checkOtpLogin);
