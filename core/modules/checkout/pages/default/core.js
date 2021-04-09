@@ -91,6 +91,7 @@ const Checkout = (props) => {
             paymentMethod: [],
             isGuest: false,
             isCouponAppliedToCart: false,
+            order_comment: null,
             rewardPoints: {},
             credit: 0,
             message: {
@@ -150,7 +151,6 @@ const Checkout = (props) => {
     const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
     const [getItemCart, { data: itemCart, error: errorItem }] = gqlService.getItemCart();
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
-
     const [getCustomerAddress, addressCustomer] = gqlService.getAddressCustomer();
     // end init graphql
 
@@ -195,6 +195,7 @@ const Checkout = (props) => {
             email: '',
             oldEmail: '',
             coupon: '',
+            orderComment: '',
             giftCard: '',
             address: null,
             shipping: null,
@@ -211,7 +212,6 @@ const Checkout = (props) => {
         const { email } = cart;
         const payment = cart.selected_payment_method && cart.selected_payment_method.code;
         const billing = cart.billing_address;
-
         if (email && !formik.values.email) {
             formik.setFieldValue('email', email || '');
             formik.setFieldValue('oldEmail', email || '');
