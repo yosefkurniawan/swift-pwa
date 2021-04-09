@@ -88,7 +88,7 @@ const ConfirmPaymentPage = (props) => {
         const temporaryData = [];
         bankList.getPaymentBankList.map((item) => {
             const data = {
-                value: item.banknumber,
+                value: `${item.banknumber} (${item.placeholder})`,
                 label: `${item.bankname} - ${item.banknumber} (${item.placeholder})`,
             };
             temporaryData.push(data);
@@ -107,7 +107,18 @@ const ConfirmPaymentPage = (props) => {
             </Layout>
         );
     }
-    return null;
+    return (
+        <Layout pageConfig={pageConfig || Config} {...props}>
+            <Content
+                Content={Content}
+                handleChangeDate={handleChangeDate}
+                handleDropFile={handleDropFile}
+                t={t}
+                formik={formik}
+                banks={[]}
+            />
+        </Layout>
+    );
 };
 
 export default ConfirmPaymentPage;

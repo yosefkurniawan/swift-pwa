@@ -30,6 +30,7 @@ const ConfirmPayment = (props) => {
                             banks.length > 0
                                 ? (
                                     <Select
+                                        style={{ textTransform: 'capitalize' }}
                                         name="payment"
                                         label={t('payment:confirmPayment:form:bankName')}
                                         value={formik.values.payment}
