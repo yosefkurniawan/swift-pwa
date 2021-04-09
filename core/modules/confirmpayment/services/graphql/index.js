@@ -1,5 +1,16 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, useLazyQuery } from '@apollo/client';
 import * as Schema from './schema';
+
+const USING_INTERNAL = true;
+
+const config = (isUsingInternal) => {
+    const context = isUsingInternal ? { request: 'internal' } : {};
+
+    return {
+        notifyOnNetworkStatusChange: true,
+        context,
+    };
+};
 
 export const confirmPayment = () => useMutation(Schema.confirmPayment, {
     context: {
@@ -8,6 +19,14 @@ export const confirmPayment = () => useMutation(Schema.confirmPayment, {
     skip: typeof window === 'undefined',
 });
 
+export const getPaymentBankList = (options = {}) => useLazyQuery(Schema.getPaymentBankList, {
+    ...options,
+    ...config(USING_INTERNAL),
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'all',
+});
+
 export default {
     confirmPayment,
+    getPaymentBankList,
 };
