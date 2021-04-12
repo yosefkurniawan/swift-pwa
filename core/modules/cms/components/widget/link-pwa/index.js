@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import Link from 'next/link';
 
@@ -5,27 +6,35 @@ import Button from '@common_button';
 
 const WidgetPwaLink = (props) => {
     const {
-        link_type, type, image, url, text = 'Sample Link',
+        pwa_link_type, type, image, url, text = 'Sample Link',
     } = props;
-
+    const customStyle = props?.class;
     if (!url) return <span>no url found in pwa link widget</span>;
 
+    const propsOther = {};
+    if (customStyle !== undefined) {
+        propsOther.className = customStyle;
+    }
     /**
      * [LINK] button
      * @return {link-button}
      */
-    if (link_type === 'button') {
-        return <Button href={url}>{text}</Button>;
+    if (pwa_link_type === 'button') {
+        return (
+            <Button {...propsOther} href={url}>
+                {text}
+            </Button>
+        );
     }
 
     /**
      * [LINK] image
      * @return {link}
      */
-    if (link_type === 'image') {
+    if (pwa_link_type === 'image') {
         return (
             <Link href={url}>
-                <img src={image} alt={`${type}-${link_type}`} />
+                <img {...propsOther} src={image} alt={`${type}-${pwa_link_type}`} />
             </Link>
         );
     }
@@ -36,7 +45,7 @@ const WidgetPwaLink = (props) => {
      */
     return (
         <Link href={url}>
-            <a>{text}</a>
+            <a {...propsOther}>{text}</a>
         </Link>
     );
 };
