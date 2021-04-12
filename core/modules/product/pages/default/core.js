@@ -254,7 +254,7 @@ const ContentDetail = ({
                     for (let idx = 0; idx < requiredOptions.length; idx += 1) {
                         const op = requiredOptions[idx];
                         const findValue = customizableOptions.find((val) => val.option_id === op.option_id);
-                        if (findValue.length === 0) {
+                        if (!findValue) {
                             optionsError.push(op);
                             countError += 1;
                         }
@@ -269,18 +269,17 @@ const ContentDetail = ({
 
                 return false;
             }
+            return true;
         }
         return true;
     };
 
     React.useEffect(() => {
-        if (customizableOptions.length > 0 && errorCustomizableOptions.length > 0) {
+        if (errorCustomizableOptions && errorCustomizableOptions.length > 0) {
+            // eslint-disable-next-line consistent-return
             const errorCustomizable = errorCustomizableOptions.filter((err) => {
                 const findValue = customizableOptions.find((op) => op.option_id === err.option_id);
-                if (findValue.length > 0) {
-                    return err.option_id !== findValue[0].option_id;
-                }
-                return false;
+                return !findValue;
             });
             setErrorCustomizableOptions(errorCustomizable);
         }

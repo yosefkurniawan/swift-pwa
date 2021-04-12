@@ -46,13 +46,32 @@ const CoreSimpleOptionItem = ({
     }
 
     const addToCart = async () => {
-        const customizable_options = [];
+        let customizable_options = [];
         if (modules.product.customizableOptions.enabled && customizableOptions && customizableOptions.length > 0) {
             customizableOptions.map((op) => {
-                customizable_options.push({
-                    id: op.option_id,
-                    value_string: op.value,
-                });
+                if (customizable_options.length > 0) {
+                    const findOptions = customizable_options.find((item) => item.id === op.option_id);
+                    if (findOptions) {
+                        customizable_options = customizable_options.filter(
+                            (item) => item.id !== op.option_id,
+                        );
+                        customizable_options.push({
+                            id: op.option_id,
+                            value_string: `${findOptions.value_string},${op.value}`,
+                        });
+                    } else {
+                        customizable_options.push({
+                            id: op.option_id,
+                            value_string: op.value,
+                        });
+                    }
+                }
+                if (customizable_options.length === 0) {
+                    customizable_options.push({
+                        id: op.option_id,
+                        value_string: op.value,
+                    });
+                }
                 return op;
             });
         }
@@ -60,6 +79,7 @@ const CoreSimpleOptionItem = ({
             CustomAddToCart({
                 ...data,
                 qty: parseFloat(qty),
+                customizable_options,
             });
         } else {
             setLoading(true);

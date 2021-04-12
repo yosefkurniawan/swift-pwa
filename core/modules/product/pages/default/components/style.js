@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
             ...FlexColumn,
         },
         position: 'relative',
+        '& .customizable-container': {
+            marginTop: 20,
+        },
     },
     headContainer: {
         position: 'relative',

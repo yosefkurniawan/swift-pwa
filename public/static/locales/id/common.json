@@ -81,7 +81,8 @@
         "relatedProduct": "Relasi Produk",
         "sale": "Diskon",
         "new": "Baru",
-        "free": "Free"
+        "free": "Free",
+        "none": "Tidak ada"
     },
     "error": {
         "notFound" : "Data tidak di temukan",
