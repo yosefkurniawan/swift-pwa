@@ -303,6 +303,9 @@ const modules = {
         cashback: {
             enabled: true,
         },
+        orderComment: {
+            enabled: false,
+        },
     },
     cart: {
         enabled: true,

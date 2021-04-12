@@ -41,6 +41,8 @@
         "emptyShippingError": "Silakan isi alamat dan pilih metode pengiriman dahulu",
         "couponRemoved": "Kupon telah digunakan",
         "couponApplied": "Kupon tidak digunakan",
+        "orderCommentAdded": "Order Comment telah ditambah",
+        "orderCommentRemoved": "Order Comment telah dihapus",
         "giftCardApplied": "Gift card telah digunakan",
         "giftCardRemoved": "Gift card tidak digunakan",
         "rewardPointsApplied": "Poin telah digunakan",
