@@ -9,6 +9,7 @@ const WidgetPwaLink = (props) => {
         pwa_link_type, type, image, url, text = 'Sample Link',
     } = props;
     const customStyle = props?.class;
+    const buttonText = props?.button;
     if (!url) return <span>no url found in pwa link widget</span>;
 
     const propsOther = {};
@@ -22,7 +23,7 @@ const WidgetPwaLink = (props) => {
     if (pwa_link_type === 'button') {
         return (
             <Button {...propsOther} href={url}>
-                {text}
+                {buttonText}
             </Button>
         );
     }
