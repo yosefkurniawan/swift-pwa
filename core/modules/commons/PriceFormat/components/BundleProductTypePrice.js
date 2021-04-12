@@ -5,11 +5,12 @@ import useStyles from '../style';
 
 const BundleProductTypePrice = (props) => {
     const styles = useStyles();
-    const { priceRange } = props;
+    const { priceRange, additionalPrice } = props;
+    const otherPrice = additionalPrice || 0;
     if (priceRange.maximum_price.final_price.value === priceRange.minimum_price.final_price.value) {
         return (
             <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
-                {formatPrice(priceRange.minimum_price.final_price.value, priceRange.minimum_price.final_price.currency)}
+                {formatPrice(priceRange.minimum_price.final_price.value + otherPrice, priceRange.minimum_price.final_price.currency)}
             </Typography>
         );
     }
@@ -25,7 +26,7 @@ const BundleProductTypePrice = (props) => {
                 {' '}
             </Typography>
             <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
-                {formatPrice(priceRange.minimum_price.final_price.value, priceRange.minimum_price.final_price.currency)}
+                {formatPrice(priceRange.minimum_price.final_price.value + otherPrice, priceRange.minimum_price.final_price.currency)}
             </Typography>
             <Typography
                 variant="span"
@@ -37,7 +38,7 @@ const BundleProductTypePrice = (props) => {
                 {' '}
             </Typography>
             <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
-                {formatPrice(priceRange.maximum_price.final_price.value, priceRange.maximum_price.final_price.currency)}
+                {formatPrice(priceRange.maximum_price.final_price.value + otherPrice, priceRange.maximum_price.final_price.currency)}
             </Typography>
         </>
     );

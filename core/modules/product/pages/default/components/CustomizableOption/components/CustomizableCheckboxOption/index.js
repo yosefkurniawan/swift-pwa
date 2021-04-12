@@ -9,7 +9,7 @@ import { getCustomizableCheckboxOption } from '../../../../../../services/graphq
 
 const CustomizableCheckboxOption = ({
     url_key, option_id, customizableOptions, setCustomizableOptions,
-    errorCustomizableOptions,
+    errorCustomizableOptions, additionalPrice, setAdditionalPrice,
     ...other
 }) => {
     const { t } = useTranslation(['product']);
@@ -24,19 +24,44 @@ const CustomizableCheckboxOption = ({
         fetchPolicy: 'no-cache',
     });
 
-    const onChange = (val) => {
+    const onChange = async (val) => {
         let filterValues = [];
+        let addPrice = 0;
         if (val.length > 0) {
-            filterValues = value.filter((item) => val.includes(item.value));
+            filterValues = value.filter((item) => {
+                if (val.includes(item.value)) {
+                    addPrice += item.price;
+                }
+                return val.includes(item.value);
+            });
         }
         if (customizableOptions && customizableOptions.length > 0) {
-            const removeOldOptions = customizableOptions.filter((item) => item.option_id !== options.option_id);
+            let oldPrice = 0;
+            const removeOldOptions = customizableOptions.filter((item) => {
+                if (item.option_id === options.option_id) {
+                    oldPrice += item.price;
+                }
+                return item.option_id !== options.option_id;
+            });
+            let newPrice = additionalPrice - oldPrice;
+            if (newPrice <= 0) {
+                newPrice = 0;
+            }
+            await setAdditionalPrice(newPrice);
+            if (filterValues.length > 0) {
+                setAdditionalPrice(newPrice + addPrice);
+            }
             setCustomizableOptions([
                 ...removeOldOptions,
                 ...filterValues,
             ]);
         } else {
             setCustomizableOptions(filterValues);
+            if (filterValues.length > 0) {
+                setAdditionalPrice(additionalPrice + addPrice);
+            } else {
+                setAdditionalPrice(0);
+            }
         }
         setSelected(val);
     };

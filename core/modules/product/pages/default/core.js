@@ -114,6 +114,7 @@ const ContentDetail = ({
         specialFromDate: item.special_from_date,
         specialToDate: item.special_to_date,
     });
+    const [additionalPrice, setAdditionalPrice] = React.useState(0);
     const [stockStatus, setStockStatus] = React.useState(item.stock_status);
     const [wishlist, setWishlist] = React.useState(false);
 
@@ -317,6 +318,8 @@ const ContentDetail = ({
             setCustomizableOptions={setCustomizableOptions}
             errorCustomizableOptions={errorCustomizableOptions}
             checkCustomizableOptionsValue={checkCustomizableOptionsValue}
+            additionalPrice={additionalPrice}
+            setAdditionalPrice={setAdditionalPrice}
         />
     );
 };

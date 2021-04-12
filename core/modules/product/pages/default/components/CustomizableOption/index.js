@@ -14,7 +14,7 @@ const CustomizableOption = ({
                         && modules.product.customizableOptions.availableOptions.CustomizableCheckboxOption) {
                             return <CustomizableCheckboxOption key={key} {...item} {...other} />;
                         }
-                        return <p>a</p>;
+                        return null;
                     })
         }
     </>

@@ -10,7 +10,7 @@ import CustomizableOption from '../CustomizableOption';
 const Options = (props) => {
     const {
         data, price, customizableOptions, setCustomizableOptions,
-        errorCustomizableOptions,
+        errorCustomizableOptions, additionalPrice, setAdditionalPrice,
     } = props;
     const { __typename } = data;
     return (
@@ -22,6 +22,8 @@ const Options = (props) => {
                     customizableOptions={customizableOptions}
                     setCustomizableOptions={setCustomizableOptions}
                     errorCustomizableOptions={errorCustomizableOptions}
+                    additionalPrice={additionalPrice}
+                    setAdditionalPrice={setAdditionalPrice}
                 />
             ) }
             {__typename === 'ConfigurableProduct' && (
