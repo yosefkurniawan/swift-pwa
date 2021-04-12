@@ -11,8 +11,8 @@ import useStyles from './style';
 
 const View = (props) => {
     const {
-        t, isLogin, checkoutData, handleCotinue, ordersFilter, storeConfig, dateOrder,
-        handleDetailOrder, handleConfirmPayment,
+        t, isLogin, checkoutData, handleCotinue, ordersFilter, storeConfig,
+        handleDetailOrder, handleConfirmPayment, bankList, paymentInformation,
     } = props;
     const styles = useStyles();
     return (
@@ -44,19 +44,55 @@ const View = (props) => {
             {
                 (ordersFilter && ordersFilter.data[0].detail[0].payment.method === 'banktransfer')
                     ? (
+                        <div className={styles.wrapperBank}>
+                            {
+                                bankList.map((item, index) => (
+                                    <div key={index} className={styles.bankItem}>
+                                        <Typography variant="span" letter="uppercase" className="clear-margin-padding">
+                                            {item.bankname}
+                                        </Typography>
+                                        <Typography variant="span" letter="uppercase" className="clear-margin-padding">
+                                            {t('thanks:bankNumber')}
+                                        </Typography>
+                                        <Typography variant="span" type="bold" letter="uppercase" className="clear-margin-padding">
+                                            {item.banknumber}
+                                        </Typography>
+                                        <Typography variant="span" letter="uppercase" className="clear-margin-padding">
+                                            {`a.n. ${item.placeholder}`}
+                                        </Typography>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    ) : null
+            }
+            {
+                (ordersFilter && ordersFilter.data[0].detail[0].payment.method === 'banktransfer')
+                    ? (
                         <div className={styles.info}>
-                            <Typography variant="span" className="clear-margin-padding" letter="none">
+                            <Typography variant="span" className={styles.dateOver} letter="none">
                                 {t('thanks:bankInfo').split('$')[0]}
                                 <b className={styles.payment}>
                                     {`${ordersFilter.data[0].detail[0].payment.payment_additional_info.method_title},`}
                                 </b>
-                                <br />
                                 {t('thanks:bankInfo').split('$')[1]}
                             </Typography>
                             <Typography variant="span" className={styles.dateOver}>
-                                {`${t('thanks:bankInfo2')} `}
-                                {ordersFilter
-                                    && formatDate(dateOrder.setTime(dateOrder.getTime() + 111600000), 'dddd, DD MMM HH:mm WIB')}
+                                {
+                                    ordersFilter && paymentInformation && paymentInformation.OrderPaymentInformation
+                                    && paymentInformation.OrderPaymentInformation.due_date
+                                    && (
+                                        <>
+                                            {`${t('thanks:bankInfo2')} `}
+                                            {
+                                                formatDate(
+                                                    paymentInformation.OrderPaymentInformation.due_date,
+                                                    'dddd, DD MMM HH:mm WIB',
+                                                )
+                                            }
+                                        </>
+                                    )
+                                }
                             </Typography>
                         </div>
                     )
@@ -70,7 +106,7 @@ const View = (props) => {
                                 <Button
                                     onClick={handleConfirmPayment}
                                     className={[styles.btnConfirmFirst].join(' ')}
-                                    align="left"
+                                    align="center"
                                 >
                                     <Typography
                                         variant="span"
@@ -85,7 +121,7 @@ const View = (props) => {
                                     onClick={handleCotinue}
                                     className={styles.btnConfirm}
                                     variant="text"
-                                    align="left"
+                                    align="center"
                                     endIcon={<IconArrow className={styles.btnConfirmIcon} />}
                                 >
                                     {t('thanks:continue')}
