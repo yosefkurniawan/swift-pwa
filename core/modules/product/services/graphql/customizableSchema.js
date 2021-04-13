@@ -17,6 +17,20 @@ const valueOption = `
     }
 `;
 
+const valueFieldOption = `
+  option_id
+  required
+  sort_order
+  title
+  value {
+    price
+    price_type
+    sku
+    uid
+    max_characters
+  }
+`;
+
 export const getCustomizableCheckboxOption = (url_key = '') => gql`
 {
     products(search: "", filter: { url_key: { eq: "${url_key}" } }) {
@@ -80,17 +94,26 @@ export const getCustomizableAreaOption = (url_key = '') => gql`
               __typename
               required
                ... on CustomizableAreaOption {
-                    option_id
-                    required
-                    sort_order
-                    title
-                    value {
-                      price
-                      price_type
-                      sku
-                      uid
-                      max_characters
-                    }
+                    ${valueFieldOption}
+                  }
+            }
+          }
+        }
+    }
+}
+`;
+
+export const getCustomizableFieldOption = (url_key = '') => gql`
+{
+  products(search: "", filter: { url_key: { eq: "${url_key}" } }) {
+        items {
+          ... on CustomizableProductInterface {
+            options {
+                  option_id
+              __typename
+              required
+               ... on CustomizableFieldOption {
+                    ${valueFieldOption}
                   }
             }
           }

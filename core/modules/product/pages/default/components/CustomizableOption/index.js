@@ -5,6 +5,7 @@ import CustomizableCheckboxOption from './components/CustomizableCheckboxOption'
 import CustomizableRadioOption from './components/CustomizableRadioOption';
 import CustomizableDropDownOption from './components/CustomizableDropDownOption';
 import CustomizableAreaOption from './components/CustomizableAreaOption';
+import CustomizableFieldOption from './components/CustomizableFieldOption';
 
 const CustomizableOption = ({
     options = [], ...other
@@ -32,6 +33,12 @@ const CustomizableOption = ({
                         && modules.product.customizableOptions.availableOptions.CustomizableAreaOption) {
                             return <CustomizableAreaOption key={key} {...item} {...other} />;
                         }
+
+                        if (item.__typename === 'CustomizableFieldOption'
+                        && modules.product.customizableOptions.availableOptions.CustomizableFieldOption) {
+                            return <CustomizableFieldOption key={key} {...item} {...other} />;
+                        }
+
                         return null;
                     })
         }
