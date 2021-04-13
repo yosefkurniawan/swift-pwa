@@ -13,6 +13,7 @@ const CmsPage = (props) => {
             </Alert>
         );
     }
+
     if (loading) return <Loading open={loading} />;
     return (
         <>
