@@ -51,6 +51,25 @@ export const getCustomizableRadioOption = (url_key = '') => gql`
 }
 `;
 
+export const getCustomizableDropDownOption = (url_key = '') => gql`
+{
+  products(search: "", filter: { url_key: { eq: "${url_key}" } }) {
+        items {
+          ... on CustomizableProductInterface {
+            options {
+                  option_id
+              __typename
+              required
+               ... on CustomizableDropDownOption {
+                    ${valueOption}
+                  }
+            }
+          }
+        }
+    }
+}
+`;
+
 export default {
     getCustomizableCheckboxOption,
 };
