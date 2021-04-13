@@ -18,7 +18,8 @@
         "rating": "Rating is required",
         "title": "Title is required",
         "detail": "Detail is required",
-        "fieldRequired": "This field is required"
+        "fieldRequired": "This field is required",
+        "maxCharacters": "Maximum $ characters"
     },
     "addRateSuccess": "Thanks for review this product",
     "addRateFailed": "Upload your review is failed",

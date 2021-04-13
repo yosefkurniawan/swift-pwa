@@ -16,7 +16,7 @@ const CustomizableDropDownOption = ({
     const productPrice = getPrice(other.price);
     const [value, setValue] = useState([]);
     const [options, setOptions] = useState({});
-    const [selected, setSelected] = useState(null);
+    const [selected, setSelected] = useState('');
 
     // get values options customizable
     const { data, loading } = useQuery(getCustomizableDropDownOption(url_key), {
