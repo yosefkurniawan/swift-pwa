@@ -32,7 +32,6 @@ const resultItem = ({
                 secondary: `${detail.shipping_address.firstname} ${detail.shipping_address.lastname}`,
             },
             { primary: t('trackingorder:orderId'), secondary: data.order_number },
-            { primary: t('trackingorder:status'), secondary: data.status_label || data.status },
             {
                 primary: t('trackingorder:orderTotal'),
                 secondary: formatPrice(data.grand_total, storeConfig.base_currency_code || 'USD'),
