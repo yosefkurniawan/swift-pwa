@@ -103,5 +103,7 @@
         "backToStore": "Back to store"
     },
     "cartError": "Something went wrong during fetching the cart data",
-    "feePromoLabel" :"Fee & promotion"
+    "feePromoLabel" :"Fee & promotion",
+    "buttonOk": "Ok",
+    "howtoPay": "How to pay"
 }
