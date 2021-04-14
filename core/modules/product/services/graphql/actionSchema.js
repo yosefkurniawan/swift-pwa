@@ -59,7 +59,10 @@ mutation addVirtualProductToCart(
     $qty: Float!,
     $sku: String!,
     ${modules.product.customizableOptions.enabled
-      && '$customizable_options: [CustomizableOptionInput]'}
+      && `
+      $customizable_options: [CustomizableOptionInput],      
+      $entered_options: [EnteredOptionInput] 
+      `}
 ) {
     addVirtualProductsToCart(input:{
       cart_id: $cartId,
@@ -68,7 +71,9 @@ mutation addVirtualProductToCart(
           && ' customizable_options: $customizable_options'}
         data: {
           quantity: $qty,
-          sku: $sku
+          sku: $sku,
+          ${modules.product.customizableOptions.enabled
+            && ' entered_options: $entered_options'}
         }
       }
     }) {
@@ -85,15 +90,24 @@ mutation(
   $cartId : String!,
   $sku: String!,
   $qty: Float!,
-  $download_product_link: [DownloadableProductLinksInput]
+  $download_product_link: [DownloadableProductLinksInput],
+  ${modules.product.customizableOptions.enabled
+    && `
+    $customizable_options: [CustomizableOptionInput],      
+    $entered_options: [EnteredOptionInput] 
+    `}
 ) {
   addDownloadableProductsToCart(
     input: {
       cart_id: $cartId
       cart_items: {
+        ${modules.product.customizableOptions.enabled
+          && ' customizable_options: $customizable_options'}
         data: {
-          sku: $sku
-          quantity: $qty
+          sku: $sku,
+          quantity: $qty,
+          ${modules.product.customizableOptions.enabled
+            && ' entered_options: $entered_options'}
         }
         downloadable_product_links: $download_product_link
       }
@@ -127,15 +141,24 @@ mutation (
   $cartId: String!,
   $qty: Float!,
   $sku: String!,
-  $parentSku: String!,
+  $parentSku: String!,  
+  ${modules.product.customizableOptions.enabled
+    && `
+    $customizable_options: [CustomizableOptionInput],
+    $entered_options: [EnteredOptionInput] 
+  `}
 ) {
   addConfigurableProductsToCart(
     input: {
       cart_id: $cartId,
       cart_items: {
+        ${modules.product.customizableOptions.enabled
+          && ' customizable_options: $customizable_options'}
         data: {
           quantity : $qty,
-          sku: $sku
+          sku: $sku,
+          ${modules.product.customizableOptions.enabled
+            && ' entered_options: $entered_options'}
         }
         parent_sku: $parentSku
       }
@@ -152,7 +175,7 @@ mutation (
 export const addBundleProductsToCart = gql`
 mutation (
   $cartId: String!,
-  $cartItems: [BundleProductCartItemInput]!
+  $cartItems: [BundleProductCartItemInput]!,
 ) {
       addBundleProductsToCart(
         input: {
