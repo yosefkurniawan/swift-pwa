@@ -21,7 +21,15 @@ export default makeStyles((theme) => ({
         width: '100%',
         '& .product-options': {
             paddingLeft: 5,
-            fontSize: 11,
+            fontSize: 12,
+            marginTop: 10,
+            '& .option-wrapper__item': {
+                marginLeft: 0,
+            },
+            '& .option-item': {
+                margin: 0,
+                marginLeft: 5,
+            },
         },
         '& .option-link': {
             marginLeft: 0,

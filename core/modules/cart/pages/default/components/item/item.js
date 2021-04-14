@@ -16,7 +16,7 @@ const ItemView = (props) => {
     const {
         t, confirmDel, handleDelete, setConfirmDel,
         product, configurable_options, quantity, prices, handleAddWishlist,
-        editMode, toggleEditDrawer, bundle_options, links,
+        editMode, toggleEditDrawer, bundle_options, links, customizable_options,
     } = props;
     const styles = useStyles();
     return (
@@ -97,6 +97,26 @@ const ItemView = (props) => {
                                                     {item.price}
                                                 </strong>
                                             </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : null}
+                    {customizable_options && customizable_options.length ? (
+                        <div className="product-options">
+                            {customizable_options.map((op, idx) => (
+                                <div className="option-wrapper" key={idx}>
+                                    <div className="row option-wrapper__item">
+                                        <strong>
+                                            {op.label}
+                                            {' '}
+                                            :
+                                        </strong>
+                                        {op.values.map((item, idt) => (
+                                            <p key={idt} className="option-item">
+                                                {(item.label && item.label !== '') ? item.label : item.value}
+                                            </p>
                                         ))}
                                     </div>
                                 </div>
