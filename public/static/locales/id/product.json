@@ -21,6 +21,13 @@
         "fieldRequired": "Field ini harus di isi",        
         "maxCharacters": "Maksimal $ karakter"
     },
+    "customizableOptions": {
+        "file": {
+            "extentionAccept": "Ekstensi file yang cocok: ",
+            "maxImageWidth": "Maksimal panjang gambar: ",
+            "maxImageHeight": "Maksimal lebar gambar: "
+        }
+    },
     "addRateSuccess": "Terima kasih atas ulasannya.",
     "addRateFailed": "Gagal mengirim ulasan",
     "successAddCart": "Produk telah ditambahkan ke keranjang",

@@ -6,6 +6,7 @@ import CustomizableRadioOption from './components/CustomizableRadioOption';
 import CustomizableDropDownOption from './components/CustomizableDropDownOption';
 import CustomizableAreaOption from './components/CustomizableAreaOption';
 import CustomizableFieldOption from './components/CustomizableFieldOption';
+import CustomizableFileOption from './components/CustomizableFileOption';
 
 const CustomizableOption = ({
     options = [], ...other
@@ -37,6 +38,11 @@ const CustomizableOption = ({
                         if (item.__typename === 'CustomizableFieldOption'
                         && modules.product.customizableOptions.availableOptions.CustomizableFieldOption) {
                             return <CustomizableFieldOption key={key} {...item} {...other} />;
+                        }
+
+                        if (item.__typename === 'CustomizableFileOption'
+                        && modules.product.customizableOptions.availableOptions.CustomizableFileOption) {
+                            return <CustomizableFileOption key={key} {...item} {...other} />;
                         }
 
                         return null;

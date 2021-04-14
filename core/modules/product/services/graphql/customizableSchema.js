@@ -122,6 +122,38 @@ export const getCustomizableFieldOption = (url_key = '') => gql`
 }
 `;
 
+export const getCustomizableFileOption = (url_key = '') => gql`
+{
+  products(search: "", filter: { url_key: { eq: "${url_key}" } }) {
+        items {
+          ... on CustomizableProductInterface {
+            options {
+                  option_id
+              __typename
+              required
+               ... on CustomizableFileOption {
+                    option_id
+                    product_sku
+                    required
+                    sort_order
+                    title
+                    value {
+                      file_extension
+                      image_size_x
+                      image_size_y
+                      price
+                      price_type
+                      uid
+                      sku
+                    }
+                 }
+            }
+          }
+        }
+    }
+}
+`;
+
 export default {
     getCustomizableCheckboxOption,
 };

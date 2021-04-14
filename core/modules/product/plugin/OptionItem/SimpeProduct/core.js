@@ -47,6 +47,7 @@ const CoreSimpleOptionItem = ({
 
     const addToCart = async () => {
         let customizable_options = [];
+        const entered_options = [];
         if (modules.product.customizableOptions.enabled && customizableOptions && customizableOptions.length > 0) {
             customizableOptions.map((op) => {
                 if (customizable_options.length > 0) {
@@ -55,9 +56,21 @@ const CoreSimpleOptionItem = ({
                         customizable_options = customizable_options.filter(
                             (item) => item.id !== op.option_id,
                         );
-                        customizable_options.push({
-                            id: op.option_id,
-                            value_string: `${findOptions.value_string},${op.value}`,
+                        if (op.isEnteredOption) {
+                            entered_options.push({
+                                uid: op.uid,
+                                value: `${findOptions.value_string},${op.value}`,
+                            });
+                        } else {
+                            customizable_options.push({
+                                id: op.option_id,
+                                value_string: `${findOptions.value_string},${op.value}`,
+                            });
+                        }
+                    } else if (op.isEnteredOption) {
+                        entered_options.push({
+                            uid: op.uid,
+                            value: op.value,
                         });
                     } else {
                         customizable_options.push({
@@ -67,10 +80,17 @@ const CoreSimpleOptionItem = ({
                     }
                 }
                 if (customizable_options.length === 0) {
-                    customizable_options.push({
-                        id: op.option_id,
-                        value_string: op.value,
-                    });
+                    if (op.isEnteredOption) {
+                        entered_options.push({
+                            uid: op.uid,
+                            value: op.value,
+                        });
+                    } else {
+                        customizable_options.push({
+                            id: op.option_id,
+                            value_string: op.value,
+                        });
+                    }
                 }
                 return op;
             });
@@ -136,6 +156,7 @@ const CoreSimpleOptionItem = ({
                         sku,
                         qty: parseFloat(qty),
                         customizable_options,
+                        entered_options,
                     },
                 })
                     .then((res) => {

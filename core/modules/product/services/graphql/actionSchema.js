@@ -27,7 +27,10 @@ mutation addSimpleProductsToCart(
     $qty: Float!,
     $sku: String!,
     ${modules.product.customizableOptions.enabled
-      && '$customizable_options: [CustomizableOptionInput]'}
+      && `
+      $customizable_options: [CustomizableOptionInput],
+      $entered_options: [EnteredOptionInput] 
+    `}
 ) {
     addSimpleProductsToCart(input:{
       cart_id: $cartId,
@@ -36,7 +39,9 @@ mutation addSimpleProductsToCart(
           && ' customizable_options: $customizable_options'}
         data: {
           quantity: $qty,
-          sku: $sku
+          sku: $sku,
+          ${modules.product.customizableOptions.enabled
+            && ' entered_options: $entered_options'}
         }
       }
     }) {
@@ -53,10 +58,14 @@ mutation addVirtualProductToCart(
     $cartId: String!,
     $qty: Float!,
     $sku: String!,
+    ${modules.product.customizableOptions.enabled
+      && '$customizable_options: [CustomizableOptionInput]'}
 ) {
     addVirtualProductsToCart(input:{
       cart_id: $cartId,
       cart_items: {
+        ${modules.product.customizableOptions.enabled
+          && ' customizable_options: $customizable_options'}
         data: {
           quantity: $qty,
           sku: $sku

@@ -228,7 +228,7 @@ const modules = {
                 CustomizableDropDownOption: true,
                 CustomizableMultipleOption: true,
                 CustomizableFieldOption: true,
-                CustomizableFileOption: true,
+                CustomizableFileOption: false,
                 CustomizableRadioOption: true,
                 CustomizableCheckboxOption: true,
             },

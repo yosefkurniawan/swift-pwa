@@ -93,7 +93,8 @@
     "fileUpload": {
         "reject": "Tidak dapat mengupload, file harus ber type  ",
         "dragActive": "Taruh file kesini ...",
-        "dragNonActive": "Tarik dan taruh file kesini, atau klik untuk pilih file"
+        "dragNonActive": "Tarik dan taruh file kesini, atau klik untuk pilih file",
+        "maxSizeImage": "Maksimal ukuran gambar "
     },
     "menu" : {
         "confirmpayment" : "Konfirmasi Pembayaran",
