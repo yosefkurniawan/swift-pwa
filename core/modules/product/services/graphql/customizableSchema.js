@@ -48,6 +48,23 @@ export const getCustomizableCheckboxOption = (url_key = '') => gql`
   }
 `;
 
+export const getCustomizableMultipleOption = (url_key = '') => gql`
+{
+    products(search: "", filter: { url_key: { eq: "${url_key}" } }) {
+          items {
+            ... on CustomizableProductInterface {
+              options {
+                    option_id
+                 ... on CustomizableMultipleOption {
+                      ${valueOption}
+                    }
+              }
+            }
+          }
+      }
+  }
+`;
+
 export const getCustomizableRadioOption = (url_key = '') => gql`
 {
   products(search: "", filter: { url_key: { eq: "${url_key}" } }) {

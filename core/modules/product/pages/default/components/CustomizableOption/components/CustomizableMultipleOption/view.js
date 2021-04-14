@@ -2,7 +2,7 @@ import React from 'react';
 import CheckBox from '@common_checkbox';
 import Typography from '@common_typography';
 
-const ViewCustomizableCheckboxOption = ({
+const ViewCustomizableMultipleOption = ({
     title = 'test', data = [], selected = [],
     onChange = () => {}, error = '', required = false,
 }) => (
@@ -35,4 +35,4 @@ const ViewCustomizableCheckboxOption = ({
     </div>
 );
 
-export default ViewCustomizableCheckboxOption;
+export default ViewCustomizableMultipleOption;
