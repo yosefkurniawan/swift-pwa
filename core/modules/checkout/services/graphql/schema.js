@@ -717,6 +717,20 @@ export const placeOrder = gql`
     }
 `;
 
+export const placeOrderWithOrderComment = gql`
+    mutation($cartId: String!, $origin: String!, $orderComment: String!) {
+        addOrderComment(input: { cart_id: $cartId, order_comment: $orderComment }) {
+            order_comment
+        }
+        placeOrder(input: { cart_id: $cartId, origin: $origin }) {
+            order {
+                order_number
+                order_id
+            }
+        }
+    }
+`;
+
 export const applyCouponToCart = gql`
     mutation($cartId: String!, $coupon: String!) {
         applyCouponToCart(input: { cart_id: $cartId, coupon_code: $coupon }) {
@@ -1070,5 +1084,13 @@ export const updateCartitem = gql`
             ${itemsProduct}
         }
       }
+    }
+`;
+
+export const addOrderComment = gql`
+    mutation($cartId: String!, $orderComment: String!) {
+        addOrderComment(input: { cart_id: $cartId, order_comment: $orderComment }) {
+            order_comment
+        }
     }
 `;

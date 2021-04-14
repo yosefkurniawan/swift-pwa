@@ -6,6 +6,7 @@ const CmsSlug = (props) => {
         Content, pageConfig, t, slug, ...other
     } = props;
     const { data, error, loading } = getCmsPage({ identifier: slug[0] });
+
     const Config = {
         title: data && data.cmsPage ? data.cmsPage.title : '',
         headerTitle: data && data.cmsPage ? data.cmsPage.title : '',

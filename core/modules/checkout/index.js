@@ -9,6 +9,7 @@ import AddressView from './pages/default/components/address/view';
 import ShippingView from './pages/default/components/shipping/view';
 import PaymentView from './pages/default/components/payment/view';
 import GiftCardView from './pages/default/components/giftcard/view';
+import OrderCommentView from './pages/default/components/OrderComment/view';
 
 export default {
     Default,
@@ -22,4 +23,5 @@ export default {
     ShippingView,
     PaymentView,
     GiftCardView,
+    OrderCommentView,
 };

@@ -5,12 +5,7 @@ import classNames from 'classnames';
 import useStyles from './style';
 
 const Caraousel = ({
-    data = [1, 2, 3],
-    title = '',
-    className = '',
-    storeConfig,
-    item,
-    customSlideClass,
+    data = [1, 2, 3], title = '', className = '', storeConfig, item, customSlideClass,
 }) => {
     const styles = useStyles();
     const [index, setIndex] = useState(parseInt(data.length / 2, 10));
@@ -23,13 +18,7 @@ const Caraousel = ({
     return (
         <div className={classNames(styles.container, className)}>
             {title && title !== '' && (
-                <Typography
-                    align="center"
-                    letter="uppercase"
-                    type="bold"
-                    variant="span"
-                    className={styles.title}
-                >
+                <Typography align="center" letter="uppercase" type="bold" variant="span" className={styles.title}>
                     {title}
                 </Typography>
             )}
@@ -41,13 +30,11 @@ const Caraousel = ({
                 enableMouseEvents
                 resistance
             >
-                {data.map((val, y) => (
-                    item({
-                        ...val,
-                        storeConfig,
-                        key: y,
-                    })
-                ))}
+                {data.map((val, y) => item({
+                    ...val,
+                    storeConfig,
+                    key: y,
+                }))}
             </SwipeableViews>
         </div>
     );
