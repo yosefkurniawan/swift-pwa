@@ -8,6 +8,7 @@ import CustomizableAreaOption from './components/CustomizableAreaOption';
 import CustomizableFieldOption from './components/CustomizableFieldOption';
 import CustomizableFileOption from './components/CustomizableFileOption';
 import CustomizableMultipleOption from './components/CustomizableMultipleOption';
+import CustomizableDateOption from './components/CustomizableDateOption';
 
 const CustomizableOption = ({
     options = [], ...other
@@ -49,6 +50,11 @@ const CustomizableOption = ({
                         if (item.__typename === 'CustomizableFileOption'
                         && modules.product.customizableOptions.availableOptions.CustomizableFileOption) {
                             return <CustomizableFileOption key={key} {...item} {...other} />;
+                        }
+
+                        if (item.__typename === 'CustomizableDateOption'
+                        && modules.product.customizableOptions.availableOptions.CustomizableDateOption) {
+                            return <CustomizableDateOption key={key} {...item} {...other} />;
                         }
 
                         return null;

@@ -171,6 +171,35 @@ export const getCustomizableFileOption = (url_key = '') => gql`
 }
 `;
 
+export const getCustomizableDateOption = (url_key = '') => gql`
+{
+  products(search: "", filter: { url_key: { eq: "${url_key}" } }) {
+        items {
+          ... on CustomizableProductInterface {
+            options {
+                  option_id
+              __typename
+              required
+               ... on CustomizableDateOption {
+                    option_id
+                    product_sku
+                    required
+                    sort_order
+                    title                  
+                    value {
+                      price
+                      price_type
+                      uid
+                      
+                    }
+                  }
+            }
+          }
+        }
+    }
+}
+`;
+
 export default {
     getCustomizableCheckboxOption,
 };
