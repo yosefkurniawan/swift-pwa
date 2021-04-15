@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable consistent-return */
 /* eslint-disable no-console */
-import InstagramHelper from '@core_modules/cms/components/widget/instagram/helpers';
+import InstagramHelper from '@core_modules/cms/components/cms-renderer/widget-instagram/helpers';
 
 /**
  * get user feed
