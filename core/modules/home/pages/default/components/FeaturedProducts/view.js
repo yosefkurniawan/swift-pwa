@@ -14,24 +14,13 @@ import useStyles from '../style';
 import Image from './Image';
 
 const MobileView = ({
-    products,
-    url_path,
-    category_image,
-    name,
-    right = false,
-    t,
-    id,
-    ...other
+    products, url_path, category_image, name, right = false, t, id, ...other
 }) => {
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
     const { categoryList } = modules.home;
-    const width = desktop
-        ? categoryList.imageSize.desktop.width
-        : categoryList.imageSize.mobile.width;
-    const height = desktop
-        ? categoryList.imageSize.desktop.height
-        : categoryList.imageSize.mobile.height;
+    const width = desktop ? categoryList.imageSize.desktop.width : categoryList.imageSize.mobile.width;
+    const height = desktop ? categoryList.imageSize.desktop.height : categoryList.imageSize.mobile.height;
     const handleClick = async (link) => {
         const urlResolver = getResolver();
         urlResolver[link] = {
@@ -46,30 +35,17 @@ const MobileView = ({
                 <div className={styles.labelCategory}>
                     <Link href="/[...slug]" as={`/${url_path}`}>
                         <a onClick={() => handleClick(`/${url_path}`)}>
-                            <Typography
-                                letter="capitalize"
-                                type="bold"
-                                variant="h1"
-                                align="center"
-                            >
+                            <Typography letter="capitalize" type="bold" variant="h1" align="center">
                                 {name || ''}
                             </Typography>
                         </a>
                     </Link>
                 </div>
             </div>
-            <div
-                className={classNames(
-                    'col-xs-12 row between-lg',
-                    styles.featuresBox,
-                    right ? 'reverse' : '',
-                )}
-            >
+            <div className={classNames('col-xs-12 row between-lg', styles.featuresBox, right ? 'reverse' : '')}>
                 <div
                     className={classNames(
-                        category_image
-                            ? 'col-xs-12 col-sm-12 col-lg-4'
-                            : 'hidden-mobile hidden-desktop',
+                        category_image ? 'col-xs-12 col-sm-12 col-lg-4' : 'hidden-mobile hidden-desktop',
                         styles.imgFeaturedContainer,
                     )}
                 >
@@ -77,27 +53,15 @@ const MobileView = ({
                         <div className={styles.imgFeaturedItem}>
                             <Link href="/[...slug]" as={`/${url_path}`}>
                                 <a onClick={() => handleClick(`/${url_path}`)} style={{ width: '100%' }}>
-                                    <Image
-                                        name={name}
-                                        src={category_image}
-                                        width={width}
-                                        height={height}
-                                    />
+                                    <Image name={name} src={category_image} width={width} height={height} />
                                 </a>
                             </Link>
                         </div>
                     ) : null}
                 </div>
-                <div
-                    className={classNames(
-                        'col-xs-12 col-sm-12',
-                        category_image ? 'col-lg-8' : '',
-                    )}
-                >
+                <div className={classNames('col-xs-12 col-sm-12', category_image ? 'col-lg-8' : '')}>
                     <div className={classNames('row center-xs', styles.contentFeatured)}>
-                        <div
-                            className={classNames('col-xs-12', styles.contentMobileFeatured)}
-                        >
+                        <div className={classNames('col-xs-12', styles.contentMobileFeatured)}>
                             <Carousel
                                 data={products}
                                 showArrow={desktop}
@@ -110,11 +74,7 @@ const MobileView = ({
                         </div>
                         <div className={classNames('col-xs-12')}>
                             <div className={styles.footerFeatured}>
-                                <Button
-                                    variant="outlined"
-                                    onClick={() => handleClick(`/${url_path}`)}
-                                    className={styles.buttonViewAllHome}
-                                >
+                                <Button variant="outlined" onClick={() => handleClick(`/${url_path}`)} className={styles.buttonViewAllHome}>
                                     <Link href="/[...slug]" as={`/${url_path}`}>
                                         <a>
                                             <Typography type="bold" variant="span" letter="uppercase">
