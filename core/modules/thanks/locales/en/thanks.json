@@ -10,5 +10,6 @@
     "amount": "Total amount",
     "bankInfo": "For $ you will receive an email of order confirmation with tracking number.",
     "bankInfo2": "Please upload your proof of payment before ",
-    "paymentConfirmation": "Payment Confirmation"
+    "paymentConfirmation": "Payment Confirmation",
+    "bankNumber": "Bank Number"
 }

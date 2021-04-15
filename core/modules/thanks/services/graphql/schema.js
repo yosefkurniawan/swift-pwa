@@ -57,6 +57,17 @@ export const getOrder = () => gql`
     }
 `;
 
+export const getPaymentBankList = gql`
+    query {
+      getPaymentBankList{
+        bankname
+        banknumber
+        placeholder
+      }
+    }
+`;
+
 export default {
     getOrder,
+    getPaymentBankList,
 };
