@@ -27,7 +27,18 @@ const Layout = (props) => {
     const footerStyles = useStyles();
 
     const {
-        pageConfig, children, app_cookies, CustomHeader = false, i18n, storeConfig = {}, isLogin, headerProps = {}, t,
+        pageConfig,
+        children,
+        app_cookies,
+        CustomHeader = false,
+        i18n,
+        storeConfig = {},
+        isLogin,
+        headerProps = {},
+        t,
+        onlyCms,
+        withLayoutHeader = true,
+        withLayoutFooter = true,
     } = props;
     const {
         ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true,
@@ -144,20 +155,22 @@ const Layout = (props) => {
                     : null}
             </Head>
             {features.customInstallApp.enabled ? <PopupInstallAppMobile /> : null}
-            <header ref={refHeader}>
-                <div className="hidden-mobile">
-                    {headerDesktop ? <HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} app_cookies={app_cookies} /> : null}
-                </div>
-                <div className="hidden-desktop">
-                    {React.isValidElement(CustomHeader) ? (
-                        <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
-                    ) : (
-                        <HeaderMobile {...headerProps} pageConfig={pageConfig} />
-                    )}
-                </div>
-            </header>
+            {withLayoutHeader && (
+                <header ref={refHeader}>
+                    <div className="hidden-mobile">
+                        {headerDesktop ? <HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} app_cookies={app_cookies} /> : null}
+                    </div>
+                    <div className="hidden-desktop">
+                        {React.isValidElement(CustomHeader) ? (
+                            <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
+                        ) : (
+                            <HeaderMobile {...headerProps} pageConfig={pageConfig} />
+                        )}
+                    </div>
+                </header>
+            )}
 
-            <main style={{ ...styles }} className="main-app" id="maincontent">
+            <main style={{ ...styles }} className={!onlyCms ? 'main-app' : 'main-app main-app-cms'} id="maincontent">
                 <Loading open={state.backdropLoader} />
                 <Message
                     open={state.toastMessage.open}
@@ -168,15 +181,17 @@ const Layout = (props) => {
                 {children}
                 {desktop ? <ScrollToTop {...props} /> : null}
             </main>
-            <footer className={footerStyles.footerContainer} ref={refFooter}>
-                <div className="hidden-mobile">
-                    {modules.customer.plugin.newsletter.enabled && footer ? <Newsletter /> : null}
+            {withLayoutFooter && (
+                <footer className={footerStyles.footerContainer} ref={refFooter}>
+                    <div className="hidden-mobile">
+                        {modules.customer.plugin.newsletter.enabled && footer ? <Newsletter /> : null}
 
-                    {footer ? <Footer storeConfig={storeConfig} /> : null}
-                    <Copyright storeConfig={storeConfig} />
-                </div>
-                {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} />}
-            </footer>
+                        {footer ? <Footer storeConfig={storeConfig} /> : null}
+                        <Copyright storeConfig={storeConfig} />
+                    </div>
+                    {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} />}
+                </footer>
+            )}
         </>
     );
 };

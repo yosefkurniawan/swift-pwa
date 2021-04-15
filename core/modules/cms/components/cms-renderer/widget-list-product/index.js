@@ -1,7 +1,8 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-plusplus */
-import React, { Fragment, useEffect } from 'react';
+/* eslint-disable no-return-assign */
+import React, { useEffect, useRef } from 'react';
 import Carousel from '@common_slick/Caraousel';
 import ProductItem from '@core_modules/catalog/plugin/ProductItem';
 import GridList from '@common_gridlist';
@@ -32,6 +33,7 @@ const TEMPLATE_GRID = 'grid';
 const WidgetListProduct = (props) => {
     const { template, products_count, conditions_encoded } = props;
     const condition_object = JSON.parse(conditions_encoded);
+    const mount = useRef();
     const page = 1;
 
     const dataCondition = getDataCondition({ condition_object });
@@ -51,7 +53,8 @@ const WidgetListProduct = (props) => {
      * [useEffect]
      */
     useEffect(() => {
-        if (typeof window !== 'undefined') {
+        mount.current = true;
+        if (typeof window !== 'undefined' && mount.current) {
             if (document.getElementsByClassName('widget-product-list')) {
                 const elms = document.getElementsByClassName('widget-product-list');
                 for (let i = 0; i < elms.length; i++) {
@@ -65,19 +68,23 @@ const WidgetListProduct = (props) => {
                 }
             }
         }
+
+        return () => (mount.current = false);
     }, []);
 
     /**
      * [TEMPLATE] type slider
      */
+    const classSkeleton = typeof window === 'undefined' ? 'full-width widget-product-list-skeleton' : 'full-width widget-product-list-skeleton hide';
+    const classProductList = typeof window === 'undefined' ? 'full-width widget-product-list hide' : 'full-width widget-product-list';
     if (template === TEMPLATE_SLIDER && !dataLoading && dataItems?.length > 0) {
         return (
             <>
-                <div className="full-width widget-product-list-skeleton">
+                <div className={classSkeleton}>
                     <SkeletonWidget />
                 </div>
-                <div className="full-width widget-product-list hide">
-                    <Carousel data={dataItems} Item={ProductItem} />
+                <div className={classProductList}>
+                    <Carousel data={dataItems} Item={ProductItem} slideLg={dataItems?.length > 10 ? 6 : 4} />
                 </div>
             </>
         );
@@ -89,10 +96,10 @@ const WidgetListProduct = (props) => {
     if (template === TEMPLATE_GRID && !dataLoading && dataItems?.length > 0) {
         return (
             <>
-                <div className="full-width widget-product-list-skeleton">
+                <div className={classSkeleton}>
                     <SkeletonWidget />
                 </div>
-                <div className="full-width widget-product-list hide">
+                <div className={classProductList}>
                     <GridList
                         data={dataItems}
                         ItemComponent={ProductItem}
