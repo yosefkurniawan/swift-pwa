@@ -1,11 +1,11 @@
 /* eslint-disable consistent-return */
 import React, { memo } from 'react';
 import parse from 'html-react-parser';
-import WidgetPwaLink from './link-pwa';
-import WidgetListProduct from './list-product';
-import WidgetListBrand from './list-brand';
-import WidgetInstagram from './instagram';
-import WidgetSlider from './slider';
+import WidgetPwaLink from './widget-link-pwa';
+import WidgetListProduct from './widget-list-product';
+import WidgetListBrand from './widget-list-brand';
+import WidgetInstagram from './widget-instagram';
+import WidgetSlider from './widget-slider';
 import WidgetView from './view';
 
 const TYPE_PAGE = 'page';
