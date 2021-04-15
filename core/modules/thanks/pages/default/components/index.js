@@ -119,7 +119,7 @@ const View = (props) => {
                             <Button
                                 onClick={handleCotinue}
                                 className={styles.btnConfirm}
-                                align="left"
+                                align="center"
                                 endIcon={<IconArrow className={styles.btnConfirmIcon} />}
                             >
                                 <Typography
