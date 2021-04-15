@@ -419,6 +419,7 @@ const modules = {
     },
     home: {
         enabled: true,
+        useCmsPage: true,
         featuresProduct: {
             enable: true,
             url_key: 'homepage-featured-products',
