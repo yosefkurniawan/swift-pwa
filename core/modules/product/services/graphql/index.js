@@ -2,7 +2,9 @@ import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import * as Schema from './schema';
 import * as ActionSchema from './actionSchema';
 
-export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath));
+export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath), {
+    fetchPolicy: 'no-cache',
+});
 export const getProductBySku = (params) => useQuery(Schema.getProductBySku(), {
     ...params,
 });

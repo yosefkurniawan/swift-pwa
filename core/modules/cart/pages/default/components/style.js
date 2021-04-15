@@ -91,9 +91,13 @@ const useStyles = makeStyles((theme) => ({
         },
         '& .product-options': {
             '& .option-wrapper': {
-                fontSize: 10,
+                fontSize: 12,
                 '& .option-wrapper__item': {
-                    paddingLeft: 0,
+                    marginLeft: 0,
+                },
+                '& .option-item': {
+                    margin: 0,
+                    marginLeft: 5,
                 },
             },
         },

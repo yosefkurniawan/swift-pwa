@@ -219,6 +219,21 @@ const features = {
 };
 
 const modules = {
+    product: {
+        customizableOptions: {
+            enabled: true,
+            availableOptions: {
+                CustomizableAreaOption: true,
+                CustomizableDateOption: true,
+                CustomizableDropDownOption: true,
+                CustomizableMultipleOption: true,
+                CustomizableFieldOption: true,
+                CustomizableFileOption: false,
+                CustomizableRadioOption: true,
+                CustomizableCheckboxOption: true,
+            },
+        },
+    },
     authentication: {
         enabled: true,
         path: '/authentication',
