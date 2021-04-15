@@ -1,6 +1,6 @@
 import Loading from '@common_loaders/Backdrop';
 import Alert from '@material-ui/lab/Alert';
-import Widget from '@core_modules/cms/components/widget';
+import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 
 const CmsPage = (props) => {
     const {
@@ -16,14 +16,12 @@ const CmsPage = (props) => {
 
     if (loading) return <Loading open={loading} />;
     return (
-        <>
-            <div className="cms-container">
-                {/* eslint-disable-next-line react/no-danger */}
-                <h4 className="title center" dangerouslySetInnerHTML={{ __html: data.cmsPage.title }} />
-                {/* <div className="content" dangerouslySetInnerHTML={{ __html: data.cmsPage.content }} /> */}
-                <Widget type="page" content={data.cmsPage.content} storeConfig={storeConfig} />
-            </div>
-        </>
+        <div className="cms-container">
+            {/* eslint-disable-next-line react/no-danger */}
+            <h4 className="title center" dangerouslySetInnerHTML={{ __html: data.cmsPage.title }} />
+            {/* <div className="content" dangerouslySetInnerHTML={{ __html: data.cmsPage.content }} /> */}
+            <CmsRenderer type="page" content={data.cmsPage.content} storeConfig={storeConfig} />
+        </div>
     );
 };
 

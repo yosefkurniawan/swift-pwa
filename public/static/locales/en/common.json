@@ -82,7 +82,8 @@
         "relatedProduct": "Related products",
         "sale": "Sale",
         "new": "New",
-        "free": "Free"
+        "free": "Free",
+        "none": "None"
     },
     "error": {
         "notFound": "Data not found",
@@ -93,7 +94,8 @@
     "fileUpload": {
         "reject": "Cannot upload, Files must be a type ",
         "dragActive": "Drop the files here ...",
-        "dragNonActive": "Drag drop some files here, or click to select file"
+        "dragNonActive": "Drag drop some files here, or click to select file",
+        "maxSizeImage": "Maximum size image "
     },
     "menu": {
         "confirmpayment": "Confirm Payment",

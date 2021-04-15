@@ -6,6 +6,7 @@ import { getLoginInfo } from '@helper_auth';
 import { useApolloClient } from '@apollo/client';
 import { localTotalCart } from '@services/graphql/schema/local';
 import { handleSelectedDownload } from '@helper_productbyvariant';
+import { modules } from '@config';
 // import Router from 'next/router';
 import React from 'react';
 import TagManager from 'react-gtm-module';
@@ -22,6 +23,9 @@ const OptionsItemDownload = ({
     price,
     loading: customLoading,
     setLoading: setCustomLoading,
+    checkCustomizableOptionsValue,
+    errorCustomizableOptions,
+    customizableOptions,
     ...other
 }) => {
     const [qty, setQty] = React.useState(1);
@@ -88,7 +92,56 @@ const OptionsItemDownload = ({
         setPrice(final_price_value);
     };
 
-    const handleAddToCart = async () => {
+    const addToCart = async () => {
+        let customizable_options = [];
+        const entered_options = [];
+        if (modules.product.customizableOptions.enabled && customizableOptions && customizableOptions.length > 0) {
+            customizableOptions.map((op) => {
+                if (customizable_options.length > 0) {
+                    const findOptions = customizable_options.find((item) => item.id === op.option_id);
+                    if (findOptions) {
+                        customizable_options = customizable_options.filter(
+                            (item) => item.id !== op.option_id,
+                        );
+                        if (op.isEnteredOption) {
+                            entered_options.push({
+                                uid: op.uid,
+                                value: `${findOptions.value_string},${op.value}`,
+                            });
+                        } else {
+                            customizable_options.push({
+                                id: op.option_id,
+                                value_string: `${findOptions.value_string},${op.value}`,
+                            });
+                        }
+                    } else if (op.isEnteredOption) {
+                        entered_options.push({
+                            uid: op.uid,
+                            value: op.value,
+                        });
+                    } else {
+                        customizable_options.push({
+                            id: op.option_id,
+                            value_string: op.value,
+                        });
+                    }
+                }
+                if (customizable_options.length === 0) {
+                    if (op.isEnteredOption) {
+                        entered_options.push({
+                            uid: op.uid,
+                            value: op.value,
+                        });
+                    } else {
+                        customizable_options.push({
+                            id: op.option_id,
+                            value_string: op.value,
+                        });
+                    }
+                }
+                return op;
+            });
+        }
         const options = [];
         for (const [key, value] of Object.entries(selectDownloadable)) {
             options.push({ link_id: parseFloat(key) });
@@ -147,6 +200,8 @@ const OptionsItemDownload = ({
                     sku,
                     qty: parseFloat(qty),
                     download_product_link: options,
+                    customizable_options,
+                    entered_options,
                 },
             })
                 .then((res) => {
@@ -166,6 +221,17 @@ const OptionsItemDownload = ({
                         text: e.message.split(':')[1] || errorMessage.text,
                     });
                 });
+        }
+    };
+
+    const handleAddToCart = async () => {
+        if (modules.product.customizableOptions.enabled) {
+            const check = await checkCustomizableOptionsValue();
+            if (check) {
+                addToCart();
+            }
+        } else {
+            addToCart();
         }
     };
 
