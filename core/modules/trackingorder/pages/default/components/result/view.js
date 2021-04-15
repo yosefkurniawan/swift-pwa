@@ -32,7 +32,6 @@ const resultItem = ({
                 secondary: `${detail.shipping_address.firstname} ${detail.shipping_address.lastname}`,
             },
             { primary: t('trackingorder:orderId'), secondary: data.order_number },
-            { primary: t('trackingorder:status'), secondary: data.status_label || data.status },
             {
                 primary: t('trackingorder:orderTotal'),
                 secondary: formatPrice(data.grand_total, storeConfig.base_currency_code || 'USD'),
@@ -46,7 +45,6 @@ const resultItem = ({
                 secondary: detail.shipping_methods.shipping_description,
             },
         ];
-
         if (detail.shipping_methods.shipping_detail[0].data_detail) {
             let dt = detail.shipping_methods.shipping_detail[0].data_detail;
             dt = dt.replace(/'/g, '`');
@@ -70,6 +68,11 @@ const resultItem = ({
                     secondary: detail.shipping_methods.track_number,
                 });
             }
+        } else {
+            items.push({
+                primary: t('trackingorder:trackingOrder'),
+                secondary: detail.shipping_methods.track_number,
+            });
         }
         return (
             <div className={classNames(styles.container, 'row')}>

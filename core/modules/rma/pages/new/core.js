@@ -58,19 +58,22 @@ const CoreNewRma = (props) => {
         loadCustomerData,
         Loader,
         data: objectData,
-        customerData,
         storeConfig,
         order_number: id,
     };
-
-    return (
-        <DefaultLayout {...props} pageConfig={config}>
-            <Content
-                {...contentprops}
-                {...other}
-            />
-        </DefaultLayout>
-    );
+    if (loadCustomerData.data && data) {
+        customerData = loadCustomerData.data.customer;
+        return (
+            <DefaultLayout {...props} pageConfig={config}>
+                <Content
+                    {...contentprops}
+                    {...other}
+                    customerData={customerData}
+                />
+            </DefaultLayout>
+        );
+    }
+    return <Loader />;
 };
 
 CoreNewRma.propTypes = {
@@ -82,8 +85,8 @@ CoreNewRma.propTypes = {
 };
 
 CoreNewRma.defaultProps = {
-    Loader: () => {},
-    WarningInfo: () => {},
+    Loader: () => { },
+    WarningInfo: () => { },
     pageConfig: {},
 };
 
