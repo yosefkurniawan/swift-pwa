@@ -1,17 +1,17 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
-    CreatePadding, CenterAbsolute, FlexColumn, CreateMargin,
+    CreatePadding, CenterAbsolute, FlexColumn, CreateMargin, Centering,
 } from '@theme_mixins';
-import { WHITE } from '@theme_color';
+import { WHITE, GRAY_PRIMARY } from '@theme_color';
 
 export default makeStyles((theme) => ({
     container: {
         width: '100%',
-        height: '100vh',
         ...CreatePadding(30, 70, 30, 70),
         ...FlexColumn,
         alignItems: 'center',
         overflow: 'hidden',
+        justifyContent: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -49,8 +49,43 @@ export default makeStyles((theme) => ({
         marginTop: 20,
         width: '100%',
         ...FlexColumn,
-        alignItems: 'flex-start',
+        alignItems: 'center',
+        justifyContent: 'center',
         [theme.breakpoints.down('sm')]: {
+            alignItems: 'center',
+            ...FlexColumn,
+        },
+    },
+
+    wrapperBank: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: 20,
+        width: '100%',
+        justifyContent: 'center',
+        [theme.breakpoints.down('md')]: {
+            ...FlexColumn,
+            alignItems: 'center',
+            '&> *': {
+                textAlign: 'center !important',
+            },
+        },
+        ...CreatePadding(10, 10, 10, 10),
+    },
+
+    bankItem: {
+        width: '16vw',
+        height: '10vw',
+        border: `0.5px solid ${GRAY_PRIMARY}`,
+        ...FlexColumn,
+        ...Centering,
+        fontSize: 12,
+        ...CreateMargin(0, 8, 0, 0),
+        [theme.breakpoints.down('md')]: {
+            ...FlexColumn,
+            width: '90%',
+            height: '20vw',
+            ...CreateMargin(8, 0, 8, 0),
             alignItems: 'center',
             '&> *': {
                 textAlign: 'center !important',
@@ -64,10 +99,9 @@ export default makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'fixed',
         bottom: 0,
         left: 0,
-        ...CenterAbsolute,
+        ...Centering,
         ...CreatePadding(20, 60, 30, 60),
     },
     btnConfirm: {
@@ -99,7 +133,7 @@ export default makeStyles((theme) => ({
         bottom: 0,
         left: 0,
         opacity: 'none',
-        ...CenterAbsolute,
+        ...Centering,
         color: WHITE,
         borderRadius: 100,
     },
@@ -113,6 +147,7 @@ export default makeStyles((theme) => ({
     dateOver: {
         marginTop: 15,
         marginLeft: '0px !important',
+        textAlign: 'center',
     },
 
     footerDesktop: {
