@@ -18,7 +18,7 @@ const TYPE_PWA_PRODUCT = 'pwa-catalog-products-list';
 
 const DOM_NAME = 'pwa';
 
-const Widget = (props) => {
+const CmsRenderer = (props) => {
     const { type, content, storeConfig } = props;
 
     /**
@@ -63,4 +63,4 @@ const Widget = (props) => {
 
 const notRenderIf = (prevProps, nextProps) => prevProps.content === nextProps.content;
 
-export default memo(Widget, notRenderIf);
+export default memo(CmsRenderer, notRenderIf);
