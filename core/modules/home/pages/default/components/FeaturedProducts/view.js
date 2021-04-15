@@ -104,6 +104,7 @@ const MobileView = ({
                                 slideLg={category_image ? 4 : 6}
                                 Item={ProductItem}
                                 enableAddToCart={false}
+                                enableQuickView={false}
                                 {...other}
                             />
                         </div>

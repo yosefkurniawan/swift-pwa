@@ -289,6 +289,9 @@ const modules = {
             addToCart: {
                 enabled: false,
             },
+            quickView: {
+                enabled: true,
+            },
         },
         pdp: {
             popupDetailImage: {

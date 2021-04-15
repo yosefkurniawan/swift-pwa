@@ -77,7 +77,7 @@ const WidgetListProduct = (props) => {
                     <SkeletonWidget />
                 </div>
                 <div className="full-width widget-product-list hide">
-                    <Carousel data={dataItems} Item={ProductItem} />
+                    <Carousel enableQuickView={false} data={dataItems} Item={ProductItem} />
                 </div>
             </>
         );

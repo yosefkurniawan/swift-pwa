@@ -2,7 +2,9 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
     CreatePadding, FlexColumn, Centering, CreateMargin, ClearMarginPadding, FlexRow, CenterAbsolute,
 } from '@theme_mixins';
-import { GRAY_PRIMARY, PRIMARY, WHITE } from '@theme_color';
+import {
+    GRAY_PRIMARY, GRAY_THIRD, PRIMARY, WHITE,
+} from '@theme_color';
 
 export default makeStyles((theme) => ({
     container: {},
@@ -19,6 +21,30 @@ export default makeStyles((theme) => ({
         },
         '& a': {
             cursor: 'pointer',
+        },
+    },
+    quickView: {
+        '& .btn-quick-view': {
+            position: 'absolute',
+            top: 5,
+            right: 5,
+            zIndex: 999,
+            clear: 'both',
+            background: 'transparent',
+            border: 'none',
+            fontWeight: 'bold',
+            color: GRAY_THIRD,
+            cursor: 'pointer',
+            outline: 'none',
+            display: 'none',
+        },
+        [theme.breakpoints.up('sm')]: {
+            '&:hover': {
+                '& .btn-quick-view': {
+                    display: 'inline-block',
+                },
+                boxShadow: '0px 5px 5px 2px rgba(0,0,0,0.3)',
+            },
         },
     },
     badgesNewSales: {
