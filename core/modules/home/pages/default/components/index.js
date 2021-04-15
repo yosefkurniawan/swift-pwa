@@ -12,7 +12,7 @@ const Content = (props) => {
     } = props;
     const { useCmsPage } = modules.home;
 
-    if (useCmsPage) return <CmsPage onlyCms slug={['pwa-homepage']} withLayoutHeader={false} withLayoutFooter={false} withCmsTitle={false} {...other} />;
+    if (useCmsPage.enable) return <CmsPage onlyCms slug={[useCmsPage.identifier]} withLayoutHeader={false} withLayoutFooter={false} withCmsTitle={false} {...other} />;
 
     return (
         <div className={styles.container}>
