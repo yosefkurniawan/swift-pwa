@@ -229,7 +229,7 @@ const DefaultView = (props) => {
                                                 }
                                                 <TableRow>
                                                     <TablePagination
-                                                        rowsPerPageOptions={[10, 20, 50, { label: 'All', value: -1 }]}
+                                                        rowsPerPageOptions={[10, 20, 50, { label: 'All', value: data.total_count }]}
                                                         colSpan={6}
                                                         count={data.total_count || 0}
                                                         rowsPerPage={pageSize}
