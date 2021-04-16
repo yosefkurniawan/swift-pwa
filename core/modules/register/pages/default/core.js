@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import Layout from '@layout';
 
 import { setLogin } from '@helper_auth';
@@ -62,6 +63,8 @@ const Register = (props) => {
     });
     const otpConfig = queryOtpConfig();
 
+    const enableOtp = otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_register && modules.register.otp.enabled;
+
     const [sendRegister] = register();
 
     const RegisterSchema = Yup.object().shape({
@@ -74,8 +77,8 @@ const Register = (props) => {
             // eslint-disable-next-line no-use-before-define
             .test('check-pass', t('validate:confirmPassword.wrong'), (input) => input === formik.values.password),
         phoneNumber: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
-        whatsappNumber: Yup.string().required(t('validate:whatsappNumber:required')).matches(regexPhone, t('validate:whatsappNumber:wrong')),
-        otp: otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_register && Yup.number().required('Otp is required'),
+        whatsappNumber: enableOtp && Yup.string().required(t('validate:whatsappNumber:required')).matches(regexPhone, t('validate:whatsappNumber:wrong')),
+        otp: enableOtp && Yup.number().required('Otp is required'),
         captcha: enableRecaptcha && Yup.string().required(`Captcha ${t('validate:required')}`),
     });
 
@@ -226,7 +229,7 @@ const Register = (props) => {
                 {...props}
                 t={t}
                 formik={formik}
-                otpConfig={otpConfig}
+                enableOtp={enableOtp}
                 setdisabled={setdisabled}
                 handleChangePhone={handleChangePhone}
                 handleWa={handleWa}

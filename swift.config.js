@@ -388,6 +388,9 @@ const modules = {
         recaptcha: {
             enabled: true,
         },
+        otp: {
+            enabled: true,
+        },
     },
     trackingorder: {
         enabled: true,
