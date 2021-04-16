@@ -419,7 +419,10 @@ const modules = {
     },
     home: {
         enabled: true,
-        useCmsPage: true,
+        useCmsPage: {
+            enable: true,
+            identifier: 'pwa-homepage',
+        },
         featuresProduct: {
             enable: true,
             url_key: 'homepage-featured-products',
