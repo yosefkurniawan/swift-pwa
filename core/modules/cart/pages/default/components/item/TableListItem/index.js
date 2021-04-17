@@ -227,13 +227,36 @@ const TableListProduct = ({
                                                             ))}
                                                         </div>
                                                     ) : null}
+                                                    {val.customizable_options && val.customizable_options.length ? (
+                                                        <div className="product-options">
+                                                            {val.customizable_options.map((op, idx) => (
+                                                                <div className="option-wrapper" key={idx}>
+                                                                    <div className="row option-wrapper__item">
+                                                                        <strong>
+                                                                            {op.label}
+                                                                            {' '}
+                                                                            :
+                                                                        </strong>
+                                                                        {op.values.map((item, idt) => (
+                                                                            <p key={idt} className="option-item">
+                                                                                {(item.label && item.label !== '') ? item.label : item.value}
+                                                                            </p>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    ) : null}
                                                 </TableCell>
                                                 <TableCell
                                                     align="right"
                                                     className={styles.noBorder}
                                                 >
                                                     <Typography variant="span" align="right" letter="capitalize">
-                                                        {formatPrice(val.prices.price_including_tax.value, val.prices.price_including_tax.currency)}
+                                                        {formatPrice(
+                                                            val.prices.row_total_including_tax.value,
+                                                            val.prices.row_total_including_tax.currency || 'IDR',
+                                                        )}
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell

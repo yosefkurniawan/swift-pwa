@@ -136,11 +136,37 @@ prices {
 }
 `;
 
+const customizable_options = `
+customizable_options {
+  id
+  label
+  is_required
+  sort_order
+  values {
+    label
+    value
+    price {
+      type
+      units
+      value
+    }
+  }
+}
+`;
+
 const items = `
 items {
   id
   quantity
+  ... on SimpleCartItem {
+    ${customizable_options}
+  }
+
+  ... on VirtualCartItem {
+    ${customizable_options}
+  }
   ... on ConfigurableCartItem {
+      ${customizable_options}
       configurable_options {
       option_label
       value_label
@@ -158,6 +184,7 @@ items {
     }
   }
   ... on DownloadableCartItem {
+    ${customizable_options}
     links {
       title
     }
@@ -304,7 +331,16 @@ export const getMiniCart = gql`
             items {
               id
               quantity
+              ... on SimpleCartItem {
+                ${customizable_options}
+              }
+
+              ... on VirtualCartItem {
+                ${customizable_options}
+              }
+
               ... on ConfigurableCartItem {
+                  ${customizable_options}
                   configurable_options {
                   option_label
                   value_label
@@ -322,6 +358,7 @@ export const getMiniCart = gql`
                 }
               }
               ... on DownloadableCartItem {
+                ${customizable_options}
                 links {
                   title
                 }

@@ -9,6 +9,7 @@ import { useTranslation } from '@i18n';
 const Item = (props) => {
     const {
         quantity, prices, product, deleteCart, updateCart, id, configurable_options, bundle_options,
+        customizable_options,
     } = props;
     const { t } = useTranslation(['common']);
     return (
@@ -63,6 +64,26 @@ const Item = (props) => {
                                                     {item.price}
                                                 </strong>
                                             </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : null}
+                    {customizable_options && customizable_options.length ? (
+                        <div className="product-options">
+                            {customizable_options.map((val, idx) => (
+                                <div className="option-wrapper" key={idx}>
+                                    <div className="row option-wrapper__item">
+                                        <strong>
+                                            {val.label}
+                                            {' '}
+                                            :
+                                        </strong>
+                                        {val.values.map((item, idt) => (
+                                            <p key={idt} className="option-item">
+                                                {(item.label && item.label !== '') ? item.label : item.value}
+                                            </p>
                                         ))}
                                     </div>
                                 </div>

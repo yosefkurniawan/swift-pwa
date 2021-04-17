@@ -113,6 +113,17 @@ export const getProduct = (url) => {
             }
           ) {
             items {
+              ${modules.product.customizableOptions.enabled && `
+              ... on CustomizableProductInterface {
+                options {
+                  title
+                  option_id
+                  required
+                  sort_order
+                  __typename
+                }
+              }
+              `}
               ${productDetail}
               ${priceRange}
               ${priceTiers}

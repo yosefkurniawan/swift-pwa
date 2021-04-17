@@ -88,7 +88,7 @@ const ConfirmPaymentPage = (props) => {
         const temporaryData = [];
         bankList.getPaymentBankList.map((item) => {
             const data = {
-                value: `${item.banknumber} (${item.placeholder})`,
+                value: `${item.bankname} - ${item.banknumber} (${item.placeholder})`,
                 label: `${item.bankname} - ${item.banknumber} (${item.placeholder})`,
             };
             temporaryData.push(data);

@@ -2,6 +2,7 @@ import { getCartId, setCartId } from '@helper_cartid';
 import { getLoginInfo } from '@helper_auth';
 import { useApolloClient } from '@apollo/client';
 import { localTotalCart } from '@services/graphql/schema/local';
+import { modules } from '@config';
 // import Router from 'next/router';
 import React from 'react';
 import TagManager from 'react-gtm-module';
@@ -15,6 +16,9 @@ const CoreOptionsItemVirtual = ({
     handleAddToCart: CustomAddToCart,
     loading: customLoading,
     setLoading: setCustomLoading,
+    checkCustomizableOptionsValue,
+    errorCustomizableOptions,
+    customizableOptions,
     ...other
 }) => {
     const [qty, setQty] = React.useState(1);
@@ -42,11 +46,62 @@ const CoreOptionsItemVirtual = ({
     const [getGuestCartId] = queryGetGuestCartId();
     const cartUser = getCustomerCartId();
 
-    const handleAddToCart = async () => {
+    const addToCart = async () => {
+        let customizable_options = [];
+        const entered_options = [];
+        if (modules.product.customizableOptions.enabled && customizableOptions && customizableOptions.length > 0) {
+            customizableOptions.map((op) => {
+                if (customizable_options.length > 0) {
+                    const findOptions = customizable_options.find((item) => item.id === op.option_id);
+                    if (findOptions) {
+                        customizable_options = customizable_options.filter(
+                            (item) => item.id !== op.option_id,
+                        );
+                        if (op.isEnteredOption) {
+                            entered_options.push({
+                                uid: op.uid,
+                                value: `${findOptions.value_string},${op.value}`,
+                            });
+                        } else {
+                            customizable_options.push({
+                                id: op.option_id,
+                                value_string: `${findOptions.value_string},${op.value}`,
+                            });
+                        }
+                    } else if (op.isEnteredOption) {
+                        entered_options.push({
+                            uid: op.uid,
+                            value: op.value,
+                        });
+                    } else {
+                        customizable_options.push({
+                            id: op.option_id,
+                            value_string: op.value,
+                        });
+                    }
+                }
+                if (customizable_options.length === 0) {
+                    if (op.isEnteredOption) {
+                        entered_options.push({
+                            uid: op.uid,
+                            value: op.value,
+                        });
+                    } else {
+                        customizable_options.push({
+                            id: op.option_id,
+                            value_string: op.value,
+                        });
+                    }
+                }
+                return op;
+            });
+        }
         if (CustomAddToCart && typeof CustomAddToCart === 'function') {
             CustomAddToCart({
                 ...data,
                 qty: parseFloat(qty),
+                customizable_options,
+                entered_options,
             });
         } else {
             setLoading(true);
@@ -102,6 +157,8 @@ const CoreOptionsItemVirtual = ({
                         cartId,
                         sku,
                         qty: parseFloat(qty),
+                        customizable_options,
+                        entered_options,
                     },
                 })
                     .then((res) => {
@@ -122,6 +179,17 @@ const CoreOptionsItemVirtual = ({
                         });
                     });
             }
+        }
+    };
+
+    const handleAddToCart = async () => {
+        if (modules.product.customizableOptions.enabled) {
+            const check = await checkCustomizableOptionsValue();
+            if (check) {
+                addToCart();
+            }
+        } else {
+            addToCart();
         }
     };
 

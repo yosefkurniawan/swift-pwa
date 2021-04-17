@@ -140,10 +140,15 @@ const useStyles = makeStyles(() => ({
                 paddingLeft: 88,
             },
             '& .product-options': {
+                marginTop: 10,
                 '& .option-wrapper': {
                     fontSize: 10,
                     '& .option-wrapper__item': {
                         paddingLeft: 10,
+                    },
+                    '& .option-item': {
+                        margin: 0,
+                        marginLeft: 5,
                     },
                 },
             },
@@ -153,6 +158,7 @@ const useStyles = makeStyles(() => ({
                 height: 20,
                 '& .details-qty': {
                     float: 'left',
+                    marginLeft: 5,
                     marginTop: 5,
                     '& .label': {
                         float: 'left',
