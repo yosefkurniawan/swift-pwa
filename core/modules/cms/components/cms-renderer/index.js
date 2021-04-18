@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import React, { memo } from 'react';
-import parse from 'html-react-parser';
+import parse, { domToReact } from 'html-react-parser';
 import WidgetPwaLink from './widget-link-pwa';
 import WidgetListProduct from './widget-list-product';
 import WidgetListBrand from './widget-list-brand';
@@ -22,8 +22,9 @@ const CmsRenderer = (props) => {
     const { type, content, storeConfig } = props;
 
     React.useEffect(() => {
+        const coll = document.getElementsByClassName('collapsible');
+        let i;
         setTimeout(() => {
-            const coll = document.getElementsByClassName('collapsible');
             if (coll[0]) {
                 coll[0].classList.toggle('active');
                 const contentCMS = coll[0].nextElementSibling;
@@ -34,11 +35,6 @@ const CmsRenderer = (props) => {
                 }
             }
         }, 1000);
-    });
-
-    const onCollapseCMS = () => {
-        const coll = document.getElementsByClassName('collapsible');
-        let i;
         /* eslint-disable */
         for (i = 0; i < coll.length; i += 1) {
             coll[i].addEventListener("click", function () {
@@ -52,7 +48,8 @@ const CmsRenderer = (props) => {
             });
         }
         /* eslint-enable */
-    };
+    });
+
     /**
      * component conversion
      * NOTES*: validateDOMNesting(...): <div> cannot appear as a descendant of <p>
@@ -87,23 +84,18 @@ const CmsRenderer = (props) => {
                             return (
                                 <button
                                     type="button"
-                                    onClick={() => onCollapseCMS()}
                                     className="collapsible"
                                 >
                                     {domToReact(domNode.children, domNode)}
                                 </button>
                             );
-                        }
-
-                        if (domNode.attribs.class === 'acc_content clearfix') {
+                        } else if (domNode.attribs.class === 'acc_content clearfix') {
                             return (
                                 <div className="content-collapsible">
                                     {domToReact(domNode.children, domNode)}
                                 </div>
                             )
                         }
-
-                        return null;
                     }
                 },
             });

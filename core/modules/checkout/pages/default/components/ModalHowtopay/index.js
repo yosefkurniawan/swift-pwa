@@ -10,8 +10,8 @@ import Slide from '@material-ui/core/Slide';
 import CloseIcon from '@material-ui/icons/Close';
 import React from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import parse, { domToReact } from 'html-react-parser';
 import gqlService from '../../../../services/graphql';
+import CmsRenderer from '../../../../../cms/components/cms-renderer';
 import useStyles from './style';
 
 const Transition = React.forwardRef((props, ref) => (
@@ -26,55 +26,6 @@ const ModalHowtoPay = ({
     const styles = useStyles();
     const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('md'));
     const { data, error, loading: loadingTutor } = gqlService.getCmsPage({ identifier: 'how-to-pay' });
-
-    React.useEffect(() => {
-        setTimeout(() => {
-            const coll = document.getElementsByClassName('collapsible');
-            if (coll[0]) {
-                coll[0].classList.toggle('active');
-                const content = coll[0].nextElementSibling;
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = `${content.scrollHeight}px`;
-                }
-            }
-        }, 1000);
-    });
-
-    const onCollapse = () => {
-        const coll = document.getElementsByClassName('collapsible');
-        let i;
-        /* eslint-disable */
-        for (i = 0; i < coll.length; i += 1) {
-            coll[i].addEventListener("click", function () {
-                this.classList.toggle("active");
-                let content = this.nextElementSibling;
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                }
-            });
-        }
-        /* eslint-enable */
-    };
-
-    const options = {
-        replace: ({ attribs, children }) => {
-            if (!attribs) {
-                return null;
-            }
-            if (attribs.class === 'acctitle') {
-                return <button type="button" onClick={() => onCollapse()} className="collapsible">{domToReact(children, options)}</button>;
-            }
-
-            if (attribs.class === 'acc_content clearfix') {
-                return <div className="content-collapsible">{domToReact(children, options)}</div>;
-            }
-            return null;
-        },
-    };
 
     if (data && !error) {
         return (
@@ -108,7 +59,7 @@ const ModalHowtoPay = ({
                 <div>
                     <DialogContent dividers>
                         <div className={styles.body}>
-                            {parse(data.cmsPage.content, options)}
+                            <CmsRenderer content={data.cmsPage.content} type="page" />
                         </div>
                     </DialogContent>
 
