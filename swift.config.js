@@ -374,9 +374,6 @@ const modules = {
     login: {
         enabled: true,
         path: '/customer/account/login',
-        recaptcha: {
-            enabled: true,
-        },
     },
     notification: {
         enabled: true,
@@ -386,6 +383,9 @@ const modules = {
         enabled: true,
         path: '/customer/account/create',
         recaptcha: {
+            enabled: true,
+        },
+        otp: {
             enabled: true,
         },
     },
