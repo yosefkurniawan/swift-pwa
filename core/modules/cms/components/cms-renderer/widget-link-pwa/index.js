@@ -61,8 +61,6 @@ const WidgetPwaLink = (props) => {
     return (
         <a {...propsLink} {...propsOther}>
             {text}
-            {' '}
-            {JSON.stringify(isExternal)}
         </a>
     );
 };
