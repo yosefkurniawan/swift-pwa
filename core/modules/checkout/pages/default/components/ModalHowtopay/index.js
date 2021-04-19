@@ -59,7 +59,7 @@ const ModalHowtoPay = ({
                 <div>
                     <DialogContent dividers>
                         <div className={styles.body}>
-                            <CmsRenderer content={data.cmsPage.content} type="page" />
+                            <CmsRenderer content={data.cmsPage.content} />
                         </div>
                     </DialogContent>
 

@@ -8,8 +8,6 @@ import WidgetInstagram from './widget-instagram';
 import WidgetSlider from './widget-slider';
 import WidgetView from './view';
 
-const TYPE_PAGE = 'page';
-
 const TYPE_PWA_SLIDER = 'pwa-slider';
 const TYPE_PWA_FEATURED = 'pwa-featured-brands';
 const TYPE_PWA_INSTAGRAM = 'pwa-instagram';
@@ -19,7 +17,7 @@ const TYPE_PWA_PRODUCT = 'pwa-catalog-products-list';
 const DOM_NAME = 'pwa';
 
 const CmsRenderer = (props) => {
-    const { type, content, storeConfig } = props;
+    const { content, storeConfig } = props;
 
     React.useEffect(() => {
         const coll = document.getElementsByClassName('collapsible');
@@ -58,48 +56,46 @@ const CmsRenderer = (props) => {
      */
     /* eslint-disable */
     const WidgetComponent = () => {
-        if (type === TYPE_PAGE) {
-            return parse(content, {
-                replace: (domNode) => {
-                    if (domNode.name === DOM_NAME && domNode.attribs) {
-                        const propsWidget = domNode.attribs;
-                        switch (domNode.attribs.type) {
-                            case TYPE_PWA_SLIDER:
-                                return <WidgetSlider {...propsWidget} storeConfig={storeConfig} />;
-                            case TYPE_PWA_FEATURED:
-                                return <WidgetListBrand {...propsWidget} />;
-                            case TYPE_PWA_INSTAGRAM:
-                                return <WidgetInstagram {...propsWidget} />;
-                            case TYPE_PWA_PAGELINK:
-                                return <WidgetPwaLink {...propsWidget} />;
-                            case TYPE_PWA_PRODUCT:
-                                return <WidgetListProduct {...propsWidget} />;
-                            default:
-                                return <div>Unable to render the content!</div>;
-                        }
+        return parse(content, {
+            replace: (domNode) => {
+                if (domNode.name === DOM_NAME && domNode.attribs) {
+                    const propsWidget = domNode.attribs;
+                    switch (domNode.attribs.type) {
+                        case TYPE_PWA_SLIDER:
+                            return <WidgetSlider {...propsWidget} storeConfig={storeConfig} />;
+                        case TYPE_PWA_FEATURED:
+                            return <WidgetListBrand {...propsWidget} />;
+                        case TYPE_PWA_INSTAGRAM:
+                            return <WidgetInstagram {...propsWidget} />;
+                        case TYPE_PWA_PAGELINK:
+                            return <WidgetPwaLink {...propsWidget} />;
+                        case TYPE_PWA_PRODUCT:
+                            return <WidgetListProduct {...propsWidget} />;
+                        default:
+                            return <div>Unable to render the content!</div>;
                     }
+                }
 
-                    if (domNode.attribs) {
-                        if (domNode.attribs.class === 'acctitle') {
-                            return (
-                                <button
-                                    type="button"
-                                    className="collapsible"
-                                >
-                                    {domToReact(domNode.children, domNode)}
-                                </button>
-                            );
-                        } else if (domNode.attribs.class === 'acc_content clearfix') {
-                            return (
-                                <div className="content-collapsible">
-                                    {domToReact(domNode.children, domNode)}
-                                </div>
-                            )
-                        }
+                if (domNode.attribs) {
+                    if (domNode.attribs.class === 'acctitle') {
+                        return (
+                            <button
+                                type="button"
+                                className="collapsible"
+                            >
+                                {domToReact(domNode.children, domNode)}
+                            </button>
+                        );
+                    } else if (domNode.attribs.class === 'acc_content clearfix') {
+                        return (
+                            <div className="content-collapsible">
+                                {domToReact(domNode.children, domNode)}
+                            </div>
+                        )
                     }
-                },
-            });
-        }
+                }
+            },
+        });
     };
     /* eslint-enable */
 
