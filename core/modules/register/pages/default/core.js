@@ -63,7 +63,7 @@ const Register = (props) => {
     });
     const otpConfig = queryOtpConfig();
 
-    const enableOtp = otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_register && modules.register.otp.enabled;
+    const enableOtp = otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_register;
 
     const [sendRegister] = register();
 
