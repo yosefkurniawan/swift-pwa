@@ -11,8 +11,9 @@ const useStyles = makeStyles(() => ({
         ...CreatePadding(15, 15, 15, 15),
     },
     countProductText: {
-        justifyContent: 'flex-start',
         ...FONT_10,
+        marginLeft: 20,
+        paddingTop: 3,
     },
     filterBtnContainer: {
         justifyContent: 'flex-end',
@@ -27,6 +28,20 @@ const useStyles = makeStyles(() => ({
     iconFilter: {
         fontSize: 18,
         fontWeight: 'reguler',
+    },
+    iconGrid: {
+        fontSize: 18,
+        fontWeight: 'reguler',
+    },
+    iconList: {
+        fontSize: 18,
+        fontWeight: 'reguler',
+    },
+    leftWrapperFilter: {
+        ...FlexRow,
+        ...CreatePadding(2, 0, 2, 0),
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     tabs: {
         boxShadow: 'none',
