@@ -33,7 +33,7 @@ const Layout = (props) => {
             href: '/inboxnotification/notification',
             title: t('customer:menu:notification'),
         }),
-        { href: '/customer/setting', title: t('customer:menu:setting') },
+        { href: '/customer/newsletter', title: t('customer:setting:newsletter') },
         ...pushIf(modules.rma.enabled, {
             href: '/rma/customer',
             title: t('customer:menu:return'),
@@ -62,7 +62,7 @@ const Layout = (props) => {
                             <li
                                 key={idx}
                                 className={
-                                    ((router.asPath === val.href) || (val.href === activeMenu))
+                                    router.asPath === val.href || val.href === activeMenu
                                         ? classNames(styles.listMenuItem, styles.listMenuItemActive)
                                         : styles.listMenuItem
                                 }
@@ -76,12 +76,7 @@ const Layout = (props) => {
                 </div>
             </div>
             <div className="col-md-10 col-xs-12 col-sm-12">
-                <Typography
-                    variant="h4"
-                    type="bold"
-                    letter="capitalize"
-                    className={classNames('hidden-mobile', styles.titleContent)}
-                >
+                <Typography variant="h4" type="bold" letter="capitalize" className={classNames('hidden-mobile', styles.titleContent)}>
                     {title || titlePage}
                 </Typography>
                 {children}

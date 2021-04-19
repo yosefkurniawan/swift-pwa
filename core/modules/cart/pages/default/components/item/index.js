@@ -10,7 +10,7 @@ import TableList from './TableListItem';
 const ItemProduct = (props) => {
     const {
         t, editMode, toggleEditDrawer, product, quantity, configurable_options = [], deleteItem, prices,
-        handleFeed, bundle_options, links,
+        handleFeed, bundle_options, links, customizable_options,
     } = props;
     const [confirmDel, setConfirmDel] = useState(false);
     const handleDelete = () => {
@@ -41,6 +41,7 @@ const ItemProduct = (props) => {
             prices={prices}
             editMode={editMode}
             toggleEditDrawer={toggleEditDrawer}
+            customizable_options={customizable_options}
         />
     );
 };

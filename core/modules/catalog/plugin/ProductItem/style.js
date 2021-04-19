@@ -99,16 +99,14 @@ export default makeStyles((theme) => ({
     customBtnAddToCard: {
         [theme.breakpoints.down('sm')]: {
             ...CenterAbsolute,
+            height: 35,
         },
         [theme.breakpoints.up('sm')]: {
-            width: 150,
-            float: 'left',
-            maxWidth: '75%',
-            ...CenterAbsolute,
+            ...CreateMargin(5, 5, 5, 5),
         },
-        ...CreateMargin(0, 8, 0, 0),
+        ...CreateMargin(0, 0, 0, 0),
         width: '100%',
-        height: 35,
+        height: 30,
         bottom: 0,
         left: 0,
         opacity: 'none',

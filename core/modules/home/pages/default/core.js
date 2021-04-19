@@ -17,11 +17,13 @@ const HomeCore = (props) => {
             '@context': 'https://schema.org',
             '@type': 'WebSite',
             url: `${getHost()}/`,
-            potentialAction: [{
-                '@type': 'SearchAction',
-                target: `${getHost()}/catalogsearch/result?q={search_term_string}`,
-                'query-input': 'required name=search_term_string',
-            }],
+            potentialAction: [
+                {
+                    '@type': 'SearchAction',
+                    target: `${getHost()}/catalogsearch/result?q={search_term_string}`,
+                    'query-input': 'required name=search_term_string',
+                },
+            ],
         },
     ];
 

@@ -25,9 +25,7 @@ const Banner = ({
     const [count, setCount] = useState(0);
     let sliderRef = React.createRef();
 
-    const dotActive = data.length > 1
-        ? classNames(styles.dotsItem, styles.dotActive)
-        : styles.hide;
+    const dotActive = data.length > 1 ? classNames(styles.dotsItem, styles.dotActive) : styles.hide;
     const dotItem = data.length > 1 ? styles.dotsItem : styles.hide;
     const handleLeftArrow = () => {
         if (slideIndex === 0) {
@@ -53,45 +51,33 @@ const Banner = ({
         speed,
         autoplaySpeed,
         rtl: true,
+        arrows: false,
         afterChange: () => setCount(count + 1),
         beforeChange: (current, next) => setIndex(next),
     };
 
     return (
         <div className={styles.caraousel}>
-            <Slider ref={(slider) => sliderRef = slider} {...settings}>
+            <Slider ref={(slider) => (sliderRef = slider)} {...settings}>
                 {data.map((item, key) => (
-                    <ImageSlide
-                        height={height}
-                        width={width}
-                        noLink={noLink}
-                        contentWidth={contentWidth}
-                        key={key}
-                        {...item}
-                    />
+                    <ImageSlide height={height} width={width} noLink={noLink} contentWidth={contentWidth} key={key} {...item} />
                 ))}
             </Slider>
-            {
-                showArrow ? (
-                    <>
-                        <div className={classNames(styles.arrow, styles.leftArrow)} onClick={handleLeftArrow}>
-                            <LeftArrowIcon fontSize="inherit" />
-                        </div>
-                        <div className={classNames(styles.arrow, styles.rightArrow)} onClick={handleRightArrow}>
-                            <RightArrowIcon fontSize="inherit" />
-                        </div>
-                    </>
-                ) : null
-            }
+            {showArrow ? (
+                <>
+                    <div className={classNames(styles.arrow, styles.leftArrow)} onClick={handleLeftArrow}>
+                        <LeftArrowIcon fontSize="inherit" />
+                    </div>
+                    <div className={classNames(styles.arrow, styles.rightArrow)} onClick={handleRightArrow}>
+                        <RightArrowIcon fontSize="inherit" />
+                    </div>
+                </>
+            ) : null}
             <div className={styles.dots}>
                 {data.map((item, id) => (
                     /* eslint-disable jsx-a11y/click-events-have-key-events */
                     /* eslint-disable jsx-a11y/no-static-element-interactions */
-                    <div
-                        className={slideIndex === id ? dotActive : dotItem}
-                        key={id}
-                        onClick={() => sliderRef.slickGoTo(id)}
-                    />
+                    <div className={slideIndex === id ? dotActive : dotItem} key={id} onClick={() => sliderRef.slickGoTo(id)} />
                 ))}
             </div>
         </div>

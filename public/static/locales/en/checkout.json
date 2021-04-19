@@ -41,6 +41,8 @@
         "emptyShippingError": "Please set address and select shipping method steps first",
         "couponRemoved": "Coupon has been removed",
         "couponApplied": "Coupon has been applied",
+        "orderCommentAdded": "Order Comment has been added",
+        "orderCommentRemoved": "Order Comment has been removed",
         "giftCardApplied": "Coupon has been applied",
         "giftCardRemoved": "Coupon has been removed",
         "rewardPointsApplied": "Reward points has been applied",

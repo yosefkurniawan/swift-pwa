@@ -17,18 +17,26 @@ const Customer = (props) => {
         && customerNotificationList.customerNotificationList
         && customerNotificationList.customerNotificationList.totalUnread;
 
-    if (!data || loading || error) return <Layout {...props}><Skeleton /></Layout>;
+    if (!data || loading || error) {
+        return (
+            <Layout {...props}>
+                <Skeleton />
+            </Layout>
+        );
+    }
     if (data) {
         userData = data;
         if (modules.wishlist.enabled) {
-            wishlist = data.customer && data.customer.wishlist && data.customer.wishlist.items.map(({ product }) => ({
-                ...product,
-                name: product.name,
-                link: product.url_key,
-                imageSrc: product.small_image.url,
-                price: product.price_range.minimum_price.regular_price.value,
-                showWishlistAction: false,
-            }));
+            wishlist = data.customer
+                && data.customer.wishlist
+                && data.customer.wishlist.items.map(({ product }) => ({
+                    ...product,
+                    name: product.name,
+                    link: product.url_key,
+                    imageSrc: product.small_image.url,
+                    price: product.price_range.minimum_price.regular_price.value,
+                    showWishlistAction: false,
+                }));
         }
     }
 
@@ -46,20 +54,25 @@ const Customer = (props) => {
         { href: '/customer/account/profile', title: t('customer:menu:myAccount') },
         { href: '/customer/account/address', title: t('customer:menu:address') },
         ...pushIf(wishlist.length && modules.wishlist.enabled <= 0, {
-            href: '/wishlist', title: 'Wishlist',
+            href: '/wishlist',
+            title: 'Wishlist',
         }),
         ...pushIf(modules.giftcard.enabled, {
-            href: '/awgiftcard/card', title: 'Gift Card',
+            href: '/awgiftcard/card',
+            title: 'Gift Card',
         }),
         ...pushIf(modules.storecredit.enabled, {
-            href: '/customer/account/storecredit', title: t('customer:menu:storeCredit'),
+            href: '/customer/account/storecredit',
+            title: t('customer:menu:storeCredit'),
         }),
         ...pushIf(modules.notification.enabled, {
-            href: '/inboxnotification/notification', title: t('notification:notification'),
+            href: '/inboxnotification/notification',
+            title: t('notification:notification'),
         }),
-        { href: '/customer/setting', title: t('customer:menu:setting') },
+        { href: '/customer/newsletter', title: t('customer:setting:newsletter') },
         ...pushIf(modules.rma.enabled, {
-            href: '/rma/customer', title: t('customer:menu:return'),
+            href: '/rma/customer',
+            title: t('customer:menu:return'),
         }),
     ];
 

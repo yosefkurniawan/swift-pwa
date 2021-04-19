@@ -18,7 +18,8 @@ mutation confirmPayment(
           amount: $amount,
           date: $date,
           order_number: $order_number,
-          payment: $payment,
+          payment_from:$account_number,
+          payment_to: $payment,
           filename: $filename,
           image_base64: $image_base64
         }
@@ -28,6 +29,17 @@ mutation confirmPayment(
 }
 `;
 
+export const getPaymentBankList = gql`
+    query {
+      getPaymentBankList{
+        bankname
+        banknumber
+        placeholder
+      }
+    }
+`;
+
 export default {
     confirmPayment,
+    getPaymentBankList,
 };
