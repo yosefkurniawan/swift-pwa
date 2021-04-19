@@ -420,7 +420,7 @@ const modules = {
     home: {
         enabled: true,
         useCmsPage: {
-            enable: true,
+            enable: false,
             identifier: 'pwa-homepage',
         },
         featuresProduct: {
