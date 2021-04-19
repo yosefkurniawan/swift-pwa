@@ -2,7 +2,7 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-return-assign */
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import Carousel from '@common_slick/Caraousel';
 import ProductItem from '@core_modules/catalog/plugin/ProductItem';
 import GridList from '@common_gridlist';
@@ -27,16 +27,18 @@ const getDataCondition = ({ condition_object }) => {
     return conditions;
 };
 
+/**
+ * [CONSTANT] variable
+ */
 const TEMPLATE_SLIDER = 'slider';
 const TEMPLATE_GRID = 'grid';
 
 const WidgetListProduct = (props) => {
     const { template, products_count, conditions_encoded } = props;
     const condition_object = JSON.parse(conditions_encoded);
-    const mount = useRef();
+    const dataCondition = getDataCondition({ condition_object });
     const page = 1;
 
-    const dataCondition = getDataCondition({ condition_object });
     let dataLoading = true;
     let dataItems = [];
 
@@ -50,27 +52,22 @@ const WidgetListProduct = (props) => {
     }
 
     /**
-     * [useEffect]
+     * [METHOD] on reinit trigger when all data has been rendered, hide skeleton
      */
-    useEffect(() => {
-        mount.current = true;
-        if (typeof window !== 'undefined' && mount.current) {
-            if (document.getElementsByClassName('widget-product-list')) {
-                const elms = document.getElementsByClassName('widget-product-list');
-                for (let i = 0; i < elms.length; i++) {
-                    elms[i].className = 'full-width widget-product-list';
-                }
-            }
-            if (document.getElementsByClassName('widget-product-list-skeleton')) {
-                const elms = document.getElementsByClassName('widget-product-list-skeleton');
-                for (let i = 0; i < elms.length; i++) {
-                    elms[i].className = 'full-width widget-product-list-skeleton hide';
-                }
+    const onReInit = () => {
+        if (document.getElementsByClassName('widget-product-list')) {
+            const elms = document.getElementsByClassName('widget-product-list');
+            for (let i = 0; i < elms.length; i++) {
+                elms[i].className = 'full-width widget-product-list';
             }
         }
-
-        return () => (mount.current = false);
-    }, []);
+        if (document.getElementsByClassName('widget-product-list-skeleton')) {
+            const elms = document.getElementsByClassName('widget-product-list-skeleton');
+            for (let i = 0; i < elms.length; i++) {
+                elms[i].className = 'full-width widget-product-list-skeleton hide';
+            }
+        }
+    };
 
     /**
      * [TEMPLATE] type slider
@@ -84,7 +81,7 @@ const WidgetListProduct = (props) => {
                     <SkeletonWidget />
                 </div>
                 <div className={classProductList}>
-                    <Carousel data={dataItems} Item={ProductItem} slideLg={dataItems?.length > 10 ? 6 : 4} />
+                    <Carousel onReInit={onReInit} data={dataItems} Item={ProductItem} slideLg={dataItems?.length > 10 ? 6 : 4} />
                 </div>
             </>
         );
@@ -111,13 +108,20 @@ const WidgetListProduct = (props) => {
         );
     }
 
-    return (
-        <div>
-            our widget still not supported for
-            {' '}
-            <strong>{dataCondition.attribute}</strong>
-        </div>
-    );
+    /**
+     * [TEMPLATE] not found
+     */
+    if (!dataLoading && dataItems?.length < 1) {
+        return (
+            <div>
+                our widget still not supported for
+                {' '}
+                <strong>{dataCondition.attribute}</strong>
+            </div>
+        );
+    }
+
+    return <SkeletonWidget />;
 };
 
 export default WidgetListProduct;
