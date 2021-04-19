@@ -1,6 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import Button from '@common_button';
 
@@ -10,13 +10,27 @@ const WidgetPwaLink = (props) => {
     } = props;
     const customStyle = props?.class;
     const buttonText = props?.button;
+    const isExternal = url.startsWith('http');
+    const router = useRouter();
+
     if (!url) return <span>no url found in pwa link widget</span>;
 
+    const propsLink = {};
     const propsOther = {};
     if (customStyle !== undefined) {
         propsOther.className = customStyle;
     }
+
+    if (isExternal) {
+        propsLink.href = url;
+    } else {
+        propsLink.onClick = () => {
+            router.push('/[...slug]', url);
+        };
+    }
+
     /**
+     * {{widget type="pwa-cms-page-link" pwa_link_type="text" text="View All" class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiTypography-caption MuiTypography-alignLeft homepage-product-list-btn-viewall-text homepage-product-list-btn-viewall" url="/about-us"}}
      * [LINK] button
      * @return {link-button}
      */
@@ -34,9 +48,9 @@ const WidgetPwaLink = (props) => {
      */
     if (pwa_link_type === 'image') {
         return (
-            <Link href={url}>
+            <a {...propsLink}>
                 <img {...propsOther} src={image} alt={`${type}-${pwa_link_type}`} />
-            </Link>
+            </a>
         );
     }
 
@@ -45,9 +59,11 @@ const WidgetPwaLink = (props) => {
      * @return {link}
      */
     return (
-        <Link href={url}>
-            <a {...propsOther}>{text}</a>
-        </Link>
+        <a {...propsLink} {...propsOther}>
+            {text}
+            {' '}
+            {JSON.stringify(isExternal)}
+        </a>
     );
 };
 
