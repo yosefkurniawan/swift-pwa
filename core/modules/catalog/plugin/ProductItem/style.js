@@ -21,6 +21,21 @@ export default makeStyles((theme) => ({
             cursor: 'pointer',
         },
     },
+    listContainer: {
+        width: '100%',
+        display: 'flex',
+        height: '100%',
+        overflow: 'hidden',
+        ...CreatePadding(10, 10, 0, 10),
+        ...CreateMargin(0, 0, 16, 0),
+        position: 'relative',
+        '& .MuiSkeleton-rect': {
+            paddingBottom: '120%',
+        },
+        '& a': {
+            cursor: 'pointer',
+        },
+    },
     badgesNewSales: {
         position: 'absolute',
         top: 0,
@@ -31,6 +46,18 @@ export default makeStyles((theme) => ({
         ...FlexRow,
         justifyContent: 'space-between',
         width: '100%',
+        padding: 15,
+    },
+    badgesNewSalesList: {
+        position: 'absolute',
+        width: '80%',
+        top: 0,
+        left: 0,
+        right: 0,
+        borderRadius: 5,
+        zIndex: 1,
+        ...FlexRow,
+        justifyContent: 'space-between',
         padding: 15,
     },
     imgItem: {
@@ -45,6 +72,16 @@ export default makeStyles((theme) => ({
         height: 'auto',
         paddingTop: 14,
         position: 'relative',
+    },
+    listImgItem: {
+        flex: 0.3,
+        ...Centering,
+        position: 'relative',
+    },
+    listDetailItem: {
+        height: 'auto',
+        position: 'relative',
+        flex: 0.4,
     },
     descItem: {
         ...FlexColumn,

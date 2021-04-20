@@ -16,14 +16,14 @@ import {
 
 const OptionsItemConfig = (props) => {
     const {
-        setBanner = () => {},
-        setPrice = () => {},
+        setBanner = () => { },
+        setPrice = () => { },
         t,
         data,
-        setOpen = () => {},
+        setOpen = () => { },
         ConfigurableView,
         Footer,
-        setStockStatus = () => {},
+        setStockStatus = () => { },
         stockStatus = '',
         handleAddToCart: CustomAddToCart,
         View,
@@ -32,7 +32,8 @@ const OptionsItemConfig = (props) => {
         checkCustomizableOptionsValue,
         errorCustomizableOptions,
         customizableOptions,
-        handleSelecteProduct = () => {},
+        handleSelecteProduct = () => { },
+        isGrid,
         ...other
     } = props;
 
@@ -347,6 +348,7 @@ const OptionsItemConfig = (props) => {
             t={t}
             loading={loading || configProduct.loading}
             disabled={!selectedProduct || !selectedProduct.sku || stockStatus === 'OUT_OF_STOCK'}
+            isGrid={isGrid}
             {...other}
         />
     );

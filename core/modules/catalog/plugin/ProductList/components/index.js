@@ -3,6 +3,7 @@ import GridList from '@common_gridlist';
 import Typography from '@common_typography';
 import classNames from 'classnames';
 import { modules } from '@config';
+import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
 import Filter from './Filter';
 import FilterDesktop from './FilterDesktop';
 import ProductItem from '../../ProductItem/index';
@@ -18,7 +19,7 @@ const Content = (props) => {
         loadmore, handleLoadMore, dataTabs, onChangeTabs, ...other
     } = props;
     const styles = useStyles();
-    const [isGrid, setGridState] = useState(true);
+    const [isGrid, setGridState] = useState(null);
 
     const handleScroll = () => {
         // To get page offset of last user
@@ -34,7 +35,8 @@ const Content = (props) => {
         }
     };
 
-    const setGrid = (state) => {
+    const setGrid = async (state) => {
+        setLocalStorage('isGrid', state);
         setGridState(state);
     };
 
@@ -44,6 +46,11 @@ const Content = (props) => {
             window.removeEventListener('scroll', handleScroll);
         };
     });
+
+    useEffect(() => {
+        const gridView = getLocalStorage('isGrid');
+        setGridState(gridView);
+    }, [isGrid]);
 
     return (
         <>
@@ -126,6 +133,7 @@ const Content = (props) => {
                                 itemProps={{
                                     categorySelect: categoryPath,
                                     LabelView,
+                                    isGrid,
                                     className: 'grid-item',
                                     ...other,
                                 }}
