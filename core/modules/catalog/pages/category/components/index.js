@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import Typography from '@common_typography';
 import Product from '@core_modules/catalog/plugin/ProductList';
 import { features } from '@config';
+import { getStoreHost } from '@helpers/config';
 import useStyles from './style';
 
 // sementara di comment dlu, untuk custom filter memakai aggregations product
@@ -41,6 +42,18 @@ const CategoryPage = ({
             },
         ];
     }
+    // console.log(dataBanner);
+    const urlDest = new URL(getStoreHost());
+    let UrlString = '';
+    if (dataBanner.length > 0) {
+        if (dataBanner[0].imageUrl.toLowerCase().indexOf(urlDest.hostname) === -1) {
+            UrlString = urlDest.protocol + urlDest.hostname + dataBanner[0].imageUrl;
+        } else {
+            UrlString = dataBanner[0].imageUrl;
+        }
+    } else {
+        UrlString = '';
+    }
     // sementara di comment dlu, untuk custom filter memakai aggregations product
     // const customFilter = getFilter(categoryList.id);
     let breadcrumbsData = [];
@@ -75,7 +88,7 @@ const CategoryPage = ({
                     {dataBanner.length > 0
                         ? (
                             <BannerView
-                                src={dataBanner[0].imageUrl}
+                                src={UrlString}
                                 width={features.imageSize.category.width}
                                 height={features.imageSize.category.height}
                                 showArrow={dataBanner.length > 1}
