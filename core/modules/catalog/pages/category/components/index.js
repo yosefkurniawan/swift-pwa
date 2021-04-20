@@ -45,15 +45,21 @@ const CategoryPage = ({
     // console.log(dataBanner);
     const urlDest = new URL(getStoreHost());
     let UrlString = '';
+    console.log('dataBanner', dataBanner);
     if (dataBanner.length > 0) {
+        console.log('okeee');
         if (dataBanner[0].imageUrl.toLowerCase().indexOf(urlDest.hostname) === -1) {
-            UrlString = urlDest.protocol + urlDest.hostname + dataBanner[0].imageUrl;
+            console.log('ganti');
+            UrlString = `${urlDest.protocol}//${urlDest.hostname}${dataBanner[0].imageUrl}`;
         } else {
+            console.log('tidak');
             UrlString = dataBanner[0].imageUrl;
         }
     } else {
+        console.log('kosong');
         UrlString = '';
     }
+    console.log(UrlString);
     // sementara di comment dlu, untuk custom filter memakai aggregations product
     // const customFilter = getFilter(categoryList.id);
     let breadcrumbsData = [];
