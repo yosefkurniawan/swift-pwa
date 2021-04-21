@@ -4,10 +4,13 @@ import MuiExpansionPanel from '@material-ui/core/Accordion';
 import MuiExpansionPanelSummary from '@material-ui/core/AccordionSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@common_typography';
+import Button from '@common_button';
 import Arrow from '@material-ui/icons/ArrowDropDown';
 import Radio from '@common_forms/Radio';
 import Skeleton from '@material-ui/lab/Skeleton';
+import commonConfig from '@config';
 import RadioItem from '../../../../components/radioitem';
+import ModalHowtoPay from '../ModalHowtoPay';
 import useStyles from '../style';
 
 import {
@@ -38,14 +41,20 @@ const PaymentView = (props) => {
     const {
         loading, data, checkout, storeConfig, t, handlePayment, selected,
     } = props;
+    const { modules } = commonConfig;
     const styles = useStyles();
     let content;
     const [expanded, setExpanded] = React.useState(null);
     const [expandedActive, setExpandedActive] = React.useState(true);
+    const [openModal, setModal] = React.useState(false);
 
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
         setExpandedActive(false);
+    };
+
+    const handleModal = (state = false) => {
+        setModal(state);
     };
 
     if (loading.payment || loading.all) {
@@ -157,9 +166,23 @@ const PaymentView = (props) => {
 
     return (
         <div className={styles.block} id="checkoutPayment">
-            <Typography variant="title" type="bold" letter="uppercase">
-                {t('checkout:payment')}
-            </Typography>
+            <ModalHowtoPay
+                open={openModal}
+                setOpen={() => handleModal(false)}
+            />
+            <div className={styles.paymentHeader}>
+                <Typography variant="title" type="bold" letter="uppercase">
+                    {t('checkout:payment')}
+                </Typography>
+                {
+                    modules.checkout.howtoPay.enabled
+                        ? (
+                            <div>
+                                <Button className={styles.howToPay} onClick={() => handleModal(true)}>{t('checkout:howtoPay')}</Button>
+                            </div>
+                        ) : null
+                }
+            </div>
             <div>{content}</div>
         </div>
     );

@@ -94,5 +94,7 @@
         "reguler": "Reguler",
         "others": "Others"
     },
-    "cartError": "Something went wrong during fetching the cart data"
+    "cartError": "Something went wrong during fetching the cart data",
+    "buttonOk": "Ok",
+    "howtoPay": "How to pay"
 }
