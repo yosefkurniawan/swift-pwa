@@ -10,7 +10,7 @@ import Radio from '@common_forms/Radio';
 import Skeleton from '@material-ui/lab/Skeleton';
 import commonConfig from '@config';
 import RadioItem from '../../../../components/radioitem';
-import ModalHowtoPay from '../ModalHowtoPay';
+import ModalHowtoPay from '../ModalHowtopay';
 import useStyles from '../style';
 
 import {

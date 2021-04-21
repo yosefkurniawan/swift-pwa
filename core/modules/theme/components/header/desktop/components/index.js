@@ -19,6 +19,7 @@ const ViewTopNavigation = (props) => {
     } = props;
     return (
         <div id="header">
+            <div className="global-promo" />
             <div className="row header-top">
                 <main style={{ width: '97%' }}>
                     {features.customInstallApp.enabled ? <DesktopInstallApp /> : null}
@@ -152,6 +153,15 @@ const ViewTopNavigation = (props) => {
                     }
                     .menu-category {
                         width: fit-content;
+                    }
+                    .global-promo{
+                        height: 45px;
+                        border-bottom: 1px solid #d6d6d6;
+                        display: flex;
+                        align-items: center;
+                        padding: 10px 0;
+                        margin: 0;
+                        background-color: red;
                     }
                 `}
             </style>

@@ -8,7 +8,7 @@ import { localTotalCart } from '@services/graphql/schema/local';
 import firebase from 'firebase/app';
 import { custDataNameCookie, features } from '@config';
 import {
-    getCategories, getCustomer, removeToken, getVesMenu,
+    getCategories, getCustomer, removeToken, getVesMenu, getCmsBlocks,
 } from '../../../services/graphql';
 
 const CoreTopNavigation = (props) => {
