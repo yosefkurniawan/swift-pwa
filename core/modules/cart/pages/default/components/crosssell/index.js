@@ -20,7 +20,7 @@ const CrossSell = (props) => {
                     {t('cart:crossell:title')}
                 </Typography>
                 <div className={styles.slider}>
-                    <Carousel data={data} Item={ProductItem} />
+                    <Carousel enableQuickView={false} data={data} Item={ProductItem} />
                 </div>
             </div>
         </>
