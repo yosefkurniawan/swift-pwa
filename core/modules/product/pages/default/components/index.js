@@ -66,7 +66,7 @@ const ProductPage = (props) => {
 
     let contentCaraousel = '';
     if (typeof window !== 'undefined' && relateData.length > 0) {
-        contentCaraousel = <Caraousel data={relateData} Item={ProductItem} />;
+        contentCaraousel = <Caraousel enableQuickView={false} data={relateData} Item={ProductItem} />;
     }
 
     return (

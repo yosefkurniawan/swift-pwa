@@ -81,7 +81,13 @@ const WidgetListProduct = (props) => {
                     <SkeletonWidget />
                 </div>
                 <div className={classProductList}>
-                    <Carousel onReInit={onReInit} data={dataItems} Item={ProductItem} slideLg={dataItems?.length > 10 ? 6 : 4} />
+                    <Carousel
+                        onReInit={onReInit}
+                        enableQuickView={false}
+                        data={dataItems}
+                        Item={ProductItem}
+                        slideLg={dataItems?.length > 10 ? 6 : 4}
+                    />
                 </div>
             </>
         );

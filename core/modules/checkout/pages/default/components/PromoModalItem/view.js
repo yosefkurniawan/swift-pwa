@@ -81,6 +81,7 @@ const PromoModalItemView = (props) => {
                         enableWishlist={false}
                         enablePrice={false}
                         enableRating={false}
+                        enableQuickView={false}
                         showQty
                         maxQty={availableMaxQty}
                     />

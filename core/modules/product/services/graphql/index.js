@@ -2,11 +2,16 @@ import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import * as Schema from './schema';
 import * as ActionSchema from './actionSchema';
 
+const defaultConfig = {
+    fetchPolicy: 'cache-and-network',
+};
+
 export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath), {
-    fetchPolicy: 'no-cache',
+    ...defaultConfig,
 });
 export const getProductBySku = (params) => useQuery(Schema.getProductBySku(), {
     ...params,
+    ...defaultConfig,
 });
 
 export const getReviews = (params) => useQuery(Schema.getReview(), {
@@ -27,12 +32,19 @@ export const addWishlist = () => useMutation(Schema.addWishlist, {
     },
 });
 
-export const getConfigurableProduct = (sku) => useQuery(Schema.getConfigurableProduct(sku));
-export const getBundleProduct = (sku) => useQuery(Schema.getBundleProduct(sku));
-export const getDownloadroduct = (sku) => useQuery(Schema.getDownloadProduct(sku));
+export const getConfigurableProduct = (sku) => useQuery(Schema.getConfigurableProduct(sku), {
+    ...defaultConfig,
+});
+export const getBundleProduct = (sku) => useQuery(Schema.getBundleProduct(sku), {
+    ...defaultConfig,
+});
+export const getDownloadroduct = (sku) => useQuery(Schema.getDownloadProduct(sku), {
+    ...defaultConfig,
+});
 export const getGroupedProduct = (sku) => useQuery(Schema.getGroupedProduct, {
     variables: { sku },
     skip: !sku,
+    ...defaultConfig,
 });
 
 // actions add to cart
