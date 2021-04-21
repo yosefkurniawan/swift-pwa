@@ -4,12 +4,12 @@ import useStyles from '../style';
 
 const LabelView = (props) => {
     const {
-        __typename, new_from_date, new_to_date, sale,
+        __typename, new_from_date, new_to_date, sale, isGrid,
         price_range, special_from_date, special_to_date, spesificProduct,
     } = props;
     const styles = useStyles();
     return (
-        <div className={styles.badgesNewSales}>
+        <div className={isGrid ? styles.badgesNewSales : styles.badgesNewSalesList}>
             <Label
                 productType={__typename}
                 newFromDate={new_from_date}
@@ -19,6 +19,7 @@ const LabelView = (props) => {
                 priceRange={spesificProduct.price_range ? spesificProduct.price_range : price_range}
                 specialFromDate={special_from_date}
                 specialToDate={special_to_date}
+                isGrid={isGrid}
             />
         </div>
     );

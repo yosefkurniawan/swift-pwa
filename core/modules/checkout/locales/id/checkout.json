@@ -94,5 +94,7 @@
         "reguler": "Reguler",
         "others": "Lainnya"
     },
-    "cartError": "Ada yang salah saat mengambil data keranjang"
+    "cartError": "Ada yang salah saat mengambil data keranjang",
+    "buttonOk": "Ok",
+    "howtoPay": "Bagaimana cara membayar"
 }

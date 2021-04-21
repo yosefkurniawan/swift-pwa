@@ -321,6 +321,9 @@ const modules = {
         orderComment: {
             enabled: false,
         },
+        howtoPay: {
+            enabled: true,
+        },
     },
     cart: {
         enabled: true,
