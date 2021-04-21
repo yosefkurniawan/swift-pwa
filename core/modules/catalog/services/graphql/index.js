@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import * as schemaCategory from './categorySchema';
 import * as productSchema from './productSchema';
 
@@ -20,6 +20,10 @@ export const addWishlist = () => useMutation(productSchema.addWishlist, {
     context: {
         request: 'internal',
     },
+});
+
+export const getDetailProduct = () => useLazyQuery(productSchema.getDetailProduct, {
+    fetchPolicy: 'no-cache',
 });
 
 export default { getCategory, getCategoryProducts };

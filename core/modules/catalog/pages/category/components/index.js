@@ -92,7 +92,7 @@ const CategoryPage = ({
                                 width={features.imageSize.category.width}
                                 height={features.imageSize.category.height}
                                 showArrow={dataBanner.length > 1}
-                                style={{width: '100%', height: 'auto'}}
+                                style={{ width: '100%', height: 'auto' }}
                             />
                         ) : null}
                 </div>

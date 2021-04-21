@@ -27,6 +27,7 @@ const Banner = ({
     actionImage = () => { },
     zoom = false,
     zoomRef = null,
+    customClassCaraousel = '',
 }) => {
     const styles = useStyles();
     const [slideIndex, setIndex] = useState(0);
@@ -42,6 +43,9 @@ const Banner = ({
     const handleRightArrow = () => {
         sliderRef.slickGoTo(slideIndex + 1);
     };
+
+    const classCarousel = (customClassCaraousel && customClassCaraousel !== '')
+        ? customClassCaraousel : styles.caraousel;
 
     const settings = {
         // className: thumbnail ? 'slick-thumbnail' : 'slick-pwa',
@@ -82,7 +86,7 @@ const Banner = ({
                     ))}
                 </div>
             ) : null}
-            <div className={classNames(styles.caraousel)}>
+            <div className={classCarousel}>
                 <Slider ref={(slider) => sliderRef = slider} {...settings}>
                     {data.map((item, key) => (
                         <div onClick={actionImage} key={key}>
