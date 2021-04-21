@@ -55,17 +55,26 @@ const Content = (props) => {
     const styles = useStyles();
     const SummaryRef = React.createRef();
     const { order: loading, all: disabled } = checkout.loading;
+    // prettier-ignore
+    const isNullPurchseOrder = (checkout.selected.purchaseOrderNumber === null || checkout.selected.purchaseOrderNumber === '');
+    const isDisableOnPurchaseOrder = checkout.selected.payment === 'purchaseorder' && isNullPurchseOrder;
+
+    /**
+     * [METHOD] handle click for place order
+     */
     const handleClick = () => {
         if (SummaryRef.current) {
             SummaryRef.current.handlePlaceOrder();
         }
     };
+
+    /**
+     * [VIEW]
+     */
     return (
         <div id="checkout" className={classNames(styles.mobileBottomSpace, 'row between-lg')}>
             <div className="col-xs-12 center hidden-mobile">
-                <HeaderView
-                    storeConfig={storeConfig}
-                />
+                <HeaderView storeConfig={storeConfig} />
             </div>
             <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8" style={containerStyle || {}}>
                 {modules.checkout.cashback.enabled && checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
@@ -236,8 +245,8 @@ const Content = (props) => {
                 />
                 <Summary
                     {...props}
-                    loading={checkout.loading.order}
-                    disabled={checkout.loading.all}
+                    loading={loading}
+                    disabled={disabled}
                     checkout={checkout}
                     updateFormik={updateFormik}
                     setCheckout={setCheckout}
@@ -256,7 +265,7 @@ const Content = (props) => {
                     onClick={handleClick}
                     fullWidth
                     loading={loading}
-                    disabled={disabled}
+                    disabled={disabled || isDisableOnPurchaseOrder}
                     className={styles.placeOrderDesktop}
                 >
                     <Typography variant="span" letter="uppercase" type="bold" color="white">
