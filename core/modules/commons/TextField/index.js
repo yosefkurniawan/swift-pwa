@@ -25,18 +25,8 @@ const CustomTextField = ({
     const styles = useStyles();
     const customClass = classNames(styles.container, className);
     return (
-        <FormControl
-            disabled={disabled || loading}
-            fullWidth={fullWidth}
-            error={error}
-            variant={variant}
-            className={customClass}
-        >
-            <InputLabel
-                shrink={shrink}
-                htmlFor={label}
-                className={styles.label}
-            >
+        <FormControl disabled={disabled || loading} fullWidth={fullWidth} error={error} variant={variant} className={customClass}>
+            <InputLabel shrink={shrink} htmlFor={label} className={styles.label}>
                 {label}
             </InputLabel>
             <Input
@@ -44,15 +34,7 @@ const CustomTextField = ({
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
-                endAdornment={
-                    (
-                        <>
-                            {loading ? (
-                                <CircularProgress color="inherit" size={20} />
-                            ) : null}
-                        </>
-                    )
-                }
+                endAdornment={<>{loading ? <CircularProgress color="inherit" size={20} /> : null}</>}
                 {...other}
             />
             {React.isValidElement(footer) ? (

@@ -53,7 +53,8 @@ const cartBillingAddress = `
     }
 `;
 
-const applied_store_credit = modules.storecredit.useCommerceModule ? `
+const applied_store_credit = modules.storecredit.useCommerceModule
+    ? `
 applied_store_credit {
     applied_balance {
       currency
@@ -65,7 +66,8 @@ applied_store_credit {
     }
     enabled
 }
-` : `
+`
+    : `
 applied_store_credit {
     store_credit_amount
     is_use_store_credit
@@ -128,7 +130,8 @@ addtional_fees {
 }
 `;
 
-const applied_giftcard = modules.giftcard.useCommerceModule ? `
+const applied_giftcard = modules.giftcard.useCommerceModule
+    ? `
 applied_gift_cards {
     applied_balance {
       currency
@@ -140,7 +143,8 @@ applied_gift_cards {
       value
     }
 }
-` : `
+`
+    : `
 applied_giftcard {
     giftcard_amount
     giftcard_detail {
@@ -355,7 +359,8 @@ const emailSelection = `
     email
 `;
 
-export const applyGiftCardToCart = modules.giftcard.useCommerceModule ? gql`
+export const applyGiftCardToCart = modules.giftcard.useCommerceModule
+    ? gql`
 mutation($cartId: String! $code: String!){
     applyGiftCardToCart(input: {
       cart_id: $cartId,
@@ -368,7 +373,8 @@ mutation($cartId: String! $code: String!){
       }
     }
   }
-` : gql`
+`
+    : gql`
     mutation($cartId: String! $code: String!) {
         applyGiftCardToCart(
             input: {
@@ -385,7 +391,8 @@ mutation($cartId: String! $code: String!){
     }
 `;
 
-export const removeGiftCardFromCart = modules.giftcard.useCommerceModule ? gql`
+export const removeGiftCardFromCart = modules.giftcard.useCommerceModule
+    ? gql`
 mutation($cartId: String! $code: String!) {
     removeGiftCardFromCart(input: {
     cart_id: $cartId,
@@ -398,7 +405,8 @@ mutation($cartId: String! $code: String!) {
     }
   }
 }
-` : gql`
+`
+    : gql`
 mutation($cartId: String! $code: String!) {
     removeGiftCardFromCart(
         input: {
@@ -461,17 +469,25 @@ export const getCustomer = gql`
             firstname
             lastname
             email
-            ${modules.storecredit.enabled ? `store_credit {
+            ${
+    modules.storecredit.enabled
+        ? `store_credit {
                 current_balance {
                     value
                     currency
                 }
                 enabled
-            }` : ''}
-            ${(!modules.giftcard.useCommerceModule && modules.giftcard.enabled) ? `gift_card {
+            }`
+        : ''
+}
+            ${
+    !modules.giftcard.useCommerceModule && modules.giftcard.enabled
+        ? `gift_card {
                 giftcard_balance
                 giftcard_code
-            }` : ''}
+            }`
+        : ''
+}
         }
     }
 `;
@@ -680,8 +696,8 @@ export const setShippingMethod = gql`
 `;
 
 export const setPaymentMethod = gql`
-    mutation setPaymentMethod($cartId: String!, $code: String!) {
-        setPaymentMethodOnCart(input: { cart_id: $cartId, payment_method: { code: $code } }) {
+    mutation setPaymentMethod($cartId: String!, $payment_method: PaymentMethodInput!) {
+        setPaymentMethodOnCart(input: { cart_id: $cartId, payment_method: $payment_method }) {
             cart {
                 id
                 ${selected_payment_method}
@@ -900,18 +916,12 @@ export const getCartIdUser = gql`
 `;
 
 export const mergeCart = gql`
-mutation mergeCart(
-    $sourceCartId: String!,
-    $destionationCartId: String!
-) {
-    mergeCarts(
-      source_cart_id:$sourceCartId,
-      destination_cart_id: $destionationCartId
-    ) {
-      id
-      total_quantity
+    mutation mergeCart($sourceCartId: String!, $destionationCartId: String!) {
+        mergeCarts(source_cart_id: $sourceCartId, destination_cart_id: $destionationCartId) {
+            id
+            total_quantity
+        }
     }
-  }
 `;
 
 export const updatedDefaultAddress = gql`
