@@ -151,20 +151,23 @@ const PaymentView = (props) => {
                                             </Typography>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails>
-                                            {item.data.length !== 0 ? (
-                                                <Radio
-                                                    value={selected.payment}
-                                                    onChange={handlePayment}
-                                                    valueData={item.data}
-                                                    CustomItem={RadioItem}
-                                                    propsItem={{
-                                                        borderBottom: false,
-                                                        RightComponent: true,
-                                                    }}
-                                                />
-                                            ) : null}
-                                            {selected.payment === 'purchaseorder' && (
-                                                <Grid container>
+                                            <Grid container>
+                                                {item.data.length !== 0 ? (
+                                                    <Grid item xs={12}>
+                                                        <Radio
+                                                            value={selected.payment}
+                                                            onChange={handlePayment}
+                                                            valueData={item.data}
+                                                            CustomItem={RadioItem}
+                                                            propsItem={{
+                                                                borderBottom: false,
+                                                                RightComponent: true,
+                                                            }}
+                                                        />
+                                                    </Grid>
+                                                ) : null}
+
+                                                {selected.payment === 'purchaseorder' && (
                                                     <Grid item xs={12}>
                                                         <FieldPoint
                                                             id="purchase-order"
@@ -175,10 +178,13 @@ const PaymentView = (props) => {
                                                             value={checkout.selected.purchaseOrderNumber || ''}
                                                             disabled={checkout.loading.purchaseOrderNumber}
                                                             loading={checkout.loading.purchaseOrderNumber}
+                                                            styleFrame={{ marginTop: 0, marginBottom: 0 }}
+                                                            styleFrameText={{ marginTop: 0, marginBottom: 0 }}
+                                                            styleTextField={{ marginTop: 0, marginBottom: 0 }}
                                                         />
                                                     </Grid>
-                                                </Grid>
-                                            )}
+                                                )}
+                                            </Grid>
                                         </ExpansionPanelDetails>
                                     </ExpansionPanel>
                                 );

@@ -17,14 +17,19 @@ const FieldPoint = ({
     errorMessage = 'error',
     loading = false,
     toggleField = false,
+    styleFrame = {},
+    styleFrameText = {},
+    styleTextField = {},
 }) => {
     const styles = useStyles();
     return (
         <div className={classNames(styles.block, styles.rmBorder)} id={id}>
-            <div className={styles.fieldPoinContainer}>
+            <div className={styles.fieldPoinContainer} style={styleFrame}>
                 <TextField
                     id={`${id}Textfield`}
                     name={name}
+                    styleFrameText={styleFrameText}
+                    styleTextField={styleTextField}
                     disabled={!!(disabled || toggleField)}
                     value={value}
                     onChange={onChange}
