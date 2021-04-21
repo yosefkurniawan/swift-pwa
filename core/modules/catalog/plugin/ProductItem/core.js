@@ -17,7 +17,7 @@ const ModalQuickView = dynamic(() => import('./components/QuickView'), { ssr: fa
 const ProductItem = (props) => {
     const {
         id, url_key = '', categorySelect, review, ImageProductView, DetailProductView, LabelView, className = '',
-        enableAddToCart, enableOption, enableQuickView, ...other
+        enableAddToCart, enableOption, enableQuickView, isGrid = true, ...other
     } = props;
     const styles = useStyles();
     const { t } = useTranslation(['catalog', 'common']);
@@ -101,6 +101,59 @@ const ProductItem = (props) => {
         ? enableOption : modules.catalog.productListing.configurableOptions.enabled;
     const showQuickView = typeof enableQuickView !== 'undefined'
         ? enableQuickView : modules.catalog.productListing.quickView.enabled;
+    if (isGrid) {
+        return (
+            <>
+                {
+                    openQuickView && showQuickView && (
+                        <ModalQuickView
+                            open={openQuickView}
+                            onClose={() => setOpenQuickView(false)}
+                            data={detailProduct.data.products}
+                        />
+                    )
+                }
+                <div className={classNames(styles.itemContainer, className, showQuickView ? styles.quickView : '')}>
+                    {
+                        showQuickView && (
+                            <button className="btn-quick-view" type="button" onClick={handleQuickView}>
+                                Quick View
+                            </button>
+                        )
+                    }
+                    {
+                        modules.catalog.productListing.label.enabled && LabelView ? (
+                            <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
+                        ) : null
+                    }
+                    <div className={styles.imgItem}>
+                        <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
+                    </div>
+                    <div className={styles.detailItem}>
+                        <DetailProductView t={t} {...DetailProps} {...other} />
+                        {showOption ? (
+                            <ConfigurableOpt
+                                enableBundle={false}
+                                enableDownload={false}
+                                t={t}
+                                data={other}
+                                showQty={false}
+                                handleSelecteProduct={setSpesificProduct}
+                                showAddToCart={showAddToCart}
+                                propsItem={{
+                                    className: styles.itemConfigurable,
+                                }}
+                                customStyleBtnAddToCard={styles.customBtnAddToCard}
+                                labelAddToCart="Add to cart"
+                                isGrid={isGrid}
+                                {...other}
+                            />
+                        ) : null}
+                    </div>
+                </div>
+            </>
+        );
+    }
     return (
         <>
             {
@@ -112,23 +165,17 @@ const ProductItem = (props) => {
                     />
                 )
             }
-            <div className={classNames(styles.itemContainer, className, showQuickView ? styles.quickView : '')}>
-                {
-                    showQuickView && (
-                        <button className="btn-quick-view" type="button" onClick={handleQuickView}>
-                            Quick View
-                        </button>
-                    )
-                }
-                {
-                    modules.catalog.productListing.label.enabled && LabelView ? (
-                        <LabelView t={t} {...other} spesificProduct={spesificProduct} />
-                    ) : null
-                }
-                <div className={styles.imgItem}>
+            <div className={classNames(styles.listContainer, className, showQuickView ? styles.quickView : '')}>
+                <div className={styles.listImgItem}>
+                    {
+                        modules.catalog.productListing.label.enabled && LabelView ? (
+                            <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
+                        ) : null
+                    }
                     <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
                 </div>
-                <div className={styles.detailItem}>
+                <div style={{ flex: 0.5 }} />
+                <div className={styles.listDetailItem}>
                     <DetailProductView t={t} {...DetailProps} {...other} />
                     {showOption ? (
                         <ConfigurableOpt
@@ -144,9 +191,17 @@ const ProductItem = (props) => {
                             }}
                             customStyleBtnAddToCard={styles.customBtnAddToCard}
                             labelAddToCart="Add to cart"
+                            isGrid={isGrid}
                             {...other}
                         />
                     ) : null}
+                    {
+                        showQuickView && (
+                            <button className="btn-quick-view-list" type="button" onClick={handleQuickView}>
+                                Quick View
+                            </button>
+                        )
+                    }
                 </div>
             </div>
         </>

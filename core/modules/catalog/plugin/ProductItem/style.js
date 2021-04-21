@@ -38,6 +38,17 @@ export default makeStyles((theme) => ({
             outline: 'none',
             display: 'none',
         },
+        '& .btn-quick-view-list': {
+            clear: 'both',
+            background: 'transparent',
+            border: 'none',
+            fontWeight: 'bold',
+            color: GRAY_THIRD,
+            cursor: 'pointer',
+            outline: 'none',
+            display: 'block',
+            marginTop: 15,
+        },
         [theme.breakpoints.up('sm')]: {
             '&:hover': {
                 '& .btn-quick-view': {
@@ -45,6 +56,21 @@ export default makeStyles((theme) => ({
                 },
                 boxShadow: '0px 5px 5px 2px rgba(0,0,0,0.3)',
             },
+        },
+    },
+    listContainer: {
+        width: '100%',
+        display: 'flex',
+        height: '100%',
+        overflow: 'hidden',
+        ...CreatePadding(10, 10, 0, 10),
+        ...CreateMargin(0, 0, 16, 0),
+        position: 'relative',
+        '& .MuiSkeleton-rect': {
+            paddingBottom: '120%',
+        },
+        '& a': {
+            cursor: 'pointer',
         },
     },
     badgesNewSales: {
@@ -59,6 +85,18 @@ export default makeStyles((theme) => ({
         width: '100%',
         padding: 15,
     },
+    badgesNewSalesList: {
+        position: 'absolute',
+        width: '80%',
+        top: 0,
+        left: 0,
+        right: 0,
+        borderRadius: 5,
+        zIndex: 1,
+        ...FlexRow,
+        justifyContent: 'space-between',
+        padding: 15,
+    },
     imgItem: {
         width: '100%',
         ...Centering,
@@ -71,6 +109,16 @@ export default makeStyles((theme) => ({
         height: 'auto',
         paddingTop: 14,
         position: 'relative',
+    },
+    listImgItem: {
+        flex: 0.3,
+        ...Centering,
+        position: 'relative',
+    },
+    listDetailItem: {
+        height: 'auto',
+        position: 'relative',
+        flex: 0.4,
     },
     descItem: {
         ...FlexColumn,
