@@ -47,7 +47,7 @@ const CategoryPage = ({
     let UrlString = '';
     if (dataBanner.length > 0) {
         if (dataBanner[0].imageUrl.toLowerCase().indexOf(urlDest.hostname) === -1) {
-            UrlString = urlDest.protocol + urlDest.hostname + dataBanner[0].imageUrl;
+            UrlString = `${urlDest.protocol}//${urlDest.hostname}${dataBanner[0].imageUrl}`;
         } else {
             UrlString = dataBanner[0].imageUrl;
         }
