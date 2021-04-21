@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import GridList from '@common_gridlist';
 import Typography from '@common_typography';
 import classNames from 'classnames';
 import { modules } from '@config';
+import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
 import Filter from './Filter';
 import FilterDesktop from './FilterDesktop';
 import ProductItem from '../../ProductItem/index';
@@ -18,6 +19,7 @@ const Content = (props) => {
         loadmore, handleLoadMore, dataTabs, onChangeTabs, ...other
     } = props;
     const styles = useStyles();
+    const [isGrid, setGridState] = useState(null);
 
     const handleScroll = () => {
         // To get page offset of last user
@@ -33,6 +35,11 @@ const Content = (props) => {
         }
     };
 
+    const setGrid = async (state) => {
+        setLocalStorage('isGrid', state);
+        setGridState(state);
+    };
+
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => {
@@ -40,12 +47,17 @@ const Content = (props) => {
         };
     });
 
+    useEffect(() => {
+        const gridView = getLocalStorage('isGrid');
+        setGridState(gridView);
+    }, [isGrid]);
+
     return (
         <>
             {showTabs ? (
                 <div className="hidden-desktop">
                     <TabView
-                    // eslint-disable-next-line radix
+                        // eslint-disable-next-line radix
                         value={query.category_id ? query.category_id : 0}
                         data={category}
                         onChange={(e, value) => setFiltervalue({ ...query, ...{ category_id: value } })}
@@ -63,6 +75,7 @@ const Content = (props) => {
                     products={products}
                     renderEmptyMessage={renderEmptyMessage}
                     loading={loading}
+                    setGrid={(state) => setGrid(state)}
                     t={t}
                     {...other}
                 />
@@ -100,7 +113,7 @@ const Content = (props) => {
                             />
                         </div>
                     )
-                    : null }
+                    : null}
                 <div className={`col-sm-12 col-xs-12 col-lg-${modules.catalog.productListing.drawerFilterOnDesktop.enabled ? '10' : '12'}`}>
                     {modules.catalog.productListing.drawerFilterOnDesktop.enabled
                         ? (
@@ -109,7 +122,7 @@ const Content = (props) => {
                                 {' '}
                                 {t('catalog:product:name')}
                             </Typography>
-                        ) : null }
+                        ) : null}
                     <div className={styles.productContainer}>
                         {loading && <ProductListSkeleton />}
                         {!loading && (
@@ -120,22 +133,30 @@ const Content = (props) => {
                                 itemProps={{
                                     categorySelect: categoryPath,
                                     LabelView,
+                                    isGrid,
                                     className: 'grid-item',
                                     ...other,
                                 }}
-                                gridItemProps={{ xs: 6, sm: 4, md: modules.catalog.productListing.drawerFilterOnDesktop.enabled ? 3 : 2 }}
+                                gridItemProps={
+                                    isGrid
+                                        ? {
+                                            xs: 6, sm: 4, md: modules.catalog.productListing.drawerFilterOnDesktop.enabled ? 3 : 2,
+                                        } : {
+                                            xs: 12, sm: 12, md: modules.catalog.productListing.drawerFilterOnDesktop.enabled ? 12 : 12,
+                                        }
+                                }
                             />
                         )}
                         {(products.items.length === products.total_count) || loading
                             ? renderEmptyMessage(products.items.length, loading)
                             : null}
-                        { loadmore ? (
+                        {loadmore ? (
                             <div className={styles.divLoadMore}>
                                 <Typography align="center" variant="span" type="bold" letter="uppercase" color="gray">
                                     Loading
                                 </Typography>
                             </div>
-                        ) : null }
+                        ) : null}
                     </div>
                 </div>
             </div>
