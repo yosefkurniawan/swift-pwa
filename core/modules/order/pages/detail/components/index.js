@@ -9,6 +9,7 @@ import formatDate from '@helper_date';
 import { formatPrice } from '@helper_currency';
 import Alert from '@material-ui/lab/Alert';
 import Layout from '@layout_customer';
+import { modules } from '@config';
 import useStyles from '../style';
 import ItemProduct from './product';
 import Footer from './footer';
@@ -269,7 +270,7 @@ const DetailOrder = (props) => {
                                         </Typography>
                                     </div>
                                 ) : null}
-                                {detail[0].detail[0].aw_giftcard.giftcard_amount ? (
+                                {(modules.giftcard.enabled && detail[0].detail[0] && detail[0].detail[0].aw_giftcard.giftcard_amount) ? (
                                     <div className={styles.listSummary}>
                                         <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
                                             {t('order:giftcard')}

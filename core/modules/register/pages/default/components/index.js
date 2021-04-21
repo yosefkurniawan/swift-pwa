@@ -12,7 +12,7 @@ import useStyles from './style';
 const RegisterView = ({
     t,
     formik,
-    otpConfig,
+    enableOtp,
     setdisabled,
     handleChangePhone,
     handleWa,
@@ -72,61 +72,46 @@ const RegisterView = ({
                     error={!!(formik.touched.confirmPassword && formik.errors.confirmPassword)}
                     errorMessage={(formik.touched.confirmPassword && formik.errors.confirmPassword) || null}
                 />
-                {otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_register ? (
-                    <OtpBlock
-                        type="register"
-                        setDisabled={setdisabled}
-                        phoneProps={{
-                            name: 'phoneNumber',
-                            value: formik.values.phoneNumber,
-                            onChange: handleChangePhone,
-                            error: !!(formik.errors.phoneNumber && formik.touched.phoneNumber),
-                            errorMessage: (formik.touched.phoneNumber && formik.errors.phoneNumber) || null,
-                        }}
-                        codeProps={{
-                            name: 'otp',
-                            value: formik.values.otp,
-                            onChange: formik.handleChange,
-                            error: !!(formik.touched.otp && formik.errors.otp),
-                            errorMessage: (formik.touched.otp && formik.errors.otp) || null,
-                            footer: (
-                                <FormControlLabel
-                                    onChange={handleWa}
-                                    className={styles.checkWa}
-                                    control={<Checkbox name="whastapptrue" color="primary" size="small" />}
-                                    label={<Typography variant="p">{t('register:isWhatsapp')}</Typography>}
-                                />
-                            ),
-                        }}
-                    />
-                ) : (
-                    <TextField
-                        label={t('common:form:phoneNumber')}
-                        name="phoneNumber"
-                        value={formik.values.phoneNumber}
-                        onChange={handleChangePhone}
-                        error={!!(formik.touched.phoneNumber && formik.errors.phoneNumber)}
-                        errorMessage={(formik.touched.phoneNumber && formik.errors.phoneNumber) || null}
-                        footer={(
-                            <FormControlLabel
-                                onChange={handleWa}
-                                className={styles.checkWa}
-                                control={<Checkbox name="whastapptrue" color="primary" size="small" />}
-                                label={<Typography variant="p">{t('register:isWhatsapp')}</Typography>}
+                {enableOtp ? (
+                    <>
+                        <OtpBlock
+                            type="register"
+                            setDisabled={setdisabled}
+                            phoneProps={{
+                                name: 'phoneNumber',
+                                value: formik.values.phoneNumber,
+                                onChange: handleChangePhone,
+                                error: !!(formik.errors.phoneNumber && formik.touched.phoneNumber),
+                                errorMessage: (formik.touched.phoneNumber && formik.errors.phoneNumber) || null,
+                            }}
+                            codeProps={{
+                                name: 'otp',
+                                value: formik.values.otp,
+                                onChange: formik.handleChange,
+                                error: !!(formik.touched.otp && formik.errors.otp),
+                                errorMessage: (formik.touched.otp && formik.errors.otp) || null,
+                                footer: (
+                                    <FormControlLabel
+                                        onChange={handleWa}
+                                        className={styles.checkWa}
+                                        control={<Checkbox name="whastapptrue" color="primary" size="small" />}
+                                        label={<Typography variant="p">{t('register:isWhatsapp')}</Typography>}
+                                    />
+                                ),
+                            }}
+                        />
+                        {!phoneIsWa && (
+                            <TextField
+                                label={`${t('common:form:phoneNumber')} Whatsapp`}
+                                name="whatsappNumber"
+                                value={formik.values.whatsappNumber}
+                                onChange={formik.handleChange}
+                                error={!!(formik.touched.whatsappNumber && formik.errors.whatsappNumber)}
+                                errorMessage={(formik.touched.whatsappNumber && formik.errors.whatsappNumber) || null}
                             />
                         )}
-                    />
-                )}
-                {!phoneIsWa && (
-                    <TextField
-                        label={`${t('common:form:phoneNumber')} Whatsapp`}
-                        name="whatsappNumber"
-                        value={formik.values.whatsappNumber}
-                        onChange={formik.handleChange}
-                        error={!!(formik.touched.whatsappNumber && formik.errors.whatsappNumber)}
-                        errorMessage={(formik.touched.whatsappNumber && formik.errors.whatsappNumber) || null}
-                    />
-                )}
+                    </>
+                ) : null}
                 <div className={styles.footer}>
                     <FormControlLabel
                         value={formik.values.subscribe}

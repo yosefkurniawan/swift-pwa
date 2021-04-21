@@ -103,5 +103,7 @@
         "backToStore": "Kembali ke toko"
     },
     "cartError": "Ada yang salah saat mengambil data keranjang",
-    "feePromoLabel" :"Biaya & promosi"
+    "feePromoLabel" :"Biaya & promosi",
+    "buttonOk": "Ok",
+    "howtoPay": "Bagaimana cara membayar"
 }

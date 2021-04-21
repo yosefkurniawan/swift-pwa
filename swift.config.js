@@ -324,6 +324,9 @@ const modules = {
         orderComment: {
             enabled: false,
         },
+        howtoPay: {
+            enabled: true,
+        },
     },
     cart: {
         enabled: true,
@@ -422,7 +425,10 @@ const modules = {
     },
     home: {
         enabled: true,
-        useCmsPage: true,
+        useCmsPage: {
+            enable: false,
+            identifier: 'pwa-homepage',
+        },
         featuresProduct: {
             enable: true,
             url_key: 'homepage-featured-products',
