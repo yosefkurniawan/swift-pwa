@@ -42,7 +42,14 @@ export const storeConfig = `
             snap_is_production
             aw_blog_general_enabled
             pickup_store
-            cms_page
         }
     }
+`;
+
+export const getCmsList = `
+{
+  storeConfig {
+    cms_page  
+  }
+}
 `;
