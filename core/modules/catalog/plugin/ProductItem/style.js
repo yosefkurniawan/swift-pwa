@@ -150,7 +150,7 @@ export default makeStyles((theme) => ({
     listDetailItem: {
         height: 'auto',
         position: 'relative',
-        flex: 0.4,
+        flex: 0.8,
     },
     descItem: {
         ...FlexColumn,

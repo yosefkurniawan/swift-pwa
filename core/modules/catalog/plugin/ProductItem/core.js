@@ -17,7 +17,7 @@ const ModalQuickView = dynamic(() => import('./components/QuickView'), { ssr: fa
 const ProductItem = (props) => {
     const {
         id, url_key = '', categorySelect, review, ImageProductView, DetailProductView, LabelView, className = '',
-        enableAddToCart, enableOption, enableQuickView, isGrid = true, ...other
+        enableAddToCart, enableOption, enableQuickView, isGrid, catalogList, ...other
     } = props;
     const styles = useStyles();
     const { t } = useTranslation(['catalog', 'common']);
@@ -140,6 +140,7 @@ const ProductItem = (props) => {
                                     ...other, url_key,
                                 }}
                                 showQty={false}
+                                catalogList={catalogList}
                                 handleSelecteProduct={setSpesificProduct}
                                 showAddToCart={showAddToCart}
                                 propsItem={{
@@ -183,7 +184,7 @@ const ProductItem = (props) => {
                     }
                     <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
                 </div>
-                <div style={{ flex: 0.5 }} />
+                <div style={{ flex: 0.2 }} />
                 <div className={styles.listDetailItem}>
                     <DetailProductView t={t} {...DetailProps} {...other} />
                     {showOption ? (
@@ -195,6 +196,7 @@ const ProductItem = (props) => {
                                 ...other, url_key,
                             }}
                             showQty={false}
+                            catalogList={catalogList}
                             handleSelecteProduct={setSpesificProduct}
                             showAddToCart={showAddToCart}
                             propsItem={{

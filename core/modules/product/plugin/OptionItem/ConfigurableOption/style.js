@@ -155,7 +155,6 @@ export default makeStyles((theme) => ({
         alignItems: 'center',
     },
     listOption: {
-        ...FlexColumn,
         marginRight: 50,
     },
     footerContainer: {
