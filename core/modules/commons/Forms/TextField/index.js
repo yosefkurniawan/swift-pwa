@@ -18,32 +18,18 @@ const CustomTextField = ({
     errorMessage = '',
     variant = 'standard',
     footer,
+    styleFrameText = {},
+    styleTextField = {},
     ...other
 }) => {
     const styles = useStyles();
     const customClass = classNames(styles.container, className);
     return (
-        <FormControl
-            disabled={disabled}
-            fullWidth={fullWidth}
-            error={error}
-            variant={variant}
-            className={customClass}
-        >
-            <InputLabel
-                shrink={shrink}
-                htmlFor={label}
-                className={styles.label}
-            >
+        <FormControl disabled={disabled} fullWidth={fullWidth} error={error} variant={variant} className={customClass} style={styleFrameText}>
+            <InputLabel shrink={shrink} htmlFor={label} className={styles.label}>
                 {label}
             </InputLabel>
-            <Input
-                id={label}
-                value={value}
-                onChange={onChange}
-                placeholder={placeholder}
-                {...other}
-            />
+            <Input id={label} value={value} onChange={onChange} placeholder={placeholder} style={styleTextField} {...other} />
             {React.isValidElement(footer) ? (
                 footer
             ) : (
