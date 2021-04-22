@@ -115,18 +115,18 @@ const ProductItem = (props) => {
                 }
                 <div className={classNames(styles.itemContainer, className, showQuickView ? styles.quickView : '')}>
                     {
-                        showQuickView && (
-                            <button className="btn-quick-view" type="button" onClick={handleQuickView}>
-                                Quick View
-                            </button>
-                        )
-                    }
-                    {
                         modules.catalog.productListing.label.enabled && LabelView ? (
                             <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
                         ) : null
                     }
                     <div className={styles.imgItem}>
+                        {
+                            showQuickView && (
+                                <button className="btn-quick-view" type="button" onClick={handleQuickView}>
+                                    Quick View
+                                </button>
+                            )
+                        }
                         <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
                     </div>
                     <div className={styles.detailItem}>
@@ -172,6 +172,13 @@ const ProductItem = (props) => {
                             <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
                         ) : null
                     }
+                    {
+                        showQuickView && (
+                            <button className="btn-quick-view" type="button" onClick={handleQuickView}>
+                                Quick View
+                            </button>
+                        )
+                    }
                     <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
                 </div>
                 <div style={{ flex: 0.5 }} />
@@ -195,13 +202,6 @@ const ProductItem = (props) => {
                             {...other}
                         />
                     ) : null}
-                    {
-                        showQuickView && (
-                            <button className="btn-quick-view-list" type="button" onClick={handleQuickView}>
-                                Quick View
-                            </button>
-                        )
-                    }
                 </div>
             </div>
         </>
