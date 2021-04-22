@@ -7,7 +7,7 @@ import { useApolloClient } from '@apollo/client';
 import { localTotalCart } from '@services/graphql/schema/local';
 import { handleSelectedDownload } from '@helper_productbyvariant';
 import { modules } from '@config';
-// import Router from 'next/router';
+import Router from 'next/router';
 import React from 'react';
 import TagManager from 'react-gtm-module';
 import {
@@ -36,7 +36,7 @@ const OptionsItemDownload = ({
 
     const {
         __typename, sku, name, categories,
-        price_range, stock_status,
+        price_range, stock_status, url_key,
     } = data;
 
     if (typeof window !== 'undefined') {
@@ -215,6 +215,9 @@ const OptionsItemDownload = ({
                     setOpen(false);
                 })
                 .catch((e) => {
+                    if (e.message === "The product's required option(s) weren't entered. Make sure the options are entered and try again.") {
+                        Router.push(`/${url_key}`);
+                    }
                     setLoadingAdd(false);
                     window.toastMessage({
                         ...errorMessage,
@@ -225,7 +228,7 @@ const OptionsItemDownload = ({
     };
 
     const handleAddToCart = async () => {
-        if (modules.product.customizableOptions.enabled) {
+        if (modules.product.customizableOptions.enabled && customizableOptions && customizableOptions.length > 0) {
             const check = await checkCustomizableOptionsValue();
             if (check) {
                 addToCart();
