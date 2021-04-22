@@ -56,14 +56,15 @@ function CustomRadio({
     };
     return (
         <div className={rootStyle}>
-            {!noLabel
-                ? CustomLabel ? (
+            {!noLabel ? (
+                CustomLabel ? (
                     <CustomLabel />
                 ) : (
                     <Typography variant="label" type="bold" letter="uppercase">
                         {label.replace(/_/g, ' ')}
                     </Typography>
-                ) : null}
+                )
+            ) : null}
 
             <RadioGroup
                 aria-label={ariaLabel}
@@ -87,13 +88,11 @@ function CustomRadio({
                     <RadioItem key={index} {...item} {...propsItem} className={classItem} />
                 )))}
             </RadioGroup>
-            {
-                error && (
-                    <Typography variant="p" color="red">
-                        {errorMessage}
-                    </Typography>
-                )
-            }
+            {error && (
+                <Typography variant="p" color="red">
+                    {errorMessage}
+                </Typography>
+            )}
         </div>
     );
 }

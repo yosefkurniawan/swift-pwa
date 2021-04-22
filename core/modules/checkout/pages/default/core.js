@@ -133,6 +133,7 @@ const Checkout = (props) => {
             addresses: false,
             openAddressDialog: false,
             backdrop: false,
+            purchaseOrderApply: false,
         },
         pickupInformation: {},
         selectStore: {},
