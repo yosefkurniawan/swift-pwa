@@ -17,7 +17,11 @@ const CoreTopNavigation = (props) => {
     } = props;
     const [value, setValue] = React.useState('');
     const [deleteTokenGql] = removeToken();
-
+    const { data: cmsPromo } = getCmsBlocks(
+        {
+            identifiers: 'weltpixel_global_promo_message',
+        },
+    );
     const { data, loading } = features.vesMenu.enabled
         ? getVesMenu({
             variables: {
@@ -86,6 +90,7 @@ const CoreTopNavigation = (props) => {
             handleLogout={handleLogout}
             value={value}
             app_cookies={app_cookies}
+            cmsPromo={cmsPromo}
         />
     );
 };
