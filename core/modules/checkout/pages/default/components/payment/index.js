@@ -43,6 +43,7 @@ export default function CustomizedExpansionPanels({
                 ...result.data.setPaymentMethodOnCart.cart,
             };
             state.data.cart = mergeCart;
+            state.status.purchaseOrderApply = true;
             updateFormik(mergeCart);
         } else {
             state.selected.payment = null;
@@ -51,6 +52,7 @@ export default function CustomizedExpansionPanels({
                 text: t('checkout:message:emptyShippingError'),
             });
         }
+
         setCheckout(state);
 
         const selectedPayment = data.paymentMethod.filter((item) => item.code === val);
@@ -107,6 +109,7 @@ export default function CustomizedExpansionPanels({
                 },
             };
             state.selected.payment = val;
+            state.status.purchaseOrderApply = false;
             setCheckout(state);
 
             if (val === 'purchaseorder' && checkout.selected) {
@@ -128,7 +131,10 @@ export default function CustomizedExpansionPanels({
                 const payment_method = { code: val };
                 const result = await setPaymentMethod({ variables: { cartId: cart.id, payment_method } });
                 onHandleResult({
-                    state, result, val, cart,
+                    state,
+                    result,
+                    val,
+                    cart,
                 });
             }
         }
@@ -161,8 +167,8 @@ export default function CustomizedExpansionPanels({
                 all: false,
                 shipping: false,
                 payment: false,
-                extraFee: true,
-                order: true,
+                extraFee: false,
+                order: false,
                 purchaseOrderNumber: true,
             },
         };
