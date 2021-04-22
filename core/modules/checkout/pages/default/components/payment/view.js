@@ -3,19 +3,29 @@ import { withStyles } from '@material-ui/core/styles';
 import MuiExpansionPanel from '@material-ui/core/Accordion';
 import MuiExpansionPanelSummary from '@material-ui/core/AccordionSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/AccordionDetails';
+import Grid from '@material-ui/core/Grid';
+
 import Typography from '@common_typography';
+import Button from '@common_button';
 import Arrow from '@material-ui/icons/ArrowDropDown';
 import Radio from '@common_forms/Radio';
 import Skeleton from '@material-ui/lab/Skeleton';
+import commonConfig from '@config';
+import FieldPoint from '../../../../components/fieldcode';
 import RadioItem from '../../../../components/radioitem';
+import ModalHowtoPay from '../ModalHowtoPay';
 import useStyles from '../style';
 
-import {
-    ExpanDetailStyle,
-    ExpanPanelStyle,
-    ExpanSummaryStyle,
-} from './style';
+import { ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle } from './style';
 
+const ExpansionPanel = withStyles(ExpanPanelStyle)(MuiExpansionPanel);
+const ExpansionPanelSummary = withStyles(ExpanSummaryStyle)(MuiExpansionPanelSummary);
+const ExpansionPanelDetails = withStyles(ExpanDetailStyle)(MuiExpansionPanelDetails);
+
+/**
+ * Loader
+ * @returns {COMPONENT}
+ */
 const Loader = () => (
     <>
         <Skeleton variant="rect" width="100%" height={20} animation="wave" style={{ marginBottom: 10 }} />
@@ -24,30 +34,44 @@ const Loader = () => (
     </>
 );
 
-const ExpansionPanel = withStyles(ExpanPanelStyle)(MuiExpansionPanel);
-
-const ExpansionPanelSummary = withStyles(ExpanSummaryStyle)(
-    MuiExpansionPanelSummary,
-);
-
-const ExpansionPanelDetails = withStyles(ExpanDetailStyle)(
-    MuiExpansionPanelDetails,
-);
-
+/**
+ * [VIEW] Payment
+ * @param {object} props
+ * @returns
+ */
 const PaymentView = (props) => {
-    const {
-        loading, data, checkout, storeConfig, t, handlePayment, selected,
-    } = props;
     const styles = useStyles();
-    let content;
+    const {
+        loading, data, checkout, storeConfig, t, handlePayment, handlePurchaseOrder, handlePurchaseOrderSubmit, selected,
+    } = props;
+    const { modules } = commonConfig;
     const [expanded, setExpanded] = React.useState(null);
     const [expandedActive, setExpandedActive] = React.useState(true);
+    const [openModal, setModal] = React.useState(false);
 
+    let content;
+
+    /**
+     * [METHOD] handle change
+     * @param {*} panel
+     * @returns
+     */
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
         setExpandedActive(false);
     };
 
+    /**
+     * [METHOD] handle modal
+     * @param {*} state
+     */
+    const handleModal = (state = false) => {
+        setModal(state);
+    };
+
+    /**
+     * [MAIN] return of view
+     */
     if (loading.payment || loading.all) {
         content = <Loader />;
     } else if (data.cart.prices.grand_total.value === 0) {
@@ -106,9 +130,11 @@ const PaymentView = (props) => {
                             if (item.data.length !== 0) {
                                 return (
                                     <ExpansionPanel
-                                        expanded={expanded === index // if key index same with expanded active
+                                        expanded={
+                                            expanded === index // if key index same with expanded active
                                             || (item.active && expandedActive) // expand if item active and not change expand
-                                            || (!itemActive && expandedActive && index === 0)} // if dont have item active, set index 0 to active
+                                            || (!itemActive && expandedActive && index === 0)
+                                        } // if dont have item active, set index 0 to active
                                         onChange={handleChange(index)}
                                         key={index}
                                     >
@@ -118,27 +144,47 @@ const PaymentView = (props) => {
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
                                             <Typography letter="uppercase" variant="span" type="bold">
-                                                {
-                                                    (t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
-                                                        === `paymentGrouping.${item.group.replace('pg-', '')}`)
-                                                        ? item.group.replace('pg-', '')
-                                                        : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
-                                                }
+                                                {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
+                                                === `paymentGrouping.${item.group.replace('pg-', '')}`
+                                                    ? item.group.replace('pg-', '')
+                                                    : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)}
                                             </Typography>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails>
-                                            {item.data.length !== 0 ? (
-                                                <Radio
-                                                    value={selected.payment}
-                                                    onChange={handlePayment}
-                                                    valueData={item.data}
-                                                    CustomItem={RadioItem}
-                                                    propsItem={{
-                                                        borderBottom: false,
-                                                        RightComponent: true,
-                                                    }}
-                                                />
-                                            ) : null}
+                                            <Grid container>
+                                                {item.data.length !== 0 ? (
+                                                    <Grid item xs={12}>
+                                                        <Radio
+                                                            value={selected.payment}
+                                                            onChange={handlePayment}
+                                                            valueData={item.data}
+                                                            CustomItem={RadioItem}
+                                                            propsItem={{
+                                                                borderBottom: false,
+                                                                RightComponent: true,
+                                                            }}
+                                                        />
+                                                    </Grid>
+                                                ) : null}
+
+                                                {selected.payment === 'purchaseorder' && (
+                                                    <Grid item xs={12}>
+                                                        <FieldPoint
+                                                            id="purchase-order"
+                                                            name="purchase-order"
+                                                            placeholder={t('checkout:purchaseOrderNumber')}
+                                                            action={handlePurchaseOrderSubmit}
+                                                            onChange={handlePurchaseOrder}
+                                                            value={checkout.selected.purchaseOrderNumber || ''}
+                                                            disabled={checkout.loading.purchaseOrderNumber}
+                                                            loading={checkout.loading.purchaseOrderNumber}
+                                                            styleFrame={{ marginTop: 0, marginBottom: 0 }}
+                                                            styleFrameText={{ marginTop: 0, marginBottom: 0 }}
+                                                            styleTextField={{ marginTop: 0, marginBottom: 0 }}
+                                                        />
+                                                    </Grid>
+                                                )}
+                                            </Grid>
                                         </ExpansionPanelDetails>
                                     </ExpansionPanel>
                                 );
@@ -157,9 +203,19 @@ const PaymentView = (props) => {
 
     return (
         <div className={styles.block} id="checkoutPayment">
-            <Typography variant="title" type="bold" letter="uppercase">
-                {t('checkout:payment')}
-            </Typography>
+            <ModalHowtoPay open={openModal} setOpen={() => handleModal(false)} />
+            <div className={styles.paymentHeader}>
+                <Typography variant="title" type="bold" letter="uppercase">
+                    {t('checkout:payment')}
+                </Typography>
+                {modules.checkout.howtoPay.enabled ? (
+                    <div>
+                        <Button className={styles.howToPay} onClick={() => handleModal(true)}>
+                            {t('checkout:howtoPay')}
+                        </Button>
+                    </div>
+                ) : null}
+            </div>
             <div>{content}</div>
         </div>
     );

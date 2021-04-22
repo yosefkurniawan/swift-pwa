@@ -154,4 +154,12 @@ export default makeStyles((theme) => ({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    listOption: {
+        ...FlexColumn,
+        marginRight: 50,
+    },
+    footerContainer: {
+        ...FlexRow,
+        alignItems: 'center',
+    },
 }));

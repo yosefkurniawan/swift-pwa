@@ -21,6 +21,7 @@
         "changePickupLocation": "Ubah lokasi pengambilan",
         "selectStoreLocation": "Pilih lokasi toko"
     },
+    "purchaseOrderNumber": "Nomor Pesanan Pembelian",
     "pickupStore": "Ambil di toko",
     "shippingMethod" : "Cara pengantaran",
     "payment" : "Pembayaran",
@@ -48,6 +49,7 @@
         "rewardPointsRemoved": "Poin tidak digunakan",
         "storeCreditApplied": "Store credit telah digunakan",
         "storeCreditRemoved": "Store credit tidak digunakan",
+        "purchaseOrderApplied": "Nomor pesanan pembelian sudah di pasang",
         "couponError": "Kode kupon tidak dapat digunakan. Silahkan periksa terlebih kode kupon Anda dan coba kembali.",
         "giftCardError": "Kode gift card tidak dapat digunakan. Silahkan periksa terlebih kode kupon Anda dan coba kembali.",
         "placeOrder": "Berhasil melakukan pesanan",
@@ -94,5 +96,7 @@
         "reguler": "Reguler",
         "others": "Lainnya"
     },
-    "cartError": "Ada yang salah saat mengambil data keranjang"
+    "cartError": "Ada yang salah saat mengambil data keranjang",
+    "buttonOk": "Ok",
+    "howtoPay": "Bagaimana cara membayar"
 }

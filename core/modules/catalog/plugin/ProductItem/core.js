@@ -8,21 +8,26 @@ import React from 'react';
 import { setResolver, getResolver } from '@helper_localstorage';
 import classNames from 'classnames';
 import ConfigurableOpt from '@core_modules/product/plugin/OptionItem';
-import { addWishlist } from '../../services/graphql';
+import dynamic from 'next/dynamic';
+import { addWishlist, getDetailProduct } from '../../services/graphql';
 import useStyles from './style';
+
+const ModalQuickView = dynamic(() => import('./components/QuickView'), { ssr: false });
 
 const ProductItem = (props) => {
     const {
         id, url_key = '', categorySelect, review, ImageProductView, DetailProductView, LabelView, className = '',
-        enableAddToCart, enableOption, ...other
+        enableAddToCart, enableOption, enableQuickView, isGrid = true, ...other
     } = props;
     const styles = useStyles();
     const { t } = useTranslation(['catalog', 'common']);
     const [feed, setFeed] = React.useState(false);
     const [spesificProduct, setSpesificProduct] = React.useState({});
+    const [openQuickView, setOpenQuickView] = React.useState(false);
 
     let isLogin = '';
     if (typeof window !== 'undefined') isLogin = getLoginInfo();
+    const [getProduct, detailProduct] = getDetailProduct();
     const [postAddWishlist] = addWishlist();
 
     const handleFeed = () => {
@@ -63,6 +68,26 @@ const ProductItem = (props) => {
         route.push('/[...slug]', `/${url_key}`);
     };
 
+    const handleQuickView = async () => {
+        window.backdropLoader(true);
+        getProduct({
+            variables: {
+                url_key,
+            },
+        });
+    };
+
+    React.useMemo(() => {
+        if (detailProduct.error) {
+            window.backdropLoader(false);
+        }
+        if (!detailProduct.loading && detailProduct.data && detailProduct.data.products
+            && detailProduct.data.products.items && detailProduct.data.products.items.length > 0) {
+            window.backdropLoader(false);
+            setOpenQuickView(true);
+        }
+    }, [detailProduct]);
+
     const ratingValue = review && review.rating_summary ? parseInt(review.rating_summary, 0) / 20 : 0;
     const DetailProps = {
         spesificProduct,
@@ -74,18 +99,83 @@ const ProductItem = (props) => {
     const showAddToCart = typeof enableAddToCart !== 'undefined' ? enableAddToCart : modules.catalog.productListing.addToCart.enabled;
     const showOption = typeof enableOption !== 'undefined'
         ? enableOption : modules.catalog.productListing.configurableOptions.enabled;
+    const showQuickView = typeof enableQuickView !== 'undefined'
+        ? enableQuickView : modules.catalog.productListing.quickView.enabled;
+    if (isGrid) {
+        return (
+            <>
+                {
+                    openQuickView && showQuickView && (
+                        <ModalQuickView
+                            open={openQuickView}
+                            onClose={() => setOpenQuickView(false)}
+                            data={detailProduct.data.products}
+                        />
+                    )
+                }
+                <div className={classNames(styles.itemContainer, className, showQuickView ? styles.quickView : '')}>
+                    {
+                        showQuickView && (
+                            <button className="btn-quick-view" type="button" onClick={handleQuickView}>
+                                Quick View
+                            </button>
+                        )
+                    }
+                    {
+                        modules.catalog.productListing.label.enabled && LabelView ? (
+                            <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
+                        ) : null
+                    }
+                    <div className={styles.imgItem}>
+                        <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
+                    </div>
+                    <div className={styles.detailItem}>
+                        <DetailProductView t={t} {...DetailProps} {...other} />
+                        {showOption ? (
+                            <ConfigurableOpt
+                                enableBundle={false}
+                                enableDownload={false}
+                                t={t}
+                                data={other}
+                                showQty={false}
+                                handleSelecteProduct={setSpesificProduct}
+                                showAddToCart={showAddToCart}
+                                propsItem={{
+                                    className: styles.itemConfigurable,
+                                }}
+                                customStyleBtnAddToCard={styles.customBtnAddToCard}
+                                labelAddToCart="Add to cart"
+                                isGrid={isGrid}
+                                {...other}
+                            />
+                        ) : null}
+                    </div>
+                </div>
+            </>
+        );
+    }
     return (
         <>
-            <div className={classNames(styles.itemContainer, className)}>
-                {
-                    modules.catalog.productListing.label.enabled && LabelView ? (
-                        <LabelView t={t} {...other} spesificProduct={spesificProduct} />
-                    ) : null
-                }
-                <div className={styles.imgItem}>
+            {
+                openQuickView && showQuickView && (
+                    <ModalQuickView
+                        open={openQuickView}
+                        onClose={() => setOpenQuickView(false)}
+                        data={detailProduct.data.products}
+                    />
+                )
+            }
+            <div className={classNames(styles.listContainer, className, showQuickView ? styles.quickView : '')}>
+                <div className={styles.listImgItem}>
+                    {
+                        modules.catalog.productListing.label.enabled && LabelView ? (
+                            <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
+                        ) : null
+                    }
                     <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
                 </div>
-                <div className={styles.detailItem}>
+                <div style={{ flex: 0.5 }} />
+                <div className={styles.listDetailItem}>
                     <DetailProductView t={t} {...DetailProps} {...other} />
                     {showOption ? (
                         <ConfigurableOpt
@@ -101,9 +191,17 @@ const ProductItem = (props) => {
                             }}
                             customStyleBtnAddToCard={styles.customBtnAddToCard}
                             labelAddToCart="Add to cart"
+                            isGrid={isGrid}
                             {...other}
                         />
                     ) : null}
+                    {
+                        showQuickView && (
+                            <button className="btn-quick-view-list" type="button" onClick={handleQuickView}>
+                                Quick View
+                            </button>
+                        )
+                    }
                 </div>
             </div>
         </>

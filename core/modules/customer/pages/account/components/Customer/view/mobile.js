@@ -90,6 +90,7 @@ const ViewMobile = (props) => {
                                         data={wishlist}
                                         className={[styles.wishlistBlock, styles.margin20].join(' ')}
                                         Item={ProductItem}
+                                        enableQuickView={false}
                                     />
                                 </div>
                             ) : null}

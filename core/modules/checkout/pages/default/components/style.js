@@ -125,4 +125,11 @@ export default makeStyles((theme) => ({
             marginBottom: 140,
         },
     },
+    paymentHeader: {
+        ...FlexRow,
+        justifyContent: 'space-between',
+    },
+    howToPay: {
+        ...CreatePadding(5, 15, 5, 15),
+    },
 }));

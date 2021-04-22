@@ -350,7 +350,7 @@ const AddressFormDialog = (props) => {
         if (addressState.allCity && addressState.allCity.length
             && addressState.allCity.length > 0) {
             if (formik.values.district && formik.values.district.label) {
-                const village = groupingSubCity(formik.values.district.label, 'village', addressState.allCity);
+                const village = groupingSubCity(formik.values.district.label, 'village', addressState.allCity, formik.values.city);
                 state.dropdown.village = village;
             }
             let villageValue = '';
@@ -368,7 +368,7 @@ const AddressFormDialog = (props) => {
             && responCities.data && !responCities.loading
             && !responCities.error && responCities.data.getCityByRegionId) {
             const { data } = responCities;
-            const village = groupingSubCity(formik.values.district.label, 'village', data.getCityByRegionId.item);
+            const village = groupingSubCity(formik.values.district.label, 'village', data.getCityByRegionId.item, formik.values.city);
             state.dropdown.village = village;
             if (city && !formik.values.village && enableSplitCity) {
                 const defaultValue = splitCityValue(city);
@@ -409,7 +409,6 @@ const AddressFormDialog = (props) => {
     React.useEffect(() => {
         if (formik.values.village && enableSplitCity) formik.setFieldValue('postcode', formik.values.village.postcode);
     }, [formik.values.village]);
-
     return (
         <Content
             t={t}

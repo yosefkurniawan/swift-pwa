@@ -289,6 +289,9 @@ const modules = {
             addToCart: {
                 enabled: false,
             },
+            quickView: {
+                enabled: true,
+            },
         },
         pdp: {
             popupDetailImage: {
@@ -320,6 +323,9 @@ const modules = {
         },
         orderComment: {
             enabled: false,
+        },
+        howtoPay: {
+            enabled: true,
         },
     },
     cart: {
@@ -420,7 +426,7 @@ const modules = {
     home: {
         enabled: true,
         useCmsPage: {
-            enable: true,
+            enable: false,
             identifier: 'pwa-homepage',
         },
         featuresProduct: {
