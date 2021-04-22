@@ -7,6 +7,7 @@ import { getCartId, setCartId } from '@helper_cartid';
 import TagManager from 'react-gtm-module';
 import { localTotalCart } from '@services/graphql/schema/local';
 import { modules } from '@config';
+import Router from 'next/router';
 import {
     addConfigProductsToCart,
     getConfigurableProduct,
@@ -41,7 +42,7 @@ const OptionsItemConfig = (props) => {
 
     const {
         __typename, sku, media_gallery, image, price_range, price_tiers,
-        small_image, name, categories,
+        small_image, name, categories, url_key,
     } = data;
 
     const [selectConfigurable, setSelectConfigurable] = React.useState({});
@@ -298,6 +299,9 @@ const OptionsItemConfig = (props) => {
                             setOpen(false);
                         })
                         .catch((e) => {
+                            if (e.message === "The product's required option(s) weren't entered. Make sure the options are entered and try again.") {
+                                Router.push(`/${url_key}`);
+                            }
                             setLoading(false);
                             window.toastMessage({
                                 ...errorMessage,
@@ -310,7 +314,7 @@ const OptionsItemConfig = (props) => {
     };
 
     const handleAddToCart = async () => {
-        if (modules.product.customizableOptions.enabled) {
+        if (modules.product.customizableOptions.enabled && customizableOptions && customizableOptions.length > 0) {
             const check = await checkCustomizableOptionsValue();
             if (check) {
                 addToCart();

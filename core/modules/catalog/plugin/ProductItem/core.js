@@ -93,7 +93,9 @@ const ProductItem = (props) => {
                                 enableBundle={false}
                                 enableDownload={false}
                                 t={t}
-                                data={other}
+                                data={{
+                                    ...other, url_key,
+                                }}
                                 showQty={false}
                                 handleSelecteProduct={setSpesificProduct}
                                 showAddToCart={showAddToCart}
@@ -130,7 +132,9 @@ const ProductItem = (props) => {
                             enableBundle={false}
                             enableDownload={false}
                             t={t}
-                            data={other}
+                            data={{
+                                ...other, url_key,
+                            }}
                             showQty={false}
                             handleSelecteProduct={setSpesificProduct}
                             showAddToCart={showAddToCart}
