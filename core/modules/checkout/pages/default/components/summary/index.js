@@ -14,16 +14,20 @@ const Summary = ({
     t, checkout, setCheckout, handleOpenMessage, formik, updateFormik, config, refSummary, storeConfig,
 }) => {
     const { order: loading, all: disabled } = checkout.loading;
+    const isSelectedPurchaseOrder = checkout.selected.payment === 'purchaseorder';
     const globalCurrency = storeConfig.default_display_currency_code;
+    // prettier-ignore
+    const isPurchaseOrderApply = isSelectedPurchaseOrder && checkout.status.purchaseOrderApply;
+
     const client = useApolloClient();
     const [orderId, setOrderId] = useState(null);
     const [snapOpened, setSnapOpened] = useState(false);
     const [snapClosed, setSnapClosed] = useState(false);
-    const [getSnapToken, manageSnapToken] = gqlService.getSnapToken({ onError: () => { } });
-    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => { } });
-    const [placeOrder] = gqlService.placeOrder({ onError: () => { } });
-    const [placeOrderWithOrderComment] = gqlService.placeOrderWithOrderComment({ onError: () => { } });
-    const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => { } });
+    const [getSnapToken, manageSnapToken] = gqlService.getSnapToken({ onError: () => {} });
+    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
+    const [placeOrder] = gqlService.placeOrder({ onError: () => {} });
+    const [placeOrderWithOrderComment] = gqlService.placeOrderWithOrderComment({ onError: () => {} });
+    const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => {} });
     const [getCustCartId, manageCustCartId] = gqlService.getCustomerCartId();
     const [mergeCart] = gqlService.mergeCart();
 
@@ -311,24 +315,26 @@ const Summary = ({
             context: {
                 request: 'internal',
             },
-        }).then((res) => {
-            if (res && res.data && res.data.updateCartItems && res.data.updateCartItems.cart) {
+        })
+            .then((res) => {
+                if (res && res.data && res.data.updateCartItems && res.data.updateCartItems.cart) {
+                    setLoadSummary(false);
+                    window.toastMessage({
+                        open: true,
+                        text: t('common:cart:updateSuccess'),
+                        variant: 'success',
+                    });
+                    setCart({ ...res.data.updateCartItems.cart });
+                }
+            })
+            .catch((e) => {
                 setLoadSummary(false);
                 window.toastMessage({
                     open: true,
-                    text: t('common:cart:updateSuccess'),
-                    variant: 'success',
+                    text: e.message.split(':')[1] || t('common:cart:updateFailed'),
+                    variant: 'error',
                 });
-                setCart({ ...res.data.updateCartItems.cart });
-            }
-        }).catch((e) => {
-            setLoadSummary(false);
-            window.toastMessage({
-                open: true,
-                text: e.message.split(':')[1] || t('common:cart:updateFailed'),
-                variant: 'error',
             });
-        });
     };
 
     const deleteCart = (id) => {
@@ -341,29 +347,30 @@ const Summary = ({
             context: {
                 request: 'internal',
             },
-        }).then((res) => {
-            if (res && res.data && res.data.removeItemFromCart && res.data.removeItemFromCart.cart) {
+        })
+            .then((res) => {
+                if (res && res.data && res.data.removeItemFromCart && res.data.removeItemFromCart.cart) {
+                    setLoadSummary(false);
+                    window.toastMessage({
+                        open: true,
+                        text: t('common:cart:deleteSuccess'),
+                        variant: 'success',
+                    });
+                    if (res.data.removeItemFromCart.cart.items === null || res.data.removeItemFromCart.cart.items.length === 0) {
+                        window.location.replace(generateCartRedirect());
+                    } else {
+                        setCart({ ...res.data.removeItemFromCart.cart });
+                    }
+                }
+            })
+            .catch((e) => {
                 setLoadSummary(false);
                 window.toastMessage({
                     open: true,
-                    text: t('common:cart:deleteSuccess'),
-                    variant: 'success',
+                    text: e.message.split(':')[1] || t('common:cart:deleteFailed'),
+                    variant: 'error',
                 });
-                if (res.data.removeItemFromCart.cart.items === null
-                    || res.data.removeItemFromCart.cart.items.length === 0) {
-                    window.location.replace(generateCartRedirect());
-                } else {
-                    setCart({ ...res.data.removeItemFromCart.cart });
-                }
-            }
-        }).catch((e) => {
-            setLoadSummary(false);
-            window.toastMessage({
-                open: true,
-                text: e.message.split(':')[1] || t('common:cart:deleteFailed'),
-                variant: 'error',
             });
-        });
     };
 
     if (checkout && checkout.data && checkout.data.cart && checkout.loading) {
@@ -374,7 +381,7 @@ const Summary = ({
                         t={t}
                         loading={loading}
                         isLoader={checkout.loading.order}
-                        disabled={disabled}
+                        disabled={disabled || (isSelectedPurchaseOrder && !isPurchaseOrderApply)}
                         handleActionSummary={handlePlaceOrder}
                         dataCart={checkout.data.cart}
                         isDesktop={false}
