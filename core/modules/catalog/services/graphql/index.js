@@ -4,10 +4,8 @@ import * as productSchema from './productSchema';
 
 export const getProduct = (config, otherConfig = {}) => useQuery(productSchema.getProduct(config), {
     ...otherConfig,
-    fetchPolicy: 'cache-and-network',
 });
 export const getProductAgragations = () => useQuery(productSchema.getProductAgragations(), {
-    fetchPolicy: 'cache-and-network',
 });
 export const getCategory = (variables) => useQuery(schemaCategory.getCategory(variables), {
     fetchPolicy: 'cache-and-network',
@@ -23,7 +21,6 @@ export const addWishlist = () => useMutation(productSchema.addWishlist, {
 });
 
 export const getDetailProduct = () => useLazyQuery(productSchema.getDetailProduct, {
-    fetchPolicy: 'no-cache',
 });
 
 export default { getCategory, getCategoryProducts };
