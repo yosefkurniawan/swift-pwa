@@ -21,9 +21,21 @@ const ViewTopNavigation = (props) => {
     } = props;
     return (
         <div id="header">
-            <div className="global-promo">
-                <GlobalPromoMessage data={cmsPromo} t={t} />
-            </div>
+            {
+                storeConfig.global_promo.enable
+                && (
+                    <div style={{
+                        height: '45px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        color: storeConfig.global_promo.text_color,
+                        backgroundColor: storeConfig.global_promo.background_color,
+                    }}
+                    >
+                        <GlobalPromoMessage data={cmsPromo} t={t} />
+                    </div>
+                )
+            }
             <div className="row header-top">
                 <main style={{ width: '97%' }}>
                     {features.customInstallApp.enabled ? <DesktopInstallApp /> : null}

@@ -11,7 +11,7 @@ const GlobalPromoMessage = (props) => {
     const options = {
         replace: ({ attribs, children }) => {
             if (attribs) {
-                if (attribs.id === 'main') {
+                if (attribs.id === 'carousel') {
                     return <h1 style={{ fontSize: 42 }}>{domToReact(children, options)}</h1>;
                 }
 
@@ -31,7 +31,9 @@ const GlobalPromoMessage = (props) => {
         const { content } = data.cmsBlocks.items[0];
         return (
             <div>
-                {parse(content, options)}
+                <div className="swiper-container">
+                    {parse(content, options)}
+                </div>
                 <style jsx>
                     {`
                         ul, li {
