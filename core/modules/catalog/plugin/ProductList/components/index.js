@@ -19,7 +19,7 @@ const Content = (props) => {
         loadmore, handleLoadMore, dataTabs, onChangeTabs, ...other
     } = props;
     const styles = useStyles();
-    const [isGrid, setGridState] = useState(null);
+    const [isGrid, setGridState] = useState(true);
 
     const handleScroll = () => {
         // To get page offset of last user
@@ -49,7 +49,9 @@ const Content = (props) => {
 
     useEffect(() => {
         const gridView = getLocalStorage('isGrid');
-        setGridState(gridView);
+        if (gridView !== null) {
+            setGridState(gridView);
+        }
     }, [isGrid]);
 
     return (
@@ -134,6 +136,7 @@ const Content = (props) => {
                                     categorySelect: categoryPath,
                                     LabelView,
                                     isGrid,
+                                    catalogList: true,
                                     className: 'grid-item',
                                     ...other,
                                 }}

@@ -56,8 +56,7 @@ const Content = (props) => {
     const SummaryRef = React.createRef();
     const { order: loading, all: disabled } = checkout.loading;
     // prettier-ignore
-    const isNullPurchseOrder = (checkout.selected.purchaseOrderNumber === null || checkout.selected.purchaseOrderNumber === '');
-    const isDisableOnPurchaseOrder = checkout.selected.payment === 'purchaseorder' && isNullPurchseOrder;
+    const isPurchaseOrderApply = checkout.selected.payment === 'purchaseorder' && checkout.status.purchaseOrderApply;
 
     /**
      * [METHOD] handle click for place order
@@ -265,7 +264,7 @@ const Content = (props) => {
                     onClick={handleClick}
                     fullWidth
                     loading={loading}
-                    disabled={disabled || isDisableOnPurchaseOrder}
+                    disabled={disabled || (checkout.selected.payment === 'purchaseorder' && !isPurchaseOrderApply)}
                     className={styles.placeOrderDesktop}
                 >
                     <Typography variant="span" letter="uppercase" type="bold" color="white">

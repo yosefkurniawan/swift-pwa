@@ -1,4 +1,5 @@
 /* eslint-disable no-plusplus */
+/* eslint-disable no-shadow */
 import { withStyles } from '@material-ui/core/styles';
 import MuiExpansionPanel from '@material-ui/core/Accordion';
 import MuiExpansionPanelSummary from '@material-ui/core/AccordionSummary';
@@ -21,6 +22,7 @@ import { ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle } from './style';
 const ExpansionPanel = withStyles(ExpanPanelStyle)(MuiExpansionPanel);
 const ExpansionPanelSummary = withStyles(ExpanSummaryStyle)(MuiExpansionPanelSummary);
 const ExpansionPanelDetails = withStyles(ExpanDetailStyle)(MuiExpansionPanelDetails);
+const PO = 'purchaseorder';
 
 /**
  * Loader
@@ -159,6 +161,29 @@ const PaymentView = (props) => {
                                                             onChange={handlePayment}
                                                             valueData={item.data}
                                                             CustomItem={RadioItem}
+                                                            ComponentOptional={(item) => {
+                                                                // prettier-ignore
+                                                                const isNotPurchaseOrder = item.code !== PO || selected.payment !== PO;
+                                                                if (isNotPurchaseOrder) return null;
+
+                                                                return (
+                                                                    <Grid item xs={12}>
+                                                                        <FieldPoint
+                                                                            id="purchase-order"
+                                                                            name="purchase-order"
+                                                                            placeholder={t('checkout:purchaseOrderNumber')}
+                                                                            action={handlePurchaseOrderSubmit}
+                                                                            onChange={handlePurchaseOrder}
+                                                                            value={checkout.selected.purchaseOrderNumber || ''}
+                                                                            disabled={checkout.loading.purchaseOrderNumber}
+                                                                            loading={checkout.loading.purchaseOrderNumber}
+                                                                            styleFrame={{ marginTop: 0, marginBottom: 0 }}
+                                                                            styleFrameText={{ marginTop: 0, marginBottom: 0 }}
+                                                                            styleTextField={{ marginTop: 0, marginBottom: 0 }}
+                                                                        />
+                                                                    </Grid>
+                                                                );
+                                                            }}
                                                             propsItem={{
                                                                 borderBottom: false,
                                                                 RightComponent: true,
@@ -166,24 +191,6 @@ const PaymentView = (props) => {
                                                         />
                                                     </Grid>
                                                 ) : null}
-
-                                                {selected.payment === 'purchaseorder' && (
-                                                    <Grid item xs={12}>
-                                                        <FieldPoint
-                                                            id="purchase-order"
-                                                            name="purchase-order"
-                                                            placeholder={t('checkout:purchaseOrderNumber')}
-                                                            action={handlePurchaseOrderSubmit}
-                                                            onChange={handlePurchaseOrder}
-                                                            value={checkout.selected.purchaseOrderNumber || ''}
-                                                            disabled={checkout.loading.purchaseOrderNumber}
-                                                            loading={checkout.loading.purchaseOrderNumber}
-                                                            styleFrame={{ marginTop: 0, marginBottom: 0 }}
-                                                            styleFrameText={{ marginTop: 0, marginBottom: 0 }}
-                                                            styleTextField={{ marginTop: 0, marginBottom: 0 }}
-                                                        />
-                                                    </Grid>
-                                                )}
                                             </Grid>
                                         </ExpansionPanelDetails>
                                     </ExpansionPanel>

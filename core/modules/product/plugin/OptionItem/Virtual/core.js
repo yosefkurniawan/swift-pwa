@@ -3,7 +3,7 @@ import { getLoginInfo } from '@helper_auth';
 import { useApolloClient } from '@apollo/client';
 import { localTotalCart } from '@services/graphql/schema/local';
 import { modules } from '@config';
-// import Router from 'next/router';
+import Router from 'next/router';
 import React from 'react';
 import TagManager from 'react-gtm-module';
 import { addVirtualProductToCart, getGuestCartId as queryGetGuestCartId, getCustomerCartId } from '../../../services/graphql';
@@ -28,7 +28,7 @@ const CoreOptionsItemVirtual = ({
 
     const {
         __typename, sku, name, categories,
-        price_range, stock_status,
+        price_range, stock_status, url_key,
     } = data;
 
     if (typeof window !== 'undefined') {
@@ -172,6 +172,9 @@ const CoreOptionsItemVirtual = ({
                         setOpen(false);
                     })
                     .catch((e) => {
+                        if (e.message === "The product's required option(s) weren't entered. Make sure the options are entered and try again.") {
+                            Router.push(`/${url_key}`);
+                        }
                         setLoading(false);
                         window.toastMessage({
                             ...errorMessage,
@@ -183,7 +186,7 @@ const CoreOptionsItemVirtual = ({
     };
 
     const handleAddToCart = async () => {
-        if (modules.product.customizableOptions.enabled) {
+        if (modules.product.customizableOptions.enabled && customizableOptions && customizableOptions.length > 0) {
             const check = await checkCustomizableOptionsValue();
             if (check) {
                 addToCart();

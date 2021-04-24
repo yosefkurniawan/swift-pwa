@@ -87,6 +87,7 @@ export const getProduct = (config = {}) => gql`
         sku
         name
         url_key
+        stock_status
         ${modules.catalog.productListing.configurableOptions ? `review {
           rating_summary
           reviews_count
@@ -182,6 +183,7 @@ export const getProduct = (config = {}) => gql`
               id
               sku
               stock_status
+              url_key
               ${modules.catalog.productListing.rating
         ? `review {
                 rating_summary
