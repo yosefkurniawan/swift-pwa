@@ -60,6 +60,11 @@ export default makeStyles((theme) => ({
             ...CreateMargin(20, 0, 10, 0),
         },
     },
+    sizeContainerList: {
+        [theme.breakpoints.down('sm')]: {
+            ...CreateMargin(20, 0, 10, 0),
+        },
+    },
     classContainer: {
         [theme.breakpoints.down('sm')]: {
             justifyContent: 'center',
@@ -134,6 +139,9 @@ export default makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    stylesItemOptionList: {
+
     },
     customizeContainer: {
         width: '100%',
