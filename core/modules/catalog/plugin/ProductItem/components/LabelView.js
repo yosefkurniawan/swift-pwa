@@ -4,7 +4,7 @@ import useStyles from '../style';
 
 const LabelView = (props) => {
     const {
-        __typename, new_from_date, new_to_date, sale, isGrid,
+        __typename, new_from_date, new_to_date, sale, isGrid = true,
         price_range, special_from_date, special_to_date, spesificProduct,
     } = props;
     const styles = useStyles();

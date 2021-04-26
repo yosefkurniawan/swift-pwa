@@ -5,6 +5,7 @@ import {
 import {
     GRAY_PRIMARY, GRAY_THIRD, PRIMARY, WHITE,
 } from '@theme_color';
+import { features } from '@config';
 
 export default makeStyles((theme) => ({
     container: {},
@@ -45,12 +46,12 @@ export default makeStyles((theme) => ({
         },
     },
     listContainer: {
-        width: '100%',
-        display: 'flex',
+        width: 'calc(100% - 20px)',
+        // display: 'flex',
         height: '100%',
         overflow: 'hidden',
         ...CreatePadding(10, 10, 0, 10),
-        ...CreateMargin(0, 0, 16, 0),
+        ...CreateMargin(0, 10, 15, 10),
         position: 'relative',
         '& .MuiSkeleton-rect': {
             paddingBottom: '120%',
@@ -73,7 +74,7 @@ export default makeStyles((theme) => ({
     },
     badgesNewSalesList: {
         position: 'absolute',
-        width: '80%',
+        width: '100%',
         top: 0,
         left: 0,
         right: 0,
@@ -120,10 +121,10 @@ export default makeStyles((theme) => ({
         position: 'relative',
     },
     listImgItem: {
-        flex: 0.3,
-        ...Centering,
         position: 'relative',
-        maxWidth: '80%',
+        maxWidth: '100%',
+        width: features.imageSize.product.width,
+        height: features.imageSize.product.height,
         '& .btn-quick-view': {
             position: 'absolute',
             zIndex: 2,
@@ -140,11 +141,15 @@ export default makeStyles((theme) => ({
             ...CenterAbsolute,
         },
         [theme.breakpoints.up('sm')]: {
+            ...Centering,
             '&:hover': {
                 '& .btn-quick-view': {
                     display: 'inline-block',
                 },
             },
+        },
+        [theme.breakpoints.down('sm')]: {
+            justifyContent: 'none !important',
         },
     },
     listDetailItem: {
@@ -159,6 +164,8 @@ export default makeStyles((theme) => ({
     },
     productTitle: {
         ...CreateMargin(0, 0, 5, 0),
+        fontSize: 12,
+        fontWeight: '600',
     },
     btnFeed: {
         ...ClearMarginPadding,
@@ -209,10 +216,11 @@ export default makeStyles((theme) => ({
         },
         [theme.breakpoints.up('sm')]: {
             ...CreateMargin(5, 5, 5, 5),
+            width: 316,
         },
-        ...CreateMargin(0, 0, 0, 0),
+        ...CreateMargin(10, 0, 0, 0),
         width: '100%',
-        height: 30,
+        height: 41,
         bottom: 0,
         left: 0,
         opacity: 'none',

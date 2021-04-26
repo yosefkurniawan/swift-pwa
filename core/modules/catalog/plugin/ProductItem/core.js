@@ -9,6 +9,9 @@ import { setResolver, getResolver } from '@helper_localstorage';
 import classNames from 'classnames';
 import ConfigurableOpt from '@core_modules/product/plugin/OptionItem';
 import dynamic from 'next/dynamic';
+import Favorite from '@material-ui/icons/Favorite';
+import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
+import Button from '@material-ui/core/IconButton';
 import { addWishlist, getDetailProduct } from '../../services/graphql';
 import useStyles from './style';
 
@@ -17,7 +20,7 @@ const ModalQuickView = dynamic(() => import('./components/QuickView'), { ssr: fa
 const ProductItem = (props) => {
     const {
         id, url_key = '', categorySelect, review, ImageProductView, DetailProductView, LabelView, className = '',
-        enableAddToCart, enableOption, enableQuickView, isGrid, catalogList, ...other
+        enableAddToCart, enableOption, enableQuickView, isGrid = true, catalogList, ...other
     } = props;
     const styles = useStyles();
     const { t } = useTranslation(['catalog', 'common']);
@@ -130,7 +133,7 @@ const ProductItem = (props) => {
                         <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
                     </div>
                     <div className={styles.detailItem}>
-                        <DetailProductView t={t} {...DetailProps} {...other} />
+                        <DetailProductView t={t} {...DetailProps} {...other} catalogList={catalogList} />
                         {showOption ? (
                             <ConfigurableOpt
                                 enableBundle={false}
@@ -157,6 +160,11 @@ const ProductItem = (props) => {
             </>
         );
     }
+    // eslint-disable-next-line react/destructuring-assignment
+    const showWishlist = typeof props.enableWishlist !== 'undefined' ? props.enableWishlist : modules.wishlist.enabled;
+    const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
+    const FeedIcon = feed ? <Favorite className={classFeedActive} /> : <FavoriteBorderOutlined className={styles.iconFeed} />;
+
     return (
         <>
             {
@@ -169,7 +177,72 @@ const ProductItem = (props) => {
                 )
             }
             <div className={classNames(styles.listContainer, className, showQuickView ? styles.quickView : '')}>
-                <div className={styles.listImgItem}>
+                <div className="row start-xs">
+                    <div className="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div className={styles.listImgItem}>
+                            {
+                                modules.catalog.productListing.label.enabled && LabelView ? (
+                                    <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
+                                ) : null
+                            }
+                            {
+                                showQuickView && (
+                                    <button className="btn-quick-view" type="button" onClick={handleQuickView}>
+                                        Quick View
+                                    </button>
+                                )
+                            }
+                            <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
+                        </div>
+                    </div>
+                    <div className="col-xs-6 col-sm-6 col-md-8 col-lg-9">
+                        <div className="row start-xs">
+                            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <DetailProductView
+                                    t={t}
+                                    {...DetailProps}
+                                    {...other}
+                                    enableWishlist={false}
+                                />
+                            </div>
+                            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                {showOption ? (
+                                    <ConfigurableOpt
+                                        enableBundle={false}
+                                        enableDownload={false}
+                                        t={t}
+                                        data={{
+                                            ...other, url_key,
+                                        }}
+                                        showQty={false}
+                                        catalogList={catalogList}
+                                        handleSelecteProduct={setSpesificProduct}
+                                        showAddToCart={showAddToCart}
+                                        propsItem={{
+                                            className: styles.itemConfigurable,
+                                        }}
+                                        customStyleBtnAddToCard={styles.customBtnAddToCard}
+                                        labelAddToCart="Add to cart"
+                                        isGrid={isGrid}
+                                        {...other}
+                                    />
+                                // eslint-disable-next-line indent
+                                ) : null}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {
+                    showWishlist && (
+                        <Button
+                            className={styles.btnFeed}
+                            onClick={handleFeed}
+                        >
+                            {FeedIcon}
+                        </Button>
+                    )
+                }
+                {/* <div className={styles.listImgItem}>
                     {
                         modules.catalog.productListing.label.enabled && LabelView ? (
                             <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
@@ -208,7 +281,7 @@ const ProductItem = (props) => {
                             {...other}
                         />
                     ) : null}
-                </div>
+                </div> */}
             </div>
         </>
     );
