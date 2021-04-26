@@ -22,8 +22,19 @@ import DeleteOutlineOutlined from '@material-ui/icons/DeleteOutlineOutlined';
 import useStyles from './style';
 
 const CheckoutDrawer = ({
-    editMode, t, summary, handleActionSummary, loading, disabled, showItems = false, items = [], label = '',
-    isLoader, deleteCart, updateCart, withAction,
+    editMode,
+    t,
+    summary,
+    handleActionSummary,
+    loading,
+    disabled,
+    showItems = false,
+    items = [],
+    label = '',
+    isLoader,
+    deleteCart,
+    updateCart,
+    withAction,
 }) => {
     const styles = useStyles();
     const [expanded, setExpanded] = useState(null);
@@ -51,155 +62,138 @@ const CheckoutDrawer = ({
                         {expanded === 1 ? <ExpandLess /> : <ExpandMore />}
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={styles.expanBody}>
-                        {
-                            isLoader ? <Loader /> : (
-                                <>
-                                    {
-                                        showItems
-                                            ? (
-                                                <>
-                                                    <div className={classNames('row', styles.itemContainer)}>
-                                                        {
-                                                            items.map((item, index) => (
-                                                                <div
-                                                                    className="col-xs-12 row"
-                                                                    key={index}
-                                                                    id="bottomListItemProductSummary"
-                                                                >
-                                                                    <div className="col-xs-12 row between-xs clear-margin-padding">
-                                                                        <div className="col-xs-6">
-                                                                            <Typography variant="p">{item.product.name}</Typography>
-                                                                        </div>
-                                                                        <div className="col-xs-6">
-                                                                            <Typography variant="p" align="right">
-                                                                                {formatPrice(
-                                                                                    item.prices.row_total_including_tax.value,
-                                                                                    item.prices.row_total_including_tax.currency || 'IDR',
-                                                                                )}
-                                                                            </Typography>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className={classNames('col-xs-12', styles.qtyOption)}>
-                                                                        <Typography variant="p">
-                                                                            {
-                                                                                item.configurable_options
-                                                                            && item.configurable_options.length > 0
-                                                                            && (
-                                                                                <>
-                                                                                    {`
+                        {isLoader ? (
+                            <Loader />
+                        ) : (
+                            <>
+                                {showItems ? (
+                                    <>
+                                        <div className={classNames('row', styles.itemContainer)}>
+                                            {items.map((item, index) => (
+                                                <div className="col-xs-12 row" key={index} id="bottomListItemProductSummary">
+                                                    <div className="col-xs-12 row between-xs clear-margin-padding">
+                                                        <div className="col-xs-6">
+                                                            <Typography variant="p">{item.product.name}</Typography>
+                                                        </div>
+                                                        <div className="col-xs-6">
+                                                            <Typography variant="p" align="right">
+                                                                {formatPrice(
+                                                                    item.prices.row_total_including_tax.value,
+                                                                    item.prices.row_total_including_tax.currency || 'IDR',
+                                                                )}
+                                                            </Typography>
+                                                        </div>
+                                                    </div>
+                                                    <div className={classNames('col-xs-12', styles.qtyOption)}>
+                                                        <Typography variant="p">
+                                                            {item.configurable_options && item.configurable_options.length > 0 && (
+                                                                <>
+                                                                    {`
                                                                                 ${t('common:variant')} 
                                                                                 : 
-                                                                                ${
-                                                                                item.configurable_options.map((option, key) => {
-                                                                                    if (key !== item.configurable_options.length - 1) {
-                                                                                        return `${option.value_label} `;
-                                                                                    }
-                                                                                    return ` ${option.value_label}`;
-                                                                                })
-                                                                                }`}
-                                                                                    <br />
-                                                                                </>
-                                                                            )
-                                                                            }
-                                                                            {`${t('common:title:shortQty')} : ${item.quantity}`}
-                                                                        </Typography>
-                                                                    </div>
-                                                                    { withAction && (
-                                                                        <div
-                                                                            className={
-                                                                                classNames(
-                                                                                    'col-xs-12  row between-xs clear-margin-padding',
-                                                                                    styles.action,
-                                                                                )
-                                                                            }
-                                                                        >
-                                                                            <div className="col-xs-6">
-                                                                                <span
-                                                                                    className="item-minus qty-update"
-                                                                                    onClick={() => {
-                                                                                        if (item.quantity > 1) {
-                                                                                            setExpanded(false);
-                                                                                            updateCart(item.id, item.quantity - 1);
-                                                                                        }
-                                                                                    }}
-                                                                                />
-                                                                                <span className="item-count">{item.quantity}</span>
-                                                                                <span
-                                                                                    className="item-plus qty-update"
-                                                                                    onClick={() => {
-                                                                                        setExpanded(false);
-                                                                                        updateCart(item.id, item.quantity + 1);
-                                                                                    }}
-                                                                                />
-                                                                            </div>
-                                                                            <div
-                                                                                className="col-xs-6 delete"
-                                                                                onClick={() => {
-                                                                                    setExpanded(0);
-                                                                                    deleteCart(item.id);
-                                                                                }}
-                                                                            >
-                                                                                <IconButton className="delete-button" color="inherit">
-                                                                                    <DeleteOutlineOutlined className="icon-delete" />
-                                                                                </IconButton>
-                                                                            </div>
-                                                                        </div>
-                                                                    ) }
-                                                                </div>
-                                                            ))
-                                                        }
-                                                    </div>
-                                                    <Divider />
-                                                </>
-                                            ) : null
-                                    }
-                                </>
-                            )
-                        }
-                        {
-                            isLoader ? <Loader />
-                                : (
-                                    <List>
-                                        {
-                                            data.map((dt, index) => (
-                                                <ListItem className={styles.list} key={index}>
-                                                    <ListItemText
-                                                        className={styles.labelItem}
-                                                        primary={<Typography variant="p" size="12">{dt.item}</Typography>}
-                                                    />
-                                                    <ListItemSecondaryAction>
-                                                        <Typography variant="span" type="regular">
-                                                            {dt.value}
+                                                                                ${item.configurable_options.map((option, key) => {
+                                                                    if (key !== item.configurable_options.length - 1) {
+                                                                        return `${option.value_label} `;
+                                                                    }
+                                                                    return ` ${option.value_label}`;
+                                                                })}`}
+                                                                    <br />
+                                                                </>
+                                                            )}
+                                                            {`${t('common:title:shortQty')} : ${item.quantity}`}
                                                         </Typography>
-                                                    </ListItemSecondaryAction>
-                                                </ListItem>
-                                            ))
-                                        }
-                                        <ListItem className={styles.list}>
-                                            <ListItemText primary={<Typography variant="title" type="bold">Total</Typography>} />
-                                            <ListItemSecondaryAction>
-                                                <Typography variant="title" type="bold">
-                                                    {total.currency ? formatPrice(total.value, total.currency) : null}
+                                                    </div>
+                                                    {withAction && (
+                                                        <div className={classNames('col-xs-12  row between-xs clear-margin-padding', styles.action)}>
+                                                            <div className="col-xs-6">
+                                                                <span
+                                                                    className="item-minus qty-update"
+                                                                    onClick={() => {
+                                                                        if (item.quantity > 1) {
+                                                                            setExpanded(false);
+                                                                            updateCart(item.id, item.quantity - 1);
+                                                                        }
+                                                                    }}
+                                                                />
+                                                                <span className="item-count">{item.quantity}</span>
+                                                                <span
+                                                                    className="item-plus qty-update"
+                                                                    onClick={() => {
+                                                                        setExpanded(false);
+                                                                        updateCart(item.id, item.quantity + 1);
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                            <div
+                                                                className="col-xs-6 delete"
+                                                                onClick={() => {
+                                                                    setExpanded(0);
+                                                                    deleteCart(item.id);
+                                                                }}
+                                                            >
+                                                                <IconButton className="delete-button" color="inherit">
+                                                                    <DeleteOutlineOutlined className="icon-delete" />
+                                                                </IconButton>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <Divider />
+                                    </>
+                                ) : null}
+                            </>
+                        )}
+                        {isLoader ? (
+                            <Loader />
+                        ) : (
+                            <List>
+                                {data.map((dt, index) => (
+                                    <ListItem className={styles.list} key={index}>
+                                        <ListItemText
+                                            className={styles.labelItem}
+                                            primary={(
+                                                <Typography variant="p" size="12">
+                                                    {dt.item}
                                                 </Typography>
-                                            </ListItemSecondaryAction>
-                                        </ListItem>
-                                    </List>
-                                )
-                        }
+                                            )}
+                                        />
+                                        <ListItemSecondaryAction>
+                                            <Typography variant="span" type="regular">
+                                                {dt.value}
+                                            </Typography>
+                                        </ListItemSecondaryAction>
+                                    </ListItem>
+                                ))}
+                                <ListItem className={styles.list}>
+                                    <ListItemText
+                                        primary={(
+                                            <Typography variant="title" type="bold">
+                                                Total
+                                            </Typography>
+                                        )}
+                                    />
+                                    <ListItemSecondaryAction>
+                                        <Typography variant="title" type="bold">
+                                            {total.currency ? formatPrice(total.value, total.currency) : null}
+                                        </Typography>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            </List>
+                        )}
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
-                {
-                    expanded === null || expanded === false ? (
-                        <div className={styles.summary}>
-                            <Typography variant="span" type="bold" align="center" letter="capitalize" className={styles.subtotal}>
-                                Total&nbsp;
-                            </Typography>
-                            <Typography variant="span" type="bold" align="center" letter="capitalize" className={styles.subtotal}>
-                                {total.currency ? formatPrice(total.value, total.currency) : null}
-                            </Typography>
-                        </div>
-                    ) : null
-                }
+                {expanded === null || expanded === false ? (
+                    <div className={styles.summary}>
+                        <Typography variant="span" type="bold" align="center" letter="capitalize" className={styles.subtotal}>
+                            Total&nbsp;
+                        </Typography>
+                        <Typography variant="span" type="bold" align="center" letter="capitalize" className={styles.subtotal}>
+                            {total.currency ? formatPrice(total.value, total.currency) : null}
+                        </Typography>
+                    </div>
+                ) : null}
                 <div className={styles.actions}>
                     <Button
                         loading={loading}
