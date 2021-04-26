@@ -24,20 +24,6 @@ export default makeStyles((theme) => ({
         },
     },
     quickView: {
-        '& .btn-quick-view': {
-            position: 'absolute',
-            top: 5,
-            right: 5,
-            zIndex: 999,
-            clear: 'both',
-            background: 'transparent',
-            border: 'none',
-            fontWeight: 'bold',
-            color: GRAY_THIRD,
-            cursor: 'pointer',
-            outline: 'none',
-            display: 'none',
-        },
         '& .btn-quick-view-list': {
             clear: 'both',
             background: 'transparent',
@@ -54,7 +40,7 @@ export default makeStyles((theme) => ({
                 '& .btn-quick-view': {
                     display: 'inline-block',
                 },
-                boxShadow: '0px 5px 5px 2px rgba(0,0,0,0.3)',
+                boxShadow: '0px 3px 3px 1px rgba(0,0,0,0.15)',
             },
         },
     },
@@ -100,6 +86,29 @@ export default makeStyles((theme) => ({
     imgItem: {
         width: '100%',
         ...Centering,
+        position: 'relative',
+        '& .btn-quick-view': {
+            position: 'absolute',
+            zIndex: 2,
+            clear: 'both',
+            background: 'rgba(0,0,0, 0.3)',
+            borderRadius: 5,
+            padding: 5,
+            border: 'none',
+            fontWeight: 'bold',
+            color: WHITE,
+            cursor: 'pointer',
+            outline: 'none',
+            display: 'none',
+            ...CenterAbsolute,
+        },
+        [theme.breakpoints.up('sm')]: {
+            '&:hover': {
+                '& .btn-quick-view': {
+                    display: 'inline-block',
+                },
+            },
+        },
     },
     imgProduct: {
         width: '100%',
@@ -114,11 +123,34 @@ export default makeStyles((theme) => ({
         flex: 0.3,
         ...Centering,
         position: 'relative',
+        maxWidth: '80%',
+        '& .btn-quick-view': {
+            position: 'absolute',
+            zIndex: 2,
+            clear: 'both',
+            background: 'rgba(0,0,0, 0.3)',
+            borderRadius: 5,
+            padding: 5,
+            border: 'none',
+            fontWeight: 'bold',
+            color: WHITE,
+            cursor: 'pointer',
+            outline: 'none',
+            display: 'none',
+            ...CenterAbsolute,
+        },
+        [theme.breakpoints.up('sm')]: {
+            '&:hover': {
+                '& .btn-quick-view': {
+                    display: 'inline-block',
+                },
+            },
+        },
     },
     listDetailItem: {
         height: 'auto',
         position: 'relative',
-        flex: 0.4,
+        flex: 0.8,
     },
     descItem: {
         ...FlexColumn,

@@ -17,7 +17,7 @@ const ModalQuickView = dynamic(() => import('./components/QuickView'), { ssr: fa
 const ProductItem = (props) => {
     const {
         id, url_key = '', categorySelect, review, ImageProductView, DetailProductView, LabelView, className = '',
-        enableAddToCart, enableOption, enableQuickView, isGrid = true, ...other
+        enableAddToCart, enableOption, enableQuickView, isGrid, catalogList, ...other
     } = props;
     const styles = useStyles();
     const { t } = useTranslation(['catalog', 'common']);
@@ -115,18 +115,18 @@ const ProductItem = (props) => {
                 }
                 <div className={classNames(styles.itemContainer, className, showQuickView ? styles.quickView : '')}>
                     {
-                        showQuickView && (
-                            <button className="btn-quick-view" type="button" onClick={handleQuickView}>
-                                Quick View
-                            </button>
-                        )
-                    }
-                    {
                         modules.catalog.productListing.label.enabled && LabelView ? (
                             <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
                         ) : null
                     }
                     <div className={styles.imgItem}>
+                        {
+                            showQuickView && (
+                                <button className="btn-quick-view" type="button" onClick={handleQuickView}>
+                                    Quick View
+                                </button>
+                            )
+                        }
                         <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
                     </div>
                     <div className={styles.detailItem}>
@@ -136,8 +136,11 @@ const ProductItem = (props) => {
                                 enableBundle={false}
                                 enableDownload={false}
                                 t={t}
-                                data={other}
+                                data={{
+                                    ...other, url_key,
+                                }}
                                 showQty={false}
+                                catalogList={catalogList}
                                 handleSelecteProduct={setSpesificProduct}
                                 showAddToCart={showAddToCart}
                                 propsItem={{
@@ -172,9 +175,16 @@ const ProductItem = (props) => {
                             <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
                         ) : null
                     }
+                    {
+                        showQuickView && (
+                            <button className="btn-quick-view" type="button" onClick={handleQuickView}>
+                                Quick View
+                            </button>
+                        )
+                    }
                     <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
                 </div>
-                <div style={{ flex: 0.5 }} />
+                <div style={{ flex: 0.2 }} />
                 <div className={styles.listDetailItem}>
                     <DetailProductView t={t} {...DetailProps} {...other} />
                     {showOption ? (
@@ -182,8 +192,11 @@ const ProductItem = (props) => {
                             enableBundle={false}
                             enableDownload={false}
                             t={t}
-                            data={other}
+                            data={{
+                                ...other, url_key,
+                            }}
                             showQty={false}
+                            catalogList={catalogList}
                             handleSelecteProduct={setSpesificProduct}
                             showAddToCart={showAddToCart}
                             propsItem={{
@@ -195,13 +208,6 @@ const ProductItem = (props) => {
                             {...other}
                         />
                     ) : null}
-                    {
-                        showQuickView && (
-                            <button className="btn-quick-view-list" type="button" onClick={handleQuickView}>
-                                Quick View
-                            </button>
-                        )
-                    }
                 </div>
             </div>
         </>

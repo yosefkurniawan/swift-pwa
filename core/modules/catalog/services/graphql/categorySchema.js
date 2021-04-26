@@ -86,6 +86,7 @@ export const getCategoryProducts = (variables) => gql`{
                 sku
                 name
                 url_key
+                stock_status
                 categories {
                     name
                 }

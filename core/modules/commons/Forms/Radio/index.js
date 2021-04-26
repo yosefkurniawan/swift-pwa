@@ -11,14 +11,7 @@ const RadioItem = (props) => {
     const styles = useStyles();
     const { value, label, className } = props;
     const customStyle = classNames(styles.radioContainer, className);
-    return (
-        <FormControlLabel
-            value={value || ''}
-            control={<Radio color="default" size="small" />}
-            label={label || ''}
-            className={customStyle}
-        />
-    );
+    return <FormControlLabel value={value || ''} control={<Radio color="default" size="small" />} label={label || ''} className={customStyle} />;
 };
 
 // Inspired by blueprintjs
@@ -38,6 +31,7 @@ function CustomRadio({
     errorMessage = '',
     propsItem = {},
     disabled = false,
+    ComponentOptional = () => {},
     storeConfig,
 }) {
     const styles = useStyles();
@@ -66,27 +60,31 @@ function CustomRadio({
                     root: containerStyle,
                 }}
             >
-                {valueData.map((item, index) => (CustomItem ? (
-                    <CustomItem
-                        key={index}
-                        {...item}
-                        selected={JSON.stringify(value) === JSON.stringify(item.value)}
-                        onChange={handleChangeCustom}
-                        className={classItem}
-                        storeConfig={storeConfig}
-                        {...propsItem}
-                    />
-                ) : (
-                    <RadioItem key={index} {...item} {...propsItem} className={classItem} />
-                )))}
+                {valueData.map((item, index) => {
+                    if (CustomItem) {
+                        return (
+                            <>
+                                <CustomItem
+                                    key={index}
+                                    {...item}
+                                    selected={JSON.stringify(value) === JSON.stringify(item.value)}
+                                    onChange={handleChangeCustom}
+                                    className={classItem}
+                                    storeConfig={storeConfig}
+                                    {...propsItem}
+                                />
+                                {ComponentOptional(item)}
+                            </>
+                        );
+                    }
+                    return <RadioItem key={index} {...item} {...propsItem} className={classItem} />;
+                })}
             </RadioGroup>
-            {
-                error && (
-                    <Typography variant="p" color="red">
-                        {errorMessage}
-                    </Typography>
-                )
-            }
+            {error && (
+                <Typography variant="p" color="red">
+                    {errorMessage}
+                </Typography>
+            )}
         </div>
     );
 }
