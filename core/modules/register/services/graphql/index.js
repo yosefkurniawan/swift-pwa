@@ -7,7 +7,9 @@ export const register = () => useMutation(Schema.register, {
     },
 });
 
-export const otpConfig = () => useQuery(Schema.otpConfig);
+export const otpConfig = () => useQuery(Schema.otpConfig, {
+    fetchPolicy: 'no-cache',
+});
 
 export const mergeCart = () => useMutation(Schema.mergeCart, {
     context: {
