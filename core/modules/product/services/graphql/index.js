@@ -3,7 +3,7 @@ import * as Schema from './schema';
 import * as ActionSchema from './actionSchema';
 
 const defaultConfig = {
-    fetchPolicy: 'cache-and-network',
+
 };
 
 export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath), {
