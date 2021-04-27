@@ -4,6 +4,7 @@
 const useMagentoCommerce = false; // setup uses magento commerce or community
 const storeCode = ''; // fill it with any store code when the magento is setup with multiple stores. leave it empty to use default store.
 const assetsVersion = '1.0.5';
+const iconAppleTouch = '/assets/img/swiftpwa_apple_touch.png';
 
 const HOST = {
     local: 'http://localhost:3000',
@@ -504,6 +505,7 @@ const general = {
 
 module.exports = {
     assetsVersion,
+    iconAppleTouch,
     general,
     sentry,
     storeCode,

@@ -10,7 +10,7 @@ import useStyles from './style';
 const ItemConfigurableView = (props) => {
     const {
         option, selected, value, handleSelect, error, loading, configProduct,
-        ...other
+        isGrid, ...other
     } = props;
     const styles = useStyles();
     const classItem = styles.stylesItemOption;
@@ -39,8 +39,8 @@ const ItemConfigurableView = (props) => {
                 value={selected[option.attribute_code]}
                 valueData={value}
                 onChange={(val) => handleSelect(val, option.attribute_code)}
-                className={styles.label}
-                classContainer={styles.classContainer}
+                className={isGrid ? styles.label : ''}
+                classContainer={isGrid ? styles.classContainer : ''}
                 classItem={classItem}
                 error={!!error[option.attribute_code] && !selected[option.attribute_code]}
                 errorMessage={error[option.attribute_code] ? error[option.attribute_code] : ''}
