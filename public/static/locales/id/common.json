@@ -44,7 +44,8 @@
         "updateSuccess": "Update item cart berhasil",
         "updateFailed": "Update item cart gagal",
         "emptyCart": "ANDA TIDAK MEMILIKI ITEM DI KERANJANG BELANJA ANDA.",
-        "oos": "Stok habis"
+        "oos": "Stok habis",
+        "cartError": "Ada kesalahan di keranjang anda, silahkan bersihkan dan ulangi kembali"
     },
     "subtotal": "Subtotal",
     "price": {

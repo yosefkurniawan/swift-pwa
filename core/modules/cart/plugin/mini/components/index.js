@@ -17,6 +17,8 @@ const MiniComponent = (props) => {
     } = props;
     const styles = useStyles();
     const disabled = errorCart && errorCart.length > 0;
+    const subtotal_including_tax = data?.prices?.subtotal_including_tax?.value || 0;
+    const subtotal_including_tax_currency = data?.prices?.subtotal_including_tax?.currency || 'IDR';
     return (
         <Drawer anchor="right" open={open} onClose={setOpen}>
             <div className={styles.container}>
@@ -37,11 +39,7 @@ const MiniComponent = (props) => {
                                 {t('common:cart:cardTotal')}
                                 :
                             </span>
-                            <span>
-                                {data.prices
-                                    ? formatPrice(data.prices.subtotal_including_tax.value, data.prices.subtotal_including_tax.currency || 'IDR')
-                                    : '-'}
-                            </span>
+                            <span>{data.prices ? formatPrice(subtotal_including_tax, subtotal_including_tax_currency) : '-'}</span>
                         </div>
                         <div
                             className="edit-cart"
@@ -52,19 +50,27 @@ const MiniComponent = (props) => {
                         >
                             {t('common:button:viewandedit')}
                         </div>
-                        { !disabled && (
+                        {!disabled && (
                             <div className="checkout">
                                 <div
                                     className="checkout-button"
                                     onClick={() => {
-                                        setOpen();
-                                        router.push('/checkout');
+                                        if (subtotal_including_tax) {
+                                            setOpen();
+                                            router.push('/checkout');
+                                        } else {
+                                            window.toastMessage({
+                                                open: true,
+                                                text: t('common:cart:cartError'),
+                                                variant: 'error',
+                                            });
+                                        }
                                     }}
                                 >
                                     {t('common:button:goCheckout')}
                                 </div>
                             </div>
-                        ) }
+                        )}
                     </div>
                 ) : null}
             </div>
