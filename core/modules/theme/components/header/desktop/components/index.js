@@ -10,32 +10,16 @@ import DesktopInstallApp from '@core_modules/theme/components/custom-install-pop
 import { features } from '@config';
 import Menu from './mcategory';
 import TopMenu from './mtop';
-import GlobalPromoMessage from './cmspromo';
 import Autocomplete from './autocomplete';
 import OptionAutocomplete from './autocomplete/view';
 
 const ViewTopNavigation = (props) => {
     const {
         storeConfig, handleSearch, searchByClick, setValue, value, data, loading, t, isLogin, customer,
-        handleLogout, app_cookies, cmsPromo,
+        handleLogout, app_cookies, showGlobalPromo,
     } = props;
     return (
         <div id="header">
-            {
-                storeConfig.global_promo.enable
-                && (
-                    <div style={{
-                        height: '45px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        color: storeConfig.global_promo.text_color,
-                        backgroundColor: storeConfig.global_promo.background_color,
-                    }}
-                    >
-                        <GlobalPromoMessage data={cmsPromo} t={t} />
-                    </div>
-                )
-            }
             <div className="row header-top">
                 <main style={{ width: '97%' }}>
                     {features.customInstallApp.enabled ? <DesktopInstallApp /> : null}
@@ -107,7 +91,7 @@ const ViewTopNavigation = (props) => {
                             width: 100%;
                             background: white;
                             z-index: 3;
-                            top: 0;
+                            top: ${showGlobalPromo ? '45px' : '0'};
                             transition: top 1s ease;
                         }
                     }

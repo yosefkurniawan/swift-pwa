@@ -7,6 +7,7 @@ import { useApolloClient } from '@apollo/client';
 import { localTotalCart } from '@services/graphql/schema/local';
 import firebase from 'firebase/app';
 import { custDataNameCookie, features } from '@config';
+import { getCookies } from '@helpers/cookies';
 import {
     getCategories, getCustomer, removeToken, getVesMenu, getCmsBlocks,
 } from '../../../services/graphql';
@@ -17,11 +18,7 @@ const CoreTopNavigation = (props) => {
     } = props;
     const [value, setValue] = React.useState('');
     const [deleteTokenGql] = removeToken();
-    const { data: cmsPromo } = getCmsBlocks(
-        {
-            identifiers: 'weltpixel_global_promo_message',
-        },
-    );
+    const [showGlobalPromo, setShowGloabPromo] = React.useState(true);
     const { data, loading } = features.vesMenu.enabled
         ? getVesMenu({
             variables: {
@@ -76,6 +73,13 @@ const CoreTopNavigation = (props) => {
         }
     };
 
+    React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const enablePromo = getCookies(features.globalPromo.key_cookies);
+            setShowGloabPromo(enablePromo);
+        }
+    }, []);
+
     return (
         <Content
             t={t}
@@ -90,7 +94,7 @@ const CoreTopNavigation = (props) => {
             handleLogout={handleLogout}
             value={value}
             app_cookies={app_cookies}
-            cmsPromo={cmsPromo}
+            showGlobalPromo={showGlobalPromo && storeConfig.global_promo.enable}
         />
     );
 };
