@@ -8,28 +8,21 @@ import { useTranslation } from '@i18n';
 
 const Item = (props) => {
     const {
-        quantity, prices, product, deleteCart, updateCart, id, configurable_options, bundle_options,
-        customizable_options,
+        quantity, prices, product, deleteCart, updateCart, id, configurable_options, bundle_options, customizable_options,
     } = props;
     const { t } = useTranslation(['common']);
     return (
         <li>
             <div className="product">
                 <a className="product-item-photo">
-                    <Thumbor
-                        className="product-image-photo"
-                        src={product.small_image.url}
-                        alt={product.small_image.label}
-                        width={61}
-                        height={75}
-                    />
-                    {
-                        prices.row_total_including_tax.value === 0 ? (<span>{t('common:title:free')}</span>) : null
-                    }
+                    <Thumbor className="product-image-photo" src={product.small_image.url} alt={product.small_image.label} width={61} height={75} />
+                    {prices?.row_total_including_tax?.value === 0 ? <span>{t('common:title:free')}</span> : null}
                 </a>
                 <div className="product-item-details">
                     <strong className="product-item-name">
-                        <Link href="/[...slug]" as={`/${product.url_key}`}><a>{product.name}</a></Link>
+                        <Link href="/[...slug]" as={`/${product.url_key}`}>
+                            <a>{product.name}</a>
+                        </Link>
                     </strong>
                     {configurable_options && configurable_options.length ? (
                         <div className="product-options">
@@ -38,7 +31,6 @@ const Item = (props) => {
                                     <strong>{val.option_label}</strong>
                                     {' '}
                                     :
-                                    {' '}
                                     {val.value_label}
                                 </div>
                             ))}
@@ -82,7 +74,7 @@ const Item = (props) => {
                                         </strong>
                                         {val.values.map((item, idt) => (
                                             <p key={idt} className="option-item">
-                                                {(item.label && item.label !== '') ? item.label : item.value}
+                                                {item.label && item.label !== '' ? item.label : item.value}
                                             </p>
                                         ))}
                                     </div>
@@ -93,10 +85,7 @@ const Item = (props) => {
                 </div>
                 <div className="product-item-pricing">
                     <div className="details-qty qty">
-                        <label
-                            className="label"
-                            htmlFor="cart-item"
-                        >
+                        <label className="label" htmlFor="cart-item">
                             Qty
                         </label>
 
@@ -105,17 +94,15 @@ const Item = (props) => {
                         <span className="item-plus qty-update" onClick={() => updateCart(id, quantity + 1)} />
                     </div>
                     <div className="item-price">
-                        {formatPrice(
-                            prices.row_total_including_tax.value, prices.row_total_including_tax.currency || 'IDR',
-                        )}
+                        {formatPrice(prices?.row_total_including_tax?.value || 0, prices?.row_total_including_tax?.currency || 'IDR')}
                     </div>
                 </div>
 
-                { product.stock_status === 'OUT_OF_STOCK' && (
+                {product.stock_status === 'OUT_OF_STOCK' && (
                     <div className="oos-info">
                         <span className="oos-info-content">{t('common:cart:oos')}</span>
                     </div>
-                ) }
+                )}
                 <div
                     className="delete"
                     onClick={() => {
@@ -124,7 +111,6 @@ const Item = (props) => {
                 >
                     x
                 </div>
-
             </div>
         </li>
     );

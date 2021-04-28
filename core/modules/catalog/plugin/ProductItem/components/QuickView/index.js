@@ -12,6 +12,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@common_typography';
 import classNames from 'classnames';
 import Button from '@common_button';
+import RatingStar from '@common_ratingstar';
 import { getHost } from '@helper_config';
 
 import useStyles from './style';
@@ -28,6 +29,8 @@ const QuickView = (props) => {
     } = props;
 
     const product = data.items[0];
+
+    const reviewValue = parseInt(product.review.rating_summary, 0) / 20;
 
     // generate banner image
     const bannerData = [];
@@ -157,6 +160,7 @@ const QuickView = (props) => {
 
                         <div className={styles.titleContainer}>
                             <div className={styles.ratingContainer}>
+                                <RatingStar value={reviewValue || 0} />
                                 <Typography variant="p" type="regular" letter="capitalize">
                                     {product.review.reviews_count || 0}
                                     {' '}

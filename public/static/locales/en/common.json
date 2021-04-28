@@ -46,7 +46,8 @@
         "updateSuccess": "Update cart item success",
         "updateFailed": "Update cart item failed",
         "emptyCart": "YOU HAVE NO ITEMS IN YOUR SHOPPING CART.",
-        "oos": "Out of stock"
+        "oos": "Out of stock",
+        "cartError": "Something error with your cart, please clear and try again"
     },
     "subtotal": "Subtotal",
     "price": {
