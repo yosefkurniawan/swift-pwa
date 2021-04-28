@@ -10,6 +10,7 @@ import { custDataNameCookie, features, modules } from '@config';
 import { getHost } from '@helper_config';
 import { breakPointsUp } from '@helper_theme';
 import Newsletter from '@core_modules/customer/plugins/Newsletter';
+import { setCookies, getCookies } from '@helper_cookies';
 import useStyles from './style';
 
 import PopupInstallAppMobile from '../components/custom-install-popup/mobile';
@@ -22,9 +23,10 @@ const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false });
 const ScrollToTop = dynamic(() => import('@common_scrolltotop'), { ssr: false });
 const Footer = dynamic(() => import('@common_footer'), { ssr: true });
+const RestrictionPopup = dynamic(() => import('@common_restrictionPopup'));
 
 const Layout = (props) => {
-    const footerStyles = useStyles();
+    const bodyStyles = useStyles();
 
     const {
         pageConfig,
@@ -52,6 +54,7 @@ const Layout = (props) => {
         },
         backdropLoader: false,
     });
+    const [restrictionCookies, setRestrictionCookies] = useState(false);
     // const [mainMinimumHeight, setMainMinimumHeight] = useState(0);
     const refFooter = useRef(null);
     const refHeader = useRef(null);
@@ -81,6 +84,11 @@ const Layout = (props) => {
                 open: false,
             },
         });
+    };
+
+    const handleRestrictionCookies = () => {
+        setRestrictionCookies(true);
+        setCookies('user_allowed_save_cookie', true);
     };
 
     const ogData = {
@@ -120,6 +128,12 @@ const Layout = (props) => {
         // setMainMinimumHeight(refFooter.current.clientHeight + refHeader.current.clientHeight);
     }, []);
 
+    useEffect(() => {
+        const isRestrictionMode = getCookies('user_allowed_save_cookie');
+        if (isRestrictionMode) {
+            setRestrictionCookies(isRestrictionMode);
+        }
+    }, []);
     const desktop = breakPointsUp('sm');
 
     const styles = {
@@ -182,7 +196,7 @@ const Layout = (props) => {
                 {desktop ? <ScrollToTop {...props} /> : null}
             </main>
             {withLayoutFooter && (
-                <footer className={footerStyles.footerContainer} ref={refFooter}>
+                <footer className={bodyStyles.footerContainer} ref={refFooter}>
                     <div className="hidden-mobile">
                         {modules.customer.plugin.newsletter.enabled && footer ? <Newsletter /> : null}
 
@@ -192,6 +206,16 @@ const Layout = (props) => {
                     {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} />}
                 </footer>
             )}
+            {
+                storeConfig.cookie_restriction && !restrictionCookies
+                && (
+                    <div className={bodyStyles.cookieRestriction}>
+                        <RestrictionPopup
+                            handleRestrictionCookies={handleRestrictionCookies}
+                        />
+                    </div>
+                )
+            }
         </>
     );
 };
