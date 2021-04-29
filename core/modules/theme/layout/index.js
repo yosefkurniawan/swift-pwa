@@ -15,6 +15,7 @@ import useStyles from './style';
 
 import PopupInstallAppMobile from '../components/custom-install-popup/mobile';
 import Copyright from '../components/footer/desktop/components/copyright';
+import GlobalPromoMessage from '../components/globalPromo';
 
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
 const HeaderMobile = dynamic(() => import('@common_headermobile'));
@@ -171,6 +172,8 @@ const Layout = (props) => {
             {features.customInstallApp.enabled ? <PopupInstallAppMobile /> : null}
             {withLayoutHeader && (
                 <header ref={refHeader}>
+
+                    { storeConfig.global_promo.enable && <GlobalPromoMessage t={t} storeConfig={storeConfig} /> }
                     <div className="hidden-mobile">
                         {headerDesktop ? <HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} app_cookies={app_cookies} /> : null}
                     </div>

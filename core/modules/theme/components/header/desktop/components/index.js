@@ -15,7 +15,8 @@ import OptionAutocomplete from './autocomplete/view';
 
 const ViewTopNavigation = (props) => {
     const {
-        storeConfig, handleSearch, searchByClick, setValue, value, data, loading, t, isLogin, customer, handleLogout, app_cookies,
+        storeConfig, handleSearch, searchByClick, setValue, value, data, loading, t, isLogin, customer,
+        handleLogout, app_cookies, showGlobalPromo,
     } = props;
     return (
         <div id="header">
@@ -90,7 +91,7 @@ const ViewTopNavigation = (props) => {
                             width: 100%;
                             background: white;
                             z-index: 3;
-                            top: 0;
+                            top: ${showGlobalPromo ? '45px' : '0'};
                             transition: top 1s ease;
                         }
                     }
@@ -152,6 +153,15 @@ const ViewTopNavigation = (props) => {
                     }
                     .menu-category {
                         width: fit-content;
+                    }
+                    .global-promo{
+                        height: 45px;
+                        border-bottom: 1px solid #d6d6d6;
+                        display: flex;
+                        align-items: center;
+                        padding: 10px 0;
+                        margin: 0;
+                        background-color: red;
                     }
                 `}
             </style>
