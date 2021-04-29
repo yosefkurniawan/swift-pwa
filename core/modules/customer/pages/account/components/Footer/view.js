@@ -39,26 +39,29 @@ const FooterView = (props) => {
         return (
             <div className={styles.account_block}>
                 <NewsletterDialog open={openNewsletter} handleClose={handleToogleNewsletter} />
-                <div dangerouslySetInnerHTML={{ __html: content }} />
-                <ul className={styles.account_navigation}>
-                    {modules.setting.enabled ? (
-                        <li className={styles.account_navigation_item}>
-                            <Link href="/setting">
-                                <a className={styles.account_navigation_link}>{t('common:setting:title')}</a>
-                            </Link>
-                        </li>
-                    ) : null}
+                <div className="hidden-desktop">
+                    <div className={styles.root}>
+                        <div dangerouslySetInnerHTML={{ __html: content }} />
+                    </div>
+                    <ul className={styles.account_navigation}>
+                        {modules.setting.enabled ? (
+                            <li className={styles.account_navigation_item}>
+                                <Link href="/setting">
+                                    <a className={styles.account_navigation_link}>{t('common:setting:title')}</a>
+                                </Link>
+                            </li>
+                        ) : null}
 
-                    {isLogin ? (
-                        <li className={styles.account_navigation_item}>
-                            <Button className={styles.account_navigation_link} onClick={handleLogout} variant="text">
-                                {t('customer:button:logout')}
-                            </Button>
-                        </li>
-                    ) : null}
-                </ul>
-
-                {enableSocialMediaLink && <SocialMediaLink SocialMediaView={SocialMediaView} />}
+                        {isLogin ? (
+                            <li className={styles.account_navigation_item}>
+                                <Button className={styles.account_navigation_link} onClick={handleLogout} variant="text">
+                                    {t('customer:button:logout')}
+                                </Button>
+                            </li>
+                        ) : null}
+                    </ul>
+                    {enableSocialMediaLink && <SocialMediaLink SocialMediaView={SocialMediaView} />}
+                </div>
             </div>
         );
     }

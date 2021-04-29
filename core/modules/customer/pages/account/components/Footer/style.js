@@ -17,13 +17,23 @@ export default makeStyles({
             color: '#3f3f3f',
             textDecoration: 'none',
         },
-        '& container-footer': {
-            display: 'flex',
-            flexDirection: 'column',
+        '& .container-footer': {
+            display: 'block',
         },
         '& .content-assets': {
             '& .col-sm-3': { flex: 1 },
             '& .col-xs-12': { flex: 1 },
+        },
+        '& li': {
+            'list-style-type': 'none',
+            fontSize: '24px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textTransform: 'uppercase',
+        },
+        '& .container-footer .content-assets ul li a': {
+            color: 'black',
         },
     },
     account_block: {
@@ -49,24 +59,5 @@ export default makeStyles({
         fontSize: 24,
         fontWeight: '700',
         ...FONT_DEFAULT,
-    },
-    footerAccount: {
-        '& h4': {
-            display: 'none',
-        },
-        '& > ul': {
-            'list-style-type': 'none',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-        },
-        '& .pwa-link': {
-            fontWeight: 'bold',
-            color: '#3f3f3f',
-            textDecoration: 'none',
-        },
-        // '& li' : {
-        //    // styling
-        //  }
     },
 });

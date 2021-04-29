@@ -19,7 +19,7 @@ const CustomerAccount = (props) => {
     const [actionReorder] = mutationReorder();
     const {
         data,
-    } = getCmsBlocks({ identifiers: ['mobile_footer'] });
+    } = getCmsBlocks({ identifiers: ['pwa_footer'] });
 
     const reOrder = (order_id) => {
         if (order_id && order_id !== '') {
