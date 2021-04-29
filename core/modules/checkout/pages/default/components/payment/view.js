@@ -14,7 +14,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import commonConfig from '@config';
 import FieldPoint from '../../../../components/fieldcode';
 import RadioItem from '../../../../components/radioitem';
-import ModalHowtoPay from '../ModalHowtoPay';
+import ModalHowtoPay from '../ModalHowtopay';
 import useStyles from '../style';
 
 import { ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle } from './style';
