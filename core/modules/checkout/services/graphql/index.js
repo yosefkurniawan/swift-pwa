@@ -4,6 +4,8 @@ import * as Schema from './schema';
 const NOT_USING_INTERNAL = false;
 const USING_INTERNAL = true;
 
+export const getIndodanaUrl = () => useLazyQuery(Schema.getIndodanaUrl);
+
 const config = (isUsingInternal) => {
     const context = isUsingInternal ? { request: 'internal' } : {};
 
@@ -250,4 +252,5 @@ export default {
     updateItemCart,
     addOrderComment,
     getCmsPage,
+    getIndodanaUrl,
 };

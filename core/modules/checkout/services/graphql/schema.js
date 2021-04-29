@@ -1117,3 +1117,11 @@ export const getCmsPage = gql`
         }
     }
 `;
+
+export const getIndodanaUrl = gql`
+query IndodanaUrl($order_number: String!) {
+    indodanaRedirectUrl(order_number: $order_number) {
+      redirect_url
+    }
+  }
+`;

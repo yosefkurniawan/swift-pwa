@@ -30,6 +30,8 @@ const Summary = ({
     const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => {} });
     const [getCustCartId, manageCustCartId] = gqlService.getCustomerCartId();
     const [mergeCart] = gqlService.mergeCart();
+    // indodana
+    const [getIndodanaRedirect, urlIndodana] = gqlService.getIndodanaUrl();
 
     // mutation update delete
     const [actDeleteItem] = gqlService.deleteItemCart();
@@ -151,6 +153,8 @@ const Summary = ({
                         || checkout.data.cart.selected_payment_method.code.match(/ipay88*/)
                     ) {
                         window.location.href = getIpayUrl(orderNumber);
+                    } else if (checkout.data.cart.selected_payment_method.code.match(/indodana/)) {
+                        await getIndodanaRedirect({ variables: { order_number: orderNumber } });
                     } else {
                         handleOpenMessage({
                             variant: 'success',
@@ -182,6 +186,22 @@ const Summary = ({
             });
         }
     };
+
+    // manage indodana redirect
+    if (!urlIndodana.loading && urlIndodana.data && urlIndodana.data.indodanaRedirectUrl && urlIndodana.data.indodanaRedirectUrl.redirect_url) {
+        window.location.replace(urlIndodana.data.indodanaRedirectUrl.redirect_url);
+    }
+
+    useEffect(() => {
+        if (!urlIndodana.loading && urlIndodana.error) {
+            const msg = t('checkout:message:serverError');
+
+            handleOpenMessage({
+                variant: 'error',
+                text: msg,
+            });
+        }
+    }, [urlIndodana]);
 
     // Start - Manage Snap Pop Up When Opened (Waiting Response From SnapToken)
     if (
