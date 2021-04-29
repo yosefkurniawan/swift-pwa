@@ -220,6 +220,10 @@ const features = {
     globalPromo: {
         key_cookies: 'global_promo_enable',
     },
+    footer: {
+        desktop: 'pwa_footer',
+        mobile: 'pwa_footer',
+    },
 };
 
 const modules = {
@@ -385,7 +389,7 @@ const modules = {
         enabled: true,
         path: '/customer/account/login',
         recaptcha: {
-            enabled: true,
+            enabled: false,
         },
     },
     notification: {

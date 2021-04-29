@@ -2,7 +2,7 @@ import Layout from '@layout';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { setCartId } from '@helper_cartid';
-import { reOrder as mutationReorder } from '../../services/graphql';
+import { reOrder as mutationReorder, getCmsBlocks } from '../../services/graphql';
 
 const Customer = dynamic(() => import('./components/Customer'), { ssr: false });
 
@@ -17,6 +17,9 @@ const CustomerAccount = (props) => {
         bottomNav: 'account',
     };
     const [actionReorder] = mutationReorder();
+    const {
+        data,
+    } = getCmsBlocks({ identifiers: ['mobile_footer'] });
 
     const reOrder = (order_id) => {
         if (order_id && order_id !== '') {
@@ -48,7 +51,7 @@ const CustomerAccount = (props) => {
     }
     return (
         <Layout pageConfig={pageConfig || config} {...props}>
-            <GuestView {...props} />
+            <GuestView {...props} data={data} />
         </Layout>
     );
 };

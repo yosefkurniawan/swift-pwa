@@ -9,7 +9,8 @@ import useStyles from './style';
 
 const WihtOut = (props) => {
     const styles = useStyles();
-    const { t } = props;
+    const { t, data } = props;
+
     return (
         <div className={styles.root}>
             <div className={styles.authBlock}>
@@ -27,7 +28,7 @@ const WihtOut = (props) => {
                 </Button>
             </div>
             <span className={styles.span} />
-            <Footer {...props} FooterView={FooterView} modules={modules} />
+            <Footer {...props} data={data} FooterView={FooterView} modules={modules} />
         </div>
     );
 };
