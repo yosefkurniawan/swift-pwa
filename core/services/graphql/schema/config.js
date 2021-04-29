@@ -42,6 +42,7 @@ export const storeConfig = `
             snap_is_production
             aw_blog_general_enabled
             pickup_store
+            cookie_restriction
             global_promo {
               enable
               text_color

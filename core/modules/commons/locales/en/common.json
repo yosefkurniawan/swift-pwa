@@ -35,7 +35,8 @@
         "viewAll": "View All",
         "close": "Close",
         "goCheckout": "Go to checkout",
-        "viewandedit": "View and Edit"
+        "viewandedit": "View and Edit",
+        "allowCookies": "Allow Cookies"
     },
     "cart": {
         "myCart": "My Cart",
@@ -114,7 +115,8 @@
     },
     "message": {
         "feedSuccess": "Product success added to wishlist",
-        "feedFailed": "Add to wishlist failed"
+        "feedFailed": "Add to wishlist failed",
+        "restrictionCookies": "We use cookies to make your experience better. To comply with the new e-Privacy directive, we need to ask for your consent to set the cookies. Learn more."
     },
     "newsletter": {
         "title": "SIGN UP NEWSLETTER",

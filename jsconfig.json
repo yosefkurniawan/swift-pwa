@@ -110,6 +110,7 @@
             "@common_scrolltotop": ["core/modules/commons/ScrollToTop"],
             "@common_headermobile": ["core/modules/theme/components/header/mobile"],
             "@common_headerdesktop": ["core/modules/theme/components/header/desktop"],
+            "@common_restrictionPopup": ["core/modules/theme/components/restrictionPopup"],
             "@common_currency": ["core/modules/setting/components/currency"],
             "@common_language": ["core/modules/setting/components/language"],
             "@common_bottomnavigation": ["core/modules/theme/components/bottom-navigation/mobile"],
