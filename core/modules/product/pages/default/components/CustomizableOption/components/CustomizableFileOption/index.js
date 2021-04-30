@@ -10,7 +10,7 @@ import { getCustomizableFileOption } from '../../../../../../services/graphql/cu
 const CustomizableFileOption = ({
     url_key, option_id, customizableOptions, setCustomizableOptions,
     errorCustomizableOptions, additionalPrice, setAdditionalPrice,
-    ...other
+    stock_status, ...other
 }) => {
     const { t } = useTranslation(['product']);
     const productPrice = getPrice(other.price);
@@ -105,6 +105,7 @@ const CustomizableFileOption = ({
             onChange={onChange}
             error={error}
             t={t}
+            disabled={stock_status === 'OUT_OF_STOCK'}
         />
     );
 };

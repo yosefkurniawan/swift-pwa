@@ -30,6 +30,7 @@ const GroupedProductOptionView = ({
                                 {...item}
                                 itemsCart={itemsCart}
                                 setItemsCart={setItemsCart}
+                                disabled={disabled}
                             />
                         ))
                     }

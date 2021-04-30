@@ -11,7 +11,7 @@ import { getCustomizableDateOption } from '../../../../../../services/graphql/cu
 const CustomizableDateOption = ({
     url_key, option_id, customizableOptions, setCustomizableOptions,
     errorCustomizableOptions, additionalPrice, setAdditionalPrice,
-    ...other
+    stock_status, ...other
 }) => {
     const { t } = useTranslation(['product']);
     const productPrice = getPrice(other.price);
@@ -111,6 +111,7 @@ const CustomizableDateOption = ({
             value={textValue}
             onChange={onChange}
             error={error}
+            disabled={stock_status === 'OUT_OF_STOCK'}
         />
     );
 };

@@ -10,7 +10,7 @@ import { getCustomizableFieldOption } from '../../../../../../services/graphql/c
 const CustomizableFieldOption = ({
     url_key, option_id, customizableOptions, setCustomizableOptions,
     errorCustomizableOptions, additionalPrice, setAdditionalPrice,
-    ...other
+    stock_status, ...other
 }) => {
     const { t } = useTranslation(['product']);
     const productPrice = getPrice(other.price);
@@ -151,6 +151,7 @@ const CustomizableFieldOption = ({
             value={textValue}
             onChange={onChange}
             error={error || errorText}
+            disabled={stock_status === 'OUT_OF_STOCK'}
         />
     );
 };
