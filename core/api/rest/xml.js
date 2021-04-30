@@ -106,30 +106,36 @@ const getXmlData = async (res) => {
         // generate category sitemap
         for (let index = 0; index < category.length; index++) {
             if (category[index].include_in_menu) {
+                let dateCategory = category[index].updated_at;
+                dateCategory = dateCategory.split(' ');
                 content += `
                 <url>
                     <loc>${getHost()}/${category[index] && category[index].url_path && category[index].url_path.replace('&', '&amp;')}</loc>
-                    <lastmod>${category[index].updated_at}</lastmod>
+                    <lastmod>${`${dateCategory[0]}T${dateCategory[1]}+00:00`}</lastmod>
                     <changefreq>daily</changefreq>
                     <priority>0.5</priority>
                 </url>
             `;
                 for (let child1 = 0; child1 < category[index].children.length; child1++) {
                     const children1 = category[index].children[child1];
+                    let childTime = children1.updated_at;
+                    childTime = childTime.split(' ');
                     content += `
                     <url>
                         <loc>${getHost()}/${children1 && children1.url_path && children1.url_path.replace('&', '&amp;')}</loc>
-                        <lastmod>${children1.updated_at}</lastmod>
+                        <lastmod>${`${childTime[0]}T${childTime[1]}+00:00`}</lastmod>
                         <changefreq>daily</changefreq>
                         <priority>0.5</priority>
                     </url>
                 `;
                     for (let child2 = 0; child2 < children1.children.length; child2++) {
                         const children2 = children1.children[child2];
+                        let childTime2 = children1.updated_at;
+                        childTime2 = childTime2.split(' ');
                         content += `
                     <url>
                         <loc>${getHost()}/${children2 && children2.url_path && children2.url_path.replace('&', '&amp;')}</loc>
-                        <lastmod>${children2.updated_at}</lastmod>
+                        <lastmod>${`${childTime2[0]}T${childTime2[1]}+00:00`}</lastmod>
                         <changefreq>daily</changefreq>
                         <priority>0.5</priority>
                     </url>
@@ -141,9 +147,11 @@ const getXmlData = async (res) => {
 
         // generate product sitemap
         for (let index = 0; index < products.length; index++) {
+            let productTime = products[index].updated_at;
+            productTime = productTime.split(' ');
             content += `<url>
                 <loc>${getHost()}/${products[index] && products[index].url_key && products[index].url_key.replace('&', '&amp;')}</loc>
-                <lastmod>${products[index].updated_at}</lastmod>
+                <lastmod>${`${productTime[0]}T${productTime[1]}+00:00`}</lastmod>
                 <changefreq>daily</changefreq>
                 <priority>1.0</priority>
              `;
