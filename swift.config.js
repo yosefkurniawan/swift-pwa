@@ -8,8 +8,8 @@ const assetsVersion = '1.0.5';
 const HOST = {
     local: 'http://localhost:3000',
     dev: 'https://swiftpwa.testingnow.me',
-    stage: 'https://pwa.getswift.asia.dmmy.me',
-    prod: 'https://pwa.getswift.asia',
+    stage: 'https://getswift-pwa.gcp-staging.testingnow.me',
+    prod: 'https://getswift-pwa.gcp-prod.sandbox.id',
 };
 
 /* Magento GraphQL Endpoint */
@@ -17,7 +17,7 @@ const graphqlEndpoint = {
     local: 'https://swiftpwa-be.testingnow.me/graphql',
     dev: 'https://swiftpwa-be.testingnow.me/graphql',
     stage: 'https://swiftpwa-be.testingnow.me/graphql',
-    prod: 'https://b2cdemo.getswift.asia/graphql',
+    prod: 'https://b2cdemonew.gcp-prod.sandbox.id/graphql',
 };
 
 /* --------------------------------------- */

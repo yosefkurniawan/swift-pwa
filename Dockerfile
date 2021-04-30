@@ -5,12 +5,12 @@ WORKDIR /usr/src/app
 
 # Installing dependencies
 COPY package*.json ./
-RUN npm install
+
 # Copying source files
 COPY . .
 
-#build next before start
-RUN npm run build
+# Build image
+RUN yarn install; \
+    yarn build; 
 
-# Running the app
-CMD [ "npm", "run", "start" ]
+EXPOSE 3000
