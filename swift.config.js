@@ -8,8 +8,8 @@ const assetsVersion = '1.0.5';
 const HOST = {
     local: 'http://localhost:3000',
     dev: 'https://swiftpwa.testingnow.me',
-    stage: 'https://getswift-pwa.gcp-staging.testingnow.me',
-    prod: 'https://getswift-pwa.gcp-prod.sandbox.id',
+    stage: 'https://checkout-getswift-pwa.gcp-staging.testingnow.me',
+    prod: 'https://checkout-getswift-pwa.gcp-prod.sandbox.id',
 };
 
 /* Magento GraphQL Endpoint */
@@ -144,7 +144,7 @@ const localResolverKey = 'resolver';
 
 const features = {
     useCustomStyle: false,
-    ssrCache: true,
+    ssrCache: false,
     crm: {
         enabled: false,
         graphqlEndpoint: {
@@ -283,7 +283,7 @@ const modules = {
     },
     checkout: {
         enabled: true,
-        checkoutOnly: false,
+        checkoutOnly: true,
         path: '/checkout',
         ipayUrl: 'ipay88/ipayredirect/?orderId=',
         snapUrl: {
