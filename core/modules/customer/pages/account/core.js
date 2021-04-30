@@ -45,7 +45,7 @@ const CustomerAccount = (props) => {
     if (isLogin) {
         return (
             <Layout pageConfig={pageConfig || config} {...props}>
-                <Customer {...props} CustomerView={CustomerView} Skeleton={Skeleton} reOrder={reOrder} />
+                <Customer {...props} data={data} CustomerView={CustomerView} Skeleton={Skeleton} reOrder={reOrder} />
             </Layout>
         );
     }

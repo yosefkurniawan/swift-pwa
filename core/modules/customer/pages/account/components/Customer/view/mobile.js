@@ -1,19 +1,50 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable max-len */
+/* eslint-disable react/no-danger */
 import Link from 'next/link';
 import Carousel from '@common_slick/Caraousel';
+import { removeIsLoginFlagging } from '@helper_auth';
+import { removeCartId } from '@helper_cartid';
+import Router from 'next/router';
+import { useApolloClient } from '@apollo/client';
 import ProductItem from '@core_modules/catalog/plugin/ProductItem';
+import { localTotalCart } from '@services/graphql/schema/local';
 import Typography from '@common_typography';
 import PointCard from '@core_modules/rewardpoint/plugins/info';
 import Badge from '@material-ui/core/Badge';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
-import Footer from '../../Footer';
-import FooterView from '../../Footer/view';
+import Button from '@common_button';
+import Cookies from 'js-cookie';
+import {
+    custDataNameCookie,
+} from '@config';
 import useStyles from '../style';
+import { getCmsBlocks, removeToken as deleteToken } from '../../../../../services/graphql';
 
+// eslint-disable-next-line consistent-return
 const ViewMobile = (props) => {
     const {
         userData, t, menu, totalUnread, wishlist, modules,
     } = props;
+    const {
+        data,
+    } = getCmsBlocks({ identifiers: ['pwa_footer'] });
+    const client = useApolloClient();
+    const [deleteTokenGql] = deleteToken();
+    const handleLogout = () => {
+        deleteTokenGql().then(() => {
+            Cookies.remove(custDataNameCookie);
+            removeIsLoginFlagging();
+            removeCartId();
+            client.writeQuery({ query: localTotalCart, data: { totalCart: 0 } });
+            Router.push('/customer/account/login');
+        }).catch(() => {
+            //
+        });
+    };
     const styles = useStyles();
     const StyledBadge = withStyles(() => ({
         badge: {
@@ -21,68 +52,91 @@ const ViewMobile = (props) => {
             top: 4,
         },
     }))(Badge);
-    return (
-        <div className={classNames(styles.root, 'hidden-desktop')}>
-            <div className={styles.account_wrapper}>
-                <div className={[styles.account_block, styles.padding_vertical_40, styles.border_bottom].join(' ')}>
-                    <h3 className={styles.account_username}>
-                        {userData && userData.customer && `${userData.customer.firstname} ${userData.customer.lastname}`}
-                    </h3>
-                    <p className={styles.account_email}>{userData && userData.customer && userData.customer.email}</p>
-                </div>
-                <div className={[styles.account_block, styles.padding_vertical_40].join(' ')}>
+
+    if (data && data.cmsBlocks.items[0].content && data.cmsBlocks.items[0] && data.cmsBlocks) {
+        const { content } = data.cmsBlocks.items[0];
+        return (
+            <div className={classNames(styles.root, 'hidden-desktop')}>
+                <div className={styles.account_wrapper}>
+                    <div className={[styles.account_block, styles.padding_vertical_40, styles.border_bottom].join(' ')}>
+                        <h3 className={styles.account_username}>
+                            {userData && userData.customer && `${userData.customer.firstname} ${userData.customer.lastname}`}
+                        </h3>
+                        <p className={styles.account_email}>{userData && userData.customer && userData.customer.email}</p>
+                    </div>
+                    <div className={[styles.account_block, styles.padding_vertical_40].join(' ')}>
+                        {
+                            modules.rewardpoint.enabled ? (
+                                <PointCard {...props} />
+                            ) : null
+                        }
+                        <div className={styles.account_block}>
+                            <ul className={styles.account_navigation}>
+                                {
+                                    menu.map(({ href, title }, index) => (
+                                        <li className={styles.account_navigation_item} key={index}>
+                                            <Link href={href}>
+                                                <a className={styles.account_navigation_link}>
+                                                    <StyledBadge
+                                                        color="secondary"
+                                                        max={99}
+                                                        invisible={!href.includes('notification') || !totalUnread}
+                                                        badgeContent={totalUnread}
+                                                    >
+                                                        {title}
+                                                    </StyledBadge>
+                                                </a>
+                                            </Link>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </div>
+                    </div>
                     {
-                        modules.rewardpoint.enabled ? (
-                            <PointCard {...props} />
-                        ) : null
-                    }
-                    <div className={styles.account_block}>
-                        <ul className={styles.account_navigation}>
-                            {
-                                menu.map(({ href, title }, index) => (
-                                    <li className={styles.account_navigation_item} key={index}>
-                                        <Link href={href}>
-                                            <a className={styles.account_navigation_link}>
-                                                <StyledBadge
-                                                    color="secondary"
-                                                    max={99}
-                                                    invisible={!href.includes('notification') || !totalUnread}
-                                                    badgeContent={totalUnread}
+                        wishlist.length > 0 ? (
+                            <div className={[styles.account_block, styles.wishlistBlock].join(' ')}>
+                                <div className={styles.account_clearfix}>
+                                    <div className={styles.spanWishlist}>
+                                        <Typography variant="span" type="bold" letter="capitalize" className={styles.account_wishlist_title}>
+                                            Wishlist
+                                        </Typography>
+                                        <Link
+                                            href="/wishlist"
+                                        >
+                                            <a
+                                                className={[styles.account_wishlist_read_more].join(' ')}
+                                            >
+                                                <Typography
+                                                    variant="span"
+                                                    type="bold"
+                                                    letter="capitalize"
                                                 >
-                                                    {title}
-                                                </StyledBadge>
+                                                    {t('customer:menu:readMore')}
+                                                </Typography>
                                             </a>
                                         </Link>
-                                    </li>
-                                ))
-                            }
-                        </ul>
-                    </div>
-                </div>
-                {
-                    wishlist.length > 0 ? (
-                        <div className={[styles.account_block, styles.wishlistBlock].join(' ')}>
-                            <div className={styles.account_clearfix}>
-                                <div className={styles.spanWishlist}>
-                                    <Typography variant="span" type="bold" letter="capitalize" className={styles.account_wishlist_title}>
-                                        Wishlist
-                                    </Typography>
-                                    <Link
-                                        href="/wishlist"
-                                    >
-                                        <a
-                                            className={[styles.account_wishlist_read_more].join(' ')}
-                                        >
-                                            <Typography
-                                                variant="span"
-                                                type="bold"
-                                                letter="capitalize"
-                                            >
-                                                {t('customer:menu:readMore')}
-                                            </Typography>
-                                        </a>
-                                    </Link>
+                                    </div>
                                 </div>
+                                {modules.wishlist.enabled ? (
+                                    <div className={styles.account_clearfix}>
+                                        <Carousel
+                                            data={wishlist}
+                                            className={[styles.wishlistBlock, styles.margin20].join(' ')}
+                                            Item={ProductItem}
+                                        />
+                                    </div>
+                                ) : null}
+                            </div>
+                        ) : (
+                            <span className={styles.span} />
+                        )
+                    }
+                    {/* <Footer {...props} FooterView={FooterView} /> */}
+                    <div className={styles.account_block}>
+                        <div className="hidden-desktop">
+                            <div className={styles.root}>
+                                <div dangerouslySetInnerHTML={{ __html: content }} />
                             </div>
                             {modules.wishlist.enabled ? (
                                 <div className={styles.account_clearfix}>
@@ -96,14 +150,31 @@ const ViewMobile = (props) => {
                             ) : null}
 
                         </div>
-                    ) : (
-                        <span className={styles.span} />
-                    )
-                }
-                <Footer {...props} FooterView={FooterView} />
+                    </div>
+                    <ul className={styles.account_navigation}>
+                        {modules.setting.enabled ? (
+                            <li className={styles.account_navigation_item}>
+                                <Button fullWidth variant="outlined" href="/setting">
+                                    <Typography variant="span" type="bold" letter="uppercase">
+                                        {t('common:setting:title')}
+                                    </Typography>
+                                </Button>
+                            </li>
+                        ) : null}
+
+                        <li className={styles.account_navigation_item}>
+                            <Button fullWidth className={styles.logoutBtn} onClick={handleLogout} variant="contained">
+                                <Typography className={styles.logOutTxt} color="white" variant="span" type="bold" letter="uppercase">
+                                    {t('customer:button:logout')}
+                                </Typography>
+                            </Button>
+                        </li>
+
+                    </ul>
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 };
 
 export default ViewMobile;
