@@ -144,7 +144,7 @@ const localResolverKey = 'resolver';
 
 const features = {
     useCustomStyle: false,
-    ssrCache: false,
+    ssrCache: true,
     crm: {
         enabled: false,
         graphqlEndpoint: {
