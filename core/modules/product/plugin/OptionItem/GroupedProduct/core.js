@@ -118,6 +118,13 @@ const GroupedProductOption = ({
                     text: e.message.split(':')[1] || errorMessage.text,
                 });
             });
+        } else {
+            setLoading(false);
+            window.toastMessage({
+                variant: 'warning',
+                text: t('product:failedQtyZero'),
+                open: true,
+            });
         }
     };
 
