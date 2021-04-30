@@ -11,6 +11,7 @@ import Head from 'next/head';
 import { modules } from '@config';
 import { getStoreHost } from '@helpers/config';
 import Cookies from 'js-cookie';
+import { getAppEnv } from '@root/core/helpers/env';
 import Toast from '@common_toast';
 import gqlService from '../../services/graphql';
 import {
@@ -52,7 +53,7 @@ const Checkout = (props) => {
     let { cartId, isLogin } = props;
     let urlRedirect = '/checkout/cart';
     if (modules.checkout.checkoutOnly) {
-        urlRedirect = getStoreHost();
+        urlRedirect = getStoreHost(getAppEnv());
     }
     if (typeof window !== 'undefined') {
         cartId = getCartId();

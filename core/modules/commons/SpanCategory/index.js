@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import { setResolver, getResolver } from '@helper_localstorage';
 import Link from 'next/link';
 import { getStoreHost } from '@helpers/config';
+import { getAppEnv } from '@root/core/helpers/env';
 import useStyles from './style';
 import Thumbor from '../Image';
 
@@ -27,7 +28,7 @@ const SpanCategory = (props) => {
         };
         await setResolver(urlResolver);
     };
-    const urlDest = new URL(getStoreHost());
+    const urlDest = new URL(getStoreHost(getAppEnv()));
     let UrlString = '';
     if (imageSrc.toLowerCase().indexOf(urlDest.hostname) === -1) {
         UrlString = urlDest.hostname + imageSrc;
