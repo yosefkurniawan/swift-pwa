@@ -24,7 +24,7 @@ const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false });
 const ScrollToTop = dynamic(() => import('@common_scrolltotop'), { ssr: false });
 const Footer = dynamic(() => import('@common_footer'), { ssr: true });
-const RestrictionPopup = dynamic(() => import('@common_restrictionPopup'));
+const RestrictionPopup = dynamic(() => import('@common_restrictionPopup'), { ssr: false });
 
 const Layout = (props) => {
     const bodyStyles = useStyles();
@@ -173,7 +173,7 @@ const Layout = (props) => {
             {withLayoutHeader && (
                 <header ref={refHeader}>
 
-                    { storeConfig.global_promo.enable && <GlobalPromoMessage t={t} storeConfig={storeConfig} /> }
+                    { storeConfig.global_promo.enable && <GlobalPromoMessage t={t} storeConfig={storeConfig} />}
                     <div className="hidden-mobile">
                         {headerDesktop ? <HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} app_cookies={app_cookies} /> : null}
                     </div>
@@ -212,11 +212,10 @@ const Layout = (props) => {
             {
                 storeConfig.cookie_restriction && !restrictionCookies
                 && (
-                    <div className={bodyStyles.cookieRestriction}>
-                        <RestrictionPopup
-                            handleRestrictionCookies={handleRestrictionCookies}
-                        />
-                    </div>
+                    <RestrictionPopup
+                        handleRestrictionCookies={handleRestrictionCookies}
+                        restrictionStyle={bodyStyles.cookieRestriction}
+                    />
                 )
             }
         </>
