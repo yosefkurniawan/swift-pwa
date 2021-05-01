@@ -1,5 +1,6 @@
 /* eslint-disable func-names */
 const { getStoreHost } = require('../helpers/config');
+const { getAppEnv } = require('../helpers/env');
 
 const availableRoute = (path) => {
     const route = [
@@ -25,7 +26,7 @@ const routerServerMiddleware = function (req, res, next) {
         if (typeof window !== 'undefined') {
             window.location.href = getStoreHost(window.APP_ENV);
         } else {
-            res.redirect(getStoreHost());
+            res.redirect(getStoreHost(getAppEnv()));
         }
     } else {
         next();

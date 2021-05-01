@@ -5,6 +5,7 @@ import Router from 'next/router';
 import Cookies from 'js-cookie';
 import { modules } from '@config';
 import { getStoreHost } from '@helpers/config';
+import { getAppEnv } from '@root/core/helpers/env';
 import Core from './core';
 import CashbackInfo from './components/CashbackInfo';
 import EmailView from './components/email/view';
@@ -67,7 +68,7 @@ Page.getInitialProps = async (ctx) => {
 
     let urlRedirect = '/checkout/cart';
     if (checkoutOnly) {
-        urlRedirect = getStoreHost();
+        urlRedirect = getStoreHost(getAppEnv());
     }
 
     if (!cartId) {

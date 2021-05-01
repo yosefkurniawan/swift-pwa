@@ -6,6 +6,7 @@ import Typography from '@common_typography';
 import Product from '@core_modules/catalog/plugin/ProductList';
 import { features } from '@config';
 import { getStoreHost } from '@helpers/config';
+import { getAppEnv } from '@root/core/helpers/env';
 import useStyles from './style';
 
 // sementara di comment dlu, untuk custom filter memakai aggregations product
@@ -43,7 +44,7 @@ const CategoryPage = ({
         ];
     }
     // console.log(dataBanner);
-    const urlDest = new URL(getStoreHost());
+    const urlDest = new URL(getStoreHost(getAppEnv()));
     let UrlString = '';
     if (dataBanner.length > 0) {
         if (dataBanner[0].imageUrl.toLowerCase().indexOf(urlDest.hostname) === -1) {
