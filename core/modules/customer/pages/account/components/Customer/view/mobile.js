@@ -4,10 +4,12 @@
 /* eslint-disable max-len */
 /* eslint-disable react/no-danger */
 import Link from 'next/link';
+import noReload from '@helper_noreload';
+import { setResolver, getResolver } from '@helper_localstorage';
 import Carousel from '@common_slick/Caraousel';
 import { removeIsLoginFlagging } from '@helper_auth';
 import { removeCartId } from '@helper_cartid';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { useApolloClient } from '@apollo/client';
 import ProductItem from '@core_modules/catalog/plugin/ProductItem';
 import { localTotalCart } from '@services/graphql/schema/local';
@@ -32,6 +34,19 @@ const ViewMobile = (props) => {
     const {
         data,
     } = getCmsBlocks({ identifiers: ['pwa_footer'] });
+    const router = useRouter();
+    const linkAction = async (type, link) => {
+        if (type === 'cms') {
+            const urlResolver = getResolver();
+            urlResolver[link] = {
+                type: 'CMS_PAGE',
+            };
+            await setResolver(urlResolver);
+            router.push('/[...slug]', link);
+        } else {
+            router.push('/[...slug]', link);
+        }
+    };
     const client = useApolloClient();
     const [deleteTokenGql] = deleteToken();
     const handleLogout = () => {
@@ -55,6 +70,11 @@ const ViewMobile = (props) => {
 
     if (data && data.cmsBlocks.items[0].content && data.cmsBlocks.items[0] && data.cmsBlocks) {
         const { content } = data.cmsBlocks.items[0];
+        React.useEffect(() => {
+            noReload({
+                action: linkAction,
+            });
+        }, [router.asPath]);
         return (
             <div className={classNames(styles.root, 'hidden-desktop')}>
                 <div className={styles.account_wrapper}>
