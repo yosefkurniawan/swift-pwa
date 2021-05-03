@@ -15,8 +15,8 @@ import useStyles from './style';
 
 import PopupInstallAppMobile from '../components/custom-install-popup/mobile';
 import Copyright from '../components/footer/desktop/components/copyright';
-import GlobalPromoMessage from '../components/globalPromo';
 
+const GlobalPromoMessage = dynamic(() => import('../components/globalPromo'), { ssr: false });
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
 const HeaderMobile = dynamic(() => import('@common_headermobile'));
 const HeaderDesktop = dynamic(() => import('@common_headerdesktop'), { ssr: true });
@@ -56,6 +56,7 @@ const Layout = (props) => {
         backdropLoader: false,
     });
     const [restrictionCookies, setRestrictionCookies] = useState(false);
+    const [showGlobalPromo, setShowGlobalPromo] = React.useState(false);
     // const [mainMinimumHeight, setMainMinimumHeight] = useState(0);
     const refFooter = useRef(null);
     const refHeader = useRef(null);
@@ -90,6 +91,10 @@ const Layout = (props) => {
     const handleRestrictionCookies = () => {
         setRestrictionCookies(true);
         setCookies('user_allowed_save_cookie', true);
+    };
+
+    const handleClosePromo = () => {
+        setShowGlobalPromo(false);
     };
 
     const ogData = {
@@ -134,6 +139,14 @@ const Layout = (props) => {
         if (isRestrictionMode) {
             setRestrictionCookies(isRestrictionMode);
         }
+        if (typeof window !== 'undefined') {
+            const enablePromo = getCookies(features.globalPromo.key_cookies);
+            if (enablePromo !== '' && storeConfig.global_promo && storeConfig.global_promo.enable) {
+                setShowGlobalPromo(enablePromo);
+            } else if (storeConfig.global_promo && storeConfig.global_promo.enable) {
+                setShowGlobalPromo(true);
+            }
+        }
     }, []);
     const desktop = breakPointsUp('sm');
 
@@ -173,9 +186,28 @@ const Layout = (props) => {
             {withLayoutHeader && (
                 <header ref={refHeader}>
 
-                    { storeConfig.global_promo.enable && <GlobalPromoMessage t={t} storeConfig={storeConfig} />}
+                    { typeof window !== 'undefined'
+                        && storeConfig.global_promo && storeConfig.global_promo.enable
+                        && (
+                            <GlobalPromoMessage
+                                t={t}
+                                storeConfig={storeConfig}
+                                showGlobalPromo={showGlobalPromo}
+                                handleClose={handleClosePromo}
+                            />
+                        )}
                     <div className="hidden-mobile">
-                        {headerDesktop ? <HeaderDesktop storeConfig={storeConfig} isLogin={isLogin} t={t} app_cookies={app_cookies} /> : null}
+                        {headerDesktop
+                            ? (
+                                <HeaderDesktop
+                                    storeConfig={storeConfig}
+                                    isLogin={isLogin}
+                                    t={t}
+                                    app_cookies={app_cookies}
+                                    showGlobalPromo={showGlobalPromo}
+                                />
+                            )
+                            : null}
                     </div>
                     <div className="hidden-desktop">
                         {React.isValidElement(CustomHeader) ? (
