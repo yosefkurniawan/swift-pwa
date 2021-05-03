@@ -14,6 +14,18 @@ query getRegions($country_id: String!){
 }
 `;
 
+export const getCmsBlocks = gql`
+  query($identifiers: [String]) {
+      cmsBlocks(identifiers: $identifiers) {
+          items {
+              identifier
+              title
+              content
+          }
+      }
+  }
+`;
+
 export const getCountries = gql`
   {
     countries {
@@ -215,18 +227,6 @@ export const customerNotificationList = gql`
             subject
             unread
           }
-        }
-    }
-`;
-
-export const getCmsBlocks = gql`
-    query($identifiers: [String]) {
-        cmsBlocks(identifiers: $identifiers) {
-            items {
-                identifier
-                title
-                content
-            }
         }
     }
 `;

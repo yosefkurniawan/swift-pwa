@@ -14,11 +14,10 @@ import {
 
 const CoreTopNavigation = (props) => {
     const {
-        Content, storeConfig, t, app_cookies, isLogin,
+        Content, storeConfig, t, app_cookies, isLogin, showGlobalPromo,
     } = props;
     const [value, setValue] = React.useState('');
     const [deleteTokenGql] = removeToken();
-    const [showGlobalPromo, setShowGloabPromo] = React.useState(true);
     const { data, loading } = features.vesMenu.enabled
         ? getVesMenu({
             variables: {
@@ -73,13 +72,6 @@ const CoreTopNavigation = (props) => {
         }
     };
 
-    React.useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const enablePromo = getCookies(features.globalPromo.key_cookies);
-            setShowGloabPromo(enablePromo);
-        }
-    }, []);
-
     return (
         <Content
             t={t}
@@ -94,7 +86,7 @@ const CoreTopNavigation = (props) => {
             handleLogout={handleLogout}
             value={value}
             app_cookies={app_cookies}
-            showGlobalPromo={showGlobalPromo && storeConfig.global_promo.enable}
+            showGlobalPromo={showGlobalPromo}
         />
     );
 };

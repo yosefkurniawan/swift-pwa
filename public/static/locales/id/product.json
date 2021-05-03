@@ -31,6 +31,7 @@
     },
     "addRateSuccess": "Terima kasih atas ulasannya.",
     "addRateFailed": "Gagal mengirim ulasan",
+    "failedQtyZero": "silahkan tambahan minimal 1 item produk",
     "successAddCart": "Produk telah ditambahkan ke keranjang",
     "failedAddCart": "Gagal menambahkan produk ke keranjang",
     "emptyProductSearchResult": "Kami tidak dapat menemukan produk yang sesuai dengan pilihan.",
