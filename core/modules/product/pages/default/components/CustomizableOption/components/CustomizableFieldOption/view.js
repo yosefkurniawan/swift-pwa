@@ -3,7 +3,7 @@ import Typography from '@common_typography';
 import TextField from '@common_textfield';
 
 const ViewCustomizableFieldOption = ({
-    title = 'test', data = {}, value = '',
+    title = 'test', data = {}, value = '', disabled,
     onChange = () => {}, error = '', required = false,
 }) => (
     <div className="column customizable-container">
@@ -12,6 +12,7 @@ const ViewCustomizableFieldOption = ({
                 <TextField
                     options={data}
                     name={title}
+                    disabled={disabled}
                     label={(
                         <>
                             <Typography variant="title" type="bold" letter="uppercase">

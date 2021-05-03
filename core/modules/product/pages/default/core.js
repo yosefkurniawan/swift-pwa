@@ -341,6 +341,7 @@ const PageDetail = (props) => {
         );
     }
     if (data) {
+        console.log('data', data);
         product = data.products;
         if (product.items.length === 0) return <Error statusCode={404} />;
     }

@@ -16,7 +16,7 @@ const ItemGrouped = ({
 
     const handleLocalChange = (event) => {
         const val = event.target.value;
-        if (val && val !== '') {
+        if (val && val !== '' && !disabled) {
             if (val < 0) {
                 // window.toastMessage({
                 //     open: true,
@@ -65,7 +65,7 @@ const ItemGrouped = ({
                             className={styles.inputQty}
                             type="number"
                             onChange={handleLocalChange}
-                            disabled={disabled}
+                            readOnly={disabled}
                             value={localValue}
                         />
                     )

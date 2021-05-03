@@ -10,7 +10,7 @@ import useStyles from './style';
 const ItemConfigurableView = (props) => {
     const {
         option, selected, value, handleSelect, error, loading, configProduct,
-        isGrid, ...other
+        isGrid, disableItem, ...other
     } = props;
     const styles = useStyles();
     const classItem = styles.stylesItemOption;
@@ -44,7 +44,7 @@ const ItemConfigurableView = (props) => {
                 classItem={classItem}
                 error={!!error[option.attribute_code] && !selected[option.attribute_code]}
                 errorMessage={error[option.attribute_code] ? error[option.attribute_code] : ''}
-                disabled={loading}
+                disabled={loading || disableItem}
                 {...other}
             />
         );
@@ -58,7 +58,7 @@ const ItemConfigurableView = (props) => {
             <Select
                 value={selected[option.attribute_code] || ''}
                 onChange={(val) => handleSelect(val.target.value, option.attribute_code)}
-                disabled={loading || configProduct.loading}
+                disabled={loading || configProduct.loading || disableItem}
             >
                 {value.map((val, key) => (
                     <MenuItem key={key} value={val.value} disabled={val.disabled}>

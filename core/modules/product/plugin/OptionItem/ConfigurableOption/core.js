@@ -42,7 +42,7 @@ const OptionsItemConfig = (props) => {
 
     const {
         __typename, sku, media_gallery, image, price_range, price_tiers,
-        small_image, name, categories, url_key,
+        small_image, name, categories, url_key, stock_status,
     } = data;
 
     const [selectConfigurable, setSelectConfigurable] = React.useState({});
@@ -353,6 +353,7 @@ const OptionsItemConfig = (props) => {
             loading={loading || configProduct.loading}
             disabled={!selectedProduct || !selectedProduct.sku || stockStatus === 'OUT_OF_STOCK'}
             isGrid={isGrid}
+            disableItem={stock_status === 'OUT_OF_STOCK'}
             {...other}
         />
     );

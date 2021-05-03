@@ -7,16 +7,17 @@
 import Footer from '../components/Footer';
 
 const Checkbox = ({
-    val, handleOption,
+    val, handleOption, disabled,
 }) => (
     <div className="options-container">
         <input
             type="checkbox"
-            onClick={() => handleOption(val.id, val.price)}
+            onClick={() => !disabled && handleOption(val.id, val.price)}
             id={val.id}
             name={val.id}
             value={val.id}
             defaultChecked={val.is_default}
+            disabled={disabled}
         />
         <label
             className="label-options"
@@ -40,7 +41,7 @@ const DownloadView = (props) => {
         <>
             <div className="options-container">
                 {items.map((val, key) => (
-                    <Checkbox val={val} key={key} handleOption={handleOption} />
+                    <Checkbox disabled={disabled} val={val} key={key} handleOption={handleOption} />
                 ))}
                 <br />
             </div>

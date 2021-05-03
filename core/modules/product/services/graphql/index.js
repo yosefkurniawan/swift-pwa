@@ -8,6 +8,7 @@ const defaultConfig = {
 
 export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath), {
     ...defaultConfig,
+    fetchPolicy: 'no-cache',
 });
 export const getProductBySku = (params) => useQuery(Schema.getProductBySku(), {
     ...params,

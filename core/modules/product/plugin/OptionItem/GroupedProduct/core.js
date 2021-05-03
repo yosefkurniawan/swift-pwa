@@ -11,7 +11,7 @@ const GroupedProductOption = ({
     View, data, setOpen, t, ...other
 }) => {
     const {
-        sku, __typename,
+        sku, __typename, stock_status,
     } = data;
     const client = useApolloClient();
     const [loading, setLoading] = useState(false);
@@ -129,7 +129,7 @@ const GroupedProductOption = ({
             loading={loading}
             loadData={loadData}
             optionsData={optionsData}
-            disabled={loading || loadData}
+            disabled={loading || loadData || stock_status === 'OUT_OF_STOCK'}
             itemsCart={itemsCart}
             setItemsCart={setItemsCart}
         />
