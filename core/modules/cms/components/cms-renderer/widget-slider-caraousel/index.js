@@ -18,6 +18,7 @@ const WidetSliderCarousel = (props) => {
     const {
         storeConfig, showArrow, content, className,
         showClose, key_cookies, backgroundColor, textColor,
+        handleClose: customHandleClose,
     } = props;
     const styles = useStyles();
     const [slideIndex, setIndex] = useState(0);
@@ -113,6 +114,7 @@ const WidetSliderCarousel = (props) => {
         if (rightArrow) {
             rightArrow.style.display = 'none';
         }
+        customHandleClose(false);
     };
 
     if (content && content !== '') {
