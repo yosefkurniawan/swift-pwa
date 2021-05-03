@@ -5,7 +5,7 @@ import { modules } from '@config';
 
 const Page = dynamic(() => ((!modules.checkout.checkoutOnly)
     ? import('./main')
-    : import('@core_modules/checkout/pages/default')));
+    : import('@module_checkout/pages/default')));
 
 Page.getInitialProps = async () => ({
     namespacesRequired: modules.checkout.checkoutOnly

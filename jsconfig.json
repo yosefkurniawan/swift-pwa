@@ -68,6 +68,8 @@
             "@helper_zxcvbn": ["core/helpers/zxcvbn"],
             "@helper_localstorage": ["core/helpers/localstorage"],
 
+            "@module_checkout/*": ["core/modules/checkout/*"],
+
             "@common_button": ["core/modules/commons/Button"],
             "@common_buttonqty": ["core/modules/commons/ButtonQty"],
             "@common_breadcrumb": ["core/modules/commons/Breadcrumb"],
