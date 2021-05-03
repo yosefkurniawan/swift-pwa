@@ -54,6 +54,13 @@ const useStyles = makeStyles((theme) => ({
         width: 30,
         height: 30,
         cursor: 'pointer',
+        [theme.breakpoints.down('sm')]: {
+            padding: 0,
+            width: 20,
+            height: 20,
+            fontSize: '1rem',
+            top: 'calc(50%)',
+        },
     },
     leftArrow: {
         left: '20%',
@@ -80,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     rightArrow: {
         right: '20%',
         [theme.breakpoints.down('sm')]: {
-            right: 5,
+            right: 10,
         },
     },
 }));
