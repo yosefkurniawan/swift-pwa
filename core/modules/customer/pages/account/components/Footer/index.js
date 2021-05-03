@@ -10,7 +10,7 @@ import {
 import { removeToken as deleteToken } from '../../../../services/graphql';
 
 const Footer = ({
-    t, isLogin, storeConfig, FooterView, modules,
+    t, isLogin, storeConfig, FooterView, modules, data,
 }) => {
     const { aw_blog_general_enabled: blog } = storeConfig;
     const client = useApolloClient();
@@ -26,7 +26,7 @@ const Footer = ({
             //
         });
     };
-    return <FooterView blog={blog} t={t} isLogin={isLogin} handleLogout={handleLogout} modules={modules} />;
+    return <FooterView blog={blog} t={t} data={data} isLogin={isLogin} handleLogout={handleLogout} modules={modules} />;
 };
 
 export default Footer;
