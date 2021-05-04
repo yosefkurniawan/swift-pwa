@@ -8,8 +8,8 @@ const assetsVersion = '1.0.5';
 const HOST = {
     local: 'http://localhost:3000',
     dev: 'https://swiftpwa.testingnow.me',
-    stage: 'https://checkout-getswift-pwa.gcp-staging.testingnow.me',
-    prod: 'https://checkout-getswift-pwa.gcp-prod.sandbox.id',
+    stage: 'https://getswift-pwa.gcp-staging.testingnow.me',
+    prod: 'https://getswift-pwa.gcp-prod.sandbox.id',
 };
 
 /* Magento GraphQL Endpoint */
