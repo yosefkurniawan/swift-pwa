@@ -158,17 +158,6 @@ const ViewMobile = (props) => {
                             <div className={styles.root}>
                                 <div dangerouslySetInnerHTML={{ __html: content }} />
                             </div>
-                            {modules.wishlist.enabled ? (
-                                <div className={styles.account_clearfix}>
-                                    <Carousel
-                                        data={wishlist}
-                                        className={[styles.wishlistBlock, styles.margin20].join(' ')}
-                                        Item={ProductItem}
-                                        enableQuickView={false}
-                                    />
-                                </div>
-                            ) : null}
-
                         </div>
                     </div>
                     <ul className={styles.account_navigation}>

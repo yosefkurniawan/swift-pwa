@@ -28,6 +28,33 @@ export default makeStyles({
             flexDirection: 'column',
             alignItems: 'center',
         },
+        '& .social-icon': {
+            padding: '0 6px',
+            verticalAlign: 'middle',
+            display: 'inline-block',
+            '& i': {
+                content: '',
+                backgroundPosition: 'center',
+                backgroundSize: 'contain',
+                width: 40,
+                height: 40,
+                display: 'block',
+            },
+
+            '& .icon-facebook': {
+                backgroundImage: 'url(/assets/img/facebook.png)',
+            },
+            '& .icon-twitter': {
+                backgroundImage: 'url(/assets/img/twitter.png)',
+            },
+            '& .icon-instagram': {
+                backgroundImage: 'url(/assets/img/instagram.png)',
+            },
+            '& .icon-pinterest': {
+                backgroundImage: 'url(/assets/img/pinterest.png)',
+            },
+
+        },
     },
     account_block: {
         display: 'block',
