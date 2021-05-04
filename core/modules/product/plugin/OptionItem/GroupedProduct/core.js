@@ -121,7 +121,7 @@ const GroupedProductOption = ({
         } else {
             setLoading(false);
             window.toastMessage({
-                variant: 'warning',
+                variant: 'error',
                 text: t('product:failedQtyZero'),
                 open: true,
             });
