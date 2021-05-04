@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import * as Schema from './schema';
 import * as ActionSchema from './actionSchema';
+import * as CustomizableSchema from './customizableSchema';
 
 const defaultConfig = {
 
@@ -8,8 +9,14 @@ const defaultConfig = {
 
 export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath), {
     ...defaultConfig,
+});
+
+export const getCustomizableOption = (urlpath) => useLazyQuery(CustomizableSchema.getCustomizableOption(urlpath), {
+    ...defaultConfig,
+    skip: typeof window === 'undefined',
     fetchPolicy: 'no-cache',
 });
+
 export const getProductBySku = (params) => useQuery(Schema.getProductBySku(), {
     ...params,
     ...defaultConfig,

@@ -245,7 +245,6 @@ const ContentDetail = ({
     };
 
     const checkCustomizableOptionsValue = async () => {
-        console.log(customizableOptions);
         if (item.options && item.options.length > 0) {
             const requiredOptions = item.options.filter((op) => op.required);
             if (requiredOptions.length > 0) {
@@ -341,7 +340,6 @@ const PageDetail = (props) => {
         );
     }
     if (data) {
-        console.log('data', data);
         product = data.products;
         if (product.items.length === 0) return <Error statusCode={404} />;
     }
