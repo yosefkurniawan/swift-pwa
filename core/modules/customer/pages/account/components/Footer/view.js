@@ -7,10 +7,7 @@ import Link from 'next/link';
 import Typography from '@common_typography';
 import Button from '@common_button';
 import router from 'next/router';
-import { enableSocialMediaLink } from '@config';
 import { setResolver, getResolver } from '@helper_localstorage';
-import SocialMediaLink from '../SocialMedia';
-import SocialMediaView from '../SocialMedia/view';
 import NewsletterDialog from '../Newsletter';
 import useStyles from './style';
 
@@ -64,7 +61,6 @@ const FooterView = (props) => {
                             </li>
                         ) : null}
                     </ul>
-                    {enableSocialMediaLink && <SocialMediaLink SocialMediaView={SocialMediaView} />}
                 </div>
             </div>
         );
@@ -146,7 +142,6 @@ const FooterView = (props) => {
                         </li>
                     ) : null}
                 </ul>
-                {enableSocialMediaLink && <SocialMediaLink SocialMediaView={SocialMediaView} />}
             </div>
         );
     }
