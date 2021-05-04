@@ -8,9 +8,9 @@ const query = `
         $lastName: String,
         $email: String!,
         $password: String!,
-        $phoneNumber: String!,
+        $phoneNumber: String,
         $subscribe: Boolean,
-        $otp: String!,
+        $otp: String,
         $whatsapp_number: String,
     ) {
         createCustomerCustom(

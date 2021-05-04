@@ -10,6 +10,7 @@ import Shipping from './shipping';
 import PaymentList from './payment';
 import Promo from './promo';
 import GiftCard from './giftcard';
+import OrderComment from './OrderComment';
 import RewardPoint from './rewardpoint';
 import Credit from './credit';
 import PickupInfo from './PickupInformation';
@@ -39,6 +40,7 @@ const Content = (props) => {
         PaymentView,
         PromoView,
         GiftCardView,
+        OrderCommentView,
         SummaryView,
         RewardPointView,
         StoreCreditView,
@@ -207,6 +209,21 @@ const Content = (props) => {
                         PaymentView={PaymentView}
                         modules={modules}
                     />
+                    {modules.checkout.orderComment.enabled ? (
+                        <div className={classNames(styles.block)}>
+                            <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">
+                                <OrderComment
+                                    t={t}
+                                    checkout={checkout}
+                                    setCheckout={setCheckout}
+                                    handleOpenMessage={handleOpenMessage}
+                                    formik={formik}
+                                    storeConfig={storeConfig}
+                                    OrderCommentView={OrderCommentView}
+                                />
+                            </div>
+                        </div>
+                    ) : null}
                 </>
             </div>
             <div className="col-xs-12 col-sm-4 col-md-4 col-lg-3">

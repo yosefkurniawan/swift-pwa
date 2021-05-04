@@ -28,32 +28,42 @@ export const groupingCity = (item) => {
 };
 
 /**
+ * function to get kelurahan
+ */
+const generateValue = (group, collection, type, element) => {
+    const data = group;
+    const name = (collection[type === 'district' ? 1 : 2] || '').replace(/ /g, '_').toLowerCase();
+    if (!group[name]) {
+        if (typeof collection[type === 'district' ? 1 : 2] !== 'undefined') {
+            data[name] = {
+                id: element.id,
+                parent: collection[type === 'district' ? 0 : 1],
+                label: collection[type === 'district' ? 1 : 2],
+                name: collection[type === 'district' ? 1 : 2],
+                city: element.city,
+                postcode: element.postcode,
+            };
+        }
+    }
+    return data;
+};
+
+/**
  * function to grouping sub city, {kecamatan, kelurahan} by city name
  * @params string parent name
  * @params string type {district, village}
  * @params array item city
  * @return array city
  *  */
-export const groupingSubCity = (parent, type, item) => {
-    const group = {};
+export const groupingSubCity = (parent, type, item, additionalOptions = {}) => {
+    let group = {};
     for (let index = 0; index < item.length; index += 1) {
         const element = item[index];
         const collection = element.city.split(', ');
-        if (collection[type === 'district' ? 0 : 1] === parent) {
-            const name = (collection[type === 'district' ? 1 : 2] || '').replace(/ /g, '_').toLowerCase();
-            if (!group[name]) {
-                if (typeof collection[type === 'district' ? 1 : 2] !== 'undefined'
-                    && typeof collection[type === 'district' ? 1 : 2] !== 'undefined') {
-                    group[name] = {
-                        id: element.id,
-                        parent: collection[type === 'district' ? 0 : 1],
-                        label: collection[type === 'district' ? 1 : 2],
-                        name: collection[type === 'district' ? 1 : 2],
-                        city: element.city,
-                        postcode: element.postcode,
-                    };
-                }
-            }
+        if (type === 'district' && collection[0] === parent) {
+            group = generateValue(group, collection, type, element);
+        } else if (type === 'village' && collection[1] === parent && additionalOptions.label === collection[0]) {
+            group = generateValue(group, collection, type, element);
         }
     }
     return Object.values(group);

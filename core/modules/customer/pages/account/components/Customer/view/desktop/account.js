@@ -3,9 +3,7 @@ import Link from 'next/link';
 
 const AddressView = ({ customer, styles, t }) => (
     <>
-        <h2 className={styles.infoTitle}>
-            {t('customer:menu:accountInformation')}
-        </h2>
+        <h2 className={styles.infoTitle}>{t('customer:menu:accountInformation')}</h2>
         <hr />
         <div className="row">
             <div className="col-lg-6">
@@ -37,7 +35,7 @@ const AddressView = ({ customer, styles, t }) => (
                     {' '}
                     subscribed to "General Subscription".
                     <br />
-                    <Link href="/customer/setting">
+                    <Link href="/customer/newsletter">
                         <a className={styles.desktopLink}>Edit</a>
                     </Link>
                 </p>

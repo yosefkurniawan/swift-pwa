@@ -81,7 +81,8 @@
         "relatedProduct": "Relasi Produk",
         "sale": "Diskon",
         "new": "Baru",
-        "free": "Free"
+        "free": "Free",
+        "none": "Tidak ada"
     },
     "error": {
         "notFound" : "Data tidak di temukan",
@@ -92,7 +93,8 @@
     "fileUpload": {
         "reject": "Tidak dapat mengupload, file harus ber type  ",
         "dragActive": "Taruh file kesini ...",
-        "dragNonActive": "Tarik dan taruh file kesini, atau klik untuk pilih file"
+        "dragNonActive": "Tarik dan taruh file kesini, atau klik untuk pilih file",
+        "maxSizeImage": "Maksimal ukuran gambar "
     },
     "menu" : {
         "confirmpayment" : "Konfirmasi Pembayaran",
@@ -104,9 +106,7 @@
         "myaccount": "Akun Saya",
         "mywishlist": "Daftar Saya",
         "signout": "keluar",
-        "currency": "Mata Uang",
-        "loading": "Menunggu",
-        "changeto": "Ganti ke"
+        "loading": "Menunggu"
     },
     "header": {
         "welcome": "Selamat Datang!",
@@ -123,5 +123,11 @@
         "buttonLabel": "Langganan",
         "emailFormat": "Format email salah",
         "emptyValue": "Harap masukkan alamat email"
+    },
+    "setting": {
+        "title": "Pengaturan",
+        "language": "Bahasa",
+        "currency": "Mata Uang",
+        "changeto": "Ganti ke"
     }
 }

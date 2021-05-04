@@ -1,12 +1,15 @@
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Link from 'next/link';
-import ComponentCurrencyExchange from './currency';
+import SwitcherLanguage from '@common_language';
+import SwitcherCurrency from '@common_currency';
+import config from '@config';
 
 const ViewTop = (props) => {
     const {
         isLogin, t, data, handleLogout,
     } = props;
+    const { modules } = config;
     return (
         <ul>
             <li>
@@ -49,16 +52,26 @@ const ViewTop = (props) => {
                     </>
                 )}
             </li>
-            <li>
-                <Link href="/confirmpayment">
-                    <a>{t('common:menu:confirmpayment')}</a>
-                </Link>
-            </li>
-            <li>
-                <Link href="/sales/order/track">
-                    <a>{t('common:menu:trackingorder')}</a>
-                </Link>
-            </li>
+            {
+                modules.confirmpayment.enabled
+                    ? (
+                        <li>
+                            <Link href="/confirmpayment">
+                                <a>{t('common:menu:confirmpayment')}</a>
+                            </Link>
+                        </li>
+                    ) : null
+            }
+            {
+                modules.trackingorder.enabled
+                    ? (
+                        <li>
+                            <Link href="/sales/order/track">
+                                <a>{t('common:menu:trackingorder')}</a>
+                            </Link>
+                        </li>
+                    ) : null
+            }
             {!isLogin ? (
                 <li>
                     <Link href="/customer/account/login">
@@ -74,7 +87,10 @@ const ViewTop = (props) => {
                 </li>
             ) : null}
             <li>
-                <ComponentCurrencyExchange {...props} />
+                <SwitcherLanguage {...props} />
+            </li>
+            <li>
+                <SwitcherCurrency {...props} />
             </li>
 
             <style jsx>

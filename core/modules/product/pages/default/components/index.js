@@ -57,6 +57,7 @@ const ProductPage = (props) => {
         openImageDetail,
         handleOpenImageDetail,
         stockStatus,
+        additionalPrice,
     } = props;
 
     const desktop = breakPointsUp('sm');
@@ -110,7 +111,7 @@ const ProductPage = (props) => {
                             <Typography variant="title" type="bold" letter="capitalize" className={classNames(styles.title, 'clear-margin-padding')}>
                                 {data.name}
                             </Typography>
-                            <PriceFormat {...price} />
+                            <PriceFormat {...price} additionalPrice={additionalPrice} />
                         </div>
                         <div className={styles.shareContainer}>
                             <IconButton className={styles.btnShare} onClick={handleWishlist}>

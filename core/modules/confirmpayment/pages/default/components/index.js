@@ -1,4 +1,5 @@
 import TextField from '@common_textfield';
+import Select from '@common_select';
 import DropFile from '@common_dropfile';
 import Button from '@common_button';
 import Typography from '@common_typography';
@@ -9,7 +10,7 @@ import useStyles from './style';
 
 const ConfirmPayment = (props) => {
     const {
-        t, formik, handleChangeDate, handleDropFile,
+        t, formik, handleChangeDate, handleDropFile, banks,
     } = props;
     const styles = useStyles();
     return (
@@ -25,14 +26,31 @@ const ConfirmPayment = (props) => {
                             error={!!(formik.errors.order_number && formik.touched.order_number)}
                             errorMessage={(formik.errors.order_number && formik.touched.order_number) ? formik.errors.order_number : null}
                         />
-                        <TextField
-                            name="payment"
-                            label={t('payment:confirmPayment:form:bankName')}
-                            value={formik.values.payment}
-                            onChange={formik.handleChange}
-                            error={!!(formik.errors.payment && formik.touched.payment)}
-                            errorMessage={(formik.errors.payment && formik.touched.payment) ? formik.errors.payment : null}
-                        />
+                        {
+                            banks.length > 0
+                                ? (
+                                    <Select
+                                        style={{ textTransform: 'capitalize' }}
+                                        name="payment"
+                                        label={t('payment:confirmPayment:form:bankName')}
+                                        value={formik.values.payment}
+                                        onChange={formik.handleChange}
+                                        options={banks}
+                                        error={!!(formik.errors.payment && formik.touched.payment)}
+                                        errorMessage={(formik.errors.payment && formik.touched.payment) ? formik.errors.payment : null}
+                                    />
+                                )
+                                : (
+                                    <TextField
+                                        name="payment"
+                                        label={t('payment:confirmPayment:form:bankName')}
+                                        value={formik.values.payment}
+                                        onChange={formik.handleChange}
+                                        error={!!(formik.errors.payment && formik.touched.payment)}
+                                        errorMessage={(formik.errors.payment && formik.touched.payment) ? formik.errors.payment : null}
+                                    />
+                                )
+                        }
                         <TextField
                             name="account_number"
                             label={t('payment:confirmPayment:form:bankAccountNumber')}
@@ -79,7 +97,7 @@ const ConfirmPayment = (props) => {
                             getBase64={handleDropFile}
                         />
                         <div className={styles.footer}>
-                            <Button fullWidth className={styles.button} type="submit">
+                            <Button fullWidth className={styles.button} type="submit" on>
                                 <Typography variant="span" type="bold" letter="uppercase" color="white">
                                     {t('payment:confirmPayment:form:button')}
                                 </Typography>

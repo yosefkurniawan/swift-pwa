@@ -121,11 +121,11 @@ const Summary = (props) => {
                                                         )
                                                     }
                                                     <Typography variant="span" size="14" letter="uppercase">
-                                                        {item.prices.row_total_including_tax.value === 0
+                                                        {item.prices.row_total.value === 0
                                                             ? t('common:title:free')
                                                             : formatPrice(
-                                                                item.prices.price_including_tax.value,
-                                                                item.prices.price_including_tax.currency || 'IDR',
+                                                                item.prices.row_total.value,
+                                                                item.prices.row_total.currency || 'IDR',
                                                             )}
                                                     </Typography>
 

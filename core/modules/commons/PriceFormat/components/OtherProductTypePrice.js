@@ -6,8 +6,11 @@ import { formatPrice } from '@helper_currency';
 import useStyles from '../style';
 
 const OtherProductTypePrice = (props) => {
-    const { priceRange, specialFromDate, specialToDate } = props;
+    const {
+        priceRange, specialFromDate, specialToDate, additionalPrice,
+    } = props;
     const styles = useStyles();
+    const otherPrice = additionalPrice || 0;
     const regularPrice = priceRange.minimum_price.regular_price;
     const finalPrice = priceRange.minimum_price.final_price;
     let validSpecial = true;
@@ -25,7 +28,7 @@ const OtherProductTypePrice = (props) => {
         return (
             <>
                 <Typography variant="span" type="bold" letter="uppercase" className={classNames(styles.noMargin, 'price_text')}>
-                    {formatPrice(finalPrice.value, finalPrice.currency)}
+                    {formatPrice(finalPrice.value + otherPrice, finalPrice.currency)}
                 </Typography>
             </>
         );
@@ -41,7 +44,7 @@ const OtherProductTypePrice = (props) => {
                         letter="capitalize"
                         className={classNames(styles.noMargin, styles.oldPrice)}
                     >
-                        <strike>{formatPrice(regularPrice.value, regularPrice.currency)}</strike>
+                        <strike>{formatPrice(regularPrice.value + otherPrice, regularPrice.currency)}</strike>
                     </Typography>
                 ) : null
             }
@@ -53,7 +56,7 @@ const OtherProductTypePrice = (props) => {
             >
                 {
                     validSpecial ? formatPrice(finalPrice.value, finalPrice.currency)
-                        : formatPrice(regularPrice.value, regularPrice.currency)
+                        : formatPrice(regularPrice.value + otherPrice, regularPrice.currency)
                 }
             </Typography>
         </>

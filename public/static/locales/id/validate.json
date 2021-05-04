@@ -64,5 +64,9 @@
     "guest": {
         "wrong": "Anda harus login terlebih dahulu"
     },
-    "required": "tidak boleh kosong"
+    "required": "tidak boleh kosong",
+    "captcha": {
+        "required": "Captcha tidak boleh kosong",
+        "wrong": "Captcha tidak sesuai"
+    }
 }

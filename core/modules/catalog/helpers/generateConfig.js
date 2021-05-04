@@ -19,7 +19,7 @@ const generateConfig = (query, config, elastic, availableFilter = []) => {
             search = search.replace(/[^a-zA-Z0-9 ]/g, '');
             resolveConfig.search = search;
         } else if (q === 'sort' && query[q] !== '') {
-            resolveConfig.sort = JSON.parse(query[q]);
+            resolveConfig.sort = JSON.parse(decodeURIComponent(query[q]));
         } else if (q === 'priceRange') {
             const price = query[q].split(',');
             // eslint-disable-next-line radix

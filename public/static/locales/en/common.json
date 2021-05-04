@@ -82,7 +82,8 @@
         "relatedProduct": "Related products",
         "sale": "Sale",
         "new": "New",
-        "free": "Free"
+        "free": "Free",
+        "none": "None"
     },
     "error": {
         "notFound": "Data not found",
@@ -93,7 +94,8 @@
     "fileUpload": {
         "reject": "Cannot upload, Files must be a type ",
         "dragActive": "Drop the files here ...",
-        "dragNonActive": "Drag drop some files here, or click to select file"
+        "dragNonActive": "Drag drop some files here, or click to select file",
+        "maxSizeImage": "Maximum size image "
     },
     "menu": {
         "confirmpayment": "Confirm Payment",
@@ -105,9 +107,7 @@
         "myaccount": "My Account",
         "mywishlist": "My Wishlist",
         "signout": "Sign Out",
-        "currency": "Currency",
-        "loading": "Loading",
-        "changeto": "Change to"
+        "loading": "Loading"
     },
     "header": {
         "welcome": "Welcome!",
@@ -124,5 +124,11 @@
         "buttonLabel": "Subscribe",
         "emailFormat": "Invalid email format",
         "emptyValue": "Please insert email address"
+    },
+    "setting": {
+        "title": "Setting",
+        "language": "Language",
+        "currency": "Currency",
+        "changeto": "Change to"
     }
 }
