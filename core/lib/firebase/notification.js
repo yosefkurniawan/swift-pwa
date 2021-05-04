@@ -49,7 +49,7 @@ const notification = {
             // messaging.usePublicVapidKey(
             //   "BNLpFKMYBkoD5UoMz4YqVWVQkcSWJ3kxJQkhlAPclwZiZ0gLKYSsjolscS_7r6SX_qoNviXmEGTLweNuEzGNSng"
             // )
-            messaging.usePublicVapidKey(features.pushNotification.config.pairKey);
+            messaging.usePublicVapidKey(features.firebase.pushNotification.config.pairKey);
 
             // request notification
             Notification.requestPermission().then((permission) => {

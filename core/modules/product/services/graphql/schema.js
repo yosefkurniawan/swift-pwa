@@ -113,6 +113,17 @@ export const getProduct = (url) => {
             }
           ) {
             items {
+              ${modules.product.customizableOptions.enabled && `
+              ... on CustomizableProductInterface {
+                options {
+                  title
+                  option_id
+                  required
+                  sort_order
+                  __typename
+                }
+              }
+              `}
               ${productDetail}
               ${priceRange}
               ${priceTiers}
@@ -195,283 +206,6 @@ export const getProductBySku = () => {
     return query;
 };
 
-export const getBundleProduct = (sku) => {
-    const query = gql`{
-    products(
-      search: "" ,filter: {
-        sku: {
-          eq: "${sku}"
-        }
-      }
-    ) {
-      items {
-        ... on BundleProduct {
-          id
-          name
-          url_key
-          items {
-            position
-            option_id
-            title
-            type
-            required
-            options {
-              id
-              is_default
-              label
-              quantity
-              product {
-                id
-                name
-                price_range {
-                  minimum_price {
-                    discount {
-                      amount_off
-                      percent_off
-                    }
-                    final_price {
-                      currency
-                      value
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }`;
-    return query;
-};
-
-export const getDownloadProduct = (sku) => {
-    const query = gql`{
-      products(
-        search: "" ,filter: {
-          sku: {
-            eq: "${sku}"
-          }
-        }
-      ) {
-        items {
-          ... on DownloadableProduct {
-            id
-            name
-            url_key
-            downloadable_product_links {
-              id
-              uid
-              title
-              price
-            }
-          }
-        }
-      }
-    }`;
-    return query;
-};
-
-export const getConfigurableProduct = (sku) => {
-    const query = gql`{
-      products(
-        search: "" ,filter: {
-          sku: {
-            eq: "${sku}"
-          }
-        }
-      ) {
-        items {
-          ... on ConfigurableProduct {
-            configurable_options {
-              id
-              attribute_id
-              label
-              position
-              use_default
-              attribute_code
-              values {
-                value_index
-                label
-                swatch_data {
-                  value
-                  ... on ImageSwatchData {
-                    thumbnail
-                    value
-                  }
-                  ... on ColorSwatchData {
-                    value
-                  }
-                  ... on TextSwatchData {
-                    value
-                  }
-                }
-              }
-              product_id
-            }
-            variants {
-              product {
-                ${productDetail}
-                ${priceRange}
-                ${priceTiers}
-                media_gallery {
-                  label,
-                  url
-                }
-              }
-              attributes {
-                label
-                code
-                value_index
-              }
-            }
-          }
-        }
-      }
-    }`;
-    return query;
-};
-
-export const createEmptyCartGuest = gql`
-    mutation {
-        createEmptyCart
-    }
-`;
-
-export const addSimpleProductsToCart = gql`
-mutation addSimpleProductsToCart(
-    $cartId: String!,
-    $qty: Float!,
-    $sku: String!,
-) {
-    addSimpleProductsToCart(input:{
-      cart_id: $cartId,
-      cart_items: {
-        data: {
-          quantity: $qty,
-          sku: $sku
-        }
-      }
-    }) {
-      cart {
-        id
-        total_quantity
-      }
-    }
-  }
-`;
-
-export const addVirtualProductToCart = gql`
-mutation addVirtualProductToCart(
-    $cartId: String!,
-    $qty: Float!,
-    $sku: String!,
-) {
-    addVirtualProductsToCart(input:{
-      cart_id: $cartId,
-      cart_items: {
-        data: {
-          quantity: $qty,
-          sku: $sku
-        }
-      }
-    }) {
-      cart {
-        id
-        total_quantity
-      }
-    }
-  }
-`;
-
-export const addDownloadableProductsToCart = gql`
-mutation(
-  $cartId : String!,
-  $sku: String!,
-  $qty: Float!,
-  $download_product_link: [DownloadableProductLinksInput]
-) {
-  addDownloadableProductsToCart(
-    input: {
-      cart_id: $cartId
-      cart_items: {
-        data: {
-          sku: $sku
-          quantity: $qty
-        }
-        downloadable_product_links: $download_product_link
-      }
-    }
-  ) {
-    cart {
-      total_quantity
-      items {
-        product {
-          sku
-        }
-        quantity
-        ... on DownloadableCartItem {
-          links {
-            title
-            price
-          }
-          samples {
-            title
-            sample_url
-          }
-        }
-      }
-    }
-  }
-}
-`;
-
-export const addConfigProductsToCart = gql`
-mutation (
-  $cartId: String!,
-  $qty: Float!,
-  $sku: String!,
-  $parentSku: String!,
-) {
-  addConfigurableProductsToCart(
-    input: {
-      cart_id: $cartId,
-      cart_items: {
-        data: {
-          quantity : $qty,
-          sku: $sku
-        }
-        parent_sku: $parentSku
-      }
-    }
-  ) {
-    cart {
-      id
-      total_quantity
-    }
-  }
-}
-`;
-
-export const addBundleProductsToCart = gql`
-mutation (
-  $cartId: String!,
-  $cartItems: [BundleProductCartItemInput]!
-) {
-      addBundleProductsToCart(
-        input: {
-          cart_id: $cartId
-          cart_items: $cartItems
-        }
-      ) {
-        cart {
-          id
-          total_quantity
-        }
-      }
-    }
-`;
-
 export const addReview = gql`
     mutation createReview($nickname: String!, $rating: Int!, $title: String!, $detail: String!, $pkValue: Int!) {
         addProductReview(
@@ -523,21 +257,171 @@ export const addWishlist = gql`
     }
 `;
 
-export const createCartIdGuest = gql`
-    mutation {
-        createEmptyCart
+export const getBundleProduct = (sku) => {
+    const query = gql`{
+  products(
+    search: "" ,filter: {
+      sku: {
+        eq: "${sku}"
+      }
     }
-`;
-
-export const getCartIdUser = gql`
-    {
-        customerCart {
+  ) {
+    items {
+      ... on BundleProduct {
+        id
+        name
+        url_key
+        items {
+          position
+          option_id
+          title
+          type
+          required
+          options {
             id
+            is_default
+            label
+            quantity
+            product {
+              id
+              name
+              price_range {
+                minimum_price {
+                  discount {
+                    amount_off
+                    percent_off
+                  }
+                  final_price {
+                    currency
+                    value
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+    return query;
+};
+
+export const getDownloadProduct = (sku) => {
+    const query = gql`{
+    products(
+      search: "" ,filter: {
+        sku: {
+          eq: "${sku}"
+        }
+      }
+    ) {
+      items {
+        ... on DownloadableProduct {
+          id
+          name
+          url_key
+          downloadable_product_links {
+            id
+            uid
+            title
+            price
+          }
+        }
+      }
+    }
+  }`;
+    return query;
+};
+
+export const getConfigurableProduct = (sku) => {
+    const query = gql`{
+    products(
+      search: "" ,filter: {
+        sku: {
+          eq: "${sku}"
+        }
+      }
+    ) {
+      items {
+        ... on ConfigurableProduct {
+          configurable_options {
+            id
+            attribute_id
+            label
+            position
+            use_default
+            attribute_code
+            values {
+              value_index
+              label
+              swatch_data {
+                value
+                ... on ImageSwatchData {
+                  thumbnail
+                  value
+                }
+                ... on ColorSwatchData {
+                  value
+                }
+                ... on TextSwatchData {
+                  value
+                }
+              }
+            }
+            product_id
+          }
+          variants {
+            product {
+              ${productDetail}
+              ${priceRange}
+              ${priceTiers}
+              media_gallery {
+                label,
+                url
+              }
+            }
+            attributes {
+              label
+              code
+              value_index
+            }
+          }
+        }
+      }
+    }
+  }`;
+    return query;
+};
+
+export const getGroupedProduct = gql`
+    query getGroupedProduct($sku: String!) {
+        products(search: "", filter: { sku: { eq: $sku } }) {
+            items {
+                __typename
+                ... on GroupedProduct {
+                    items {
+                        qty
+                        position
+                        product {
+                            id
+                            name
+                            sku
+                            ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
+                            stock_status
+                            special_from_date
+                            special_to_date
+                            ${priceRange}
+                            ${priceTiers}
+                        }
+                    }
+                }
+            }
         }
     }
 `;
 
 export default {
-    createEmptyCartGuest,
-    addSimpleProductsToCart,
+    getProductBySku,
+    getProduct,
 };

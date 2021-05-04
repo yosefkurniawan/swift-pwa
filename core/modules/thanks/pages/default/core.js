@@ -5,7 +5,7 @@ import TagManager from 'react-gtm-module';
 import { removeCheckoutData, getCheckoutData } from '@helper_cookies';
 import Router from 'next/router';
 import { debuging } from '@config';
-import { getOrder } from '../../services/graphql';
+import { getOrder, getPaymentBankList, getPaymentInformation } from '../../services/graphql';
 
 const PageStoreCredit = (props) => {
     const {
@@ -19,7 +19,16 @@ const PageStoreCredit = (props) => {
         ...pageConfig,
     };
     const { data, loading, error } = getOrder(typeof checkoutData === 'string' ? JSON.parse(checkoutData) : checkoutData);
-
+    const [getBankList, { data: bankList, error: errorBankList }] = getPaymentBankList();
+    const { data: paymentInformation, loading: paymentLoading, error: paymentError } = getPaymentInformation(
+        typeof checkoutData === 'string'
+            ? {
+                order_number: JSON.parse(checkoutData).order_number,
+            }
+            : {
+                order_number: checkoutData.order_number,
+            },
+    );
     if (typeof window !== 'undefined') {
         const cdt = getCheckoutData();
         if (!cdt) Router.push('/');
@@ -75,14 +84,20 @@ const PageStoreCredit = (props) => {
         }
     }, []);
 
-    if (loading || !data) {
+    React.useEffect(() => {
+        if (!bankList) {
+            getBankList();
+        }
+    }, [bankList]);
+
+    if (loading || !data || !bankList || paymentLoading || !paymentInformation) {
         return (
             <Layout t={t} {...other} pageConfig={config} storeConfig={storeConfig}>
                 <Skeleton />
             </Layout>
         );
     }
-    if (error) {
+    if (error || errorBankList || paymentError) {
         return (
             <Layout t={t} {...other} pageConfig={config} storeConfig={storeConfig}>
                 <ErrorInfo variant="error" text={debuging.originalError ? error.message.split(':')[1] : t('common:error:fetchError')} />
@@ -110,7 +125,7 @@ const PageStoreCredit = (props) => {
         Router.push('/confirmpayment');
     };
 
-    if (data && data.ordersFilter && data.ordersFilter.data.length > 0) {
+    if (data && data.ordersFilter && data.ordersFilter.data.length > 0 && bankList && paymentInformation) {
         const dateOrder = data.ordersFilter.data[0].created_at ? new Date(data.ordersFilter.data[0].created_at.replace(/-/g, '/')) : new Date();
         return (
             <Layout t={t} {...other} pageConfig={config} storeConfig={storeConfig}>
@@ -124,6 +139,8 @@ const PageStoreCredit = (props) => {
                     dateOrder={dateOrder}
                     handleDetailOrder={handleDetailOrder}
                     handleConfirmPayment={handleConfirmPayment}
+                    bankList={bankList.getPaymentBankList}
+                    paymentInformation={paymentInformation}
                 />
             </Layout>
         );

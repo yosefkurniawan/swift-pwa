@@ -2,7 +2,9 @@ import Layout from '@layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { regexPhone } from '@helper_regex';
-import { cmsContactIdentifiers, recaptcha, debuging } from '@config';
+import {
+    cmsContactIdentifiers, recaptcha, debuging, modules,
+} from '@config';
 import { getAppEnv } from '@helpers/env';
 import gqlService from '../../services/graphql';
 
@@ -12,6 +14,8 @@ const Contact = (props) => {
     } = props;
 
     const appEnv = getAppEnv();
+    // enable recaptcha
+    const enableRecaptcha = recaptcha.enable && modules.contact.recaptcha.enabled;
 
     const Config = {
         title: t('contact:pageTitle'),
@@ -70,13 +74,13 @@ const Contact = (props) => {
             fullName: Yup.string().required(t('validate:fullName:required')),
             email: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
             message: Yup.string().required(t('validate:message:required')),
-            captcha: recaptcha.enable && Yup.string().required(`Captcha ${t('validate:required')}`),
+            captcha: enableRecaptcha && Yup.string().required(`Captcha ${t('validate:required')}`),
             telephone: Yup.string().matches(regexPhone, t('validate:phoneNumber:wrong')).required(t('validate:phoneNumber:required')),
         }),
         onSubmit: async (values, { resetForm }) => {
             window.backdropLoader(true);
             setLoad(true);
-            if (recaptcha.enable) {
+            if (enableRecaptcha) {
                 fetch('/captcha-validation', {
                     method: 'post',
                     body: JSON.stringify({
@@ -141,6 +145,7 @@ const Contact = (props) => {
                 recaptchaRef={recaptchaRef}
                 Skeleton={Skeleton}
                 load={load}
+                enableRecaptcha={enableRecaptcha}
             />
         </Layout>
     );

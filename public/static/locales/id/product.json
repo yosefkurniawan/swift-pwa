@@ -17,7 +17,16 @@
         "nickname": "Nickname tidak boleh kosong",
         "rating": "Rating tidak boleh kosong",
         "title": "Title tidak boleh kosong",
-        "detail": "Detail tidak boleh kosong"
+        "detail": "Detail tidak boleh kosong",        
+        "fieldRequired": "Field ini harus di isi",        
+        "maxCharacters": "Maksimal $ karakter"
+    },
+    "customizableOptions": {
+        "file": {
+            "extentionAccept": "Ekstensi file yang cocok: ",
+            "maxImageWidth": "Maksimal panjang gambar: ",
+            "maxImageHeight": "Maksimal lebar gambar: "
+        }
     },
     "addRateSuccess": "Terima kasih atas ulasannya.",
     "addRateFailed": "Gagal mengirim ulasan",

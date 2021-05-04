@@ -42,6 +42,8 @@
         "couponApplied": "Coupon has been applied",
         "giftCardApplied": "Coupon has been applied",
         "giftCardRemoved": "Coupon has been removed",
+        "orderCommentAdded": "Order Comment has been added",
+        "orderCommentRemoved": "Order Comment has been removed",
         "rewardPointsApplied": "Reward points has been applied",
         "rewardPointsRemoved": "Reward points has been removed",
         "storeCreditApplied": "Store credit has been applied",

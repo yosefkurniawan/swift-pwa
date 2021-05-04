@@ -110,12 +110,12 @@
             "@common_scrolltotop": ["core/modules/commons/ScrollToTop"],
             "@common_headermobile": ["core/modules/theme/components/header/mobile"],
             "@common_headerdesktop": ["core/modules/theme/components/header/desktop"],
-            "@common_currency": ["core/modules/theme/components/header/desktop/components/currency"],
+            "@common_currency": ["core/modules/setting/components/currency"],
+            "@common_language": ["core/modules/setting/components/language"],
             "@common_bottomnavigation": ["core/modules/theme/components/bottom-navigation/mobile"],
             "@common_footer": ["core/modules/theme/components/footer/desktop"],
             "@common_productlabel": ["core/modules/commons/ProductLabel"],
             "@common_optionconfigurable": ["core/modules/commons/OptionConfigurable"],
-
 
             "@plugin_summary": ["core/modules/cart/plugin/Summary"],
             "@plugin_addressform": ["core/modules/customer/plugins/AddressFormDialog"]
