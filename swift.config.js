@@ -16,7 +16,7 @@ const HOST = {
 const graphqlEndpoint = {
     local: 'https://swiftpwa-be.testingnow.me/graphql',
     dev: 'https://swiftpwa-be.testingnow.me/graphql',
-    stage: 'https://swiftpwa-be.testingnow.me/graphql',
+    stage: 'https://b2cdemonew.gcp-staging.testingnow.me/graphql',
     prod: 'https://b2cdemonew.gcp-prod.sandbox.id/graphql',
 };
 
