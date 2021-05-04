@@ -302,7 +302,7 @@ const modules = {
     },
     checkout: {
         enabled: true,
-        checkoutOnly: true,
+        checkoutOnly: false,
         path: '/checkout',
         ipayUrl: 'ipay88/ipayredirect/?orderId=',
         snapUrl: {
