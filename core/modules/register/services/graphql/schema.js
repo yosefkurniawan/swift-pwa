@@ -6,9 +6,9 @@ export const register = gql`
         $lastName: String,
         $email: String!,
         $password: String!,
-        $phoneNumber: String!,
+        $phoneNumber: String,
         $subscribe: Boolean,
-        $otp: String!,
+        $otp: String,
         $whatsappNumber: String,
     ) {
       internalCreateCustomerToken(

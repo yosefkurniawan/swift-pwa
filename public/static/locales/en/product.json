@@ -17,7 +17,16 @@
         "nickname": "Nickname is required",
         "rating": "Rating is required",
         "title": "Title is required",
-        "detail": "Detail is required"
+        "detail": "Detail is required",
+        "fieldRequired": "This field is required",
+        "maxCharacters": "Maximum $ characters"
+    },
+    "customizableOptions": {
+        "file": {
+            "extentionAccept": "Compatible file extensions to upload: ",
+            "maxImageWidth": "Maximum image width: ",
+            "maxImageHeight": "Maximum image height: "
+        }
     },
     "addRateSuccess": "Thanks for review this product",
     "addRateFailed": "Upload your review is failed",

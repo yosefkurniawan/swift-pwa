@@ -3,10 +3,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
-import {
-    setLastPathWithoutLogin,
-    removeLastPathWithoutLogin,
-} from '@helper_auth';
+import { setLastPathWithoutLogin, removeLastPathWithoutLogin } from '@helper_auth';
 import Router from 'next/router';
 
 import { modules } from '@config';
@@ -14,11 +11,7 @@ import { getStoreHost } from '@helpers/config';
 import { availableRoute } from './routeServer';
 
 export const routeNoAuth = (path) => {
-    const route = [
-        '/customer/account/login',
-        '/customer/account/register',
-        '/customer/account/forgotpassword',
-    ];
+    const route = ['/customer/account/login', '/customer/account/register', '/customer/account/forgotpassword'];
 
     const found = route.find((val) => val === path);
 
@@ -34,7 +27,7 @@ export const routeWithAuth = (path) => {
         '/awgiftcard/card',
         '/customer/account/storecredit',
         '/inboxnotification/notification',
-        '/customer/setting',
+        '/customer/newsletter',
         '/rma/customer',
     ];
 

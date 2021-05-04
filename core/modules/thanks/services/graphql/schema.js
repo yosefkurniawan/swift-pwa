@@ -57,6 +57,26 @@ export const getOrder = () => gql`
     }
 `;
 
+export const getPaymentInformation = () => gql`
+    query getPaymentInformation($order_number: String) {
+        OrderPaymentInformation(input: {order_id : $order_number}){
+            due_date
+        }
+    }
+`;
+
+export const getPaymentBankList = gql`
+    query {
+      getPaymentBankList{
+        bankname
+        banknumber
+        placeholder
+      }
+    }
+`;
+
 export default {
     getOrder,
+    getPaymentBankList,
+    getPaymentInformation,
 };

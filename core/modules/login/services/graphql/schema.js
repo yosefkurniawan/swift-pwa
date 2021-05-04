@@ -11,6 +11,22 @@ mutation getToken(
   }
 `;
 
+export const socialLogin = gql`
+    mutation generateCustomerTokenSocialLogin(
+        $email: String!,
+        $socialtoken: String!,
+        $firstname: String!,
+        $lastname: String!,
+    ){
+        internalCreateSocialLogin(input: {
+            email: $email, socialtoken: $socialtoken, firstname: $firstname, lastname: $lastname
+        })
+     {
+    token
+    }
+   }
+`;
+
 export const getCustomerTokenOtp = gql`
 mutation getToken(
     $username: String!,
@@ -147,8 +163,17 @@ export const otpConfig = gql`
     }
 `;
 
+export const getSigninMethodSocialLogin = gql`
+{
+    getSigninMethodSocialLogin{
+      signin_method_allowed
+    }
+  }
+`;
+
 export default {
     getCustomerToken,
     getCustomerTokenOtp,
     removeToken,
+    getSigninMethodSocialLogin,
 };

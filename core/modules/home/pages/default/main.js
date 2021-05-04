@@ -1,3 +1,4 @@
+import CmsPage from '@core_modules/cms/pages/default';
 import FeaturedSkeleton from './components/Skeleton/FeaturedSkeleton';
 import BannerSliderSkeleton from './components/Skeleton/BannerSkeleton';
 import ErrorInfo from './components/ErrorInfo';
@@ -18,6 +19,7 @@ const Page = (props) => (
         CategoryListSkeleton={CategoryListSkeleton}
         CategoryListView={CategoryListView}
         FeaturedView={FeaturedView}
+        CmsPage={CmsPage}
         {...props}
     />
 );

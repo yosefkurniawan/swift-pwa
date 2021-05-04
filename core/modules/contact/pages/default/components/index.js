@@ -2,7 +2,6 @@
 import Typography from '@common_typography';
 import Button from '@common_button';
 import TextField from '@common_textfield';
-import { recaptcha } from '@config';
 import ReCAPTCHA from 'react-google-recaptcha';
 import dynamic from 'next/dynamic';
 import useStyles from './style';
@@ -13,7 +12,7 @@ const ContactForm = (props) => {
     const styles = useStyles();
     const {
         t, formik, sitekey, handleChangeCaptcha, recaptchaRef,
-        message, setMessage, load,
+        message, setMessage, load, enableRecaptcha,
     } = props;
     return (
         <form className={styles.container} onSubmit={formik.handleSubmit}>
@@ -67,7 +66,7 @@ const ContactForm = (props) => {
                 errorMessage={(formik.touched.message && formik.errors.message) || null}
             />
             {
-                recaptcha.enable ? (
+                enableRecaptcha ? (
                     <>
                         <ReCAPTCHA
                             sitekey={sitekey}

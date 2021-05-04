@@ -103,7 +103,8 @@
         "signout": "keluar",
         "currency": "Mata Uang",
         "loading": "Menunggu",
-        "changeto": "Ganti ke"
+        "changeto": "Ganti ke",
+        "setting": "Pengaturan"
     },
     "header": {
         "welcome": "Selamat Datang!",

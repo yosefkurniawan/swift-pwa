@@ -7,6 +7,10 @@ const Page = dynamic(() => ((!modules.checkout.checkoutOnly)
     ? import('./main')
     : import('@core_modules/checkout/pages/default')));
 
-Page.getInitialProps = async () => ({ namespacesRequired: ['common', 'home'] });
+Page.getInitialProps = async () => ({
+    namespacesRequired: modules.checkout.checkoutOnly
+        ? ['common', 'checkout', 'customer', 'validate']
+        : ['common', 'home'],
+});
 
 export default withApollo({ ssr: true })(withTranslation()(Page));

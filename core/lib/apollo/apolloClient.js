@@ -1,4 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable no-unused-vars */
 import {
     ApolloClient, HttpLink, InMemoryCache, ApolloLink, from,
 } from '@apollo/client';
@@ -10,6 +11,7 @@ import { onError } from 'apollo-link-error';
 import { removeCartId } from '@helper_cartid';
 import { removeIsLoginFlagging } from '@helper_auth';
 import { getAppEnv } from '@helpers/env';
+import firebase from 'firebase/app';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData: {
@@ -36,6 +38,12 @@ const logoutLink = onError((err) => {
     } else if (graphQLErrors && graphQLErrors[0] && graphQLErrors[0].status === 401 && typeof window !== 'undefined') {
         removeCartId();
         removeIsLoginFlagging();
+        firebase.auth().signOut().then(() => {
+            // Sign-out successful.
+        }).catch((error) => {
+            // An error happened.
+            // console.log(error);
+        });
         // reference https://stackoverflow.com/questions/10339567/javascript-clear-cache-on-redirect
         window.location.href = `/customer/account/login?n=${new Date().getTime()}`;
     }
