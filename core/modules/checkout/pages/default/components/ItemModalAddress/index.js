@@ -17,12 +17,13 @@ const ItemAddressCore = (props) => {
             },
         }).then(async () => {
             if (data.defaultShippingBilling) {
-                await new Promise(() => {
-                    handleChange({
+                await new Promise((resolve) => {
+                    const change = handleChange({
                         target: {
                             value: data.addressId,
                         },
                     });
+                    resolve(change);
                 });
             }
             setSuccess(true);
