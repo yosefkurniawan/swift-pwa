@@ -73,6 +73,8 @@ const generateLevel2 = (data, handleClick, generateLink) => {
                     }
                     .list-item__menu a {
                         font-weight: normal;
+                        padding-bottom: 5px;
+                        padding-top: 0px;
                     }
                 `}
             </style>
@@ -257,14 +259,15 @@ const Menu = (props) => {
                     .mega-menu {
                         background: #fff;
                         border: 1px solid #ddd;
+                        border-top: 5px solid #000000;
                         border-radius: 0 0 3px 3px;
                         opacity: 0;
                         position: absolute;
                         transition: all 0.3s ease 0.15s;
                         visibility: hidden;
-                        width: 100%;
+                        width: 190%;
                         left: 0;
-                        margin: 0;
+                        margin-left: -18%;
                         min-height: 300px;
                     }
                     li:hover > .mega-menu {
@@ -275,17 +278,20 @@ const Menu = (props) => {
 
                     /* menu content */
                     .nav-column a {
-                        color: #888;
+                        color: #000000 !important;
                         display: block;
                         font-weight: bold;
                         line-height: 1.75;
+                        margin: 0;
+                        padding: 7px;
                     }
                     .nav-column a:hover {
-                        color: #2e3092 !important;
+                        color: #000000 !important;
                     }
 
                     .nav-column .active {
-                        color: #2e3092 !important;
+                        color: #000000 !important;
+                        background: #DCDCDC;
                     }
                     .nav-column h3 {
                         color: #372f2b;
