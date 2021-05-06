@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { modules } from '@config';
-import gqlService from '../../../../services/graphql';
+import gqlService from '@core_modules/checkout/services/graphql';
 
 const RewardPoint = ({
     t,

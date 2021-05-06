@@ -13,7 +13,7 @@ import CheckBoxColor from '@common_forms/CheckBoxColor';
 import Button from '@common_button';
 import Loading from '@common_loaders';
 import { useTranslation } from '@i18n';
-import useStyles from './style';
+import useStyles from '@common_filterdialog/style';
 
 const Transition = React.forwardRef((props, ref) => (
     <Slide direction="up" ref={ref} {...props} />

@@ -2,8 +2,8 @@ import Typography from '@common_typography';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
-import Item from './Item';
-import useStyles from './style';
+import Item from '@common_slider/Carousel/Item';
+import useStyles from '@common_slider/Carousel/style';
 
 const SwipeableViews = dynamic(() => import('react-swipeable-views'));
 

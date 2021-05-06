@@ -4,11 +4,11 @@ import Button from '@common_button';
 import Typography from '@common_typography';
 import classNames from 'classnames';
 import Skeleton from '@material-ui/lab/Skeleton';
-import useStyles from './style';
-import ModalPickupInformation from '../ModalPickupInformation';
-import ModalSelectStore from '../ModalSelectStore';
-import gqlService from '../../../../services/graphql';
-import useParentStyles from '../style';
+import useStyles from '@core_modules/checkout/pages/default/components/PickupInformation/style';
+import ModalPickupInformation from '@core_modules/checkout/pages/default/components/ModalPickupInformation';
+import ModalSelectStore from '@core_modules/checkout/pages/default/components/ModalSelectStore';
+import gqlService from '@core_modules/checkout/services/graphql';
+import useParentStyles from '@core_modules/checkout/pages/default/components/style';
 
 const PickupInformation = (props) => {
     const {

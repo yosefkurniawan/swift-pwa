@@ -1,6 +1,6 @@
 import Layout from '@layout';
 import { useRouter } from 'next/router';
-import { readNotification as gqlReadNotification } from '../../services/graphql';
+import { readNotification as gqlReadNotification } from '@core_modules/notification/services/graphql';
 
 const DetailNotification = (props) => {
     const {

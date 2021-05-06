@@ -9,7 +9,7 @@ import Close from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import { breakPointsUp } from '@helper_theme';
 
-import useStyles from './style';
+import useStyles from '@core_modules/product/pages/default/components/AddReviewDialog/style';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
@@ -82,10 +82,10 @@ const ReviewDialogView = (props) => {
                             onChange={(event, newValue) => {
                                 Formik.setFieldValue('rating', newValue);
                             }}
-                        />                        
+                        />
                         {Formik.touched.rating && Formik.errors.rating && (
                             <Typography variant="p" color="red">
-                                {Formik.touched.rating && Formik.errors.rating || ''}
+                                {(Formik.touched.rating && Formik.errors.rating) ? Formik.errors.rating : ''}
                             </Typography>
                         )}
                     </div>

@@ -6,7 +6,7 @@ import Typography from '@common_typography';
 import React from 'react';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import DateDayJs from '@date-io/dayjs';
-import useStyles from './style';
+import useStyles from '@core_modules/confirmpayment/pages/default/components/style';
 
 const ConfirmPayment = (props) => {
     const {

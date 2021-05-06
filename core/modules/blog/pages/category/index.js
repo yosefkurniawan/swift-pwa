@@ -2,12 +2,12 @@
 import React from 'react';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
-import DefaultContent from './components';
-import CoreBase from './core';
-import Skeleton from './components/Skeleton';
-import WarningInfo from '../../components/Info';
-import ContentCategory from '../../components/ModalCategory';
-import ContentItem from '../../components/Details';
+import DefaultContent from '@core_modules/blog/pages/category/components';
+import CoreBase from '@core_modules/blog/pages/category/core';
+import Skeleton from '@core_modules/blog/pages/category/components/Skeleton';
+import WarningInfo from '@core_modules/blog/components/Info';
+import ContentCategory from '@core_modules/blog/components/ModalCategory';
+import ContentItem from '@core_modules/blog/components/Details';
 
 const DefaultCategory = (props) => (
     <CoreBase

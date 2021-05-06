@@ -1,6 +1,6 @@
-import Core from './core';
-import ErrorInfo from '../Info';
-import Content from './components';
+import Core from '@core_modules/blog/components/Category/core';
+import ErrorInfo from '@core_modules/blog/components/Info';
+import Content from '@core_modules/blog/components/Category/components';
 
 const Category = (props) => (
     <Core

@@ -3,8 +3,8 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import DefaultLayout from '@layout';
-import { getHistoryRma } from '../../services/graphql';
-import * as Schema from '../../services/graphql/schema';
+import { getHistoryRma } from '@core_modules/rma/services/graphql';
+import * as Schema from '@core_modules/rma/services/graphql/schema';
 
 const CoreLanding = (props) => {
     const {

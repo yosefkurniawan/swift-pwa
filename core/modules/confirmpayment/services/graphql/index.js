@@ -1,5 +1,5 @@
 import { useMutation, useLazyQuery } from '@apollo/client';
-import * as Schema from './schema';
+import * as Schema from '@core_modules/confirmpayment/services/graphql/schema';
 
 const USING_INTERNAL = true;
 

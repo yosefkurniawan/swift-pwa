@@ -1,5 +1,5 @@
-import Body from '../../../components/Details';
-import Category from '../../../components/Category';
+import Body from '@core_modules/blog/components/Details';
+import Category from '@core_modules/blog/components/Category';
 
 const DefaultContent = (props) => (
     <div className="row">

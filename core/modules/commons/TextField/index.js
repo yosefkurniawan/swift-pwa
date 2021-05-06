@@ -4,7 +4,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import classNames from 'classnames';
 import Typography from '@common_typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import useStyles from './style';
+import useStyles from '@common_textfield/style';
 
 const CustomTextField = ({
     placeholder = '',

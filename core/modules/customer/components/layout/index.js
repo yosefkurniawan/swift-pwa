@@ -4,7 +4,7 @@ import Link from 'next/link';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import Typography from '@common_typography';
-import useStyles from './style';
+import useStyles from '@layout_customer/style';
 
 const Layout = (props) => {
     const {

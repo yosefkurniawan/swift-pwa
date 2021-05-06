@@ -10,8 +10,8 @@ import Typography from '@common_typography';
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
 import RedeemIcon from '@material-ui/icons/Redeem';
-import ProductItem from '@core_modules/catalog/plugin/ProductItem';
-import useStyles from './style';
+import ProductItem from '@plugin_productitem';
+import useStyles from '@core_modules/checkout/pages/default/components/PromoModalItem/style';
 
 const Caraousel = dynamic(() => import('@common_slick/Caraousel'), { ssr: false });
 

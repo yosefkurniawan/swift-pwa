@@ -3,7 +3,7 @@ import { features } from '@config';
 import WidgetSliderCaraousel from '@core_modules/cms/components/cms-renderer/widget-slider-caraousel';
 import {
     getCmsBlocks,
-} from '../../services/graphql';
+} from '@core_modules/theme/services/graphql';
 
 const GlobalPromoMessage = (props) => {
     const { storeConfig, showGlobalPromo, ...other } = props;

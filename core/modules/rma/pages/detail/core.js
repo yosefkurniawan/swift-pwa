@@ -4,8 +4,8 @@ import React from 'react';
 import propTypes from 'prop-types';
 import DefaultLayout from '@layout';
 import { useRouter } from 'next/router';
-import { getUpdateFormRma, getCustomer } from '../../services/graphql';
-import Content from './components';
+import { getUpdateFormRma, getCustomer } from '@core_modules/rma/services/graphql';
+import Content from '@core_modules/rma/pages/detail/components';
 
 const CoreLanding = (props) => {
     const {

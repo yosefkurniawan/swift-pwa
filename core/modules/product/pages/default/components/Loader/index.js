@@ -1,7 +1,7 @@
 /* eslint-disable no-mixed-operators */
 import Skeleton from '@common_skeleton';
 import CarouselSkeleton from '@common_slick/Caraousel/Skeleton';
-import useStyles from './style';
+import useStyles from '@core_modules/product/pages/default/components/Loader/style';
 
 const SkeletonLoader = () => {
     const styles = useStyles();

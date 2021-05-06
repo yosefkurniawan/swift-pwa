@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import config from '@config';
-import gqlService from '../../../../service/graphql';
+import gqlService from '@core_modules/home/service/graphql';
 
 const BannerSlider = (props) => {
     const { home } = config.modules;

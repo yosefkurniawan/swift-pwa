@@ -1,6 +1,6 @@
 import React from 'react';
-import Component from './view';
-import { updateCustomerAddress } from '../../../../services/graphql';
+import Component from '@core_modules/checkout/pages/default/components/ItemModalAddress/view';
+import { updateCustomerAddress } from '@core_modules/checkout/services/graphql';
 
 const ItemAddressCore = (props) => {
     const { manageCustomer, handleChange } = props;

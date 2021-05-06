@@ -1,5 +1,5 @@
 import React from 'react';
-import { getCustomizableOption } from '../../../../services/graphql';
+import { getCustomizableOption } from '@core_modules/product/services/graphql';
 
 const CustomizableOptionCore = (props) => {
     const { url_key, Content } = props;

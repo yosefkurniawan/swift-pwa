@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import CustomerLayout from '@layout_customer';
 import { useRouter } from 'next/router';
 import { getHost } from '@helpers/config';
-import { getOrder, reOrder as mutationReorder } from '../../services/graphql';
+import { getOrder, reOrder as mutationReorder } from '@core_modules/order/services/graphql';
 
 const HistoryOrder = (props) => {
     const {

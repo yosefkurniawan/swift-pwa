@@ -3,9 +3,9 @@ import { useState } from 'react';
 import Typography from '@common_typography';
 import Button from '@common_button';
 import classNames from 'classnames';
-import useStyles from '../style';
-import Item from './item';
-import TableList from './TableListItem';
+import useStyles from '@core_modules/cart/pages/default/components/style';
+import Item from '@core_modules/cart/pages/default/components/item/item';
+import TableList from '@core_modules/cart/pages/default/components/item/TableListItem';
 
 const ItemProduct = (props) => {
     const {

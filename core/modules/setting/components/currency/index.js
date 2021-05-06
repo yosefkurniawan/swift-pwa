@@ -6,9 +6,9 @@ import {
     useEffect, useRef, useState, useMemo,
 } from 'react';
 import cookies from 'js-cookie';
-import { getCurrency } from '../../services/graphql';
+import { getCurrency } from '@core_modules/setting/services/graphql';
 
-import ViewSwitcherCurrency from './view';
+import ViewSwitcherCurrency from '@core_modules/setting/components/currency/view';
 
 const COOKIES_APP_CURRENCY = 'app_currency';
 

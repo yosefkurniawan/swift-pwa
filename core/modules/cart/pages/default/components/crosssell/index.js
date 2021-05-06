@@ -1,7 +1,7 @@
 import Carousel from '@common_slick/Caraousel';
-import ProductItem from '@core_modules/catalog/plugin/ProductItem';
+import ProductItem from '@plugin_productitem';
 import Typography from '@common_typography';
-import useStyles from './style';
+import useStyles from '@core_modules/cart/pages/default/components/crosssell/style';
 
 const CrossSell = (props) => {
     const { t, editMode = false, data = [] } = props;

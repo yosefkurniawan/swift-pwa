@@ -1,7 +1,7 @@
-import Core from './pages/default/core';
-import Default from './pages/default';
-import All from './pages/default/components/all';
-import Featured from './pages/default/components/featured';
+import Core from '@core_modules/brands/pages/default/core';
+import Default from '@core_modules/brands//pages/default';
+import All from '@core_modules/brands//pages/default/components/all';
+import Featured from '@core_modules/brands//pages/default/components/featured';
 
 export default {
     Core,

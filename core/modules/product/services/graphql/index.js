@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
-import * as Schema from './schema';
-import * as ActionSchema from './actionSchema';
-import * as CustomizableSchema from './customizableSchema';
+import * as Schema from '@core_modules/product/services/graphql/schema';
+import * as ActionSchema from '@core_modules/product/services/graphql/actionSchema';
+import * as CustomizableSchema from '@core_modules/product/services/graphql/customizableSchema';
 
 const defaultConfig = {
 

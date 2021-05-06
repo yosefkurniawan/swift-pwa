@@ -6,7 +6,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import React from 'react';
 import formatDate from '@helper_date';
-import useStyles from './styles';
+import useStyles from '@core_modules/rma/pages/detail/components/styles';
 
 const DetailComponents = ({ detail_rma, t }) => {
     const styles = useStyles();

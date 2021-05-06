@@ -1,5 +1,5 @@
 import BrowseModal from '@common_searchmodal';
-import ShoppingBagIcon from '@core_modules/cart/plugin/ShoppingBag';
+import ShoppingBagIcon from '@plugin_shoppingbag';
 import { withApollo } from '@lib_apollo';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
@@ -8,7 +8,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import SearchIcon from '@material-ui/icons/Search';
 import Router from 'next/router';
 import { useState } from 'react';
-import useStyles from './style';
+import useStyles from '@core_modules/theme/components/bottom-navigation/mobile/style';
 
 const Navigation = ({ active }) => {
     const styles = useStyles();

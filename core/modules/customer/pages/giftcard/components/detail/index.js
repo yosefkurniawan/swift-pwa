@@ -1,5 +1,5 @@
 import React from 'react';
-import { checkBalance } from '../../../../services/graphql';
+import { checkBalance } from '@core_modules/customer/services/graphql';
 
 const ModalDetail = ({
     open, close, code, storeConfig, t, DetailView,

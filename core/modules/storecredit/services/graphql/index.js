@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import * as Schema from './schema';
+import * as Schema from '@core_modules/storecredit/services/graphql/schema';
 
 export const getStoreCredit = (variables) => useQuery(Schema.getStoreCredit, {
     variables,

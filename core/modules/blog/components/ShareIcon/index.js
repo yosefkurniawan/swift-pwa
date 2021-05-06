@@ -17,7 +17,7 @@ import {
     TwitterShareButton,
 } from 'react-share';
 import { shareIcon } from '@config';
-import useStyles from './style';
+import useStyles from '@core_modules/blog/components/ShareIcon/style';
 
 const ShareComp = ({ url }) => {
     const styles = useStyles();

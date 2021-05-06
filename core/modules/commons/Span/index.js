@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@common_span/style';
 
 const Span = ({ className = {}, children }) => {
     const styles = useStyles();

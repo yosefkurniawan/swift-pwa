@@ -1,7 +1,7 @@
 import Skeleton from '@common_skeleton';
 import { modules } from '@config';
-import ProductListSkeleton from '../../../plugin/ProductList/components/ProductListSkeleton';
-import useStyles from './style';
+import ProductListSkeleton from '@plugin_productlist/components/ProductListSkeleton';
+import useStyles from '@core_modules/catalog/pages/category/components/style';
 
 const SkeletonCategory = () => {
     const styles = useStyles();

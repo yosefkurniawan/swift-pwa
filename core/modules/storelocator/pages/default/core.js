@@ -1,5 +1,5 @@
 import Layout from '@layout';
-import { getStoreLocations } from '../../services/graphql';
+import { getStoreLocations } from '@core_modules/storelocator/services/graphql';
 
 const PageStoreLocator = (props) => {
     const {

@@ -5,9 +5,9 @@ import React from 'react';
 import Router from 'next/router';
 import { setResolver, getResolver } from '@helper_localstorage';
 import { getCategories } from '@core_modules/theme/services/graphql/index';
-import Category from './Category';
-import SubCategory from './SubCategory';
-import CategorySkeleton from './CategorySkeleton';
+import Category from '@common_searchmodal/Category';
+import SubCategory from '@common_searchmodal/SubCategory';
+import CategorySkeleton from '@common_searchmodal/CategorySkeleton';
 
 const CategoryWrapper = (props) => {
     const {

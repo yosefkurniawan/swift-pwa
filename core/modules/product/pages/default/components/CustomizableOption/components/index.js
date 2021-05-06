@@ -1,14 +1,14 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
 import { modules } from '@config';
-import CustomizableCheckboxOption from './CustomizableCheckboxOption';
-import CustomizableRadioOption from './CustomizableRadioOption';
-import CustomizableDropDownOption from './CustomizableDropDownOption';
-import CustomizableAreaOption from './CustomizableAreaOption';
-import CustomizableFieldOption from './CustomizableFieldOption';
-import CustomizableFileOption from './CustomizableFileOption';
-import CustomizableMultipleOption from './CustomizableMultipleOption';
-import CustomizableDateOption from './CustomizableDateOption';
+import CustomizableCheckboxOption from '@core_modules/product/pages/default/components/CustomizableOption/components/CustomizableCheckboxOption';
+import CustomizableRadioOption from '@core_modules/product/pages/default/components/CustomizableOption/components/CustomizableRadioOption';
+import CustomizableDropDownOption from '@core_modules/product/pages/default/components/CustomizableOption/components/CustomizableDropDownOption';
+import CustomizableAreaOption from '@core_modules/product/pages/default/components/CustomizableOption/components/CustomizableAreaOption';
+import CustomizableFieldOption from '@core_modules/product/pages/default/components/CustomizableOption/components/CustomizableFieldOption';
+import CustomizableFileOption from '@core_modules/product/pages/default/components/CustomizableOption/components/CustomizableFileOption';
+import CustomizableMultipleOption from '@core_modules/product/pages/default/components/CustomizableOption/components/CustomizableMultipleOption';
+import CustomizableDateOption from '@core_modules/product/pages/default/components/CustomizableOption/components/CustomizableDateOption';
 
 const CustomizableOption = ({
     options = [], ...other

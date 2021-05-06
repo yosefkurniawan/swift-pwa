@@ -1,7 +1,7 @@
 import Typography from '@common_typography';
 import Chip from '@material-ui/core/Chip';
-import useStyles from '../style';
-import FieldPoint from '../../../../components/fieldcode';
+import useStyles from '@core_modules/checkout/pages/default/components/style';
+import FieldPoint from '@core_modules/checkout/components/fieldcode';
 
 const GiftCardView = (props) => {
     const styles = useStyles();

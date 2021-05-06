@@ -6,7 +6,7 @@ import { regexPhone } from '@helper_regex';
 import {
     updateCustomerProfile as gqlUpdateCustomer,
     changeCustomerPassword as gqlChangeCustomerPassword, getCustomer,
-} from '../../services/graphql';
+} from '@core_modules/customer/services/graphql';
 
 const ProfilePage = (props) => {
     const {

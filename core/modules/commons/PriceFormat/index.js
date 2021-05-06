@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import BundleProductTypePrice from './components/BundleProductTypePrice';
-import OtherProductTypePrice from './components/OtherProductTypePrice';
-import SimpleProductTypePrice from './components/SimpleProductTypePrice';
+import BundleProductTypePrice from '@common_priceformat/components/BundleProductTypePrice';
+import OtherProductTypePrice from '@common_priceformat/components/OtherProductTypePrice';
+import SimpleProductTypePrice from '@common_priceformat/components/SimpleProductTypePrice';
 
 /**
  * Price Generator Component

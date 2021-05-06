@@ -2,7 +2,7 @@ import Typography from '@common_typography';
 import { formatPrice } from '@helper_currency';
 import React from 'react';
 import Image from '@common_image';
-import useStyles from '../style';
+import useStyles from '@core_modules/order/pages/detail/style';
 
 const ItemProduct = ({
     name, price_incl_tax, row_total_incl_tax, qty_ordered, currency, t, image_url, features: { imageSize },

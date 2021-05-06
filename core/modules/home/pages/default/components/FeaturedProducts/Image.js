@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Thumbor from '@common_image';
 import React from 'react';
-import useStyles from '../style';
+import useStyles from '@core_modules/home/pages/default/components/style';
 
 const ImageDetail = (props) => {
     const {

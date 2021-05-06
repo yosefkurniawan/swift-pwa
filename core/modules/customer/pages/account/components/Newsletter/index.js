@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import { WHITE } from '@theme_color';
-import Newsletter from '@core_modules/customer/plugins/Newsletter';
+import Newsletter from '@plugin_newsletter';
 
 const useStyles = makeStyles((theme) => ({
     appBar: {

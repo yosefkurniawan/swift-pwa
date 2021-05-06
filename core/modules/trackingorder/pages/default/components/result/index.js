@@ -1,5 +1,5 @@
 /* eslint-disable prefer-destructuring */
-import { getTrackingOrder } from '../../../../services/graphql';
+import { getTrackingOrder } from '@core_modules/trackingorder/services/graphql';
 
 const Result = ({
     t, orderField, ResultView, SkeletonResult, ...other

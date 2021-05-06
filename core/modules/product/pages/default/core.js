@@ -6,10 +6,10 @@ import { features, modules, debuging } from '@config';
 import { useRouter } from 'next/router';
 import TagManager from 'react-gtm-module';
 import { getCookies } from '@helper_cookies';
-import Loading from './components/Loader';
-import { getProduct, addWishlist as mutationAddWishlist } from '../../services/graphql';
-import Header from './components/header';
-import generateSchemaOrg from '../../helpers/schema.org';
+import Loading from '@core_modules/product/pages/default/components/Loader';
+import { getProduct, addWishlist as mutationAddWishlist } from '@core_modules/product/services/graphql';
+import Header from '@core_modules/product/pages/default/components/header';
+import generateSchemaOrg from '@core_modules/product/helpers/schema.org';
 
 const ContentDetail = ({
     t, product,

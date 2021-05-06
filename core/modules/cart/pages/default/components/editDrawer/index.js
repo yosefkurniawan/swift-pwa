@@ -2,7 +2,7 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Typography from '@common_typography';
 import Button from '@common_button';
 import ButtonQty from '@common_buttonqty';
-import useStyles from './style';
+import useStyles from '@core_modules/cart/pages/default/components/editDrawer/style';
 
 const EditDrawer = ({
     t, open, toggleOpen, id, quantity = 1, product_name = '', updateItem,

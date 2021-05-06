@@ -11,7 +11,7 @@ import {
     updateCustomerAddress,
     updatedDefaultAddress as gqlUpdateDefaulAddress,
     getCustomer as gqlGetCustomer,
-} from '../../services/graphql';
+} from '@core_modules/customer/services/graphql';
 
 const AddressCustomer = (props) => {
     const { t, pageConfig, Content } = props;

@@ -6,9 +6,9 @@ import {
 } from 'react-google-maps';
 import Button from '@material-ui/core/Button';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
-import SearchBox from './SearchBox';
-import SliderRadius from './SliderRadius';
-import InfoWindow from './InfoWindow';
+import SearchBox from '@core_modules/storelocator/pages/default/components/Maps/SearchBox';
+import SliderRadius from '@core_modules/storelocator/pages/default/components/Maps/SliderRadius';
+import InfoWindow from '@core_modules/storelocator/pages/default/components/Maps/InfoWindow';
 
 const StoreLocatorMaps = compose(
     withProps((props) => ({

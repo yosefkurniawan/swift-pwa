@@ -3,7 +3,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@common_typography';
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@common_forms/Select/style';
 
 const Select = ({
     label = '', name = '', value = null, onChange = () => {},

@@ -2,9 +2,9 @@ import Layout from '@layout';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { setCartId } from '@helper_cartid';
-import { reOrder as mutationReorder, getCmsBlocks } from '../../services/graphql';
+import { reOrder as mutationReorder, getCmsBlocks } from '@core_modules/customer/services/graphql';
 
-const Customer = dynamic(() => import('./components/Customer'), { ssr: false });
+const Customer = dynamic(() => import('@core_modules/customer/pages/account/components/Customer'), { ssr: false });
 
 const CustomerAccount = (props) => {
     const {

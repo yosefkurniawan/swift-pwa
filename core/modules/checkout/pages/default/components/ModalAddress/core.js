@@ -7,7 +7,7 @@ import gqlService, {
     createCustomerAddress,
     updateCustomerAddress,
     updatedDefaultAddress as gqlUpdateDefaulAddress,
-} from '../../../../services/graphql';
+} from '@core_modules/checkout/services/graphql';
 
 const ModalAddressCustomer = (props) => {
     const {

@@ -5,7 +5,7 @@ import Button from '@common_button';
 import IconButton from '@material-ui/core/IconButton';
 import Slide from '@material-ui/core/Slide';
 import ArrowBack from '@material-ui/icons/ArrowBack';
-import useStyles from './style';
+import useStyles from '@common_searchmodal/style';
 
 const SubCategory = ({
     open, data, onBack, handleOpenCat, handleClickMenu, back,

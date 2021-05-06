@@ -2,10 +2,10 @@ import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
 import { getCheckoutDataFromRequest } from '@helper_cookies';
 import Router from 'next/router';
-import Core from './core';
-import Skeleton from './components/Loader';
-import Content from './components';
-import ErrorInfo from './components/ErrorInfo';
+import Core from '@core_modules/thanks/pages/default/core';
+import Skeleton from '@core_modules/thanks/pages/default/components/Loader';
+import Content from '@core_modules/thanks/pages/default/components';
+import ErrorInfo from '@core_modules/thanks/pages/default/components/ErrorInfo';
 
 const Page = (props) => (
     <Core

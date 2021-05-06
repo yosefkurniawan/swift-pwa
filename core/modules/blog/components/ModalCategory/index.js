@@ -11,7 +11,7 @@ import Router from 'next/router';
 import Alert from '@material-ui/lab/Alert';
 import Menu from '@material-ui/icons/Menu';
 import { modules } from '@config';
-import useStyles from './style';
+import useStyles from '@core_modules/blog/components/ModalCategory/style';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="left" ref={ref} {...props} />);
 

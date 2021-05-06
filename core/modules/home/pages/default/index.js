@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { modules } from '@config';
 
 const Page = dynamic(() => ((!modules.checkout.checkoutOnly)
-    ? import('./main')
+    ? import('@core_modules/home/pages/default/main')
     : import('@module_checkout/pages/default')));
 
 Page.getInitialProps = async () => ({

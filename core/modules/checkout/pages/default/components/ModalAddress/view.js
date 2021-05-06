@@ -7,8 +7,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Add from '@material-ui/icons/Add';
 import AddressFormDialog from '@plugin_addressform';
 import Typography from '@common_typography';
-import ItemAddress from '../ItemModalAddress';
-import useStyles from './style';
+import ItemAddress from '@core_modules/checkout/pages/default/components/ItemModalAddress';
+import useStyles from '@core_modules/checkout/pages/default/components/ModalAddress/style';
 
 const AddressView = (props) => {
     const {
