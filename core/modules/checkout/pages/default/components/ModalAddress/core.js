@@ -32,12 +32,12 @@ const ModalAddressCustomer = (props) => {
             getAddress();
             if (checkout.selected.address && checkout.selected.address.country
                 && addressCustomer && !loading && addressCustomer.customer
-            && addressCustomer.customer.addresses && addressCustomer.customer.addresses.length > 0) {
+                && addressCustomer.customer.addresses && addressCustomer.customer.addresses.length > 0) {
                 const checkoutAddress = checkout.selected.address;
                 // eslint-disable-next-line arrow-body-style
                 const selectedAddress = addressCustomer.customer.addresses.filter((add) => {
                     return `${add.street[0].replace(' ', '-')}-${add.firstname}-${add.telephone}`
-                    === `${checkoutAddress.street[0].replace(' ', '-')}-${checkoutAddress.firstname}-${checkoutAddress.telephone}`;
+                        === `${checkoutAddress.street[0].replace(' ', '-')}-${checkoutAddress.firstname}-${checkoutAddress.telephone}`;
                 });
                 setSelectedAddressId(selectedAddress && selectedAddress.length > 0 ? selectedAddress[0].id : null);
             }
@@ -111,6 +111,8 @@ const ModalAddressCustomer = (props) => {
             const { cart } = checkout.data;
 
             await setAddress(detail, cart);
+        } else {
+            return true;
         }
     };
 
