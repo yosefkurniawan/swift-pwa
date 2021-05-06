@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
         bottom: 0,
         right: 0,
         backgroundColor: '#ffee9c',
-        zIndex: 100,
+        zIndex: 1500,
         ...CreatePadding(5, 15, 8, 18),
         color: '#303030',
     },
