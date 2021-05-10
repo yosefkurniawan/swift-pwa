@@ -40,6 +40,9 @@ const ViewTopNavigation = (props) => {
                             </div>
                         </div>
                         <div className="header-middle__center">
+                            <div className="row menu-category">
+                                <div className="col-xs-12">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
+                            </div>
                             <div className="header-small__menu">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
                         </div>
                         <div className="header-middle__right">
@@ -68,10 +71,6 @@ const ViewTopNavigation = (props) => {
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div className="row menu-category">
-                        <div className="col-xs-12">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
                     </div>
                 </div>
             </main>
