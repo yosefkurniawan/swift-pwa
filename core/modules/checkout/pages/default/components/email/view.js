@@ -8,7 +8,7 @@ import Popover from '@material-ui/core/Popover';
 import Help from '@material-ui/icons/Help';
 import Button from '@common_button';
 import Spiner from '@material-ui/core/CircularProgress';
-import useStyles from '../style';
+import useStyles from '@core_modules/checkout/pages/default/components/style';
 
 const EmailView = (props) => {
     const {

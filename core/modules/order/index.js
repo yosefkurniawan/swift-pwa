@@ -1,5 +1,5 @@
-import Detail from './pages/detail';
-import History from './pages/history';
+import Detail from '@core_modules/order/pages/detail';
+import History from '@core_modules/order/pages/history';
 
 export default {
     Detail,

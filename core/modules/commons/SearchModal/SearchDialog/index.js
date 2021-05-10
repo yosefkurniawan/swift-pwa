@@ -13,7 +13,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import classNames from 'classnames';
 import Router from 'next/router';
 import React from 'react';
-import useStyles from './style';
+import useStyles from '@common_searchmodal/SearchDialog/style';
 
 const data = [
     {

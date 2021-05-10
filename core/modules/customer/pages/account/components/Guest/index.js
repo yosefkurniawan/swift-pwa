@@ -3,9 +3,9 @@ import React from 'react';
 import Button from '@common_button';
 import Typography from '@common_typography';
 import { modules } from '@config';
-import Footer from '../Footer';
-import FooterView from '../Footer/view';
-import useStyles from './style';
+import Footer from '@core_modules/customer/pages/account/components/Footer';
+import FooterView from '@core_modules/customer/pages/account/components/Footer/view';
+import useStyles from '@core_modules/customer/pages/account/components/Guest/style';
 
 const WihtOut = (props) => {
     const styles = useStyles();

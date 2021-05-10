@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
-import * as Schema from './schema';
+import * as Schema from '@core_modules/register/services/graphql/schema';
 
 export const register = () => useMutation(Schema.register, {
     context: {

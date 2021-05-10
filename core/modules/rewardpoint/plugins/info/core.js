@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import { getRewardPoint } from '../../services/graphql';
+import { getRewardPoint } from '@core_modules/rewardpoint/services/graphql';
 
 const RewardPointInfo = ({ Content, t }) => {
     const { data, loading, error } = getRewardPoint({

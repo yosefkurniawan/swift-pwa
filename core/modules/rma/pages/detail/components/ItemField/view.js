@@ -6,7 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@common_typography';
-import useStyles from '../styles';
+import useStyles from '@core_modules/rma/pages/detail/components/styles';
 
 const ItemFieldView = ({
     item, error, options, name, label,

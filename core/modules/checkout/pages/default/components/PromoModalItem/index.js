@@ -3,7 +3,7 @@
 import React from 'react';
 import { getProductBySku as SchemaGetProductBySku } from '@core_modules/product/services/graphql/schema';
 import { useLazyQuery } from '@apollo/client';
-import { addProductToCartPromo } from '../../../../services/graphql';
+import { addProductToCartPromo } from '@core_modules/checkout/services/graphql';
 
 const PromoModalItem = (props) => {
     const {

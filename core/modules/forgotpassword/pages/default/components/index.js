@@ -4,12 +4,12 @@ import TextField from '@common_textfield';
 import Toast from '@common_toast';
 
 import Loading from '@common_loaders/Backdrop';
-import OtpBlock from '@core_modules/login/plugins/otp';
+import OtpBlock from '@plugin_otp';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
-import useStyles from './style';
+import useStyles from '@core_modules/forgotpassword/pages/default/components/style';
 
 const ForgotPassword = (props) => {
     const styles = useStyles();

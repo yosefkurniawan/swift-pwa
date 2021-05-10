@@ -1,14 +1,14 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
-import CoreBase from './core';
-import Skeleton from './components/Skeleton';
-import WarningInfo from './components/Info';
-import ItemProduct from './components/ItemProduct';
-import ListMessage from './components/ListMessage';
-import ItemFieldView from './components/ItemField/view';
-import FormComment from './components/FormComment';
-import Detail from './components/Detail';
-import Footer from './components/Footer';
+import CoreBase from '@core_modules/rma/pages/detail/core';
+import Skeleton from '@core_modules/rma/pages/detail/components/Skeleton';
+import WarningInfo from '@core_modules/rma/pages/detail/components/Info';
+import ItemProduct from '@core_modules/rma/pages/detail/components/ItemProduct';
+import ListMessage from '@core_modules/rma/pages/detail/components/ListMessage';
+import ItemFieldView from '@core_modules/rma/pages/detail/components/ItemField/view';
+import FormComment from '@core_modules/rma/pages/detail/components/FormComment';
+import Detail from '@core_modules/rma/pages/detail/components/Detail';
+import Footer from '@core_modules/rma/pages/detail/components/Footer';
 
 const Page = (props) => (
     <CoreBase

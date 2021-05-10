@@ -13,10 +13,10 @@ import { getStoreHost } from '@helpers/config';
 import Cookies from 'js-cookie';
 import { getAppEnv } from '@root/core/helpers/env';
 import Toast from '@common_toast';
-import gqlService from '../../services/graphql';
+import gqlService from '@core_modules/checkout/services/graphql';
 import {
     getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl,
-} from '../../helpers/config';
+} from '@core_modules/checkout/helpers/config';
 
 function equalTo(ref, msg) {
     return this.test({

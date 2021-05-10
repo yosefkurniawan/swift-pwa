@@ -1,5 +1,5 @@
 import Skeleton from '@material-ui/lab/Skeleton';
-import useStyles from './style';
+import useStyles from '@core_modules/thanks/pages/default/components/style';
 
 const SkeletonLoader = () => {
     const styles = useStyles();

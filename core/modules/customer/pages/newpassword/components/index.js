@@ -1,6 +1,6 @@
 import Button from '@common_button';
 import Password from '@common_password';
-import useStyles from './style';
+import useStyles from '@core_modules/customer/pages/newpassword/components/style';
 
 const ForgotPassword = (props) => {
     const styles = useStyles();

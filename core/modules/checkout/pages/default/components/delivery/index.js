@@ -2,8 +2,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import TagManager from 'react-gtm-module';
-import gqlService from '../../../../services/graphql';
-import useStyles from '../style';
+import gqlService from '@core_modules/checkout/services/graphql';
+import useStyles from '@core_modules/checkout/pages/default/components/style';
 
 const DeliveryComp = (props) => {
     const {

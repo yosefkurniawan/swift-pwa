@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from '@common_typography';
-import useStyles from '../styles';
-import ItemField from '../ItemField';
+import useStyles from '@core_modules/rma/pages/new/components/styles';
+import ItemField from '@core_modules/rma/pages/new/components/ItemField';
 
 const ItemProduct = (props) => {
     const {

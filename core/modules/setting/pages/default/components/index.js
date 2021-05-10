@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import SwitcherCurrency from '@common_currency';
 import SwitcherLanguage from '@common_language';
-import useStyles from './style';
+import useStyles from '@core_modules/setting/pages/default/components/style';
 
 const SettingPage = (props) => {
     const styles = useStyles();

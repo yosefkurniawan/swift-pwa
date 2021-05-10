@@ -2,10 +2,10 @@
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import Typography from '@common_typography';
-import AddressFormDialog from '@core_modules/customer/plugins/AddressFormDialog';
+import AddressFormDialog from '@plugin_addressform';
 import React, { useState } from 'react';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import useStyles from './style';
+import useStyles from '@core_modules/customer/pages/address/components/style';
 
 const ItemAddress = (props) => {
     const {

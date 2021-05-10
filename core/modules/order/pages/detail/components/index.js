@@ -10,11 +10,11 @@ import { formatPrice } from '@helper_currency';
 import Alert from '@material-ui/lab/Alert';
 import Layout from '@layout_customer';
 import { modules } from '@config';
-import useStyles from '../style';
-import ItemProduct from './product';
-import Footer from './footer';
-import Table from './TableListItem';
-import OrderStatusIcon from './OrderStatusIcon';
+import useStyles from '@core_modules/order/pages/detail/style';
+import ItemProduct from '@core_modules/order/pages/detail/components/product';
+import Footer from '@core_modules/order/pages/detail/components/footer';
+import Table from '@core_modules/order/pages/detail/components/TableListItem';
+import OrderStatusIcon from '@core_modules/order/pages/detail/components/OrderStatusIcon';
 
 const DetailOrder = (props) => {
     const {

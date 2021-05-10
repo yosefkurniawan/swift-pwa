@@ -3,7 +3,7 @@
 import Error from '@core_modules/error/pages/default';
 import { getResolver as getLocalResolver, getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import Layout from '@layout';
-import { getResolver } from './services/graphql';
+import { getResolver } from '@core_modules/slug/services/graphql';
 
 const ContainerResolver = (props) => {
     const {

@@ -2,7 +2,7 @@ import Typography from '@common_typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@common_forms/CheckBox/style';
 
 const CheckDefault = ({
     label = '',

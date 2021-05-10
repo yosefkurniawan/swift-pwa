@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import Skeleton from '@material-ui/lab/Skeleton';
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@core_modules/customer/pages/account/components/Skeleton/style';
 
 const SkeletonLoader = () => {
     const styles = useStyles();

@@ -1,6 +1,6 @@
 import Layout from '@layout';
 import Router from 'next/router';
-import { customerNotificationList } from '../../services/graphql';
+import { customerNotificationList } from '@core_modules/notification/services/graphql';
 
 const NotificationList = (props) => {
     const {

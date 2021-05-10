@@ -2,7 +2,7 @@ import Button from '@common_button';
 import TextField from '@common_textfield';
 import Password from '@common_password';
 import Typography from '@common_typography';
-import useStyles from './style';
+import useStyles from '@plugin_otp/style';
 
 const OtpView = (props) => {
     const styles = useStyles();

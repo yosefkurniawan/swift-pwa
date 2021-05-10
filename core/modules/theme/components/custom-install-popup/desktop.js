@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button';
 import { installMessage } from '@config';
-import useStyles from './style';
+import useStyles from '@core_modules/theme/components/custom-install-popup/style';
 
 const DesktopInstall = () => {
     const styles = useStyles();

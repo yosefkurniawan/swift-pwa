@@ -1,11 +1,11 @@
 import { modules } from '@config';
-import ConfigurableOption from '../../../../plugin/OptionItem/ConfigurableOption';
-import SimpleOption from '../../../../plugin/OptionItem/SimpeProduct';
-import VirtualOption from '../../../../plugin/OptionItem/Virtual';
-import DownloadOption from '../../../../plugin/OptionItem/Download';
-import BundleOption from '../../../../plugin/OptionItem/BundleOption';
-import GroupedOption from '../../../../plugin/OptionItem/GroupedProduct';
-import CustomizableOption from '../CustomizableOption';
+import ConfigurableOption from '@plugin_optionitem/ConfigurableOption';
+import SimpleOption from '@plugin_optionitem/SimpleProduct';
+import VirtualOption from '@plugin_optionitem/Virtual';
+import DownloadOption from '@plugin_optionitem/Download';
+import BundleOption from '@plugin_optionitem/BundleOption';
+import GroupedOption from '@plugin_optionitem/GroupedProduct';
+import CustomizableOption from '@core_modules/product/pages/default/components/CustomizableOption';
 
 const Options = (props) => {
     const {

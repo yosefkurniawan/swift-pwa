@@ -2,7 +2,7 @@
 import {
     cmsSocialMediaLinkIdentifiers,
 } from '@config';
-import { getCmsBlocks } from '../../../../services/graphql';
+import { getCmsBlocks } from '@core_modules/customer/services/graphql';
 
 const SocialMediaLink = (props) => {
     const { SocialMediaView } = props;

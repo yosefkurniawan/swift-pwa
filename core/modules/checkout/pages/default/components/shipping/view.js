@@ -7,8 +7,8 @@ import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import { withStyles } from '@material-ui/core/styles';
 import Arrow from '@material-ui/icons/ArrowDropDown';
-import DeliveryItem from '../../../../components/radioitem';
-import useStyles from '../style';
+import DeliveryItem from '@core_modules/checkout/components/radioitem';
+import useStyles from '@core_modules/checkout/pages/default/components/style';
 
 import {
     ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle, IconAccordion,

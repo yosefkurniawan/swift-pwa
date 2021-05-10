@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { addReview } from '../../../../services/graphql';
+import { addReview } from '@core_modules/product/services/graphql';
 
 const AddReviewDialog = ({
     open = false, setOpen = () => {}, t, data, ViewDialog,

@@ -8,8 +8,8 @@ import Typography from '@common_typography';
 import Button from '@common_button';
 import router from 'next/router';
 import { setResolver, getResolver } from '@helper_localstorage';
-import NewsletterDialog from '../Newsletter';
-import useStyles from './style';
+import NewsletterDialog from '@core_modules/customer/pages/account/components/Newsletter';
+import useStyles from '@core_modules/customer/pages/account/components/Footer/style';
 
 // eslint-disable-next-line consistent-return
 const FooterView = (props) => {

@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
-import schema, { getCmsBlocks as getCmsBlocksSchema } from './schema';
+import schema, { getCmsBlocks as getCmsBlocksSchema } from '@core_modules/theme/services/graphql/schema';
 
 export const getCategories = () => useQuery(schema.categories);
 export const getCategoryByName = (name) => useLazyQuery(schema.getCategoryByName(name));

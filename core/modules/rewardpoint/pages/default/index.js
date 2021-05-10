@@ -1,9 +1,9 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
-import Core from './core';
-import Content from './components';
-import Skeleton from './components/skeleton';
-import ErrorView from './components/error';
+import Core from '@core_modules/rewardpoint/pages/default/core';
+import Content from '@core_modules/rewardpoint/pages/default/components';
+import Skeleton from '@core_modules/rewardpoint/pages/default/components/skeleton';
+import ErrorView from '@core_modules/rewardpoint/pages/default/components/error';
 
 const DefaultOrder = (props) => (
     <Core {...props} Content={Content} Skeleton={Skeleton} ErrorView={ErrorView} />

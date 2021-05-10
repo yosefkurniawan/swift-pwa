@@ -33,7 +33,7 @@ import Notification from '@lib_firebase/notification';
 import firebase from '@lib_firebase/index';
 
 import * as Sentry from '@sentry/node';
-import ModalCookies from '../components/modalCookies';
+import ModalCookies from '@core_modules/theme/components/modalCookies';
 
 const { publicRuntimeConfig } = getConfig();
 

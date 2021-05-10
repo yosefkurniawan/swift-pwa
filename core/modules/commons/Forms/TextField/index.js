@@ -3,7 +3,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import classNames from 'classnames';
 import Typography from '@common_typography';
-import useStyles from './style';
+import useStyles from '@common_forms/TextField/style';
 
 const CustomTextField = ({
     placeholder = '',

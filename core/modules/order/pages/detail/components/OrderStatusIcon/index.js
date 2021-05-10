@@ -5,7 +5,7 @@ import StepConnector from '@material-ui/core/StepConnector';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@common_typography';
 import classNames from 'classnames';
-import { lineStyle, useIconStyles } from './style';
+import { lineStyle, useIconStyles } from '@core_modules/order/pages/detail/components/OrderStatusIcon/style';
 
 const CustomConnector = withStyles(lineStyle)(StepConnector);
 

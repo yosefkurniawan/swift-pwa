@@ -2,7 +2,7 @@ import Typography from '@common_typography';
 import formatDate from '@helper_date';
 import Link from 'next/link';
 import { formatPrice } from '@helper_currency';
-import useStyles from '../style';
+import useStyles from '@core_modules/order/pages/history/style';
 
 const ItemOrder = ({
     status_label, order_number, detail, t, created_at,

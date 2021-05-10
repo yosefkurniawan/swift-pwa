@@ -7,8 +7,8 @@ import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Layout from '@layout';
 import { localTotalCart } from '@services/graphql/schema/local';
-import { addWishlist as mutationWishlist, reOrder as mutationReOrder } from '../../services/graphql';
-import * as Schema from '../../services/graphql/schema';
+import { addWishlist as mutationWishlist, reOrder as mutationReOrder } from '@core_modules/cart/services/graphql';
+import * as Schema from '@core_modules/cart/services/graphql/schema';
 
 const getCrossSellProduct = (items) => {
     let crosssell = [];

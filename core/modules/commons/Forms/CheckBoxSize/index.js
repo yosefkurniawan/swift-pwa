@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Typograpy from '@common_typography';
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@common_forms/CheckBoxSize/style';
 
 const CheckBoxSize = ({
     label = '',

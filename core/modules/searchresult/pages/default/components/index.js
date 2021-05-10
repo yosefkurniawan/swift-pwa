@@ -1,7 +1,7 @@
 import React from 'react';
-import Product from '@core_modules/catalog/plugin/ProductList';
+import Product from '@plugin_productlist';
 import Typography from '@common_typography';
-import useStyles from './style';
+import useStyles from '@core_modules/searchresult/pages/default/components/style';
 
 const SearchResult = (props) => {
     const styles = useStyles();

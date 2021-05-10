@@ -2,7 +2,7 @@ import Typography from '@common_typography';
 import React, { useState } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@common_carousel/style';
 
 const Caraousel = ({
     data = [1, 2, 3], title = '', className = '', storeConfig, item, customSlideClass,

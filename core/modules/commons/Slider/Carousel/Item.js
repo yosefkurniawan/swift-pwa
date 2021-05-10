@@ -1,5 +1,5 @@
-import ProductItem from '@core_modules/catalog/plugin/ProductItem';
-import useStyles from './style';
+import ProductItem from '@plugin_productitem';
+import useStyles from '@common_slider/Carousel/style';
 
 const Item = (props) => {
     const styles = useStyles();

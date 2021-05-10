@@ -3,8 +3,8 @@ import * as Sentry from '@sentry/node';
 import NextErrorComponent from 'next/error';
 import { sentry } from '@config';
 import graphRequest from '@graphql_request';
-import Core from './core';
-import Content from './components';
+import Core from '@core_modules/error/pages/default/core';
+import Content from '@core_modules/error/pages/default/components';
 
 const ErrorPage = (props) => <Core {...props} Content={Content} />;
 

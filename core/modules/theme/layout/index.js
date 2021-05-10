@@ -9,14 +9,14 @@ import Cookies from 'js-cookie';
 import { custDataNameCookie, features, modules } from '@config';
 import { getHost } from '@helper_config';
 import { breakPointsUp } from '@helper_theme';
-import Newsletter from '@core_modules/customer/plugins/Newsletter';
+import Newsletter from '@plugin_newsletter';
 import { setCookies, getCookies } from '@helper_cookies';
-import useStyles from './style';
+import useStyles from '@core_modules/theme/layout/style';
 
-import PopupInstallAppMobile from '../components/custom-install-popup/mobile';
-import Copyright from '../components/footer/desktop/components/copyright';
+import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
+import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
 
-const GlobalPromoMessage = dynamic(() => import('../components/globalPromo'), { ssr: false });
+const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
 const HeaderMobile = dynamic(() => import('@common_headermobile'));
 const HeaderDesktop = dynamic(() => import('@common_headerdesktop'), { ssr: true });

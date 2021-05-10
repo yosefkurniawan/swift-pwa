@@ -7,8 +7,8 @@ import Divider from '@material-ui/core/Divider';
 import React from 'react';
 import Button from '@common_button';
 import Link from 'next/link';
-import useStyles from './style';
-import ShareIcons from '../ShareIcon';
+import useStyles from '@core_modules/blog/components/Details/style';
+import ShareIcons from '@core_modules/blog/components/ShareIcon';
 
 const Detail = (props) => {
     const {

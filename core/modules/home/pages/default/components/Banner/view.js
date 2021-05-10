@@ -1,7 +1,7 @@
 import Banner from '@common_slick/Banner';
 import classNames from 'classnames';
 import { breakPointsUp } from '@helper_theme';
-import useStyles from '../style';
+import useStyles from '@core_modules/home/pages/default/components/style';
 
 const BannerView = (props) => {
     const { images, logoUrl } = props;

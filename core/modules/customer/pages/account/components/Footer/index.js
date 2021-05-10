@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 import {
     custDataNameCookie,
 } from '@config';
-import { removeToken as deleteToken } from '../../../../services/graphql';
+import { removeToken as deleteToken } from '@core_modules/customer/services/graphql';
 
 const Footer = ({
     t, isLogin, storeConfig, FooterView, modules, data,
