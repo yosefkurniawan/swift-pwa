@@ -173,8 +173,8 @@
 
             "@plugin_addressform": ["src/modules/customer/plugins/AddressFormDialog", "core/modules/customer/plugins/AddressFormDialog"],
             "@plugin_addressform/*": ["src/modules/customer/plugins/AddressFormDialog/*", "core/modules/customer/plugins/AddressFormDialog/*"],
-            "@plugin_newsletter": ["src/modules/customer/plugins/NewsLetter", "core/modules/customer/plugins/NewsLetter"],
-            "@plugin_newsletter/*": ["src/modules/customer/plugins/NewsLetter/*", "core/modules/customer/plugins/NewsLetter/*"],
+            "@plugin_newsletter": ["src/modules/customer/plugins/Newsletter", "core/modules/customer/plugins/Newsletter"],
+            "@plugin_newsletter/*": ["src/modules/customer/plugins/Newsletter/*", "core/modules/customer/plugins/Newsletter/*"],
             "@plugin_otp": ["src/modules/login/plugins/otp", "core/modules/login/plugins/otp"],
             "@plugin_otp/*": ["src/modules/login/plugins/otp/*", "core/modules/login/plugins/otp/*"],
             "@plugin_notificationbell": ["src/modules/notification/plugins/NotificationBell", "core/modules/notification/plugins/NotificationBell"],
