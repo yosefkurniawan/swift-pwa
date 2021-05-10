@@ -11,24 +11,24 @@ import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import ShareOutlined from '@material-ui/icons/ShareOutlined';
 import classNames from 'classnames';
-import ProductItem from '@core_modules/catalog/plugin/ProductItem';
+import ProductItem from '@plugin_productitem';
 import React from 'react';
 import { getHost } from '@helper_config';
 import Breadcrumb from '@common_breadcrumb';
 import RatingStar from '@common_ratingstar';
 import { breakPointsUp } from '@helper_theme';
 import dynamic from 'next/dynamic';
-import useStyles from './style';
-import ExpandDetail from './ExpandDetail';
-import ListReviews from './ListReviews';
-import OptionItem from './OptionItem';
-import RightDrawer from './RightDrawer';
-import SharePopup from './SharePopup';
-import ModalPopupImage from './ModalPopupImage';
+import useStyles from '@core_modules/product/pages/default/components/style';
+import ExpandDetail from '@core_modules/product/pages/default/components/ExpandDetail';
+import ListReviews from '@core_modules/product/pages/default/components/ListReviews';
+import OptionItem from '@core_modules/product/pages/default/components/OptionItem';
+import RightDrawer from '@core_modules/product/pages/default/components/RightDrawer';
+import SharePopup from '@core_modules/product/pages/default/components/SharePopup';
+import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
 
-const DesktopOptions = dynamic(() => import('./OptionItem/DesktopOptions'), { ssr: true });
-const TabsView = dynamic(() => import('./DesktopTabs'), { ssr: true });
-const ItemShare = dynamic(() => import('./SharePopup/item'), { ssr: true });
+const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: true });
+const TabsView = dynamic(() => import('@core_modules/product/pages/default/components/DesktopTabs'), { ssr: true });
+const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: true });
 const Caraousel = dynamic(() => import('@common_slick/Caraousel'), { ssr: false });
 
 const ProductPage = (props) => {

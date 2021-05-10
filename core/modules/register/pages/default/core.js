@@ -18,14 +18,15 @@ import { getAppEnv } from '@helpers/env';
 
 import {
     register, otpConfig as queryOtpConfig, mergeCart as mutationMergeCart, getCustomerCartId,
-} from '../../services/graphql';
-import { getCustomer } from '../../services/graphql/schema';
-import Content from './components';
+} from '@core_modules/register/services/graphql';
+import { getCustomer } from '@core_modules/register/services/graphql/schema';
 
 const appEnv = getAppEnv();
 
 const Register = (props) => {
-    const { t, storeConfig, pageConfig } = props;
+    const {
+        t, storeConfig, pageConfig, Content,
+    } = props;
     const config = {
         title: t('register:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)

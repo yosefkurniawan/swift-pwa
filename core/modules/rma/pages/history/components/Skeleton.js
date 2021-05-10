@@ -1,7 +1,7 @@
 import Divider from '@material-ui/core/Divider';
 import Skeleton from '@material-ui/lab/Skeleton';
 import classNames from 'classnames';
-import useStyles from './styles';
+import useStyles from '@core_modules/rma/pages/history/components/styles';
 
 export const Loader = () => {
     const styles = useStyles();

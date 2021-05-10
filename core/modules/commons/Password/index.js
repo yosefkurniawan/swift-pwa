@@ -10,7 +10,7 @@ import checkPassword from '@helper_passwordstrength';
 import classNames from 'classnames';
 import Cookies from 'js-cookie';
 import { storeConfigNameCookie, passwordStrength } from '@config';
-import useStyles from './style';
+import useStyles from '@common_password/style';
 
 const PasswordField = ({
     label = 'Password',

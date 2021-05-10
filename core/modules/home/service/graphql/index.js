@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import * as Schema from './schema';
+import * as Schema from '@core_modules/home/service/graphql/schema';
 
 let fetchPolicy = '';
 fetchPolicy = 'cache-first';

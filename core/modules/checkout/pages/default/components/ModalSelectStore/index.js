@@ -15,8 +15,8 @@ import Alert from '@material-ui/lab/Alert';
 import classNames from 'classnames';
 import React from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import gqlService from '../../../../services/graphql';
-import useStyles from './style';
+import gqlService from '@core_modules/checkout/services/graphql';
+import useStyles from '@core_modules/checkout/pages/default/components/ModalSelectStore/style';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 

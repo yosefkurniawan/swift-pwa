@@ -21,8 +21,8 @@ import Alert from '@material-ui/lab/Alert';
 import formatDate from '@helper_date';
 import { formatPrice } from '@helper_currency';
 import Link from 'next/link';
-import { SkeletonContent } from './skeleton';
-import useStyles from '../style';
+import { SkeletonContent } from '@core_modules/order/pages/history/components/skeleton';
+import useStyles from '@core_modules/order/pages/history/style';
 
 const DefaultView = (props) => {
     const {

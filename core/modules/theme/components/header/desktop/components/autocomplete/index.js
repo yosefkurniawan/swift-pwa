@@ -2,7 +2,7 @@
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Router from 'next/router';
-import { getProduct, getCategoryByName } from '../../../../../services/graphql';
+import { getProduct, getCategoryByName } from '@core_modules/theme/services/graphql';
 
 let globalTimeout = null;
 

@@ -11,7 +11,7 @@ import Link from 'next/link';
 import formatDate from '@helper_date';
 import Alert from '@material-ui/lab/Alert';
 import Layout from '@layout_customer';
-import useStyles from '../style';
+import useStyles from '@core_modules/rewardpoint/pages/default/style';
 
 const DefaultView = (props) => {
     const styles = useStyles();

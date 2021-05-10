@@ -6,8 +6,8 @@ import classNames from 'classnames';
 import LeftArrowIcon from '@material-ui/icons/ArrowBackIos';
 import RightArrowIcon from '@material-ui/icons/ArrowForwardIos';
 import Slider from 'react-slick';
-import ImageSlide from './ImageSlide';
-import useStyles from './style';
+import ImageSlide from '@common_slick/Banner/ImageSlider';
+import useStyles from '@common_slick/Banner/style';
 
 const Banner = ({
     data = [],

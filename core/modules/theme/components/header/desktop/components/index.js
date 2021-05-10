@@ -2,16 +2,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
-import NotificationBell from '@core_modules/notification/plugins/NotificationBell';
-import ShoppingBagIcon from '@core_modules/cart/plugin/ShoppingBag';
+import NotificationBell from '@plugin_notificationbell';
+import ShoppingBagIcon from '@plugin_shoppingbag';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
 import DesktopInstallApp from '@core_modules/theme/components/custom-install-popup/desktop';
 import { features } from '@config';
-import Menu from './mcategory';
-import TopMenu from './mtop';
-import Autocomplete from './autocomplete';
-import OptionAutocomplete from './autocomplete/view';
+import Menu from '@core_modules/theme/components/header/desktop/components/mcategory';
+import TopMenu from '@core_modules/theme/components/header/desktop/components/mtop';
+import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
+import OptionAutocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete/view';
 
 const ViewTopNavigation = (props) => {
     const {
@@ -40,6 +40,9 @@ const ViewTopNavigation = (props) => {
                             </div>
                         </div>
                         <div className="header-middle__center">
+                            <div className="row menu-category">
+                                <div className="col-xs-12">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
+                            </div>
                             <div className="header-small__menu">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
                         </div>
                         <div className="header-middle__right">
@@ -68,10 +71,6 @@ const ViewTopNavigation = (props) => {
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div className="row menu-category">
-                        <div className="col-xs-12">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
                     </div>
                 </div>
             </main>

@@ -1,9 +1,9 @@
 /* eslint-disable max-len */
 import { modules } from '@config';
-import BannerSlider from './Banner';
-import FeaturedProducts from './FeaturedProducts';
-import CategoryList from './CategoryList';
-import useStyles from './style';
+import BannerSlider from '@core_modules/home/pages/default/components/Banner';
+import FeaturedProducts from '@core_modules/home/pages/default/components/FeaturedProducts';
+import CategoryList from '@core_modules/home/pages/default/components/CategoryList';
+import useStyles from '@core_modules/home/pages/default/components/style';
 
 const Content = (props) => {
     const styles = useStyles();

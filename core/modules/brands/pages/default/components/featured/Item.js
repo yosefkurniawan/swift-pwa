@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Router from 'next/router';
-import useStyles from './style';
+import useStyles from '@core_modules/brands/pages/default/components/featured/style';
 
 const ItemFeatured = (props) => {
     const styles = useStyles();

@@ -1,6 +1,6 @@
 import Skeleton from '@material-ui/lab/Skeleton';
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@core_modules/customer/pages/giftcard/components/skeleton/style';
 
 const SkeletonLoader = () => {
     const styles = useStyles();

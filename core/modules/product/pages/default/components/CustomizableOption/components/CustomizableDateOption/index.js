@@ -4,9 +4,9 @@ import { useQuery } from '@apollo/client';
 import { formatPrice } from '@helpers/currency';
 import { useTranslation } from '@i18n';
 import dayjs from 'dayjs';
-import getPrice from '../../../../../../helpers/getPrice';
-import View from './view';
-import { getCustomizableDateOption } from '../../../../../../services/graphql/customizableSchema';
+import getPrice from '@core_modules/product/helpers/getPrice';
+import View from '@core_modules/product/pages/default/components/CustomizableOption/components/CustomizableDateOption/view';
+import { getCustomizableDateOption } from '@core_modules/product/services/graphql/customizableSchema';
 
 const CustomizableDateOption = ({
     url_key, option_id, customizableOptions, setCustomizableOptions,

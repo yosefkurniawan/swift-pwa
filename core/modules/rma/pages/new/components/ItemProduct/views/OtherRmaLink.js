@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from '@common_typography';
 import Link from 'next/link';
-import useStyles from '../../styles';
+import useStyles from '@core_modules/rma/pages/new/components/styles';
 
 const OtherRmaLink = ({
     t, other_rma_request,

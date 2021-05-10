@@ -7,8 +7,8 @@ import { breakPointsUp } from '@helper_theme';
 import { modules } from '@config';
 import Router from 'next/router';
 import Divider from '@material-ui/core/Divider';
-import useStyles from './style';
-import ModalContent from './ModalCategory';
+import useStyles from '@core_modules/blog/components/Category/components/style';
+import ModalContent from '@core_modules/blog/components/Category/components/ModalCategory';
 
 const ContentCategory = (props) => {
     const { t, data } = props;

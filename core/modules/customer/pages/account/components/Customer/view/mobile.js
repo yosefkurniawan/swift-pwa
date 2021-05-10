@@ -11,10 +11,10 @@ import { removeIsLoginFlagging } from '@helper_auth';
 import { removeCartId } from '@helper_cartid';
 import Router, { useRouter } from 'next/router';
 import { useApolloClient } from '@apollo/client';
-import ProductItem from '@core_modules/catalog/plugin/ProductItem';
+import ProductItem from '@plugin_productitem';
 import { localTotalCart } from '@services/graphql/schema/local';
 import Typography from '@common_typography';
-import PointCard from '@core_modules/rewardpoint/plugins/info';
+import PointCard from '@plugin_rewardpointinfo';
 import Badge from '@material-ui/core/Badge';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
@@ -23,8 +23,8 @@ import Cookies from 'js-cookie';
 import {
     custDataNameCookie,
 } from '@config';
-import useStyles from '../style';
-import { getCmsBlocks, removeToken as deleteToken } from '../../../../../services/graphql';
+import useStyles from '@core_modules/customer/pages/account/components/Customer/style';
+import { getCmsBlocks, removeToken as deleteToken } from '@core_modules/customer/services/graphql';
 
 // eslint-disable-next-line consistent-return
 const ViewMobile = (props) => {

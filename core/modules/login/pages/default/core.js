@@ -20,8 +20,8 @@ import { getAppEnv } from '@helpers/env';
 import {
     getToken, getTokenOtp, removeToken as deleteToken, otpConfig as queryOtpConfig,
     getCustomerCartId, mergeCart as mutationMergeCart, socialLogin, getSigninMethodSocialLogin,
-} from '../../services/graphql';
-import { getCustomer } from '../../services/graphql/schema';
+} from '@core_modules/login/services/graphql';
+import { getCustomer } from '@core_modules/login/services/graphql/schema';
 
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const appEnv = getAppEnv();

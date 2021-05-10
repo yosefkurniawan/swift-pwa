@@ -1,5 +1,5 @@
 import Alert from '@material-ui/lab/Alert';
-import useStyles from '../style';
+import useStyles from '@core_modules/rewardpoint/pages/default/style';
 
 const ErrorView = ({ message, t }) => {
     const styles = useStyles();

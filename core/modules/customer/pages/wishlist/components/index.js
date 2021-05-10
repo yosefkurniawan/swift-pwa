@@ -8,8 +8,8 @@ import Button from '@common_button';
 import Alert from '@material-ui/lab/Alert';
 import React from 'react';
 import Layout from '@layout_customer';
-import useStyles from './style';
-import Item from './item';
+import useStyles from '@core_modules/customer/pages/wishlist/components/style';
+import Item from '@core_modules/customer/pages/wishlist/components/item';
 
 // Main Render Page
 const Content = (props) => {

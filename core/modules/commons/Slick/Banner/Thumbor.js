@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { BREAKPOINTS } from '@theme_vars';
 import { generateThumborUrl } from '@helpers/image';
-import useStyles from './style';
+import useStyles from '@common_slick/Banner/style';
 
 const Image = ({
     className = '', alt = 'Image', lazy = false, src, srcMobile, width, height, widthMobile, heightMobile,

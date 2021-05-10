@@ -3,7 +3,7 @@ import ButtonQty from '@common_buttonqty';
 // import Router from 'next/router';
 import React from 'react';
 import Button from '@common_button';
-import useStyles from './style';
+import useStyles from '@core_modules/product/pages/default/components/OptionItem/style';
 
 const Footer = ({
     qty = 1,

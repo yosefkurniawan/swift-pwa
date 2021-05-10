@@ -11,8 +11,8 @@ import { setResolver, getResolver } from '@helper_localstorage';
 import Link from 'next/link';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
-import useStyles from './style';
-import Thumbor from '../Image';
+import useStyles from '@common_spancategory/style';
+import Thumbor from '@common_image';
 
 const SpanCategory = (props) => {
     const {

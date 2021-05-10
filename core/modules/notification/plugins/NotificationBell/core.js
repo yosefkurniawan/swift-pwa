@@ -1,7 +1,7 @@
 import propTypes from 'prop-types';
 import { getLoginInfo } from '@helper_auth';
-import { customerNotificationList } from '../../services/graphql';
-import Content from './components';
+import { customerNotificationList } from '@core_modules/notification/services/graphql';
+import Content from '@plugin_notificationbell/components';
 
 const NotificationsBell = ({ withLink }) => {
     let isLogin = 0;

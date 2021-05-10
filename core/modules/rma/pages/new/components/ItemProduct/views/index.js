@@ -4,7 +4,7 @@ import React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import Image from '@common_image';
 import { features } from '@config';
-import useStyles from '../../styles';
+import useStyles from '@core_modules/rma/pages/new/components/styles';
 
 const ItemProductView = (props) => {
     const {

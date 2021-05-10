@@ -14,8 +14,8 @@ import { useFormik } from 'formik';
 import React from 'react';
 import * as Yup from 'yup';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import gqlService from '../../../../services/graphql';
-import useStyles from './style';
+import gqlService from '@core_modules/checkout/services/graphql';
+import useStyles from '@core_modules/checkout/pages/default/components/ModalPickupInformation/style';
 
 const Transition = React.forwardRef((props, ref) => (
     <Slide direction="up" ref={ref} {...props} />

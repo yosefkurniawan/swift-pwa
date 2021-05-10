@@ -1,6 +1,6 @@
 import { withTranslation } from '@i18n';
-import Content from './components';
-import Core from './core';
+import Content from '@core_modules/product/pages/default/components';
+import Core from '@core_modules/product/pages/default/core';
 
 const Page = (props) => (
     <Core {...props} Content={Content} />

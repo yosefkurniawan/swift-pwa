@@ -1,12 +1,12 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
 import dynamic from 'next/dynamic';
-import ItemView from './components/item';
-import EmptyView from './components/empty';
-import CrossSellView from './components/crosssell';
-import SkeletonCart from './components/skeleton';
-import EditDrawerView from './components/editDrawer';
-import Content from './components';
+import ItemView from '@core_modules/cart/pages/default/components/item';
+import EmptyView from '@core_modules/cart/pages/default/components/empty';
+import CrossSellView from '@core_modules/cart/pages/default/components/crosssell';
+import SkeletonCart from '@core_modules/cart/pages/default/components/skeleton';
+import EditDrawerView from '@core_modules/cart/pages/default/components/editDrawer';
+import Content from '@core_modules/cart/pages/default/components';
 
 const Core = dynamic(() => import('./core'), { ssr: false });
 

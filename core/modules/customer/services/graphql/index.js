@@ -1,5 +1,5 @@
 import { useLazyQuery, useQuery, useMutation } from '@apollo/client';
-import * as Schema from './schema';
+import * as Schema from '@core_modules/customer/services/graphql/schema';
 
 const config = {
     context: {

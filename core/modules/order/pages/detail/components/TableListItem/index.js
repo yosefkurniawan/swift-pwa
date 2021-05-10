@@ -8,7 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@common_typography';
 import { formatPrice } from '@helper_currency';
 import Alert from '@material-ui/lab/Alert';
-import useStyles from './style';
+import useStyles from '@core_modules/order/pages/detail/components/TableListItem/style';
 
 const TableListProduct = ({
     data, t, currency,

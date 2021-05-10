@@ -1,7 +1,7 @@
 import Button from '@common_button';
 import Typography from '@common_typography';
 import Router from 'next/router';
-import useStyles from '../style';
+import useStyles from '@core_modules/order/pages/detail/style';
 
 const Footer = ({ t, detail }) => {
     const styles = useStyles();

@@ -1,6 +1,6 @@
 import Button from '@common_button';
 import Typography from '@common_typography';
-import useStyles from './styles';
+import useStyles from '@core_modules/rma/pages/new/components/styles';
 
 const Footer = ({ t, data: { detail } }) => {
     const styles = useStyles();

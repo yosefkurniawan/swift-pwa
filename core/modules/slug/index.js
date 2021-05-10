@@ -8,8 +8,8 @@ import CategorySkeleton from '@core_modules/catalog/pages/category/components/Sk
 import { getCmsList } from '@services/graphql/schema/config';
 import graphRequest from '@graphql_request';
 import { storeConfigNameCookie } from '@config';
-import Core from './core';
-import LoadingView from '../commons/Backdrop';
+import Core from '@core_modules/slug/core';
+import LoadingView from '@common_backdrop';
 
 const Page = (props) => (
     <Core

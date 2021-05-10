@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
-import * as schemaCategory from './categorySchema';
-import * as productSchema from './productSchema';
+import * as schemaCategory from '@core_modules/catalog/services/graphql/categorySchema';
+import * as productSchema from '@core_modules/catalog/services/graphql/productSchema';
 
 export const getProduct = (config, otherConfig = {}) => useQuery(productSchema.getProduct(config), {
     ...otherConfig,

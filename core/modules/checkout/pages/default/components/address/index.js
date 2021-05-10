@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { formatPrice } from '@helper_currency';
 import TagManager from 'react-gtm-module';
 import _ from 'lodash';
-import gqlService from '../../../../services/graphql';
+import gqlService from '@core_modules/checkout/services/graphql';
 
 const Loader = () => (
     <>

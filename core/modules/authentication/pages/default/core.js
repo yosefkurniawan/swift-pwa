@@ -4,8 +4,8 @@ import { useRouter } from 'next/router';
 import { setLogin, removeIsLoginFlagging } from '@helpers/auth';
 import { expiredToken } from '@config';
 import { setCartId, removeCartId } from '@helpers/cartId';
-import { generateSession, deleteSession } from '../../services/graphql';
-import Error from '../../components/Error';
+import { generateSession, deleteSession } from '@core_modules/authentication/services/graphql';
+import Error from '@core_modules/authentication/components/Error';
 
 // const counter = 3; // seconds
 

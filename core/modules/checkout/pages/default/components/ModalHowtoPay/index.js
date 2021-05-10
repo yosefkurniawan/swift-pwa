@@ -10,9 +10,9 @@ import Slide from '@material-ui/core/Slide';
 import CloseIcon from '@material-ui/icons/Close';
 import React from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import gqlService from '../../../../services/graphql';
-import CmsRenderer from '../../../../../cms/components/cms-renderer';
-import useStyles from './style';
+import gqlService from '@core_modules/checkout/services/graphql';
+import CmsRenderer from '@core_modules/cms/components/cms-renderer';
+import useStyles from '@core_modules/checkout/pages/default/components/ModalHowtoPay/style';
 
 const Transition = React.forwardRef((props, ref) => (
     <Slide direction="up" ref={ref} {...props} />

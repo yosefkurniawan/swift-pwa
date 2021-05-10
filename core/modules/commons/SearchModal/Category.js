@@ -3,7 +3,7 @@ import Typography from '@common_typography';
 import Button from '@common_button';
 import Slide from '@material-ui/core/Slide';
 import { modules } from '@config';
-import useStyles from './style';
+import useStyles from '@common_searchmodal/style';
 
 const Category = ({
     open,

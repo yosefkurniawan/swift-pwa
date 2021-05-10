@@ -1,7 +1,7 @@
 import Skeleton from '@material-ui/lab/Skeleton';
 import GridList from '@common_gridlist';
 import Typography from '@common_typography';
-import useStyles from './style';
+import useStyles from '@core_modules/brands/pages/default/components/style';
 
 const Item = () => ((
     <>

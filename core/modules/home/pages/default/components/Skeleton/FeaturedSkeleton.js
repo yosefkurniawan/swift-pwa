@@ -1,7 +1,7 @@
 import Skeleton from '@common_skeleton';
 import Grid from '@material-ui/core/Grid';
 import classNames from 'classnames';
-import useStyles from '../style';
+import useStyles from '@core_modules/home/pages/default/components/style';
 
 const CarouselProductSkeleton = () => {
     const SliderSkeleton = () => (

@@ -4,7 +4,7 @@ import Button from '@common_button';
 import TextField from '@common_textfield';
 import ReCAPTCHA from 'react-google-recaptcha';
 import dynamic from 'next/dynamic';
-import useStyles from './style';
+import useStyles from '@core_modules/contact/pages/default/components/style';
 
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
 

@@ -1,6 +1,6 @@
 import TextField from '@common_textfield';
 import DropFile from '@common_dropfile';
-import useStyles from './styles';
+import useStyles from '@core_modules/rma/pages/detail/components/styles';
 
 const FormComment = ({
     commentValue, t, handleGetBase64, fileAccept,

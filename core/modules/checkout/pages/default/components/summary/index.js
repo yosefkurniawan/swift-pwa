@@ -7,8 +7,8 @@ import { originName, modules } from '@config';
 
 import SummaryPlugin from '@plugin_summary';
 import Skeleton from '@material-ui/lab/Skeleton';
-import gqlService from '../../../../services/graphql';
-import { getIpayUrl } from '../../../../helpers/config';
+import gqlService from '@core_modules/checkout/services/graphql';
+import { getIpayUrl } from '@core_modules/checkout/helpers/config';
 
 const Summary = ({
     t, checkout, setCheckout, handleOpenMessage, formik, updateFormik, config, refSummary, storeConfig,

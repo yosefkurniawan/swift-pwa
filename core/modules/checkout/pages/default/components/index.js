@@ -2,21 +2,21 @@ import React from 'react';
 import Button from '@common_button';
 import Typography from '@common_typography';
 import classNames from 'classnames';
-import Delivery from './delivery';
-import Email from './email';
-import Summary from './summary';
-import Address from './address';
-import Shipping from './shipping';
-import PaymentList from './payment';
-import Promo from './promo';
-import GiftCard from './giftcard';
-import OrderComment from './OrderComment';
-import RewardPoint from './rewardpoint';
-import Credit from './credit';
-import PickupInfo from './PickupInformation';
-import ExtraFee from './ExtreeFee';
-import PromoModalItem from './PromoModalItem';
-import useStyles from './style';
+import Delivery from '@core_modules/checkout/pages/default/components/delivery';
+import Email from '@core_modules/checkout/pages/default/components/email';
+import Summary from '@core_modules/checkout/pages/default/components/summary';
+import Address from '@core_modules/checkout/pages/default/components/address';
+import Shipping from '@core_modules/checkout/pages/default/components/shipping';
+import PaymentList from '@core_modules/checkout/pages/default/components/payment';
+import Promo from '@core_modules/checkout/pages/default/components/promo';
+import GiftCard from '@core_modules/checkout/pages/default/components/giftcard';
+import OrderComment from '@core_modules/checkout/pages/default/components/OrderComment';
+import RewardPoint from '@core_modules/checkout/pages/default/components/rewardpoint';
+import Credit from '@core_modules/checkout/pages/default/components/credit';
+import PickupInfo from '@core_modules/checkout/pages/default/components/PickupInformation';
+import ExtraFee from '@core_modules/checkout/pages/default/components/ExtraFee';
+import PromoModalItem from '@core_modules/checkout/pages/default/components/PromoModalItem';
+import useStyles from '@core_modules/checkout/pages/default/components/style';
 
 const Content = (props) => {
     const {

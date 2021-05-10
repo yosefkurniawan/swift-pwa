@@ -1,12 +1,12 @@
 /* eslint-disable consistent-return */
 import React, { memo } from 'react';
 import parse, { domToReact } from 'html-react-parser';
-import WidgetPwaLink from './widget-link-pwa';
-import WidgetListProduct from './widget-list-product';
-import WidgetListBrand from './widget-list-brand';
-import WidgetInstagram from './widget-instagram';
-import WidgetSlider from './widget-slider';
-import WidgetView from './view';
+import WidgetPwaLink from '@core_modules/cms/components/cms-renderer/widget-link-pwa';
+import WidgetListProduct from '@core_modules/cms/components/cms-renderer/widget-list-product';
+import WidgetListBrand from '@core_modules/cms/components/cms-renderer/widget-list-brand';
+import WidgetInstagram from '@core_modules/cms/components/cms-renderer/widget-instagram';
+import WidgetSlider from '@core_modules/cms/components/cms-renderer/widget-slider';
+import WidgetView from '@core_modules/cms/components/cms-renderer/view';
 
 const TYPE_PWA_SLIDER = 'pwa-slider';
 const TYPE_PWA_FEATURED = 'pwa-featured-brands';

@@ -12,7 +12,7 @@ import classNames from 'classnames';
 import { features } from '@config';
 import { setCookies } from '@helpers/cookies';
 import propTypes from 'prop-types';
-import useStyles from './style';
+import useStyles from '@core_modules/cms/components/cms-renderer/widget-slider-caraousel/style';
 
 const WidetSliderCarousel = (props) => {
     const {

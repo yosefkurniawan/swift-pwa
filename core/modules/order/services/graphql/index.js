@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from '@apollo/client';
-import * as Schema from './schema';
+import * as Schema from '@core_modules/order/services/graphql/schema';
 
 export const getOrder = (params) => useQuery(Schema.getCustomerOrder, {
     context: {

@@ -3,8 +3,8 @@ import { withApollo } from '@lib_apollo';
 import propTypes from 'prop-types';
 import DefaultLayout from '@layout';
 import { useRouter } from 'next/router';
-import { getCategory, getBlog } from '../../services/graphql';
-import * as Schema from '../../services/graphql/schema';
+import { getCategory, getBlog } from '@core_modules/blog/services/graphql';
+import * as Schema from '@core_modules/blog/services/graphql/schema';
 
 const Category = (props) => {
     const {

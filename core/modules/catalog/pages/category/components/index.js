@@ -3,11 +3,11 @@ import React from 'react';
 import Router from 'next/router';
 import classNames from 'classnames';
 import Typography from '@common_typography';
-import Product from '@core_modules/catalog/plugin/ProductList';
+import Product from '@plugin_productlist';
 import { features } from '@config';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
-import useStyles from './style';
+import useStyles from '@core_modules/catalog/pages/category/components/style';
 
 // sementara di comment dlu, untuk custom filter memakai aggregations product
 // import { getFilter } from '../../../services/graphql';

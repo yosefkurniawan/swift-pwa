@@ -2,9 +2,9 @@ import { red } from '@material-ui/core/colors';
 import { createMuiTheme } from '@material-ui/core/styles';
 import {
     GRAY_SECONDARY, PRIMARY, SECONDARY, WHITE,
-} from './colors';
-import { FONT_24, FONT_DEFAULT, FONT_REGULAR } from './typography';
-import { BREAKPOINTS } from './vars';
+} from '@theme_color';
+import { FONT_24, FONT_DEFAULT, FONT_REGULAR } from '@theme_typography';
+import { BREAKPOINTS } from '@theme_vars';
 
 // Create a theme instance.
 const theme = createMuiTheme({

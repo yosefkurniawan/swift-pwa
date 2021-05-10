@@ -6,7 +6,7 @@ import {
     cmsContactIdentifiers, recaptcha, debuging, modules,
 } from '@config';
 import { getAppEnv } from '@helpers/env';
-import gqlService from '../../services/graphql';
+import gqlService from '@core_modules/contact/services/graphql';
 
 const Contact = (props) => {
     const {

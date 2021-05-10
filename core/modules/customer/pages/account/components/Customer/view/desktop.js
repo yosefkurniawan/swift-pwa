@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
-import Account from './desktop/account';
-import Order from './desktop/order';
-import Address from './desktop/address';
-import Notification from './desktop/notification';
-import useStyles from '../style';
+import Account from '@core_modules/customer/pages/account/components/Customer/view/desktop/account';
+import Order from '@core_modules/customer/pages/account/components/Customer/view/desktop/order';
+import Address from '@core_modules/customer/pages/account/components/Customer/view/desktop/address';
+import Notification from '@core_modules/customer/pages/account/components/Customer/view/desktop/notification';
+import useStyles from '@core_modules/customer/pages/account/components/Customer/style';
 
 const ViewDesktop = (props) => {
     const { t, userData, reOrder } = props;

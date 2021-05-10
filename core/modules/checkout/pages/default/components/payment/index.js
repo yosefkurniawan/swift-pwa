@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import TagManager from 'react-gtm-module';
-import gqlService from '../../../../services/graphql';
+import gqlService from '@core_modules/checkout/services/graphql';
 
 export default function CustomizedExpansionPanels({
     checkout, setCheckout, updateFormik, handleOpenMessage, t, storeConfig, PaymentView,

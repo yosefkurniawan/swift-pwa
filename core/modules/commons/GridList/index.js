@@ -1,6 +1,6 @@
 import Grid from '@material-ui/core/Grid';
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@common_gridlist/style';
 
 const GridList = ({
     data = [],

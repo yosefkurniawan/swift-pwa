@@ -12,10 +12,10 @@ import Arrow from '@material-ui/icons/ArrowDropDown';
 import Radio from '@common_forms/Radio';
 import Skeleton from '@material-ui/lab/Skeleton';
 import commonConfig from '@config';
-import FieldPoint from '../../../../components/fieldcode';
-import RadioItem from '../../../../components/radioitem';
-import ModalHowtoPay from '../ModalHowtoPay';
-import useStyles from '../style';
+import FieldPoint from '@core_modules/checkout/components/fieldcode';
+import RadioItem from '@core_modules/checkout/components/radioitem';
+import ModalHowtoPay from '@core_modules/checkout/pages/default/components/ModalHowtoPay';
+import useStyles from '@core_modules/checkout/pages/default/components/style';
 
 import { ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle } from './style';
 

@@ -2,7 +2,7 @@ import Layout from '@layout';
 import { debuging } from '@config';
 import PropTypes from 'prop-types';
 import CustomerLayout from '@layout_customer';
-import { getOrderDownloadable } from '../../../services/graphql';
+import { getOrderDownloadable } from '@core_modules/order/services/graphql';
 
 const HistoryDownload = (props) => {
     const {

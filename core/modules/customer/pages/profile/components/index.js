@@ -10,7 +10,7 @@ import Layout from '@layout_customer';
 
 import classNames from 'classnames';
 import { breakPointsUp } from '@helper_theme';
-import useStyles from './style';
+import useStyles from '@core_modules/customer/pages/profile/components/style';
 
 const ProfileForm = (props) => {
     const styles = useStyles();

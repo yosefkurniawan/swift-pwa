@@ -2,7 +2,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Layout from '@layout';
 import Router from 'next/router';
-import { newPassword } from '../../services/graphql';
+import { newPassword } from '@core_modules/customer/services/graphql';
 
 const NewPassword = (props) => {
     const {

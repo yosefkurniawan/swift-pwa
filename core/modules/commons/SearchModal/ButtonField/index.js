@@ -1,6 +1,6 @@
 import Button from '@common_button';
 import Typography from '@common_typography';
-import useStyles from './style';
+import useStyles from '@common_searchmodal/ButtonField/style';
 
 const ButtonField = ({ placeholder = '', onClick }) => {
     const styles = useStyles();
