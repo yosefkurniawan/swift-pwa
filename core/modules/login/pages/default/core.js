@@ -141,7 +141,7 @@ const Login = (props) => {
     const [getCustomerToken] = getToken();
     const [getCustomerTokenOtp] = getTokenOtp();
     const [getCart, cartData] = getCustomerCartId();
-    const [mergeCart, { called }] = mutationMergeCart();
+    const [mergeCart] = mutationMergeCart();
 
     const [actSocialLogin] = socialLogin();
 
@@ -305,55 +305,61 @@ const Login = (props) => {
             handleSubmit(false, variables);
         },
     });
-    if (cartData.data && custData.data) {
-        Cookies.set(custDataNameCookie, {
-            email: custData.data.customer.email,
-            firstname: custData.data.customer.firstname,
-        });
-        const custCartId = cartData.data.customerCart.id;
-        if (cartId === '' || !cartId) {
-            setCartId(custCartId, expired);
-            setDisabled(false);
-            window.backdropLoader(false);
-            window.toastMessage({ open: true, variant: 'success', text: t('login:success') });
-            if (query && query.redirect) {
-                setTimeout(() => {
-                    Router.push(query.redirect);
-                }, 1500);
+
+    React.useEffect(() => {
+        if (cartData.data && custData.data && cartData.data.customerCart
+            && cartData.data.customerCart && cartData.data.customerCart.id
+        ) {
+            Cookies.set(custDataNameCookie, {
+                email: custData.data.customer.email,
+                firstname: custData.data.customer.firstname,
+            });
+            const custCartId = cartData.data.customerCart.id;
+            if (cartId === '' || !cartId) {
+                setCartId(custCartId, expired);
+                setDisabled(false);
+                window.backdropLoader(false);
+                window.toastMessage({ open: true, variant: 'success', text: t('login:success') });
+                if (query && query.redirect) {
+                    setTimeout(() => {
+                        Router.push(query.redirect);
+                    }, 1500);
+                } else if (redirectLastPath && redirectLastPath !== '') {
+                    Router.push(redirectLastPath);
+                } else {
+                    Router.push('/customer/account');
+                }
+            } else if (cartId !== custCartId) {
+                mergeCart({
+                    variables: {
+                        sourceCartId: cartId,
+                        destionationCartId: custCartId,
+                    },
+                })
+                    .then(async (res) => {
+                        await setCartId(res.data.mergeCarts.id, expired);
+                        await setDisabled(false);
+                        window.backdropLoader(false);
+                        window.toastMessage({ open: true, variant: 'success', text: t('login:success') });
+                        setTimeout(() => {
+                            if (query && query.redirect) {
+                                Router.push(query.redirect);
+                            } else if (redirectLastPath && redirectLastPath !== '') {
+                                Router.push(redirectLastPath);
+                            } else {
+                                Router.push('/customer/account');
+                            }
+                        }, 1500);
+                    })
+                    .catch(() => {});
+            } else if (query && query.redirect) {
+                Router.push(query.redirect);
             } else if (redirectLastPath && redirectLastPath !== '') {
                 Router.push(redirectLastPath);
-            } else {
-                Router.push('/customer/account');
             }
-        } else if (!called && (cartId !== custCartId)) {
-            mergeCart({
-                variables: {
-                    sourceCartId: cartId,
-                    destionationCartId: custCartId,
-                },
-            })
-                .then(async (res) => {
-                    await setCartId(res.data.mergeCarts.id, expired);
-                    await setDisabled(false);
-                    window.backdropLoader(false);
-                    window.toastMessage({ open: true, variant: 'success', text: t('login:success') });
-                    setTimeout(() => {
-                        if (query && query.redirect) {
-                            Router.push(query.redirect);
-                        } else if (redirectLastPath && redirectLastPath !== '') {
-                            Router.push(redirectLastPath);
-                        } else {
-                            Router.push('/customer/account');
-                        }
-                    }, 1500);
-                })
-                .catch(() => {});
-        } else if (query && query.redirect) {
-            Router.push(query.redirect);
-        } else if (redirectLastPath && redirectLastPath !== '') {
-            Router.push(redirectLastPath);
         }
-    }
+    }, [cartData.data, custData.data]);
+
     let socialLoginMethodData = [];
     if (socialLoginMethod.data && socialLoginMethod.data.getSigninMethodSocialLogin
         && socialLoginMethod.data.getSigninMethodSocialLogin.signin_method_allowed
