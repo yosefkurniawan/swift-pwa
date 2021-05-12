@@ -41,7 +41,7 @@ const ViewTopNavigation = (props) => {
                         </div>
                         <div className="header-middle__center">
                             <div className="row menu-category">
-                                <div className="col-xs-12">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
+                                <div className="col-xs-12 menu-middle">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
                             </div>
                             <div className="header-small__menu">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
                         </div>
@@ -74,11 +74,14 @@ const ViewTopNavigation = (props) => {
                     </div>
                 </div>
             </main>
+            <div className="header-tab">
+                <div className="row menu-category">
+                    <div className="col-xs-12">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
+                </div>
+                <div className="header-small__menu">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
+            </div>
             <style jsx>
                 {`
-                    #header {
-                        height: 170px;
-                    }
                     .header-main {
                         max-width: 1440px;
                         width: 97%;
@@ -92,6 +95,9 @@ const ViewTopNavigation = (props) => {
                             z-index: 3;
                             top: ${showGlobalPromo ? '45px' : '0'};
                             transition: top 1s ease;
+                        }
+                        .header-middle__center{
+                            display: none;
                         }
                     }
                     main {
@@ -172,6 +178,12 @@ const ViewTopNavigation = (props) => {
                     @media (min-width: 1250px) {
                         .header-small .header-small__menu {
                             display: block;
+                        }
+                        .header-middle__center{
+                            display: block !important;
+                        }
+                        .header-tab {
+                            display: none;
                         }
                         .header-small .menu-category {
                             display: none;
