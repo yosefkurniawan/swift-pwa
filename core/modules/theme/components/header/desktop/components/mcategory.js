@@ -135,9 +135,12 @@ const Menu = (props) => {
                         return (
                             <li key={idx} role="menuitem">
                                 {val.link ? (
-                                    <Link href={generateLink(val)[0]} as={generateLink(val)[1]}>
-                                        <a onClick={() => handleClick(val)} dangerouslySetInnerHTML={{ __html: val.name }} />
-                                    </Link>
+                                    <>
+                                        <Link href={generateLink(val)[0]} as={generateLink(val)[1]}>
+                                            <a onClick={() => handleClick(val)} dangerouslySetInnerHTML={{ __html: val.name }} />
+                                        </Link>
+                                        <div className="pointer" />
+                                    </>
                                 ) : (
                                     <a href="#" dangerouslySetInnerHTML={{ __html: val.name }} />
                                 ) }
@@ -205,6 +208,18 @@ const Menu = (props) => {
                     .nav > li:hover > a {
                         color: #4b4441;
                     }
+                    .nav > li:hover > a  + .pointer{
+                        display: block;
+                    }
+                    .pointer {
+                        display: none;
+                        margin: auto;
+                        width: 0;
+                        height: 0;
+                        border-style: solid;
+                        border-width: 0 7.5px 13.0px 7.5px;
+                        border-color: transparent transparent #212426 transparent;
+                    }
                     .nav > li:first-child > a {
                         border-left: none;
                         border-radius: 3px 0 0 3px;
@@ -255,6 +270,7 @@ const Menu = (props) => {
                         background-color: #4b4441;
                     }
 
+                    }
                     /* menu dropdown */
                     .mega-menu {
                         background: #fff;
@@ -274,6 +290,38 @@ const Menu = (props) => {
                         opacity: 1;
                         overflow: visible;
                         visibility: visible;
+
+                    }
+
+                    @media (max-width: 1249px) {
+                        .mega-menu {
+                            background: #fff;
+                            border: 1px solid #ddd;
+                            border-top: 5px solid #000000;
+                            border-radius: 0 0 3px 3px;
+                            opacity: 0;
+                            position: absolute;
+                            transition: all 0.3s ease 0.15s;
+                            visibility: hidden;
+                            width: 140%;
+                            left: 0;
+                            padding: auto;
+                            margin: auto;
+                            min-height: 300px; 
+                        }
+                        li:hover > .mega-menu {
+                            opacity: 1;
+                            overflow: visible;
+                            visibility: visible;
+                        }
+                        .nav-column a {
+                            color: #000000 !important;
+                            display: block;
+                            font-weight: bold;
+                            line-height: 1.75;
+                            margin: 0;
+                            padding: 7px;
+                        }
                     }
 
                     /* menu content */
