@@ -139,7 +139,11 @@ const Menu = (props) => {
                                         <Link href={generateLink(val)[0]} as={generateLink(val)[1]}>
                                             <a onClick={() => handleClick(val)} dangerouslySetInnerHTML={{ __html: val.name }} />
                                         </Link>
-                                        <div className="pointer" />
+                                        {
+                                            val.children.length > 0 ? (
+                                                <div className="pointer" />
+                                            ) : null
+                                        }
                                     </>
                                 ) : (
                                     <a href="#" dangerouslySetInnerHTML={{ __html: val.name }} />
@@ -181,6 +185,7 @@ const Menu = (props) => {
 
                     /* menu container */
                     .nav {
+                        height: 49px;
                         cursor: default;
                         display: inline-block;
                         position: relative;
@@ -208,14 +213,15 @@ const Menu = (props) => {
                     .nav > li:hover > a {
                         color: #4b4441;
                     }
-                    .nav > li:hover > a  + .pointer{
-                        display: block;
+                    .nav > li:hover > a  + .pointer {
+                        visibility: visible;
                     }
                     .pointer {
-                        display: none;
+                        visibility: hidden;
                         margin: auto;
                         width: 0;
                         height: 0;
+                        transition: all 0.3s ease 0.15s;
                         border-style: solid;
                         border-width: 0 7.5px 13.0px 7.5px;
                         border-color: transparent transparent #212426 transparent;
@@ -279,7 +285,7 @@ const Menu = (props) => {
                         border-radius: 0 0 3px 3px;
                         opacity: 0;
                         position: absolute;
-                        transition: all 0.3s ease 0.15s;
+                        transition: all 0s ease 0s;
                         visibility: hidden;
                         width: 190%;
                         left: 0;
