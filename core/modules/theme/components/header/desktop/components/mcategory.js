@@ -221,7 +221,6 @@ const Menu = (props) => {
                         margin: auto;
                         width: 0;
                         height: 0;
-                        transition: all 0.3s ease 0.15s;
                         border-style: solid;
                         border-width: 0 7.5px 13.0px 7.5px;
                         border-color: transparent transparent #212426 transparent;
@@ -307,7 +306,7 @@ const Menu = (props) => {
                             border-radius: 0 0 3px 3px;
                             opacity: 0;
                             position: absolute;
-                            transition: all 0.3s ease 0.15s;
+                            transition: all 0s ease 0s;
                             visibility: hidden;
                             width: 140%;
                             left: 0;
