@@ -48,8 +48,6 @@ export const storeConfig = `
               text_color
               background_color
             }
-            aw_blog_general_comments_enabled
-            aw_blog_general_disqus_forum_code
         }
     }
 `;
