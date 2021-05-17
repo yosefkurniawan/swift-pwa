@@ -158,6 +158,7 @@ const ViewTopNavigation = (props) => {
                     }
                     .menu-category {
                         width: fit-content;
+                        display:block;
                     }
                     .global-promo{
                         height: 45px;
