@@ -61,8 +61,11 @@ const Summary = ({
         return '/checkout/onepage/success';
     };
 
-    const generateCartRedirect = () => {
+    const generateCartRedirect = (new_cart_id = '') => {
         if (config && config.cartRedirect && config.cartRedirect.link) {
+            if (new_cart_id) {
+                return `${config.cartRedirect.link}?new_cart_id=${new_cart_id}`;
+            }
             return config.cartRedirect.link;
         }
         return '/checkout/cart';
@@ -283,7 +286,7 @@ const Summary = ({
         } else {
             setCartId(cart_id);
             setOrderId(null);
-            window.location.replace(generateCartRedirect());
+            window.location.replace(generateCartRedirect(cart_id));
         }
     }
     // End - Process Snap Pop Up Close (Waitinge Response From Reorder)

@@ -5,7 +5,7 @@ import { getAppEnv } from '@root/core/helpers/env';
 const { checkoutOnly, ipayUrl } = modules.checkout;
 
 // URL config redirect
-export const getCartCallbackUrl = () => (!checkoutOnly ? '/checkout/cart' : `${getHost()}/checkout/cart`);
+export const getCartCallbackUrl = () => (!checkoutOnly ? '/checkout/cart' : `${getStoreHost(getAppEnv())}checkout/cart`);
 
 export const getSuccessCallbackUrl = () => {
     if (checkoutOnly) return `${getStoreHost(getAppEnv())}pwacheckout/onepage/success`;
