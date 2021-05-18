@@ -12,7 +12,7 @@ if you not install with custom template you only import and place onyour compone
 
 example:
 ````
-import AddressFormDialog from '@core_modules/customer/plugins/AddressFormDialog';
+import AddressFormDialog from '@plugin_addressform';
 
 <AddressFormDialog
     {...dialogProps}
@@ -67,7 +67,7 @@ if you  install with custom template you only import core components and place o
 
 example:
 ````
-import AddressFormDialog from '@core_modules/customer/plugins/AddressFormDialog/Core';
+import AddressFormDialog from '@plugin_addressform/Core';
 ````
 ### Properties
 | Props       | Required | Description | Type |

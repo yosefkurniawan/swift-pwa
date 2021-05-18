@@ -4,9 +4,9 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import classNames from 'classnames';
 import Typography from '@common_typography';
 import Layout from '@layout_customer';
-import useStyles from './style';
-import CheckboxSettings from './checkbox';
-import CheckboxView from './checkbox/view';
+import useStyles from '@core_modules/customer/pages/newsletter/components/style';
+import CheckboxSettings from '@core_modules/customer/pages/newsletter/components/checkbox';
+import CheckboxView from '@core_modules/customer/pages/newsletter/components/checkbox/view';
 
 const subData = [{ value: 'subscribed', label: 'Subscribtion' }];
 

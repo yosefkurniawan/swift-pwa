@@ -8,7 +8,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable consistent-return */
 // Library
-import AddressFormDialog from '@core_modules/customer/plugins/AddressFormDialog';
+import AddressFormDialog from '@plugin_addressform';
 import Button from '@common_button';
 import Add from '@material-ui/icons/Add';
 import Paper from '@material-ui/core/Paper';
@@ -20,10 +20,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Alert from '@material-ui/lab/Alert';
 import Layout from '@layout_customer';
-import TableAddress from './table';
-import useStyles from './style';
-import { SkeletonMobile, SkeletonTable } from './skeleton';
-import ItemMobile from './ItemMobile';
+import TableAddress from '@core_modules/customer/pages/address/components/table';
+import useStyles from '@core_modules/customer/pages/address/components/style';
+import { SkeletonMobile, SkeletonTable } from '@core_modules/customer/pages/address/components/skeleton';
+import ItemMobile from '@core_modules/customer/pages/address/components/ItemMobile';
 
 // Main Render Page
 const Content = (props) => {

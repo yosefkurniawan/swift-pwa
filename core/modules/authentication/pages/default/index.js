@@ -1,7 +1,7 @@
 import { withApollo } from '@lib_apollo';
 import Loader from '@common_loaders/Backdrop';
 import { withTranslation } from '@i18n';
-import Core from './core';
+import Core from '@core_modules/authentication/pages/default/core';
 // import { decrypt } from '@helpers/encryption';
 
 const Content = () => <Loader open />;

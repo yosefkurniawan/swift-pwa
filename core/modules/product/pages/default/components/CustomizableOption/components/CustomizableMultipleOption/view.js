@@ -3,7 +3,7 @@ import CheckBox from '@common_checkbox';
 import Typography from '@common_typography';
 
 const ViewCustomizableMultipleOption = ({
-    title = 'test', data = [], selected = [],
+    title = 'test', data = [], selected = [], disabled,
     onChange = () => {}, error = '', required = false,
 }) => (
     <div className="column">
@@ -23,6 +23,7 @@ const ViewCustomizableMultipleOption = ({
                         value={selected || []}
                         flex="column"
                         onChange={onChange}
+                        disabled={disabled}
                     />
                 </>
             )

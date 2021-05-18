@@ -1,5 +1,5 @@
 import Alert from '@material-ui/lab/Alert';
-import useStyles from './style';
+import useStyles from '@core_modules/thanks/pages/default/components/style';
 
 const ErrorInfo = ({ variant, text }) => {
     const styles = useStyles();

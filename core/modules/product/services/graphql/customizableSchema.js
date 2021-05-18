@@ -1,5 +1,6 @@
 /* eslint-disable no-plusplus */
 import { gql } from '@apollo/client';
+import { modules } from '@config';
 
 const valueOption = `
     option_id
@@ -29,6 +30,32 @@ const valueFieldOption = `
     uid
     max_characters
   }
+`;
+
+export const getCustomizableOption = (url) => gql`
+{
+  products(
+    search: "" ,filter: {
+      url_key: {
+        eq: "${url}"
+      }
+    }
+  ) {
+    items {
+      ${modules.product.customizableOptions.enabled && `
+        ... on CustomizableProductInterface {
+          options {
+            title
+            option_id
+            required
+            sort_order
+            __typename
+          }
+        }
+      `}
+    }
+  }
+}
 `;
 
 export const getCustomizableCheckboxOption = (url_key = '') => gql`

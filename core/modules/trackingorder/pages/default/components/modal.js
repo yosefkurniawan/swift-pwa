@@ -15,8 +15,8 @@ import { startCase } from 'lodash';
 import { modules } from '@config';
 import Link from 'next/link';
 
-import { checkJson } from '../helpers/checkJson';
-import useStyles from './style';
+import { checkJson } from '@core_modules/trackingorder/pages/default/helpers/checkJson';
+import useStyles from '@core_modules/trackingorder/pages/default/components/style';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 

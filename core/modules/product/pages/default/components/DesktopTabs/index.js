@@ -9,8 +9,8 @@ import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import useStyles from '../ExpandDetail/style';
-import ListReviews from '../ListReviews';
+import useStyles from '@core_modules/product/pages/default/components/ExpandDetail/style';
+import ListReviews from '@core_modules/product/pages/default/components/ListReviews';
 
 function TabPanel(props) {
     const {

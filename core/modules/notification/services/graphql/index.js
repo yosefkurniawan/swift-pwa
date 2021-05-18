@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { useQuery, useMutation } from '@apollo/client';
-import Schema from './schema';
+import Schema from '@core_modules/notification/services/graphql/schema';
 
 export const customerNotificationList = () => useQuery(Schema.customerNotificationList, {
     context: {

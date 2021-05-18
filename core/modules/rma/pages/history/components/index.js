@@ -12,7 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Alert from '@material-ui/lab/Alert';
 import Router from 'next/router';
 import Layout from '@layout_customer';
-import useStyles from './styles';
+import useStyles from '@core_modules/rma/pages/history/components/styles';
 
 const HistoryContent = (props) => {
     const {

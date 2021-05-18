@@ -1,15 +1,15 @@
-import Default from './pages/default';
-import Core from './pages/default/core';
-import CashbackInfo from './pages/default/components/CashbackInfo';
-import EmailView from './pages/default/components/email/view';
-import DeliveryView from './pages/default/components/delivery/view';
-import DeliverySkeleton from './pages/default/components/delivery/skeleton';
-import SummaryView from './pages/default/components/summary/view';
-import AddressView from './pages/default/components/address/view';
-import ShippingView from './pages/default/components/shipping/view';
-import PaymentView from './pages/default/components/payment/view';
-import GiftCardView from './pages/default/components/giftcard/view';
-import OrderCommentView from './pages/default/components/OrderComment/view';
+import Default from '@core_modules/checkout/pages/default';
+import Core from '@core_modules/checkout/pages/default/core';
+import CashbackInfo from '@core_modules/checkout/pages/default/components/CashbackInfo';
+import EmailView from '@core_modules/checkout/pages/default/components/email/view';
+import DeliveryView from '@core_modules/checkout/pages/default/components/delivery/view';
+import DeliverySkeleton from '@core_modules/checkout/pages/default/components/delivery/skeleton';
+import SummaryView from '@core_modules/checkout/pages/default/components/summary/view';
+import AddressView from '@core_modules/checkout/pages/default/components/address/view';
+import ShippingView from '@core_modules/checkout/pages/default/components/shipping/view';
+import PaymentView from '@core_modules/checkout/pages/default/components/payment/view';
+import GiftCardView from '@core_modules/checkout/pages/default/components/giftcard/view';
+import OrderCommentView from '@core_modules/checkout/pages/default/components/OrderComment/view';
 
 export default {
     Default,

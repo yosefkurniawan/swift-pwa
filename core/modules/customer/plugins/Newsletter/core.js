@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
-import { subscribeNewsletter } from '../../services/graphql/schema';
+import { subscribeNewsletter } from '@core_modules/customer/services/graphql/schema';
 
 const Newsletter = (props) => {
     const { NewsletterView, t } = props;

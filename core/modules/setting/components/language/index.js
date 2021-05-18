@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { withTranslation } from '@i18n';
 import { translation } from '@config';
 import cookies from 'js-cookie';
-import ViewLanguage from './view';
+import ViewLanguage from '@core_modules/setting/components/language/view';
 
 const COOKIES_APP_LANG = 'app_lang';
 

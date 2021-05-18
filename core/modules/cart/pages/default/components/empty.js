@@ -2,7 +2,7 @@ import Typography from '@common_typography';
 import Button from '@common_button';
 import Link from 'next/link';
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@core_modules/cart/pages/default/components/style';
 
 const EmptyView = (props) => {
     const styles = useStyles();

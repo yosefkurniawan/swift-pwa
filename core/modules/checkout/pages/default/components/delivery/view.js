@@ -2,8 +2,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Typography from '@common_typography';
 import classNames from 'classnames';
-import useStyles from './style';
-import useStylesRoot from '../style';
+import useStyles from '@core_modules/checkout/pages/default/components/delivery/style';
+import useStylesRoot from '@core_modules/checkout/pages/default/components/style';
 
 const ShippingView = (props) => {
     const {

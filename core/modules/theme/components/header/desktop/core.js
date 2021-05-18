@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import Router from 'next/router';
 import { removeIsLoginFlagging } from '@helper_auth';
 import { removeCartId } from '@helper_cartid';
@@ -9,15 +8,14 @@ import firebase from 'firebase/app';
 import { custDataNameCookie, features } from '@config';
 import {
     getCategories, getCustomer, removeToken, getVesMenu,
-} from '../../../services/graphql';
+} from '@core_modules/theme/services/graphql';
 
 const CoreTopNavigation = (props) => {
     const {
-        Content, storeConfig, t, app_cookies, isLogin,
+        Content, storeConfig, t, app_cookies, isLogin, showGlobalPromo,
     } = props;
     const [value, setValue] = React.useState('');
     const [deleteTokenGql] = removeToken();
-
     const { data, loading } = features.vesMenu.enabled
         ? getVesMenu({
             variables: {
@@ -42,7 +40,7 @@ const CoreTopNavigation = (props) => {
                 removeCartId();
                 firebase.auth().signOut().then(() => {
                     // Sign-out successful.
-                }).catch((error) => {
+                }).catch(() => {
                     // An error happened.
                     // console.log(error);
                 });
@@ -86,6 +84,7 @@ const CoreTopNavigation = (props) => {
             handleLogout={handleLogout}
             value={value}
             app_cookies={app_cookies}
+            showGlobalPromo={showGlobalPromo}
         />
     );
 };

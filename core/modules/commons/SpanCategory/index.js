@@ -9,8 +9,10 @@ import setDefaultWhenEmpty from '@helper_checkimagesrc';
 import classNames from 'classnames';
 import { setResolver, getResolver } from '@helper_localstorage';
 import Link from 'next/link';
-import useStyles from './style';
-import Thumbor from '../Image';
+import { getStoreHost } from '@helpers/config';
+import { getAppEnv } from '@root/core/helpers/env';
+import useStyles from '@common_spancategory/style';
+import Thumbor from '@common_image';
 
 const SpanCategory = (props) => {
     const {
@@ -26,6 +28,13 @@ const SpanCategory = (props) => {
         };
         await setResolver(urlResolver);
     };
+    const urlDest = new URL(getStoreHost(getAppEnv()));
+    let UrlString = '';
+    if (imageSrc.toLowerCase().indexOf(urlDest.hostname) === -1) {
+        UrlString = urlDest.hostname + imageSrc;
+    } else {
+        UrlString = imageSrc;
+    }
     return (
         <div className={styles.container}>
             <div className={classNames('row center middle-sm', right ? 'reverse' : '')}>
@@ -33,7 +42,7 @@ const SpanCategory = (props) => {
                     <Link href="/[...slug]" as={`/${url}`}>
                         <a onClick={() => handleClick(`/${url}`)}>
                             <Thumbor
-                                src={setDefaultWhenEmpty(imageSrc)}
+                                src={setDefaultWhenEmpty(UrlString)}
                                 alt={name}
                                 style={{
                                     width: '100%',

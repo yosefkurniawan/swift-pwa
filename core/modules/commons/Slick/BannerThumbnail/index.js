@@ -9,9 +9,9 @@ import LeftArrowIcon from '@material-ui/icons/ArrowBackIos';
 import RightArrowIcon from '@material-ui/icons/ArrowForwardIos';
 import Slider from 'react-slick';
 import Zoom from 'react-prismazoom';
-import ImageSlide from '../Banner/ImageSlide';
-import useStyles from './style';
-import Thumbor from '../Banner/Thumbor';
+import ImageSlide from '@common_slick/Banner/ImageSlider';
+import useStyles from '@common_slick/BannerThumbnail/style';
+import Thumbor from '@common_slick/Banner/Thumbor';
 
 const Banner = ({
     data = [],
@@ -27,6 +27,7 @@ const Banner = ({
     actionImage = () => { },
     zoom = false,
     zoomRef = null,
+    customClassCaraousel = '',
 }) => {
     const styles = useStyles();
     const [slideIndex, setIndex] = useState(0);
@@ -42,6 +43,9 @@ const Banner = ({
     const handleRightArrow = () => {
         sliderRef.slickGoTo(slideIndex + 1);
     };
+
+    const classCarousel = (customClassCaraousel && customClassCaraousel !== '')
+        ? customClassCaraousel : styles.caraousel;
 
     const settings = {
         // className: thumbnail ? 'slick-thumbnail' : 'slick-pwa',
@@ -82,7 +86,7 @@ const Banner = ({
                     ))}
                 </div>
             ) : null}
-            <div className={classNames(styles.caraousel)}>
+            <div className={classCarousel}>
                 <Slider ref={(slider) => sliderRef = slider} {...settings}>
                     {data.map((item, key) => (
                         <div onClick={actionImage} key={key}>

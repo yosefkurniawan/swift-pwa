@@ -3,7 +3,7 @@ import Layout from '@layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import formatDate from '@helper_date';
-import gqlService, { confirmPayment } from '../../services/graphql';
+import gqlService, { confirmPayment } from '@core_modules/confirmpayment/services/graphql';
 
 const ConfirmPaymentPage = (props) => {
     const { t, pageConfig, Content } = props;

@@ -2,20 +2,21 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
-import NotificationBell from '@core_modules/notification/plugins/NotificationBell';
-import ShoppingBagIcon from '@core_modules/cart/plugin/ShoppingBag';
+import NotificationBell from '@plugin_notificationbell';
+import ShoppingBagIcon from '@plugin_shoppingbag';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
 import DesktopInstallApp from '@core_modules/theme/components/custom-install-popup/desktop';
 import { features } from '@config';
-import Menu from './mcategory';
-import TopMenu from './mtop';
-import Autocomplete from './autocomplete';
-import OptionAutocomplete from './autocomplete/view';
+import Menu from '@core_modules/theme/components/header/desktop/components/mcategory';
+import TopMenu from '@core_modules/theme/components/header/desktop/components/mtop';
+import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
+import OptionAutocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete/view';
 
 const ViewTopNavigation = (props) => {
     const {
-        storeConfig, handleSearch, searchByClick, setValue, value, data, loading, t, isLogin, customer, handleLogout, app_cookies,
+        storeConfig, handleSearch, searchByClick, setValue, value, data, loading, t, isLogin, customer,
+        handleLogout, app_cookies, showGlobalPromo,
     } = props;
     return (
         <div id="header">
@@ -39,6 +40,9 @@ const ViewTopNavigation = (props) => {
                             </div>
                         </div>
                         <div className="header-middle__center">
+                            <div className="row menu-category">
+                                <div className="col-xs-12 menu-middle">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
+                            </div>
                             <div className="header-small__menu">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
                         </div>
                         <div className="header-middle__right">
@@ -68,17 +72,16 @@ const ViewTopNavigation = (props) => {
                             </div>
                         </div>
                     </div>
-
-                    <div className="row menu-category">
-                        <div className="col-xs-12">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
-                    </div>
                 </div>
             </main>
+            <div className="header-tab">
+                <div className="row menu-category">
+                    <div className="col-xs-12">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
+                </div>
+                <div className="header-small__menu">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
+            </div>
             <style jsx>
                 {`
-                    #header {
-                        height: 170px;
-                    }
                     .header-main {
                         max-width: 1440px;
                         width: 97%;
@@ -90,8 +93,11 @@ const ViewTopNavigation = (props) => {
                             width: 100%;
                             background: white;
                             z-index: 3;
-                            top: 0;
+                            top: ${showGlobalPromo ? '45px' : '0'};
                             transition: top 1s ease;
+                        }
+                        .header-middle__center{
+                            display: none;
                         }
                     }
                     main {
@@ -152,6 +158,16 @@ const ViewTopNavigation = (props) => {
                     }
                     .menu-category {
                         width: fit-content;
+                        display:block;
+                    }
+                    .global-promo{
+                        height: 45px;
+                        border-bottom: 1px solid #d6d6d6;
+                        display: flex;
+                        align-items: center;
+                        padding: 10px 0;
+                        margin: 0;
+                        background-color: red;
                     }
                 `}
             </style>
@@ -163,6 +179,12 @@ const ViewTopNavigation = (props) => {
                     @media (min-width: 1250px) {
                         .header-small .header-small__menu {
                             display: block;
+                        }
+                        .header-middle__center{
+                            display: block !important;
+                        }
+                        .header-tab {
+                            display: none;
                         }
                         .header-small .menu-category {
                             display: none;

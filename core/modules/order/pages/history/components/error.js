@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import Alert from '@material-ui/lab/Alert';
-import useStyles from '../style';
+import useStyles from '@core_modules/order/pages/history/style';
 
 const ErrorView = ({ type, message }) => {
     const styles = useStyles();

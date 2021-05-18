@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@common_buttonqty/style';
 
 const ButtonQty = ({
     value = 1, onChange, max = 100, disabled = false,

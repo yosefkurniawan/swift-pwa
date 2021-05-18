@@ -1,13 +1,13 @@
 import React from 'react';
 import Alert from '@material-ui/lab/Alert';
-import AddressFormDialog from '@core_modules/customer/plugins/AddressFormDialog';
+import AddressFormDialog from '@plugin_addressform';
 import Button from '@common_button';
 import Typography from '@common_typography';
 import _ from 'lodash';
-import ModalAddress from '../ModalAddress';
-import useStyles from '../style';
+import ModalAddress from '@core_modules/checkout/pages/default/components/ModalAddress';
+import useStyles from '@core_modules/checkout/pages/default/components/style';
 
-const CLOSE_ADDRESS_DIALOG = 350;
+const CLOSE_ADDRESS_DIALOG = 100;
 
 const AddressView = (props) => {
     const styles = useStyles();
@@ -70,7 +70,6 @@ const AddressView = (props) => {
                             _.delay(() => {
                                 state = { ...checkout };
                                 state.status.openAddressDialog = false;
-                                setCheckout(state);
                                 state.status.addresses = false;
                                 setCheckout(state);
                             }, CLOSE_ADDRESS_DIALOG);

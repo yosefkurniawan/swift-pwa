@@ -1,6 +1,6 @@
-import StoreLocatorMaps from './Maps';
-import SkeletonStoreLocator from './Skeleton';
-import StoreList from './StoreList';
+import StoreLocatorMaps from '@core_modules/storelocator/pages/default/components/Maps';
+import SkeletonStoreLocator from '@core_modules/storelocator/pages/default/components/Skeleton';
+import StoreList from '@core_modules/storelocator/pages/default/components/StoreList';
 
 const StoreLocatorContent = ({ gmapKey, storeLocations, t }) => {
     // state

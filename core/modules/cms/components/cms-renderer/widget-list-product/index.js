@@ -4,7 +4,7 @@
 /* eslint-disable no-return-assign */
 import React from 'react';
 import Carousel from '@common_slick/Caraousel';
-import ProductItem from '@core_modules/catalog/plugin/ProductItem';
+import ProductItem from '@plugin_productitem';
 import GridList from '@common_gridlist';
 import SkeletonWidget from '@common_slick/Caraousel/Skeleton';
 
@@ -81,7 +81,13 @@ const WidgetListProduct = (props) => {
                     <SkeletonWidget />
                 </div>
                 <div className={classProductList}>
-                    <Carousel onReInit={onReInit} data={dataItems} Item={ProductItem} slideLg={dataItems?.length > 10 ? 6 : 4} />
+                    <Carousel
+                        onReInit={onReInit}
+                        enableQuickView={false}
+                        data={dataItems}
+                        Item={ProductItem}
+                        slideLg={dataItems?.length > 10 ? 6 : 4}
+                    />
                 </div>
             </>
         );

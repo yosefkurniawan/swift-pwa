@@ -4,7 +4,7 @@ import Typography from '@common_typography';
 import Radio from '@material-ui/core/Radio';
 import classNames from 'classnames';
 import { formatPrice } from '@helpers/currency';
-import useStyles from './style';
+import useStyles from '@core_modules/checkout/components/radioitem/style';
 
 const RadioDeliveryItem = (props) => {
     const styles = useStyles();

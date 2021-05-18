@@ -3,7 +3,7 @@ import Typography from '@common_typography';
 import DropFile from '@common_dropfile';
 
 const ViewCustomizableFileOption = ({
-    data = {}, onChange = () => {}, error = '', required = false, t,
+    data = {}, onChange = () => {}, error = '', required = false, t, disabled,
 }) => {
     let maxSize = 2000000;
     let acceptedFile = 'image/*';
@@ -27,16 +27,18 @@ const ViewCustomizableFileOption = ({
                             {' '}
                             {required && <Typography color="red" type="bold" variant="label">*</Typography>}
                         </Typography>
-                        <DropFile
-                            acceptedFile={acceptedFile}
-                            multiple={false}
-                            error={error}
-                            getBase64={onChange}
-                            maxSize={maxSize}
-                            maxWidth={data.image_size_x}
-                            maxHeight={data.image_size_y}
-                            noStyle
-                        />
+                        { !disabled && (
+                            <DropFile
+                                acceptedFile={acceptedFile}
+                                multiple={false}
+                                error={error}
+                                getBase64={onChange}
+                                maxSize={maxSize}
+                                maxWidth={data.image_size_x}
+                                maxHeight={data.image_size_y}
+                                noStyle
+                            />
+                        ) }
                         {
                             data.file_extension !== '' && (
                                 <Typography variant="p">

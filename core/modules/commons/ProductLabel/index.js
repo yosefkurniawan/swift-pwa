@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { useTranslation } from '@i18n';
-import useStyles from './style';
+import useStyles from '@common_productlabel/style';
 
 const generateNew = ({ newFromDate, newToDate }) => {
     let showLabelNew = false;

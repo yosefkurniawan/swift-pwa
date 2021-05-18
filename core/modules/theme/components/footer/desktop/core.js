@@ -1,7 +1,7 @@
 import noReload from '@helper_noreload';
 import { useRouter } from 'next/router';
 import { setResolver, getResolver } from '@helper_localstorage';
-import { getCmsBlocks } from '../../../services/graphql';
+import { getCmsBlocks } from '@core_modules/theme/services/graphql';
 
 const Footer = (props) => {
     const {

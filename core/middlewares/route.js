@@ -8,6 +8,7 @@ import Router from 'next/router';
 
 import { modules } from '@config';
 import { getStoreHost } from '@helpers/config';
+import { getAppEnv } from '@root/core/helpers/env';
 import { availableRoute } from './routeServer';
 
 export const routeNoAuth = (path) => {
@@ -107,7 +108,7 @@ const routeMiddleware = (params) => {
                 window.location.href = getStoreHost(window.APP_ENV);
             } else {
                 res.statusCode = 302;
-                res.setHeader('Location', getStoreHost());
+                res.setHeader('Location', getStoreHost(getAppEnv()));
             }
         } else if (typeof window !== 'undefined') {
             const destinationUrl = pathname;

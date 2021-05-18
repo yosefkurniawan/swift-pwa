@@ -11,7 +11,7 @@ import Link from 'next/link';
 import Image from '@common_image';
 import { features } from '@config';
 import { setResolver, getResolver } from '@helper_localstorage';
-import useStyles from './style';
+import useStyles from '@core_modules/customer/pages/wishlist/components/item/style';
 
 const WishlistComp = ({
     price_range, price_tiers, __typename, imageSrc,

@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@common_forms/CheckBoxColor/style';
 
-const ChecboxColor = ({
+const CheckboxColor = ({
     label = '',
     value = '',
     dataValues = [],
@@ -32,4 +32,4 @@ const ChecboxColor = ({
     );
 };
 
-export default ChecboxColor;
+export default CheckboxColor;

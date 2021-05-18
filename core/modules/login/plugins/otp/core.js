@@ -11,7 +11,7 @@ import {
     checkOtpLogin,
     requestOtpForgotPassword,
     otpConfig,
-} from '../../services/graphql';
+} from '@core_modules/login/services/graphql';
 
 const OtpBlock = ({
     phoneProps, codeProps, type, setDisabled, OtpView,

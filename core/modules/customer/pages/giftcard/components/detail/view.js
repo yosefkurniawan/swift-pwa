@@ -10,7 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Alert from '@material-ui/lab/Alert';
 import { debuging } from '@config';
 import { formatPrice } from '@helper_currency';
-import Loader from '../skeleton';
+import Loader from '@core_modules/customer/pages/giftcard/components/skeleton';
 
 const DetailView = (props) => {
     const {

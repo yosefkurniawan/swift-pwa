@@ -6,9 +6,9 @@ import React from 'react';
 import Router from 'next/router';
 import getPath from '@helper_getpath';
 import { setResolver, getResolver } from '@helper_localstorage';
-import CategorySkeleton from './CategorySkeleton';
-import SubVesMenu from './SubVesMenu';
-import VesMenu from './VesMenu';
+import CategorySkeleton from '@common_searchmodal/CategorySkeleton';
+import SubVesMenu from '@common_searchmodal/SubVesMenu';
+import VesMenu from '@common_searchmodal/VesMenu';
 
 const CategoryWrapper = ({ handleCloseModal = () => {} }) => {
     // const {

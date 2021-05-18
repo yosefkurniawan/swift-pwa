@@ -1,7 +1,7 @@
 import Grid from '@material-ui/core/Grid';
 import Skeleton from '@material-ui/lab/Skeleton';
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@core_modules/customer/pages/profile/components/style';
 
 const ProfilePageSkeleton = () => {
     const styles = useStyles();

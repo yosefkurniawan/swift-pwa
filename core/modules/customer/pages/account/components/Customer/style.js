@@ -5,6 +5,56 @@ const useStyles = makeStyles(() => ({
     root: {
         width: '100%',
         height: '100%',
+        '& h4': {
+            fontSize: '16px',
+            color: 'black',
+        },
+        '& ul': {
+            'list-style-type': 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+        },
+        '& .container-footer': {
+            display: 'block',
+        },
+        '& .content-assets': {
+            '& .col-sm-3': { flex: 1 },
+            '& .col-xs-12': { flex: 1 },
+        },
+        '& li': {
+            'list-style-type': 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+        },
+        '& .social-icon': {
+            padding: '0 6px',
+            verticalAlign: 'middle',
+            display: 'inline-block',
+            '& i': {
+                content: '',
+                backgroundPosition: 'center',
+                backgroundSize: 'contain',
+                width: 40,
+                height: 40,
+                display: 'block',
+            },
+
+            '& .icon-facebook': {
+                backgroundImage: 'url(/assets/img/facebook.png)',
+            },
+            '& .icon-twitter': {
+                backgroundImage: 'url(/assets/img/twitter.png)',
+            },
+            '& .icon-instagram': {
+                backgroundImage: 'url(/assets/img/instagram.png)',
+            },
+            '& .icon-pinterest': {
+                backgroundImage: 'url(/assets/img/pinterest.png)',
+            },
+
+        },
     },
     padding_vertical_40: {
         paddingTop: '40px',
@@ -72,12 +122,13 @@ const useStyles = makeStyles(() => ({
     account_navigation_item: {
         flex: '0 0 auto',
         marginBottom: '10px',
+        width: '85%',
     },
     account_navigation_link: {
         color: 'black',
         textTransform: 'uppercase',
         textDecoration: 'none',
-        fontSize: 24,
+        fontSize: 16,
         fontWeight: '700',
     },
     wishlistBlock: {
@@ -130,6 +181,9 @@ const useStyles = makeStyles(() => ({
         overflow: 'hidden',
         outline: 'none',
         marginLeft: 15,
+    },
+    logoutBtn: {
+        background: '#ce1212',
     },
 }));
 

@@ -2,10 +2,10 @@
 import React from 'react';
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
-import DefaultContent from './components';
-import CoreBase from './core';
-import Skeleton from './components/Skeleton';
-import WarningInfo from '../../components/Info';
+import DefaultContent from '@core_modules/blog/pages/detail/components';
+import CoreBase from '@core_modules/blog/pages/detail/core';
+import Skeleton from '@core_modules/blog/pages/detail/components/Skeleton';
+import WarningInfo from '@core_modules/blog/components/Info';
 
 const DetailPage = (props) => (
     <CoreBase

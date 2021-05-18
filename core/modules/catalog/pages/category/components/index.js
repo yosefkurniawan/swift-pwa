@@ -3,9 +3,11 @@ import React from 'react';
 import Router from 'next/router';
 import classNames from 'classnames';
 import Typography from '@common_typography';
-import Product from '@core_modules/catalog/plugin/ProductList';
+import Product from '@plugin_productlist';
 import { features } from '@config';
-import useStyles from './style';
+import { getStoreHost } from '@helpers/config';
+import { getAppEnv } from '@root/core/helpers/env';
+import useStyles from '@core_modules/catalog/pages/category/components/style';
 
 // sementara di comment dlu, untuk custom filter memakai aggregations product
 // import { getFilter } from '../../../services/graphql';
@@ -41,6 +43,18 @@ const CategoryPage = ({
             },
         ];
     }
+    // console.log(dataBanner);
+    const urlDest = new URL(getStoreHost(getAppEnv()));
+    let UrlString = '';
+    if (dataBanner.length > 0) {
+        if (dataBanner[0].imageUrl.toLowerCase().indexOf(urlDest.hostname) === -1) {
+            UrlString = `${urlDest.protocol}//${urlDest.hostname}${dataBanner[0].imageUrl}`;
+        } else {
+            UrlString = dataBanner[0].imageUrl;
+        }
+    } else {
+        UrlString = '';
+    }
     // sementara di comment dlu, untuk custom filter memakai aggregations product
     // const customFilter = getFilter(categoryList.id);
     let breadcrumbsData = [];
@@ -75,11 +89,11 @@ const CategoryPage = ({
                     {dataBanner.length > 0
                         ? (
                             <BannerView
-                                src={dataBanner[0].imageUrl}
+                                src={UrlString}
                                 width={features.imageSize.category.width}
                                 height={features.imageSize.category.height}
                                 showArrow={dataBanner.length > 1}
-                                style={{width: '100%', height: 'auto'}}
+                                style={{ width: '100%', height: 'auto' }}
                             />
                         ) : null}
                 </div>

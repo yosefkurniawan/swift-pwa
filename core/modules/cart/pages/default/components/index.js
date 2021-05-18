@@ -1,7 +1,7 @@
 import Route from 'next/router';
 import classNames from 'classnames';
-import Summary from '../../../plugin/Summary';
-import useStyles from './style';
+import Summary from '@plugin_summary';
+import useStyles from '@core_modules/cart/pages/default/components/style';
 
 const Content = (props) => {
     const {

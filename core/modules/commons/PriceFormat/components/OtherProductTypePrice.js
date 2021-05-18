@@ -3,7 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import Typography from '@common_typography';
 import { formatPrice } from '@helper_currency';
-import useStyles from '../style';
+import useStyles from '@common_priceformat/style';
 
 const OtherProductTypePrice = (props) => {
     const {

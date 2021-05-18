@@ -1,5 +1,5 @@
 import Layout from '@layout';
-import { getStoreCredit } from '../../services/graphql';
+import { getStoreCredit } from '@core_modules/storecredit/services/graphql';
 
 const PageStoreCredit = (props) => {
     const {

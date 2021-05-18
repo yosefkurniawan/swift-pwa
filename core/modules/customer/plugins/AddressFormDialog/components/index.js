@@ -10,7 +10,7 @@ import CustomTextField from '@common_textfield';
 import Typography from '@common_typography';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CustomAutocomplete from '@core_modules/commons/AutoComplete';
-import useStyles from './style';
+import useStyles from '@plugin_addressform/components/style';
 
 const AddressView = (props) => {
     const {

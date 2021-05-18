@@ -4,8 +4,8 @@ import { useQuery } from '@apollo/client';
 import Router from 'next/router';
 import Layout from '@layout';
 import CustomerLayout from '@layout_customer';
-import { getCartIdUser } from '../../services/graphql/schema';
-import { addSimpleProductsToCart, getCustomer, removeWishlist as gqlremoveWishlist } from '../../services/graphql';
+import { getCartIdUser } from '@core_modules/customer/services/graphql/schema';
+import { addSimpleProductsToCart, getCustomer, removeWishlist as gqlremoveWishlist } from '@core_modules/customer/services/graphql';
 
 const Wishlist = (props) => {
     let wishlist = [];

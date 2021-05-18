@@ -1,7 +1,7 @@
 import Layout from '@layout';
 import { StripHtmlTags } from '@helper_text';
-import { getCategory } from '../../services/graphql';
-import generateSchemaOrg from '../../helpers/schema.org';
+import { getCategory } from '@core_modules/catalog/services/graphql';
+import generateSchemaOrg from '@core_modules/catalog/helpers/schema.org';
 
 const Page = (props) => {
     const {
