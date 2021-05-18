@@ -9,6 +9,9 @@ const defaultConfig = {
 
 export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath), {
     ...defaultConfig,
+    context: {
+        request: 'internal',
+    },
 });
 
 export const getCustomizableOption = (urlpath) => useLazyQuery(CustomizableSchema.getCustomizableOption(urlpath), {
@@ -20,6 +23,9 @@ export const getCustomizableOption = (urlpath) => useLazyQuery(CustomizableSchem
 export const getProductBySku = (params) => useQuery(Schema.getProductBySku(), {
     ...params,
     ...defaultConfig,
+    context: {
+        request: 'internal',
+    },
 });
 
 export const getReviews = (params) => useQuery(Schema.getReview(), {

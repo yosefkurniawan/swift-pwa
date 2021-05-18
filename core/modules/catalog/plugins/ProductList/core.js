@@ -65,6 +65,9 @@ const Product = (props) => {
             pageSize: modules.catalog.productListing.pageSize || 10,
             currentPage: 1,
         },
+        context: {
+            request: 'internal',
+        },
     });
     let products = {};
     products = data && data.products ? data.products : {
@@ -103,6 +106,9 @@ const Product = (props) => {
                     variables: {
                         pageSize: modules.catalog.productListing.pageSize || 10,
                         currentPage: page + 1,
+                    },
+                    context: {
+                        request: 'internal',
                     },
                     updateQuery: (
                         previousResult,
