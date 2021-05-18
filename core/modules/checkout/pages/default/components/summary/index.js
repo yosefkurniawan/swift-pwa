@@ -66,7 +66,7 @@ const Summary = ({
     const generateCartRedirect = (orderNumber = '') => {
         if (config && config.cartRedirect && config.cartRedirect.link) {
             if (orderNumber && modules.checkout.checkoutOnly) {
-                return `${getStoreHost(getAppEnv())}snap/payment?order_id=${orderNumber}`;
+                return `${getStoreHost(getAppEnv())}snap/payment/fail?order_id=${orderNumber}`;
             }
             return config.cartRedirect.link;
         }
