@@ -6,7 +6,9 @@ const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
 const { decrypt } = require('../../../helpers/encryption');
 const { getAppEnv } = require('../../../helpers/env');
 
-const executor = async ({ document, variables, context }) => {
+const executor = async ({
+    document, variables, context,
+}) => {
     try {
         let token = '';
         if (context) {
@@ -15,11 +17,14 @@ const executor = async ({ document, variables, context }) => {
         const query = print(document);
         const appEnv = getAppEnv();
         const additionalHeader = storeCode ? { store: storeCode } : {};
-        const fetchResult = await fetch(graphqlEndpoint[appEnv] || graphqlEndpoint.prod, {
+        const url = graphqlEndpoint[appEnv] || graphqlEndpoint.prod;
+        if (token && token !== '') {
+            additionalHeader.Authorization = `Bearer ${decrypt(token)}`;
+        }
+        const fetchResult = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: token ? `Bearer ${decrypt(token)}` : '',
                 ...additionalHeader,
             },
             body: JSON.stringify({ query, variables }),
