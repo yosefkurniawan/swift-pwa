@@ -55,6 +55,7 @@ const link = new RetryLink().split(
         uri: uriInternal, // Server URL (must be absolute)
         credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
         fetch,
+        useGETForQueries: true,
     }),
     new HttpLink({
         uri, // Server URL (must be absolute)
