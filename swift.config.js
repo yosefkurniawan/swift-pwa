@@ -9,7 +9,7 @@ const HOST = {
     local: 'http://localhost:3000',
     dev: 'https://swiftpwa.testingnow.me',
     stage: 'https://checkout-getswift-pwa.gcp-staging.testingnow.me',
-    prod: 'https://pwa-checkout.getswift.asia/',
+    prod: 'https://pwa-checkout.getswift.asia',
 };
 
 /* Magento GraphQL Endpoint */
