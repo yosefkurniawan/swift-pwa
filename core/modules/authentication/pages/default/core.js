@@ -61,7 +61,7 @@ const Authentication = (props) => {
                         setCartId(cartId, expired);
                         setLoad(false);
                         if (objectProps && objectProps.redirect_path && objectProps.redirect_path !== '') {
-                            router.push(objectProps.redirect_path);
+                            router.replace(objectProps.redirect_path);
                         } else {
                             router.push('/');
                         }
