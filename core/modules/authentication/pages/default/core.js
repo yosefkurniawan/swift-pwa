@@ -63,7 +63,7 @@ const Authentication = (props) => {
                         if (objectProps && objectProps.redirect_path && objectProps.redirect_path !== '') {
                             router.replace(objectProps.redirect_path);
                         } else {
-                            router.push('/');
+                            router.replace('/');
                         }
                     } else {
                         setAuthFailed(true);
