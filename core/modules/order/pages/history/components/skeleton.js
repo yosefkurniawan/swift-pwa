@@ -1,6 +1,6 @@
 import Skeleton from '@material-ui/lab/Skeleton';
 import classNames from 'classnames';
-import useStyles from '../style';
+import useStyles from '@core_modules/order/pages/history/style';
 
 const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 

@@ -1,5 +1,5 @@
-import Core from './core';
-import Content from './view';
+import Core from '@core_modules/checkout/pages/default/components/ModalAddress/core';
+import Content from '@core_modules/checkout/pages/default/components/ModalAddress/view';
 
 const ModalAddress = (props) => (
     <Core

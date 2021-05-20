@@ -6,7 +6,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@common_typography';
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@common_radio/style';
 
 const RadioItem = (props) => {
     const styles = useStyles();
@@ -56,14 +56,15 @@ function CustomRadio({
     };
     return (
         <div className={rootStyle}>
-            {!noLabel
-                ? CustomLabel ? (
+            {!noLabel ? (
+                CustomLabel ? (
                     <CustomLabel />
                 ) : (
                     <Typography variant="label" type="bold" letter="uppercase">
                         {label.replace(/_/g, ' ')}
                     </Typography>
-                ) : null}
+                )
+            ) : null}
 
             <RadioGroup
                 aria-label={ariaLabel}
@@ -87,13 +88,11 @@ function CustomRadio({
                     <RadioItem key={index} {...item} {...propsItem} className={classItem} />
                 )))}
             </RadioGroup>
-            {
-                error && (
-                    <Typography variant="p" color="red">
-                        {errorMessage}
-                    </Typography>
-                )
-            }
+            {error && (
+                <Typography variant="p" color="red">
+                    {errorMessage}
+                </Typography>
+            )}
         </div>
     );
 }

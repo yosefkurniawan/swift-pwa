@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import * as schema from './schema';
+import * as schema from '@core_modules/blog/services/graphql/schema';
 
 export const getBlog = (params = {}) => useQuery(schema.getAllPost, {
     ...params,

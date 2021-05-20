@@ -2,7 +2,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import classNames from 'classnames';
 import Router from 'next/router';
-import useStyles from './style';
+import useStyles from '@common_button/style';
 
 const CustomButton = ({
     rootClassName = '',

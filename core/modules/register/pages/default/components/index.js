@@ -2,12 +2,13 @@ import Button from '@common_button';
 import PasswordField from '@common_password';
 import TextField from '@common_textfield';
 import Typography from '@common_typography';
-import { Checkbox, FormControlLabel } from '@material-ui/core/';
-import OtpBlock from '@core_modules/login/plugins/otp';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import OtpBlock from '@plugin_otp';
 import classNames from 'classnames';
 import { breakPointsUp } from '@helper_theme';
 import ReCAPTCHA from 'react-google-recaptcha';
-import useStyles from './style';
+import useStyles from '@core_modules/register/pages/default/components/style';
 
 const RegisterView = ({
     t,

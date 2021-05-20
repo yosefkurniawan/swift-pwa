@@ -3,14 +3,14 @@ import React, { useState, useMemo } from 'react';
 import { useQuery } from '@apollo/client';
 import { formatPrice } from '@helpers/currency';
 import { useTranslation } from '@i18n';
-import getPrice from '../../../../../../helpers/getPrice';
-import View from './view';
-import { getCustomizableFileOption } from '../../../../../../services/graphql/customizableSchema';
+import getPrice from '@core_modules/product/helpers/getPrice';
+import View from '@core_modules/product/pages/default/components/CustomizableOption/components/CustomizableFileOption/view';
+import { getCustomizableFileOption } from '@core_modules/product/services/graphql/customizableSchema';
 
 const CustomizableFileOption = ({
     url_key, option_id, customizableOptions, setCustomizableOptions,
     errorCustomizableOptions, additionalPrice, setAdditionalPrice,
-    ...other
+    stock_status, ...other
 }) => {
     const { t } = useTranslation(['product']);
     const productPrice = getPrice(other.price);
@@ -105,6 +105,7 @@ const CustomizableFileOption = ({
             onChange={onChange}
             error={error}
             t={t}
+            disabled={stock_status === 'OUT_OF_STOCK'}
         />
     );
 };

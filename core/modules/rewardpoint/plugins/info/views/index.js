@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import Link from 'next/link';
-import useStyles from '../../style';
+import useStyles from '@plugin_rewardpointinfo/views/style';
 
 const InfoTemplate = ({
     t, data, loading, error,

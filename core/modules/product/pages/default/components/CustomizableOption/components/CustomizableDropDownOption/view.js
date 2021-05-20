@@ -3,13 +3,14 @@ import Typography from '@common_typography';
 import Select from '@common_select';
 
 const ViewCustomizableDropDownOption = ({
-    title = 'test', data = [], selected = '',
+    title = 'test', data = [], selected = '', disabled,
     onChange = () => {}, error = '', required = false,
 }) => (
     <div className="column customizable-container">
         {
             data && data.length > 0 && (
                 <Select
+                    disabled={disabled}
                     options={data}
                     name={title}
                     label={(

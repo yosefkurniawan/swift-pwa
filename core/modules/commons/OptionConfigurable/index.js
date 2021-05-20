@@ -3,7 +3,7 @@
 import classNames from 'classnames';
 import Typograpy from '@common_typography';
 import { GRAY_PRIMARY, PRIMARY } from '@theme_color';
-import useStyles from './style';
+import useStyles from '@common_optionconfigurable/style';
 
 const SelectOption = (props) => {
     const {

@@ -4,6 +4,7 @@
 const useMagentoCommerce = false; // setup uses magento commerce or community
 const storeCode = ''; // fill it with any store code when the magento is setup with multiple stores. leave it empty to use default store.
 const assetsVersion = '1.0.5';
+const iconAppleTouch = '/assets/img/swiftpwa_apple_touch.png';
 
 const HOST = {
     local: 'http://localhost:3000',
@@ -216,6 +217,13 @@ const features = {
     thumbor: {
         url: 'https://thumbor.sirclocdn.xyz/unsafe/widthxheight/filters:format(webp)/',
     },
+    globalPromo: {
+        key_cookies: 'global_promo_enable',
+    },
+    footer: {
+        desktop: 'pwa_footer',
+        mobile: 'pwa_footer',
+    },
 };
 
 const modules = {
@@ -289,6 +297,9 @@ const modules = {
             addToCart: {
                 enabled: false,
             },
+            quickView: {
+                enabled: true,
+            },
         },
         pdp: {
             popupDetailImage: {
@@ -320,6 +331,9 @@ const modules = {
         },
         orderComment: {
             enabled: false,
+        },
+        howtoPay: {
+            enabled: true,
         },
     },
     cart: {
@@ -375,7 +389,7 @@ const modules = {
         enabled: true,
         path: '/customer/account/login',
         recaptcha: {
-            enabled: true,
+            enabled: false,
         },
     },
     notification: {
@@ -498,6 +512,7 @@ const general = {
 
 module.exports = {
     assetsVersion,
+    iconAppleTouch,
     general,
     sentry,
     storeCode,

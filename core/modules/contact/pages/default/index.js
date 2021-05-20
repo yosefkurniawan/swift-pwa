@@ -1,9 +1,9 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
-import Skeleton from './components/skeleton';
-import Content from './components';
-import ErrorInfo from './components/ErrorInfo';
-import Core from './core';
+import Skeleton from '@core_modules/contact/pages/default/components/skeleton';
+import Content from '@core_modules/contact/pages/default/components';
+import ErrorInfo from '@core_modules/contact/pages/default/components/ErrorInfo';
+import Core from '@core_modules/contact/pages/default/core';
 
 const Page = (props) => (<Core {...props} Content={Content} ErrorInfo={ErrorInfo} Skeleton={Skeleton} />);
 

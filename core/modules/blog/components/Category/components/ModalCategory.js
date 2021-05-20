@@ -6,7 +6,7 @@ import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import Router from 'next/router';
 import React from 'react';
-import useStyles from './style';
+import useStyles from '@core_modules/blog/components/Category/components/style';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="left" ref={ref} {...props} />);
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import Component from './view';
-import { updateCustomerAddress } from '../../../../services/graphql';
+import Component from '@core_modules/checkout/pages/default/components/ItemModalAddress/view';
+import { updateCustomerAddress } from '@core_modules/checkout/services/graphql';
 
 const ItemAddressCore = (props) => {
     const { manageCustomer, handleChange } = props;
@@ -17,12 +17,13 @@ const ItemAddressCore = (props) => {
             },
         }).then(async () => {
             if (data.defaultShippingBilling) {
-                await new Promise(() => {
-                    handleChange({
+                await new Promise((resolve) => {
+                    const change = handleChange({
                         target: {
                             value: data.addressId,
                         },
                     });
+                    resolve(change);
                 });
             }
             setSuccess(true);

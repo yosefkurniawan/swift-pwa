@@ -5,11 +5,11 @@ import ProductPage from '@core_modules/product/pages/default';
 import CmsPage from '@core_modules/cms/pages/default';
 import ProductLoader from '@core_modules/product/pages/default/components/Loader';
 import CategorySkeleton from '@core_modules/catalog/pages/category/components/Skeleton';
-import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
+import { getCmsList } from '@services/graphql/schema/config';
 import graphRequest from '@graphql_request';
 import { storeConfigNameCookie } from '@config';
-import Core from './core';
-import LoadingView from '../commons/Backdrop';
+import Core from '@core_modules/slug/core';
+import LoadingView from '@common_backdrop';
 
 const Page = (props) => (
     <Core
@@ -28,10 +28,9 @@ const Page = (props) => (
  * namespacesRequired empty because Catalog page using product and category so only on component
  */
 Page.getInitialProps = async ({ query, req }) => {
-    let storeConfig;
+    let cmsList = {};
     if (typeof window === 'undefined' && !req.cookies[storeConfigNameCookie]) {
-        storeConfig = await graphRequest(ConfigSchema);
-        storeConfig = storeConfig.storeConfig;
+        cmsList = await graphRequest(getCmsList);
     }
     const obj = {
         slug: query.slug,
@@ -41,9 +40,7 @@ Page.getInitialProps = async ({ query, req }) => {
             : `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`,
     };
 
-    if (storeConfig) {
-        obj.storeConfig = storeConfig;
-    }
+    obj.cms_page = cmsList.storeConfig && cmsList.storeConfig.cms_page ? cmsList.storeConfig.cms_page : '';
     return obj;
 };
 

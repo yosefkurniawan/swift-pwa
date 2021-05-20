@@ -1,11 +1,11 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
-import Skeleton from './components/Skeleton';
-import CoreBase from './core';
-import WarningInfo from './components/Info';
-import ItemProductView from './components/ItemProduct/views';
-import ItemFieldView from './components/ItemField/view';
-import OtherRmaLink from './components/ItemProduct/views/OtherRmaLink';
+import Skeleton from '@core_modules/rma/pages/new/components/Skeleton';
+import CoreBase from '@core_modules/rma/pages/new/core';
+import WarningInfo from '@core_modules/rma/pages/new/components/Info';
+import ItemProductView from '@core_modules/rma/pages/new/components/ItemProduct/views';
+import ItemFieldView from '@core_modules/rma/pages/new/components/ItemField/view';
+import OtherRmaLink from '@core_modules/rma/pages/new/components/ItemProduct/views/OtherRmaLink';
 
 const Page = (props) => (
     <CoreBase

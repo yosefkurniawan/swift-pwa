@@ -3,15 +3,15 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { modules } from '@config';
 import Carousel from '@common_slick/Caraousel';
-import ProductItem from '@core_modules/catalog/plugin/ProductItem';
+import ProductItem from '@plugin_productitem';
 import { breakPointsUp } from '@helper_theme';
 import Typography from '@common_typography';
 import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
 import { setResolver, getResolver } from '@helper_localstorage';
 import Link from 'next/link';
-import useStyles from '../style';
-import Image from './Image';
+import useStyles from '@core_modules/home/pages/default/components/style';
+import Image from '@core_modules/home/pages/default/components/FeaturedProducts/Image';
 
 const MobileView = ({
     products, url_path, category_image, name, right = false, t, id, ...other
@@ -68,6 +68,7 @@ const MobileView = ({
                                 slideLg={category_image ? 4 : 6}
                                 Item={ProductItem}
                                 enableAddToCart={false}
+                                enableQuickView={false}
                                 {...other}
                             />
                         </div>

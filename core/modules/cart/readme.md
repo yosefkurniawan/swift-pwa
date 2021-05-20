@@ -24,6 +24,6 @@ then you can install module [Cart](pages/default/readme.md)
 
 ## Plugins
 
-1. [Mini Cart](plugin/mini/readme.md)  
+1. [Mini Cart](plugins/mini/readme.md)  
 
 

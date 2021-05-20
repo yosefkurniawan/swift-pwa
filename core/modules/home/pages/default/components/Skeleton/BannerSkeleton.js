@@ -1,5 +1,5 @@
 import Skeleton from '@common_skeleton';
-import useStyles from '../style';
+import useStyles from '@core_modules/home/pages/default/components/style';
 
 const BannerSliderSkeleteon = ({ logoUrl }) => {
     const styles = useStyles();

@@ -12,8 +12,8 @@ import Alert from '@material-ui/lab/Alert';
 import { formatPrice } from '@helper_currency';
 import formatDate from '@helper_date';
 import Layout from '@layout_customer';
-import useStyles from './style';
-import SkeletonStoreCredit from './skeleton';
+import useStyles from '@core_modules/storecredit/pages/default/components/style';
+import SkeletonStoreCredit from '@core_modules/storecredit/pages/default/components/skeleton';
 
 const StoreCreditPage = (props) => {
     const styles = useStyles();

@@ -1,7 +1,7 @@
 import Typography from '@common_typography';
 import { formatPrice } from '@helper_currency';
 import classNames from 'classnames';
-import useStyles from '../style';
+import useStyles from '@common_priceformat/style';
 
 const BundleProductTypePrice = (props) => {
     const styles = useStyles();

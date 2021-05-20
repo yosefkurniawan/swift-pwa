@@ -4,7 +4,7 @@ import Link from 'next/link';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import Typography from '@common_typography';
-import useStyles from './style';
+import useStyles from '@layout_customer/style';
 
 const Layout = (props) => {
     const {
@@ -21,6 +21,7 @@ const Layout = (props) => {
         { href: '/sales/downloadable/history', title: t('customer:menu:myDownload') },
         { href: '/customer/account/profile', title: t('customer:menu:accountInformation') },
         { href: '/customer/account/address', title: t('customer:menu:address') },
+        { href: '/review/customer', title: t('productreview:title') },
         ...pushIf(modules.giftcard.enabled, {
             href: '/awgiftcard/card',
             title: 'Gift Card',

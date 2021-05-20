@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import Typography from '@common_typography';
-import useStyles from './style';
+import useStyles from '@core_modules/rma/pages/detail/components/ListMessage/style';
 
 const ListMessage = ({
     data = [],

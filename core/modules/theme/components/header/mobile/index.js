@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import classNames from 'classnames';
 import Typography from '@common_typography';
 import propTypes from 'prop-types';
-import useStyles from './style';
+import useStyles from '@core_modules/theme/components/header/mobile/style';
 
 const Header = ({
     LeftComponent,

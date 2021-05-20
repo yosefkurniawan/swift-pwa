@@ -1,6 +1,6 @@
 import Divider from '@material-ui/core/Divider';
 import Skeleton from '@material-ui/lab/Skeleton';
-import useStyles from '../style';
+import useStyles from '@core_modules/rewardpoint/pages/default/style';
 
 const SkeletonDetail = () => (
     <>

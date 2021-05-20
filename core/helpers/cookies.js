@@ -30,7 +30,7 @@ export const removeCheckoutData = () => {
 
 export const getCookies = (key) => {
     const data = Cookies.getJSON(nameGlobalCookie);
-    if (data && data[key]) {
+    if (data && typeof data[key] !== 'undefined') {
         return data[key];
     }
     return '';

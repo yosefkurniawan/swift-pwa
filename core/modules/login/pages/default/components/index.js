@@ -12,9 +12,9 @@ import classNames from 'classnames';
 import firebase from 'firebase/app';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import ReCAPTCHA from 'react-google-recaptcha';
-import OtpBlock from '../../../plugins/otp';
-import OtpView from '../../../plugins/otp/view';
-import useStyles from './style';
+import OtpBlock from '@plugin_otp';
+import OtpView from '@plugin_otp/view';
+import useStyles from '@core_modules/login/pages/default/components/style';
 
 const Login = (props) => {
     const {

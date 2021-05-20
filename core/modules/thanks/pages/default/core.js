@@ -5,7 +5,7 @@ import TagManager from 'react-gtm-module';
 import { removeCheckoutData, getCheckoutData } from '@helper_cookies';
 import Router from 'next/router';
 import { debuging } from '@config';
-import { getOrder, getPaymentBankList, getPaymentInformation } from '../../services/graphql';
+import { getOrder, getPaymentBankList, getPaymentInformation } from '@core_modules/thanks/services/graphql';
 
 const PageStoreCredit = (props) => {
     const {

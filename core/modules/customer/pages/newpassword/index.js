@@ -1,8 +1,8 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
 import Router from 'next/router';
-import Content from './components';
-import Core from './core';
+import Content from '@core_modules/customer/pages/newpassword/components';
+import Core from '@core_modules/customer/pages/newpassword/core';
 
 const Page = (props) => <Core {...props} Content={Content} />;
 

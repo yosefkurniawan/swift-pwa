@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Button from '@common_button';
-import useStyles from './style';
+import useStyles from '@core_modules/error/pages/default/components/style';
 
 const ErrorContent = (props) => {
     const styles = useStyles();

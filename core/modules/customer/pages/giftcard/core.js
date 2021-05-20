@@ -1,5 +1,5 @@
 import Layout from '@layout';
-import { getGiftCard } from '../../services/graphql';
+import { getGiftCard } from '@core_modules/customer/services/graphql';
 
 const GiftCard = (props) => {
     const config = {

@@ -1,12 +1,25 @@
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
-import * as Schema from './schema';
-import * as ActionSchema from './actionSchema';
+import * as Schema from '@core_modules/product/services/graphql/schema';
+import * as ActionSchema from '@core_modules/product/services/graphql/actionSchema';
+import * as CustomizableSchema from '@core_modules/product/services/graphql/customizableSchema';
+
+const defaultConfig = {
+
+};
 
 export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath), {
+    ...defaultConfig,
+});
+
+export const getCustomizableOption = (urlpath) => useLazyQuery(CustomizableSchema.getCustomizableOption(urlpath), {
+    ...defaultConfig,
+    skip: typeof window === 'undefined',
     fetchPolicy: 'no-cache',
 });
+
 export const getProductBySku = (params) => useQuery(Schema.getProductBySku(), {
     ...params,
+    ...defaultConfig,
 });
 
 export const getReviews = (params) => useQuery(Schema.getReview(), {
@@ -27,12 +40,19 @@ export const addWishlist = () => useMutation(Schema.addWishlist, {
     },
 });
 
-export const getConfigurableProduct = (sku) => useQuery(Schema.getConfigurableProduct(sku));
-export const getBundleProduct = (sku) => useQuery(Schema.getBundleProduct(sku));
-export const getDownloadroduct = (sku) => useQuery(Schema.getDownloadProduct(sku));
+export const getConfigurableProduct = (sku) => useQuery(Schema.getConfigurableProduct(sku), {
+    ...defaultConfig,
+});
+export const getBundleProduct = (sku) => useQuery(Schema.getBundleProduct(sku), {
+    ...defaultConfig,
+});
+export const getDownloadroduct = (sku) => useQuery(Schema.getDownloadProduct(sku), {
+    ...defaultConfig,
+});
 export const getGroupedProduct = (sku) => useQuery(Schema.getGroupedProduct, {
     variables: { sku },
     skip: !sku,
+    ...defaultConfig,
 });
 
 // actions add to cart

@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { groupingCity, groupingSubCity } from '@helpers/city';
 import { modules, storeConfigNameCookie } from '@config';
 import helperCookies from '@helper_cookies';
-import { getCityByRegionId, getCountries as getAllCountries, getRegions } from '../../services/graphql';
+import { getCityByRegionId, getCountries as getAllCountries, getRegions } from '@core_modules/customer/services/graphql';
 
 const AddressFormDialog = (props) => {
     const {

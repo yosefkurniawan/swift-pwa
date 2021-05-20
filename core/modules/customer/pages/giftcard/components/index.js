@@ -11,10 +11,10 @@ import TextField from '@common_textfield';
 import { formatPrice } from '@helper_currency';
 import { debuging } from '@config';
 import Layout from '@layout_customer';
-import ModalDetail from './detail';
-import DetailView from './detail/view';
-import useStyles from './style';
-import Loader from './skeleton';
+import ModalDetail from '@core_modules/customer/pages/giftcard/components/detail';
+import DetailView from '@core_modules/customer/pages/giftcard/components/detail/view';
+import useStyles from '@core_modules/customer/pages/giftcard/components/style';
+import Loader from '@core_modules/customer/pages/giftcard/components/skeleton';
 
 const GiftCard = (props) => {
     const {

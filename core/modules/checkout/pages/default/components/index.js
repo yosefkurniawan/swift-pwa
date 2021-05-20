@@ -2,21 +2,21 @@ import React from 'react';
 import Button from '@common_button';
 import Typography from '@common_typography';
 import classNames from 'classnames';
-import Delivery from './delivery';
-import Email from './email';
-import Summary from './summary';
-import Address from './address';
-import Shipping from './shipping';
-import PaymentList from './payment';
-import Promo from './promo';
-import GiftCard from './giftcard';
-import OrderComment from './OrderComment';
-import RewardPoint from './rewardpoint';
-import Credit from './credit';
-import PickupInfo from './PickupInformation';
-import ExtraFee from './ExtreeFee';
-import PromoModalItem from './PromoModalItem';
-import useStyles from './style';
+import Delivery from '@core_modules/checkout/pages/default/components/delivery';
+import Email from '@core_modules/checkout/pages/default/components/email';
+import Summary from '@core_modules/checkout/pages/default/components/summary';
+import Address from '@core_modules/checkout/pages/default/components/address';
+import Shipping from '@core_modules/checkout/pages/default/components/shipping';
+import PaymentList from '@core_modules/checkout/pages/default/components/payment';
+import Promo from '@core_modules/checkout/pages/default/components/promo';
+import GiftCard from '@core_modules/checkout/pages/default/components/giftcard';
+import OrderComment from '@core_modules/checkout/pages/default/components/OrderComment';
+import RewardPoint from '@core_modules/checkout/pages/default/components/rewardpoint';
+import Credit from '@core_modules/checkout/pages/default/components/credit';
+import PickupInfo from '@core_modules/checkout/pages/default/components/PickupInformation';
+import ExtraFee from '@core_modules/checkout/pages/default/components/ExtraFee';
+import PromoModalItem from '@core_modules/checkout/pages/default/components/PromoModalItem';
+import useStyles from '@core_modules/checkout/pages/default/components/style';
 
 const Content = (props) => {
     const {
@@ -55,17 +55,26 @@ const Content = (props) => {
     const styles = useStyles();
     const SummaryRef = React.createRef();
     const { order: loading, all: disabled } = checkout.loading;
+    const isSelectedPurchaseOrder = checkout.selected.payment === 'purchaseorder';
+    // prettier-ignore
+    const isPurchaseOrderApply = isSelectedPurchaseOrder && checkout.status.purchaseOrderApply;
+
+    /**
+     * [METHOD] handle click for place order
+     */
     const handleClick = () => {
         if (SummaryRef.current) {
             SummaryRef.current.handlePlaceOrder();
         }
     };
+
+    /**
+     * [VIEW]
+     */
     return (
         <div id="checkout" className={classNames(styles.mobileBottomSpace, 'row between-lg')}>
             <div className="col-xs-12 center hidden-mobile">
-                <HeaderView
-                    storeConfig={storeConfig}
-                />
+                <HeaderView storeConfig={storeConfig} />
             </div>
             <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8" style={containerStyle || {}}>
                 {modules.checkout.cashback.enabled && checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
@@ -236,8 +245,8 @@ const Content = (props) => {
                 />
                 <Summary
                     {...props}
-                    loading={checkout.loading.order}
-                    disabled={checkout.loading.all}
+                    loading={loading}
+                    disabled={disabled}
                     checkout={checkout}
                     updateFormik={updateFormik}
                     setCheckout={setCheckout}
@@ -256,7 +265,7 @@ const Content = (props) => {
                     onClick={handleClick}
                     fullWidth
                     loading={loading}
-                    disabled={disabled}
+                    disabled={disabled || (isSelectedPurchaseOrder && !isPurchaseOrderApply)}
                     className={styles.placeOrderDesktop}
                 >
                     <Typography variant="span" letter="uppercase" type="bold" color="white">

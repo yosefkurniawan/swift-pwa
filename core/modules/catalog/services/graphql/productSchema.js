@@ -87,6 +87,7 @@ export const getProduct = (config = {}) => gql`
         sku
         name
         url_key
+        stock_status
         ${modules.catalog.productListing.configurableOptions ? `review {
           rating_summary
           reviews_count
@@ -182,6 +183,7 @@ export const getProduct = (config = {}) => gql`
               id
               sku
               stock_status
+              url_key
               ${modules.catalog.productListing.rating
         ? `review {
                 rating_summary
@@ -258,3 +260,141 @@ export const addWishlist = gql`
         }
     }
 `;
+
+const productDetail = `
+    id
+    name
+    sku
+    ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
+    stock_status
+    url_key
+    __typename
+    attribute_set_id
+    small_image{
+      url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
+      label
+    }
+    image{
+      url
+    }
+    review {
+      rating_summary
+      reviews_count
+    }
+    categories {
+      id
+      name
+      url_path
+      breadcrumbs {
+        category_id
+        category_url_path
+        category_name
+      }
+    }
+    special_from_date
+    special_to_date
+
+    `;
+const priceRange = `
+    price_range {
+      minimum_price {
+        discount {
+          amount_off
+          percent_off
+        }
+        final_price {
+          currency
+          value
+        }
+        fixed_product_taxes {
+          amount {
+            currency
+            value
+          }
+          label
+        }
+        regular_price {
+          currency
+          value
+        }
+      }
+      maximum_price {
+         discount {
+          amount_off
+          percent_off
+        }
+        final_price {
+          currency
+          value
+        }
+        fixed_product_taxes {
+          amount {
+            currency
+            value
+          }
+          label
+        }
+        regular_price {
+          currency
+          value
+        }
+      }
+    }
+    `;
+
+const priceTiers = `
+    price_tiers {
+      discount {
+        amount_off
+        percent_off
+      }
+      final_price {
+        currency
+        value
+      }
+      quantity
+    }
+    `;
+
+/**
+ * scema dynamic resolver url
+ * @param url String
+ * @returns grapql query
+ */
+
+export const getDetailProduct = gql`
+query getDetailproduct($url_key: String!){
+  products(
+      search: "" ,filter: {
+        url_key: {
+          eq: $url_key
+        }
+      }
+    ) {
+      items {
+        ${modules.product.customizableOptions.enabled && `
+        ... on CustomizableProductInterface {
+          options {
+            title
+            option_id
+            required
+            sort_order
+            __typename
+          }
+        }
+        `}
+        ${productDetail}
+        ${priceRange}
+        ${priceTiers}
+        ${modules.brands.enabled ? 'brand' : ''}
+        short_description {
+          html
+        }
+        media_gallery {
+          label,
+          url
+        }
+      }
+      total_count
+    }
+}`;

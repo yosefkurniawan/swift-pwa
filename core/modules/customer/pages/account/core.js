@@ -2,9 +2,9 @@ import Layout from '@layout';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { setCartId } from '@helper_cartid';
-import { reOrder as mutationReorder } from '../../services/graphql';
+import { reOrder as mutationReorder, getCmsBlocks } from '@core_modules/customer/services/graphql';
 
-const Customer = dynamic(() => import('./components/Customer'), { ssr: false });
+const Customer = dynamic(() => import('@core_modules/customer/pages/account/components/Customer'), { ssr: false });
 
 const CustomerAccount = (props) => {
     const {
@@ -17,6 +17,9 @@ const CustomerAccount = (props) => {
         bottomNav: 'account',
     };
     const [actionReorder] = mutationReorder();
+    const {
+        data,
+    } = getCmsBlocks({ identifiers: ['pwa_footer'] });
 
     const reOrder = (order_id) => {
         if (order_id && order_id !== '') {
@@ -42,13 +45,13 @@ const CustomerAccount = (props) => {
     if (isLogin) {
         return (
             <Layout pageConfig={pageConfig || config} {...props}>
-                <Customer {...props} CustomerView={CustomerView} Skeleton={Skeleton} reOrder={reOrder} />
+                <Customer {...props} data={data} CustomerView={CustomerView} Skeleton={Skeleton} reOrder={reOrder} />
             </Layout>
         );
     }
     return (
         <Layout pageConfig={pageConfig || config} {...props}>
-            <GuestView {...props} />
+            <GuestView {...props} data={data} />
         </Layout>
     );
 };

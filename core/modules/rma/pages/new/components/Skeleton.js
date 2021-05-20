@@ -1,6 +1,6 @@
 import Skeleton from '@material-ui/lab/Skeleton';
 import classNames from 'classnames';
-import useStyles from './styles';
+import useStyles from '@core_modules/rma/pages/new/components/styles';
 
 const SkeletonLoader = () => {
     const styles = useStyles();

@@ -42,7 +42,20 @@ export const storeConfig = `
             snap_is_production
             aw_blog_general_enabled
             pickup_store
-            cms_page
+            cookie_restriction
+            global_promo {
+              enable
+              text_color
+              background_color
+            }
         }
     }
+`;
+
+export const getCmsList = `
+{
+  storeConfig {
+    cms_page  
+  }
+}
 `;

@@ -2,7 +2,7 @@ import Typography from '@common_typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@common_checkbox/style';
 
 const CheckDefault = ({
     label = '',
@@ -10,6 +10,7 @@ const CheckDefault = ({
     value = '',
     dataValues = [],
     onChange = () => {},
+    disabled,
 }) => {
     const checked = dataValues.indexOf(value) !== -1;
     const handleChange = () => {
@@ -17,6 +18,7 @@ const CheckDefault = ({
     };
     return (
         <FormControlLabel
+            disabled={disabled}
             control={(
                 <Checkbox
                     checked={checked}
@@ -38,6 +40,7 @@ const CustomCheckbox = ({
     flex = 'row',
     CustomItem,
     noLabel,
+    disabled = false,
     onChange = () => {},
 }) => {
     const styles = useStyles();
@@ -72,7 +75,7 @@ const CustomCheckbox = ({
                         value={item.value ? item.value : item}
                         dataValues={selected}
                         key={index}
-                        onChange={(val) => setCheckedFilter(val)}
+                        onChange={(val) => !disabled && setCheckedFilter(val)}
                         {...item}
                     />
                 ) : (
@@ -80,8 +83,9 @@ const CustomCheckbox = ({
                         label={item.label ? item.label : item}
                         value={item.value ? item.value : item}
                         dataValues={selected}
+                        disabled={disabled}
                         key={index}
-                        onChange={(val) => setCheckedFilter(val)}
+                        onChange={(val) => !disabled && setCheckedFilter(val)}
                     />
                 )))}
             </div>

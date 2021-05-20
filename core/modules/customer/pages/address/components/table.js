@@ -1,15 +1,13 @@
-/* eslint-disable no-unused-vars */
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import Typography from '@common_typography';
-import AddressFormDialog from '@core_modules/customer/plugins/AddressFormDialog';
+import AddressFormDialog from '@plugin_addressform';
 import React, { useState } from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import TableCell from '@material-ui/core/TableCell';
 import ConfirmationDelete from '@common_confirmdialog';
-import useStyles from './style';
-import { createCustomerAddress, updateCustomerAddress } from '../../../services/graphql';
+import useStyles from '@core_modules/customer/pages/address/components/style';
 
 const TableAddress = (props) => {
     const {

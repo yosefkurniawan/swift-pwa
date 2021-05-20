@@ -10,7 +10,7 @@ import Typography from '@common_typography';
 import ExpandMoreIcon from '@material-ui/icons/Add';
 import Minimize from '@material-ui/icons/Minimize';
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@core_modules/product/pages/default/components/ExpandDetail/style';
 
 export default function ExpandDetail({ data = [1, 2, 3] }) {
     const styles = useStyles();

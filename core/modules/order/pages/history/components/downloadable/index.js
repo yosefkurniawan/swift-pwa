@@ -20,8 +20,8 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
 import Link from 'next/link';
-import useStyles from '../../style';
-import { SkeletonContent } from '../skeleton';
+import useStyles from '@core_modules/order/pages/history/style';
+import { SkeletonContent } from '@core_modules/order/pages/history/components/skeleton';
 
 const DefaultView = (props) => {
     const {

@@ -2,11 +2,14 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
 import Document, { Html, Main } from 'next/document';
-import { ServerStyleSheets } from '@material-ui/core/styles';
-import theme from '@theme_theme';
-import { features, rollbar, assetsVersion } from '@config';
 import HeadCustom from '@next_headcustom';
 import NextScriptCustom from '@next_nextscriptcustom';
+import theme from '@theme_theme';
+
+import { ServerStyleSheets } from '@material-ui/core/styles';
+import {
+    features, rollbar, assetsVersion, iconAppleTouch,
+} from '@config';
 
 export default class MyDocument extends Document {
     render() {
@@ -23,7 +26,7 @@ export default class MyDocument extends Document {
                     {/* PWA primary color */}
                     <meta name="theme-color" content={theme.palette.primary.main} />
                     <link rel="manifest" href="/manifest.json" />
-                    <link rel="apple-touch-icon" href="/assets/img/swiftpwa_apple_touch.png" />
+                    <link rel="apple-touch-icon" href={iconAppleTouch} />
                     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,500i,600,700,900&display=swap" rel="stylesheet" />
                     <link
                         rel="stylesheet"
