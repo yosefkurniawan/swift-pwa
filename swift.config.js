@@ -9,7 +9,7 @@ const HOST = {
     local: 'http://localhost:3000',
     dev: 'https://swiftpwa.testingnow.me',
     stage: 'https://checkout-getswift-pwa.gcp-staging.testingnow.me',
-    prod: 'https://checkout-getswift-pwa.gcp-prod.sandbox.id',
+    prod: 'https://pwa-checkout.getswift.asia/',
 };
 
 /* Magento GraphQL Endpoint */
@@ -17,7 +17,7 @@ const graphqlEndpoint = {
     local: 'https://swiftpwa-be.testingnow.me/graphql',
     dev: 'https://swiftpwa-be.testingnow.me/graphql',
     stage: 'https://b2cdemonew.gcp-staging.testingnow.me/graphql',
-    prod: 'https://b2cdemonew.gcp-prod.sandbox.id/graphql',
+    prod: 'https://b2cdemo.getswift.asia/graphql',
 };
 
 /* --------------------------------------- */
