@@ -7,10 +7,12 @@ import { getHost } from '@helpers/config';
 const DefaultContent = (props) => {
     const {
         storeConfig, title, url_key, relatedProduct, isUnderPost = true, t,
+        limitProduct = 8,
     } = props;
     const url = typeof window !== 'undefined'
         ? window.location.href
         : `${getHost()}/blog/${url_key}`;
+
     return (
         <div className="row">
             <div className="col-xs-12 col-sm-2 hidden-mobile">
@@ -21,7 +23,7 @@ const DefaultContent = (props) => {
                     <Body {...props} />
                 </div>
                 <div className={isUnderPost ? 'col-xs-12 col-md-12' : 'hidden'}>
-                    <RelatedProduct relatedProduct={relatedProduct} t={t} />
+                    <RelatedProduct relatedProduct={relatedProduct.slice(0, limitProduct)} t={t} storeConfig={storeConfig} />
                 </div>
                 <div className="col-xs-12 col-md-12 comment-container">
                     {
@@ -40,7 +42,7 @@ const DefaultContent = (props) => {
                     }
                 </div>
                 <div className={isUnderPost ? 'hidden' : 'col-xs-12 col-md-12'}>
-                    <RelatedProduct relatedProduct={relatedProduct} t={t} />
+                    <RelatedProduct relatedProduct={relatedProduct.slice(0, limitProduct)} t={t} storeConfig={storeConfig} />
                 </div>
             </div>
             <style jsx>

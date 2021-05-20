@@ -96,6 +96,7 @@ export const awBlogPostWithRelatedPosts = gql`
                 small_image{
                   url
                 }
+                url_key
                 price_range{
                   maximum_price{
                     discount{
