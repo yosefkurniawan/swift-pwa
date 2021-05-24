@@ -5,7 +5,9 @@ import Router from 'next/router';
 import Layout from '@layout';
 import CustomerLayout from '@layout_customer';
 import { getCartIdUser } from '@core_modules/customer/services/graphql/schema';
-import { addSimpleProductsToCart, getCustomer, removeWishlist as gqlremoveWishlist } from '@core_modules/customer/services/graphql';
+import {
+    addSimpleProductsToCart, getCustomer, removeWishlist as gqlremoveWishlist, shareWishlist,
+} from '@core_modules/customer/services/graphql';
 
 const Wishlist = (props) => {
     let wishlist = [];
@@ -20,6 +22,7 @@ const Wishlist = (props) => {
     };
     const [addToCart] = addSimpleProductsToCart();
     const [removeWishlist] = gqlremoveWishlist();
+    const [setShareWishlist] = shareWishlist();
     const {
         data, loading, error, refetch,
     } = getCustomer();
@@ -55,6 +58,42 @@ const Wishlist = (props) => {
         cartId = getCartId();
     }
 
+    const handleShareWishlist = async (emails, message) => {
+        if (emails === '' || message === '') {
+            window.toastMessage({
+                open: true,
+                variant: 'error',
+                text: 'Silahkan isi kolom dengan benar!',
+            });
+            return 2;
+        }
+        const emailsToArray = emails.split(',');
+        try {
+            const res = await setShareWishlist({
+                variables: {
+                    emails: emailsToArray,
+                    message,
+                },
+            });
+            if (res) {
+                window.toastMessage({
+                    open: true,
+                    variant: 'success',
+                    text: 'Telah berhasil terkirim',
+                });
+                return 1;
+            }
+        } catch (e) {
+            window.toastMessage({
+                open: true,
+                variant: 'error',
+                text: e.message.split(':')[1] || t('customer:wishlist:failedAddCart'),
+            });
+            return -1;
+        }
+
+        return null;
+    };
     const handleToCart = ({
         sku, url_key, wishlistItemId, __typename,
     }) => {
@@ -181,6 +220,7 @@ const Wishlist = (props) => {
                 handleToCart={handleToCart}
                 handleAddAlltoBag={handleAddAlltoBag}
                 loading={loading}
+                handleShareWishlist={handleShareWishlist}
             />
         </Layout>
     );

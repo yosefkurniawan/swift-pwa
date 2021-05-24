@@ -42,6 +42,16 @@ export const removeToken = () => useMutation(Schema.removeToken, {
     },
 });
 
+export const customerWishlist = (options) => useLazyQuery(Schema.customerWishlist, {
+    ...options,
+    ...config,
+});
+
+export const shareWishlist = (options = {}) => useMutation(Schema.shareWishlist, {
+    ...options,
+    ...config,
+});
+
 export const customerNotificationList = () => useQuery(Schema.customerNotificationList, {
     context: {
         request: 'internal',
