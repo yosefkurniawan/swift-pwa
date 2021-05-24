@@ -16,11 +16,12 @@ import { addWishlist, getDetailProduct } from '@core_modules/catalog/services/gr
 import useStyles from '@plugin_productitem/style';
 
 const ModalQuickView = dynamic(() => import('./components/QuickView'), { ssr: false });
+const WeltpixelLabel = dynamic(() => import('./components/WeltpixelLabel'), { ssr: false });
 
 const ProductItem = (props) => {
     const {
         id, url_key = '', categorySelect, review, ImageProductView, DetailProductView, LabelView, className = '',
-        enableAddToCart, enableOption, enableQuickView, isGrid = true, catalogList, ...other
+        enableAddToCart, enableOption, enableQuickView, isGrid = true, catalogList, weltpixel_labels, ...other
     } = props;
     const styles = useStyles();
     const { t } = useTranslation(['catalog', 'common']);
@@ -124,6 +125,12 @@ const ProductItem = (props) => {
                     }
                     <div className={styles.imgItem}>
                         {
+                            modules.catalog.productListing.label.enabled
+                            && modules.catalog.productListing.label.weltpixel.enabled && (
+                                <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel />
+                            )
+                        }
+                        {
                             showQuickView && (
                                 <button className="btn-quick-view" type="button" onClick={handleQuickView}>
                                     Quick View
@@ -186,6 +193,12 @@ const ProductItem = (props) => {
                                 ) : null
                             }
                             {
+                                modules.catalog.productListing.label.enabled
+                                && modules.catalog.productListing.label.weltpixel.enabled && (
+                                    <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel />
+                                )
+                            }
+                            {
                                 showQuickView && (
                                     <button className="btn-quick-view" type="button" onClick={handleQuickView}>
                                         Quick View
@@ -242,46 +255,6 @@ const ProductItem = (props) => {
                         </Button>
                     )
                 }
-                {/* <div className={styles.listImgItem}>
-                    {
-                        modules.catalog.productListing.label.enabled && LabelView ? (
-                            <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
-                        ) : null
-                    }
-                    {
-                        showQuickView && (
-                            <button className="btn-quick-view" type="button" onClick={handleQuickView}>
-                                Quick View
-                            </button>
-                        )
-                    }
-                    <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
-                </div>
-                <div style={{ flex: 0.2 }} />
-                <div className={styles.listDetailItem}>
-                    <DetailProductView t={t} {...DetailProps} {...other} />
-                    {showOption ? (
-                        <ConfigurableOpt
-                            enableBundle={false}
-                            enableDownload={false}
-                            t={t}
-                            data={{
-                                ...other, url_key,
-                            }}
-                            showQty={false}
-                            catalogList={catalogList}
-                            handleSelecteProduct={setSpesificProduct}
-                            showAddToCart={showAddToCart}
-                            propsItem={{
-                                className: styles.itemConfigurable,
-                            }}
-                            customStyleBtnAddToCard={styles.customBtnAddToCard}
-                            labelAddToCart="Add to cart"
-                            isGrid={isGrid}
-                            {...other}
-                        />
-                    ) : null}
-                </div> */}
             </div>
         </>
     );
