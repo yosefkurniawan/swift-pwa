@@ -6,12 +6,11 @@ import useStyles from '@core_modules/blog/components/RelatedProduct/style';
 import GridList from '@common_gridlist';
 import LabelView from '@plugin_productitem/components/LabelView';
 
-const RelatedProduct = ({ relatedProduct, t }) => {
+const RelatedProduct = ({ relatedProduct, t, layout }) => {
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
-    const isGrid = true;
     if (relatedProduct.length > 0) {
-        if (isGrid) {
+        if (layout !== 1) {
             return (
                 <div>
                     <GridList
@@ -20,7 +19,7 @@ const RelatedProduct = ({ relatedProduct, t }) => {
                         className="grid"
                         itemProps={{
                             LabelView,
-                            isGrid,
+                            isGrid: true,
                             catalogList: true,
                             className: 'grid-item',
                         }}

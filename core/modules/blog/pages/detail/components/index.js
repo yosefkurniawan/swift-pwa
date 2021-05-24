@@ -6,13 +6,20 @@ import { getHost } from '@helpers/config';
 
 const DefaultContent = (props) => {
     const {
-        storeConfig, title, url_key, relatedProduct, isUnderPost = true, t,
+        storeConfig, title, url_key, relatedProduct, t,
         limitProduct = 8,
     } = props;
     const url = typeof window !== 'undefined'
         ? window.location.href
         : `${getHost()}/blog/${url_key}`;
-
+    const limit = limitProduct || storeConfig.aw_blog_related_products_products_limit;
+    let position = 0;
+    const layout = storeConfig.aw_blog_related_products_block_layout === 'slider' ? 1 : 2;
+    if (storeConfig.aw_blog_related_products_block_position === 'after_comments') {
+        position = 1;
+    } else if (storeConfig.aw_blog_related_products_block_position === 'after_post') {
+        position = 2;
+    }
     return (
         <div className="row">
             <div className="col-xs-12 col-sm-2 hidden-mobile">
@@ -22,9 +29,14 @@ const DefaultContent = (props) => {
                 <div className="col-xs-12 col-md-12">
                     <Body {...props} />
                 </div>
-                <div className={isUnderPost ? 'col-xs-12 col-md-12' : 'hidden'}>
-                    <RelatedProduct relatedProduct={relatedProduct.slice(0, limitProduct)} t={t} storeConfig={storeConfig} />
-                </div>
+                {
+                    position !== 0
+                    && (
+                        <div className={position === 2 ? 'col-xs-12 col-md-12' : 'hidden'}>
+                            <RelatedProduct relatedProduct={relatedProduct.slice(0, limit)} t={t} storeConfig={storeConfig} layout={layout} />
+                        </div>
+                    )
+                }
                 <div className="col-xs-12 col-md-12 comment-container">
                     {
                         storeConfig.aw_blog_general_comments_enabled && (
@@ -41,9 +53,14 @@ const DefaultContent = (props) => {
                         )
                     }
                 </div>
-                <div className={isUnderPost ? 'hidden' : 'col-xs-12 col-md-12'}>
-                    <RelatedProduct relatedProduct={relatedProduct.slice(0, limitProduct)} t={t} storeConfig={storeConfig} />
-                </div>
+                {
+                    position !== 0
+                    && (
+                        <div className={position === 1 ? 'col-xs-12 col-md-12' : 'hidden'}>
+                            <RelatedProduct relatedProduct={relatedProduct.slice(0, limit)} t={t} storeConfig={storeConfig} layout={layout} />
+                        </div>
+                    )
+                }
             </div>
             <style jsx>
                 {`
