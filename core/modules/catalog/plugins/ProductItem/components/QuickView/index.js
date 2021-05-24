@@ -14,18 +14,20 @@ import classNames from 'classnames';
 import Button from '@common_button';
 import RatingStar from '@common_ratingstar';
 import { getHost } from '@helper_config';
+import { modules } from '@config';
 
 import useStyles from '@plugin_productitem/components/QuickView/style';
 
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: false });
 const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: false });
+const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
 
 const QuickView = (props) => {
     const styles = useStyles();
     const route = useRouter();
     const { t } = useTranslation(['common', 'product', 'catalog']);
     const {
-        onClose, selectedValue, open, data,
+        onClose, selectedValue, open, data, weltpixel_labels,
     } = props;
 
     const product = data.items[0];
@@ -117,6 +119,12 @@ const QuickView = (props) => {
                 </IconButton>
                 <div className={classNames(styles.container, 'row')}>
                     <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-6')}>
+                        {
+                            modules.catalog.productListing.label.enabled
+                            && modules.catalog.productListing.label.weltpixel.enabled && (
+                                <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel={false} />
+                            )
+                        }
                         <Banner
                             data={banner}
                             noLink

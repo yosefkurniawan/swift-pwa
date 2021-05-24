@@ -410,6 +410,52 @@ export const getGroupedProduct = gql`
     }
 `;
 
+export const getProductLabel = (url) => gql`
+{
+  products(
+    search: "" ,filter: {
+      url_key: {
+        eq: "${url}"
+      }
+    }
+  ) {
+    items {
+      __typename
+      ${modules.catalog.productListing.label.weltpixel.enabled ? `
+      weltpixel_labels {
+        categoryLabel {
+          css
+          customer_group
+          image
+          page_position
+          position
+          priority
+          text
+          text_padding
+          text_bg_color
+          text_font_size
+          text_font_color          
+        }
+        productLabel {
+          css
+          customer_group
+          image
+          page_position
+          position
+          priority
+          text
+          text_padding
+          text_bg_color
+          text_font_size
+          text_font_color  
+        }
+      }        
+      ` : ''}
+    }
+  }
+}
+`;
+
 export default {
     getProductBySku,
     getProduct,
