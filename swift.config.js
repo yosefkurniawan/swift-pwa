@@ -282,9 +282,12 @@ const modules = {
             label: {
                 enabled: true,
                 new: {
-                    enabled: true,
+                    enabled: false,
                 },
                 sale: {
+                    enabled: false,
+                },
+                weltpixel: {
                     enabled: true,
                 },
             },
