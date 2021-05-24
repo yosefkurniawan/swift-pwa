@@ -25,11 +25,13 @@ import OptionItem from '@core_modules/product/pages/default/components/OptionIte
 import RightDrawer from '@core_modules/product/pages/default/components/RightDrawer';
 import SharePopup from '@core_modules/product/pages/default/components/SharePopup';
 import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
+import { modules } from '@config';
 
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: true });
 const TabsView = dynamic(() => import('@core_modules/product/pages/default/components/DesktopTabs'), { ssr: true });
 const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: true });
 const Caraousel = dynamic(() => import('@common_slick/Caraousel'), { ssr: false });
+const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
 
 const ProductPage = (props) => {
     const styles = useStyles();
@@ -84,6 +86,12 @@ const ProductPage = (props) => {
                     <Breadcrumb data={breadcrumbsData} variant="text" />
                 </div>
                 <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-6')}>
+                    {
+                        modules.catalog.productListing.label.enabled
+                        && modules.catalog.productListing.label.weltpixel.enabled && (
+                            <WeltpixelLabel t={t} weltpixel_labels={data.weltpixel_labels || []} categoryLabel={false} />
+                        )
+                    }
                     <Banner
                         data={banner}
                         noLink

@@ -9,6 +9,11 @@ const defaultConfig = {
 
 export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath), {
     ...defaultConfig,
+    context: {},
+});
+
+export const getProductLabel = (urlpath) => useQuery(Schema.getProductLabel(urlpath), {
+    ...defaultConfig,
     context: {
         request: 'internal',
     },

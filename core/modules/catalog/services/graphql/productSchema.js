@@ -103,6 +103,19 @@ export const getProduct = (config = {}) => gql`
             text_font_size
             text_font_color          
           }
+          productLabel {
+            css
+            customer_group
+            image
+            page_position
+            position
+            priority
+            text
+            text_padding
+            text_bg_color
+            text_font_size
+            text_font_color  
+          }
         }        
         ` : ''}
         ${modules.catalog.productListing.configurableOptions ? `review {

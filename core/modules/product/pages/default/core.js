@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import TagManager from 'react-gtm-module';
 import { getCookies } from '@helper_cookies';
 import Loading from '@core_modules/product/pages/default/components/Loader';
-import { getProduct, addWishlist as mutationAddWishlist } from '@core_modules/product/services/graphql';
+import { getProduct, getProductLabel, addWishlist as mutationAddWishlist } from '@core_modules/product/services/graphql';
 import Header from '@core_modules/product/pages/default/components/header';
 import generateSchemaOrg from '@core_modules/product/helpers/schema.org';
 
@@ -15,6 +15,7 @@ const ContentDetail = ({
     t, product,
     Content,
     isLogin,
+    weltpixel_labels,
 }) => {
     const item = product.items[0];
     const route = useRouter();
@@ -287,7 +288,10 @@ const ContentDetail = ({
 
     return (
         <Content
-            data={product.items[0]}
+            data={{
+                ...product.items[0],
+                weltpixel_labels,
+            }}
             t={t}
             openOption={openOption}
             handleOption={handleOption}
@@ -325,9 +329,11 @@ const ContentDetail = ({
 
 const PageDetail = (props) => {
     let product = {};
+    let weltpixel_labels = [];
     const {
         slug, Content, t, isLogin, pageConfig, CustomHeader,
     } = props;
+    const labels = getProductLabel(slug[0]);
     const {
         loading, data, error,
     } = getProduct(slug[0]);
@@ -342,6 +348,10 @@ const PageDetail = (props) => {
     if (data) {
         product = data.products;
         if (product.items.length === 0) return <Error statusCode={404} />;
+    }
+
+    if (labels.data && labels.data.products && labels.data.products.items.length > 0 && labels.data.products.items[0].weltpixel_labels) {
+        weltpixel_labels = labels.data.products.items[0].weltpixel_labels;
     }
 
     const schemaOrg = generateSchemaOrg(product.items[0]);
@@ -381,6 +391,7 @@ const PageDetail = (props) => {
                 t={t}
                 Content={Content}
                 isLogin={isLogin}
+                weltpixel_labels={weltpixel_labels}
             />
         </Layout>
     );

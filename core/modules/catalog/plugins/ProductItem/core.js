@@ -15,8 +15,8 @@ import Button from '@material-ui/core/IconButton';
 import { addWishlist, getDetailProduct } from '@core_modules/catalog/services/graphql';
 import useStyles from '@plugin_productitem/style';
 
-const ModalQuickView = dynamic(() => import('./components/QuickView'), { ssr: false });
-const WeltpixelLabel = dynamic(() => import('./components/WeltpixelLabel'), { ssr: false });
+const ModalQuickView = dynamic(() => import('@plugin_productitem/components/QuickView'), { ssr: false });
+const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
 
 const ProductItem = (props) => {
     const {
@@ -114,6 +114,8 @@ const ProductItem = (props) => {
                             open={openQuickView}
                             onClose={() => setOpenQuickView(false)}
                             data={detailProduct.data.products}
+                            t={t}
+                            weltpixel_labels={weltpixel_labels}
                         />
                     )
                 }
@@ -180,6 +182,8 @@ const ProductItem = (props) => {
                         open={openQuickView}
                         onClose={() => setOpenQuickView(false)}
                         data={detailProduct.data.products}
+                        t={t}
+                        weltpixel_labels={weltpixel_labels}
                     />
                 )
             }
