@@ -3,10 +3,10 @@ import * as schemaCategory from '@core_modules/catalog/services/graphql/category
 import * as productSchema from '@core_modules/catalog/services/graphql/productSchema';
 
 export const getProduct = (config, otherConfig = {}) => useQuery(productSchema.getProduct(config), {
-    ...otherConfig,
     context: {
         request: 'internal',
     },
+    ...otherConfig,
 });
 export const getProductAgragations = () => useQuery(productSchema.getProductAgragations(), {
     context: {

@@ -12,11 +12,14 @@ const executor = async ({
     try {
         let token = '';
         if (context) {
-            token = context.session.token;
+            token = context.headers.authorization || context.session.token;
         }
         const query = print(document);
         const appEnv = getAppEnv();
-        const additionalHeader = storeCode ? { store: storeCode } : {};
+        const additionalHeader = {};
+        if (storeCode) {
+            additionalHeader.store = storeCode;
+        }
         const url = graphqlEndpoint[appEnv] || graphqlEndpoint.prod;
         if (token && token !== '') {
             additionalHeader.Authorization = `Bearer ${decrypt(token)}`;

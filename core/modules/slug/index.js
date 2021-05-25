@@ -40,6 +40,8 @@ Page.getInitialProps = async ({ query, req }) => {
             : `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`,
     };
 
+    obj.token = req && req.session ? req.session.token : '';
+
     obj.cms_page = cmsList.storeConfig && cmsList.storeConfig.cms_page ? cmsList.storeConfig.cms_page : '';
     return obj;
 };
