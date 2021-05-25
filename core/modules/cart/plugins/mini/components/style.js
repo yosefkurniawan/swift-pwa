@@ -115,7 +115,6 @@ const useStyles = makeStyles(() => ({
             '& .product-item-photo': {
                 float: 'left',
                 width: '75px',
-                height: '75px',
                 position: 'relative',
                 '& span': {
                     position: 'absolute',
