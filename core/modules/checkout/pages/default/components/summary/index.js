@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { setCartId, removeCartId } from '@helper_cartid';
+import { getStoreHost } from '@helper_config';
+import { getAppEnv } from '@root/core/helpers/env';
 import { setCheckoutData } from '@helper_cookies';
 import { localTotalCart } from '@services/graphql/schema/local';
 import { originName, modules } from '@config';
@@ -61,8 +63,11 @@ const Summary = ({
         return '/checkout/onepage/success';
     };
 
-    const generateCartRedirect = () => {
+    const generateCartRedirect = (orderNumber = '') => {
         if (config && config.cartRedirect && config.cartRedirect.link) {
+            if (orderNumber && modules.checkout.checkoutOnly) {
+                return `${getStoreHost(getAppEnv())}snap/payment/fail?order_id=${orderNumber}`;
+            }
             return config.cartRedirect.link;
         }
         return '/checkout/cart';
@@ -255,7 +260,7 @@ const Summary = ({
 
     // Start - Process Snap Pop Up Close (Waitinge Response From Reorder)
     if (snapStatus.data && !snapClosed) {
-        const { cart_id } = snapStatus.data.getSnapOrderStatusByOrderId;
+        const { cart_id, order_id } = snapStatus.data.getSnapOrderStatusByOrderId;
         setSnapClosed(true);
 
         if (!checkout.data.isGuest && manageCustCartId.data) {
@@ -283,7 +288,7 @@ const Summary = ({
         } else {
             setCartId(cart_id);
             setOrderId(null);
-            window.location.replace(generateCartRedirect());
+            window.location.replace(generateCartRedirect(order_id));
         }
     }
     // End - Process Snap Pop Up Close (Waitinge Response From Reorder)
