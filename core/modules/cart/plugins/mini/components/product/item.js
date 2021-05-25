@@ -15,7 +15,7 @@ const Item = (props) => {
         <li>
             <div className="product">
                 <a className="product-item-photo">
-                    <Thumbor className="product-image-photo" src={product.small_image.url} alt={product.small_image.label} width={61} height={75} />
+                    <Thumbor className="product-image-photo" src={product.small_image.url} alt={product.small_image.label} width={75} height={92} />
                     {prices?.row_total_including_tax?.value === 0 ? <span>{t('common:title:free')}</span> : null}
                 </a>
                 <div className="product-item-details">
