@@ -1,16 +1,6 @@
 import { useQuery, useLazyQuery } from '@apollo/client';
 import * as schema from '@core_modules/blog/services/graphql/schema';
 
-const USING_INTERNAL = true;
-const config = (isUsingInternal) => {
-    const context = isUsingInternal ? { request: 'internal' } : {};
-
-    return {
-        notifyOnNetworkStatusChange: true,
-        context,
-    };
-};
-
 export const getBlog = (params = {}) => useQuery(schema.getAllPost, {
     ...params,
 });
@@ -29,8 +19,7 @@ export const getDetailBlog = (id) => useQuery(schema.getPostById, {
 
 export const awBlogPostWithRelatedPosts = (options = {}) => useLazyQuery(schema.awBlogPostWithRelatedPosts, {
     ...options,
-    ...config(USING_INTERNAL),
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'cache-and-network',
     errorPolicy: 'all',
 });
 export default {};
