@@ -1,12 +1,13 @@
 /* eslint-disable react/destructuring-assignment */
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
-import Core from '@core_modules/customer/pages/wishlist/components/readwishlist/core';
+import Core from '@core_modules/customer/pages/wishlist/core';
 import Content from '@core_modules/customer/pages/wishlist/components/readwishlist/components';
 
 const Page = (props) => (
     <Core
         {...props}
+        isRedirectWishlist
         Content={Content}
         pageConfig={{
             title: 'Wishlist',

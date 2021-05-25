@@ -59,6 +59,7 @@ export const customerWishlist = gql`
           id
           name
           url_key
+          sku
           small_image{
             url
           }

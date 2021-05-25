@@ -40,6 +40,11 @@ const useStyles = makeStyles((theme) => ({
     tableCellResponsiveProduct: {
         width: '50vw',
     },
+    btnFeedWishlist: {
+        background: 'none',
+        borderStyle: 'none',
+        boxShadow: 'none',
+    },
 }));
 
 export default useStyles;

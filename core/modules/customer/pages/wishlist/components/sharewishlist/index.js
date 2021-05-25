@@ -20,7 +20,7 @@ const Transition = React.forwardRef((props, ref) => (
 const ShareWishlistView = (props) => {
     const styles = useStyles();
     const {
-        open, setOpen, handleShareWishlist,
+        open, setOpen, handleShareWishlist, t,
     } = props;
     const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('md'));
     const [emailCollection, setEmailCollection] = React.useState('');
@@ -63,15 +63,15 @@ const ShareWishlistView = (props) => {
                             <CloseIcon />
                         </IconButton>
                         <Typography variant="h5" type="bold" letter="uppercase" style={{ marginLeft: 0, marginBottom: 35 }}>
-                            WISH LIST SHARING
+                            {t('customer:wishlist:wishlistSharing')}
                         </Typography>
                         <Typography variant="h7" type="bold" letter="uppercase" style={{ margin: 0 }}>
-                            Sharing Information
+                            {t('customer:wishlist:sharingInformation')}
                         </Typography>
                         <Divider style={{ marginBottom: 20 }} />
                         <div className={styles.wrapperText}>
                             <TextField
-                                label="Email addresses, separated by commas"
+                                label={t('customer:wishlist:labelEmail')}
                                 value={emailCollection}
                                 onChange={handleSetEmail}
                                 multiline
@@ -81,7 +81,7 @@ const ShareWishlistView = (props) => {
                         </div>
                         <div className={styles.wrapperText}>
                             <TextField
-                                label="Message"
+                                label={t('customer:wishlist:message')}
                                 value={message}
                                 onChange={handleSetMessage}
                                 multiline
@@ -96,7 +96,7 @@ const ShareWishlistView = (props) => {
                                 align="left"
                             >
                                 <Typography variant="span" type="bold" letter="uppercase" color="white">
-                                    Share Wish List
+                                    {t('customer:wishlist:shareWishlist')}
                                 </Typography>
                             </Button>
                         </div>

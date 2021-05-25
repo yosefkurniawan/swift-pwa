@@ -32,6 +32,7 @@ const Content = (props) => {
                             open={openShare}
                             setOpen={() => setOpenShare(false)}
                             handleShareWishlist={handleShareWishlist}
+                            t={t}
                         />
                     )
                 }

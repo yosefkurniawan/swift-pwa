@@ -92,7 +92,20 @@
     "failedAddToBagOption" : "Please select option for some products",
     "successAddCart": "Item has been added into your bag",
     "failedAddCart": "Failed on adding item into your bag",
-    "addWithoutLogin": "Please login to add this item to your wishlist"
+    "addWithoutLogin": "Please login to add this item to your wishlist",
+    "product": "Product",
+    "comment": "Comment",
+    "addToCart": "Add to cart",
+    "action": "Action",
+    "addToWishlist": "Add To Wishlist",
+    "wishlistSharing": "Wish list sharing",
+    "sharingInformation": "Sharing Information",
+    "shareWishlist": "Share wish list",
+    "labelEmail": "Email addresses, separated by commas",
+    "message": "Message",
+    "validateField": "Please fill in the fields correctly!",
+    "shareSuccess" : "Item has been shared successfully",
+    "shareFailed": "Failed on sharing item" 
   },
   "order": {
     "recentOrder" : "Recent order",
