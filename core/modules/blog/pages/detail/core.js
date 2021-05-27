@@ -4,7 +4,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import DefaultLayout from '@layout';
 import { useRouter } from 'next/router';
-import { getBlog, getCategory } from '@core_modules/blog/services/graphql';
+import { getBlog, getCategory, awBlogPostWithRelatedPosts } from '@core_modules/blog/services/graphql';
 
 const CoreDetail = (props) => {
     const router = useRouter();
@@ -33,6 +33,29 @@ const CoreDetail = (props) => {
     });
 
     const loadCategory = getCategory({ category_id: 0 });
+    const [loadRelatedProduct, { data: relatedProduct }] = awBlogPostWithRelatedPosts();
+
+    React.useEffect(() => {
+        if (data) {
+            let postId = null;
+            if (data.getBlogByFilter && data.getBlogByFilter.items.length > 0) {
+                data.getBlogByFilter.items.map((item) => {
+                    if (item.url_key === id) {
+                        postId = item.id;
+                    }
+                    return null;
+                });
+                if (postId) {
+                    loadRelatedProduct({
+                        variables: {
+                            postId,
+                        },
+                    });
+                }
+            }
+        }
+    }, [data]);
+
     if (loading || !data || loadCategory.loading) {
         return (
             <DefaultLayout pageConfig={{}} {...props}>
@@ -56,21 +79,25 @@ const CoreDetail = (props) => {
                 </DefaultLayout>
             );
         }
-
         const mediaUrl = storeConfig.secure_base_media_url || '';
         config.title = data.getBlogByFilter.items[0].title;
         config.headerTitle = data.getBlogByFilter.items[0].title;
-
+        let relatedProductArr = [];
         let { content } = data.getBlogByFilter.items[0];
         if (content && content !== '') {
             content = content.replace(/{{media url=&quot;/g, mediaUrl);
             content = content.replace(/&quot;}}/g, '');
         }
+
         const dataContent = {
             ...data.getBlogByFilter.items[0],
             content,
         };
-
+        if (relatedProduct
+            && relatedProduct.awBlogPostWithRelatedPosts
+            && relatedProduct.awBlogPostWithRelatedPosts.related_product) {
+            relatedProductArr = relatedProduct.awBlogPostWithRelatedPosts.related_product;
+        }
         return (
             <DefaultLayout {...props} pageConfig={config}>
                 <Content
@@ -78,6 +105,7 @@ const CoreDetail = (props) => {
                     t={t}
                     {...dataContent}
                     {...other}
+                    relatedProduct={relatedProductArr}
                     storeConfig={storeConfig}
                 />
             </DefaultLayout>
@@ -92,8 +120,8 @@ CoreDetail.propTypes = {
 };
 
 CoreDetail.defaultProps = {
-    Skeleton: () => {},
-    WarningInfo: () => {},
+    Skeleton: () => { },
+    WarningInfo: () => { },
 };
 
 export default CoreDetail;

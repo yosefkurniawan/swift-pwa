@@ -50,6 +50,10 @@ export const storeConfig = `
             }
             aw_blog_general_comments_enabled
             aw_blog_general_disqus_forum_code
+            aw_blog_related_products_block_layout
+            aw_blog_related_products_block_position
+            aw_blog_related_products_products_limit
+            aw_blog_related_products_display_add_to_cart
         }
     }
 `;
