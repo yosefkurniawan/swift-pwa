@@ -97,6 +97,20 @@ const priceTiers = `
     }
     `;
 
+const tabListProduct = `
+    tab_1 {
+      label
+      content
+    }
+    tab_2 {
+      label
+      content
+    }
+    tab_3 {
+      label
+      content
+    }
+    `;
 /**
  * scema dynamic resolver url
  * @param url String
@@ -140,6 +154,9 @@ export const getProduct = (url) => {
                ${productDetail}
                ${priceRange}
                ${priceTiers}
+              }
+              smartProductTabs {
+                ${tabListProduct}
               }
             }
             total_count

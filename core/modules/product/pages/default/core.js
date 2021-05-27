@@ -319,6 +319,12 @@ const ContentDetail = ({
             checkCustomizableOptionsValue={checkCustomizableOptionsValue}
             additionalPrice={additionalPrice}
             setAdditionalPrice={setAdditionalPrice}
+            smartProductTabs={product.items[0].smartProductTabs ? product.items[0].smartProductTabs : {
+                tab_1: {
+                    label: null,
+                    content: null,
+                },
+            }}
         />
     );
 };
