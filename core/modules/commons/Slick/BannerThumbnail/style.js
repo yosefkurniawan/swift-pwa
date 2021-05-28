@@ -122,6 +122,7 @@ const useStyles = makeStyles((theme) => ({
     },
     customClass: {
         width: '99%',
+        height: 'auto',
         [theme.breakpoints.down('sm')]: {
             width: '100%',
         },
