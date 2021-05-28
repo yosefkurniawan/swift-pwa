@@ -13,6 +13,9 @@ const RelatedProduct = ({ relatedProduct, t, layout }) => {
         if (layout !== 1) {
             return (
                 <div>
+                    <Typography variant="p" letter="uppercase">
+                        {t('blog:relatedProducts')}
+                    </Typography>
                     <GridList
                         data={relatedProduct}
                         ItemComponent={ProductItem}
