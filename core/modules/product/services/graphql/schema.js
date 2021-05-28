@@ -2,6 +2,37 @@
 import { gql } from '@apollo/client';
 import { features, modules } from '@config';
 
+const weltpixel_labels = modules.catalog.productListing.label.weltpixel.enabled ? `
+weltpixel_labels {
+  categoryLabel {
+      css
+      customer_group
+      image
+      page_position
+      position
+      priority
+      text
+      text_padding
+      text_bg_color
+      text_font_size
+      text_font_color          
+  }
+  productLabel {
+      css
+      customer_group
+      image
+      page_position
+      position
+      priority
+      text
+      text_padding
+      text_bg_color
+      text_font_size
+      text_font_color  
+  }
+}        
+` : '';
+
 const productDetail = `
     id
     name
@@ -421,36 +452,7 @@ export const getProductLabel = (url) => gql`
   ) {
     items {
       __typename
-      ${modules.catalog.productListing.label.weltpixel.enabled ? `
-      weltpixel_labels {
-        categoryLabel {
-          css
-          customer_group
-          image
-          page_position
-          position
-          priority
-          text
-          text_padding
-          text_bg_color
-          text_font_size
-          text_font_color          
-        }
-        productLabel {
-          css
-          customer_group
-          image
-          page_position
-          position
-          priority
-          text
-          text_padding
-          text_bg_color
-          text_font_size
-          text_font_color  
-        }
-      }        
-      ` : ''}
+      ${weltpixel_labels}
     }
   }
 }

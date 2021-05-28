@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { features } from '@config';
+import { features, modules } from '@config';
 
 export const getSlider = gql`
     query getSlider($input: InputSlider) {
@@ -45,6 +45,7 @@ export const getFeaturedProducts = gql`
                         __typename
                         id
                         name
+                        sku
                         url_key
                         new_from_date
                         new_to_date
@@ -52,6 +53,36 @@ export const getFeaturedProducts = gql`
                         small_image {
                             url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
                         }
+                        ${modules.catalog.productListing.label.weltpixel.enabled ? `
+                            weltpixel_labels {
+                            categoryLabel {
+                                css
+                                customer_group
+                                image
+                                page_position
+                                position
+                                priority
+                                text
+                                text_padding
+                                text_bg_color
+                                text_font_size
+                                text_font_color          
+                            }
+                            productLabel {
+                                css
+                                customer_group
+                                image
+                                page_position
+                                position
+                                priority
+                                text
+                                text_padding
+                                text_bg_color
+                                text_font_size
+                                text_font_color  
+                            }
+                        }        
+                        ` : ''}
                         price_tiers {
                             discount {
                                 amount_off
