@@ -155,13 +155,25 @@ export const getProduct = (url) => {
                ${priceRange}
                ${priceTiers}
               }
-              smartProductTabs {
-                ${tabListProduct}
-              }
             }
             total_count
           }
     }`;
+    return query;
+};
+
+export const smartProductTabs = () => {
+    const query = gql`
+    query getSmartProductTabs($search: String, $filter: ProductAttributeFilterInput) {
+      products(search: $search, filter: $filter) {
+        items {
+          smartProductTabs {
+            ${tabListProduct}
+          }
+        }
+      }
+    }
+  `;
     return query;
 };
 
