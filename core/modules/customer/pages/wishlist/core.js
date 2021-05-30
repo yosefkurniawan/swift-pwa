@@ -266,7 +266,7 @@ const Wishlist = (props) => {
         headerTitle: t('customer:wishlist:pageTitle'),
         bottomNav: false,
     };
-    const [setShareWishlist] = shareWishlist();
+    const [setShareWishlist, { loading: shareLoading }] = shareWishlist();
 
     const handleShareWishlist = async (emails, message) => {
         if (emails === '' || message === '') {
@@ -351,6 +351,7 @@ const Wishlist = (props) => {
                 handleToCart={handleToCart}
                 handleAddAlltoBag={handleAddAlltoBag}
                 loading={loading}
+                shareLoading={shareLoading}
                 handleShareWishlist={handleShareWishlist}
             />
         </Layout>
