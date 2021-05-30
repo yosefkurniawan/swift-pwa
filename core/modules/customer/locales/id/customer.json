@@ -91,7 +91,20 @@
     "failedAddToBagOption": "Silahkan pilih opsi terlebih dahulu untuk beberapa produk",
     "successAddCart": "Produk berhasil ditambahkan ke keranjang",
     "failedAddCart": "Produk gagal ditambahkan ke keranjang",
-    "addWithoutLogin": "Silahkan masuk untuk menambahkan produk ini ke wishlist"
+    "addWithoutLogin": "Silahkan masuk untuk menambahkan produk ini ke wishlist",
+    "product": "Produk",
+    "comment": "Komentar",
+    "addToCart": "Tambahkan ke keranjang",
+    "action": "Aksi",
+    "addToWishlist": "Tambahkan ke Daftar Keinginan",
+    "wishlistSharing": "Berbagi daftar keinginan",
+    "sharingInformation": "Berbagi Informasi",
+    "shareWishlist": "Bagikan daftar keinginan",
+    "labelEmail": "Alamat email, dipisahkan dengan koma",
+    "message": "Pesan",
+    "validateField": "Harap isi kolom dengan benar!",
+    "shareSuccess" : "Item telah berhasil dibagikan",
+    "shareFailed": "Gagal membagikan item" 
   },
   "order": {
     "recentOrder" : "Order terbaru",
