@@ -60,6 +60,10 @@ const useStyles = makeStyles(() => ({
         bottom: 5,
         zIndex: 2,
     },
+    10: {
+        marginLeft: 5,
+        marginBottom: 10,
+    },
 }));
 
 export default useStyles;

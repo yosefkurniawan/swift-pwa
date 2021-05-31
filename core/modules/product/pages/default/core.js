@@ -23,7 +23,6 @@ const ContentDetail = ({
     const reviewValue = parseInt(item.review.rating_summary, 0) / 20;
 
     React.useEffect(() => {
-        let index = 0;
         let categoryProduct = '';
         // eslint-disable-next-line no-unused-expressions
         item.categories.length > 0 && item.categories.map(({ name }, indx) => {
@@ -48,30 +47,6 @@ const ContentDetail = ({
                         }],
                     },
                     currencyCode: item.price_range.minimum_price.regular_price.currency || 'USD',
-                    impressions: [
-                        ...item.related_products.map((val) => {
-                            index += 1;
-                            return ({
-                                name: val.name,
-                                id: val.sku,
-                                category: categoryProduct,
-                                price: val.price_range.minimum_price.regular_price.value,
-                                list: `Related Products From ${item.name}`,
-                                position: index,
-                            });
-                        }),
-                        ...item.upsell_products.map((val) => {
-                            index += 1;
-                            return ({
-                                name: val.name,
-                                id: val.sku,
-                                category: categoryProduct,
-                                price: val.price_range.minimum_price.regular_price.value,
-                                list: `Related Products From ${item.name}`,
-                                position: index,
-                            });
-                        }),
-                    ],
                 },
                 event: 'impression',
                 eventCategory: 'Ecommerce',
@@ -192,13 +167,7 @@ const ContentDetail = ({
             },
         ];
     }
-    const relateData = item.related_products.map((val) => ({
-        ...val,
-        name: val.name,
-        link: val.url_key,
-        imageSrc: val.small_image.url,
-        price: val.price_range.minimum_price.regular_price.value,
-    }));
+
     let breadcrumbsData = [];
     if (typeof window !== 'undefined') {
         const lastCategory = getCookies('lastCategory');
@@ -310,7 +279,6 @@ const ContentDetail = ({
             reviewValue={reviewValue}
             wishlist={wishlist}
             expandData={expandData}
-            relateData={relateData}
             features={features}
             config={modules.catalog.pdp}
             openImageDetail={openImageDetail}

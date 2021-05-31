@@ -128,6 +128,47 @@ const priceTiers = `
     }
     `;
 
+export const getUpsellProduct = (url) => gql`
+{
+  products(
+    search: "" ,filter: {
+      url_key: {
+        eq: "${url}"
+      }
+    }
+  ) {
+    items {      
+      upsell_products {
+        ${productDetail}        
+        ${weltpixel_labels}
+        ${priceRange}
+        ${priceTiers}
+      }
+    }
+  }
+}
+`;
+
+export const getRelatedProduct = (url) => gql`
+{
+  products(
+    search: "" ,filter: {
+      url_key: {
+        eq: "${url}"
+      }
+    }
+  ) {
+    items {      
+      related_products {
+        ${productDetail}        
+        ${weltpixel_labels}
+        ${priceRange}
+        ${priceTiers}
+      }
+    }
+  }
+}
+`;
 /**
  * scema dynamic resolver url
  * @param url String
@@ -158,19 +199,9 @@ export const getProduct = (url) => {
                 label
                 value
               }
-              upsell_products {
-                ${productDetail}
-                ${priceRange}
-                ${priceTiers}
-              }
               media_gallery {
                 label,
                 url
-              }
-              related_products {
-               ${productDetail}
-               ${priceRange}
-               ${priceTiers}
               }
             }
             total_count

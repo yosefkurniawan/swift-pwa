@@ -11,7 +11,6 @@ import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import ShareOutlined from '@material-ui/icons/ShareOutlined';
 import classNames from 'classnames';
-import ProductItem from '@plugin_productitem';
 import React from 'react';
 import { getHost } from '@helper_config';
 import Breadcrumb from '@common_breadcrumb';
@@ -22,7 +21,6 @@ import useStyles from '@core_modules/product/pages/default/components/style';
 import ExpandDetail from '@core_modules/product/pages/default/components/ExpandDetail';
 import ListReviews from '@core_modules/product/pages/default/components/ListReviews';
 import OptionItem from '@core_modules/product/pages/default/components/OptionItem';
-import RightDrawer from '@core_modules/product/pages/default/components/RightDrawer';
 import SharePopup from '@core_modules/product/pages/default/components/SharePopup';
 import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
 import { modules } from '@config';
@@ -30,8 +28,9 @@ import { modules } from '@config';
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: true });
 const TabsView = dynamic(() => import('@core_modules/product/pages/default/components/DesktopTabs'), { ssr: true });
 const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: true });
-const Caraousel = dynamic(() => import('@common_slick/Caraousel'), { ssr: false });
 const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
+const UpsellDrawer = dynamic(() => import('@core_modules/product/pages/default/components/RightDrawer'), { ssr: false });
+const RelatedProductCaraousel = dynamic(() => import('@core_modules/product/pages/default/components/RelatedProductCaraousel'), { ssr: false });
 
 const ProductPage = (props) => {
     const styles = useStyles();
@@ -55,7 +54,6 @@ const ProductPage = (props) => {
         reviewValue,
         wishlist,
         expandData,
-        relateData,
         openImageDetail,
         handleOpenImageDetail,
         stockStatus,
@@ -66,17 +64,15 @@ const ProductPage = (props) => {
 
     const favoritIcon = wishlist ? <Favorite className={styles.iconShare} /> : <FavoriteBorderOutlined className={styles.iconShare} />;
 
-    let contentCaraousel = '';
-    if (typeof window !== 'undefined' && relateData.length > 0) {
-        contentCaraousel = <Caraousel enableQuickView={false} data={relateData} Item={ProductItem} />;
-    }
-
     return (
         <>
             <div className="hidden-mobile">
-                {data && data.upsell_products && data.upsell_products.length > 0 && (
-                    <RightDrawer open={openDrawer} setOpen={() => setOpenDrawer(!openDrawer)} {...props} />
-                )}
+                <UpsellDrawer
+                    open={openDrawer}
+                    setOpen={() => setOpenDrawer(!openDrawer)}
+                    t={t}
+                    dataProduct={data}
+                />
                 <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} />
             </div>
             <OptionItem {...props} open={openOption} setOpen={() => setOpenOption(!openOption)} setBanner={setBanner} setPrice={setPrice} />
@@ -104,9 +100,12 @@ const ProductPage = (props) => {
                         actionImage={desktop ? handleOpenImageDetail : () => {}}
                     />
                     <div className="hidden-desktop">
-                        {data && data.upsell_products && data.upsell_products.length > 0 && (
-                            <RightDrawer open={openDrawer} setOpen={() => setOpenDrawer(!openDrawer)} {...props} />
-                        )}
+                        <UpsellDrawer
+                            open={openDrawer}
+                            setOpen={() => setOpenDrawer(!openDrawer)}
+                            t={t}
+                            dataProduct={data}
+                        />
                     </div>
                 </div>
                 <div className={classNames(styles.body, 'col-xs-12 col-lg-6')}>
@@ -157,6 +156,19 @@ const ProductPage = (props) => {
                             </Typography>
                         </div>
                     </div>
+                    <div className="row">
+                        {
+                            modules.catalog.productListing.label.enabled
+                            && modules.catalog.productListing.label.weltpixel.enabled && (
+                                <WeltpixelLabel
+                                    t={t}
+                                    weltpixel_labels={data.weltpixel_labels || []}
+                                    categoryLabel={false}
+                                    onDetailProduct
+                                />
+                            )
+                        }
+                    </div>
 
                     <div className="hidden-desktop">
                         {' '}
@@ -185,15 +197,7 @@ const ProductPage = (props) => {
                 <div className={classNames(styles.tabs, 'col-xs-12 col-lg-12 hidden-mobile')}>
                     <TabsView {...props} dataInfo={expandData} />
                 </div>
-                {relateData.length !== 0 ? (
-                    <div className={classNames(styles.carouselContainer, 'col-xs-12 col-lg-12')}>
-                        <Typography variant="h1" component="h2" align="center" className={styles.carouselTitle}>
-                            {t('common:title:relatedProduct')}
-                        </Typography>
-                        {contentCaraousel}
-                    </div>
-                ) : null}
-
+                <RelatedProductCaraousel t={t} dataProduct={data} />
                 <div className={classNames(styles.footer, 'hidden-desktop')}>
                     <Button
                         className={styles.btnAddToCard}

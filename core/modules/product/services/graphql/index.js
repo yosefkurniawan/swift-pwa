@@ -9,7 +9,6 @@ const defaultConfig = {
 
 export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath), {
     ...defaultConfig,
-    context: {},
 });
 
 export const getProductLabel = (urlpath) => useQuery(Schema.getProductLabel(urlpath), {
@@ -19,9 +18,22 @@ export const getProductLabel = (urlpath) => useQuery(Schema.getProductLabel(urlp
     },
 });
 
+export const getRelatedProduct = (urlpath) => useQuery(Schema.getRelatedProduct(urlpath), {
+    ...defaultConfig,
+    context: {
+        request: 'internal',
+    },
+});
+
+export const getUpsellProduct = (urlpath) => useQuery(Schema.getUpsellProduct(urlpath), {
+    ...defaultConfig,
+    context: {
+        request: 'internal',
+    },
+});
+
 export const getCustomizableOption = (urlpath) => useLazyQuery(CustomizableSchema.getCustomizableOption(urlpath), {
     ...defaultConfig,
-    skip: typeof window === 'undefined',
     fetchPolicy: 'no-cache',
 });
 
@@ -103,7 +115,6 @@ export const getCustomerCartId = () => useLazyQuery(ActionSchema.getCartIdUser, 
     context: {
         request: 'internal',
     },
-    skip: typeof window === 'undefined',
     fetchPolicy: 'no-cache',
 });
 

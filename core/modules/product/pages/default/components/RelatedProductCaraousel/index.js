@@ -1,18 +1,19 @@
 /* eslint-disable array-callback-return */
 import React from 'react';
-import { getUpsellProduct } from '@core_modules/product/services/graphql';
+import { getRelatedProduct } from '@core_modules/product/services/graphql';
 import propTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import TagManager from 'react-gtm-module';
 
-const View = dynamic(() => import('@core_modules/product/pages/default/components/RightDrawer/view'), { ssr: false });
+const View = dynamic(() => import('@core_modules/product/pages/default/components/RelatedProductCaraousel/view'), { ssr: false });
+const Loader = dynamic(() => import('@common_slick/Caraousel/Skeleton'));
 
-const UpsellDrawer = ({ dataProduct, ...other }) => {
-    const { loading, data, error } = getUpsellProduct(dataProduct.url_key);
+const RelatedProductCaraousel = ({ dataProduct, ...other }) => {
+    const { loading, data, error } = getRelatedProduct(dataProduct.url_key);
 
     React.useEffect(() => {
         if (!loading && !error && data && data.products && data.products.items.length > 0
-            && data.products.items[0].upsell_products && data.products.items[0].upsell_products.length > 0) {
+            && data.products.items[0].related_products && data.products.items[0].related_products.length > 0) {
             let index = 0;
             let categoryProduct = '';
             // eslint-disable-next-line no-unused-expressions
@@ -26,7 +27,7 @@ const UpsellDrawer = ({ dataProduct, ...other }) => {
                     pageType: 'product',
                     ecommerce: {
                         impressions: [
-                            ...data.products.items[0].upsell_products.map((val) => {
+                            ...data.products.items[0].related_products.map((val) => {
                                 index += 1;
                                 return ({
                                     name: val.name,
@@ -49,24 +50,24 @@ const UpsellDrawer = ({ dataProduct, ...other }) => {
         }
     }, [data]);
 
+    if (loading) return <Loader />;
+
     if (!loading && !error && data && data.products && data.products.items.length > 0
-        && data.products.items[0].upsell_products && data.products.items[0].upsell_products.length > 0) {
+        && data.products.items[0].related_products && data.products.items[0].related_products.length > 0) {
         return (
             <View
                 {...other}
-                data={data.products.items[0].upsell_products}
+                data={data.products.items[0].related_products}
             />
         );
     }
     return <></>;
 };
 
-UpsellDrawer.propTypes = {
-    open: propTypes.bool.isRequired,
-    setOpen: propTypes.func.isRequired,
+RelatedProductCaraousel.propTypes = {
     t: propTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     dataProduct: propTypes.object.isRequired,
 };
 
-export default UpsellDrawer;
+export default RelatedProductCaraousel;

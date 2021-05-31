@@ -3,13 +3,18 @@ import classNames from 'classnames';
 import useStyles from './style';
 
 const WeltpixelLabelView = (props) => {
-    const { data = [] } = props;
+    const { data = [], onDetailProduct } = props;
     const styles = useStyles();
     return (
         <>
             {
                 data && data.length > 0 && data.map((item, key) => (
-                    <div key={key} className={classNames('text-container', styles[item.position])}>
+                    <div
+                        key={key}
+                        className={
+                            classNames('text-container', styles[item.position], (item.position === 10 && !onDetailProduct) ? 'hide' : '')
+                        }
+                    >
                         {
                             item.image
                                 ? (<img src={item.image} alt={item.text} />)
