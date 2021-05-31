@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import TagManager from 'react-gtm-module';
 import { getCookies } from '@helper_cookies';
 import Loading from '@core_modules/product/pages/default/components/Loader';
-import { getProduct, addWishlist as mutationAddWishlist } from '@core_modules/product/services/graphql';
+import { getProduct, addWishlist as mutationAddWishlist, smartProductTabs } from '@core_modules/product/services/graphql';
 import Header from '@core_modules/product/pages/default/components/header';
 import generateSchemaOrg from '@core_modules/product/helpers/schema.org';
 
@@ -15,6 +15,7 @@ const ContentDetail = ({
     t, product,
     Content,
     isLogin,
+    dataProductTabs,
 }) => {
     const item = product.items[0];
     const route = useRouter();
@@ -123,7 +124,6 @@ const ContentDetail = ({
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
 
     const [addWishlist] = mutationAddWishlist();
-
     const handleWishlist = () => {
         if (isLogin && isLogin === 1) {
             TagManager.dataLayer({
@@ -319,19 +319,39 @@ const ContentDetail = ({
             checkCustomizableOptionsValue={checkCustomizableOptionsValue}
             additionalPrice={additionalPrice}
             setAdditionalPrice={setAdditionalPrice}
+            smartProductTabs={dataProductTabs}
         />
     );
 };
 
 const PageDetail = (props) => {
     let product = {};
+    let productTab = {
+        tab_1: {
+            label: null,
+            content: null,
+        },
+    };
     const {
         slug, Content, t, isLogin, pageConfig, CustomHeader,
     } = props;
     const {
         loading, data, error,
     } = getProduct(slug[0]);
-
+    const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
+    React.useEffect(() => {
+        if (slug[0] !== '') {
+            getProductTabs({
+                variables: {
+                    filter: {
+                        url_key: {
+                            eq: slug[0],
+                        },
+                    },
+                },
+            });
+        }
+    }, [slug[0]]);
     if (error || loading || !data) {
         return (
             <Layout pageConfig={{}} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props}>
@@ -344,6 +364,17 @@ const PageDetail = (props) => {
         if (product.items.length === 0) return <Error statusCode={404} />;
     }
 
+    if (dataProductTabs) {
+        const productItem = dataProductTabs.products;
+        if (productItem.items.length > 0) {
+            productTab = productItem.items[0].smartProductTabs ? productItem.items[0].smartProductTabs : {
+                tab_1: {
+                    label: null,
+                    content: null,
+                },
+            };
+        }
+    }
     const schemaOrg = generateSchemaOrg(product.items[0]);
 
     const config = {
@@ -381,6 +412,7 @@ const PageDetail = (props) => {
                 t={t}
                 Content={Content}
                 isLogin={isLogin}
+                dataProductTabs={productTab}
             />
         </Layout>
     );

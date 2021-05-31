@@ -97,6 +97,20 @@ const priceTiers = `
     }
     `;
 
+const tabListProduct = `
+    tab_1 {
+      label
+      content
+    }
+    tab_2 {
+      label
+      content
+    }
+    tab_3 {
+      label
+      content
+    }
+    `;
 /**
  * scema dynamic resolver url
  * @param url String
@@ -145,6 +159,21 @@ export const getProduct = (url) => {
             total_count
           }
     }`;
+    return query;
+};
+
+export const smartProductTabs = () => {
+    const query = gql`
+    query getSmartProductTabs($search: String, $filter: ProductAttributeFilterInput) {
+      products(search: $search, filter: $filter) {
+        items {
+          smartProductTabs {
+            ${tabListProduct}
+          }
+        }
+      }
+    }
+  `;
     return query;
 };
 
