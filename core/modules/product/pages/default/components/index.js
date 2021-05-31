@@ -58,6 +58,7 @@ const ProductPage = (props) => {
         handleOpenImageDetail,
         stockStatus,
         additionalPrice,
+        smartProductTabs,
     } = props;
 
     const desktop = breakPointsUp('sm');
@@ -97,7 +98,7 @@ const ProductPage = (props) => {
                         autoPlay={false}
                         width={960}
                         height={1120}
-                        actionImage={desktop ? handleOpenImageDetail : () => {}}
+                        actionImage={desktop ? handleOpenImageDetail : () => { }}
                     />
                     <div className="hidden-desktop">
                         <UpsellDrawer
@@ -195,7 +196,16 @@ const ProductPage = (props) => {
                     <ListReviews {...props} />
                 </div>
                 <div className={classNames(styles.tabs, 'col-xs-12 col-lg-12 hidden-mobile')}>
-                    <TabsView {...props} dataInfo={expandData} />
+                    <TabsView
+                        {...props}
+                        dataInfo={expandData}
+                        smartProductTabs={smartProductTabs || {
+                            tab_2: {
+                                label: null,
+                                content: null,
+                            },
+                        }}
+                    />
                 </div>
                 <RelatedProductCaraousel t={t} dataProduct={data} />
                 <div className={classNames(styles.footer, 'hidden-desktop')}>

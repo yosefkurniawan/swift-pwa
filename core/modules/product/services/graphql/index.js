@@ -37,6 +37,15 @@ export const getCustomizableOption = (urlpath) => useLazyQuery(CustomizableSchem
     fetchPolicy: 'no-cache',
 });
 
+export const smartProductTabs = (params) => useLazyQuery(Schema.smartProductTabs(), {
+    ...defaultConfig,
+    variables: {
+        ...params,
+    },
+    skip: typeof window === 'undefined',
+    fetchPolicy: 'cache-and-network',
+});
+
 export const getProductBySku = (params) => useQuery(Schema.getProductBySku(), {
     ...params,
     ...defaultConfig,

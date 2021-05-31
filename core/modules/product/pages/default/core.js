@@ -7,7 +7,9 @@ import { useRouter } from 'next/router';
 import TagManager from 'react-gtm-module';
 import { getCookies } from '@helper_cookies';
 import Loading from '@core_modules/product/pages/default/components/Loader';
-import { getProduct, getProductLabel, addWishlist as mutationAddWishlist } from '@core_modules/product/services/graphql';
+import {
+    getProduct, getProductLabel, addWishlist as mutationAddWishlist, smartProductTabs,
+} from '@core_modules/product/services/graphql';
 import Header from '@core_modules/product/pages/default/components/header';
 import generateSchemaOrg from '@core_modules/product/helpers/schema.org';
 
@@ -16,6 +18,7 @@ const ContentDetail = ({
     Content,
     isLogin,
     weltpixel_labels,
+    dataProductTabs,
 }) => {
     const item = product.items[0];
     const route = useRouter();
@@ -99,7 +102,6 @@ const ContentDetail = ({
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
 
     const [addWishlist] = mutationAddWishlist();
-
     const handleWishlist = () => {
         if (isLogin && isLogin === 1) {
             TagManager.dataLayer({
@@ -291,6 +293,7 @@ const ContentDetail = ({
             checkCustomizableOptionsValue={checkCustomizableOptionsValue}
             additionalPrice={additionalPrice}
             setAdditionalPrice={setAdditionalPrice}
+            smartProductTabs={dataProductTabs}
         />
     );
 };
@@ -298,6 +301,12 @@ const ContentDetail = ({
 const PageDetail = (props) => {
     let product = {};
     let weltpixel_labels = [];
+    let productTab = {
+        tab_1: {
+            label: null,
+            content: null,
+        },
+    };
     const {
         slug, Content, t, isLogin, pageConfig, CustomHeader,
     } = props;
@@ -305,7 +314,20 @@ const PageDetail = (props) => {
     const {
         loading, data, error,
     } = getProduct(slug[0]);
-
+    const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
+    React.useEffect(() => {
+        if (slug[0] !== '') {
+            getProductTabs({
+                variables: {
+                    filter: {
+                        url_key: {
+                            eq: slug[0],
+                        },
+                    },
+                },
+            });
+        }
+    }, [slug[0]]);
     if (error || loading || !data) {
         return (
             <Layout pageConfig={{}} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props}>
@@ -322,6 +344,17 @@ const PageDetail = (props) => {
         weltpixel_labels = labels.data.products.items[0].weltpixel_labels;
     }
 
+    if (dataProductTabs) {
+        const productItem = dataProductTabs.products;
+        if (productItem.items.length > 0) {
+            productTab = productItem.items[0].smartProductTabs ? productItem.items[0].smartProductTabs : {
+                tab_1: {
+                    label: null,
+                    content: null,
+                },
+            };
+        }
+    }
     const schemaOrg = generateSchemaOrg(product.items[0]);
 
     const config = {
@@ -360,6 +393,7 @@ const PageDetail = (props) => {
                 Content={Content}
                 isLogin={isLogin}
                 weltpixel_labels={weltpixel_labels}
+                dataProductTabs={productTab}
             />
         </Layout>
     );

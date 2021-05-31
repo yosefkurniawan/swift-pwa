@@ -10,10 +10,6 @@ module.exports = withOffline({
     },
     dontAutoRegisterSw: true,
     productionBrowserSourceMaps: true,
-    images: {
-        domains: ['thumbor.sirclocdn.xyz'],
-        loader: 'default',
-    },
     publicRuntimeConfig: {
         appEnv: process.env.APP_ENV,
         rootDir: __dirname,

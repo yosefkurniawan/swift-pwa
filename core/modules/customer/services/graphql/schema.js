@@ -49,6 +49,87 @@ export const getCityByRegionId = gql`
   }
 `;
 
+export const customerWishlist = gql`
+  query customerWishlist($sharing_code: ID){
+    customerWishlist(sharing_code:$sharing_code){
+      items{
+        added_at
+        description
+        id
+        product{
+          id
+          name
+          url_key
+          sku
+          small_image{
+            url
+          }
+          price_range{
+            minimum_price{
+              discount{
+                amount_off
+                percent_off
+              }
+              final_price{
+                currency
+                value
+              }
+              fixed_product_taxes{
+                amount{
+                  currency
+                  value
+                }
+                label
+              }
+              regular_price{
+                currency
+                value
+              }
+            }
+            maximum_price{
+              discount{
+                amount_off
+                percent_off
+              }
+              final_price{
+                currency
+                value
+              }
+              fixed_product_taxes{
+                amount{
+                  currency
+                  value
+                }
+                label
+              }
+              regular_price{
+                currency
+                value
+              }
+            }
+          }
+        }
+        qty
+      }
+      items_count
+      name
+      sharing_code
+      updated_at
+    }
+  } 
+`;
+
+export const shareWishlist = gql`
+    mutation shareWishlist($emails: [ID]!, $message: String) {
+      shareWishlist(
+        input: {
+          emails: $emails,
+          message: $message
+        }
+      )
+    }
+`;
+
 // schema settingsPage
 
 export const updateCustomer = gql`
