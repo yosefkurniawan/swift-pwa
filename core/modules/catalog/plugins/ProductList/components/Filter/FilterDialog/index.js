@@ -38,6 +38,7 @@ const FilterDialog = ({
     handleSave,
     handleClear,
     filter,
+    storeConfig,
 }) => {
     const styles = useStyles();
     const data = filter;
@@ -102,6 +103,7 @@ const FilterDialog = ({
                                         label={itemFilter.label}
                                         maxValue={parseInt(itemFilter.value[itemFilter.value.length - 1].value)}
                                         value={price}
+                                        storeConfig={storeConfig}
                                         onChange={
                                             itemProps.priceRangeChange
                                             || setPriceRange
