@@ -25,6 +25,7 @@ import OptionItem from '@core_modules/product/pages/default/components/OptionIte
 import RightDrawer from '@core_modules/product/pages/default/components/RightDrawer';
 import SharePopup from '@core_modules/product/pages/default/components/SharePopup';
 import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
+import ProductVideo from '@core_modules/product/pages/default/components/ProductVideo';
 
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: true });
 const TabsView = dynamic(() => import('@core_modules/product/pages/default/components/DesktopTabs'), { ssr: true });
@@ -172,9 +173,15 @@ const ProductPage = (props) => {
                         </div>
                     </div>
                 </div>
+                {
+                    desktop ? '' : <ProductVideo width="100%" height={desktop ? '400px' : ''} />
+                }
                 <div className="hidden-desktop">
                     <ListReviews {...props} />
                 </div>
+                {
+                    desktop ? <ProductVideo width="100%" height={desktop ? '400px' : ''} desktop={desktop} /> : ''
+                }
                 <div className={classNames(styles.tabs, 'col-xs-12 col-lg-12 hidden-mobile')}>
                     <TabsView
                         {...props}

@@ -18,6 +18,16 @@ const useStyles = makeStyles((theme) => ({
         '& .customizable-container': {
             marginTop: 20,
         },
+        '& .product-video': {
+            overflow: 'hidden',
+            padding: '0 30px',
+            position: 'relative',
+            width: '100%',
+            marginTop: '20px',
+            [theme.breakpoints.up('sm')]: {
+                padding: '0',
+            },
+        },
     },
     headContainer: {
         position: 'relative',
