@@ -23,7 +23,6 @@ const CoreDetail = (props) => {
     const {
         loading, data, error,
     } = getBlog({
-        skip: typeof window === 'undefined',
         variables: {
             page_size: 1,
             current_page: 1,
