@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import useStyles from '@core_modules/customer/pages/wishlist/components/readwishlist/components/style';
+import useStyles from '@core_modules/customer/pages/readwishlist/components/style';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -21,7 +21,6 @@ const Content = (props) => {
         handleToCart({
             sku: item.product.sku,
             url_key: item.product.url_key,
-            wishlistItemId: item.id,
             __typename: item.product.__typename,
         });
     }
@@ -46,6 +45,11 @@ const Content = (props) => {
     };
     return (
         <div className={styles.container}>
+            <div className={styles.titleContainer}>
+                <Typography variant="h6" type="bold" letter="uppercase">
+                    {wishlistItem && wishlistItem.customerWishlist && wishlistItem.customerWishlist.name}
+                </Typography>
+            </div>
             <TableContainer component={Paper} className={styles.tableContainer}>
                 {
                     wishlistItem && wishlistItem.customerWishlist

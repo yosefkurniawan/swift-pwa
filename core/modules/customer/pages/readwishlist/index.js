@@ -1,16 +1,15 @@
 /* eslint-disable react/destructuring-assignment */
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
-import Core from '@core_modules/customer/pages/wishlist/core';
-import Content from '@core_modules/customer/pages/wishlist/components/readwishlist/components';
+import Core from '@core_modules/customer/pages/readwishlist/core';
+import Content from '@core_modules/customer/pages/readwishlist/components';
 
 const Page = (props) => (
     <Core
         {...props}
-        isRedirectWishlist
         Content={Content}
         pageConfig={{
-            title: 'Wishlist',
+            title: props.t('customer:wishlist:pageTitle'),
             header: false, // available values: "absolute", "relative", false (default)
             bottomNav: 'home',
             pageType: 'home',
@@ -19,7 +18,7 @@ const Page = (props) => (
 );
 
 Page.getInitialProps = () => ({
-    namespacesRequired: ['common', 'checkout', 'customer', 'validate'],
+    namespacesRequired: ['common', 'catalog', 'customer', 'validate', 'product'],
 });
 
 export default withApollo({ ssr: true })(withTranslation()(Page));
