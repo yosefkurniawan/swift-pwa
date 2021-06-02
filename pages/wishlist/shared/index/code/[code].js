@@ -1,3 +1,3 @@
-import Page from '@core_modules/customer/pages/readwishlist';
+import Page from '@core_modules/customer/pages/sharedwishlist';
 
 export default Page;

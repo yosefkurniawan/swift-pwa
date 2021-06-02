@@ -1,8 +1,8 @@
 /* eslint-disable react/destructuring-assignment */
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
-import Core from '@core_modules/customer/pages/readwishlist/core';
-import Content from '@core_modules/customer/pages/readwishlist/components';
+import Core from '@core_modules/customer/pages/sharedwishlist/core';
+import Content from '@core_modules/customer/pages/sharedwishlist/components';
 
 const Page = (props) => (
     <Core

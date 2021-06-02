@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import useStyles from '@core_modules/customer/pages/readwishlist/components/style';
+import useStyles from '@core_modules/customer/pages/sharedwishlist/components/style';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
