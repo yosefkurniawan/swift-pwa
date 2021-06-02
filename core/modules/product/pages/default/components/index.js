@@ -159,7 +159,7 @@ const ProductPage = (props) => {
                             </Typography>
                         </div>
                         <div>
-                            <ExpandDetail data={expandData} />
+                            <ExpandDetail data={expandData} smartProductTabs={smartProductTabs} />
                         </div>
                     </div>
                     <div className="hidden-mobile">
