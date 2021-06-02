@@ -134,6 +134,10 @@ class MyApp extends App {
          * ---------------------------------------------
          * RETURNS
          */
+        let token;
+        if (req && req.session && req.session.token) {
+            token = req.session.token;
+        }
         return {
             pageProps: {
                 ...pageProps,
@@ -142,6 +146,7 @@ class MyApp extends App {
                 isLogin,
                 lastPathNoAuth,
                 customerData,
+                token,
             },
         };
     }

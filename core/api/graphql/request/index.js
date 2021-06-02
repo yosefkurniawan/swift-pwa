@@ -16,8 +16,10 @@ function requestGraph(query, variables = {}, context = {}, config = {}) {
     }
     return new Promise((resolve) => {
         const additionalHeader = storeCode ? { store: storeCode } : {};
+        if (token && token !== '') {
+            additionalHeader.Authorization = token;
+        }
         const headers = {
-            Authorization: token,
             ...additionalHeader,
         };
         const appEnv = getAppEnv();
