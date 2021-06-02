@@ -185,7 +185,7 @@ const Checkout = (props) => {
         email: checkout.data.isGuest ? Yup.string().nullable().email(t('validate:email:wrong')).required(t('validate:email.required')) : null,
         payment: Yup.string().nullable().required(t('validate:required')),
         oldEmail: checkout.data.isGuest ? Yup.string().equalTo(Yup.ref('email')) : null,
-        address: isOnlyVirtualProductOnCart ? null : Yup.object().nullable().required(t('validate:required')),
+        address: (isOnlyVirtualProductOnCart || checkout.selectStore.id !== null) ? null : Yup.object().nullable().required(t('validate:required')),
         billing: checkout.selected.delivery === 'home' && Yup.object().nullable().required(t('validate:required')),
         shipping: isOnlyVirtualProductOnCart
             ? null
