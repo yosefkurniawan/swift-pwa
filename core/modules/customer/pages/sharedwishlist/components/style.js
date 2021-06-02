@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('md')]: {
             width: 'fit-content',
         },
+        marginLeft: 10,
     },
     footerWishlist: {
         width: '100%',
@@ -44,6 +45,12 @@ const useStyles = makeStyles((theme) => ({
         background: 'none',
         borderStyle: 'none',
         boxShadow: 'none',
+    },
+    titleContainer: {
+        width: '100%',
+        marginTop: 25,
+        marginBottom: 15,
+        paddingLeft: 10,
     },
 }));
 

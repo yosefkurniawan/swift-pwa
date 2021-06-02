@@ -17,7 +17,7 @@ const Content = (props) => {
     const styles = useStyles();
     const {
         t, wishlist, refetch, handleRemove, handleToCart, handleAddAlltoBag, loading,
-        handleShareWishlist,
+        handleShareWishlist, shareLoading,
     } = props;
     const [openShare, setOpenShare] = React.useState(false);
     const handleOpenShare = () => {
@@ -32,6 +32,7 @@ const Content = (props) => {
                             open={openShare}
                             setOpen={() => setOpenShare(false)}
                             handleShareWishlist={handleShareWishlist}
+                            shareLoading={shareLoading}
                             t={t}
                         />
                     )
