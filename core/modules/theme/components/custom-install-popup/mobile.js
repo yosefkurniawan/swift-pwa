@@ -11,7 +11,7 @@ const PopupInstalation = () => {
         const el = document.getElementById('popup-mobile__install');
         // hidden popup
         if (el) {
-            el.style.display = 'block';
+            el.style.display = 'none';
         }
 
         const date = new Date();
