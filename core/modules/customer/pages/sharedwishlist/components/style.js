@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     },
     btnWishlist: {
         width: '30%',
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('sm')]: {
             width: 'fit-content',
         },
         marginLeft: 10,
@@ -45,9 +45,8 @@ const useStyles = makeStyles((theme) => ({
     },
     btnWishlistAddAll: {
         width: '20%',
-        [theme.breakpoints.up('md')]: {
-            marginLeft: 0,
-            width: '20%',
+        [theme.breakpoints.up('sm')]: {
+            width: '21vw',
         },
         [theme.breakpoints.down('xs')]: {
             width: '80%',
