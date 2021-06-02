@@ -1,29 +1,70 @@
-import Carousel from '@common_slick/Caraousel';
-import ProductItem from '@plugin_productitem';
-import Typography from '@common_typography';
-import useStyles from '@core_modules/cart/pages/default/components/crosssell/style';
+import React from 'react';
+import { getCrossellCart } from '@core_modules/cart/services/graphql';
+import CarouselSkeleton from '@common_slick/Caraousel/Skeleton';
+import TagManager from 'react-gtm-module';
+
+const getCrossSellProduct = (items) => {
+    let crosssell = [];
+    for (let index = 0; index < items.length; index += 1) {
+        const data = items[index].product.crosssell_products.map((product) => ({
+            ...product,
+            categories: items[index].product.categories,
+        }));
+        crosssell = crosssell.concat(data);
+    }
+    return crosssell;
+};
 
 const CrossSell = (props) => {
-    const { t, editMode = false, data = [] } = props;
-    const styles = useStyles();
-    const customStyle = !editMode ? styles.margin : '';
+    const {
+        View, dataCart: { id }, ...other
+    } = props;
+    const { t } = other;
+    let crossell = [];
+    const { data, loading, error } = getCrossellCart(id);
+
+    React.useMemo(() => {
+        if (data && data.cart && data.cart.items) {
+            const crosssellData = getCrossSellProduct(data.cart.items);
+            const dataLayer = {
+                pageName: t('cart:pageTitle'),
+                pageType: 'cart',
+                ecommerce: {
+                    impressions: crosssellData.map((product, index) => {
+                        const category = product.categories && product.categories.length > 0 && product.categories[0].name;
+                        return {
+                            name: product.name,
+                            id: product.sku,
+                            category: category || '',
+                            price: product.price_range.minimum_price.regular_price.value,
+                            list: 'Crossel Products',
+                            position: index + 1,
+                        };
+                    }),
+                },
+                event: 'impression',
+                eventCategory: 'Ecommerce',
+                eventAction: 'Impression',
+                eventLabel: 'cart',
+            };
+            TagManager.dataLayer({ dataLayer });
+        }
+    }, [data]);
+
+    if (loading) {
+        return <CarouselSkeleton />;
+    }
+
+    if (!data || error) return <></>;
+    if (data && data.cart && data.cart.items) {
+        crossell = getCrossSellProduct(data.cart.items);
+    }
+
     return (
-        <>
-            <div className={customStyle}>
-                <Typography
-                    variant="h3"
-                    type="bold"
-                    letter="uppercase"
-                    align="center"
-                    className={styles.crossselTitle}
-                >
-                    {t('cart:crossell:title')}
-                </Typography>
-                <div className={styles.slider}>
-                    <Carousel enableQuickView={false} data={data} Item={ProductItem} />
-                </div>
-            </div>
-        </>
+        <View
+            data={crossell}
+            {...other}
+        />
     );
 };
 

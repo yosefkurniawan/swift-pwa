@@ -313,6 +313,7 @@ const Login = (props) => {
             Cookies.set(custDataNameCookie, {
                 email: custData.data.customer.email,
                 firstname: custData.data.customer.firstname,
+                customer_group: custData.data.customer.customer_group,
             });
             const custCartId = cartData.data.customerCart.id;
             if (cartId === '' || !cartId) {

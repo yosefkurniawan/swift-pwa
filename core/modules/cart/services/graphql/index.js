@@ -17,6 +17,15 @@ export const getCartData = (cartId) => useQuery(Schema.getCart,
         fetchPolicy: 'no-cache',
     });
 
+export const getCrossellCart = (cartId) => useQuery(Schema.getCrossellCart,
+    {
+        variables: { cartId },
+        context: {
+            request: 'internal',
+        },
+        fetchPolicy: 'no-cache',
+    });
+
 export const getCartDataLazzy = (cartId) => useLazyQuery(Schema.getCart,
     {
         variables: { cartId },

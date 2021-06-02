@@ -11,9 +11,29 @@ export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath), {
     ...defaultConfig,
 });
 
+export const getProductLabel = (urlpath) => useQuery(Schema.getProductLabel(urlpath), {
+    ...defaultConfig,
+    context: {
+        request: 'internal',
+    },
+});
+
+export const getRelatedProduct = (urlpath) => useQuery(Schema.getRelatedProduct(urlpath), {
+    ...defaultConfig,
+    context: {
+        request: 'internal',
+    },
+});
+
+export const getUpsellProduct = (urlpath) => useQuery(Schema.getUpsellProduct(urlpath), {
+    ...defaultConfig,
+    context: {
+        request: 'internal',
+    },
+});
+
 export const getCustomizableOption = (urlpath) => useLazyQuery(CustomizableSchema.getCustomizableOption(urlpath), {
     ...defaultConfig,
-    skip: typeof window === 'undefined',
     fetchPolicy: 'no-cache',
 });
 
@@ -29,6 +49,9 @@ export const smartProductTabs = (params) => useLazyQuery(Schema.smartProductTabs
 export const getProductBySku = (params) => useQuery(Schema.getProductBySku(), {
     ...params,
     ...defaultConfig,
+    context: {
+        request: 'internal',
+    },
 });
 
 export const getReviews = (params) => useQuery(Schema.getReview(), {
@@ -101,7 +124,6 @@ export const getCustomerCartId = () => useLazyQuery(ActionSchema.getCartIdUser, 
     context: {
         request: 'internal',
     },
-    skip: typeof window === 'undefined',
     fetchPolicy: 'no-cache',
 });
 
