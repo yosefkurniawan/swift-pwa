@@ -31,7 +31,7 @@ const NotificationView = (props) => {
                                         if (val.unread) {
                                             return (
                                                 <TableRow key={idx}>
-                                                    <TableCell>{val.content}</TableCell>
+                                                    <TableCell>{val.subject}</TableCell>
                                                     <TableCell align="right">{formatDate(val.createdAt)}</TableCell>
                                                 </TableRow>
                                             );

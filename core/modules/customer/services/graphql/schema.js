@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
 import { gql } from '@apollo/client';
+import { modules } from '@config';
 
 export const getRegion = gql`
 query getRegions($country_id: String!){
@@ -167,6 +168,36 @@ const productDetail = `
     small_image{
       url
     }
+    ${modules.catalog.productListing.label.weltpixel.enabled ? `
+        weltpixel_labels {
+        categoryLabel {
+            css
+            customer_group
+            image
+            page_position
+            position
+            priority
+            text
+            text_padding
+            text_bg_color
+            text_font_size
+            text_font_color          
+        }
+        productLabel {
+            css
+            customer_group
+            image
+            page_position
+            position
+            priority
+            text
+            text_padding
+            text_bg_color
+            text_font_size
+            text_font_color  
+        }
+    }        
+    ` : ''}
     image{
       url
     }

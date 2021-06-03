@@ -33,9 +33,7 @@ const uriInternal = `${host}/graphql`;
 // handle if token expired
 const logoutLink = onError((err) => {
     const { graphQLErrors, networkError } = err;
-    if (networkError && typeof window !== 'undefined') {
-        window.location.href = '/maintenance';
-    } else if (typeof window !== 'undefined' && graphQLErrors && graphQLErrors.length > 0 && graphQLErrors[0].status > 500) {
+    if (networkError && typeof window !== 'undefined' && graphQLErrors && graphQLErrors.length > 0 && graphQLErrors[0].status > 500) {
         window.location.href = '/maintenance';
     } else if (graphQLErrors && graphQLErrors[0] && graphQLErrors[0].status === 401 && typeof window !== 'undefined') {
         removeCartId();
@@ -57,6 +55,7 @@ const link = new RetryLink().split(
         uri: uriInternal, // Server URL (must be absolute)
         credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
         fetch,
+        useGETForQueries: true,
     }),
     new HttpLink({
         uri, // Server URL (must be absolute)
@@ -66,24 +65,31 @@ const link = new RetryLink().split(
     }),
 );
 
-/**
- * Meddleware to customize headers
- */
-const middlewareHeader = new ApolloLink((operation, forward) => {
-    const additionalHeader = storeCode ? { store: storeCode } : {};
-    operation.setContext(({ headers = {} }) => ({
-        headers: {
-            ...headers,
-            ...additionalHeader,
-        },
-    }));
-
-    return forward(operation);
-});
-
 export default function createApolloClient(initialState, ctx) {
     // The `ctx` (NextPageContext) will only be present on the server.
     // use it to extract auth headers (ctx.req) or similar.
+    let token = '';
+    if (ctx && ctx.req) {
+        token = ctx.req.session.token;
+    }
+    /**
+     * Meddleware to customize headers
+     */
+    const middlewareHeader = new ApolloLink((operation, forward) => {
+        const additionalHeader = storeCode ? { store: storeCode } : {};
+        if (token && token !== 'undefined') {
+            additionalHeader.Authorization = token;
+        }
+        operation.setContext(({ headers = {} }) => ({
+            headers: {
+                ...headers,
+                ...additionalHeader,
+            },
+        }));
+
+        return forward(operation);
+    });
+
     return new ApolloClient({
         ssrMode: Boolean(ctx),
         link: from([
