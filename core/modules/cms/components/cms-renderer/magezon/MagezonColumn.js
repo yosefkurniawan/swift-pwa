@@ -1,0 +1,35 @@
+import React from 'react';
+import MagezonElement from '@core_modules/cms/components/cms-renderer/magezon/index';
+
+const MagezonColumn = (props) => {
+    const {
+        elements, xs_size, sm_size, md_size, lg_size,
+        xs_offset_size, sm_offset_size, md_offset_size, lg_offset_size,
+        xs_hide, sm_hide, md_hide, lg_hide,
+    } = props;
+    let classColumn = '';
+    if (xs_size && xs_size !== '') classColumn += `col-xs-${xs_size} `;
+    if (sm_size && sm_size !== '') classColumn += `col-sm-${sm_size} `;
+    if (md_size && md_size !== '') classColumn += `col-md-${md_size} `;
+    if (lg_size && lg_size !== '') classColumn += `col-lg-${lg_size} `;
+
+    if (xs_offset_size && xs_offset_size !== '') classColumn += `col-xs-offset-${xs_offset_size} `;
+    if (sm_offset_size && sm_offset_size !== '') classColumn += `col-sm-offset-${sm_offset_size} `;
+    if (md_offset_size && md_offset_size !== '') classColumn += `col-md-offset-${md_offset_size} `;
+    if (lg_offset_size && lg_offset_size !== '') classColumn += `col-lg-offset-${lg_offset_size} `;
+
+    if (xs_hide) classColumn += 'hidden-mobile ';
+    if (sm_hide) classColumn += 'hidden-sm ';
+    if (md_hide) classColumn += 'hidden-md ';
+    if (lg_hide) classColumn += 'hidden-lg ';
+
+    return (
+        <div className={classColumn}>
+            { elements && elements.length > 0 && elements.map((item, key) => (
+                <MagezonElement key={key} {...item} />
+            )) }
+        </div>
+    );
+};
+
+export default MagezonColumn;
