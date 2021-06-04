@@ -11,7 +11,6 @@ export const getCurrency = () => useQuery(schema.getCurrencySchema);
 export const getCustomer = () => useQuery(schema.getCustomer, {
     context: {
         request: 'internal',
-        skip: typeof window === 'undefined',
     },
     fetchPolicy: 'no-cache',
 });
