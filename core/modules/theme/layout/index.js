@@ -25,10 +25,11 @@ const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false }
 const ScrollToTop = dynamic(() => import('@common_scrolltotop'), { ssr: false });
 const Footer = dynamic(() => import('@common_footer'), { ssr: true });
 const RestrictionPopup = dynamic(() => import('@common_restrictionPopup'), { ssr: false });
+const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/recentlyViewed'), { ssr: false });
 
 const Layout = (props) => {
     const bodyStyles = useStyles();
-
+    const enableRecentBar = true;
     const {
         pageConfig,
         children,
@@ -247,6 +248,15 @@ const Layout = (props) => {
                     <RestrictionPopup
                         handleRestrictionCookies={handleRestrictionCookies}
                         restrictionStyle={bodyStyles.cookieRestriction}
+                    />
+                )
+            }
+            {
+                enableRecentBar && (
+                    <RecentlyViewed
+                        recentlyBtn={bodyStyles.recentView}
+                        wrapperContent={bodyStyles.recentlyWrapperContent}
+                        recentlyBtnContent={bodyStyles.recentlyBtnContent}
                     />
                 )
             }
