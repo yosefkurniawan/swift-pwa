@@ -119,7 +119,11 @@ export const addBundleProductsToCart = () => useMutation(ActionSchema.addBundleP
     },
 });
 
-export const getGuestCartId = () => useMutation(ActionSchema.createCartIdGuest);
+export const getGuestCartId = () => useMutation(ActionSchema.createCartIdGuest, {
+    context: {
+        request: 'internal',
+    },
+});
 export const getCustomerCartId = () => useLazyQuery(ActionSchema.getCartIdUser, {
     context: {
         request: 'internal',

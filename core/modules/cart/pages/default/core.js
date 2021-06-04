@@ -49,8 +49,16 @@ const Cart = (props) => {
     };
 
     // delete item from cart
-    const [actDeleteItem, deleteData] = useMutation(Schema.deleteCartItemOnPage);
-    const [actUpdateItem, update] = useMutation(Schema.updateCartitem);
+    const [actDeleteItem, deleteData] = useMutation(Schema.deleteCartItemOnPage, {
+        context: {
+            request: 'internal',
+        },
+    });
+    const [actUpdateItem, update] = useMutation(Schema.updateCartitem, {
+        context: {
+            request: 'internal',
+        },
+    });
 
     // reorder
     const [reOrder, responseReorder] = mutationReOrder();
