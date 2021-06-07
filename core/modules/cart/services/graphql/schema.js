@@ -163,10 +163,10 @@ items {
   }
 
   ... on VirtualCartItem {
-    ${customizable_options}
+    virutalItemCustomizable: ${customizable_options}
   }
   ... on ConfigurableCartItem {
-      ${customizable_options}
+      configurableItemCustomizable: ${customizable_options}
       configurable_options {
       option_label
       value_label
@@ -184,7 +184,7 @@ items {
     }
   }
   ... on DownloadableCartItem {
-    ${customizable_options}
+    downloadablItemCustomizable: ${customizable_options}
     links {
       title
     }
@@ -240,7 +240,6 @@ ${modules.promo.enabled ? applied_coupons : ''}
 ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
 ${modules.storecredit.enabled ? applied_store_credit : ''}
 ${prices}
-${items}
 `;
 export const getCart = gql`
     query getCartData($cartId: String!) {
@@ -250,6 +249,12 @@ export const getCart = gql`
         }
     }
 `;
+
+export const getCartItem = gql`query getCartData($cartId: String!) {
+  cart(cart_id: $cartId) {
+      ${items}
+  }
+}`;
 
 export const getCrossellCart = gql`
 query getCartData($cartId: String!) {
@@ -373,15 +378,15 @@ export const getMiniCart = gql`
               id
               quantity
               ... on SimpleCartItem {
-                ${customizable_options}
+                SimpleMiniCustomizale: ${customizable_options}
               }
 
               ... on VirtualCartItem {
-                ${customizable_options}
+                virtualMiniCustomizable: ${customizable_options}
               }
 
               ... on ConfigurableCartItem {
-                  ${customizable_options}
+                  configurableMinuCustomizable: ${customizable_options}
                   configurable_options {
                   option_label
                   value_label
@@ -399,7 +404,7 @@ export const getMiniCart = gql`
                 }
               }
               ... on DownloadableCartItem {
-                ${customizable_options}
+                downloadableMiniCustomizable: ${customizable_options}
                 links {
                   title
                 }
@@ -486,6 +491,7 @@ export const updateCartitem = gql`
         cart {
           ${applied_giftcard}
           ${cartRequiredSelection}
+          ${items}
         }
       }
     }

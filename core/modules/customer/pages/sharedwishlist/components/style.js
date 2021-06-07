@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
     },
     productItem: {
         width: 150,
+        [theme.breakpoints.down('xs')]: {
+            width: '100%',
+        },
     },
     productAction: {
         display: 'flex',
@@ -28,9 +31,25 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
     btnWishlist: {
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
+        width: '30%',
+        [theme.breakpoints.up('sm')]: {
             width: 'fit-content',
+        },
+        marginLeft: 10,
+    },
+    btnWishlistMobile: {
+        [theme.breakpoints.up('md')]: {
+            width: '50vw',
+        },
+        margin: 10,
+    },
+    btnWishlistAddAll: {
+        width: '20%',
+        [theme.breakpoints.up('sm')]: {
+            width: '21vw',
+        },
+        [theme.breakpoints.down('xs')]: {
+            width: '80%',
         },
         marginLeft: 10,
     },
@@ -40,6 +59,21 @@ const useStyles = makeStyles((theme) => ({
     },
     tableCellResponsiveProduct: {
         width: '50vw',
+        [theme.breakpoints.down('xs')]: {
+            width: '100vw',
+        },
+    },
+    tableCellResponsive: {
+        [theme.breakpoints.down('xs')]: {
+            width: '100vw',
+        },
+    },
+    tableRowResponsive: {
+        [theme.breakpoints.down('xs')]: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+        },
     },
     btnFeedWishlist: {
         background: 'none',
