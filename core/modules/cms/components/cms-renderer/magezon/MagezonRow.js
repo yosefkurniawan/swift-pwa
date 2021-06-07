@@ -3,7 +3,7 @@ import MagezonElement from '@core_modules/cms/components/cms-renderer/magezon/in
 
 const MagezonRow = (props) => {
     const {
-        elements, xs_hide, sm_hide, md_hide, lg_hide,
+        elements, xs_hide, sm_hide, md_hide, lg_hide, storeConfig,
     } = props;
     let classRow = 'row ';
     if (xs_hide) classRow += 'hidden-mobile ';
@@ -13,7 +13,7 @@ const MagezonRow = (props) => {
     return (
         <div className={classRow}>
             { elements && elements.length > 0 && elements.map((item, key) => (
-                <MagezonElement key={key} {...item} />
+                <MagezonElement key={key} {...item} storeConfig={storeConfig} />
             )) }
         </div>
     );

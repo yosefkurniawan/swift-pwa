@@ -6,6 +6,7 @@ import MagezonSingleImage from '@core_modules/cms/components/cms-renderer/magezo
 import MagezonText from '@core_modules/cms/components/cms-renderer/magezon/MagezonText';
 import MagezonButton from '@core_modules/cms/components/cms-renderer/magezon/MagezonButton';
 import MagezonRawHtml from '@core_modules/cms/components/cms-renderer/magezon/MagezonRawHtml';
+import MagezonWidget from '@core_modules/cms/components/cms-renderer/magezon/MagezonWidget';
 
 const MagezonElement = (props) => {
     const { type, content } = props;
@@ -39,6 +40,8 @@ const MagezonElement = (props) => {
             return <MagezonButton {...props} />;
         case 'raw_html':
             return <MagezonRawHtml {...props} />;
+        case 'magento_widget':
+            return <MagezonWidget {...props} />;
 
         default:
             return null;

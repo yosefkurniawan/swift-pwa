@@ -5,7 +5,7 @@ const MagezonColumn = (props) => {
     const {
         elements, xs_size, sm_size, md_size, lg_size,
         xs_offset_size, sm_offset_size, md_offset_size, lg_offset_size,
-        xs_hide, sm_hide, md_hide, lg_hide,
+        xs_hide, sm_hide, md_hide, lg_hide, storeConfig,
     } = props;
     let classColumn = '';
     if (xs_size && xs_size !== '') classColumn += `col-xs-${xs_size} `;
@@ -26,7 +26,7 @@ const MagezonColumn = (props) => {
     return (
         <div className={classColumn}>
             { elements && elements.length > 0 && elements.map((item, key) => (
-                <MagezonElement key={key} {...item} />
+                <MagezonElement key={key} {...item} storeConfig={storeConfig} />
             )) }
         </div>
     );
