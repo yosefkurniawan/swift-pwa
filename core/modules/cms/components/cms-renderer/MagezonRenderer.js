@@ -6,16 +6,16 @@ const MagezonRenderer = (props) => {
     let removeIdentifier = content.replace('[mgz_pagebuilder]', '');
     removeIdentifier = removeIdentifier.replace('[/mgz_pagebuilder]', '');
     removeIdentifier = JSON.parse(removeIdentifier);
-    // if (typeof window !== 'undefined') console.log(storeConfig);
+    if (typeof window !== 'undefined') console.log(removeIdentifier);
     return (
-        <div>
+        <>
             {
                 removeIdentifier && removeIdentifier.elements && removeIdentifier.elements.length > 0
               && removeIdentifier.elements.map((item, key) => (
                   <MagezonElement key={key} {...item} storeConfig={storeConfig} />
               ))
             }
-        </div>
+        </>
     );
 };
 

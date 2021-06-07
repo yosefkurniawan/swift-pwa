@@ -7,6 +7,7 @@ import MagezonText from '@core_modules/cms/components/cms-renderer/magezon/Magez
 import MagezonButton from '@core_modules/cms/components/cms-renderer/magezon/MagezonButton';
 import MagezonRawHtml from '@core_modules/cms/components/cms-renderer/magezon/MagezonRawHtml';
 import MagezonWidget from '@core_modules/cms/components/cms-renderer/magezon/MagezonWidget';
+import MagezonInstagram from '@core_modules/cms/components/cms-renderer/magezon/MagezonInstagram';
 
 const MagezonElement = (props) => {
     const { type, content } = props;
@@ -42,6 +43,8 @@ const MagezonElement = (props) => {
             return <MagezonRawHtml {...props} />;
         case 'magento_widget':
             return <MagezonWidget {...props} />;
+        case 'instagram':
+            return <MagezonInstagram {...props} />;
 
         default:
             return null;

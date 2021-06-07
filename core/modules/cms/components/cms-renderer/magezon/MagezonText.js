@@ -1,9 +1,10 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
+import WidgetRenderer from '@core_modules/cms/components/cms-renderer/WidgetRenderer';
 
 const MagezonText = (props) => {
     const {
-        xs_hide, sm_hide, md_hide, lg_hide, content,
+        xs_hide, sm_hide, md_hide, lg_hide, content, ...other
     } = props;
     let classes = '';
     if (xs_hide) classes += 'hidden-mobile ';
@@ -12,7 +13,7 @@ const MagezonText = (props) => {
     if (lg_hide) classes += 'hidden-lg ';
     return (
         <div className={classes}>
-            <div className="magezone-text" dangerouslySetInnerHTML={{ __html: content }} />
+            <WidgetRenderer content={content} {...other} />
         </div>
     );
 };

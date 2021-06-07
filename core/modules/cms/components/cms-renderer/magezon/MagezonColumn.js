@@ -23,6 +23,10 @@ const MagezonColumn = (props) => {
     if (md_hide) classColumn += 'hidden-md ';
     if (lg_hide) classColumn += 'hidden-lg ';
 
+    if (!classColumn.includes('col-')) {
+        classColumn += 'col-xs-12 col-lg-12';
+    }
+
     return (
         <div className={classColumn}>
             { elements && elements.length > 0 && elements.map((item, key) => (
