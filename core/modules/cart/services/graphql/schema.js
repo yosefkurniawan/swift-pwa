@@ -226,60 +226,6 @@ items {
     categories {
       name
     }
-    crosssell_products {
-      id
-      name
-      url_key
-      sku
-      thumbnail {
-        url
-      }
-      small_image {
-        url,
-        label
-      }
-      price_tiers {
-        discount {
-          percent_off
-          amount_off
-        }
-        final_price {
-          currency
-          value
-        }
-        quantity
-      }
-      price_range {
-        maximum_price {
-          discount {
-            amount_off
-            percent_off
-          }
-          final_price {
-            currency
-            value
-          }
-          regular_price {
-            currency
-            value
-          }
-        }
-        minimum_price {
-          discount {
-            amount_off
-            percent_off
-          }
-          final_price {
-            currency
-            value
-          }
-          regular_price {
-            currency
-            value
-          }
-        }
-      }
-    }
   }
 }
 `;
@@ -303,6 +249,101 @@ export const getCart = gql`
             ${cartRequiredSelection}
         }
     }
+`;
+
+export const getCrossellCart = gql`
+query getCartData($cartId: String!) {
+  cart(cart_id: $cartId) {
+     items {
+      product {
+        crosssell_products {
+          id
+          name
+          url_key
+          sku
+          ${modules.catalog.productListing.label.weltpixel.enabled ? `
+          weltpixel_labels {
+            categoryLabel {
+                css
+                customer_group
+                image
+                page_position
+                position
+                priority
+                text
+                text_padding
+                text_bg_color
+                text_font_size
+                text_font_color          
+            }
+            productLabel {
+                css
+                customer_group
+                image
+                page_position
+                position
+                priority
+                text
+                text_padding
+                text_bg_color
+                text_font_size
+                text_font_color  
+            }
+          }        
+          ` : ''}
+          thumbnail {
+            url
+          }
+          small_image {
+            url,
+            label
+          }
+          price_tiers {
+            discount {
+              percent_off
+              amount_off
+            }
+            final_price {
+              currency
+              value
+            }
+            quantity
+          }
+          price_range {
+            maximum_price {
+              discount {
+                amount_off
+                percent_off
+              }
+              final_price {
+                currency
+                value
+              }
+              regular_price {
+                currency
+                value
+              }
+            }
+            minimum_price {
+              discount {
+                amount_off
+                percent_off
+              }
+              final_price {
+                currency
+                value
+              }
+              regular_price {
+                currency
+                value
+              }
+            }
+          }
+        }
+      }
+     }
+  }
+}
 `;
 
 export const getMiniCart = gql`

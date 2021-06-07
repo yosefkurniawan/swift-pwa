@@ -111,6 +111,12 @@ const ViewTopNavigation = (props) => {
                         padding: 10px 0;
                         margin: 0;
                     }
+                    @media only screen and (max-width: 1023px) and (min-width: 768px) {
+                        .header-top {
+                            height: unset;
+                            padding-top: 0;
+                        }
+                    }
                     .header-middle {
                         height: 75px;
                         padding-top: 10px;

@@ -20,7 +20,7 @@ const Transition = React.forwardRef((props, ref) => (
 const ShareWishlistView = (props) => {
     const styles = useStyles();
     const {
-        open, setOpen, handleShareWishlist, t,
+        open, setOpen, handleShareWishlist, t, shareLoading,
     } = props;
     const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('md'));
     const [emailCollection, setEmailCollection] = React.useState('');
@@ -93,6 +93,7 @@ const ShareWishlistView = (props) => {
                             <Button
                                 onClick={() => setShareWishlist()}
                                 className={styles.btnWishlist}
+                                loading={shareLoading}
                                 align="left"
                             >
                                 <Typography variant="span" type="bold" letter="uppercase" color="white">

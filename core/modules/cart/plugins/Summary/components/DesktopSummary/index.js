@@ -85,7 +85,7 @@ const Summary = (props) => {
                                                     >
                                                         x
                                                     </div>
-                                                ) }
+                                                )}
                                                 <div className="col-xs-4">
                                                     <Thumbor
                                                         className="product-image-photo"
@@ -144,7 +144,10 @@ const Summary = (props) => {
                 {
                     summary.data.map((dt, index) => (
                         <ListItem className={classNames(styles.list, 'listSummary')} key={index}>
-                            <ListItemText className={styles.labelItem} primary={<Typography variant="p" size="12">{dt.item}</Typography>} />
+                            <ListItemText
+                                className={styles.labelItem}
+                                primary={<Typography variant="p" letter="capitalize" size="12">{dt.item}</Typography>}
+                            />
                             <ListItemSecondaryAction>
                                 <Typography variant="span" type="regular">
                                     {dt.value}

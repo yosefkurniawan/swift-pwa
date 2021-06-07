@@ -10,18 +10,6 @@ import { localTotalCart } from '@services/graphql/schema/local';
 import { addWishlist as mutationWishlist, reOrder as mutationReOrder } from '@core_modules/cart/services/graphql';
 import * as Schema from '@core_modules/cart/services/graphql/schema';
 
-const getCrossSellProduct = (items) => {
-    let crosssell = [];
-    for (let index = 0; index < items.length; index++) {
-        const data = items[index].product.crosssell_products.map((product) => ({
-            ...product,
-            categories: items[index].product.categories,
-        }));
-        crosssell = crosssell.concat(data);
-    }
-    return crosssell;
-};
-
 const Cart = (props) => {
     const {
         t, token, isLogin, EmptyView, SkeletonView, pageConfig, Content, storeConfig, ...other
@@ -50,7 +38,6 @@ const Cart = (props) => {
         bottomNav: false,
         pageType: 'cart',
     };
-    let crosssell = [];
 
     const toggleEditMode = () => {
         setEditMode(!editMode);
@@ -62,8 +49,16 @@ const Cart = (props) => {
     };
 
     // delete item from cart
-    const [actDeleteItem, deleteData] = useMutation(Schema.deleteCartItemOnPage);
-    const [actUpdateItem, update] = useMutation(Schema.updateCartitem);
+    const [actDeleteItem, deleteData] = useMutation(Schema.deleteCartItemOnPage, {
+        context: {
+            request: 'internal',
+        },
+    });
+    const [actUpdateItem, update] = useMutation(Schema.updateCartitem, {
+        context: {
+            request: 'internal',
+        },
+    });
 
     // reorder
     const [reOrder, responseReorder] = mutationReOrder();
@@ -270,23 +265,11 @@ const Cart = (props) => {
 
     React.useMemo(() => {
         if (cart.items.length > 0) {
-            const crosssellData = getCrossSellProduct(cart.items);
             const dataLayer = {
                 pageName: t('cart:pageTitle'),
                 pageType: 'cart',
                 ecommerce: {
                     currency: storeConfig && storeConfig.base_currency_code ? storeConfig.base_currency_code : 'IDR',
-                    impressions: crosssellData.map((product, index) => {
-                        const category = product.categories && product.categories.length > 0 && product.categories[0].name;
-                        return {
-                            name: product.name,
-                            id: product.sku,
-                            category: category || '',
-                            price: product.price_range.minimum_price.regular_price.value,
-                            list: 'Crossel Products',
-                            position: index + 1,
-                        };
-                    }),
                 },
                 event: 'impression',
                 eventCategory: 'Ecommerce',
@@ -357,7 +340,6 @@ const Cart = (props) => {
         );
     }
 
-    crosssell = getCrossSellProduct(cart.items);
     const globalCurrency = storeConfig.default_display_currency_code;
 
     if (!loadingCart && cart.items.length < 1) {
@@ -376,7 +358,7 @@ const Cart = (props) => {
         editMode,
         deleteItem,
         toggleEditDrawer,
-        crosssell,
+        // crosssell,
         editItem,
         openEditDrawer,
         updateItem,

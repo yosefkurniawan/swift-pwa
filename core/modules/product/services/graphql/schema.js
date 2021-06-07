@@ -2,6 +2,37 @@
 import { gql } from '@apollo/client';
 import { features, modules } from '@config';
 
+const weltpixel_labels = modules.catalog.productListing.label.weltpixel.enabled ? `
+weltpixel_labels {
+  categoryLabel {
+      css
+      customer_group
+      image
+      page_position
+      position
+      priority
+      text
+      text_padding
+      text_bg_color
+      text_font_size
+      text_font_color          
+  }
+  productLabel {
+      css
+      customer_group
+      image
+      page_position
+      position
+      priority
+      text
+      text_padding
+      text_bg_color
+      text_font_size
+      text_font_color  
+  }
+}        
+` : '';
+
 const productDetail = `
     id
     name
@@ -97,6 +128,61 @@ const priceTiers = `
     }
     `;
 
+export const getUpsellProduct = (url) => gql`
+{
+  products(
+    search: "" ,filter: {
+      url_key: {
+        eq: "${url}"
+      }
+    }
+  ) {
+    items {      
+      upsell_products {
+        ${productDetail}        
+        ${weltpixel_labels}
+        ${priceRange}
+        ${priceTiers}
+      }
+    }
+  }
+}
+`;
+
+export const getRelatedProduct = (url) => gql`
+{
+  products(
+    search: "" ,filter: {
+      url_key: {
+        eq: "${url}"
+      }
+    }
+  ) {
+    items {      
+      related_products {
+        ${productDetail}        
+        ${weltpixel_labels}
+        ${priceRange}
+        ${priceTiers}
+      }
+    }
+  }
+}
+`;
+const tabListProduct = `
+    tab_1 {
+      label
+      content
+    }
+    tab_2 {
+      label
+      content
+    }
+    tab_3 {
+      label
+      content
+    }
+    `;
 /**
  * scema dynamic resolver url
  * @param url String
@@ -127,24 +213,29 @@ export const getProduct = (url) => {
                 label
                 value
               }
-              upsell_products {
-                ${productDetail}
-                ${priceRange}
-                ${priceTiers}
-              }
               media_gallery {
                 label,
                 url
-              }
-              related_products {
-               ${productDetail}
-               ${priceRange}
-               ${priceTiers}
               }
             }
             total_count
           }
     }`;
+    return query;
+};
+
+export const smartProductTabs = () => {
+    const query = gql`
+    query getSmartProductTabs($search: String, $filter: ProductAttributeFilterInput) {
+      products(search: $search, filter: $filter) {
+        items {
+          smartProductTabs {
+            ${tabListProduct}
+          }
+        }
+      }
+    }
+  `;
     return query;
 };
 
@@ -408,6 +499,23 @@ export const getGroupedProduct = gql`
             }
         }
     }
+`;
+
+export const getProductLabel = (url) => gql`
+{
+  products(
+    search: "" ,filter: {
+      url_key: {
+        eq: "${url}"
+      }
+    }
+  ) {
+    items {
+      __typename
+      ${weltpixel_labels}
+    }
+  }
+}
 `;
 
 export default {

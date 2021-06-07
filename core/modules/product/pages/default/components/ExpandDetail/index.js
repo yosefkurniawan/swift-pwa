@@ -11,15 +11,18 @@ import ExpandMoreIcon from '@material-ui/icons/Add';
 import Minimize from '@material-ui/icons/Minimize';
 import classNames from 'classnames';
 import useStyles from '@core_modules/product/pages/default/components/ExpandDetail/style';
+import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 
-export default function ExpandDetail({ data = [1, 2, 3] }) {
+export default function ExpandDetail({ data = [1, 2, 3], smartProductTabs = [] }) {
     const styles = useStyles();
     const [expanded, setExpanded] = React.useState(false);
-
+    const [smartExpanded, setSmartExpanded] = React.useState(false);
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
-
+    const handleChangeSmartTab = (panel) => (event, isExpanded) => {
+        setSmartExpanded(isExpanded ? panel : false);
+    };
     return (
         <div className={styles.root}>
             {data.map((item, index) => (
@@ -46,7 +49,7 @@ export default function ExpandDetail({ data = [1, 2, 3] }) {
                         }
                     >
                         <Typography letter="uppercase" variant="span" type="bold">
-                            { item.title || '' }
+                            {item.title || ''}
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails
@@ -84,6 +87,48 @@ export default function ExpandDetail({ data = [1, 2, 3] }) {
                         }
                     </AccordionDetails>
                 </Accordion>
+            ))}
+            {Object.values(smartProductTabs).map((item, index) => (
+                item.label ? (
+                    <Accordion
+                        key={index}
+                        expanded={smartExpanded === index}
+                        onChange={handleChangeSmartTab(index)}
+                        className={styles.expandContainer}
+                    >
+                        <AccordionSummary
+                            expandIcon={
+                                smartExpanded === index ? (
+                                    <Minimize className={styles.icon} />
+                                ) : (
+                                    <ExpandMoreIcon className={styles.icon} />
+                                )
+                            }
+                            aria-controls="panel1bh-content"
+                            id="panel1bh-header"
+                            className={
+                                smartExpanded === index
+                                    ? classNames(styles.headerExpand, styles.headerOpen)
+                                    : styles.headerExpand
+                            }
+                        >
+                            <Typography letter="uppercase" variant="span" type="bold">
+                                {item.label || ''}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails
+                            className={
+                                smartExpanded === index
+                                    ? classNames(styles.bodyExpand, styles.bodyOpen)
+                                    : styles.bodyExpand
+                            }
+                        >
+                            <div className={styles.descriptionHtml}>
+                                <CmsRenderer content={item.content} />
+                            </div>
+                        </AccordionDetails>
+                    </Accordion>
+                ) : null
             ))}
         </div>
     );
