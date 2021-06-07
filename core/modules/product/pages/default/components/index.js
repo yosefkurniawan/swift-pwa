@@ -100,6 +100,7 @@ const ProductPage = (props) => {
                         width={960}
                         height={1120}
                         actionImage={desktop ? handleOpenImageDetail : () => { }}
+                        customProduct={styles.bannerProduct}
                     />
                     <div className="hidden-desktop">
                         <UpsellDrawer
