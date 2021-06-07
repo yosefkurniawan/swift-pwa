@@ -28,6 +28,7 @@ const Banner = ({
     zoom = false,
     zoomRef = null,
     customClassCaraousel = '',
+    customProduct = '',
 }) => {
     const styles = useStyles();
     const [slideIndex, setIndex] = useState(0);
@@ -46,6 +47,9 @@ const Banner = ({
 
     const classCarousel = (customClassCaraousel && customClassCaraousel !== '')
         ? customClassCaraousel : styles.caraousel;
+
+    const customProductCaraosel = (customProduct && customProduct !== '')
+        ? customProduct : styles.customClass;
 
     const settings = {
         // className: thumbnail ? 'slick-thumbnail' : 'slick-pwa',
@@ -95,7 +99,7 @@ const Banner = ({
                                     <Zoom ref={zoomRef}>
                                         <ImageSlide
                                             height={height}
-                                            customClass={styles.customClass}
+                                            customClass={customProductCaraosel}
                                             width={width}
                                             noLink={noLink}
                                             key={key}
@@ -105,7 +109,7 @@ const Banner = ({
                                 ) : (
                                     <ImageSlide
                                         height={height}
-                                        customClass={styles.customClass}
+                                        customClass={customProductCaraosel}
                                         width={width}
                                         noLink={noLink}
                                         key={key}

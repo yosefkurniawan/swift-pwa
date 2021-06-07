@@ -1,5 +1,7 @@
 /* eslint-disable max-len */
 import useStyles from '@core_modules/customer/pages/sharedwishlist/components/style';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -14,8 +16,10 @@ import Typography from '@common_typography';
 const Content = (props) => {
     const styles = useStyles();
     const {
-        wishlistItem, t, handleToCart, handleAddAlltoBag, handleFeed,
+        wishlistItem, t, handleToCart, handleAddAlltoBag, SharedSkeleton,
     } = props;
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
     /* eslint-disable */
     const handleAddToCart = (item) => {
         handleToCart({
@@ -43,6 +47,11 @@ const Content = (props) => {
             handleAddAlltoBag(items);
         }
     };
+
+    if (!wishlistItem) {
+        return <SharedSkeleton t={t} />;
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.titleContainer}>
@@ -65,11 +74,6 @@ const Content = (props) => {
                                     </TableCell>
                                     <TableCell align="left">
                                         <Typography variant="span" type="bold" letter="uppercase">
-                                            {t('customer:wishlist:comment')}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="left">
-                                        <Typography variant="span" type="bold" letter="uppercase">
                                             {t('customer:wishlist:addToCart')}
                                         </Typography>
                                     </TableCell>
@@ -79,32 +83,49 @@ const Content = (props) => {
                                 <>
                                     {
                                         wishlistItem.customerWishlist.items.map((item, index) => (
-                                            <TableRow key={index} className={styles.tableRowResponsive}>
-                                                <TableCell
-                                                    className={styles.tableCellResponsiveProduct}
-                                                    align="left"
-                                                    data-th={t('customer:wishlist:product')}
-                                                >
-                                                    <div className={styles.productItem}>
-                                                        <ProductItem {...item.product} enableQuickView={false} />
-                                                    </div>
-                                                </TableCell>
-                                                <TableCell
-                                                    className={styles.tableCellResponsive}
-                                                    align="left"
-                                                    data-th={t('customer:wishlist:comment')}
-                                                />
-                                                <TableCell
-                                                    className={styles.tableCellResponsive}
-                                                    align="left"
-                                                    data-th={t('customer:wishlist:addToCart')}
-                                                >
-                                                    <div className={styles.productAction}>
+                                            <>
+                                                <TableRow key={index} className={styles.tableRowResponsive}>
+                                                    <TableCell
+                                                        className={styles.tableCellResponsiveProduct}
+                                                        align="left"
+                                                        data-th={t('customer:wishlist:product')}
+                                                    >
+                                                        <div className={styles.productItem}>
+                                                            <ProductItem {...item.product} enableQuickView={false} />
+                                                        </div>
+                                                    </TableCell>
+                                                    {
+                                                        !isMobile ? (
+                                                            <TableCell
+                                                                className={styles.tableCellResponsive}
+                                                                align="left"
+                                                                data-th={t('customer:wishlist:addToCart')}
+                                                            >
+                                                                <div className={styles.productAction}>
+                                                                    <div>
+                                                                        <Button
+                                                                            onClick={() => handleAddToCart(item)}
+                                                                            disabled={false}
+                                                                            className={styles.btnWishlist}
+                                                                            align="left"
+                                                                        >
+                                                                            <Typography variant="span" type="bold" letter="uppercase" color="white">
+                                                                                {t('customer:wishlist:addToCart')}
+                                                                            </Typography>
+                                                                        </Button>
+                                                                    </div>
+                                                                </div>
+                                                            </TableCell>
+                                                        ) : null
+                                                    }
+                                                </TableRow>
+                                                {
+                                                    isMobile ? (
                                                         <div>
                                                             <Button
                                                                 onClick={() => handleAddToCart(item)}
                                                                 disabled={false}
-                                                                className={styles.btnWishlist}
+                                                                className={styles.btnWishlistMobile}
                                                                 align="left"
                                                             >
                                                                 <Typography variant="span" type="bold" letter="uppercase" color="white">
@@ -112,25 +133,9 @@ const Content = (props) => {
                                                                 </Typography>
                                                             </Button>
                                                         </div>
-                                                        <div>
-                                                            <Button
-                                                                className={styles.btnFeedWishlist}
-                                                                onClick={() => handleFeed(item.product.id)}
-                                                                align="left"
-                                                            >
-                                                                <Typography
-                                                                    variant="span"
-                                                                    type="bold"
-                                                                    letter="uppercase"
-                                                                    style={{ marginLeft: 20 }}
-                                                                >
-                                                                    {t('customer:wishlist:addToWishlist')}
-                                                                </Typography>
-                                                            </Button>
-                                                        </div>
-                                                    </div>
-                                                </TableCell>
-                                            </TableRow>
+                                                    ) : null
+                                                }
+                                            </>
                                         ))
                                     }
                                 </>
@@ -140,16 +145,33 @@ const Content = (props) => {
                 }
             </TableContainer>
             <div className={styles.footerWishlist}>
-                <Button
-                    onClick={setHandleAddAlltoBag}
-                    disabled={false}
-                    className={styles.btnWishlist}
-                    align="left"
-                >
-                    <Typography variant="span" type="bold" letter="uppercase" color="white">
-                        {t('customer:wishlist:addAllToBag')}
-                    </Typography>
-                </Button>
+                {
+                    isMobile
+                        ? (
+                            <Button
+                                onClick={setHandleAddAlltoBag}
+                                disabled={false}
+                                className={styles.btnWishlistAddAll}
+                                align="center"
+                            >
+                                <Typography variant="span" type="bold" letter="uppercase" color="white">
+                                    {t('customer:wishlist:addAllToBag')}
+                                </Typography>
+                            </Button>
+                        )
+                        : (
+                            <Button
+                                onClick={setHandleAddAlltoBag}
+                                disabled={false}
+                                className={styles.btnWishlistAddAll}
+                                align="left"
+                            >
+                                <Typography variant="span" type="bold" letter="uppercase" color="white">
+                                    {t('customer:wishlist:addAllToBag')}
+                                </Typography>
+                            </Button>
+                        )
+                }
             </div>
         </div>
     );

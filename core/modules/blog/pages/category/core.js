@@ -28,7 +28,6 @@ const Category = (props) => {
     });
     const loadCategory = getCategory({ category_id: 0 });
     const loadBlog = getBlog({
-        skip: typeof window === 'undefined' || loading,
         variables: {
             page_size: pageSize,
             current_page: 1,
