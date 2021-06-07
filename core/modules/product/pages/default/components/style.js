@@ -178,6 +178,16 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 20,
         fontSize: 12,
     },
+    bannerProduct: {
+        width: '99%',
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: 'auto',
+            height: '572px',
+        },
+    },
 }));
 
 export default useStyles;
