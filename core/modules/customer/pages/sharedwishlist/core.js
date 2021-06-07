@@ -1,7 +1,6 @@
 import Layout from '@layout';
 import { useEffect } from 'react';
 import { getHost } from '@helper_config';
-import { debuging } from '@config';
 import { useRouter } from 'next/router';
 import { useApolloClient } from '@apollo/client';
 import { localTotalCart } from '@services/graphql/schema/local';
@@ -14,21 +13,18 @@ import {
     getGuestCartId as queryGetGuestCartId,
     getCustomerCartId,
 } from '@core_modules/product/services/graphql';
-import { addWishlist } from '@core_modules/catalog/services/graphql';
 
 const HomeCore = (props) => {
     const {
-        Content, pageConfig, storeConfig, t, isLogin, ...other
+        Content, pageConfig, storeConfig, SharedSkeleton, t, isLogin, ...other
     } = props;
 
     let cartId = '';
     const router = useRouter();
     const hashCode = router.query.code;
     const [getCustomerWishlist, { data: dataWishlist }] = customerWishlist();
-    const [postAddWishlist] = addWishlist();
     const [getGuestCartId] = queryGetGuestCartId();
     const [addToCart] = addSimpleProductsToCart();
-    const [feed, setFeed] = React.useState(false);
     const [getCartUser, { data: cartUser }] = getCustomerCartId();
     const client = useApolloClient();
 
@@ -50,34 +46,6 @@ const HomeCore = (props) => {
             getCartUser();
         }
     }, [cartUser, isLogin]);
-
-    const handleFeed = (id) => {
-        if (isLogin && isLogin !== '') {
-            postAddWishlist({
-                variables: {
-                    productId: id,
-                },
-            })
-                .then(async () => {
-                    await setFeed(!feed);
-                    await window.toastMessage({ open: true, variant: 'success', text: t('common:message:feedSuccess') });
-                    router.push('/wishlist');
-                })
-                .catch((e) => {
-                    window.toastMessage({
-                        open: true,
-                        variant: 'error',
-                        text: debuging.originalError ? e.message.split(':')[1] : t('common:message:feedFailed'),
-                    });
-                });
-        } else if (typeof window.toastMessage !== 'undefined') {
-            window.toastMessage({
-                open: true,
-                variant: 'warning',
-                text: t('catalog:wishlist:addWithoutLogin'),
-            });
-        }
-    };
 
     const handleToCart = async ({ sku, url_key, __typename }) => {
         const errorMessage = {
@@ -232,9 +200,9 @@ const HomeCore = (props) => {
                 storeConfig={storeConfig}
                 {...other}
                 wishlistItem={dataWishlist}
+                SharedSkeleton={SharedSkeleton}
                 t={t}
                 handleToCart={handleToCart}
-                handleFeed={handleFeed}
                 handleAddAlltoBag={handleAddAlltoBag}
             />
         </Layout>
