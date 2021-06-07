@@ -60,6 +60,8 @@ const CrossSell = (props) => {
         crossell = getCrossSellProduct(data.cart.items);
     }
 
+    if (crossell.length === 0) return null;
+
     return (
         <View
             data={crossell}

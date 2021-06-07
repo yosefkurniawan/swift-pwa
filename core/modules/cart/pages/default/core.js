@@ -2,13 +2,14 @@
 /* eslint-disable no-plusplus */
 import { useState } from 'react';
 import { getCartId, setCartId } from '@helper_cartid';
-import { useMutation, useLazyQuery } from '@apollo/client';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Layout from '@layout';
 import { localTotalCart } from '@services/graphql/schema/local';
-import { addWishlist as mutationWishlist, reOrder as mutationReOrder } from '@core_modules/cart/services/graphql';
-import * as Schema from '@core_modules/cart/services/graphql/schema';
+import {
+    addWishlist as mutationWishlist, reOrder as mutationReOrder,
+    getCartDataLazy, getCartItemLazy, deleteCartItem, updateCartitem,
+} from '@core_modules/cart/services/graphql';
 
 const Cart = (props) => {
     const {
@@ -49,28 +50,16 @@ const Cart = (props) => {
     };
 
     // delete item from cart
-    const [actDeleteItem, deleteData] = useMutation(Schema.deleteCartItemOnPage, {
-        context: {
-            request: 'internal',
-        },
-    });
-    const [actUpdateItem, update] = useMutation(Schema.updateCartitem, {
-        context: {
-            request: 'internal',
-        },
-    });
+    const [actDeleteItem, deleteData] = deleteCartItem();
+    const [actUpdateItem, update] = updateCartitem();
 
     // reorder
     const [reOrder, responseReorder] = mutationReOrder();
 
     // getCartDataLazzy
-    const [getCart, responseCart] = useLazyQuery(Schema.getCart, {
-        context: {
-            request: 'internal',
-        },
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all',
-    });
+    const [getCart, responseCart] = getCartDataLazy();
+
+    const [getCartItem, responseCartItem] = getCartItemLazy();
 
     React.useEffect(() => {
         if (paymentFailed && orderId) {
@@ -82,8 +71,13 @@ const Cart = (props) => {
         } else {
             const cartId = getCartId();
             if (cartId) {
-                if (getCart && !responseCart.called) {
+                if (getCart && !responseCart.called && getCartItem && !responseCartItem.called) {
                     getCart({
+                        variables: {
+                            cartId,
+                        },
+                    });
+                    getCartItem({
                         variables: {
                             cartId,
                         },
@@ -106,8 +100,13 @@ const Cart = (props) => {
                             router.push('/checkout/cart');
                         }, 1000);
                     }
-                    if (getCart && !responseCart.called) {
+                    if (getCart && !responseCart.called && getCartItem && !responseCartItem.called) {
                         getCart({
+                            variables: {
+                                cartId: cart_id,
+                            },
+                        });
+                        getCartItem({
                             variables: {
                                 cartId: cart_id,
                             },
@@ -119,9 +118,10 @@ const Cart = (props) => {
     }, [responseReorder]);
 
     React.useEffect(() => {
-        if (responseCart.loading) setLoadingCart(true);
-        if (responseCart && responseCart.data && responseCart.data.cart) {
-            const itemsCart = responseCart.data.cart.items.filter((item) => item !== null);
+        if (responseCart.loading || responseCartItem.loading) setLoadingCart(true);
+        if (responseCart && responseCart.data && responseCart.data.cart
+            && responseCartItem && responseCartItem.data && responseCartItem.data.cart) {
+            const itemsCart = responseCartItem.data.cart.items.filter((item) => item !== null);
             const carts = {
                 ...responseCart.data.cart,
                 items: itemsCart,
@@ -151,7 +151,7 @@ const Cart = (props) => {
             setErrorCart(errorList);
             setLoadingCart(false);
         }
-    }, [responseCart]);
+    }, [responseCart, responseCartItem]);
 
     // React.useMemo(() => {
     //     if (!loadingCart && tmpData && tmpData.id) {
