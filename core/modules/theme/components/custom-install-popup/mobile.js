@@ -3,7 +3,7 @@
 import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
 import { installMessage, appName } from '@config';
-import useStyles from './style';
+import useStyles from '@core_modules/theme/components/custom-install-popup/style';
 
 const PopupInstalation = () => {
     const styles = useStyles();

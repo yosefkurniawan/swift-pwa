@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
-import * as Schema from './schema';
+import * as Schema from '@core_modules/register/services/graphql/schema';
 
 export const register = () => useMutation(Schema.register, {
     context: {
@@ -7,7 +7,9 @@ export const register = () => useMutation(Schema.register, {
     },
 });
 
-export const otpConfig = () => useQuery(Schema.otpConfig);
+export const otpConfig = () => useQuery(Schema.otpConfig, {
+    fetchPolicy: 'no-cache',
+});
 
 export const mergeCart = () => useMutation(Schema.mergeCart, {
     context: {

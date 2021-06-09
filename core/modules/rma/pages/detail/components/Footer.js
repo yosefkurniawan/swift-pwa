@@ -2,7 +2,7 @@ import Typography from '@common_typography';
 import React from 'react';
 import Button from '@common_button';
 import classNames from 'classnames';
-import useStyles from './styles';
+import useStyles from '@core_modules/rma/pages/detail/components/styles';
 
 const Footer = ({
     cancelButton,

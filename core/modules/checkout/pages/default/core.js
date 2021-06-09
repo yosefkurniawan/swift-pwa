@@ -11,11 +11,12 @@ import Head from 'next/head';
 import { modules } from '@config';
 import { getStoreHost } from '@helpers/config';
 import Cookies from 'js-cookie';
+import { getAppEnv } from '@root/core/helpers/env';
 import Toast from '@common_toast';
-import gqlService from '../../services/graphql';
+import gqlService from '@core_modules/checkout/services/graphql';
 import {
     getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl,
-} from '../../helpers/config';
+} from '@core_modules/checkout/helpers/config';
 
 function equalTo(ref, msg) {
     return this.test({
@@ -52,7 +53,7 @@ const Checkout = (props) => {
     let { cartId, isLogin } = props;
     let urlRedirect = '/checkout/cart';
     if (modules.checkout.checkoutOnly) {
-        urlRedirect = getStoreHost();
+        urlRedirect = getStoreHost(getAppEnv());
     }
     if (typeof window !== 'undefined') {
         cartId = getCartId();
@@ -62,9 +63,7 @@ const Checkout = (props) => {
         }
     }
 
-    const {
-        snap_is_production, snap_client_key, allow_guest_checkout,
-    } = storeConfig;
+    const { snap_is_production, snap_client_key, allow_guest_checkout } = storeConfig;
     if (storeConfig && !allow_guest_checkout && !isLogin) {
         urlRedirect = getLoginCallbackUrl({ errorGuest: true });
         if (typeof window !== 'undefined') {
@@ -114,6 +113,7 @@ const Checkout = (props) => {
                 original_price: null,
             },
             payment: null,
+            purchaseOrderNumber: null,
             billing: null,
             delivery: 'home',
         },
@@ -122,6 +122,7 @@ const Checkout = (props) => {
             addresses: false,
             shipping: false,
             payment: false,
+            purchaseOrderNumber: false,
             billing: false,
             order: false,
             coupon: false,
@@ -133,6 +134,7 @@ const Checkout = (props) => {
             addresses: false,
             openAddressDialog: false,
             backdrop: false,
+            purchaseOrderApply: false,
         },
         pickupInformation: {},
         selectStore: {},
@@ -203,7 +205,7 @@ const Checkout = (props) => {
             billing: null,
         },
         validationSchema: CheckoutSchema,
-        onSubmit: () => { },
+        onSubmit: () => {},
     });
 
     const updateFormik = (cart) => {
@@ -299,7 +301,6 @@ const Checkout = (props) => {
                 label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
                 promoLabel: `${item.shipping_promo_name}`,
                 value: `${item.carrier_code}_${item.method_code}`,
-
             }));
         }
 
@@ -408,8 +409,13 @@ const Checkout = (props) => {
             // window.location.replace('/checkout/cart');
         }
 
-        if (dataCart && dataCart.cart && dataCart.cart.shipping_addresses
-            && dataCart.cart.shipping_addresses.length === 0 && !checkout.data.isGuest) {
+        if (
+            dataCart
+            && dataCart.cart
+            && dataCart.cart.shipping_addresses
+            && dataCart.cart.shipping_addresses.length === 0
+            && !checkout.data.isGuest
+        ) {
             setCheckout({
                 ...checkout,
                 loading: {
@@ -441,12 +447,15 @@ const Checkout = (props) => {
         const state = { ...checkout };
         let customer;
         let address;
-        if (!state.data.isGuest && addressCustomer && addressCustomer.data
-            && addressCustomer.data.customer && addressCustomer.data.customer.addresses) {
+        if (
+            !state.data.isGuest
+            && addressCustomer
+            && addressCustomer.data
+            && addressCustomer.data.customer
+            && addressCustomer.data.customer.addresses
+        ) {
             customer = addressCustomer.data.customer;
-            [address] = customer
-                ? customer.addresses.filter((item) => item.default_shipping)
-                : [null];
+            [address] = customer ? customer.addresses.filter((item) => item.default_shipping) : [null];
             state.data.defaultAddress = customer ? address : null;
             if (!customer.addresses || customer.addresses.length === 0) {
                 state.loading.addresses = false;

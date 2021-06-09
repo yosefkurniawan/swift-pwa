@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
-import * as Schema from './schema';
+import * as Schema from '@core_modules/cart/services/graphql/schema';
 
 export const addWishlist = () => useMutation(Schema.addWishlist, {
     context: {

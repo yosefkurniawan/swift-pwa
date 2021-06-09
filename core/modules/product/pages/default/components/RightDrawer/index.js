@@ -8,7 +8,7 @@ import Link from 'next/link';
 import classNames from 'classnames';
 import Image from '@common_image';
 import Tooltip from '@material-ui/core/Tooltip';
-import useStyles from './style';
+import useStyles from '@core_modules/product/pages/default/components/RightDrawer/style';
 
 const ItemLook = (props) => {
     const { url_key, small_image: { url, label }, features } = props;

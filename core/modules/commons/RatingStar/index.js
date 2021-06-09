@@ -1,6 +1,6 @@
 import IconButton from '@material-ui/core/IconButton';
 import Star from '@material-ui/icons/Star';
-import useStyles from './style';
+import useStyles from '@common_ratingstar/style';
 
 const RatingStar = ({
     value = 1,

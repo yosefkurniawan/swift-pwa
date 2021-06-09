@@ -1,8 +1,10 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
-import * as Schema from './schema';
+import * as Schema from '@core_modules/checkout/services/graphql/schema';
 
 const NOT_USING_INTERNAL = false;
 const USING_INTERNAL = true;
+
+export const getIndodanaUrl = () => useLazyQuery(Schema.getIndodanaUrl);
 
 const config = (isUsingInternal) => {
     const context = isUsingInternal ? { request: 'internal' } : {};
@@ -209,6 +211,8 @@ export const addOrderComment = () => useMutation(Schema.addOrderComment, {
     ...config(USING_INTERNAL),
 });
 
+export const getCmsPage = (variables) => useQuery(Schema.getCmsPage, { variables });
+
 export default {
     updateExtraFee,
     updatedDefaultAddress,
@@ -247,4 +251,6 @@ export default {
     deleteItemCart,
     updateItemCart,
     addOrderComment,
+    getCmsPage,
+    getIndodanaUrl,
 };

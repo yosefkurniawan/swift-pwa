@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslation } from '@i18n';
 import Image from '@common_image';
 import { features } from '@config';
-import useStyles from './styles';
+import useStyles from '@core_modules/rma/pages/detail/components/styles';
 
 const ItemProduct = (props) => {
     const {

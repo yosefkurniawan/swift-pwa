@@ -7,7 +7,7 @@ import { formatPrice } from '@helper_currency';
 import formatDate from '@helper_date';
 import IconArrow from '@material-ui/icons/ArrowForwardIos';
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@core_modules/thanks/pages/default/components/style';
 
 const View = (props) => {
     const {

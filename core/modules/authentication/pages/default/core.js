@@ -4,8 +4,8 @@ import { useRouter } from 'next/router';
 import { setLogin, removeIsLoginFlagging } from '@helpers/auth';
 import { expiredToken } from '@config';
 import { setCartId, removeCartId } from '@helpers/cartId';
-import { generateSession, deleteSession } from '../../services/graphql';
-import Error from '../../components/Error';
+import { generateSession, deleteSession } from '@core_modules/authentication/services/graphql';
+import Error from '@core_modules/authentication/components/Error';
 
 // const counter = 3; // seconds
 
@@ -61,9 +61,9 @@ const Authentication = (props) => {
                         setCartId(cartId, expired);
                         setLoad(false);
                         if (objectProps && objectProps.redirect_path && objectProps.redirect_path !== '') {
-                            router.push(objectProps.redirect_path);
+                            router.replace(objectProps.redirect_path);
                         } else {
-                            router.push('/');
+                            router.replace('/');
                         }
                     } else {
                         setAuthFailed(true);

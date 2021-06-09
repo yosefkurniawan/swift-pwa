@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@common_forms/SelectColor/style';
 
 const SelectColor = (props) => {
     const {

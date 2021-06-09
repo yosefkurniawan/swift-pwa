@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import TextField from '@common_textfield';
-import useStyles from './style';
+import useStyles from '@core_modules/checkout/pages/default/components/OrderComment/style';
 
 const OrderCommentView = (props) => {
     const styles = useStyles();

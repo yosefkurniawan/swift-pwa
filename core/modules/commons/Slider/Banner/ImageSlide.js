@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { features } from '@config';
 import setDefaultWhenEmpty from '@helper_checkimagesrc';
 import Thumbor from '@common_image';
-import useStyles from './style';
+import useStyles from '@common_slider/Banner/style';
 
 /**
  slug page need props 'href' & 'as' to prevent browser reloading

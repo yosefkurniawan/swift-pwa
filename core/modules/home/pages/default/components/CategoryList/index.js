@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import { modules } from '@config';
-import gqlService from '../../../../service/graphql';
+import gqlService from '@core_modules/home/service/graphql';
 
 const CategoryList = ({
     storeConfig, t, CategoryListSkeleton, ErrorInfo, CategoryListView,

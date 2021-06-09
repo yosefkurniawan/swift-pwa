@@ -3,7 +3,7 @@ import TextField from '@common_forms/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@common_button';
 import Typography from '@common_typography';
-import useStyles from './style';
+import useStyles from '@core_modules/checkout/components/fieldcode/style';
 
 const FieldPoint = ({
     onChange = () => {},
@@ -17,14 +17,19 @@ const FieldPoint = ({
     errorMessage = 'error',
     loading = false,
     toggleField = false,
+    styleFrame = {},
+    styleFrameText = {},
+    styleTextField = {},
 }) => {
     const styles = useStyles();
     return (
         <div className={classNames(styles.block, styles.rmBorder)} id={id}>
-            <div className={styles.fieldPoinContainer}>
+            <div className={styles.fieldPoinContainer} style={styleFrame}>
                 <TextField
                     id={`${id}Textfield`}
                     name={name}
+                    styleFrameText={styleFrameText}
+                    styleTextField={styleTextField}
                     disabled={!!(disabled || toggleField)}
                     value={value}
                     onChange={onChange}

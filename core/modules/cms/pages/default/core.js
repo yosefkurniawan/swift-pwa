@@ -1,5 +1,5 @@
 import Layout from '@layout';
-import { getCmsPage } from '../../services/graphql';
+import { getCmsPage } from '@core_modules/cms/services/graphql';
 
 const CmsSlug = (props) => {
     const {

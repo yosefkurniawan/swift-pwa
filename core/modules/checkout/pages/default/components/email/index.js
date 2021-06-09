@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import gqlService from '../../../../services/graphql';
+import gqlService from '@core_modules/checkout/services/graphql';
 
 const Email = (props) => {
     const {

@@ -1,4 +1,4 @@
-import { getCategory } from '../../services/graphql';
+import { getCategory } from '@core_modules/blog/services/graphql';
 
 const CoreCategory = ({
     ErrorInfo, Content, t,

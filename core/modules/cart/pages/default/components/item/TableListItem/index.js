@@ -16,8 +16,8 @@ import DeleteOutlineOutlined from '@material-ui/icons/DeleteOutlineOutlined';
 import Link from 'next/link';
 import Image from '@common_image';
 import { features } from '@config';
-import useStyles from './style';
-import ConfirmationDelete from '../../confirmDelete';
+import useStyles from '@core_modules/cart/pages/default/components/item/TableListItem/style';
+import ConfirmationDelete from '@core_modules/cart/pages/default/components/confirmDelete';
 
 const TableListProduct = ({
     data, t, deleteItem, handleFeed, toggleEditDrawer,

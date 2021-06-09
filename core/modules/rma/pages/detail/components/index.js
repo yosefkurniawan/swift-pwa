@@ -4,8 +4,8 @@ import React from 'react';
 import ConfirmModal from '@common_confirmdialog';
 import Layout from '@layout_customer';
 import { updateRma, cancelRma } from '@core_modules/rma/services/graphql';
-import ItemField from './ItemField';
-import useStyles from './styles';
+import ItemField from '@core_modules/rma/pages/detail/components/ItemField';
+import useStyles from '@core_modules/rma/pages/detail/components/styles';
 
 const DetailContent = (props) => {
     const {

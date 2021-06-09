@@ -3,7 +3,7 @@ import Button from '@common_button';
 import Typography from '@common_typography';
 import React from 'react';
 import propTypes from 'prop-types';
-import Category from '../../../components/Category';
+import Category from '@core_modules/blog/components/Category';
 
 const Content = ({
     t, data, loadMore, loading, handleLoadMore, page, loadCategory,

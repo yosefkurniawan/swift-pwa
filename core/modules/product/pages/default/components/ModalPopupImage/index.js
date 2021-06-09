@@ -5,7 +5,7 @@ import Close from '@material-ui/icons/Close';
 import Plus from '@material-ui/icons/Add';
 import Min from '@material-ui/icons/Minimize';
 import Banner from '@common_slick/BannerThumbnail';
-import useStyles from './style';
+import useStyles from '@core_modules/product/pages/default/components/ModalPopupImage/style';
 
 const PopupImage = (props) => {
     const { open, setOpen, banner } = props;

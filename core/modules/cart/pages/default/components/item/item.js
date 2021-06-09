@@ -9,8 +9,8 @@ import Alert from '@material-ui/lab/Alert';
 import { features } from '@config';
 import Image from '@common_image';
 import Typography from '@common_typography';
-import useStyles from '../style';
-import ConfirmationDelete from '../confirmDelete';
+import useStyles from '@core_modules/cart/pages/default/components/style';
+import ConfirmationDelete from '@core_modules/cart/pages/default/components/confirmDelete';
 
 const ItemView = (props) => {
     const {

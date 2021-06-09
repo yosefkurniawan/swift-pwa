@@ -33,16 +33,19 @@
         "submit": "Kirimkan",
         "viewAll": "Lihat Semua",
         "goCheckout": "Checkout",
-        "viewandedit": "Lihat dan Ubah"
+        "viewandedit": "Lihat dan Ubah",
+        "allowCookies": "Ijinkan Cookie"
     },
-    "cart" : {
+    "cart": {
         "myCart": "Cart Saya",
         "cardTotal": "Cart Subtotal",
         "deleteSuccess": "Hapus item cart berhasil",
         "deleteFailed": "Hapus item cart gagal",
         "updateSuccess": "Update item cart berhasil",
         "updateFailed": "Update item cart gagal",
-        "emptyCart": "ANDA TIDAK MEMILIKI ITEM DI KERANJANG BELANJA ANDA."
+        "emptyCart": "ANDA TIDAK MEMILIKI ITEM DI KERANJANG BELANJA ANDA.",
+        "oos": "Stok habis",
+        "cartError": "Ada kesalahan di keranjang anda, silahkan bersihkan dan ulangi kembali"
     },
     "subtotal": "Subtotal",
     "price": {
@@ -82,7 +85,7 @@
         "free": "Free"
     },
     "error": {
-        "notFound" : "Data tidak di temukan",
+        "notFound": "Data tidak di temukan",
         "fileReject": "Tidak dapat mengupload file harus ber type ",
         "fetchError": "Terjadi kesalahan. Silakan coba lagi nanti"
     },
@@ -91,12 +94,12 @@
         "dragActive": "Taruh file kesini ...",
         "dragNonActive": "Tarik dan taruh file kesini, atau klik untuk pilih file"
     },
-    "menu" : {
-        "confirmpayment" : "Konfirmasi Pembayaran",
-        "trackingorder" : "Lacak Pesanan",
-        "sign" : "Masuk",
-        "register" : "Buat Akun",
-        "or" : "Atau",
+    "menu": {
+        "confirmpayment": "Konfirmasi Pembayaran",
+        "trackingorder": "Lacak Pesanan",
+        "sign": "Masuk",
+        "register": "Buat Akun",
+        "or": "Atau",
         "notification": "Notifikasi",
         "myaccount": "Akun Saya",
         "mywishlist": "Daftar Saya",
@@ -112,7 +115,8 @@
     },
     "message": {
         "feedSuccess": "Produk berhasil di tambahkan ke wishlist",
-        "feedFailed": "Tambah wishlist gagal"
+        "feedFailed": "Tambah wishlist gagal",
+        "restrictionCookies": "Kami menggunakan cookie untuk membuat pengalaman Anda lebih baik. Untuk mematuhi arahan e-Privacy yang baru, kami perlu meminta persetujuan Anda untuk menyetel cookie. Pelajari lebih lanjut."
     },
     "newsletter": {
         "title": "DAFTAR NEWSLETTER",

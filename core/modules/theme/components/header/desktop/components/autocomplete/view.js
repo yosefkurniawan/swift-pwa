@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import classNames from 'classnames';
 import { formatPrice } from '@helper_currency';
-import useStyles from './style';
+import useStyles from '@core_modules/theme/components/header/desktop/components/autocomplete/style';
 
 const OptionsItem = (props) => {
     const styles = useStyles();

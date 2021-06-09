@@ -5,24 +5,25 @@ import Router from 'next/router';
 import Cookies from 'js-cookie';
 import { modules } from '@config';
 import { getStoreHost } from '@helpers/config';
-import Core from './core';
-import CashbackInfo from './components/CashbackInfo';
-import EmailView from './components/email/view';
-import DeliveryView from './components/delivery/view';
-import DeliverySkeleton from './components/delivery/skeleton';
-import SummaryView from './components/summary/view';
-import AddressView from './components/address/view';
-import ShippingView from './components/shipping/view';
-import PaymentView from './components/payment/view';
-import GiftCardView from './components/giftcard/view';
-import FieldPointView from '../../components/fieldcode';
-import RewardPointView from './components/rewardpoint/view';
-import StoreCreditView from './components/credit/view';
-import ExtraFeeView from './components/ExtreeFee/view';
-import Content from './components';
-import HeaderView from './components/Header';
-import PromoModalItemView from './components/PromoModalItem/view';
-import OrderCommentView from './components/OrderComment/view';
+import { getAppEnv } from '@root/core/helpers/env';
+import Core from '@core_modules/checkout/pages/default/core';
+import CashbackInfo from '@core_modules/checkout/pages/default/components/CashbackInfo';
+import EmailView from '@core_modules/checkout/pages/default/components/email/view';
+import DeliveryView from '@core_modules/checkout/pages/default/components/delivery/view';
+import DeliverySkeleton from '@core_modules/checkout/pages/default/components/delivery/skeleton';
+import SummaryView from '@core_modules/checkout/pages/default/components/summary/view';
+import AddressView from '@core_modules/checkout/pages/default/components/address/view';
+import ShippingView from '@core_modules/checkout/pages/default/components/shipping/view';
+import PaymentView from '@core_modules/checkout/pages/default/components/payment/view';
+import GiftCardView from '@core_modules/checkout/pages/default/components/giftcard/view';
+import FieldPointView from '@core_modules/checkout/components/fieldcode';
+import RewardPointView from '@core_modules/checkout/pages/default/components/rewardpoint/view';
+import StoreCreditView from '@core_modules/checkout/pages/default/components/credit/view';
+import ExtraFeeView from '@core_modules/checkout/pages/default/components/ExtraFee/view';
+import Content from '@core_modules/checkout/pages/default/components';
+import HeaderView from '@core_modules/checkout/pages/default/components/Header';
+import PromoModalItemView from '@core_modules/checkout/pages/default/components/PromoModalItem/view';
+import OrderCommentView from '@core_modules/checkout/pages/default/components/OrderComment/view';
 
 const Page = (props) => (
     <Core
@@ -67,7 +68,7 @@ Page.getInitialProps = async (ctx) => {
 
     let urlRedirect = '/checkout/cart';
     if (checkoutOnly) {
-        urlRedirect = getStoreHost();
+        urlRedirect = getStoreHost(getAppEnv());
     }
 
     if (!cartId) {

@@ -19,7 +19,7 @@ import {
     storeConfigNameCookie, GTM, custDataNameCookie, features, sentry,
 } from '@config';
 import { getLoginInfo, getLastPathWithoutLogin } from '@helper_auth';
-import { setResolver, testLocalStorage } from '@helper_localstorage';
+import { setResolver, testLocalStorage, setLocalStorage } from '@helper_localstorage';
 import { RewriteFrames } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
 import { unregister } from 'next-offline/runtime';
@@ -33,7 +33,7 @@ import Notification from '@lib_firebase/notification';
 import firebase from '@lib_firebase/index';
 
 import * as Sentry from '@sentry/node';
-import ModalCookies from '../components/modalCookies';
+import ModalCookies from '@core_modules/theme/components/modalCookies';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -261,7 +261,10 @@ class MyApp extends App {
         const { Component, pageProps } = this.props;
         const storeCookie = helperCookies.get(storeConfigNameCookie);
         if (!storeCookie) {
-            helperCookies.set(storeConfigNameCookie, pageProps.storeConfig);
+            const config = { ...pageProps.storeConfig };
+            config.cms_page = null;
+            setLocalStorage('cms_page', pageProps.storeConfig && pageProps.storeConfig.cms_page ? pageProps.storeConfig.cms_page : '');
+            helperCookies.set(storeConfigNameCookie, config);
         }
         pageProps.storeConfig = pageProps.storeConfig ? pageProps.storeConfig : {};
         if (typeof window !== 'undefined' && testLocalStorage() === false) {

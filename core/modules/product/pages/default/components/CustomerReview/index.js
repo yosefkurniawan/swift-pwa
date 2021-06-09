@@ -2,8 +2,8 @@
 import Typography from '@common_typography';
 import formatDate from '@helper_date';
 import RatingStar from '@common_ratingstar';
-import Avatar from './avatar';
-import useStyles from './style';
+import Avatar from '@core_modules/product/pages/default/components/CustomerReview/avatar';
+import useStyles from '@core_modules/product/pages/default/components/CustomerReview/style';
 
 const CustomerReview = (props) => {
     const styles = useStyles();

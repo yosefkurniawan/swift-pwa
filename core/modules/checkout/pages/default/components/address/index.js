@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { formatPrice } from '@helper_currency';
 import TagManager from 'react-gtm-module';
 import _ from 'lodash';
-import gqlService from '../../../../services/graphql';
+import gqlService from '@core_modules/checkout/services/graphql';
 
 const Loader = () => (
     <>
@@ -82,10 +82,8 @@ const Address = (props) => {
                 }));
             }
 
-            if (shippingAddress) {
-                if (shippingAddress.selected_shipping_method === null) {
-                    state.selected.shipping = null;
-                }
+            if (shippingAddress && data.isGuest) {
+                state.selected.address = shippingAddress;
             }
 
             state.data.shippingMethods = shippingMethods;
@@ -135,13 +133,7 @@ const Address = (props) => {
                         longitude,
                     },
                 })
-                    .then(async (resAddress) => {
-                        const [shipping] = resAddress.data.setShippingAddressesOnCart.cart.shipping_addresses;
-                        if (shipping) {
-                            checkout.selected.address = shipping;
-                            checkout.loading.addresses = false;
-                            await setCheckout(checkout);
-                        }
+                    .then(async () => {
                         setBillingAddressByInput({
                             variables: {
                                 cartId: cart.id,
@@ -150,7 +142,7 @@ const Address = (props) => {
                                 longitude,
                             },
                         })
-                            .then((resBilling) => {
+                            .then(async (resBilling) => {
                                 updateAddressState(resBilling);
                                 resolve();
                             })

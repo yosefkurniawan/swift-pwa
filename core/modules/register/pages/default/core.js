@@ -18,14 +18,15 @@ import { getAppEnv } from '@helpers/env';
 
 import {
     register, otpConfig as queryOtpConfig, mergeCart as mutationMergeCart, getCustomerCartId,
-} from '../../services/graphql';
-import { getCustomer } from '../../services/graphql/schema';
-import Content from './components';
+} from '@core_modules/register/services/graphql';
+import { getCustomer } from '@core_modules/register/services/graphql/schema';
 
 const appEnv = getAppEnv();
 
 const Register = (props) => {
-    const { t, storeConfig, pageConfig } = props;
+    const {
+        t, storeConfig, pageConfig, Content,
+    } = props;
     const config = {
         title: t('register:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)
@@ -41,13 +42,13 @@ const Register = (props) => {
     const [disabled, setdisabled] = React.useState(false);
 
     const recaptchaRef = React.createRef();
-    const sitekey = (recaptcha.siteKey[appEnv])
-        ? recaptcha.siteKey[appEnv] : recaptcha.siteKey.dev;
+    const sitekey = recaptcha.siteKey[appEnv] ? recaptcha.siteKey[appEnv] : recaptcha.siteKey.dev;
 
     let cartId = '';
 
     const expired = storeConfig.oauth_access_token_lifetime_customer
-        ? new Date(Date.now() + parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) * 3600000) : expiredToken;
+        ? new Date(Date.now() + parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) * 3600000)
+        : expiredToken;
 
     if (typeof window !== 'undefined') {
         cartId = getCartId();
@@ -67,7 +68,7 @@ const Register = (props) => {
 
     const [sendRegister] = register();
 
-    const RegisterSchema = Yup.object().shape({
+    let configValidation = {
         email: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
         firstName: Yup.string().required(t('validate:firstName:required')),
         lastName: Yup.string().required(t('validate:lastName:required')),
@@ -76,11 +77,25 @@ const Register = (props) => {
             .required(t('validate:confirmPassword:required'))
             // eslint-disable-next-line no-use-before-define
             .test('check-pass', t('validate:confirmPassword.wrong'), (input) => input === formik.values.password),
-        phoneNumber: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
-        whatsappNumber: enableOtp && Yup.string().required(t('validate:whatsappNumber:required')).matches(regexPhone, t('validate:whatsappNumber:wrong')),
-        otp: enableOtp && Yup.number().required('Otp is required'),
-        captcha: enableRecaptcha && Yup.string().required(`Captcha ${t('validate:required')}`),
-    });
+    };
+
+    if (enableOtp) {
+        configValidation = {
+            ...configValidation,
+            phoneNumber: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
+            whatsappNumber: Yup.string().required(t('validate:whatsappNumber:required')).matches(regexPhone, t('validate:whatsappNumber:wrong')),
+            otp: Yup.number().required('Otp is required'),
+        };
+    }
+
+    if (enableRecaptcha) {
+        configValidation = {
+            ...configValidation,
+            captcha: Yup.string().required(`Captcha ${t('validate:required')}`),
+        };
+    }
+
+    const RegisterSchema = Yup.object().shape(configValidation);
 
     const handleSendRegister = (values, resetForm) => {
         sendRegister({
@@ -192,7 +207,7 @@ const Register = (props) => {
                 variant: 'success',
             });
             Router.push('/customer/account');
-        } else if (!called && (cartId !== custCartId)) {
+        } else if (!called && cartId !== custCartId) {
             mergeCart({
                 variables: {
                     sourceCartId: cartId,

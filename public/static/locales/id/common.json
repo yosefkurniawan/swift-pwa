@@ -34,7 +34,8 @@
         "viewAll": "Lihat Semua",
         "goCheckout": "Checkout",
         "viewandedit": "Lihat dan Ubah",
-        "addToCart": "Tambah ke Keranjang"
+        "addToCart": "Tambah ke Keranjang",
+        "allowCookies": "Ijinkan Cookie"
     },
     "cart" : {
         "myCart": "Cart Saya",
@@ -44,7 +45,8 @@
         "updateSuccess": "Update item cart berhasil",
         "updateFailed": "Update item cart gagal",
         "emptyCart": "ANDA TIDAK MEMILIKI ITEM DI KERANJANG BELANJA ANDA.",
-        "oos": "Stok habis"
+        "oos": "Stok habis",
+        "cartError": "Ada kesalahan di keranjang anda, silahkan bersihkan dan ulangi kembali"
     },
     "subtotal": "Subtotal",
     "price": {
@@ -115,7 +117,8 @@
     "message": {
         "feedSuccess": "Produk berhasil di tambahkan ke wishlist",
         "feedFailed": "Tambah wishlist gagal",
-        "browserError": "Silahkan ganti browser atau cek setingan cookies, javascript atau lainnya"
+        "browserError": "Silahkan ganti browser atau cek setingan cookies, javascript atau lainnya",
+        "restrictionCookies": "Kami menggunakan cookie untuk membuat pengalaman Anda lebih baik. Untuk mematuhi arahan e-Privacy yang baru, kami perlu meminta persetujuan Anda untuk menyetel cookie. Pelajari lebih lanjut."
     },
     "newsletter": {
         "title": "DAFTAR NEWSLETTER",

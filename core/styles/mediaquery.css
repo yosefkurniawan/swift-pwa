@@ -7,7 +7,7 @@
 @media (min-width: 1024px) {
     .main-app {
         min-height: calc(100vh - 435px);
-        margin-top: 170px;
+        margin-top: 140px;
         max-width: 1440px;
         width: 97%;
     }
@@ -32,7 +32,7 @@
     }
     .main-app {
         min-height: calc(100vh - 435px);
-        margin-top: 170px;
+        margin-top: 140px;
     }
     .main-app-cms {
         margin-top: 0px;

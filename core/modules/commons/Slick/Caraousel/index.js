@@ -6,7 +6,7 @@ import Slider from 'react-slick';
 import classNames from 'classnames';
 import LeftArrowIcon from '@material-ui/icons/ArrowBackIos';
 import RightArrowIcon from '@material-ui/icons/ArrowForwardIos';
-import useStyles from './style';
+import useStyles from '@common_slick/Caraousel/style';
 
 const Caraousel = (props) => {
     const {

@@ -3,7 +3,7 @@ import Radio from '@material-ui/core/Radio';
 import Typography from '@common_typography';
 import React from 'react';
 import AddressFormDialog from '@plugin_addressform';
-import useStyles from './style';
+import useStyles from '@core_modules/checkout/pages/default/components/ItemModalAddress/style';
 
 const ItemAddress = (props) => {
     const {

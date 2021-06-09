@@ -11,9 +11,9 @@ import Router from 'next/router';
 import React, { useState } from 'react';
 import AutoComplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
 import OptionsItem from '@core_modules/theme/components/header/desktop/components/autocomplete/view';
-import CategoryWrapper from './CategoryWrapper';
-import VesMenuWrapper from './VesMenuWrapper';
-import useStyles from './style';
+import CategoryWrapper from '@common_searchmodal/CategoryWrapper';
+import VesMenuWrapper from '@common_searchmodal/VesMenuWrapper';
+import useStyles from '@common_searchmodal/style';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="left" ref={ref} {...props} />);
 

@@ -2,7 +2,7 @@ import Button from '@common_button';
 import Typography from '@common_typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { formatPrice } from '@helper_currency';
-import useStyles from '../style';
+import useStyles from '@core_modules/checkout/pages/default/components/style';
 
 const StoreCreditView = (props) => {
     const styles = useStyles();

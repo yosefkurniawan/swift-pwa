@@ -3,14 +3,13 @@
 const withOffline = require('next-offline');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 // const withCSS = require('@zeit/next-css');
-const withSourceMaps = require('@zeit/next-source-maps')();
 
-module.exports = withSourceMaps(withOffline({
-    dontAutoRegisterSw: true,
-    images: {
-        domains: ['thumbor.sirclocdn.xyz'],
-        loader: 'default',
+module.exports = withOffline({
+    future: {
+        webpack5: false,
     },
+    dontAutoRegisterSw: true,
+    productionBrowserSourceMaps: true,
     publicRuntimeConfig: {
         appEnv: process.env.APP_ENV,
         rootDir: __dirname,
@@ -64,4 +63,4 @@ module.exports = withSourceMaps(withOffline({
     },
     // enable code below on Prod and increase the version everytime before running build script
     // generateBuildId: async () => 'swift-pwa-v1.0.0',
-}));
+});

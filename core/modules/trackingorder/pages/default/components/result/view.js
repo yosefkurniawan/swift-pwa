@@ -14,8 +14,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 
-import { checkJson } from '../../helpers/checkJson';
-import useStyles from '../style';
+import { checkJson } from '@core_modules/trackingorder/pages/default/helpers/checkJson';
+import useStyles from '@core_modules/trackingorder/pages/default/components/style';
 
 const resultItem = ({
     t, orders, storeConfig, openModal,

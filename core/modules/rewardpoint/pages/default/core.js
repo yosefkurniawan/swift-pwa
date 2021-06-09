@@ -3,7 +3,7 @@ import Layout from '@layout';
 import CustomerLayout from '@layout_customer';
 import PropTypes from 'prop-types';
 import { debuging } from '@config';
-import { getRewardPoint } from '../../services/graphql';
+import { getRewardPoint } from '@core_modules/rewardpoint/services/graphql';
 
 const RewardPoint = (props) => {
     const {

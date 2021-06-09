@@ -1,9 +1,9 @@
 import { withTranslation } from '@i18n';
 import { withApollo } from '@lib_apollo';
-import Skeleton from './components/Skeleton';
-import CoreBase from './core';
-import WarningInfo from './components/Info';
-import Content from './components';
+import Skeleton from '@core_modules/rma/pages/history/components/Skeleton';
+import CoreBase from '@core_modules/rma/pages/history/core';
+import WarningInfo from '@core_modules/rma/pages/history/components/Info';
+import Content from '@core_modules/rma/pages/history/components';
 
 const Page = (props) => (
     <CoreBase

@@ -3,7 +3,7 @@ import Radio from '@common_radio';
 import Typography from '@common_typography';
 
 const ViewCustomizableRadioOption = ({
-    title = 'test', data = [], selected = [],
+    title = 'test', data = [], selected = [], disabled,
     onChange = () => {}, error = '', required = false,
 }) => {
     const Label = () => (
@@ -27,6 +27,7 @@ const ViewCustomizableRadioOption = ({
                         value={selected || ''}
                         flex="column"
                         onChange={onChange}
+                        disabled={disabled}
                     />
                 )
             }

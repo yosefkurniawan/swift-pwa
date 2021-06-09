@@ -6,8 +6,8 @@ import React from 'react';
 import propTypes from 'prop-types';
 import DefaultLayout from '@layout';
 import { useRouter } from 'next/router';
+import { getFormDataRma, getCustomer } from '@core_modules/rma/services/graphql';
 import Content from './components';
-import { getFormDataRma, getCustomer } from '../../services/graphql';
 
 const CoreNewRma = (props) => {
     const {

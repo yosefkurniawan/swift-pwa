@@ -1,6 +1,6 @@
 import SpanCategory from '@common_spancategory';
 import classNames from 'classnames';
-import useStyles from '../style';
+import useStyles from '@core_modules/home/pages/default/components/style';
 
 const CategoryListView = ({ data = [], ...other }) => {
     const styles = useStyles();

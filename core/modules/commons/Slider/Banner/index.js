@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import { autoPlay as swipeAuto } from 'react-swipeable-views-utils';
 import dynamic from 'next/dynamic';
-import ImageSlide from './ImageSlide';
-import useStyles from './style';
+import ImageSlide from '@common_slider/Banner/ImageSlide';
+import useStyles from '@common_slider/Banner/style';
 
 const SwipeableViews = dynamic(() => import('react-swipeable-views'));
 

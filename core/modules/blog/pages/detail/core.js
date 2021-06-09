@@ -4,7 +4,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import DefaultLayout from '@layout';
 import { useRouter } from 'next/router';
-import { getBlog, getCategory } from '../../services/graphql';
+import { getBlog, getCategory } from '@core_modules/blog/services/graphql';
 
 const CoreDetail = (props) => {
     const router = useRouter();

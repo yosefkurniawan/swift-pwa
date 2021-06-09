@@ -2,7 +2,7 @@ import Button from '@common_button';
 import TextField from '@common_textfield';
 import Typography from '@common_typography';
 import classNames from 'classnames';
-import useStyles from '../style';
+import useStyles from '@core_modules/trackingorder/pages/default/components/style';
 
 const FormTemplate = (props) => {
     const { formik, t } = props;

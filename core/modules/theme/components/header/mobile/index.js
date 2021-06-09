@@ -7,7 +7,10 @@ import { useRouter } from 'next/router';
 import classNames from 'classnames';
 import Typography from '@common_typography';
 import propTypes from 'prop-types';
-import useStyles from './style';
+import useStyles from '@core_modules/theme/components/header/mobile/style';
+import { getAppEnv } from '@root/core/helpers/env';
+import { modules } from '@config';
+import { getStoreHost } from '@helpers/config';
 
 const Header = ({
     LeftComponent,
@@ -19,7 +22,9 @@ const Header = ({
     const styles = useStyles();
     const router = useRouter();
     const back = () => {
-        if (sessionStorage.getItem('prevUrl') === '/') {
+        if (modules.checkout.checkoutOnly) {
+            window.location.replace(getStoreHost(getAppEnv()));
+        } else if (sessionStorage.getItem('prevUrl') === '/') {
             router.push('/');
         } else {
             router.back();

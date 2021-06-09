@@ -1,9 +1,9 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable prefer-destructuring */
 import Error from '@core_modules/error/pages/default';
-import { getResolver as getLocalResolver } from '@helper_localstorage';
+import { getResolver as getLocalResolver, getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import Layout from '@layout';
-import { getResolver } from './services/graphql';
+import { getResolver } from '@core_modules/slug/services/graphql';
 
 const ContainerResolver = (props) => {
     const {
@@ -24,10 +24,15 @@ const ContainerResolver = (props) => {
 
 const Slug = (props) => {
     const {
-        slug, storeConfig, ProductLoader, CategorySkeleton, LoadingView, t, ...other
+        slug, storeConfig, ProductLoader, CategorySkeleton, LoadingView, t, cms_page = '', ...other
     } = props;
 
-    const cmsPages = storeConfig && storeConfig.cms_page ? storeConfig.cms_page.split(',') : [];
+    const cmsList = getLocalStorage('cms_page');
+    if (!cmsList) {
+        setLocalStorage('cms_page', cms_page || '');
+    }
+    const cmsPages = typeof window !== 'undefined' && cmsList ? cmsList.split(',') : cms_page.split(',');
+
     let url = slug.join('/');
     // suffix based on storeConfig
     const suffix = (storeConfig || {}).category_url_suffix || '.html';
