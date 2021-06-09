@@ -15,6 +15,7 @@ import React from 'react';
 import { getHost } from '@helper_config';
 import Breadcrumb from '@common_breadcrumb';
 import RatingStar from '@common_ratingstar';
+import Thumbor from '@common_image';
 import { breakPointsUp } from '@helper_theme';
 import dynamic from 'next/dynamic';
 import useStyles from '@core_modules/product/pages/default/components/style';
@@ -64,6 +65,34 @@ const ProductPage = (props) => {
 
     const desktop = breakPointsUp('sm');
 
+    const bannerLiteData = data.banners_data.filter(((item) => item.banner_image !== null));
+    const bannerLiteObj = {
+        top: null,
+        after: null,
+        label: null,
+    };
+
+    bannerLiteData.forEach((bannerLite) => {
+        const bannerImg = JSON.parse(bannerLite.banner_image);
+
+        if (bannerLite.banner_type === '0') {
+            bannerLiteObj.top = {
+                ...bannerLite,
+                banner_image: bannerImg[0].url,
+            };
+        } else if (bannerLite.banner_type === '1') {
+            bannerLiteObj.after = {
+                ...bannerLite,
+                banner_image: bannerImg[0].url,
+            };
+        } else if (bannerLite.banner_type === '2') {
+            bannerLiteObj.label = {
+                ...bannerLite,
+                banner_image: bannerImg[0].url,
+            };
+        }
+    });
+
     const favoritIcon = wishlist ? <Favorite className={styles.iconShare} /> : <FavoriteBorderOutlined className={styles.iconShare} />;
 
     return (
@@ -83,6 +112,14 @@ const ProductPage = (props) => {
                 <div className="col-lg-12 hidden-mobile">
                     <Breadcrumb data={breadcrumbsData} variant="text" />
                 </div>
+                {bannerLiteObj.top && (
+                    <div className="col-lg-12">
+                        <a href={bannerLiteObj.top.banner_link}>
+                            <Thumbor src={bannerLiteObj.top.banner_image} alt={bannerLiteObj.top.banner_alt} width={1175} height={424} lazy />
+                        </a>
+                    </div>
+                )}
+
                 <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-6')}>
                     {
                         modules.catalog.productListing.label.enabled
@@ -90,6 +127,13 @@ const ProductPage = (props) => {
                             <WeltpixelLabel t={t} weltpixel_labels={data.weltpixel_labels || []} categoryLabel={false} />
                         )
                     }
+                    {bannerLiteObj.label && (
+                        <div className="col-lg-12">
+                            <div className={styles.bannerLiteLabel}>
+                                <Thumbor src={bannerLiteObj.label.banner_image} alt={bannerLiteObj.label.banner_alt} width={1175} height={424} lazy />
+                            </div>
+                        </div>
+                    )}
                     <Banner
                         data={banner}
                         noLink
@@ -185,7 +229,7 @@ const ProductPage = (props) => {
                         </div>
                     </div>
                     <div className="hidden-mobile">
-                        <DesktopOptions {...props} setOpen={setOpenOption} setBanner={setBanner} setPrice={setPrice} />
+                        <DesktopOptions {...props} setOpen={setOpenOption} setBanner={setBanner} setPrice={setPrice} bannerLite={bannerLiteObj} />
                         <div className={styles.desktopShareIcon}>
                             <Typography className={styles.shareTitle} variant="title">
                                 {t('product:shareTitle')}

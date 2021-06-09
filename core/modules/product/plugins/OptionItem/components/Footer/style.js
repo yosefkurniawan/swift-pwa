@@ -4,6 +4,7 @@ import {
     CenterAbsolute,
     FlexColumn,
     CreateMargin,
+    CreatePadding,
 } from '@theme_mixins';
 
 export default makeStyles((theme) => ({
@@ -42,5 +43,8 @@ export default makeStyles((theme) => ({
         },
         ...CreateMargin(0, 15, 30, 0),
         ...FlexColumn,
+    },
+    bannerLiteAfter: {
+        ...CreatePadding(10, 0, 10, 0),
     },
 }));

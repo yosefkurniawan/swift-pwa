@@ -188,6 +188,9 @@ const useStyles = makeStyles((theme) => ({
             height: '572px',
         },
     },
+    bannerLiteLabel: {
+        ...CreatePadding(10, 0, 10, 0),
+    },
 }));
 
 export default useStyles;

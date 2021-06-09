@@ -217,6 +217,14 @@ export const getProduct = (url) => {
                 label,
                 url
               }
+              banners_data {
+                entity_id
+                salesrule_id
+                banner_image
+                banner_type
+                banner_link
+                banner_alt
+              }
             }
             total_count
           }
