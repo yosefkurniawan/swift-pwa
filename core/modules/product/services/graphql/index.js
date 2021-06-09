@@ -7,29 +7,24 @@ const defaultConfig = {
 
 };
 
-export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath), {
+export const getProduct = (urlpath, options = {}) => useQuery(Schema.getProduct(urlpath), {
     ...defaultConfig,
+    ...options,
 });
 
-export const getProductLabel = (urlpath) => useQuery(Schema.getProductLabel(urlpath), {
+export const getProductLabel = (urlpath, options = {}) => useQuery(Schema.getProductLabel(urlpath), {
     ...defaultConfig,
-    context: {
-        request: 'internal',
-    },
+    ...options,
 });
 
-export const getRelatedProduct = (urlpath) => useQuery(Schema.getRelatedProduct(urlpath), {
+export const getRelatedProduct = (urlpath, options = {}) => useQuery(Schema.getRelatedProduct(urlpath), {
     ...defaultConfig,
-    context: {
-        request: 'internal',
-    },
+    ...options,
 });
 
-export const getUpsellProduct = (urlpath) => useQuery(Schema.getUpsellProduct(urlpath), {
+export const getUpsellProduct = (urlpath, options = {}) => useQuery(Schema.getUpsellProduct(urlpath), {
     ...defaultConfig,
-    context: {
-        request: 'internal',
-    },
+    ...options,
 });
 
 export const getCustomizableOption = (urlpath) => useLazyQuery(CustomizableSchema.getCustomizableOption(urlpath), {

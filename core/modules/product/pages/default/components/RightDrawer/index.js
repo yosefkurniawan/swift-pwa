@@ -7,8 +7,9 @@ import TagManager from 'react-gtm-module';
 
 const View = dynamic(() => import('@core_modules/product/pages/default/components/RightDrawer/view'), { ssr: false });
 
-const UpsellDrawer = ({ dataProduct, ...other }) => {
-    const { loading, data, error } = getUpsellProduct(dataProduct.url_key);
+const UpsellDrawer = ({ dataProduct, isLogin, ...other }) => {
+    const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
+    const { loading, data, error } = getUpsellProduct(dataProduct.url_key, { context });
 
     React.useEffect(() => {
         if (!loading && !error && data && data.products && data.products.items.length > 0
