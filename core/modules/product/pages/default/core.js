@@ -72,12 +72,14 @@ const ContentDetail = ({
             bannerData.push({
                 link: '#',
                 imageUrl: media.url,
+                videoUrl: media && media.video_content,
             });
         });
     } else {
         bannerData.push({
             link: '#',
             imageUrl: item.image.url,
+            videoUrl: '#',
         });
     }
 
