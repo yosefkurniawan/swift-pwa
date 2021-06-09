@@ -347,7 +347,7 @@ const PageDetail = (props) => {
                 temporaryArr = viewedProduct;
                 if (viewedProduct.length > 0) {
                     viewedProduct.map((val) => {
-                        if (val.sku === item.sku) {
+                        if (val.url_key === item.url_key) {
                             isExist = true;
                         }
                         return null;
@@ -357,11 +357,6 @@ const PageDetail = (props) => {
             if (isExist === false) {
                 const newItem = {
                     url_key: item.url_key,
-                    small_image: item.small_image,
-                    price_range: item.price_range,
-                    name: item.name,
-                    sku: item.sku,
-                    id: item.id,
                 };
                 temporaryArr.push(newItem);
                 setLocalStorage('recently_viewed_product', temporaryArr);
@@ -416,7 +411,11 @@ const PageDetail = (props) => {
     };
 
     return (
-        <Layout pageConfig={pageConfig || config} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props}>
+        <Layout
+            pageConfig={pageConfig || config}
+            CustomHeader={CustomHeader ? <CustomHeader /> : <Header />}
+            {...props}
+        >
             <ContentDetail
                 product={product}
                 t={t}

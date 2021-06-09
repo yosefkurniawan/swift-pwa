@@ -29,7 +29,6 @@ const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/rece
 
 const Layout = (props) => {
     const bodyStyles = useStyles();
-    const enableRecentBar = true;
     const {
         pageConfig,
         children,
@@ -43,6 +42,7 @@ const Layout = (props) => {
         onlyCms,
         withLayoutHeader = true,
         withLayoutFooter = true,
+        showRecentlyBar = true,
     } = props;
     const {
         ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true,
@@ -252,11 +252,14 @@ const Layout = (props) => {
                 )
             }
             {
-                enableRecentBar && (
+                showRecentlyBar && (
                     <RecentlyViewed
+                        isActive={JSON.parse(storeConfig.weltpixel_RecentlyViewedBar_general_enable)}
                         recentlyBtn={bodyStyles.recentView}
                         wrapperContent={bodyStyles.recentlyWrapperContent}
                         recentlyBtnContent={bodyStyles.recentlyBtnContent}
+                        contentFeatured={bodyStyles.contentFeatured}
+                        contentFeaturedOneSlide={bodyStyles.contentFeaturedOneSlide}
                     />
                 )
             }

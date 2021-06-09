@@ -28,14 +28,18 @@ const useStyles = makeStyles((theme) => ({
         width: '15vw',
         height: '5vh',
         boxShadow: 'none',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
         [theme.breakpoints.down('md')]: {
             bottom: '0vh',
             width: '25vw',
-            left: 40,
-            [theme.breakpoints.down('sm')]: {
-                bottom: '6.5vh',
+            [theme.breakpoints.down('xs')]: {
+                transform: 'rotate(90deg)',
+                left: '-19vw',
+                bottom: '30vh',
                 width: '45vw',
-                left: 20,
             },
         },
     },
@@ -43,23 +47,51 @@ const useStyles = makeStyles((theme) => ({
         position: 'fixed',
         width: '15vw',
         height: '5vh',
-        bottom: '65vh',
+        bottom: '440px',
         backgroundColor: 'white',
         left: 20,
         boxShadow: 'none',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
         [theme.breakpoints.down('md')]: {
             width: '25vw',
             left: 40,
             [theme.breakpoints.down('sm')]: {
                 width: '45vw',
                 left: 20,
+                bottom: '438px',
             },
         },
     },
     recentlyWrapperContent: {
         position: 'relative',
-        height: '65vh',
+        height: '440px',
         paddingTop: '20px',
+        overflowY: 'hidden',
+    },
+    contentFeatured: {
+        display: 'flex',
+        transition: '0.3s',
+        width: '80%',
+        [theme.breakpoints.up('sm')]: {
+            padding: 8,
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+        },
+    },
+    contentFeaturedOneSlide: {
+        display: 'flex',
+        transition: '0.3s',
+        width: '28%',
+        [theme.breakpoints.up('sm')]: {
+            padding: 8,
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+        },
     },
 }));
 
