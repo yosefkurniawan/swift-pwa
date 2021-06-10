@@ -49,9 +49,13 @@ const useStyles = makeStyles((theme) => ({
     },
 
     body: {
-        ...CreatePadding(15, 30, 30, 30),
+        ...CreatePadding(15, 30, 0, 30),
         ...FlexColumn,
         ...CreateBorder(0, 0, '1px', 0, GRAY_PRIMARY),
+
+        [theme.breakpoints.down('sm')]: {
+            borderBottom: 'none',
+        },
     },
 
     footer: {
@@ -177,6 +181,10 @@ const useStyles = makeStyles((theme) => ({
     },
     tabs: {
         paddingTop: '40px',
+
+        [theme.breakpoints.down('sm')]: {
+            paddingTop: '140px',
+        },
     },
     shareTitle: {
         marginTop: 20,
@@ -192,7 +200,15 @@ const useStyles = makeStyles((theme) => ({
             height: '572px',
         },
     },
+    bannerLiteTopMobile: {
+        [theme.breakpoints.up('md')]: {
+            display: 'none',
+        },
+    },
     bannerLiteLabel: {
+        ...CreatePadding(10, 0, 10, 0),
+    },
+    bannerLiteAfter: {
         ...CreatePadding(10, 0, 10, 0),
     },
 }));

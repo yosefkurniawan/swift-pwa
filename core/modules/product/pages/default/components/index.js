@@ -110,10 +110,11 @@ const ProductPage = (props) => {
                 <div className="col-lg-12 hidden-mobile">
                     <Breadcrumb data={breadcrumbsData} variant="text" />
                 </div>
+
                 {bannerLiteObj.top && (
-                    <div className="col-lg-12">
+                    <div className="col-xs-12 hidden-mobile">
                         <a href={bannerLiteObj.top.banner_link}>
-                            <Thumbor src={bannerLiteObj.top.banner_image} alt={bannerLiteObj.top.banner_alt} width={1175} height={424} lazy />
+                            <Thumbor src={bannerLiteObj.top.banner_image} alt={bannerLiteObj.top.banner_alt} width={1175} height={424} />
                         </a>
                     </div>
                 )}
@@ -125,10 +126,17 @@ const ProductPage = (props) => {
                             <WeltpixelLabel t={t} weltpixel_labels={data.weltpixel_labels || []} categoryLabel={false} />
                         )
                     }
+                    {bannerLiteObj.top && (
+                        <div className={classNames(styles.bannerLiteTopMobile, 'col-lg-12')}>
+                            <a href={bannerLiteObj.top.banner_link}>
+                                <Thumbor src={bannerLiteObj.top.banner_image} alt={bannerLiteObj.top.banner_alt} width={1175} height={424} />
+                            </a>
+                        </div>
+                    )}
                     {bannerLiteObj.label && (
                         <div className="col-lg-12">
                             <div className={styles.bannerLiteLabel}>
-                                <Thumbor src={bannerLiteObj.label.banner_image} alt={bannerLiteObj.label.banner_alt} width={1175} height={424} lazy />
+                                <Thumbor src={bannerLiteObj.label.banner_image} alt={bannerLiteObj.label.banner_alt} width={1175} height={424} />
                             </div>
                         </div>
                     )}
@@ -225,9 +233,24 @@ const ProductPage = (props) => {
                         <div>
                             <ExpandDetail data={expandData} smartProductTabs={smartProductTabs} />
                         </div>
+                        {bannerLiteObj.after && (
+                            <div className={styles.bannerLiteAfter}>
+                                <a href={bannerLiteObj.after.banner_link}>
+                                    <Thumbor src={bannerLiteObj.after.banner_image} alt={bannerLiteObj.after.banner_alt} width={1175} height={424} />
+                                </a>
+                            </div>
+                        )}
                     </div>
                     <div className="hidden-mobile">
-                        <DesktopOptions {...props} setOpen={setOpenOption} setBanner={setBanner} setPrice={setPrice} bannerLite={bannerLiteObj} />
+                        <DesktopOptions {...props} setOpen={setOpenOption} setBanner={setBanner} setPrice={setPrice} />
+
+                        {bannerLiteObj.after && (
+                            <div className={styles.bannerLiteAfter}>
+                                <a href={bannerLiteObj.after.banner_link}>
+                                    <Thumbor src={bannerLiteObj.after.banner_image} alt={bannerLiteObj.after.banner_alt} width={1175} height={424} />
+                                </a>
+                            </div>
+                        )}
                         <div className={styles.desktopShareIcon}>
                             <Typography className={styles.shareTitle} variant="title">
                                 {t('product:shareTitle')}
