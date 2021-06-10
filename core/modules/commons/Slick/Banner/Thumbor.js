@@ -13,21 +13,24 @@ const Image = ({
             className={styles.thumborContainer}
         >
             {!lazy ? (
-                <picture>
-                    {srcMobile ? (
-                        <source srcSet={generateThumborUrl(srcMobile, widthMobile, heightMobile)} media={`(max-width: ${BREAKPOINTS.sm}px)`} />
-                    ) : null}
-                    <img
-                        data-pagespeed-no-defer
-                        className={classNames(styles.thumborImage, className)}
-                        src={generateThumborUrl(src, width, height)}
-                        onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = '/assets/img/placeholder.png';
-                        }}
-                        alt={alt}
-                    />
-                </picture>
+                <>
+                    <picture>
+                        {srcMobile ? (
+                            <source srcSet={generateThumborUrl(srcMobile, widthMobile, heightMobile)} media={`(max-width: ${BREAKPOINTS.sm}px)`} />
+                        ) : null}
+                        <img
+                            data-pagespeed-no-defer
+                            className={classNames(styles.thumborImage, className)}
+                            src={generateThumborUrl(src, width, height)}
+                            onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = '/assets/img/placeholder.png';
+                            }}
+                            alt={alt}
+                        />
+
+                    </picture>
+                </>
             ) : null}
         </div>
     );
