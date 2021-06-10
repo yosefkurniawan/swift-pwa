@@ -89,7 +89,12 @@ const ProductPage = (props) => {
                     {
                         modules.catalog.productListing.label.enabled
                         && modules.catalog.productListing.label.weltpixel.enabled && (
-                            <WeltpixelLabel t={t} weltpixel_labels={data.weltpixel_labels || []} categoryLabel={false} />
+                            <WeltpixelLabel
+                                t={t}
+                                weltpixel_labels={data.weltpixel_labels || []}
+                                categoryLabel={false}
+                                withThumbnailProduct
+                            />
                         )
                     }
                     <Banner
