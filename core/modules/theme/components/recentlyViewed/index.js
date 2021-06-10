@@ -14,7 +14,8 @@ import classNames from 'classnames';
 const ProductView = (props) => {
     const {
         toggleDrawer, wrapperContent, recentlyBtnContent, desktop, t,
-        loading, product, contentFeatured, contentFeaturedOneSlide,
+        loading, product, contentFeatured,
+        className,
     } = props;
 
     if (loading) {
@@ -79,16 +80,13 @@ const ProductView = (props) => {
                     alignItems: 'center'
                 }}>
                 <div className={
-                    classNames(
-                        'row center-xs',
-                        product ? product.products.items.length <= 4 ?
-                            contentFeaturedOneSlide : contentFeatured : contentFeatured
-                    )}>
+                    classNames('row center-xs', contentFeatured)}>
                     <Carousel
                         data={product ? product.products.items : []}
                         showArrow={desktop}
-                        slideLg={product ? product.products.items.length <= 4 ? 1 : 4 : 0}
+                        slideLg={product ? product.products.items.length <= 4 ? product.products.items.length - 1 : 4 : 0}
                         Item={ProductItem}
+                        className={className}
                         enableAddToCart
                         enableQuickView
                     />

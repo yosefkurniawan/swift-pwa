@@ -259,7 +259,7 @@ const Layout = (props) => {
                         wrapperContent={bodyStyles.recentlyWrapperContent}
                         recentlyBtnContent={bodyStyles.recentlyBtnContent}
                         contentFeatured={bodyStyles.contentFeatured}
-                        contentFeaturedOneSlide={bodyStyles.contentFeaturedOneSlide}
+                        className={bodyStyles.itemProduct}
                     />
                 )
             }

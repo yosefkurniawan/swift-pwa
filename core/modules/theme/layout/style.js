@@ -2,6 +2,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
     CreatePadding,
 } from '@theme_mixins';
+import { GRAY_PRIMARY } from '@theme_color';
 
 const useStyles = makeStyles((theme) => ({
     footerContainer: {
@@ -42,12 +43,15 @@ const useStyles = makeStyles((theme) => ({
                 width: '45vw',
             },
         },
+        '&:hover': {
+            backgroundColor: GRAY_PRIMARY,
+        },
     },
     recentlyBtnContent: {
         position: 'fixed',
         width: '15vw',
         height: '5vh',
-        bottom: '440px',
+        bottom: '248px',
         backgroundColor: 'white',
         left: 20,
         boxShadow: 'none',
@@ -61,20 +65,27 @@ const useStyles = makeStyles((theme) => ({
             [theme.breakpoints.down('sm')]: {
                 width: '45vw',
                 left: 20,
-                bottom: '438px',
+                bottom: '338px',
             },
+        },
+        '&:hover': {
+            backgroundColor: GRAY_PRIMARY,
         },
     },
     recentlyWrapperContent: {
         position: 'relative',
-        height: '440px',
-        paddingTop: '20px',
+        height: '250px',
+        paddingTop: '5px',
+        paddingBottom: '5px',
         overflowY: 'hidden',
+        [theme.breakpoints.down('sm')]: {
+            height: '340px',
+        },
     },
     contentFeatured: {
         display: 'flex',
         transition: '0.3s',
-        width: '80%',
+        width: '100%',
         [theme.breakpoints.up('sm')]: {
             padding: 8,
         },
@@ -82,15 +93,10 @@ const useStyles = makeStyles((theme) => ({
             width: '100%',
         },
     },
-    contentFeaturedOneSlide: {
-        display: 'flex',
-        transition: '0.3s',
-        width: '28%',
-        [theme.breakpoints.up('sm')]: {
-            padding: 8,
-        },
+    itemProduct: {
+        width: '100px',
         [theme.breakpoints.down('sm')]: {
-            width: '100%',
+            width: '200px',
         },
     },
 }));
