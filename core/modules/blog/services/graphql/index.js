@@ -7,7 +7,6 @@ export const getBlog = (params = {}) => useQuery(schema.getAllPost, {
 
 export const getCategory = (variables) => useQuery(schema.getCategory, {
     variables,
-    skip: typeof window === 'undefined',
 });
 
 export const getDetailBlog = (id) => useQuery(schema.getPostById, {

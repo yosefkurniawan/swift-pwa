@@ -85,6 +85,7 @@ const Banner = ({
                                 height={100}
                                 quality={100}
                                 className={styles.thumbnailImg}
+                                videoUrl={item.videoUrl}
                             />
                         </div>
                     ))}
@@ -104,6 +105,7 @@ const Banner = ({
                                             noLink={noLink}
                                             key={key}
                                             {...item}
+                                            videoUrl={item.videoUrl}
                                         />
                                     </Zoom>
                                 ) : (
@@ -114,6 +116,7 @@ const Banner = ({
                                         noLink={noLink}
                                         key={key}
                                         {...item}
+                                        videoUrl={item.videoUrl}
                                     />
                                 )
                             }

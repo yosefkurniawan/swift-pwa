@@ -23,7 +23,6 @@ import ListReviews from '@core_modules/product/pages/default/components/ListRevi
 import OptionItem from '@core_modules/product/pages/default/components/OptionItem';
 import SharePopup from '@core_modules/product/pages/default/components/SharePopup';
 import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
-import ProductVideo from '@core_modules/product/pages/default/components/ProductVideo';
 import { modules } from '@config';
 
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: true });
@@ -60,8 +59,8 @@ const ProductPage = (props) => {
         stockStatus,
         additionalPrice,
         smartProductTabs,
+        isLogin,
     } = props;
-
     const desktop = breakPointsUp('sm');
 
     const favoritIcon = wishlist ? <Favorite className={styles.iconShare} /> : <FavoriteBorderOutlined className={styles.iconShare} />;
@@ -74,6 +73,7 @@ const ProductPage = (props) => {
                     setOpen={() => setOpenDrawer(!openDrawer)}
                     t={t}
                     dataProduct={data}
+                    isLogin={isLogin}
                 />
                 <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} />
             </div>
@@ -87,7 +87,12 @@ const ProductPage = (props) => {
                     {
                         modules.catalog.productListing.label.enabled
                         && modules.catalog.productListing.label.weltpixel.enabled && (
-                            <WeltpixelLabel t={t} weltpixel_labels={data.weltpixel_labels || []} categoryLabel={false} />
+                            <WeltpixelLabel
+                                t={t}
+                                weltpixel_labels={data.weltpixel_labels || []}
+                                categoryLabel={false}
+                                withThumbnailProduct
+                            />
                         )
                     }
                     <Banner
@@ -108,6 +113,7 @@ const ProductPage = (props) => {
                             setOpen={() => setOpenDrawer(!openDrawer)}
                             t={t}
                             dataProduct={data}
+                            isLogin={isLogin}
                         />
                     </div>
                 </div>
@@ -194,15 +200,9 @@ const ProductPage = (props) => {
                         </div>
                     </div>
                 </div>
-                {
-                    desktop ? '' : <ProductVideo width="100%" height={desktop ? '400px' : ''} />
-                }
                 <div className="hidden-desktop">
                     <ListReviews {...props} />
                 </div>
-                {
-                    desktop ? <ProductVideo width="100%" height={desktop ? '400px' : ''} desktop={desktop} /> : ''
-                }
                 <div className={classNames(styles.tabs, 'col-xs-12 col-lg-12 hidden-mobile')}>
                     <TabsView
                         {...props}
@@ -215,7 +215,7 @@ const ProductPage = (props) => {
                         }}
                     />
                 </div>
-                <RelatedProductCaraousel t={t} dataProduct={data} />
+                <RelatedProductCaraousel t={t} dataProduct={data} isLogin={isLogin} />
                 <div className={classNames(styles.footer, 'hidden-desktop')}>
                     <Button
                         className={styles.btnAddToCard}

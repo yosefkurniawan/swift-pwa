@@ -26,7 +26,6 @@ function requestGraph(query, variables = {}, context = {}, config = {}) {
         const client = new GraphQLClient(`${graphqlEndpoint[appEnv] || graphqlEndpoint.prod}`, {
             headers,
         });
-        console.log(client);
         client.request(query, variables).then((data) => resolve(data)).catch((err) => resolve(err));
     });
 }
