@@ -73,7 +73,6 @@ const useStyles = makeStyles((theme) => ({
             position: 'unset',
         },
     },
-
     arrow: {
         fontSize: '1.5rem',
         backgroundColor: 'rgba(255,255,255,0.5)',
@@ -98,6 +97,25 @@ const useStyles = makeStyles((theme) => ({
 
     rightArrow: {
         right: 20,
+    },
+    productVideo: {
+        backgroundColor: '#eee',
+        width: '100%',
+        position: 'relative',
+        paddingTop: '116%',
+        marginTop: '0',
+        '& iframe': {
+            position: 'absolute',
+            top: '0',
+        },
+        [theme.breakpoints.up('sm')]: {
+            height: 'auto',
+            paddingTop: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            backgroundColor: WHITE,
+            marginTop: '-20px',
+        },
     },
 }));
 

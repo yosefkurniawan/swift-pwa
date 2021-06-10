@@ -49,6 +49,12 @@ const productDetail = `
     image{
       url
     }
+    media_gallery_entries{
+      media_type
+      video_content{
+        video_url
+      }
+    }
     review {
       rating_summary
       reviews_count
@@ -214,8 +220,18 @@ export const getProduct = (url) => {
                 value
               }
               media_gallery {
-                label,
                 url
+                label
+                ... on ProductVideo {
+                    video_content {
+                        media_type
+                        video_provider
+                        video_url
+                        video_title
+                        video_description
+                        video_metadata
+                    }
+                }
               }
               banners_data {
                 entity_id
@@ -279,8 +295,18 @@ export const getProductBySku = () => {
                 ${priceTiers}
               }
               media_gallery {
-                label,
                 url
+                label
+                ... on ProductVideo {
+                    video_content {
+                        media_type
+                        video_provider
+                        video_url
+                        video_title
+                        video_description
+                        video_metadata
+                    }
+                }
               }
               related_products {
                ${productDetail}
@@ -465,8 +491,18 @@ export const getConfigurableProduct = (sku) => {
               ${priceRange}
               ${priceTiers}
               media_gallery {
-                label,
                 url
+                label
+                ... on ProductVideo {
+                    video_content {
+                        media_type
+                        video_provider
+                        video_url
+                        video_title
+                        video_description
+                        video_metadata
+                    }
+                }
               }
             }
             attributes {

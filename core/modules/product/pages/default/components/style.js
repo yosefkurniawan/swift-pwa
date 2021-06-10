@@ -20,12 +20,16 @@ const useStyles = makeStyles((theme) => ({
         },
         '& .product-video': {
             overflow: 'hidden',
-            padding: '0 30px',
             position: 'relative',
             width: '100%',
-            marginTop: '20px',
+            '& iframe': {
+                height: 'auto',
+                padding: 'auto 0',
+            },
             [theme.breakpoints.up('sm')]: {
-                padding: '0',
+                '& iframe': {
+                    height: '572px',
+                },
             },
         },
     },
