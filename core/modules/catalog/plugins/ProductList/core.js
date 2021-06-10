@@ -17,7 +17,7 @@ const Product = (props) => {
     const {
         catId = 0, catalog_search_engine, customFilter, url_path, defaultSort, t,
         categoryPath, ErrorMessage, storeConfig, query, path, availableFilter,
-        token, ...other
+        token, isLogin, ...other
     } = props;
 
     const [page, setPage] = React.useState(1);
@@ -61,9 +61,7 @@ const Product = (props) => {
     }
 
     config = generateConfig(query, config, elastic, availableFilter);
-    let context = {
-        request: 'internal',
-    };
+    let context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
     if (token && token !== '') {
         context = {
             ...context,
@@ -117,9 +115,7 @@ const Product = (props) => {
                         pageSize: modules.catalog.productListing.pageSize || 10,
                         currentPage: page + 1,
                     },
-                    context: {
-                        request: 'internal',
-                    },
+                    context,
                     updateQuery: (
                         previousResult,
                         { fetchMoreResult },

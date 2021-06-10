@@ -297,6 +297,7 @@ const ContentDetail = ({
             additionalPrice={additionalPrice}
             setAdditionalPrice={setAdditionalPrice}
             smartProductTabs={dataProductTabs}
+            isLogin={isLogin}
         />
     );
 };
@@ -313,10 +314,13 @@ const PageDetail = (props) => {
     const {
         slug, Content, t, isLogin, pageConfig, CustomHeader,
     } = props;
-    const labels = getProductLabel(slug[0]);
+
+    const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
+
+    const labels = getProductLabel(slug[0], { context });
     const {
         loading, data, error,
-    } = getProduct(slug[0]);
+    } = getProduct(slug[0], { context });
     const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
     React.useEffect(() => {
         if (slug[0] !== '') {
