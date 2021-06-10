@@ -127,6 +127,9 @@ class MyApp extends App {
         if (!pageProps.storeConfig && (!storeConfig || typeof window === 'undefined')) {
             // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
             storeConfig = await graphRequest(ConfigSchema);
+
+            // Handle redirecting to tomaintenance page automatically when GQL is in maintenance mode.
+            // We do this here since query storeConfig is the first query and be done in server side
             if (ctx && storeConfig.response && storeConfig.response.status && storeConfig.response.status > 500) {
                 ctx.res.redirect('/maintenance');
             }
