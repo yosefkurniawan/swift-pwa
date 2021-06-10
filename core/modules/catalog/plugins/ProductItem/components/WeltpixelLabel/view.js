@@ -3,8 +3,20 @@ import classNames from 'classnames';
 import useStyles from './style';
 
 const WeltpixelLabelView = (props) => {
-    const { data = [], onDetailProduct } = props;
+    const { data = [], onDetailProduct, withThumbnailProduct } = props;
     const styles = useStyles();
+    const styleWithThumbnailProduct = (item) => {
+        if (withThumbnailProduct && (item.position === 1 || item.position === 4 || item.position === 7)) {
+            return styles.withThumbnailProduct;
+        }
+        return '';
+    };
+    const styleTopSmallDevice = (item) => {
+        if (item.position === 1 || item.position === 2 || item.position === 3) {
+            return styles.topSmall;
+        }
+        return '';
+    };
     return (
         <>
             {
@@ -12,7 +24,13 @@ const WeltpixelLabelView = (props) => {
                     <div
                         key={key}
                         className={
-                            classNames('text-container', styles[item.position], (item.position === 10 && !onDetailProduct) ? 'hide' : '')
+                            classNames(
+                                'text-container',
+                                styles[item.position],
+                                styleWithThumbnailProduct(item),
+                                styleTopSmallDevice(item),
+                                ((item.position === 10 && !onDetailProduct) || item.disabled) ? 'hide' : '',
+                            )
                         }
                     >
                         {

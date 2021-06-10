@@ -59,6 +59,7 @@ const ProductPage = (props) => {
         stockStatus,
         additionalPrice,
         smartProductTabs,
+        isLogin,
     } = props;
     const desktop = breakPointsUp('sm');
 
@@ -72,6 +73,7 @@ const ProductPage = (props) => {
                     setOpen={() => setOpenDrawer(!openDrawer)}
                     t={t}
                     dataProduct={data}
+                    isLogin={isLogin}
                 />
                 <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} />
             </div>
@@ -85,7 +87,12 @@ const ProductPage = (props) => {
                     {
                         modules.catalog.productListing.label.enabled
                         && modules.catalog.productListing.label.weltpixel.enabled && (
-                            <WeltpixelLabel t={t} weltpixel_labels={data.weltpixel_labels || []} categoryLabel={false} />
+                            <WeltpixelLabel
+                                t={t}
+                                weltpixel_labels={data.weltpixel_labels || []}
+                                categoryLabel={false}
+                                withThumbnailProduct
+                            />
                         )
                     }
                     <Banner
@@ -106,6 +113,7 @@ const ProductPage = (props) => {
                             setOpen={() => setOpenDrawer(!openDrawer)}
                             t={t}
                             dataProduct={data}
+                            isLogin={isLogin}
                         />
                     </div>
                 </div>
@@ -207,7 +215,7 @@ const ProductPage = (props) => {
                         }}
                     />
                 </div>
-                <RelatedProductCaraousel t={t} dataProduct={data} />
+                <RelatedProductCaraousel t={t} dataProduct={data} isLogin={isLogin} />
                 <div className={classNames(styles.footer, 'hidden-desktop')}>
                     <Button
                         className={styles.btnAddToCard}

@@ -176,6 +176,19 @@ const QuickView = (props) => {
                                 </Typography>
                             </div>
                         </div>
+                        <div className="row">
+                            {
+                                modules.catalog.productListing.label.enabled
+                                    && modules.catalog.productListing.label.weltpixel.enabled && (
+                                    <WeltpixelLabel
+                                        t={t}
+                                        weltpixel_labels={weltpixel_labels || []}
+                                        categoryLabel={false}
+                                        onDetailProduct
+                                    />
+                                )
+                            }
+                        </div>
 
                         <div className="hidden-desktop">
                             {' '}

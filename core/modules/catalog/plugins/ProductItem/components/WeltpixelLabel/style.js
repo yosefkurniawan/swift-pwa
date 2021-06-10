@@ -1,6 +1,11 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
+    topSmall: {
+        [theme.breakpoints.down('sm')]: {
+            top: 50,
+        },
+    },
     1: {
         position: 'absolute',
         left: 5,
@@ -63,6 +68,12 @@ const useStyles = makeStyles(() => ({
     10: {
         marginLeft: 5,
         marginBottom: 10,
+    },
+    withThumbnailProduct: {
+        left: 125,
+        [theme.breakpoints.down('sm')]: {
+            left: 20,
+        },
     },
 }));
 
