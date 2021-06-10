@@ -84,7 +84,14 @@ const ProductView = (props) => {
                     <Carousel
                         data={product ? product.products.items : []}
                         showArrow={desktop}
-                        slideLg={product ? product.products.items.length <= 4 ? product.products.items.length - 1 : 4 : 0}
+                        slideLg={product ?
+                            product.products.items.length <= 4 ?
+                                product.products.items.length === 1 ?
+                                    1 :
+                                    product.products.items.length - 1 :
+                                4 :
+                            0
+                        }
                         Item={ProductItem}
                         className={className}
                         enableAddToCart
