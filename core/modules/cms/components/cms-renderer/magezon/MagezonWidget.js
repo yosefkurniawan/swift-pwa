@@ -12,8 +12,15 @@ const MagezonWidget = (props) => {
     if (md_hide) classes += 'hidden-md ';
     if (lg_hide) classes += 'hidden-lg ';
     return (
-        <div className={classes}>
+        <div className={`magezon-widget ${classes}`}>
             <WidgetRenderer content={magento_widget} {...other} />
+            <style jsx>
+                {`
+                    .magezon-widget {
+                        margin-bottom: 20px;
+                    }
+                `}
+            </style>
         </div>
     );
 };
