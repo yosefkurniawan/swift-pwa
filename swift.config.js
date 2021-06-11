@@ -215,7 +215,7 @@ const features = {
         },
     },
     thumbor: {
-        url: 'https://thumbor.sirclocdn.xyz/unsafe/widthxheight/filters:format(webp)/',
+        url: 'https://thumbor.sirclocdn.com/unsafe/widthxheight/filters:format(webp)/',
     },
     globalPromo: {
         key_cookies: 'global_promo_enable',
