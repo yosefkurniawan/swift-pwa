@@ -513,6 +513,10 @@ const general = {
     defaultCurrencyCode: 'IDR',
 };
 
+const removeDecimalPrice = {
+    enabled: true,
+};
+
 module.exports = {
     assetsVersion,
     iconAppleTouch,
@@ -549,4 +553,5 @@ module.exports = {
     useMagentoCommerce,
     rollbar,
     translation,
+    removeDecimalPrice,
 };

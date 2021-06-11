@@ -107,6 +107,7 @@ const useStyles = makeStyles((theme) => ({
         '& iframe': {
             position: 'absolute',
             top: '0',
+            height: '100%',
         },
         [theme.breakpoints.up('sm')]: {
             height: 'auto',
@@ -115,6 +116,11 @@ const useStyles = makeStyles((theme) => ({
             justifyContent: 'center',
             backgroundColor: WHITE,
             marginTop: '-20px',
+            '& iframe': {
+                position: 'absolute',
+                top: '0',
+                height: '572px',
+            },
         },
     },
 }));
