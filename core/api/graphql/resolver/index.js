@@ -6,6 +6,7 @@ const internalDeleteCustomerToken = require('./internalDeleteCustomerToken');
 const internalGenerateSession = require('./internalGenerateSession');
 const internalDeleteSession = require('./internalDeleteSession');
 const internalCreateSocialLogin = require('./internalCreateSocialLogin');
+const internalGetInstagramFeed = require('./internalGetInstagramFeed');
 
 const resolver = {
     Mutation: {
@@ -16,6 +17,7 @@ const resolver = {
         internalGenerateSession,
         internalDeleteSession,
         internalCreateSocialLogin,
+        internalGetInstagramFeed,
     },
 };
 
