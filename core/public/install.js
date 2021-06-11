@@ -4,7 +4,7 @@
 let deferredPrompt;
 
 function showInstallPromotion() {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth < 768) {
         const date = new Date();
         const hide = localStorage.getItem('hideInstallPopup');
         const expired = localStorage.getItem('expiredHideInstallPopup');
