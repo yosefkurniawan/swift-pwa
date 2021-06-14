@@ -6,7 +6,7 @@ import propTypes from 'prop-types';
 import Category from '@core_modules/blog/components/Category';
 
 const Content = ({
-    t, data, loadMore, loading, handleLoadMore, page, loadCategory,
+    t, data, loadMore, loading, handleLoadMore, page,
     ContentCategory, ContentItem, ...other
 }) => (
     <div className="row">
@@ -35,7 +35,6 @@ Content.prototype = {
     loading: propTypes.bool.isRequired,
     handleLoadMore: propTypes.func.isRequired,
     page: propTypes.number.isRequired,
-    loadCategory: propTypes.any.isRequired,
     ContentItem: propTypes.func.isRequired,
     ContentCategory: propTypes.func.isRequired,
 };

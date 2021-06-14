@@ -13,7 +13,6 @@ export const getDetailBlog = (id) => useQuery(schema.getPostById, {
     variables: {
         id,
     },
-    skip: typeof window === 'undefined',
 });
 
 export const awBlogPostWithRelatedPosts = (options = {}) => useLazyQuery(schema.awBlogPostWithRelatedPosts, {
