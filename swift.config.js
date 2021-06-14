@@ -224,6 +224,9 @@ const features = {
         desktop: 'pwa_footer',
         mobile: 'pwa_footer',
     },
+    removeDecimalPrice: {
+        enabled: true,
+    },
 };
 
 const modules = {
@@ -513,10 +516,6 @@ const general = {
     defaultCurrencyCode: 'IDR',
 };
 
-const removeDecimalPrice = {
-    enabled: true,
-};
-
 module.exports = {
     assetsVersion,
     iconAppleTouch,
@@ -553,5 +552,4 @@ module.exports = {
     useMagentoCommerce,
     rollbar,
     translation,
-    removeDecimalPrice,
 };

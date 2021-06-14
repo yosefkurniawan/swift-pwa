@@ -1,4 +1,4 @@
-import { removeDecimalPrice } from '@config';
+import { features } from '@config';
 
 /* eslint-disable no-param-reassign */
 const { general } = require('@config');
@@ -51,17 +51,18 @@ export const formatPrice = (value, currency = general.defaultCurrencyCode) => {
         style: 'currency',
         currency,
     }).format(value);
+
     const decimalFeature = () => {
-        const dec = price.split('.')[1];
-        const resultInt = parseInt(dec, 10);
-        const result = price.split('.')[0];
-        if (removeDecimalPrice.enabled === true && resultInt === 0) {
-            return result;
+        const decimal = price.substr(price.length - 3).substring(1);
+        const resultDecimal = parseInt(decimal, 10);
+        const resultPrice = price.slice(0, -3);
+        if (resultDecimal === 0) {
+            return resultPrice;
         }
         return price;
     };
 
-    return decimalFeature();
+    return features.removeDecimalPrice.enabled === true ? decimalFeature() : price;
 };
 
 export default { formatPrice };
