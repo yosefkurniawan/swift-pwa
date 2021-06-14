@@ -367,7 +367,7 @@ const Cart = (props) => {
         errorCart,
     };
     return (
-        <Layout pageConfig={config || pageConfig} {...props}>
+        <Layout pageConfig={config || pageConfig} {...props} showRecentlyBar={false}>
             <Content {...other} {...contentProps} />
         </Layout>
     );

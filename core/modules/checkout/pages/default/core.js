@@ -205,7 +205,7 @@ const Checkout = (props) => {
             billing: null,
         },
         validationSchema: CheckoutSchema,
-        onSubmit: () => {},
+        onSubmit: () => { },
     });
 
     const updateFormik = (cart) => {
@@ -522,7 +522,7 @@ const Checkout = (props) => {
     };
 
     return (
-        <Layout pageConfig={configPage || pageConfig} {...props}>
+        <Layout pageConfig={configPage || pageConfig} {...props} showRecentlyBar={false}>
             <Head>
                 <script type="text/javascript" src={url} data-client-key={snap_client_key} />
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />

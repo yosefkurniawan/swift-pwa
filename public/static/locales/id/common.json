@@ -132,5 +132,8 @@
         "language": "Bahasa",
         "currency": "Mata Uang",
         "changeto": "Ganti ke"
+    },
+    "recentlyView": {
+        "title" : "Baru Saja Dilihat"
     }
 }
