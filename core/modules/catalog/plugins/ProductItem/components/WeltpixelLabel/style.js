@@ -70,9 +70,21 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: 10,
     },
     withThumbnailProduct: {
-        left: 125,
+        left: 30,
         [theme.breakpoints.down('sm')]: {
             left: 20,
+        },
+    },
+    withThumbnailProductRight: {
+        right: 50,
+        [theme.breakpoints.down('sm')]: {
+            right: 20,
+        },
+    },
+    productRight: {
+        right: 20,
+        [theme.breakpoints.down('sm')]: {
+            right: 10,
         },
     },
 }));

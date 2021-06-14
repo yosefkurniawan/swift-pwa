@@ -84,21 +84,10 @@ const ProductPage = (props) => {
                     <Breadcrumb data={breadcrumbsData} variant="text" />
                 </div>
                 <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-6')}>
-                    {
-                        modules.catalog.productListing.label.enabled
-                        && modules.catalog.productListing.label.weltpixel.enabled && (
-                            <WeltpixelLabel
-                                t={t}
-                                weltpixel_labels={data.weltpixel_labels || []}
-                                categoryLabel={false}
-                                withThumbnailProduct
-                            />
-                        )
-                    }
                     <Banner
                         data={banner}
                         noLink
-                        thumbnail
+                        // thumbnail
                         showArrow
                         contentWidth="auto"
                         autoPlay={false}
@@ -106,7 +95,19 @@ const ProductPage = (props) => {
                         height={1120}
                         actionImage={desktop ? handleOpenImageDetail : () => { }}
                         customProduct={styles.bannerProduct}
-                    />
+                    >
+                        {
+                            modules.catalog.productListing.label.enabled
+                            && modules.catalog.productListing.label.weltpixel.enabled && (
+                                <WeltpixelLabel
+                                    t={t}
+                                    weltpixel_labels={data.weltpixel_labels || []}
+                                    categoryLabel={false}
+                                    withThumbnailProduct
+                                />
+                            )
+                        }
+                    </Banner>
                     <div className="hidden-desktop">
                         <UpsellDrawer
                             open={openDrawer}
