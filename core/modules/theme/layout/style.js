@@ -2,6 +2,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
     CreatePadding,
 } from '@theme_mixins';
+import { GRAY_PRIMARY } from '@theme_color';
 
 const useStyles = makeStyles((theme) => ({
     footerContainer: {
@@ -18,6 +19,85 @@ const useStyles = makeStyles((theme) => ({
         zIndex: 1500,
         ...CreatePadding(5, 15, 8, 18),
         color: '#303030',
+    },
+    recentView: {
+        position: 'fixed',
+        left: 20,
+        bottom: 0,
+        zIndex: 1400,
+        backgroundColor: 'white',
+        width: '15vw',
+        height: '5vh',
+        boxShadow: 'none',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+        [theme.breakpoints.down('md')]: {
+            bottom: '0vh',
+            width: '25vw',
+            [theme.breakpoints.down('xs')]: {
+                transform: 'rotate(90deg)',
+                left: '-19vw',
+                bottom: '30vh',
+                width: '45vw',
+            },
+        },
+        '&:hover': {
+            backgroundColor: GRAY_PRIMARY,
+        },
+    },
+    recentlyBtnContent: {
+        position: 'fixed',
+        width: '15vw',
+        height: '5vh',
+        bottom: '248px',
+        backgroundColor: 'white',
+        left: 20,
+        boxShadow: 'none',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+        [theme.breakpoints.down('md')]: {
+            width: '25vw',
+            left: 40,
+            [theme.breakpoints.down('sm')]: {
+                width: '45vw',
+                left: 20,
+                bottom: '338px',
+            },
+        },
+        '&:hover': {
+            backgroundColor: GRAY_PRIMARY,
+        },
+    },
+    recentlyWrapperContent: {
+        position: 'relative',
+        height: '250px',
+        paddingTop: '5px',
+        paddingBottom: '5px',
+        overflowY: 'hidden',
+        [theme.breakpoints.down('sm')]: {
+            height: '340px',
+        },
+    },
+    contentFeatured: {
+        display: 'flex',
+        transition: '0.3s',
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            padding: 8,
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+        },
+    },
+    itemProduct: {
+        width: '100px',
+        [theme.breakpoints.down('sm')]: {
+            width: '200px',
+        },
     },
 }));
 

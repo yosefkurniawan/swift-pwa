@@ -12,6 +12,7 @@ import {
 } from '@core_modules/product/services/graphql';
 import Header from '@core_modules/product/pages/default/components/header';
 import generateSchemaOrg from '@core_modules/product/helpers/schema.org';
+import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
 
 const ContentDetail = ({
     t, product,
@@ -342,7 +343,31 @@ const PageDetail = (props) => {
         );
     }
     if (data) {
+        let temporaryArr = [];
         product = data.products;
+        const viewedProduct = getLocalStorage('recently_viewed_product');
+        if (product.items.length > 0) {
+            const item = product.items[0];
+            let isExist = false;
+            if (viewedProduct) {
+                temporaryArr = viewedProduct;
+                if (viewedProduct.length > 0) {
+                    viewedProduct.map((val) => {
+                        if (val.url_key === item.url_key) {
+                            isExist = true;
+                        }
+                        return null;
+                    });
+                }
+            }
+            if (isExist === false) {
+                const newItem = {
+                    url_key: item.url_key,
+                };
+                temporaryArr.push(newItem);
+                setLocalStorage('recently_viewed_product', temporaryArr);
+            }
+        }
         if (product.items.length === 0) return <Error statusCode={404} />;
     }
 
@@ -392,7 +417,11 @@ const PageDetail = (props) => {
     };
 
     return (
-        <Layout pageConfig={pageConfig || config} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props}>
+        <Layout
+            pageConfig={pageConfig || config}
+            CustomHeader={CustomHeader ? <CustomHeader /> : <Header />}
+            {...props}
+        >
             <ContentDetail
                 product={product}
                 t={t}

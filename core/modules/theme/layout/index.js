@@ -25,10 +25,10 @@ const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false }
 const ScrollToTop = dynamic(() => import('@common_scrolltotop'), { ssr: false });
 const Footer = dynamic(() => import('@common_footer'), { ssr: true });
 const RestrictionPopup = dynamic(() => import('@common_restrictionPopup'), { ssr: false });
+const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/recentlyViewed'), { ssr: false });
 
 const Layout = (props) => {
     const bodyStyles = useStyles();
-
     const {
         pageConfig,
         children,
@@ -42,6 +42,7 @@ const Layout = (props) => {
         onlyCms,
         withLayoutHeader = true,
         withLayoutFooter = true,
+        showRecentlyBar = true,
     } = props;
     const {
         ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true,
@@ -247,6 +248,18 @@ const Layout = (props) => {
                     <RestrictionPopup
                         handleRestrictionCookies={handleRestrictionCookies}
                         restrictionStyle={bodyStyles.cookieRestriction}
+                    />
+                )
+            }
+            {
+                showRecentlyBar && (
+                    <RecentlyViewed
+                        isActive={JSON.parse(storeConfig.weltpixel_RecentlyViewedBar_general_enable)}
+                        recentlyBtn={bodyStyles.recentView}
+                        wrapperContent={bodyStyles.recentlyWrapperContent}
+                        recentlyBtnContent={bodyStyles.recentlyBtnContent}
+                        contentFeatured={bodyStyles.contentFeatured}
+                        className={bodyStyles.itemProduct}
                     />
                 )
             }

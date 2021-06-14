@@ -95,7 +95,7 @@ const ConfirmPaymentPage = (props) => {
             return null;
         });
         return (
-            <Layout pageConfig={pageConfig || Config} {...props}>
+            <Layout pageConfig={pageConfig || Config} {...props} showRecentlyBar={false}>
                 <Content
                     Content={Content}
                     handleChangeDate={handleChangeDate}
@@ -108,7 +108,7 @@ const ConfirmPaymentPage = (props) => {
         );
     }
     return (
-        <Layout pageConfig={pageConfig || Config} {...props}>
+        <Layout pageConfig={pageConfig || Config} {...props} showRecentlyBar={false}>
             <Content
                 Content={Content}
                 handleChangeDate={handleChangeDate}
