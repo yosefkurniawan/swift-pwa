@@ -1,6 +1,7 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable react/no-unescaped-entities */
 import Link from 'next/link';
+import Router from 'next/router';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,6 +12,12 @@ import formatDate from '@helper_date';
 
 const NotificationView = (props) => {
     const { notification, styles, t } = props;
+    const handleItemClick = (item) => {
+        Router.push({
+            pathname: '/inboxnotification/notification/data',
+            query: { notif: item.entityId },
+        });
+    };
     return (
         <>
             <h2 className={styles.infoTitle}>
@@ -20,9 +27,8 @@ const NotificationView = (props) => {
                 </Link>
             </h2>
             <hr />
-            <div className="row">
-                <div className="col-lg-12">
-
+            <div className="row notification">
+                <div className="col-sm-12 col-lg-12">
                     <TableContainer component={Paper}>
                         <Table aria-label="simple table">
                             <TableBody>
@@ -30,7 +36,11 @@ const NotificationView = (props) => {
                                     notification.items.map((val, idx) => {
                                         if (val.unread) {
                                             return (
-                                                <TableRow key={idx}>
+                                                <TableRow
+                                                    className="notification-list"
+                                                    key={idx}
+                                                    onClick={() => handleItemClick(val)}
+                                                >
                                                     <TableCell>{val.subject}</TableCell>
                                                     <TableCell align="right">{formatDate(val.createdAt)}</TableCell>
                                                 </TableRow>
