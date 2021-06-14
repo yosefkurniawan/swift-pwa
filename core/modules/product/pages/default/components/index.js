@@ -87,7 +87,7 @@ const ProductPage = (props) => {
                     <Banner
                         data={banner}
                         noLink
-                        // thumbnail
+                        thumbnail
                         showArrow
                         contentWidth="auto"
                         autoPlay={false}
