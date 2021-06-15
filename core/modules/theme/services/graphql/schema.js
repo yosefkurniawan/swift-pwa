@@ -111,6 +111,7 @@ export const vesMenu = gql`
                             name
                             link
                             link_type
+                            category_id
                         }
                     }
                 }
