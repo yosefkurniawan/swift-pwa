@@ -40,7 +40,7 @@ const Caraousel = (props) => {
     const settings = {
         arrows: false,
         dots: false,
-        infinite: true,
+        infinite: data.length >= slideLg,
         speed: 500,
         slidesToShow: slideLg,
         slidesToScroll: 1,
@@ -57,6 +57,7 @@ const Caraousel = (props) => {
                     slidesToScroll: 1,
                     className: 'slider',
                     centerMode: false,
+                    infinite: data.length >= slideMd,
                 },
             },
             {
@@ -66,6 +67,7 @@ const Caraousel = (props) => {
                     slidesToScroll: 1,
                     centerMode: true,
                     className: 'slider',
+                    infinite: data.length >= slideSm,
                 },
             },
             {
@@ -75,6 +77,7 @@ const Caraousel = (props) => {
                     slidesToScroll: 1,
                     centerMode: true,
                     className: 'slider',
+                    infinite: data.length >= slideXs,
                 },
             },
         ],
