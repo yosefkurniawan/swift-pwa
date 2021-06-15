@@ -57,11 +57,11 @@ const AddressView = (props) => {
             <hr />
             {addresses.length > 0 && defaultAddress ? (
                 <div className="row">
-                    <div className="col-lg-6">
+                    <div className="col-sm-6 col-lg-6">
                         <h3>{t('customer:address:defaultBilling')}</h3>
                         {generateData(defaultBilling, props)}
                     </div>
-                    <div className="col-lg-6">
+                    <div className="col-sm-6 col-lg-6">
                         <h3>{t('customer:address:defaultShiping')}</h3>
                         {generateData(defaultShiping, props)}
                     </div>

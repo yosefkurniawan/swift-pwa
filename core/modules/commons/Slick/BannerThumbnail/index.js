@@ -29,6 +29,7 @@ const Banner = ({
     zoomRef = null,
     customClassCaraousel = '',
     customProduct = '',
+    children,
 }) => {
     const styles = useStyles();
     const [slideIndex, setIndex] = useState(0);
@@ -153,6 +154,7 @@ const Banner = ({
                         />
                     ))}
                 </div>
+                { children }
             </div>
         </div>
     );

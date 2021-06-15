@@ -4,12 +4,12 @@ import ItemFeatured from '@core_modules/brands/pages/default/components/featured
 
 const FeaturedBrands = (props) => {
     const {
-        featured = [], t, desktop, logo, useTitle = true,
+        featured = [], t, desktop, useTitle = true,
     } = props;
     return (
         <>
             {useTitle && <h4 align="center">{t('brands:featuredBrands')}</h4>}
-            <Carousel showArrow={desktop} slslideLg={logo ? 4 : 6} data={featured} Item={ItemFeatured} />
+            <Carousel showArrow={desktop} data={featured} Item={ItemFeatured} />
         </>
     );
 };

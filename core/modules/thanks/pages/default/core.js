@@ -128,7 +128,7 @@ const PageStoreCredit = (props) => {
     if (data && data.ordersFilter && data.ordersFilter.data.length > 0 && bankList && paymentInformation) {
         const dateOrder = data.ordersFilter.data[0].created_at ? new Date(data.ordersFilter.data[0].created_at.replace(/-/g, '/')) : new Date();
         return (
-            <Layout t={t} {...other} pageConfig={config} storeConfig={storeConfig}>
+            <Layout t={t} {...other} pageConfig={config} storeConfig={storeConfig} showRecentlyBar={false}>
                 <Content
                     {...other}
                     t={t}

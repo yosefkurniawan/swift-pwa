@@ -54,6 +54,7 @@ export const storeConfig = `
             aw_blog_related_products_block_position
             aw_blog_related_products_products_limit
             aw_blog_related_products_display_add_to_cart
+            weltpixel_RecentlyViewedBar_general_enable
         }
     }
 `;
