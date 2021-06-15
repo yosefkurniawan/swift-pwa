@@ -8,6 +8,7 @@ const View = dynamic(() => import('./view'));
 const WeltpixelLabel = (props) => {
     const { weltpixel_labels, categoryLabel, ...other } = props;
     const data = [];
+    const { onDetailProduct } = props;
     let customer = {};
     if (typeof window !== 'undefined') {
         customer = Cookies.getJSON(custDataNameCookie);
@@ -39,6 +40,9 @@ const WeltpixelLabel = (props) => {
                     label.disabled = true;
                 }
             }
+            if (onDetailProduct && label.position !== 10) {
+                label.disabled = true;
+            }
             data.push(label);
         }
     }
@@ -47,6 +51,7 @@ const WeltpixelLabel = (props) => {
         <View
             data={data}
             {...other}
+            categoryLabel={categoryLabel}
         />
     );
 };

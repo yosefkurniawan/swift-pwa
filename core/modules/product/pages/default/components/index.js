@@ -60,6 +60,7 @@ const ProductPage = (props) => {
         stockStatus,
         additionalPrice,
         smartProductTabs,
+        isLogin,
     } = props;
     const desktop = breakPointsUp('sm');
 
@@ -101,6 +102,7 @@ const ProductPage = (props) => {
                     setOpen={() => setOpenDrawer(!openDrawer)}
                     t={t}
                     dataProduct={data}
+                    isLogin={isLogin}
                 />
                 <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} />
             </div>
@@ -151,13 +153,26 @@ const ProductPage = (props) => {
                         height={1120}
                         actionImage={desktop ? handleOpenImageDetail : () => { }}
                         customProduct={styles.bannerProduct}
-                    />
+                    >
+                        {
+                            modules.catalog.productListing.label.enabled
+                            && modules.catalog.productListing.label.weltpixel.enabled && (
+                                <WeltpixelLabel
+                                    t={t}
+                                    weltpixel_labels={data.weltpixel_labels || []}
+                                    categoryLabel={false}
+                                    withThumbnailProduct
+                                />
+                            )
+                        }
+                    </Banner>
                     <div className="hidden-desktop">
                         <UpsellDrawer
                             open={openDrawer}
                             setOpen={() => setOpenDrawer(!openDrawer)}
                             t={t}
                             dataProduct={data}
+                            isLogin={isLogin}
                         />
                     </div>
                 </div>
@@ -274,7 +289,7 @@ const ProductPage = (props) => {
                         }}
                     />
                 </div>
-                <RelatedProductCaraousel t={t} dataProduct={data} />
+                <RelatedProductCaraousel t={t} dataProduct={data} isLogin={isLogin} />
                 <div className={classNames(styles.footer, 'hidden-desktop')}>
                     <Button
                         className={styles.btnAddToCard}

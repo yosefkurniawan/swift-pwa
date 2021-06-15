@@ -133,5 +133,8 @@
         "language": "Language",
         "currency": "Currency",
         "changeto": "Change to"
+    },
+    "recentlyView": {
+        "title" : "Recently Viewed"
     }
 }

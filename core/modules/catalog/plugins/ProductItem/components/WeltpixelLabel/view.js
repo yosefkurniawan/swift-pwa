@@ -3,8 +3,29 @@ import classNames from 'classnames';
 import useStyles from './style';
 
 const WeltpixelLabelView = (props) => {
-    const { data = [], onDetailProduct } = props;
+    const {
+        data = [], onDetailProduct, withThumbnailProduct, categoryLabel,
+    } = props;
     const styles = useStyles();
+    const styleWithThumbnailProduct = (item) => {
+        if (withThumbnailProduct) {
+            if (item.position === 1 || item.position === 4 || item.position === 7) {
+                return styles.withThumbnailProduct;
+            }
+            if (item.position === 3 || item.position === 6 || item.position === 9) {
+                return styles.withThumbnailProductRight;
+            }
+        } else if (!categoryLabel && (item.position === 3 || item.position === 6 || item.position === 9)) {
+            return styles.productRight;
+        }
+        return '';
+    };
+    const styleTopSmallDevice = (item) => {
+        if (item.position === 1 || item.position === 2 || item.position === 3) {
+            return styles.topSmall;
+        }
+        return '';
+    };
     return (
         <>
             {
@@ -12,7 +33,13 @@ const WeltpixelLabelView = (props) => {
                     <div
                         key={key}
                         className={
-                            classNames('text-container', styles[item.position], (item.position === 10 && !onDetailProduct) ? 'hide' : '')
+                            classNames(
+                                'text-container',
+                                styles[item.position],
+                                styleTopSmallDevice(item),
+                                styleWithThumbnailProduct(item),
+                                ((item.position === 10 && !onDetailProduct) || item.disabled) ? 'hide' : '',
+                            )
                         }
                     >
                         {
@@ -28,6 +55,10 @@ const WeltpixelLabelView = (props) => {
                                     overflow: auto;
                                     display: table;              
                                     padding: ${item.text_padding};
+                                }
+
+                                .text-container img {
+                                    max-width: 50px;
                                 }
 
                                 .text-label {

@@ -119,12 +119,6 @@ const QuickView = (props) => {
                 </IconButton>
                 <div className={classNames(styles.container, 'row')}>
                     <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-6')}>
-                        {
-                            modules.catalog.productListing.label.enabled
-                            && modules.catalog.productListing.label.weltpixel.enabled && (
-                                <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel={false} />
-                            )
-                        }
                         <Banner
                             data={banner}
                             noLink
@@ -134,7 +128,14 @@ const QuickView = (props) => {
                             width={600}
                             height={1120}
                             customClassCaraousel={styles.caraousel}
-                        />
+                        >
+                            {
+                                modules.catalog.productListing.label.enabled
+                                    && modules.catalog.productListing.label.weltpixel.enabled && (
+                                    <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel={false} />
+                                )
+                            }
+                        </Banner>
                     </div>
                     <div className={classNames(styles.body, 'col-xs-12 col-lg-6')}>
 
@@ -175,6 +176,19 @@ const QuickView = (props) => {
                                     {t('product:review')}
                                 </Typography>
                             </div>
+                        </div>
+                        <div className="row">
+                            {
+                                modules.catalog.productListing.label.enabled
+                                    && modules.catalog.productListing.label.weltpixel.enabled && (
+                                    <WeltpixelLabel
+                                        t={t}
+                                        weltpixel_labels={weltpixel_labels || []}
+                                        categoryLabel={false}
+                                        onDetailProduct
+                                    />
+                                )
+                            }
                         </div>
 
                         <div className="hidden-desktop">
