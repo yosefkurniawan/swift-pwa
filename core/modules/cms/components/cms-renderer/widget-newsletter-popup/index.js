@@ -4,11 +4,12 @@ import { subscribeNewsletter } from '@core_modules/customer/services/graphql/sch
 import { useFormik } from 'formik';
 import parse, { domToReact } from 'html-react-parser';
 import * as Yup from 'yup';
+import useStyles from '@core_modules/cms/components/cms-renderer/widget-newsletter-popup/style';
 
 const Newsletter = (props) => {
     const { storeConfig } = props;
-
     const [actSubscribe] = useMutation(subscribeNewsletter);
+    const styles = useStyles();
 
     const formik = useFormik({
         initialValues: {
@@ -42,79 +43,35 @@ const Newsletter = (props) => {
     });
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <form noValidate onSubmit={formik.handleSubmit}>
-                <div className="field-newsletter">
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <label htmlFor="newsletter">
-                            <input
-                                name="email"
-                                type="email"
-                                id="newsletter"
-                                placeholder="Enter your email address"
-                                value={formik.values.email}
-                                onChange={formik.handleChange}
-                            />
-                        </label>
-                        <button type="submit" className="subscribe">
-                            Subscribe
-                        </button>
-                    </div>
-                    {storeConfig.weltpixel_newsletter_general_terms_conditions_consent === '1' && (
-                        <div>
-                            <input name="newsletter-tnc" type="checkbox" id="newsletter-tnc" />
-                            <label htmlFor="newsletter-tnc">{parse(storeConfig.weltpixel_newsletter_general_terms_conditions_text)}</label>
-                        </div>
-                    )}
+        <form noValidate onSubmit={formik.handleSubmit}>
+            <div className={styles.fieldNewsletterControl}>
+                <label htmlFor="newsletter">
+                    <input
+                        className={styles.fieldNewsletter}
+                        name="email"
+                        type="email"
+                        id="newsletter"
+                        placeholder="Enter your email address"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                    />
+                </label>
+                <button type="submit" className={styles.subscribeBtn}>
+                    Subscribe
+                </button>
+            </div>
+            {storeConfig.weltpixel_newsletter_general_terms_conditions_consent === '1' && (
+                <div>
+                    <input name="newsletter-tnc" type="checkbox" id="newsletter-tnc" />
+                    <label htmlFor="newsletter-tnc">{parse(storeConfig.weltpixel_newsletter_general_terms_conditions_text)}</label>
                 </div>
-            </form>
-
-            <style jsx>
-                {`
-                    .field-newsletter input[type='email'] {
-                        background: #fff;
-                        background-clip: padding-box;
-                        border: 1px solid silver;
-                        border-radius: 0;
-                        font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-                        font-size: 13px;
-                        height: 40px;
-                        line-height: 1.42857143;
-                        padding: 14px 13px;
-                        vertical-align: baseline;
-                        width: 100%;
-                        box-sizing: border-box;
-                        padding: 0 20px 0;
-                        min-width: 300px;
-                        max-width: 400px;
-                    }
-                    .subscribe {
-                        background: #000;
-                        border: #000;
-                        font-weight: bold;
-                        width: 120px;
-                        text-transform: uppercase;
-                        height: 40px;
-                        margin-left: 5px;
-                        white-space: nowrap;
-                        color: #fff;
-                        cursor: pointer;
-                    }
-                    @media screen and (max-width: 767px) {
-                        .subscribe {
-                            width: 100%;
-                            margin-left: 0;
-                        }
-                    }
-                `}
-            </style>
-        </div>
+            )}
+        </form>
     );
 };
 
 const WidgetNewsletterPopup = (props) => {
     const { storeConfig, data } = props;
-
     const content = data.cmsBlocks.items[0].content || '';
 
     /* eslint-disable */
@@ -127,7 +84,7 @@ const WidgetNewsletterPopup = (props) => {
 
                 if (attribs.class === 'title') {
                     return (
-                        <Typography variant="h1" type="semiBold">
+                        <Typography variant="title" type="semiBold">
                             {domToReact(children, options)}
                         </Typography>
                     );

@@ -15,8 +15,18 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: `${props.bgColor}E6`,
         },
     }),
+    dialog: {
+        '& div[role=dialog]': {
+            [theme.breakpoints.down('xs')]: {
+                margin: theme.spacing(1),
+            },
+        },
+    },
     newsletter: {
         padding: 0,
+        [theme.breakpoints.down('xs')]: {
+            padding: theme.spacing(4, 1),
+        },
         '& .row': {
             margin: 0,
         },
@@ -39,6 +49,16 @@ const useStyles = makeStyles((theme) => ({
         },
         '& p': {
             fontSize: 11,
+        },
+    },
+    closeBtn: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        zIndex: 1000,
+        backgroundColor: 'white',
+        '&:hover': {
+            cursor: 'pointer',
         },
     },
 }));
