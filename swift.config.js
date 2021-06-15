@@ -225,7 +225,7 @@ const features = {
         mobile: 'pwa_footer',
     },
     removeDecimalPrice: {
-        enabled: true,
+        enabled: false,
     },
 };
 
