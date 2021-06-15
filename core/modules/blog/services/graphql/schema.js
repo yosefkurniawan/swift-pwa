@@ -85,4 +85,65 @@ export const getPostById = gql`
     }
 `;
 
+export const awBlogPostWithRelatedPosts = gql`
+    query awBlogPostWithRelatedPosts($postId: Int, $storeId: Int ) {
+        awBlogPostWithRelatedPosts(postId: $postId,storeId: $storeId){
+            related_product {
+                id
+                attribute_set_id
+                name
+                sku
+                small_image{
+                  url
+                }
+                url_key
+                price_range{
+                  maximum_price{
+                    discount{
+                      amount_off
+                      percent_off
+                    }
+                    final_price{
+                      currency
+                      value
+                    }
+                    fixed_product_taxes{
+                      amount{
+                        currency
+                        value
+                      }
+                      label
+                    }
+                    regular_price{
+                      currency
+                      value
+                    }
+                  }
+                  minimum_price{
+                                  discount{
+                      amount_off
+                      percent_off
+                    }
+                    final_price{
+                      currency
+                      value
+                    }
+                    fixed_product_taxes{
+                      amount{
+                        currency
+                        value
+                      }
+                      label
+                    }
+                    regular_price{
+                      currency
+                      value
+                    }
+                  }
+                }
+              }
+        }
+    }
+`;
+
 export default {};

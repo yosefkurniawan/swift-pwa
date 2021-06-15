@@ -159,6 +159,14 @@ const useStyles = makeStyles(() => ({
     desktopContainer: {
         marginTop: 20,
         paddingLeft: 4,
+        '& .notification': {
+            '&-list': {
+                cursor: 'pointer',
+                '&:hover': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                },
+            },
+        },
     },
     infoTitle: {
         fontWeight: 'normal',

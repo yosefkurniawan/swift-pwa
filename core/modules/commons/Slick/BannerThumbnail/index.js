@@ -28,6 +28,8 @@ const Banner = ({
     zoom = false,
     zoomRef = null,
     customClassCaraousel = '',
+    customProduct = '',
+    children,
 }) => {
     const styles = useStyles();
     const [slideIndex, setIndex] = useState(0);
@@ -46,6 +48,9 @@ const Banner = ({
 
     const classCarousel = (customClassCaraousel && customClassCaraousel !== '')
         ? customClassCaraousel : styles.caraousel;
+
+    const customProductCaraosel = (customProduct && customProduct !== '')
+        ? customProduct : styles.customClass;
 
     const settings = {
         // className: thumbnail ? 'slick-thumbnail' : 'slick-pwa',
@@ -81,6 +86,7 @@ const Banner = ({
                                 height={100}
                                 quality={100}
                                 className={styles.thumbnailImg}
+                                videoUrl={item.videoUrl}
                             />
                         </div>
                     ))}
@@ -95,21 +101,23 @@ const Banner = ({
                                     <Zoom ref={zoomRef}>
                                         <ImageSlide
                                             height={height}
-                                            customClass={styles.customClass}
+                                            customClass={customProductCaraosel}
                                             width={width}
                                             noLink={noLink}
                                             key={key}
                                             {...item}
+                                            videoUrl={item.videoUrl}
                                         />
                                     </Zoom>
                                 ) : (
                                     <ImageSlide
                                         height={height}
-                                        customClass={styles.customClass}
+                                        customClass={customProductCaraosel}
                                         width={width}
                                         noLink={noLink}
                                         key={key}
                                         {...item}
+                                        videoUrl={item.videoUrl}
                                     />
                                 )
                             }
@@ -146,6 +154,7 @@ const Banner = ({
                         />
                     ))}
                 </div>
+                { children }
             </div>
         </div>
     );

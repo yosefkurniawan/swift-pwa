@@ -1,6 +1,6 @@
 /* eslint-disable no-mixed-operators */
 import Skeleton from '@common_skeleton';
-import CarouselSkeleton from '@common_slick/Caraousel/Skeleton';
+// import CarouselSkeleton from '@common_slick/Caraousel/Skeleton';
 import useStyles from '@core_modules/product/pages/default/components/Loader/style';
 
 const SkeletonLoader = () => {
@@ -273,7 +273,7 @@ const SkeletonLoader = () => {
             >
                 <Skeleton animation="wave" variant="text" width="100%" height={340} />
             </div>
-            <CarouselSkeleton />
+            {/* <CarouselSkeleton /> */}
         </div>
     );
 };

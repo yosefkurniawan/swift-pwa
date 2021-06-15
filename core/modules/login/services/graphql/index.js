@@ -1,52 +1,47 @@
 import { useMutation, useLazyQuery, useQuery } from '@apollo/client';
 import * as Schema from '@core_modules/login/services/graphql/schema';
 
-export const getToken = () => useMutation(Schema.getCustomerToken, {
+const useInternal = {
     context: {
         request: 'internal',
     },
+};
+
+export const getToken = () => useMutation(Schema.getCustomerToken, {
+    ...useInternal,
 });
 
 export const getTokenOtp = () => useMutation(Schema.getCustomerTokenOtp, {
-    context: {
-        request: 'internal',
-    },
+    ...useInternal,
 });
 
 export const removeToken = () => useMutation(Schema.removeToken, {
-    context: {
-        request: 'internal',
-    },
+    ...useInternal,
 });
 
-export const requestOtpRegister = () => useMutation(Schema.requestOtpRegister);
+export const requestOtpRegister = () => useMutation(Schema.requestOtpRegister, {
+    ...useInternal,
+});
 export const socialLogin = () => useMutation(Schema.socialLogin, {
-    context: {
-        request: 'internal',
-    },
-    skip: typeof window === 'undefined',
+    ...useInternal,
 });
 
 export const getSigninMethodSocialLogin = () => useQuery(Schema.getSigninMethodSocialLogin);
 
-export const checkOtpRegister = () => useMutation(Schema.checkOtpRegister);
-export const requestOtpLogin = () => useMutation(Schema.requestOtpLogin);
-export const checkOtpLogin = () => useMutation(Schema.checkOtpLogin);
-export const requestOtpForgotPassword = () => useMutation(Schema.requestOtpForgotPassword);
-export const checkOtpForgotPassword = () => useMutation(Schema.checkOtpForgotPassword);
+export const checkOtpRegister = () => useMutation(Schema.checkOtpRegister, { ...useInternal });
+export const requestOtpLogin = () => useMutation(Schema.requestOtpLogin, { ...useInternal });
+export const checkOtpLogin = () => useMutation(Schema.checkOtpLogin, { ...useInternal });
+export const requestOtpForgotPassword = () => useMutation(Schema.requestOtpForgotPassword, { ...useInternal });
+export const checkOtpForgotPassword = () => useMutation(Schema.checkOtpForgotPassword, { ...useInternal });
 
 export const mergeCart = () => useMutation(Schema.mergeCart, {
-    context: {
-        request: 'internal',
-    },
-    skip: typeof window === 'undefined',
+    ...useInternal,
 });
 
 export const getCustomerCartId = () => useLazyQuery(Schema.getCartIdUser, {
     context: {
         request: 'internal',
     },
-    skip: typeof window === 'undefined',
     fetchPolicy: 'no-cache',
 });
 

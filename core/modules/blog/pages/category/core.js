@@ -1,5 +1,3 @@
-import { withTranslation } from '@i18n';
-import { withApollo } from '@lib_apollo';
 import propTypes from 'prop-types';
 import DefaultLayout from '@layout';
 import { useRouter } from 'next/router';
@@ -28,7 +26,6 @@ const Category = (props) => {
     });
     const loadCategory = getCategory({ category_id: 0 });
     const loadBlog = getBlog({
-        skip: typeof window === 'undefined' || loading,
         variables: {
             page_size: pageSize,
             current_page: 1,
@@ -149,4 +146,4 @@ Category.defaultProps = {
     WarningInfo: () => <p>Error</p>,
 };
 
-export default withApollo({ ssr: true })(withTranslation()(Category));
+export default Category;

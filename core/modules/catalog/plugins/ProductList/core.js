@@ -16,7 +16,8 @@ import Content from '@plugin_productlist/components';
 const Product = (props) => {
     const {
         catId = 0, catalog_search_engine, customFilter, url_path, defaultSort, t,
-        categoryPath, ErrorMessage, storeConfig, query, path, availableFilter, ...other
+        categoryPath, ErrorMessage, storeConfig, query, path, availableFilter,
+        token, isLogin, ...other
     } = props;
 
     const [page, setPage] = React.useState(1);
@@ -60,11 +61,21 @@ const Product = (props) => {
     }
 
     config = generateConfig(query, config, elastic, availableFilter);
+    let context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
+    if (token && token !== '') {
+        context = {
+            ...context,
+            headers: {
+                Authorization: token,
+            },
+        };
+    }
     const { loading, data, fetchMore } = getProduct(config, {
         variables: {
             pageSize: modules.catalog.productListing.pageSize || 10,
             currentPage: 1,
         },
+        context,
     });
     let products = {};
     products = data && data.products ? data.products : {
@@ -104,6 +115,7 @@ const Product = (props) => {
                         pageSize: modules.catalog.productListing.pageSize || 10,
                         currentPage: page + 1,
                     },
+                    context,
                     updateQuery: (
                         previousResult,
                         { fetchMoreResult },

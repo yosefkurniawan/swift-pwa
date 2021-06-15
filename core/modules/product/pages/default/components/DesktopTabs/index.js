@@ -11,6 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import useStyles from '@core_modules/product/pages/default/components/ExpandDetail/style';
 import ListReviews from '@core_modules/product/pages/default/components/ListReviews';
+import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 
 function TabPanel(props) {
     const {
@@ -37,6 +38,7 @@ function TabPanel(props) {
 
 const TabsView = (props) => {
     const { dataInfo } = props;
+    const { smartProductTabs } = props;
     const styles = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
@@ -44,7 +46,6 @@ const TabsView = (props) => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
     return (
         <Paper square>
             <AppBar position="static" color="default">
@@ -56,6 +57,14 @@ const TabsView = (props) => {
                 >
                     {dataInfo.map((val, idx) => <Tab label={val.title} key={idx} />)}
                     <Tab label="Reviews" />
+                    {
+                        Object.values(smartProductTabs).map((val, idx) => {
+                            if (val.label) {
+                                return (<Tab label={val.label} key={idx} />);
+                            }
+                            return null;
+                        })
+                    }
                 </Tabs>
             </AppBar>
             {dataInfo.map((item, index) => (
@@ -89,6 +98,18 @@ const TabsView = (props) => {
             <TabPanel value={value} index={2} dir={theme.direction}>
                 <ListReviews {...props} />
             </TabPanel>
+            {
+                Object.values(smartProductTabs).map((val, idx) => {
+                    if (val.label) {
+                        return (
+                            <TabPanel key={idx} value={value} index={dataInfo.length + idx} dir={theme.direction}>
+                                <CmsRenderer content={val.content} />
+                            </TabPanel>
+                        );
+                    }
+                    return null;
+                })
+            }
         </Paper>
     );
 };
