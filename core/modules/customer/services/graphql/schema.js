@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
 import { gql } from '@apollo/client';
+import { modules } from '@config';
 
 export const getRegion = gql`
 query getRegions($country_id: String!){
@@ -48,6 +49,87 @@ export const getCityByRegionId = gql`
   }
 `;
 
+export const customerWishlist = gql`
+  query customerWishlist($sharing_code: ID){
+    customerWishlist(sharing_code:$sharing_code){
+      items{
+        added_at
+        description
+        id
+        product{
+          id
+          name
+          url_key
+          sku
+          small_image{
+            url
+          }
+          price_range{
+            minimum_price{
+              discount{
+                amount_off
+                percent_off
+              }
+              final_price{
+                currency
+                value
+              }
+              fixed_product_taxes{
+                amount{
+                  currency
+                  value
+                }
+                label
+              }
+              regular_price{
+                currency
+                value
+              }
+            }
+            maximum_price{
+              discount{
+                amount_off
+                percent_off
+              }
+              final_price{
+                currency
+                value
+              }
+              fixed_product_taxes{
+                amount{
+                  currency
+                  value
+                }
+                label
+              }
+              regular_price{
+                currency
+                value
+              }
+            }
+          }
+        }
+        qty
+      }
+      items_count
+      name
+      sharing_code
+      updated_at
+    }
+  } 
+`;
+
+export const shareWishlist = gql`
+    mutation shareWishlist($emails: [ID]!, $message: String) {
+      shareWishlist(
+        input: {
+          emails: $emails,
+          message: $message
+        }
+      )
+    }
+`;
+
 // schema settingsPage
 
 export const updateCustomer = gql`
@@ -86,6 +168,36 @@ const productDetail = `
     small_image{
       url
     }
+    ${modules.catalog.productListing.label.weltpixel.enabled ? `
+        weltpixel_labels {
+        categoryLabel {
+            css
+            customer_group
+            image
+            page_position
+            position
+            priority
+            text
+            text_padding
+            text_bg_color
+            text_font_size
+            text_font_color          
+        }
+        productLabel {
+            css
+            customer_group
+            image
+            page_position
+            position
+            priority
+            text
+            text_padding
+            text_bg_color
+            text_font_size
+            text_font_color  
+        }
+    }        
+    ` : ''}
     image{
       url
     }

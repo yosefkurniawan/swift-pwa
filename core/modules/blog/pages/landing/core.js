@@ -24,7 +24,6 @@ const CoreLanding = (props) => {
     const {
         loading, data, error, fetchMore,
     } = getBlog({
-        skip: typeof window === 'undefined',
         variables: {
             page_size: pageSize,
             current_page: 1,

@@ -122,5 +122,8 @@
         "title": "DAFTAR NEWSLETTER",
         "placeholder": "Masukkan alamat email Anda",
         "buttonLabel": "Langganan"
+    },
+    "recentlyView": {
+        "title" : "Baru Saja Dilihat"
     }
 }

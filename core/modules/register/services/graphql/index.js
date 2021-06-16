@@ -15,14 +15,12 @@ export const mergeCart = () => useMutation(Schema.mergeCart, {
     context: {
         request: 'internal',
     },
-    skip: typeof window === 'undefined',
 });
 
 export const getCustomerCartId = () => useLazyQuery(Schema.getCartIdUser, {
     context: {
         request: 'internal',
     },
-    skip: typeof window === 'undefined',
     fetchPolicy: 'no-cache',
 });
 

@@ -7,14 +7,19 @@ import { useRouter } from 'next/router';
 import TagManager from 'react-gtm-module';
 import { getCookies } from '@helper_cookies';
 import Loading from '@core_modules/product/pages/default/components/Loader';
-import { getProduct, addWishlist as mutationAddWishlist } from '@core_modules/product/services/graphql';
+import {
+    getProduct, getProductLabel, addWishlist as mutationAddWishlist, smartProductTabs,
+} from '@core_modules/product/services/graphql';
 import Header from '@core_modules/product/pages/default/components/header';
 import generateSchemaOrg from '@core_modules/product/helpers/schema.org';
+import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
 
 const ContentDetail = ({
     t, product,
     Content,
     isLogin,
+    weltpixel_labels,
+    dataProductTabs,
 }) => {
     const item = product.items[0];
     const route = useRouter();
@@ -22,7 +27,6 @@ const ContentDetail = ({
     const reviewValue = parseInt(item.review.rating_summary, 0) / 20;
 
     React.useEffect(() => {
-        let index = 0;
         let categoryProduct = '';
         // eslint-disable-next-line no-unused-expressions
         item.categories.length > 0 && item.categories.map(({ name }, indx) => {
@@ -47,30 +51,6 @@ const ContentDetail = ({
                         }],
                     },
                     currencyCode: item.price_range.minimum_price.regular_price.currency || 'USD',
-                    impressions: [
-                        ...item.related_products.map((val) => {
-                            index += 1;
-                            return ({
-                                name: val.name,
-                                id: val.sku,
-                                category: categoryProduct,
-                                price: val.price_range.minimum_price.regular_price.value,
-                                list: `Related Products From ${item.name}`,
-                                position: index,
-                            });
-                        }),
-                        ...item.upsell_products.map((val) => {
-                            index += 1;
-                            return ({
-                                name: val.name,
-                                id: val.sku,
-                                category: categoryProduct,
-                                price: val.price_range.minimum_price.regular_price.value,
-                                list: `Related Products From ${item.name}`,
-                                position: index,
-                            });
-                        }),
-                    ],
                 },
                 event: 'impression',
                 eventCategory: 'Ecommerce',
@@ -92,12 +72,14 @@ const ContentDetail = ({
             bannerData.push({
                 link: '#',
                 imageUrl: media.url,
+                videoUrl: media && media.video_content,
             });
         });
     } else {
         bannerData.push({
             link: '#',
             imageUrl: item.image.url,
+            videoUrl: '#',
         });
     }
 
@@ -123,7 +105,6 @@ const ContentDetail = ({
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
 
     const [addWishlist] = mutationAddWishlist();
-
     const handleWishlist = () => {
         if (isLogin && isLogin === 1) {
             TagManager.dataLayer({
@@ -191,13 +172,7 @@ const ContentDetail = ({
             },
         ];
     }
-    const relateData = item.related_products.map((val) => ({
-        ...val,
-        name: val.name,
-        link: val.url_key,
-        imageSrc: val.small_image.url,
-        price: val.price_range.minimum_price.regular_price.value,
-    }));
+
     let breadcrumbsData = [];
     if (typeof window !== 'undefined') {
         const lastCategory = getCookies('lastCategory');
@@ -287,7 +262,10 @@ const ContentDetail = ({
 
     return (
         <Content
-            data={product.items[0]}
+            data={{
+                ...product.items[0],
+                weltpixel_labels,
+            }}
             t={t}
             openOption={openOption}
             handleOption={handleOption}
@@ -306,7 +284,6 @@ const ContentDetail = ({
             reviewValue={reviewValue}
             wishlist={wishlist}
             expandData={expandData}
-            relateData={relateData}
             features={features}
             config={modules.catalog.pdp}
             openImageDetail={openImageDetail}
@@ -319,19 +296,45 @@ const ContentDetail = ({
             checkCustomizableOptionsValue={checkCustomizableOptionsValue}
             additionalPrice={additionalPrice}
             setAdditionalPrice={setAdditionalPrice}
+            smartProductTabs={dataProductTabs}
+            isLogin={isLogin}
         />
     );
 };
 
 const PageDetail = (props) => {
     let product = {};
+    let weltpixel_labels = [];
+    let productTab = {
+        tab_1: {
+            label: null,
+            content: null,
+        },
+    };
     const {
         slug, Content, t, isLogin, pageConfig, CustomHeader,
     } = props;
+
+    const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
+
+    const labels = getProductLabel(slug[0], { context });
     const {
         loading, data, error,
-    } = getProduct(slug[0]);
-
+    } = getProduct(slug[0], { context });
+    const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
+    React.useEffect(() => {
+        if (slug[0] !== '') {
+            getProductTabs({
+                variables: {
+                    filter: {
+                        url_key: {
+                            eq: slug[0],
+                        },
+                    },
+                },
+            });
+        }
+    }, [slug[0]]);
     if (error || loading || !data) {
         return (
             <Layout pageConfig={{}} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props}>
@@ -340,10 +343,49 @@ const PageDetail = (props) => {
         );
     }
     if (data) {
+        let temporaryArr = [];
         product = data.products;
+        const viewedProduct = getLocalStorage('recently_viewed_product');
+        if (product.items.length > 0) {
+            const item = product.items[0];
+            let isExist = false;
+            if (viewedProduct) {
+                temporaryArr = viewedProduct;
+                if (viewedProduct.length > 0) {
+                    viewedProduct.map((val) => {
+                        if (val.url_key === item.url_key) {
+                            isExist = true;
+                        }
+                        return null;
+                    });
+                }
+            }
+            if (isExist === false) {
+                const newItem = {
+                    url_key: item.url_key,
+                };
+                temporaryArr.push(newItem);
+                setLocalStorage('recently_viewed_product', temporaryArr);
+            }
+        }
         if (product.items.length === 0) return <Error statusCode={404} />;
     }
 
+    if (labels.data && labels.data.products && labels.data.products.items.length > 0 && labels.data.products.items[0].weltpixel_labels) {
+        weltpixel_labels = labels.data.products.items[0].weltpixel_labels;
+    }
+
+    if (dataProductTabs) {
+        const productItem = dataProductTabs.products;
+        if (productItem.items.length > 0) {
+            productTab = productItem.items[0].smartProductTabs ? productItem.items[0].smartProductTabs : {
+                tab_1: {
+                    label: null,
+                    content: null,
+                },
+            };
+        }
+    }
     const schemaOrg = generateSchemaOrg(product.items[0]);
 
     const config = {
@@ -375,12 +417,18 @@ const PageDetail = (props) => {
     };
 
     return (
-        <Layout pageConfig={pageConfig || config} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props}>
+        <Layout
+            pageConfig={pageConfig || config}
+            CustomHeader={CustomHeader ? <CustomHeader /> : <Header />}
+            {...props}
+        >
             <ContentDetail
                 product={product}
                 t={t}
                 Content={Content}
                 isLogin={isLogin}
+                weltpixel_labels={weltpixel_labels}
+                dataProductTabs={productTab}
             />
         </Layout>
     );

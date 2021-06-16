@@ -7,19 +7,46 @@ const defaultConfig = {
 
 };
 
-export const getProduct = (urlpath) => useQuery(Schema.getProduct(urlpath), {
+export const getProduct = (urlpath, options = {}) => useQuery(Schema.getProduct(urlpath), {
     ...defaultConfig,
+    ...options,
+});
+
+export const getProductLabel = (urlpath, options = {}) => useQuery(Schema.getProductLabel(urlpath), {
+    ...defaultConfig,
+    ...options,
+});
+
+export const getRelatedProduct = (urlpath, options = {}) => useQuery(Schema.getRelatedProduct(urlpath), {
+    ...defaultConfig,
+    ...options,
+});
+
+export const getUpsellProduct = (urlpath, options = {}) => useQuery(Schema.getUpsellProduct(urlpath), {
+    ...defaultConfig,
+    ...options,
 });
 
 export const getCustomizableOption = (urlpath) => useLazyQuery(CustomizableSchema.getCustomizableOption(urlpath), {
     ...defaultConfig,
-    skip: typeof window === 'undefined',
     fetchPolicy: 'no-cache',
+});
+
+export const smartProductTabs = (params) => useLazyQuery(Schema.smartProductTabs(), {
+    ...defaultConfig,
+    variables: {
+        ...params,
+    },
+    skip: typeof window === 'undefined',
+    fetchPolicy: 'cache-and-network',
 });
 
 export const getProductBySku = (params) => useQuery(Schema.getProductBySku(), {
     ...params,
     ...defaultConfig,
+    context: {
+        request: 'internal',
+    },
 });
 
 export const getReviews = (params) => useQuery(Schema.getReview(), {
@@ -87,12 +114,15 @@ export const addBundleProductsToCart = () => useMutation(ActionSchema.addBundleP
     },
 });
 
-export const getGuestCartId = () => useMutation(ActionSchema.createCartIdGuest);
+export const getGuestCartId = () => useMutation(ActionSchema.createCartIdGuest, {
+    context: {
+        request: 'internal',
+    },
+});
 export const getCustomerCartId = () => useLazyQuery(ActionSchema.getCartIdUser, {
     context: {
         request: 'internal',
     },
-    skip: typeof window === 'undefined',
     fetchPolicy: 'no-cache',
 });
 

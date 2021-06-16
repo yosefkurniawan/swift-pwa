@@ -18,6 +18,20 @@ const useStyles = makeStyles((theme) => ({
         '& .customizable-container': {
             marginTop: 20,
         },
+        '& .product-video': {
+            overflow: 'hidden',
+            position: 'relative',
+            width: '100%',
+            '& iframe': {
+                height: 'auto',
+                padding: 'auto 0',
+            },
+            [theme.breakpoints.up('sm')]: {
+                '& iframe': {
+                    height: '572px',
+                },
+            },
+        },
     },
     headContainer: {
         position: 'relative',
@@ -167,6 +181,16 @@ const useStyles = makeStyles((theme) => ({
     shareTitle: {
         marginTop: 20,
         fontSize: 12,
+    },
+    bannerProduct: {
+        width: '99%',
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: 'auto',
+            height: '572px',
+        },
     },
 }));
 

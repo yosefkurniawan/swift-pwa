@@ -215,7 +215,7 @@ const features = {
         },
     },
     thumbor: {
-        url: 'https://thumbor.sirclocdn.xyz/unsafe/widthxheight/filters:format(webp)/',
+        url: 'https://thumbor.sirclocdn.com/unsafe/widthxheight/filters:format(webp)/',
     },
     globalPromo: {
         key_cookies: 'global_promo_enable',
@@ -223,6 +223,9 @@ const features = {
     footer: {
         desktop: 'pwa_footer',
         mobile: 'pwa_footer',
+    },
+    removeDecimalPrice: {
+        enabled: false,
     },
 };
 
@@ -282,9 +285,12 @@ const modules = {
             label: {
                 enabled: true,
                 new: {
-                    enabled: true,
+                    enabled: false,
                 },
                 sale: {
+                    enabled: false,
+                },
+                weltpixel: {
                     enabled: true,
                 },
             },

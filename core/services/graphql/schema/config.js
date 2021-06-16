@@ -62,6 +62,13 @@ export const storeConfig = `
             weltpixel_newsletter_general_trigger_button_title
             weltpixel_newsletter_general_trigger_button_color
             weltpixel_newsletter_general_trigger_button_backgroundcolor
+            aw_blog_general_comments_enabled
+            aw_blog_general_disqus_forum_code
+            aw_blog_related_products_block_layout
+            aw_blog_related_products_block_position
+            aw_blog_related_products_products_limit
+            aw_blog_related_products_display_add_to_cart
+            weltpixel_RecentlyViewedBar_general_enable
         }
     }
 `;

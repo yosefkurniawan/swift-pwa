@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
         ...FlexRow,
         width: '100%',
         alignItems: 'center',
-        justifyContent: 'space-arround',
+        justifyContent: 'center',
         position: 'fixed',
         bottom: 0,
         left: 0,
@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
     },
     btnWishlist: {
         width: '100%',
+        marginLeft: 15,
         [theme.breakpoints.up('md')]: {
             width: 'fit-content',
         },

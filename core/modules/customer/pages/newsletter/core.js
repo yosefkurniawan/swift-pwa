@@ -10,7 +10,11 @@ const NewsletterPage = (props) => {
     const {
         t, Content, pageConfig, app_cookies,
     } = props;
-    const [actUpdateCustomer, { data: dataUpdate, loading }] = useMutation(Schema.updateCustomer);
+    const [actUpdateCustomer, { data: dataUpdate, loading }] = useMutation(Schema.updateCustomer, {
+        context: {
+            request: 'internal',
+        },
+    });
     const { data } = getCustomerSettings();
 
     const [customer, setCustomer] = useState({});
