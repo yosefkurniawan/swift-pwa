@@ -21,7 +21,10 @@ const Layout = (props) => {
         { href: '/sales/downloadable/history', title: t('customer:menu:myDownload') },
         { href: '/customer/account/profile', title: t('customer:menu:accountInformation') },
         { href: '/customer/account/address', title: t('customer:menu:address') },
-        { href: '/review/customer', title: t('productreview:title') },
+        ...pushIf(modules.productreview.enabled, {
+            href: '/review/customer',
+            title: t('productreview:title'),
+        }),
         ...pushIf(modules.giftcard.enabled, {
             href: '/awgiftcard/card',
             title: 'Gift Card',
