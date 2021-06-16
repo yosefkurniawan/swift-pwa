@@ -51,6 +51,7 @@ const WeltpixelLabel = (props) => {
         <View
             data={data}
             {...other}
+            categoryLabel={categoryLabel}
         />
     );
 };
