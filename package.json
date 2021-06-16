@@ -74,6 +74,7 @@
     "react-prismazoom": "^1.1.4",
     "react-share": "^4.1.0",
     "react-slick": "^0.27.10",
+    "simple-react-lightbox": "^3.6.6",
     "slick-carousel": "^1.8.1",
     "swiper": "^5.4.5",
     "webfontloader": "^1.6.28",

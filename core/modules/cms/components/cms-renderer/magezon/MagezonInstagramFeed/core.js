@@ -4,7 +4,7 @@ import { features } from '@config';
 import { setLocalStorage, getLocalStorage } from '@helpers/localstorage';
 
 const MagezonInstagramFeedCore = (props) => {
-    const { View, ...other } = props;
+    const { View, LoadView, ...other } = props;
     const key = features.magezon.keyStorage;
     const [feeds, setFeed] = React.useState([]);
 
@@ -43,7 +43,7 @@ const MagezonInstagramFeedCore = (props) => {
         }
     }, [responseData]);
 
-    if (loading || responseData.loading) return <h4>Loading</h4>;
+    if (loading || responseData.loading || feeds.length === 0) return <LoadView {...other} />;
 
     return (
         <View

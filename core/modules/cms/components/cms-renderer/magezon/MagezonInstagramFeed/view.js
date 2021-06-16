@@ -6,6 +6,24 @@ import React from 'react';
 import Typography from '@common_typography';
 import Link from 'next/link';
 import PhotoSwipe from '@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed/components/PhotoSwipe';
+import SimpleReactLightbox, { SRLWrapper } from 'simple-react-lightbox';
+
+const ImageItem = ({ src, alt, onClick = () => {} }) => (
+    <picture>
+        <img
+            onClick={onClick}
+            className="magezon-instagram-img"
+            data-pagespeed-no-defer
+            src={src}
+            onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/assets/img/placeholder.png';
+            }}
+            alt={alt}
+        />
+
+    </picture>
+);
 
 const MagezonInstagramFeedView = (props) => {
     const {
@@ -47,11 +65,22 @@ const MagezonInstagramFeedView = (props) => {
                 setImagePositiin(id);
                 setOpen(true);
             }
-            if (onclick === 'magnific') {
-                setImagePositiin(id);
-                setOpen(true);
-            }
         }
+    };
+
+    const ligtboxSetting = {
+        buttons: {
+            showThumbnailsButton: false,
+            showAutoplayButton: false,
+            showDownloadButton: false,
+            showFullscreenButton: false,
+        },
+        thumbnails: {
+            showThumbnails: false,
+        },
+        caption: {
+            captionContainerPadding: '10px 25% 30px 25%',
+        },
     };
 
     return (
@@ -77,53 +106,54 @@ const MagezonInstagramFeedView = (props) => {
                 </div>
                 <div className="row">
                     {
-                        data && data.length > 0 && data.map((item, key) => (key < max_items ? (
-                            <div
-                                key={key}
-                                className={`${classItem} magezon-instagram-item`}
-                            >
-                                {
-                                    onclick && onclick === 'photo' ? (
-                                        <Link
-                                            href={item.media_url}
-                                        >
-                                            <a
-                                                target={link_target}
+                        (onclick && onclick === 'magnific')
+                            ? (
+                                <SimpleReactLightbox>
+                                    <SRLWrapper options={ligtboxSetting}>
+                                        <div className="row">
+                                            {
+                                                data && data.length > 0 && data.map((item, key) => (key < max_items ? (
+                                                    <div
+                                                        key={key}
+                                                        className={`${classItem}`}
+                                                    >
+                                                        <ImageItem
+                                                            src={item.media_url}
+                                                            alt={item.caption || ''}
+                                                        />
+                                                    </div>
+                                                ) : null))
+                                            }
+                                        </div>
+                                    </SRLWrapper>
+                                </SimpleReactLightbox>
+                            )
+                            : data && data.length > 0 && data.map((item, key) => (key < max_items ? (
+                                <div
+                                    key={key}
+                                    className={`${classItem} magezon-instagram-item`}
+                                >
+                                    {
+                                        onclick && onclick === 'photo' ? (
+                                            <Link
+                                                href={item.media_url}
                                             >
-                                                <picture>
-                                                    <img
-                                                        className="magezon-instagram-img"
-                                                        data-pagespeed-no-defer
-                                                        src={item.media_url}
-                                                        onError={(e) => {
-                                                            e.target.onerror = null;
-                                                            e.target.src = '/assets/img/placeholder.png';
-                                                        }}
-                                                        alt={item.id}
-                                                    />
-
-                                                </picture>
-                                            </a>
-                                        </Link>
-                                    ) : (
-                                        <picture>
-                                            <img
-                                                onClick={() => handleClick(key)}
-                                                className="magezon-instagram-img"
-                                                data-pagespeed-no-defer
+                                                <a
+                                                    target={link_target}
+                                                >
+                                                    <ImageItem src={item.media_url} alt={item.id} />
+                                                </a>
+                                            </Link>
+                                        ) : (
+                                            <ImageItem
                                                 src={item.media_url}
-                                                onError={(e) => {
-                                                    e.target.onerror = null;
-                                                    e.target.src = '/assets/img/placeholder.png';
-                                                }}
                                                 alt={item.id}
+                                                onClick={() => handleClick(key)}
                                             />
-
-                                        </picture>
-                                    )
-                                }
-                            </div>
-                        ) : null))
+                                        )
+                                    }
+                                </div>
+                            ) : null))
                     }
                 </div>
 
@@ -146,6 +176,16 @@ const MagezonInstagramFeedView = (props) => {
                 </Link>
                 <style jsx global>
                     {`
+                        
+                        @media (max-width: 768px) {
+                            .SRLNextButton {
+                                display: block !important;
+                            }
+                            .SRLPrevButton {
+                                display: block !important;
+                            }
+                        }
+
                         .magezon-instagram-item {
                             overflow: hidden !important;
                             margin: ${gap ? hover_effect === 'zoomin' ? gap / 2 : gap / 4 : 0}px 0px;
@@ -154,9 +194,9 @@ const MagezonInstagramFeedView = (props) => {
                             object-fit: cover;
                             width: 100%;
                             ${
-        hover_effect === 'zoomin'
+        onclick && onclick !== '' && hover_effect === 'zoomin'
             ? ` transition: transform 1s, filter 2s ease-in-out;
-                transform: scale(1.1);` : hover_effect === 'zoomout'
+                transform: scale(1.1);` : onclick && onclick !== null && hover_effect === 'zoomout'
                 ? `transform-origin: 0 0;
                                             transition: transform .25s, visibility .25s ease-in;`
                 : ''
@@ -164,8 +204,8 @@ const MagezonInstagramFeedView = (props) => {
                         }
                         .magezon-instagram-img:hover {
                             ${
-        hover_effect === 'zoomin'
-            ? ' transform: scale(1);' : hover_effect === 'zoomout'
+        onclick && onclick !== '' && hover_effect === 'zoomin'
+            ? ' transform: scale(1);' : onclick && onclick !== null && hover_effect === 'zoomout'
                 ? `
                                         transform: scale(1.1);`
                 : ''
