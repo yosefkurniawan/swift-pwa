@@ -7,10 +7,12 @@ import { getLocalStorage } from '@helper_localstorage';
 import ProductView from '@core_modules/theme/components/recentlyViewed/productView';
 import { breakPointsUp } from '@helper_theme';
 import { getRecentlyProduct } from '@core_modules/theme/services/graphql';
+import useStyles from '@core_modules/theme/components/recentlyViewed/style';
 
 const RecentlyViewed = (props) => {
-    const { t } = useTranslation();
+    const styles = useStyles();
     const { recentlyBtn, isActive } = props;
+    const { t } = useTranslation();
     const desktop = breakPointsUp('sm');
     const viewedProduct = getLocalStorage('recently_viewed_product');
     const [openViewBar, setViewBar] = React.useState(false);
@@ -25,21 +27,23 @@ const RecentlyViewed = (props) => {
                 url_keys.push(item.url_key);
                 return null;
             });
-            getProduct({
-                variables: {
-                    filter: {
-                        url_key: {
-                            in: url_keys,
+            if (isActive) {
+                getProduct({
+                    variables: {
+                        filter: {
+                            url_key: {
+                                in: url_keys,
+                            },
                         },
                     },
-                },
-            });
+                });
+            }
         }
         setViewBar(open);
     };
     if (isActive) {
         return (
-            <div>
+            <div className={styles.wrapperBtn}>
                 {
                     !openViewBar && viewedProduct && viewedProduct.length > 0
                         ? (
@@ -50,11 +54,7 @@ const RecentlyViewed = (props) => {
                                 <Typography
                                     variant="title"
                                     type="bold"
-                                    style={{
-                                        color: 'black',
-                                        textTransform: 'uppercase',
-                                        fontSize: desktop ? 12 : '3vw',
-                                    }}
+                                    className="button-title"
                                 >
                                     {t('common:recentlyView:title')}
                                 </Typography>

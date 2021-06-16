@@ -8,19 +8,19 @@ const SkeletonRecently = () => {
             <Skeleton
                 variant="rect"
                 width={200}
-                height={300}
+                height={250}
                 animation="wave"
             />
             <Skeleton
                 variant="rect"
                 width={200}
-                height={300}
+                height={250}
                 animation="wave"
             />
             <Skeleton
                 variant="rect"
                 width={200}
-                height={300}
+                height={250}
                 animation="wave"
             />
         </div>
