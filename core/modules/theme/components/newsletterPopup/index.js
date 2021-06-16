@@ -23,7 +23,7 @@ const NewsletterPopup = (props) => {
     const desktop = breakPointsUp('sm');
 
     // 20 seconds
-    const expires = new Date(new Date().getTime() + 1 * 20 * 1000);
+    // const expires = new Date(new Date().getTime() + 1 * 20 * 1000);
 
     const percentToHex = (p) => {
         const intValue = Math.round(p * 255); // map percent to nearest integer (0 - 255)
@@ -32,7 +32,7 @@ const NewsletterPopup = (props) => {
     };
 
     const handleClose = () => {
-        Cookies.set('newsletter_closed', true, { expires });
+        Cookies.set('newsletter_closed', true, { expires: storeConfig.weltpixel_newsletter_general_popup_cookie_lifetime });
         setOpen(!open);
     };
 
