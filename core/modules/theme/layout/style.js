@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
         position: 'fixed',
         width: '15vw',
         height: '5vh',
-        bottom: '248px',
+        bottom: '345px',
         backgroundColor: 'white',
         left: 20,
         boxShadow: 'none',
@@ -74,12 +74,14 @@ const useStyles = makeStyles((theme) => ({
     },
     recentlyWrapperContent: {
         position: 'relative',
-        height: '250px',
+        height: '350px',
         paddingTop: '5px',
         paddingBottom: '5px',
         overflowY: 'hidden',
-        [theme.breakpoints.down('sm')]: {
-            height: '340px',
+        '& .button-title': {
+            fontSize: 12,
+            color: 'black',
+            textTransform: 'uppercase',
         },
     },
     contentFeatured: {
@@ -94,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     itemProduct: {
-        width: '100px',
+        width: '180px',
         [theme.breakpoints.down('sm')]: {
             width: '200px',
         },
