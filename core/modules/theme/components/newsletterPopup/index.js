@@ -32,7 +32,7 @@ const NewsletterPopup = (props) => {
     };
 
     const handleClose = () => {
-        Cookies.set('newsletter_closed', true, { expires: storeConfig.weltpixel_newsletter_general_popup_cookie_lifetime });
+        Cookies.set('newsletter_closed', true, { expires: Number(storeConfig.weltpixel_newsletter_general_popup_cookie_lifetime) });
         setOpen(!open);
     };
 
