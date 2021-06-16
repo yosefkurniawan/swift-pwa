@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     itemProduct: {
-        width: '100px',
+        width: '180px',
         [theme.breakpoints.down('sm')]: {
             width: '200px',
         },
