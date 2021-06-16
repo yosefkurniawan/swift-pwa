@@ -25,6 +25,7 @@ const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false }
 const ScrollToTop = dynamic(() => import('@common_scrolltotop'), { ssr: false });
 const Footer = dynamic(() => import('@common_footer'), { ssr: true });
 const RestrictionPopup = dynamic(() => import('@common_restrictionPopup'), { ssr: false });
+const NewsletterPopup = dynamic(() => import('@core_modules/theme/components/newsletterPopup'), { ssr: false });
 const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/recentlyViewed'), { ssr: false });
 
 const Layout = (props) => {
@@ -228,6 +229,9 @@ const Layout = (props) => {
                     setOpen={handleCloseMessage}
                     message={state.toastMessage.text}
                 />
+                {storeConfig.weltpixel_newsletter_general_enable && (
+                    <NewsletterPopup storeConfig={storeConfig} pageConfig={pageConfig} />
+                )}
                 {children}
                 {desktop ? <ScrollToTop {...props} /> : null}
             </main>
