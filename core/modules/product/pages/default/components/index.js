@@ -64,7 +64,7 @@ const ProductPage = (props) => {
     } = props;
     const desktop = breakPointsUp('sm');
 
-    const bannerLiteData = data.banners_data.filter(((item) => item.banner_image !== null));
+    const bannerLiteData = data.banners_data;
     const bannerLiteObj = {
         top: null,
         after: null,
@@ -72,22 +72,17 @@ const ProductPage = (props) => {
     };
 
     bannerLiteData.forEach((bannerLite) => {
-        const bannerImg = JSON.parse(bannerLite.banner_image);
-
         if (bannerLite.banner_type === '0') {
             bannerLiteObj.top = {
                 ...bannerLite,
-                banner_image: bannerImg[0].url,
             };
         } else if (bannerLite.banner_type === '1') {
             bannerLiteObj.after = {
                 ...bannerLite,
-                banner_image: bannerImg[0].url,
             };
         } else if (bannerLite.banner_type === '2') {
             bannerLiteObj.label = {
                 ...bannerLite,
-                banner_image: bannerImg[0].url,
             };
         }
     });
