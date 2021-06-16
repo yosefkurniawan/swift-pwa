@@ -38,6 +38,7 @@ const NewsletterPopup = (props) => {
 
     if (storeConfig.weltpixel_newsletter_general_display_mobile === '0' && !desktop) return null;
     if (storeConfig.weltpixel_newsletter_general_display_mode === '0' && pageConfig.pageType !== 'home') return null;
+    if (pageConfig.pageType === 'checkout') return null;
 
     return (
         <>
