@@ -258,7 +258,7 @@ const Layout = (props) => {
             {
                 showRecentlyBar && (
                     <RecentlyViewed
-                        isActive={JSON.parse(storeConfig.weltpixel_RecentlyViewedBar_general_enable)}
+                        isActive={storeConfig && storeConfig.weltpixel_RecentlyViewedBar_general_enable}
                         recentlyBtn={bodyStyles.recentView}
                         wrapperContent={bodyStyles.recentlyWrapperContent}
                         recentlyBtnContent={bodyStyles.recentlyBtnContent}
