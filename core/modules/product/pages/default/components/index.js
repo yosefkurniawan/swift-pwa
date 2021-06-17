@@ -15,7 +15,6 @@ import React from 'react';
 import { getHost } from '@helper_config';
 import Breadcrumb from '@common_breadcrumb';
 import RatingStar from '@common_ratingstar';
-import Thumbor from '@common_image';
 import { breakPointsUp } from '@helper_theme';
 import dynamic from 'next/dynamic';
 import useStyles from '@core_modules/product/pages/default/components/style';
@@ -25,6 +24,7 @@ import OptionItem from '@core_modules/product/pages/default/components/OptionIte
 import SharePopup from '@core_modules/product/pages/default/components/SharePopup';
 import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
 import { modules } from '@config';
+import { getProductBannerLite } from '@core_modules/product/services/graphql';
 
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: true });
 const TabsView = dynamic(() => import('@core_modules/product/pages/default/components/DesktopTabs'), { ssr: true });
@@ -32,6 +32,7 @@ const ItemShare = dynamic(() => import('@core_modules/product/pages/default/comp
 const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
 const UpsellDrawer = dynamic(() => import('@core_modules/product/pages/default/components/RightDrawer'), { ssr: false });
 const RelatedProductCaraousel = dynamic(() => import('@core_modules/product/pages/default/components/RelatedProductCaraousel'), { ssr: false });
+const PromoBannersLite = dynamic(() => import('@core_modules/product/pages/default/components/PromoBannersLite'), { ssr: false });
 
 const ProductPage = (props) => {
     const styles = useStyles();
@@ -64,7 +65,14 @@ const ProductPage = (props) => {
     } = props;
     const desktop = breakPointsUp('sm');
 
-    const bannerLiteData = data.banners_data;
+    const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
+    const [getBannerLite, bannerLiteResult] = getProductBannerLite(route.asPath.slice(1), { context });
+
+    React.useEffect(() => {
+        getBannerLite();
+    }, [bannerLiteResult.called]);
+
+    const bannerLiteData = bannerLiteResult.data ? bannerLiteResult.data.products.items[0].banners_data : [];
     const bannerLiteObj = {
         top: null,
         after: null,
@@ -109,11 +117,12 @@ const ProductPage = (props) => {
                 </div>
 
                 {bannerLiteObj.top && (
-                    <div className="col-xs-12 hidden-mobile">
-                        <a href={bannerLiteObj.top.banner_link}>
-                            <Thumbor src={bannerLiteObj.top.banner_image} alt={bannerLiteObj.top.banner_alt} width={1175} height={424} />
-                        </a>
-                    </div>
+                    <PromoBannersLite
+                        classes="col-xs-12 hidden-mobile"
+                        src={bannerLiteObj.top.banner_link}
+                        imgSrc={bannerLiteObj.top.banner_image}
+                        alt={bannerLiteObj.top.banner_alt}
+                    />
                 )}
 
                 <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-6')}>
@@ -124,18 +133,19 @@ const ProductPage = (props) => {
                         )
                     }
                     {bannerLiteObj.top && (
-                        <div className={classNames(styles.bannerLiteTopMobile, 'col-lg-12')}>
-                            <a href={bannerLiteObj.top.banner_link}>
-                                <Thumbor src={bannerLiteObj.top.banner_image} alt={bannerLiteObj.top.banner_alt} width={1175} height={424} />
-                            </a>
-                        </div>
+                        <PromoBannersLite
+                            classes={classNames(styles.bannerLiteTopMobile, 'col-lg-12')}
+                            src={bannerLiteObj.top.banner_link}
+                            imgSrc={bannerLiteObj.top.banner_image}
+                            alt={bannerLiteObj.top.banner_alt}
+                        />
                     )}
                     {bannerLiteObj.label && (
-                        <div className="col-lg-12">
-                            <div className={styles.bannerLiteLabel}>
-                                <Thumbor src={bannerLiteObj.label.banner_image} alt={bannerLiteObj.label.banner_alt} width={1175} height={424} />
-                            </div>
-                        </div>
+                        <PromoBannersLite
+                            classes={classNames(styles.bannerLiteLabel, 'col-lg-12')}
+                            imgSrc={bannerLiteObj.label.banner_image}
+                            alt={bannerLiteObj.label.banner_alt}
+                        />
                     )}
                     <Banner
                         data={banner}
@@ -244,22 +254,24 @@ const ProductPage = (props) => {
                             <ExpandDetail data={expandData} smartProductTabs={smartProductTabs} />
                         </div>
                         {bannerLiteObj.after && (
-                            <div className={styles.bannerLiteAfter}>
-                                <a href={bannerLiteObj.after.banner_link}>
-                                    <Thumbor src={bannerLiteObj.after.banner_image} alt={bannerLiteObj.after.banner_alt} width={1175} height={424} />
-                                </a>
-                            </div>
+                            <PromoBannersLite
+                                classes={styles.bannerLiteAfter}
+                                src={bannerLiteObj.after.banner_link}
+                                imgSrc={bannerLiteObj.after.banner_image}
+                                alt={bannerLiteObj.after.banner_alt}
+                            />
                         )}
                     </div>
                     <div className="hidden-mobile">
                         <DesktopOptions {...props} setOpen={setOpenOption} setBanner={setBanner} setPrice={setPrice} />
 
                         {bannerLiteObj.after && (
-                            <div className={styles.bannerLiteAfter}>
-                                <a href={bannerLiteObj.after.banner_link}>
-                                    <Thumbor src={bannerLiteObj.after.banner_image} alt={bannerLiteObj.after.banner_alt} width={1175} height={424} />
-                                </a>
-                            </div>
+                            <PromoBannersLite
+                                classes={styles.bannerLiteAfter}
+                                src={bannerLiteObj.after.banner_link}
+                                imgSrc={bannerLiteObj.after.banner_image}
+                                alt={bannerLiteObj.after.banner_alt}
+                            />
                         )}
                         <div className={styles.desktopShareIcon}>
                             <Typography className={styles.shareTitle} variant="title">

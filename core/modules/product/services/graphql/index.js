@@ -132,4 +132,9 @@ export const addProductsToCart = () => useMutation(ActionSchema.addProductToCart
     },
 });
 
+export const getProductBannerLite = (urlpath, options = {}) => useLazyQuery(Schema.getProductBannerLite(urlpath), {
+    ...defaultConfig,
+    ...options,
+});
+
 export default { getProduct };
