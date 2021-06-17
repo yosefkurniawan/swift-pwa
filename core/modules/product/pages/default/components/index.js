@@ -24,6 +24,7 @@ import OptionItem from '@core_modules/product/pages/default/components/OptionIte
 import SharePopup from '@core_modules/product/pages/default/components/SharePopup';
 import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
 import { modules } from '@config';
+import { getProductBannerLite } from '@core_modules/product/services/graphql';
 
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: true });
 const TabsView = dynamic(() => import('@core_modules/product/pages/default/components/DesktopTabs'), { ssr: true });
@@ -31,6 +32,7 @@ const ItemShare = dynamic(() => import('@core_modules/product/pages/default/comp
 const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
 const UpsellDrawer = dynamic(() => import('@core_modules/product/pages/default/components/RightDrawer'), { ssr: false });
 const RelatedProductCaraousel = dynamic(() => import('@core_modules/product/pages/default/components/RelatedProductCaraousel'), { ssr: false });
+const PromoBannersLite = dynamic(() => import('@core_modules/product/pages/default/components/PromoBannersLite'), { ssr: false });
 
 const ProductPage = (props) => {
     const styles = useStyles();
@@ -63,6 +65,36 @@ const ProductPage = (props) => {
     } = props;
     const desktop = breakPointsUp('sm');
 
+    const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
+    const [getBannerLite, bannerLiteResult] = getProductBannerLite(route.asPath.slice(1), { context });
+
+    React.useEffect(() => {
+        getBannerLite();
+    }, [bannerLiteResult.called]);
+
+    const bannerLiteData = bannerLiteResult.data ? bannerLiteResult.data.products.items[0].banners_data : [];
+    const bannerLiteObj = {
+        top: null,
+        after: null,
+        label: null,
+    };
+
+    bannerLiteData.forEach((bannerLite) => {
+        if (bannerLite.banner_type === '0') {
+            bannerLiteObj.top = {
+                ...bannerLite,
+            };
+        } else if (bannerLite.banner_type === '1') {
+            bannerLiteObj.after = {
+                ...bannerLite,
+            };
+        } else if (bannerLite.banner_type === '2') {
+            bannerLiteObj.label = {
+                ...bannerLite,
+            };
+        }
+    });
+
     const favoritIcon = wishlist ? <Favorite className={styles.iconShare} /> : <FavoriteBorderOutlined className={styles.iconShare} />;
 
     return (
@@ -83,7 +115,38 @@ const ProductPage = (props) => {
                 <div className="col-lg-12 hidden-mobile">
                     <Breadcrumb data={breadcrumbsData} variant="text" />
                 </div>
+
+                {bannerLiteObj.top && (
+                    <PromoBannersLite
+                        classes="col-xs-12 hidden-mobile"
+                        src={bannerLiteObj.top.banner_link}
+                        imgSrc={bannerLiteObj.top.banner_image}
+                        alt={bannerLiteObj.top.banner_alt}
+                    />
+                )}
+
                 <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-6')}>
+                    {
+                        modules.catalog.productListing.label.enabled
+                        && modules.catalog.productListing.label.weltpixel.enabled && (
+                            <WeltpixelLabel t={t} weltpixel_labels={data.weltpixel_labels || []} categoryLabel={false} />
+                        )
+                    }
+                    {bannerLiteObj.top && (
+                        <PromoBannersLite
+                            classes={classNames(styles.bannerLiteTopMobile, 'col-lg-12')}
+                            src={bannerLiteObj.top.banner_link}
+                            imgSrc={bannerLiteObj.top.banner_image}
+                            alt={bannerLiteObj.top.banner_alt}
+                        />
+                    )}
+                    {bannerLiteObj.label && (
+                        <PromoBannersLite
+                            classes={classNames(styles.bannerLiteLabel, 'col-lg-12')}
+                            imgSrc={bannerLiteObj.label.banner_image}
+                            alt={bannerLiteObj.label.banner_alt}
+                        />
+                    )}
                     <Banner
                         data={banner}
                         noLink
@@ -190,9 +253,26 @@ const ProductPage = (props) => {
                         <div>
                             <ExpandDetail data={expandData} smartProductTabs={smartProductTabs} />
                         </div>
+                        {bannerLiteObj.after && (
+                            <PromoBannersLite
+                                classes={styles.bannerLiteAfter}
+                                src={bannerLiteObj.after.banner_link}
+                                imgSrc={bannerLiteObj.after.banner_image}
+                                alt={bannerLiteObj.after.banner_alt}
+                            />
+                        )}
                     </div>
                     <div className="hidden-mobile">
                         <DesktopOptions {...props} setOpen={setOpenOption} setBanner={setBanner} setPrice={setPrice} />
+
+                        {bannerLiteObj.after && (
+                            <PromoBannersLite
+                                classes={styles.bannerLiteAfter}
+                                src={bannerLiteObj.after.banner_link}
+                                imgSrc={bannerLiteObj.after.banner_image}
+                                alt={bannerLiteObj.after.banner_alt}
+                            />
+                        )}
                         <div className={styles.desktopShareIcon}>
                             <Typography className={styles.shareTitle} variant="title">
                                 {t('product:shareTitle')}

@@ -554,6 +554,31 @@ export const getProductLabel = (url) => gql`
 }
 `;
 
+export const getProductBannerLite = (url) => {
+    const query = gql`{
+      products(
+          search: "", filter: {
+            url_key: {
+              eq: "${url}"
+            }
+          }
+        ) {
+          items {
+            banners_data {
+              entity_id
+              salesrule_id
+              banner_image
+              banner_type
+              banner_link
+              banner_alt
+            }
+          }
+          total_count
+        }
+  }`;
+    return query;
+};
+
 export default {
     getProductBySku,
     getProduct,
