@@ -8,6 +8,28 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         marginTop: 20,
         marginBottom: 20,
+        width: '100%',
+        '& span': {
+            margin: '0 5px',
+        },
+        [theme.breakpoints.down('xs')]: {
+            display: 'none',
+        },
+    },
+    skeletonContainerMobile: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        marginTop: 20,
+        marginBottom: 20,
+        width: '100%',
+        '& span': {
+            margin: '0 5px',
+        },
+        [theme.breakpoints.up('sm')]: {
+            display: 'none',
+        },
     },
     wrapperBtn: {
         '& .button-title': {
