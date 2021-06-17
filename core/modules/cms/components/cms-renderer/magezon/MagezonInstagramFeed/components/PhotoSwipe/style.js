@@ -32,25 +32,34 @@ export default makeStyles((theme) => ({
         height: 'auto',
         maxWidth: '60vh',
     },
-    btnClose: {
+    action: {
         position: 'absolute',
         top: 5,
         right: 15,
         zIndex: 5,
+    },
+    btnClose: {
         color: WHITE,
     },
     footer: {
         textAlign: 'left',
-        maxWidth: 420,
-        padding: 10,
+        maxWidth: '100%',
+        padding: '10px 25%',
         margin: '0 auto',
         maxHeight: '35vh',
+        zIndex: 20,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        [theme.breakpoints.down('sm')]: {
+            padding: 10,
+        },
+        '&:empty': {
+            display: 'none',
+        },
     },
     caption: {
         marginTop: 20,
         fontSize: 14,
         color: WHITE,
-        padding: '20%',
     },
     countItem: {
         fontSize: 12,

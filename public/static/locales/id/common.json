@@ -135,5 +135,11 @@
     },
     "recentlyView": {
         "title" : "Baru Saja Dilihat"
+    },
+    "instagramFeed": {
+        "shareFb": "Bagikan ke facebook",
+        "tweet": "Tweet",
+        "pinit": "Sematkan",
+        "downloadImage": "Unduh gambar"
     }
 }
