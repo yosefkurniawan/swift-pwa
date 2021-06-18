@@ -1,4 +1,4 @@
-const { encrypt, decrypt } = require('../../../helpers/encryption');
+const { decrypt, encrypt } = require('../../../helpers/encryption');
 const requestGraph = require('../request');
 
 const query = `
