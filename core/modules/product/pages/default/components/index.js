@@ -74,26 +74,10 @@ const ProductPage = (props) => {
 
     const bannerLiteData = bannerLiteResult.data ? bannerLiteResult.data.products.items[0].banners_data : [];
     const bannerLiteObj = {
-        top: null,
-        after: null,
-        label: null,
+        top: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '0') || [],
+        after: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '1') || [],
+        label: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '2') || [],
     };
-
-    bannerLiteData.forEach((bannerLite) => {
-        if (bannerLite.banner_type === '0') {
-            bannerLiteObj.top = {
-                ...bannerLite,
-            };
-        } else if (bannerLite.banner_type === '1') {
-            bannerLiteObj.after = {
-                ...bannerLite,
-            };
-        } else if (bannerLite.banner_type === '2') {
-            bannerLiteObj.label = {
-                ...bannerLite,
-            };
-        }
-    });
 
     const favoritIcon = wishlist ? <Favorite className={styles.iconShare} /> : <FavoriteBorderOutlined className={styles.iconShare} />;
 
@@ -116,13 +100,16 @@ const ProductPage = (props) => {
                     <Breadcrumb data={breadcrumbsData} variant="text" />
                 </div>
 
-                {bannerLiteObj.top && (
-                    <PromoBannersLite
-                        classes="col-xs-12 hidden-mobile"
-                        src={bannerLiteObj.top.banner_link}
-                        imgSrc={bannerLiteObj.top.banner_image}
-                        alt={bannerLiteObj.top.banner_alt}
-                    />
+                {(bannerLiteObj.top && bannerLiteObj.top.length > 0) && (
+                    bannerLiteObj.top.map((topBanner) => (
+                        <PromoBannersLite
+                            key={topBanner.entity_id}
+                            classes="col-xs-12 hidden-mobile"
+                            src={topBanner.banner_link}
+                            imgSrc={topBanner.banner_image}
+                            alt={topBanner.banner_alt}
+                        />
+                    ))
                 )}
 
                 <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-6')}>
@@ -132,21 +119,29 @@ const ProductPage = (props) => {
                             <WeltpixelLabel t={t} weltpixel_labels={data.weltpixel_labels || []} categoryLabel={false} />
                         )
                     }
-                    {bannerLiteObj.top && (
-                        <PromoBannersLite
-                            classes={classNames(styles.bannerLiteTopMobile, 'col-lg-12')}
-                            src={bannerLiteObj.top.banner_link}
-                            imgSrc={bannerLiteObj.top.banner_image}
-                            alt={bannerLiteObj.top.banner_alt}
-                        />
+                    {(bannerLiteObj.top && bannerLiteObj.top.length > 0) && (
+                        bannerLiteObj.top.map((topBanner) => (
+                            <PromoBannersLite
+                                key={topBanner.entity_id}
+                                classes={classNames(styles.bannerLiteTopMobile, 'col-lg-6')}
+                                src={topBanner.banner_link}
+                                imgSrc={topBanner.banner_image}
+                                alt={topBanner.banner_alt}
+                            />
+                        ))
                     )}
-                    {bannerLiteObj.label && (
-                        <PromoBannersLite
-                            classes={classNames(styles.bannerLiteLabel, 'col-lg-12')}
-                            imgSrc={bannerLiteObj.label.banner_image}
-                            alt={bannerLiteObj.label.banner_alt}
-                        />
-                    )}
+                    <div className="row">
+                        {(bannerLiteObj.label && bannerLiteObj.label.length > 0) && (
+                            bannerLiteObj.label.map((labelBanner) => (
+                                <PromoBannersLite
+                                    key={labelBanner.entity_id}
+                                    classes={classNames(styles.bannerLiteLabel, 'col-xs-6')}
+                                    imgSrc={labelBanner.banner_image}
+                                    alt={labelBanner.banner_alt}
+                                />
+                            ))
+                        )}
+                    </div>
                     <Banner
                         data={banner}
                         noLink
@@ -253,26 +248,37 @@ const ProductPage = (props) => {
                         <div>
                             <ExpandDetail data={expandData} smartProductTabs={smartProductTabs} />
                         </div>
-                        {bannerLiteObj.after && (
-                            <PromoBannersLite
-                                classes={styles.bannerLiteAfter}
-                                src={bannerLiteObj.after.banner_link}
-                                imgSrc={bannerLiteObj.after.banner_image}
-                                alt={bannerLiteObj.after.banner_alt}
-                            />
-                        )}
+                        <div className="row">
+                            {(bannerLiteObj.after && bannerLiteObj.after.length > 0) && (
+                                bannerLiteObj.after.map((afterBanner) => (
+                                    <PromoBannersLite
+                                        key={afterBanner.entity_id}
+                                        classes={classNames(styles.bannerLiteAfter, 'col-xs-6')}
+                                        src={bannerLiteObj.after.banner_link}
+                                        imgSrc={afterBanner.banner_image}
+                                        alt={afterBanner.banner_alt}
+                                    />
+                                ))
+                            )}
+                        </div>
                     </div>
                     <div className="hidden-mobile">
                         <DesktopOptions {...props} setOpen={setOpenOption} setBanner={setBanner} setPrice={setPrice} />
 
-                        {bannerLiteObj.after && (
-                            <PromoBannersLite
-                                classes={styles.bannerLiteAfter}
-                                src={bannerLiteObj.after.banner_link}
-                                imgSrc={bannerLiteObj.after.banner_image}
-                                alt={bannerLiteObj.after.banner_alt}
-                            />
-                        )}
+                        <div className="row">
+                            {(bannerLiteObj.after && bannerLiteObj.after.length > 0) && (
+                                bannerLiteObj.after.map((afterBanner) => (
+                                    <PromoBannersLite
+                                        key={afterBanner.entity_id}
+                                        classes={classNames(styles.bannerLiteAfter, 'col-xs-6')}
+                                        src={bannerLiteObj.after.banner_link}
+                                        imgSrc={afterBanner.banner_image}
+                                        alt={afterBanner.banner_alt}
+                                    />
+                                ))
+                            )}
+                        </div>
+
                         <div className={styles.desktopShareIcon}>
                             <Typography className={styles.shareTitle} variant="title">
                                 {t('product:shareTitle')}
