@@ -7,7 +7,9 @@ import MagezonText from '@core_modules/cms/components/cms-renderer/magezon/Magez
 import MagezonButton from '@core_modules/cms/components/cms-renderer/magezon/MagezonButton';
 import MagezonRawHtml from '@core_modules/cms/components/cms-renderer/magezon/MagezonRawHtml';
 import MagezonWidget from '@core_modules/cms/components/cms-renderer/magezon/MagezonWidget';
-import MagezonInstagram from '@core_modules/cms/components/cms-renderer/magezon/MagezonInstagram';
+import dynamic from 'next/dynamic';
+
+const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed'), { ssr: false });
 
 const MagezonElement = (props) => {
     const { type, content } = props;

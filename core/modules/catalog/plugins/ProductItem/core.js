@@ -119,7 +119,7 @@ const ProductItem = (props) => {
                         />
                     )
                 }
-                <div className={classNames(styles.itemContainer, className, showQuickView ? styles.quickView : '')}>
+                <div className={classNames(styles.itemContainer, 'item-product', className, showQuickView ? styles.quickView : '')}>
                     {
                         modules.catalog.productListing.label.enabled && LabelView ? (
                             <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />

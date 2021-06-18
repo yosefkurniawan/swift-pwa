@@ -146,6 +146,13 @@ const localResolverKey = 'resolver';
 const features = {
     useCustomStyle: false,
     ssrCache: false,
+    magezon: {
+        instagramFeed: {
+            // eslint-disable-next-line max-len
+            urlGraph: 'https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=',
+        },
+        keyStorage: 'mgz_ig_token',
+    },
     crm: {
         enabled: false,
         graphqlEndpoint: {

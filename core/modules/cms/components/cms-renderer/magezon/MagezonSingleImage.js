@@ -26,8 +26,8 @@ const MagezonSingleImage = (props) => {
                         : '/assets/img/placeholder.png')}
                     className="magezone-single-image"
                     quality={80}
-                    width={image_width.replace('px', '') || 320}
-                    height={image_height.replace('px', '') || 320}
+                    width={image_width ? image_width.replace('px', '') : 320}
+                    height={image_height ? image_height.replace('px', '') : 320}
                     alt={alt_tag || 'magezon image'}
                     lazy
                 />
