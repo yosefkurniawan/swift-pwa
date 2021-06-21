@@ -10,11 +10,14 @@ import { getCompareList, getCustomerUid } from '@core_modules/productcompare/ser
 import { localCompare } from '@services/graphql/schema/local';
 import { useQuery } from '@apollo/client';
 import Typography from '@common_typography';
+import { useTranslation } from '@i18n';
 
 const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
     const [getProduct, { data: compareList }] = getCompareList();
     const [getUid, { data: dataUid }] = getCustomerUid();
     const { data: dataCompare, client } = useQuery(localCompare);
+    const { t } = useTranslation();
+
     React.useEffect(() => {
         if (!dataCompare && compareList) {
             client.readQuery({
@@ -74,7 +77,8 @@ const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
     return (
         <>
             <Typography variant="span" type="bold" letter="uppercase">
-                Product Compare ( {dataCompare ? dataCompare.compareList.item_count : compareList ? compareList.compareList.item_count : 0} )
+                {t('common:productCompare:title')} ({' '}
+                {dataCompare ? dataCompare.compareList.item_count : compareList ? compareList.compareList.item_count : 0} )
             </Typography>
         </>
     );

@@ -82,14 +82,20 @@ const Content = (props) => {
                         <TableBody className={styles.tableBody}>
                             <TableRow>
                                 <TableCell className={classNames('hidden-mobile', styles.stickyColumn)} style={{ width: columnWidth }}>
-                                    SKU
+                                    <Typography style={{ width: columnWidth, textTransform: 'uppercase' }}>
+                                        {t('common:productCompare:label:sku')}
+                                    </Typography>
                                 </TableCell>
                                 {compareList.compareList.items.map((productCompare) => {
                                     const { product } = productCompare;
                                     return (
                                         <TableCell className={styles.column} style={{ width: columnWidth }}>
-                                            <Typography type="bold" variant="p" className="column__title hidden-desktop">
-                                                SKU
+                                            <Typography
+                                                type="bold"
+                                                variant="p"
+                                                className={classNames('column__title hidden-desktop sku', styles.sku)}
+                                            >
+                                                {t('common:productCompare:label:sku')}
                                             </Typography>
 
                                             {product.sku}
@@ -99,14 +105,14 @@ const Content = (props) => {
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classNames('hidden-mobile', styles.stickyColumn)} style={{ width: columnWidth }}>
-                                    Description
+                                    {t('common:productCompare:label:description')}
                                 </TableCell>
                                 {compareList.compareList.items.map((productCompare) => {
                                     const { product } = productCompare;
                                     return (
                                         <TableCell className={styles.column} style={{ width: columnWidth }}>
                                             <Typography type="bold" variant="p" className="column__title hidden-desktop">
-                                                Description
+                                                {t('common:productCompare:label:description')}
                                             </Typography>
                                             <div
                                                 className="description-item"
@@ -119,14 +125,14 @@ const Content = (props) => {
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classNames('hidden-mobile', styles.stickyColumn)} style={{ width: columnWidth }}>
-                                    Short Description
+                                    {t('common:productCompare:label:shortDescription')}
                                 </TableCell>
                                 {compareList.compareList.items.map((productCompare) => {
                                     const { product } = productCompare;
                                     return (
                                         <TableCell className={styles.column} style={{ width: columnWidth }}>
                                             <Typography type="bold" variant="p" className="column__title hidden-desktop">
-                                                Short Description
+                                                {t('common:productCompare:label:shortDescription')}
                                             </Typography>
 
                                             <div dangerouslySetInnerHTML={{ __html: product.short_description.html }} />
@@ -136,12 +142,12 @@ const Content = (props) => {
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classNames('hidden-mobile', styles.stickyColumn)} style={{ width: columnWidth }}>
-                                    Merek
+                                    {t('common:productCompare:label:brand')}
                                 </TableCell>
                                 {compareList.compareList.items.map(() => (
                                     <TableCell className={styles.column} style={{ width: columnWidth }}>
                                         <Typography type="bold" variant="p" className="column__title hidden-desktop">
-                                            Merek
+                                            {t('common:productCompare:label:brand')}
                                         </Typography>{' '}
                                     </TableCell>
                                 ))}

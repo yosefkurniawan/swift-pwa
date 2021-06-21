@@ -133,6 +133,12 @@
         "existProduct" : "Produk sudah ada di keranjang compare",
         "emptyCompare" : "Daftar perbandingan Anda kosong",
         "successRemove": "Product compare berhasil dihapus",
-        "failedRemove": "Product compare gagal dihapus"
+        "failedRemove": "Product compare gagal dihapus",
+        "label": {
+            "sku": "sku",
+            "description": "deskripsi",
+            "shortDescription": "Deskripsi Singkat",
+            "brand": "Merek"
+        }
     }
 }
