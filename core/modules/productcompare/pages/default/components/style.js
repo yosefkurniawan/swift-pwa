@@ -42,6 +42,9 @@ const useStyles = makeStyles(() => ({
             zIndex: 100,
         },
     },
+    sku: {
+        textTransform: 'uppercase',
+    },
 }));
 
 export default useStyles;

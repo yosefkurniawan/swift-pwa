@@ -150,6 +150,12 @@
         "existProduct" : "The product is already in the compare cart",
         "emptyCompare": "Your compare list is empty",
         "successRemove": "Product compare was deleted successfully",
-        "failedRemove": "Product compare failed to delete"
+        "failedRemove": "Product compare failed to delete",
+        "label": {
+            "sku": "sku",
+            "description": "Description",
+            "shortDescription": "Short Description",
+            "brand": "Brand"
+        }
     }
 }
