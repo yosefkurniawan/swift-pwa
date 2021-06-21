@@ -130,7 +130,7 @@ const MagezonSingleImage = (props) => {
     const [openPopup, setOpenPoup] = React.useState(false);
     const [isHover, setIsHover] = React.useState(false);
     const callbacks = {
-        onLightboxClosed: () => setOpenPoup(false),
+        onLightboxClosed: () => { setIsHover(false); setOpenPoup(false); },
     };
 
     const ligtboxSetting = {
@@ -193,12 +193,14 @@ const MagezonSingleImage = (props) => {
                                         height={image_height ? image_height.replace('px', '') : 320}
                                         alt={alt_tag || 'magezon image'}
                                         classContainer={classContainer}
+                                        onMouseOver={() => setIsHover(true)}
+                                        onMouseOut={() => setIsHover(false)}
                                     />
                                 </SRLWrapper>
                             </div>
                             { !openPopup && (
                                 <ImageWithAction
-                                    url={url}
+                                    url={isHover ? hoverImage : url}
                                     image_width={image_width}
                                     image_height={image_height}
                                     classImage={classImage}
@@ -206,6 +208,8 @@ const MagezonSingleImage = (props) => {
                                     classContainer={classContainer}
                                     withPopup
                                     onClick={() => setOpenPoup(!openPopup)}
+                                    onMouseOver={() => setIsHover(true)}
+                                    onMouseOut={() => setIsHover(false)}
                                 />
                             )}
                         </SimpleReactLightbox>
