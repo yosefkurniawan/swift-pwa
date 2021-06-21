@@ -187,15 +187,15 @@ const AddressFormDialog = (props) => {
     const [getCities, responCities] = getCityByRegionId({});
     React.useMemo(() => {
         if (open) {
-            // formik.setFieldValue('firstname', firstname);
-            // formik.setFieldValue('lastname', lastname);
-            // formik.setFieldValue('street', street);
-            // formik.setFieldValue('telephone', telephone);
-            // formik.setFieldValue('postcode', postcode);
+            formik.setFieldValue('firstname', firstname);
+            formik.setFieldValue('lastname', lastname);
+            formik.setFieldValue('street', street);
+            formik.setFieldValue('telephone', telephone);
+            formik.setFieldValue('postcode', postcode);
 
-            // formik.setFieldValue('country', country);
-            // formik.setFieldValue('region', region);
-            // formik.setFieldValue('city', city);
+            formik.setFieldValue('country', country);
+            formik.setFieldValue('region', region);
+            formik.setFieldValue('city', city);
 
             if (country && country.id) {
                 getRegion({
