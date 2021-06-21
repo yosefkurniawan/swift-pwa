@@ -229,7 +229,7 @@ const Layout = (props) => {
                     setOpen={handleCloseMessage}
                     message={state.toastMessage.text}
                 />
-                {storeConfig.weltpixel_newsletter_general_enable && (
+                {storeConfig.weltpixel_newsletter_general_enable === '1' && (
                     <NewsletterPopup storeConfig={storeConfig} pageConfig={pageConfig} />
                 )}
                 {children}
