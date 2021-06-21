@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import ShareOutlined from '@material-ui/icons/ShareOutlined';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import classNames from 'classnames';
 import React from 'react';
 import { getHost } from '@helper_config';
@@ -62,6 +63,7 @@ const ProductPage = (props) => {
         additionalPrice,
         smartProductTabs,
         isLogin,
+        handleSetCompareList,
     } = props;
     const desktop = breakPointsUp('sm');
 
@@ -189,6 +191,13 @@ const ProductPage = (props) => {
                             <PriceFormat {...price} additionalPrice={additionalPrice} />
                         </div>
                         <div className={styles.shareContainer}>
+                            {modules.productcompare.enabled && (
+                                <div className="hidden-desktop">
+                                    <IconButton className={styles.btnShare} onClick={() => handleSetCompareList(data.id)}>
+                                        <CompareArrowsIcon color="primary" />
+                                    </IconButton>
+                                </div>
+                            )}
                             <IconButton className={styles.btnShare} onClick={handleWishlist}>
                                 {favoritIcon}
                             </IconButton>
@@ -283,7 +292,17 @@ const ProductPage = (props) => {
                             <Typography className={styles.shareTitle} variant="title">
                                 {t('product:shareTitle')}
                             </Typography>
-                            <ItemShare link={getHost() + route.asPath} />
+                            <div className={modules.productcompare.enabled && styles.rowItem}>
+                                <ItemShare link={getHost() + route.asPath} />
+                                {modules.productcompare.enabled && (
+                                    <Button className={styles.btnCompare} color="primary" onClick={() => handleSetCompareList(data.id)}>
+                                        <CompareArrowsIcon color="primary" style={{ fontSize: '18px' }} />
+                                        <Typography variant="p" align="center" letter="uppercase">
+                                            Compare
+                                        </Typography>
+                                    </Button>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>

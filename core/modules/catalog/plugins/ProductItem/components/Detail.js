@@ -8,14 +8,29 @@ import Link from '@material-ui/core/Link';
 import React from 'react';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import classNames from 'classnames';
 import useStyles from '@plugin_productitem/style';
 
 const Detail = (props) => {
     const {
-        spesificProduct, handleClick, name, handleFeed, ratingValue, __typename, price_range, price_tiers,
-        feed, special_from_date, special_to_date, enableWishlist,
-        enableRating, enablePrice = true,
+        spesificProduct,
+        handleClick,
+        name,
+        handleFeed,
+        ratingValue,
+        __typename,
+        price_range,
+        price_tiers,
+        feed,
+        id,
+        special_from_date,
+        special_to_date,
+        enableWishlist,
+        handleSetCompareList,
+        enableRating,
+        enablePrice = true,
+        enableProductCompare,
     } = props;
     const styles = useStyles();
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
@@ -25,11 +40,13 @@ const Detail = (props) => {
     return (
         <div className={styles.descItem}>
             {showWishlist && (
-                <Button
-                    className={styles.btnFeed}
-                    onClick={handleFeed}
-                >
+                <Button className={styles.btnFeed} onClick={handleFeed}>
                     {FeedIcon}
+                </Button>
+            )}
+            {enableProductCompare && (
+                <Button className={styles.btnCompare} onClick={() => handleSetCompareList(id)}>
+                    <CompareArrowsIcon className={styles.iconCompare} />
                 </Button>
             )}
             <Link onClick={handleClick} className={styles.productLinkButton}>
@@ -38,7 +55,7 @@ const Detail = (props) => {
                 </Typography>
             </Link>
             {showRating && <RatingStar value={ratingValue} />}
-            { enablePrice && (
+            {enablePrice && (
                 <PriceFormat
                     // eslint-disable-next-line camelcase
                     priceRange={spesificProduct.price_range ? spesificProduct.price_range : price_range}
@@ -48,7 +65,7 @@ const Detail = (props) => {
                     specialFromDate={special_from_date}
                     specialToDate={special_to_date}
                 />
-            ) }
+            )}
         </div>
     );
 };

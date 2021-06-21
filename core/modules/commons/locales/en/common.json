@@ -125,5 +125,14 @@
     },
     "recentlyView": {
         "title" : "Recently Viewed"
+    },
+    "productCompare": {
+        "title": "Product Compare",
+        "successCompare" : "Product added successfully",
+        "failedCompare" : "Product failed to add",
+        "existProduct" : "The product is already in the compare cart",
+        "emptyCompare": "Your compare list is empty",
+        "successRemove": "Product compare was deleted successfully",
+        "failedRemove": "Product compare failed to delete"
     }
 }

@@ -4,6 +4,7 @@
 import SearchIcon from '@material-ui/icons/Search';
 import NotificationBell from '@plugin_notificationbell';
 import ShoppingBagIcon from '@plugin_shoppingbag';
+import ProductCompareIcon from '@core_modules/catalog/plugins/ProductCompare';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
 import DesktopInstallApp from '@core_modules/theme/components/custom-install-popup/desktop';
@@ -15,8 +16,20 @@ import OptionAutocomplete from '@core_modules/theme/components/header/desktop/co
 
 const ViewTopNavigation = (props) => {
     const {
-        storeConfig, handleSearch, searchByClick, setValue, value, data, loading, t, isLogin, customer,
-        handleLogout, app_cookies, showGlobalPromo,
+        storeConfig,
+        handleSearch,
+        searchByClick,
+        setValue,
+        value,
+        data,
+        loading,
+        t,
+        isLogin,
+        customer,
+        handleLogout,
+        app_cookies,
+        showGlobalPromo,
+        modules,
     } = props;
     return (
         <div id="header">
@@ -51,6 +64,11 @@ const ViewTopNavigation = (props) => {
                                     <div className="notification">
                                         <NotificationBell withLink />
                                     </div>
+                                    {modules.productcompare.enabled && (
+                                        <div className="shopping-bag">
+                                            <ProductCompareIcon withLink isLogin={isLogin} />
+                                        </div>
+                                    )}
                                     <div className="shopping-bag">
                                         <ShoppingBagIcon withLink />
                                     </div>
@@ -96,7 +114,7 @@ const ViewTopNavigation = (props) => {
                             top: ${showGlobalPromo ? '45px' : '0'};
                             transition: top 1s ease;
                         }
-                        .header-middle__center{
+                        .header-middle__center {
                             display: none;
                         }
                     }
@@ -128,7 +146,7 @@ const ViewTopNavigation = (props) => {
                         width: 120px;
                     }
                     .header-middle__right {
-                        width: 400px;
+                        width: 600px;
                     }
                     .header-small__menu {
                         display: none;
@@ -164,9 +182,9 @@ const ViewTopNavigation = (props) => {
                     }
                     .menu-category {
                         width: fit-content;
-                        display:block;
+                        display: block;
                     }
-                    .global-promo{
+                    .global-promo {
                         height: 45px;
                         border-bottom: 1px solid #d6d6d6;
                         display: flex;
@@ -186,7 +204,7 @@ const ViewTopNavigation = (props) => {
                         .header-small .header-small__menu {
                             display: block;
                         }
-                        .header-middle__center{
+                        .header-middle__center {
                             display: block !important;
                         }
                         .header-tab {

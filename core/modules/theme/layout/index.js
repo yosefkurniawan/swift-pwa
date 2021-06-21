@@ -6,12 +6,15 @@ import Head from 'next/head';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
-import { custDataNameCookie, features, modules } from '@config';
+import {
+    custDataNameCookie, features, modules, debuging,
+} from '@config';
 import { getHost } from '@helper_config';
 import { breakPointsUp } from '@helper_theme';
 import Newsletter from '@plugin_newsletter';
 import { setCookies, getCookies } from '@helper_cookies';
 import useStyles from '@core_modules/theme/layout/style';
+import { createCompareList } from '@core_modules/product/services/graphql';
 
 import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
 import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
@@ -59,6 +62,7 @@ const Layout = (props) => {
     });
     const [restrictionCookies, setRestrictionCookies] = useState(false);
     const [showGlobalPromo, setShowGlobalPromo] = React.useState(false);
+    const [setCompareList] = createCompareList();
     // const [mainMinimumHeight, setMainMinimumHeight] = useState(0);
     const refFooter = useRef(null);
     const refHeader = useRef(null);
@@ -118,6 +122,29 @@ const Layout = (props) => {
     if (features.facebookMetaId.enabled) {
         ogData['fb:app_id'] = features.facebookMetaId.app_id;
     }
+
+    React.useEffect(() => {
+        if (!isLogin && modules.productcompare.enabled) {
+            const uid_product = getCookies('uid_product_compare');
+            if (!uid_product) {
+                setCompareList({
+                    variables: {
+                        uid: [],
+                    },
+                })
+                    .then(async (res) => {
+                        setCookies('uid_product_compare', res.data.createCompareList.uid);
+                    })
+                    .catch((e) => {
+                        window.toastMessage({
+                            open: true,
+                            variant: 'error',
+                            text: debuging.originalError ? e.message.split(':')[1] : t('common:productCompare:failedCompare'),
+                        });
+                    });
+            }
+        }
+    }, [isLogin]);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
