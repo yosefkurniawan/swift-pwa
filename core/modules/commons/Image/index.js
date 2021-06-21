@@ -12,15 +12,18 @@ const imgError = (image) => {
 };
 
 const Image = ({
-    src, width = 500, height = 500, className = '', alt = 'Image', quality = 100, style = {}, lazy = false, ...other
+    src, width = 500, height = 500,
+    classContainer = '', className = '', alt = 'Image', quality = 100, style = {}, lazy = false, ...other
 }) => (
     <div
+        className={classContainer}
         // ref={imgContainer}
         style={{
             backgroundColor: '#eee',
             width: '100%',
             position: 'relative',
             paddingTop: `${(height / width) * 100}%`,
+            overflow: 'hidden',
         }}
     >
         {!lazy ? (
