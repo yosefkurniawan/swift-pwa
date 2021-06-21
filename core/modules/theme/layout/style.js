@@ -21,6 +21,11 @@ const useStyles = makeStyles((theme) => ({
         color: '#303030',
     },
     recentView: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        border: 'none',
         position: 'fixed',
         left: 20,
         bottom: 0,
@@ -48,6 +53,11 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     recentlyBtnContent: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        border: 'none',
         position: 'fixed',
         width: '15vw',
         height: '5vh',
