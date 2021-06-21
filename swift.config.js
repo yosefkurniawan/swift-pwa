@@ -398,6 +398,10 @@ const modules = {
         path: '/awgiftcard/card',
         useCommerceModule: false,
     },
+    productreview: {
+        enabled: true,
+        path: '/review/customer',
+    },
     login: {
         enabled: true,
         path: '/customer/account/login',
