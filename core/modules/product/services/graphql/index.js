@@ -137,4 +137,16 @@ export const getProductBannerLite = (urlpath, options = {}) => useLazyQuery(Sche
     ...options,
 });
 
+export const createCompareList = () => useMutation(Schema.createCompareList, {
+    context: {
+        request: 'internal',
+    },
+});
+
+export const addProductsToCompareList = () => useMutation(Schema.addProductsToCompareList, {
+    context: {
+        request: 'internal',
+    },
+});
+
 export default { getProduct };

@@ -480,6 +480,9 @@ const modules = {
     promo: {
         enabled: true,
     },
+    productcompare: {
+        enabled: true,
+    },
     order: {
         enabled: true,
         path: '/sales/order',

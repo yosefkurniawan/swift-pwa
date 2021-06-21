@@ -1,18 +1,27 @@
 import { gql } from '@apollo/client';
 
 export const localTotalCart = gql`
-{
-  totalCart @client
-}
+    {
+        totalCart @client
+    }
 `;
 
 export const localResolver = gql`
-  {
-    resolver @client
-  }
+    {
+        resolver @client
+    }
+`;
+
+export const localCompare = gql`
+    {
+        compareList {
+            item_count @client
+        }
+    }
 `;
 
 export default {
     localTotalCart,
     localResolver,
+    localCompare,
 };

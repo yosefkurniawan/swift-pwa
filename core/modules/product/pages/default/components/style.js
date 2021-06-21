@@ -211,6 +211,22 @@ const useStyles = makeStyles((theme) => ({
     bannerLiteAfter: {
         ...CreatePadding(10, 0, 10, 0),
     },
+    rowItem: {
+        ...FlexRow,
+        justifyContent: 'space-around',
+        width: '350px',
+    },
+    btnCompare: {
+        background: 'none',
+        border: 'none',
+        boxShadow: 'none',
+        width: '120px',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        '&:hover': {
+            background: WHITE,
+        },
+    },
 }));
 
 export default useStyles;
