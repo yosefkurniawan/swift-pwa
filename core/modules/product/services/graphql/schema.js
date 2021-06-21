@@ -579,6 +579,61 @@ export const getProductBannerLite = (url) => {
     return query;
 };
 
+export const createCompareList = gql`
+    mutation createCompareList($uid:[ID]){
+      createCompareList(
+          input: {
+            products: $uid
+          }
+      ) {
+          uid
+          item_count
+          attributes {
+              code
+              label
+          }
+          items {
+              uid
+              product {
+                  sku
+                  name
+                  description {
+                      html
+                  }
+              }
+          }
+      }
+    }
+`;
+
+export const addProductsToCompareList = gql`
+    mutation addProductsToCompareList($uid:ID!, $products:[ID]!){
+        addProductsToCompareList(
+          input: {
+            uid: $uid,
+            products: $products
+          }
+        ) {
+          uid
+          item_count
+          attributes {
+            code
+            label
+          }
+          items {
+            uid
+            product {
+              sku
+              name
+              description {
+                html
+              }
+            }
+          }
+        }
+    }
+`;
+
 export default {
     getProductBySku,
     getProduct,

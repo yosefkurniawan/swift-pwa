@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { modules, debuging } from '@config';
 import { getLoginInfo } from '@helper_auth';
-import { setCookies } from '@helper_cookies';
+import { setCookies, getCookies } from '@helper_cookies';
 import { useTranslation } from '@i18n';
 import route from 'next/router';
+import { useQuery } from '@apollo/client';
 import React from 'react';
 import { setResolver, getResolver } from '@helper_localstorage';
 import classNames from 'classnames';
@@ -14,6 +15,9 @@ import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import Button from '@material-ui/core/IconButton';
 import { addWishlist, getDetailProduct } from '@core_modules/catalog/services/graphql';
 import useStyles from '@plugin_productitem/style';
+import { addProductsToCompareList } from '@core_modules/product/services/graphql';
+import { getCompareList, getCustomerUid } from '@core_modules/productcompare/service/graphql';
+import { localCompare } from '@services/graphql/schema/local';
 
 const ModalQuickView = dynamic(() => import('@plugin_productitem/components/QuickView'), { ssr: false });
 const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
@@ -33,6 +37,29 @@ const ProductItem = (props) => {
     if (typeof window !== 'undefined') isLogin = getLoginInfo();
     const [getProduct, detailProduct] = getDetailProduct();
     const [postAddWishlist] = addWishlist();
+    const [getProductCompare, { data: compareList, refetch }] = getCompareList();
+    const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
+    const [addProductCompare] = addProductsToCompareList();
+    const { client } = useQuery(localCompare);
+
+    React.useEffect(() => {
+        if (!compareList && modules.productcompare.enabled) {
+            const uid_product = getCookies('uid_product_compare');
+            if (uid_product) {
+                getProductCompare({
+                    variables: {
+                        uid: uid_product,
+                    },
+                });
+            }
+        }
+    }, [compareList]);
+
+    React.useEffect(() => {
+        if (isLogin && !dataUid && modules.productcompare.enabled) {
+            getUid();
+        }
+    }, [isLogin, dataUid]);
 
     const handleFeed = () => {
         if (isLogin && isLogin !== '') {
@@ -59,6 +86,64 @@ const ProductItem = (props) => {
                 variant: 'warning',
                 text: t('catalog:wishlist:addWithoutLogin'),
             });
+        }
+    };
+
+    const handleSetCompareList = (id_compare) => {
+        const uid_product_compare = getCookies('uid_product_compare');
+        const uids = [];
+        let uid_customer = '';
+        uids.push(id_compare.toString());
+        if (isLogin) {
+            /* eslint-disable */
+            uid_customer = dataUid ? (dataUid.customer.compare_list ? dataUid.customer.compare_list.uid : '') : '';
+            /* eslint-enable */
+        }
+        let isExist = false;
+        if (compareList) {
+            compareList.compareList.items.map((res) => {
+                if (res.uid === id_compare.toString()) {
+                    isExist = true;
+                }
+                return null;
+            });
+            if (!isExist) {
+                addProductCompare({
+                    variables: {
+                        uid: isLogin ? uid_customer : uid_product_compare,
+                        products: uids,
+                    },
+                })
+                    .then(async (res) => {
+                        await window.toastMessage({ open: true, variant: 'success', text: t('common:productCompare:successCompare') });
+                        client.writeQuery({
+                            query: localCompare,
+                            data: {
+                                compareList: {
+                                    __typename: 'Product_Compare',
+                                    item_count: res.data.addProductsToCompareList.item_count,
+                                },
+                            },
+                        });
+                        refetch();
+                        if (isLogin) {
+                            refetchCustomerUid();
+                        }
+                    })
+                    .catch((e) => {
+                        window.toastMessage({
+                            open: true,
+                            variant: 'error',
+                            text: debuging.originalError ? e.message.split(':')[1] : t('common:productCompare:failedCompare'),
+                        });
+                    });
+            } else {
+                window.toastMessage({
+                    open: true,
+                    variant: 'error',
+                    text: t('common:productCompare:existProduct'),
+                });
+            }
         }
     };
 
@@ -93,12 +178,16 @@ const ProductItem = (props) => {
     }, [detailProduct]);
 
     const ratingValue = review && review.rating_summary ? parseInt(review.rating_summary, 0) / 20 : 0;
+    const enableProductCompare = modules.productcompare.enabled;
     const DetailProps = {
         spesificProduct,
         handleClick,
         handleFeed,
         ratingValue,
         feed,
+        id,
+        handleSetCompareList,
+        enableProductCompare,
     };
     const showAddToCart = typeof enableAddToCart !== 'undefined' ? enableAddToCart : modules.catalog.productListing.addToCart.enabled;
     const showOption = typeof enableOption !== 'undefined'
