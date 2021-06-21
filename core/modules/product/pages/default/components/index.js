@@ -115,12 +115,6 @@ const ProductPage = (props) => {
                 )}
 
                 <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-6')}>
-                    {
-                        modules.catalog.productListing.label.enabled
-                        && modules.catalog.productListing.label.weltpixel.enabled && (
-                            <WeltpixelLabel t={t} weltpixel_labels={data.weltpixel_labels || []} categoryLabel={false} />
-                        )
-                    }
                     {(bannerLiteObj.top && bannerLiteObj.top.length > 0) && (
                         bannerLiteObj.top.map((topBanner) => (
                             <PromoBannersLite

@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import useStyles from './style';
+import useStyles from '@plugin_productitem/components/WeltpixelLabel/style';
 
 const WeltpixelLabelView = (props) => {
     const {
@@ -58,7 +58,7 @@ const WeltpixelLabelView = (props) => {
                                 }
 
                                 .text-container img {
-                                    max-width: 50px;
+                                    max-width: ${categoryLabel ? '3.5em' : '5em'};
                                 }
 
                                 .text-label {
