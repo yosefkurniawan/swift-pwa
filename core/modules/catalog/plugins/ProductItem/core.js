@@ -24,8 +24,21 @@ const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/Welt
 
 const ProductItem = (props) => {
     const {
-        id, url_key = '', categorySelect, review, ImageProductView, DetailProductView, LabelView, className = '',
-        enableAddToCart, enableOption, enableQuickView, isGrid = true, catalogList, weltpixel_labels, ...other
+        id,
+        url_key = '',
+        categorySelect,
+        review,
+        ImageProductView,
+        DetailProductView,
+        LabelView,
+        className = '',
+        enableAddToCart,
+        enableOption,
+        enableQuickView,
+        isGrid = true,
+        catalogList,
+        weltpixel_labels,
+        ...other
     } = props;
     const styles = useStyles();
     const { t } = useTranslation(['catalog', 'common']);
@@ -119,10 +132,7 @@ const ProductItem = (props) => {
                         client.writeQuery({
                             query: localCompare,
                             data: {
-                                compareList: {
-                                    __typename: 'Product_Compare',
-                                    item_count: res.data.addProductsToCompareList.item_count,
-                                },
+                                item_count: res.data.addProductsToCompareList.item_count,
                             },
                         });
                         refetch();
@@ -170,8 +180,13 @@ const ProductItem = (props) => {
         if (detailProduct.error) {
             window.backdropLoader(false);
         }
-        if (!detailProduct.loading && detailProduct.data && detailProduct.data.products
-            && detailProduct.data.products.items && detailProduct.data.products.items.length > 0) {
+        if (
+            !detailProduct.loading
+            && detailProduct.data
+            && detailProduct.data.products
+            && detailProduct.data.products.items
+            && detailProduct.data.products.items.length > 0
+        ) {
             window.backdropLoader(false);
             setOpenQuickView(true);
         }
@@ -190,44 +205,33 @@ const ProductItem = (props) => {
         enableProductCompare,
     };
     const showAddToCart = typeof enableAddToCart !== 'undefined' ? enableAddToCart : modules.catalog.productListing.addToCart.enabled;
-    const showOption = typeof enableOption !== 'undefined'
-        ? enableOption : modules.catalog.productListing.configurableOptions.enabled;
-    const showQuickView = typeof enableQuickView !== 'undefined'
-        ? enableQuickView : modules.catalog.productListing.quickView.enabled;
+    const showOption = typeof enableOption !== 'undefined' ? enableOption : modules.catalog.productListing.configurableOptions.enabled;
+    const showQuickView = typeof enableQuickView !== 'undefined' ? enableQuickView : modules.catalog.productListing.quickView.enabled;
     if (isGrid) {
         return (
             <>
-                {
-                    openQuickView && showQuickView && (
-                        <ModalQuickView
-                            open={openQuickView}
-                            onClose={() => setOpenQuickView(false)}
-                            data={detailProduct.data.products}
-                            t={t}
-                            weltpixel_labels={weltpixel_labels}
-                        />
-                    )
-                }
+                {openQuickView && showQuickView && (
+                    <ModalQuickView
+                        open={openQuickView}
+                        onClose={() => setOpenQuickView(false)}
+                        data={detailProduct.data.products}
+                        t={t}
+                        weltpixel_labels={weltpixel_labels}
+                    />
+                )}
                 <div className={classNames(styles.itemContainer, 'item-product', className, showQuickView ? styles.quickView : '')}>
-                    {
-                        modules.catalog.productListing.label.enabled && LabelView ? (
-                            <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
-                        ) : null
-                    }
+                    {modules.catalog.productListing.label.enabled && LabelView ? (
+                        <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
+                    ) : null}
                     <div className={styles.imgItem}>
-                        {
-                            modules.catalog.productListing.label.enabled
-                            && modules.catalog.productListing.label.weltpixel.enabled && (
-                                <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel />
-                            )
-                        }
-                        {
-                            showQuickView && (
-                                <button className="btn-quick-view" type="button" onClick={handleQuickView}>
-                                    Quick View
-                                </button>
-                            )
-                        }
+                        {modules.catalog.productListing.label.enabled && modules.catalog.productListing.label.weltpixel.enabled && (
+                            <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel />
+                        )}
+                        {showQuickView && (
+                            <button className="btn-quick-view" type="button" onClick={handleQuickView}>
+                                Quick View
+                            </button>
+                        )}
                         <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
                     </div>
                     <div className={styles.detailItem}>
@@ -238,7 +242,8 @@ const ProductItem = (props) => {
                                 enableDownload={false}
                                 t={t}
                                 data={{
-                                    ...other, url_key,
+                                    ...other,
+                                    url_key,
                                 }}
                                 showQty={false}
                                 catalogList={catalogList}
@@ -265,51 +270,37 @@ const ProductItem = (props) => {
 
     return (
         <>
-            {
-                openQuickView && showQuickView && (
-                    <ModalQuickView
-                        open={openQuickView}
-                        onClose={() => setOpenQuickView(false)}
-                        data={detailProduct.data.products}
-                        t={t}
-                        weltpixel_labels={weltpixel_labels}
-                    />
-                )
-            }
+            {openQuickView && showQuickView && (
+                <ModalQuickView
+                    open={openQuickView}
+                    onClose={() => setOpenQuickView(false)}
+                    data={detailProduct.data.products}
+                    t={t}
+                    weltpixel_labels={weltpixel_labels}
+                />
+            )}
             <div className={classNames(styles.listContainer, className, showQuickView ? styles.quickView : '')}>
                 <div className="row start-xs">
                     <div className="col-xs-6 col-sm-6 col-md-4 col-lg-3">
                         <div className={styles.listImgItem}>
-                            {
-                                modules.catalog.productListing.label.enabled && LabelView ? (
-                                    <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
-                                ) : null
-                            }
-                            {
-                                modules.catalog.productListing.label.enabled
-                                && modules.catalog.productListing.label.weltpixel.enabled && (
-                                    <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel />
-                                )
-                            }
-                            {
-                                showQuickView && (
-                                    <button className="btn-quick-view" type="button" onClick={handleQuickView}>
-                                        Quick View
-                                    </button>
-                                )
-                            }
+                            {modules.catalog.productListing.label.enabled && LabelView ? (
+                                <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
+                            ) : null}
+                            {modules.catalog.productListing.label.enabled && modules.catalog.productListing.label.weltpixel.enabled && (
+                                <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel />
+                            )}
+                            {showQuickView && (
+                                <button className="btn-quick-view" type="button" onClick={handleQuickView}>
+                                    Quick View
+                                </button>
+                            )}
                             <ImageProductView t={t} handleClick={handleClick} spesificProduct={spesificProduct} {...other} />
                         </div>
                     </div>
                     <div className="col-xs-6 col-sm-6 col-md-8 col-lg-9">
                         <div className="row start-xs">
                             <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <DetailProductView
-                                    t={t}
-                                    {...DetailProps}
-                                    {...other}
-                                    enableWishlist={false}
-                                />
+                                <DetailProductView t={t} {...DetailProps} {...other} enableWishlist={false} />
                             </div>
                             <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 {showOption ? (
@@ -318,7 +309,8 @@ const ProductItem = (props) => {
                                         enableDownload={false}
                                         t={t}
                                         data={{
-                                            ...other, url_key,
+                                            ...other,
+                                            url_key,
                                         }}
                                         showQty={false}
                                         catalogList={catalogList}
@@ -332,22 +324,17 @@ const ProductItem = (props) => {
                                         isGrid={isGrid}
                                         {...other}
                                     />
-                                // eslint-disable-next-line indent
-                                ) : null}
+                                ) // eslint-disable-next-line indent
+                                : null}
                             </div>
                         </div>
                     </div>
                 </div>
-                {
-                    showWishlist && (
-                        <Button
-                            className={styles.btnFeed}
-                            onClick={handleFeed}
-                        >
-                            {FeedIcon}
-                        </Button>
-                    )
-                }
+                {showWishlist && (
+                    <Button className={styles.btnFeed} onClick={handleFeed}>
+                        {FeedIcon}
+                    </Button>
+                )}
             </div>
         </>
     );

@@ -5,20 +5,21 @@ import { StripHtmlTags } from '@helper_text';
 import { features, modules, debuging } from '@config';
 import { useRouter } from 'next/router';
 import TagManager from 'react-gtm-module';
-import { getCookies, setCookies } from '@helper_cookies';
+import { getCookies } from '@helper_cookies';
 import Loading from '@core_modules/product/pages/default/components/Loader';
 import {
     getProduct,
     getProductLabel,
     addWishlist as mutationAddWishlist,
     smartProductTabs,
-    createCompareList,
     addProductsToCompareList,
 } from '@core_modules/product/services/graphql';
 import Header from '@core_modules/product/pages/default/components/header';
 import generateSchemaOrg from '@core_modules/product/helpers/schema.org';
 import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
 import { getCompareList, getCustomerUid } from '@core_modules/productcompare/service/graphql';
+import { localCompare } from '@services/graphql/schema/local';
+import { useQuery } from '@apollo/client';
 
 const ContentDetail = ({
     t, product, Content, isLogin, weltpixel_labels, dataProductTabs,
@@ -30,6 +31,7 @@ const ContentDetail = ({
     const [getProductCompare, { data: compareList, refetch }] = getCompareList();
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
     const [addProductCompare] = addProductsToCompareList();
+    const { client } = useQuery(localCompare);
 
     React.useEffect(() => {
         if (!compareList && modules.productcompare.enabled) {
@@ -132,7 +134,6 @@ const ContentDetail = ({
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
 
     const [addWishlist] = mutationAddWishlist();
-    const [setCompareList] = createCompareList();
     const handleWishlist = () => {
         if (isLogin && isLogin === 1) {
             TagManager.dataLayer({
@@ -247,20 +248,20 @@ const ContentDetail = ({
         }
     };
 
-    const handleSetCompareList = (id) => {
+    const handleSetCompareList = (id_compare) => {
         const uid_product_compare = getCookies('uid_product_compare');
         const uids = [];
         let uid_customer = '';
-        uids.push(id.toString());
+        uids.push(id_compare.toString());
         if (isLogin) {
             /* eslint-disable */
             uid_customer = dataUid ? (dataUid.customer.compare_list ? dataUid.customer.compare_list.uid : '') : '';
             /* eslint-enable */
         }
+        let isExist = false;
         if (compareList) {
-            let isExist = false;
             compareList.compareList.items.map((res) => {
-                if (res.uid === id.toString()) {
+                if (res.uid === id_compare.toString()) {
                     isExist = true;
                 }
                 return null;
@@ -272,8 +273,14 @@ const ContentDetail = ({
                         products: uids,
                     },
                 })
-                    .then(async () => {
+                    .then(async (res) => {
                         await window.toastMessage({ open: true, variant: 'success', text: t('common:productCompare:successCompare') });
+                        client.writeQuery({
+                            query: localCompare,
+                            data: {
+                                item_count: res.data.addProductsToCompareList.item_count,
+                            },
+                        });
                         refetch();
                         if (isLogin) {
                             refetchCustomerUid();
@@ -293,32 +300,6 @@ const ContentDetail = ({
                     text: t('common:productCompare:existProduct'),
                 });
             }
-        } else {
-            setCompareList({
-                variables: {
-                    uid: uids,
-                },
-            })
-                .then(async (res) => {
-                    setCookies('uid_product_compare', res.data.createCompareList.uid);
-                    await window.toastMessage({ open: true, variant: 'success', text: t('common:productCompare:successCompare') });
-                    const uid_product = getCookies('uid_product_compare');
-                    getProductCompare({
-                        variables: {
-                            uid: uid_product,
-                        },
-                    });
-                    if (isLogin) {
-                        refetchCustomerUid();
-                    }
-                })
-                .catch((e) => {
-                    window.toastMessage({
-                        open: true,
-                        variant: 'error',
-                        text: debuging.originalError ? e.message.split(':')[1] : t('common:productCompare:failedCompare'),
-                    });
-                });
         }
     };
 
