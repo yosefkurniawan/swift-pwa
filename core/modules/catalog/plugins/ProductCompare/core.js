@@ -13,7 +13,7 @@ import Typography from '@common_typography';
 import { useTranslation } from '@i18n';
 
 const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
-    const [getProduct, { data: compareList }] = getCompareList();
+    const [getProductCompare, { data: compareList }] = getCompareList();
     const [getUid, { data: dataUid }] = getCustomerUid();
     const { data: dataCompare, client } = useQuery(localCompare);
     const { t } = useTranslation();
@@ -26,6 +26,7 @@ const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
             });
         }
     }, [dataCompare]);
+
     React.useEffect(() => {
         if (isLogin) {
             getUid();
@@ -36,7 +37,7 @@ const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
         if (!compareList && !isLogin) {
             const uid = getCookies('uid_product_compare');
             if (uid) {
-                getProduct({
+                getProductCompare({
                     variables: {
                         uid,
                     },
@@ -51,7 +52,7 @@ const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
                 const uid = getCookies('uid_product_compare');
                 if (uid) {
                     const uid_product = dataUid.customer.compare_list.uid;
-                    getProduct({
+                    getProductCompare({
                         variables: {
                             uid: uid_product,
                         },
@@ -66,9 +67,17 @@ const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
     };
 
     if (withLink) {
+        let tempCompare = null;
+        if (dataCompare) {
+            tempCompare = {
+                compareList: {
+                    item_count: dataCompare.item_count,
+                },
+            };
+        }
         return (
             <>
-                <WihtLinkView compareList={dataCompare || compareList} handleLink={handleLink} />
+                <WihtLinkView compareList={tempCompare || compareList} handleLink={handleLink} />
             </>
         );
     }
@@ -77,8 +86,7 @@ const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
     return (
         <>
             <Typography variant="span" type="bold" letter="uppercase">
-                {t('common:productCompare:title')} ({' '}
-                {dataCompare ? dataCompare.compareList.item_count : compareList ? compareList.compareList.item_count : 0} )
+                {t('common:productCompare:title')} ( {dataCompare ? dataCompare.item_count : compareList ? compareList.compareList.item_count : 0} )
             </Typography>
         </>
     );

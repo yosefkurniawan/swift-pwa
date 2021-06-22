@@ -13,7 +13,7 @@ import { removeCartId } from '@helper_cartid';
 import Router, { useRouter } from 'next/router';
 import { useApolloClient } from '@apollo/client';
 import ProductItem from '@plugin_productitem';
-import { localTotalCart } from '@services/graphql/schema/local';
+import { localTotalCart, localCompare } from '@services/graphql/schema/local';
 import Typography from '@common_typography';
 import PointCard from '@plugin_rewardpointinfo';
 import Badge from '@material-ui/core/Badge';
@@ -55,6 +55,7 @@ const ViewMobile = (props) => {
                 removeCartId();
                 removeCookies('uid_product_compare');
                 client.writeQuery({ query: localTotalCart, data: { totalCart: 0 } });
+                client.writeQuery({ query: localCompare, data: { item_count: 0 } });
                 Router.push('/customer/account/login');
             })
             .catch(() => {
