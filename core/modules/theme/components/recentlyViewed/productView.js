@@ -3,7 +3,7 @@ import GridList from '@common_gridlist';
 import ProductItem from '@plugin_productitem';
 import SkeletonRecently from '@core_modules/theme/components/recentlyViewed/skeleton';
 import classNames from 'classnames';
-import Button from '@common_button';
+import ButtonCompare from '@core_modules/theme/components/recentlyViewed/buttonCompare';
 import Typography from '@common_typography';
 import useStyles from '@core_modules/theme/components/recentlyViewed/style';
 
@@ -21,7 +21,7 @@ const ProductView = (props) => {
 
     return (
         <div className={wrapperContent}>
-            <Button
+            <ButtonCompare
                 onClick={toggleDrawer(false)}
                 className={recentlyBtnContent}
             >
@@ -32,7 +32,7 @@ const ProductView = (props) => {
                 >
                     {t('common:recentlyView:title')}
                 </Typography>
-            </Button>
+            </ButtonCompare>
             <div className={classNames('row', contentFeatured)}>
                 {
                     product && product.products && product.products.items
