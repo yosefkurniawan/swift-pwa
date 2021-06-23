@@ -46,7 +46,7 @@ const DeliveryComp = (props) => {
                     });
                     window.backdropLoader(false);
                 });
-        } else if (delivery === 'pickup') {
+        } else if (delivery === 'pickup' || delivery === 'instorepickup') {
             const selectedShipping = checkout.data.shippingMethods.filter(({ method_code }) => method_code === 'pickup');
             const dataLayer = {
                 event: 'checkout',

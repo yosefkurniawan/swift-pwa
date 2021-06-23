@@ -334,6 +334,9 @@ const modules = {
             prod: 'https://app.midtrans.com/snap/snap.js',
         },
         pickupStore: {
+            enabled: false,
+        },
+        inStorePickup: {
             enabled: true,
         },
         extraFee: {

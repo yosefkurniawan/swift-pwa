@@ -213,6 +213,13 @@ export const addOrderComment = () => useMutation(Schema.addOrderComment, {
 
 export const getCmsPage = (variables) => useQuery(Schema.getCmsPage, { variables });
 
+export const pickupLocations = () => useLazyQuery(Schema.pickupLocations);
+
+export const setInstoreShippingAddress = (options = {}) => useMutation(Schema.setInstoreShippingAddress, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export default {
     updateExtraFee,
     updatedDefaultAddress,
@@ -253,4 +260,6 @@ export default {
     addOrderComment,
     getCmsPage,
     getIndodanaUrl,
+    pickupLocations,
+    setInstoreShippingAddress,
 };

@@ -1125,3 +1125,107 @@ query IndodanaUrl($order_number: String!) {
     }
   }
 `;
+
+export const pickupLocations = gql`
+    query pickupLocations {
+        pickupLocations {
+            items {
+                pickup_location_code
+                name
+                email
+                fax
+                description
+                latitude
+                longitude
+                country_id
+                region_id
+                region
+                city
+                street
+                postcode
+                phone
+            },
+            total_count
+            page_info {
+                page_size
+                current_page
+                total_pages
+            }
+        }
+    }
+`;
+
+export const setInstoreShippingAddress = gql`
+    mutation setInstoreShippingAddress(
+        $cartId: String!
+        $city: String!
+        $countryCode: String!
+        $firstname: String!
+        $lastname: String!
+        $telephone: String!
+        $postcode: String!
+        $street: String!
+        $region: String!
+        $latitude: String
+        $longitude: String
+        $pickup_location_code: String!
+    ) {
+        setShippingAddressesOnCart(
+            input: {
+                cart_id: $cartId
+                shipping_addresses: {
+                    address: {
+                        city: $city
+                        country_code: $countryCode
+                        firstname: $firstname
+                        lastname: $lastname
+                        telephone: $telephone
+                        region: $region
+                        street: [$street]
+                        postcode: $postcode
+                        latitude: $latitude
+                        longitude: $longitude
+                        save_in_address_book: true
+                    },
+                    pickup_location_code: $pickup_location_code
+                }
+            }
+        ) {
+            cart {
+                id
+                shipping_addresses {
+                    ${shortAddressData}
+                }
+            }
+        }
+        setBillingAddressOnCart(input: { 
+            cart_id: $cartId, 
+            billing_address: {
+                same_as_shipping: true, 
+                address: {
+                    city: $city
+                    country_code: $countryCode
+                    firstname: $firstname
+                    lastname: $lastname
+                    telephone: $telephone
+                    region: $region
+                    street: [$street]
+                    postcode: $postcode
+                    latitude: $latitude
+                    longitude: $longitude
+                    save_in_address_book: true
+                },
+            }
+        }) {
+            cart {
+                ${dest_location}
+                ${cartBillingAddress}
+                shipping_addresses {
+                    ${available_shipping_methods}
+                    ${selected_shipping_method}
+                }
+
+            }
+        }
+    }
+`;

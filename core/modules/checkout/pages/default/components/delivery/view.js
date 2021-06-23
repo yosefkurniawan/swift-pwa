@@ -44,6 +44,18 @@ const ShippingView = (props) => {
                         </div>
                     </div>
                 </div>
+                <div className="col-xs-6">
+                    <div className={checkStyles('instorepickup')} onClick={() => handleSelect('instorepickup')}>
+                        <div className="column">
+                            <Typography variant="span" type="bold">
+                                {t('checkout:deliveryMethod:instorePickup')}
+                            </Typography>
+                            <Typography className="hidden-mobile">
+                                {t('checkout:deliveryMethod:instorePickupDesc')}
+                            </Typography>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
