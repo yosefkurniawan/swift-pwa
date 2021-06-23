@@ -194,6 +194,17 @@ const features = {
             width: 960,
             height: 577,
         },
+        promoBannerLite: {
+            top: {
+                width: 1300,
+            },
+            label: {
+                width: 350,
+            },
+            after: {
+                width: 350,
+            },
+        },
     },
     vesMenu: {
         enabled: true,
