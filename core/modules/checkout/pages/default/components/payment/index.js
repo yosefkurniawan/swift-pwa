@@ -5,6 +5,7 @@ import gqlService from '@core_modules/checkout/services/graphql';
 
 export default function CustomizedExpansionPanels({
     checkout, setCheckout, updateFormik, handleOpenMessage, t, storeConfig, PaymentView,
+    paypalTokenData, paypalHandlingProps,
 }) {
     /**
      * [HOOKS]
@@ -202,6 +203,8 @@ export default function CustomizedExpansionPanels({
             handlePayment={handlePayment}
             handlePurchaseOrder={handlePurchaseOrder}
             handlePurchaseOrderSubmit={handlePurchaseOrderSubmit}
+            paypalTokenData={paypalTokenData}
+            paypalHandlingProps={paypalHandlingProps}
         />
     );
 }

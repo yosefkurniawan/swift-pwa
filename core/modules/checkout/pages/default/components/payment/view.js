@@ -16,6 +16,7 @@ import FieldPoint from '@core_modules/checkout/components/fieldcode';
 import RadioItem from '@core_modules/checkout/components/radioitem';
 import ModalHowtoPay from '@core_modules/checkout/pages/default/components/ModalHowtoPay';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
+import { PayPalButtons } from '@paypal/react-paypal-js';
 
 import { ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle } from './style';
 
@@ -23,6 +24,7 @@ const ExpansionPanel = withStyles(ExpanPanelStyle)(MuiExpansionPanel);
 const ExpansionPanelSummary = withStyles(ExpanSummaryStyle)(MuiExpansionPanelSummary);
 const ExpansionPanelDetails = withStyles(ExpanDetailStyle)(MuiExpansionPanelDetails);
 const PO = 'purchaseorder';
+const PaypalCode = 'paypal_express';
 
 /**
  * Loader
@@ -44,7 +46,8 @@ const Loader = () => (
 const PaymentView = (props) => {
     const styles = useStyles();
     const {
-        loading, data, checkout, storeConfig, t, handlePayment, handlePurchaseOrder, handlePurchaseOrderSubmit, selected,
+        loading, data, checkout, storeConfig, t, handlePayment, handlePurchaseOrder,
+        handlePurchaseOrderSubmit, selected, paypalTokenData, paypalHandlingProps,
     } = props;
     const { modules } = commonConfig;
     const [expanded, setExpanded] = React.useState(null);
@@ -163,26 +166,40 @@ const PaymentView = (props) => {
                                                             CustomItem={RadioItem}
                                                             ComponentOptional={(item) => {
                                                                 // prettier-ignore
-                                                                const isNotPurchaseOrder = item.code !== PO || selected.payment !== PO;
-                                                                if (isNotPurchaseOrder) return null;
+                                                                const isPurchaseOrder = item.code === PO || selected.payment === PO;
+                                                                const isPaypal = item.code === PaypalCode && selected.payment === PaypalCode;
+                                                                if (isPurchaseOrder) {
+                                                                    return (
+                                                                        <Grid item xs={12}>
+                                                                            <FieldPoint
+                                                                                id="purchase-order"
+                                                                                name="purchase-order"
+                                                                                placeholder={t('checkout:purchaseOrderNumber')}
+                                                                                action={handlePurchaseOrderSubmit}
+                                                                                onChange={handlePurchaseOrder}
+                                                                                value={checkout.selected.purchaseOrderNumber || ''}
+                                                                                disabled={checkout.loading.purchaseOrderNumber}
+                                                                                loading={checkout.loading.purchaseOrderNumber}
+                                                                                styleFrame={{ marginTop: 0, marginBottom: 0 }}
+                                                                                styleFrameText={{ marginTop: 0, marginBottom: 0 }}
+                                                                                styleTextField={{ marginTop: 0, marginBottom: 0 }}
+                                                                            />
+                                                                        </Grid>
+                                                                    );
+                                                                }
 
-                                                                return (
-                                                                    <Grid item xs={12}>
-                                                                        <FieldPoint
-                                                                            id="purchase-order"
-                                                                            name="purchase-order"
-                                                                            placeholder={t('checkout:purchaseOrderNumber')}
-                                                                            action={handlePurchaseOrderSubmit}
-                                                                            onChange={handlePurchaseOrder}
-                                                                            value={checkout.selected.purchaseOrderNumber || ''}
-                                                                            disabled={checkout.loading.purchaseOrderNumber}
-                                                                            loading={checkout.loading.purchaseOrderNumber}
-                                                                            styleFrame={{ marginTop: 0, marginBottom: 0 }}
-                                                                            styleFrameText={{ marginTop: 0, marginBottom: 0 }}
-                                                                            styleTextField={{ marginTop: 0, marginBottom: 0 }}
-                                                                        />
-                                                                    </Grid>
-                                                                );
+                                                                if (isPaypal && !paypalTokenData.loading) {
+                                                                    return (
+                                                                        <Grid item xs={12} lg="3" md="4">
+                                                                            <PayPalButtons
+                                                                                style={{ layout: 'horizontal' }}
+                                                                                {...paypalHandlingProps}
+                                                                            />
+                                                                        </Grid>
+                                                                    );
+                                                                }
+
+                                                                return null;
                                                             }}
                                                             propsItem={{
                                                                 borderBottom: false,

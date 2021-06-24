@@ -20,7 +20,8 @@ const Summary = (props) => {
     const {
         t, summary, handleActionSummary = () => { }, loading, disabled,
         showItems = false, items = [], hideButton = false, isDesktop,
-        isLoader, deleteCart, updateCart, withAction,
+        isLoader, deleteCart, updateCart, withAction, withLabel = true,
+        labelItemAlign = 'left',
     } = props;
     const styles = useStyles();
     const [openItem, setOpenItem] = React.useState(false);
@@ -50,9 +51,11 @@ const Summary = (props) => {
 
     return (
         <div id="desktopSummary" className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>
-            <Typography variant="h1" type="regular" letter="capitalize">
-                Summary
-            </Typography>
+            { withLabel && (
+                <Typography variant="h1" type="regular" letter="capitalize">
+                    Summary
+                </Typography>
+            ) }
             {
                 showItems ? (
                     <>
@@ -146,7 +149,7 @@ const Summary = (props) => {
                         <ListItem className={classNames(styles.list, 'listSummary')} key={index}>
                             <ListItemText
                                 className={styles.labelItem}
-                                primary={<Typography variant="p" letter="capitalize" size="12">{dt.item}</Typography>}
+                                primary={<Typography variant="p" letter="capitalize" size="12" align={labelItemAlign}>{dt.item}</Typography>}
                             />
                             <ListItemSecondaryAction>
                                 <Typography variant="span" type="regular">
@@ -157,7 +160,10 @@ const Summary = (props) => {
                     ))
                 }
                 <ListItem className={classNames(styles.list, 'listSummary')}>
-                    <ListItemText primary={<Typography variant="title" type="bold">Total</Typography>} />
+                    <ListItemText
+                        className={styles.labelItem}
+                        primary={<Typography variant="title" type="bold" align={labelItemAlign}>Total</Typography>}
+                    />
                     <ListItemSecondaryAction>
                         <Typography variant="title" type="bold">
                             {summary.total.currency ? formatPrice(summary.total.value, summary.total.currency) : null}

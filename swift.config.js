@@ -15,7 +15,7 @@ const HOST = {
 
 /* Magento GraphQL Endpoint */
 const graphqlEndpoint = {
-    local: 'https://swiftpwa-be.testingnow.me/graphql',
+    local: 'https://swift-sprint.testingnow.me/graphql',
     dev: 'https://swiftpwa-be.testingnow.me/graphql',
     stage: 'https://swiftpwa-be.testingnow.me/graphql',
     prod: 'https://b2cdemo.getswift.asia/graphql',
@@ -347,6 +347,14 @@ const modules = {
         },
         howtoPay: {
             enabled: true,
+        },
+        paypal: {
+            clientId: 'AaOafUT6j2w7kZNb97_cAlI0MjGexmWOaWo650ANV5xgrT3Ff1xtdwJxVByCHUJZ0Ga9HKvbRw5NIjNV',
+            defaultCurrency: 'USD',
+            intent: 'capture',
+            returnUrl: 'paypal/express/review',
+            cancelUrl: 'checkout/cart',
+            keyData: 'paypal-data',
         },
     },
     cart: {

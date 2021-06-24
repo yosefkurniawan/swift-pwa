@@ -1,9 +1,11 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable eqeqeq */
 import * as Yup from 'yup';
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { removeCheckoutData, getCheckoutData } from '@helpers/cookies';
+import { setLocalStorage } from '@helper_localstorage';
 import { getCartId } from '@helpers/cartId';
 import Router from 'next/router';
 import Layout from '@layout';
@@ -14,6 +16,7 @@ import Cookies from 'js-cookie';
 import { getAppEnv } from '@root/core/helpers/env';
 import Toast from '@common_toast';
 import gqlService from '@core_modules/checkout/services/graphql';
+import { PayPalScriptProvider, FUNDING } from '@paypal/react-paypal-js';
 import {
     getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl,
 } from '@core_modules/checkout/helpers/config';
@@ -129,6 +132,7 @@ const Checkout = (props) => {
             storeCredit: false,
             giftCard: false,
             extraFee: false,
+            paypal: false,
         },
         status: {
             addresses: false,
@@ -148,12 +152,25 @@ const Checkout = (props) => {
     });
 
     const [isError, setError] = useState(false);
+
+    // config paypal
+    const [initialOptionPaypal, setInitialOptionPaypal] = useState({
+        'client-id': modules.checkout.paypal.clientId,
+        currency: modules.checkout.paypal.defaultCurrency,
+        intent: modules.checkout.paypal.intent,
+        'data-client-token': '',
+        editUrl: '',
+        startUrl: '',
+        vault: true,
+    });
+
     // start init graphql
     const [getCustomer, manageCustomer] = gqlService.getCustomer();
     const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
     const [getItemCart, { data: itemCart, error: errorItem }] = gqlService.getItemCart();
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
     const [getCustomerAddress, addressCustomer] = gqlService.getAddressCustomer();
+    const [getPaypalToken, paypalTokenData] = gqlService.createPaypalExpressToken();
     // end init graphql
 
     /**
@@ -357,6 +374,7 @@ const Checkout = (props) => {
         }
 
         state.loading.all = false;
+        state.loading.paypal = false;
 
         setCheckout(state);
         updateFormik(cart);
@@ -385,6 +403,7 @@ const Checkout = (props) => {
             loading: {
                 ...checkout.loading,
                 all: true,
+                paypal: true,
             },
             data: {
                 ...checkout.data,
@@ -402,6 +421,24 @@ const Checkout = (props) => {
         if (loadCart) {
             getCart({ variables: { cartId } });
             getItemCart({ variables: { cartId } });
+            getPaypalToken({
+                variables: {
+                    cartId,
+                    code: 'paypal_express',
+                    returnUrl: modules.checkout.paypal.returnUrl,
+                    cancelUrl: modules.checkout.paypal.cancelUrl,
+                },
+            }).then((res) => {
+                if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
+                    const { token, paypal_urls: { edit, start } } = res.data.createPaypalExpressToken;
+                    setInitialOptionPaypal({
+                        ...initialOptionPaypal,
+                        'data-client-token': token,
+                        editUrl: edit,
+                        startUrl: start,
+                    });
+                }
+            });
         }
 
         if (errorCart && errorItem) {
@@ -509,6 +546,89 @@ const Checkout = (props) => {
 
     const chasbackMessage = t('checkout:cashbackInfo').split('$');
 
+    const onClickPaypal = () => {
+        const state = { ...checkout };
+        if (!state.loading.paypal) {
+            state.loading.order = true;
+        }
+        setCheckout(state);
+    };
+
+    const onCancelPaypal = () => {
+        Router.push('/checkout/cart');
+    };
+
+    const onErrorPaypal = (err) => {
+        const state = { ...checkout };
+        state.loading.order = false;
+        setCheckout(state);
+        handleOpenMessage({
+            variant: 'error',
+            text: t('checkout:message:serverError'),
+        });
+    };
+
+    const onApprovePaypall = (data, actions) => {
+        const paypalData = {
+            data: {
+                ...data,
+                ...initialOptionPaypal,
+            },
+            details: {},
+        };
+        return actions.order.capture().then((details) => {
+            paypalData.details = details;
+            setLocalStorage(modules.checkout.paypal.keyData, paypalData);
+            const state = { ...checkout };
+            state.loading.order = false;
+            setCheckout(state);
+            Router.push(`/${modules.checkout.paypal.returnUrl}`);
+        });
+    };
+
+    const paypalToken = initialOptionPaypal['data-client-token'];
+
+    const onShippingChangePaypal = (params) => {
+        // const { shipping_addresses } = params;
+    };
+
+    const createOrderPaypal = (data, actions) => {
+        const { cart } = checkout.data;
+        const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
+        return actions.order.create({
+            payer: {
+                email_address: cart.email,
+                name: {
+                    given_namestring: shipping.firstname,
+                    surname: shipping.lastname,
+                },
+                address: {
+                    address_line_1: shipping.street[0],
+                    address_line_2: '',
+                    admin_area_1: shipping.city,
+                    admin_area_2: shipping.region.label,
+                    postal_code: shipping.postcode,
+                    country_code: shipping.country.code,
+                },
+            },
+            purchase_units: [{
+                amount: {
+                    value: `${cart.prices.grand_total.value}`,
+                },
+            }],
+        });
+    };
+
+    const paypalHandlingProps = {
+        onClick: onClickPaypal,
+        onCancel: onCancelPaypal,
+        onError: onErrorPaypal,
+        onApprove: onApprovePaypall,
+        disabled: checkout.loading.paypal,
+        onShippingChange: onShippingChangePaypal,
+        createOrder: createOrderPaypal,
+    };
+
     const contentProps = {
         formik,
         checkout,
@@ -519,6 +639,8 @@ const Checkout = (props) => {
         manageCustomer,
         config,
         isOnlyVirtualProductOnCart,
+        paypalTokenData,
+        paypalHandlingProps,
     };
 
     return (
@@ -526,8 +648,12 @@ const Checkout = (props) => {
             <Head>
                 <script type="text/javascript" src={url} data-client-key={snap_client_key} />
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                <script src="https://js.braintreegateway.com/web/3.78.2/js/client.min.js" />
+                <script src="https://js.braintreegateway.com/web/3.78.2/js/paypal-checkout.min.js" />
             </Head>
-            <Content {...contentProps} {...props} modules={modules} />
+            <PayPalScriptProvider options={initialOptionPaypal}>
+                <Content {...contentProps} {...props} modules={modules} />
+            </PayPalScriptProvider>
             <Toast open={isError} message={t('checkout:cartError')} variant="error" setOpen={setError} />
         </Layout>
     );
