@@ -1,14 +1,19 @@
 import { useMutation } from '@apollo/client';
+import Button from '@common_button';
 import Typography from '@common_typography';
+import useStyles from '@core_modules/cms/components/cms-renderer/widget-newsletter-popup/style';
 import { subscribeNewsletter } from '@core_modules/customer/services/graphql/schema';
 import { useFormik } from 'formik';
 import parse, { domToReact } from 'html-react-parser';
 import * as Yup from 'yup';
-import useStyles from '@core_modules/cms/components/cms-renderer/widget-newsletter-popup/style';
 
 const Newsletter = (props) => {
-    const { storeConfig } = props;
-    const [actSubscribe] = useMutation(subscribeNewsletter);
+    const { t, storeConfig } = props;
+    const [actSubscribe, result] = useMutation(subscribeNewsletter, {
+        context: {
+            request: 'internal',
+        },
+    });
     const styles = useStyles();
 
     const formik = useFormik({
@@ -36,7 +41,7 @@ const Newsletter = (props) => {
                     window.toastMessage({
                         open: true,
                         variant: 'error',
-                        text: e.message.split(':')[1] || '',
+                        text: e.message.split(':')[1] || t('common:newsletter:emailFormat'),
                     });
                 });
         },
@@ -56,9 +61,9 @@ const Newsletter = (props) => {
                         onChange={formik.handleChange}
                     />
                 </label>
-                <button type="submit" className={styles.subscribeBtn}>
-                    Subscribe
-                </button>
+                <Button type="submit" loading={result.loading} className={styles.subscribeBtn}>
+                    {t('common:newsletter:buttonLabel')}
+                </Button>
             </div>
             {storeConfig.weltpixel_newsletter_general_terms_conditions_consent === '1' && (
                 <div>
@@ -71,7 +76,7 @@ const Newsletter = (props) => {
 };
 
 const WidgetNewsletterPopup = (props) => {
-    const { storeConfig, data } = props;
+    const { t, storeConfig, data } = props;
     const content = data.cmsBlocks.items[0].content || '';
 
     /* eslint-disable */
@@ -79,7 +84,7 @@ const WidgetNewsletterPopup = (props) => {
         replace: ({ name, attribs, children }) => {
             if (attribs) {
                 if (name === 'pwa' && attribs.type === 'pwa-newsletter') {
-                    return <Newsletter storeConfig={storeConfig} />;
+                    return <Newsletter t={t} storeConfig={storeConfig} />;
                 }
 
                 if (attribs.class === 'title') {
