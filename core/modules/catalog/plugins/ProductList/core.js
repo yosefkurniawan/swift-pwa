@@ -66,7 +66,7 @@ const Product = (props) => {
         context = {
             ...context,
             headers: {
-                Authorization: token,
+                authorization: token,
             },
         };
     }

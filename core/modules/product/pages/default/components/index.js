@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import ShareOutlined from '@material-ui/icons/ShareOutlined';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import classNames from 'classnames';
 import React from 'react';
 import { getHost } from '@helper_config';
@@ -62,6 +63,7 @@ const ProductPage = (props) => {
         additionalPrice,
         smartProductTabs,
         isLogin,
+        handleSetCompareList,
     } = props;
     const desktop = breakPointsUp('sm');
 
@@ -103,8 +105,9 @@ const ProductPage = (props) => {
                 {(bannerLiteObj.top && bannerLiteObj.top.length > 0) && (
                     bannerLiteObj.top.map((topBanner) => (
                         <PromoBannersLite
+                            type="top"
                             key={topBanner.entity_id}
-                            classes="col-xs-12 hidden-mobile"
+                            classes={classNames(styles.bannerLiteTop, 'col-xs-12')}
                             src={topBanner.banner_link}
                             imgSrc={topBanner.banner_image}
                             alt={topBanner.banner_alt}
@@ -113,17 +116,12 @@ const ProductPage = (props) => {
                 )}
 
                 <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-6')}>
-                    {
-                        modules.catalog.productListing.label.enabled
-                        && modules.catalog.productListing.label.weltpixel.enabled && (
-                            <WeltpixelLabel t={t} weltpixel_labels={data.weltpixel_labels || []} categoryLabel={false} />
-                        )
-                    }
                     {(bannerLiteObj.top && bannerLiteObj.top.length > 0) && (
                         bannerLiteObj.top.map((topBanner) => (
                             <PromoBannersLite
+                                type="top"
                                 key={topBanner.entity_id}
-                                classes={classNames(styles.bannerLiteTopMobile, 'col-lg-6')}
+                                classes={classNames(styles.bannerLiteTopMobile, 'col-xs-12')}
                                 src={topBanner.banner_link}
                                 imgSrc={topBanner.banner_image}
                                 alt={topBanner.banner_alt}
@@ -134,6 +132,7 @@ const ProductPage = (props) => {
                         {(bannerLiteObj.label && bannerLiteObj.label.length > 0) && (
                             bannerLiteObj.label.map((labelBanner) => (
                                 <PromoBannersLite
+                                    type="label"
                                     key={labelBanner.entity_id}
                                     classes={classNames(styles.bannerLiteLabel, 'col-xs-6')}
                                     imgSrc={labelBanner.banner_image}
@@ -189,6 +188,13 @@ const ProductPage = (props) => {
                             <PriceFormat {...price} additionalPrice={additionalPrice} />
                         </div>
                         <div className={styles.shareContainer}>
+                            {modules.productcompare.enabled && (
+                                <div className="hidden-desktop">
+                                    <IconButton className={styles.btnShare} onClick={() => handleSetCompareList(data.id)}>
+                                        <CompareArrowsIcon color="primary" />
+                                    </IconButton>
+                                </div>
+                            )}
                             <IconButton className={styles.btnShare} onClick={handleWishlist}>
                                 {favoritIcon}
                             </IconButton>
@@ -252,6 +258,7 @@ const ProductPage = (props) => {
                             {(bannerLiteObj.after && bannerLiteObj.after.length > 0) && (
                                 bannerLiteObj.after.map((afterBanner) => (
                                     <PromoBannersLite
+                                        type="after"
                                         key={afterBanner.entity_id}
                                         classes={classNames(styles.bannerLiteAfter, 'col-xs-6')}
                                         src={bannerLiteObj.after.banner_link}
@@ -269,6 +276,7 @@ const ProductPage = (props) => {
                             {(bannerLiteObj.after && bannerLiteObj.after.length > 0) && (
                                 bannerLiteObj.after.map((afterBanner) => (
                                     <PromoBannersLite
+                                        type="after"
                                         key={afterBanner.entity_id}
                                         classes={classNames(styles.bannerLiteAfter, 'col-xs-6')}
                                         src={bannerLiteObj.after.banner_link}
@@ -283,7 +291,17 @@ const ProductPage = (props) => {
                             <Typography className={styles.shareTitle} variant="title">
                                 {t('product:shareTitle')}
                             </Typography>
-                            <ItemShare link={getHost() + route.asPath} />
+                            <div className={modules.productcompare.enabled && styles.rowItem}>
+                                <ItemShare link={getHost() + route.asPath} />
+                                {modules.productcompare.enabled && (
+                                    <Button className={styles.btnCompare} color="primary" onClick={() => handleSetCompareList(data.id)}>
+                                        <CompareArrowsIcon color="primary" style={{ fontSize: '18px' }} />
+                                        <Typography variant="p" align="center" letter="uppercase">
+                                            Compare
+                                        </Typography>
+                                    </Button>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>

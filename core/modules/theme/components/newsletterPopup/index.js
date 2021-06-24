@@ -42,9 +42,11 @@ const NewsletterPopup = (props) => {
 
     return (
         <>
-            <Button className={styles.fab} onClick={() => setOpen(!open)} variant="contained">
-                {storeConfig.weltpixel_newsletter_general_trigger_button_title}
-            </Button>
+            {storeConfig.weltpixel_newsletter_general_enable_trigger_button === '1' && (
+                <Button className={styles.fab} onClick={() => setOpen(!open)} variant="contained">
+                    {storeConfig.weltpixel_newsletter_general_trigger_button_title}
+                </Button>
+            )}
 
             <Dialog
                 open={open}

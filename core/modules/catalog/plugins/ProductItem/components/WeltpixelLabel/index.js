@@ -1,9 +1,7 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
 import Cookies from 'js-cookie';
 import { custDataNameCookie } from '@config';
-
-const View = dynamic(() => import('./view'));
+import View from '@plugin_productitem/components/WeltpixelLabel/view';
 
 const WeltpixelLabel = (props) => {
     const { weltpixel_labels, categoryLabel, ...other } = props;

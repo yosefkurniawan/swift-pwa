@@ -194,6 +194,17 @@ const features = {
             width: 960,
             height: 577,
         },
+        promoBannerLite: {
+            top: {
+                width: 1300,
+            },
+            label: {
+                width: 350,
+            },
+            after: {
+                width: 350,
+            },
+        },
     },
     vesMenu: {
         enabled: true,
@@ -401,6 +412,10 @@ const modules = {
         path: '/awgiftcard/card',
         useCommerceModule: false,
     },
+    productreview: {
+        enabled: true,
+        path: '/review/customer',
+    },
     login: {
         enabled: true,
         path: '/customer/account/login',
@@ -477,6 +492,9 @@ const modules = {
         },
     },
     promo: {
+        enabled: true,
+    },
+    productcompare: {
         enabled: true,
     },
     order: {

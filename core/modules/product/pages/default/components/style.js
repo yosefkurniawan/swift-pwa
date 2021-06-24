@@ -200,6 +200,11 @@ const useStyles = makeStyles((theme) => ({
             height: '572px',
         },
     },
+    bannerLiteTop: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'none',
+        },
+    },
     bannerLiteTopMobile: {
         [theme.breakpoints.up('md')]: {
             display: 'none',
@@ -210,6 +215,22 @@ const useStyles = makeStyles((theme) => ({
     },
     bannerLiteAfter: {
         ...CreatePadding(10, 0, 10, 0),
+    },
+    rowItem: {
+        ...FlexRow,
+        justifyContent: 'space-around',
+        width: '350px',
+    },
+    btnCompare: {
+        background: 'none',
+        border: 'none',
+        boxShadow: 'none',
+        width: '120px',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        '&:hover': {
+            background: WHITE,
+        },
     },
 }));
 

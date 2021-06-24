@@ -76,7 +76,7 @@ export default function createApolloClient(initialState, ctx) {
      */
     const middlewareHeader = new ApolloLink((operation, forward) => {
         const additionalHeader = storeCode ? { store: storeCode } : {};
-        if (token && token !== 'undefined') {
+        if (token && token !== '') {
             additionalHeader.Authorization = token;
         }
         operation.setContext(({ headers = {} }) => ({
