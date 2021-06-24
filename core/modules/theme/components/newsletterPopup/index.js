@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import { useState } from 'react';
 
 const NewsletterPopup = (props) => {
-    const { storeConfig, pageConfig } = props;
+    const { t, storeConfig, pageConfig } = props;
     const { data } = getCmsBlocks({
         identifiers: 'weltpixel_newsletter_v5',
     });
@@ -63,7 +63,7 @@ const NewsletterPopup = (props) => {
                 <CloseIcon className={styles.closeBtn} onClick={handleClose} />
                 {data ? (
                     <div className={classNames(styles.newsletter, 'cms-container')}>
-                        <WidgetNewsletterPopup storeConfig={storeConfig} data={data} />
+                        <WidgetNewsletterPopup t={t} storeConfig={storeConfig} data={data} />
                     </div>
                 ) : null}
             </Dialog>
