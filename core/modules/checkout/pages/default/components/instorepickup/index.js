@@ -6,8 +6,8 @@ import useStyles from '@core_modules/checkout/pages/default/components/PickupInf
 import useParentStyles from '@core_modules/checkout/pages/default/components/style';
 import {
     pickupLocations,
-    // setInstoreShippingAddress,
-    // setShippingMethod
+    setInstoreShippingAddress,
+    setShippingMethod,
 } from '@core_modules/checkout/services/graphql';
 import AppBar from '@material-ui/core/AppBar';
 import Dialog from '@material-ui/core/Dialog';
@@ -22,7 +22,7 @@ import { useEffect, useState } from 'react';
 const ModalPickupLocations = (props) => {
     const {
         t, open, setOpen, locations = [], currentPickup, setCurrentPickup,
-        // checkout
+        checkout,
         // , setCheckout
     } = props;
     const [loading, setLoading] = useState(false);
@@ -30,42 +30,45 @@ const ModalPickupLocations = (props) => {
     const [selected, setSelected] = useState(currentPickup);
     const [search, setSearch] = useState('');
     const styles = useModalStyles();
-    // const [setShipMethod] = setShippingMethod();
-    // const [setInstoreAddress] = setInstoreShippingAddress();
+    const [setShipMethod] = setShippingMethod();
+    const [setInstoreAddress] = setInstoreShippingAddress();
+
+    console.log(checkout);
 
     const handleSave = async () => {
         setCurrentPickup(selected);
         setLoading(true);
-        // const { cart } = checkout.data;
+        const { cart } = checkout.data;
         // const newCheckout = { ...checkout };
 
-        // console.log(selected)
+        // console.log(selected);
+        // console.log(selected.pickup_location_code);
         // console.log(checkout);
 
-        // await setInstoreAddress({
-        //     variables: {
-        //         cartId: cart.id,
-        //         city: selected.city,
-        //         countryCode: selected.country_id,
-        //         firstname: selected.name,
-        //         lastname: selected.name,
-        //         telephone: selected.phone,
-        //         postcode: selected.postcode,
-        //         street: selected.street,
-        //         region: selected.region_id.toString(),
-        //         latitude: selected.latitude.toString(),
-        //         longitude: selected.longitude.toString(),
-        //         pickup_location_code: selected.pickup_location_code,
-        //     },
-        // });
+        await setInstoreAddress({
+            variables: {
+                cartId: cart.id,
+                city: selected.city,
+                countryCode: selected.country_id,
+                firstname: selected.name,
+                lastname: selected.name,
+                telephone: selected.phone,
+                postcode: selected.postcode,
+                street: selected.street,
+                region: selected.region_id.toString(),
+                latitude: selected.latitude.toString(),
+                longitude: selected.longitude.toString(),
+                pickup_location_code: selected.pickup_location_code,
+            },
+        });
 
-        // await setShipMethod({
-        //     variables: {
-        //         cartId: cart.id,
-        //         carrierCode: 'instore',
-        //         methodCode: 'pickup',
-        //     },
-        // });
+        await setShipMethod({
+            variables: {
+                cartId: cart.id,
+                carrierCode: 'instore',
+                methodCode: 'pickup',
+            },
+        });
 
         // newCheckout.selected.billing = updatedShippingAddress.setBillingAddressOnCart.cart;
         // newCheckout.selected.address = updatedShippingAddress.setShippingAddressesOnCart.cart;

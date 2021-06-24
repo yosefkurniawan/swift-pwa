@@ -1201,7 +1201,6 @@ export const setInstoreShippingAddress = gql`
         setBillingAddressOnCart(input: { 
             cart_id: $cartId, 
             billing_address: {
-                same_as_shipping: true, 
                 address: {
                     city: $city
                     country_code: $countryCode
