@@ -45,7 +45,7 @@ const ShippingView = (props) => {
     if (checkout.selected.delivery === 'pickup') {
         const price = formatPrice(0, storeConfig.base_currency_code || 'IDR');
         content = <DeliveryItem value={{ price }} label={t('checkout:pickupStore')} selected borderBottom={false} />;
-    } else if (checkout.selected.delivery === 'instorepickup') {
+    } else if (checkout.selected.delivery === 'instore') {
         const price = formatPrice(0, storeConfig.base_currency_code || 'IDR');
         content = <DeliveryItem value={{ price }} label={t('checkout:instorePickup')} selected borderBottom={false} />;
     } else if (loading.shipping || loading.addresses || loading.all) {

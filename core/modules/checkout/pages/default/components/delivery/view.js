@@ -14,6 +14,9 @@ const ShippingView = (props) => {
     const checkStyles = (delivery) => ((checkout.selected.delivery === delivery)
         ? classNames(classes.item, classes.active, `${delivery}Delivery`)
         : classNames(classes.item, `${delivery}Delivery`));
+
+    // console.log(checkout.selected.delivery);
+
     return (
         <div id="checkoutDeliveryMethod" className={styles.block}>
             <Typography variant="title" type="bold" letter="uppercase">
@@ -45,7 +48,7 @@ const ShippingView = (props) => {
                     </div>
                 </div>
                 <div className="col-xs-6">
-                    <div className={checkStyles('instorepickup')} onClick={() => handleSelect('instorepickup')}>
+                    <div className={checkStyles('instore')} onClick={() => handleSelect('instore')}>
                         <div className="column">
                             <Typography variant="span" type="bold">
                                 {t('checkout:deliveryMethod:instorePickup')}

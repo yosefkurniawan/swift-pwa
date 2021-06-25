@@ -46,7 +46,7 @@ const DeliveryComp = (props) => {
                     });
                     window.backdropLoader(false);
                 });
-        } else if (delivery === 'pickup' || delivery === 'instorepickup') {
+        } else if (delivery === 'pickup' || delivery === 'instore') {
             const selectedShipping = checkout.data.shippingMethods.filter(({ method_code }) => method_code === 'pickup');
             const dataLayer = {
                 event: 'checkout',
@@ -110,6 +110,8 @@ const DeliveryComp = (props) => {
             });
             window.backdropLoader(false);
         }
+
+        console.log(checkout.selected.delivery);
     };
     if (checkout.loading.all) return <Skeleton styles={styles} />;
     if (isOnlyVirtualProductOnCart) return null;

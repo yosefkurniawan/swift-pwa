@@ -296,6 +296,8 @@ const Checkout = (props) => {
         // init shipping method
         if (shipping && shipping.available_shipping_methods) {
             const availableShipping = shipping.available_shipping_methods.filter((x) => x.available && x.carrier_code !== 'pickup');
+
+            console.log('available: ', availableShipping);
             state.data.shippingMethods = availableShipping.map((item) => ({
                 ...item,
                 label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
@@ -303,6 +305,9 @@ const Checkout = (props) => {
                 value: `${item.carrier_code}_${item.method_code}`,
             }));
         }
+
+        // console.log('shipping', shipping);
+        // console.log('state', state);
 
         if (shipping && shipping.selected_shipping_method) {
             const shippingMethod = shipping.selected_shipping_method;
@@ -328,6 +333,10 @@ const Checkout = (props) => {
                         pickup_person_phone: cart.pickup_store_person.handphone,
                     };
                 }
+            }
+
+            if (shippingMethod.carrier_code === 'instore' && shippingMethod.method_code === 'pickup') {
+                state.selected.delivery = 'instore';
             }
         }
 
@@ -355,6 +364,8 @@ const Checkout = (props) => {
         if (rewardPoint && rewardPoint.data && rewardPoint.data.customerRewardPoints) {
             state.data.rewardPoints = rewardPoint.data.customerRewardPoints;
         }
+
+        // console.log('selected delivery', state.selected.delivery)
 
         state.loading.all = false;
 

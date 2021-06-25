@@ -33,7 +33,7 @@ const ModalPickupLocations = (props) => {
     const [setShipMethod] = setShippingMethod();
     const [setInstoreAddress] = setInstoreShippingAddress();
 
-    console.log(checkout);
+    // console.log(checkout);
 
     const handleSave = async () => {
         setCurrentPickup(selected);
