@@ -16,7 +16,6 @@ import Cookies from 'js-cookie';
 import { getAppEnv } from '@root/core/helpers/env';
 import Toast from '@common_toast';
 import gqlService from '@core_modules/checkout/services/graphql';
-import { PayPalScriptProvider, FUNDING } from '@paypal/react-paypal-js';
 import {
     getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl,
 } from '@core_modules/checkout/helpers/config';
@@ -39,7 +38,6 @@ const Checkout = (props) => {
     const {
         t, storeConfig, pageConfig, Content,
     } = props;
-
     const config = {
         successRedirect: {
             link: getSuccessCallbackUrl(),
@@ -159,9 +157,7 @@ const Checkout = (props) => {
         currency: modules.checkout.paypal.defaultCurrency,
         intent: modules.checkout.paypal.intent,
         'data-client-token': '',
-        editUrl: '',
-        startUrl: '',
-        vault: true,
+        debug: modules.checkout.paypal.debug,
     });
 
     // start init graphql
@@ -421,24 +417,24 @@ const Checkout = (props) => {
         if (loadCart) {
             getCart({ variables: { cartId } });
             getItemCart({ variables: { cartId } });
-            getPaypalToken({
-                variables: {
-                    cartId,
-                    code: 'paypal_express',
-                    returnUrl: modules.checkout.paypal.returnUrl,
-                    cancelUrl: modules.checkout.paypal.cancelUrl,
-                },
-            }).then((res) => {
-                if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
-                    const { token, paypal_urls: { edit, start } } = res.data.createPaypalExpressToken;
-                    setInitialOptionPaypal({
-                        ...initialOptionPaypal,
-                        'data-client-token': token,
-                        editUrl: edit,
-                        startUrl: start,
-                    });
-                }
-            });
+            // getPaypalToken({
+            //     variables: {
+            //         cartId,
+            //         code: 'paypal_express',
+            //         returnUrl: modules.checkout.paypal.returnUrl,
+            //         cancelUrl: modules.checkout.paypal.cancelUrl,
+            //     },
+            // }).then((res) => {
+            //     if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
+            //         const { token, paypal_urls: { edit, start } } = res.data.createPaypalExpressToken;
+            //         setInitialOptionPaypal({
+            //             ...initialOptionPaypal,
+            //             // 'data-client-token': token,
+            //             editUrl: edit,
+            //             startUrl: start,
+            //         });
+            //     }
+            // });
         }
 
         if (errorCart && errorItem) {
@@ -530,6 +526,25 @@ const Checkout = (props) => {
                 state.selected.shipping = `${shippingMethod.carrier_code}_${shippingMethod.method_code}`;
             }
 
+            if (checkout.selected.payment === 'paypal_express') {
+                getPaypalToken({
+                    variables: {
+                        cartId: cart.id,
+                        code: 'paypal_express',
+                        returnUrl: modules.checkout.paypal.returnUrl,
+                        cancelUrl: modules.checkout.paypal.cancelUrl,
+                    },
+                }).then((res) => {
+                    if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
+                        const { token, paypal_urls: { edit, start } } = res.data.createPaypalExpressToken;
+                        setInitialOptionPaypal({
+                            ...initialOptionPaypal,
+                            'data-client-token': token,
+                        });
+                    }
+                });
+            }
+
             setCheckout(state);
         }
     }, [checkout.data.cart]);
@@ -586,8 +601,6 @@ const Checkout = (props) => {
         });
     };
 
-    const paypalToken = initialOptionPaypal['data-client-token'];
-
     const onShippingChangePaypal = (params) => {
         // const { shipping_addresses } = params;
     };
@@ -596,21 +609,21 @@ const Checkout = (props) => {
         const { cart } = checkout.data;
         const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
         return actions.order.create({
-            payer: {
-                email_address: cart.email,
-                name: {
-                    given_namestring: shipping.firstname,
-                    surname: shipping.lastname,
-                },
-                address: {
-                    address_line_1: shipping.street[0],
-                    address_line_2: '',
-                    admin_area_1: shipping.city,
-                    admin_area_2: shipping.region.label,
-                    postal_code: shipping.postcode,
-                    country_code: shipping.country.code,
-                },
-            },
+            // payer: {
+            //     email_address: cart.email,
+            //     name: {
+            //         given_namestring: shipping.firstname,
+            //         surname: shipping.lastname,
+            //     },
+            //     address: {
+            //         address_line_1: shipping.street[0],
+            //         address_line_2: '',
+            //         admin_area_1: shipping.city,
+            //         admin_area_2: shipping.region.label,
+            //         postal_code: shipping.postcode,
+            //         country_code: shipping.country.code,
+            //     },
+            // },
             purchase_units: [{
                 amount: {
                     value: `${cart.prices.grand_total.value}`,
@@ -641,6 +654,8 @@ const Checkout = (props) => {
         isOnlyVirtualProductOnCart,
         paypalTokenData,
         paypalHandlingProps,
+        setInitialOptionPaypal,
+        initialOptionPaypal,
     };
 
     return (
@@ -651,9 +666,7 @@ const Checkout = (props) => {
                 <script src="https://js.braintreegateway.com/web/3.78.2/js/client.min.js" />
                 <script src="https://js.braintreegateway.com/web/3.78.2/js/paypal-checkout.min.js" />
             </Head>
-            <PayPalScriptProvider options={initialOptionPaypal}>
-                <Content {...contentProps} {...props} modules={modules} />
-            </PayPalScriptProvider>
+            <Content {...contentProps} {...props} modules={modules} />
             <Toast open={isError} message={t('checkout:cartError')} variant="error" setOpen={setError} />
         </Layout>
     );

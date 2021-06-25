@@ -10,7 +10,7 @@ import { setPaypalPaymentMethod } from '@core_modules/paypal/services/graphql';
 
 const PlaceOrder = (props) => {
     const {
-        checkout, setCheckout, t, config,
+        checkout, setCheckout, t, config, initialOptionPaypal,
     } = props;
     const client = useApolloClient();
 
@@ -50,7 +50,7 @@ const PlaceOrder = (props) => {
         const setPayment = await setPaymentMethod({
             variables: {
                 cartId: cart.id,
-                token: paypalData.data['data-client-token'],
+                token: initialOptionPaypal['data-client-token'],
                 payerId: paypalData.data.payerID,
             },
         });

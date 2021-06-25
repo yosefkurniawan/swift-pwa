@@ -52,6 +52,8 @@ const Content = (props) => {
         PromoModalItemView,
         paypalTokenData,
         paypalHandlingProps,
+        setInitialOptionPaypal,
+        initialOptionPaypal,
     } = props;
 
     const styles = useStyles();
@@ -221,6 +223,8 @@ const Content = (props) => {
                         modules={modules}
                         paypalTokenData={paypalTokenData}
                         paypalHandlingProps={paypalHandlingProps}
+                        setInitialOptionPaypal={setInitialOptionPaypal}
+                        initialOptionPaypal={initialOptionPaypal}
                     />
                     {modules.checkout.orderComment.enabled ? (
                         <div className={classNames(styles.block)}>

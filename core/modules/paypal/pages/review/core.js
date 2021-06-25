@@ -58,9 +58,17 @@ const PaypalReviewCore = (props) => {
     });
 
     const [isError, setError] = useState(false);
+    const [initialOptionPaypal, setInitialOptionPaypal] = useState({
+        'client-id': modules.checkout.paypal.clientId,
+        currency: modules.checkout.paypal.defaultCurrency,
+        intent: modules.checkout.paypal.intent,
+        'data-client-token': '',
+        debug: true,
+    });
 
     const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
     const [getItemCart, { data: itemCart, error: errorItem }] = gqlService.getItemCart();
+    const [getPaypalToken, paypalTokenData] = gqlService.createPaypalExpressToken();
 
     const initData = () => {
         const { cart } = dataCart;
@@ -138,6 +146,22 @@ const PaypalReviewCore = (props) => {
         if (loadCart) {
             getCart({ variables: { cartId } });
             getItemCart({ variables: { cartId } });
+            getPaypalToken({
+                variables: {
+                    cartId,
+                    code: 'paypal_express',
+                    returnUrl: modules.checkout.paypal.returnUrl,
+                    cancelUrl: modules.checkout.paypal.cancelUrl,
+                },
+            }).then((res) => {
+                if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
+                    const { token } = res.data.createPaypalExpressToken;
+                    setInitialOptionPaypal({
+                        ...initialOptionPaypal,
+                        'data-client-token': token,
+                    });
+                }
+            });
         }
 
         if (errorCart && errorItem) {
@@ -154,6 +178,8 @@ const PaypalReviewCore = (props) => {
         checkout,
         setCheckout,
         config,
+        paypalTokenData,
+        initialOptionPaypal,
     };
 
     return (

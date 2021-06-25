@@ -4,7 +4,7 @@ import Typography from '@common_typography';
 import useStyles from '@core_modules/paypal/pages/review/components/PlaceOrder/style';
 
 const ShippingAddress = (props) => {
-    const { t, handlePlaceOrder } = props;
+    const { t, handlePlaceOrder, paypalTokenData } = props;
     const styles = useStyles();
 
     return (
@@ -27,6 +27,7 @@ const ShippingAddress = (props) => {
                 className={styles.btnPlaceOrder}
                 color="primary"
                 onClick={handlePlaceOrder}
+                disabled={paypalTokenData.loading}
             >
                 <Typography
                     variant="span"

@@ -16,7 +16,7 @@ import FieldPoint from '@core_modules/checkout/components/fieldcode';
 import RadioItem from '@core_modules/checkout/components/radioitem';
 import ModalHowtoPay from '@core_modules/checkout/pages/default/components/ModalHowtoPay';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
-import { PayPalButtons } from '@paypal/react-paypal-js';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 
 import { ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle } from './style';
 
@@ -47,7 +47,7 @@ const PaymentView = (props) => {
     const styles = useStyles();
     const {
         loading, data, checkout, storeConfig, t, handlePayment, handlePurchaseOrder,
-        handlePurchaseOrderSubmit, selected, paypalTokenData, paypalHandlingProps,
+        handlePurchaseOrderSubmit, selected, paypalTokenData, paypalHandlingProps, initialOptionPaypal,
     } = props;
     const { modules } = commonConfig;
     const [expanded, setExpanded] = React.useState(null);
@@ -187,14 +187,16 @@ const PaymentView = (props) => {
                                                                         </Grid>
                                                                     );
                                                                 }
-
-                                                                if (isPaypal && !paypalTokenData.loading) {
+                                                                if (isPaypal && !paypalTokenData.loading
+                                                                    && initialOptionPaypal['data-client-token'] !== '') {
                                                                     return (
                                                                         <Grid item xs={12} lg="3" md="4">
-                                                                            <PayPalButtons
-                                                                                style={{ layout: 'horizontal' }}
-                                                                                {...paypalHandlingProps}
-                                                                            />
+                                                                            <PayPalScriptProvider options={initialOptionPaypal}>
+                                                                                <PayPalButtons
+                                                                                    style={{ layout: 'horizontal' }}
+                                                                                    {...paypalHandlingProps}
+                                                                                />
+                                                                            </PayPalScriptProvider>
                                                                         </Grid>
                                                                     );
                                                                 }
