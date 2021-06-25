@@ -16,13 +16,6 @@ export const getCustomer = () => useQuery(schema.getCustomer, {
     fetchPolicy: 'no-cache',
 });
 
-export const getIsSubscribedCustomer = () => useLazyQuery(schema.getCustomer, {
-    context: {
-        request: 'internal',
-    },
-    fetchPolicy: 'no-cache',
-});
-
 export const removeToken = () => useMutation(schema.removeToken, {
     context: {
         request: 'internal',
@@ -35,7 +28,6 @@ export default {
     getCmsBlocks,
     getCategories,
     getCustomer,
-    getIsSubscribedCustomer,
     removeToken,
     getVesMenu,
     getProduct,
