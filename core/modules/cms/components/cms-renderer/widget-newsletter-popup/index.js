@@ -8,7 +8,7 @@ import parse, { domToReact } from 'html-react-parser';
 import * as Yup from 'yup';
 
 const Newsletter = (props) => {
-    const { t, storeConfig } = props;
+    const { t, storeConfig, handleClose } = props;
     const [actSubscribe, result] = useMutation(subscribeNewsletter, {
         context: {
             request: 'internal',
@@ -31,11 +31,16 @@ const Newsletter = (props) => {
             })
                 .then(async (res) => {
                     const data = res.data.subscribe.status;
+
                     window.toastMessage({
                         open: true,
                         variant: data.response !== 'Failed' ? 'success' : 'error',
                         text: data.message,
                     });
+
+                    if (data.response !== 'Failed') {
+                        handleClose(false);
+                    }
                 })
                 .catch((e) => {
                     window.toastMessage({
@@ -76,7 +81,9 @@ const Newsletter = (props) => {
 };
 
 const WidgetNewsletterPopup = (props) => {
-    const { t, storeConfig, data } = props;
+    const {
+        t, storeConfig, data, handleClose,
+    } = props;
     const content = data.cmsBlocks.items[0].content || '';
 
     /* eslint-disable */
@@ -84,7 +91,7 @@ const WidgetNewsletterPopup = (props) => {
         replace: ({ name, attribs, children }) => {
             if (attribs) {
                 if (name === 'pwa' && attribs.type === 'pwa-newsletter') {
-                    return <Newsletter t={t} storeConfig={storeConfig} />;
+                    return <Newsletter t={t} storeConfig={storeConfig} handleClose={handleClose} />;
                 }
 
                 if (attribs.class === 'title') {
