@@ -257,7 +257,7 @@ const Layout = (props) => {
                     message={state.toastMessage.text}
                 />
                 {storeConfig.weltpixel_newsletter_general_enable === '1' && (
-                    <NewsletterPopup t={t} storeConfig={storeConfig} pageConfig={pageConfig} />
+                    <NewsletterPopup t={t} storeConfig={storeConfig} pageConfig={pageConfig} isLogin={isLogin} />
                 )}
                 {children}
                 {desktop ? <ScrollToTop {...props} /> : null}
