@@ -3,6 +3,7 @@
 /* eslint-disable no-shadow */
 import Layout from '@layout';
 import { setLogin, getLastPathWithoutLogin } from '@helper_auth';
+import { getCookies, setCookies } from '@helper_cookies';
 import { setCartId, getCartId } from '@helper_cartid';
 import { useQuery } from '@apollo/client';
 import {
@@ -18,10 +19,17 @@ import firebase from 'firebase/app';
 import React from 'react';
 import { getAppEnv } from '@helpers/env';
 import {
-    getToken, getTokenOtp, removeToken as deleteToken, otpConfig as queryOtpConfig,
-    getCustomerCartId, mergeCart as mutationMergeCart, socialLogin, getSigninMethodSocialLogin,
+    getToken,
+    getTokenOtp,
+    removeToken as deleteToken,
+    otpConfig as queryOtpConfig,
+    getCustomerCartId,
+    mergeCart as mutationMergeCart,
+    socialLogin,
+    getSigninMethodSocialLogin,
 } from '@core_modules/login/services/graphql';
 import { getCustomer } from '@core_modules/login/services/graphql/schema';
+import { assignCompareListToCustomer } from '@core_modules/productcompare/service/graphql';
 
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const appEnv = getAppEnv();
@@ -58,32 +66,37 @@ const Login = (props) => {
                         lastName += `${entry} `;
                     }
                 });
-                firebase.auth().currentUser.getIdToken(true).then((user) => {
-                    setDisabled(true);
-                    setLoading(true);
-                    window.backdropLoader(true);
-                    actSocialLogin({
-                        variables: {
-                            email,
-                            socialtoken: user,
-                            firstname: firstName,
-                            lastname: lastName,
-                        },
-                    }).then(async () => {
-                        setLogin(1, expired);
-                        await setIsLogin(1);
-                        getCart();
-                    }).catch((e) => {
-                        setDisabled(false);
-                        setLoading(false);
-                        window.backdropLoader(false);
-                        window.toastMessage({
-                            open: true,
-                            variant: 'error',
-                            text: e.message.split(':')[0] || t('login:failed'),
-                        });
+                firebase
+                    .auth()
+                    .currentUser.getIdToken(true)
+                    .then((user) => {
+                        setDisabled(true);
+                        setLoading(true);
+                        window.backdropLoader(true);
+                        actSocialLogin({
+                            variables: {
+                                email,
+                                socialtoken: user,
+                                firstname: firstName,
+                                lastname: lastName,
+                            },
+                        })
+                            .then(async () => {
+                                setLogin(1, expired);
+                                await setIsLogin(1);
+                                getCart();
+                            })
+                            .catch((e) => {
+                                setDisabled(false);
+                                setLoading(false);
+                                window.backdropLoader(false);
+                                window.toastMessage({
+                                    open: true,
+                                    variant: 'error',
+                                    text: e.message.split(':')[0] || t('login:failed'),
+                                });
+                            });
                     });
-                });
             }
         });
         return () => unregisterAuthObserver();
@@ -142,6 +155,7 @@ const Login = (props) => {
     const [getCustomerTokenOtp] = getTokenOtp();
     const [getCart, cartData] = getCustomerCartId();
     const [mergeCart] = mutationMergeCart();
+    const [mergeCompareProduct] = assignCompareListToCustomer();
 
     const [actSocialLogin] = socialLogin();
 
@@ -307,14 +321,27 @@ const Login = (props) => {
     });
 
     React.useEffect(() => {
-        if (cartData.data && custData.data && cartData.data.customerCart
-            && cartData.data.customerCart && cartData.data.customerCart.id
-        ) {
+        if (cartData.data && custData.data && cartData.data.customerCart && cartData.data.customerCart && cartData.data.customerCart.id) {
             Cookies.set(custDataNameCookie, {
                 email: custData.data.customer.email,
                 firstname: custData.data.customer.firstname,
+                customer_group: custData.data.customer.customer_group,
             });
+            const uid_product = getCookies('uid_product_compare');
             const custCartId = cartData.data.customerCart.id;
+            if (uid_product) {
+                mergeCompareProduct({
+                    variables: {
+                        uid: uid_product,
+                    },
+                })
+                    .then((res) => {
+                        setCookies('uid_product_compare', res.data.assignCompareListToCustomer.compare_list.uid);
+                    })
+                    .catch(() => {
+                        //
+                    });
+            }
             if (cartId === '' || !cartId) {
                 setCartId(custCartId, expired);
                 setDisabled(false);
@@ -361,9 +388,12 @@ const Login = (props) => {
     }, [cartData.data, custData.data]);
 
     let socialLoginMethodData = [];
-    if (socialLoginMethod.data && socialLoginMethod.data.getSigninMethodSocialLogin
+    if (
+        socialLoginMethod.data
+        && socialLoginMethod.data.getSigninMethodSocialLogin
         && socialLoginMethod.data.getSigninMethodSocialLogin.signin_method_allowed
-        && socialLoginMethod.data.getSigninMethodSocialLogin.signin_method_allowed !== '') {
+        && socialLoginMethod.data.getSigninMethodSocialLogin.signin_method_allowed !== ''
+    ) {
         socialLoginMethodData = socialLoginMethod.data.getSigninMethodSocialLogin.signin_method_allowed.split(',');
     }
 
@@ -372,8 +402,7 @@ const Login = (props) => {
     };
 
     const recaptchaRef = React.createRef();
-    const sitekey = (recaptcha.siteKey[appEnv])
-        ? recaptcha.siteKey[appEnv] : recaptcha.siteKey.dev;
+    const sitekey = recaptcha.siteKey[appEnv] ? recaptcha.siteKey[appEnv] : recaptcha.siteKey.dev;
 
     return (
         <Layout {...props} pageConfig={pageConfig || config}>

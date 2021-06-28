@@ -64,6 +64,7 @@ export const getCustomer = gql`
             firstname
             lastname
             email
+            is_subscribed
         }
         wishlist {
             items {
@@ -111,6 +112,7 @@ export const vesMenu = gql`
                             name
                             link
                             link_type
+                            category_id
                         }
                     }
                 }
@@ -154,6 +156,68 @@ export const getProduct = (key) => {
     return query;
 };
 
+export const getRecentlyProduct = () => {
+    const query = gql`
+    query getRecentlyProduct($filter: ProductAttributeFilterInput) {
+      products(filter: $filter) {
+        items {
+            id
+            name
+            url_key
+            small_image {
+                url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height})
+                label
+            }
+            price_range{
+                maximum_price{
+                  discount{
+                    amount_off
+                    percent_off
+                  }
+                  final_price{
+                    currency
+                    value
+                  }
+                  fixed_product_taxes{
+                    amount{
+                      currency
+                      value
+                    }
+                    label
+                  }
+                  regular_price{
+                    currency
+                    value
+                  }
+                }
+                minimum_price{
+                            discount{
+                    amount_off
+                    percent_off
+                  }
+                  final_price{
+                    currency
+                    value
+                  }
+                  fixed_product_taxes{
+                    amount{
+                      currency
+                      value
+                    }
+                    label
+                  }
+                  regular_price{
+                    currency
+                    value
+                  }
+                }
+              }
+        }
+      }
+    }
+  `;
+    return query;
+};
 /**
  * schema dynamic resolver url
  * @param name String
@@ -209,4 +273,5 @@ export default {
     getCurrencySchema,
     getProduct,
     getCategoryByName,
+    getRecentlyProduct,
 };

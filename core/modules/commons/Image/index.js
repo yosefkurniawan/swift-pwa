@@ -2,49 +2,60 @@
 /* eslint-disable func-names */
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import Image from 'next/image';
 import { generateThumborUrl } from '@helpers/image';
+import LazyImage from './LazyImage';
 
-const CustomImage = ({
-    src,
-    width = 500,
-    height = 500,
-    className = '',
-    alt = 'Image',
-    quality = 100,
-    lazy = false,
-    optimize = true,
-}) => {
-    const onError = (event) => {
-        event.target.classList.add('has-error');
-    };
-
-    return (
-        <>
-            <Image
-                src={generateThumborUrl(src, width, height)}
-                width={width}
-                height={height}
-                alt={alt}
-                loading={lazy ? 'lazy' : 'eager'}
-                unoptimized={!optimize}
-                onError={onError}
-                quality={quality}
-                className={`img-bg-load ${className}`}
-            />
-            <style jsx global>
-                {`
-                    img.has-error {
-                        // fallback to placeholder image on error
-                        content: url(/assets/img/placeholder.png);
-                    }
-                    .img-bg-load {
-                        background: #f8f8f8;
-                    }
-                `}
-            </style>
-        </>
-    );
+const imgError = (image) => {
+    image.onerror = '';
+    image.src = '/assets/img/placeholder.png';
+    return true;
 };
 
-export default CustomImage;
+const Image = ({
+    src, width = 500, height = 500,
+    classContainer = '', className = '', alt = 'Image', quality = 100, style = {}, lazy = false, ...other
+}) => (
+    <div
+        className={classContainer}
+        // ref={imgContainer}
+        style={{
+            backgroundColor: '#eee',
+            width: '100%',
+            position: 'relative',
+            paddingTop: `${(height / width) * 100}%`,
+            overflow: 'hidden',
+        }}
+    >
+        {!lazy ? (
+            <img
+                data-pagespeed-no-defer
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    position: 'absolute',
+                    top: '0',
+                    left: '0',
+                }}
+                className={`img ${className}`}
+                src={generateThumborUrl(src, width, height)}
+                onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
+                alt={alt}
+                {...other}
+            />
+        ) : (
+            <LazyImage
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    position: 'absolute',
+                    top: '0',
+                    left: '0',
+                }}
+                src={generateThumborUrl(src, width, height)}
+                alt={alt}
+            />
+        )}
+    </div>
+);
+
+export default Image;

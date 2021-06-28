@@ -133,5 +133,29 @@
         "language": "Language",
         "currency": "Currency",
         "changeto": "Change to"
+    },
+    "recentlyView": {
+        "title" : "Recently Viewed"
+    },
+    "instagramFeed": {
+        "shareFb": "Share on facebook",
+        "tweet": "Tweet",
+        "pinit": "Pin it",
+        "downloadImage": "Download image"
+    },
+    "productCompare": {
+        "title": "Product Compare",
+        "successCompare" : "Product added successfully",
+        "failedCompare" : "Product failed to add",
+        "existProduct" : "The product is already in the compare cart",
+        "emptyCompare": "Your compare list is empty",
+        "successRemove": "Product compare was deleted successfully",
+        "failedRemove": "Product compare failed to delete",
+        "label": {
+            "sku": "sku",
+            "description": "Description",
+            "shortDescription": "Short Description",
+            "brand": "Brand"
+        }
     }
 }

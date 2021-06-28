@@ -18,6 +18,20 @@ const useStyles = makeStyles((theme) => ({
         '& .customizable-container': {
             marginTop: 20,
         },
+        '& .product-video': {
+            overflow: 'hidden',
+            position: 'relative',
+            width: '100%',
+            '& iframe': {
+                height: 'auto',
+                padding: 'auto 0',
+            },
+            [theme.breakpoints.up('sm')]: {
+                '& iframe': {
+                    height: '572px',
+                },
+            },
+        },
     },
     headContainer: {
         position: 'relative',
@@ -35,9 +49,13 @@ const useStyles = makeStyles((theme) => ({
     },
 
     body: {
-        ...CreatePadding(15, 30, 30, 30),
+        ...CreatePadding(15, 30, 0, 30),
         ...FlexColumn,
         ...CreateBorder(0, 0, '1px', 0, GRAY_PRIMARY),
+
+        [theme.breakpoints.down('sm')]: {
+            borderBottom: 'none',
+        },
     },
 
     footer: {
@@ -163,10 +181,56 @@ const useStyles = makeStyles((theme) => ({
     },
     tabs: {
         paddingTop: '40px',
+
+        [theme.breakpoints.down('sm')]: {
+            paddingTop: '140px',
+        },
     },
     shareTitle: {
         marginTop: 20,
         fontSize: 12,
+    },
+    bannerProduct: {
+        width: '99%',
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: 'auto',
+            height: '572px',
+        },
+    },
+    bannerLiteTop: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'none',
+        },
+    },
+    bannerLiteTopMobile: {
+        [theme.breakpoints.up('md')]: {
+            display: 'none',
+        },
+    },
+    bannerLiteLabel: {
+        ...CreatePadding(10, 0, 10, 0),
+    },
+    bannerLiteAfter: {
+        ...CreatePadding(10, 0, 10, 0),
+    },
+    rowItem: {
+        ...FlexRow,
+        justifyContent: 'space-around',
+        width: '350px',
+    },
+    btnCompare: {
+        background: 'none',
+        border: 'none',
+        boxShadow: 'none',
+        width: '120px',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        '&:hover': {
+            background: WHITE,
+        },
     },
 }));
 

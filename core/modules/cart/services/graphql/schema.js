@@ -163,10 +163,10 @@ items {
   }
 
   ... on VirtualCartItem {
-    ${customizable_options}
+    virutalItemCustomizable: ${customizable_options}
   }
   ... on ConfigurableCartItem {
-      ${customizable_options}
+      configurableItemCustomizable: ${customizable_options}
       configurable_options {
       option_label
       value_label
@@ -184,7 +184,7 @@ items {
     }
   }
   ... on DownloadableCartItem {
-    ${customizable_options}
+    downloadablItemCustomizable: ${customizable_options}
     links {
       title
     }
@@ -226,60 +226,6 @@ items {
     categories {
       name
     }
-    crosssell_products {
-      id
-      name
-      url_key
-      sku
-      thumbnail {
-        url
-      }
-      small_image {
-        url,
-        label
-      }
-      price_tiers {
-        discount {
-          percent_off
-          amount_off
-        }
-        final_price {
-          currency
-          value
-        }
-        quantity
-      }
-      price_range {
-        maximum_price {
-          discount {
-            amount_off
-            percent_off
-          }
-          final_price {
-            currency
-            value
-          }
-          regular_price {
-            currency
-            value
-          }
-        }
-        minimum_price {
-          discount {
-            amount_off
-            percent_off
-          }
-          final_price {
-            currency
-            value
-          }
-          regular_price {
-            currency
-            value
-          }
-        }
-      }
-    }
   }
 }
 `;
@@ -294,7 +240,6 @@ ${modules.promo.enabled ? applied_coupons : ''}
 ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
 ${modules.storecredit.enabled ? applied_store_credit : ''}
 ${prices}
-${items}
 `;
 export const getCart = gql`
     query getCartData($cartId: String!) {
@@ -303,6 +248,107 @@ export const getCart = gql`
             ${cartRequiredSelection}
         }
     }
+`;
+
+export const getCartItem = gql`query getCartData($cartId: String!) {
+  cart(cart_id: $cartId) {
+      ${items}
+  }
+}`;
+
+export const getCrossellCart = gql`
+query getCartData($cartId: String!) {
+  cart(cart_id: $cartId) {
+     items {
+      product {
+        crosssell_products {
+          id
+          name
+          url_key
+          sku
+          ${modules.catalog.productListing.label.weltpixel.enabled ? `
+          weltpixel_labels {
+            categoryLabel {
+                css
+                customer_group
+                image
+                page_position
+                position
+                priority
+                text
+                text_padding
+                text_bg_color
+                text_font_size
+                text_font_color          
+            }
+            productLabel {
+                css
+                customer_group
+                image
+                page_position
+                position
+                priority
+                text
+                text_padding
+                text_bg_color
+                text_font_size
+                text_font_color  
+            }
+          }        
+          ` : ''}
+          thumbnail {
+            url
+          }
+          small_image {
+            url,
+            label
+          }
+          price_tiers {
+            discount {
+              percent_off
+              amount_off
+            }
+            final_price {
+              currency
+              value
+            }
+            quantity
+          }
+          price_range {
+            maximum_price {
+              discount {
+                amount_off
+                percent_off
+              }
+              final_price {
+                currency
+                value
+              }
+              regular_price {
+                currency
+                value
+              }
+            }
+            minimum_price {
+              discount {
+                amount_off
+                percent_off
+              }
+              final_price {
+                currency
+                value
+              }
+              regular_price {
+                currency
+                value
+              }
+            }
+          }
+        }
+      }
+     }
+  }
+}
 `;
 
 export const getMiniCart = gql`
@@ -332,15 +378,15 @@ export const getMiniCart = gql`
               id
               quantity
               ... on SimpleCartItem {
-                ${customizable_options}
+                SimpleMiniCustomizale: ${customizable_options}
               }
 
               ... on VirtualCartItem {
-                ${customizable_options}
+                virtualMiniCustomizable: ${customizable_options}
               }
 
               ... on ConfigurableCartItem {
-                  ${customizable_options}
+                  configurableMinuCustomizable: ${customizable_options}
                   configurable_options {
                   option_label
                   value_label
@@ -358,7 +404,7 @@ export const getMiniCart = gql`
                 }
               }
               ... on DownloadableCartItem {
-                ${customizable_options}
+                downloadableMiniCustomizable: ${customizable_options}
                 links {
                   title
                 }
@@ -445,6 +491,7 @@ export const updateCartitem = gql`
         cart {
           ${applied_giftcard}
           ${cartRequiredSelection}
+          ${items}
         }
       }
     }

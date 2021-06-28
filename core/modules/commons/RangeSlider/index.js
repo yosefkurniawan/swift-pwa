@@ -17,6 +17,7 @@ const RangeSlider = ({
     value = [0, 10],
     label = '',
     noLabel = false,
+    storeConfig,
 }) => {
     const styles = useStyles();
     const [values, setValue] = React.useState(value);
@@ -42,14 +43,14 @@ const RangeSlider = ({
                 <Typography variant="label" type="regular" letter="uppercase">
                     {
                         formatPrice(
-                            values[0], 'IDR',
+                            values[0], storeConfig.base_currency_code,
                         )
                     }
                 </Typography>
                 <Typography variant="label" type="regular" letter="uppercase">
                     {
                         formatPrice(
-                            values[1], 'IDR',
+                            values[1], storeConfig.base_currency_code,
                         )
                     }
                 </Typography>

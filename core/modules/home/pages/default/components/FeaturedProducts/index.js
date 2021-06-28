@@ -3,11 +3,13 @@ import { modules } from '@config';
 import gqlService from '@core_modules/home/service/graphql';
 
 const FeaturedProducts = ({
-    t, ErrorInfo, FeaturedSkeleton, FeaturedView,
+    t, ErrorInfo, FeaturedSkeleton, FeaturedView, isLogin,
 }) => {
     const { home } = modules;
+    const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
     const { loading, data, error } = gqlService.getFeaturedProducts({
         url_key: home.featuresProduct.url_key,
+        context,
     });
 
     if (loading && !data) return <FeaturedSkeleton />;

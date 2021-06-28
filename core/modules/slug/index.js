@@ -32,9 +32,12 @@ Page.getInitialProps = async ({ query, req }) => {
     if (typeof window === 'undefined' && !req.cookies[storeConfigNameCookie]) {
         cmsList = await graphRequest(getCmsList);
     }
+    const allcookie = req ? req.cookies : {};
     const obj = {
         slug: query.slug,
         namespacesRequired: ['common', 'product', 'category', 'validate', 'catalog'],
+        token: req && req.session ? req.session.token : '',
+        isLogin: allcookie.isLogin || 0,
         url_key: req
             ? `${req.protocol}://${req.get('host')}`
             : `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`,

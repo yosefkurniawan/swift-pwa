@@ -2,10 +2,11 @@ import Router from 'next/router';
 import { removeIsLoginFlagging } from '@helper_auth';
 import { removeCartId } from '@helper_cartid';
 import Cookies from 'js-cookie';
+import { removeCookies } from '@helper_cookies';
 import { useApolloClient } from '@apollo/client';
-import { localTotalCart } from '@services/graphql/schema/local';
+import { localTotalCart, localCompare } from '@services/graphql/schema/local';
 import firebase from 'firebase/app';
-import { custDataNameCookie, features } from '@config';
+import { custDataNameCookie, features, modules } from '@config';
 import {
     getCategories, getCustomer, removeToken, getVesMenu,
 } from '@core_modules/theme/services/graphql';
@@ -38,6 +39,7 @@ const CoreTopNavigation = (props) => {
                 Cookies.remove(custDataNameCookie);
                 removeIsLoginFlagging();
                 removeCartId();
+                removeCookies('uid_product_compare');
                 firebase.auth().signOut().then(() => {
                     // Sign-out successful.
                 }).catch(() => {
@@ -45,6 +47,7 @@ const CoreTopNavigation = (props) => {
                     // console.log(error);
                 });
                 client.writeQuery({ query: localTotalCart, data: { totalCart: 0 } });
+                client.writeQuery({ query: localCompare, data: { item_count: 0 } });
                 Router.push('/customer/account/login');
             })
             .catch(() => {
@@ -85,6 +88,7 @@ const CoreTopNavigation = (props) => {
             value={value}
             app_cookies={app_cookies}
             showGlobalPromo={showGlobalPromo}
+            modules={modules}
         />
     );
 };

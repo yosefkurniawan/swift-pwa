@@ -5,7 +5,9 @@ import Router from 'next/router';
 import Layout from '@layout';
 import CustomerLayout from '@layout_customer';
 import { getCartIdUser } from '@core_modules/customer/services/graphql/schema';
-import { addSimpleProductsToCart, getCustomer, removeWishlist as gqlremoveWishlist } from '@core_modules/customer/services/graphql';
+import {
+    addSimpleProductsToCart, getCustomer, removeWishlist as gqlremoveWishlist, shareWishlist,
+} from '@core_modules/customer/services/graphql';
 
 const Wishlist = (props) => {
     let wishlist = [];
@@ -23,6 +25,44 @@ const Wishlist = (props) => {
     const {
         data, loading, error, refetch,
     } = getCustomer();
+    const [setShareWishlist, { loading: shareLoading }] = shareWishlist();
+
+    const handleShareWishlist = async (emails, message) => {
+        if (emails === '' || message === '') {
+            window.toastMessage({
+                open: true,
+                variant: 'error',
+                text: t('customer:wishlist:validateField'),
+            });
+            return 2;
+        }
+        const emailsToArray = emails.split(',');
+        try {
+            const res = await setShareWishlist({
+                variables: {
+                    emails: emailsToArray,
+                    message,
+                },
+            });
+            if (res) {
+                window.toastMessage({
+                    open: true,
+                    variant: 'success',
+                    text: t('customer:wishlist:shareSuccess'),
+                });
+                return 1;
+            }
+        } catch (e) {
+            window.toastMessage({
+                open: true,
+                variant: 'error',
+                text: e.message.split(':')[1] || t('customer:wishlist:shareFailed'),
+            });
+            return -1;
+        }
+
+        return null;
+    };
     const cartUser = useQuery(getCartIdUser, {
         context: {
             request: 'internal',
@@ -181,6 +221,8 @@ const Wishlist = (props) => {
                 handleToCart={handleToCart}
                 handleAddAlltoBag={handleAddAlltoBag}
                 loading={loading}
+                shareLoading={shareLoading}
+                handleShareWishlist={handleShareWishlist}
             />
         </Layout>
     );

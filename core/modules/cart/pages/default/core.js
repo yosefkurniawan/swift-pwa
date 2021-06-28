@@ -2,25 +2,14 @@
 /* eslint-disable no-plusplus */
 import { useState } from 'react';
 import { getCartId, setCartId } from '@helper_cartid';
-import { useMutation, useLazyQuery } from '@apollo/client';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Layout from '@layout';
 import { localTotalCart } from '@services/graphql/schema/local';
-import { addWishlist as mutationWishlist, reOrder as mutationReOrder } from '@core_modules/cart/services/graphql';
-import * as Schema from '@core_modules/cart/services/graphql/schema';
-
-const getCrossSellProduct = (items) => {
-    let crosssell = [];
-    for (let index = 0; index < items.length; index++) {
-        const data = items[index].product.crosssell_products.map((product) => ({
-            ...product,
-            categories: items[index].product.categories,
-        }));
-        crosssell = crosssell.concat(data);
-    }
-    return crosssell;
-};
+import {
+    addWishlist as mutationWishlist, reOrder as mutationReOrder,
+    getCartDataLazy, getCartItemLazy, deleteCartItem, updateCartitem,
+} from '@core_modules/cart/services/graphql';
 
 const Cart = (props) => {
     const {
@@ -50,7 +39,6 @@ const Cart = (props) => {
         bottomNav: false,
         pageType: 'cart',
     };
-    let crosssell = [];
 
     const toggleEditMode = () => {
         setEditMode(!editMode);
@@ -62,20 +50,16 @@ const Cart = (props) => {
     };
 
     // delete item from cart
-    const [actDeleteItem, deleteData] = useMutation(Schema.deleteCartItemOnPage);
-    const [actUpdateItem, update] = useMutation(Schema.updateCartitem);
+    const [actDeleteItem, deleteData] = deleteCartItem();
+    const [actUpdateItem, update] = updateCartitem();
 
     // reorder
     const [reOrder, responseReorder] = mutationReOrder();
 
     // getCartDataLazzy
-    const [getCart, responseCart] = useLazyQuery(Schema.getCart, {
-        context: {
-            request: 'internal',
-        },
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all',
-    });
+    const [getCart, responseCart] = getCartDataLazy();
+
+    const [getCartItem, responseCartItem] = getCartItemLazy();
 
     React.useEffect(() => {
         if (paymentFailed && orderId) {
@@ -87,8 +71,13 @@ const Cart = (props) => {
         } else {
             const cartId = getCartId();
             if (cartId) {
-                if (getCart && !responseCart.called) {
+                if (getCart && !responseCart.called && getCartItem && !responseCartItem.called) {
                     getCart({
+                        variables: {
+                            cartId,
+                        },
+                    });
+                    getCartItem({
                         variables: {
                             cartId,
                         },
@@ -111,8 +100,13 @@ const Cart = (props) => {
                             router.push('/checkout/cart');
                         }, 1000);
                     }
-                    if (getCart && !responseCart.called) {
+                    if (getCart && !responseCart.called && getCartItem && !responseCartItem.called) {
                         getCart({
+                            variables: {
+                                cartId: cart_id,
+                            },
+                        });
+                        getCartItem({
                             variables: {
                                 cartId: cart_id,
                             },
@@ -124,9 +118,10 @@ const Cart = (props) => {
     }, [responseReorder]);
 
     React.useEffect(() => {
-        if (responseCart.loading) setLoadingCart(true);
-        if (responseCart && responseCart.data && responseCart.data.cart) {
-            const itemsCart = responseCart.data.cart.items.filter((item) => item !== null);
+        if (responseCart.loading || responseCartItem.loading) setLoadingCart(true);
+        if (responseCart && responseCart.data && responseCart.data.cart
+            && responseCartItem && responseCartItem.data && responseCartItem.data.cart) {
+            const itemsCart = responseCartItem.data.cart.items.filter((item) => item !== null);
             const carts = {
                 ...responseCart.data.cart,
                 items: itemsCart,
@@ -156,7 +151,7 @@ const Cart = (props) => {
             setErrorCart(errorList);
             setLoadingCart(false);
         }
-    }, [responseCart]);
+    }, [responseCart, responseCartItem]);
 
     // React.useMemo(() => {
     //     if (!loadingCart && tmpData && tmpData.id) {
@@ -270,23 +265,11 @@ const Cart = (props) => {
 
     React.useMemo(() => {
         if (cart.items.length > 0) {
-            const crosssellData = getCrossSellProduct(cart.items);
             const dataLayer = {
                 pageName: t('cart:pageTitle'),
                 pageType: 'cart',
                 ecommerce: {
                     currency: storeConfig && storeConfig.base_currency_code ? storeConfig.base_currency_code : 'IDR',
-                    impressions: crosssellData.map((product, index) => {
-                        const category = product.categories && product.categories.length > 0 && product.categories[0].name;
-                        return {
-                            name: product.name,
-                            id: product.sku,
-                            category: category || '',
-                            price: product.price_range.minimum_price.regular_price.value,
-                            list: 'Crossel Products',
-                            position: index + 1,
-                        };
-                    }),
                 },
                 event: 'impression',
                 eventCategory: 'Ecommerce',
@@ -357,7 +340,6 @@ const Cart = (props) => {
         );
     }
 
-    crosssell = getCrossSellProduct(cart.items);
     const globalCurrency = storeConfig.default_display_currency_code;
 
     if (!loadingCart && cart.items.length < 1) {
@@ -376,7 +358,7 @@ const Cart = (props) => {
         editMode,
         deleteItem,
         toggleEditDrawer,
-        crosssell,
+        // crosssell,
         editItem,
         openEditDrawer,
         updateItem,
@@ -385,7 +367,7 @@ const Cart = (props) => {
         errorCart,
     };
     return (
-        <Layout pageConfig={config || pageConfig} {...props}>
+        <Layout pageConfig={config || pageConfig} {...props} showRecentlyBar={false}>
             <Content {...other} {...contentProps} />
         </Layout>
     );

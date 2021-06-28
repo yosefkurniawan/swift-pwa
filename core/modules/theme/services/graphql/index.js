@@ -5,13 +5,20 @@ import schema, { getCmsBlocks as getCmsBlocksSchema } from '@core_modules/theme/
 export const getCategories = () => useQuery(schema.categories);
 export const getCategoryByName = (name) => useLazyQuery(schema.getCategoryByName(name));
 export const getProduct = (key) => useLazyQuery(schema.getProduct(key));
+export const getRecentlyProduct = () => useLazyQuery(schema.getRecentlyProduct());
 export const getVesMenu = (options) => useQuery(schema.vesMenu, options);
 export const getCurrency = () => useQuery(schema.getCurrencySchema);
 
 export const getCustomer = () => useQuery(schema.getCustomer, {
     context: {
         request: 'internal',
-        skip: typeof window === 'undefined',
+    },
+    fetchPolicy: 'no-cache',
+});
+
+export const getIsSubscribedCustomer = () => useLazyQuery(schema.getCustomer, {
+    context: {
+        request: 'internal',
     },
     fetchPolicy: 'no-cache',
 });
@@ -28,9 +35,11 @@ export default {
     getCmsBlocks,
     getCategories,
     getCustomer,
+    getIsSubscribedCustomer,
     removeToken,
     getVesMenu,
     getProduct,
     getCategoryByName,
     getCurrency,
+    getRecentlyProduct,
 };
