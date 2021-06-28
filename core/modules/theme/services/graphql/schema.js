@@ -64,6 +64,7 @@ export const getCustomer = gql`
             firstname
             lastname
             email
+            is_subscribed
         }
         wishlist {
             items {
