@@ -11,14 +11,18 @@ const executor = async ({
 }) => {
     try {
         let token = '';
+        let store_code_storage = '';
         if (context) {
             token = context.headers.authorization || context.session.token;
+            store_code_storage = context.cookies.store_code_storage;
         }
         const query = print(document);
         const appEnv = getAppEnv();
         const additionalHeader = {};
-        if (storeCode) {
+        if (storeCode !== '') {
             additionalHeader.store = storeCode;
+        } else if (store_code_storage && store_code_storage !== '' && storeCode === '') {
+            additionalHeader.store = store_code_storage;
         }
         const url = graphqlEndpoint[appEnv] || graphqlEndpoint.prod;
         if (token && token !== '') {
