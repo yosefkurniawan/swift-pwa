@@ -26,7 +26,9 @@ const NewsletterPopup = (props) => {
     const desktop = breakPointsUp('sm');
 
     useEffect(() => {
-        getCustomer();
+        if (isLogin) {
+            getCustomer();
+        }
     }, [open]);
 
     // 20 seconds
