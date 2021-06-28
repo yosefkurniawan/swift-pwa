@@ -55,7 +55,13 @@ export const customerNotificationList = () => useQuery(Schema.customerNotificati
     fetchPolicy: 'network-only',
 });
 
-export const getCmsBlocks = (variables) => useQuery(Schema.getCmsBlocks, { variables });
+export const getCmsBlocks = (variables) => useQuery(Schema.getCmsBlocks, {
+    variables,
+    context: {
+        request: 'internal',
+    },
+    fetchPolicy: 'network-only',
+});
 
 export const getGiftCard = () => useQuery(Schema.getGiftCard, {
     context: {

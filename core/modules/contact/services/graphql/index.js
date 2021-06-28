@@ -7,6 +7,12 @@ export const contactusFormSubmit = (options) => useMutation(Schema.contactusForm
         request: 'internal',
     },
 });
-export const getCmsBlocks = (variables) => useQuery(Schema.getCmsBlocks, { variables });
+export const getCmsBlocks = (variables) => useQuery(Schema.getCmsBlocks, {
+    variables,
+    context: {
+        request: 'internal',
+    },
+    fetchPolicy: 'network-only',
+});
 
 export default { contactusFormSubmit, getCmsBlocks };

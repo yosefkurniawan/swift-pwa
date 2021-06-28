@@ -29,7 +29,13 @@ export const removeToken = () => useMutation(schema.removeToken, {
     },
 });
 
-export const getCmsBlocks = (variables) => useQuery(getCmsBlocksSchema, { variables });
+export const getCmsBlocks = (variables) => useQuery(getCmsBlocksSchema, {
+    variables,
+    context: {
+        request: 'internal',
+    },
+    fetchPolicy: 'network-only',
+});
 
 export default {
     getCmsBlocks,

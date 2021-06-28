@@ -211,7 +211,12 @@ export const addOrderComment = () => useMutation(Schema.addOrderComment, {
     ...config(USING_INTERNAL),
 });
 
-export const getCmsPage = (variables) => useQuery(Schema.getCmsPage, { variables });
+export const getCmsPage = (variables) => useQuery(Schema.getCmsPage, {
+    variables,
+    context: {
+        request: 'internal',
+    },
+});
 
 export default {
     updateExtraFee,

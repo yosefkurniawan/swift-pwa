@@ -1,7 +1,12 @@
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import * as Schema from '@core_modules/cms/services/graphql/schema';
 
-export const getCmsPage = (variables) => useQuery(Schema.getCmsPage, { variables });
+export const getCmsPage = (variables) => useQuery(Schema.getCmsPage, {
+    variables,
+    context: {
+        request: 'internal',
+    },
+});
 export const getInstagramToken = () => useLazyQuery(Schema.getInstagramToken);
 
 // mutation
