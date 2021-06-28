@@ -61,6 +61,12 @@ const WeltpixelLabelView = (props) => {
                                     max-width: ${categoryLabel ? '3.5em' : '5em'};
                                 }
 
+                                @media screen and (min-width: 768px) {
+                                    .text-container img {
+                                        max-width: ${categoryLabel ? '3.5em' : '8em'};
+                                    }
+                                  }
+
                                 .text-label {
                                     display: table-row;                      
                                     font-size: ${item.text_font_size};

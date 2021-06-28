@@ -1,22 +1,19 @@
 import WidgetNewsletterPopup from '@core_modules/cms/components/cms-renderer/widget-newsletter-popup/index';
 import useStyles from '@core_modules/theme/components/newsletterPopup/style';
-import { getCmsBlocks, getIsSubscribedCustomer } from '@core_modules/theme/services/graphql';
+import { getCmsBlocks } from '@core_modules/theme/services/graphql';
 import { breakPointsUp } from '@helper_theme';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import CloseIcon from '@material-ui/icons/Close';
 import classNames from 'classnames';
 import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const NewsletterPopup = (props) => {
-    const {
-        t, storeConfig, pageConfig, isLogin,
-    } = props;
+    const { t, storeConfig, pageConfig } = props;
     const { data } = getCmsBlocks({
         identifiers: 'weltpixel_newsletter_v5',
     });
-    const [getCustomer, { data: customerData }] = getIsSubscribedCustomer();
     const [open, setOpen] = useState(!Cookies.get('newsletter_closed'));
     const triggerButtonColors = {
         color: storeConfig.weltpixel_newsletter_general_trigger_button_color,
@@ -24,12 +21,6 @@ const NewsletterPopup = (props) => {
     };
     const styles = useStyles(triggerButtonColors);
     const desktop = breakPointsUp('sm');
-
-    useEffect(() => {
-        if (isLogin) {
-            getCustomer();
-        }
-    }, [open]);
 
     // 20 seconds
     // const expires = new Date(new Date().getTime() + 1 * 20 * 1000);
@@ -45,7 +36,6 @@ const NewsletterPopup = (props) => {
         setOpen(!open);
     };
 
-    if ((isLogin && isLogin === 1) && customerData?.customer?.is_subscribed) return null;
     if (storeConfig.weltpixel_newsletter_general_display_mobile === '0' && !desktop) return null;
     if (storeConfig.weltpixel_newsletter_general_display_mode === '0' && pageConfig.pageType !== 'home') return null;
     if (pageConfig.pageType === 'checkout') return null;
@@ -73,7 +63,7 @@ const NewsletterPopup = (props) => {
                 <CloseIcon className={styles.closeBtn} onClick={handleClose} />
                 {data ? (
                     <div className={classNames(styles.newsletter, 'cms-container')}>
-                        <WidgetNewsletterPopup t={t} storeConfig={storeConfig} data={data} handleClose={handleClose} />
+                        <WidgetNewsletterPopup t={t} storeConfig={storeConfig} data={data} />
                     </div>
                 ) : null}
             </Dialog>
