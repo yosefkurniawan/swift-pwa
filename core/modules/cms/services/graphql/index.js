@@ -1,11 +1,18 @@
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import * as Schema from '@core_modules/cms/services/graphql/schema';
+import { getLoginInfo } from '@helper_auth';
+
+let isLogin = 0;
+if (typeof window !== 'undefined') {
+    isLogin = getLoginInfo();
+}
 
 export const getCmsPage = (variables) => useQuery(Schema.getCmsPage, {
     variables,
     context: {
-        request: 'internal',
+        request: isLogin ? 'internal' : '',
     },
+    fetchPolicy: isLogin ? 'network-only' : '',
 });
 export const getInstagramToken = () => useLazyQuery(Schema.getInstagramToken);
 

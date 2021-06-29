@@ -1,5 +1,11 @@
 import { useMutation, useQuery } from '@apollo/client';
 import * as Schema from '@core_modules/contact/services/graphql/schema';
+import { getLoginInfo } from '@helper_auth';
+
+let isLogin = 0;
+if (typeof window !== 'undefined') {
+    isLogin = getLoginInfo();
+}
 
 export const contactusFormSubmit = (options) => useMutation(Schema.contactusFormSubmit, {
     ...options,
@@ -10,9 +16,9 @@ export const contactusFormSubmit = (options) => useMutation(Schema.contactusForm
 export const getCmsBlocks = (variables) => useQuery(Schema.getCmsBlocks, {
     variables,
     context: {
-        request: 'internal',
+        request: isLogin ? 'internal' : '',
     },
-    fetchPolicy: 'network-only',
+    fetchPolicy: isLogin ? 'network-only' : '',
 });
 
 export default { contactusFormSubmit, getCmsBlocks };
