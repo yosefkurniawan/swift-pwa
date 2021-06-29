@@ -31,7 +31,7 @@ const SwitcherLanguage = (props) => {
                 let defaultLabel = translation.languagesLabel[translation.defaultLanguage];
                 if (remoteLang) {
                     remoteLang.availableStores.map((item) => {
-                        if (item.store_code === 'default') {
+                        if (item.is_default_store) {
                             defaultLangFromDatabase = item.locale.slice(0, 2);
                             defaultLabel = item.store_name;
                         }

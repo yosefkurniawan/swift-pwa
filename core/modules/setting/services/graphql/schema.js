@@ -28,6 +28,7 @@ export const getStoreName = gql`
             store_code
             store_name
             locale
+            is_default_store
         }
     }
 `;
