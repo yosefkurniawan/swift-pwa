@@ -347,6 +347,9 @@ const modules = {
         pickupStore: {
             enabled: true,
         },
+        inStorePickup: {
+            enabled: true,
+        },
         extraFee: {
             enabled: true,
         },

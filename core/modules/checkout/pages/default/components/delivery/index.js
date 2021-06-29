@@ -22,6 +22,7 @@ const DeliveryComp = (props) => {
                 .then(async (res) => {
                     await setCheckout({
                         ...checkout,
+                        pickup_location_code: null,
                         data: {
                             ...checkout.data,
                             cart: {
@@ -100,9 +101,66 @@ const DeliveryComp = (props) => {
                     delivery,
                 },
             });
+        } else if (delivery === 'instore') {
+            // user chooses instore tab
+            if (Object.keys(checkout.selectStore).length > 0 && Object.keys(checkout.pickupInformation).length > 0) {
+                removePickupStore({
+                    variables: {
+                        cart_id: checkout.data.cart.id,
+                    },
+                }).then(async (res) => {
+                    await setCheckout({
+                        ...checkout,
+                        data: {
+                            ...checkout.data,
+                            cart: {
+                                ...checkout.data.cart,
+                                ...res.data.removePickupStore,
+                            },
+                        },
+                        selected: {
+                            ...checkout.selected,
+                            delivery,
+                            address: checkout.data.isGuest ? null : checkout.selected.address,
+                        },
+                        selectStore: {},
+                        pickupInformation: {},
+                    });
+                }).catch(() => {
+                    handleOpenMessage({
+                        variant: 'error',
+                        text: t('checkout:message:problemConnection'),
+                    });
+                });
+            }
+
+            await setCheckout({
+                ...checkout,
+                selected: {
+                    ...checkout.selected,
+                    delivery,
+                },
+            });
+
+            window.backdropLoader(false);
+        } else if (delivery !== 'instore' && checkout.pickup_location_code) {
+            // user had chosen instore tab,
+            // entered some data, but later decided to switch to the other tabs
+            await setCheckout({
+                ...checkout,
+                selected: {
+                    ...checkout.selected,
+                    address: null,
+                    delivery,
+                    selectStore: {},
+                    pickupInformation: {},
+                },
+            });
+            window.backdropLoader(false);
         } else {
             await setCheckout({
                 ...checkout,
+                pickup_location_code: null,
                 selected: {
                     ...checkout.selected,
                     delivery,

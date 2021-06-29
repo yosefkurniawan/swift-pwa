@@ -138,6 +138,7 @@ const Checkout = (props) => {
         },
         pickupInformation: {},
         selectStore: {},
+        pickup_location_code: null,
         error: {
             pickupInformation: false,
             selectStore: false,
@@ -276,7 +277,10 @@ const Checkout = (props) => {
                 postcode: shipping.postcode,
                 telephone: shipping.telephone,
                 street: shipping.street,
+                pickup_location_code: shipping.pickup_location_code,
             };
+
+            state.pickup_location_code = shipping.pickup_location_code;
         } else if (!state.data.isGuest && address) {
             state.selected.address = {
                 firstname: address.firstname,
@@ -290,12 +294,16 @@ const Checkout = (props) => {
                 telephone: address.telephone,
                 street: address.street,
                 country: address.country,
+                pickup_location_code: shipping.pickup_location_code,
             };
         }
 
         // init shipping method
         if (shipping && shipping.available_shipping_methods) {
-            const availableShipping = shipping.available_shipping_methods.filter((x) => x.available && x.carrier_code !== 'pickup');
+            const availableShipping = shipping.available_shipping_methods.filter(
+                (x) => x.available && x.carrier_code !== 'pickup' && x.carrier_code !== 'instore',
+            );
+
             state.data.shippingMethods = availableShipping.map((item) => ({
                 ...item,
                 label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
@@ -328,6 +336,10 @@ const Checkout = (props) => {
                         pickup_person_phone: cart.pickup_store_person.handphone,
                     };
                 }
+            }
+
+            if (shipping.pickup_location_code) {
+                state.selected.delivery = 'instore';
             }
         }
 
