@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import TextField from '@common_textfield';
@@ -18,9 +19,22 @@ import useStyles from '@core_modules/login/pages/default/components/style';
 
 const Login = (props) => {
     const {
-        formik, otpConfig, isOtp, setIsOtp, t, setDisabled, disabled, loading, formikOtp, toastMessage,
-        socialLoginMethodData, socialLoginMethodLoading,
-        enableRecaptcha, sitekey, handleChangeCaptcha, recaptchaRef,
+        formik,
+        otpConfig,
+        isOtp,
+        setIsOtp,
+        t,
+        setDisabled,
+        disabled,
+        loading,
+        formikOtp,
+        toastMessage,
+        socialLoginMethodData,
+        socialLoginMethodLoading,
+        enableRecaptcha,
+        sitekey,
+        handleChangeCaptcha,
+        recaptchaRef,
     } = props;
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
@@ -60,6 +74,16 @@ const Login = (props) => {
         },
     };
 
+    const FirebaseSocialLogin = () => {
+        if (firebase.app()) {
+            try {
+                return !socialLoginMethodLoading && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />;
+            } catch {
+                return null;
+            }
+        }
+    };
+
     return (
         <div className={styles.container}>
             {!desktop && otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login && (
@@ -84,90 +108,78 @@ const Login = (props) => {
                                 </Typography>
                             </div>
                         </div>
-                        {
-                            (!isOtp || desktop) && (
-                                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div className={classNames(styles.spanLabel, 'hidden-mobile')}>
-                                        <Typography type="bold" variant="p" className="clear-margin-padding">
-                                            {t('login:loginInformation')}
-                                        </Typography>
-                                    </div>
-                                    <form onSubmit={formik.handleSubmit}>
-                                        <div className="row center-xs start-sm">
-                                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                <TextField
-                                                    name="username"
-                                                    label="Email"
-                                                    placeholder="john.doe@gmail.com"
-                                                    value={formik.values.username}
-                                                    onChange={formik.handleChange}
-                                                    error={!!formik.errors.username}
-                                                    errorMessage={formik.errors.username || null}
-                                                />
-                                            </div>
-                                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                <PasswordField
-                                                    name="password"
-                                                    label="Password"
-                                                    placeholder="********"
-                                                    value={formik.values.password}
-                                                    onChange={formik.handleChange}
-                                                    error={!!formik.errors.password}
-                                                    errorMessage={formik.errors.password || null}
-                                                    showVisible
-                                                />
-                                            </div>
-                                            <div className="col-xs-12  col-sm-12">
-                                                {
-                                                    enableRecaptcha ? (
-                                                        <>
-                                                            <ReCAPTCHA
-                                                                sitekey={sitekey}
-                                                                onChange={handleChangeCaptcha}
-                                                                ref={recaptchaRef}
-                                                            />
-                                                            {formik.errors.captcha && (
-                                                                <Typography color="red">{formik.errors.captcha}</Typography>
-                                                            )}
-                                                        </>
-                                                    ) : null
-                                                }
-                                            </div>
-                                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                <Button
-                                                    className={styles.generalButton}
-                                                    fullWidth={!desktop}
-                                                    type="submit"
-                                                    disabled={(desktop) ? false : disabled}
-                                                    align={desktop ? 'left' : 'center'}
-                                                >
-                                                    <Typography variant="span" type="bold" letter="uppercase" color="white">
-                                                        {loading ? 'Loading' : t('login:pageTitle')}
-                                                    </Typography>
-                                                </Button>
-                                            </div>
-                                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                { !socialLoginMethodLoading && (
-                                                    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-                                                )}
-                                            </div>
-                                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                <Button
-                                                    fullWidth={false}
-                                                    variant="text"
-                                                    href="/customer/account/forgotpassword"
-                                                    align={desktop ? 'left' : 'center'}
-                                                >
-                                                    <Typography variant="span" type="regular" letter="capitalize" decoration="underline">
-                                                        {t('login:forgotPassword')}
-                                                    </Typography>
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </form>
+                        {(!isOtp || desktop) && (
+                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div className={classNames(styles.spanLabel, 'hidden-mobile')}>
+                                    <Typography type="bold" variant="p" className="clear-margin-padding">
+                                        {t('login:loginInformation')}
+                                    </Typography>
                                 </div>
-                            )
-                        }
+                                <form onSubmit={formik.handleSubmit}>
+                                    <div className="row center-xs start-sm">
+                                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <TextField
+                                                name="username"
+                                                label="Email"
+                                                placeholder="john.doe@gmail.com"
+                                                value={formik.values.username}
+                                                onChange={formik.handleChange}
+                                                error={!!formik.errors.username}
+                                                errorMessage={formik.errors.username || null}
+                                            />
+                                        </div>
+                                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <PasswordField
+                                                name="password"
+                                                label="Password"
+                                                placeholder="********"
+                                                value={formik.values.password}
+                                                onChange={formik.handleChange}
+                                                error={!!formik.errors.password}
+                                                errorMessage={formik.errors.password || null}
+                                                showVisible
+                                            />
+                                        </div>
+                                        <div className="col-xs-12  col-sm-12">
+                                            {enableRecaptcha ? (
+                                                <>
+                                                    <ReCAPTCHA sitekey={sitekey} onChange={handleChangeCaptcha} ref={recaptchaRef} />
+                                                    {formik.errors.captcha && <Typography color="red">{formik.errors.captcha}</Typography>}
+                                                </>
+                                            ) : null}
+                                        </div>
+                                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <Button
+                                                className={styles.generalButton}
+                                                fullWidth={!desktop}
+                                                type="submit"
+                                                disabled={desktop ? false : disabled}
+                                                align={desktop ? 'left' : 'center'}
+                                            >
+                                                <Typography variant="span" type="bold" letter="uppercase" color="white">
+                                                    {loading ? 'Loading' : t('login:pageTitle')}
+                                                </Typography>
+                                            </Button>
+                                        </div>
+                                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <FirebaseSocialLogin />
+                                        </div>
+                                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <Button
+                                                fullWidth={false}
+                                                variant="text"
+                                                href="/customer/account/forgotpassword"
+                                                align={desktop ? 'left' : 'center'}
+                                            >
+                                                <Typography variant="span" type="regular" letter="capitalize" decoration="underline">
+                                                    {t('login:forgotPassword')}
+                                                </Typography>
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        )}
                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 hidden-mobile">
                             <div className={classNames('row middle-sm', styles.spanDivider)}>
                                 <div className="col-sm-12">
@@ -175,72 +187,62 @@ const Login = (props) => {
                                 </div>
                             </div>
                         </div>
-                        {
-                            (isOtp || desktop) && (otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login) && (
-                                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div className={classNames(styles.spanLabel, 'hidden-mobile')}>
-                                        <Typography type="bold" variant="p" className="clear-margin-padding">
-                                            {t('login:loginOtpInformation')}
-                                        </Typography>
-                                    </div>
-                                    <form onSubmit={formikOtp.handleSubmit} className={styles.formOtp}>
-                                        <div className="row center-xs start-sm">
-                                            <div className="col-xs-12 col-sm-12">
-                                                <OtpBlock
-                                                    setDisabled={setDisabled}
-                                                    type="login"
-                                                    OtpView={OtpView}
-                                                    phoneProps={{
-                                                        name: 'username',
-                                                        placeholder: '+6281234xxxx',
-                                                        value: formikOtp.values.username,
-                                                        onChange: formikOtp.handleChange,
-                                                        error: !!formikOtp.errors.username,
-                                                        errorMessage: formikOtp.errors.username || null,
-                                                    }}
-                                                    codeProps={{
-                                                        name: 'otp',
-                                                        value: formikOtp.values.otp,
-                                                        onChange: formikOtp.handleChange,
-                                                        error: !!(formikOtp.touched.otp && formikOtp.errors.otp),
-                                                        errorMessage: (formikOtp.touched.otp && formikOtp.errors.otp) || null,
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className="col-xs-12  col-sm-12">
-                                                {
-                                                    enableRecaptcha ? (
-                                                        <>
-                                                            <ReCAPTCHA
-                                                                sitekey={sitekey}
-                                                                onChange={handleChangeCaptcha}
-                                                                ref={recaptchaRef}
-                                                            />
-                                                            {formik.errors.captcha && (
-                                                                <Typography color="red">{formik.errors.captcha}</Typography>
-                                                            )}
-                                                        </>
-                                                    ) : null
-                                                }
-                                            </div>
-                                            <div className="col-xs-12 col-sm-12">
-                                                <Button
-                                                    className={styles.generalButton}
-                                                    fullWidth={!desktop}
-                                                    type="submit"
-                                                    disabled={disabled}
-                                                    align={desktop ? 'left' : 'center'}
-                                                >
-                                                    <Typography variant="span" type="bold" letter="uppercase" color="white">
-                                                        {loading ? 'Loading' : t('common:button:submit')}
-                                                    </Typography>
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </form>
+                        {(isOtp || desktop) && otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login && (
+                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div className={classNames(styles.spanLabel, 'hidden-mobile')}>
+                                    <Typography type="bold" variant="p" className="clear-margin-padding">
+                                        {t('login:loginOtpInformation')}
+                                    </Typography>
                                 </div>
-                            )
-                        }
+                                <form onSubmit={formikOtp.handleSubmit} className={styles.formOtp}>
+                                    <div className="row center-xs start-sm">
+                                        <div className="col-xs-12 col-sm-12">
+                                            <OtpBlock
+                                                setDisabled={setDisabled}
+                                                type="login"
+                                                OtpView={OtpView}
+                                                phoneProps={{
+                                                    name: 'username',
+                                                    placeholder: '+6281234xxxx',
+                                                    value: formikOtp.values.username,
+                                                    onChange: formikOtp.handleChange,
+                                                    error: !!formikOtp.errors.username,
+                                                    errorMessage: formikOtp.errors.username || null,
+                                                }}
+                                                codeProps={{
+                                                    name: 'otp',
+                                                    value: formikOtp.values.otp,
+                                                    onChange: formikOtp.handleChange,
+                                                    error: !!(formikOtp.touched.otp && formikOtp.errors.otp),
+                                                    errorMessage: (formikOtp.touched.otp && formikOtp.errors.otp) || null,
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="col-xs-12  col-sm-12">
+                                            {enableRecaptcha ? (
+                                                <>
+                                                    <ReCAPTCHA sitekey={sitekey} onChange={handleChangeCaptcha} ref={recaptchaRef} />
+                                                    {formik.errors.captcha && <Typography color="red">{formik.errors.captcha}</Typography>}
+                                                </>
+                                            ) : null}
+                                        </div>
+                                        <div className="col-xs-12 col-sm-12">
+                                            <Button
+                                                className={styles.generalButton}
+                                                fullWidth={!desktop}
+                                                type="submit"
+                                                disabled={disabled}
+                                                align={desktop ? 'left' : 'center'}
+                                            >
+                                                <Typography variant="span" type="bold" letter="uppercase" color="white">
+                                                    {loading ? 'Loading' : t('common:button:submit')}
+                                                </Typography>
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="col-xs-12 col-sm-5 col-md-5 col-lg-5 hidden-mobile">
@@ -253,16 +255,14 @@ const Login = (props) => {
                             </div>
                         </div>
                         <div className="col-sm-12">
-                            <Typography variant="p">
-                                {t('login:registerInformation')}
-                            </Typography>
+                            <Typography variant="p">{t('login:registerInformation')}</Typography>
                         </div>
                         <div className="col-sm-12">
                             <Button
                                 className={styles.generalButton}
                                 fullWidth={false}
                                 href="/customer/account/create"
-                                disabled={(desktop) ? false : disabled}
+                                disabled={desktop ? false : disabled}
                                 align={desktop ? 'left' : 'center'}
                             >
                                 <Typography color="white" variant="span" type="bold" letter="uppercase">
