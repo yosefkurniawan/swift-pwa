@@ -99,19 +99,19 @@ const Content = (props) => {
                 )} */}
 
                 <>
-                    {/* {modules.checkout.pickupStore.enabled ? ( */}
-                    <Delivery
-                        t={t}
-                        DeliveryView={DeliveryView}
-                        Skeleton={DeliverySkeleton}
-                        formik={formik}
-                        checkout={checkout}
-                        setCheckout={setCheckout}
-                        handleOpenMessage={handleOpenMessage}
-                        storeConfig={storeConfig}
-                        isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
-                    />
-                    {/* ) : null} */}
+                    {modules.checkout.pickupStore.enabled || modules.checkout.inStorePickup.enabled ? (
+                        <Delivery
+                            t={t}
+                            DeliveryView={DeliveryView}
+                            Skeleton={DeliverySkeleton}
+                            formik={formik}
+                            checkout={checkout}
+                            setCheckout={setCheckout}
+                            handleOpenMessage={handleOpenMessage}
+                            storeConfig={storeConfig}
+                            isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
+                        />
+                    ) : null}
                     <Email
                         t={t}
                         formik={formik}

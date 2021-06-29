@@ -97,6 +97,14 @@ const ShippingView = (props) => {
         if (index >= 0) {
             data.shippingMethods.splice(index, 1);
         }
+
+        // remove instore carrier_code from reguler shipping method
+        const regulerIndex = shipping.findIndex((ship) => ship.group === 'sg-reguler');
+        if (regulerIndex !== -1) {
+            const removeInstore = shipping[regulerIndex].data.filter((item) => item.carrier_code !== 'instore');
+            shipping[regulerIndex].data = removeInstore;
+        }
+
         if (shipping.length > 0) {
             // check if have active on group data by default selected if
             let itemActive = false;

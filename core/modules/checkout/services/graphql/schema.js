@@ -333,6 +333,7 @@ const shortAddressData = `
 
 const cartShippingAddress = `
     shipping_addresses {
+        ${modules.checkout.inStorePickup.enabled ? 'pickup_location_code' : ''}
         ${shortAddressData}
         ${selected_shipping_method}
         ${available_shipping_methods}
@@ -1192,9 +1193,9 @@ export const setInstoreShippingAddress = gql`
             }
         ) {
             cart {
-                id
                 shipping_addresses {
                     ${shortAddressData}
+                    pickup_location_code
                 }
             }
         }

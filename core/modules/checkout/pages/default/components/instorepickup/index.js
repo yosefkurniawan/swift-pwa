@@ -4,11 +4,7 @@ import Typography from '@common_typography';
 import useModalStyles from '@core_modules/checkout/pages/default/components/ModalSelectStore/style';
 import useStyles from '@core_modules/checkout/pages/default/components/PickupInformation/style';
 import useParentStyles from '@core_modules/checkout/pages/default/components/style';
-import {
-    pickupLocations,
-    setInstoreShippingAddress,
-    setShippingMethod,
-} from '@core_modules/checkout/services/graphql';
+import { pickupLocations, setInstoreShippingAddress, setShippingMethod } from '@core_modules/checkout/services/graphql';
 import AppBar from '@material-ui/core/AppBar';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -21,31 +17,23 @@ import { useEffect, useState } from 'react';
 
 const ModalPickupLocations = (props) => {
     const {
-        t, open, setOpen, locations = [], currentPickup, setCurrentPickup,
-        checkout,
-        // , setCheckout
+        t, open, setOpen, locations = [], currentPickup, setCurrentPickup, checkout, setCheckout,
     } = props;
     const [loading, setLoading] = useState(false);
     const [listLocations, setListLocations] = useState(locations);
-    const [selected, setSelected] = useState(currentPickup);
+    const [selected, setSelected] = useState(checkout.pickup_location_code || currentPickup);
     const [search, setSearch] = useState('');
     const styles = useModalStyles();
     const [setShipMethod] = setShippingMethod();
     const [setInstoreAddress] = setInstoreShippingAddress();
 
-    // console.log(checkout);
-
     const handleSave = async () => {
         setCurrentPickup(selected);
         setLoading(true);
         const { cart } = checkout.data;
-        // const newCheckout = { ...checkout };
+        const newCheckout = { ...checkout };
 
-        // console.log(selected);
-        // console.log(selected.pickup_location_code);
-        // console.log(checkout);
-
-        await setInstoreAddress({
+        const updatedShippingAddress = await setInstoreAddress({
             variables: {
                 cartId: cart.id,
                 city: selected.city,
@@ -70,20 +58,14 @@ const ModalPickupLocations = (props) => {
             },
         });
 
-        // newCheckout.selected.billing = updatedShippingAddress.setBillingAddressOnCart.cart;
-        // newCheckout.selected.address = updatedShippingAddress.setShippingAddressesOnCart.cart;
-        // newCheckout.data.shippingMethods = updatedShippingMethods.setShippingMethod.cart;
+        newCheckout.selected.billing = updatedShippingAddress.data.setBillingAddressOnCart.cart;
+        /* eslint-disable */
+        newCheckout.selected.address = updatedShippingAddress.data.setShippingAddressesOnCart.cart.shipping_addresses[0];
 
-        // await setCheckout({
-        //     ...checkout,
-        //     selectStore: {
-        //         ...selected,
-        //     },
-        //     error: {
-        //         ...checkout.error,
-        //         pickupInformation: false,
-        //     },
-        // });
+        await setCheckout({
+            ...newCheckout,
+            pickup_location_code: updatedShippingAddress.data.setShippingAddressesOnCart.cart.shipping_addresses[0].pickup_location_code,
+        });
         setLoading(false);
         setOpen(!open);
     };
@@ -123,7 +105,7 @@ const ModalPickupLocations = (props) => {
                                         onClick={() => setSelected(loc)}
                                         className={classNames(
                                             styles.card,
-                                            selected && selected.pickup_location_code === loc.pickup_location_code && styles.cardActive
+                                            selected && checkout.pickup_location_code === loc.pickup_location_code && styles.cardActive
                                         )}
                                     >
                                         <Typography variant="span" type="bold">
@@ -172,6 +154,8 @@ const InStorePickup = (props) => {
     const locations = results.data?.pickupLocations.items;
     const classes = useStyles();
     const styles = useParentStyles();
+    const { pickup_location_code } = checkout;
+    const { address } = checkout.selected;
 
     useEffect(() => {
         getPickupLocations();
@@ -195,23 +179,23 @@ const InStorePickup = (props) => {
             <Typography>{t('checkout:pickupInformation:pickupAtLabel')}</Typography>
             <div className={classNames(styles.cardPoint, classes.card)}>
                 <div className="column">
-                    {Object.keys(checkout.selectStore).length > 0 && (
+                    {address && pickup_location_code && Object.keys(address).length > 0 && (
                         <>
                             <Typography variant="span" type="bold">
-                                {checkout.selectStore.name}
+                                {address.name}
                             </Typography>
                             <Typography>
-                                {checkout.selectStore.street}
+                                {address.street[0]}
                                 <br />
-                                {checkout.selectStore.city}
+                                {address.city}
                                 <br />
-                                {checkout.selectStore.region}
+                                {address.region.label}
                                 <br />
-                                {checkout.selectStore.country_id}
+                                {address.country.label}
                                 <br />
-                                {checkout.selectStore.postcode}
+                                {address.postcode}
                                 <br />
-                                {checkout.selectStore.telephone}
+                                {address.telephone}
                             </Typography>
                         </>
                     )}
