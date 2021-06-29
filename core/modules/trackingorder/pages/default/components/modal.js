@@ -123,6 +123,7 @@ const ModalResult = (props) => {
                                             description={anterAja[0].description}
                                             updateDate={anterAja[0].updateDate}
                                             styles={styles}
+                                            t={t}
                                         />
                                     ) : null
                             }
@@ -134,6 +135,7 @@ const ModalResult = (props) => {
                                             description={jneItems[0].description}
                                             updateDate={jneItems[0].updateDate}
                                             styles={styles}
+                                            t={t}
                                         />
                                     )
                                     : null
@@ -146,6 +148,7 @@ const ModalResult = (props) => {
                                             description={sapItems[0].descriptionSap}
                                             updateDate={sapItems[0].updateDate}
                                             styles={styles}
+                                            t={t}
                                         />
                                     )
                                     : null
