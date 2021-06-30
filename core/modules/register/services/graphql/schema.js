@@ -24,6 +24,7 @@ export const register = gql`
         }
       ) {
         token
+        is_email_confirmation
       }
     }
 `;

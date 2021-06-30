@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import Layout from '@layout';
 
-import { setLogin } from '@helper_auth';
+import { setLogin, setEmailConfirmationFlag } from '@helper_auth';
 import { setCartId, getCartId } from '@helper_cartid';
 import {
     expiredToken, custDataNameCookie, recaptcha, modules,
@@ -101,14 +101,30 @@ const Register = (props) => {
         sendRegister({
             variables: values,
         })
-            .then(async () => {
+            .then(async ({ data }) => {
                 resetForm();
-                await setIsLogin(1);
-                getCart();
+                if (data.internalCreateCustomerToken.is_email_confirmation) {
+                    window.backdropLoader(false);
+                    setEmailConfirmationFlag({ status: '00', message: t('register:openEmail'), variant: 'success' });
+
+                    window.toastMessage({
+                        open: true,
+                        text: t('register:openEmail'),
+                        variant: 'success',
+                    });
+
+                    setTimeout(() => {
+                        Router.push('/customer/account/login');
+                    }, 2000);
+                } else {
+                    await setIsLogin(1);
+                    getCart();
+                    window.backdropLoader(false);
+                }
                 setdisabled(false);
-                window.backdropLoader(false);
             })
             .catch((e) => {
+                // console.log(e.errors);
                 setdisabled(false);
                 window.backdropLoader(false);
                 window.toastMessage({
