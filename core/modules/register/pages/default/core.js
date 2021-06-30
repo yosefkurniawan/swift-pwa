@@ -106,7 +106,16 @@ const Register = (props) => {
                 if (data.internalCreateCustomerToken.is_email_confirmation) {
                     window.backdropLoader(false);
                     setEmailConfirmationFlag({ status: '00', message: t('register:openEmail'), variant: 'success' });
-                    Router.push('/customer/account/login');
+
+                    window.toastMessage({
+                        open: true,
+                        text: t('register:openEmail'),
+                        variant: 'success',
+                    });
+
+                    setTimeout(() => {
+                        Router.push('/customer/account/login');
+                    }, 2000);
                 } else {
                     await setIsLogin(1);
                     getCart();
@@ -115,7 +124,7 @@ const Register = (props) => {
                 setdisabled(false);
             })
             .catch((e) => {
-                console.log(e.message);
+                // console.log(e.errors);
                 setdisabled(false);
                 window.backdropLoader(false);
                 window.toastMessage({

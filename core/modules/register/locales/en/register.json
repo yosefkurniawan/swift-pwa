@@ -5,5 +5,6 @@
     "subscribe": "Sign up for newsletter",
     "isWhatsapp": "Phone number is registered in whatsapp",
     "success": "Registration is success",
-    "failed": "Registration failed"
+    "failed": "Registration failed",
+    "openEmail": "A confirmation form has been sent to your email. Proceed to your email to continue."
 }
