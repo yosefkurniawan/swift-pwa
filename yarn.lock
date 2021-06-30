@@ -2109,25 +2109,37 @@
   resolved "https://registry.yarnpkg.com/@opentelemetry/context-base/-/context-base-0.14.0.tgz#c67fc20a4d891447ca1a855d7d70fa79a3533001"
   integrity sha512-sDOAZcYwynHFTbLo6n8kIbLiVF3a3BLkrmehJUyEbT9F+Smbi47kLGS2gG2g0fjBLR/Lr1InPD7kXL7FaTqEkw==
 
-"@paypal/paypal-js@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@paypal/paypal-js/-/paypal-js-4.0.0.tgz#d12f353ec05591eac7334066f2c649bb89022a68"
-  integrity sha512-iiSokLRywGkNKBGCVIE5JjqYz92Mg0HMTDW2/tDiWtBzV82dMwCS/7jorEp6xx/L2/WjL/SRDUU5l0Tw3dd35Q==
+"@paypal/checkout-server-sdk@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@paypal/checkout-server-sdk/-/checkout-server-sdk-1.0.2.tgz#ce6434723a8796eb2f236d0ba906ae4466ac12c2"
+  integrity sha512-9wNxqgXrolEPfX62PEwyUB3SBGVF7v9N28rNJpXNp89qEpLoLStM+CT4wm/fcfYiVj9BHpimKcB4B7CBbLirxQ==
+  dependencies:
+    "@paypal/paypalhttp" "^1.0.0"
+
+"@paypal/paypal-js@^2.1.6":
+  version "2.1.9"
+  resolved "https://registry.yarnpkg.com/@paypal/paypal-js/-/paypal-js-2.1.9.tgz#4e46dcd0e079b5d3ca6fa4a5d76eeb8a8efe7dfd"
+  integrity sha512-Zh7OCN6SVjsfV87UsrpYRi5e5JM7BhxJTfyDb2yWMT4KiujZP/ASDi+phVfDpULKnpuK54uv0xJHgLEYcC2NGQ==
   dependencies:
     promise-polyfill "^8.2.0"
 
-"@paypal/react-paypal-js@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@paypal/react-paypal-js/-/react-paypal-js-7.0.0.tgz#ee2b7631551d1b9cd22811eff6f4308948af1355"
-  integrity sha512-ZN+xBNe6qJvnaG3Or6OQTjugg8UZmMb8uZDNCcJ/l6Bi9XWtaCQSc4PMxpuSgbP50mSwHGA53lmgpJ9rzIW7Tw==
-  dependencies:
-    "@paypal/paypal-js" "^4.0.0"
-    "@paypal/sdk-constants" "^1.0.106"
+"@paypal/paypalhttp@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@paypal/paypalhttp/-/paypalhttp-1.0.0.tgz#a591c1da39c63e2b9c62735348b82abed5037e01"
+  integrity sha512-6gHT5HhPLObICXU8LFFiuoH0vCh3y1y0jl0OWDRuTZvptZ1WRS2eKcHigheytqxk+CWTH0qh0M3S5vEf1PJrSw==
 
-"@paypal/sdk-constants@^1.0.106":
-  version "1.0.106"
-  resolved "https://registry.yarnpkg.com/@paypal/sdk-constants/-/sdk-constants-1.0.106.tgz#1f8952c6c9abe93d32e1946d4f29b7ccb24ac0fd"
-  integrity sha512-Z0cxeX9xgPhgyFvqKykFvzMioe/I6oqGg8aA8KxL384+EfUi/MGvud2kG3fQ1tajT5f1E1fR+a5KerMlAzwTkQ==
+"@paypal/react-paypal-js@4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@paypal/react-paypal-js/-/react-paypal-js-4.1.0.tgz#37bfa67007288071ecc805548468b08b966c8a18"
+  integrity sha512-WtbRY8hK6G5smOQTPoNol5Tq7CrRKmZARzHRsJYsS/6w3Q4JC5x4mUWIbApM4Wh0LoGuzh/JVAtdEcb/r7Jhgw==
+  dependencies:
+    "@paypal/paypal-js" "^2.1.6"
+    "@paypal/sdk-constants" "^1.0.86"
+
+"@paypal/sdk-constants@^1.0.86":
+  version "1.0.107"
+  resolved "https://registry.yarnpkg.com/@paypal/sdk-constants/-/sdk-constants-1.0.107.tgz#d204330aba1aedc86f917672326e52901479bd2e"
+  integrity sha512-b/F6zz9hwZ4//XjH8uKQksPQY5m9VQ0Zgi+5J6Zb2ys5LzQu9w1VxH++jdChUNEcYa2Nm3u4QwaJCGSyBsSprA==
   dependencies:
     cross-domain-utils "^2.0.10"
     hi-base32 "^0.5.0"

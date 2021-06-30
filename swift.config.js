@@ -349,12 +349,15 @@ const modules = {
             enabled: true,
         },
         paypal: {
-            clientId: 'AaOafUT6j2w7kZNb97_cAlI0MjGexmWOaWo650ANV5xgrT3Ff1xtdwJxVByCHUJZ0Ga9HKvbRw5NIjNV',
+            clientId: 'AfcrKzLRhgwpdBWbK8owz2Vv_gYyPUbwzOuOAgz1BfBqvGle_omyRPX4jTZrDpOkfO-jRBc_2YyxEJM2',
             defaultCurrency: 'USD',
-            intent: 'capture',
+            intent: 'authorize',
             returnUrl: 'paypal/express/review',
             cancelUrl: 'checkout/cart',
             keyData: 'paypal-data',
+            merchantId: 'M4TYHSS9A9Z8C',
+            debug: true,
+            disableFunding: 'venmo%2Cbancontact%2Ceps%2Cgiropay%2Cideal%2Cmybank%2Cp24%2Csofort',
         },
     },
     cart: {

@@ -1,20 +1,20 @@
 import React from 'react';
 import Typography from '@common_typography';
-import { modules } from '@config';
 import useStyles from '@core_modules/paypal/pages/review/components/PaymentMethod/style';
 import classNames from 'classnames';
+import { modules } from '@config';
 // import Link from 'next/link';
 
 const PaymentMethod = (props) => {
-    const { t } = props;
+    const { t, checkout } = props;
     let paypalData = {};
     if (typeof window !== 'undefined') {
         paypalData = JSON.parse(localStorage.getItem(modules.checkout.paypal.keyData));
     }
-    // const paypalData = getLocalStorage(modules.checkout.paypal.keyData);
-    let paypallPayer = {};
-    if (paypalData && paypalData.details && paypalData.details.payer) {
-        paypallPayer = paypalData.details.payer;
+
+    let paymentMethod = {};
+    if (checkout && checkout.cart && checkout.cart.selected_payment_method) {
+        paymentMethod = checkout.cart.selected_payment_method;
     }
 
     const styles = useStyles();
@@ -28,12 +28,20 @@ const PaymentMethod = (props) => {
             </div>
             <div className={classNames('col-xs-12', styles.detail)}>
                 <Typography variant="p" letter="capitalize">
-                    {t('checkout:paypal:label')}
+                    {paymentMethod.title || ''}
                 </Typography>
                 {
-                    paypallPayer && paypallPayer.email_address && (
+                    paymentMethod && paymentMethod.email_address && (
                         <Typography variant="p" letter="capitalize">
-                            {paypallPayer.email_address}
+                            {paymentMethod.email_address}
+                        </Typography>
+                    )
+                }
+                {
+                    paypalData && paypalData.details && paypalData.details.payer
+                    && paypalData.details.payer.email_address && (
+                        <Typography variant="p">
+                            {paypalData.details.payer.email_address}
                         </Typography>
                     )
                 }

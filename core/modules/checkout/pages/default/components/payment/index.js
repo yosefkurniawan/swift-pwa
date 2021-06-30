@@ -7,7 +7,7 @@ import { modules } from '@config';
 
 export default function CustomizedExpansionPanels({
     checkout, setCheckout, updateFormik, handleOpenMessage, t, storeConfig, PaymentView,
-    paypalHandlingProps, setInitialOptionPaypal, initialOptionPaypal,
+    paypalHandlingProps, setInitialOptionPaypal, initialOptionPaypal, setTokenData,
 }) {
     /**
      * [HOOKS]
@@ -131,27 +131,41 @@ export default function CustomizedExpansionPanels({
                     },
                 };
                 setCheckout(state);
+            } else if (val === 'paypal_express') {
+                state = {
+                    ...checkout,
+                    selected: {
+                        ...checkout.selected,
+                        payment: val,
+                        purchaseOrderNumber: null,
+                    },
+                    loading: {
+                        ...checkout.loading,
+                        all: false,
+                        order: false,
+                    },
+                };
+                setCheckout(state);
+                if (initialOptionPaypal['data-order-id'] === '' && checkout.selected.payment === 'paypal_express') {
+                    getPaypalToken({
+                        variables: {
+                            cartId: cart.id,
+                            code: 'paypal_express',
+                            returnUrl: modules.checkout.paypal.returnUrl,
+                            cancelUrl: modules.checkout.paypal.cancelUrl,
+                        },
+                    }).then((res) => {
+                        if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
+                            const { token } = res.data.createPaypalExpressToken;
+                            setTokenData(res.data.createPaypalExpressToken);
+                            setInitialOptionPaypal({
+                                ...initialOptionPaypal,
+                                'data-order-id': token,
+                            });
+                        }
+                    });
+                }
             } else {
-                // if (val === 'paypal_express') {
-                //     getPaypalToken({
-                //         variables: {
-                //             cartId: cart.id,
-                //             code: 'paypal_express',
-                //             returnUrl: modules.checkout.paypal.returnUrl,
-                //             cancelUrl: modules.checkout.paypal.cancelUrl,
-                //         },
-                //     }).then((res) => {
-                //         if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
-                //             const { token, paypal_urls: { edit, start } } = res.data.createPaypalExpressToken;
-                //             setInitialOptionPaypal({
-                //                 ...initialOptionPaypal,
-                //                 'data-client-token': token,
-                //                 editUrl: edit,
-                //                 startUrl: start,
-                //             });
-                //         }
-                //     });
-                // }
                 const payment_method = { code: val };
                 const result = await setPaymentMethod({ variables: { cartId: cart.id, payment_method } });
                 onHandleResult({

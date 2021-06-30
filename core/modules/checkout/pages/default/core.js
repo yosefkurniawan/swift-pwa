@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable eqeqeq */
 import * as Yup from 'yup';
@@ -16,6 +15,7 @@ import Cookies from 'js-cookie';
 import { getAppEnv } from '@root/core/helpers/env';
 import Toast from '@common_toast';
 import gqlService from '@core_modules/checkout/services/graphql';
+import TagManager from 'react-gtm-module';
 import {
     getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl,
 } from '@core_modules/checkout/helpers/config';
@@ -156,9 +156,13 @@ const Checkout = (props) => {
         'client-id': modules.checkout.paypal.clientId,
         currency: modules.checkout.paypal.defaultCurrency,
         intent: modules.checkout.paypal.intent,
-        'data-client-token': '',
-        debug: modules.checkout.paypal.debug,
+        'data-order-id': '',
+        // debug: modules.checkout.paypal.debug,
+        'disable-funding': modules.checkout.paypal.disableFunding,
+        'merchant-id': modules.checkout.paypal.merchantId,
     });
+
+    const [tokenData, setTokenData] = useState({});
 
     // start init graphql
     const [getCustomer, manageCustomer] = gqlService.getCustomer();
@@ -166,6 +170,7 @@ const Checkout = (props) => {
     const [getItemCart, { data: itemCart, error: errorItem }] = gqlService.getItemCart();
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
     const [getCustomerAddress, addressCustomer] = gqlService.getAddressCustomer();
+    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
     const [getPaypalToken, paypalTokenData] = gqlService.createPaypalExpressToken();
     // end init graphql
 
@@ -363,6 +368,25 @@ const Checkout = (props) => {
 
         if (cart.selected_payment_method) {
             state.selected.payment = cart.selected_payment_method.code;
+            if (cart.selected_payment_method.code === 'paypal_express' && initialOptionPaypal['data-order-id'] === '') {
+                getPaypalToken({
+                    variables: {
+                        cartId: cart.id,
+                        code: 'paypal_express',
+                        returnUrl: modules.checkout.paypal.returnUrl,
+                        cancelUrl: modules.checkout.paypal.cancelUrl,
+                    },
+                }).then((res) => {
+                    if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
+                        const { token } = res.data.createPaypalExpressToken;
+                        setTokenData(res.data.createPaypalExpressToken);
+                        setInitialOptionPaypal({
+                            ...initialOptionPaypal,
+                            'data-order-id': token,
+                        });
+                    }
+                });
+            }
         }
 
         if (rewardPoint && rewardPoint.data && rewardPoint.data.customerRewardPoints) {
@@ -417,24 +441,6 @@ const Checkout = (props) => {
         if (loadCart) {
             getCart({ variables: { cartId } });
             getItemCart({ variables: { cartId } });
-            // getPaypalToken({
-            //     variables: {
-            //         cartId,
-            //         code: 'paypal_express',
-            //         returnUrl: modules.checkout.paypal.returnUrl,
-            //         cancelUrl: modules.checkout.paypal.cancelUrl,
-            //     },
-            // }).then((res) => {
-            //     if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
-            //         const { token, paypal_urls: { edit, start } } = res.data.createPaypalExpressToken;
-            //         setInitialOptionPaypal({
-            //             ...initialOptionPaypal,
-            //             // 'data-client-token': token,
-            //             editUrl: edit,
-            //             startUrl: start,
-            //         });
-            //     }
-            // });
         }
 
         if (errorCart && errorItem) {
@@ -526,25 +532,6 @@ const Checkout = (props) => {
                 state.selected.shipping = `${shippingMethod.carrier_code}_${shippingMethod.method_code}`;
             }
 
-            if (checkout.selected.payment === 'paypal_express') {
-                getPaypalToken({
-                    variables: {
-                        cartId: cart.id,
-                        code: 'paypal_express',
-                        returnUrl: modules.checkout.paypal.returnUrl,
-                        cancelUrl: modules.checkout.paypal.cancelUrl,
-                    },
-                }).then((res) => {
-                    if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
-                        const { token, paypal_urls: { edit, start } } = res.data.createPaypalExpressToken;
-                        setInitialOptionPaypal({
-                            ...initialOptionPaypal,
-                            'data-client-token': token,
-                        });
-                    }
-                });
-            }
-
             setCheckout(state);
         }
     }, [checkout.data.cart]);
@@ -583,21 +570,110 @@ const Checkout = (props) => {
         });
     };
 
-    const onApprovePaypall = (data, actions) => {
-        const paypalData = {
-            data: {
-                ...data,
-                ...initialOptionPaypal,
+    const onApprovePaypall = async (data, actions) => {
+        window.backdropLoader(true);
+        const { cart } = checkout.data;
+        setPaymentMethod({
+            variables: {
+                cartId: cart.id,
+                payment_method: {
+                    code: checkout.selected.payment,
+                    paypal_express: {
+                        payer_id: data.payerID,
+                        token: initialOptionPaypal['data-order-id'],
+                    },
+                },
             },
-            details: {},
-        };
-        return actions.order.capture().then((details) => {
-            paypalData.details = details;
+        }).then(async (result) => {
+            let state = { ...checkout };
+
+            if (result && result.data && result.data.setPaymentMethodOnCart && result.data.setPaymentMethodOnCart.cart) {
+                const mergeCart = {
+                    ...state.data.cart,
+                    ...result.data.setPaymentMethodOnCart.cart,
+                };
+                state.data.cart = mergeCart;
+                state.status.purchaseOrderApply = true;
+                updateFormik(mergeCart);
+            } else {
+                state.selected.payment = null;
+                handleOpenMessage({
+                    variant: 'error',
+                    text: t('checkout:message:emptyShippingError'),
+                });
+            }
+
+            setCheckout(state);
+
+            const selectedPayment = checkout.data.paymentMethod.filter((item) => item.code === 'paypal_express');
+            const dataLayer = {
+                event: 'checkout',
+                ecommerce: {
+                    checkout: {
+                        actionField: { step: 3, option: selectedPayment[0].title, action: 'checkout' },
+                        products: cart.items.map(({ quantity, product, prices }) => ({
+                            name: product.name,
+                            id: product.sku,
+                            price: JSON.stringify(prices.price.value),
+                            category: product.categories.length > 0 ? product.categories[0].name : '',
+                            list: product.categories.length > 0 ? product.categories[0].name : '',
+                            quantity: JSON.stringify(quantity),
+                            dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                            dimension5: '',
+                            dimension6: '',
+                            dimension7: prices.discount ? 'YES' : 'NO',
+                        })),
+                    },
+                    currencyCode: storeConfig.base_currency_code || 'IDR',
+                },
+            };
+            const dataLayerOption = {
+                event: 'checkoutOption',
+                ecommerce: {
+                    currencyCode: storeConfig.base_currency_code || 'IDR',
+                    checkout_option: {
+                        actionField: { step: 3, option: selectedPayment[0].title, action: 'checkout_option' },
+                    },
+                },
+            };
+            TagManager.dataLayer({ dataLayer });
+            TagManager.dataLayer({ dataLayer: dataLayerOption });
+
+            let details = await fetch('/paypal/detail-transaction', {
+                method: 'post',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    orderID: data.orderID,
+                }),
+            });
+
+            // set local data
+
+            const paypalData = {
+                data: {
+                    ...data,
+                    ...initialOptionPaypal,
+                    ...tokenData,
+                },
+                details: {},
+            };
+            if (details) {
+                details = await details.json();
+                if (details && details.data && details.data.result) {
+                    paypalData.details = details.data.result;
+                }
+            }
             setLocalStorage(modules.checkout.paypal.keyData, paypalData);
-            const state = { ...checkout };
+            state = { ...checkout };
+            window.backdropLoader(false);
             state.loading.order = false;
             setCheckout(state);
             Router.push(`/${modules.checkout.paypal.returnUrl}`);
+        }).catch((e) => {
+            console.log(e);
+            onErrorPaypal(e);
         });
     };
 
@@ -605,32 +681,9 @@ const Checkout = (props) => {
         // const { shipping_addresses } = params;
     };
 
-    const createOrderPaypal = (data, actions) => {
-        const { cart } = checkout.data;
-        const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
-        return actions.order.create({
-            // payer: {
-            //     email_address: cart.email,
-            //     name: {
-            //         given_namestring: shipping.firstname,
-            //         surname: shipping.lastname,
-            //     },
-            //     address: {
-            //         address_line_1: shipping.street[0],
-            //         address_line_2: '',
-            //         admin_area_1: shipping.city,
-            //         admin_area_2: shipping.region.label,
-            //         postal_code: shipping.postcode,
-            //         country_code: shipping.country.code,
-            //     },
-            // },
-            purchase_units: [{
-                amount: {
-                    value: `${cart.prices.grand_total.value}`,
-                },
-            }],
-        });
-    };
+    const createOrderPaypal = (data, actions) => new Promise((resolve, reject) => {
+        resolve(initialOptionPaypal['data-order-id']);
+    });
 
     const paypalHandlingProps = {
         onClick: onClickPaypal,
@@ -652,10 +705,10 @@ const Checkout = (props) => {
         manageCustomer,
         config,
         isOnlyVirtualProductOnCart,
-        paypalTokenData,
         paypalHandlingProps,
         setInitialOptionPaypal,
         initialOptionPaypal,
+        setTokenData,
     };
 
     return (

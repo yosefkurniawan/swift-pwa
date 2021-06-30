@@ -27,6 +27,9 @@ const generateXml = require('./core/api/rest/xml');
 const captchaValidation = require('./core/api/rest/captcha');
 const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');
 
+// paypal
+const getPaypalDetail = require('./core/api/rest/paypal/getDetailTransaction');
+
 // This is where we cache our rendered HTML pages
 const ssrCache = new LRUCache({
     max: 100 * 1024 * 1024, /* cache size will be 100 MB using `return n.length` as length() function */
@@ -159,6 +162,9 @@ async function renderAndCache(req, res) {
 
     // add firebase validation
     server.post('/auth/fcm-token', firebaseValidation);
+
+    // paypal route
+    server.post('/paypal/detail-transaction', getPaypalDetail);
 
     /**
      * configuration firebase messaging

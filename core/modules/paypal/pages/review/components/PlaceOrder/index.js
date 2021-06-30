@@ -6,21 +6,20 @@ import { setCheckoutData } from '@helper_cookies';
 import { useApolloClient } from '@apollo/client';
 import { removeCartId } from '@helper_cartid';
 import { localTotalCart } from '@services/graphql/schema/local';
-import { setPaypalPaymentMethod } from '@core_modules/paypal/services/graphql';
 
 const PlaceOrder = (props) => {
     const {
-        checkout, setCheckout, t, config, initialOptionPaypal,
+        checkout, setCheckout, t, config,
     } = props;
     const client = useApolloClient();
 
+    // eslint-disable-next-line no-unused-vars
     let paypalData = {};
     if (typeof window !== 'undefined') {
         paypalData = JSON.parse(localStorage.getItem(modules.checkout.paypal.keyData));
     }
 
     const [placeOrder] = gqlService.placeOrder({ onError: () => {} });
-    const [setPaymentMethod] = setPaypalPaymentMethod();
 
     const handleOpenMessage = async ({ variant, text }) => {
         const state = { ...checkout };
@@ -47,56 +46,35 @@ const PlaceOrder = (props) => {
         state.loading.order = true;
         setCheckout(state);
 
-        const setPayment = await setPaymentMethod({
-            variables: {
-                cartId: cart.id,
-                token: initialOptionPaypal['data-client-token'],
-                payerId: paypalData.data.payerID,
-            },
-        });
+        const result = await placeOrder({ variables: { cartId: cart.id, origin: originName } });
 
-        if (setPayment && setPayment.data && setPayment.data.setPaymentMethodOnCart && setPayment.data.setPaymentMethodOnCart.cart) {
-            const result = await placeOrder({ variables: { cartId: cart.id, origin: originName } });
+        state = { ...checkout };
+        state.loading.order = false;
+        setCheckout(state);
 
-            state = { ...checkout };
-            state.loading.order = false;
-            setCheckout(state);
-
-            let orderNumber = '';
-            if (result && result.data && result.data.placeOrder && result.data.placeOrder.order && result.data.placeOrder.order.order_number) {
-                orderNumber = result.data.placeOrder.order.order_number;
+        let orderNumber = '';
+        if (result && result.data && result.data.placeOrder && result.data.placeOrder.order && result.data.placeOrder.order.order_number) {
+            orderNumber = result.data.placeOrder.order.order_number;
+        }
+        if (orderNumber && orderNumber !== '') {
+            setCheckoutData({
+                email: cart.email,
+                order_number: orderNumber,
+                order_id: result.data.placeOrder.order.order_id,
+            });
+            if (client && client.query && typeof client.query === 'function') {
+                await client.query({ query: localTotalCart, data: { totalCart: 0 } });
             }
-            if (orderNumber && orderNumber !== '') {
-                setCheckoutData({
-                    email: cart.email,
-                    order_number: orderNumber,
-                    order_id: result.data.placeOrder.order.order_id,
-                });
-                if (client && client.query && typeof client.query === 'function') {
-                    await client.query({ query: localTotalCart, data: { totalCart: 0 } });
-                }
-                await removeCartId();
-
-                window.backdropLoader(true);
-                handleOpenMessage({
-                    variant: 'success',
-                    text: t('checkout:message:placeOrder'),
-                });
-                window.location.replace(generatesuccessRedirect(orderNumber));
-            } else {
-                window.backdropLoader(true);
-                state.loading.order = false;
-                setCheckout(state);
-
-                const msg = t('checkout:message:serverError');
-
-                handleOpenMessage({
-                    variant: 'error',
-                    text: msg,
-                });
-            }
+            await removeCartId();
+            window.backdropLoader(false);
+            handleOpenMessage({
+                variant: 'success',
+                text: t('checkout:message:placeOrder'),
+            });
+            localStorage.removeItem(modules.checkout.paypal.keyData);
+            window.location.replace(generatesuccessRedirect(orderNumber));
         } else {
-            window.backdropLoader(true);
+            window.backdropLoader(false);
             state.loading.order = false;
             setCheckout(state);
 

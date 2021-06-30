@@ -54,6 +54,7 @@ const Content = (props) => {
         paypalHandlingProps,
         setInitialOptionPaypal,
         initialOptionPaypal,
+        setTokenData,
     } = props;
 
     const styles = useStyles();
@@ -225,6 +226,7 @@ const Content = (props) => {
                         paypalHandlingProps={paypalHandlingProps}
                         setInitialOptionPaypal={setInitialOptionPaypal}
                         initialOptionPaypal={initialOptionPaypal}
+                        setTokenData={setTokenData}
                     />
                     {modules.checkout.orderComment.enabled ? (
                         <div className={classNames(styles.block)}>

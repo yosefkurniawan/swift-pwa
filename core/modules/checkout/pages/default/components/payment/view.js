@@ -188,10 +188,10 @@ const PaymentView = (props) => {
                                                                     );
                                                                 }
                                                                 if (isPaypal && !paypalTokenData.loading
-                                                                    && initialOptionPaypal['data-client-token'] !== '') {
+                                                                    && initialOptionPaypal['data-order-id'] !== '') {
                                                                     return (
                                                                         <Grid item xs={12} lg="3" md="4">
-                                                                            <PayPalScriptProvider options={initialOptionPaypal}>
+                                                                            <PayPalScriptProvider defer options={initialOptionPaypal}>
                                                                                 <PayPalButtons
                                                                                     style={{ layout: 'horizontal' }}
                                                                                     {...paypalHandlingProps}

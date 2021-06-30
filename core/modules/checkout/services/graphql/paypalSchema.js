@@ -7,6 +7,7 @@ export const createPaypalExpressToken = gql`
         createPaypalExpressToken(input: {
             cart_id: $cartId,
             code: $code,
+            express_button: true,
             urls: {
             return_url: $returnUrl,
             cancel_url: $cancelUrl
