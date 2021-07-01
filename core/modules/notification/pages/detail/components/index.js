@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import Typography from '@common_typography';
 import Alert from '@material-ui/lab/Alert/Alert';
 import Layout from '@layout_customer';
@@ -22,9 +23,7 @@ const NotificationData = (props) => {
                 <Typography variant="p" size="14" type="regular">
                     {item.subject}
                 </Typography>
-                <Typography variant="p" size="12" type="regular">
-                    {item.content}
-                </Typography>
+                <div dangerouslySetInnerHTML={{ __html: item.content }} />
             </div>
         </Layout>
     );

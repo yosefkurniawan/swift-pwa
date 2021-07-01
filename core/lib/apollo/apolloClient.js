@@ -64,24 +64,31 @@ const link = new RetryLink().split(
     }),
 );
 
-/**
- * Meddleware to customize headers
- */
-const middlewareHeader = new ApolloLink((operation, forward) => {
-    const additionalHeader = storeCode ? { store: storeCode } : {};
-    operation.setContext(({ headers = {} }) => ({
-        headers: {
-            ...headers,
-            ...additionalHeader,
-        },
-    }));
-
-    return forward(operation);
-});
-
 export default function createApolloClient(initialState, ctx) {
     // The `ctx` (NextPageContext) will only be present on the server.
     // use it to extract auth headers (ctx.req) or similar.
+    let token = '';
+    if (ctx && ctx.req) {
+        token = ctx.req.session.token;
+    }
+    /**
+     * Meddleware to customize headers
+     */
+    const middlewareHeader = new ApolloLink((operation, forward) => {
+        const additionalHeader = storeCode ? { store: storeCode } : {};
+        if (token && token !== '') {
+            additionalHeader.Authorization = token;
+        }
+        operation.setContext(({ headers = {} }) => ({
+            headers: {
+                ...headers,
+                ...additionalHeader,
+            },
+        }));
+
+        return forward(operation);
+    });
+
     return new ApolloClient({
         ssrMode: Boolean(ctx),
         link: from([

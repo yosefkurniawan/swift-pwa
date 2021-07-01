@@ -17,7 +17,7 @@ export const getCartData = (cartId) => useQuery(Schema.getCart,
         fetchPolicy: 'no-cache',
     });
 
-export const getCartDataLazzy = (cartId) => useLazyQuery(Schema.getCart,
+export const getCartItem = (cartId) => useQuery(Schema.getCartItem,
     {
         variables: { cartId },
         context: {
@@ -26,6 +26,32 @@ export const getCartDataLazzy = (cartId) => useLazyQuery(Schema.getCart,
         fetchPolicy: 'no-cache',
     });
 
+export const getCrossellCart = (cartId) => useQuery(Schema.getCrossellCart,
+    {
+        variables: { cartId },
+        context: {
+            request: 'internal',
+        },
+        fetchPolicy: 'no-cache',
+    });
+
+export const getCartDataLazy = () => useLazyQuery(Schema.getCart,
+    {
+        context: {
+            request: 'internal',
+        },
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
+    });
+
+export const getCartItemLazy = () => useLazyQuery(Schema.getCartItem,
+    {
+        context: {
+            request: 'internal',
+        },
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
+    });
 export const getMiniCartData = (cartId) => useLazyQuery(Schema.getMiniCart,
     {
         variables: { cartId },
@@ -47,6 +73,18 @@ export const getCountCart = (cartId) => useQuery(Schema.getCountCart, {
 });
 
 export const reOrder = () => useMutation(Schema.reOrder, {
+    context: {
+        request: 'internal',
+    },
+});
+
+export const deleteCartItem = () => useMutation(Schema.deleteCartItemOnPage, {
+    context: {
+        request: 'internal',
+    },
+});
+
+export const updateCartitem = () => useMutation(Schema.updateCartitem, {
     context: {
         request: 'internal',
     },

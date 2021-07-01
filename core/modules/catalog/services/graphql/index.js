@@ -5,11 +5,13 @@ import * as productSchema from '@core_modules/catalog/services/graphql/productSc
 export const getProduct = (config, otherConfig = {}) => useQuery(productSchema.getProduct(config), {
     ...otherConfig,
 });
-export const getProductAgragations = () => useQuery(productSchema.getProductAgragations(), {
-});
+export const getProductAgragations = () => useQuery(productSchema.getProductAgragations(), {});
 export const getCategory = (variables) => useQuery(schemaCategory.getCategory(variables), {
 });
 export const getCategoryProducts = (variables) => useQuery(schemaCategory.getCategoryProducts(variables), {
+    context: {
+        request: 'internal',
+    },
 });
 export const getFilter = (catId) => useQuery(schemaCategory.getFilter(catId), { ssr: true });
 export const addWishlist = () => useMutation(productSchema.addWishlist, {

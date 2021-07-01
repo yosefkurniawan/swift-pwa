@@ -4,7 +4,6 @@ import * as Schema from '@core_modules/customer/services/graphql/schema';
 const config = {
     context: {
         request: 'internal',
-        skip: typeof window === 'undefined',
     },
 };
 
@@ -17,7 +16,6 @@ export const getCityByRegionId = (options = {}) => useLazyQuery(Schema.getCityBy
 export const getCustomer = () => useQuery(Schema.getCustomer, {
     context: {
         request: 'internal',
-        skip: typeof window === 'undefined',
     },
     fetchPolicy: 'no-cache',
 });
@@ -25,14 +23,12 @@ export const getCustomer = () => useQuery(Schema.getCustomer, {
 export const getCustomerOrder = () => useQuery(Schema.getCustomerOrder, {
     context: {
         request: 'internal',
-        skip: typeof window === 'undefined',
     },
 });
 
 export const getCustomerSettings = () => useQuery(Schema.getCustomerSettings, {
     context: {
         request: 'internal',
-        skip: typeof window === 'undefined',
     },
 });
 
@@ -42,11 +38,20 @@ export const removeToken = () => useMutation(Schema.removeToken, {
     },
 });
 
+export const customerWishlist = (options) => useLazyQuery(Schema.customerWishlist, {
+    ...options,
+    ...config,
+});
+
+export const shareWishlist = (options = {}) => useMutation(Schema.shareWishlist, {
+    ...options,
+    ...config,
+});
+
 export const customerNotificationList = () => useQuery(Schema.customerNotificationList, {
     context: {
         request: 'internal',
     },
-    skip: typeof window === 'undefined',
     fetchPolicy: 'network-only',
 });
 
@@ -56,7 +61,6 @@ export const getGiftCard = () => useQuery(Schema.getGiftCard, {
     context: {
         request: 'internal',
     },
-    skip: typeof window === 'undefined',
     fetchPolicy: 'no-cache',
 });
 
@@ -122,7 +126,6 @@ export const getCustomerCartId = () => useLazyQuery(Schema.getCartIdUser, {
     context: {
         request: 'internal',
     },
-    skip: typeof window === 'undefined',
     fetchPolicy: 'no-cache',
 });
 
@@ -132,9 +135,11 @@ export const reOrder = () => useMutation(Schema.reOrder, {
     },
 });
 
-export const newPassword = () => useMutation(Schema.setNewPassword);
+export const newPassword = () => useMutation(Schema.setNewPassword, {
+    ...config,
+});
 
-export const subscribeNewsletter = () => useMutation(Schema.subscribeNewsletter);
+export const subscribeNewsletter = () => useMutation(Schema.subscribeNewsletter, { ...config });
 
 export default {
     getCountries, getCityByRegionId, customerNotificationList, getCustomer, getCustomerOrder, reOrder,

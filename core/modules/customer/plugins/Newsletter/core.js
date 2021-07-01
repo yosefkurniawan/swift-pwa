@@ -8,7 +8,11 @@ import { subscribeNewsletter } from '@core_modules/customer/services/graphql/sch
 const Newsletter = (props) => {
     const { NewsletterView, t } = props;
 
-    const [actSubscribe, result] = useMutation(subscribeNewsletter);
+    const [actSubscribe, result] = useMutation(subscribeNewsletter, {
+        context: {
+            request: 'internal',
+        },
+    });
     const formik = useFormik({
         initialValues: {
             email: '',

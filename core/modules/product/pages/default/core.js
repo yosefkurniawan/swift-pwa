@@ -7,70 +7,79 @@ import { useRouter } from 'next/router';
 import TagManager from 'react-gtm-module';
 import { getCookies } from '@helper_cookies';
 import Loading from '@core_modules/product/pages/default/components/Loader';
-import { getProduct, addWishlist as mutationAddWishlist } from '@core_modules/product/services/graphql';
+import {
+    getProduct,
+    getProductLabel,
+    addWishlist as mutationAddWishlist,
+    smartProductTabs,
+    addProductsToCompareList,
+} from '@core_modules/product/services/graphql';
 import Header from '@core_modules/product/pages/default/components/header';
 import generateSchemaOrg from '@core_modules/product/helpers/schema.org';
+import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
+import { getCompareList, getCustomerUid } from '@core_modules/productcompare/service/graphql';
+import { localCompare } from '@services/graphql/schema/local';
+import { useQuery } from '@apollo/client';
 
 const ContentDetail = ({
-    t, product,
-    Content,
-    isLogin,
+    t, product, Content, isLogin, weltpixel_labels, dataProductTabs,
 }) => {
     const item = product.items[0];
     const route = useRouter();
 
     const reviewValue = parseInt(item.review.rating_summary, 0) / 20;
+    const [getProductCompare, { data: compareList, refetch }] = getCompareList();
+    const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
+    const [addProductCompare] = addProductsToCompareList();
+    const { client } = useQuery(localCompare);
 
     React.useEffect(() => {
-        let index = 0;
+        if (!compareList && modules.productcompare.enabled) {
+            const uid_product = getCookies('uid_product_compare');
+            if (uid_product) {
+                getProductCompare({
+                    variables: {
+                        uid: uid_product,
+                    },
+                });
+            }
+        }
+    }, [compareList]);
+
+    React.useEffect(() => {
+        if (isLogin && !dataUid && modules.productcompare.enabled) {
+            getUid();
+        }
+    }, [isLogin, dataUid]);
+
+    React.useEffect(() => {
         let categoryProduct = '';
         // eslint-disable-next-line no-unused-expressions
-        item.categories.length > 0 && item.categories.map(({ name }, indx) => {
-            if (indx > 0) categoryProduct += `/${name}`;
-            else categoryProduct += name;
-        });
+        item.categories.length > 0
+            && item.categories.map(({ name }, indx) => {
+                if (indx > 0) categoryProduct += `/${name}`;
+                else categoryProduct += name;
+            });
         const tagManagerArgs = {
             dataLayer: {
                 pageName: item.name,
                 pageType: 'product',
                 ecommerce: {
                     detail: {
-                        product: [{
-                            name: item.name,
-                            id: item.sku,
-                            price: item.price_range.minimum_price.regular_price.value || 0,
-                            category: categoryProduct,
-                            dimensions4: item.stock_status,
-                            dimensions5: reviewValue,
-                            dimensions6: item.review.reviews_count,
-                            dimensions7: item.sale === 0 ? 'NO' : 'YES',
-                        }],
+                        product: [
+                            {
+                                name: item.name,
+                                id: item.sku,
+                                price: item.price_range.minimum_price.regular_price.value || 0,
+                                category: categoryProduct,
+                                dimensions4: item.stock_status,
+                                dimensions5: reviewValue,
+                                dimensions6: item.review.reviews_count,
+                                dimensions7: item.sale === 0 ? 'NO' : 'YES',
+                            },
+                        ],
                     },
                     currencyCode: item.price_range.minimum_price.regular_price.currency || 'USD',
-                    impressions: [
-                        ...item.related_products.map((val) => {
-                            index += 1;
-                            return ({
-                                name: val.name,
-                                id: val.sku,
-                                category: categoryProduct,
-                                price: val.price_range.minimum_price.regular_price.value,
-                                list: `Related Products From ${item.name}`,
-                                position: index,
-                            });
-                        }),
-                        ...item.upsell_products.map((val) => {
-                            index += 1;
-                            return ({
-                                name: val.name,
-                                id: val.sku,
-                                category: categoryProduct,
-                                price: val.price_range.minimum_price.regular_price.value,
-                                list: `Related Products From ${item.name}`,
-                                position: index,
-                            });
-                        }),
-                    ],
                 },
                 event: 'impression',
                 eventCategory: 'Ecommerce',
@@ -92,12 +101,14 @@ const ContentDetail = ({
             bannerData.push({
                 link: '#',
                 imageUrl: media.url,
+                videoUrl: media && media.video_content,
             });
         });
     } else {
         bannerData.push({
             link: '#',
             imageUrl: item.image.url,
+            videoUrl: '#',
         });
     }
 
@@ -123,7 +134,6 @@ const ContentDetail = ({
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
 
     const [addWishlist] = mutationAddWishlist();
-
     const handleWishlist = () => {
         if (isLogin && isLogin === 1) {
             TagManager.dataLayer({
@@ -134,14 +144,16 @@ const ContentDetail = ({
                     ecommerce: {
                         currencyCode: item.price_range.minimum_price.regular_price.currency || 'USD',
                         add: {
-                            products: [{
-                                name: item.name,
-                                id: item.sku,
-                                price: item.price_range.minimum_price.regular_price.value || 0,
-                                category: item.categories.length > 0 ? item.categories[0].name : '',
-                                list: item.categories.length > 0 ? item.categories[0].name : '',
-                                dimensions4: item.stock_status,
-                            }],
+                            products: [
+                                {
+                                    name: item.name,
+                                    id: item.sku,
+                                    price: item.price_range.minimum_price.regular_price.value || 0,
+                                    category: item.categories.length > 0 ? item.categories[0].name : '',
+                                    list: item.categories.length > 0 ? item.categories[0].name : '',
+                                    dimensions4: item.stock_status,
+                                },
+                            ],
                         },
                     },
                 },
@@ -150,17 +162,19 @@ const ContentDetail = ({
                 variables: {
                     productId: item.id,
                 },
-            }).then(async () => {
-                await setWishlist(!wishlist);
-                await window.toastMessage({ open: true, variant: 'success', text: t('common:message:feedSuccess') });
-                route.push('/wishlist');
-            }).catch((e) => {
-                window.toastMessage({
-                    open: true,
-                    variant: 'error',
-                    text: debuging.originalError ? e.message.split(':')[1] : t('common:message:feedFailed'),
+            })
+                .then(async () => {
+                    await setWishlist(!wishlist);
+                    await window.toastMessage({ open: true, variant: 'success', text: t('common:message:feedSuccess') });
+                    route.push('/wishlist');
+                })
+                .catch((e) => {
+                    window.toastMessage({
+                        open: true,
+                        variant: 'error',
+                        text: debuging.originalError ? e.message.split(':')[1] : t('common:message:feedFailed'),
+                    });
                 });
-            });
         } else {
             window.toastMessage({
                 open: true,
@@ -191,13 +205,7 @@ const ContentDetail = ({
             },
         ];
     }
-    const relateData = item.related_products.map((val) => ({
-        ...val,
-        name: val.name,
-        link: val.url_key,
-        imageSrc: val.small_image.url,
-        price: val.price_range.minimum_price.regular_price.value,
-    }));
+
     let breadcrumbsData = [];
     if (typeof window !== 'undefined') {
         const lastCategory = getCookies('lastCategory');
@@ -237,6 +245,61 @@ const ContentDetail = ({
                 text: t('product:productNotAvailable'),
                 open: true,
             });
+        }
+    };
+
+    const handleSetCompareList = (id_compare) => {
+        const uid_product_compare = getCookies('uid_product_compare');
+        const uids = [];
+        let uid_customer = '';
+        uids.push(id_compare.toString());
+        if (isLogin) {
+            /* eslint-disable */
+            uid_customer = dataUid ? (dataUid.customer.compare_list ? dataUid.customer.compare_list.uid : '') : '';
+            /* eslint-enable */
+        }
+        let isExist = false;
+        if (compareList) {
+            compareList.compareList.items.map((res) => {
+                if (res.uid === id_compare.toString()) {
+                    isExist = true;
+                }
+                return null;
+            });
+            if (!isExist) {
+                addProductCompare({
+                    variables: {
+                        uid: isLogin ? uid_customer : uid_product_compare,
+                        products: uids,
+                    },
+                })
+                    .then(async (res) => {
+                        await window.toastMessage({ open: true, variant: 'success', text: t('common:productCompare:successCompare') });
+                        client.writeQuery({
+                            query: localCompare,
+                            data: {
+                                item_count: res.data.addProductsToCompareList.item_count,
+                            },
+                        });
+                        refetch();
+                        if (isLogin) {
+                            refetchCustomerUid();
+                        }
+                    })
+                    .catch((e) => {
+                        window.toastMessage({
+                            open: true,
+                            variant: 'error',
+                            text: debuging.originalError ? e.message.split(':')[1] : t('common:productCompare:failedCompare'),
+                        });
+                    });
+            } else {
+                window.toastMessage({
+                    open: true,
+                    variant: 'error',
+                    text: t('common:productCompare:existProduct'),
+                });
+            }
         }
     };
 
@@ -287,7 +350,10 @@ const ContentDetail = ({
 
     return (
         <Content
-            data={product.items[0]}
+            data={{
+                ...product.items[0],
+                weltpixel_labels,
+            }}
             t={t}
             openOption={openOption}
             handleOption={handleOption}
@@ -306,7 +372,6 @@ const ContentDetail = ({
             reviewValue={reviewValue}
             wishlist={wishlist}
             expandData={expandData}
-            relateData={relateData}
             features={features}
             config={modules.catalog.pdp}
             openImageDetail={openImageDetail}
@@ -319,19 +384,44 @@ const ContentDetail = ({
             checkCustomizableOptionsValue={checkCustomizableOptionsValue}
             additionalPrice={additionalPrice}
             setAdditionalPrice={setAdditionalPrice}
+            smartProductTabs={dataProductTabs}
+            isLogin={isLogin}
+            handleSetCompareList={handleSetCompareList}
         />
     );
 };
 
 const PageDetail = (props) => {
     let product = {};
+    let weltpixel_labels = [];
+    let productTab = {
+        tab_1: {
+            label: null,
+            content: null,
+        },
+    };
     const {
         slug, Content, t, isLogin, pageConfig, CustomHeader,
     } = props;
-    const {
-        loading, data, error,
-    } = getProduct(slug[0]);
 
+    const context = isLogin && isLogin === 1 ? { request: 'internal' } : {};
+
+    const labels = getProductLabel(slug[0], { context });
+    const { loading, data, error } = getProduct(slug[0], { context });
+    const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
+    React.useEffect(() => {
+        if (slug[0] !== '') {
+            getProductTabs({
+                variables: {
+                    filter: {
+                        url_key: {
+                            eq: slug[0],
+                        },
+                    },
+                },
+            });
+        }
+    }, [slug[0]]);
     if (error || loading || !data) {
         return (
             <Layout pageConfig={{}} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props}>
@@ -340,10 +430,51 @@ const PageDetail = (props) => {
         );
     }
     if (data) {
+        let temporaryArr = [];
         product = data.products;
+        const viewedProduct = getLocalStorage('recently_viewed_product');
+        if (product.items.length > 0) {
+            const item = product.items[0];
+            let isExist = false;
+            if (viewedProduct) {
+                temporaryArr = viewedProduct;
+                if (viewedProduct.length > 0) {
+                    viewedProduct.map((val) => {
+                        if (val.url_key === item.url_key) {
+                            isExist = true;
+                        }
+                        return null;
+                    });
+                }
+            }
+            if (isExist === false) {
+                const newItem = {
+                    url_key: item.url_key,
+                };
+                temporaryArr.push(newItem);
+                setLocalStorage('recently_viewed_product', temporaryArr);
+            }
+        }
         if (product.items.length === 0) return <Error statusCode={404} />;
     }
 
+    if (labels.data && labels.data.products && labels.data.products.items.length > 0 && labels.data.products.items[0].weltpixel_labels) {
+        weltpixel_labels = labels.data.products.items[0].weltpixel_labels;
+    }
+
+    if (dataProductTabs) {
+        const productItem = dataProductTabs.products;
+        if (productItem.items.length > 0) {
+            productTab = productItem.items[0].smartProductTabs
+                ? productItem.items[0].smartProductTabs
+                : {
+                    tab_1: {
+                        label: null,
+                        content: null,
+                    },
+                };
+        }
+    }
     const schemaOrg = generateSchemaOrg(product.items[0]);
 
     const config = {
@@ -381,6 +512,8 @@ const PageDetail = (props) => {
                 t={t}
                 Content={Content}
                 isLogin={isLogin}
+                weltpixel_labels={weltpixel_labels}
+                dataProductTabs={productTab}
             />
         </Layout>
     );

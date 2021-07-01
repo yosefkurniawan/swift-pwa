@@ -48,8 +48,27 @@ export const storeConfig = `
               text_color
               background_color
             }
+            weltpixel_newsletter_general_enable
+            weltpixel_newsletter_general_version
+            weltpixel_newsletter_general_overlay_color
+            weltpixel_newsletter_general_overlay_opacity
+            weltpixel_newsletter_general_display_mode
+            weltpixel_newsletter_general_display_mobile
+            weltpixel_newsletter_general_mobile_version
+            weltpixel_newsletter_general_popup_cookie_lifetime
+            weltpixel_newsletter_general_terms_conditions_consent
+            weltpixel_newsletter_general_terms_conditions_text
+            weltpixel_newsletter_general_enable_trigger_button
+            weltpixel_newsletter_general_trigger_button_title
+            weltpixel_newsletter_general_trigger_button_color
+            weltpixel_newsletter_general_trigger_button_backgroundcolor
             aw_blog_general_comments_enabled
             aw_blog_general_disqus_forum_code
+            aw_blog_related_products_block_layout
+            aw_blog_related_products_block_position
+            aw_blog_related_products_products_limit
+            aw_blog_related_products_display_add_to_cart
+            weltpixel_RecentlyViewedBar_general_enable
         }
     }
 `;

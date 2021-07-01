@@ -146,6 +146,13 @@ const localResolverKey = 'resolver';
 const features = {
     useCustomStyle: false,
     ssrCache: false,
+    magezon: {
+        instagramFeed: {
+            // eslint-disable-next-line max-len
+            urlGraph: 'https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=',
+        },
+        keyStorage: 'mgz_ig_token',
+    },
     crm: {
         enabled: false,
         graphqlEndpoint: {
@@ -187,6 +194,17 @@ const features = {
             width: 960,
             height: 577,
         },
+        promoBannerLite: {
+            top: {
+                width: 1300,
+            },
+            label: {
+                width: 350,
+            },
+            after: {
+                width: 350,
+            },
+        },
     },
     vesMenu: {
         enabled: true,
@@ -197,20 +215,20 @@ const features = {
     },
     firebase: {
         config: {
-            apiKey: 'AIzaSyCD0ZuTMcNi3PSsJH9LD21v7_XA1sVLjdI',
-            authDomain: 'swiftpwa-firebase.firebaseapp.com',
-            databaseURL: 'https://swiftpwa-firebase.firebaseio.com',
-            projectId: 'swiftpwa-firebase',
-            storageBucket: 'swiftpwa-firebase.appspot.com',
-            messagingSenderId: '731430387766',
-            appId: '1:731430387766:web:af85ac9f9559c873309897',
-            measurementId: 'G-DP22E2CL8G',
+            apiKey: '', // sample: AIzaSyCD0ZuTMcNi3PSsJH9LD21v7_XA1sVLjdI
+            authDomain: '', // sample: swiftpwa-firebase.firebaseapp.com
+            databaseURL: '', // sample: https://swiftpwa-firebase.firebaseio.com
+            projectId: '', // sample: swiftpwa-firebase
+            storageBucket: '', // sample: swiftpwa-firebase.appspot.com
+            messagingSenderId: '', // sample: 731430387766
+            appId: '', // sample: 1:731430387766:web:af85ac9f9559c873309897
+            measurementId: '', // sample: G-DP22E2CL8G
         },
         pushNotification: {
-            enabled: true,
+            enabled: false,
             config: {
                 // key from cloud messaging sertificat web push
-                pairKey: 'BBIzfGdH56tlTaV1jxqaWA_n47trFqy51WjcCn9Fa1-7xzmY4iBwBlGQjO1e_bRBEx9kq4o8q4zyl14JuXSIC-k',
+                pairKey: '', // sample: BBIzfGdH56tlTaV1jxqaWA_n47trFqy51WjcCn9Fa1-7xzmY4iBwBlGQjO1e_bRBEx9kq4o8q4zyl14JuXSIC-k
             },
         },
     },
@@ -223,6 +241,9 @@ const features = {
     footer: {
         desktop: 'pwa_footer',
         mobile: 'pwa_footer',
+    },
+    removeDecimalPrice: {
+        enabled: false,
     },
 };
 
@@ -282,9 +303,12 @@ const modules = {
             label: {
                 enabled: true,
                 new: {
-                    enabled: true,
+                    enabled: false,
                 },
                 sale: {
+                    enabled: false,
+                },
+                weltpixel: {
                     enabled: true,
                 },
             },
@@ -385,6 +409,10 @@ const modules = {
         path: '/awgiftcard/card',
         useCommerceModule: false,
     },
+    productreview: {
+        enabled: true,
+        path: '/review/customer',
+    },
     login: {
         enabled: true,
         path: '/customer/account/login',
@@ -461,6 +489,9 @@ const modules = {
         },
     },
     promo: {
+        enabled: true,
+    },
+    productcompare: {
         enabled: true,
     },
     order: {

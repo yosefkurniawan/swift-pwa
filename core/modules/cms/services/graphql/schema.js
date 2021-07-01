@@ -13,4 +13,29 @@ export const getCmsPage = gql`
     }
 `;
 
+export const getInstagramToken = gql`
+{
+    instagramToken {
+      token
+    }
+}
+`;
+
+export const getInstagramFeed = gql`
+mutation getInstagramFeed($token: String!) {
+    internalGetInstagramFeed(token: $token) {
+        message
+        data {
+            id
+            media_type
+            media_url
+            permalink
+            caption
+            username
+        }
+        err
+    }
+}
+`;
+
 export default { getCmsPage };

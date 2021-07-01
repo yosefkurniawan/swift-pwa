@@ -10,8 +10,9 @@ const Page = (props) => (
     />
 );
 
-Page.getInitialProps = async () => ({
+Page.getInitialProps = async ({ req }) => ({
     namespacesRequired: ['common', 'catalog', 'product'],
+    token: req && req.session ? req.session.token : '',
 });
 
 export default withApollo({ ssr: true })(withTranslation()(Page));

@@ -1,92 +1,73 @@
-/* eslint-disable camelcase */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-import Drawer from '@material-ui/core/Drawer';
-import Typography from '@common_typography';
-import Link from 'next/link';
-import classNames from 'classnames';
-import Image from '@common_image';
-import Tooltip from '@material-ui/core/Tooltip';
-import useStyles from '@core_modules/product/pages/default/components/RightDrawer/style';
+/* eslint-disable array-callback-return */
+import React from 'react';
+import { getUpsellProduct } from '@core_modules/product/services/graphql';
+import propTypes from 'prop-types';
+import dynamic from 'next/dynamic';
+import TagManager from 'react-gtm-module';
 
-const ItemLook = (props) => {
-    const { url_key, small_image: { url, label }, features } = props;
-    const styles = useStyles();
-    return (
-        <div className={classNames('col-xs-12 col-sm-12 col-md-6 col-lg-6', styles.itemLookContainer)}>
-            <Link href="[...slug]" as={`${url_key}`}>
-                <a className={styles.imageLookContainer}>
-                    <Tooltip title={label}>
-                        <Image
-                            src={url}
-                            className={styles.img}
-                            alt={label && url ? label : 'Product'}
-                            width={features.imageSize.product.width}
-                            height={features.imageSize.product.height}
-                            quality={80}
-                        />
-                    </Tooltip>
-                </a>
-            </Link>
-        </div>
-    );
+const View = dynamic(() => import('@core_modules/product/pages/default/components/RightDrawer/view'), { ssr: false });
+
+const UpsellDrawer = ({ dataProduct, isLogin, ...other }) => {
+    const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
+    const { loading, data, error } = getUpsellProduct(dataProduct.url_key, { context });
+
+    React.useEffect(() => {
+        if (!loading && !error && data && data.products && data.products.items.length > 0
+            && data.products.items[0].upsell_products && data.products.items[0].upsell_products.length > 0) {
+            let index = 0;
+            let categoryProduct = '';
+            // eslint-disable-next-line no-unused-expressions
+            dataProduct.categories.length > 0 && dataProduct.categories.map(({ name }, indx) => {
+                if (indx > 0) categoryProduct += `/${name}`;
+                else categoryProduct += name;
+            });
+            const tagManagerArgs = {
+                dataLayer: {
+                    pageName: dataProduct.name,
+                    pageType: 'product',
+                    ecommerce: {
+                        impressions: [
+                            ...data.products.items[0].upsell_products.map((val) => {
+                                index += 1;
+                                return ({
+                                    name: val.name,
+                                    id: val.sku,
+                                    category: categoryProduct,
+                                    price: val.price_range.minimum_price.regular_price.value,
+                                    list: `Related Products From ${dataProduct.name}`,
+                                    position: index,
+                                });
+                            }),
+                        ],
+                    },
+                    event: 'impression',
+                    eventCategory: 'Ecommerce',
+                    eventAction: 'Impression',
+                    eventLabel: dataProduct.name,
+                },
+            };
+            TagManager.dataLayer(tagManagerArgs);
+        }
+    }, [data]);
+
+    if (!loading && !error && data && data.products && data.products.items.length > 0
+        && data.products.items[0].upsell_products && data.products.items[0].upsell_products.length > 0) {
+        return (
+            <View
+                {...other}
+                data={data.products.items[0].upsell_products}
+            />
+        );
+    }
+    return <></>;
 };
 
-const RightDrawer = (props) => {
-    const {
-        open = false, setOpen = () => {}, t, features,
-    } = props;
-    const data = props.data.upsell_products ? props.data.upsell_products : [];
-    const styles = useStyles();
-    const contetStyle = data.length > 3 ? styles.content : styles.contentMin;
-    return (
-        <div className={styles.container}>
-            <div className={styles.btnOpen} onClick={setOpen}>
-                <Typography
-                    className={styles.btnOpenLabel}
-                    variant="span"
-                    letter="uppercase"
-                    type="regular"
-                    align="center"
-                >
-                    { t('product:upsellTitle') }
-                </Typography>
-            </div>
-            <Drawer
-                anchor="right"
-                open={open}
-                onClose={setOpen}
-                BackdropProps={{ invisible: true }}
-                className={styles.drawerContainer}
-                color="transparent"
-            >
-                <div className={styles.body}>
-                    <div className={styles.contianerBtnDrawer}>
-                        <div className={styles.btnOpenInDrawer} onClick={setOpen}>
-                            <Typography
-                                className={styles.btnOpenLabel}
-                                variant="span"
-                                letter="uppercase"
-                                type="regular"
-                                align="center"
-                            >
-                                { t('product:upsellTitle') }
-                            </Typography>
-                        </div>
-                    </div>
-                    <div className={contetStyle}>
-                        <div className="row" style={{ height: 'fit-content', width: '100%' }}>
-                            {
-                                data.length > 0
-                                && data.map((item, index) => (<ItemLook key={index} {...item} features={features} />))
-                            }
-                        </div>
-                    </div>
-                </div>
-            </Drawer>
-        </div>
-    );
+UpsellDrawer.propTypes = {
+    open: propTypes.bool.isRequired,
+    setOpen: propTypes.func.isRequired,
+    t: propTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    dataProduct: propTypes.object.isRequired,
 };
 
-export default RightDrawer;
+export default UpsellDrawer;

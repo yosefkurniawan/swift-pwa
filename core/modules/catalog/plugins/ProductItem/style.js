@@ -173,6 +173,15 @@ export default makeStyles((theme) => ({
         height: 20,
         position: 'absolute',
         top: '0px',
+        right: 25,
+        textAlign: 'right',
+    },
+    btnCompare: {
+        ...ClearMarginPadding,
+        width: 20,
+        height: 20,
+        position: 'absolute',
+        top: '0px',
         right: 5,
         textAlign: 'right',
     },
@@ -180,6 +189,11 @@ export default makeStyles((theme) => ({
         maxWidth: 'calc(100% - 34px)',
     },
     iconFeed: {
+        fontSize: 18,
+        color: GRAY_PRIMARY,
+        fontWeight: '200',
+    },
+    iconCompare: {
         fontSize: 18,
         color: GRAY_PRIMARY,
         fontWeight: '200',
