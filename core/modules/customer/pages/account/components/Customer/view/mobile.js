@@ -31,7 +31,7 @@ const ViewMobile = (props) => {
     const {
         userData, t, menu, totalUnread, wishlist, modules,
     } = props;
-    const { data } = getCmsBlocks({ identifiers: ['pwa_footer'] });
+    const { data, loading } = getCmsBlocks({ identifiers: ['pwa_footer'] });
     const router = useRouter();
     const linkAction = async (type, link) => {
         if (type === 'cms') {
@@ -69,14 +69,14 @@ const ViewMobile = (props) => {
             top: 4,
         },
     }))(Badge);
-
+    React.useEffect(() => {
+        noReload({
+            action: linkAction,
+        });
+    }, [router.asPath]);
+    if (loading) return null;
     if (data && data.cmsBlocks.items[0].content && data.cmsBlocks.items[0] && data.cmsBlocks) {
         const { content } = data.cmsBlocks.items[0];
-        React.useEffect(() => {
-            noReload({
-                action: linkAction,
-            });
-        }, [router.asPath]);
         return (
             <div className={classNames(styles.root, 'hidden-desktop')}>
                 <div className={styles.account_wrapper}>
