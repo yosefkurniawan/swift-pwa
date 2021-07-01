@@ -1,3 +1,5 @@
+## General Information
+
 This is SwiftPWA base project bootstrapped with [Next.js](https://nextjs.org/).
 
 Demo: [https://pwa.getswift.asia/](https://pwa.getswift.asia/)
@@ -6,9 +8,13 @@ Roadmap: [Click here](https://icubeus.github.io/swift-pwa/roadmap.html)
 
 Release Note: [Click here](https://github.com/icubeus/swift-pwa/releases)
 
-Stable branch: `master` 
+Latest Stable Version branch: `master` (for more version, please check tags)
 
 Development branch: `develop-v2`
+
+Launching Checklist:
+- [Full PWA mode Checklist](https://teamwork.icubeonline.com/#/projects/120618/notebooks/354196) 
+- [Checkout Only / PWA Checkout mode Checklist](https://teamwork.icubeonline.com/#/projects/120618/notebooks/362538) 
 
 ## Pre-Installation
 ### Setup Host and Graphql Endpoint

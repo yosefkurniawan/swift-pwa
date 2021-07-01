@@ -154,7 +154,7 @@ const CheckoutDrawer = ({
                                         <ListItemText
                                             className={styles.labelItem}
                                             primary={(
-                                                <Typography variant="p" size="12">
+                                                <Typography variant="p" size="12" letter="capitalize">
                                                     {dt.item}
                                                 </Typography>
                                             )}

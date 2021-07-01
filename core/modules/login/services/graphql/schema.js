@@ -131,6 +131,7 @@ export const getCustomer = gql`
       email
       phonenumber
       whatsapp_number
+      customer_group
     }
   }
 `;

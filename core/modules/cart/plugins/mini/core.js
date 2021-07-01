@@ -13,8 +13,16 @@ const MiniCart = (props) => {
     let loadingCart = false;
     let dataCart = null;
     let getCartData = () => {};
-    const [actDeleteItem, delCart] = useMutation(Schema.deleteCartitem);
-    const [actUpdateItem, update] = useMutation(Schema.updateCartitem);
+    const [actDeleteItem, delCart] = useMutation(Schema.deleteCartitem, {
+        context: {
+            request: 'internal',
+        },
+    });
+    const [actUpdateItem, update] = useMutation(Schema.updateCartitem, {
+        context: {
+            request: 'internal',
+        },
+    });
 
     let cartId = '';
     const [getCart, data] = getMiniCartData();

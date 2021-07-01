@@ -1,3 +1,5 @@
+import { features } from '@config';
+
 /* eslint-disable no-param-reassign */
 const { general } = require('@config');
 const cookies = require('js-cookie');
@@ -50,7 +52,17 @@ export const formatPrice = (value, currency = general.defaultCurrencyCode) => {
         currency,
     }).format(value);
 
-    return price;
+    const decimalFeature = () => {
+        const decimal = price.substr(price.length - 3).substring(1);
+        const resultDecimal = parseInt(decimal, 10);
+        const resultPrice = price.slice(0, -3);
+        if (resultDecimal === 0) {
+            return resultPrice;
+        }
+        return price;
+    };
+
+    return features.removeDecimalPrice.enabled === true ? decimalFeature() : price;
 };
 
 export default { formatPrice };

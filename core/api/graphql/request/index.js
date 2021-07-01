@@ -16,15 +16,16 @@ function requestGraph(query, variables = {}, context = {}, config = {}) {
     }
     return new Promise((resolve) => {
         const additionalHeader = storeCode ? { store: storeCode } : {};
+        if (token && token !== '') {
+            additionalHeader.Authorization = token;
+        }
         const headers = {
-            Authorization: token,
             ...additionalHeader,
         };
         const appEnv = getAppEnv();
         const client = new GraphQLClient(`${graphqlEndpoint[appEnv] || graphqlEndpoint.prod}`, {
             headers,
         });
-        console.log(client);
         client.request(query, variables).then((data) => resolve(data)).catch((err) => resolve(err));
     });
 }

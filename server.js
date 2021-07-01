@@ -11,6 +11,7 @@ const http = require('http');
 
 const LRUCache = require('lru-cache');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 const remoteSchema = require('./core/api/graphql');
 const nextI18next = require('./core/lib/i18n');
 
@@ -130,12 +131,7 @@ async function renderAndCache(req, res) {
     const serverGraph = new ApolloServer({
         schema: schemas,
         context: ({ req }) => req,
-        playground: {
-            endpoint: '/graphql',
-            settings: {
-                'editor.theme': 'light',
-            },
-        },
+        playground: false,
         formatError: (err) => {
             if (err.message === 'graphql-authorization') {
                 return {
@@ -151,6 +147,13 @@ async function renderAndCache(req, res) {
     });
     serverGraph.applyMiddleware({ app: server });
 
+    /**
+     * handle maintenance pave
+     */
+    server.get('/maintenance', (req, res) => {
+        res.sendFile(path.join(__dirname, '/public/static/maintenance.html'));
+    });
+
     server.get('/sitemap.xml', generateXml);
     server.post('/captcha-validation', captchaValidation);
 
@@ -163,21 +166,21 @@ async function renderAndCache(req, res) {
     const serviceWorkers = [
         {
             filename: 'firebase-messaging-sw.js',
-            path: `./public/static/firebase/firebase-messaging-sw.${assetsVersion}.js`,
+            pathfile: `./public/static/firebase/firebase-messaging-sw.${assetsVersion}.js`,
         },
         {
             filename: 'sw.js',
-            path: `./public/static/firebase/sw.${assetsVersion}.js`,
+            pathfile: `./public/static/firebase/sw.${assetsVersion}.js`,
         },
         {
             filename: '.well-known/assetlinks.json',
-            path: './public/static/assetlinks.json',
+            pathfile: './public/static/assetlinks.json',
         },
     ];
 
-    serviceWorkers.forEach(({ filename, path }) => {
+    serviceWorkers.forEach(({ filename, pathfile }) => {
         server.get(`/${filename}`, (req, res) => {
-            app.serveStatic(req, res, path);
+            app.serveStatic(req, res, pathfile);
         });
     });
 

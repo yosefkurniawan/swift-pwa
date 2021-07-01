@@ -6,7 +6,7 @@ const AddressView = ({ customer, styles, t }) => (
         <h2 className={styles.infoTitle}>{t('customer:menu:accountInformation')}</h2>
         <hr />
         <div className="row">
-            <div className="col-lg-6">
+            <div className="col-sm-6 col-lg-6">
                 <h3>Contact Information</h3>
                 <p>
                     {customer.firstname}
@@ -26,7 +26,7 @@ const AddressView = ({ customer, styles, t }) => (
                     </Link>
                 </p>
             </div>
-            <div className="col-lg-6">
+            <div className="col-sm-6 col-lg-6">
                 <h3>Newsletters</h3>
                 <p>
                     You
