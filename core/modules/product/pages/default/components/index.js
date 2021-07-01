@@ -10,8 +10,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import ShareOutlined from '@material-ui/icons/ShareOutlined';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import classNames from 'classnames';
-import ProductItem from '@plugin_productitem';
 import React from 'react';
 import { getHost } from '@helper_config';
 import Breadcrumb from '@common_breadcrumb';
@@ -22,14 +22,18 @@ import useStyles from '@core_modules/product/pages/default/components/style';
 import ExpandDetail from '@core_modules/product/pages/default/components/ExpandDetail';
 import ListReviews from '@core_modules/product/pages/default/components/ListReviews';
 import OptionItem from '@core_modules/product/pages/default/components/OptionItem';
-import RightDrawer from '@core_modules/product/pages/default/components/RightDrawer';
 import SharePopup from '@core_modules/product/pages/default/components/SharePopup';
 import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
+import { modules } from '@config';
+import { getProductBannerLite } from '@core_modules/product/services/graphql';
 
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: true });
 const TabsView = dynamic(() => import('@core_modules/product/pages/default/components/DesktopTabs'), { ssr: true });
 const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: true });
-const Caraousel = dynamic(() => import('@common_slick/Caraousel'), { ssr: false });
+const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
+const UpsellDrawer = dynamic(() => import('@core_modules/product/pages/default/components/RightDrawer'), { ssr: false });
+const RelatedProductCaraousel = dynamic(() => import('@core_modules/product/pages/default/components/RelatedProductCaraousel'), { ssr: false });
+const PromoBannersLite = dynamic(() => import('@core_modules/product/pages/default/components/PromoBannersLite'), { ssr: false });
 
 const ProductPage = (props) => {
     const styles = useStyles();
@@ -53,28 +57,42 @@ const ProductPage = (props) => {
         reviewValue,
         wishlist,
         expandData,
-        relateData,
         openImageDetail,
         handleOpenImageDetail,
         stockStatus,
         additionalPrice,
+        smartProductTabs,
+        isLogin,
+        handleSetCompareList,
     } = props;
-
     const desktop = breakPointsUp('sm');
 
-    const favoritIcon = wishlist ? <Favorite className={styles.iconShare} /> : <FavoriteBorderOutlined className={styles.iconShare} />;
+    const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
+    const [getBannerLite, bannerLiteResult] = getProductBannerLite(route.asPath.slice(1), { context });
 
-    let contentCaraousel = '';
-    if (typeof window !== 'undefined' && relateData.length > 0) {
-        contentCaraousel = <Caraousel enableQuickView={false} data={relateData} Item={ProductItem} />;
-    }
+    React.useEffect(() => {
+        getBannerLite();
+    }, [bannerLiteResult.called]);
+
+    const bannerLiteData = bannerLiteResult.data ? bannerLiteResult.data.products.items[0].banners_data : [];
+    const bannerLiteObj = {
+        top: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '0') || [],
+        after: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '1') || [],
+        label: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '2') || [],
+    };
+
+    const favoritIcon = wishlist ? <Favorite className={styles.iconShare} /> : <FavoriteBorderOutlined className={styles.iconShare} />;
 
     return (
         <>
             <div className="hidden-mobile">
-                {data && data.upsell_products && data.upsell_products.length > 0 && (
-                    <RightDrawer open={openDrawer} setOpen={() => setOpenDrawer(!openDrawer)} {...props} />
-                )}
+                <UpsellDrawer
+                    open={openDrawer}
+                    setOpen={() => setOpenDrawer(!openDrawer)}
+                    t={t}
+                    dataProduct={data}
+                    isLogin={isLogin}
+                />
                 <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} />
             </div>
             <OptionItem {...props} open={openOption} setOpen={() => setOpenOption(!openOption)} setBanner={setBanner} setPrice={setPrice} />
@@ -83,7 +101,46 @@ const ProductPage = (props) => {
                 <div className="col-lg-12 hidden-mobile">
                     <Breadcrumb data={breadcrumbsData} variant="text" />
                 </div>
+
+                {(bannerLiteObj.top && bannerLiteObj.top.length > 0) && (
+                    bannerLiteObj.top.map((topBanner) => (
+                        <PromoBannersLite
+                            type="top"
+                            key={topBanner.entity_id}
+                            classes={classNames(styles.bannerLiteTop, 'col-xs-12')}
+                            src={topBanner.banner_link}
+                            imgSrc={topBanner.banner_image}
+                            alt={topBanner.banner_alt}
+                        />
+                    ))
+                )}
+
                 <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-6')}>
+                    {(bannerLiteObj.top && bannerLiteObj.top.length > 0) && (
+                        bannerLiteObj.top.map((topBanner) => (
+                            <PromoBannersLite
+                                type="top"
+                                key={topBanner.entity_id}
+                                classes={classNames(styles.bannerLiteTopMobile, 'col-xs-12')}
+                                src={topBanner.banner_link}
+                                imgSrc={topBanner.banner_image}
+                                alt={topBanner.banner_alt}
+                            />
+                        ))
+                    )}
+                    <div className="row">
+                        {(bannerLiteObj.label && bannerLiteObj.label.length > 0) && (
+                            bannerLiteObj.label.map((labelBanner) => (
+                                <PromoBannersLite
+                                    type="label"
+                                    key={labelBanner.entity_id}
+                                    classes={classNames(styles.bannerLiteLabel, 'col-xs-6')}
+                                    imgSrc={labelBanner.banner_image}
+                                    alt={labelBanner.banner_alt}
+                                />
+                            ))
+                        )}
+                    </div>
                     <Banner
                         data={banner}
                         noLink
@@ -93,12 +150,29 @@ const ProductPage = (props) => {
                         autoPlay={false}
                         width={960}
                         height={1120}
-                        actionImage={desktop ? handleOpenImageDetail : () => {}}
-                    />
+                        actionImage={desktop ? handleOpenImageDetail : () => { }}
+                        customProduct={styles.bannerProduct}
+                    >
+                        {
+                            modules.catalog.productListing.label.enabled
+                            && modules.catalog.productListing.label.weltpixel.enabled && (
+                                <WeltpixelLabel
+                                    t={t}
+                                    weltpixel_labels={data.weltpixel_labels || []}
+                                    categoryLabel={false}
+                                    withThumbnailProduct
+                                />
+                            )
+                        }
+                    </Banner>
                     <div className="hidden-desktop">
-                        {data && data.upsell_products && data.upsell_products.length > 0 && (
-                            <RightDrawer open={openDrawer} setOpen={() => setOpenDrawer(!openDrawer)} {...props} />
-                        )}
+                        <UpsellDrawer
+                            open={openDrawer}
+                            setOpen={() => setOpenDrawer(!openDrawer)}
+                            t={t}
+                            dataProduct={data}
+                            isLogin={isLogin}
+                        />
                     </div>
                 </div>
                 <div className={classNames(styles.body, 'col-xs-12 col-lg-6')}>
@@ -114,6 +188,13 @@ const ProductPage = (props) => {
                             <PriceFormat {...price} additionalPrice={additionalPrice} />
                         </div>
                         <div className={styles.shareContainer}>
+                            {modules.productcompare.enabled && (
+                                <div className="hidden-desktop">
+                                    <IconButton className={styles.btnShare} onClick={() => handleSetCompareList(data.id)}>
+                                        <CompareArrowsIcon color="primary" />
+                                    </IconButton>
+                                </div>
+                            )}
                             <IconButton className={styles.btnShare} onClick={handleWishlist}>
                                 {favoritIcon}
                             </IconButton>
@@ -149,6 +230,19 @@ const ProductPage = (props) => {
                             </Typography>
                         </div>
                     </div>
+                    <div className="row">
+                        {
+                            modules.catalog.productListing.label.enabled
+                            && modules.catalog.productListing.label.weltpixel.enabled && (
+                                <WeltpixelLabel
+                                    t={t}
+                                    weltpixel_labels={data.weltpixel_labels || []}
+                                    categoryLabel={false}
+                                    onDetailProduct
+                                />
+                            )
+                        }
+                    </div>
 
                     <div className="hidden-desktop">
                         {' '}
@@ -158,16 +252,56 @@ const ProductPage = (props) => {
                             </Typography>
                         </div>
                         <div>
-                            <ExpandDetail data={expandData} />
+                            <ExpandDetail data={expandData} smartProductTabs={smartProductTabs} />
+                        </div>
+                        <div className="row">
+                            {(bannerLiteObj.after && bannerLiteObj.after.length > 0) && (
+                                bannerLiteObj.after.map((afterBanner) => (
+                                    <PromoBannersLite
+                                        type="after"
+                                        key={afterBanner.entity_id}
+                                        classes={classNames(styles.bannerLiteAfter, 'col-xs-6')}
+                                        src={bannerLiteObj.after.banner_link}
+                                        imgSrc={afterBanner.banner_image}
+                                        alt={afterBanner.banner_alt}
+                                    />
+                                ))
+                            )}
                         </div>
                     </div>
                     <div className="hidden-mobile">
                         <DesktopOptions {...props} setOpen={setOpenOption} setBanner={setBanner} setPrice={setPrice} />
+
+                        <div className="row">
+                            {(bannerLiteObj.after && bannerLiteObj.after.length > 0) && (
+                                bannerLiteObj.after.map((afterBanner) => (
+                                    <PromoBannersLite
+                                        type="after"
+                                        key={afterBanner.entity_id}
+                                        classes={classNames(styles.bannerLiteAfter, 'col-xs-6')}
+                                        src={bannerLiteObj.after.banner_link}
+                                        imgSrc={afterBanner.banner_image}
+                                        alt={afterBanner.banner_alt}
+                                    />
+                                ))
+                            )}
+                        </div>
+
                         <div className={styles.desktopShareIcon}>
                             <Typography className={styles.shareTitle} variant="title">
                                 {t('product:shareTitle')}
                             </Typography>
-                            <ItemShare link={getHost() + route.asPath} />
+                            <div className={modules.productcompare.enabled && styles.rowItem}>
+                                <ItemShare link={getHost() + route.asPath} />
+                                {modules.productcompare.enabled && (
+                                    <Button className={styles.btnCompare} color="primary" onClick={() => handleSetCompareList(data.id)}>
+                                        <CompareArrowsIcon color="primary" style={{ fontSize: '18px' }} />
+                                        <Typography variant="p" align="center" letter="uppercase">
+                                            Compare
+                                        </Typography>
+                                    </Button>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -175,17 +309,18 @@ const ProductPage = (props) => {
                     <ListReviews {...props} />
                 </div>
                 <div className={classNames(styles.tabs, 'col-xs-12 col-lg-12 hidden-mobile')}>
-                    <TabsView {...props} dataInfo={expandData} />
+                    <TabsView
+                        {...props}
+                        dataInfo={expandData}
+                        smartProductTabs={smartProductTabs || {
+                            tab_2: {
+                                label: null,
+                                content: null,
+                            },
+                        }}
+                    />
                 </div>
-                {relateData.length !== 0 ? (
-                    <div className={classNames(styles.carouselContainer, 'col-xs-12 col-lg-12')}>
-                        <Typography variant="h1" component="h2" align="center" className={styles.carouselTitle}>
-                            {t('common:title:relatedProduct')}
-                        </Typography>
-                        {contentCaraousel}
-                    </div>
-                ) : null}
-
+                <RelatedProductCaraousel t={t} dataProduct={data} isLogin={isLogin} />
                 <div className={classNames(styles.footer, 'hidden-desktop')}>
                     <Button
                         className={styles.btnAddToCard}

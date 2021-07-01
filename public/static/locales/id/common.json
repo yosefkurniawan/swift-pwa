@@ -132,5 +132,29 @@
         "language": "Bahasa",
         "currency": "Mata Uang",
         "changeto": "Ganti ke"
+    },
+    "recentlyView": {
+        "title" : "Baru Saja Dilihat"
+    },
+    "instagramFeed": {
+        "shareFb": "Bagikan ke facebook",
+        "tweet": "Tweet",
+        "pinit": "Sematkan",
+        "downloadImage": "Unduh gambar"
+    },
+    "productCompare": {
+        "title": "Product Compare",
+        "successCompare" : "Produk berhasil di tambahkan",
+        "failedCompare" : "Produk gagal ditambahkan",
+        "existProduct" : "Produk sudah ada di keranjang compare",
+        "emptyCompare" : "Daftar perbandingan Anda kosong",
+        "successRemove": "Product compare berhasil dihapus",
+        "failedRemove": "Product compare gagal dihapus",        
+        "label": {
+            "sku": "sku",
+            "description": "Deskripsi",
+            "shortDescription": "Deskripsi Singkat",
+            "brand": "Merek"
+        }
     }
 }

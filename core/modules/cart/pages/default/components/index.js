@@ -2,6 +2,9 @@ import Route from 'next/router';
 import classNames from 'classnames';
 import Summary from '@plugin_summary';
 import useStyles from '@core_modules/cart/pages/default/components/style';
+import dynamic from 'next/dynamic';
+
+const CrossSell = dynamic(() => import('@core_modules/cart/pages/default/components/crosssell'), { ssr: false });
 
 const Content = (props) => {
     const {
@@ -25,11 +28,7 @@ const Content = (props) => {
                     handleFeed={handleFeed}
                     toggleEditDrawer={toggleEditDrawer}
                 />
-                {
-                    (crosssell.length > 0)
-                        ? <CrossSellView {...props} editMode={editMode} data={crosssell} />
-                        : null
-                }
+                <CrossSell dataCart={dataCart} {...props} editMode={editMode} View={CrossSellView} />
                 {editItem.id ? (
                     <EditDrawerView {...props} {...editItem} open={openEditDrawer} toggleOpen={toggleEditDrawer} updateItem={updateItem} />
                 ) : null}

@@ -2,6 +2,37 @@
 import { gql } from '@apollo/client';
 import { features, modules } from '@config';
 
+const weltpixel_labels = modules.catalog.productListing.label.weltpixel.enabled ? `
+weltpixel_labels {
+  categoryLabel {
+      css
+      customer_group
+      image
+      page_position
+      position
+      priority
+      text
+      text_padding
+      text_bg_color
+      text_font_size
+      text_font_color          
+  }
+  productLabel {
+      css
+      customer_group
+      image
+      page_position
+      position
+      priority
+      text
+      text_padding
+      text_bg_color
+      text_font_size
+      text_font_color  
+  }
+}        
+` : '';
+
 const productDetail = `
     id
     name
@@ -17,6 +48,12 @@ const productDetail = `
     }
     image{
       url
+    }
+    media_gallery_entries{
+      media_type
+      video_content{
+        video_url
+      }
     }
     review {
       rating_summary
@@ -97,6 +134,61 @@ const priceTiers = `
     }
     `;
 
+export const getUpsellProduct = (url) => gql`
+{
+  products(
+    search: "" ,filter: {
+      url_key: {
+        eq: "${url}"
+      }
+    }
+  ) {
+    items {      
+      upsell_products {
+        ${productDetail}        
+        ${weltpixel_labels}
+        ${priceRange}
+        ${priceTiers}
+      }
+    }
+  }
+}
+`;
+
+export const getRelatedProduct = (url) => gql`
+{
+  products(
+    search: "" ,filter: {
+      url_key: {
+        eq: "${url}"
+      }
+    }
+  ) {
+    items {      
+      related_products {
+        ${productDetail}        
+        ${weltpixel_labels}
+        ${priceRange}
+        ${priceTiers}
+      }
+    }
+  }
+}
+`;
+const tabListProduct = `
+    tab_1 {
+      label
+      content
+    }
+    tab_2 {
+      label
+      content
+    }
+    tab_3 {
+      label
+      content
+    }
+    `;
 /**
  * scema dynamic resolver url
  * @param url String
@@ -127,24 +219,39 @@ export const getProduct = (url) => {
                 label
                 value
               }
-              upsell_products {
-                ${productDetail}
-                ${priceRange}
-                ${priceTiers}
-              }
               media_gallery {
-                label,
                 url
-              }
-              related_products {
-               ${productDetail}
-               ${priceRange}
-               ${priceTiers}
+                label
+                ... on ProductVideo {
+                    video_content {
+                        media_type
+                        video_provider
+                        video_url
+                        video_title
+                        video_description
+                        video_metadata
+                    }
+                }
               }
             }
             total_count
           }
     }`;
+    return query;
+};
+
+export const smartProductTabs = () => {
+    const query = gql`
+    query getSmartProductTabs($search: String, $filter: ProductAttributeFilterInput) {
+      products(search: $search, filter: $filter) {
+        items {
+          smartProductTabs {
+            ${tabListProduct}
+          }
+        }
+      }
+    }
+  `;
     return query;
 };
 
@@ -180,8 +287,18 @@ export const getProductBySku = () => {
                 ${priceTiers}
               }
               media_gallery {
-                label,
                 url
+                label
+                ... on ProductVideo {
+                    video_content {
+                        media_type
+                        video_provider
+                        video_url
+                        video_title
+                        video_description
+                        video_metadata
+                    }
+                }
               }
               related_products {
                ${productDetail}
@@ -366,8 +483,18 @@ export const getConfigurableProduct = (sku) => {
               ${priceRange}
               ${priceTiers}
               media_gallery {
-                label,
                 url
+                label
+                ... on ProductVideo {
+                    video_content {
+                        media_type
+                        video_provider
+                        video_url
+                        video_title
+                        video_description
+                        video_metadata
+                    }
+                }
               }
             }
             attributes {
@@ -406,6 +533,103 @@ export const getGroupedProduct = gql`
                     }
                 }
             }
+        }
+    }
+`;
+
+export const getProductLabel = (url) => gql`
+{
+  products(
+    search: "" ,filter: {
+      url_key: {
+        eq: "${url}"
+      }
+    }
+  ) {
+    items {
+      __typename
+      ${weltpixel_labels}
+    }
+  }
+}
+`;
+
+export const getProductBannerLite = (url) => {
+    const query = gql`{
+      products(
+          search: "", filter: {
+            url_key: {
+              eq: "${url}"
+            }
+          }
+        ) {
+          items {
+            banners_data {
+              entity_id
+              salesrule_id
+              banner_image
+              banner_type
+              banner_link
+              banner_alt
+            }
+          }
+          total_count
+        }
+  }`;
+    return query;
+};
+
+export const createCompareList = gql`
+    mutation createCompareList($uid:[ID]){
+      createCompareList(
+          input: {
+            products: $uid
+          }
+      ) {
+          uid
+          item_count
+          attributes {
+              code
+              label
+          }
+          items {
+              uid
+              product {
+                  sku
+                  name
+                  description {
+                      html
+                  }
+              }
+          }
+      }
+    }
+`;
+
+export const addProductsToCompareList = gql`
+    mutation addProductsToCompareList($uid:ID!, $products:[ID]!){
+        addProductsToCompareList(
+          input: {
+            uid: $uid,
+            products: $products
+          }
+        ) {
+          uid
+          item_count
+          attributes {
+            code
+            label
+          }
+          items {
+            uid
+            product {
+              sku
+              name
+              description {
+                html
+              }
+            }
+          }
         }
     }
 `;

@@ -23,30 +23,30 @@ const Caraousel = (props) => {
 
     const handleLeftArrow = () => {
         if (slideIndex === 0) {
-            sliderRef.slickGoTo(data.length - 1);
+            sliderRef.slickPrev(data.length - 1);
         } else {
-            sliderRef.slickGoTo(slideIndex - 1);
+            sliderRef.slickPrev(slideIndex - 1);
         }
     };
 
     const handleRightArrow = () => {
         if (slideIndex === data.length - 1) {
-            sliderRef.slickGoTo(0);
+            sliderRef.slickNext(0);
         } else {
-            sliderRef.slickGoTo(slideIndex + 1);
+            sliderRef.slickNext(slideIndex + 1);
         }
     };
 
     const settings = {
         arrows: false,
         dots: false,
-        infinite: false,
+        infinite: data.length >= slideLg,
         speed: 500,
         slidesToShow: slideLg,
         slidesToScroll: 1,
-        initialSlide: 0,
+        rtl: true,
         className: 'slider',
-        centerMode: false,
+        centerMode: true,
         afterChange: () => setCount(count + 1),
         beforeChange: (current, next) => setIndex(next),
         responsive: [
@@ -57,6 +57,7 @@ const Caraousel = (props) => {
                     slidesToScroll: 1,
                     className: 'slider',
                     centerMode: false,
+                    infinite: data.length >= slideMd,
                 },
             },
             {
@@ -66,6 +67,7 @@ const Caraousel = (props) => {
                     slidesToScroll: 1,
                     centerMode: true,
                     className: 'slider',
+                    infinite: data.length >= slideSm,
                 },
             },
             {
@@ -75,6 +77,7 @@ const Caraousel = (props) => {
                     slidesToScroll: 1,
                     centerMode: true,
                     className: 'slider',
+                    infinite: data.length >= slideXs,
                 },
             },
         ],

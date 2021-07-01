@@ -185,7 +185,7 @@ const Checkout = (props) => {
         email: checkout.data.isGuest ? Yup.string().nullable().email(t('validate:email:wrong')).required(t('validate:email.required')) : null,
         payment: Yup.string().nullable().required(t('validate:required')),
         oldEmail: checkout.data.isGuest ? Yup.string().equalTo(Yup.ref('email')) : null,
-        address: isOnlyVirtualProductOnCart ? null : Yup.object().nullable().required(t('validate:required')),
+        address: (isOnlyVirtualProductOnCart || checkout.selectStore.id !== null) ? null : Yup.object().nullable().required(t('validate:required')),
         billing: checkout.selected.delivery === 'home' && Yup.object().nullable().required(t('validate:required')),
         shipping: isOnlyVirtualProductOnCart
             ? null
@@ -205,7 +205,7 @@ const Checkout = (props) => {
             billing: null,
         },
         validationSchema: CheckoutSchema,
-        onSubmit: () => {},
+        onSubmit: () => { },
     });
 
     const updateFormik = (cart) => {
@@ -457,9 +457,7 @@ const Checkout = (props) => {
             customer = addressCustomer.data.customer;
             [address] = customer ? customer.addresses.filter((item) => item.default_shipping) : [null];
             state.data.defaultAddress = customer ? address : null;
-            if (!customer.addresses || customer.addresses.length === 0) {
-                state.loading.addresses = false;
-            }
+            state.loading.addresses = false;
             setCheckout(state);
         }
     }, [addressCustomer]);
@@ -522,7 +520,7 @@ const Checkout = (props) => {
     };
 
     return (
-        <Layout pageConfig={configPage || pageConfig} {...props}>
+        <Layout pageConfig={configPage || pageConfig} {...props} showRecentlyBar={false}>
             <Head>
                 <script type="text/javascript" src={url} data-client-key={snap_client_key} />
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />

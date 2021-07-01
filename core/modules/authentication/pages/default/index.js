@@ -10,7 +10,7 @@ const Page = (props) => <Core {...props} Content={Content} />;
 
 Page.getInitialProps = async (ctx) => {
     const { req } = ctx;
-    if (!req.query.state) {
+    if (!req.query || !req.query.state) {
         ctx.res.statusCode = 302;
         ctx.res.setHeader('Location', '/');
         return { props: {}, namespacesRequired: ['common', 'checkout', 'customer', 'validate'] };

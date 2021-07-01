@@ -42,6 +42,21 @@ type internalDeleteSessionOutput {
     result: Boolean
 }
 
+type internalGetInstagramFeedItem {
+    id: String,
+    media_type: String
+    media_url: String
+    permalink: String
+    caption: String
+    username: String
+}
+
+type internalGetInstagramFeedOutput {
+    message: String
+    data: [internalGetInstagramFeedItem]
+    err: String
+}
+
 type Mutation {
     internalGenerateCustomerToken(username: String!, password: String!): Token
     internalCreateCustomerToken(input: internalCreateCustomerTokenInput): Token
@@ -50,6 +65,7 @@ type Mutation {
     internalDeleteCustomerToken: RevokeCustomerTokenOutput
     internalGenerateSession(state: String!): internalGenerateSessionOutput
     internalDeleteSession: internalDeleteSessionOutput
+    internalGetInstagramFeed(token: String!): internalGetInstagramFeedOutput
 }
 `;
 

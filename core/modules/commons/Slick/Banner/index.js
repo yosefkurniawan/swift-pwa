@@ -29,17 +29,17 @@ const Banner = ({
     const dotItem = data.length > 1 ? styles.dotsItem : styles.hide;
     const handleLeftArrow = () => {
         if (slideIndex === 0) {
-            sliderRef.slickGoTo(data.length - 1);
+            sliderRef.slickPrev(data.length - 1);
         } else {
-            sliderRef.slickGoTo(slideIndex - 1);
+            sliderRef.slickPrev(slideIndex - 1);
         }
     };
 
     const handleRightArrow = () => {
         if (slideIndex === data.length - 1) {
-            sliderRef.slickGoTo(0);
+            sliderRef.slickNext(0);
         } else {
-            sliderRef.slickGoTo(slideIndex + 1);
+            sliderRef.slickNext(slideIndex + 1);
         }
     };
 
