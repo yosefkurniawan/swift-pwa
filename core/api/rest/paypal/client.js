@@ -8,6 +8,8 @@
  * PayPal Node JS SDK dependency
  */
 const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
+const { getAppEnv } = require('../../../helpers/env');
+const { modules } = require('../../../../swift.config');
 
 /**
  *
@@ -16,8 +18,9 @@ const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
  *
  */
 function environment() {
-    const clientId = 'AfcrKzLRhgwpdBWbK8owz2Vv_gYyPUbwzOuOAgz1BfBqvGle_omyRPX4jTZrDpOkfO-jRBc_2YyxEJM2';
-    const clientSecret = 'EAwFhNBD5KKb8WLCK2xPxAD_L0Pb9wYUflFMXUfQYMKAbM5jGykvIbRHM-sJPoR8V3avAcEU3stvTJPd';
+    const appEnv = getAppEnv();
+    const clientId = modules.checkout.paypal.clientId[appEnv];
+    const clientSecret = modules.checkout.paypal.clientSecret[appEnv];
 
     return new checkoutNodeJssdk.core.SandboxEnvironment(
         clientId, clientSecret,

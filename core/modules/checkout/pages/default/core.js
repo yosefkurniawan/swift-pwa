@@ -150,10 +150,11 @@ const Checkout = (props) => {
     });
 
     const [isError, setError] = useState(false);
+    const appEnv = getAppEnv();
 
     // config paypal
     const [initialOptionPaypal, setInitialOptionPaypal] = useState({
-        'client-id': modules.checkout.paypal.clientId,
+        'client-id': modules.checkout.paypal.clientId[appEnv],
         currency: modules.checkout.paypal.defaultCurrency,
         intent: modules.checkout.paypal.intent,
         'data-order-id': '',
