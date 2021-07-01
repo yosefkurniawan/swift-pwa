@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '@common_button';
 import { useTranslation } from '@i18n';
 import Typography from '@common_typography';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -8,6 +7,7 @@ import ProductView from '@core_modules/theme/components/recentlyViewed/productVi
 import { breakPointsUp } from '@helper_theme';
 import { getRecentlyProduct } from '@core_modules/theme/services/graphql';
 import useStyles from '@core_modules/theme/components/recentlyViewed/style';
+import ButtonCompare from '@core_modules/theme/components/recentlyViewed/buttonCompare';
 
 const RecentlyViewed = (props) => {
     const styles = useStyles();
@@ -44,37 +44,15 @@ const RecentlyViewed = (props) => {
     if (isActive) {
         return (
             <div className={styles.wrapperBtn}>
-                {
-                    !openViewBar && viewedProduct && viewedProduct.length > 0
-                        ? (
-                            <Button
-                                onClick={toggleDrawer(true)}
-                                className={recentlyBtn}
-                            >
-                                <Typography
-                                    variant="title"
-                                    type="bold"
-                                    className="button-title"
-                                >
-                                    {t('common:recentlyView:title')}
-                                </Typography>
-                            </Button>
-                        ) : null
-                }
-                <SwipeableDrawer
-                    anchor="bottom"
-                    open={openViewBar}
-                    onClose={toggleDrawer(false)}
-                    onOpen={toggleDrawer(true)}
-                >
-                    <ProductView
-                        toggleDrawer={toggleDrawer}
-                        {...props}
-                        desktop={desktop}
-                        loading={loading}
-                        product={product}
-                        t={t}
-                    />
+                {!openViewBar && viewedProduct && viewedProduct.length > 0 ? (
+                    <ButtonCompare onClick={toggleDrawer(true)} className={recentlyBtn}>
+                        <Typography variant="title" type="bold" className="button-title">
+                            {t('common:recentlyView:title')}
+                        </Typography>
+                    </ButtonCompare>
+                ) : null}
+                <SwipeableDrawer anchor="bottom" open={openViewBar} onClose={toggleDrawer(false)} onOpen={toggleDrawer(true)}>
+                    <ProductView toggleDrawer={toggleDrawer} {...props} desktop={desktop} loading={loading} product={product} t={t} />
                 </SwipeableDrawer>
             </div>
         );

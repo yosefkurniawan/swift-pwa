@@ -17,6 +17,7 @@ import PickupInfo from '@core_modules/checkout/pages/default/components/PickupIn
 import ExtraFee from '@core_modules/checkout/pages/default/components/ExtraFee';
 import PromoModalItem from '@core_modules/checkout/pages/default/components/PromoModalItem';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
+import InStorePickup from '@core_modules/checkout/pages/default/components/instorepickup';
 
 const Content = (props) => {
     const {
@@ -90,8 +91,20 @@ const Content = (props) => {
                         promo_name={checkout.data.cart.applied_cashback.data[0].promo_name}
                     />
                 )}
+
+                {/* {modules.checkout.inStorePickup.enabled && (
+                    <div className="row col-xs-12">
+                        <div className="col-xs-6">
+                            <Button onClick={() => setInStore(false)}>Shipping</Button>
+                        </div>
+                        <div className="col-xs-6">
+                            <Button onClick={() => setInStore(true)}>In Store Pickup</Button>
+                        </div>
+                    </div>
+                )} */}
+
                 <>
-                    {modules.checkout.pickupStore.enabled ? (
+                    {modules.checkout.pickupStore.enabled || modules.checkout.inStorePickup.enabled ? (
                         <Delivery
                             t={t}
                             DeliveryView={DeliveryView}
@@ -114,6 +127,7 @@ const Content = (props) => {
                         handleOpenMessage={handleOpenMessage}
                         cartId={cartId}
                     />
+                    {/* eslint-disable */}
                     {checkout.selected.delivery === 'home' ? (
                         <Address
                             checkout={checkout}
@@ -127,8 +141,10 @@ const Content = (props) => {
                             formik={formik}
                             isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
                         />
+                    ) : checkout.selected.delivery === 'pickup' ? (
+                            <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
                     ) : (
-                        <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
+                        <InStorePickup t={t} checkout={checkout} setCheckout={setCheckout} />
                     )}
                     <Shipping
                         t={t}

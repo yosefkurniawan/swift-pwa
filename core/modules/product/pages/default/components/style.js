@@ -200,6 +200,11 @@ const useStyles = makeStyles((theme) => ({
             height: '572px',
         },
     },
+    bannerLiteTop: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'none',
+        },
+    },
     bannerLiteTopMobile: {
         [theme.breakpoints.up('md')]: {
             display: 'none',

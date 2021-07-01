@@ -4,7 +4,7 @@ import { removeCartId } from '@helper_cartid';
 import Cookies from 'js-cookie';
 import { removeCookies } from '@helper_cookies';
 import { useApolloClient } from '@apollo/client';
-import { localTotalCart } from '@services/graphql/schema/local';
+import { localTotalCart, localCompare } from '@services/graphql/schema/local';
 import firebase from 'firebase/app';
 import { custDataNameCookie, features, modules } from '@config';
 import {
@@ -47,6 +47,7 @@ const CoreTopNavigation = (props) => {
                     // console.log(error);
                 });
                 client.writeQuery({ query: localTotalCart, data: { totalCart: 0 } });
+                client.writeQuery({ query: localCompare, data: { item_count: 0 } });
                 Router.push('/customer/account/login');
             })
             .catch(() => {

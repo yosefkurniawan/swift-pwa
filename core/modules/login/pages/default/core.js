@@ -1,3 +1,7 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable object-curly-newline */
+/* eslint-disable consistent-return */
+/* eslint-disable operator-linebreak */
 /* eslint-disable no-use-before-define */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-shadow */
@@ -6,9 +10,7 @@ import { setLogin, getLastPathWithoutLogin } from '@helper_auth';
 import { getCookies, setCookies } from '@helper_cookies';
 import { setCartId, getCartId } from '@helper_cartid';
 import { useQuery } from '@apollo/client';
-import {
-    expiredToken, custDataNameCookie, recaptcha, modules,
-} from '@config';
+import { expiredToken, custDataNameCookie, recaptcha, modules } from '@config';
 import Router from 'next/router';
 import Cookies from 'js-cookie';
 import { regexPhone } from '@helper_regex';
@@ -35,9 +37,7 @@ const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const appEnv = getAppEnv();
 
 const Login = (props) => {
-    const {
-        t, storeConfig, query, lastPathNoAuth, Content, pageConfig,
-    } = props;
+    const { t, storeConfig, query, lastPathNoAuth, Content, pageConfig } = props;
     const config = {
         title: t('login:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)
@@ -55,51 +55,57 @@ const Login = (props) => {
     // Listen to the Firebase Auth state and set the local state.
 
     React.useEffect(() => {
-        const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
-            if (firebase.auth().currentUser) {
-                const fullname = user.displayName.split(' ');
-                const firstName = fullname[0];
-                let lastName = '';
-                const { email } = user;
-                fullname.forEach((entry) => {
-                    if (entry != firstName) {
-                        lastName += `${entry} `;
+        if (firebase.app()) {
+            try {
+                const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
+                    if (firebase.auth().currentUser) {
+                        const fullname = user.displayName.split(' ');
+                        const firstName = fullname[0];
+                        let lastName = '';
+                        const { email } = user;
+                        fullname.forEach((entry) => {
+                            if (entry != firstName) {
+                                lastName += `${entry} `;
+                            }
+                        });
+                        firebase
+                            .auth()
+                            .currentUser.getIdToken(true)
+                            .then((user) => {
+                                setDisabled(true);
+                                setLoading(true);
+                                window.backdropLoader(true);
+                                actSocialLogin({
+                                    variables: {
+                                        email,
+                                        socialtoken: user,
+                                        firstname: firstName,
+                                        lastname: lastName,
+                                    },
+                                })
+                                    .then(async () => {
+                                        setLogin(1, expired);
+                                        await setIsLogin(1);
+                                        getCart();
+                                    })
+                                    .catch((e) => {
+                                        setDisabled(false);
+                                        setLoading(false);
+                                        window.backdropLoader(false);
+                                        window.toastMessage({
+                                            open: true,
+                                            variant: 'error',
+                                            text: e.message.split(':')[0] || t('login:failed'),
+                                        });
+                                    });
+                            });
                     }
                 });
-                firebase
-                    .auth()
-                    .currentUser.getIdToken(true)
-                    .then((user) => {
-                        setDisabled(true);
-                        setLoading(true);
-                        window.backdropLoader(true);
-                        actSocialLogin({
-                            variables: {
-                                email,
-                                socialtoken: user,
-                                firstname: firstName,
-                                lastname: lastName,
-                            },
-                        })
-                            .then(async () => {
-                                setLogin(1, expired);
-                                await setIsLogin(1);
-                                getCart();
-                            })
-                            .catch((e) => {
-                                setDisabled(false);
-                                setLoading(false);
-                                window.backdropLoader(false);
-                                window.toastMessage({
-                                    open: true,
-                                    variant: 'error',
-                                    text: e.message.split(':')[0] || t('login:failed'),
-                                });
-                            });
-                    });
+                return () => unregisterAuthObserver();
+            } catch {
+                null;
             }
-        });
-        return () => unregisterAuthObserver();
+        }
     }, []);
 
     const [state, setState] = React.useState({
@@ -389,10 +395,10 @@ const Login = (props) => {
 
     let socialLoginMethodData = [];
     if (
-        socialLoginMethod.data
-        && socialLoginMethod.data.getSigninMethodSocialLogin
-        && socialLoginMethod.data.getSigninMethodSocialLogin.signin_method_allowed
-        && socialLoginMethod.data.getSigninMethodSocialLogin.signin_method_allowed !== ''
+        socialLoginMethod.data &&
+        socialLoginMethod.data.getSigninMethodSocialLogin &&
+        socialLoginMethod.data.getSigninMethodSocialLogin.signin_method_allowed &&
+        socialLoginMethod.data.getSigninMethodSocialLogin.signin_method_allowed !== ''
     ) {
         socialLoginMethodData = socialLoginMethod.data.getSigninMethodSocialLogin.signin_method_allowed.split(',');
     }

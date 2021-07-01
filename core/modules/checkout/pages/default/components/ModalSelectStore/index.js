@@ -88,7 +88,12 @@ const ModalSelectStore = ({
                 });
                 await setLoading(false);
                 setOpen();
-            }).catch(() => {
+            }).catch((err) => {
+                window.toastMessage({
+                    open: true,
+                    variant: 'error',
+                    text: err.message.split(':')[1] || t('checkout:message:serverError'),
+                });
                 setLoading(false);
             });
         } else {

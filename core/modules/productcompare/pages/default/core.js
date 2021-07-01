@@ -128,10 +128,7 @@ const HomeCore = (props) => {
                 client.writeQuery({
                     query: localCompare,
                     data: {
-                        compareList: {
-                            __typename: 'Product_Compare',
-                            item_count: res.data.removeProductsFromCompareList.item_count,
-                        },
+                        item_count: res.data.removeProductsFromCompareList.item_count,
                     },
                 });
                 refetch();

@@ -6,7 +6,7 @@ const MagezonRenderer = (props) => {
     let removeIdentifier = content.replace('[mgz_pagebuilder]', '');
     removeIdentifier = removeIdentifier.replace('[/mgz_pagebuilder]', '');
     removeIdentifier = JSON.parse(removeIdentifier);
-    if (typeof window !== 'undefined') console.log(removeIdentifier);
+    if (typeof window !== 'undefined');
     return (
         <>
             {

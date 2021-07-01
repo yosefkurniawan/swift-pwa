@@ -37,3 +37,16 @@ export const removeIsLoginFlagging = () => {
     // base on https://www.npmjs.com/package/next-cookies
     document.cookie = 'foo=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT';
 };
+
+export const setEmailConfirmationFlag = ({ status, message, variant }) => {
+    cookies.set('emailConfirmationFlag', { status, message, variant });
+};
+
+export const getEmailConfirmationFlag = () => {
+    const emailConfirmationFlag = cookies.get('emailConfirmationFlag') || 0;
+    return emailConfirmationFlag;
+};
+
+export const removeEmailConfirmationFlag = () => {
+    cookies.remove('emailConfirmationFlag');
+};

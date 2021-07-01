@@ -10,7 +10,9 @@
         "homeDelivery": "Home delivery",
         "homeDeliveryDesc": "Kami akan mengantarkan ke rumah Anda",
         "pickupDelivery": "Pickup",
-        "pickupDeliveryDesc": "Ambil sendiri barang di toko"
+        "pickupDeliveryDesc": "Ambil sendiri barang di toko",
+        "instorePickup": "Instore Pickup",
+        "instorePickupDesc": "Ambil sendiri barang di toko"
     },
     "pickupInformation": {
         "label": "Informasi pengambilan",
@@ -23,6 +25,7 @@
     },
     "purchaseOrderNumber": "Nomor Pesanan Pembelian",
     "pickupStore": "Ambil di toko",
+    "instorePickup": "Instore Pickup",
     "shippingMethod" : "Cara pengiriman",
     "payment" : "Pembayaran",
     "paymentMethod": "Metode pengiriman",

@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
         whiteSpace: 'nowrap',
         color: '#fff',
         cursor: 'pointer',
+        borderRadius: 0,
         '@media screen and (max-width: 767px)': {
             width: '100%',
             marginLeft: 0,

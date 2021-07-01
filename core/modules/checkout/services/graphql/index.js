@@ -1,6 +1,12 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import * as Schema from '@core_modules/checkout/services/graphql/schema';
 import * as PaypalSchema from '@core_modules/checkout/services/graphql/paypalSchema';
+import { getLoginInfo } from '@helper_auth';
+
+let isLogin = 0;
+if (typeof window !== 'undefined') {
+    isLogin = getLoginInfo();
+}
 
 const NOT_USING_INTERNAL = false;
 const USING_INTERNAL = true;
@@ -212,7 +218,20 @@ export const addOrderComment = () => useMutation(Schema.addOrderComment, {
     ...config(USING_INTERNAL),
 });
 
-export const getCmsPage = (variables) => useQuery(Schema.getCmsPage, { variables });
+export const getCmsPage = (variables) => useQuery(Schema.getCmsPage, {
+    variables,
+    context: {
+        request: isLogin ? 'internal' : '',
+    },
+    fetchPolicy: isLogin ? 'network-only' : '',
+});
+
+export const pickupLocations = () => useLazyQuery(Schema.pickupLocations);
+
+export const setInstoreShippingAddress = (options = {}) => useMutation(Schema.setInstoreShippingAddress, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
 
 // paypal
 export const createPaypalExpressToken = () => useMutation(PaypalSchema.createPaypalExpressToken, {
@@ -260,4 +279,6 @@ export default {
     getCmsPage,
     getIndodanaUrl,
     createPaypalExpressToken,
+    pickupLocations,
+    setInstoreShippingAddress,
 };
