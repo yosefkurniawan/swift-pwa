@@ -5,7 +5,6 @@ import {
 import {
     FlexColumn,
     CreateBorder,
-    CenterAbsolute,
     Centering,
 } from '@theme_mixins';
 
@@ -22,9 +21,17 @@ const useStyles = makeStyles(() => ({
     list: {
         ...CreateBorder('1px', 0, 0, 0, GRAY_PRIMARY),
     },
+    footer: {
+        width: '100%',
+        ...FlexColumn,
+        alignItems: 'center',
+    },
     btnCheckout: {
-        ...CenterAbsolute,
         marginTop: 20,
+        minWidth: '90%',
+        marginBottom: 20,
+    },
+    paypalBtn: {
         minWidth: '90%',
     },
     labelItem: {

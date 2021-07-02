@@ -7,6 +7,7 @@ import {
 export default makeStyles((theme) => ({
     container: {
         marginTop: 30,
+        marginBottom: 30,
         ...FlexRow,
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
