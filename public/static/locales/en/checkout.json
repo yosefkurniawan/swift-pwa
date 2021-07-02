@@ -117,6 +117,7 @@
         "itemsCart": "Items in your shopping cart ",
         "editCart": "Edit shopping cart",
         "usePromo": "Use promo code",
-        "label": "PayPal express checkout" 
+        "label": "PayPal express checkout",
+        "noShippingMethod": "Please select a shipping method"
     }
 }

@@ -59,78 +59,80 @@ const ShippingMethod = (props) => {
 
     const onChange = async (e) => {
         const { value } = e.target;
-        let state = { ...checkout };
-        const { cart } = checkout;
-        const [carrier_code, method_code] = value.split('_');
+        if (value && value !== '') {
+            let state = { ...checkout };
+            const { cart } = checkout;
+            const [carrier_code, method_code] = value.split('_');
 
-        state.selectedShippingMethod = value;
-        state.loading.all = true;
-        setCheckout(state);
-
-        let updatedCart = await setShippingMethod({
-            variables: {
-                cartId: cart.id,
-                carrierCode: carrier_code,
-                methodCode: method_code,
-            },
-        });
-
-        state.loading.all = false;
-        setCheckout(state);
-
-        if (updatedCart && updatedCart.data) {
-            updatedCart = {
-                ...checkout.cart,
-                ...updatedCart.data.setShippingMethodsOnCart.cart,
-            };
-
-            state = { ...checkout };
-            state.cart = updatedCart;
             state.selectedShippingMethod = value;
+            state.loading.all = true;
             setCheckout(state);
-            const selectedShipping = checkout.shippingMethods.filter((item) => item.method_code === method_code);
-            const dataLayer = {
-                event: 'checkout',
-                ecommerce: {
-                    checkout: {
-                        actionField: { step: 2, option: selectedShipping[0].label, action: 'checkout' },
-                        products: cart.items.map(({ quantity, product, prices }) => ({
-                            name: product.name,
-                            id: product.sku,
-                            price: JSON.stringify(prices.price.value),
-                            category: product.categories.length > 0 ? product.categories[0].name : '',
-                            list: product.categories.length > 0 ? product.categories[0].name : '',
-                            quantity: JSON.stringify(quantity),
-                            dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
-                            dimension5: '',
-                            dimension6: '',
-                            dimension7: prices.discount ? 'YES' : 'NO',
-                        })),
-                    },
-                    currencyCode: storeConfig.base_currency_code || 'IDR',
+
+            let updatedCart = await setShippingMethod({
+                variables: {
+                    cartId: cart.id,
+                    carrierCode: carrier_code,
+                    methodCode: method_code,
                 },
-            };
-            const dataLayerOption = {
-                event: 'checkoutOption',
-                ecommerce: {
-                    currencyCode: storeConfig.base_currency_code || 'IDR',
-                    checkout_option: {
-                        actionField: { step: 2, option: selectedShipping[0].label, action: 'checkout_option' },
+            });
+
+            state.loading.all = false;
+            setCheckout(state);
+
+            if (updatedCart && updatedCart.data) {
+                updatedCart = {
+                    ...checkout.cart,
+                    ...updatedCart.data.setShippingMethodsOnCart.cart,
+                };
+
+                state = { ...checkout };
+                state.cart = updatedCart;
+                state.selectedShippingMethod = value;
+                setCheckout(state);
+                const selectedShipping = checkout.shippingMethods.filter((item) => item.method_code === method_code);
+                const dataLayer = {
+                    event: 'checkout',
+                    ecommerce: {
+                        checkout: {
+                            actionField: { step: 2, option: selectedShipping[0].label, action: 'checkout' },
+                            products: cart.items.map(({ quantity, product, prices }) => ({
+                                name: product.name,
+                                id: product.sku,
+                                price: JSON.stringify(prices.price.value),
+                                category: product.categories.length > 0 ? product.categories[0].name : '',
+                                list: product.categories.length > 0 ? product.categories[0].name : '',
+                                quantity: JSON.stringify(quantity),
+                                dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                dimension5: '',
+                                dimension6: '',
+                                dimension7: prices.discount ? 'YES' : 'NO',
+                            })),
+                        },
+                        currencyCode: storeConfig.base_currency_code || 'IDR',
                     },
-                },
-            };
-            TagManager.dataLayer({
-                dataLayer,
-            });
-            TagManager.dataLayer({
-                dataLayer: dataLayerOption,
-            });
-        } else {
-            window.toastMessage({
-                open: true,
-                variant: 'error',
-                text: t('checkout:message:problemConnection'),
-            });
+                };
+                const dataLayerOption = {
+                    event: 'checkoutOption',
+                    ecommerce: {
+                        currencyCode: storeConfig.base_currency_code || 'IDR',
+                        checkout_option: {
+                            actionField: { step: 2, option: selectedShipping[0].label, action: 'checkout_option' },
+                        },
+                    },
+                };
+                TagManager.dataLayer({
+                    dataLayer,
+                });
+                TagManager.dataLayer({
+                    dataLayer: dataLayerOption,
+                });
+            } else {
+                window.toastMessage({
+                    open: true,
+                    variant: 'error',
+                    text: t('checkout:message:problemConnection'),
+                });
+            }
         }
     };
 

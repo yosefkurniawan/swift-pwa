@@ -1,6 +1,8 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { FlexRow } from '@root/core/theme/mixins';
-import { GREEN, PRIMARY } from '@theme_color';
+import {
+    GREEN, PRIMARY, GRAY_PRIMARY, SECONDARY,
+} from '@theme_color';
 
 export default makeStyles((theme) => ({
     container: {
@@ -19,12 +21,18 @@ export default makeStyles((theme) => ({
             background: PRIMARY,
             color: PRIMARY,
         },
+        '&:disabled': {
+            background: SECONDARY,
+        },
     },
     btnPlaceOrder: {
         background: GREEN,
         '&:hover': {
             background: GREEN,
             color: GREEN,
+        },
+        '&:disabled': {
+            background: GRAY_PRIMARY,
         },
     },
     btnLabel: {

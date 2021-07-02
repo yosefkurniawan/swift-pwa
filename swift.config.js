@@ -380,6 +380,7 @@ const modules = {
             returnUrl: 'paypal/express/review',
             cancelUrl: 'checkout/cart',
             keyData: 'paypal-data',
+            keyToken: 'paypal-token',
             merchantId: 'M4TYHSS9A9Z8C',
             debug: true,
             disableFunding: 'venmo%2Cbancontact%2Ceps%2Cgiropay%2Cideal%2Cmybank%2Cp24%2Csofort',

@@ -117,6 +117,7 @@
         "itemsCart": "Item di keranjang belanja",
         "editCart": "Ubah keranjang belanja",
         "usePromo": "Gunakan kode promo",        
-        "label": "PayPal express checkout" 
+        "label": "PayPal express checkout",        
+        "noShippingMethod": "Silahkan pilih metode pengiriman"
     }
 }

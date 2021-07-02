@@ -86,10 +86,12 @@ const PlaceOrder = (props) => {
             });
         }
     };
+    const disabled = checkout.selectedShippingMethod === null;
     return (
         <View
             {...props}
             handlePlaceOrder={handlePlaceOrder}
+            disabled={disabled}
         />
     );
 };

@@ -38,13 +38,13 @@ Page.getInitialProps = async (ctx) => {
         if (ctx.res) {
             ctx.res.statusCode = 302;
             ctx.res.setHeader('Location', urlRedirect);
-            return { props: {}, namespacesRequired: ['common', 'checkout', 'customer', 'validate'] };
+            return { props: {}, namespacesRequired: ['common', 'checkout'] };
         }
         if (typeof window !== 'undefined') Router.push(urlRedirect);
     }
 
     return {
-        namespacesRequired: ['common', 'checkout', 'customer', 'validate'],
+        namespacesRequired: ['common', 'checkout'],
         cartId,
     };
 };

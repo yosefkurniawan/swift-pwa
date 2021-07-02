@@ -230,6 +230,13 @@ items {
 }
 `;
 
+const cartAvailablePaymentMethods = `
+    available_payment_methods {
+        code
+        title
+    }
+`;
+
 const cartRequiredSelection = `
 id
 errorItems
@@ -246,6 +253,7 @@ export const getCart = gql`
         cart(cart_id: $cartId) {
             ${applied_giftcard}
             ${cartRequiredSelection}
+            ${cartAvailablePaymentMethods}
         }
     }
 `;
@@ -374,6 +382,7 @@ export const getMiniCart = gql`
                   value
                 }
             }
+            ${cartAvailablePaymentMethods}
             items {
               id
               quantity
@@ -439,6 +448,9 @@ export const getMiniCart = gql`
                 url_key
                 sku
                 stock_status
+                categories {
+                 name
+                }
               }
           }
         }

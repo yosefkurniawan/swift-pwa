@@ -6,7 +6,7 @@ import useStyles from '@core_modules/paypal/pages/review/components/PlaceOrder/s
 
 const ShippingAddress = (props) => {
     const {
-        t, handlePlaceOrder, checkout,
+        t, handlePlaceOrder, checkout, disabled,
     } = props;
     const styles = useStyles();
     let order = false;
@@ -35,7 +35,7 @@ const ShippingAddress = (props) => {
                 className={styles.btnPlaceOrder}
                 color="primary"
                 onClick={handlePlaceOrder}
-                disabled={order}
+                disabled={order || disabled}
             >
                 <Typography
                     variant="span"

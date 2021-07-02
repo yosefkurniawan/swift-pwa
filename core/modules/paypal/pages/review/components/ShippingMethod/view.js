@@ -2,7 +2,6 @@
 import React from 'react';
 import Typography from '@common_typography';
 import { SkeletonShippingMethod } from '@core_modules/paypal/pages/review/components/Skeleton';
-import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import useStyles from '@core_modules/paypal/pages/review/components/ShippingMethod/style';
 
@@ -25,26 +24,34 @@ const ShippingMethodView = (props) => {
                         : data.length > 0
                             ? (
                                 <div className="col-xs-12">
-                                    <FormControl>
-                                        <Select
-                                            native
-                                            defaultValue={checkout.selectedShippingMethod}
-                                            value={checkout.selectedShippingMethod}
-                                            id="grouped-select"
-                                            className={styles.selectBox}
-                                            onChange={onChange}
-                                        >
-                                            {
-                                                data.map((item, key) => (
-                                                    <optgroup
-                                                        key={key}
-                                                        label={t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
+                                    <Select
+                                        native
+                                        defaultValue={checkout.selectedShippingMethod}
+                                        value={checkout.selectedShippingMethod}
+                                        id="grouped-select"
+                                        className={styles.selectBox}
+                                        onChange={onChange}
+                                    >
+                                        {
+                                            checkout.selectedShippingMethod === null && (
+                                                <option
+                                                    value=""
+                                                >
+                                                    {t('checkout:paypal:noShippingMethod')}
+                                                </option>
+                                            )
+                                        }
+                                        {
+                                            data.map((item, key) => (
+                                                <optgroup
+                                                    key={key}
+                                                    label={t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
                                                             === `shippingGrouping.${item.group.replace('sg-', '')}`
-                                                            ? item.group.replace('pg-', '')
-                                                            : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
-                                                    >
-                                                        {
-                                                            item.data && item.data.length > 0
+                                                        ? item.group.replace('pg-', '')
+                                                        : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
+                                                >
+                                                    {
+                                                        item.data && item.data.length > 0
                                                             && item.data.map((list, idx) => (
                                                                 <option
                                                                     key={idx}
@@ -53,12 +60,11 @@ const ShippingMethodView = (props) => {
                                                                     {list.label}
                                                                 </option>
                                                             ))
-                                                        }
-                                                    </optgroup>
-                                                ))
-                                            }
-                                        </Select>
-                                    </FormControl>
+                                                    }
+                                                </optgroup>
+                                            ))
+                                        }
+                                    </Select>
                                 </div>
                             )
                             : (<Typography variant="p">{t('checkout:noShipping')}</Typography>)
