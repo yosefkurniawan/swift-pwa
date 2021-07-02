@@ -217,6 +217,8 @@ items {
 const selected_payment_method = `
 selected_payment_method {
     code
+    purchase_order_number
+    title
 }
 `;
 

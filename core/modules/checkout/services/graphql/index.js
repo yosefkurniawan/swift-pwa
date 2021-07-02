@@ -1,5 +1,6 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import * as Schema from '@core_modules/checkout/services/graphql/schema';
+import * as PaypalSchema from '@core_modules/checkout/services/graphql/paypalSchema';
 import { getLoginInfo } from '@helper_auth';
 
 let isLogin = 0;
@@ -232,6 +233,11 @@ export const setInstoreShippingAddress = (options = {}) => useMutation(Schema.se
     ...config(USING_INTERNAL),
 });
 
+// paypal
+export const createPaypalExpressToken = () => useMutation(PaypalSchema.createPaypalExpressToken, {
+    ...config(USING_INTERNAL),
+});
+
 export default {
     updateExtraFee,
     updatedDefaultAddress,
@@ -272,6 +278,7 @@ export default {
     addOrderComment,
     getCmsPage,
     getIndodanaUrl,
+    createPaypalExpressToken,
     pickupLocations,
     setInstoreShippingAddress,
 };

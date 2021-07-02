@@ -53,6 +53,7 @@ const Content = (props) => {
                     editMode={editMode}
                     {...other}
                     handleActionSummary={handleOnCheckoutClicked}
+                    isCart
                 />
             </div>
         </div>

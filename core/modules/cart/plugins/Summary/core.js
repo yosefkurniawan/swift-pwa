@@ -119,12 +119,18 @@ const CoreSummary = (props) => {
                 summary={{ total, data: dataSummary }}
                 isDesktop={isDesktop}
                 {...other}
+                dataCart={dataCart}
             />
         );
     }
 
     return (
-        <MobileView items={items} summary={{ total, data: dataSummary }} {...other} />
+        <MobileView
+            items={items}
+            summary={{ total, data: dataSummary }}
+            {...other}
+            dataCart={dataCart}
+        />
     );
 };
 
