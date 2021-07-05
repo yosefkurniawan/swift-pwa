@@ -24,6 +24,13 @@ export const getCustomerCartId = () => useLazyQuery(Schema.getCartIdUser, {
     fetchPolicy: 'no-cache',
 });
 
+export const getGuestCustomer = (options = {}) => useLazyQuery(Schema.getGuestCustomer, {
+    ...options,
+    context: {
+    },
+    fetchPolicy: 'no-cache',
+});
+
 export default {
     register,
 };

@@ -74,6 +74,21 @@ export const otpConfig = gql`
     }
 `;
 
+export const getGuestCustomer = gql`
+  query getGuestCustomer($ids: FilterEqualTypeInput) {
+    ordersFilter(filters: {
+      ids: $ids
+    }){
+      data{
+        detail{
+          customer_firstname
+          customer_lastname
+          customer_email
+        }
+      }
+    }
+  }
+`;
 export default {
     register,
 };

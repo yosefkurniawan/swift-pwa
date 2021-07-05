@@ -484,6 +484,7 @@ const modules = {
     thanks: {
         enabled: true,
         path: '/checkout/onepage/success',
+        registerLink: true,
     },
     home: {
         enabled: true,

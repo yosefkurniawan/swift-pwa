@@ -22,14 +22,14 @@ Page.getInitialProps = async (ctx) => {
         if (ctx.res) {
             ctx.res.statusCode = 302;
             ctx.res.setHeader('Location', '/');
-            return { props: {}, namespacesRequired: ['common', 'thanks', 'home'] };
+            return { props: {}, namespacesRequired: ['common', 'thanks', 'home', 'login'] };
         }
         Router.push('/');
     }
     return {
         query: ctx.query,
         checkoutData: typeof checkoutData === 'string' ? JSON.parse(checkoutData) : checkoutData,
-        namespacesRequired: ['common', 'thanks'],
+        namespacesRequired: ['common', 'thanks', 'login'],
     };
 };
 
