@@ -17,6 +17,21 @@ const PaymentMethod = (props) => {
         paymentMethod = checkout.cart.selected_payment_method;
     }
 
+    if (paypalData && paypalData.details && paypalData.details.payer
+        && paypalData.details.payer.email_address) {
+        paymentMethod = {
+            ...paymentMethod,
+            email_address: paypalData.details.payer.email_address,
+        };
+    }
+
+    if (checkout.cart && checkout.cart.email) {
+        paymentMethod = {
+            ...paymentMethod,
+            email_address: checkout.cart.email,
+        };
+    }
+
     const styles = useStyles();
 
     return (
@@ -32,16 +47,8 @@ const PaymentMethod = (props) => {
                 </Typography>
                 {
                     paymentMethod && paymentMethod.email_address && (
-                        <Typography variant="p" letter="capitalize">
-                            {paymentMethod.email_address}
-                        </Typography>
-                    )
-                }
-                {
-                    paypalData && paypalData.details && paypalData.details.payer
-                    && paypalData.details.payer.email_address && (
                         <Typography variant="p">
-                            {paypalData.details.payer.email_address}
+                            {paymentMethod.email_address}
                         </Typography>
                     )
                 }
