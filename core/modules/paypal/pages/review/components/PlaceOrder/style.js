@@ -1,7 +1,7 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { FlexRow } from '@root/core/theme/mixins';
 import {
-    GREEN, PRIMARY, GRAY_PRIMARY, SECONDARY,
+    PRIMARY, GRAY_PRIMARY, SECONDARY, GRAY_SECONDARY,
 } from '@theme_color';
 
 export default makeStyles((theme) => ({
@@ -17,6 +17,16 @@ export default makeStyles((theme) => ({
     },
     btnCancel: {
         marginRight: 20,
+        background: GRAY_PRIMARY,
+        '&:hover': {
+            background: GRAY_PRIMARY,
+            color: GRAY_PRIMARY,
+        },
+        '&:disabled': {
+            background: GRAY_SECONDARY,
+        },
+    },
+    btnPlaceOrder: {
         background: PRIMARY,
         '&:hover': {
             background: PRIMARY,
@@ -24,16 +34,6 @@ export default makeStyles((theme) => ({
         },
         '&:disabled': {
             background: SECONDARY,
-        },
-    },
-    btnPlaceOrder: {
-        background: GREEN,
-        '&:hover': {
-            background: GREEN,
-            color: GREEN,
-        },
-        '&:disabled': {
-            background: GRAY_PRIMARY,
         },
     },
     btnLabel: {
