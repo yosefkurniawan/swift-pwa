@@ -57,8 +57,13 @@ const PlaceOrder = (props) => {
             orderNumber = result.data.placeOrder.order.order_number;
         }
         if (orderNumber && orderNumber !== '') {
+            let { email } = cart;
+            if (checkout.isGuest && paypalData && paypalData.details && paypalData.details.payer
+                && paypalData.details.payer.email_address) {
+                email = paypalData.details.payer.email_address;
+            }
             setCheckoutData({
-                email: cart.email,
+                email,
                 order_number: orderNumber,
                 order_id: result.data.placeOrder.order.order_id,
             });
