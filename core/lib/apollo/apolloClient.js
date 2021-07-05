@@ -71,9 +71,13 @@ export default function createApolloClient(initialState, ctx) {
     // The `ctx` (NextPageContext) will only be present on the server.
     // use it to extract auth headers (ctx.req) or similar.
     let token = '';
-    const store_code_storage = cookies.get('store_code_storage');
+    let store_code_storage = cookies.get('store_code_storage');
     if (ctx && ctx.req) {
         token = ctx.req.session.token;
+
+        if (typeof window === 'undefined') {
+            store_code_storage = ctx.req.cookies.store_code_storage || store_code_storage;
+        }
     }
 
     /**
