@@ -14,7 +14,7 @@ const ShippingAddress = (props) => {
     let disabledCancel = false;
     if (checkout && checkout.loading) {
         order = checkout.loading.order;
-        disabled = checkout.loading.order || checkout.loading.all;
+        disabled = checkout.loading.order || checkout.loading.all || disabled;
         disabledCancel = checkout.loading.order || checkout.loading.all;
     }
 
@@ -39,7 +39,7 @@ const ShippingAddress = (props) => {
                 className={styles.btnPlaceOrder}
                 color="primary"
                 onClick={handlePlaceOrder}
-                disabled={order || disabled}
+                disabled={disabled}
             >
                 <Typography
                     variant="span"
