@@ -134,10 +134,10 @@ const View = (props) => {
                 <div className={styles.wrapperRegister}>
                     <AccountCircleIcon className={styles.btnAccountIcon} />
                     <Typography variant="p" color="black" align="center">
-                        You can track your order status by creating an account.
+                        {t('thanks:registerInfo')}
                     </Typography>
                     <Typography variant="p" color="black" align="center">
-                        Email address:
+                        {t('thanks:emailInfo')}
                         {' '}
                         {checkoutData.email}
                     </Typography>
