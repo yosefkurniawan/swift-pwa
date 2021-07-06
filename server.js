@@ -85,7 +85,7 @@ async function renderAndCache(req, res) {
     const server = express();
     server.use(cookieParser());
     // disable x-powered-by
-    server.use.disable('x-powered-by');
+    server.disable('x-powered-by');
     // if ssr cache on
     if (features.ssrCache) {
         // handle next js request
