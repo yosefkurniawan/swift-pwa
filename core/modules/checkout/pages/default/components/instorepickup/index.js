@@ -102,10 +102,10 @@ const ModalPickupLocations = (props) => {
                                 return (
                                     <div
                                         key={loc.pickup_location_code}
-                                        onClick={() => setSelected(loc)}
+                                        onClick={() => setSelected(loc.pickup_location_code)}
                                         className={classNames(
                                             styles.card,
-                                            selected && checkout.pickup_location_code === loc.pickup_location_code && styles.cardActive
+                                            selected && selected === loc.pickup_location_code && styles.cardActive
                                         )}
                                     >
                                         <Typography variant="span" type="bold">
