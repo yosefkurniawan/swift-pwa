@@ -3,7 +3,7 @@
 /* --------------------------------------- */
 const useMagentoCommerce = false; // setup uses magento commerce or community
 const storeCode = ''; // fill it with any store code when the magento is setup with multiple stores. leave it empty to use default store.
-const assetsVersion = '1.0.5';
+const assetsVersion = '1.0.6';
 const iconAppleTouch = '/assets/img/swiftpwa_apple_touch.png';
 
 const HOST = {
@@ -215,20 +215,20 @@ const features = {
     },
     firebase: {
         config: {
-            apiKey: '', // sample: AIzaSyCD0ZuTMcNi3PSsJH9LD21v7_XA1sVLjdI
-            authDomain: '', // sample: swiftpwa-firebase.firebaseapp.com
+            apiKey: '', // sample: AIzaSyCt9ks21BjiE9qirv-8xOEcUnUnH6viobw
+            authDomain: '', // sample: swift-pwa-dev.firebaseapp.com
             databaseURL: '', // sample: https://swiftpwa-firebase.firebaseio.com
-            projectId: '', // sample: swiftpwa-firebase
-            storageBucket: '', // sample: swiftpwa-firebase.appspot.com
-            messagingSenderId: '', // sample: 731430387766
-            appId: '', // sample: 1:731430387766:web:af85ac9f9559c873309897
-            measurementId: '', // sample: G-DP22E2CL8G
+            projectId: '', // sample: swift-pwa-dev
+            storageBucket: '', // sample: swift-pwa-dev.appspot.com
+            messagingSenderId: '', // sample: 1083571104838
+            appId: '', // sample: 1:1083571104838:web:4f06ca5a60b1c1a9efee47
+            measurementId: '', // sample: G-HBHPY22H0H
         },
         pushNotification: {
             enabled: false,
             config: {
                 // key from cloud messaging sertificat web push
-                pairKey: '', // sample: BBIzfGdH56tlTaV1jxqaWA_n47trFqy51WjcCn9Fa1-7xzmY4iBwBlGQjO1e_bRBEx9kq4o8q4zyl14JuXSIC-k
+                pairKey: '', // sample: BJ2IqpfQQGrckDUAI7TaX8r0_v6aykBSIIEpZUqhlkzZI2e7WVZk9ZB4xOiWBqTbVo6wk44gnpRLAJDemB66zAU
             },
         },
     },

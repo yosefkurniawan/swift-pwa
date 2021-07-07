@@ -14,7 +14,7 @@ const encryption = {
 /* key server fcm */
 const fcm = {
     topic: 'notificationspwa',
-    FCM_KEY_SERVER: 'AAAAqkymADY:APA91bHBOetzmkBWOhij2_UUv6gz9anWO7k_7xzQUBZqY5x0TNlFDZ5TUZQvkGuaQ2z4_2J1VXEayHh4ueTi855CuSuHViXE5AmRcIItKL38yK8ArxlHBA2fC6ONPRcpq9ki3lJvtoMj',
+    FCM_KEY_SERVER: '', // sample : AAAA_Ene7EY:APA91bHxUfEgv4zU6SIFWAQgt80FtYQVwHhF8QDetJChYMt1BW76Hti036Jplesa-JTqHZlu5UM5gM-f_1DEpa_POjqBE_nqInn7zGrfcgSPDHxOwMGeB2rpe_mO1k6KUoCFgeD9sG1i
 };
 
 /* Cookie */
