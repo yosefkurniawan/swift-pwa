@@ -17,18 +17,17 @@ import { useEffect, useState } from 'react';
 
 const ModalPickupLocations = (props) => {
     const {
-        t, open, setOpen, locations = [], currentPickup, setCurrentPickup, checkout, setCheckout,
+        t, open, setOpen, locations = [], checkout, setCheckout,
     } = props;
     const [loading, setLoading] = useState(false);
     const [listLocations, setListLocations] = useState(locations);
-    const [selected, setSelected] = useState(checkout.pickup_location_code || currentPickup);
+    const [selected, setSelected] = useState(checkout);
     const [search, setSearch] = useState('');
     const styles = useModalStyles();
     const [setShipMethod] = setShippingMethod();
     const [setInstoreAddress] = setInstoreShippingAddress();
 
     const handleSave = async () => {
-        setCurrentPickup(selected);
         setLoading(true);
         const { cart } = checkout.data;
         const newCheckout = { ...checkout };
@@ -102,10 +101,10 @@ const ModalPickupLocations = (props) => {
                                 return (
                                     <div
                                         key={loc.pickup_location_code}
-                                        onClick={() => setSelected(loc.pickup_location_code)}
+                                        onClick={() => setSelected(loc)}
                                         className={classNames(
                                             styles.card,
-                                            selected && selected === loc.pickup_location_code && styles.cardActive
+                                            selected && selected.pickup_location_code === loc.pickup_location_code && styles.cardActive
                                         )}
                                     >
                                         <Typography variant="span" type="bold">
@@ -150,7 +149,6 @@ const InStorePickup = (props) => {
     const { t, checkout, setCheckout } = props;
     const [getPickupLocations, results] = pickupLocations();
     const [open, setOpen] = useState(false);
-    const [currentPickup, setCurrentPickup] = useState(null);
     const locations = results.data?.pickupLocations.items;
     const classes = useStyles();
     const styles = useParentStyles();
@@ -168,8 +166,6 @@ const InStorePickup = (props) => {
                 open={open}
                 setOpen={setOpen}
                 locations={locations}
-                currentPickup={currentPickup}
-                setCurrentPickup={setCurrentPickup}
                 checkout={checkout}
                 setCheckout={setCheckout}
             />
