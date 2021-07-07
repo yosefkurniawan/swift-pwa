@@ -28,6 +28,7 @@
     "instorePickup": "Instore Pickup",
     "shippingMethod" : "Cara pengiriman",
     "payment" : "Pembayaran",
+    "paymentMethod": "Metode pengiriman",
     "placeOrder" : "Buat pesanan",
     "paymentSubtitle" : "Pilih metode pembayaran",
     "emailAddress": "Alamat Email",
@@ -110,5 +111,13 @@
     "cartError": "Ada yang salah saat mengambil data keranjang",
     "feePromoLabel" :"Biaya & promosi",
     "buttonOk": "Ok",
-    "howtoPay": "Bagaimana cara membayar"
+    "howtoPay": "Bagaimana cara membayar",
+    "paypal": {
+        "reviewPage": "Review pesanan",        
+        "itemsCart": "Item di keranjang belanja",
+        "editCart": "Ubah keranjang belanja",
+        "usePromo": "Gunakan kode promo",        
+        "label": "PayPal express checkout",        
+        "noShippingMethod": "Silahkan pilih metode pengiriman"
+    }
 }

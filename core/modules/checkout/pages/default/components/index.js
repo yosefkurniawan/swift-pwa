@@ -51,6 +51,11 @@ const Content = (props) => {
         ExtraFeeView,
         cartId,
         PromoModalItemView,
+        paypalTokenData,
+        paypalHandlingProps,
+        setInitialOptionPaypal,
+        initialOptionPaypal,
+        setTokenData,
     } = props;
 
     const styles = useStyles();
@@ -233,6 +238,11 @@ const Content = (props) => {
                         storeConfig={storeConfig}
                         PaymentView={PaymentView}
                         modules={modules}
+                        paypalTokenData={paypalTokenData}
+                        paypalHandlingProps={paypalHandlingProps}
+                        setInitialOptionPaypal={setInitialOptionPaypal}
+                        initialOptionPaypal={initialOptionPaypal}
+                        setTokenData={setTokenData}
                     />
                     {modules.checkout.orderComment.enabled ? (
                         <div className={classNames(styles.block)}>

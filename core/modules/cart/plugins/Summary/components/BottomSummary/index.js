@@ -20,6 +20,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineOutlined from '@material-ui/icons/DeleteOutlineOutlined';
 import useStyles from '@plugin_summary/components/BottomSummary/style';
+import PaypalButtonView from '@plugin_paypalbutton';
 
 const CheckoutDrawer = ({
     editMode,
@@ -35,6 +36,8 @@ const CheckoutDrawer = ({
     deleteCart,
     updateCart,
     withAction,
+    dataCart,
+    isCart = false,
 }) => {
     const styles = useStyles();
     const [expanded, setExpanded] = useState(null);
@@ -206,6 +209,13 @@ const CheckoutDrawer = ({
                             {label || t('common:button:checkout')}
                         </Typography>
                     </Button>
+                    {
+                        isCart && dataCart && (
+                            <div className={styles.paypalBtn}>
+                                <PaypalButtonView cart={dataCart} t={t} />
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </Slide>

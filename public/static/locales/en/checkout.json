@@ -28,6 +28,7 @@
     "instorePickup": "Instore Pickup",
     "shippingMethod" : "shipping method",
     "payment" : "payment",
+    "paymentMethod": "payment method",
     "placeOrder" : "Place order",
     "paymentSubtitle" : "Select your payment method",
     "emailAddress": "Email address",
@@ -110,5 +111,13 @@
     "cartError": "Something went wrong during fetching the cart data",
     "feePromoLabel" :"Fee & promotion",
     "buttonOk": "Ok",
-    "howtoPay": "How to pay"
+    "howtoPay": "How to pay",
+    "paypal": {
+        "reviewPage": "Review order",
+        "itemsCart": "Items in your shopping cart ",
+        "editCart": "Edit shopping cart",
+        "usePromo": "Use promo code",
+        "label": "PayPal express checkout",
+        "noShippingMethod": "Please select a shipping method"
+    }
 }

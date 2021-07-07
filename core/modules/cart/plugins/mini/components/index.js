@@ -10,6 +10,8 @@ import Skeleton from '@plugin_minicart/components/skeleton';
 import ItemCart from '@plugin_minicart/components/product';
 import useStyles from '@plugin_minicart/components/style';
 
+import PaypalButtonView from '@plugin_paypalbutton';
+
 const MiniComponent = (props) => {
     const router = useRouter();
     const {
@@ -69,6 +71,14 @@ const MiniComponent = (props) => {
                                 >
                                     {t('common:button:goCheckout')}
                                 </div>
+                            </div>
+                        )}
+                        {!disabled && data && (
+                            <div className="btn-paypal">
+                                <PaypalButtonView
+                                    cart={data}
+                                    t={t}
+                                />
                             </div>
                         )}
                     </div>

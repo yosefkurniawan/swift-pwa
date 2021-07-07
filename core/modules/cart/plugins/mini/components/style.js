@@ -83,6 +83,9 @@ const useStyles = makeStyles(() => ({
         '& .disabled-button': {
             backgroundColor: GRAY_SECONDARY,
         },
+        '& .btn-paypal': {
+            padding: '10px 5%',
+        },
     },
     miniCartItems: {
         margin: '0',

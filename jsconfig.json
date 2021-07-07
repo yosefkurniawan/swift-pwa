@@ -171,6 +171,10 @@
             "@plugin_productitem": ["src/modules/catalog/plugins/ProductItem", "core/modules/catalog/plugins/ProductItem"],
             "@plugin_productitem/*": ["src/modules/catalog/plugins/ProductItem/*", "core/modules/catalog/plugins/ProductItem/*"],
 
+            
+            "@plugin_paypalbutton": ["src/modules/paypal/plugins/PaypalButton", "core/modules/paypal/plugins/PaypalButton"],
+            "@plugin_paypalbutton/*": ["src/modules/paypal/plugins/PaypalButton/*", "core/modules/paypal/plugins/PaypalButton/*"],
+
             "@plugin_addressform": ["src/modules/customer/plugins/AddressFormDialog", "core/modules/customer/plugins/AddressFormDialog"],
             "@plugin_addressform/*": ["src/modules/customer/plugins/AddressFormDialog/*", "core/modules/customer/plugins/AddressFormDialog/*"],
             "@plugin_newsletter": ["src/modules/customer/plugins/Newsletter", "core/modules/customer/plugins/Newsletter"],
