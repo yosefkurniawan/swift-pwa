@@ -25,10 +25,11 @@ const ShippingAddress = (props) => {
                 href="/checkout"
                 color="primary"
                 disabled={disabledCancel}
+                variant="outlined"
             >
                 <Typography
                     variant="span"
-                    color="white"
+                    color={disabledCancel ? 'gray' : 'default'}
                     type="bold"
                     className={styles.btnLabel}
                 >
