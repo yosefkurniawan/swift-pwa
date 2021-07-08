@@ -335,25 +335,27 @@ const Checkout = (props) => {
             const shippingMethod = shipping.selected_shipping_method;
             state.selected.shipping = `${shippingMethod.carrier_code}_${shippingMethod.method_code}`;
 
-            if (shippingMethod.carrier_code === 'pickup' && shippingMethod.method_code === 'pickup') {
-                const custAddress = cart.shipping_addresses[0];
-                state.selected.delivery = 'pickup';
-                state.selectStore = {
-                    city: custAddress.city,
-                    country_code: custAddress.country.code,
-                    name: custAddress.firstname,
-                    postcode: custAddress.postcode,
-                    region: custAddress.region.label,
-                    street: custAddress.street,
-                    telephone: custAddress.telephone,
-                    code: cart.items[0].pickup_item_store_info.loc_code,
-                };
-                if (cart.pickup_store_person) {
-                    state.pickupInformation = {
-                        pickup_person_email: cart.pickup_store_person.email,
-                        pickup_person_name: cart.pickup_store_person.name,
-                        pickup_person_phone: cart.pickup_store_person.handphone,
+            if (modules.checkout.pickupStore.enabled) {
+                if (shippingMethod.carrier_code === 'pickup' && shippingMethod.method_code === 'pickup') {
+                    const custAddress = cart.shipping_addresses[0];
+                    state.selected.delivery = 'pickup';
+                    state.selectStore = {
+                        city: custAddress.city,
+                        country_code: custAddress.country.code,
+                        name: custAddress.firstname,
+                        postcode: custAddress.postcode,
+                        region: custAddress.region.label,
+                        street: custAddress.street,
+                        telephone: custAddress.telephone,
+                        code: cart.items[0].pickup_item_store_info.loc_code,
                     };
+                    if (cart.pickup_store_person) {
+                        state.pickupInformation = {
+                            pickup_person_email: cart.pickup_store_person.email,
+                            pickup_person_name: cart.pickup_store_person.name,
+                            pickup_person_phone: cart.pickup_store_person.handphone,
+                        };
+                    }
                 }
             }
 
