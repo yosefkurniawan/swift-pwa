@@ -3,7 +3,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Button from '@common_button';
 import Typography from '@common_typography';
-import { modules } from '@config';
 import Router from 'next/router';
 import { formatPrice } from '@helper_currency';
 import formatDate from '@helper_date';
@@ -31,6 +30,7 @@ const View = (props) => {
         Router.push(registerLink);
     };
 
+    const registerGuestEnabled = parseInt(storeConfig.weltpixel_thankyoupage_create_account_enable, 10);
     return (
         <div className={styles.container}>
             <div className={styles.info}>
@@ -130,7 +130,7 @@ const View = (props) => {
                     </Button>
                 )}
             </div>
-            {modules.thanks.registerLink && !isLogin && (
+            {registerGuestEnabled && !isLogin ? (
                 <div className={styles.wrapperRegister}>
                     <AccountCircleIcon className={styles.btnAccountIcon} />
                     <Typography variant="p" color="black" align="center">
@@ -147,7 +147,7 @@ const View = (props) => {
                         </Typography>
                     </Button>
                 </div>
-            )}
+            ) : null}
             <div className={classNames(styles.footer, 'hidden-desktop')}>
                 {ordersFilter && ordersFilter.data[0].detail[0].payment.method === 'banktransfer' ? (
                     <>
