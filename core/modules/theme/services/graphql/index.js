@@ -40,7 +40,6 @@ export const getCmsBlocks = (variables) => useQuery(getCmsBlocksSchema, {
     context: {
         request: isLogin ? 'internal' : '',
     },
-    fetchPolicy: isLogin ? 'network-only' : '',
 });
 
 export default {
