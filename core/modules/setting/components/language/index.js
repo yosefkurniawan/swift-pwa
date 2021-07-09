@@ -76,7 +76,9 @@ const SwitcherLanguage = (props) => {
         cookies.set(COOKIES_APP_LANG, item);
         setLang(item);
         handleClose();
-        window.location.reload();
+        setTimeout(() => {
+            window.location.reload();
+        }, 100);
     };
 
     if (remoteLang) {
