@@ -38,7 +38,7 @@ const generateItemData = (product, category) => {
 
 export default function ComboBox(props) {
     const {
-        handleSearch, setValue, OptionsItem, width = 300, maxHeight = '80vh',
+        handleSearch, setValue, OptionsItem, width = 300, maxHeight = '80vh', t,
     } = props;
     const [item, setItem] = React.useState([]);
     const [open, setOpen] = React.useState(false);
@@ -106,7 +106,7 @@ export default function ComboBox(props) {
             renderInput={(params) => (
                 <TextField
                     id="standard-basic"
-                    label="Search..."
+                    label={t('common:title:search')}
                     margin="normal"
                     onBlur={() => {
                         setClose(true);
