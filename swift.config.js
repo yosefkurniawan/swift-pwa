@@ -142,6 +142,8 @@ const nameToken = 'sk';
 const expiredToken = new Date(Date.now() + 1000 * 60 * 60);
 const expiredDefault = 365;
 const localResolverKey = 'resolver';
+const selectLanguageCookie = 'app_lang';
+const selectStoreCookie = 'select_store';
 
 const features = {
     useCustomStyle: false,
@@ -604,4 +606,6 @@ module.exports = {
     useMagentoCommerce,
     rollbar,
     translation,
+    selectLanguageCookie,
+    selectStoreCookie,
 };
