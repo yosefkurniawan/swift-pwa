@@ -4,7 +4,6 @@ import App from 'next/app';
 import Head from 'next/head';
 import { ApolloProvider } from '@apollo/client';
 import createApolloClient from './apolloClient';
-import { getStoreCodeServer } from '../../helpers/store';
 
 // On the client, we store the Apollo Client in the following variable.
 // This prevents the client from reinitializing between page transitions.
@@ -39,15 +38,7 @@ const initApolloClient = (initialState, ctx) => {
  */
 export const initOnContext = (ctx) => {
     const inAppContext = Boolean(ctx.ctx);
-    const selectStore = getStoreCodeServer(ctx.req);
-    if (selectStore && selectStore !== '') {
-        if (ctx && ctx.req && ctx.req.headers) {
-            ctx.req.headers = {
-                ...ctx.req.headers,
-                store: selectStore,
-            };
-        }
-    }
+
     // We consider installing `withApollo({ ssr: true })` on global App level
     // as antipattern since it disables project wide Automatic Static Optimization.
     if (process.env.NODE_ENV === 'development') {
@@ -178,7 +169,6 @@ export const withApollo = ({ ssr = false } = {}) => (PageComponent) => {
 
             return {
                 ...pageProps,
-                test: 'Hello',
                 // Extract query data from the Apollo store
                 apolloState: apolloClient.cache.extract(),
                 // Provide the client for ssr. As soon as this payload
