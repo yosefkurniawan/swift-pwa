@@ -160,5 +160,12 @@
     "twitter": {
         "follow": "Follow",
         "tweetTo": "Tweet to"
+    }, 
+    "summary": {
+        "title": "Ringkasan",
+        "tax": "Pajak",
+        "storeCredit": "Kredit toko",
+        "rewardPoint": "Poin reward",
+        "giftCard": "Gift card (hadiah)"
     }
 }
