@@ -2,8 +2,12 @@ import { useTranslation } from '@i18n';
 import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
 
-const MagezonTwitterButton = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitterButton'), { ssr: false });
-const MagezonTwitterTimeline = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitterTimeline'), { ssr: false });
+const MagezonTwitterButton = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitter/components/Button'), {
+    ssr: false,
+});
+const MagezonTwitterTimeline = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitter/components/Timeline'), {
+    ssr: false,
+});
 
 const MagezonTwitter = (props) => {
     const { type } = props;
