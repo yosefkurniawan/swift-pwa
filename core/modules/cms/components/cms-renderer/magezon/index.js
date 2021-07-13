@@ -11,6 +11,7 @@ import dynamic from 'next/dynamic';
 
 const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed'), { ssr: false });
 const MagezonPinterest = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonPinterest'), { ssr: false });
+const MagezonTwitterButton = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitterButton'), { ssr: false });
 const MagezonTwitterTimeline = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitterTimeline'), { ssr: false });
 
 const MagezonElement = (props) => {
@@ -51,6 +52,8 @@ const MagezonElement = (props) => {
             return <MagezonInstagram {...props} />;
         case 'pinterest':
             return <MagezonPinterest {...props} />;
+        case 'twitter_button':
+            return <MagezonTwitterButton {...props} />;
         case 'twitter_timeline':
             return <MagezonTwitterTimeline {...props} />;
 
