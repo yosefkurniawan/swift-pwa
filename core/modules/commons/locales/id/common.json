@@ -143,6 +143,7 @@
     },
     "twitter": {
         "follow": "Ikuti",
-        "tweetTo": "Tweet ke"
+        "tweetTo": "Tweet ke",
+        "tweetBy": "Tweet oleh"
     }
 }
