@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from '@i18n';
 
 const Share = (props) => {
     const {
@@ -35,7 +36,7 @@ const Share = (props) => {
 
 const Follow = (props) => {
     const {
-        follow_show_username, follow_user, large_button, show_followers_count, lang,
+        follow_show_username, follow_user, large_button, show_followers_count, lang, t,
     } = props;
 
     return (
@@ -48,7 +49,7 @@ const Follow = (props) => {
                 data-lang={lang}
                 data-show-count={show_followers_count}
             >
-                {follow_show_username && `Follow @${follow_user}`}
+                {follow_show_username && `${t('common:twitter:follow')} @${follow_user}`}
             </a>
         </>
     );
@@ -86,7 +87,7 @@ const Hashtag = (props) => {
 
 const Mention = (props) => {
     const {
-        mention_recommend_1, mention_recommend_2, mention_tweet_text, mention_tweet_to, large_button, show_followers_count, lang,
+        mention_recommend_1, mention_recommend_2, mention_tweet_text, mention_tweet_to, large_button, show_followers_count, lang, t,
     } = props;
 
     return (
@@ -100,7 +101,7 @@ const Mention = (props) => {
                 data-lang={lang}
                 data-show-count={show_followers_count}
             >
-                {mention_tweet_to && `Tweet to ${mention_tweet_to}`}
+                {mention_tweet_to && `${t('common:tweetTo')} ${mention_tweet_to}`}
             </a>
         </>
     );
@@ -110,6 +111,7 @@ const MagezonTwitterButton = (props) => {
     const {
         xs_hide, sm_hide, md_hide, lg_hide, button_type,
     } = props;
+    const { t } = useTranslation(['common']);
     let content;
     let className = 'magezon-twitter';
 
@@ -142,9 +144,9 @@ const MagezonTwitterButton = (props) => {
     }, []);
 
     if (button_type === 'share') content = <Share {...props} />;
-    if (button_type === 'follow') content = <Follow {...props} />;
+    if (button_type === 'follow') content = <Follow t={t} {...props} />;
     if (button_type === 'hashtag') content = <Hashtag {...props} />;
-    if (button_type === 'mention') content = <Mention {...props} />;
+    if (button_type === 'mention') content = <Mention t={t} {...props} />;
 
     return (
         <>

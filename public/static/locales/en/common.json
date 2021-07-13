@@ -157,5 +157,9 @@
             "shortDescription": "Short Description",
             "brand": "Brand"
         }
+    },
+    "twitter": {
+        "follow": "Follow",
+        "tweetTo": "Tweet to",
     }
 }

@@ -156,5 +156,9 @@
             "shortDescription": "Deskripsi Singkat",
             "brand": "Merek"
         }
+    },
+    "twitter": {
+        "follow": "Follow",
+        "tweetTo": "Tweet to"
     }
 }
