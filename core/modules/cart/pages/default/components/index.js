@@ -5,6 +5,7 @@ import useStyles from '@core_modules/cart/pages/default/components/style';
 import dynamic from 'next/dynamic';
 
 const CrossSell = dynamic(() => import('@core_modules/cart/pages/default/components/crosssell'), { ssr: false });
+const GimmickBanner = dynamic(() => import('@plugin_gimmickbanner'), { ssr: false });
 
 const Content = (props) => {
     const {
@@ -18,6 +19,9 @@ const Content = (props) => {
     const styles = useStyles();
     return (
         <div className={classNames(styles.mobileBottomSpace, 'row')}>
+            <div className="col-xs-12">
+                <GimmickBanner data={dataCart.promoBanner || []} t={t} {...other} />
+            </div>
             <div className="col-xs-12 col-sm-8 col-md-9" style={{ height: '100%' }}>
                 <ItemView
                     data={dataCart}
