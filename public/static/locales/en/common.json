@@ -157,5 +157,12 @@
             "shortDescription": "Short Description",
             "brand": "Brand"
         }
+    },       
+    "summary": {
+        "title": "Summary",
+        "tax": "Tax",
+        "storeCredit": "Store credit",
+        "rewardPoint": "Reward point",
+        "giftCard": "Gift card"
     }
 }
