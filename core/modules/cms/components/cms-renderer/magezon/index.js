@@ -10,6 +10,7 @@ import MagezonWidget from '@core_modules/cms/components/cms-renderer/magezon/Mag
 import dynamic from 'next/dynamic';
 
 const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed'), { ssr: false });
+const MagezonPinterest = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonPinterest'), { ssr: false });
 
 const MagezonElement = (props) => {
     const { type, content } = props;
@@ -47,6 +48,8 @@ const MagezonElement = (props) => {
             return <MagezonWidget {...props} />;
         case 'instagram':
             return <MagezonInstagram {...props} />;
+        case 'pinterest':
+            return <MagezonPinterest {...props} />;
 
         default:
             return null;
