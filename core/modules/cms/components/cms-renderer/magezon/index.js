@@ -13,7 +13,7 @@ import 'font-awesome/css/font-awesome.min.css';
 
 const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed'), { ssr: false });
 const MagezonPinterest = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonPinterest'), { ssr: false });
-const MagezonTwitterButton = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitterButton'), { ssr: false });
+const MagezonTwitter = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitter'), { ssr: false });
 
 const MagezonElement = (props) => {
     const { type, content } = props;
@@ -54,7 +54,9 @@ const MagezonElement = (props) => {
         case 'pinterest':
             return <MagezonPinterest {...props} />;
         case 'twitter_button':
-            return <MagezonTwitterButton {...props} />;
+            return <MagezonTwitter {...props} />;
+        case 'twitter_timeline':
+            return <MagezonTwitter {...props} />;
         case 'icon':
             return <MagezonIcon {...props} />;
         default:
