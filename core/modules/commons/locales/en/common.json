@@ -143,6 +143,7 @@
     },
     "twitter": {
         "follow": "Follow",
-        "tweetTo": "Tweet to"
+        "tweetTo": "Tweet to",
+        "tweetBy": "Tweet by"
     }
 }
