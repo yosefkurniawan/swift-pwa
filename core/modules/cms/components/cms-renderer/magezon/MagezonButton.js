@@ -2,11 +2,12 @@
 import React from 'react';
 import Button from '@common_button';
 import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
+import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
 import useStyles from '@core_modules/cms/components/cms-renderer/magezon/style';
 
 const MagezonButton = (props) => {
     const {
-        xs_hide, sm_hide, md_hide, lg_hide, title, link,
+        xs_hide, sm_hide, button_size, md_hide, lg_hide, title, link, icon,
     } = props;
     const classes = useStyles(props);
     let wrapper = '';
@@ -16,26 +17,21 @@ const MagezonButton = (props) => {
     if (lg_hide) wrapper += 'hidden-lg ';
     return (
         <div className={wrapper}>
-            {
-                link && link !== ''
-                    ? (
-                        <MagezonLink link={link}>
-
-                            <Button className={classes.button} type="button" align="left">
-                                {title || ''}
-                            </Button>
-                        </MagezonLink>
-                    )
-                    : (
-
-                        <Button className={classes.button} type="button" align="left">
-                            {title || ''}
-                        </Button>
-                    )
-            }
+            {link && link !== '' ? (
+                <MagezonLink link={link}>
+                    <Button className={classes.button} type="button" align="left">
+                        {icon !== '' ? <MagezonIcon icon={icon} icon_size={button_size} /> : null}
+                        {title || ''}
+                    </Button>
+                </MagezonLink>
+            ) : (
+                <Button className={classes.button} type="button" align="left">
+                    {icon !== '' ? <MagezonIcon icon={icon} icon_size={button_size} /> : null}
+                    {title || ''}
+                </Button>
+            )}
             <style jsx>
                 {`
-                    
                 `}
             </style>
         </div>

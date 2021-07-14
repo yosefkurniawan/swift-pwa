@@ -7,7 +7,9 @@ import MagezonText from '@core_modules/cms/components/cms-renderer/magezon/Magez
 import MagezonButton from '@core_modules/cms/components/cms-renderer/magezon/MagezonButton';
 import MagezonRawHtml from '@core_modules/cms/components/cms-renderer/magezon/MagezonRawHtml';
 import MagezonWidget from '@core_modules/cms/components/cms-renderer/magezon/MagezonWidget';
+import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
 import dynamic from 'next/dynamic';
+import 'font-awesome/css/font-awesome.min.css';
 
 const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed'), { ssr: false });
 const MagezonPinterest = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonPinterest'), { ssr: false });
@@ -55,6 +57,8 @@ const MagezonElement = (props) => {
             return <MagezonTwitter {...props} />;
         case 'twitter_timeline':
             return <MagezonTwitter {...props} />;
+        case 'icon':
+            return <MagezonIcon {...props} />;
 
         default:
             return null;
