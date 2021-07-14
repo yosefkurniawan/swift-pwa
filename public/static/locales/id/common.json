@@ -158,9 +158,10 @@
         }
     },
     "twitter": {
-        "follow": "Follow",
-        "tweetTo": "Tweet to"
-    }, 
+        "follow": "Ikuti",
+        "tweetTo": "Tweet ke",
+        "tweetBy": "Tweet oleh"
+    },
     "summary": {
         "title": "Ringkasan",
         "tax": "Pajak",

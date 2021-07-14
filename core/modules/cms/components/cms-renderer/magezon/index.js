@@ -59,6 +59,7 @@ const MagezonElement = (props) => {
             return <MagezonTwitter {...props} />;
         case 'icon':
             return <MagezonIcon {...props} />;
+
         default:
             return null;
         }

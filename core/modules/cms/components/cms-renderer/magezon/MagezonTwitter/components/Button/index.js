@@ -1,6 +1,3 @@
-import { useEffect } from 'react';
-import { useTranslation } from '@i18n';
-
 const Share = (props) => {
     const {
         share_via,
@@ -109,9 +106,8 @@ const Mention = (props) => {
 
 const MagezonTwitterButton = (props) => {
     const {
-        xs_hide, sm_hide, md_hide, lg_hide, button_type,
+        xs_hide, sm_hide, md_hide, lg_hide, button_type, t,
     } = props;
-    const { t } = useTranslation(['common']);
     let content;
     let className = 'magezon-twitter';
 
@@ -119,29 +115,6 @@ const MagezonTwitterButton = (props) => {
     if (sm_hide) className += ' hidden-sm ';
     if (md_hide) className += ' hidden-md ';
     if (lg_hide) className += ' hidden-lg ';
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            /* eslint-disable */
-            window.twttr = (function (d, s, id) {
-                let js,
-                    fjs = d.getElementsByTagName(s)[0],
-                    t = window.twttr || {};
-                if (d.getElementById(id)) return t;
-                js = d.createElement(s);
-                js.id = id;
-                js.src = 'https://platform.twitter.com/widgets.js';
-                fjs.parentNode.insertBefore(js, fjs);
-
-                t._e = [];
-                t.ready = function (f) {
-                    t._e.push(f);
-                };
-
-                return t;
-            })(document, 'script', 'twitter-wjs');
-        }
-    }, []);
 
     if (button_type === 'share') content = <Share {...props} />;
     if (button_type === 'follow') content = <Follow t={t} {...props} />;
