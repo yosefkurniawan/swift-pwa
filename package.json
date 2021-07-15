@@ -52,6 +52,7 @@
     "express-session": "^1.17.1",
     "file-selector": "^0.2.2",
     "firebase": "^8.2.7",
+    "font-awesome": "^4.7.0",
     "formik": "^2.1.4",
     "fscreen": "^1.2.0",
     "graphql": "^15.4.0",

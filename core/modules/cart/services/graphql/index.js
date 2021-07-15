@@ -2,6 +2,10 @@
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import * as Schema from '@core_modules/cart/services/graphql/schema';
 
+export const getCmsBlocks = (variables) => useQuery(Schema.getCmsBlocks, {
+    variables,
+});
+
 export const addWishlist = () => useMutation(Schema.addWishlist, {
     context: {
         request: 'internal',

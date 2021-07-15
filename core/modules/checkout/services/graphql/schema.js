@@ -342,6 +342,15 @@ const cartShippingAddress = `
     }
 `;
 
+const promoBanner = `
+promoBanner {
+  cms_block_id
+  name
+  cms_block_identifier
+  rule_id
+}
+`;
+
 const cartRequiredSelection = `
     id
     email
@@ -354,6 +363,7 @@ const cartRequiredSelection = `
    ${modules.storecredit.enabled ? applied_store_credit : ''}
    ${prices}
    ${cartAvailFreeItems}
+   ${promoBanner}
     
 `;
 
@@ -687,6 +697,7 @@ export const setShippingMethod = gql`
         setShippingMethodsOnCart(input: { cart_id: $cartId, shipping_methods: { carrier_code: $carrierCode, method_code: $methodCode } }) {
             cart {
                 id
+                ${promoBanner}
                 shipping_addresses {
                     ${selected_shipping_method}
                 }
@@ -710,6 +721,7 @@ export const setPaymentMethod = gql`
                 ${modules.giftcard.enabled ? applied_giftcard : ''}
                 ${modules.storecredit.enabled ? applied_store_credit : ''}
                 ${prices}
+                ${promoBanner}
             }
         }
     }
@@ -1049,6 +1061,7 @@ mutation addProductsToCartPromo(
         ${prices}
         ${cartAvailFreeItems}
         ${itemsProduct}
+        ${promoBanner}
       }
     }
   }
@@ -1226,6 +1239,7 @@ export const setInstoreShippingAddress = gql`
                     ${available_shipping_methods}
                     ${selected_shipping_method}
                 }
+                ${promoBanner}
 
             }
         }

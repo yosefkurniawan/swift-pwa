@@ -7,12 +7,15 @@ import MagezonText from '@core_modules/cms/components/cms-renderer/magezon/Magez
 import MagezonButton from '@core_modules/cms/components/cms-renderer/magezon/MagezonButton';
 import MagezonRawHtml from '@core_modules/cms/components/cms-renderer/magezon/MagezonRawHtml';
 import MagezonWidget from '@core_modules/cms/components/cms-renderer/magezon/MagezonWidget';
+import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import dynamic from 'next/dynamic';
+import 'font-awesome/css/font-awesome.min.css';
 import 'animate.css';
 
 const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed'), { ssr: false });
 const MagezonPinterest = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonPinterest'), { ssr: false });
+const MagezonTwitter = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitter'), { ssr: false });
 
 const MagezonElement = (props) => {
     const {
@@ -91,6 +94,12 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonInstagram {...props} />; break;
         case 'pinterest':
             childrenContent = <MagezonPinterest {...props} />; break;
+        case 'twitter_button':
+            childrenContent = <MagezonTwitter {...props} />; break;
+        case 'twitter_timeline':
+            childrenContent = <MagezonTwitter {...props} />; break;
+        case 'icon':
+            childrenContent = <MagezonIcon {...props} />; break;
 
         default:
             childrenContent = null;
