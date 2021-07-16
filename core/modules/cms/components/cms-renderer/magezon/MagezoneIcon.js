@@ -11,6 +11,7 @@ const MagezonIcon = (props) => {
     let iconRes = '';
     if (icon.includes('fab') === true) iconRes += icon.replace('fab mgz-', 'fab ');
     if (icon.includes('fas') === true) iconRes += icon.replace('fas mgz-', 'fa ');
+    if (icon.includes('mgz-oi') === true) iconRes += icon.replace('mgz-oi mgz-', 'oi ');
     if (icon_size === 'md') iconSize += '20px';
     if (icon_size === 'xs') iconSize += '16px';
     if (icon_size === 'sm') iconSize += '18px';

@@ -41,7 +41,7 @@ const MagezonButton = (props) => {
                     {title || ''}
                 </Button>
             )}
-            <style jsx />
+            <style jsx global />
         </div>
     );
 };
