@@ -11,6 +11,7 @@ import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/Magez
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import dynamic from 'next/dynamic';
 import 'font-awesome/css/font-awesome.min.css';
+import 'open-iconic/font/css/open-iconic-bootstrap.css';
 import 'animate.css';
 
 const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed'), { ssr: false });
