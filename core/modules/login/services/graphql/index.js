@@ -1,4 +1,4 @@
-import { useMutation, useLazyQuery, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import * as Schema from '@core_modules/login/services/graphql/schema';
 
 const useInternal = {
@@ -38,11 +38,12 @@ export const mergeCart = () => useMutation(Schema.mergeCart, {
     ...useInternal,
 });
 
-export const getCustomerCartId = () => useLazyQuery(Schema.getCartIdUser, {
+export const getCustomerCartId = (options = {}) => useQuery(Schema.getCartIdUser, {
     context: {
         request: 'internal',
     },
     fetchPolicy: 'no-cache',
+    ...options,
 });
 
 export const otpConfig = () => useQuery(Schema.otpConfig);

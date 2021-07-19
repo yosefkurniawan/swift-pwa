@@ -36,35 +36,46 @@ const executor = async ({
             },
             body: JSON.stringify({ query, variables }),
         });
-        const response = await fetchResult.json();
-        if (response.errors) {
-            const err = response.errors[0];
-            if (err.extensions.category === 'graphql-authorization') {
+        if (fetchResult) {
+            const response = await fetchResult.json();
+            if (response.errors) {
+                const err = response.errors[0];
+                if (err.extensions.category === 'graphql-authorization') {
+                    return {
+                        errors: [
+                            {
+                                message: err.extensions.category,
+                                extensions: err.extensions,
+                            },
+                        ],
+                        data: response.data,
+                    };
+                }
                 return {
                     errors: [
                         {
-                            message: err.extensions.category,
+                            message: err.message,
                             extensions: err.extensions,
                         },
                     ],
                     data: response.data,
                 };
             }
-            return {
-                errors: [
-                    {
-                        message: err.message,
-                        extensions: err.extensions,
-                    },
-                ],
-                data: response.data,
-            };
+            return response;
         }
-        return response;
+        return fetchResult;
     } catch (error) {
         console.error('There was an uncaught error', error);
         // process.exit(1); // mandatory (as per the Node docs)
-        return false;
+        return {
+            errors: [
+                {
+                    message: error,
+                    extensions: null,
+                },
+            ],
+            data: null,
+        };
     }
 };
 
