@@ -145,5 +145,9 @@
         "follow": "Follow",
         "tweetTo": "Tweet to",
         "tweetBy": "Tweet by"
+    },
+    "facebook": {
+        "page": "Facebook Page",
+        "pageUrl": "Page Url: "
     }
 }

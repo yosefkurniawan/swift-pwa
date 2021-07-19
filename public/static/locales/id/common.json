@@ -168,5 +168,9 @@
         "storeCredit": "Kredit toko",
         "rewardPoint": "Poin reward",
         "giftCard": "Gift card (hadiah)"
+    },
+    "facebook": {
+        "page": "Halaman Facebook",
+        "pageUrl": "Url Halaman: "
     }
 }

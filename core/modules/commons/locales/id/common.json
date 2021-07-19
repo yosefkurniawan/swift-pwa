@@ -145,5 +145,9 @@
         "follow": "Ikuti",
         "tweetTo": "Tweet ke",
         "tweetBy": "Tweet oleh"
+    },
+    "facebook": {
+        "page": "Halaman Facebook",
+        "pageUrl": "Url Halaman: "
     }
 }
