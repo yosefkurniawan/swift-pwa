@@ -103,7 +103,10 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonIcon {...props} />; break;
         case 'facebook_page':
             childrenContent = <MagezonFanspage {...props} />; break;
-
+        case 'facebook_comments':
+            childrenContent = <MagezonFanspage {...props} />; break;
+        case 'facebook_like':
+            childrenContent = <MagezonFanspage {...props} />; break;
         default:
             childrenContent = null;
         }
