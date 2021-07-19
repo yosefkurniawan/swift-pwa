@@ -7,6 +7,7 @@ const CoreSummary = (props) => {
         DesktopView, MobileView, isDesktop, dataCart, globalCurrency = 'IDR',
         ...other
     } = props;
+    const { t } = other;
     const { modules } = config;
     let dataSummary = [];
     let total = 0;
@@ -48,7 +49,7 @@ const CoreSummary = (props) => {
                 { value: 0 },
             );
             const price = formatPrice(taxes.value, taxes.currency);
-            dataSummary.push({ item: 'Tax', value: price });
+            dataSummary.push({ item: t('common:summary:tax'), value: price });
         }
 
         if (modules.checkout.extraFee.enabled && applied_extra_fee && applied_extra_fee.extrafee_value) {
@@ -78,12 +79,12 @@ const CoreSummary = (props) => {
             } else if (applied_store_credit.is_use_store_credit) {
                 price = formatPrice(Math.abs(applied_store_credit.store_credit_amount), globalCurrency);
             }
-            if (price !== '') dataSummary.push({ item: 'Store Credit', value: `-${price}` });
+            if (price !== '') dataSummary.push({ item: ' ', value: `-${price}` });
         }
 
         if (modules.rewardpoint.enabled && applied_reward_points.is_use_reward_points) {
             const price = formatPrice(Math.abs(applied_reward_points.reward_points_amount), globalCurrency);
-            dataSummary.push({ item: 'Reward Point ', value: `-${price}` });
+            dataSummary.push({ item: `${t('common:summary:rewardPoint')} `, value: `-${price}` });
         }
 
         if (modules.giftcard.enabled && applied_giftcard) {
@@ -92,13 +93,13 @@ const CoreSummary = (props) => {
                 if (applied_giftcard && applied_giftcard.length > 0) {
                     giftCards = applied_giftcard.map((item) => {
                         const price = formatPrice(Math.abs(item.applied_balance.value), globalCurrency);
-                        return { item: `Gift Card (${item.code}) - ${price}`, value: `-${price}` };
+                        return { item: `${t('common:summary:giftCard')} (${item.code}) - ${price}`, value: `-${price}` };
                     });
                 }
             } else {
                 giftCards = applied_giftcard.giftcard_detail.map((item) => {
                     const price = formatPrice(Math.abs(item.giftcard_amount_used), globalCurrency);
-                    return { item: `Gift Card (${item.giftcard_code}) - ${price}`, value: `-${price}` };
+                    return { item: `${t('common:summary:giftCard')} (${item.giftcard_code}) - ${price}`, value: `-${price}` };
                 });
             }
             dataSummary = dataSummary.concat(giftCards);
@@ -129,6 +130,7 @@ const CoreSummary = (props) => {
             items={items}
             summary={{ total, data: dataSummary }}
             {...other}
+            t={t}
             dataCart={dataCart}
         />
     );

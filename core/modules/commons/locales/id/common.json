@@ -140,5 +140,10 @@
             "shortDescription": "Deskripsi Singkat",
             "brand": "Merek"
         }
+    },
+    "twitter": {
+        "follow": "Ikuti",
+        "tweetTo": "Tweet ke",
+        "tweetBy": "Tweet oleh"
     }
 }

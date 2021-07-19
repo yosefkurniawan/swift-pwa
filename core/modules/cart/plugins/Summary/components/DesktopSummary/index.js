@@ -29,7 +29,7 @@ const Summary = (props) => {
     const Loader = () => (
         <div id="desktopSummary" className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>
             <Typography variant="h1" type="regular" letter="capitalize">
-                Summary
+                {t('common:summary:title')}
             </Typography>
             <ListItem className={classNames(styles.list, 'listSummary')}>
                 <Skeleton variant="rect" width="100%" height="30px" animation="wave" />
@@ -54,7 +54,7 @@ const Summary = (props) => {
         <div id="desktopSummary" className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>
             { withLabel && (
                 <Typography variant="h1" type="regular" letter="capitalize">
-                    Summary
+                    {t('common:summary:title')}
                 </Typography>
             ) }
             {

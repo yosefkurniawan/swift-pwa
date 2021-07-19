@@ -80,7 +80,7 @@ const ViewTopNavigation = (props) => {
                                         onChange={(e) => setValue(e.target.value)}
                                         onKeyPress={(e) => handleSearch(e)}
                                     /> */}
-                                    <Autocomplete setValue={setValue} handleSearch={handleSearch} OptionsItem={OptionAutocomplete} />
+                                    <Autocomplete setValue={setValue} handleSearch={handleSearch} OptionsItem={OptionAutocomplete} t={t} />
                                     <div className="search-icon">
                                         <IconButton disabled={value === ''} edge="start" onClick={searchByClick} aria-label="close">
                                             <SearchIcon />

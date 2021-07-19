@@ -18,6 +18,9 @@ import ExtraFee from '@core_modules/checkout/pages/default/components/ExtraFee';
 import PromoModalItem from '@core_modules/checkout/pages/default/components/PromoModalItem';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 import InStorePickup from '@core_modules/checkout/pages/default/components/instorepickup';
+import dynamic from 'next/dynamic';
+
+const GimmickBanner = dynamic(() => import('@plugin_gimmickbanner'), { ssr: false });
 
 const Content = (props) => {
     const {
@@ -81,6 +84,11 @@ const Content = (props) => {
         <div id="checkout" className={classNames(styles.mobileBottomSpace, 'row between-lg')}>
             <div className="col-xs-12 center hidden-mobile">
                 <HeaderView storeConfig={storeConfig} />
+            </div>
+            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
+                {checkout.data.cart && checkout.data.cart.promoBanner && (
+                    <GimmickBanner data={checkout.data.cart.promoBanner || []} />
+                )}
             </div>
             <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8" style={containerStyle || {}}>
                 {modules.checkout.cashback.enabled && checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (

@@ -7,7 +7,7 @@ const AddressView = ({ customer, styles, t }) => (
         <hr />
         <div className="row">
             <div className="col-sm-6 col-lg-6">
-                <h3>Contact Information</h3>
+                <h3>{t('customer:menu:contactInformation')}</h3>
                 <p>
                     {customer.firstname}
                     {' '}
@@ -16,27 +16,23 @@ const AddressView = ({ customer, styles, t }) => (
                     {customer.email}
                     <br />
                     <Link href="/customer/account/profile">
-                        <a className={styles.desktopLink}>Edit</a>
+                        <a className={styles.desktopLink}>{t('common:button:change')}</a>
                     </Link>
                     {' '}
                     |
                     {' '}
                     <Link href="/customer/account/profile">
-                        <a className={styles.desktopLink}>Change Password</a>
+                        <a className={styles.desktopLink}>{t('customer:newPassword:title')}</a>
                     </Link>
                 </p>
             </div>
             <div className="col-sm-6 col-lg-6">
-                <h3>Newsletters</h3>
+                <h3>{t('customer:menu:newsletter')}</h3>
                 <p>
-                    You
-                    {' '}
-                    {customer.is_subscribed ? 'are' : 'not'}
-                    {' '}
-                    subscribed to "General Subscription".
+                    {customer.is_subscribed ? t('customer:menu:subcription') : t('customer:menu:noSubcription')}
                     <br />
                     <Link href="/customer/newsletter">
-                        <a className={styles.desktopLink}>Edit</a>
+                        <a className={styles.desktopLink}>{t('common:button:change')}</a>
                     </Link>
                 </p>
             </div>
