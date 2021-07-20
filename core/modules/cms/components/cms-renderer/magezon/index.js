@@ -8,6 +8,7 @@ import MagezonButton from '@core_modules/cms/components/cms-renderer/magezon/Mag
 import MagezonRawHtml from '@core_modules/cms/components/cms-renderer/magezon/MagezonRawHtml';
 import MagezonWidget from '@core_modules/cms/components/cms-renderer/magezon/MagezonWidget';
 import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
+import MagezonEmpty from '@core_modules/cms/components/cms-renderer/magezon/MagezonEmpty';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import dynamic from 'next/dynamic';
 import 'font-awesome/css/font-awesome.min.css';
@@ -100,7 +101,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonTwitter {...props} />; break;
         case 'icon':
             childrenContent = <MagezonIcon {...props} />; break;
-
+        case 'empty_space':
+            childrenContent = <MagezonEmpty {...props} />; break;
         default:
             childrenContent = null;
         }
