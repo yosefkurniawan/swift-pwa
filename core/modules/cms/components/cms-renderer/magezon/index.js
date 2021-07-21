@@ -10,6 +10,7 @@ import MagezonWidget from '@core_modules/cms/components/cms-renderer/magezon/Mag
 import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
 import MagezonEmpty from '@core_modules/cms/components/cms-renderer/magezon/MagezonEmpty';
 import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/MagezonFanspage';
+import MagezonToggle from '@core_modules/cms/components/cms-renderer/magezon/MagezonToggle';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import dynamic from 'next/dynamic';
 import 'font-awesome/css/font-awesome.min.css';
@@ -111,6 +112,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonFanspage {...props} />; break;
         case 'facebook_like':
             childrenContent = <MagezonFanspage {...props} />; break;
+        case 'toggle':
+            childrenContent = <MagezonToggle {...props} />; break;
         default:
             childrenContent = null;
         }
