@@ -3,11 +3,11 @@ import { removeCartId } from '@helper_cartid';
 import { useApolloClient } from '@apollo/client';
 import Router from 'next/router';
 import { localTotalCart } from '@services/graphql/schema/local';
+import Cookies from 'js-cookie';
 import {
     custDataNameCookie,
 } from '@config';
 import { removeToken as deleteToken } from '@core_modules/customer/services/graphql';
-import { removeLocalStorage } from '@root/core/helpers/localstorage';
 
 const Footer = ({
     t, isLogin, storeConfig, FooterView, modules, data,
@@ -17,7 +17,7 @@ const Footer = ({
     const [deleteTokenGql] = deleteToken();
     const handleLogout = () => {
         deleteTokenGql().then(() => {
-            removeLocalStorage(custDataNameCookie);
+            Cookies.remove(custDataNameCookie);
             removeIsLoginFlagging();
             removeCartId();
             client.writeQuery({ query: localTotalCart, data: { totalCart: 0 } });

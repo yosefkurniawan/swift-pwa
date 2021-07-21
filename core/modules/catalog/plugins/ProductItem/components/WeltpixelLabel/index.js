@@ -1,7 +1,7 @@
 import React from 'react';
+import Cookies from 'js-cookie';
 import { custDataNameCookie } from '@config';
 import View from '@plugin_productitem/components/WeltpixelLabel/view';
-import { getLocalStorage } from '@root/core/helpers/localstorage';
 
 const WeltpixelLabel = (props) => {
     const { weltpixel_labels, categoryLabel, ...other } = props;
@@ -9,7 +9,7 @@ const WeltpixelLabel = (props) => {
     const { onDetailProduct } = props;
     let customer = {};
     if (typeof window !== 'undefined') {
-        customer = getLocalStorage(custDataNameCookie);
+        customer = Cookies.getJSON(custDataNameCookie);
     }
 
     if (categoryLabel && weltpixel_labels && weltpixel_labels.categoryLabel
