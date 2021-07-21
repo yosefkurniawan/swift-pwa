@@ -34,23 +34,29 @@ const CoreTopNavigation = (props) => {
     const client = useApolloClient();
 
     const handleLogout = () => {
+        window.backdropLoader(true);
         deleteTokenGql()
             .then(() => {
                 Cookies.remove(custDataNameCookie);
                 removeIsLoginFlagging();
                 removeCartId();
                 removeCookies('uid_product_compare');
-                firebase.auth().signOut().then(() => {
-                    // Sign-out successful.
-                }).catch(() => {
-                    // An error happened.
-                    // console.log(error);
-                });
+                if (features.firebase.config.apiKey && features.firebase.config.apiKey !== '') {
+                    firebase.auth().signOut().then(() => {
+                        // Sign-out successful.
+                    }).catch(() => {
+                        // An error happened.
+                        // console.log(error);
+                    });
+                }
                 client.writeQuery({ query: localTotalCart, data: { totalCart: 0 } });
                 client.writeQuery({ query: localCompare, data: { item_count: 0 } });
+                window.backdropLoader(false);
                 Router.push('/customer/account/login');
             })
-            .catch(() => {
+            .catch((e) => {
+                window.backdropLoader(false);
+                console.log(e);
                 //
             });
     };

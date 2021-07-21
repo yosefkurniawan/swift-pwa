@@ -27,7 +27,7 @@ const ButtonQty = ({
     };
 
     const handleLocalChange = (event) => {
-        const val = event.target.value;
+        const val = parseInt(event.target.value, 0);
         if (val < 1) {
             window.toastMessage({
                 open: true,
