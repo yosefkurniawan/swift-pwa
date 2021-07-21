@@ -9,9 +9,11 @@ import MagezonRawHtml from '@core_modules/cms/components/cms-renderer/magezon/Ma
 import MagezonWidget from '@core_modules/cms/components/cms-renderer/magezon/MagezonWidget';
 import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
 import MagezonEmpty from '@core_modules/cms/components/cms-renderer/magezon/MagezonEmpty';
+import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/MagezonFanspage';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import dynamic from 'next/dynamic';
 import 'font-awesome/css/font-awesome.min.css';
+import 'open-iconic/font/css/open-iconic-bootstrap.css';
 import 'animate.css';
 
 const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed'), { ssr: false });
@@ -103,6 +105,12 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonIcon {...props} />; break;
         case 'empty_space':
             childrenContent = <MagezonEmpty {...props} />; break;
+        case 'facebook_page':
+            childrenContent = <MagezonFanspage {...props} />; break;
+        case 'facebook_comments':
+            childrenContent = <MagezonFanspage {...props} />; break;
+        case 'facebook_like':
+            childrenContent = <MagezonFanspage {...props} />; break;
         default:
             childrenContent = null;
         }

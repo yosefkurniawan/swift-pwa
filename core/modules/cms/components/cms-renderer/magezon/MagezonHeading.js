@@ -1,12 +1,14 @@
 import React from 'react';
 import Typography from '@common_typography';
 import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
+import useStyles from '@core_modules/cms/components/cms-renderer/magezon/style';
 
 const MagezonHeading = (props) => {
     const {
         xs_hide, sm_hide, md_hide, lg_hide, heading_type, text,
         link, font_weight, font_size, color,
     } = props;
+    const styles = useStyles(props);
     let classes = 'magezone-heading ';
     if (xs_hide) classes += 'hidden-mobile ';
     if (sm_hide) classes += 'hidden-sm ';
@@ -19,7 +21,7 @@ const MagezonHeading = (props) => {
     if (font_size && font_size !== '') style.fontSize = font_size;
 
     return (
-        <div className={classes}>
+        <div className={`${styles.container} ${classes}`}>
             {
                 link && link !== ''
                     ? (
