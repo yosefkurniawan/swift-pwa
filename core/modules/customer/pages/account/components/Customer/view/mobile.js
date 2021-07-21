@@ -5,7 +5,7 @@
 /* eslint-disable react/no-danger */
 import Link from 'next/link';
 import noReload from '@helper_noreload';
-import { setResolver, getResolver } from '@helper_localstorage';
+import { setResolver, getResolver, removeLocalStorage } from '@helper_localstorage';
 import Carousel from '@common_slick/Caraousel';
 import { removeIsLoginFlagging } from '@helper_auth';
 import { removeCookies } from '@helper_cookies';
@@ -20,7 +20,6 @@ import Badge from '@material-ui/core/Badge';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
 import Button from '@common_button';
-import Cookies from 'js-cookie';
 import { custDataNameCookie } from '@config';
 import useStyles from '@core_modules/customer/pages/account/components/Customer/style';
 import { getCmsBlocks, removeToken as deleteToken } from '@core_modules/customer/services/graphql';
@@ -50,7 +49,7 @@ const ViewMobile = (props) => {
     const handleLogout = () => {
         deleteTokenGql()
             .then(() => {
-                Cookies.remove(custDataNameCookie);
+                removeLocalStorage(custDataNameCookie);
                 removeIsLoginFlagging();
                 removeCartId();
                 removeCookies('uid_product_compare');

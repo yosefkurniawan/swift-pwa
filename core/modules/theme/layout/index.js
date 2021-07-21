@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
-import Cookies from 'js-cookie';
 import {
     custDataNameCookie, features, modules, debuging,
 } from '@config';
@@ -18,6 +17,7 @@ import { createCompareList } from '@core_modules/product/services/graphql';
 
 import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
 import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
+import { getLocalStorage } from '@root/core/helpers/localstorage';
 
 const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
@@ -150,7 +150,7 @@ const Layout = (props) => {
         if (typeof window !== 'undefined') {
             window.toastMessage = handleSetToast;
             window.backdropLoader = handleLoader;
-            const custData = Cookies.getJSON(custDataNameCookie);
+            const custData = getLocalStorage(custDataNameCookie);
             const tagManagerArgs = {
                 dataLayer: {
                     pageName: pageConfig.title,

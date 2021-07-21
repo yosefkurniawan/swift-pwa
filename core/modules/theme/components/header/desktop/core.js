@@ -1,7 +1,6 @@
 import Router from 'next/router';
 import { removeIsLoginFlagging } from '@helper_auth';
 import { removeCartId } from '@helper_cartid';
-import Cookies from 'js-cookie';
 import { removeCookies } from '@helper_cookies';
 import { useApolloClient } from '@apollo/client';
 import { localTotalCart, localCompare } from '@services/graphql/schema/local';
@@ -10,6 +9,7 @@ import { custDataNameCookie, features, modules } from '@config';
 import {
     getCategories, getCustomer, removeToken, getVesMenu,
 } from '@core_modules/theme/services/graphql';
+import { removeLocalStorage } from '@root/core/helpers/localstorage';
 
 const CoreTopNavigation = (props) => {
     const {
@@ -37,7 +37,7 @@ const CoreTopNavigation = (props) => {
         window.backdropLoader(true);
         deleteTokenGql()
             .then(() => {
-                Cookies.remove(custDataNameCookie);
+                removeLocalStorage(custDataNameCookie);
                 removeIsLoginFlagging();
                 removeCartId();
                 removeCookies('uid_product_compare');

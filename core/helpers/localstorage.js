@@ -11,6 +11,18 @@ export const testLocalStorage = () => {
     }
 };
 
+export const removeLocalStorage = (key) => {
+    if (typeof window !== 'undefined') {
+        try {
+            localStorage.removeItem(key);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+    return false;
+};
+
 export const setLocalStorage = (key, data) => {
     if (typeof window !== 'undefined' && testLocalStorage() === true) {
         let localData = data;

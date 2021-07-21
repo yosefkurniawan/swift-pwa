@@ -6,7 +6,6 @@ import { setCartId, getCartId } from '@helper_cartid';
 import {
     expiredToken, custDataNameCookie, recaptcha, modules,
 } from '@config';
-import Cookies from 'js-cookie';
 import { useQuery } from '@apollo/client';
 
 import { useFormik } from 'formik';
@@ -24,6 +23,7 @@ import {
     getCustomerCartId,
 } from '@core_modules/register/services/graphql';
 import { getCustomer } from '@core_modules/register/services/graphql/schema';
+import { setLocalStorage } from '@root/core/helpers/localstorage';
 
 const appEnv = getAppEnv();
 
@@ -224,8 +224,10 @@ const Register = (props) => {
     };
 
     if (cartData.data && custData.data) {
-        Cookies.set(custDataNameCookie, {
+        setLocalStorage(custDataNameCookie, {
             email: custData.data.customer.email,
+            firstname: custData.data.customer.firstname,
+            customer_group: custData.data.customer.customer_group,
         });
         const custCartId = cartData.data.customerCart.id;
         if (cartId === '' || !cartId) {

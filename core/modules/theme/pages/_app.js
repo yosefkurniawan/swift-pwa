@@ -9,7 +9,6 @@ import React from 'react';
 import App from 'next/app';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '@theme_theme';
-import Cookie from 'js-cookie';
 import helperCookies from '@helper_cookies';
 
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -19,7 +18,9 @@ import {
     storeConfigNameCookie, GTM, custDataNameCookie, features, sentry,
 } from '@config';
 import { getLoginInfo, getLastPathWithoutLogin } from '@helper_auth';
-import { setResolver, testLocalStorage, setLocalStorage } from '@helper_localstorage';
+import {
+    setResolver, testLocalStorage, setLocalStorage, getLocalStorage,
+} from '@helper_localstorage';
 import { RewriteFrames } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
 import { unregister } from 'next-offline/runtime';
@@ -89,10 +90,9 @@ class MyApp extends App {
         if (typeof window !== 'undefined') {
             isLogin = getLoginInfo();
             lastPathNoAuth = getLastPathWithoutLogin();
-            customerData = Cookie.getJSON(custDataNameCookie);
+            customerData = getLocalStorage(custDataNameCookie);
         } else {
             isLogin = allcookie.isLogin || 0;
-            customerData = allcookie[custDataNameCookie];
             lastPathNoAuth = req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
                 ? req.session.lastPathNoAuth
                 : '/customer/account';

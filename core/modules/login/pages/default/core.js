@@ -12,7 +12,6 @@ import { setCartId, getCartId } from '@helper_cartid';
 import { useQuery } from '@apollo/client';
 import { expiredToken, custDataNameCookie, recaptcha, modules } from '@config';
 import Router from 'next/router';
-import Cookies from 'js-cookie';
 import { regexPhone } from '@helper_regex';
 import { useFormik } from 'formik';
 import dynamic from 'next/dynamic';
@@ -32,6 +31,7 @@ import {
 } from '@core_modules/login/services/graphql';
 import { getCustomer } from '@core_modules/login/services/graphql/schema';
 import { assignCompareListToCustomer } from '@core_modules/productcompare/service/graphql';
+import { setLocalStorage } from '@root/core/helpers/localstorage';
 
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const appEnv = getAppEnv();
@@ -328,7 +328,7 @@ const Login = (props) => {
 
     React.useEffect(() => {
         if (cartData.data && custData.data && cartData.data.customerCart && cartData.data.customerCart && cartData.data.customerCart.id) {
-            Cookies.set(custDataNameCookie, {
+            setLocalStorage(custDataNameCookie, {
                 email: custData.data.customer.email,
                 firstname: custData.data.customer.firstname,
                 customer_group: custData.data.customer.customer_group,
