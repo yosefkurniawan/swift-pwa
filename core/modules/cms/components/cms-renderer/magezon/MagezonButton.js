@@ -30,14 +30,14 @@ const MagezonButton = (props) => {
             {link && link !== '' ? (
                 <MagezonLink link={link}>
                     <Button className={classes.button} type="button" align="left" onClick={onClick}>
-                        {icon !== '' && isLeftIconPosition ? <MagezonIcon icon={icon} icon_size={button_size} /> : null}
+                        {icon && isLeftIconPosition ? <MagezonIcon icon={icon} icon_size={button_size} /> : null}
                         {title || ''}
-                        {icon !== '' && !isLeftIconPosition ? <MagezonIcon icon={icon} icon_size={button_size} /> : null}
+                        {icon && !isLeftIconPosition ? <MagezonIcon icon={icon} icon_size={button_size} /> : null}
                     </Button>
                 </MagezonLink>
             ) : (
                 <Button className={classes.button} type="button" align="left" onClick={onClick}>
-                    {icon !== '' ? <MagezonIcon icon={icon} icon_size={button_size} /> : null}
+                    {icon ? <MagezonIcon icon={icon} icon_size={button_size} /> : null}
                     {title || ''}
                 </Button>
             )}
