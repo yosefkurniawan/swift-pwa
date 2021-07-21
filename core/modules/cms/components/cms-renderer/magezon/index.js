@@ -21,14 +21,19 @@ import 'animate.css';
 const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed'), { ssr: false });
 const MagezonPinterest = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonPinterest'), { ssr: false });
 const MagezonTwitter = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitter'), { ssr: false });
+const MagezonParallax = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonParallax'), { ssr: false });
 
 const MagezonElement = (props) => {
     const {
         type, content,
         animation_in, animation_duration, animation_delay, animation_infinite,
+        parallax_type, parallax_speed,
+        background_image, full_height,
+        storeConfig,
     } = props;
+    const { base_media_url } = storeConfig;
     let childrenContent;
-    let classes = '';
+    let classes = 'mgz-element ';
     const { className, styles } = generateCustomCssAnimation(animation_duration, animation_delay, animation_infinite);
 
     const enumCustomAnimation = {
@@ -41,6 +46,10 @@ const MagezonElement = (props) => {
         fadeUpIn: 'owl-fadeUp-in',
         goDownIn: 'owl-goDown-in',
     };
+
+    if (full_height) {
+        classes += 'full_height ';
+    }
 
     if (animation_in) {
         if (!Object.values(enumCustomAnimation).includes(animation_in)) {
@@ -125,12 +134,59 @@ const MagezonElement = (props) => {
     return (
         <>
             <div className={classes}>
+                {background_image && (
+                    <>
+                        <div className="parallax-wrapper mouse-parallax">
+                            <MagezonParallax
+                                src={`${base_media_url}${background_image}`}
+                                speed={parallax_speed}
+                                type={parallax_type}
+                            />
+                        </div>
+                    </>
+                )}
                 {childrenContent}
             </div>
-            <style jsx>
+            <style jsx global>
                 {`
+                    .mgz-element {
+                        position: relative;
+                    }
                     .animation_duration {
                         --animate-duration: ${animation_duration || 0.5}s;
+                    }
+                    .full_height {
+                        min-height: 433px;
+                    }
+                    .parallax-wrapper {
+                        border-radius: inherit;
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        right: 0;
+                        left: 0;
+                        overflow: hidden;
+                        pointer-events: none;
+                    }
+                    .parallax-wrapper * {
+                        position: absolute;
+                    }
+                    .parallax-wrapper.mouse-parallax {
+                        transform: translateX(0);
+                    }
+                    .jarallax {
+                        inset: -30px;
+                        transition: transform 1s cubic-bezier(0.22, 0.63, 0.6, 0.88) 0s;
+
+                        background-image: none;
+                        background-size: auto;
+                        background-position: center top;
+                        background-repeat: no-repeat;
+                    }
+                    .jarallax * {
+                        background-size: inherit !important;
+                        background-position: inherit !important;
+                        background-repeat: inherit !important;
                     }
                 `}
             </style>
