@@ -9,15 +9,60 @@ import MagezonRawHtml from '@core_modules/cms/components/cms-renderer/magezon/Ma
 import MagezonWidget from '@core_modules/cms/components/cms-renderer/magezon/MagezonWidget';
 import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
 import MagezonSeparator from '@core_modules/cms/components/cms-renderer/magezon/MagezonSeparator';
+import MagezonEmpty from '@core_modules/cms/components/cms-renderer/magezon/MagezonEmpty';
+import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/MagezonFanspage';
+import MagezonToggle from '@core_modules/cms/components/cms-renderer/magezon/MagezonToggle';
+import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import dynamic from 'next/dynamic';
 import 'font-awesome/css/font-awesome.min.css';
+import 'open-iconic/font/css/open-iconic-bootstrap.css';
+import 'animate.css';
 
 const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed'), { ssr: false });
 const MagezonPinterest = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonPinterest'), { ssr: false });
 const MagezonTwitter = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitter'), { ssr: false });
 
 const MagezonElement = (props) => {
-    const { type, content } = props;
+    const {
+        type, content,
+        animation_in, animation_duration, animation_delay, animation_infinite,
+    } = props;
+    let childrenContent;
+    let classes = '';
+    const { className, styles } = generateCustomCssAnimation(animation_duration, animation_delay, animation_infinite);
+
+    const enumCustomAnimation = {
+        topToBottom: 'mgz_top-to-bottom',
+        bottomToTop: 'mgz_bottom-to-top',
+        leftToRight: 'mgz_left-to-right',
+        rightToLeft: 'mgz_right-to-left',
+        appear: 'mgz_appear',
+        backSlideIn: 'owl-backSlide-in',
+        fadeUpIn: 'owl-fadeUp-in',
+        goDownIn: 'owl-goDown-in',
+    };
+
+    if (animation_in) {
+        if (!Object.values(enumCustomAnimation).includes(animation_in)) {
+            // base CSS animation using animate.css class and utility class
+            classes += `animate__animated animate__${animation_in}`;
+            if (animation_delay) {
+                classes += ` animate__delay-${animation_delay}s`;
+            }
+            if (animation_infinite) {
+                classes += ' animate__infinite';
+            }
+            if (animation_duration) {
+                classes += ' animation_duration';
+            }
+        } else {
+            // custom CSS animation
+            classes += `${animation_in} ${className}`;
+            if (animation_duration || animation_delay || animation_infinite) {
+                classes += ' custom_animation';
+            }
+        }
+    }
 
     React.useEffect(() => {
         if (type && type === 'raw_js' && content && content !== '' && content.includes('<script>')) {
@@ -35,39 +80,63 @@ const MagezonElement = (props) => {
     if (type) {
         switch (type) {
         case 'row':
-            return <MagezonRow {...props} />;
+            childrenContent = <MagezonRow {...props} />; break;
         case 'column':
-            return <MagezonColumn {...props} />;
+            childrenContent = <MagezonColumn {...props} />; break;
         case 'heading':
-            return <MagezonHeading {...props} />;
+            childrenContent = <MagezonHeading {...props} />; break;
         case 'single_image':
-            return <MagezonSingleImage {...props} />;
+            childrenContent = <MagezonSingleImage {...props} />; break;
         case 'text':
-            return <MagezonText {...props} />;
+            childrenContent = <MagezonText {...props} />; break;
         case 'button':
-            return <MagezonButton {...props} />;
+            childrenContent = <MagezonButton {...props} />; break;
         case 'raw_html':
-            return <MagezonRawHtml {...props} />;
+            childrenContent = <MagezonRawHtml {...props} />; break;
         case 'magento_widget':
-            return <MagezonWidget {...props} />;
+            childrenContent = <MagezonWidget {...props} />; break;
         case 'instagram':
-            return <MagezonInstagram {...props} />;
+            childrenContent = <MagezonInstagram {...props} />; break;
         case 'pinterest':
-            return <MagezonPinterest {...props} />;
+            childrenContent = <MagezonPinterest {...props} />; break;
         case 'twitter_button':
-            return <MagezonTwitter {...props} />;
+            childrenContent = <MagezonTwitter {...props} />; break;
         case 'twitter_timeline':
-            return <MagezonTwitter {...props} />;
+            childrenContent = <MagezonTwitter {...props} />; break;
         case 'icon':
-            return <MagezonIcon {...props} />;
+            childrenContent = <MagezonIcon {...props} />; break;
         case 'separator':
-            return <MagezonSeparator {...props} />;
+            childrenContent = <MagezonSeparator {...props} />; break;
+        case 'empty_space':
+            childrenContent = <MagezonEmpty {...props} />; break;
+        case 'facebook_page':
+            childrenContent = <MagezonFanspage {...props} />; break;
+        case 'facebook_comments':
+            childrenContent = <MagezonFanspage {...props} />; break;
+        case 'facebook_like':
+            childrenContent = <MagezonFanspage {...props} />; break;
+        case 'toggle':
+            childrenContent = <MagezonToggle {...props} />; break;
         default:
-            return null;
+            childrenContent = null;
         }
     }
 
-    return null;
+    return (
+        <>
+            <div className={classes}>
+                {childrenContent}
+            </div>
+            <style jsx>
+                {`
+                    .animation_duration {
+                        --animate-duration: ${animation_duration || 0.5}s;
+                    }
+                `}
+            </style>
+            {styles}
+        </>
+    );
 };
 
 export default MagezonElement;
