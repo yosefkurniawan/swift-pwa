@@ -11,6 +11,7 @@ import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/Magez
 import MagezonEmpty from '@core_modules/cms/components/cms-renderer/magezon/MagezonEmpty';
 import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/MagezonFanspage';
 import MagezonToggle from '@core_modules/cms/components/cms-renderer/magezon/MagezonToggle';
+import MagezonMessageBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonMessageBox';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import dynamic from 'next/dynamic';
 import 'font-awesome/css/font-awesome.min.css';
@@ -124,6 +125,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonFanspage {...props} />; break;
         case 'toggle':
             childrenContent = <MagezonToggle {...props} />; break;
+        case 'message_box':
+            childrenContent = <MagezonMessageBox {...props} />; break;
         default:
             childrenContent = null;
         }
@@ -151,6 +154,9 @@ const MagezonElement = (props) => {
                 {`
                     .mgz-element {
                         position: relative;
+                    }
+                    .mgz-element > .mgz-column {
+                        padding: 10px;
                     }
                     .animation_duration {
                         --animate-duration: ${animation_duration || 0.5}s;
