@@ -2,15 +2,14 @@ import React from 'react';
 import Typography from '@common_typography';
 import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
 import useStyles from '@core_modules/cms/components/cms-renderer/magezon/style';
-import classNames from 'classnames';
 
 const MagezonSeparator = (props) => {
     const {
         xs_hide, sm_hide, md_hide, lg_hide, title, title_tag,
         title_align, line_weight, title_color, style,
-        add_icon, el_width, icon, icon_position, color,
+        add_icon, el_width, icon, icon_position, color, ...other
     } = props;
-    const classes = useStyles(props);
+    const classes = useStyles(other);
 
     let classSeparator = 'magezon-separator ';
     if (xs_hide) classSeparator += 'hidden-mobile ';
@@ -32,7 +31,7 @@ const MagezonSeparator = (props) => {
     };
 
     return (
-        <div className={classNames(classes.container, classSeparator)}>
+        <div className={`${classSeparator}${classes.container}`}>
             <div className="magezone-separator-box">
                 <Typography
                     variant={title_tag}

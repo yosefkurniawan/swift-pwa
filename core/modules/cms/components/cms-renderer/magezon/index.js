@@ -154,6 +154,7 @@ const MagezonElement = (props) => {
                 {`
                     .mgz-element {
                         position: relative;
+                        width: 100%;
                     }
                     .animation_duration {
                         --animate-duration: ${animation_duration || 0.5}s;
