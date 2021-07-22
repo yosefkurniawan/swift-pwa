@@ -27,6 +27,7 @@ const MagezonElement = (props) => {
         type, content,
         animation_in, animation_duration, animation_delay, animation_infinite,
         parallax_type, parallax_speed,
+        mouse_parallax, mouse_parallax_size, mouse_parallax_speed,
         background_image, full_height,
         storeConfig,
     } = props;
@@ -138,6 +139,8 @@ const MagezonElement = (props) => {
                                 src={`${base_media_url}${background_image}`}
                                 speed={parallax_speed}
                                 type={parallax_type}
+                                mouseParallax={mouse_parallax}
+                                mouseSize={mouse_parallax_size}
                             />
                         </div>
                     </>
@@ -163,7 +166,7 @@ const MagezonElement = (props) => {
                         right: 0;
                         left: 0;
                         overflow: hidden;
-                        pointer-events: none;
+                        // pointer-events: none;
                     }
                     .parallax-wrapper * {
                         position: absolute;
@@ -172,8 +175,8 @@ const MagezonElement = (props) => {
                         transform: translateX(0);
                     }
                     .jarallax {
-                        inset: -30px;
-                        transition: transform 1s cubic-bezier(0.22, 0.63, 0.6, 0.88) 0s;
+                        inset: -${mouse_parallax_size}px;
+                        transition: transform ${mouse_parallax_speed}ms cubic-bezier(0.22, 0.63, 0.6, 0.88) 0s;
 
                         background-image: none;
                         background-size: auto;
