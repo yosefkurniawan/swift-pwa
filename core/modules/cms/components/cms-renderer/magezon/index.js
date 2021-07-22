@@ -11,6 +11,7 @@ import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/Magez
 import MagezonEmpty from '@core_modules/cms/components/cms-renderer/magezon/MagezonEmpty';
 import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/MagezonFanspage';
 import MagezonToggle from '@core_modules/cms/components/cms-renderer/magezon/MagezonToggle';
+import MagezonCounter from '@core_modules/cms/components/cms-renderer/magezon/MagezonCounter';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import dynamic from 'next/dynamic';
 import 'font-awesome/css/font-awesome.min.css';
@@ -114,6 +115,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonFanspage {...props} />; break;
         case 'toggle':
             childrenContent = <MagezonToggle {...props} />; break;
+        case 'number_counter':
+            childrenContent = <MagezonCounter {...props} />; break;
         default:
             childrenContent = null;
         }
