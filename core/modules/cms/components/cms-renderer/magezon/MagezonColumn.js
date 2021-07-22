@@ -9,7 +9,7 @@ const MagezonColumn = (props) => {
         xs_hide, sm_hide, md_hide, lg_hide, storeConfig,
     } = props;
     const classes = useStyles(props);
-    let classColumn = '';
+    let classColumn = 'mgz-column ';
     if (xs_size && xs_size !== '') classColumn += `col-xs-${xs_size} `;
     if (sm_size && sm_size !== '') classColumn += `col-sm-${sm_size} `;
     if (md_size && md_size !== '') classColumn += `col-md-${md_size} `;

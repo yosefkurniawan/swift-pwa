@@ -39,6 +39,32 @@ const useStyles = makeStyles({
         borderColor: (props) => props.button_border_color || 'transparent',
         backgroundColor: (props) => props.button_background_color || 'black',
     },
+    mgzMessageBox: {
+        '& > .magezone-icon .wrapperIcon': {
+            fontSize: '1em',
+            fontStyle: 'normal',
+            fontWeight: 400,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            width: '3.6em',
+            marginLeft: 0,
+            marginRight: 0,
+        },
+        '& > .magezone-icon .wrapperIcon i': {
+            transform: 'translate(-50%, -50%)',
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            lineHeight: 1,
+            fontSize: (props) => props.icon_size,
+        },
+        '& > .magezone-icon .wrapperIcon, .magezone-icon .wrapperIcon i': {
+            color: (props) => props.message_icon_color,
+            backgroundColor: (props) => props.message_icon_background_color,
+        },
+    },
 });
 
 export default useStyles;

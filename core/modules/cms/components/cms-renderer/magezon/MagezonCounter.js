@@ -1,15 +1,7 @@
 import React from 'react';
-import useStyles from '@core_modules/cms/components/cms-renderer/magezon/style';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
 import Typography from '@common_typography';
-import { makeStyles } from '@material-ui/core/styles';
-
-const stylesCircle = makeStyles({
-    root: {
-        color: (theme) => theme.color,
-    },
-});
 
 const ProgressBar = ({
     bgcolor, progress, height, afterText, beforeText, icon, title, prefix, suffix,
@@ -45,7 +37,9 @@ const ProgressBar = ({
 
     return (
         <div style={wrapperBar}>
-            {beforeText}
+            <Typography variant="p" style={{ fontSize: '12px' }}>
+                {beforeText}
+            </Typography>
             <div style={Parentdiv}>
                 <div style={Childdiv}>
                     <div style={progresstext}>
@@ -72,7 +66,9 @@ const ProgressBar = ({
                     </div>
                 </div>
             </div>
-            {afterText}
+            <Typography variant="p" style={{ fontSize: '12px' }}>
+                {afterText}
+            </Typography>
         </div>
     );
 };
@@ -92,8 +88,6 @@ const MagezonCounter = (props) => {
         circle_size,
         number_size,
     } = props;
-    const classes = useStyles(props);
-    const styles = stylesCircle({ color: circle_color1 });
     const [progress, setProgress] = React.useState(0);
 
     /* eslint-disable */
@@ -112,16 +106,44 @@ const MagezonCounter = (props) => {
     let content = '';
     if (layout === 'circle') {
         content = (
-            <div className="circle-wrapper">
-                <CircularProgress classes={styles} variant="determinate" value={progress} size={Number(circle_size)} color={circle_color1} />
-                <div className="content-circle">
-                    {number_text}
-                    {icon ? (
-                        <div className="icon-circle">
-                            <MagezonIcon icon={icon} icon_size={number_size} />
-                        </div>
-                    ) : null}
+            <div className="circle-container">
+                <Typography align="center" variant="p" style={{ fontSize: '12px' }}>
+                    {before_number_text}
+                </Typography>
+                <div className="circle-wrapper">
+                    <CircularProgress
+                        style={{ color: circle_color1 }}
+                        variant="determinate"
+                        value={progress}
+                        size={Number(circle_size)}
+                        color={circle_color1}
+                    />
+                    <div className="content-circle">
+                        {number_prefix ? (
+                            <Typography variant="p" style={{ fontSize: '12px', marginTop: '2vh' }}>
+                                {number_prefix}
+                            </Typography>
+                        ) : null}
+                        {number_text ? (
+                            <Typography variant="h1" type="bold">
+                                {number_text}
+                            </Typography>
+                        ) : null}
+                        {icon ? (
+                            <div className="icon-circle">
+                                <MagezonIcon icon={icon} icon_size={number_size} />
+                            </div>
+                        ) : null}
+                        {number_suffix ? (
+                            <Typography variant="p" style={{ fontSize: '12px', marginTop: '2vh' }}>
+                                {number_suffix}
+                            </Typography>
+                        ) : null}
+                    </div>
                 </div>
+                <Typography align="center" variant="p" style={{ fontSize: '12px' }}>
+                    {after_number_text}
+                </Typography>
             </div>
         );
     } else if (layout === 'bars') {
@@ -140,16 +162,56 @@ const MagezonCounter = (props) => {
                 />
             </div>
         );
+    } else {
+        content = (
+            <div className="number-container">
+                <Typography align="center" variant="p" style={{ fontSize: '12px' }}>
+                    {before_number_text}
+                </Typography>
+                <div className="number-wrapper">
+                    {number_prefix ? (
+                        <Typography variant="p" style={{ fontSize: '12px' }}>
+                            {number_prefix}
+                        </Typography>
+                    ) : null}
+                    {number_text ? (
+                        <Typography variant="h1" type="bold">
+                            {number_text}
+                        </Typography>
+                    ) : null}
+                    {icon ? (
+                        <div className="icon-circle">
+                            <MagezonIcon icon={icon} icon_size={number_size} />
+                        </div>
+                    ) : null}
+                    {number_suffix ? (
+                        <Typography variant="p" style={{ fontSize: '12px' }}>
+                            {number_suffix}
+                        </Typography>
+                    ) : null}
+                </div>
+                <Typography align="center" variant="p" style={{ fontSize: '12px' }}>
+                    {after_number_text}
+                </Typography>
+            </div>
+        );
     }
 
     return (
-        <div className={`${classes.container}`}>
+        <div>
             <div className="progress-wrapper">{content}</div>
             <style jsx global>
                 {`
                     .progress-wrapper {
                         width: 90vw;
                         margin-bottom: 50px;
+                        margin-top: 50px;
+                    }
+                    .circle-container {
+                        margin-top: 50px;
+                        margin-bottom: 50px;
+                        width: ${circle_size}px;
+                        height: ${circle_size}px;
                     }
                     .circle-wrapper {
                         position: relative;
@@ -175,6 +237,20 @@ const MagezonCounter = (props) => {
                     .bar-wrapper {
                         width: 100%;
                         height: 20px;
+                    }
+                    .number-wrapper {
+                        width: ${circle_size}px;
+                        height: ${circle_size}px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    .number-container {
+                        display: flex;
+                        flex-direction: column;
+                        width: ${circle_size}px;
+                        height: ${circle_size}px;
                     }
                 `}
             </style>
