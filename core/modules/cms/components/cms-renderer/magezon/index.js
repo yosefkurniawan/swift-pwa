@@ -8,7 +8,9 @@ import MagezonButton from '@core_modules/cms/components/cms-renderer/magezon/Mag
 import MagezonRawHtml from '@core_modules/cms/components/cms-renderer/magezon/MagezonRawHtml';
 import MagezonWidget from '@core_modules/cms/components/cms-renderer/magezon/MagezonWidget';
 import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
+import MagezonEmpty from '@core_modules/cms/components/cms-renderer/magezon/MagezonEmpty';
 import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/MagezonFanspage';
+import MagezonToggle from '@core_modules/cms/components/cms-renderer/magezon/MagezonToggle';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import dynamic from 'next/dynamic';
 import 'font-awesome/css/font-awesome.min.css';
@@ -25,6 +27,7 @@ const MagezonElement = (props) => {
         type, content,
         animation_in, animation_duration, animation_delay, animation_infinite,
         parallax_type, parallax_speed,
+        mouse_parallax, mouse_parallax_size, mouse_parallax_speed,
         background_image, full_height,
         storeConfig,
     } = props;
@@ -111,12 +114,16 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonTwitter {...props} />; break;
         case 'icon':
             childrenContent = <MagezonIcon {...props} />; break;
+        case 'empty_space':
+            childrenContent = <MagezonEmpty {...props} />; break;
         case 'facebook_page':
             childrenContent = <MagezonFanspage {...props} />; break;
         case 'facebook_comments':
             childrenContent = <MagezonFanspage {...props} />; break;
         case 'facebook_like':
             childrenContent = <MagezonFanspage {...props} />; break;
+        case 'toggle':
+            childrenContent = <MagezonToggle {...props} />; break;
         default:
             childrenContent = null;
         }
@@ -132,6 +139,8 @@ const MagezonElement = (props) => {
                                 src={`${base_media_url}${background_image}`}
                                 speed={parallax_speed}
                                 type={parallax_type}
+                                mouseParallax={mouse_parallax}
+                                mouseSize={mouse_parallax_size}
                             />
                         </div>
                     </>
@@ -157,7 +166,7 @@ const MagezonElement = (props) => {
                         right: 0;
                         left: 0;
                         overflow: hidden;
-                        pointer-events: none;
+                        // pointer-events: none;
                     }
                     .parallax-wrapper * {
                         position: absolute;
@@ -166,8 +175,8 @@ const MagezonElement = (props) => {
                         transform: translateX(0);
                     }
                     .jarallax {
-                        inset: -30px;
-                        transition: transform 1s cubic-bezier(0.22, 0.63, 0.6, 0.88) 0s;
+                        inset: -${mouse_parallax_size}px;
+                        transition: transform ${mouse_parallax_speed}ms cubic-bezier(0.22, 0.63, 0.6, 0.88) 0s;
 
                         background-image: none;
                         background-size: auto;
