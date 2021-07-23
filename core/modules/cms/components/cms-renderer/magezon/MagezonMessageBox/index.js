@@ -23,7 +23,8 @@ const MagezonMessageBox = (props) => {
                 {icon && (
                     <MagezonIcon icon={icon} icon_size={`${icon_size ? `${icon_size}px` : '1.7em'}`} />
                 )}
-                <div className="mgz-message-box-content">{content}</div>
+                {/* eslint-disable-next-line react/no-danger */}
+                <div className="mgz-message-box-content" dangerouslySetInnerHTML={{ __html: content }} />
             </div>
 
             <style jsx>
@@ -41,6 +42,14 @@ const MagezonMessageBox = (props) => {
                     }
                     .mgz-message-box-content {
                         color: ${message_box_color};
+                    }
+                `}
+            </style>
+            <style jsx global>
+                {`
+                    .mgz-message-box .mgz-message-box-content p:last-child {
+                        margin-top: 0;
+                        margin-bottom: 0;
                     }
                 `}
             </style>
