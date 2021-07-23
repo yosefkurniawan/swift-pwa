@@ -12,6 +12,7 @@ import MagezonSeparator from '@core_modules/cms/components/cms-renderer/magezon/
 import MagezonEmpty from '@core_modules/cms/components/cms-renderer/magezon/MagezonEmpty';
 import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/MagezonFanspage';
 import MagezonToggle from '@core_modules/cms/components/cms-renderer/magezon/MagezonToggle';
+import MagezonFlipBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonFlipBox';
 import MagezonMessageBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonMessageBox';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import dynamic from 'next/dynamic';
@@ -130,6 +131,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonToggle {...props} />; break;
         case 'message_box':
             childrenContent = <MagezonMessageBox {...props} />; break;
+        case 'flip_box':
+            childrenContent = <MagezonFlipBox {...props} />; break;
         default:
             childrenContent = null;
         }
