@@ -14,6 +14,7 @@ import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/M
 import MagezonToggle from '@core_modules/cms/components/cms-renderer/magezon/MagezonToggle';
 import MagezonMessageBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonMessageBox';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
+import MagezonStaticBlock from '@core_modules/cms/components/cms-renderer/magezon/MagezonStaticBlock';
 import dynamic from 'next/dynamic';
 import 'font-awesome/css/font-awesome.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
@@ -130,6 +131,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonToggle {...props} />; break;
         case 'message_box':
             childrenContent = <MagezonMessageBox {...props} />; break;
+        case 'static_block':
+            childrenContent = <MagezonStaticBlock {...props} />; break;
         default:
             childrenContent = null;
         }
