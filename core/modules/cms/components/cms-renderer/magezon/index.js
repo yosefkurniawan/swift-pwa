@@ -23,6 +23,7 @@ const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-
 const MagezonPinterest = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonPinterest'), { ssr: false });
 const MagezonTwitter = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitter'), { ssr: false });
 const MagezonParallax = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonParallax'), { ssr: false });
+const MagezonFlickr = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonFlickr'), { ssr: false });
 
 const MagezonElement = (props) => {
     const {
@@ -130,6 +131,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonToggle {...props} />; break;
         case 'message_box':
             childrenContent = <MagezonMessageBox {...props} />; break;
+        case 'flickr':
+            childrenContent = <MagezonFlickr {...props} />; break;
         default:
             childrenContent = null;
         }
