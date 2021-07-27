@@ -1,6 +1,7 @@
 import React from 'react';
 import { getStoreHost } from '@helpers/config';
 import Typography from '@common_typography';
+import MagezonButton from '@core_modules/cms/components/cms-renderer/magezon/MagezonButton';
 
 const MagezonFlipBox = (props) => {
     const {
@@ -23,6 +24,10 @@ const MagezonFlipBox = (props) => {
         box_border_width,
         primary_color,
         primary_border_color,
+        button_link,
+        button_size,
+        button_title,
+        enable_button,
     } = props;
 
     const flipValue = () => {
@@ -38,28 +43,58 @@ const MagezonFlipBox = (props) => {
         }
     };
 
+    const buttonAligment = () => {
+        let align = '';
+        switch (hover_align) {
+        case 'left':
+            align = 'flex-start'; break;
+        case 'center':
+            align = 'center'; break;
+        case 'right':
+            align = 'flex-end'; break;
+        default:
+            align = 'flex-start';
+        }
+        return align;
+    };
+    /* eslint-disable */
     return (
         <div>
             <div className="flip-card">
                 <div className="flip-card-inner">
                     <div className="flip-card-front">
                         <div className="primary-content">
-                            <Typography variant="h1" type="bold" style={{ fontSize: Number(title_font_size), fontWeight: Number(title_font_weight) }}>
+                            <Typography
+                                align={primary_align}
+                                variant="h1"
+                                type="bold"
+                                style={{ fontSize: Number(title_font_size), fontWeight: Number(title_font_weight) }}
+                            >
                                 {primary_title}
                             </Typography>
-                            <Typography variant="p" style={{ textAlign: primary_align, marginTop: '5px' }}>
-                                {primary_text}
-                            </Typography>
+                            <div style={{ textAlign: primary_align, marginTop: '5px' }}>
+                                <div dangerouslySetInnerHTML={{ __html: primary_text }} />
+                            </div>
                         </div>
                     </div>
                     <div className="flip-card-back">
                         <div className="hover-content">
-                            <Typography variant="h1" type="bold" style={{ fontSize: Number(title_font_size), fontWeight: Number(title_font_weight) }}>
+                            <Typography
+                                align={hover_align}
+                                variant="h1"
+                                type="bold"
+                                style={{ fontSize: Number(title_font_size), fontWeight: Number(title_font_weight) }}
+                            >
                                 {hover_title}
                             </Typography>
-                            <Typography variant="p" style={{ textAlign: hover_align, marginTop: '5px' }}>
-                                {hover_text}
-                            </Typography>
+                            <div style={{ textAlign: hover_align, marginTop: '5px' }}>
+                                <div dangerouslySetInnerHTML={{ __html: hover_text }} />
+                            </div>
+                            {enable_button ? (
+                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: buttonAligment(), marginTop: '5px', width: '100%' }}>
+                                    <MagezonButton title={button_title} link={button_link} button_size={button_size} {...props} />{' '}
+                                </div>
+                            ) : null}
                         </div>
                     </div>
                 </div>
@@ -122,6 +157,7 @@ const MagezonFlipBox = (props) => {
                         border-color: ${primary_border_color};
                         border-style: solid;
                         border-width: ${box_border_width}
+                        padding: 10px 10px 10px 10px;
                     }
                     
                     .hover-content {
@@ -144,6 +180,7 @@ const MagezonFlipBox = (props) => {
             </style>
         </div>
     );
+    /* eslint-enable */
 };
 
 export default MagezonFlipBox;

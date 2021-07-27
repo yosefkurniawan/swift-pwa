@@ -32,6 +32,7 @@ const useStyles = makeStyles({
     },
     button: {
         backgroundPosition: (props) => props.background_position,
+        color: (props) => props.button_color || 'black',
         boxShadow: (props) => `5px 10px ${props.box_shadow_color}`,
         borderStyle: (props) => props.button_border_style,
         borderWidth: (props) => props.button_border_width || 0,
