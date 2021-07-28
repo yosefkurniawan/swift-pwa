@@ -86,7 +86,7 @@ const Address = (props) => {
                 state.selected.address = shippingAddress;
             }
 
-            if (typeof shippingAddress.is_valid_city !== 'undefined') {
+            if (checkout.selected.delivery === 'home' && typeof shippingAddress.is_valid_city !== 'undefined') {
                 state.error.shippingAddress = !shippingAddress.is_valid_city;
             }
 

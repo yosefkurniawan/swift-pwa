@@ -344,6 +344,7 @@ const Checkout = (props) => {
                 if (shippingMethod.carrier_code === 'pickup' && shippingMethod.method_code === 'pickup') {
                     const custAddress = cart.shipping_addresses[0];
                     state.selected.delivery = 'pickup';
+                    state.error.shippingAddress = false;
                     state.selectStore = {
                         city: custAddress.city,
                         country_code: custAddress.country.code,
@@ -366,6 +367,7 @@ const Checkout = (props) => {
 
             if (shipping.pickup_location_code) {
                 state.selected.delivery = 'instore';
+                state.error.shippingAddress = false;
             }
         }
 
