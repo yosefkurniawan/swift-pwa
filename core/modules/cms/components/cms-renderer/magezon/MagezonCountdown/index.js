@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import dynamic from 'next/dynamic';
 import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
+import Countdown from 'react-countdown';
 
-const Countdown = dynamic(import('react-countdown'));
 const CircleCountdown = dynamic(import('@core_modules/cms/components/cms-renderer/magezon/MagezonCountdown/components/circle'));
 
 const CustomCountdown = (props) => {
@@ -75,9 +75,11 @@ const MagezonCountdown = (props) => {
                     />
                 )}
                 <div className="mgz-countdown-link">
-                    <MagezonLink link={link_url}>
-                        {link_text}
-                    </MagezonLink>
+                    {link_url && (
+                        <MagezonLink link={link_url}>
+                            {link_text || ''}
+                        </MagezonLink>
+                    )}
                 </div>
             </div>
 
