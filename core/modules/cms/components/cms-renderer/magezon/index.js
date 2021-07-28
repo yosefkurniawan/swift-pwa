@@ -12,7 +12,7 @@ import MagezonSeparator from '@core_modules/cms/components/cms-renderer/magezon/
 import MagezonEmpty from '@core_modules/cms/components/cms-renderer/magezon/MagezonEmpty';
 import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/MagezonFanspage';
 import MagezonToggle from '@core_modules/cms/components/cms-renderer/magezon/MagezonToggle';
-import MagezonCounter from '@core_modules/cms/components/cms-renderer/magezon/MagezonCounter';
+import MagezonCounter from '@core_modules/cms/components/cms-renderer/magezon/MagezonCounter/index';
 import MagezonMessageBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonMessageBox';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import dynamic from 'next/dynamic';
