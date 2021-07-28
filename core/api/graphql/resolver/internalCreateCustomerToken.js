@@ -26,6 +26,7 @@ const query = `
             }
           ) {
             token
+            is_email_confirmation
         }
     }
 `;
@@ -46,6 +47,7 @@ const internalCreateCustomerToken = async (parent, args, context) => {
     if (res.createCustomerCustom) {
         context.session.token = encrypt(res.createCustomerCustom.token);
         return {
+            is_email_confirmation: res.createCustomerCustom.is_email_confirmation,
             originalToken: res.createCustomerCustom.token,
             token: encrypt(res.createCustomerCustom.token),
             message: 'welcome',

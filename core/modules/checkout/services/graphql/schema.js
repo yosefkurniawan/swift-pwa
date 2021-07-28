@@ -217,6 +217,8 @@ items {
 const selected_payment_method = `
 selected_payment_method {
     code
+    purchase_order_number
+    title
 }
 `;
 
@@ -333,10 +335,20 @@ const shortAddressData = `
 
 const cartShippingAddress = `
     shipping_addresses {
+        ${modules.checkout.inStorePickup.enabled ? 'pickup_location_code' : ''}
         ${shortAddressData}
         ${selected_shipping_method}
         ${available_shipping_methods}
     }
+`;
+
+const promoBanner = `
+promoBanner {
+  cms_block_id
+  name
+  cms_block_identifier
+  rule_id
+}
 `;
 
 const cartRequiredSelection = `
@@ -351,6 +363,7 @@ const cartRequiredSelection = `
    ${modules.storecredit.enabled ? applied_store_credit : ''}
    ${prices}
    ${cartAvailFreeItems}
+   ${promoBanner}
     
 `;
 
@@ -684,6 +697,7 @@ export const setShippingMethod = gql`
         setShippingMethodsOnCart(input: { cart_id: $cartId, shipping_methods: { carrier_code: $carrierCode, method_code: $methodCode } }) {
             cart {
                 id
+                ${promoBanner}
                 shipping_addresses {
                     ${selected_shipping_method}
                 }
@@ -707,6 +721,7 @@ export const setPaymentMethod = gql`
                 ${modules.giftcard.enabled ? applied_giftcard : ''}
                 ${modules.storecredit.enabled ? applied_store_credit : ''}
                 ${prices}
+                ${promoBanner}
             }
         }
     }
@@ -1046,6 +1061,7 @@ mutation addProductsToCartPromo(
         ${prices}
         ${cartAvailFreeItems}
         ${itemsProduct}
+        ${promoBanner}
       }
     }
   }
@@ -1124,4 +1140,108 @@ query IndodanaUrl($order_number: String!) {
       redirect_url
     }
   }
+`;
+
+export const pickupLocations = gql`
+    query pickupLocations {
+        pickupLocations {
+            items {
+                pickup_location_code
+                name
+                email
+                fax
+                description
+                latitude
+                longitude
+                country_id
+                region_id
+                region
+                city
+                street
+                postcode
+                phone
+            },
+            total_count
+            page_info {
+                page_size
+                current_page
+                total_pages
+            }
+        }
+    }
+`;
+
+export const setInstoreShippingAddress = gql`
+    mutation setInstoreShippingAddress(
+        $cartId: String!
+        $city: String!
+        $countryCode: String!
+        $firstname: String!
+        $lastname: String!
+        $telephone: String!
+        $postcode: String!
+        $street: String!
+        $region: String!
+        $latitude: String
+        $longitude: String
+        $pickup_location_code: String!
+    ) {
+        setShippingAddressesOnCart(
+            input: {
+                cart_id: $cartId
+                shipping_addresses: {
+                    address: {
+                        city: $city
+                        country_code: $countryCode
+                        firstname: $firstname
+                        lastname: $lastname
+                        telephone: $telephone
+                        region: $region
+                        street: [$street]
+                        postcode: $postcode
+                        latitude: $latitude
+                        longitude: $longitude
+                        save_in_address_book: true
+                    },
+                    pickup_location_code: $pickup_location_code
+                }
+            }
+        ) {
+            cart {
+                shipping_addresses {
+                    ${shortAddressData}
+                    pickup_location_code
+                }
+            }
+        }
+        setBillingAddressOnCart(input: { 
+            cart_id: $cartId, 
+            billing_address: {
+                address: {
+                    city: $city
+                    country_code: $countryCode
+                    firstname: $firstname
+                    lastname: $lastname
+                    telephone: $telephone
+                    region: $region
+                    street: [$street]
+                    postcode: $postcode
+                    latitude: $latitude
+                    longitude: $longitude
+                    save_in_address_book: true
+                },
+            }
+        }) {
+            cart {
+                ${dest_location}
+                ${cartBillingAddress}
+                shipping_addresses {
+                    ${available_shipping_methods}
+                    ${selected_shipping_method}
+                }
+                ${promoBanner}
+
+            }
+        }
+    }
 `;

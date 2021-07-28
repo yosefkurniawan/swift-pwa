@@ -31,7 +31,6 @@ const Summary = ({
     const [placeOrderWithOrderComment] = gqlService.placeOrderWithOrderComment({ onError: () => {} });
     const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => {} });
     const [getCustCartId, manageCustCartId] = gqlService.getCustomerCartId();
-    const [mergeCart] = gqlService.mergeCart();
     // indodana
     const [getIndodanaRedirect, urlIndodana] = gqlService.getIndodanaUrl();
 
@@ -65,7 +64,7 @@ const Summary = ({
 
     const generateCartRedirect = (orderNumber = '') => {
         if (config && config.cartRedirect && config.cartRedirect.link) {
-            if (orderNumber && modules.checkout.checkoutOnly) {
+            if (orderNumber && orderNumber !== '') {
                 return `${getStoreHost(getAppEnv())}snap/payment/fail?order_id=${orderNumber}`;
             }
             return config.cartRedirect.link;
@@ -256,6 +255,10 @@ const Summary = ({
             });
         }
     }
+
+    if (manageSnapToken.error && orderId) {
+        window.location.replace(generateCartRedirect(orderId));
+    }
     // End - Manage Snap Pop Up When Opened (Waitinge Response From SnapToken)
 
     // Start - Process Snap Pop Up Close (Waitinge Response From Reorder)
@@ -265,26 +268,9 @@ const Summary = ({
 
         if (!checkout.data.isGuest && manageCustCartId.data) {
             const { id: customerCartId } = manageCustCartId.data.customerCart;
-            if (cart_id !== customerCartId) {
-                mergeCart({
-                    variables: {
-                        sourceCartId: cart_id,
-                        destionationCartId: customerCartId,
-                    },
-                })
-                    .then(async () => {
-                        await setCartId(customerCartId);
-                        setOrderId(null);
-                        window.location.replace(generateCartRedirect());
-                    })
-                    .catch(() => {
-                        window.location.replace(generateCartRedirect());
-                    });
-            } else {
-                setCartId(customerCartId);
-                setOrderId(null);
-                window.location.replace(generateCartRedirect());
-            }
+            setCartId(customerCartId);
+            setOrderId(null);
+            window.location.replace(generateCartRedirect(order_id));
         } else {
             setCartId(cart_id);
             setOrderId(null);

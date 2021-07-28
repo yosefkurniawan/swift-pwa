@@ -47,6 +47,10 @@
     "warningDelete": "Are you sure to remove this address?"
   },
   "menu": {
+    "contactInformation": "Contact information",
+    "newsletter": "Newsletter",
+    "noSubcription": "You are not subscribed to 'General Subscription'.",
+    "subcription": "You are subscribed to General Subscription'.",
     "aboutUs": "About us",
     "contactUs": "Contact us",
     "myPoint": "My point",
@@ -105,7 +109,8 @@
     "message": "Message",
     "validateField": "Please fill in the fields correctly!",
     "shareSuccess" : "Item has been shared successfully",
-    "shareFailed": "Failed on sharing item" 
+    "shareFailed": "Failed on sharing item",
+    "myProductReview": "My product review"
   },
   "order": {
     "recentOrder" : "Recent order",

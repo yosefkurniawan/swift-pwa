@@ -57,7 +57,7 @@ const Content = (props) => {
                             className={styles.btnWishlist}
                         >
                             <Typography variant="span" type="bold" letter="uppercase" color="white">
-                                Share Wish List
+                                {t('customer:wishlist:shareWishlist')}
                             </Typography>
                         </Button>
                     </div>

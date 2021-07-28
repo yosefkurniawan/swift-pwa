@@ -23,7 +23,7 @@ const Layout = (props) => {
         { href: '/customer/account/address', title: t('customer:menu:address') },
         ...pushIf(modules.productreview.enabled, {
             href: '/review/customer',
-            title: t('productreview:title'),
+            title: t('customer:menu:myProductReview'),
         }),
         ...pushIf(modules.giftcard.enabled, {
             href: '/awgiftcard/card',

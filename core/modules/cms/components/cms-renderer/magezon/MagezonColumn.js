@@ -1,5 +1,6 @@
 import React from 'react';
 import MagezonElement from '@core_modules/cms/components/cms-renderer/magezon/index';
+import useStyles from '@core_modules/cms/components/cms-renderer/magezon/style';
 
 const MagezonColumn = (props) => {
     const {
@@ -7,7 +8,8 @@ const MagezonColumn = (props) => {
         xs_offset_size, sm_offset_size, md_offset_size, lg_offset_size,
         xs_hide, sm_hide, md_hide, lg_hide, storeConfig,
     } = props;
-    let classColumn = '';
+    const classes = useStyles(props);
+    let classColumn = 'mgz-column ';
     if (xs_size && xs_size !== '') classColumn += `col-xs-${xs_size} `;
     if (sm_size && sm_size !== '') classColumn += `col-sm-${sm_size} `;
     if (md_size && md_size !== '') classColumn += `col-md-${md_size} `;
@@ -28,7 +30,7 @@ const MagezonColumn = (props) => {
     }
 
     return (
-        <div className={classColumn}>
+        <div className={`${classes.container} ${classColumn}`}>
             { elements && elements.length > 0 && elements.map((item, key) => (
                 <MagezonElement key={key} {...item} storeConfig={storeConfig} />
             )) }

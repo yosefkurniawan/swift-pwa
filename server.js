@@ -1,9 +1,7 @@
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable no-param-reassign */
 
-const {
-    ApolloServer,
-} = require('apollo-server-express');
+const { ApolloServer } = require('apollo-server-express');
 const cookieSession = require('cookie-session');
 const express = require('express');
 const next = require('next');
@@ -27,9 +25,12 @@ const generateXml = require('./core/api/rest/xml');
 const captchaValidation = require('./core/api/rest/captcha');
 const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');
 
+// paypal
+const getPaypalDetail = require('./core/api/rest/paypal/getDetailTransaction');
+
 // This is where we cache our rendered HTML pages
 const ssrCache = new LRUCache({
-    max: 100 * 1024 * 1024, /* cache size will be 100 MB using `return n.length` as length() function */
+    max: 100 * 1024 * 1024 /* cache size will be 100 MB using `return n.length` as length() function */,
     // eslint-disable-next-line no-unused-vars
     length(n, key) {
         return n.length;
@@ -83,6 +84,8 @@ async function renderAndCache(req, res) {
     await app.prepare();
     const server = express();
     server.use(cookieParser());
+    // disable x-powered-by
+    server.disable('x-powered-by');
     // if ssr cache on
     if (features.ssrCache) {
         // handle next js request
@@ -118,11 +121,18 @@ async function renderAndCache(req, res) {
 
     await nextI18next.initPromise;
     // server.use(nextI18NextMiddleware(nextI18next));
-    server.use(cookieSession({
-        name: 'qwt-swift',
-        keys: [SESSION_SECRET],
-        maxAge: expiredToken,
-    }));
+    server.use(
+        cookieSession({
+            name: 'qwt-swift',
+            keys: [SESSION_SECRET],
+            maxAge: expiredToken,
+            // add security options
+            cookies: {
+                secure: true,
+                httpOnly: true,
+            },
+        }),
+    );
 
     server.use(json({ limit: '2mb' }));
 
@@ -159,6 +169,9 @@ async function renderAndCache(req, res) {
 
     // add firebase validation
     server.post('/auth/fcm-token', firebaseValidation);
+
+    // paypal route
+    server.post('/paypal/detail-transaction', getPaypalDetail);
 
     /**
      * configuration firebase messaging

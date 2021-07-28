@@ -1,6 +1,12 @@
 /* eslint-disable import/prefer-default-export */
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import schema, { getCmsBlocks as getCmsBlocksSchema } from '@core_modules/theme/services/graphql/schema';
+import { getLoginInfo } from '@helper_auth';
+
+let isLogin = 0;
+if (typeof window !== 'undefined') {
+    isLogin = getLoginInfo();
+}
 
 export const getCategories = () => useQuery(schema.categories);
 export const getCategoryByName = (name) => useLazyQuery(schema.getCategoryByName(name));
@@ -29,7 +35,12 @@ export const removeToken = () => useMutation(schema.removeToken, {
     },
 });
 
-export const getCmsBlocks = (variables) => useQuery(getCmsBlocksSchema, { variables });
+export const getCmsBlocks = (variables) => useQuery(getCmsBlocksSchema, {
+    variables,
+    context: {
+        request: isLogin ? 'internal' : '',
+    },
+});
 
 export default {
     getCmsBlocks,

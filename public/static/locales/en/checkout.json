@@ -10,7 +10,9 @@
         "homeDelivery": "Home delivery",
         "homeDeliveryDesc": "We deliver your order to your home",
         "pickupDelivery": "Pickup",
-        "pickupDeliveryDesc": "Pickup your order at our store"
+        "pickupDeliveryDesc": "Pickup your order at our store",
+        "instorePickup": "Instore Pickup",
+        "instorePickupDesc": "Pickup your order at our store"
     },
     "pickupInformation": {
         "label": "Pickup information",
@@ -23,8 +25,10 @@
     },
     "purchaseOrderNumber": "Purchase Order Number",
     "pickupStore": "Pickup at store",
+    "instorePickup": "Instore Pickup",
     "shippingMethod" : "shipping method",
     "payment" : "payment",
+    "paymentMethod": "payment method",
     "placeOrder" : "Place order",
     "paymentSubtitle" : "Select your payment method",
     "emailAddress": "Email address",
@@ -107,5 +111,13 @@
     "cartError": "Something went wrong during fetching the cart data",
     "feePromoLabel" :"Fee & promotion",
     "buttonOk": "Ok",
-    "howtoPay": "How to pay"
+    "howtoPay": "How to pay",
+    "paypal": {
+        "reviewPage": "Review order",
+        "itemsCart": "Items in your shopping cart ",
+        "editCart": "Edit shopping cart",
+        "usePromo": "Use promo code",
+        "label": "PayPal express checkout",
+        "noShippingMethod": "Please select a shipping method"
+    }
 }
