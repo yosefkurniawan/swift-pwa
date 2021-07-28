@@ -1,11 +1,6 @@
 import React from 'react';
 import MagezonElement from '@core_modules/cms/components/cms-renderer/magezon/index';
-
-const WsiwygContent = (props) => {
-    const { content } = props;
-    // eslint-disable-next-line react/no-danger
-    return <div dangerouslySetInnerHTML={{ __html: content }} />;
-};
+import WidgetRenderer from '@core_modules/cms/components/cms-renderer/WidgetRenderer';
 
 const MixedContent = (props) => {
     const {
@@ -14,9 +9,9 @@ const MixedContent = (props) => {
 
     return (
         <>
-            {contents[0] !== '' && <WsiwygContent content={contents[0]} />}
+            {contents[0] !== '' && <WidgetRenderer content={contents[0]} {...item} storeConfig={storeConfig} />}
             <MagezonElement {...item} storeConfig={storeConfig} />
-            {contents[2] !== '' && <WsiwygContent content={contents[2]} />}
+            {contents[2] !== '' && <WidgetRenderer content={contents[2]} {...item} storeConfig={storeConfig} />}
         </>
     );
 };
