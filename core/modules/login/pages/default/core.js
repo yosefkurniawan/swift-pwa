@@ -86,7 +86,6 @@ const Login = (props) => {
                                     .then(async () => {
                                         setLogin(1, expired);
                                         await setIsLogin(1);
-                                        getCart();
                                     })
                                     .catch((e) => {
                                         setDisabled(false);
@@ -159,7 +158,9 @@ const Login = (props) => {
     const [deleteTokenGql] = deleteToken();
     const [getCustomerToken] = getToken();
     const [getCustomerTokenOtp] = getTokenOtp();
-    const [getCart, cartData] = getCustomerCartId();
+    const cartData = getCustomerCartId({
+        skip: !cusIsLogin,
+    });
     const [mergeCart] = mutationMergeCart();
     const [mergeCompareProduct] = assignCompareListToCustomer();
 
@@ -237,7 +238,6 @@ const Login = (props) => {
                     if (token) {
                         setLogin(1, expired);
                         await setIsLogin(1);
-                        getCart();
                     }
                 })
                 .catch((e) => {
@@ -391,7 +391,16 @@ const Login = (props) => {
                 Router.push(redirectLastPath);
             }
         }
-    }, [cartData.data, custData.data]);
+
+        if (cartData.error || custData.error) {
+            window.backdropLoader(false);
+            window.toastMessage({
+                open: true,
+                variant: 'error',
+                text: t('login:failed'),
+            });
+        }
+    }, [cartData, custData]);
 
     let socialLoginMethodData = [];
     if (

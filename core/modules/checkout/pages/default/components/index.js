@@ -17,6 +17,10 @@ import PickupInfo from '@core_modules/checkout/pages/default/components/PickupIn
 import ExtraFee from '@core_modules/checkout/pages/default/components/ExtraFee';
 import PromoModalItem from '@core_modules/checkout/pages/default/components/PromoModalItem';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
+import InStorePickup from '@core_modules/checkout/pages/default/components/instorepickup';
+import dynamic from 'next/dynamic';
+
+const GimmickBanner = dynamic(() => import('@plugin_gimmickbanner'), { ssr: false });
 
 const Content = (props) => {
     const {
@@ -50,6 +54,11 @@ const Content = (props) => {
         ExtraFeeView,
         cartId,
         PromoModalItemView,
+        paypalTokenData,
+        paypalHandlingProps,
+        setInitialOptionPaypal,
+        initialOptionPaypal,
+        setTokenData,
     } = props;
 
     const styles = useStyles();
@@ -76,6 +85,11 @@ const Content = (props) => {
             <div className="col-xs-12 center hidden-mobile">
                 <HeaderView storeConfig={storeConfig} />
             </div>
+            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
+                {checkout.data.cart && checkout.data.cart.promoBanner && (
+                    <GimmickBanner data={checkout.data.cart.promoBanner || []} />
+                )}
+            </div>
             <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8" style={containerStyle || {}}>
                 {modules.checkout.cashback.enabled && checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
                     <CashbackInfoView
@@ -85,8 +99,20 @@ const Content = (props) => {
                         promo_name={checkout.data.cart.applied_cashback.data[0].promo_name}
                     />
                 )}
+
+                {/* {modules.checkout.inStorePickup.enabled && (
+                    <div className="row col-xs-12">
+                        <div className="col-xs-6">
+                            <Button onClick={() => setInStore(false)}>Shipping</Button>
+                        </div>
+                        <div className="col-xs-6">
+                            <Button onClick={() => setInStore(true)}>In Store Pickup</Button>
+                        </div>
+                    </div>
+                )} */}
+
                 <>
-                    {modules.checkout.pickupStore.enabled ? (
+                    {modules.checkout.pickupStore.enabled || modules.checkout.inStorePickup.enabled ? (
                         <Delivery
                             t={t}
                             DeliveryView={DeliveryView}
@@ -109,6 +135,7 @@ const Content = (props) => {
                         handleOpenMessage={handleOpenMessage}
                         cartId={cartId}
                     />
+                    {/* eslint-disable */}
                     {checkout.selected.delivery === 'home' ? (
                         <Address
                             checkout={checkout}
@@ -122,8 +149,10 @@ const Content = (props) => {
                             formik={formik}
                             isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
                         />
+                    ) : checkout.selected.delivery === 'pickup' ? (
+                            <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
                     ) : (
-                        <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
+                        <InStorePickup t={t} checkout={checkout} setCheckout={setCheckout} />
                     )}
                     <Shipping
                         t={t}
@@ -217,6 +246,11 @@ const Content = (props) => {
                         storeConfig={storeConfig}
                         PaymentView={PaymentView}
                         modules={modules}
+                        paypalTokenData={paypalTokenData}
+                        paypalHandlingProps={paypalHandlingProps}
+                        setInitialOptionPaypal={setInitialOptionPaypal}
+                        initialOptionPaypal={initialOptionPaypal}
+                        setTokenData={setTokenData}
                     />
                     {modules.checkout.orderComment.enabled ? (
                         <div className={classNames(styles.block)}>

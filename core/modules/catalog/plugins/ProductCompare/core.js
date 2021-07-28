@@ -50,7 +50,7 @@ const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
         if (!compareList && dataUid) {
             if (isLogin) {
                 const uid = getCookies('uid_product_compare');
-                if (uid) {
+                if (uid && dataUid.customer && dataUid.customer.compare_list && dataUid.customer.compare_list.uid) {
                     const uid_product = dataUid.customer.compare_list.uid;
                     getProductCompare({
                         variables: {

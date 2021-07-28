@@ -26,21 +26,21 @@ export default makeStyles((theme) => ({
     },
 
     listItem: {
-        [theme.breakpoints.down('xs')] : {
-            borderBottom: `1px solid ${GRAY_PRIMARY}`
-        }
+        [theme.breakpoints.down('xs')]: {
+            borderBottom: `1px solid ${GRAY_PRIMARY}`,
+        },
     },
     title: {
         marginLeft: '25px !important',
-        marginBottom: 20
+        marginBottom: 20,
     },
     labelTable: {
         width: '40%',
         background: GRAY_PRIMARY,
-        padding: '10px 20px 10px 20px'
+        padding: '10px 20px 10px 20px',
     },
     valueTable: {
-        padding: '10px 20px 10px 20px'
+        padding: '10px 20px 10px 20px',
     },
     tableContainer: {
         borderRadius: 5,
@@ -55,9 +55,20 @@ export default makeStyles((theme) => ({
         marginLeft: -10,
     },
     btnSeacrh: {
-        textAlign : 'left',
-        [theme.breakpoints.down('xs')] : {
-            textAlign: 'center'
-        }
-    }
+        textAlign: 'left',
+        [theme.breakpoints.down('xs')]: {
+            textAlign: 'center',
+        },
+    },
+    containerList: {
+        '& .list-item': {
+            display: 'flex',
+            '&__title': {
+                width: '30%',
+            },
+            '&__desc': {
+                width: '70%',
+            },
+        },
+    },
 }));

@@ -15,19 +15,21 @@ import classNames from 'classnames';
 import Skeleton from '@material-ui/lab/Skeleton';
 
 import useStyles from '@plugin_summary/components/DesktopSummary/style';
+import PaypalButtonView from '@plugin_paypalbutton';
 
 const Summary = (props) => {
     const {
         t, summary, handleActionSummary = () => { }, loading, disabled,
         showItems = false, items = [], hideButton = false, isDesktop,
-        isLoader, deleteCart, updateCart, withAction,
+        isLoader, deleteCart, updateCart, withAction, withLabel = true,
+        labelItemAlign = 'left', dataCart,
     } = props;
     const styles = useStyles();
     const [openItem, setOpenItem] = React.useState(false);
     const Loader = () => (
         <div id="desktopSummary" className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>
             <Typography variant="h1" type="regular" letter="capitalize">
-                Summary
+                {t('common:summary:title')}
             </Typography>
             <ListItem className={classNames(styles.list, 'listSummary')}>
                 <Skeleton variant="rect" width="100%" height="30px" animation="wave" />
@@ -50,9 +52,11 @@ const Summary = (props) => {
 
     return (
         <div id="desktopSummary" className={isDesktop ? classNames(styles.container, 'hidden-mobile') : styles.container}>
-            <Typography variant="h1" type="regular" letter="capitalize">
-                Summary
-            </Typography>
+            { withLabel && (
+                <Typography variant="h1" type="regular" letter="capitalize">
+                    {t('common:summary:title')}
+                </Typography>
+            ) }
             {
                 showItems ? (
                     <>
@@ -146,7 +150,7 @@ const Summary = (props) => {
                         <ListItem className={classNames(styles.list, 'listSummary')} key={index}>
                             <ListItemText
                                 className={styles.labelItem}
-                                primary={<Typography variant="p" letter="capitalize" size="12">{dt.item}</Typography>}
+                                primary={<Typography variant="p" letter="capitalize" size="12" align={labelItemAlign}>{dt.item}</Typography>}
                             />
                             <ListItemSecondaryAction>
                                 <Typography variant="span" type="regular">
@@ -157,7 +161,10 @@ const Summary = (props) => {
                     ))
                 }
                 <ListItem className={classNames(styles.list, 'listSummary')}>
-                    <ListItemText primary={<Typography variant="title" type="bold">Total</Typography>} />
+                    <ListItemText
+                        className={styles.labelItem}
+                        primary={<Typography variant="title" type="bold" align={labelItemAlign}>Total</Typography>}
+                    />
                     <ListItemSecondaryAction>
                         <Typography variant="title" type="bold">
                             {summary.total.currency ? formatPrice(summary.total.value, summary.total.currency) : null}
@@ -165,15 +172,25 @@ const Summary = (props) => {
                     </ListItemSecondaryAction>
                 </ListItem>
             </List>
-            {
-                !hideButton ? (
-                    <Button loading={loading} disabled={disabled} className={styles.btnCheckout} onClick={handleActionSummary}>
-                        <Typography variant="span" color="white" type="bold" letter="uppercase">
-                            {t('common:button:checkout')}
-                        </Typography>
-                    </Button>
-                ) : null
-            }
+            <div className={styles.footer}>
+                {
+                    !hideButton ? (
+                        <Button loading={loading} disabled={disabled} className={styles.btnCheckout} onClick={handleActionSummary}>
+                            <Typography variant="span" color="white" type="bold" letter="uppercase">
+                                {t('common:button:checkout')}
+                            </Typography>
+                        </Button>
+                    ) : null
+                }
+                {
+                    !hideButton && dataCart && (
+                        <div className={styles.paypalBtn}>
+                            <PaypalButtonView cart={dataCart} t={t} />
+                        </div>
+                    )
+                }
+            </div>
+
         </div>
     );
 };

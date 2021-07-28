@@ -65,7 +65,10 @@ const AddressView = (props) => {
 
                             await setAddress(dataAddress, cart);
                             state.status.addresses = true;
-                            setCheckout(state);
+                            setCheckout({
+                                ...state,
+                                pickup_location_code: null,
+                            });
 
                             _.delay(() => {
                                 state = { ...checkout };

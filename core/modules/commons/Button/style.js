@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
     leftAlign: {
         textAlign: 'left',
     },
+    rightAlign: {
+        textAlign: 'right',
+    },
     wrapper: {
         width: '100%',
         position: 'relative',

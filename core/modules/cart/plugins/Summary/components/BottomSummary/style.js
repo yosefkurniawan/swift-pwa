@@ -24,8 +24,12 @@ const useStyles = makeStyles((theme) => ({
         padding: 10,
     },
     actions: {
-        display: 'flex',
-        justifyContent: 'center',
+        ...FlexColumn,
+        alignItems: 'center',
+    },
+    paypalBtn: {
+        marginTop: 20,
+        minWidth: 300,
     },
     goToCheckout: {
         minWidth: 300,

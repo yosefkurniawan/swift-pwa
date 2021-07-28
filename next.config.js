@@ -1,10 +1,17 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-unused-vars */
 const withOffline = require('next-offline');
+const { createSecureHeaders } = require('next-secure-headers');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 // const withCSS = require('@zeit/next-css');
 
 module.exports = withOffline({
+    // Secure Header
+    async headers() {
+        return [{ source: '/(.*)', headers: createSecureHeaders() }];
+    },
+    // Disable X-Powered-By
+    poweredByHeader: false,
     future: {
         webpack5: false,
     },
@@ -17,9 +24,17 @@ module.exports = withOffline({
     optimization: {
         minimize: process.env.NODE_ENV === 'production', // Update this to true or false
     },
-    webpack: (config, { // activate if need to analysis size build
-        buildId, dev, isServer, defaultLoaders, webpack,
-    }) => {
+    webpack: (
+        config,
+        {
+            // activate if need to analysis size build
+            buildId,
+            dev,
+            isServer,
+            defaultLoaders,
+            webpack,
+        },
+    ) => {
         // Note: we provide webpack above so you should not `require` it
         // Perform customizations to webpack config
         // Important: return the modified config
@@ -27,9 +42,11 @@ module.exports = withOffline({
         //     analyzerMode: 'static',
         //     reportFilename: './analyze/client.html',
         // }));
-        config.plugins.push(new webpack.ProvidePlugin({
-            React: 'react',
-        }));
+        config.plugins.push(
+            new webpack.ProvidePlugin({
+                React: 'react',
+            }),
+        );
         if (!isServer) {
             // eslint-disable-next-line no-param-reassign
             config.resolve.alias['@sentry/node'] = '@sentry/browser';

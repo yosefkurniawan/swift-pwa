@@ -10,7 +10,9 @@
         "homeDelivery": "Home delivery",
         "homeDeliveryDesc": "We deliver your order to your home",
         "pickupDelivery": "Pickup",
-        "pickupDeliveryDesc": "Pickup your order at our store"
+        "pickupDeliveryDesc": "Pickup your order at our store",
+        "instorePickup": "Instore Pickup",
+        "instorePickupDesc": "Pickup your order at our store"
     },
     "pickupInformation": {
         "label": "Pickup information",
@@ -23,6 +25,7 @@
     },
     "purchaseOrderNumber": "Purchase Order Number",
     "pickupStore": "Pickup at store",
+    "instorePickup": "Instore Pickup",
     "shippingMethod": "shipping method",
     "payment": "payment",
     "placeOrder": "Place order",

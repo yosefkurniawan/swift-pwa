@@ -10,5 +10,8 @@
     "orderStatus": "Order status",
     "status": "Status",
     "orderTotal": "Order total",
-    "orderNotFound": "Sorry, order number is not valid"
+    "orderNotFound": "Sorry, order number is not valid",
+    "name": "Name",
+    "description": "Description",
+    "updateDate": "Update date"
 }

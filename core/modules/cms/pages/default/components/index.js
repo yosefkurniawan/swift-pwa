@@ -16,6 +16,7 @@ const CmsPage = (props) => {
 
     if (loading) return <Loading open={loading} />;
     if (onlyCms) return <CmsRenderer content={data.cmsPage.content} storeConfig={storeConfig} />;
+
     return (
         <div className="cms-container">
             {/* eslint-disable-next-line react/no-danger */}

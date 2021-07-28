@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import Layout from '@layout';
-
-import { setLogin } from '@helper_auth';
+import React from 'react';
+import { setLogin, setEmailConfirmationFlag } from '@helper_auth';
 import { setCartId, getCartId } from '@helper_cartid';
 import {
     expiredToken, custDataNameCookie, recaptcha, modules,
@@ -17,7 +17,11 @@ import { regexPhone } from '@helper_regex';
 import { getAppEnv } from '@helpers/env';
 
 import {
-    register, otpConfig as queryOtpConfig, mergeCart as mutationMergeCart, getCustomerCartId,
+    register,
+    getGuestCustomer,
+    otpConfig as queryOtpConfig,
+    mergeCart as mutationMergeCart,
+    getCustomerCartId,
 } from '@core_modules/register/services/graphql';
 import { getCustomer } from '@core_modules/register/services/graphql/schema';
 
@@ -33,19 +37,18 @@ const Register = (props) => {
         headerTitle: t('register:title'),
         bottomNav: false,
     };
-
     // enable recaptcha
     const enableRecaptcha = recaptcha.enable && modules.register.recaptcha.enabled;
 
     const [phoneIsWa, setPhoneIsWa] = React.useState(false);
     const [cusIsLogin, setIsLogin] = React.useState(0);
     const [disabled, setdisabled] = React.useState(false);
-
+    const [getGuest, { data: guestData }] = getGuestCustomer();
     const recaptchaRef = React.createRef();
     const sitekey = recaptcha.siteKey[appEnv] ? recaptcha.siteKey[appEnv] : recaptcha.siteKey.dev;
 
     let cartId = '';
-
+    const { router } = Router;
     const expired = storeConfig.oauth_access_token_lifetime_customer
         ? new Date(Date.now() + parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) * 3600000)
         : expiredToken;
@@ -53,6 +56,17 @@ const Register = (props) => {
     if (typeof window !== 'undefined') {
         cartId = getCartId();
     }
+    React.useEffect(() => {
+        if (Object.keys(router.query).length !== 0) {
+            getGuest({
+                variables: {
+                    ids: {
+                        in: [router.query.order_id],
+                    },
+                },
+            });
+        }
+    }, [router]);
 
     const [getCart, cartData] = getCustomerCartId();
     const [mergeCart, { called }] = mutationMergeCart();
@@ -101,14 +115,30 @@ const Register = (props) => {
         sendRegister({
             variables: values,
         })
-            .then(async () => {
+            .then(async ({ data }) => {
                 resetForm();
-                await setIsLogin(1);
-                getCart();
+                if (data.internalCreateCustomerToken.is_email_confirmation) {
+                    window.backdropLoader(false);
+                    setEmailConfirmationFlag({ status: '00', message: t('register:openEmail'), variant: 'success' });
+
+                    window.toastMessage({
+                        open: true,
+                        text: t('register:openEmail'),
+                        variant: 'success',
+                    });
+
+                    setTimeout(() => {
+                        Router.push('/customer/account/login');
+                    }, 2000);
+                } else {
+                    await setIsLogin(1);
+                    getCart();
+                    window.backdropLoader(false);
+                }
                 setdisabled(false);
-                window.backdropLoader(false);
             })
             .catch((e) => {
+                // console.log(e.errors);
                 setdisabled(false);
                 window.backdropLoader(false);
                 window.toastMessage({
@@ -236,6 +266,12 @@ const Register = (props) => {
         } else {
             Router.push('/customer/account');
         }
+    }
+
+    if (guestData) {
+        formik.initialValues.firstName = guestData.ordersFilter.data[0].detail[0].customer_firstname;
+        formik.initialValues.lastName = guestData.ordersFilter.data[0].detail[0].customer_lastname;
+        formik.initialValues.email = guestData.ordersFilter.data[0].detail[0].customer_email;
     }
 
     return (
