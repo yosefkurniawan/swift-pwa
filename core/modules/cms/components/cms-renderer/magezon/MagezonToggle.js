@@ -20,7 +20,7 @@ const MagezonToggle = (props) => {
                 <MagezonButton icon={open ? active_icon : icon} title={toggle_title} onClick={openToggle} />
                 {open ? (
                     <Accordion disabled={false} expanded={open}>
-                        <div>{toggle_content}</div>
+                        <div dangerouslySetInnerHTML={{ __html: toggle_content }} />
                     </Accordion>
                 ) : null}
             </div>
