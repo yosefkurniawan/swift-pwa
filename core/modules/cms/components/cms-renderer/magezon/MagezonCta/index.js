@@ -62,12 +62,12 @@ const MagezonCta = (props) => {
                                 <MagezonButton
                                     link={button_link}
                                     title={button_title}
-                                    button_color={`${button_color}`}
+                                    button_color={`${button_color || '#333'}`}
                                     button_border_color={`${button_border_color || '#000000'}`}
                                     button_background_color={`${button_background_color || '#e3e3e3'}`}
                                     button_border_style={button_border_style}
                                     button_border_width={`${button_border_width}px`}
-                                    button_border_radius={`${button_border_radius}px`}
+                                    button_border_radius={`${button_border_radius ? `${button_border_radius}px` : '5px'}`}
                                     button_align="center"
                                 />
                             </div>
@@ -419,8 +419,8 @@ const MagezonCta = (props) => {
                         padding: 22px 35px;
                     }
                     .mgz-cta-button button:hover {
-                        color: ${button_hover_color || '#000000'};
-                        background-color: ${button_hover_background_color || '#000000'};
+                        color: ${button_hover_color || '#5e5e5e'};
+                        background-color: ${button_hover_background_color || '#dcdcdc'};
                         border-color: ${button_hover_border_color || '#000000'};
                     }
                 `}
