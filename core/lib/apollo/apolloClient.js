@@ -12,6 +12,7 @@ import { removeCartId } from '@helper_cartid';
 import { removeIsLoginFlagging } from '@helper_auth';
 import { getAppEnv } from '@helpers/env';
 import firebase from 'firebase/app';
+import cookies from 'js-cookie';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData: {
@@ -23,11 +24,9 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
 
 const appEnv = getAppEnv();
 
-const uri = (graphqlEndpoint[appEnv])
-    ? graphqlEndpoint[appEnv] : graphqlEndpoint.dev;
+const uri = graphqlEndpoint[appEnv] ? graphqlEndpoint[appEnv] : graphqlEndpoint.dev;
 
-const host = (HOST[appEnv])
-    ? HOST[appEnv] : HOST.dev;
+const host = HOST[appEnv] ? HOST[appEnv] : HOST.dev;
 
 const uriInternal = `${host}/graphql`;
 // handle if token expired
@@ -38,12 +37,16 @@ const logoutLink = onError((err) => {
     } else if (graphQLErrors && graphQLErrors[0] && graphQLErrors[0].status === 401 && typeof window !== 'undefined') {
         removeCartId();
         removeIsLoginFlagging();
-        firebase.auth().signOut().then(() => {
-            // Sign-out successful.
-        }).catch((error) => {
-            // An error happened.
-            // console.log(error);
-        });
+        firebase
+            .auth()
+            .signOut()
+            .then(() => {
+                // Sign-out successful.
+            })
+            .catch((error) => {
+                // An error happened.
+                // console.log(error);
+            });
         // reference https://stackoverflow.com/questions/10339567/javascript-clear-cache-on-redirect
         window.location.href = `/customer/account/login?n=${new Date().getTime()}`;
     }
@@ -68,16 +71,29 @@ export default function createApolloClient(initialState, ctx) {
     // The `ctx` (NextPageContext) will only be present on the server.
     // use it to extract auth headers (ctx.req) or similar.
     let token = '';
+    let store_code_storage = cookies.get('store_code_storage');
     if (ctx && ctx.req) {
         token = ctx.req.session.token;
+
+        if (typeof window === 'undefined') {
+            store_code_storage = ctx.req.cookies.store_code_storage || store_code_storage;
+        }
     }
+
     /**
      * Meddleware to customize headers
      */
     const middlewareHeader = new ApolloLink((operation, forward) => {
-        const additionalHeader = storeCode ? { store: storeCode } : {};
+        const additionalHeader = {};
+
         if (token && token !== '') {
             additionalHeader.Authorization = token;
+        }
+
+        if (storeCode !== '') {
+            additionalHeader.store = storeCode;
+        } else if (store_code_storage && store_code_storage !== '' && storeCode === '') {
+            additionalHeader.store = store_code_storage;
         }
         operation.setContext(({ headers = {} }) => ({
             headers: {
@@ -91,16 +107,11 @@ export default function createApolloClient(initialState, ctx) {
 
     return new ApolloClient({
         ssrMode: Boolean(ctx),
-        link: from([
-            middlewareHeader,
-            logoutLink,
-            link,
-        ]),
+        link: from([middlewareHeader, logoutLink, link]),
         cache: new InMemoryCache({ fragmentMatcher }).restore(initialState),
         // reference https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools
         // eslint-disable-next-line no-underscore-dangle
-        connectToDevTools: typeof window !== 'undefined' && window.__APOLLO_CLIENT__
-        && (appEnv === 'local'),
+        connectToDevTools: typeof window !== 'undefined' && window.__APOLLO_CLIENT__ && appEnv === 'local',
         resolvers: {},
     });
 }

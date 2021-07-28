@@ -73,6 +73,22 @@ export default makeStyles((theme) => ({
         ...CreatePadding(10, 10, 10, 10),
     },
 
+    wrapperRegister: {
+        display: 'flex',
+        flexDirection: 'column',
+        marginTop: 20,
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        [theme.breakpoints.down('md')]: {
+            ...FlexColumn,
+            '&> *': {
+                textAlign: 'center !important',
+            },
+        },
+        ...CreatePadding(10, 10, 10, 10),
+    },
+
     bankItem: {
         width: '16vw',
         height: '10vw',
@@ -122,6 +138,9 @@ export default makeStyles((theme) => ({
     btnConfirmIcon: {
         fontSize: '12px !important',
         marginLeft: -5,
+    },
+    btnAccountIcon: {
+        fontSize: '50px !important',
     },
     btnContinue: {
         ...CreateMargin(0, 8, 0, 0),
@@ -212,5 +231,8 @@ export default makeStyles((theme) => ({
         imgIcon: {
             height: 350,
         },
+    },
+    generalButton: {
+        marginTop: 20,
     },
 }));

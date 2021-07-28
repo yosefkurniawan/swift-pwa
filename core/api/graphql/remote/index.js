@@ -11,14 +11,18 @@ const executor = async ({
 }) => {
     try {
         let token = '';
+        let store_code_storage = '';
         if (context) {
             token = context.headers.authorization || context.session.token;
+            store_code_storage = context.cookies.store_code_storage;
         }
         const query = print(document);
         const appEnv = getAppEnv();
         const additionalHeader = {};
-        if (storeCode) {
+        if (storeCode !== '') {
             additionalHeader.store = storeCode;
+        } else if (store_code_storage && store_code_storage !== '' && storeCode === '') {
+            additionalHeader.store = store_code_storage;
         }
         const url = graphqlEndpoint[appEnv] || graphqlEndpoint.prod;
         if (token && token !== '') {
@@ -32,35 +36,46 @@ const executor = async ({
             },
             body: JSON.stringify({ query, variables }),
         });
-        const response = await fetchResult.json();
-        if (response.errors) {
-            const err = response.errors[0];
-            if (err.extensions.category === 'graphql-authorization') {
+        if (fetchResult) {
+            const response = await fetchResult.json();
+            if (response.errors) {
+                const err = response.errors[0];
+                if (err.extensions.category === 'graphql-authorization') {
+                    return {
+                        errors: [
+                            {
+                                message: err.extensions.category,
+                                extensions: err.extensions,
+                            },
+                        ],
+                        data: response.data,
+                    };
+                }
                 return {
                     errors: [
                         {
-                            message: err.extensions.category,
+                            message: err.message,
                             extensions: err.extensions,
                         },
                     ],
                     data: response.data,
                 };
             }
-            return {
-                errors: [
-                    {
-                        message: err.message,
-                        extensions: err.extensions,
-                    },
-                ],
-                data: response.data,
-            };
+            return response;
         }
-        return response;
+        return fetchResult;
     } catch (error) {
         console.error('There was an uncaught error', error);
         // process.exit(1); // mandatory (as per the Node docs)
-        return false;
+        return {
+            errors: [
+                {
+                    message: error,
+                    extensions: null,
+                },
+            ],
+            data: null,
+        };
     }
 };
 

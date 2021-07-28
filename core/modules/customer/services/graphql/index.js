@@ -1,5 +1,11 @@
 import { useLazyQuery, useQuery, useMutation } from '@apollo/client';
 import * as Schema from '@core_modules/customer/services/graphql/schema';
+import { getLoginInfo } from '@helper_auth';
+
+let isLogin = 0;
+if (typeof window !== 'undefined') {
+    isLogin = getLoginInfo();
+}
 
 const config = {
     context: {
@@ -55,7 +61,13 @@ export const customerNotificationList = () => useQuery(Schema.customerNotificati
     fetchPolicy: 'network-only',
 });
 
-export const getCmsBlocks = (variables) => useQuery(Schema.getCmsBlocks, { variables });
+export const getCmsBlocks = (variables) => useQuery(Schema.getCmsBlocks, {
+    variables,
+    context: {
+        request: isLogin ? 'internal' : '',
+    },
+    fetchPolicy: isLogin ? 'network-only' : '',
+});
 
 export const getGiftCard = () => useQuery(Schema.getGiftCard, {
     context: {

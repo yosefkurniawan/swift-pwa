@@ -57,7 +57,7 @@ if (sentry.enabled && typeof publicRuntimeConfig !== 'undefined' && sentry.dsn[p
         ],
         environment: publicRuntimeConfig.appEnv,
         dsn: sentry.dsn[publicRuntimeConfig.appEnv],
-        tracesSampleRate: 1.0,
+        tracesSampleRate: 0.5,
     });
 }
 

@@ -230,6 +230,22 @@ items {
 }
 `;
 
+const cartAvailablePaymentMethods = `
+    available_payment_methods {
+        code
+        title
+    }
+`;
+
+const promoBanner = `
+promoBanner {
+  cms_block_id
+  name
+  cms_block_identifier
+  rule_id
+}
+`;
+
 const cartRequiredSelection = `
 id
 errorItems
@@ -240,12 +256,14 @@ ${modules.promo.enabled ? applied_coupons : ''}
 ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
 ${modules.storecredit.enabled ? applied_store_credit : ''}
 ${prices}
+${promoBanner}
 `;
 export const getCart = gql`
     query getCartData($cartId: String!) {
         cart(cart_id: $cartId) {
             ${applied_giftcard}
             ${cartRequiredSelection}
+            ${cartAvailablePaymentMethods}
         }
     }
 `;
@@ -374,6 +392,7 @@ export const getMiniCart = gql`
                   value
                 }
             }
+            ${cartAvailablePaymentMethods}
             items {
               id
               quantity
@@ -439,6 +458,9 @@ export const getMiniCart = gql`
                 url_key
                 sku
                 stock_status
+                categories {
+                 name
+                }
               }
           }
         }
@@ -475,6 +497,7 @@ export const deleteCartItemOnPage = gql`
           ${modules.storecredit.enabled ? applied_store_credit : ''}
           ${prices}
           ${items}
+          ${promoBanner}
         }
       }
     }
@@ -529,4 +552,16 @@ mutation reOrder($order_id: String!) {
     cart_id
   }
 }
+`;
+
+export const getCmsBlocks = gql`
+  query($identifiers: [String]) {
+      cmsBlocks(identifiers: $identifiers) {
+          items {
+              identifier
+              title
+              content
+          }
+      }
+  }
 `;

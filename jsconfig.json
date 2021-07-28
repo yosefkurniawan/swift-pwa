@@ -166,10 +166,18 @@
             "@plugin_minicart": ["src/modules/cart/plugins/mini", "core/modules/cart/plugins/mini"],
             "@plugin_minicart/*": ["src/modules/cart/plugins/mini/*", "core/modules/cart/plugins/mini/*"],
 
+            
+            "@plugin_gimmickbanner": ["src/modules/cart/plugins/GimmickBanner", "core/modules/cart/plugins/GimmickBanner"],
+            "@plugin_gimmickbanner/*": ["src/modules/cart/plugins/GimmickBanner/*", "core/modules/cart/plugins/GimmickBanner/*"],
+
             "@plugin_productlist": ["src/modules/catalog/plugins/ProductList", "core/modules/catalog/plugins/ProductList"],
             "@plugin_productlist/*": ["src/modules/catalog/plugins/ProductList/*", "core/modules/catalog/plugins/ProductList/*"],
             "@plugin_productitem": ["src/modules/catalog/plugins/ProductItem", "core/modules/catalog/plugins/ProductItem"],
             "@plugin_productitem/*": ["src/modules/catalog/plugins/ProductItem/*", "core/modules/catalog/plugins/ProductItem/*"],
+
+            
+            "@plugin_paypalbutton": ["src/modules/paypal/plugins/PaypalButton", "core/modules/paypal/plugins/PaypalButton"],
+            "@plugin_paypalbutton/*": ["src/modules/paypal/plugins/PaypalButton/*", "core/modules/paypal/plugins/PaypalButton/*"],
 
             "@plugin_addressform": ["src/modules/customer/plugins/AddressFormDialog", "core/modules/customer/plugins/AddressFormDialog"],
             "@plugin_addressform/*": ["src/modules/customer/plugins/AddressFormDialog/*", "core/modules/customer/plugins/AddressFormDialog/*"],
