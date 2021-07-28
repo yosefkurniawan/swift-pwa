@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import dynamic from 'next/dynamic';
+import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
 
 const Countdown = dynamic(import('react-countdown'));
 const CircleCountdown = dynamic(import('@core_modules/cms/components/cms-renderer/magezon/MagezonCountdown/components/circle'));
@@ -30,10 +31,8 @@ const MagezonCountdown = (props) => {
         text_inline, text_size, text_color,
         number_background_color, number_border_radius, number_color,
         number_padding, number_size, number_spacing,
-        link_text,
-        // link_url, link_font_size, link_color,
+        link_text, link_url, link_color,
     } = props;
-    // console.log(props);
 
     const renderer = ({
         days, hours: rendererHours, minutes: rendererMinutes, seconds,
@@ -57,7 +56,7 @@ const MagezonCountdown = (props) => {
 
     return (
         <>
-            <div className="mgz-countdown mgz-countdown-separator-line">
+            <div className="mgz-countdown">
                 <div className="mgz-countdown-heading-wrapper">
                     <div className="mgz-countdown-subheading">{sub_heading_text}</div>
                     <div className="mgz-countdown-heading">{heading_text}</div>
@@ -72,9 +71,14 @@ const MagezonCountdown = (props) => {
                         circle_color2={circle_color2}
                         circle_dash_width={circle_dash_width}
                         circle_size={circle_size}
+                        {...props}
                     />
                 )}
-                <div className="mgz-countdown-link">{link_text}</div>
+                <div className="mgz-countdown-link">
+                    <MagezonLink link={link_url}>
+                        {link_text}
+                    </MagezonLink>
+                </div>
             </div>
 
             <style jsx>
@@ -117,7 +121,10 @@ const MagezonCountdown = (props) => {
                     }
                     .mgz-countdown-separator {
                         color: ${separator_color};
-                        font-size: ${separator_size}px;
+                        font-size: ${separator_size ? `${separator_size}px` : '14px'};
+                    }
+                    .mgz-countdown-link a {
+                        color: ${link_color || '#000000'};
                     }
                 `}
             </style>

@@ -37,6 +37,7 @@ const getTimeDays = (time) => (time / daySeconds) | 0;
 const CircleCountdown = (props) => {
     const {
         date: endTimer, circle_background_color, circle_color1, circle_color2, circle_dash_width, circle_size,
+        show_separator, separator_type, separator_color, separator_size,
     } = props;
     const timerProps = {
         isPlaying: true,
@@ -48,10 +49,15 @@ const CircleCountdown = (props) => {
     const remainingTime = endTimer.unix() - dayjs().unix();
     const days = Math.ceil(remainingTime / daySeconds);
     const daysDuration = days * daySeconds;
+    let separatorClass = '';
+
+    if (show_separator) {
+        separatorClass = `mgz-countdown-separator-${separator_type}`;
+    }
 
     return (
         <>
-            <div className="mgz-countdown-circle">
+            <div className={`mgz-countdown-circle ${separatorClass}`}>
                 <div className="mgz-countdown-circle-timer">
                     <CountdownCircleTimer
                         {...timerProps}
@@ -104,16 +110,47 @@ const CircleCountdown = (props) => {
                     </CountdownCircleTimer>
                 </div>
             </div>
-            <style jsx>
+            <style jsx global>
                 {`
                     .mgz-countdown-circle {
                         display: flex;
                     }
                     .mgz-countdown-circle-timer {
+                        position: relative;
+                        margin: 10px;
                         width: ${circle_size};
                         height: ${circle_size};
                         border-radius: 50%;
                         background-color: ${circle_background_color || '#ffffff'};
+                    }
+                    .mgz-countdown-separator-line .mgz-countdown-circle-timer:not(:last-child):after {
+                        border-color: ${separator_color || '#ff9900'} !important;
+                        right: -10px;
+                        height: ${separator_size ? `${separator_size}px` : '50%'};
+                    }
+                    .mgz-countdown-separator-colon .mgz-countdown-circle-timer:not(:last-child):after {
+                        color: ${separator_color || '#ff9900'} !important;
+                        right: -10px;
+                        height: 20px;
+                        font-size: ${separator_size ? `${separator_size}px` : '20px'};
+                    }
+                    .mgz-countdown-separator-line .mgz-countdown-circle-timer:not(:last-child):after {
+                        content: "";
+                        display: inline-block;
+                        position: absolute;
+                        border-right: 1px solid #cccccc;
+                        transform: translate(-50%, -50%);
+                        top: 50%;
+                        bottom: 0;
+                        left: auto;
+                    }
+                    .mgz-countdown-separator-colon .mgz-countdown-circle-timer:not(:last-child):after {
+                        content: ":";
+                        display: inline-block;
+                        position: absolute;
+                        transform: translateY(-50%);
+                        top: 50%;
+                        bottom: 0;
                     }
                 `}
             </style>
