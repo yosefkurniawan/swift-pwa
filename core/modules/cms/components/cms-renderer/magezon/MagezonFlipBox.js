@@ -17,6 +17,7 @@ const MagezonFlipBox = (props) => {
         hover_text,
         hover_title,
         flip_direction,
+        flip_duration,
         hover_image,
         box_min_height,
         hover_color,
@@ -27,6 +28,7 @@ const MagezonFlipBox = (props) => {
         button_link,
         button_size,
         button_title,
+        button_border_radius,
         enable_button,
     } = props;
 
@@ -68,7 +70,7 @@ const MagezonFlipBox = (props) => {
                                 align={primary_align}
                                 variant="h1"
                                 type="bold"
-                                style={{ fontSize: Number(title_font_size), fontWeight: Number(title_font_weight) }}
+                                style={{ fontSize: Number(title_font_size), fontWeight: Number(title_font_weight), color: primary_color }}
                             >
                                 {primary_title}
                             </Typography>
@@ -83,7 +85,7 @@ const MagezonFlipBox = (props) => {
                                 align={hover_align}
                                 variant="h1"
                                 type="bold"
-                                style={{ fontSize: Number(title_font_size), fontWeight: Number(title_font_weight) }}
+                                style={{ fontSize: Number(title_font_size), fontWeight: Number(title_font_weight), color: hover_color }}
                             >
                                 {hover_title}
                             </Typography>
@@ -92,7 +94,7 @@ const MagezonFlipBox = (props) => {
                             </div>
                             {enable_button ? (
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: buttonAligment(), marginTop: '5px', width: '100%' }}>
-                                    <MagezonButton title={button_title} link={button_link} button_size={button_size} {...props} />{' '}
+                                    <MagezonButton title={button_title} link={button_link} button_size={button_size} {...props} button_border_radius={`${button_border_radius ? `${button_border_radius}px` : '5px'}`} />{' '}
                                 </div>
                             ) : null}
                         </div>
@@ -120,6 +122,7 @@ const MagezonFlipBox = (props) => {
 
                     .flip-card:hover .flip-card-inner {
                         transform: ${flipValue()};
+                        transition-duration: ${flip_duration ? `${flip_duration}s` : '0.4s'};
                     }
 
                     .flip-card-front,
@@ -140,6 +143,7 @@ const MagezonFlipBox = (props) => {
                         background-color: #2980b9;
                         color: white;
                         transform: ${flipValue()};
+                        transition-duration: ${flip_duration ? `${flip_duration}s` : '0.4s'};
                     }
 
                     .primary-content {
@@ -175,6 +179,10 @@ const MagezonFlipBox = (props) => {
                         border-color: ${hover_border_color};
                         border-style: solid;
                         border-width: ${box_border_width}
+                    }
+                    .primary-content,
+                    .hover-content {
+                        padding: 20px 27px;
                     }
                 `}
             </style>
