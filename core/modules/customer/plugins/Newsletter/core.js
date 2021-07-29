@@ -16,9 +16,13 @@ const Newsletter = (props) => {
     const formik = useFormik({
         initialValues: {
             email: '',
+            firstname: '',
+            lastname: '',
         },
         validationSchema: Yup.object().shape({
             email: Yup.string().required('required'),
+            firstname: Yup.string().required('required'),
+            lastname: Yup.string().required('required'),
         }),
         onSubmit: (values) => {
             actSubscribe({

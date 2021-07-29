@@ -126,7 +126,9 @@
         "placeholder": "Enter your email address",
         "buttonLabel": "Subscribe",
         "emailFormat": "Invalid email format",
-        "emptyValue": "Please insert email address"
+        "emptyValue": "Please insert email address",
+        "firstname": "Enter your firstname",
+        "lastname": "Enter your lastname"
     },
     "setting": {
         "title": "Setting",
