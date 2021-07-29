@@ -335,6 +335,7 @@ const shortAddressData = `
 
 const cartShippingAddress = `
     shipping_addresses {
+        is_valid_city
         ${modules.checkout.inStorePickup.enabled ? 'pickup_location_code' : ''}
         ${shortAddressData}
         ${selected_shipping_method}
@@ -538,6 +539,7 @@ export const setShippingAddressById = gql`
                 ${dest_location}
                 ${cartBillingAddress}
                 shipping_addresses {
+                    is_valid_city
                     ${available_shipping_methods}
                     ${selected_shipping_method}
                 }
@@ -584,6 +586,7 @@ export const setShippingAddressByInput = gql`
             cart {
                 id
                 shipping_addresses {
+                    is_valid_city
                     ${shortAddressData}
                 }
             }
@@ -639,6 +642,7 @@ export const setBillingAddressById = gql`
                 ${dest_location}
                 ${cartBillingAddress}
                 shipping_addresses {
+                    is_valid_city
                     ${available_shipping_methods}
                     ${selected_shipping_method}
                 }
@@ -1209,6 +1213,7 @@ export const setInstoreShippingAddress = gql`
         ) {
             cart {
                 shipping_addresses {
+                    is_valid_city
                     ${shortAddressData}
                     pickup_location_code
                 }
@@ -1236,6 +1241,7 @@ export const setInstoreShippingAddress = gql`
                 ${dest_location}
                 ${cartBillingAddress}
                 shipping_addresses {
+                    is_valid_city
                     ${available_shipping_methods}
                     ${selected_shipping_method}
                 }
