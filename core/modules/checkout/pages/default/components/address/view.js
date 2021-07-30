@@ -131,7 +131,24 @@ const AddressView = (props) => {
                         {t('customer:address:emptyPinPointMessage')}
                     </Alert>
                 )}
+                {
+                    checkout.error.shippingAddress && (
+                        <Alert style={{ fontSize: 10 }} severity="error">
+                            {t('checkout:address:invalidAddress')}
+                        </Alert>
+                    )
+                }
             </div>
+            <style jsx global>
+                {`
+                    .alert-empty-pin-point {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        height: 100px;
+                    }
+                `}
+            </style>
         </div>
     );
 };
