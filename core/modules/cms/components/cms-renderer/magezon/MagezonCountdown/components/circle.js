@@ -38,6 +38,8 @@ const CircleCountdown = (props) => {
     const {
         date: endTimer, circle_background_color, circle_color1, circle_color2, circle_dash_width, circle_size,
         show_separator, separator_type, separator_color, separator_size,
+        number_spacing, number_background_color, number_border_radius, number_padding, number_color, number_size,
+        text_inline, text_size, text_color,
     } = props;
     const timerProps = {
         isPlaying: true,
@@ -151,6 +153,25 @@ const CircleCountdown = (props) => {
                         transform: translateY(-50%);
                         top: 50%;
                         bottom: 0;
+                    }
+                    .mgz-countdown-circle .mgz-countdown-number {
+                        display: inline-block;
+                        margin: ${number_spacing ? `${number_spacing}px` : '10px'};
+                    }
+                    .mgz-countdown-circle .mgz-countdown-unit {
+                        text-align: center;
+                        background-color: ${number_background_color};
+                        border-radius: ${number_border_radius}px;
+                        padding: ${number_padding};
+                    }
+                    .mgz-countdown-circle .mgz-countdown-unit-number {
+                        color: ${number_color};
+                        font-size: ${number_size};
+                    }
+                    .mgz-countdown-circle .mgz-countdown-unit-label {
+                        display: ${text_inline ? 'inline-block' : 'block'};
+                        font-size: ${text_size}px;
+                        color: ${text_color};
                     }
                 `}
             </style>
