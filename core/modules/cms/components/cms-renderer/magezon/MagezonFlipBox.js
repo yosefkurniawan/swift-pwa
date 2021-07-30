@@ -1,3 +1,5 @@
+/* eslint-disable react/no-danger */
+
 import React from 'react';
 import { getStoreHost } from '@helpers/config';
 import Typography from '@common_typography';
@@ -28,9 +30,9 @@ const MagezonFlipBox = (props) => {
         button_link,
         button_size,
         button_title,
-        button_border_radius,
         enable_button,
     } = props;
+    console.log(props);
 
     const flipValue = () => {
         switch (flip_direction) {
@@ -45,21 +47,6 @@ const MagezonFlipBox = (props) => {
         }
     };
 
-    const buttonAligment = () => {
-        let align = '';
-        switch (hover_align) {
-        case 'left':
-            align = 'flex-start'; break;
-        case 'center':
-            align = 'center'; break;
-        case 'right':
-            align = 'flex-end'; break;
-        default:
-            align = 'flex-start';
-        }
-        return align;
-    };
-    /* eslint-disable */
     return (
         <div>
             <div className="flip-card">
@@ -93,8 +80,15 @@ const MagezonFlipBox = (props) => {
                                 <div dangerouslySetInnerHTML={{ __html: hover_text }} />
                             </div>
                             {enable_button ? (
-                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: buttonAligment(), marginTop: '5px', width: '100%' }}>
-                                    <MagezonButton title={button_title} link={button_link} button_size={button_size} {...props} button_border_radius={`${button_border_radius ? `${button_border_radius}px` : '5px'}`} />{' '}
+                                <div className="flip-card-back-button">
+                                    <MagezonButton
+                                        title={button_title}
+                                        link={button_link}
+                                        button_size={button_size}
+                                        button_align={hover_align}
+                                        {...props}
+                                    />
+                                    {' '}
                                 </div>
                             ) : null}
                         </div>
@@ -105,7 +99,7 @@ const MagezonFlipBox = (props) => {
                 {`
                     .flip-card {
                         background-color: transparent;
-                        width: 92vw;
+                        width: 100%;
                         height: ${box_min_height}px;
                         perspective: 1000px;
                     }
@@ -147,7 +141,7 @@ const MagezonFlipBox = (props) => {
                     }
 
                     .primary-content {
-                        width: 92vw;
+                        width: 100%;
                         height: ${box_min_height}px;
                         background-image: url('${getStoreHost()}media/${primary_image}');
                         background-color: ${primary_background_color};
@@ -165,7 +159,7 @@ const MagezonFlipBox = (props) => {
                     }
                     
                     .hover-content {
-                        width: 92vw;
+                        width: 100%;
                         height: ${box_min_height}px;
                         background-image: url('${getStoreHost()}media/${hover_image}');
                         background-color: ${hover_background_color};
@@ -183,6 +177,9 @@ const MagezonFlipBox = (props) => {
                     .primary-content,
                     .hover-content {
                         padding: 20px 27px;
+                    }
+                    .flip-card-back-button {
+                        margin-top: 20px;
                     }
                 `}
             </style>
