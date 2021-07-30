@@ -159,7 +159,7 @@ const MagezonElement = (props) => {
                         position: relative;
                         width: 100%;
                     }
-                    .mgz-element > .mgz-column {
+                    .mgz-column > * {
                         padding: 10px;
                     }
                     .animation_duration {

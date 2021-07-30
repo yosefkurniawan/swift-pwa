@@ -30,11 +30,35 @@ const MagezonColumn = (props) => {
     }
 
     return (
-        <div className={`${classes.container} ${classColumn}`}>
-            { elements && elements.length > 0 && elements.map((item, key) => (
-                <MagezonElement key={key} {...item} storeConfig={storeConfig} />
-            )) }
-        </div>
+        <>
+            <div className={`${classes.container} ${classColumn}`}>
+                { elements && elements.length > 0 && elements.map((item, key) => (
+                    <MagezonElement key={key} {...item} storeConfig={storeConfig} />
+                )) }
+            </div>
+            <style jsx>
+                {
+                    `
+                        .col-md-15 {
+                            flex: 1 20%;
+                            max-width: 20%;
+                        }
+                        .col-md-25 {
+                            flex: 1 40%;
+                            max-width: 40%;
+                        }
+                        .col-md-35 {
+                            flex: 1 60%;
+                            max-width: 60%;
+                        }
+                        .col-md-45 {
+                            flex: 1 80%;
+                            max-width: 80%;
+                        }
+                    `
+                }
+            </style>
+        </>
     );
 };
 
