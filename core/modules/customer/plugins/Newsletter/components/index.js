@@ -15,19 +15,30 @@ const NewsletterView = (props) => {
         layout_type,
         description,
         title,
+        title_font_size,
+        button_background_color,
+        button_border_color,
+        button_border_radius = 0,
+        button_border_style,
+        button_border_width,
+        button_color,
+        button_hover_background_color,
+        button_hover_border_color,
+        button_hover_color,
+        title_spacing,
     } = props;
     const [totalHeight, setTotalHeight] = React.useState(0);
     React.useEffect(() => {
         if (totalHeight === 0) {
             let total = 0;
             if (show_firstname && show_lastname) {
-                total = form_height ? Number(form_height) * 3 + 200 : 170 * 3 + 200;
+                total = form_height ? Number(form_height) * 3 + 230 : 20 * 3 + 230;
                 setTotalHeight(total);
             } else if (!show_firstname && !show_lastname) {
-                total = form_height ? Number(form_height) + 200 : 170 + 200;
+                total = form_height ? Number(form_height) + 230 : 10 + 200;
                 setTotalHeight(total);
             } else {
-                total = form_height ? Number(form_height) * 2 + 200 : 170 * 2 + 200;
+                total = form_height ? Number(form_height) * 2 + 230 : 10 * 2 + 220;
                 setTotalHeight(total);
             }
         }
@@ -130,7 +141,11 @@ const NewsletterView = (props) => {
                     .newsletter-container {
                         position: relative;
                         margin-bottom: -40px;
-                        height: ${layout_type === 'box' ? `${totalHeight}px` : '170px'};
+                        height: ${layout_type === 'box'
+                            ? `${title_font_size ? Number(title_font_size) + totalHeight + 40 : totalHeight}px`
+                            : title_font_size
+                            ? `${170 + Number(title_font_size) + 20}px`
+                            : '170px'};
                         background: #f4f4f4;
                         padding: 10px 10px 10px 10px;
                     }
@@ -143,18 +158,18 @@ const NewsletterView = (props) => {
                         transform: translate(-50%, -50%);
                     }
                     .title {
-                        font-size: 16px;
+                        font-size: ${isCms ? `${title_font_size}px` : '16px'};
                         text-align: ${isCms ? 'left' : 'center'};
                         margin-left: 10px;
                         color: ${title_color ? title_color : 'black'};
                     }
                     .title h3 {
                         font-weight: 600;
-                        letter-spacing: 0.72px;
+                        letter-spacing: ${title_spacing && isCms ? title_spacing : '0.72'}px;
                     }
                     .block-newsletter {
                         margin: 0 auto;
-                        max-width: ${layout_type === 'box' ? '100%' : isCms ? '100%' : '44%'};
+                        max-width: ${layout_type === 'box' ? '100%' : '100%'};
                         width: ${layout_type === 'box' ? '100%' : isCms ? '100%' : 'max-content'};
                     }
                     .form.subscribe {
@@ -190,22 +205,31 @@ const NewsletterView = (props) => {
                         margin-bottom: ${layout_type === 'box' ? '10px' : '0px'};
                     }
                     .action.subscribe {
-                        background: #000;
-                        border: #000;
+                        background: ${isCms ? button_background_color : '#000'};
+                        border: ${isCms ? `${button_border_width}px ${button_border_style} ${button_border_color}` : '#000'};
                         font-weight: bold;
-                        width: 120px;
+                        width: ${layout_type === 'box' ? `${form_width}px` : '120px'};
                         text-transform: uppercase;
                         padding: 11px 15px;
                         height: ${form_height ? `${form_height}px` : '40px'};
-                        margin-left: 20px;
+                        margin-left: 10px;
                         white-space: nowrap;
-                        color: #fff;
-                        border-radius: 20px;
+                        color: ${isCms ? button_color : '#fff'};
+                        border-radius: ${isCms ? `${button_border_radius}px` : '20px'};
                         cursor: pointer;
+                    }
+                    .action.subscribe:hover {
+                        background-color: ${isCms ? button_hover_background_color : ''};
+                        border-color: ${isCms ? button_hover_border_color : ''};
+                        color: ${isCms ? button_hover_color : ''};
                     }
                     @media screen and (max-width: 767px) {
                         .newsletter-container {
                             background: #fff;
+                            height: ${layout_type === 'box' ? `${totalHeight}px` : isCms ? (form_height ? `${totalHeight}px` : '55vh') : '170px'};
+                        }
+                        .wrapper {
+                            top: 50%;
                         }
                         .title {
                             display: ${isCms ? '' : 'none'};
@@ -220,7 +244,7 @@ const NewsletterView = (props) => {
                         }
                         .action.subscribe {
                             width: 100%;
-                            margin-left: 0;
+                            margin-left: 10px;
                         }
                         .form.subscribe {
                             display: flex;
@@ -250,7 +274,7 @@ const NewsletterView = (props) => {
                             min-width: 300px;
                         }
                         .action.subscribe {
-                            background: #000;
+                            background: ${isCms ? '' : '#000'};
                             border: #000;
                             font-weight: bold;
                             width: 300px;
