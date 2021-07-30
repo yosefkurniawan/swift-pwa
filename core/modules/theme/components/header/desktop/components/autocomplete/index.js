@@ -38,22 +38,16 @@ const generateItemData = (product, category) => {
 
 export default function ComboBox(props) {
     const {
-        handleSearch, setValue, OptionsItem, width = 300, maxHeight = '80vh', t,
+        handleSearch, placeholder, setValue, OptionsItem, width = 300, maxHeight = '80vh', t,
     } = props;
     const [item, setItem] = React.useState([]);
     const [open, setOpen] = React.useState(false);
     const [close, setClose] = React.useState(false);
     const [search, setSearch] = React.useState('');
 
-    const [
-        actGetProduct,
-        { loading, data, called },
-    ] = getProduct(search);
+    const [actGetProduct, { loading, data, called }] = getProduct(search);
 
-    const [
-        actGetCategory,
-        { data: dCategory },
-    ] = getCategoryByName(search);
+    const [actGetCategory, { data: dCategory }] = getCategoryByName(search);
 
     let itemData = [];
     if (data && dCategory && !open && !loading) {
@@ -106,7 +100,7 @@ export default function ComboBox(props) {
             renderInput={(params) => (
                 <TextField
                     id="standard-basic"
-                    label={t('common:title:search')}
+                    label={placeholder || t('common:title:search')}
                     margin="normal"
                     onBlur={() => {
                         setClose(true);
@@ -120,16 +114,12 @@ export default function ComboBox(props) {
             onChange={(e, value) => {
                 setOpen(false);
                 setClose(true);
-                Router.push(
-                    '/[...slug]',
-                    `/${value.url_key}`,
-                );
+                Router.push('/[...slug]', `/${value.url_key}`);
             }}
             onClose={() => {
                 setClose(true);
                 setOpen(false);
             }}
-
         />
     );
 }

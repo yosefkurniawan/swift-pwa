@@ -6,8 +6,11 @@ import OptionAutocomplete from '@core_modules/theme/components/header/desktop/co
 import Router from 'next/router';
 import { useTranslation } from '@i18n';
 
-const MagezonSearchForm = () => {
+const MagezonSearchForm = (props) => {
     const [value, setValue] = React.useState('');
+    const {
+        input_background_color, placeholder, input_text_color, form_width,
+    } = props;
     const { t } = useTranslation();
     const handleSearch = (ev) => {
         if (ev.key === 'Enter' && ev.target.value !== '') {
@@ -26,28 +29,41 @@ const MagezonSearchForm = () => {
             });
         }
     };
+
     return (
         <div className="header-middle__search">
-            <Autocomplete setValue={setValue} handleSearch={handleSearch} OptionsItem={OptionAutocomplete} t={t} />
+            <Autocomplete
+                width={Number(form_width) - 10}
+                placeholder={placeholder}
+                setValue={setValue}
+                handleSearch={handleSearch}
+                OptionsItem={OptionAutocomplete}
+                t={t}
+            />
             <div className="search-icon">
                 <IconButton disabled={value === ''} edge="start" onClick={searchByClick} aria-label="close">
                     <SearchIcon />
                 </IconButton>
             </div>
-            <style global jsx>
+            <style jsx>
                 {`
                     .search-icon {
                         position: absolute;
-                        right: -10px;
+                        right: 0;
                         top: 7px;
-                        background: #fff;
+                        background-color: ${input_background_color || '#fff'};
                         z-index: 9;
+                        color: ${input_text_color};
                     }
                     .header-middle__search {
                         display: flex;
                         align-items: center;
                         float: left;
                         position: relative;
+                        background-color: ${input_background_color};
+                        width: ${form_width}px;
+                        color: ${input_text_color};
+                        padding-top: 10px;
                     }
                 `}
             </style>
