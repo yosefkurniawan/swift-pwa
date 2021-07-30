@@ -3,7 +3,8 @@
     "shippingAddress" : "Alamat pengiriman",
     "billingAddress": "Billing address",
     "address": {
-        "addTitle": "Alamat baru"
+        "addTitle": "Alamat baru",
+        "invalidAddress": "Alamat kota kamu tidak valid, Silahkan ganti atau buat alamat baru"
     },
     "deliveryMethod" : {
         "label": "Cara pengantaran",
