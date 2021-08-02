@@ -71,7 +71,7 @@ const GTM = {
         local: '', // sample: GTM-N76V8KQ
         dev: '', // sample: GTM-N76V8KQ
         stage: '', // sample: GTM-N76V8KQ
-        prod: '', // sample: GTM-N76V8KQ
+        prod: 'GTM-5FQD57V', // sample: GTM-N76V8KQ
     },
 };
 
@@ -348,7 +348,7 @@ const modules = {
             enabled: true,
         },
         inStorePickup: {
-            enabled: true,
+            enabled: false,
         },
         extraFee: {
             enabled: true,
