@@ -6,7 +6,7 @@ import gqlService from '@core_modules/customer/services/graphql';
 
 const Customer = (props) => {
     const {
-        t, Skeleton, CustomerView, storeConfig, isLogin, reOrder,
+        t, Skeleton, CustomerView, storeConfig, isLogin, reOrder, ...other
     } = props;
     let userData = {};
     let wishlist = [];
@@ -79,6 +79,7 @@ const Customer = (props) => {
     return (
         <Layout {...props}>
             <CustomerView
+                {...other}
                 t={t}
                 modules={modules}
                 menu={menu}
