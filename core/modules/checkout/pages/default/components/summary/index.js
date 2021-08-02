@@ -12,6 +12,8 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import gqlService from '@core_modules/checkout/services/graphql';
 import { getIpayUrl } from '@core_modules/checkout/helpers/config';
 
+import ModalXendit from '@core_modules/checkout/pages/default/components/ModalXendit';
+
 const Summary = ({
     t, checkout, setCheckout, handleOpenMessage, formik, updateFormik, config, refSummary, storeConfig,
 }) => {
@@ -279,6 +281,17 @@ const Summary = ({
     }
     // End - Process Snap Pop Up Close (Waitinge Response From Reorder)
 
+    // sample place order xendit
+
+    const [openXendit, setOpenXendit] = useState(false);
+    const [xenditIframeUrl, setXenditIframeUrl] = useState('');
+
+    // eslint-disable-next-line no-unused-vars
+    const handleXendit = () => {
+        setXenditIframeUrl('https://checkout-staging.xendit.co/web/6106a8e8c988b078062f45fe');
+        setOpenXendit(true);
+    };
+
     useEffect(() => {
         if (typeof refSummary !== 'undefined') {
             // eslint-disable-next-line no-param-reassign
@@ -387,6 +400,11 @@ const Summary = ({
     if (checkout && checkout.data && checkout.data.cart && checkout.loading) {
         return (
             <>
+                <ModalXendit
+                    open={openXendit}
+                    setOpen={() => setOpenXendit(!openXendit)}
+                    iframeUrl={xenditIframeUrl}
+                />
                 <div className="hidden-desktop">
                     <SummaryPlugin
                         t={t}
