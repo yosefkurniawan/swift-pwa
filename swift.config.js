@@ -66,7 +66,7 @@ const translation = {
  * NOTE: this GTM functionality includes connecting to GA via GTM tag.
  */
 const GTM = {
-    enable: false,
+    enable: true,
     gtmId: {
         local: '', // sample: GTM-N76V8KQ
         dev: '', // sample: GTM-N76V8KQ
