@@ -7,6 +7,7 @@ const NumberLayout = (props) => {
         number_type, number, speed, delay, number_size,
         before_number_text, number_prefix, number_text,
         number_suffix, icon, after_number_text,
+        circle_size,
     } = props;
     const [count, setCount] = React.useState(0);
     const speedCount = typeof speed === 'number'
@@ -70,12 +71,22 @@ const NumberLayout = (props) => {
                     .icon-circle {
                         margin-top: -20px;
                     }
-                `}
-            </style>
-            <style jsx global>
-                {`
                     .mgz-counter-number {
                         font-size: ${number_size}px;
+                    }
+                    .number-wrapper {
+                        width: ${circle_size}px;
+                        height: ${circle_size}px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    .number-container {
+                        display: flex;
+                        flex-direction: column;
+                        width: ${circle_size}px;
+                        height: ${circle_size}px;
                     }
                 `}
             </style>

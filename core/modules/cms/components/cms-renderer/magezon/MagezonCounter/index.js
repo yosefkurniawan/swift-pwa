@@ -5,45 +5,19 @@ import NumberLayout from '@core_modules/cms/components/cms-renderer/magezon/Mage
 
 const MagezonCounter = (props) => {
     const {
-        icon,
-        bar_color,
         layout,
-        number_prefix,
-        after_number_text,
-        before_number_text,
-        number_text,
-        number_suffix,
-        circle_size,
+        number_color,
+        after_text_color, after_text_size,
+        before_text_color, before_text_size,
     } = props;
-
     let content = '';
+
     if (layout === 'circle') {
-        content = (
-            <CircleLayout
-                {...props}
-            />
-        );
+        content = <CircleLayout {...props} />;
     } else if (layout === 'bars') {
-        content = (
-            <div className="bar-wrapper">
-                <ProgressBar
-                    icon={icon}
-                    afterText={after_number_text}
-                    beforeText={before_number_text}
-                    prefix={number_prefix}
-                    suffix={number_suffix}
-                    bgcolor={bar_color}
-                    height={60}
-                    title={number_text}
-                />
-            </div>
-        );
+        content = <ProgressBar height={60} {...props} />;
     } else {
-        content = (
-            <NumberLayout
-                {...props}
-            />
-        );
+        content = <NumberLayout {...props} />;
     }
 
     return (
@@ -56,23 +30,16 @@ const MagezonCounter = (props) => {
                         margin-bottom: 1rem;
                         margin-top: 1rem;
                     }
-                    .bar-wrapper {
-                        width: 100%;
-                        height: 20px;
+                    .progress-wrapper .before-number {
+                        font-size: ${before_text_size ? `${before_text_size}px` : '14px'};
+                        color: ${before_text_color || '#000000'};
                     }
-                    .number-wrapper {
-                        width: ${circle_size}px;
-                        height: ${circle_size}px;
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: center;
-                        align-items: center;
+                    .progress-wrapper .after-number {
+                        font-size: ${after_text_size ? `${after_text_size}px` : '14px'};
+                        color: ${after_text_color || '#000000'};
                     }
-                    .number-container {
-                        display: flex;
-                        flex-direction: column;
-                        width: ${circle_size}px;
-                        height: ${circle_size}px;
+                    .progress-wrapper .percent {
+                        color: ${number_color || '#000000'};
                     }
                 `}
             </style>

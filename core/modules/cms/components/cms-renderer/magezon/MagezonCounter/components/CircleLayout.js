@@ -9,11 +9,9 @@ const CircleLayout = (props) => {
     const {
         icon,
         speed, delay, linecap,
-        number, number_color,
+        number, number_text, number_type, max,
         number_prefix, number_suffix, number_size,
-        number_text, number_type,
-        after_number_text, after_text_color, after_text_size,
-        before_number_text, before_text_color, before_text_size,
+        after_number_text, before_number_text,
         circle_background_color, circle_color1, circle_color2,
         circle_dash_width, circle_size,
     } = props;
@@ -23,6 +21,9 @@ const CircleLayout = (props) => {
     const circleXYPos = circle_size / 2 || 100;
     const circleRadius = circle_size / 2 - 10 || 90;
     const animationDelay = delay * 1000 || 1000;
+    const numberProgress = parseFloat(Math.min(number, number_type !== 'percent' ? max || number : 100));
+    let hasDecimals = numberProgress.toFixed(2).split('.');
+    hasDecimals = hasDecimals.length > 1 && Number(hasDecimals[1]) !== 0;
     let strokeTimeout;
     let numberTimeout;
 
@@ -36,7 +37,11 @@ const CircleLayout = (props) => {
             if (counter === note) {
                 clearInterval(timer);
             }
-            element.textContent = counter + decPoint;
+            if (hasDecimals) {
+                element.textContent = counter + decPoint;
+            } else {
+                element.textContent = counter;
+            }
             counter += 1;
         }, interval);
     };
@@ -45,7 +50,10 @@ const CircleLayout = (props) => {
         const progress = document.querySelector('.circle__progress--fill');
         const radius = progress.r.baseVal.value;
         const circumference = 2 * Math.PI * radius;
-        const offset = (circumference * (100 - note)) / 100;
+        let offset = (circumference * (100 - note)) / 100;
+        if (number_type !== 'percent' && !max) {
+            offset = 0;
+        }
 
         progress.style.setProperty('--initialStroke', circumference);
         progress.style.setProperty('--transitionDuration', `${transitionDuration}ms`);
@@ -56,11 +64,10 @@ const CircleLayout = (props) => {
     };
 
     React.useEffect(() => {
-        const note = parseFloat(Math.min(number, 100));
-        let [int, dec] = note.toFixed(2).split('.');
+        let [int, dec] = numberProgress.toFixed(2).split('.');
         [int, dec] = [Number(int), Number(dec)];
 
-        strokeTransition(note);
+        strokeTransition(numberProgress);
 
         if (!number_text || number_text === '') {
             numberTimeout = setTimeout(() => {
@@ -107,7 +114,7 @@ const CircleLayout = (props) => {
                     ) : (
                         <div className="percent">
                             <span className="percent__int">0.</span>
-                            <span className="percent__dec">00</span>
+                            {hasDecimals && <span className="percent__dec">00</span>}
                             {number_type === 'percent' && <span className="percent_symbol">%</span>}
                         </div>
                     )}
@@ -147,15 +154,6 @@ const CircleLayout = (props) => {
                         line-height: 28px;
                         transform: translate(-50%, -50%);
                     }
-                    .percent {
-                        color: ${number_color || '#000000'};
-                    }
-                    .percent__int {
-                        font-size: 28px;
-                    }
-                    .percent__dec {
-                        font-size: 12px;
-                    }
                     .circle__progress--path {
                         fill: ${circle_background_color};
                         stroke: ${circle_color2};
@@ -170,18 +168,6 @@ const CircleLayout = (props) => {
                     }
                     .circle__svg {
                         transform: rotate(-90deg);
-                    }
-                `}
-            </style>
-            <style jsx global>
-                {`
-                    .mgz-counter-circle-inner .before-number {
-                        font-size: ${before_text_size ? `${before_text_size}px` : '14px'};
-                        color: ${before_text_color || '#000000'};
-                    }
-                    .mgz-counter-circle-inner .after-number {
-                        font-size: ${after_text_size ? `${after_text_size}px` : '14px'};
-                        color: ${after_text_color || '#000000'};
                     }
                 `}
             </style>
