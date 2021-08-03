@@ -3,8 +3,22 @@ import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/Magez
 import Typography from '@common_typography';
 
 const ProgressBarLayout = ({
-    bgcolor, progress, height, afterText, beforeText, icon, title, prefix, suffix,
+    bgcolor, height, afterText, beforeText, icon, title, prefix, suffix,
 }) => {
+    const [progress, setProgress] = React.useState(0);
+
+    /* eslint-disable */
+    React.useEffect(() => {
+        if (progress !== number) {
+            const timer = setInterval(() => {
+                setProgress((prevProgress) => (prevProgress >= number ? 0 : prevProgress + 1));
+            }, 10);
+            return () => {
+                clearInterval(timer);
+            };
+        }
+    }, [progress]);
+    /* eslint-enable */
     const Parentdiv = {
         height,
         width: '100%',
