@@ -65,6 +65,13 @@ const NumberLayout = (props) => {
                 {after_number_text}
             </Typography>
 
+            <style jsx>
+                {`
+                    .icon-circle {
+                        margin-top: -20px;
+                    }
+                `}
+            </style>
             <style jsx global>
                 {`
                     .mgz-counter-number {

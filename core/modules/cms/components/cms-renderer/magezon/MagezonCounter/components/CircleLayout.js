@@ -9,20 +9,22 @@ const CircleLayout = (props) => {
     const {
         icon,
         speed, delay, linecap,
-        number, number_prefix, number_suffix,
-        number_text, after_number_text, before_number_text,
-        number_size, number_type,
+        number, number_color,
+        number_prefix, number_suffix, number_size,
+        number_text, number_type,
+        after_number_text, after_text_color, after_text_size,
+        before_number_text, before_text_color, before_text_size,
         circle_background_color, circle_color1, circle_color2,
         circle_dash_width, circle_size,
     } = props;
 
-    // const number = 100;
-    const transitionDuration = speed * 1000; // in miliseconds
+    const transitionDuration = speed * 1000;
     const circleSize = circle_size || 200;
     const circleXYPos = circle_size / 2 || 100;
     const circleRadius = circle_size / 2 - 10 || 90;
-
-    console.log(props);
+    const animationDelay = delay * 1000 || 1000;
+    let strokeTimeout;
+    let numberTimeout;
 
     const increaseNumber = (note, classname) => {
         const element = document.querySelector(`.percent__${classname}`);
@@ -48,9 +50,9 @@ const CircleLayout = (props) => {
         progress.style.setProperty('--initialStroke', circumference);
         progress.style.setProperty('--transitionDuration', `${transitionDuration}ms`);
 
-        setTimeout(() => {
+        strokeTimeout = setTimeout(() => {
             progress.style.strokeDashoffset = offset;
-        }, 100);
+        }, animationDelay);
     };
 
     React.useEffect(() => {
@@ -58,60 +60,73 @@ const CircleLayout = (props) => {
         let [int, dec] = note.toFixed(2).split('.');
         [int, dec] = [Number(int), Number(dec)];
 
-        console.log(delay);
         strokeTransition(note);
-        increaseNumber(int, 'int');
 
-        if (Number(dec) !== 0) {
-            increaseNumber(dec, 'dec');
+        if (!number_text || number_text === '') {
+            numberTimeout = setTimeout(() => {
+                increaseNumber(int, 'int');
+                if (Number(dec) !== 0) {
+                    increaseNumber(dec, 'dec');
+                }
+            }, animationDelay);
         }
+
+        return () => {
+            clearTimeout(strokeTimeout);
+            clearTimeout(numberTimeout);
+        };
     }, []);
 
     return (
-        <div className="circle-container">
-            <Typography align="center" variant="p" style={{ fontSize: '12px' }}>
-                {before_number_text}
-            </Typography>
+        <div className="mgz-counter-circle-container">
             <div className="mgz-counter-circle-wrapper">
                 <svg height={circleSize} width={circleSize} className="circle__svg">
                     <circle cx={circleXYPos} cy={circleXYPos} r={circleRadius} className="circle__progress circle__progress--path" />
                     <circle cx={circleXYPos} cy={circleXYPos} r={circleRadius} className="circle__progress circle__progress--fill" />
                 </svg>
-                <div className="percent">
-                    <span className="percent__int">0.</span>
-                    <span className="percent__dec">00</span>
-                    {number_type === 'percent' && <span className="percent_symbol">%</span>}
+                <div className="mgz-counter-circle-inner">
+                    {before_number_text && (
+                        <Typography align="center" variant="p" className="before-number">
+                            {before_number_text}
+                        </Typography>
+                    )}
+                    {number_prefix && (
+                        <Typography align="center" variant="p" style={{ fontSize: '12px' }}>
+                            {number_prefix}
+                        </Typography>
+                    )}
+                    {number_text || icon ? (
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            {number_text && (
+                                <Typography variant="h1" type="bold">
+                                    {number_text}
+                                </Typography>
+                            )}
+                            {icon && <MagezonIcon icon={icon} icon_size={number_size} />}
+                        </div>
+                    ) : (
+                        <div className="percent">
+                            <span className="percent__int">0.</span>
+                            <span className="percent__dec">00</span>
+                            {number_type === 'percent' && <span className="percent_symbol">%</span>}
+                        </div>
+                    )}
+                    {number_suffix && (
+                        <Typography align="center" variant="p" style={{ fontSize: '12px' }}>
+                            {number_suffix}
+                        </Typography>
+                    )}
+                    {after_number_text && (
+                        <Typography align="center" variant="p" className="after-number">
+                            {after_number_text}
+                        </Typography>
+                    )}
                 </div>
             </div>
-            <div className="content-circle">
-                {number_prefix ? (
-                    <Typography variant="p" style={{ fontSize: '12px', marginTop: '2vh' }}>
-                        {number_prefix}
-                    </Typography>
-                ) : null}
-                {number_text ? (
-                    <Typography variant="h1" type="bold">
-                        {number_text}
-                    </Typography>
-                ) : null}
-                {icon ? (
-                    <div className="icon-circle">
-                        <MagezonIcon icon={icon} icon_size={number_size} />
-                    </div>
-                ) : null}
-                {number_suffix ? (
-                    <Typography variant="p" style={{ fontSize: '12px', marginTop: '2vh' }}>
-                        {number_suffix}
-                    </Typography>
-                ) : null}
-            </div>
-            <Typography align="center" variant="p" style={{ fontSize: '12px' }}>
-                {after_number_text}
-            </Typography>
 
             <style jsx>
                 {`
-                    .circle-container {
+                    .mgz-counter-circle-container {
                         display: flex;
                     }
                     .circle__progress {
@@ -122,7 +137,7 @@ const CircleLayout = (props) => {
                     .mgz-counter-circle-wrapper {
                         position: relative;
                     }
-                    .percent {
+                    .mgz-counter-circle-inner {
                         width: 100%;
                         position: absolute;
                         top: 50%;
@@ -131,6 +146,9 @@ const CircleLayout = (props) => {
                         text-align: center;
                         line-height: 28px;
                         transform: translate(-50%, -50%);
+                    }
+                    .percent {
+                        color: ${number_color || '#000000'};
                     }
                     .percent__int {
                         font-size: 28px;
@@ -152,6 +170,18 @@ const CircleLayout = (props) => {
                     }
                     .circle__svg {
                         transform: rotate(-90deg);
+                    }
+                `}
+            </style>
+            <style jsx global>
+                {`
+                    .mgz-counter-circle-inner .before-number {
+                        font-size: ${before_text_size ? `${before_text_size}px` : '14px'};
+                        color: ${before_text_color || '#000000'};
+                    }
+                    .mgz-counter-circle-inner .after-number {
+                        font-size: ${after_text_size ? `${after_text_size}px` : '14px'};
+                        color: ${after_text_color || '#000000'};
                     }
                 `}
             </style>

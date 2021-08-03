@@ -56,9 +56,6 @@ const MagezonCounter = (props) => {
                         margin-bottom: 1rem;
                         margin-top: 1rem;
                     }
-                    .icon-circle {
-                        margin-top: -20px;
-                    }
                     .bar-wrapper {
                         width: 100%;
                         height: 20px;
