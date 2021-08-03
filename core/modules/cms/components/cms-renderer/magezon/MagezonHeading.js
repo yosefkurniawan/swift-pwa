@@ -16,9 +16,10 @@ const MagezonHeading = (props) => {
     if (lg_hide) classes += 'hidden-lg ';
 
     const style = {};
+    style.textTransform = 'uppercase';
     if (color && color !== '') style.color = color;
     if (font_weight && font_weight !== '') style.fontWeight = font_weight;
-    if (font_size && font_size !== '') style.fontSize = font_size;
+    if (font_size && font_size !== '') style.fontSize = `${font_size}px`;
 
     return (
         <div className={`${styles.container} ${classes}`}>
