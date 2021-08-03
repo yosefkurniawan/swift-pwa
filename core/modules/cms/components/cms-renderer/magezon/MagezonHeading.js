@@ -19,7 +19,7 @@ const MagezonHeading = (props) => {
     style.textTransform = 'uppercase';
     if (color && color !== '') style.color = color;
     if (font_weight && font_weight !== '') style.fontWeight = font_weight;
-    if (font_size && font_size !== '') style.fontSize = `${font_size}px`;
+    if (font_size && font_size !== '') style.fontSize = `${font_size.replace('px', '')}px`;
 
     return (
         <div className={`${styles.container} ${classes}`}>
