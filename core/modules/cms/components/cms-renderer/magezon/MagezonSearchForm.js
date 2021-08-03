@@ -52,7 +52,6 @@ const MagezonSearchForm = (props) => {
                         right: 0;
                         top: 7px;
                         background-color: ${input_background_color || '#fff'};
-                        z-index: 9;
                         color: ${input_text_color};
                     }
                     .header-middle__search {
@@ -62,8 +61,14 @@ const MagezonSearchForm = (props) => {
                         position: relative;
                         background-color: ${input_background_color};
                         width: ${form_width}px;
-                        color: ${input_text_color};
                         padding-top: 10px;
+                    }
+                `}
+            </style>
+            <style jsx global>
+                {`
+                    .header-middle__search input {
+                        color: ${input_text_color};
                     }
                 `}
             </style>
