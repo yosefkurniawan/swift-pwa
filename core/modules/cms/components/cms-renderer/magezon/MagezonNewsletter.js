@@ -1,13 +1,11 @@
 import React from 'react';
 import NewsletterForm from '@plugin_newsletter';
-import useStyles from '@core_modules/cms/components/cms-renderer/magezon/style';
 
 const MagezonNewsletter = (props) => {
     const { disable_element } = props;
-    const classes = useStyles(props);
     if (!disable_element) {
         return (
-            <div className={classes.container}>
+            <div>
                 <NewsletterForm isCms {...props} />
                 <style jsx global>
                     {`

@@ -2,13 +2,16 @@ import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const NewsletterView = (props) => {
+    // base props
     const {
-        formik,
-        loading,
+        formik, loading, t, ...others
+    } = props;
+
+    // magezon newsletter props
+    const {
         form_height,
         title_color,
         form_width,
-        t,
         isCms = false,
         show_firstname,
         show_lastname,
@@ -26,8 +29,10 @@ const NewsletterView = (props) => {
         button_hover_border_color,
         button_hover_color,
         title_spacing,
-    } = props;
+    } = others;
+
     const [totalHeight, setTotalHeight] = React.useState(0);
+
     React.useEffect(() => {
         if (totalHeight === 0) {
             let total = 0;

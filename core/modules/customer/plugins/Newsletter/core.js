@@ -6,7 +6,9 @@ import { withApollo } from '@lib_apollo';
 import { subscribeNewsletter } from '@core_modules/customer/services/graphql/schema';
 
 const Newsletter = (props) => {
-    const { NewsletterView, t } = props;
+    const {
+        NewsletterView, t, show_firstname, show_lastname,
+    } = props;
 
     const [actSubscribe, result] = useMutation(subscribeNewsletter, {
         context: {
@@ -16,13 +18,13 @@ const Newsletter = (props) => {
     const formik = useFormik({
         initialValues: {
             email: '',
-            firstname: '',
-            lastname: '',
+            ...(show_firstname && { firstname: '' }),
+            ...(show_lastname && { lastname: '' }),
         },
         validationSchema: Yup.object().shape({
             email: Yup.string().required('required'),
-            firstname: Yup.string().required('required'),
-            lastname: Yup.string().required('required'),
+            ...(show_firstname && { firstname: Yup.string().required('required') }),
+            ...(show_lastname && { lastname: Yup.string().required('required') }),
         }),
         onSubmit: (values) => {
             actSubscribe({
