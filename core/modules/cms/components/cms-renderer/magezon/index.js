@@ -23,6 +23,7 @@ const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-
 const MagezonPinterest = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonPinterest'), { ssr: false });
 const MagezonTwitter = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitter'), { ssr: false });
 const MagezonParallax = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonParallax'), { ssr: false });
+const MagezonCountdown = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCountdown'), { ssr: false });
 
 const MagezonElement = (props) => {
     const {
@@ -30,7 +31,7 @@ const MagezonElement = (props) => {
         animation_in, animation_duration, animation_delay, animation_infinite,
         parallax_type, parallax_speed,
         mouse_parallax, mouse_parallax_size, mouse_parallax_speed,
-        background_image, full_height,
+        background_image, background_color, full_height,
         storeConfig,
     } = props;
     const { base_media_url } = storeConfig;
@@ -130,6 +131,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonToggle {...props} />; break;
         case 'message_box':
             childrenContent = <MagezonMessageBox {...props} />; break;
+        case 'countdown':
+            childrenContent = <MagezonCountdown {...props} />; break;
         default:
             childrenContent = null;
         }
@@ -153,20 +156,25 @@ const MagezonElement = (props) => {
                 )}
                 {childrenContent}
             </div>
-            <style jsx global>
+            <style jsx>
                 {`
                     .mgz-element {
                         position: relative;
                         width: 100%;
+                        background-color: ${background_color};
                     }
+                    .full_height {
+                        min-height: 433px;
+                    }
+                `}
+            </style>
+            <style jsx global>
+                {`
                     .mgz-element > .mgz-column {
                         padding: 10px;
                     }
                     .animation_duration {
                         --animate-duration: ${animation_duration || 0.5}s;
-                    }
-                    .full_height {
-                        min-height: 433px;
                     }
                     .parallax-wrapper {
                         border-radius: inherit;
