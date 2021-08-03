@@ -30,8 +30,8 @@ const ImageWithAction = ({
                 src={url || '/assets/img/placeholder.png'}
                 className={classImage}
                 quality={80}
-                width={image_width ? image_width.replace('px', '') : 320}
-                height={image_height ? image_height.replace('px', '') : 320}
+                width={image_width ? image_width.replace('px', '') : ''}
+                height={image_height ? image_height.replace('px', '') : ''}
                 alt={alt_tag || 'magezon image'}
                 classContainer={classContainer}
                 {...other}
@@ -170,8 +170,8 @@ const MagezonSingleImage = (props) => {
                             src={isHover ? hoverImage : url}
                             className={classImage}
                             quality={80}
-                            width={image_width ? image_width.replace('px', '') : 320}
-                            height={image_height ? image_height.replace('px', '') : 320}
+                            width={image_width ? image_width.replace('px', '') : ''}
+                            height={image_height ? image_height.replace('px', '') : ''}
                             alt={alt_tag || 'magezon image'}
                             classContainer={classContainer}
                             onMouseOver={() => setIsHover(true)}
@@ -189,8 +189,8 @@ const MagezonSingleImage = (props) => {
                                         src={popupImageUrl}
                                         className={classImage}
                                         quality={80}
-                                        width={image_width ? image_width.replace('px', '') : 320}
-                                        height={image_height ? image_height.replace('px', '') : 320}
+                                        width={image_width ? image_width.replace('px', '') : ''}
+                                        height={image_height ? image_height.replace('px', '') : ''}
                                         alt={alt_tag || 'magezon image'}
                                         classContainer={classContainer}
                                         onMouseOver={() => setIsHover(true)}
@@ -344,8 +344,8 @@ const MagezonSingleImage = (props) => {
                     }
 
                     .mgz-img-zoomout {
-                        transition: transform 1s, filter 2s ease-in-out;
-                        transform: scale(1.2);
+                        transition: all 0.4s ease-in-out;
+                        transform: scale(1.1);
                     }
 
                     .mgz-img-zoomout:hover {
@@ -353,12 +353,12 @@ const MagezonSingleImage = (props) => {
                     }
 
                     .mgz-img-zoomin {
-                        transition: transform 1s, filter 2s ease-in-out;
+                        transition: all 0.4s ease-in-out;
                         transform: scale(1);
                     }
 
                     .mgz-img-zoomin:hover {
-                        transform: scale(1.2);
+                        transform: scale(1.1);
                     }
 
                     .mgz-box-shadow {

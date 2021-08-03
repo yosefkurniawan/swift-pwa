@@ -19,10 +19,7 @@ const Image = ({
         className={classContainer}
         // ref={imgContainer}
         style={{
-            backgroundColor: '#eee',
-            width: '100%',
-            position: 'relative',
-            paddingTop: `${(height / width) * 100}%`,
+            width: 'fit-content',
             overflow: 'hidden',
         }}
     >
@@ -30,11 +27,8 @@ const Image = ({
             <img
                 data-pagespeed-no-defer
                 style={{
-                    width: '100%',
-                    height: '100%',
-                    position: 'absolute',
-                    top: '0',
-                    left: '0',
+                    maxWidth: '100%',
+                    maxHeight: '100%',
                 }}
                 className={`img ${className}`}
                 src={generateThumborUrl(src, width, height)}
@@ -45,11 +39,8 @@ const Image = ({
         ) : (
             <LazyImage
                 style={{
-                    width: '100%',
-                    height: '100%',
-                    position: 'absolute',
-                    top: '0',
-                    left: '0',
+                    maxWidth: '100%',
+                    maxHeight: '100%',
                 }}
                 src={generateThumborUrl(src, width, height)}
                 alt={alt}
