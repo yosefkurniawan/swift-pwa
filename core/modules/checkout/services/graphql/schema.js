@@ -1251,3 +1251,15 @@ export const setInstoreShippingAddress = gql`
         }
     }
 `;
+
+// xendit
+
+export const xenditCreateInvoice = gql`
+    mutation xenditCreateInvoice($order_id: String!) {
+        xenditCreateInvoice(input:{
+            order_id: $order_id
+        }){
+            invoice_url
+        }
+    }
+`;

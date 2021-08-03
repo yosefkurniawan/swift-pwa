@@ -12,7 +12,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import gqlService from '@core_modules/checkout/services/graphql';
 import { getIpayUrl } from '@core_modules/checkout/helpers/config';
 
-import ModalXendit from '@core_modules/checkout/pages/default/components/ModalXendit';
+import ModalXendit from '@core_modules/checkout/pages/default/components/ModalXendit/index';
 
 const Summary = ({
     t, checkout, setCheckout, handleOpenMessage, formik, updateFormik, config, refSummary, storeConfig,
@@ -35,6 +35,8 @@ const Summary = ({
     const [getCustCartId, manageCustCartId] = gqlService.getCustomerCartId();
     // indodana
     const [getIndodanaRedirect, urlIndodana] = gqlService.getIndodanaUrl();
+    // xendit
+    const [getXenditUrl] = gqlService.xenditCreateInvoice();
 
     // mutation update delete
     const [actDeleteItem] = gqlService.deleteItemCart();
@@ -72,6 +74,47 @@ const Summary = ({
             return config.cartRedirect.link;
         }
         return '/checkout/cart';
+    };
+
+    // place order xendit
+    const [openXendit, setOpenXendit] = useState(false);
+    const [xenditIframeUrl, setXenditIframeUrl] = useState('');
+    const [xenditState, setXenditState] = useState({});
+
+    const handleXendit = (order_id) => {
+        const state = { ...checkout };
+        getXenditUrl({
+            variables: { order_id },
+        }).then((res) => {
+            if (res && res.data && res.data.xenditCreateInvoice && res.data.xenditCreateInvoice.invoice_url) {
+                setXenditIframeUrl(res.data.xenditCreateInvoice.invoice_url);
+                setXenditState({
+                    order_id,
+                    payment_code: checkout.data.cart.selected_payment_method.code,
+                });
+                setOpenXendit(true);
+            } else {
+                state.loading.order = false;
+                setCheckout(state);
+
+                const msg = t('checkout:message:serverError');
+
+                handleOpenMessage({
+                    variant: 'error',
+                    text: msg,
+                });
+            }
+        }).catch((e) => {
+            state.loading.order = false;
+            setCheckout(state);
+
+            const msg = e.message ? e.message.split(':')[1] : t('checkout:message:serverError');
+
+            handleOpenMessage({
+                variant: 'error',
+                text: msg,
+            });
+        });
     };
 
     const handlePlaceOrder = async () => {
@@ -161,6 +204,10 @@ const Summary = ({
                         window.location.href = getIpayUrl(orderNumber);
                     } else if (checkout.data.cart.selected_payment_method.code.match(/indodana/)) {
                         await getIndodanaRedirect({ variables: { order_number: orderNumber } });
+                    } else if (modules.checkout.xendit.paymentPrefixCode.includes(
+                        checkout.data.cart.selected_payment_method.code,
+                    )) {
+                        handleXendit(orderNumber);
                     } else {
                         handleOpenMessage({
                             variant: 'success',
@@ -281,17 +328,6 @@ const Summary = ({
     }
     // End - Process Snap Pop Up Close (Waitinge Response From Reorder)
 
-    // sample place order xendit
-
-    const [openXendit, setOpenXendit] = useState(false);
-    const [xenditIframeUrl, setXenditIframeUrl] = useState('');
-
-    // eslint-disable-next-line no-unused-vars
-    const handleXendit = () => {
-        setXenditIframeUrl('https://checkout-staging.xendit.co/web/6106a8e8c988b078062f45fe');
-        setOpenXendit(true);
-    };
-
     useEffect(() => {
         if (typeof refSummary !== 'undefined') {
             // eslint-disable-next-line no-param-reassign
@@ -404,6 +440,7 @@ const Summary = ({
                     open={openXendit}
                     setOpen={() => setOpenXendit(!openXendit)}
                     iframeUrl={xenditIframeUrl}
+                    {...xenditState}
                 />
                 <div className="hidden-desktop">
                     <SummaryPlugin

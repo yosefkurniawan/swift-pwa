@@ -29,15 +29,18 @@ const Dialog = withStyles(() => ({
     },
 }))(MuiDialog);
 
-const ModalXendit = (props) => {
-    const { open, setOpen, iframeUrl } = props;
+const ModalXenditView = (props) => {
+    const {
+        open, setOpen, iframeUrl, handleCloseXendit,
+    } = props;
     // const handleExit = () => {};
     return (
         <Dialog
             TransitionComponent={Transition}
-            onClose={setOpen}
             aria-labelledby="customized-dialog-title"
             open={open}
+            disableBackdropClick
+            disableEscapeKeyDown
             className="modal-xendit"
             PaperProps={{
                 classes: {
@@ -49,7 +52,10 @@ const ModalXendit = (props) => {
                 color="primary"
                 size="medium"
                 className="xendit-btn-close"
-                onClick={() => setOpen()}
+                onClick={() => {
+                    setOpen();
+                    handleCloseXendit();
+                }}
             >
                 <CloseIcon fontSize="large" />
             </IconButton>
@@ -107,4 +113,4 @@ const ModalXendit = (props) => {
     );
 };
 
-export default ModalXendit;
+export default ModalXenditView;

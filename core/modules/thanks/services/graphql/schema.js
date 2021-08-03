@@ -60,7 +60,15 @@ export const getOrder = () => gql`
 export const getPaymentInformation = () => gql`
     query getPaymentInformation($order_number: String) {
         OrderPaymentInformation(input: {order_id : $order_number}){
+            method_title
+            method_code
+            virtual_account
             due_date
+            instructions
+            is_virtual_account
+            invoice_url
+            payment_code
+            xendit_retail_outlet
         }
     }
 `;
