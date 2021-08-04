@@ -7,13 +7,14 @@ import Typography from '@common_typography';
 const CircleLayout = (props) => {
     // prettier-ignore
     const {
-        icon,
+        icon, icon_size,
         speed, delay, linecap,
         number, number_text, number_type, max,
         number_prefix, number_suffix, number_size,
-        after_number_text, before_number_text,
+        after_number_text, after_text_color, after_text_size,
+        before_number_text, before_text_color, before_text_size,
         circle_background_color, circle_color1, circle_color2,
-        circle_dash_width, circle_size,
+        circle_dash_width, circle_size, number_color,
     } = props;
 
     const transitionDuration = speed * 1000;
@@ -28,7 +29,7 @@ const CircleLayout = (props) => {
     let numberTimeout;
 
     const increaseNumber = (note, classname) => {
-        const element = document.querySelector(`.percent__${classname}`);
+        const element = document.querySelector(`.mgz-counter-circle-container .percent__${classname}`);
         const decPoint = classname === 'int' ? '.' : '';
         const interval = transitionDuration / Math.min(note, 100);
         let counter = 0;
@@ -66,6 +67,9 @@ const CircleLayout = (props) => {
     React.useEffect(() => {
         let [int, dec] = numberProgress.toFixed(2).split('.');
         [int, dec] = [Number(int), Number(dec)];
+
+        console.log(props.layout);
+        console.log(int, dec);
 
         strokeTransition(numberProgress);
 
@@ -109,11 +113,11 @@ const CircleLayout = (props) => {
                                     {number_text}
                                 </Typography>
                             )}
-                            {icon && <MagezonIcon icon={icon} icon_size={number_size} />}
+                            {icon && <MagezonIcon icon={icon} icon_size={icon_size} />}
                         </div>
                     ) : (
                         <div className="percent">
-                            <span className="percent__int">0.</span>
+                            <span className="percent__int">0</span>
                             {hasDecimals && <span className="percent__dec">00</span>}
                             {number_type === 'percent' && <span className="percent_symbol">%</span>}
                         </div>
@@ -168,6 +172,18 @@ const CircleLayout = (props) => {
                     }
                     .circle__svg {
                         transform: rotate(-90deg);
+                    }
+                    .percent {
+                        font-size: ${number_size ? `${number_size}px` : '32px'};
+                        color: ${number_color || '#000000'};
+                    }
+                    .before-number {
+                        font-size: ${before_text_size ? `${before_text_size}px` : '14px'};
+                        color: ${before_text_color || '#000000'};
+                    }
+                    .after-number {
+                        font-size: ${after_text_size ? `${after_text_size}px` : '14px'};
+                        color: ${after_text_color || '#000000'};
                     }
                 `}
             </style>
