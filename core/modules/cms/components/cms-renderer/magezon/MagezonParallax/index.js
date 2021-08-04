@@ -30,6 +30,8 @@ export default class MagezonParallax extends React.Component {
 
     // destroy on unmount.
     componentWillUnmount() {
+        const { mouseParallax } = this.props;
+
         this.isDestroyed = true;
         jarallax(this.$el.current, 'destroy');
 
