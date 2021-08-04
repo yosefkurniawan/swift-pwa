@@ -14,6 +14,7 @@ import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/M
 import MagezonToggle from '@core_modules/cms/components/cms-renderer/magezon/MagezonToggle';
 import MagezonMessageBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonMessageBox';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
+import MagezonSearchForm from '@core_modules/cms/components/cms-renderer/magezon/MagezonSearchForm';
 import dynamic from 'next/dynamic';
 import 'font-awesome/css/font-awesome.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
@@ -133,6 +134,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonMessageBox {...props} />; break;
         case 'countdown':
             childrenContent = <MagezonCountdown {...props} />; break;
+        case 'search_form':
+            childrenContent = <MagezonSearchForm {...props} />; break;
         default:
             childrenContent = null;
         }
