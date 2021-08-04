@@ -9186,6 +9186,20 @@ react-async-script@^1.1.1:
     hoist-non-react-statics "^3.3.0"
     prop-types "^15.5.0"
 
+react-countdown-circle-timer@^2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/react-countdown-circle-timer/-/react-countdown-circle-timer-2.5.3.tgz#39c9ed138fe717d00a5467a3af90f58599e45932"
+  integrity sha512-7uIopuZtR+nTWpfTpSD7aw2Ml8OxsTjI6nG5txuClUUxxnRphEkoDSo5qz8r7OYxgme7FpUHsDqueznYN3yLtg==
+  dependencies:
+    use-elapsed-time "2.1.8"
+
+react-countdown@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-countdown/-/react-countdown-2.3.2.tgz#4cc27f28f2dcd47237ee66e4b9f6d2a21fc0b0ad"
+  integrity sha512-Q4SADotHtgOxNWhDdvgupmKVL0pMB9DvoFcxv5AzjsxVhzOVxnttMbAywgqeOdruwEAmnPhOhNv/awAgkwru2w==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-dom@^17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.1.tgz#1de2560474ec9f0e334285662ede52dbc5426fc6"
@@ -11140,6 +11154,11 @@ use-debounce@^5.1.0:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/use-debounce/-/use-debounce-5.2.1.tgz#7366543c769f1de3e92104dee64de5c4dfddfd33"
   integrity sha512-BQG5uEypYHd/ASF6imzYR8tJHh5qGn28oZG/5iVAbljV6MUrfyT4jzxA8co+L+WLCT1U8VBwzzvlb3CHmUDpEA==
+
+use-elapsed-time@2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/use-elapsed-time/-/use-elapsed-time-2.1.8.tgz#3c830ae730e2bc204f2294b66be15580f0016ea5"
+  integrity sha512-lNLTDffKHdHWweQNvnch9tFI2eRP3tXccSLrwE7U6xrfyWFNEgNQZWWsGhQvtwKa0kJ6L+7E5wKbi3jg86opjg==
 
 use-subscription@1.5.1:
   version "1.5.1"
