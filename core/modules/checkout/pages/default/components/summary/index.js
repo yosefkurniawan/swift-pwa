@@ -118,7 +118,6 @@ const Summary = ({
                 });
             }
         }).catch((e) => {
-            console.log(e);
             state.loading.order = false;
             setCheckout(state);
 
@@ -206,7 +205,6 @@ const Summary = ({
                     if (client && client.query && typeof client.query === 'function') {
                         await client.query({ query: localTotalCart, data: { totalCart: 0 } });
                     }
-                    await removeCartId();
 
                     if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {
                         setOrderId(orderNumber);
@@ -228,6 +226,8 @@ const Summary = ({
                         });
                         window.location.replace(generatesuccessRedirect(orderNumber));
                     }
+
+                    await removeCartId();
                 } else {
                     state.loading.order = false;
                     setCheckout(state);
@@ -250,6 +250,9 @@ const Summary = ({
                 variant: 'error',
                 text: msg,
             });
+            setTimeout(() => {
+                window.location.replace(generateCartRedirect(orderId));
+            }, 700);
         }
     };
 
