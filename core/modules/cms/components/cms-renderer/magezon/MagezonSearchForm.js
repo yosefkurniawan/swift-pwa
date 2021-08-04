@@ -7,10 +7,10 @@ import Router from 'next/router';
 import { useTranslation } from '@i18n';
 
 const MagezonSearchForm = (props) => {
-    const [value, setValue] = React.useState('');
     const {
-        input_background_color, placeholder, input_text_color, form_width,
+        placeholder, form_width, input_background_color, input_text_color,
     } = props;
+    const [value, setValue] = React.useState('');
     const { t } = useTranslation();
     const handleSearch = (ev) => {
         if (ev.key === 'Enter' && ev.target.value !== '') {
@@ -20,6 +20,7 @@ const MagezonSearchForm = (props) => {
             });
         }
     };
+    console.log(props);
 
     const searchByClick = () => {
         if (value !== '') {
@@ -33,15 +34,17 @@ const MagezonSearchForm = (props) => {
     return (
         <div className="header-middle__search">
             <Autocomplete
-                width={Number(form_width) - 10}
-                placeholder={placeholder}
                 setValue={setValue}
                 handleSearch={handleSearch}
                 OptionsItem={OptionAutocomplete}
                 t={t}
+                width={Number(form_width)}
+                forcePopupIcon={false}
+                popupIcon={<SearchIcon />}
+                placeholder={placeholder}
             />
             <div className="search-icon">
-                <IconButton disabled={value === ''} edge="start" onClick={searchByClick} aria-label="close">
+                <IconButton disabled={value === ''} edge="start" onClick={searchByClick} aria-label="search">
                     <SearchIcon />
                 </IconButton>
             </div>
@@ -49,10 +52,9 @@ const MagezonSearchForm = (props) => {
                 {`
                     .search-icon {
                         position: absolute;
-                        right: 0;
-                        top: 7px;
-                        background-color: ${input_background_color || '#fff'};
-                        color: ${input_text_color};
+                        right: -10px;
+                        top: 0px;
+                        background: #ffffff00;
                     }
                     .header-middle__search {
                         display: flex;
@@ -60,14 +62,6 @@ const MagezonSearchForm = (props) => {
                         float: left;
                         position: relative;
                         background-color: ${input_background_color};
-                        width: ${form_width}px;
-                        padding-top: 10px;
-                    }
-                `}
-            </style>
-            <style jsx global>
-                {`
-                    .header-middle__search input {
                         color: ${input_text_color};
                     }
                 `}

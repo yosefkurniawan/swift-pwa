@@ -38,7 +38,7 @@ const generateItemData = (product, category) => {
 
 export default function ComboBox(props) {
     const {
-        handleSearch, placeholder, setValue, OptionsItem, width = 300, maxHeight = '80vh', t,
+        placeholder, handleSearch, setValue, OptionsItem, forcePopupIcon = true, width = 300, maxHeight = '80vh', t,
     } = props;
     const [item, setItem] = React.useState([]);
     const [open, setOpen] = React.useState(false);
@@ -91,8 +91,8 @@ export default function ComboBox(props) {
             options={item}
             getOptionLabel={(option) => option.name}
             getOptionSelected={(option, value) => option.name === value.name}
-            forcePopupIcon
-            style={{ width }}
+            forcePopupIcon={forcePopupIcon}
+            style={{ width, padding: '2px 5px 5px 5px' }}
             openOnFocus={false}
             open={open}
             ListboxProps={{ style: { maxHeight, height: 'auto' } }}
