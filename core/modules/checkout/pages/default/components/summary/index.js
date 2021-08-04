@@ -83,6 +83,8 @@ const Summary = ({
 
     const handleXendit = (order_id) => {
         const state = { ...checkout };
+        state.loading.order = true;
+        setCheckout(state);
         getXenditUrl({
             variables: { order_id },
         }).then((res) => {
@@ -92,7 +94,18 @@ const Summary = ({
                     order_id,
                     payment_code: checkout.data.cart.selected_payment_method.code,
                 });
-                setOpenXendit(true);
+                if (modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(checkout.data.cart.selected_payment_method.code)) {
+                    handleOpenMessage({
+                        variant: 'success',
+                        text: t('checkout:message:placeOrder'),
+                    });
+                    window.location.replace(generatesuccessRedirect(order_id));
+                } else {
+                    setOpenXendit(true);
+                }
+
+                state.loading.order = false;
+                setCheckout(state);
             } else {
                 state.loading.order = false;
                 setCheckout(state);
@@ -105,10 +118,11 @@ const Summary = ({
                 });
             }
         }).catch((e) => {
+            console.log(e);
             state.loading.order = false;
             setCheckout(state);
 
-            const msg = e.message ? e.message.split(':')[1] : t('checkout:message:serverError');
+            const msg = e.graphQLErrors.length > 0 ? e.graphQLErrors[0] : t('checkout:message:serverError');
 
             handleOpenMessage({
                 variant: 'error',
@@ -204,9 +218,8 @@ const Summary = ({
                         window.location.href = getIpayUrl(orderNumber);
                     } else if (checkout.data.cart.selected_payment_method.code.match(/indodana/)) {
                         await getIndodanaRedirect({ variables: { order_number: orderNumber } });
-                    } else if (modules.checkout.xendit.paymentPrefixCode.includes(
-                        checkout.data.cart.selected_payment_method.code,
-                    )) {
+                    } else if (modules.checkout.xendit.paymentPrefixCode.includes(checkout.data.cart.selected_payment_method.code)
+                    || modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(checkout.data.cart.selected_payment_method.code)) {
                         handleXendit(orderNumber);
                     } else {
                         handleOpenMessage({

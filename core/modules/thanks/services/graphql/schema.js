@@ -7,6 +7,7 @@ export const getOrder = () => gql`
                 order_number
                 id
                 created_at
+                status
                 detail {
                     tax_amount
                     payment {

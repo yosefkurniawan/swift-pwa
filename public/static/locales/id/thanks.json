@@ -18,5 +18,6 @@
     "paymentCode": "Kode Pembayaran ",
     "virtualAccount": "Virtual Account",
     "instructions": "Instruksi",
-    "paynow": "Bayar Sekarang"
+    "paynow": "Bayar Sekarang",    
+    "duedate": "Batas Waktu"
 }

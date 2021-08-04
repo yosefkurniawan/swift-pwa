@@ -99,7 +99,7 @@ const View = (props) => {
                 <div className={styles.info}>
                     <Typography variant="span" className={styles.dateOver} letter="none">
                         {t('thanks:paymentMethod')}
-                        {' '}
+                        {' : '}
                         <b className={styles.payment}>{paymentInformation.OrderPaymentInformation.method_title}</b>
                     </Typography>
                     {
@@ -107,7 +107,7 @@ const View = (props) => {
                             && paymentInformation.OrderPaymentInformation.virtual_account && (
                             <Typography variant="span" className={styles.dateOver} letter="none">
                                 {t('thanks:virtualAccount')}
-                                {' '}
+                                {' : '}
                                 <b className={styles.payment}>{paymentInformation.OrderPaymentInformation.virtual_account}</b>
                             </Typography>
                         )
@@ -117,8 +117,17 @@ const View = (props) => {
                             && paymentInformation.OrderPaymentInformation.payment_code && (
                             <Typography variant="span" className={styles.dateOver} letter="none">
                                 {t('thanks:paymentCode')}
-                                {' '}
+                                {' : '}
                                 <b className={styles.payment}>{paymentInformation.OrderPaymentInformation.payment_code}</b>
+                            </Typography>
+                        )
+                    }
+                    {
+                        paymentInformation.OrderPaymentInformation.due_date && (
+                            <Typography variant="span" className={styles.dateOver} letter="none">
+                                {t('thanks:duedate')}
+                                {' : '}
+                                <b className={styles.payment}>{paymentInformation.OrderPaymentInformation.due_date}</b>
                             </Typography>
                         )
                     }
@@ -127,7 +136,8 @@ const View = (props) => {
                             && (<div dangerouslySetInnerHTML={{ __html: paymentInformation.OrderPaymentInformation.instructions }} />)
                     }
                     {
-                        paymentInformation.OrderPaymentInformation.invoice_url
+                        ordersFilter && ordersFilter.data[0] && ordersFilter.data[0].status === 'pending'
+                        && paymentInformation.OrderPaymentInformation.invoice_url
                         && modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(paymentInformation.OrderPaymentInformation.method_code) && (
                             <Button
                                 onClick={() => setOpenXendit(!openXendit)}

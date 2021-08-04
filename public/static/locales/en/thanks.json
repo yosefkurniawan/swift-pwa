@@ -16,7 +16,8 @@
     "emailInfo": "Email address:",
     "paymentMethod": "Payment Method ",
     "paymentCode": "Payment code",
-    "virtualAccount": "VirtualAccount",
+    "virtualAccount": "Virtual Account",
     "instructions": "Instructions",
-    "paynow": "Pay Now"
+    "paynow": "Pay Now",
+    "duedate": "Due Date"
 }
