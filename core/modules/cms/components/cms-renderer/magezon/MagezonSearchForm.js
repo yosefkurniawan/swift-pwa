@@ -20,7 +20,6 @@ const MagezonSearchForm = (props) => {
             });
         }
     };
-    console.log(props);
 
     const searchByClick = () => {
         if (value !== '') {
@@ -62,6 +61,8 @@ const MagezonSearchForm = (props) => {
                         float: left;
                         position: relative;
                         background-color: ${input_background_color};
+                    }
+                    .header-middle__search :global(input) {
                         color: ${input_text_color};
                     }
                 `}
