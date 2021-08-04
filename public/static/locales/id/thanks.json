@@ -19,5 +19,6 @@
     "virtualAccount": "Virtual Account",
     "instructions": "Instruksi",
     "paynow": "Bayar Sekarang",    
-    "duedate": "Batas Waktu"
+    "duedate": "Batas Waktu",    
+    "onboarding": "Silahkan melakukan pembayaran untuk menyelesaikan transaksi"
 }

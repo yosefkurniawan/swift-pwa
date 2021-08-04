@@ -19,5 +19,6 @@
     "virtualAccount": "Virtual Account",
     "instructions": "Instructions",
     "paynow": "Pay Now",
-    "duedate": "Due Date"
+    "duedate": "Due Date",
+    "onboarding": "Please pay to complete the transaction"
 }

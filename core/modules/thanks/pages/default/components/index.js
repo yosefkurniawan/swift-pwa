@@ -95,8 +95,13 @@ const View = (props) => {
                     ))}
                 </div>
             ) : null}
-            { ordersFilter && paymentInformation && paymentInformation.OrderPaymentInformation && (
+            { ordersFilter && ordersFilter.data[0] && (ordersFilter.data[0].status === 'pending' || ordersFilter.data[0].status === 'pending_payment')
+                && paymentInformation.OrderPaymentInformation.invoice_url
+                && modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(paymentInformation.OrderPaymentInformation.method_code) && (
                 <div className={styles.info}>
+                    <Typography variant="span" className={styles.dateOver} letter="none">
+                        {t('thanks:onboarding')}
+                    </Typography>
                     <Typography variant="span" className={styles.dateOver} letter="none">
                         {t('thanks:paymentMethod')}
                         {' : '}
@@ -104,13 +109,14 @@ const View = (props) => {
                     </Typography>
                     {
                         paymentInformation.OrderPaymentInformation.is_virtual_account
-                            && paymentInformation.OrderPaymentInformation.virtual_account && (
-                            <Typography variant="span" className={styles.dateOver} letter="none">
-                                {t('thanks:virtualAccount')}
-                                {' : '}
-                                <b className={styles.payment}>{paymentInformation.OrderPaymentInformation.virtual_account}</b>
-                            </Typography>
-                        )
+                                        && paymentInformation.OrderPaymentInformation.virtual_account
+                            && (
+                                <Typography variant="span" className={styles.dateOver} letter="none">
+                                    {t('thanks:virtualAccount')}
+                                    {' : '}
+                                    <b className={styles.payment}>{paymentInformation.OrderPaymentInformation.virtual_account}</b>
+                                </Typography>
+                            )
                     }
                     {
                         paymentInformation.OrderPaymentInformation.xendit_retail_outlet
@@ -135,21 +141,15 @@ const View = (props) => {
                         paymentInformation.OrderPaymentInformation.instructions
                             && (<div dangerouslySetInnerHTML={{ __html: paymentInformation.OrderPaymentInformation.instructions }} />)
                     }
-                    {
-                        ordersFilter && ordersFilter.data[0] && ordersFilter.data[0].status === 'pending'
-                        && paymentInformation.OrderPaymentInformation.invoice_url
-                        && modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(paymentInformation.OrderPaymentInformation.method_code) && (
-                            <Button
-                                onClick={() => setOpenXendit(!openXendit)}
-                                className={styles.btnConfirm}
-                                align="center"
-                            >
-                                <Typography size="10" type="bold" color="white" letter="uppercase" className={styles.txtConfirm}>
-                                    {t('thanks:paynow')}
-                                </Typography>
-                            </Button>
-                        )
-                    }
+                    <Button
+                        onClick={() => setOpenXendit(!openXendit)}
+                        className={styles.btnConfirm}
+                        align="center"
+                    >
+                        <Typography size="10" type="bold" color="white" letter="uppercase" className={styles.txtConfirm}>
+                            {t('thanks:paynow')}
+                        </Typography>
+                    </Button>
                 </div>
             )}
             {ordersFilter && ordersFilter.data[0].detail[0].payment.method === 'banktransfer' ? (
