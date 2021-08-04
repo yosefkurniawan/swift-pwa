@@ -3,12 +3,18 @@ import View from '@core_modules/checkout/pages/default/components/ModalXendit/vi
 import { modules } from '@config';
 import { getStoreHost } from '@helper_config';
 import { getAppEnv } from '@root/core/helpers/env';
+import { removeCheckoutData } from '@helper_cookies';
 
 const ModalXendit = (props) => {
-    const { payment_code, order_id } = props;
+    const { payment_code, order_id, fromOrder } = props;
     const handleCloseXendit = () => {
         if (modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(payment_code)) {
-            window.location.replace('/checkout/onepage/success');
+            if (fromOrder) {
+                removeCheckoutData();
+                window.location.replace(`/sales/order/view/order_id/${order_id}`);
+            } else {
+                window.location.replace('/checkout/onepage/success');
+            }
         } else {
             window.location.replace(`${getStoreHost(getAppEnv())}xendit/checkout/failure?order_id=${order_id}`);
         }
