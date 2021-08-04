@@ -1,14 +1,16 @@
 /* eslint-disable no-nested-ternary */
 
-import React from 'react';
-import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
 import Typography from '@common_typography';
+import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
 
 const CounterBarText = (props) => {
     const {
         icon, icon_size,
-        number_prefix, number_text, number_type, number_suffix,
-        hasDecimals,
+        number_prefix, number_suffix, number_size,
+        number_text, number_type, number_color,
+        hasDecimals, progressNumberRef, number_position,
+        after_text_color, after_text_size,
+        before_text_color, before_text_size,
     } = props;
 
     return (
@@ -25,9 +27,9 @@ const CounterBarText = (props) => {
                         {icon && <MagezonIcon icon={icon} icon_size={icon_size} />}
                     </div>
                 ) : (
-                    <div className="percent">
-                        <span className="percent__int">0.</span>
-                        {hasDecimals && <span className="percent__dec">00</span>}
+                    <div className="percent" ref={progressNumberRef}>
+                        <span className="percent__int">0</span>
+                        {hasDecimals && <span className="percent__dec">.00</span>}
                         {number_type === 'percent' && <span className="percent_symbol">%</span>}
                     </div>
                 )}
@@ -37,6 +39,29 @@ const CounterBarText = (props) => {
                     </Typography>
                 )}
             </div>
+            <style jsx>
+                {`
+                    .mgz-counter-bar-text {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: ${number_position === 'inside' ? 'flex-end' : 'flex-start'};
+                        align-items: center;
+                        height: 100%;
+                    }
+                    .percent {
+                        font-size: ${number_size ? `${number_size}px` : '32px'};
+                        color: ${number_color || '#000000'};
+                    }
+                    .before-number {
+                        font-size: ${before_text_size ? `${before_text_size}px` : '14px'};
+                        color: ${before_text_color || '#000000'};
+                    }
+                    .after-number {
+                        font-size: ${after_text_size ? `${after_text_size}px` : '14px'};
+                        color: ${after_text_color || '#000000'};
+                    }
+                `}
+            </style>
         </>
     );
 };
@@ -44,36 +69,34 @@ const CounterBarText = (props) => {
 const ProgressBarLayout = (props) => {
     // prettier-ignore
     const {
-        icon, icon_size,
         delay, speed, bar_color,
-        number, number_color, number_text,
-        number_type, number_prefix, number_suffix,
-        number_size, number_position, max,
-        after_number_text, after_text_color, after_text_size,
-        before_number_text, before_text_color, before_text_size,
+        number, number_type,
+        number_position, max,
+        after_number_text, before_number_text,
     } = props;
-    console.log(props);
     let timeout;
     const numberProgress = parseFloat(Math.min(number, number_type !== 'percent' ? max || number : 100));
     const transitionDuration = speed * 1000;
     const animationDelay = delay * 1000 || 1000;
     let hasDecimals = numberProgress.toFixed(2).split('.');
     hasDecimals = hasDecimals.length > 1 && Number(hasDecimals[1]) !== 0;
+
+    const progressNumberRef = React.useRef();
+    const progressBarRef = React.useRef();
+
     const counterTextContent = (
         <CounterBarText
+            progressNumberRef={progressNumberRef}
             hasDecimals={hasDecimals}
-            icon={icon}
-            icon_size={icon_size}
-            number_text={number_text}
-            number_type={number_type}
-            number_prefix={number_prefix}
-            number_suffix={number_suffix}
-            number_size={number_size}
+            {...props}
         />
     );
 
     const increaseNumber = (note, classname) => {
-        const element = document.querySelector(`.mgz-counter-bar-container .percent__${classname}`);
+        let element;
+        const [elementInt, elementDec] = progressNumberRef.current.children;
+        if (classname === 'int') element = elementInt;
+        if (classname === 'dec') element = elementDec;
         const decPoint = classname === 'int' ? '.' : '';
         const interval = transitionDuration / Math.min(note, 100);
         let counter = 0;
@@ -93,25 +116,16 @@ const ProgressBarLayout = (props) => {
     };
 
     const progressTransition = () => {
-        const element = document.querySelector('.mgz-counter-bar-text-container');
-
-        element.style.setProperty('transition-duration', `${transitionDuration}ms`);
+        progressBarRef.current.style.transitionDuration = `${transitionDuration}ms`;
 
         timeout = setTimeout(() => {
-            element.style.width = number_type !== 'percent'
-                ? max
-                    ? `${number}%`
-                    : '100%'
-                : `${number}%`;
+            progressBarRef.current.style.width = number_type !== 'percent' ? (max ? `${number}%` : '100%') : `${number}%`;
         }, animationDelay);
     };
 
     React.useEffect(() => {
         let [int, dec] = numberProgress.toFixed(2).split('.');
         [int, dec] = [Number(int), Number(dec)];
-
-        console.log(props.layout);
-        console.log(int, dec);
 
         progressTransition();
         increaseNumber(int, 'int');
@@ -133,7 +147,9 @@ const ProgressBarLayout = (props) => {
                     </Typography>
                     {number_position === 'above' && counterTextContent}
                     <div className="mgz-counter-bar-inner">
-                        <div className="mgz-counter-bar-text-container">{number_position === 'inside' && counterTextContent}</div>
+                        <div className="mgz-counter-bar-text-container" ref={progressBarRef}>
+                            {number_position === 'inside' && counterTextContent}
+                        </div>
                     </div>
                     {number_position === 'bellow' && counterTextContent}
                     <Typography variant="p" className="after-number">
@@ -164,29 +180,6 @@ const ProgressBarLayout = (props) => {
                         border-radius: 0;
                         text-align: right;
                         transition: width 0 linear;
-                    }
-                `}
-            </style>
-            <style jsx global>
-                {`
-                    .mgz-counter-bar-container .mgz-counter-bar-text {
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: ${number_position === 'inside' ? 'flex-end' : 'flex-start'};
-                        align-items: center;
-                        height: 100%;
-                    }
-                    .mgz-counter-bar-container .percent {
-                        font-size: ${number_size ? `${number_size}px` : '32px'};
-                        color: ${number_color || '#000000'};
-                    }
-                    .before-number {
-                        font-size: ${before_text_size ? `${before_text_size}px` : '14px'};
-                        color: ${before_text_color || '#000000'};
-                    }
-                    .after-number {
-                        font-size: ${after_text_size ? `${after_text_size}px` : '14px'};
-                        color: ${after_text_color || '#000000'};
                     }
                 `}
             </style>
