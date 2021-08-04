@@ -9,8 +9,6 @@ const CounterBarText = (props) => {
         number_prefix, number_suffix, number_size,
         number_text, number_type, number_color,
         hasDecimals, progressNumberRef, number_position,
-        after_text_color, after_text_size,
-        before_text_color, before_text_size,
     } = props;
 
     return (
@@ -52,14 +50,6 @@ const CounterBarText = (props) => {
                         font-size: ${number_size ? `${number_size}px` : '32px'};
                         color: ${number_color || '#000000'};
                     }
-                    .before-number {
-                        font-size: ${before_text_size ? `${before_text_size}px` : '14px'};
-                        color: ${before_text_color || '#000000'};
-                    }
-                    .after-number {
-                        font-size: ${after_text_size ? `${after_text_size}px` : '14px'};
-                        color: ${after_text_color || '#000000'};
-                    }
                 `}
             </style>
         </>
@@ -72,7 +62,8 @@ const ProgressBarLayout = (props) => {
         delay, speed, bar_color,
         number, number_type,
         number_position, max,
-        after_number_text, before_number_text,
+        after_number_text, after_text_color, after_text_size,
+        before_number_text, before_text_color, before_text_size,
     } = props;
     let timeout;
     const numberProgress = parseFloat(Math.min(number, number_type !== 'percent' ? max || number : 100));
@@ -142,7 +133,13 @@ const ProgressBarLayout = (props) => {
         <>
             <div className="mgz-counter-bar-container">
                 <div className="mgz-counter-bar-wrapper">
-                    <Typography variant="p" className="before-number">
+                    <Typography
+                        variant="p"
+                        style={{
+                            fontSize: `${before_text_size ? `${before_text_size}px` : '14px'}`,
+                            color: `${before_text_color || '#000000'}`,
+                        }}
+                    >
                         {before_number_text}
                     </Typography>
                     {number_position === 'above' && counterTextContent}
@@ -152,7 +149,13 @@ const ProgressBarLayout = (props) => {
                         </div>
                     </div>
                     {number_position === 'bellow' && counterTextContent}
-                    <Typography variant="p" className="after-number">
+                    <Typography
+                        variant="p"
+                        style={{
+                            fontSize: `${after_text_size ? `${after_text_size}px` : '14px'}`,
+                            color: `${after_text_color || '#000000'}`,
+                        }}
+                    >
                         {after_number_text}
                     </Typography>
                 </div>

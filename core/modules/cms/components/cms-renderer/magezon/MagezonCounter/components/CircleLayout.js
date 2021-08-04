@@ -27,9 +27,14 @@ const CircleLayout = (props) => {
     hasDecimals = hasDecimals.length > 1 && Number(hasDecimals[1]) !== 0;
     let strokeTimeout;
     let numberTimeout;
+    const circleRef = React.useRef();
+    const numberRef = React.useRef();
 
     const increaseNumber = (note, classname) => {
-        const element = document.querySelector(`.mgz-counter-circle-container .percent__${classname}`);
+        let element;
+        const [elementInt, elementDec] = numberRef.current.children;
+        if (classname === 'int') element = elementInt;
+        if (classname === 'dec') element = elementDec;
         const decPoint = classname === 'int' ? '.' : '';
         const interval = transitionDuration / Math.min(note, 100);
         let counter = 0;
@@ -48,7 +53,7 @@ const CircleLayout = (props) => {
     };
 
     const strokeTransition = (note) => {
-        const progress = document.querySelector('.circle__progress--fill');
+        const progress = circleRef.current;
         const radius = progress.r.baseVal.value;
         const circumference = 2 * Math.PI * radius;
         let offset = (circumference * (100 - note)) / 100;
@@ -67,9 +72,6 @@ const CircleLayout = (props) => {
     React.useEffect(() => {
         let [int, dec] = numberProgress.toFixed(2).split('.');
         [int, dec] = [Number(int), Number(dec)];
-
-        console.log(props.layout);
-        console.log(int, dec);
 
         strokeTransition(numberProgress);
 
@@ -93,11 +95,18 @@ const CircleLayout = (props) => {
             <div className="mgz-counter-circle-wrapper">
                 <svg height={circleSize} width={circleSize} className="circle__svg">
                     <circle cx={circleXYPos} cy={circleXYPos} r={circleRadius} className="circle__progress circle__progress--path" />
-                    <circle cx={circleXYPos} cy={circleXYPos} r={circleRadius} className="circle__progress circle__progress--fill" />
+                    <circle cx={circleXYPos} cy={circleXYPos} r={circleRadius} ref={circleRef} className="circle__progress circle__progress--fill" />
                 </svg>
                 <div className="mgz-counter-circle-inner">
                     {before_number_text && (
-                        <Typography align="center" variant="p" className="before-number">
+                        <Typography
+                            align="center"
+                            variant="p"
+                            style={{
+                                fontSize: `${before_text_size ? `${before_text_size}px` : '14px'}`,
+                                color: `${before_text_color || '#000000'}`,
+                            }}
+                        >
                             {before_number_text}
                         </Typography>
                     )}
@@ -116,9 +125,9 @@ const CircleLayout = (props) => {
                             {icon && <MagezonIcon icon={icon} icon_size={icon_size} />}
                         </div>
                     ) : (
-                        <div className="percent">
+                        <div className="percent" ref={numberRef}>
                             <span className="percent__int">0</span>
-                            {hasDecimals && <span className="percent__dec">00</span>}
+                            {hasDecimals && <span className="percent__dec">.00</span>}
                             {number_type === 'percent' && <span className="percent_symbol">%</span>}
                         </div>
                     )}
@@ -128,7 +137,14 @@ const CircleLayout = (props) => {
                         </Typography>
                     )}
                     {after_number_text && (
-                        <Typography align="center" variant="p" className="after-number">
+                        <Typography
+                            align="center"
+                            variant="p"
+                            style={{
+                                fontSize: `${after_text_size ? `${after_text_size}px` : '14px'}`,
+                                color: `${after_text_color || '#000000'}`,
+                            }}
+                        >
                             {after_number_text}
                         </Typography>
                     )}
@@ -176,14 +192,6 @@ const CircleLayout = (props) => {
                     .percent {
                         font-size: ${number_size ? `${number_size}px` : '32px'};
                         color: ${number_color || '#000000'};
-                    }
-                    .before-number {
-                        font-size: ${before_text_size ? `${before_text_size}px` : '14px'};
-                        color: ${before_text_color || '#000000'};
-                    }
-                    .after-number {
-                        font-size: ${after_text_size ? `${after_text_size}px` : '14px'};
-                        color: ${after_text_color || '#000000'};
                     }
                 `}
             </style>
