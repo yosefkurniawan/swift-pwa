@@ -13,6 +13,7 @@ import MagezonEmpty from '@core_modules/cms/components/cms-renderer/magezon/Mage
 import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/MagezonFanspage';
 import MagezonToggle from '@core_modules/cms/components/cms-renderer/magezon/MagezonToggle';
 import MagezonMessageBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonMessageBox';
+import MagezonSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonSlider';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import dynamic from 'next/dynamic';
 import 'font-awesome/css/font-awesome.min.css';
@@ -133,6 +134,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonMessageBox {...props} />; break;
         case 'countdown':
             childrenContent = <MagezonCountdown {...props} />; break;
+        case 'slider':
+            childrenContent = <MagezonSlider {...props} />; break;
         default:
             childrenContent = null;
         }

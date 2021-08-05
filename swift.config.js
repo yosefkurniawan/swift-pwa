@@ -190,6 +190,16 @@ const features = {
                 height: 750,
             },
         },
+        magezonSlider: {
+            mobile: {
+                width: 960,
+                height: 1120,
+            },
+            desktop: {
+                width: 1800,
+                height: 750,
+            },
+        },
         category: {
             width: 960,
             height: 577,
