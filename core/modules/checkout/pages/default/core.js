@@ -144,6 +144,7 @@ const Checkout = (props) => {
         error: {
             pickupInformation: false,
             selectStore: false,
+            shippingAddress: false,
         },
         disabled: {
             address: false,
@@ -299,6 +300,10 @@ const Checkout = (props) => {
                 pickup_location_code: shipping.pickup_location_code,
             };
 
+            if (typeof shipping.is_valid_city !== 'undefined') {
+                state.error.shippingAddress = !shipping.is_valid_city;
+            }
+
             state.pickup_location_code = shipping.pickup_location_code;
         } else if (!state.data.isGuest && address) {
             state.selected.address = {
@@ -339,6 +344,7 @@ const Checkout = (props) => {
                 if (shippingMethod.carrier_code === 'pickup' && shippingMethod.method_code === 'pickup') {
                     const custAddress = cart.shipping_addresses[0];
                     state.selected.delivery = 'pickup';
+                    state.error.shippingAddress = false;
                     state.selectStore = {
                         city: custAddress.city,
                         country_code: custAddress.country.code,
@@ -361,6 +367,7 @@ const Checkout = (props) => {
 
             if (shipping.pickup_location_code) {
                 state.selected.delivery = 'instore';
+                state.error.shippingAddress = false;
             }
         }
 
