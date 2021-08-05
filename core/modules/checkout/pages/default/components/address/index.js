@@ -86,6 +86,10 @@ const Address = (props) => {
                 state.selected.address = shippingAddress;
             }
 
+            if (checkout.selected.delivery === 'home' && typeof shippingAddress.is_valid_city !== 'undefined') {
+                state.error.shippingAddress = !shippingAddress.is_valid_city;
+            }
+
             state.data.shippingMethods = shippingMethods;
         }
         state.loading.addresses = false;

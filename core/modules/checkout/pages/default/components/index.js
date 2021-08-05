@@ -299,7 +299,7 @@ const Content = (props) => {
                     onClick={handleClick}
                     fullWidth
                     loading={loading}
-                    disabled={disabled || (isSelectedPurchaseOrder && !isPurchaseOrderApply)}
+                    disabled={disabled || checkout.error.shippingAddress || (isSelectedPurchaseOrder && !isPurchaseOrderApply)}
                     className={styles.placeOrderDesktop}
                 >
                     <Typography variant="span" letter="uppercase" type="bold" color="white">
