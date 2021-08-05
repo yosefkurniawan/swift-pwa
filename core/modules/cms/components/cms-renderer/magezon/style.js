@@ -38,6 +38,7 @@ const useStyles = makeStyles({
         borderRadius: (props) => props.button_border_radius || 0,
         borderColor: (props) => props.button_border_color || 'transparent',
         backgroundColor: (props) => props.button_background_color || 'black',
+        color: (props) => props.button_color || 'black',
     },
     mgzMessageBox: {
         '& > .magezone-icon .wrapperIcon': {
