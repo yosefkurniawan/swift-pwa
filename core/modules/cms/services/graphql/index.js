@@ -23,4 +23,12 @@ export const getInstagramFeed = () => useMutation(Schema.getInstagramFeed, {
     },
 });
 
+export const getCmsBlocks = (variables) => useQuery(Schema.getCmsBlocks, {
+    variables,
+    context: {
+        request: isLogin ? 'internal' : '',
+    },
+    fetchPolicy: isLogin ? 'network-only' : '',
+});
+
 export default { getCmsPage };
