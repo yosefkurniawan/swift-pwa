@@ -116,6 +116,10 @@ const Summary = ({
                     variant: 'error',
                     text: msg,
                 });
+
+                setTimeout(() => {
+                    window.location.replace(generateCartRedirect(orderId));
+                }, 1000);
             }
         }).catch((e) => {
             state.loading.order = false;
@@ -127,6 +131,10 @@ const Summary = ({
                 variant: 'error',
                 text: msg,
             });
+
+            setTimeout(() => {
+                window.location.replace(generateCartRedirect(orderId));
+            }, 1000);
         });
     };
 
@@ -227,7 +235,9 @@ const Summary = ({
                         window.location.replace(generatesuccessRedirect(orderNumber));
                     }
 
-                    await removeCartId();
+                    setTimeout(() => {
+                        removeCartId();
+                    }, 1000);
                 } else {
                     state.loading.order = false;
                     setCheckout(state);
@@ -250,9 +260,6 @@ const Summary = ({
                 variant: 'error',
                 text: msg,
             });
-            setTimeout(() => {
-                window.location.replace(generateCartRedirect(orderId));
-            }, 700);
         }
     };
 

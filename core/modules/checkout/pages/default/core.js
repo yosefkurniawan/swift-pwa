@@ -36,7 +36,7 @@ function equalTo(ref, msg) {
 
 const Checkout = (props) => {
     const {
-        t, storeConfig, pageConfig, Content,
+        t, storeConfig, pageConfig, Content, cartId: propsCardId,
     } = props;
     const config = {
         successRedirect: {
@@ -51,18 +51,24 @@ const Checkout = (props) => {
         },
     };
 
-    let { cartId, isLogin } = props;
+    let { isLogin } = props;
     let urlRedirect = '/checkout/cart';
     if (modules.checkout.checkoutOnly) {
         urlRedirect = getStoreHost(getAppEnv());
     }
-    if (typeof window !== 'undefined') {
-        cartId = getCartId();
-        isLogin = Cookies.get('isLogin');
-        if (!cartId) {
-            Router.push(urlRedirect);
+
+    const [cartId, setCartId] = useState(propsCardId);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const cartid = getCartId();
+            isLogin = Cookies.get('isLogin');
+            if (!cartid) {
+                Router.push(urlRedirect);
+            }
+            setCartId(cartid);
         }
-    }
+    }, []);
 
     const { snap_is_production, snap_client_key, allow_guest_checkout } = storeConfig;
     if (storeConfig && !allow_guest_checkout && !isLogin) {
@@ -460,14 +466,16 @@ const Checkout = (props) => {
 
         const loadCart = isLogin ? manageCustomer.data && !dataCart && !itemCart : !dataCart && !itemCart;
 
-        if (loadCart) {
+        if (loadCart && cartId) {
             getCart({ variables: { cartId } });
             getItemCart({ variables: { cartId } });
         }
 
-        if (errorCart && errorItem) {
+        if (errorCart || errorItem) {
             setError(true);
-            // window.location.replace('/checkout/cart');
+            setTimeout(() => {
+                window.location.replace(config.cartRedirect.link);
+            }, [1000]);
         }
 
         if (
@@ -487,10 +495,10 @@ const Checkout = (props) => {
             getCustomerAddress();
         }
 
-        if (dataCart && dataCart.cart && itemCart && itemCart.cart) {
+        if (dataCart && dataCart.cart && itemCart && itemCart.cart && cartId) {
             initData();
         }
-    }, [manageCustomer.data, dataCart, itemCart]);
+    }, [manageCustomer.data, dataCart, itemCart, cartId, errorCart, errorItem]);
 
     // effect get customer
 
