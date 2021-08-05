@@ -12,6 +12,7 @@ import MagezonSeparator from '@core_modules/cms/components/cms-renderer/magezon/
 import MagezonEmpty from '@core_modules/cms/components/cms-renderer/magezon/MagezonEmpty';
 import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/MagezonFanspage';
 import MagezonToggle from '@core_modules/cms/components/cms-renderer/magezon/MagezonToggle';
+import MagezonCounter from '@core_modules/cms/components/cms-renderer/magezon/MagezonCounter';
 import MagezonMessageBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonMessageBox';
 import MagezonCta from '@core_modules/cms/components/cms-renderer/magezon/MagezonCta';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
@@ -132,6 +133,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonFanspage {...props} />; break;
         case 'toggle':
             childrenContent = <MagezonToggle {...props} />; break;
+        case 'number_counter':
+            childrenContent = <MagezonCounter {...props} />; break;
         case 'message_box':
             childrenContent = <MagezonMessageBox {...props} />; break;
         case 'static_block':
