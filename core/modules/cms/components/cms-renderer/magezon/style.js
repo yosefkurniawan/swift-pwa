@@ -6,20 +6,6 @@ const useStyles = makeStyles({
         width: '100%',
         borderStyle: (props) => props.border_style || 'solid',
         backgroundPosition: (props) => props.background_position,
-        justifyContent: ((props) => {
-            let align = '';
-            switch (props.content_align) {
-            case 'left':
-                align = 'flex-start'; break;
-            case 'center':
-                align = 'center'; break;
-            case 'right':
-                align = 'flex-end'; break;
-            default:
-                align = 'flex-start';
-            }
-            return align;
-        }) || 'flex-start',
         backgroundColor: (props) => props.background_color || 'transparent',
         borderColor: (props) => props.border_color || 'transparent',
         borderWidth: (props) => `${props.border_top_width || 0}px ${props.border_right_width || 0}px ${props.border_bottom_width || 0}px ${

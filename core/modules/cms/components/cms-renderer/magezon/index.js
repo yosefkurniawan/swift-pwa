@@ -182,7 +182,7 @@ const MagezonElement = (props) => {
             </style>
             <style jsx global>
                 {`
-                    .mgz-element > .mgz-column {
+                    .mgz-column > * {
                         padding: 10px;
                     }
                     .animation_duration {
