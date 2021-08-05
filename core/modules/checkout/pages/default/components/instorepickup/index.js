@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react';
 const ModalPickupLocations = (props) => {
     const {
         t, open, setOpen, locations = [], checkout, setCheckout,
+        handleOpenMessage,
     } = props;
     const [loading, setLoading] = useState(false);
     const [listLocations, setListLocations] = useState(locations);
@@ -31,42 +32,55 @@ const ModalPickupLocations = (props) => {
         setLoading(true);
         const { cart } = checkout.data;
         const newCheckout = { ...checkout };
+        try {
+            const updatedShippingAddress = await setInstoreAddress({
+                variables: {
+                    cartId: cart.id,
+                    city: selected.city,
+                    countryCode: selected.country_id,
+                    firstname: selected.name,
+                    lastname: selected.name,
+                    telephone: selected.phone,
+                    postcode: selected.postcode,
+                    street: selected.street,
+                    region: selected.region_id.toString(),
+                    latitude: selected.latitude.toString(),
+                    longitude: selected.longitude.toString(),
+                    pickup_location_code: selected.pickup_location_code,
+                },
+            });
 
-        const updatedShippingAddress = await setInstoreAddress({
-            variables: {
-                cartId: cart.id,
-                city: selected.city,
-                countryCode: selected.country_id,
-                firstname: selected.name,
-                lastname: selected.name,
-                telephone: selected.phone,
-                postcode: selected.postcode,
-                street: selected.street,
-                region: selected.region_id.toString(),
-                latitude: selected.latitude.toString(),
-                longitude: selected.longitude.toString(),
-                pickup_location_code: selected.pickup_location_code,
-            },
-        });
+            await setShipMethod({
+                variables: {
+                    cartId: cart.id,
+                    carrierCode: 'instore',
+                    methodCode: 'pickup',
+                },
+            });
 
-        await setShipMethod({
-            variables: {
-                cartId: cart.id,
-                carrierCode: 'instore',
-                methodCode: 'pickup',
-            },
-        });
+            newCheckout.selected.billing = updatedShippingAddress.data.setBillingAddressOnCart.cart;
+            /* eslint-disable */
+            newCheckout.selected.address = updatedShippingAddress.data.setShippingAddressesOnCart.cart.shipping_addresses[0];
 
-        newCheckout.selected.billing = updatedShippingAddress.data.setBillingAddressOnCart.cart;
-        /* eslint-disable */
-        newCheckout.selected.address = updatedShippingAddress.data.setShippingAddressesOnCart.cart.shipping_addresses[0];
+            await setCheckout({
+                ...newCheckout,
+                pickup_location_code: updatedShippingAddress.data.setShippingAddressesOnCart.cart.shipping_addresses[0].pickup_location_code,
+            });
 
-        await setCheckout({
-            ...newCheckout,
-            pickup_location_code: updatedShippingAddress.data.setShippingAddressesOnCart.cart.shipping_addresses[0].pickup_location_code,
-        });
-        setLoading(false);
-        setOpen(!open);
+            setLoading(false);
+            setOpen(!open);
+        } catch (error) {
+            let msg = t('checkout:message:serverError');
+            if (error.graphQLErrors && error.graphQLErrors.length > 0) {
+                msg = error.graphQLErrors[0].message;
+            }
+            setLoading(false);
+            setOpen(!open);
+            handleOpenMessage({
+                variant: 'error',
+                text: msg,
+            });
+        }
     };
 
     const handleSearch = (e) => {
@@ -146,7 +160,7 @@ const ModalPickupLocations = (props) => {
 };
 
 const InStorePickup = (props) => {
-    const { t, checkout, setCheckout } = props;
+    const { t, checkout, setCheckout, handleOpenMessage } = props;
     const [getPickupLocations, results] = pickupLocations();
     const [open, setOpen] = useState(false);
     const locations = results.data?.pickupLocations.items;
@@ -168,6 +182,7 @@ const InStorePickup = (props) => {
                 locations={locations}
                 checkout={checkout}
                 setCheckout={setCheckout}
+                handleOpenMessage={handleOpenMessage}
             />
             <Typography variant="title" type="bold" letter="uppercase">
                 {t('checkout:pickupInformation:label')}
