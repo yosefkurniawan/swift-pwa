@@ -7,15 +7,11 @@ import useStyles from '@core_modules/cms/components/cms-renderer/magezon/style';
 
 const MagezonButton = (props) => {
     const {
-        xs_hide, sm_hide, button_size, md_hide, lg_hide, title, link, icon, icon_position, onClick = () => {},
+        button_size, title, link, icon, icon_position, onClick = () => {},
     } = props;
     const classes = useStyles(props);
-    let wrapper = '';
+    const wrapper = 'mgz-button';
     let isLeftIconPosition = '';
-    if (xs_hide) wrapper += 'hidden-mobile ';
-    if (sm_hide) wrapper += 'hidden-sm ';
-    if (md_hide) wrapper += 'hidden-md ';
-    if (lg_hide) wrapper += 'hidden-lg ';
 
     if (icon_position) {
         if (icon_position === 'left') {
