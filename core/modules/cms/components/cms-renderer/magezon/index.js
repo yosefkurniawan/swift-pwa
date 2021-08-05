@@ -12,6 +12,7 @@ import MagezonSeparator from '@core_modules/cms/components/cms-renderer/magezon/
 import MagezonEmpty from '@core_modules/cms/components/cms-renderer/magezon/MagezonEmpty';
 import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/MagezonFanspage';
 import MagezonToggle from '@core_modules/cms/components/cms-renderer/magezon/MagezonToggle';
+import MagezonFlipBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonFlipBox';
 import MagezonCounter from '@core_modules/cms/components/cms-renderer/magezon/MagezonCounter/index';
 import MagezonMessageBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonMessageBox';
 import MagezonCta from '@core_modules/cms/components/cms-renderer/magezon/MagezonCta';
@@ -138,6 +139,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonCounter {...props} />; break;
         case 'message_box':
             childrenContent = <MagezonMessageBox {...props} />; break;
+        case 'flip_box':
+            childrenContent = <MagezonFlipBox {...props} />; break;
         case 'static_block':
             childrenContent = <MagezonStaticBlock {...props} />; break;
         case 'flickr':
