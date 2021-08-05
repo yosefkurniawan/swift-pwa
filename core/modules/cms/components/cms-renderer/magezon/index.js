@@ -16,6 +16,7 @@ import MagezonCounter from '@core_modules/cms/components/cms-renderer/magezon/Ma
 import MagezonMessageBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonMessageBox';
 import MagezonCta from '@core_modules/cms/components/cms-renderer/magezon/MagezonCta';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
+import MagezonSearchForm from '@core_modules/cms/components/cms-renderer/magezon/MagezonSearchForm';
 import MagezonStaticBlock from '@core_modules/cms/components/cms-renderer/magezon/MagezonStaticBlock';
 import dynamic from 'next/dynamic';
 import 'font-awesome/css/font-awesome.min.css';
@@ -145,6 +146,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonCta {...props} />; break;
         case 'countdown':
             childrenContent = <MagezonCountdown {...props} />; break;
+        case 'search_form':
+            childrenContent = <MagezonSearchForm {...props} />; break;
         default:
             childrenContent = null;
         }
