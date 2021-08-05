@@ -1,6 +1,6 @@
 import React from 'react';
 import View from '@core_modules/paypal/pages/review/components/PlaceOrder/view';
-import { originName, modules } from '@config';
+import { modules } from '@config';
 import gqlService from '@core_modules/checkout/services/graphql';
 import { setCheckoutData } from '@helper_cookies';
 import { useApolloClient } from '@apollo/client';
@@ -12,6 +12,9 @@ const PlaceOrder = (props) => {
         checkout, setCheckout, t, config,
     } = props;
     const client = useApolloClient();
+
+    // origin name config
+    const originName = modules.checkout.checkoutOnly ? 'pwa-checkout' : 'pwa';
 
     // eslint-disable-next-line no-unused-vars
     let paypalData = {};
