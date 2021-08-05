@@ -12,9 +12,12 @@ import MagezonSeparator from '@core_modules/cms/components/cms-renderer/magezon/
 import MagezonEmpty from '@core_modules/cms/components/cms-renderer/magezon/MagezonEmpty';
 import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/MagezonFanspage';
 import MagezonToggle from '@core_modules/cms/components/cms-renderer/magezon/MagezonToggle';
+import MagezonCounter from '@core_modules/cms/components/cms-renderer/magezon/MagezonCounter/index';
 import MagezonMessageBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonMessageBox';
+import MagezonCta from '@core_modules/cms/components/cms-renderer/magezon/MagezonCta';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import MagezonSearchForm from '@core_modules/cms/components/cms-renderer/magezon/MagezonSearchForm';
+import MagezonStaticBlock from '@core_modules/cms/components/cms-renderer/magezon/MagezonStaticBlock';
 import dynamic from 'next/dynamic';
 import 'font-awesome/css/font-awesome.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
@@ -24,6 +27,7 @@ const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-
 const MagezonPinterest = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonPinterest'), { ssr: false });
 const MagezonTwitter = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitter'), { ssr: false });
 const MagezonParallax = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonParallax'), { ssr: false });
+const MagezonFlickr = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonFlickr'), { ssr: false });
 const MagezonCountdown = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCountdown'), { ssr: false });
 
 const MagezonElement = (props) => {
@@ -130,8 +134,16 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonFanspage {...props} />; break;
         case 'toggle':
             childrenContent = <MagezonToggle {...props} />; break;
+        case 'number_counter':
+            childrenContent = <MagezonCounter {...props} />; break;
         case 'message_box':
             childrenContent = <MagezonMessageBox {...props} />; break;
+        case 'static_block':
+            childrenContent = <MagezonStaticBlock {...props} />; break;
+        case 'flickr':
+            childrenContent = <MagezonFlickr {...props} />; break;
+        case 'call_to_action':
+            childrenContent = <MagezonCta {...props} />; break;
         case 'countdown':
             childrenContent = <MagezonCountdown {...props} />; break;
         case 'search_form':
@@ -173,7 +185,7 @@ const MagezonElement = (props) => {
             </style>
             <style jsx global>
                 {`
-                    .mgz-element > .mgz-column {
+                    .mgz-column > * {
                         padding: 10px;
                     }
                     .animation_duration {

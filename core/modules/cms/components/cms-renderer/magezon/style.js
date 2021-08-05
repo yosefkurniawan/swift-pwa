@@ -6,20 +6,6 @@ const useStyles = makeStyles({
         width: '100%',
         borderStyle: (props) => props.border_style || 'solid',
         backgroundPosition: (props) => props.background_position,
-        justifyContent: ((props) => {
-            let align = '';
-            switch (props.content_align) {
-            case 'left':
-                align = 'flex-start'; break;
-            case 'center':
-                align = 'center'; break;
-            case 'right':
-                align = 'flex-end'; break;
-            default:
-                align = 'flex-start';
-            }
-            return align;
-        }) || 'flex-start',
         backgroundColor: (props) => props.background_color || 'transparent',
         borderColor: (props) => props.border_color || 'transparent',
         borderWidth: (props) => `${props.border_top_width || 0}px ${props.border_right_width || 0}px ${props.border_bottom_width || 0}px ${
@@ -38,6 +24,7 @@ const useStyles = makeStyles({
         borderRadius: (props) => props.button_border_radius || 0,
         borderColor: (props) => props.button_border_color || 'transparent',
         backgroundColor: (props) => props.button_background_color || 'black',
+        color: (props) => props.button_color || 'black',
     },
     mgzMessageBox: {
         '& > .magezone-icon .wrapperIcon': {
