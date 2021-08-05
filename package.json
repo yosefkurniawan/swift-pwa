@@ -1,6 +1,6 @@
 {
   "name": "swift-pwa",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "private": true,
   "scripts": {
     "assets:build": "webpack",
@@ -73,6 +73,8 @@
     "open-iconic": "^1.1.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
+    "react-countdown": "^2.3.2",
+    "react-countdown-circle-timer": "^2.5.3",
     "react-dom": "^17.0.1",
     "react-dropzone": "^11.2.3",
     "react-facebook": "^8.1.4",

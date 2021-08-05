@@ -37,7 +37,7 @@ const MagezonButton = (props) => {
                     </Button>
                 </MagezonLink>
             ) : (
-                <Button className={classes.button} type="button" align="left" onClick={onClick}>
+                <Button className={classes.button} type="button" align={`${button_align || 'left'}`} onClick={onClick}>
                     {icon ? <MagezonIcon icon={icon} icon_size={button_size} /> : null}
                     {title || ''}
                 </Button>
