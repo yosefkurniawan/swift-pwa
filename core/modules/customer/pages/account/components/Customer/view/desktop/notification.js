@@ -29,37 +29,41 @@ const NotificationView = (props) => {
             <hr />
             <div className="row notification">
                 <div className="col-sm-12 col-lg-12">
-                    <TableContainer component={Paper}>
-                        <Table aria-label="simple table">
-                            <TableBody>
-                                {notification.items ? (
-                                    notification.items.map((val, idx) => {
-                                        if (val.unread) {
-                                            return (
-                                                <TableRow
-                                                    className="notification-list"
-                                                    key={idx}
-                                                    onClick={() => handleItemClick(val)}
-                                                >
-                                                    <TableCell>{val.subject}</TableCell>
-                                                    <TableCell align="right">{formatDate(val.createdAt)}</TableCell>
-                                                </TableRow>
-                                            );
-                                        }
-                                        return null;
-                                    })
+                    {
+                        notification && notification.items && notification.totalUnread && notification.totalUnread && (
+                            <TableContainer component={Paper}>
+                                <Table aria-label="simple table">
+                                    <TableBody>
+                                        {notification.items ? (
+                                            notification.items.map((val, idx) => {
+                                                if (val.unread) {
+                                                    return (
+                                                        <TableRow
+                                                            className="notification-list"
+                                                            key={idx}
+                                                            onClick={() => handleItemClick(val)}
+                                                        >
+                                                            <TableCell>{val.subject}</TableCell>
+                                                            <TableCell align="right">{formatDate(val.createdAt)}</TableCell>
+                                                        </TableRow>
+                                                    );
+                                                }
+                                                return null;
+                                            })
 
-                                ) : null }
-                                {!notification.totalUnread || notification.totalUnread === 0
-                                    ? (
-                                        <TableRow>
-                                            <TableCell align="center" colSpan="2">{t('customer:notHaveNotification')}</TableCell>
-                                        </TableRow>
-                                    )
-                                    : null}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                        ) : null }
+                                        {!notification.totalUnread || notification.totalUnread === 0
+                                            ? (
+                                                <TableRow>
+                                                    <TableCell align="center" colSpan="2">{t('customer:notHaveNotification')}</TableCell>
+                                                </TableRow>
+                                            )
+                                            : null}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        )
+                    }
 
                 </div>
             </div>
