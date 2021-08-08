@@ -36,7 +36,7 @@ const executor = async ({
             },
             body: JSON.stringify({ query, variables }),
         });
-        if (fetchResult) {
+        if (fetchResult && fetchResult.json) {
             const response = await fetchResult.json();
             if (response.errors) {
                 const err = response.errors[0];

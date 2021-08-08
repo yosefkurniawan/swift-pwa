@@ -74,8 +74,7 @@ const ViewMobile = (props) => {
             action: linkAction,
         });
     }, [router.asPath]);
-    if (loading) return null;
-    if (data && data.cmsBlocks.items[0].content && data.cmsBlocks.items[0] && data.cmsBlocks) {
+    if (!loading && data && data.cmsBlocks && data.cmsBlocks.items[0].content && data.cmsBlocks.items[0]) {
         const { content } = data.cmsBlocks.items[0];
         return (
             <div className={classNames(styles.root, 'hidden-desktop')}>
@@ -109,7 +108,7 @@ const ViewMobile = (props) => {
                             </ul>
                         </div>
                     </div>
-                    {wishlist.length > 0 ? (
+                    {wishlist && wishlist.length > 0 ? (
                         <div className={[styles.account_block, styles.wishlistBlock].join(' ')}>
                             <div className={styles.account_clearfix}>
                                 <div className={styles.spanWishlist}>
@@ -138,7 +137,7 @@ const ViewMobile = (props) => {
                     <div className={styles.account_block}>
                         <div className="hidden-desktop">
                             <div className={styles.root}>
-                                <div dangerouslySetInnerHTML={{ __html: content }} />
+                                { content && <div dangerouslySetInnerHTML={{ __html: content }} /> }
                             </div>
                         </div>
                     </div>

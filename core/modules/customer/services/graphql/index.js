@@ -66,7 +66,8 @@ export const getCmsBlocks = (variables) => useQuery(Schema.getCmsBlocks, {
     context: {
         request: isLogin ? 'internal' : '',
     },
-    fetchPolicy: isLogin ? 'network-only' : '',
+    fetchPolicy: isLogin ? 'network-only' : 'cache-first',
+    skip: typeof window === 'undefined',
 });
 
 export const getGiftCard = () => useQuery(Schema.getGiftCard, {
