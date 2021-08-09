@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const useStyles = makeStyles({
@@ -19,27 +21,29 @@ const useStyles = makeStyles({
     button: (props) => ({
         transition: 'all 0.2s ease-in-out',
         backgroundPosition: props.background_position,
-        color: props.button_color || 'black',
-        boxShadow: `5px 10px ${props.box_shadow_color}`,
+        color: props.button_color || '#000000',
+        boxShadow: props.button_style === '3d' ? `0 5px 0 ${props.box_shadow_color}` : 'none',
         borderStyle: props.button_border_style,
-        borderWidth: `${props.button_border_width}px` || 0,
-        borderRadius: `${props.button_border_radius}px` || 0,
+        borderWidth: props.button_border_width ? `${props.button_border_width}px` : 0,
+        borderRadius: props.button_border_radius ? `${props.button_border_radius}px` : '5px',
         borderColor: props.button_border_color || 'transparent',
-        backgroundColor: props.button_background_color || 'black',
+        backgroundColor: props.button_background_color || '#e3e3e3',
         ...(props.full_width && { width: '100%' }),
-        ...((props.gradient_color_1 || props.gradient_color_2) && {
+        ...(props.button_style === 'gradient' && (props.gradient_color_1 || props.gradient_color_2) && {
             backgroundImage: `
                 linear-gradient(to right, ${props.gradient_color_1} 0, ${props.gradient_color_2} 50%, ${props.gradient_color_1} 100%)
             `,
             backgroundSize: '200% 100%',
         }),
         '&:hover': {
-            ...((props.button_hover_color || props.button_hover_border_color || props.button_hover_background_color) && {
-                color: props.button_hover_color,
-                borderColor: props.button_hover_border_color,
-                backgroundColor: props.button_hover_background_color,
-            }),
-            ...((props.gradient_color_1 || props.gradient_color_2) && {
+            color: props.button_hover_color || '#5e5e5e',
+            backgroundColor: props.button_hover_background_color
+                ? props.button_hover_background_color
+                : props.button_background_color
+                    ? props.button_background_color
+                    : '#e3e3e3',
+            borderColor: props.button_hover_border_color || 'transparent',
+            ...(props.button_style === 'gradient' && (props.gradient_color_1 || props.gradient_color_2) && {
                 backgroundPosition: '100% 0',
             }),
         },
