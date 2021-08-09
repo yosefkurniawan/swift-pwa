@@ -20,7 +20,7 @@ const MagezonRenderer = (props) => {
     const { content, storeConfig } = props;
     const mixedContents = content.replace('[/mgz_pagebuilder]', '[mgz_pagebuilder]').split('[mgz_pagebuilder]');
     const removeIdentifier = JSON.parse(mixedContents[1]);
-
+    console.log(removeIdentifier);
     return (
         <>
             {

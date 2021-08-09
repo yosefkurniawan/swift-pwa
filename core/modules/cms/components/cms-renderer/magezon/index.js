@@ -24,6 +24,7 @@ const MagezonPinterest = dynamic(() => import('@core_modules/cms/components/cms-
 const MagezonTwitter = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitter'), { ssr: false });
 const MagezonParallax = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonParallax'), { ssr: false });
 const MagezonCountdown = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCountdown'), { ssr: false });
+const MagezonCaraousel = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel'), { ssr: false });
 
 const MagezonElement = (props) => {
     const {
@@ -133,6 +134,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonMessageBox {...props} />; break;
         case 'countdown':
             childrenContent = <MagezonCountdown {...props} />; break;
+        case 'image_carousel':
+            childrenContent = <MagezonCaraousel {...props} />; break;
         default:
             childrenContent = null;
         }
