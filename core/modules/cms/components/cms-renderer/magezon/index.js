@@ -21,7 +21,7 @@ import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomC
 import MagezonSearchForm from '@core_modules/cms/components/cms-renderer/magezon/MagezonSearchForm';
 import MagezonStaticBlock from '@core_modules/cms/components/cms-renderer/magezon/MagezonStaticBlock';
 import dynamic from 'next/dynamic';
-import 'font-awesome/css/font-awesome.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
 import 'animate.css';
 
