@@ -393,7 +393,7 @@ const modules = {
                 'bniva',
                 'mandiriva',
                 'permatava',
-                'indomart',
+                'indomaret',
             ],
             paymentPrefixCode: [
                 'cc',
