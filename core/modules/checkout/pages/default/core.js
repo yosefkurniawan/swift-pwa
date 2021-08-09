@@ -700,7 +700,6 @@ const Checkout = (props) => {
             setCheckout(state);
             Router.push(`/${modules.checkout.paypal.returnUrl}`);
         }).catch((e) => {
-            console.log(e);
             onErrorPaypal(e);
         });
     };

@@ -93,6 +93,9 @@ const Summary = ({
                 setXenditState({
                     order_id,
                     payment_code: checkout.data.cart.selected_payment_method.code,
+                    mode: res.data.xenditCreateInvoice.mode,
+                    xendit_qrcode_external_id: res.data.xenditCreateInvoice.xendit_qrcode_external_id,
+                    amount: checkout.data.cart.prices.grand_total.value,
                 });
                 if (modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(checkout.data.cart.selected_payment_method.code)) {
                     handleOpenMessage({

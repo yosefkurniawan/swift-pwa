@@ -5,6 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/CancelRounded';
+import Button from '@common_button';
+import Typography from '@common_typography';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
@@ -31,9 +33,11 @@ const Dialog = withStyles(() => ({
 
 const ModalXenditView = (props) => {
     const {
-        open, setOpen, iframeUrl, handleCloseXendit,
+        open, setOpen, iframeUrl, handleCloseXendit, t,
+        payment_code, mode,
+        handleSimulateQr,
     } = props;
-    // const handleExit = () => {};
+
     return (
         <Dialog
             TransitionComponent={Transition}
@@ -60,12 +64,36 @@ const ModalXenditView = (props) => {
                 <CloseIcon fontSize="large" />
             </IconButton>
             <DialogContent classes={{ root: 'modal-xendit-box' }}>
-                <iframe
-                    id="iframe-invoice"
-                    className="iframe-invoice"
-                    title="Invoice"
-                    src={iframeUrl}
-                />
+                {
+                    mode && mode === 'test' && (
+                        <div className="form qr-simulate">
+                            <Button type="button" className="btn-qr-code" onClick={() => handleSimulateQr()}>
+                                <Typography variant="span" letter="uppercase" type="bold" color="white">
+                                    {t('common:button:simulateQrCode')}
+                                </Typography>
+
+                            </Button>
+                        </div>
+                    )
+                }
+                {
+                    payment_code === 'qr_codes'
+                        ? (
+                            <img
+                                id="iframe-invoice"
+                                className="img-qr-code"
+                                alt="Invoice"
+                                src={iframeUrl}
+                            />
+                        ) : (
+                            <iframe
+                                id="iframe-invoice"
+                                className="iframe-invoice"
+                                title="Invoice"
+                                src={iframeUrl}
+                            />
+                        )
+                }
             </DialogContent>
             <style jsx global>
                 {`
@@ -96,6 +124,22 @@ const ModalXenditView = (props) => {
                         width: inherit;
                         border: 0;
                         overflow-y: scroll;
+                    }
+
+                    .img-qr-code { 
+                        height: 80%;
+                        width: inherit;
+                        margin-bottom: 10%;
+                    }
+
+                    .qr-simulate {
+                        padding: 15px;
+                        margin-top: 5%;
+                    }
+
+                    .btn-qr-code {
+                        height: 45px;
+                        padding: 5px;
                     }
 
                     @media screen and (max-width: 768px) {

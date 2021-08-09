@@ -1260,6 +1260,20 @@ export const xenditCreateInvoice = gql`
             order_id: $order_id
         }){
             invoice_url
+            mode
+            xendit_qrcode_external_id
         }
     }
+`;
+
+export const xenditSimulateQr = gql`
+mutation xenditSimulateQr($external_id: String!, $amount: Int!){
+    xenditSimulateQr(input:{
+        external_id: $external_id
+        amount: $amount
+    }){
+        status
+        message
+    }
+}
 `;

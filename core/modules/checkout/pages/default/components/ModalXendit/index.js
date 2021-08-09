@@ -4,9 +4,17 @@ import { modules } from '@config';
 import { getStoreHost } from '@helper_config';
 import { getAppEnv } from '@root/core/helpers/env';
 import { removeCheckoutData } from '@helper_cookies';
+import { xenditSimulateQr } from '@core_modules/checkout/services/graphql';
+import { useTranslation } from '@i18n';
+import { getSuccessCallbackUrl } from '@core_modules/checkout/helpers/config';
 
 const ModalXendit = (props) => {
-    const { payment_code, order_id, fromOrder } = props;
+    const {
+        payment_code, order_id, fromOrder, amount, xendit_qrcode_external_id,
+    } = props;
+    const [requestSimulateQr] = xenditSimulateQr();
+    const { t } = useTranslation(['common']);
+
     const handleCloseXendit = () => {
         if (modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(payment_code)) {
             if (fromOrder) {
@@ -19,9 +27,55 @@ const ModalXendit = (props) => {
             window.location.replace(`${getStoreHost(getAppEnv())}xendit/checkout/failure?order_id=${order_id}`);
         }
     };
+
+    const generatesuccessRedirect = () => {
+        const link = getSuccessCallbackUrl();
+        if (link) {
+            window.location.replace(`${link}${order_id ? `?orderId=${order_id}` : ''}`);
+        }
+        window.location.replace('/checkout/onepage/success');
+    };
+
+    const handleSimulateQr = () => {
+        requestSimulateQr({
+            variables: {
+                external_id: xendit_qrcode_external_id,
+                amount: parseInt(amount, 0),
+            },
+        }).then((res) => {
+            if (res && res.data && res.data.xenditSimulateQr && res.data.xenditSimulateQr.status) {
+                if (res.data.xenditSimulateQr.message) {
+                    window.toastMessage({
+                        open: true,
+                        variant: 'success',
+                        text: res.data.xenditSimulateQr.message,
+                    });
+                    setTimeout(() => {
+                        generatesuccessRedirect();
+                    }, 1000);
+                } else {
+                    generatesuccessRedirect();
+                }
+            } else {
+                handleCloseXendit();
+            }
+        }).catch(() => {
+            window.toastMessage({
+                open: true,
+                variant: 'error',
+                text: t('common:error:fetchError'),
+            });
+            setTimeout(() => {
+                handleCloseXendit();
+            }, 1000);
+        });
+    };
+
     return (
         <View
             handleCloseXendit={handleCloseXendit}
+            handleSimulateQr={handleSimulateQr}
+            t={t}
             {...props}
         />
     );

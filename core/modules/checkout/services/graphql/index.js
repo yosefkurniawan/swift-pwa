@@ -28,6 +28,11 @@ export const xenditCreateInvoice = (options = {}) => useMutation(Schema.xenditCr
     ...config(USING_INTERNAL),
 });
 
+export const xenditSimulateQr = (options = {}) => useMutation(Schema.xenditSimulateQr, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export const getCustomer = (options = {}) => useLazyQuery(Schema.getCustomer, {
     ...options,
     ...config(USING_INTERNAL),
@@ -288,4 +293,5 @@ export default {
     pickupLocations,
     setInstoreShippingAddress,
     xenditCreateInvoice,
+    xenditSimulateQr,
 };
