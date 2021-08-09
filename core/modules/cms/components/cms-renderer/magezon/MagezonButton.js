@@ -8,6 +8,7 @@ import useStyles from '@core_modules/cms/components/cms-renderer/magezon/style';
 const MagezonButton = (props) => {
     const {
         xs_hide, sm_hide, button_size, md_hide, lg_hide, title, link, icon, icon_position, onClick = () => {},
+        button_align,
     } = props;
     const classes = useStyles(props);
     let wrapper = '';
@@ -29,14 +30,14 @@ const MagezonButton = (props) => {
         <div className={wrapper}>
             {link && link !== '' ? (
                 <MagezonLink link={link}>
-                    <Button className={classes.button} type="button" align="left" onClick={onClick}>
+                    <Button className={classes.button} type="button" align={`${button_align || 'left'}`} onClick={onClick}>
                         {icon && isLeftIconPosition ? <MagezonIcon icon={icon} icon_size={button_size} /> : null}
                         {title || ''}
                         {icon && !isLeftIconPosition ? <MagezonIcon icon={icon} icon_size={button_size} /> : null}
                     </Button>
                 </MagezonLink>
             ) : (
-                <Button className={classes.button} type="button" align="left" onClick={onClick}>
+                <Button className={classes.button} type="button" align={`${button_align || 'left'}`} onClick={onClick}>
                     {icon ? <MagezonIcon icon={icon} icon_size={button_size} /> : null}
                     {title || ''}
                 </Button>

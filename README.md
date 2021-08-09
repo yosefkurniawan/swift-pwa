@@ -16,6 +16,9 @@ Launching Checklist:
 - [Full PWA mode Checklist](https://teamwork.icubeonline.com/#/projects/120618/notebooks/354196) 
 - [Checkout Only / PWA Checkout mode Checklist](https://teamwork.icubeonline.com/#/projects/120618/notebooks/362538) 
 
+## Requirements
+- NodeJS v14
+
 ## Pre-Installation
 ### Setup Host and Graphql Endpoint
 1. Open file [swift.config.js](swift.config.js)
