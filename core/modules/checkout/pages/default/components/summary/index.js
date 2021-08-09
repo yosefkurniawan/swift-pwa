@@ -100,6 +100,8 @@ const Summary = ({
                         text: t('checkout:message:placeOrder'),
                     });
                     window.location.replace(generatesuccessRedirect(order_id));
+                } else if (checkout.data.cart.selected_payment_method.code === 'cc_subscription') {
+                    window.location.replace(res.data.xenditCreateInvoice.invoice_url);
                 } else {
                     setOpenXendit(true);
                 }
