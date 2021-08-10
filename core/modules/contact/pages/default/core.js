@@ -10,7 +10,7 @@ import gqlService from '@core_modules/contact/services/graphql';
 
 const Contact = (props) => {
     const {
-        Content, t, pageConfig, ErrorInfo, Skeleton,
+        Content, t, pageConfig, ErrorInfo, Skeleton, isCms = false,
     } = props;
 
     const appEnv = getAppEnv();
@@ -129,6 +129,26 @@ const Contact = (props) => {
         return <ErrorInfo variant="error" text={debuging.originalError ? error.message.split(':')[1] : props.t('common:error:fetchError')} />;
     }
 
+    if (isCms) {
+        return (
+            <Content
+                t={t}
+                Content={Content}
+                handleChangeCaptcha={handleChangeCaptcha}
+                formik={formik}
+                error={error}
+                message={message}
+                setMessage={setMessage}
+                sitekey={sitekey}
+                loading={loading}
+                data={data}
+                recaptchaRef={recaptchaRef}
+                Skeleton={Skeleton}
+                load={load}
+                enableRecaptcha={enableRecaptcha}
+            />
+        );
+    }
     return (
         <Layout pageConfig={pageConfig || Config} {...props}>
             <Content

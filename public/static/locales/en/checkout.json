@@ -3,7 +3,8 @@
     "shippingAddress" : "Shipping address",
     "billingAddress": "Billing address",
     "address": {
-        "addTitle": "New address"
+        "addTitle": "New address",
+        "invalidAddress": "Your address city is invalid, please change or create new address"
     },
     "deliveryMethod" : {
         "label": "Delivery method",

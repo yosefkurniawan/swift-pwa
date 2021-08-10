@@ -81,11 +81,6 @@ const PaypalButton = (props) => {
                             'data-order-id': token,
                         });
                     }
-                }).catch(() => {
-                    handleOpenMessage({
-                        variant: 'error',
-                        text: t('common:error:fetchError'),
-                    });
                 });
             } else {
                 setTokenData(initialTokenData);
