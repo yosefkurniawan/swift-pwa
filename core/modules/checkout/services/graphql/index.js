@@ -22,6 +22,17 @@ const config = (isUsingInternal) => {
     };
 };
 
+// xendit
+export const xenditCreateInvoice = (options = {}) => useMutation(Schema.xenditCreateInvoice, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
+export const xenditSimulateQr = (options = {}) => useMutation(Schema.xenditSimulateQr, {
+    ...options,
+    ...config(USING_INTERNAL),
+});
+
 export const getCustomer = (options = {}) => useLazyQuery(Schema.getCustomer, {
     ...options,
     ...config(USING_INTERNAL),
@@ -281,4 +292,6 @@ export default {
     createPaypalExpressToken,
     pickupLocations,
     setInstoreShippingAddress,
+    xenditCreateInvoice,
+    xenditSimulateQr,
 };
