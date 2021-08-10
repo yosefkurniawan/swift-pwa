@@ -37,7 +37,8 @@
         "goCheckout": "Go to checkout",
         "viewandedit": "View and Edit",
         "addToCart": "Add To Cart",
-        "allowCookies": "Allow Cookies"
+        "allowCookies": "Allow Cookies",
+        "simulateQrCode": "Simulate Qrcode Payment"
     },
     "cart": {
         "myCart": "My Cart",

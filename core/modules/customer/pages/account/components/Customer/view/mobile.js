@@ -172,7 +172,6 @@ const ViewMobile = (props) => {
             </div>
         );
     }
-
     return null;
 };
 

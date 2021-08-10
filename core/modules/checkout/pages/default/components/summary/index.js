@@ -12,6 +12,8 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import gqlService from '@core_modules/checkout/services/graphql';
 import { getIpayUrl } from '@core_modules/checkout/helpers/config';
 
+import ModalXendit from '@core_modules/checkout/pages/default/components/ModalXendit/index';
+
 const Summary = ({
     t, checkout, setCheckout, handleOpenMessage, formik, updateFormik, config, refSummary, storeConfig,
 }) => {
@@ -37,6 +39,8 @@ const Summary = ({
     const [getCustCartId, manageCustCartId] = gqlService.getCustomerCartId();
     // indodana
     const [getIndodanaRedirect, urlIndodana] = gqlService.getIndodanaUrl();
+    // xendit
+    const [getXenditUrl] = gqlService.xenditCreateInvoice();
 
     // mutation update delete
     const [actDeleteItem] = gqlService.deleteItemCart();
@@ -74,6 +78,73 @@ const Summary = ({
             return config.cartRedirect.link;
         }
         return '/checkout/cart';
+    };
+
+    // place order xendit
+    const [openXendit, setOpenXendit] = useState(false);
+    const [xenditIframeUrl, setXenditIframeUrl] = useState('');
+    const [xenditState, setXenditState] = useState({});
+
+    const handleXendit = (order_id) => {
+        const state = { ...checkout };
+        state.loading.order = true;
+        setCheckout(state);
+        getXenditUrl({
+            variables: { order_id },
+        }).then((res) => {
+            if (res && res.data && res.data.xenditCreateInvoice && res.data.xenditCreateInvoice.invoice_url) {
+                setXenditIframeUrl(res.data.xenditCreateInvoice.invoice_url);
+                setXenditState({
+                    order_id,
+                    payment_code: checkout.data.cart.selected_payment_method.code,
+                    mode: res.data.xenditCreateInvoice.mode,
+                    xendit_qrcode_external_id: res.data.xenditCreateInvoice.xendit_qrcode_external_id,
+                    amount: checkout.data.cart.prices.grand_total.value,
+                });
+                if (modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(checkout.data.cart.selected_payment_method.code)) {
+                    handleOpenMessage({
+                        variant: 'success',
+                        text: t('checkout:message:placeOrder'),
+                    });
+                    window.location.replace(generatesuccessRedirect(order_id));
+                } else if (checkout.data.cart.selected_payment_method.code === 'cc_subscription') {
+                    window.location.replace(res.data.xenditCreateInvoice.invoice_url);
+                } else {
+                    setOpenXendit(true);
+                }
+
+                state.loading.order = false;
+                setCheckout(state);
+            } else {
+                state.loading.order = false;
+                setCheckout(state);
+
+                const msg = t('checkout:message:serverError');
+
+                handleOpenMessage({
+                    variant: 'error',
+                    text: msg,
+                });
+
+                setTimeout(() => {
+                    window.location.replace(generateCartRedirect(orderId));
+                }, 1000);
+            }
+        }).catch((e) => {
+            state.loading.order = false;
+            setCheckout(state);
+
+            const msg = e.graphQLErrors.length > 0 ? e.graphQLErrors[0] : t('checkout:message:serverError');
+
+            handleOpenMessage({
+                variant: 'error',
+                text: msg,
+            });
+
+            setTimeout(() => {
+                window.location.replace(generateCartRedirect(orderId));
+            }, 1000);
+        });
     };
 
     const handlePlaceOrder = async () => {
@@ -151,7 +222,6 @@ const Summary = ({
                     if (client && client.query && typeof client.query === 'function') {
                         await client.query({ query: localTotalCart, data: { totalCart: 0 } });
                     }
-                    await removeCartId();
 
                     if (checkout.data.cart.selected_payment_method.code.match(/snap.*/)) {
                         setOrderId(orderNumber);
@@ -163,6 +233,9 @@ const Summary = ({
                         window.location.href = getIpayUrl(orderNumber);
                     } else if (checkout.data.cart.selected_payment_method.code.match(/indodana/)) {
                         await getIndodanaRedirect({ variables: { order_number: orderNumber } });
+                    } else if (modules.checkout.xendit.paymentPrefixCode.includes(checkout.data.cart.selected_payment_method.code)
+                    || modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(checkout.data.cart.selected_payment_method.code)) {
+                        handleXendit(orderNumber);
                     } else {
                         handleOpenMessage({
                             variant: 'success',
@@ -170,6 +243,10 @@ const Summary = ({
                         });
                         window.location.replace(generatesuccessRedirect(orderNumber));
                     }
+
+                    setTimeout(() => {
+                        removeCartId();
+                    }, 1000);
                 } else {
                     state.loading.order = false;
                     setCheckout(state);
@@ -391,6 +468,12 @@ const Summary = ({
     if (checkout && checkout.data && checkout.data.cart && checkout.loading) {
         return (
             <>
+                <ModalXendit
+                    open={openXendit}
+                    setOpen={() => setOpenXendit(!openXendit)}
+                    iframeUrl={xenditIframeUrl}
+                    {...xenditState}
+                />
                 <div className="hidden-desktop">
                     <SummaryPlugin
                         t={t}

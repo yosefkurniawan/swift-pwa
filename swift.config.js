@@ -384,6 +384,27 @@ const modules = {
             debug: true,
             disableFunding: 'venmo%2Cbancontact%2Ceps%2Cgiropay%2Cideal%2Cmybank%2Cp24%2Csofort',
         },
+        xendit: {
+            paymentPrefixCodeOnSuccess: [
+                'alfamart',
+                'bcava',
+                'briva',
+                'bniva',
+                'mandiriva',
+                'permatava',
+                'indomaret',
+            ],
+            paymentPrefixCode: [
+                'cc',
+                'cc_subscription',
+                'dana',
+                'ovo',
+                'linkaja',
+                'qr_codes',
+                'dd_bri',
+                'kredivo',
+            ],
+        },
     },
     cart: {
         enabled: true,
