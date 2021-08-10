@@ -192,6 +192,24 @@ mutation reOrder($order_id: String!) {
 }
 `;
 
+export const getPaymentInformation = gql`
+    query getPaymentInformation($order_id: String!) {
+        OrderPaymentInformation(input: {order_id : $order_id}){
+            method_title
+            method_code
+            virtual_account
+            due_date
+            instructions
+            is_virtual_account
+            invoice_url
+            payment_code
+            xendit_retail_outlet
+            xendit_qrcode_external_id
+            xendit_mode
+        }
+    }
+`;
+
 export default {
     getOrder,
 };
