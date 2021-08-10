@@ -26,7 +26,7 @@ const ImageWithAction = ({
     return (
         <Link onClick={handleClick}>
             <Thumbor
-            // eslint-disable-next-line no-nested-ternary
+                // eslint-disable-next-line no-nested-ternary
                 src={url || '/assets/img/placeholder.png'}
                 className={classImage}
                 quality={80}
@@ -47,8 +47,10 @@ const MagezonSingleImage = (props) => {
         onclick, custom_link, title, description, image_style,
         image_border_style, image_border_width, image_border_radius, image_border_color,
         title_font_size, image_hover_effect, display_on_hover, content_position,
-        content_align, popup_image, hover_image, content_background, content_color,
+        content_align, content_fullwidth, content_hover_background, content_hover_color, content_padding,
+        popup_image, hover_image, hover_overlay_color, content_background, content_color,
         title_font_weight, description_font_weight, description_font_size, video_map,
+        overlay_color,
     } = props;
     let classes = 'magezon-image';
     let classImage = 'mgz-single-image';
@@ -162,7 +164,7 @@ const MagezonSingleImage = (props) => {
                     />
                 )
             }
-            { (onclick && onclick === 'custom_link')
+            {(onclick && onclick === 'custom_link')
                 ? (
                     <MagezonLink link={custom_link}>
                         <Thumbor
@@ -198,7 +200,7 @@ const MagezonSingleImage = (props) => {
                                     />
                                 </SRLWrapper>
                             </div>
-                            { !openPopup && (
+                            {!openPopup && (
                                 <ImageWithAction
                                     url={isHover ? hoverImage : url}
                                     image_width={image_width}
@@ -236,12 +238,16 @@ const MagezonSingleImage = (props) => {
                 <div className="mgz-img-content-title">{title || ''}</div>
                 <div className="mgz-img-content-desc">{description || ''}</div>
             </div>
+            {overlay_color
+                && <div className="mgz-img-over mgz-img-overlay" />}
             <style jsx>
                 {`
                     .mgz-img-content {
                         text-align: ${content_align};
                         background-color: ${content_background};
                         color: ${content_color};
+                        width: ${content_fullwidth || content_position === 'below' ? '100%' : 'fit-content'};
+                        padding: ${content_padding || '10px 20px'};
                     }
                     .mgz-img-content-title {
                         font-size: ${title_font_size};
@@ -255,10 +261,30 @@ const MagezonSingleImage = (props) => {
                         border: ${image_border_width} ${image_border_style} ${image_border_color};
                         border-radius: ${image_border_radius || '0px'};
                     }
-                    .mgz-single-image {
+                    .magezon-image :global(.mgz-single-image) {
                         border-radius: ${image_border_radius || '0px'};
                     }
-
+                    .magezon-image :global(.mgz-box-shadow), .magezon-image :global(.mgz-box-shadow2) {
+                        border-radius: ${image_border_radius || '0px'};
+                    }
+                    .mgz-img-overlay {
+                        background-color: ${overlay_color};
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        top: 0;
+                        pointer-events: none;
+                    }
+                    .magezon-image:hover .mgz-img-overlay {
+                        background-color: ${hover_overlay_color};
+                    }
+                    .magezon-image:hover .mgz-img-content {
+                        color: ${content_hover_color};
+                        background-color: ${content_hover_background};
+                    }
                 `}
             </style>
             <style jsx global>
