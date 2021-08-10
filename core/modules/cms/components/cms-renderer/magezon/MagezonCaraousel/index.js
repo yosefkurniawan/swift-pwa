@@ -269,7 +269,7 @@ const MagezonText = (props) => {
                             // eslint-disable-next-line no-nested-ternary
                             onClick={onclick === 'magnific'
                                 ? item.video_map ? () => {
-                                    setVideoMap(item);
+                                    setVideoMap(item.video_map);
                                     setTimeout(() => {
                                         setOpenPopupMap(!openPopup);
                                     }, 100);
