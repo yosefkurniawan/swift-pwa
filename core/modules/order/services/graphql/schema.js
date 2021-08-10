@@ -204,6 +204,8 @@ export const getPaymentInformation = gql`
             invoice_url
             payment_code
             xendit_retail_outlet
+            xendit_qrcode_external_id
+            xendit_mode
         }
     }
 `;

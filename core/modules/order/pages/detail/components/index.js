@@ -63,6 +63,9 @@ const DetailOrder = (props) => {
                             order_id={detail[0].order_number}
                             payment_code={paymentInfo.method_code}
                             fromOrder
+                            amount={detail[0].detail[0].grand_total}
+                            mode={paymentInfo.xendit_mode}
+                            xendit_qrcode_external_id={paymentInfo.xendit_qrcode_external_id}
                         />
                     )
                 }
@@ -215,8 +218,12 @@ const DetailOrder = (props) => {
                                 })}
                                 {
                                     (detail[0].status === 'pending' || detail[0].status === 'pending_payment')
-                                    && paymentInfo && paymentPrefixCodeOnSuccess.includes(paymentInfo.method_code)
-                                    && dayjs().isBefore(dayjs(paymentInfo.due_date))
+                                    && paymentInfo && (paymentPrefixCodeOnSuccess.includes(paymentInfo.method_code)
+                                    || paymentInfo.method_code === 'qr_codes')
+                                    && (paymentInfo.due_date !== null
+                                        ? dayjs().isBefore(dayjs(paymentInfo.due_date))
+                                        : true
+                                    )
                                     && (
                                         <>
 

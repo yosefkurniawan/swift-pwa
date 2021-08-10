@@ -12,6 +12,7 @@ import classNames from 'classnames';
 import useStyles from '@core_modules/thanks/pages/default/components/style';
 import ModalXendit from '@core_modules/checkout/pages/default/components/ModalXendit';
 import { modules } from '@config';
+import dayjs from 'dayjs';
 
 const View = (props) => {
     const {
@@ -46,6 +47,9 @@ const View = (props) => {
                         iframeUrl={paymentInformation.OrderPaymentInformation.invoice_url}
                         order_id={checkoutData?.order_number}
                         payment_code={paymentInformation.OrderPaymentInformation.method_code}
+                        amount={ordersFilter.data[0].detail[0].grand_total}
+                        mode={paymentInformation.OrderPaymentInformation.xendit_mode}
+                        xendit_qrcode_external_id={paymentInformation.OrderPaymentInformation.xendit_qrcode_external_id}
                     />
                 )
             }
@@ -97,7 +101,12 @@ const View = (props) => {
             ) : null}
             { ordersFilter && ordersFilter.data[0] && (ordersFilter.data[0].status === 'pending' || ordersFilter.data[0].status === 'pending_payment')
                 && paymentInformation.OrderPaymentInformation.invoice_url
-                && modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(paymentInformation.OrderPaymentInformation.method_code) && (
+                && (paymentInformation.OrderPaymentInformation.due_date !== null
+                    ? dayjs().isBefore(dayjs(paymentInformation.OrderPaymentInformation.due_date))
+                    : true
+                )
+                && (modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(paymentInformation.OrderPaymentInformation.method_code)
+                || paymentInformation.OrderPaymentInformation.method_code === 'qr_codes') && (
                 <div className={styles.info}>
                     <Typography variant="span" className={styles.dateOver} letter="none">
                         {t('thanks:onboarding')}
@@ -139,6 +148,7 @@ const View = (props) => {
                     }
                     {
                         paymentInformation.OrderPaymentInformation.instructions
+                            // eslint-disable-next-line react/no-danger
                             && (<div dangerouslySetInnerHTML={{ __html: paymentInformation.OrderPaymentInformation.instructions }} />)
                     }
                     <Button

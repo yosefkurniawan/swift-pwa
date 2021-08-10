@@ -15,6 +15,17 @@ const ModalXendit = (props) => {
     const [requestSimulateQr] = xenditSimulateQr();
     const { t } = useTranslation(['common']);
 
+    const [loadSimulate, setLoadSimulate] = React.useState(false);
+
+    const generatesuccessRedirect = () => {
+        const link = getSuccessCallbackUrl();
+        if (link) {
+            window.location.replace(`${link}${order_id ? `?orderId=${order_id}` : ''}`);
+        } else {
+            window.location.replace('/checkout/onepage/success');
+        }
+    };
+
     const handleCloseXendit = () => {
         if (modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(payment_code)) {
             if (fromOrder) {
@@ -23,26 +34,22 @@ const ModalXendit = (props) => {
             } else {
                 window.location.replace('/checkout/onepage/success');
             }
+        } else if (payment_code === 'qr_codes') {
+            generatesuccessRedirect();
         } else {
             window.location.replace(`${getStoreHost(getAppEnv())}xendit/checkout/failure?order_id=${order_id}`);
         }
     };
 
-    const generatesuccessRedirect = () => {
-        const link = getSuccessCallbackUrl();
-        if (link) {
-            window.location.replace(`${link}${order_id ? `?orderId=${order_id}` : ''}`);
-        }
-        window.location.replace('/checkout/onepage/success');
-    };
-
     const handleSimulateQr = () => {
+        setLoadSimulate(true);
         requestSimulateQr({
             variables: {
                 external_id: xendit_qrcode_external_id,
                 amount: parseInt(amount, 0),
             },
         }).then((res) => {
+            setLoadSimulate(false);
             if (res && res.data && res.data.xenditSimulateQr && res.data.xenditSimulateQr.status) {
                 if (res.data.xenditSimulateQr.message) {
                     window.toastMessage({
@@ -60,6 +67,7 @@ const ModalXendit = (props) => {
                 handleCloseXendit();
             }
         }).catch(() => {
+            setLoadSimulate(false);
             window.toastMessage({
                 open: true,
                 variant: 'error',
@@ -76,6 +84,7 @@ const ModalXendit = (props) => {
             handleCloseXendit={handleCloseXendit}
             handleSimulateQr={handleSimulateQr}
             t={t}
+            loadSimulate={loadSimulate}
             {...props}
         />
     );

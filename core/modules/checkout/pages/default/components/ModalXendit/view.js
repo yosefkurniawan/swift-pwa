@@ -35,7 +35,7 @@ const ModalXenditView = (props) => {
     const {
         open, setOpen, iframeUrl, handleCloseXendit, t,
         payment_code, mode,
-        handleSimulateQr,
+        handleSimulateQr, loadSimulate,
     } = props;
 
     return (
@@ -60,14 +60,21 @@ const ModalXenditView = (props) => {
                     setOpen();
                     handleCloseXendit();
                 }}
+                disabled={loadSimulate}
             >
                 <CloseIcon fontSize="large" />
             </IconButton>
             <DialogContent classes={{ root: 'modal-xendit-box' }}>
                 {
-                    mode && mode === 'test' && (
+                    payment_code === 'qr_codes' && mode && mode === 'test' && (
                         <div className="form qr-simulate">
-                            <Button type="button" className="btn-qr-code" onClick={() => handleSimulateQr()}>
+                            <Button
+                                disabled={loadSimulate}
+                                type="button"
+                                className="btn-qr-code"
+                                onClick={() => handleSimulateQr()}
+                                loading={loadSimulate}
+                            >
                                 <Typography variant="span" letter="uppercase" type="bold" color="white">
                                     {t('common:button:simulateQrCode')}
                                 </Typography>
