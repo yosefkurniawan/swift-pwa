@@ -1,6 +1,6 @@
 {
   "name": "swift-pwa",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "private": true,
   "scripts": {
     "assets:build": "webpack",
@@ -25,6 +25,7 @@
     "@apollo/react-hooks": "^3.1.3",
     "@apollo/react-ssr": "^3.1.5",
     "@date-io/dayjs": "1.x",
+    "@fortawesome/fontawesome-free": "^5.15.4",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.49",
@@ -52,7 +53,6 @@
     "express-session": "^1.17.1",
     "file-selector": "^0.2.2",
     "firebase": "^8.2.7",
-    "font-awesome": "^4.7.0",
     "formik": "^2.1.4",
     "fscreen": "^1.2.0",
     "graphql": "^15.4.0",
