@@ -27,7 +27,6 @@ const graphqlEndpoint = {
 
 const installMessage = 'Get our free app.';
 const appName = 'Swift APP';
-const originName = 'pwa';
 
 /* Social Sharing */
 const shareIcon = {
@@ -348,7 +347,7 @@ const modules = {
             enabled: true,
         },
         inStorePickup: {
-            enabled: true,
+            enabled: false,
         },
         extraFee: {
             enabled: true,
@@ -599,7 +598,6 @@ module.exports = {
     installMessage,
     appName,
     localResolverKey,
-    originName,
     useMagentoCommerce,
     rollbar,
     translation,
