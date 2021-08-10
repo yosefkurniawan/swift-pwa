@@ -2,7 +2,6 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const useStyles = makeStyles({
     container: {
-        display: 'flex',
         width: '100%',
         borderStyle: (props) => props.border_style || 'solid',
         backgroundPosition: (props) => props.background_position,
