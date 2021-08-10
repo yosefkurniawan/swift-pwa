@@ -141,16 +141,19 @@ const MagezonText = (props) => {
     }
 
     let arrowNav = '';
+    let arrowNavMobile = '';
     let rightNav = '';
     let leftNav = '';
     const navList = owl_nav_position.split('_');
     if (owl_nav) {
         switch (navList[0]) {
         case ('top'):
-            arrowNav = 'top: -30%; ';
+            arrowNav = 'top: -80px; ';
             break;
         case ('bottom'):
-            arrowNav = 'bottom: -30%; ';
+            // arrowNav = 'bottom: -30%; ';
+            arrowNav = `bottom: ${navList[1] === 'center' ? '-60px' : '-100px'}`;
+            arrowNavMobile = `bottom: ${navList[1] === 'center' ? '30px' : '-30px'} !important`;
             break;
         case ('center'):
             arrowNav = 'top: calc(60% - 1rem); ';
@@ -332,6 +335,7 @@ const MagezonText = (props) => {
                             arrows={owl_nav}
                             lazyLoad={owl_lazyload}
                             Item={renderItemCarousel}
+                            centerPadding={validatePx(owl_stage_padding)}
                         />
                         <div style={{
                             display: openPopup ? 'hidden' : 'none',
@@ -384,6 +388,7 @@ const MagezonText = (props) => {
                         arrows={owl_nav}
                         lazyLoad={owl_lazyload}
                         Item={renderItemCarousel}
+                        centerPadding={validatePx(owl_stage_padding)}
                     />
                 )}
             <style jsx global>
@@ -404,7 +409,7 @@ const MagezonText = (props) => {
                         padding: 0 ${validatePx(owl_stage_padding)};
                     }
                     .mgz-carousel .slick-dots {
-                        bottom: ${navList[0] === 'bottom' ? '-40%' : '-20%'};
+                        bottom: ${navList === 'bottom_center' ? '-85px' : '-45px'};
                     }
                     .mgz-carousel .slick-dots li button:before {
                         opacity: 1;
@@ -426,6 +431,9 @@ const MagezonText = (props) => {
                     @media (max-width: 767px) {
                         .mgz-carousel {
                             max-width: 100vw;
+                        }
+                        .mgz-carousel-arrow {
+                            ${arrowNavMobile}
                         }
                     }
 
@@ -450,10 +458,11 @@ const MagezonText = (props) => {
                         background: #FFF;
                         padding: 0 10px;
                         position: relative;
-                        font-size: 2rem;
+                        font-size: 1.5rem;
+                        line-height: 1.2;
                     }
                     .mgz-carousel-heading-desc {
-                        font-size: 14px;
+                        font-size: .75rem;
                     }
                     .mgz-carousel-item-container {
                         overflow: hidden;

@@ -13,7 +13,7 @@ const Caraousel = (props) => {
         data = [], slideXs = 1, slideSm = 2, slideMd = 3, slideLg = 4, slideXl = 5,
         infinite = false, Item, autoplay = false, autoplaySpeed = 3000, pauseOnHover = false,
         rtl = false, centerMode = false, dots = false, slidesToScroll = 1, speed = 500,
-        adaptiveHeight = false, arrows = true, lazyLoad = false, initialSlide = 0,
+        adaptiveHeight = false, arrows = true, lazyLoad = false, initialSlide = 0, centerPadding = '50px',
     } = props;
     const styles = useStyles();
     const settings = {
@@ -58,7 +58,8 @@ const Caraousel = (props) => {
                 breakpoint: 575,
                 settings: {
                     slidesToShow: slideXs,
-                    slidesToScroll: 1,
+                    centerMode: centerPadding || centerMode,
+                    centerPadding,
                 },
             },
         ],
