@@ -158,9 +158,9 @@ mutation (
           quantity : $qty,
           sku: $sku,
           ${modules.product.customizableOptions.enabled
-            && ' entered_options: $entered_options'}
-        }
+            && ' entered_options: $entered_options'}            
         parent_sku: $parentSku
+        }
       }
     }
   ) {

@@ -152,7 +152,12 @@ const Content = (props) => {
                     ) : checkout.selected.delivery === 'pickup' ? (
                             <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
                     ) : (
-                        <InStorePickup t={t} checkout={checkout} setCheckout={setCheckout} />
+                        <InStorePickup 
+                            handleOpenMessage={handleOpenMessage}
+                            t={t}
+                            checkout={checkout}
+                            setCheckout={setCheckout}
+                        />
                     )}
                     <Shipping
                         t={t}
@@ -299,7 +304,7 @@ const Content = (props) => {
                     onClick={handleClick}
                     fullWidth
                     loading={loading}
-                    disabled={disabled || (isSelectedPurchaseOrder && !isPurchaseOrderApply)}
+                    disabled={disabled || checkout.error.shippingAddress || (isSelectedPurchaseOrder && !isPurchaseOrderApply)}
                     className={styles.placeOrderDesktop}
                 >
                     <Typography variant="span" letter="uppercase" type="bold" color="white">

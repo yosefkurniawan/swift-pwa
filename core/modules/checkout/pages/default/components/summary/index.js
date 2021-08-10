@@ -5,7 +5,7 @@ import { getStoreHost } from '@helper_config';
 import { getAppEnv } from '@root/core/helpers/env';
 import { setCheckoutData } from '@helper_cookies';
 import { localTotalCart } from '@services/graphql/schema/local';
-import { originName, modules } from '@config';
+import { modules } from '@config';
 
 import SummaryPlugin from '@plugin_summary';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -17,6 +17,10 @@ const Summary = ({
 }) => {
     const { order: loading, all: disabled } = checkout.loading;
     const isSelectedPurchaseOrder = checkout.selected.payment === 'purchaseorder';
+
+    // origin name config
+    const originName = modules.checkout.checkoutOnly ? 'pwa-checkout' : 'pwa';
+
     const globalCurrency = storeConfig.default_display_currency_code;
     // prettier-ignore
     const isPurchaseOrderApply = isSelectedPurchaseOrder && checkout.status.purchaseOrderApply;
@@ -392,7 +396,7 @@ const Summary = ({
                         t={t}
                         loading={loading}
                         isLoader={checkout.loading.order}
-                        disabled={disabled || (isSelectedPurchaseOrder && !isPurchaseOrderApply)}
+                        disabled={disabled || (isSelectedPurchaseOrder && !isPurchaseOrderApply) || checkout.error.shippingAddress}
                         handleActionSummary={handlePlaceOrder}
                         dataCart={checkout.data.cart}
                         isDesktop={false}
@@ -410,7 +414,7 @@ const Summary = ({
                     isLoader={checkout.loading.order}
                     handleActionSummary={handlePlaceOrder}
                     dataCart={checkout.data.cart}
-                    disabled={disabled}
+                    disabled={disabled || (isSelectedPurchaseOrder && !isPurchaseOrderApply) || checkout.error.shippingAddress}
                     isDesktop
                     showItems
                     hideButton
