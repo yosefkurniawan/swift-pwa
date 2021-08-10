@@ -192,8 +192,8 @@ const features = {
         },
         magezonSlider: {
             mobile: {
-                width: 960,
-                height: 1120,
+                width: 1800,
+                height: 750,
             },
             desktop: {
                 width: 1800,
