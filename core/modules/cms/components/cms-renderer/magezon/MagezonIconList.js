@@ -1,11 +1,9 @@
 import React from 'react';
 import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
-import classnames from 'classnames';
-
 
 const MagezonIconList = (props) => {
     const {
-        id, spacing, layout, items, icon_size, icon_color, icon_hover_color, icon_background_color,
+        spacing, layout, items, icon_size, icon_color, icon_hover_color, icon_background_color,
         icon_hover_background_color, text_size, text_font_weight, text_color, text_hover_color
     } = props;
     const classIconList = 'mgz-icon-list';
@@ -16,7 +14,6 @@ const MagezonIconList = (props) => {
     let iconSize = '';
     let textSize = '';
     let listSpacing = '';
-    let classId = '';
     if (layout === 'vertical') listLayout += 'mgz-icon-list-vertical';
     if (layout === 'horizontal') listLayout += 'mgz-icon-list-horizontal';
     if (layout === 'vertical') display += 'block';
@@ -36,9 +33,8 @@ const MagezonIconList = (props) => {
     } else {
         listSpacing = spacing;
     };
-    if (id) classId = id;
     return (
-        <div className = {classnames(classIconList, classId)}>
+        <div className = {classIconList}>
             <div className="mgz-icon-list-inner">
                 <div className={listLayout}>
                     {items.map((item, index) => (
