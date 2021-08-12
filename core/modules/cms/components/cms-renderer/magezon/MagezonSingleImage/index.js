@@ -249,6 +249,13 @@ const MagezonSingleImage = (props) => {
                         width: ${content_fullwidth || content_position === 'below' ? '100%' : 'fit-content'};
                         padding: ${content_padding || '10px 20px'};
                     }
+                    .mgz-img-content-hover {
+                        text-align: ${content_align};
+                        color: ${content_hover_color || content_color};
+                        background-color: ${content_hover_background || content_background};
+                        width: ${content_fullwidth || content_position === 'below' ? '100%' : 'fit-content'};
+                        padding: ${content_padding || '10px 20px'};
+                    }
                     .mgz-img-content-title {
                         font-size: ${title_font_size};
                         font-weight: ${title_font_weight};
@@ -294,10 +301,12 @@ const MagezonSingleImage = (props) => {
                     }
                     .mgz-img-content {
                         position: relative;
+                        pointer-events: none;
                     }
                     .mgz-img-content-hover {
                         display: none;
                         position: absolute;
+                        pointer-events: none;
                     }
 
                     .top-left {
