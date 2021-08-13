@@ -27,7 +27,6 @@ const graphqlEndpoint = {
 
 const installMessage = 'Get our free app.';
 const appName = 'Swift APP';
-const originName = 'pwa';
 
 /* Social Sharing */
 const shareIcon = {
@@ -385,6 +384,27 @@ const modules = {
             debug: true,
             disableFunding: 'venmo%2Cbancontact%2Ceps%2Cgiropay%2Cideal%2Cmybank%2Cp24%2Csofort',
         },
+        xendit: {
+            paymentPrefixCodeOnSuccess: [
+                'alfamart',
+                'bcava',
+                'briva',
+                'bniva',
+                'mandiriva',
+                'permatava',
+                'indomaret',
+            ],
+            paymentPrefixCode: [
+                'cc',
+                'cc_subscription',
+                'dana',
+                'ovo',
+                'linkaja',
+                'qr_codes',
+                'dd_bri',
+                'kredivo',
+            ],
+        },
     },
     cart: {
         enabled: true,
@@ -599,7 +619,6 @@ module.exports = {
     installMessage,
     appName,
     localResolverKey,
-    originName,
     useMagentoCommerce,
     rollbar,
     translation,
