@@ -8,6 +8,7 @@ import MagezonButton from '@core_modules/cms/components/cms-renderer/magezon/Mag
 import MagezonRawHtml from '@core_modules/cms/components/cms-renderer/magezon/MagezonRawHtml';
 import MagezonWidget from '@core_modules/cms/components/cms-renderer/magezon/MagezonWidget';
 import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
+import MagezonIconList from '@core_modules/cms/components/cms-renderer/magezon/MagezonIconList';
 import MagezonSeparator from '@core_modules/cms/components/cms-renderer/magezon/MagezonSeparator';
 import MagezonEmpty from '@core_modules/cms/components/cms-renderer/magezon/MagezonEmpty';
 import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/MagezonFanspage';
@@ -124,6 +125,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonTwitter {...props} />; break;
         case 'icon':
             childrenContent = <MagezonIcon {...props} />; break;
+        case 'icon_list':
+            childrenContent = <MagezonIconList {...props} />; break;
         case 'separator':
             childrenContent = <MagezonSeparator {...props} />; break;
         case 'empty_space':
