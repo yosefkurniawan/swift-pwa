@@ -391,36 +391,36 @@ const MagezonText = (props) => {
                         centerPadding={validatePx(owl_stage_padding)}
                     />
                 )}
-            <style jsx global>
+            <style jsx>
                 {`
                     .mgz-carousel {
                         width: 100%;
                         height: 100%;
                         position: relative;
                     }
-                    .mgz-carousel a {
+                    .mgz-carousel :global(a) {
                         color : transparent !important;
                     }
-                    .mgz-carousel .slick-track {
+                    .mgz-carousel :global(.slick-track) {
                         margin-left: auto;
                         margin-right: auto;
                     }
-                    .mgz-carousel .slick-list {
+                    .mgz-carousel :global(.slick-list) {
                         padding: 0 ${validatePx(owl_stage_padding)};
                     }
-                    .mgz-carousel .slick-dots {
+                    .mgz-carousel :global(.slick-dots) {
                         bottom: ${navList === 'bottom_center' ? '-85px' : '-45px'};
                     }
-                    .mgz-carousel .slick-dots li button:before {
+                    .mgz-carousel :global(.slick-dots li button:before) {
                         opacity: 1;
                         color: ${owl_background_color};
                         font-size: 10px;
                         transition: 0.3s;
                     }
-                    .mgz-carousel .slick-dots li:hover button:before {
+                    .mgz-carousel :global(.slick-dots li:hover button:before) {
                         color: ${owl_hover_background_color};
                     }
-                    .mgz-carousel .slick-dots li.slick-active button:before {
+                    .mgz-carousel :global(.slick-dots li.slick-active button:before) {
                         color: ${owl_active_background_color};
                     }
                     @media (min-width: 768px) {
@@ -432,18 +432,14 @@ const MagezonText = (props) => {
                         .mgz-carousel {
                             max-width: 100vw;
                         }
-                        .mgz-carousel-arrow {
-                            ${arrowNavMobile}
-                        }
                     }
-
-                    .mgz-carousel-heading {
+                    .mgz-carousel :global(.mgz-carousel-heading) {
                         margin-bottom: 10px;
                         padding-bottom: 10px;
                         position: relative;
                         text-align: ${title_align};
                     }
-                    .mgz-carousel-heading:before {
+                    .mgz-carousel :global(.mgz-carousel-heading:before) {
                         content: '';
                         display: block;
                         height: ${show_line ? validatePx(line_width) : 0};
@@ -464,7 +460,7 @@ const MagezonText = (props) => {
                     .mgz-carousel-heading-desc {
                         font-size: .75rem;
                     }
-                    .mgz-carousel-item-container {
+                    .mgz-carousel :global(.mgz-carousel-item-container) {
                         overflow: hidden;
                         position: relative;
                         margin: 0 ${validatePx(owl_margin / 2)};
@@ -473,7 +469,7 @@ const MagezonText = (props) => {
                     .mgz-carousel-item-container:hover .mgz-carousel-content-wrapper{
                         display: grid;
                     }
-                    .mgz-carousel-content-wrapper {
+                    .mgz-carousel :global(.mgz-carousel-content-wrapper) {
                         background-color: ${content_background || 'transparent'};
                         color: ${content_color};
                         width: ${content_fullwidth ? '100%' : 'fit-content'};
@@ -488,15 +484,15 @@ const MagezonText = (props) => {
                         right: 0;
                         z-index: 2;
                     }
-                    .mgz-carousel-content-title {
+                    .mgz-carousel :global(.mgz-carousel-content-title) {
                         font-size: ${validatePx(title_font_size)};
                         font-weight: ${title_font_weight};
                     }
-                    .mgz-carousel-content-desc {
+                    .mgz-carousel :global(.mgz-carousel-content-desc) {
                         font-size: ${validatePx(description_font_size)};
                         font-weight: ${description_font_weight};
                     }
-                    .mgz-carousel-content-image {
+                    .mgz-carousel :global(.mgz-carousel-content-image) {
                         width: 100%;
                         width: ${image_size ? validatePx(image_size.split(' ')[0]) : ''};
                         height: ${image_size ? validatePx(image_size.split(' ')[1]) : ''};
@@ -505,7 +501,7 @@ const MagezonText = (props) => {
                         border-radius: ${validatePx(image_border_radius)};
                         border-color: ${image_border_color};
                     }
-                    .mgz-carousel-overlay {
+                    .mgz-carousel :global(.mgz-carousel-overlay) {
                         background-color: ${overlay_color || 'transparent'};
                         position: absolute;
                         width: 100%;
@@ -516,6 +512,24 @@ const MagezonText = (props) => {
                         top: 0;
                         pointer-events: none;
                     }
+                    .mgz-carousel-zoomout {
+                        transition: transform 0.5s, filter 1s ease-in-out;
+                        transform: scale(1.2);
+                    }
+                    .mgz-carousel-zoomout:hover {
+                        transform: scale(1);
+                    }
+                    .mgz-carousel-zoomin {
+                        transition: transform 0.5s, filter 1s ease-in-out;
+                        transform: scale(1);
+                    }
+                    .mgz-carousel-zoomin:hover {
+                        transform: scale(1.2);
+                    }
+                `}
+            </style>
+            <style jsx global>
+                {`
                     .mgz-carousel-arrow {
                         color: ${owl_color};
                         background-color: ${owl_background_color || 'transparent'};
@@ -539,19 +553,10 @@ const MagezonText = (props) => {
                     .mgz-carousel-arrow-right {
                         ${rightNav}
                     }
-                    .mgz-carousel-zoomout {
-                        transition: transform 0.5s, filter 1s ease-in-out;
-                        transform: scale(1.2);
-                    }
-                    .mgz-carousel-zoomout:hover {
-                        transform: scale(1);
-                    }
-                    .mgz-carousel-zoomin {
-                        transition: transform 0.5s, filter 1s ease-in-out;
-                        transform: scale(1);
-                    }
-                    .mgz-carousel-zoomin:hover {
-                        transform: scale(1.2);
+                    @media (max-width: 767px) {
+                        .mgz-carousel-arrow {
+                            ${arrowNavMobile}
+                        }
                     }
                 `}
             </style>
