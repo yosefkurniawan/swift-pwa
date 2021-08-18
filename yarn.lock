@@ -1615,6 +1615,11 @@
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.4.1.tgz#600f2275ff54739ad5ac0102f1467b8963cd5f71"
   integrity sha512-0yPjzuzGMkW1GkrC8yWsiN7vt1OzkMIi9HgxRmKREZl2wnNPOKo/yScTjXf/O57HM8dltqxPF6jlNLFVtc2qdw==
 
+"@fortawesome/fontawesome-free@^5.15.4":
+  version "5.15.4"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.4.tgz#ecda5712b61ac852c760d8b3c79c96adca5554e5"
+  integrity sha512-eYm8vijH/hpzr/6/1CJ/V/Eb1xQFW2nnUKArb3z+yUWv7HTwj6M7SP957oMjfZjAHU6qpoNc2wQvIxBLWYa/Jg==
+
 "@graphql-tools/batch-delegate@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@graphql-tools/batch-delegate/-/batch-delegate-7.0.0.tgz#860f03d8ded5e9e7e9b14e2205dfd64da8e3e6c0"
@@ -5862,11 +5867,6 @@ fn-name@~3.0.0:
   resolved "https://registry.yarnpkg.com/fn-name/-/fn-name-3.0.0.tgz#0596707f635929634d791f452309ab41558e3c5c"
   integrity sha512-eNMNr5exLoavuAMhIUVsOKF79SWd/zG104ef6sxBTSw+cZc6BXdQXDvYcGvp0VbxVVSp1XDUNoz7mg1xMtSznA==
 
-font-awesome@^4.7.0:
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
-  integrity sha1-j6jPBBGhoxr9B7BtKQK7n8gVoTM=
-
 for-in@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
@@ -9307,10 +9307,10 @@ react-share@^4.1.0:
     classnames "^2.2.5"
     jsonp "^0.2.1"
 
-react-slick@^0.27.10:
-  version "0.27.11"
-  resolved "https://registry.yarnpkg.com/react-slick/-/react-slick-0.27.11.tgz#09d539476dd84cb9b67115133e8a04f4da8051af"
-  integrity sha512-m7JXXCHGlpnK224EGfJoW/rx+i5tM5y3yBqii4b6VuKDzrOuJ3j2AqOdcZXhyzpcSUZKRSDZC1dW1APtGFTI3w==
+react-slick@^0.28.0:
+  version "0.28.1"
+  resolved "https://registry.yarnpkg.com/react-slick/-/react-slick-0.28.1.tgz#12c18d991b59432df9c3757ba540a227b3fb85b9"
+  integrity sha512-JwRQXoWGJRbUTE7eZI1rGIHaXX/4YuwX6gn7ulfvUZ4vFDVQAA25HcsHSYaUiRCduTr6rskyIuyPMpuG6bbluw==
   dependencies:
     classnames "^2.2.5"
     enquire.js "^2.1.6"

@@ -49,6 +49,7 @@
     "billingAddress": "Billing address",
     "orderInfo": "Order information",
     "orderItem": "Items order",
+    "onboarding": "Please pay to complete the transaction",
     "labelStatus": {
         "pending": "Waiting for confirmation",
         "processing": "Processing",
