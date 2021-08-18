@@ -152,7 +152,12 @@ const Content = (props) => {
                     ) : checkout.selected.delivery === 'pickup' ? (
                             <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
                     ) : (
-                        <InStorePickup t={t} checkout={checkout} setCheckout={setCheckout} />
+                        <InStorePickup 
+                            handleOpenMessage={handleOpenMessage}
+                            t={t}
+                            checkout={checkout}
+                            setCheckout={setCheckout}
+                        />
                     )}
                     <Shipping
                         t={t}

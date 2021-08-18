@@ -13,5 +13,12 @@
     "paymentConfirmation": "Konfirmasi pembayaran",
     "bankNumber": "Nomor Bank",
     "registerInfo": "Anda dapat melacak status pesanan Anda dengan membuat akun.",
-    "emailInfo": "Alamat email:"
+    "emailInfo": "Alamat email:",
+    "paymentMethod": "Metode Pembayaran ",
+    "paymentCode": "Kode Pembayaran ",
+    "virtualAccount": "Virtual Account",
+    "instructions": "Instruksi",
+    "paynow": "Bayar Sekarang",    
+    "duedate": "Batas Waktu",    
+    "onboarding": "Silahkan melakukan pembayaran untuk menyelesaikan transaksi"
 }
