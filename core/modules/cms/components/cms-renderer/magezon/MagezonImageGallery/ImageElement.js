@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -11,6 +12,8 @@ const ImageElement = (props) => {
         image, type, link,
         video_url, baseUrl,
         full_image, pauseSlick,
+        height,
+        fit,
         // caption, position,
     } = props;
     const videoCover = React.useRef();
@@ -43,17 +46,19 @@ const ImageElement = (props) => {
                     {`
                         .mgz-img-gallery-img-container {
                             // width: 100%;
-                            display: flex;
-                            flex: 1;
-                            justify-content: center;
+                            // display: flex;
+                            // flex: 1;
+                            // justify-content: center;
                             // margin: auto;
+                            text-align: center;
                             overflow: hidden;
                         }
                         img {
-                            display: inline-block;
-                            width: auto;
-                            height: 100%;
-                            object-fit: fill;
+                            display: block;
+                            width: 672px;
+                            max-width: 100%;
+                            height: ${height}px;
+                            object-fit: ${fit === 'scaledown' ? 'scale-down' : fit};
                         }
                     `}
                 </style>

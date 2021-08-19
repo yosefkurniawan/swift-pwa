@@ -19,11 +19,11 @@ const MagezonImageGallery = (props) => {
         maxwidth, minwidth, minheight, nav, navposition, rtl,
         startindex, stopautoplayontouch, swipe, thumbheight,
         thumbmargin, thumbwidth, width, keyboard,
-        shuffle,
-        storeConfig,
-        // shadows, click, trackpad, transition, margin,
-        // arrows, captions, allowfullscreen, gallery_type,
-        // fit
+        shuffle, transition,
+        storeConfig, arrows,
+        // shadows, click, trackpad, margin,
+        // , captions, allowfullscreen, gallery_type,
+        fit,
     } = props;
     const { secure_base_media_url } = storeConfig;
     const [slideIndex, setIndex] = useState(startindex || 0);
@@ -109,7 +109,8 @@ const MagezonImageGallery = (props) => {
     };
 
     const settings = {
-        arrows: true,
+        arrows,
+        fade: transition !== 'slide',
         infinite: loop,
         initialSlide: startindex || 0,
         autoplay: setAutoplay().autoplay,
@@ -150,7 +151,14 @@ const MagezonImageGallery = (props) => {
                 <div className="mgz-img-gallery-container">
                     <Slider ref={(slider) => (sliderRef = slider)} {...settings}>
                         {itemsArr.map((item, index) => (
-                            <ImageElement key={index} {...item} baseUrl={secure_base_media_url} pauseSlick={pauseSlick} />
+                            <ImageElement
+                                key={index}
+                                {...item}
+                                baseUrl={secure_base_media_url}
+                                pauseSlick={pauseSlick}
+                                height={calculateHeight()}
+                                fit={fit}
+                            />
                         ))}
                     </Slider>
                 </div>
@@ -231,6 +239,16 @@ const MagezonImageGallery = (props) => {
                         height: ${calculateHeight()}px;
                         align-items: center;
                         justify-content: center;
+                    }
+                    .mgz-img-gallery-container .slick-prev {
+                        left: 0;
+                    }
+                    .mgz-img-gallery-container .slick-next {
+                        right: 0;
+                    }
+                    .mgz-img-gallery-container .slick-arrow {
+                        z-index: 100;
+                        background-color: #c5c5c5;
                     }
                     .slick-slide > div {
                         height: 100%;
