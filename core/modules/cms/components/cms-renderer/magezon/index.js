@@ -32,6 +32,7 @@ const MagezonTwitter = dynamic(() => import('@core_modules/cms/components/cms-re
 const MagezonParallax = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonParallax'), { ssr: false });
 const MagezonFlickr = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonFlickr'), { ssr: false });
 const MagezonCountdown = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCountdown'), { ssr: false });
+const MagezonCaraousel = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel'), { ssr: false });
 
 const MagezonElement = (props) => {
     const {
@@ -155,6 +156,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonCta {...props} />; break;
         case 'countdown':
             childrenContent = <MagezonCountdown {...props} />; break;
+        case 'image_carousel':
+            childrenContent = <MagezonCaraousel {...props} />; break;
         case 'search_form':
             childrenContent = <MagezonSearchForm {...props} />; break;
         default:
