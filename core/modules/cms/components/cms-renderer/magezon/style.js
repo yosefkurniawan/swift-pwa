@@ -2,7 +2,7 @@
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(() => ({
     container: {
         display: 'flex',
         width: '100%',
@@ -22,6 +22,28 @@ const useStyles = makeStyles({
         transition: 'all 0.2s ease-in-out',
         backgroundPosition: props.background_position,
         color: props.button_color || '#000000',
+        fontSize: props.button_size === 'xs'
+            ? '11px'
+            : props.button_size === 'sm'
+                ? '12px'
+                : props.button_size === 'md'
+                    ? '14px'
+                    : props.button_size === 'lg'
+                        ? '17px'
+                        : props.button_size === 'xl'
+                            ? '21px'
+                            : '12px',
+        padding: props.button_size === 'xs'
+            ? '8px 12px'
+            : props.button_size === 'sm'
+                ? '11px 16px'
+                : props.button_size === 'md'
+                    ? '15px 21px'
+                    : props.button_size === 'lg'
+                        ? '20px 27px'
+                        : props.button_size === 'xl'
+                            ? '26px 34px'
+                            : '11px 16px',
         boxShadow: props.button_style === '3d' ? `0 5px 0 ${props.box_shadow_color}` : 'none',
         borderStyle: props.button_border_style,
         borderWidth: props.button_border_width ? `${props.button_border_width}px` : 0,
@@ -36,7 +58,7 @@ const useStyles = makeStyles({
             backgroundSize: '200% 100%',
         }),
         '&:hover': {
-            color: props.button_hover_color || '#5e5e5e',
+            color: props.button_hover_color || '#333333',
             backgroundColor: props.button_hover_background_color
                 ? props.button_hover_background_color
                 : props.button_background_color
@@ -74,6 +96,6 @@ const useStyles = makeStyles({
             backgroundColor: (props) => props.message_icon_background_color,
         },
     },
-});
+}));
 
 export default useStyles;

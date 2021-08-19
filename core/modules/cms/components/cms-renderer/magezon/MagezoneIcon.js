@@ -13,9 +13,9 @@ const MagezonIcon = (props) => {
     if (icon.includes('fas') === true) iconRes += icon.replace('fas mgz-', 'fa ');
     if (icon.includes('mgz-oi') === true) iconRes += icon.replace('mgz-oi mgz-', 'oi ');
     if (icon.includes('far mgz') === true) iconRes += icon.replace('far mgz-', 'fa ');
-    if (icon_size === 'md') iconSize += '20px';
     if (icon_size === 'xs') iconSize += '16px';
     if (icon_size === 'sm') iconSize += '18px';
+    if (icon_size === 'md') iconSize += '20px';
     if (icon_size === 'lg') iconSize += '24px';
     if (icon_size === 'xl') iconSize += '40px';
     if (link_url) customUrl = link_url;
