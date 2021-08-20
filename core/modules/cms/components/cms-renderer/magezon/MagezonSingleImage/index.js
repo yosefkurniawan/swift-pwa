@@ -12,7 +12,7 @@ import PopupMapVideo from '@core_modules/cms/components/cms-renderer/magezon/Mag
 
 const ImageWithAction = ({
     withPopup, onClick, url, classContainer,
-    classImage, image_width, image_height, alt_tag, ...other
+    classImage, image_width, image_height, title, ...other
 }) => {
     const { openLightbox } = useLightbox();
     const handleClick = () => {
@@ -32,7 +32,7 @@ const ImageWithAction = ({
                 quality={80}
                 width={image_width ? image_width.replace('px', '') : ''}
                 height={image_height ? image_height.replace('px', '') : ''}
-                alt={alt_tag || 'magezon image'}
+                alt={title}
                 classContainer={classContainer}
                 {...other}
             />
@@ -43,7 +43,7 @@ const ImageWithAction = ({
 const MagezonSingleImage = (props) => {
     const {
         xs_hide, sm_hide, md_hide, lg_hide,
-        source, custom_src, image, alt_tag, image_width, image_height,
+        source, custom_src, image, image_width, image_height,
         onclick, custom_link, title, description, image_style,
         image_border_style, image_border_width, image_border_radius, image_border_color,
         title_font_size, image_hover_effect, display_on_hover, content_position,
@@ -127,10 +127,10 @@ const MagezonSingleImage = (props) => {
         }
     };
 
-    const [openPopup, setOpenPoup] = React.useState(false);
+    const [openPopup, setOpenPopup] = React.useState(false);
     const [isHover, setIsHover] = React.useState(false);
     const callbacks = {
-        onLightboxClosed: () => { setIsHover(false); setOpenPoup(false); },
+        onLightboxClosed: () => { setIsHover(false); setOpenPopup(false); },
     };
 
     const ligtboxSetting = {
@@ -150,6 +150,12 @@ const MagezonSingleImage = (props) => {
         },
     };
 
+    let imageCaption;
+    if (title && description) imageCaption = `${title} - ${description}`;
+    else if (title) imageCaption = title;
+    else if (description) imageCaption = description;
+    else imageCaption = 'Magezon Image';
+
     return (
         <div className={classes}>
             {
@@ -158,7 +164,7 @@ const MagezonSingleImage = (props) => {
                         open={openPopupMap}
                         setOpen={() => setOpenPopupMap(false)}
                         url={video_map}
-                        title={title}
+                        title={imageCaption}
                     />
                 )
             }
@@ -172,7 +178,7 @@ const MagezonSingleImage = (props) => {
                             quality={80}
                             width={image_width ? image_width.replace('px', '') : ''}
                             height={image_height ? image_height.replace('px', '') : ''}
-                            alt={alt_tag || 'magezon image'}
+                            alt={(`${title} - ${description}`) || 'magezon image'}
                             classContainer={classContainer}
                             onMouseOver={() => setIsHover(true)}
                             onMouseOut={() => setIsHover(false)}
@@ -191,7 +197,7 @@ const MagezonSingleImage = (props) => {
                                         quality={80}
                                         width={image_width ? image_width.replace('px', '') : ''}
                                         height={image_height ? image_height.replace('px', '') : ''}
-                                        alt={alt_tag || 'magezon image'}
+                                        alt={imageCaption}
                                         classContainer={classContainer}
                                         onMouseOver={() => setIsHover(true)}
                                         onMouseOut={() => setIsHover(false)}
@@ -201,13 +207,13 @@ const MagezonSingleImage = (props) => {
                             { !openPopup && (
                                 <ImageWithAction
                                     url={isHover ? hoverImage : url}
-                                    image_width={image_width}
-                                    image_height={image_height}
+                                    image_width={image_width ? image_width.replace('px', '') : ''}
+                                    image_height={image_height ? image_height.replace('px', '') : ''}
                                     classImage={classImage}
-                                    alt_tag={alt_tag}
+                                    title={imageCaption}
                                     classContainer={classContainer}
                                     withPopup
-                                    onClick={() => setOpenPoup(!openPopup)}
+                                    onClick={() => setOpenPopup(!openPopup)}
                                     onMouseOver={() => setIsHover(true)}
                                     onMouseOut={() => setIsHover(false)}
                                 />
@@ -217,10 +223,10 @@ const MagezonSingleImage = (props) => {
                     : (
                         <ImageWithAction
                             url={isHover ? hoverImage : url}
-                            image_width={image_width}
-                            image_height={image_height}
+                            image_width={image_width ? image_width.replace('px', '') : ''}
+                            image_height={image_height ? image_height.replace('px', '') : ''}
                             classImage={classImage}
-                            alt_tag={alt_tag}
+                            title={imageCaption}
                             classContainer={classContainer}
                             onClick={handleClick}
                             onMouseOver={() => setIsHover(true)}
