@@ -33,6 +33,7 @@ const MagezonParallax = dynamic(() => import('@core_modules/cms/components/cms-r
 const MagezonFlickr = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonFlickr'), { ssr: false });
 const MagezonCountdown = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCountdown'), { ssr: false });
 const MagezonCaraousel = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel'), { ssr: false });
+const MagezonSocialIcons = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonSocialIcons'), { ssr: false });
 
 const MagezonElement = (props) => {
     const {
@@ -160,6 +161,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonCaraousel {...props} />; break;
         case 'search_form':
             childrenContent = <MagezonSearchForm {...props} />; break;
+        case 'social_icons':
+            childrenContent = <MagezonSocialIcons {...props} />; break;
         default:
             childrenContent = null;
         }
