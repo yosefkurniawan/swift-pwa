@@ -49,7 +49,8 @@
     "view": "Lihat pesanan",
     "billingAddress": "Alamat penagihan",
     "orderInfo": "Informasi pemesanan",
-    "orderItem": "Semua item pemesanan",
+    "orderItem": "Semua item pemesanan",    
+    "onboarding": "Silahkan melakukan pembayaran untuk menyelesaikan transaksi",
     "labelStatus": {
         "pending": "Menunggu konfirmasi",
         "processing": "Sedang di proses",

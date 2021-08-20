@@ -104,4 +104,7 @@ export default makeStyles((theme) => ({
         overflow: 'hidden',
         outline: 'none',
     },
+    btnPayNow: {
+        marginTop: 15,
+    },
 }));

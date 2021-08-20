@@ -13,5 +13,12 @@
     "paymentConfirmation": "Payment Confirmation",
     "bankNumber": "Bank Number",
     "registerInfo": "You can track your order status by creating an account.",
-    "emailInfo": "Email address:"
+    "emailInfo": "Email address:",
+    "paymentMethod": "Payment Method ",
+    "paymentCode": "Payment code",
+    "virtualAccount": "Virtual Account",
+    "instructions": "Instructions",
+    "paynow": "Pay Now",
+    "duedate": "Due Date",
+    "onboarding": "Please pay to complete the transaction"
 }

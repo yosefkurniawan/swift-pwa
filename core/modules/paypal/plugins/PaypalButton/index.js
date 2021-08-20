@@ -81,11 +81,6 @@ const PaypalButton = (props) => {
                             'data-order-id': token,
                         });
                     }
-                }).catch(() => {
-                    handleOpenMessage({
-                        variant: 'error',
-                        text: t('common:error:fetchError'),
-                    });
                 });
             } else {
                 setTokenData(initialTokenData);
@@ -255,7 +250,7 @@ const PaypalButton = (props) => {
             window.backdropLoader(false);
             Router.push(`/${modules.checkout.paypal.returnUrl}`);
         }).catch((e) => {
-            console.log(e);
+            // console.log(e);
             onErrorPaypal(e);
         });
     };

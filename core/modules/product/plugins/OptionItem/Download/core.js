@@ -167,7 +167,7 @@ const OptionsItemDownload = ({
                             text: e.message.split(':')[1] || errorMessage.text,
                         });
                     });
-            } else {
+            } else if (cartUser.data && cartUser.data.customerCart) {
                 const token = cartUser.data.customerCart.id || '';
                 cartId = token;
                 setCartId(token);

@@ -10,6 +10,9 @@ import IconArrow from '@material-ui/icons/ArrowForwardIos';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import classNames from 'classnames';
 import useStyles from '@core_modules/thanks/pages/default/components/style';
+import ModalXendit from '@core_modules/checkout/pages/default/components/ModalXendit';
+import { modules } from '@config';
+import dayjs from 'dayjs';
 
 const View = (props) => {
     const {
@@ -30,9 +33,26 @@ const View = (props) => {
         Router.push(registerLink);
     };
 
+    const [openXendit, setOpenXendit] = React.useState(false);
+
     const registerGuestEnabled = parseInt(storeConfig.weltpixel_thankyoupage_create_account_enable, 10);
     return (
         <div className={styles.container}>
+            {
+                ordersFilter && paymentInformation && paymentInformation.OrderPaymentInformation
+                && paymentInformation.OrderPaymentInformation.invoice_url && (
+                    <ModalXendit
+                        open={openXendit}
+                        setOpen={() => setOpenXendit(!openXendit)}
+                        iframeUrl={paymentInformation.OrderPaymentInformation.invoice_url}
+                        order_id={checkoutData?.order_number}
+                        payment_code={paymentInformation.OrderPaymentInformation.method_code}
+                        amount={ordersFilter.data[0].detail[0].grand_total}
+                        mode={paymentInformation.OrderPaymentInformation.xendit_mode}
+                        xendit_qrcode_external_id={paymentInformation.OrderPaymentInformation.xendit_qrcode_external_id}
+                    />
+                )
+            }
             <div className={styles.info}>
                 <Typography variant="h1" type="bold" letter="uppercase" className={styles.title}>
                     {t('thanks:thanks')}
@@ -79,6 +99,69 @@ const View = (props) => {
                     ))}
                 </div>
             ) : null}
+            { ordersFilter && ordersFilter.data[0] && (ordersFilter.data[0].status === 'pending' || ordersFilter.data[0].status === 'pending_payment')
+                && paymentInformation.OrderPaymentInformation.invoice_url
+                && (paymentInformation.OrderPaymentInformation.due_date !== null
+                    ? dayjs().isBefore(dayjs(paymentInformation.OrderPaymentInformation.due_date))
+                    : true
+                )
+                && (modules.checkout.xendit.paymentPrefixCodeOnSuccess.includes(paymentInformation.OrderPaymentInformation.method_code)
+                || paymentInformation.OrderPaymentInformation.method_code === 'qr_codes') && (
+                <div className={styles.info}>
+                    <Typography variant="span" className={styles.dateOver} letter="none">
+                        {t('thanks:onboarding')}
+                    </Typography>
+                    <Typography variant="span" className={styles.dateOver} letter="none">
+                        {t('thanks:paymentMethod')}
+                        {' : '}
+                        <b className={styles.payment}>{paymentInformation.OrderPaymentInformation.method_title}</b>
+                    </Typography>
+                    {
+                        paymentInformation.OrderPaymentInformation.is_virtual_account
+                                        && paymentInformation.OrderPaymentInformation.virtual_account
+                            && (
+                                <Typography variant="span" className={styles.dateOver} letter="none">
+                                    {t('thanks:virtualAccount')}
+                                    {' : '}
+                                    <b className={styles.payment}>{paymentInformation.OrderPaymentInformation.virtual_account}</b>
+                                </Typography>
+                            )
+                    }
+                    {
+                        paymentInformation.OrderPaymentInformation.xendit_retail_outlet
+                            && paymentInformation.OrderPaymentInformation.payment_code && (
+                            <Typography variant="span" className={styles.dateOver} letter="none">
+                                {t('thanks:paymentCode')}
+                                {' : '}
+                                <b className={styles.payment}>{paymentInformation.OrderPaymentInformation.payment_code}</b>
+                            </Typography>
+                        )
+                    }
+                    {
+                        paymentInformation.OrderPaymentInformation.due_date && (
+                            <Typography variant="span" className={styles.dateOver} letter="none">
+                                {t('thanks:duedate')}
+                                {' : '}
+                                <b className={styles.payment}>{paymentInformation.OrderPaymentInformation.due_date}</b>
+                            </Typography>
+                        )
+                    }
+                    {
+                        paymentInformation.OrderPaymentInformation.instructions
+                            // eslint-disable-next-line react/no-danger
+                            && (<div dangerouslySetInnerHTML={{ __html: paymentInformation.OrderPaymentInformation.instructions }} />)
+                    }
+                    <Button
+                        onClick={() => setOpenXendit(!openXendit)}
+                        className={styles.btnConfirm}
+                        align="center"
+                    >
+                        <Typography size="10" type="bold" color="white" letter="uppercase" className={styles.txtConfirm}>
+                            {t('thanks:paynow')}
+                        </Typography>
+                    </Button>
+                </div>
+            )}
             {ordersFilter && ordersFilter.data[0].detail[0].payment.method === 'banktransfer' ? (
                 <div className={styles.info}>
                     <Typography variant="span" className={styles.dateOver} letter="none">
