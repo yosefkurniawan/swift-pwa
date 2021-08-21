@@ -8,6 +8,7 @@ import MagezonButton from '@core_modules/cms/components/cms-renderer/magezon/Mag
 import MagezonRawHtml from '@core_modules/cms/components/cms-renderer/magezon/MagezonRawHtml';
 import MagezonWidget from '@core_modules/cms/components/cms-renderer/magezon/MagezonWidget';
 import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
+import MagezonIconList from '@core_modules/cms/components/cms-renderer/magezon/MagezonIconList';
 import MagezonSeparator from '@core_modules/cms/components/cms-renderer/magezon/MagezonSeparator';
 import MagezonEmpty from '@core_modules/cms/components/cms-renderer/magezon/MagezonEmpty';
 import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/MagezonFanspage';
@@ -32,6 +33,7 @@ const MagezonTwitter = dynamic(() => import('@core_modules/cms/components/cms-re
 const MagezonParallax = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonParallax'), { ssr: false });
 const MagezonFlickr = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonFlickr'), { ssr: false });
 const MagezonCountdown = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCountdown'), { ssr: false });
+const MagezonCaraousel = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel'), { ssr: false });
 
 const MagezonElement = (props) => {
     const {
@@ -125,6 +127,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonTwitter {...props} />; break;
         case 'icon':
             childrenContent = <MagezonIcon {...props} />; break;
+        case 'icon_list':
+            childrenContent = <MagezonIconList {...props} />; break;
         case 'separator':
             childrenContent = <MagezonSeparator {...props} />; break;
         case 'empty_space':
@@ -155,6 +159,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonCountdown {...props} />; break;
         case 'slider':
             childrenContent = <MagezonSlider {...props} />; break;
+        case 'image_carousel':
+            childrenContent = <MagezonCaraousel {...props} />; break;
         case 'search_form':
             childrenContent = <MagezonSearchForm {...props} />; break;
         default:

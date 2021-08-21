@@ -43,6 +43,26 @@ const useStyles = makeStyles(() => ({
         fontWeight: 'bold',
         ...FONT_24,
     },
+    h2: {
+        fontWeight: 'bold',
+        ...FONT_16,
+    },
+    h3: {
+        fontWeight: 'bold',
+        ...FONT_14,
+    },
+    h4: {
+        fontWeight: 'bold',
+        ...FONT_12,
+    },
+    h5: {
+        fontWeight: 'bold',
+        ...FONT_10,
+    },
+    h6: {
+        fontWeight: 'bold',
+        ...FONT_8,
+    },
     span: {
         ...FONT_12,
         fontWeight: '400',
