@@ -6,7 +6,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-return-assign */
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Slider from 'react-slick';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { generateThumborUrl } from '@helpers/image';
@@ -15,6 +15,38 @@ import { getStoreHost } from '@helpers/config';
 import MagezonHeading from '@core_modules/cms/components/cms-renderer/magezon/MagezonHeading';
 import LeftArrowIcon from '@material-ui/icons/ArrowBackIos';
 import RightArrowIcon from '@material-ui/icons/ArrowForwardIos';
+
+const VideoContent = (props) => {
+    const {
+        background_type, youtube_id, vimeo_id, local_link,
+    } = props;
+    let videoUrl;
+
+    if (background_type === 'youtube') videoUrl = `https://www.youtube.com/embed/${youtube_id}`;
+    if (background_type === 'vimeo') videoUrl = `https://player.vimeo.com/video/${vimeo_id}`;
+    if (background_type === 'local') {
+        return (
+            <video>
+                <source src={local_link} />
+                <track kind="captions" />
+                Sorry, your browser does not support embedded videos.
+            </video>
+        );
+    }
+
+    return (
+        <>
+            <iframe
+                style={{ width: '100%', height: '100%' }}
+                src={videoUrl}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title="Embedded Video"
+            />
+        </>
+    );
+};
 
 const MagezonSliderContent = (props) => {
     const {
@@ -29,10 +61,9 @@ const MagezonSliderContent = (props) => {
         caption2_line_height, caption2_padding, caption2_type,
         content_align, content_padding, content_position,
         content_width, content_wrapper_width,
-        youtube_id,
+        youtube_id, vimeo_id, local_link,
         image, background_type, slider_height,
     } = props;
-    const animationStyles = 'animate__animated animate__';
     const mediaUrl = `${getStoreHost()}media`;
     const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('sm'));
     const slideHeight = features.imageSize.magezonSlider[isDesktop ? 'desktop' : 'mobile'].height;
@@ -48,16 +79,9 @@ const MagezonSliderContent = (props) => {
 
     return (
         <>
-            {background_type === 'youtube' ? (
+            {background_type !== 'image' ? (
                 <div style={{ height: `${slider_height}px` }}>
-                    <iframe
-                        style={{ width: '100%', height: '100%' }}
-                        src={`https://www.youtube.com/embed/${youtube_id}`}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        title="Embedded Video"
-                    />
+                    <VideoContent background_type={background_type} youtube_id={youtube_id} vimeo_id={vimeo_id} local_link={local_link} />
                 </div>
             ) : (
                 <div
@@ -214,16 +238,18 @@ const MagezonSlider = (props) => {
     const {
         items, image_hover_effect,
         owl_nav, owl_dots, owl_lazyLoad, owl_loop, owl_autoplay, owl_autoplay_timeout, owl_rtl,
-        owl_nav_position, owl_animate_in, owl_animate_out,
+        owl_nav_size, owl_nav_position, owl_animate_in, owl_animate_out,
+        owl_active_background_color, owl_background_color, owl_color,
+        owl_hover_background_color, owl_hover_color,
         slider_height,
     } = props;
+    const [slideIndex, setSlideIndex] = useState(0);
     const { unhoverStyle, hoverStyle } = useHoverStyle(image_hover_effect);
     const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('sm'));
     const slideHeight = features.imageSize.magezonSlider[isDesktop ? 'desktop' : 'mobile'].height;
     const slideWidth = features.imageSize.magezonSlider[isDesktop ? 'desktop' : 'mobile'].width;
+    const navSize = owl_nav_size === 'mini' ? 10 : owl_nav_size === 'small' ? 15 : owl_nav_size === 'normal' ? 20 : 25;
     let sliderRef = useRef();
-
-    console.log(props);
 
     const settings = {
         arrows: owl_nav_position === 'center_split',
@@ -278,6 +304,7 @@ const MagezonSlider = (props) => {
                     }
                 });
             }, 1000);
+            setSlideIndex(newIdx);
         },
     };
 
@@ -315,12 +342,11 @@ const MagezonSlider = (props) => {
                     {owl_dots && (
                         <div className="magezon-slider-nav-dots">
                             {items.map((item, index) => (
-                                <div className="magezon-slider-nav-dots-item" key={index} onClick={() => sliderRef.slickGoTo(index)}>
+                                <div className={`magezon-slider-nav-dots-item ${slideIndex === index && 'magezon-slider-nav-dots-item-active'}`} key={index} onClick={() => sliderRef.slickGoTo(index)}>
                                     <span />
                                 </div>
                             ))}
                         </div>
-
                     )}
                 </div>
             </div>
@@ -387,9 +413,24 @@ const MagezonSlider = (props) => {
                         justify-content: ${owl_nav_position === 'bottom_left' ? 'flex-start' : owl_nav_position === 'bottom_right' ? 'flex-end' : owl_nav_position === 'bottom_center' ? 'center' : 'space-between'};
                     }
                     .magezon-slider-button-nav {
-                        background-color: #eee;
-                        margin: 10px;
-                        padding: 10px;
+                        position: relative;
+                        background-color: ${owl_background_color || '#eee'};
+                        width: ${navSize * 2}px;
+                        height: ${navSize * 2}px;
+                        margin: ${navSize / 2}px 4px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .magezon-slider-button-nav :global(svg) {
+                        font-size: 10px;
+                        color: ${owl_color};
+                    }
+                    .magezon-slider-button-nav:hover {
+                        background-color: ${owl_hover_background_color || '#eee'};
+                    }
+                    .magezon-slider-button-nav:hover :global(svg) {
+                        ${owl_hover_color && `color: ${owl_hover_color};`}
                     }
                     .magezon-slider-button-nav:hover {
                         cursor: pointer;
@@ -418,8 +459,11 @@ const MagezonSlider = (props) => {
                         display: block;
                         width: 10px;
                         height: 10px;
-                        background-color: #eee;
+                        background-color: ${owl_background_color || '#eee'};
                         border-radius: 50px;
+                    }
+                    .magezon-slider-nav-dots-item-active span {
+                        ${owl_active_background_color && `background-color: ${owl_active_background_color};`}
                     }
                     .magezon-slider-nav-dots-item:hover {
                         cursor: pointer;
@@ -427,6 +471,9 @@ const MagezonSlider = (props) => {
                     }
                     .magezon-slider-nav-dots-item:hover span {
                         background-color: black;
+                    }
+                    .magezon-slider-nav-dots-item-active:hover span {
+                        ${owl_active_background_color && `background-color: ${owl_active_background_color};`}
                     }
                 `}
             </style>
