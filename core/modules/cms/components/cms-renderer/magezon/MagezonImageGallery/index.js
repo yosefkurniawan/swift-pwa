@@ -8,31 +8,52 @@ import { generateThumborUrl } from '@root/core/helpers/image';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Slider from 'react-slick';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
+import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
 const ImageElement = dynamic(import('@core_modules/cms/components/cms-renderer/magezon/MagezonImageGallery/ImageElement'), { ssr: false });
+
+const ArrowRight = (props) => {
+    const { className, onClick } = props;
+    return (
+        <div className={className} onClick={onClick}>
+            <ArrowRightIcon />
+        </div>
+    );
+};
+
+const ArrowLeft = (props) => {
+    const { className, onClick } = props;
+    return (
+        <div className={className} onClick={onClick}>
+            <ArrowLeftIcon />
+        </div>
+    );
+};
 
 const MagezonImageGallery = (props) => {
     // prettier-ignore
     const {
-        autoplay,
-        items, loop,
+        autoplay, fit,
+        items, loop, arrows,
         maxwidth, minwidth, minheight, nav, navposition, rtl,
         startindex, stopautoplayontouch, swipe, thumbheight,
         thumbmargin, thumbwidth, width, keyboard,
-        shuffle, transition,
-        storeConfig, arrows,
-        // shadows, click, trackpad, margin,
-        // , captions, allowfullscreen, gallery_type,
-        fit,
+        shuffle, transition, captions,
+        click, allowfullscreen,
+        storeConfig,
     } = props;
     const { secure_base_media_url } = storeConfig;
     const [slideIndex, setIndex] = useState(startindex || 0);
+    const [zoom, setZoom] = useState(false);
     const [itemsArr, setItemsArr] = useState(items);
     const [hasSetPosition, setHasSetPosition] = useState(false);
     const maxHeight = 750;
     let focusSlider;
     let sliderRef = useRef();
     const navRef = useRef();
+    const elementRef = useRef();
 
     const calculateHeight = () => {
         let newHeight = maxHeight;
@@ -121,6 +142,8 @@ const MagezonImageGallery = (props) => {
         swipe,
         beforeChange: (old, next) => setIndex(next),
         pauseOnHover: false,
+        nextArrow: <ArrowRight />,
+        prevArrow: <ArrowLeft />,
     };
 
     const updatedItems = useMemo(() => adjustItems(), [items]);
@@ -138,6 +161,23 @@ const MagezonImageGallery = (props) => {
         return () => clearTimeout(focusSlider);
     }, []);
 
+    const clickNavigate = (e) => {
+        e.stopPropagation();
+        if (click) {
+            const rect = e.target.getBoundingClientRect();
+            const elementRect = elementRef.current.offsetWidth;
+            const mouseX = e.clientX - rect.left;
+
+            if (mouseX < elementRect / 2) sliderRef.slickPrev();
+            if (mouseX > elementRect / 2) sliderRef.slickNext();
+        }
+    };
+
+    const zoomHandler = (e) => {
+        e.stopPropagation();
+        setZoom(!zoom);
+    };
+
     useEffect(() => {
         if (sliderRef && !hasSetPosition) {
             sliderRef.slickGoTo(startindex || 0);
@@ -147,8 +187,15 @@ const MagezonImageGallery = (props) => {
 
     return (
         <>
-            <div className="mgz-img-gallery">
-                <div className="mgz-img-gallery-container">
+            <div className={`mgz-img-gallery ${zoom && 'fullscreen'}`}>
+                {/* <Dialog open={true} fullScreen>
+                </Dialog> */}
+                <div className="mgz-img-gallery-container" ref={elementRef} onClick={clickNavigate}>
+                    {allowfullscreen && (
+                        <div className="mgz-img-gallery-zoom-btn" onClick={zoomHandler}>
+                            <ZoomOutMapIcon />
+                        </div>
+                    )}
                     <Slider ref={(slider) => (sliderRef = slider)} {...settings}>
                         {itemsArr.map((item, index) => (
                             <ImageElement
@@ -158,11 +205,12 @@ const MagezonImageGallery = (props) => {
                                 pauseSlick={pauseSlick}
                                 height={calculateHeight()}
                                 fit={fit}
+                                captions={captions}
                             />
                         ))}
                     </Slider>
                 </div>
-                {nav === 'thumbs' && (
+                {nav && nav !== 'false' && (
                     <div className="mgz-img-gallery-nav">
                         {itemsArr.map((item, index) => {
                             const { type, image, link } = item;
@@ -173,7 +221,12 @@ const MagezonImageGallery = (props) => {
                                     key={index}
                                     ref={navRef}
                                     tabIndex={index}
-                                    className={slideIndex === index && 'mgz-active'}
+                                    className={
+                                        nav === 'thumbs'
+                                            ? slideIndex === index && 'mgz-active'
+                                            : nav === 'dots'
+                                                && `mgz-img-gallery-nav-dots-item ${slideIndex === index && 'mgz-img-gallery-nav-dots-item-active'}`
+                                    }
                                     onClick={() => {
                                         sliderRef.slickGoTo(index);
                                     }}
@@ -186,16 +239,20 @@ const MagezonImageGallery = (props) => {
                                         }
                                     }}
                                 >
-                                    <img
-                                        data-pagespeed-no-defer
-                                        src={generateThumborUrl(imgUrl, 0, 0)}
-                                        onError={(e) => {
-                                            e.target.onerror = null;
-                                            e.target.src = '/assets/img/placeholder.png';
-                                        }}
-                                        style={{ width: '100%', height: '100%' }}
-                                        alt={`nav-${nav}-item`}
-                                    />
+                                    {nav === 'thumbs'
+                                        ? (
+                                            <img
+                                                data-pagespeed-no-defer
+                                                src={generateThumborUrl(imgUrl, 0, 0)}
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = '/assets/img/placeholder.png';
+                                                }}
+                                                style={{ width: '100%', height: '100%' }}
+                                                alt={`nav-${nav}-item`}
+                                            />
+                                        )
+                                        : <span />}
                                 </div>
                             );
                         })}
@@ -210,7 +267,20 @@ const MagezonImageGallery = (props) => {
                         align-items: center;
                         flex-direction: ${navposition === 'bottom' ? 'column' : 'column-reverse'};
                     }
+                    .mgz-img-gallery.fullscreen {
+                        position: fixed;
+                        height: 100vh;
+                        inset: 0;
+                        background-color: white;
+                        z-index: 1500;
+                        display: block;
+                    }
+                    .fullscreen .mgz-img-gallery-container {
+                        max-height: 100%;
+                        max-width: 100%;
+                    }
                     .mgz-img-gallery-container {
+                        position: relative;
                         width: ${width};
                         min-width: ${minwidth};
                         max-width: ${maxwidth};
@@ -224,6 +294,35 @@ const MagezonImageGallery = (props) => {
                     .mgz-active {
                         border: 2px solid #00afea;
                         outline: none;
+                    }
+                    .mgz-img-gallery-nav-dots-item {
+                        width: 6px;
+                        height: 6px;
+                        border: 1px solid #7f7f7f;
+                        border-radius: 6px;
+                        margin: 10px;
+                    }
+                    .mgz-img-gallery-nav-dots-item-active {
+                        background-color: #7f7f7f; 
+                    }
+                    .mgz-img-gallery-zoom-btn {
+                        color: grey;
+                        opacity: 0;
+                        position: absolute;
+                        right: 0;
+                        z-index: 1;
+                    }
+                    .mgz-img-gallery-container:hover .mgz-img-gallery-zoom-btn {
+                        opacity: 0.5;
+                        transition: opacity 0.3s;
+                    }
+                    .fullscreen .mgz-img-gallery-zoom-btn {
+                        position: fixed;
+                        top: 0;
+                        opacity: 0.5;
+                    }
+                    .mgz-img-gallery-zoom-btn:hover {
+                        cursor: pointer;
                     }
                 `}
             </style>
@@ -240,24 +339,55 @@ const MagezonImageGallery = (props) => {
                         align-items: center;
                         justify-content: center;
                     }
+                    .mgz-img-gallery.fullscreen .slick-track {
+                        height: 100%;
+                    }
                     .mgz-img-gallery-container .slick-prev {
                         left: 0;
                     }
                     .mgz-img-gallery-container .slick-next {
                         right: 0;
                     }
+                    .mgz-img-gallery.fullscreen .mgz-img-gallery-container .slick-arrow {
+                        z-index: 1500;
+                    }
                     .mgz-img-gallery-container .slick-arrow {
-                        z-index: 100;
-                        background-color: #c5c5c5;
+                        transition: opacity 0.3s;
+                        opacity: 0;
+                        z-index: 1;
+                        background: rgba(0,0,0,0.1);
+                    }
+                    .mgz-img-gallery-container:hover .slick-arrow {
+                        opacity: 1;
+                    }
+                    .mgz-img-gallery.fullscreen .slick-arrow {
+                        opacity: 1;
+                    }
+                    .mgz-img-gallery-container .slick-prev svg, .mgz-img-gallery-container .slick-next svg {
+                        font-size: 20px !important;
+                        color: white;
+                    }
+                    .mgz-img-gallery-container .slick-prev:before, .mgz-img-gallery-container .slick-next:before {
+                        content: '' !important
                     }
                     .slick-slide > div {
                         height: 100%;
                         width: 100%;
                         display: flex;
+                        justify-content: center;
                         position: relative;
+                    }
+                    .mgz-img-gallery.fullscreen .slick-slide > div {
+                        height: 100vh;
                     }
                     .mgz-img-gallery-nav {
                         display: flex;
+                    }
+                    .mgz-img-gallery.fullscreen .mgz-img-gallery-nav {
+                        position: fixed;
+                        top: 0;
+                        left: 50%;
+                        transform: translate(-50%);
                     }
                     .mgz-img-gallery-nav div {
                         margin: ${thumbmargin ? `${thumbmargin}px` : '2px'};

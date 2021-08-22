@@ -5,6 +5,7 @@
 
 import { generateThumborUrl } from '@helpers/image';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import WidgetRenderer from '@core_modules/cms/components/cms-renderer/WidgetRenderer';
 
 const ImageElement = (props) => {
     // prettier-ignore
@@ -12,9 +13,8 @@ const ImageElement = (props) => {
         image, type, link,
         video_url, baseUrl,
         full_image, pauseSlick,
-        height,
-        fit,
-        // caption, position,
+        height, fit, caption,
+        captions,
     } = props;
     const videoCover = React.useRef();
 
@@ -32,6 +32,11 @@ const ImageElement = (props) => {
         return (
             <>
                 <div className="mgz-img-gallery-img-container" onClick={pauseSlick}>
+                    {captions && caption && (
+                        <div className="mgz-img-gallery-caption">
+                            <WidgetRenderer content={caption} />
+                        </div>
+                    )}
                     <img
                         data-pagespeed-no-defer
                         src={generateThumborUrl(imgUrl, 0, 0)}
@@ -50,15 +55,36 @@ const ImageElement = (props) => {
                             // flex: 1;
                             // justify-content: center;
                             // margin: auto;
+                            position: relative;
                             text-align: center;
                             overflow: hidden;
                         }
                         img {
                             display: block;
-                            width: 672px;
+                            // width: 672px;
                             max-width: 100%;
                             height: ${height}px;
                             object-fit: ${fit === 'scaledown' ? 'scale-down' : fit};
+                        }
+                        .mgz-img-gallery-caption {
+                            position: absolute;
+                            bottom: 0;
+                            left: 50%;
+                            background-color: white;
+                            transform: translate(-50%);
+                            opacity: 0.9;
+                        }
+                        .mgz-img-gallery-caption :global(*) {
+                            margin: 5px 8px;
+                        }
+                    `}
+                </style>
+                <style jsx global>
+                    {`
+                        .fullscreen .mgz-img-gallery-img-container img {
+                            height: 100%;
+                            max-height: 100vh;
+                            margin: 20px;
                         }
                     `}
                 </style>
@@ -71,7 +97,8 @@ const ImageElement = (props) => {
                 <div
                     ref={videoCover}
                     className="mgz-img-slider-video-cover"
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.stopPropagation();
                         videoCover.current.style.setProperty('display', 'none');
                     }}
                 >
@@ -91,8 +118,14 @@ const ImageElement = (props) => {
                             display: flex;
                             width: 100%;
                             position: relative;
+                            overflow: hidden;
+                            margin: 20px;
+                        }
+                        .mgz-img-slider-video-container iframe {
+                            z-index: 1;
                         }
                         .mgz-img-slider-video-cover {
+                            z-index: 2;
                             width: 100%;
                             height: 100%;
                             position: absolute;
