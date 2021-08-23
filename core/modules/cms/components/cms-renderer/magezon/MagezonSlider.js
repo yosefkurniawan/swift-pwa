@@ -13,8 +13,8 @@ import { generateThumborUrl } from '@helpers/image';
 import { features } from '@config';
 import { getStoreHost } from '@helpers/config';
 import MagezonHeading from '@core_modules/cms/components/cms-renderer/magezon/MagezonHeading';
-import LeftArrowIcon from '@material-ui/icons/ArrowBackIos';
-import RightArrowIcon from '@material-ui/icons/ArrowForwardIos';
+import LeftArrowIcon from '@material-ui/icons/ChevronLeft';
+import RightArrowIcon from '@material-ui/icons/ChevronRight';
 
 const VideoContent = (props) => {
     const {
@@ -252,7 +252,7 @@ const MagezonSlider = (props) => {
     let sliderRef = useRef();
 
     const settings = {
-        arrows: owl_nav_position === 'center_split',
+        arrows: false,
         infinite: owl_loop,
         speed: 500,
         slidesToShow: 1,
@@ -321,6 +321,16 @@ const MagezonSlider = (props) => {
                         </div>
                     </div>
                 )}
+                {owl_nav_position === 'center_split' && (
+                    <div className="magezon-slider-nav-center-arrow">
+                        <div className="magezon-slider-button-nav" onClick={() => sliderRef.slickPrev()}>
+                            <LeftArrowIcon />
+                        </div>
+                        <div className="magezon-slider-button-nav" onClick={() => sliderRef.slickNext()}>
+                            <RightArrowIcon />
+                        </div>
+                    </div>
+                )}
                 <div className="magezon-slider-inner">
                     <Slider ref={(slider) => (sliderRef = slider)} {...settings}>
                         {items.map((item, i) => (
@@ -352,6 +362,9 @@ const MagezonSlider = (props) => {
             </div>
             <style jsx>
                 {`
+                    .magezon-slider {
+                        position: relative;
+                    }
                     .magezon-slider-inner {
                         height: ${slider_height}px;
                     }
@@ -408,6 +421,19 @@ const MagezonSlider = (props) => {
                         display: flex;
                         justify-content: ${owl_nav_position === 'top_left' ? 'flex-start' : owl_nav_position === 'top_right' ? 'flex-end' : 'space-between'};
                     }
+                    .magezon-slider-nav-center-arrow {
+                        opacity: 0;
+                        position: absolute;
+                        display: flex;
+                        width: 100%;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        justify-content: ${owl_nav_position === 'top_left' ? 'flex-start' : owl_nav_position === 'top_right' ? 'flex-end' : 'space-between'};
+                        z-index: 1;
+                    }
+                    .magezon-slider:hover .magezon-slider-nav-center-arrow {
+                        opacity: 1;
+                    }
                     .magezon-slider-nav-bottom-arrow {
                         display: flex;
                         justify-content: ${owl_nav_position === 'bottom_left' ? 'flex-start' : owl_nav_position === 'bottom_right' ? 'flex-end' : owl_nav_position === 'bottom_center' ? 'center' : 'space-between'};
@@ -421,9 +447,10 @@ const MagezonSlider = (props) => {
                         display: flex;
                         align-items: center;
                         justify-content: center;
+                        transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
                     }
                     .magezon-slider-button-nav :global(svg) {
-                        font-size: 10px;
+                        font-size: 15px;
                         color: ${owl_color};
                     }
                     .magezon-slider-button-nav:hover {
@@ -434,6 +461,7 @@ const MagezonSlider = (props) => {
                     }
                     .magezon-slider-button-nav:hover {
                         cursor: pointer;
+                        border: 1px solid black;
                     }
                     .magezon-slider-nav-bottom {
                         display: flex;
@@ -448,7 +476,6 @@ const MagezonSlider = (props) => {
                         justify-content: center;
                     }
                     .magezon-slider-nav-dots-item {
-                        background-color: black;
                         width: 30px;
                         height: 30px;
                         display: flex;
@@ -467,10 +494,9 @@ const MagezonSlider = (props) => {
                     }
                     .magezon-slider-nav-dots-item:hover {
                         cursor: pointer;
-                        background-color: white;
                     }
                     .magezon-slider-nav-dots-item:hover span {
-                        background-color: black;
+                        background-color: ${owl_hover_background_color};
                     }
                     .magezon-slider-nav-dots-item-active:hover span {
                         ${owl_active_background_color && `background-color: ${owl_active_background_color};`}
