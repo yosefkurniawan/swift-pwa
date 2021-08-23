@@ -69,6 +69,33 @@ const useStyles = makeStyles({
             backgroundColor: (props) => props.message_icon_background_color,
         },
     },
+    wrapper: {
+        '&.xs-hide': {
+            '@media (max-width: 575px)': {
+                display: 'none !important',
+            },
+        },
+        '&.sm-hide': {
+            '@media (min-width: 576px) and (max-width: 767px)': {
+                display: 'none !important',
+            },
+        },
+        '&.md-hide': {
+            '@media (min-width: 768px) and (max-width: 991px)': {
+                display: 'none !important',
+            },
+        },
+        '&.lg-hide': {
+            '@media (min-width: 992px) and (max-width: 1200px)': {
+                display: 'none !important',
+            },
+        },
+        '&.xl-hide': {
+            '@media (min-width: 1200px)': {
+                display: 'none !important',
+            },
+        },
+    },
 });
 
 export default useStyles;
