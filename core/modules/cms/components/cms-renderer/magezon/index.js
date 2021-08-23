@@ -21,6 +21,7 @@ import MagezonCta from '@core_modules/cms/components/cms-renderer/magezon/Magezo
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import MagezonSearchForm from '@core_modules/cms/components/cms-renderer/magezon/MagezonSearchForm';
 import MagezonStaticBlock from '@core_modules/cms/components/cms-renderer/magezon/MagezonStaticBlock';
+import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
@@ -160,6 +161,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonCaraousel {...props} />; break;
         case 'search_form':
             childrenContent = <MagezonSearchForm {...props} />; break;
+        case 'content_slider':
+            childrenContent = <MagezonContentSlider {...props} />; break;
         default:
             childrenContent = null;
         }
