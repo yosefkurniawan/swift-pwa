@@ -60,11 +60,14 @@ const MagezonImageGallery = (props) => {
         let newWidth = width;
 
         if (width || minwidth || maxwidth) {
-            if (Number(width.split('%')[0]) > Number(maxwidth.split('%')[0])) {
+            if (maxwidth && (Number(width.split('%')[0]) > Number(maxwidth.split('%')[0]))) {
                 newWidth = maxwidth;
             }
 
-            if (Number(minwidth.split('%')[0]) > Number(width.split('%')[0]) || Number(minwidth.split('%')[0]) > Number(maxwidth.split('%')[0])) {
+            if (
+                minwidth
+                && (Number(minwidth.split('%')[0]) > Number(width.split('%')[0]) || Number(minwidth.split('%')[0]) > Number(maxwidth.split('%')[0]))
+            ) {
                 newWidth = minwidth;
             }
 
