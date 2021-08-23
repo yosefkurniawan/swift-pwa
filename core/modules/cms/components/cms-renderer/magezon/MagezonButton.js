@@ -9,7 +9,7 @@ import classNames from 'classnames';
 const MagezonButton = (props) => {
     const {
         xs_hide, sm_hide, md_hide, lg_hide, title, link, icon, icon_position, onClick = () => {},
-        button_align,
+        button_align, button_color,
     } = props;
     const classes = useStyles(props);
     let wrapper = '';
@@ -32,16 +32,16 @@ const MagezonButton = (props) => {
             {link && link !== '' ? (
                 <MagezonLink link={link}>
                     <Button className={classNames(classes.button, 'mgz-btn')} type="button" align={`${button_align || 'left'}`} onClick={onClick}>
-                        {icon && isLeftIconPosition ? <MagezonIcon icon={icon} /> : null}
+                        {icon && isLeftIconPosition ? <MagezonIcon icon={icon} icon_color={button_color} /> : null}
                         {title || ''}
-                        {icon && !isLeftIconPosition ? <MagezonIcon icon={icon} /> : null}
+                        {icon && !isLeftIconPosition ? <MagezonIcon icon={icon} icon_color={button_color} /> : null}
                     </Button>
                 </MagezonLink>
             ) : (
                 <Button className={classes.button} type="button" align={`${button_align || 'left'}`} onClick={onClick}>
-                    {icon && isLeftIconPosition ? <MagezonIcon icon={icon} /> : null}
+                    {icon && isLeftIconPosition ? <MagezonIcon icon={icon} icon_color={button_color} /> : null}
                     {title || ''}
-                    {icon && !isLeftIconPosition ? <MagezonIcon icon={icon} /> : null}
+                    {icon && !isLeftIconPosition ? <MagezonIcon icon={icon} icon_color={button_color} /> : null}
                 </Button>
             )}
             <style jsx>

@@ -56,6 +56,19 @@ const useStyles = makeStyles(() => ({
             `,
             backgroundSize: '200% 100%',
         }),
+        '& .magezon-icon': {
+            margin: props.button_size === 'xs'
+                ? '0px 4px'
+                : props.button_size === 'sm'
+                    ? '0px 6px'
+                    : props.button_size === 'md'
+                        ? '0px 9px'
+                        : props.button_size === 'lg'
+                            ? '0px 13px'
+                            : props.button_size === 'xl'
+                                ? '0px 15px'
+                                : '0px 6px',
+        },
         '&:hover': {
             color: props.button_hover_color || '#333333',
             backgroundColor: props.button_hover_background_color
@@ -67,6 +80,11 @@ const useStyles = makeStyles(() => ({
             ...(props.button_style === 'gradient' && (props.gradient_color_1 || props.gradient_color_2) && {
                 backgroundPosition: '100% 0',
             }),
+            '& .magezon-icon': {
+                '& i': {
+                    color: props.button_hover_color || '#333333',
+                },
+            },
         },
     }),
     mgzMessageBox: {
