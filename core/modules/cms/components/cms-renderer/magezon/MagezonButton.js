@@ -4,11 +4,12 @@ import Button from '@common_button';
 import MagezonLink from '@core_modules/cms/components/cms-renderer/magezon/MagezonLink';
 import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
 import useStyles from '@core_modules/cms/components/cms-renderer/magezon/style';
+import classNames from 'classnames';
 
 const MagezonButton = (props) => {
     const {
-        button_size, title, link, icon, icon_position, onClick = () => {},
-        button_align,
+        title, link, icon, icon_position, onClick = () => {},
+        button_align, button_color,
     } = props;
     const classes = useStyles(props);
     const wrapper = 'mgz-button';
@@ -26,21 +27,23 @@ const MagezonButton = (props) => {
         <div className={wrapper}>
             {link && link !== '' ? (
                 <MagezonLink link={link}>
-                    <Button className={classes.button} type="button" align={`${button_align || 'left'}`} onClick={onClick}>
-                        {icon && isLeftIconPosition ? <MagezonIcon icon={icon} icon_size={button_size} /> : null}
+                    <Button className={classNames(classes.button, 'mgz-btn')} type="button" align={`${button_align || 'left'}`} onClick={onClick}>
+                        {icon && isLeftIconPosition ? <MagezonIcon icon={icon} icon_color={button_color} /> : null}
                         {title || ''}
-                        {icon && !isLeftIconPosition ? <MagezonIcon icon={icon} icon_size={button_size} /> : null}
+                        {icon && !isLeftIconPosition ? <MagezonIcon icon={icon} icon_color={button_color} /> : null}
                     </Button>
                 </MagezonLink>
             ) : (
                 <Button className={classes.button} type="button" align={`${button_align || 'left'}`} onClick={onClick}>
-                    {icon ? <MagezonIcon icon={icon} icon_size={button_size} /> : null}
+                    {icon && isLeftIconPosition ? <MagezonIcon icon={icon} icon_color={button_color} /> : null}
                     {title || ''}
+                    {icon && !isLeftIconPosition ? <MagezonIcon icon={icon} icon_color={button_color} /> : null}
                 </Button>
             )}
-            <style jsx global>
+            <style jsx>
                 {`
-                    .magezone {
+                    .mgz-btn {
+                        width: 100%;
                     }
                 `}
             </style>
