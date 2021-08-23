@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import React from 'react';
 import Typography from '@common_typography';
+import { useTranslation } from '@i18n';
 
 const MagezonVideoPlayer = (props) => {
     const {
@@ -11,6 +12,8 @@ const MagezonVideoPlayer = (props) => {
         controls, autoplay, loop, mute,
 
     } = props;
+    const { t } = useTranslation(['common']);
+    // console.log(props);
     let classVideoPlayer = '';
     if (xs_hide) classVideoPlayer += 'hidden-mobile ';
     if (sm_hide) classVideoPlayer += 'hidden-sm ';
@@ -62,15 +65,14 @@ const MagezonVideoPlayer = (props) => {
         const parameters = {};
         if (controls) parameters.controls = true;
         if (mute) parameters.muted = true;
-        if (autoplay) parameters.autoplay = true;
+        if (autoplay) parameters.autoPlay = true;
         if (loop) parameters.loop = true;
         if (video_type === 'local') {
             return (
                 <div className="mgz-video-content">
                     <video {...parameters}>
                         <source src={videoLink} />
-                        <track />
-                        Your browser does not support the video tag.
+                        {t('common.error.videoNotSupported')}
                     </video>
                 </div>
             );

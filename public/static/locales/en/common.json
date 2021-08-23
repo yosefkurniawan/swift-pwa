@@ -92,7 +92,8 @@
         "notFound": "Data not found",
         "fileReject": "Cannot upload, Files must be a type ",
         "fetchError": "Connection Error. Please try again later.",
-        "browser": "Browser not supported"
+        "browser": "Browser not supported",
+        "videoNotSupported": "Your browser does not support the video tag."
     },
     "fileUpload": {
         "reject": "Cannot upload, Files must be a type ",
