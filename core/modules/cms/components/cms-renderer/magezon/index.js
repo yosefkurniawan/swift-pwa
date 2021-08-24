@@ -16,6 +16,8 @@ import MagezonToggle from '@core_modules/cms/components/cms-renderer/magezon/Mag
 import MagezonFlipBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonFlipBox';
 import MagezonCounter from '@core_modules/cms/components/cms-renderer/magezon/MagezonCounter/index';
 import MagezonMessageBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonMessageBox';
+import MagezonNewsletter from '@core_modules/cms/components/cms-renderer/magezon/MagezonNewsletter';
+import MagezonSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonSlider';
 import MagezonContactForm from '@core_modules/cms/components/cms-renderer/magezon/MagezonContactForm';
 import MagezonCta from '@core_modules/cms/components/cms-renderer/magezon/MagezonCta';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
@@ -159,6 +161,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonCounter {...props} />; break;
         case 'message_box':
             childrenContent = <MagezonMessageBox {...props} />; break;
+        case 'newsletter_form':
+            childrenContent = <MagezonNewsletter {...props} />; break;
         case 'contact_form':
             childrenContent = <MagezonContactForm {...props} />; break;
         case 'flip_box':
@@ -171,6 +175,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonCta {...props} />; break;
         case 'countdown':
             childrenContent = <MagezonCountdown {...props} />; break;
+        case 'slider':
+            childrenContent = <MagezonSlider {...props} />; break;
         case 'image_carousel':
             childrenContent = <MagezonCaraousel {...props} />; break;
         case 'search_form':
