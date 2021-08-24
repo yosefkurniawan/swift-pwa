@@ -346,7 +346,7 @@ const modules = {
     },
     checkout: {
         enabled: true,
-        checkoutOnly: false,
+        checkoutOnly: true,
         path: '/checkout',
         ipayUrl: 'ipay88/ipayredirect/?orderId=',
         snapUrl: {
