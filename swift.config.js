@@ -189,6 +189,16 @@ const features = {
                 height: 750,
             },
         },
+        magezonSlider: {
+            mobile: {
+                width: 1800,
+                height: 750,
+            },
+            desktop: {
+                width: 1800,
+                height: 750,
+            },
+        },
         category: {
             width: 960,
             height: 577,
@@ -336,7 +346,7 @@ const modules = {
     },
     checkout: {
         enabled: true,
-        checkoutOnly: true,
+        checkoutOnly: false,
         path: '/checkout',
         ipayUrl: 'ipay88/ipayredirect/?orderId=',
         snapUrl: {

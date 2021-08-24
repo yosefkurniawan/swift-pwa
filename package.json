@@ -1,6 +1,6 @@
 {
   "name": "swift-pwa",
-  "version": "2.4.5",
+  "version": "2.4.6",
   "private": true,
   "scripts": {
     "assets:build": "webpack",
@@ -12,7 +12,7 @@
     "stage:start": "cross-env APP_ENV=stage NODE_ENV=production node --max-http-header-size=16384 server.js",
     "prod": "cross-env APP_ENV=prod NODE_ENV=development node --max-http-header-size=16384 server.js",
     "prod:start": "cross-env APP_ENV=prod NODE_ENV=production node --max-http-header-size=16384 server.js",
-    "start": "cross-env node server.js",
+    "start": "cross-env node --max-http-header-size=16384 server.js",
     "generate-certs": "mkdir certs && openssl req -x509 -days 365 -newkey rsa:2048 -nodes -sha256 -keyout certs/privateKey.key -out certs/certificate.crt",
     "build": "concurrently \"yarn assets:build\" \"next build\"",
     "export": "next export",
@@ -84,7 +84,7 @@
     "react-gtm-module": "^2.0.8",
     "react-prismazoom": "^1.1.4",
     "react-share": "^4.1.0",
-    "react-slick": "^0.27.10",
+    "react-slick": "^0.28.0",
     "simple-react-lightbox": "^3.6.6",
     "slick-carousel": "^1.8.1",
     "swiper": "^5.4.5",

@@ -1,10 +1,7 @@
-FROM node:14.17.2
+FROM node:14
 
 # Setting working directory. All the path will be relative to WORKDIR
 WORKDIR /usr/src/app
-
-# Installing dependencies
-COPY package*.json ./
 
 # Copying source files
 COPY . .
