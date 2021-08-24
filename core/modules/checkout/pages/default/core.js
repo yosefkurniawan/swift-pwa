@@ -9,7 +9,8 @@ import { getCartId } from '@helpers/cartId';
 import Router from 'next/router';
 import Layout from '@layout';
 import Head from 'next/head';
-import { modules } from '@config';
+import { modules, nameCheckoutState } from '@config';
+import { updatePwaCheckoutLog } from '@services/graphql/repository/log';
 import { getStoreHost } from '@helpers/config';
 import Cookies from 'js-cookie';
 import { getAppEnv } from '@root/core/helpers/env';
@@ -38,6 +39,8 @@ const Checkout = (props) => {
     const {
         t, storeConfig, pageConfig, Content, cartId: propsCardId,
     } = props;
+    const pwaCheckoutState = encodeURIComponent(Cookies.get(nameCheckoutState));
+    const [actUpdatePwaCheckoutLog] = updatePwaCheckoutLog();
     const config = {
         successRedirect: {
             link: getSuccessCallbackUrl(),
@@ -264,10 +267,28 @@ const Checkout = (props) => {
         cart.items = items;
 
         if (cart && cart.items && cart.items.length === 0) {
+            if (storeConfig.pwa_checkout_debug_enable === '1') {
+                actUpdatePwaCheckoutLog({
+                    variables: {
+                        cart_id: cart.id,
+                        state: pwaCheckoutState,
+                        status: 0,
+                    },
+                });
+            }
             window.location.replace(config.cartRedirect && config.cartRedirect.link ? config.cartRedirect.link : '/checkout/cart');
         } else {
             cart.items.map((item) => {
                 if (item.product && item.product.stock_status === 'OUT_OF_STOCK') {
+                    if (storeConfig.pwa_checkout_debug_enable === '1') {
+                        actUpdatePwaCheckoutLog({
+                            variables: {
+                                cart_id: cart.id,
+                                state: pwaCheckoutState,
+                                status: 0,
+                            },
+                        });
+                    }
                     window.location.replace(config.cartRedirect && config.cartRedirect.link ? config.cartRedirect.link : '/checkout/cart');
                 }
                 return null;
@@ -421,6 +442,16 @@ const Checkout = (props) => {
             state.data.rewardPoints = rewardPoint.data.customerRewardPoints;
         }
 
+        if (storeConfig.pwa_checkout_debug_enable === '1') {
+            actUpdatePwaCheckoutLog({
+                variables: {
+                    cart_id: cartId,
+                    state: pwaCheckoutState,
+                    status: 1,
+                },
+            });
+        }
+
         state.loading.all = false;
         state.loading.paypal = false;
 
@@ -472,6 +503,15 @@ const Checkout = (props) => {
         }
 
         if (errorCart || errorItem) {
+            if (storeConfig.pwa_checkout_debug_enable === '1') {
+                actUpdatePwaCheckoutLog({
+                    variables: {
+                        cart_id: cartId,
+                        state: pwaCheckoutState,
+                        status: 0,
+                    },
+                });
+            }
             setError(true);
             setTimeout(() => {
                 window.location.replace(config.cartRedirect.link);

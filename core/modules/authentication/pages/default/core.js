@@ -1,9 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { setLogin, removeIsLoginFlagging } from '@helpers/auth';
-import { expiredToken } from '@config';
+import { expiredToken, expiredDefault, nameCheckoutState } from '@config';
 import { setCartId, removeCartId } from '@helpers/cartId';
+import { updatePwaCheckoutLog } from '@services/graphql/repository/log';
 import { generateSession, deleteSession } from '@core_modules/authentication/services/graphql';
 import Error from '@core_modules/authentication/components/Error';
 
@@ -26,6 +28,7 @@ const Authentication = (props) => {
 
     const [generateSessionGql] = generateSession();
     const [deleteSessionGql] = deleteSession();
+    const [actUpdatePwaCheckoutLog] = updatePwaCheckoutLog();
 
     const expired = storeConfig.oauth_access_token_lifetime_customer
         ? new Date(Date.now() + parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) * 3600000)
@@ -53,6 +56,8 @@ const Authentication = (props) => {
                         result, cartId, isLogin,
                     } = data.internalGenerateSession;
                     if (result) {
+                        Cookies.set(nameCheckoutState, state, { expires: expiredDefault });
+
                         objectProps = data.internalGenerateSession;
                         if (isLogin) {
                             // console.log('chekcout as logged-in customer');
@@ -68,6 +73,16 @@ const Authentication = (props) => {
                     } else {
                         setAuthFailed(true);
                         setLoad(false);
+
+                        if (storeConfig.pwa_checkout_debug_enable === '1') {
+                            actUpdatePwaCheckoutLog({
+                                variables: {
+                                    cart_id: cartId,
+                                    state: encodeURIComponent(state),
+                                    status: 0,
+                                },
+                            });
+                        }
                         // backToStore(redirect_path || '/');
                     }
                 }).catch(() => {
