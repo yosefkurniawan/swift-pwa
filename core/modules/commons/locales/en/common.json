@@ -121,7 +121,9 @@
     "newsletter": {
         "title": "SIGN UP NEWSLETTER",
         "placeholder": "Enter your email address",
-        "buttonLabel": "Subscribe"
+        "buttonLabel": "Subscribe",
+        "firstname": "Enter your firstname",
+        "lastname": "Enter your lastname"
     },
     "recentlyView": {
         "title" : "Recently Viewed"

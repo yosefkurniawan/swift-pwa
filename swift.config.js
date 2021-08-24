@@ -9,8 +9,8 @@ const iconAppleTouch = '/assets/img/swiftpwa_apple_touch.png';
 const HOST = {
     local: 'http://localhost:3000',
     dev: 'https://swiftpwa.testingnow.me',
-    stage: 'https://getswift-pwa.gcp-staging.testingnow.me',
-    prod: 'https://pwa.getswift.asia',
+    stage: 'https://checkout-getswift-pwa.gcp-staging.testingnow.me',
+    prod: 'https://pwa-checkout.getswift.asia',
 };
 
 /* Magento GraphQL Endpoint */
@@ -65,12 +65,12 @@ const translation = {
  * NOTE: this GTM functionality includes connecting to GA via GTM tag.
  */
 const GTM = {
-    enable: false,
+    enable: true,
     gtmId: {
         local: '', // sample: GTM-N76V8KQ
         dev: '', // sample: GTM-N76V8KQ
         stage: '', // sample: GTM-N76V8KQ
-        prod: '', // sample: GTM-N76V8KQ
+        prod: 'GTM-5FQD57V', // sample: GTM-N76V8KQ
     },
 };
 
@@ -183,6 +183,16 @@ const features = {
             mobile: {
                 width: 960,
                 height: 1120,
+            },
+            desktop: {
+                width: 1800,
+                height: 750,
+            },
+        },
+        magezonSlider: {
+            mobile: {
+                width: 1800,
+                height: 750,
             },
             desktop: {
                 width: 1800,
