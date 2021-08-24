@@ -1,25 +1,12 @@
+/* eslint-disable no-nested-ternary */
+
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(() => ({
     container: {
-        display: 'flex',
         width: '100%',
         borderStyle: (props) => props.border_style || 'solid',
         backgroundPosition: (props) => props.background_position,
-        justifyContent: ((props) => {
-            let align = '';
-            switch (props.content_align) {
-            case 'left':
-                align = 'flex-start'; break;
-            case 'center':
-                align = 'center'; break;
-            case 'right':
-                align = 'flex-end'; break;
-            default:
-                align = 'flex-start';
-            }
-            return align;
-        }) || 'flex-start',
         backgroundColor: (props) => props.background_color || 'transparent',
         borderColor: (props) => props.border_color || 'transparent',
         borderWidth: (props) => `${props.border_top_width || 0}px ${props.border_right_width || 0}px ${props.border_bottom_width || 0}px ${
@@ -30,15 +17,76 @@ const useStyles = makeStyles({
         padding: (props) => `${props.padding_top || 0}px ${props.padding_right || 0}px ${props.padding_bottom || 0}px ${props.padding_left || 0
         }px` || '0 0 0 0',
     },
-    button: {
-        backgroundPosition: (props) => props.background_position,
-        boxShadow: (props) => `5px 10px ${props.box_shadow_color}`,
-        borderStyle: (props) => props.button_border_style,
-        borderWidth: (props) => props.button_border_width || 0,
-        borderRadius: (props) => props.button_border_radius || 0,
-        borderColor: (props) => props.button_border_color || 'transparent',
-        backgroundColor: (props) => props.button_background_color || 'black',
-    },
+    button: (props) => ({
+        transition: 'all 0.2s ease-in-out',
+        backgroundPosition: props.background_position,
+        color: props.button_color || '#000000',
+        fontSize: props.button_size === 'xs'
+            ? '11px'
+            : props.button_size === 'sm'
+                ? '12px'
+                : props.button_size === 'md'
+                    ? '14px'
+                    : props.button_size === 'lg'
+                        ? '17px'
+                        : props.button_size === 'xl'
+                            ? '21px'
+                            : '12px',
+        padding: props.button_size === 'xs'
+            ? '8px 12px'
+            : props.button_size === 'sm'
+                ? '11px 16px'
+                : props.button_size === 'md'
+                    ? '15px 21px'
+                    : props.button_size === 'lg'
+                        ? '20px 27px'
+                        : props.button_size === 'xl'
+                            ? '26px 34px'
+                            : '11px 16px',
+        boxShadow: props.button_style === '3d' ? `0 5px 0 ${props.box_shadow_color}` : 'none',
+        borderStyle: props.button_border_style,
+        borderWidth: props.button_border_width ? `${props.button_border_width}px` : 0,
+        borderRadius: props.button_border_radius ? `${props.button_border_radius}px` : '5px',
+        borderColor: props.button_border_color || 'transparent',
+        backgroundColor: props.button_background_color || '#e3e3e3',
+        ...(props.full_width && { width: '100%' }),
+        ...(props.button_style === 'gradient' && (props.gradient_color_1 || props.gradient_color_2) && {
+            backgroundImage: `
+                linear-gradient(to right, ${props.gradient_color_1} 0, ${props.gradient_color_2} 50%, ${props.gradient_color_1} 100%)
+            `,
+            backgroundSize: '200% 100%',
+        }),
+        '& .magezon-icon': {
+            margin: props.button_size === 'xs'
+                ? '0px 4px'
+                : props.button_size === 'sm'
+                    ? '0px 6px'
+                    : props.button_size === 'md'
+                        ? '0px 9px'
+                        : props.button_size === 'lg'
+                            ? '0px 13px'
+                            : props.button_size === 'xl'
+                                ? '0px 15px'
+                                : '0px 6px',
+        },
+        '&:hover': {
+            color: props.button_hover_color || '#333333',
+            backgroundColor: props.button_hover_background_color
+                ? props.button_hover_background_color
+                : props.button_background_color
+                    ? props.button_background_color
+                    : '#e3e3e3',
+            borderColor: props.button_hover_border_color || 'transparent',
+            ...(props.button_style === 'gradient' && (props.gradient_color_1 || props.gradient_color_2) && {
+                backgroundPosition: '100% 0',
+            }),
+            '& .magezon-icon': {
+                '& i': {
+                    color: props.button_hover_color || '#333333',
+                },
+            },
+        },
+    }),
     mgzMessageBox: {
         '& > .magezone-icon .wrapperIcon': {
             fontSize: '1em',
@@ -65,6 +113,33 @@ const useStyles = makeStyles({
             backgroundColor: (props) => props.message_icon_background_color,
         },
     },
-});
+    wrapper: {
+        '&.xs-hide': {
+            '@media (max-width: 575px)': {
+                display: 'none !important',
+            },
+        },
+        '&.sm-hide': {
+            '@media (min-width: 576px) and (max-width: 767px)': {
+                display: 'none !important',
+            },
+        },
+        '&.md-hide': {
+            '@media (min-width: 768px) and (max-width: 991px)': {
+                display: 'none !important',
+            },
+        },
+        '&.lg-hide': {
+            '@media (min-width: 992px) and (max-width: 1200px)': {
+                display: 'none !important',
+            },
+        },
+        '&.xl-hide': {
+            '@media (min-width: 1200px)': {
+                display: 'none !important',
+            },
+        },
+    },
+}));
 
 export default useStyles;

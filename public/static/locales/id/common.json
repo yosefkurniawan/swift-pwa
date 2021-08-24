@@ -35,7 +35,8 @@
         "goCheckout": "Checkout",
         "viewandedit": "Lihat dan Ubah",
         "addToCart": "Tambah ke Keranjang",
-        "allowCookies": "Ijinkan Cookie"
+        "allowCookies": "Ijinkan Cookie",        
+        "simulateQrCode": "Sumulasi Pembayaran Qrcode"
     },
     "cart" : {
         "myCart": "Cart Saya",

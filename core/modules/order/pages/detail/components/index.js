@@ -15,12 +15,20 @@ import ItemProduct from '@core_modules/order/pages/detail/components/product';
 import Footer from '@core_modules/order/pages/detail/components/footer';
 import Table from '@core_modules/order/pages/detail/components/TableListItem';
 import OrderStatusIcon from '@core_modules/order/pages/detail/components/OrderStatusIcon';
+import dayjs from 'dayjs';
+import Button from '@common_button';
+import ModalXendit from '@core_modules/checkout/pages/default/components/ModalXendit';
+import { setCheckoutData } from '@helper_cookies';
 
 const DetailOrder = (props) => {
     const {
         t, detail, currency, features, reOrder, returnUrl,
+        paymentInfo,
     } = props;
+    const { checkout: { xendit: { paymentPrefixCodeOnSuccess } } } = modules;
     const styles = useStyles();
+    const [openXendit, setOpenXendit] = React.useState(false);
+
     let items = [];
     if (detail.length > 0 && detail[0].detail[0].items.length) {
         const configurableProduct = [];
@@ -36,8 +44,31 @@ const DetailOrder = (props) => {
         items = [...configurableProduct, ...simpleProduct];
     }
     if (detail.length > 0) {
+        const handleOpenXendit = () => {
+            setCheckoutData({
+                email: detail[0].detail[0].customer_email,
+                order_number: detail[0].order_number,
+                order_id: detail[0].order_number,
+            });
+            setOpenXendit(!openXendit);
+        };
         return (
             <Layout t={t} wishlist={[]} activeMenu="/sales/order/history">
+                {
+                    paymentInfo && paymentInfo.invoice_url && (
+                        <ModalXendit
+                            open={openXendit}
+                            setOpen={() => setOpenXendit(!openXendit)}
+                            iframeUrl={paymentInfo.invoice_url}
+                            order_id={detail[0].order_number}
+                            payment_code={paymentInfo.method_code}
+                            fromOrder
+                            amount={detail[0].detail[0].grand_total}
+                            mode={paymentInfo.xendit_mode}
+                            xendit_qrcode_external_id={paymentInfo.xendit_qrcode_external_id}
+                        />
+                    )
+                }
                 <div className="column">
                     <div className={classNames('hidden-mobile', styles.blockHeader)}>
                         <Typography variant="h1" letter="uppercase" type="regular" className={classNames('clear-margin-padding', styles.headerTitle)}>
@@ -185,6 +216,46 @@ const DetailOrder = (props) => {
                                         );
                                     }
                                 })}
+                                {
+                                    (detail[0].status === 'pending' || detail[0].status === 'pending_payment')
+                                    && paymentInfo && (paymentPrefixCodeOnSuccess.includes(paymentInfo.method_code)
+                                    || paymentInfo.method_code === 'qr_codes')
+                                    && (paymentInfo.due_date !== null
+                                        ? dayjs().isBefore(dayjs(paymentInfo.due_date))
+                                        : true
+                                    )
+                                    && (
+                                        <>
+
+                                            <div className={styles.btnPayNow}>
+                                                <Typography variant="span" className="clear-margin-padding">
+                                                    {t('order:onboarding')}
+                                                </Typography>
+                                            </div>
+                                            <div className="hidden-mobile">
+                                                <Button
+                                                    onClick={() => handleOpenXendit()}
+                                                    className={styles.btnPayNow}
+                                                    align="left"
+                                                >
+                                                    <Typography size="10" type="bold" color="white" letter="uppercase" className={styles.txtConfirm}>
+                                                        {t('thanks:paynow')}
+                                                    </Typography>
+                                                </Button>
+                                            </div>
+                                            <div className="hidden-desktop">
+                                                <Button
+                                                    onClick={() => handleOpenXendit()}
+                                                    className={styles.btnPayNow}
+                                                >
+                                                    <Typography size="10" type="bold" color="white" letter="uppercase" className={styles.txtConfirm}>
+                                                        {t('thanks:paynow')}
+                                                    </Typography>
+                                                </Button>
+                                            </div>
+                                        </>
+                                    )
+                                }
                             </div>
                         </div>
                     </div>
