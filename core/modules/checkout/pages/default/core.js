@@ -445,16 +445,6 @@ const Checkout = (props) => {
             state.data.rewardPoints = rewardPoint.data.customerRewardPoints;
         }
 
-        if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
-            actUpdatePwaCheckoutLog({
-                variables: {
-                    cart_id: cartId,
-                    state: pwaCheckoutState,
-                    status: 1,
-                },
-            });
-        }
-
         state.loading.all = false;
         state.loading.paypal = false;
 
