@@ -121,7 +121,9 @@
     "newsletter": {
         "title": "DAFTAR NEWSLETTER",
         "placeholder": "Masukkan alamat email Anda",
-        "buttonLabel": "Langganan"
+        "buttonLabel": "Langganan",
+        "firstname": "Masukkan nama depan anda",
+        "lastname": "Masukkan nama belakang anda"
     },
     "recentlyView": {
         "title" : "Baru Saja Dilihat"
