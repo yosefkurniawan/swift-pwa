@@ -8,6 +8,7 @@ import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/Magez
 const PricingTable = (props) => {
     const {
         item,
+        classes,
         heading_background_color, heading_color,
         heading_font_size, heading_font_weight,
         heading_featured_background_color, heading_featured_color,
@@ -27,8 +28,8 @@ const PricingTable = (props) => {
     }
 
     return (
-        <div className={pricingTableClass}>
-            <div className="mgz-pricing-table-inner">
+        <div className={`${pricingTableClass} ${classes.mgzPricingTable}`}>
+            <div className={`mgz-pricing-table-inner ${item.featured ? classes.mgzPricingTableInner : ''}`}>
                 <div className="mgz-pricing-table-heading">
                     <h2 className="mgz-pricing-table-title">
                         {item.title || ''}
@@ -37,7 +38,7 @@ const PricingTable = (props) => {
                         {item.sub_title || ''}
                     </span>
                 </div>
-                <div className="mgz-pricing-table-content-wrapper">
+                <div className={`mgz-pricing-table-content-wrapper ${classes.mgzPricingTableWrapper}`}>
                     <div className="mgz-pricing-table-content-top">
                         <div className="mgz-pricing-table-meta">
                             <span className="mgz-pricing-table-currency">
@@ -53,10 +54,10 @@ const PricingTable = (props) => {
                     </div>
                     <div className="mgz-pricing-table-content">
                         <ul>
-                            {item.features.map((feature) => (
-                                <li>
+                            {item.features.map((feature, key) => (
+                                <li key={key}>
                                     {feature.icon ? <MagezonIcon icon={feature.icon} icon_color={feature.icon_color} /> : ''}
-                                    <Typography variant="span">{feature.title}</Typography>
+                                    <Typography variant="span" align={features_text_align || 'center'}>{feature.title}</Typography>
                                 </li>
                             ))}
                         </ul>
@@ -194,6 +195,11 @@ const PricingTable = (props) => {
                         background-color: ${button_hover_background_color || 'ff8800'};
                         color: ${button_hover_color || '#fff'};
                     }
+                    @media only screen and (max-width: 767px) {
+                        .mgz-pricing-table.mgz-pricing-table-featured .mgz-pricing-table-inner {
+                            box-shadow: unset;
+                        }
+                    }
                 `}
             </style>
         </div>
@@ -223,7 +229,7 @@ const MagezonPricingTableView = (props) => {
     return (
         <div className={`${classes.container}`}>
             <div className={className}>
-                {items.map((item, key) => (<PricingTable item={item} key={key} {...props} />))}
+                {items.map((item, key) => (<PricingTable item={item} key={key} classes={classes} {...props} />))}
             </div>
             <style jsx global>
                 {`
@@ -244,6 +250,16 @@ const MagezonPricingTableView = (props) => {
                         position: relative;
                         margin: 30px -1px 0 0;
                         text-align: center;
+                    }
+                    @media only screen and (max-width: 767px) {
+                        .mgz-pricing-table-wrapper {
+                            display: block;
+                            margin-bottom: 40px;
+                        }
+                        .mgz-pricing-table-wrapper .mgz-pricing-table {
+                            width: 100%;
+                            margin: 0;
+                        }
                     }
                 `}
             </style>
