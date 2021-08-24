@@ -22,10 +22,12 @@ import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomC
 import MagezonSearchForm from '@core_modules/cms/components/cms-renderer/magezon/MagezonSearchForm';
 import MagezonStaticBlock from '@core_modules/cms/components/cms-renderer/magezon/MagezonStaticBlock';
 import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
+import MagezonImageGallery from '@core_modules/cms/components/cms-renderer/magezon/MagezonImageGallery';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
 import 'animate.css';
+import useStyles from '@core_modules/cms/components/cms-renderer/magezon/style';
 
 const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed'), { ssr: false });
 const MagezonPinterest = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonPinterest'), { ssr: false });
@@ -42,11 +44,14 @@ const MagezonElement = (props) => {
         parallax_type, parallax_speed,
         mouse_parallax, mouse_parallax_size, mouse_parallax_speed,
         background_image, background_color, full_height,
+        xs_hide, sm_hide, md_hide, lg_hide, xl_hide,
+        hidden_default, disable_element,
         storeConfig,
     } = props;
     const { base_media_url } = storeConfig;
+    const customStyles = useStyles();
     let childrenContent;
-    let classes = 'mgz-element ';
+    let classes = `${customStyles.wrapper} mgz-element `;
     const { className, styles } = generateCustomCssAnimation(animation_duration, animation_delay, animation_infinite);
 
     const enumCustomAnimation = {
@@ -63,6 +68,16 @@ const MagezonElement = (props) => {
     if (full_height) {
         classes += 'full_height ';
     }
+
+    if (disable_element) return null;
+
+    if (xs_hide) classes += 'xs-hide ';
+    if (sm_hide) classes += 'sm-hide ';
+    if (md_hide) classes += 'md-hide ';
+    if (lg_hide) classes += 'lg-hide ';
+    if (xl_hide) classes += 'xl-hide ';
+
+    if (hidden_default) classes += 'hidden-default ';
 
     if (animation_in) {
         if (!Object.values(enumCustomAnimation).includes(animation_in)) {
@@ -163,6 +178,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonSearchForm {...props} />; break;
         case 'content_slider':
             childrenContent = <MagezonContentSlider {...props} />; break;
+        case 'image_gallery':
+            childrenContent = <MagezonImageGallery {...props} />; break;
         default:
             childrenContent = null;
         }
@@ -195,6 +212,9 @@ const MagezonElement = (props) => {
                     }
                     .full_height {
                         min-height: 433px;
+                    }
+                    .hidden-default {
+                        display: none;
                     }
                 `}
             </style>
