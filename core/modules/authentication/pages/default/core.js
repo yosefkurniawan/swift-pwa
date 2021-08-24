@@ -3,7 +3,9 @@ import Head from 'next/head';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { setLogin, removeIsLoginFlagging } from '@helpers/auth';
-import { expiredToken, expiredDefault, nameCheckoutState } from '@config';
+import {
+    modules, expiredToken, expiredDefault, nameCheckoutState,
+} from '@config';
 import { setCartId, removeCartId } from '@helpers/cartId';
 import { updatePwaCheckoutLog } from '@services/graphql/repository/log';
 import { generateSession, deleteSession } from '@core_modules/authentication/services/graphql';
@@ -56,7 +58,9 @@ const Authentication = (props) => {
                         result, cartId, isLogin,
                     } = data.internalGenerateSession;
                     if (result) {
-                        Cookies.set(nameCheckoutState, state, { expires: expiredDefault });
+                        if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
+                            Cookies.set(nameCheckoutState, state, { expires: expiredDefault });
+                        }
 
                         objectProps = data.internalGenerateSession;
                         if (isLogin) {
@@ -74,7 +78,7 @@ const Authentication = (props) => {
                         setAuthFailed(true);
                         setLoad(false);
 
-                        if (storeConfig.pwa_checkout_debug_enable === '1') {
+                        if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
                             actUpdatePwaCheckoutLog({
                                 variables: {
                                     cart_id: cartId,

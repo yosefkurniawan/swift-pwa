@@ -39,8 +39,6 @@ const Checkout = (props) => {
     const {
         t, storeConfig, pageConfig, Content, cartId: propsCardId,
     } = props;
-    const pwaCheckoutState = encodeURIComponent(Cookies.get(nameCheckoutState));
-    const [actUpdatePwaCheckoutLog] = updatePwaCheckoutLog();
     const config = {
         successRedirect: {
             link: getSuccessCallbackUrl(),
@@ -53,11 +51,16 @@ const Checkout = (props) => {
             link: getLoginCallbackUrl({ errorGuest: false }),
         },
     };
+    const [actUpdatePwaCheckoutLog] = updatePwaCheckoutLog();
 
     let { isLogin } = props;
+    let pwaCheckoutState = null;
     let urlRedirect = '/checkout/cart';
     if (modules.checkout.checkoutOnly) {
         urlRedirect = getStoreHost(getAppEnv());
+    }
+    if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
+        pwaCheckoutState = encodeURIComponent(Cookies.get(nameCheckoutState));
     }
 
     const [cartId, setCartId] = useState(propsCardId);
@@ -267,7 +270,7 @@ const Checkout = (props) => {
         cart.items = items;
 
         if (cart && cart.items && cart.items.length === 0) {
-            if (storeConfig.pwa_checkout_debug_enable === '1') {
+            if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
                 actUpdatePwaCheckoutLog({
                     variables: {
                         cart_id: cart.id,
@@ -280,7 +283,7 @@ const Checkout = (props) => {
         } else {
             cart.items.map((item) => {
                 if (item.product && item.product.stock_status === 'OUT_OF_STOCK') {
-                    if (storeConfig.pwa_checkout_debug_enable === '1') {
+                    if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
                         actUpdatePwaCheckoutLog({
                             variables: {
                                 cart_id: cart.id,
@@ -442,7 +445,7 @@ const Checkout = (props) => {
             state.data.rewardPoints = rewardPoint.data.customerRewardPoints;
         }
 
-        if (storeConfig.pwa_checkout_debug_enable === '1') {
+        if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
             actUpdatePwaCheckoutLog({
                 variables: {
                     cart_id: cartId,
@@ -503,7 +506,7 @@ const Checkout = (props) => {
         }
 
         if (errorCart || errorItem) {
-            if (storeConfig.pwa_checkout_debug_enable === '1') {
+            if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
                 actUpdatePwaCheckoutLog({
                     variables: {
                         cart_id: cartId,
