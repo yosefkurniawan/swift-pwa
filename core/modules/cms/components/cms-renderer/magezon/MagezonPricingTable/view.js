@@ -2,13 +2,12 @@
 import React from 'react';
 import useStyles from '@core_modules/cms/components/cms-renderer/magezon/style';
 import Typography from '@common_typography';
-import Link from 'next/Link';
+import Link from 'next/link';
 import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
 
 const PricingTable = (props) => {
     const {
         item,
-        classes,
         heading_background_color, heading_color,
         heading_font_size, heading_font_weight,
         heading_featured_background_color, heading_featured_color,
@@ -28,8 +27,8 @@ const PricingTable = (props) => {
     }
 
     return (
-        <div className={`${pricingTableClass} ${classes.mgzPricingTable}`}>
-            <div className={`mgz-pricing-table-inner ${item.featured ? classes.mgzPricingTableInner : ''}`}>
+        <div className={pricingTableClass}>
+            <div className="mgz-pricing-table-inner">
                 <div className="mgz-pricing-table-heading">
                     <h2 className="mgz-pricing-table-title">
                         {item.title || ''}
@@ -38,7 +37,7 @@ const PricingTable = (props) => {
                         {item.sub_title || ''}
                     </span>
                 </div>
-                <div className={`mgz-pricing-table-content-wrapper ${classes.mgzPricingTableWrapper}`}>
+                <div className="mgz-pricing-table-content-wrapper">
                     <div className="mgz-pricing-table-content-top">
                         <div className="mgz-pricing-table-meta">
                             <span className="mgz-pricing-table-currency">
@@ -195,7 +194,7 @@ const PricingTable = (props) => {
                         background-color: ${button_hover_background_color || 'ff8800'};
                         color: ${button_hover_color || '#fff'};
                     }
-                    @media only screen and (max-width: 767px) {
+                    @media only screen and (max-width: 768px) {
                         .mgz-pricing-table.mgz-pricing-table-featured .mgz-pricing-table-inner {
                             box-shadow: unset;
                         }
