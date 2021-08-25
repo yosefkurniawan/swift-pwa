@@ -2,6 +2,7 @@
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Router from 'next/router';
+import { useTranslation } from '@i18n';
 import { getProduct, getCategoryByName } from '@core_modules/theme/services/graphql';
 
 let globalTimeout = null;
@@ -38,8 +39,9 @@ const generateItemData = (product, category) => {
 
 export default function ComboBox(props) {
     const {
-        placeholder, handleSearch, setValue, OptionsItem, forcePopupIcon = true, width = 300, maxHeight = '80vh', t,
+        placeholder, handleSearch, setValue, OptionsItem, forcePopupIcon = true, width = 300, maxHeight = '80vh',
     } = props;
+    const { t } = useTranslation(['common']);
     const [item, setItem] = React.useState([]);
     const [open, setOpen] = React.useState(false);
     const [close, setClose] = React.useState(false);

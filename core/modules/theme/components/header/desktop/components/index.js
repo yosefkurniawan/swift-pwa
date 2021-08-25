@@ -30,6 +30,7 @@ const ViewTopNavigation = (props) => {
         app_cookies,
         showGlobalPromo,
         modules,
+        vesMenuConfig,
     } = props;
     return (
         <div id="header">
@@ -54,9 +55,13 @@ const ViewTopNavigation = (props) => {
                         </div>
                         <div className="header-middle__center">
                             <div className="row menu-category">
-                                <div className="col-xs-12 menu-middle">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
+                                <div className="col-xs-12 menu-middle">
+                                    {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
+                                </div>
                             </div>
-                            <div className="header-small__menu">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
+                            <div className="header-small__menu">
+                                {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
+                            </div>
                         </div>
                         <div className="header-middle__right">
                             <div className="box">
@@ -94,9 +99,11 @@ const ViewTopNavigation = (props) => {
             </main>
             <div className="header-tab">
                 <div className="row menu-category">
-                    <div className="col-xs-12">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
+                    <div className="col-xs-12">{loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}</div>
                 </div>
-                <div className="header-small__menu">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
+                <div className="header-small__menu">
+                    {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
+                </div>
             </div>
             <style jsx>
                 {`

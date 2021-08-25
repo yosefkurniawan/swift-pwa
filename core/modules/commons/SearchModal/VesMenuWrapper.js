@@ -1,4 +1,4 @@
-import { debuging, features } from '@config';
+import { debuging } from '@config';
 import { useTranslation } from '@i18n';
 import Alert from '@material-ui/lab/Alert';
 import { getVesMenu } from '@core_modules/theme/services/graphql/index';
@@ -9,6 +9,7 @@ import { setResolver, getResolver } from '@helper_localstorage';
 import CategorySkeleton from '@common_searchmodal/CategorySkeleton';
 import SubVesMenu from '@common_searchmodal/SubVesMenu';
 import VesMenu from '@common_searchmodal/VesMenu';
+import { vesMenuConfig } from '@services/graphql/repository/pwa_config';
 
 const CategoryWrapper = ({ handleCloseModal = () => {} }) => {
     // const {
@@ -19,14 +20,22 @@ const CategoryWrapper = ({ handleCloseModal = () => {} }) => {
     const [historyData, setHistoryData] = React.useState([]);
     const [historyPosition, setHistoryPosition] = React.useState(-1);
     const [back, setBack] = React.useState(false);
-
-    const {
+    const { loading: loadConfig, data: dataConfig, error: errorConfig } = vesMenuConfig();
+    const [actGetVestMenu, {
         loading, data, error, storeConfig,
-    } = getVesMenu({
-        variables: {
-            alias: features.vesMenu.alias,
-        },
-    });
+    }] = getVesMenu();
+
+    React.useEffect(() => {
+        if (!loadConfig && !errorConfig && dataConfig && dataConfig.storeConfig
+            && dataConfig.storeConfig.pwa.ves_menu_enable) {
+            actGetVestMenu({
+                variables: {
+                    alias: dataConfig.storeConfig.pwa.ves_menu_alias,
+                },
+            });
+        }
+    }, [dataConfig]);
+
     const cmsPages = storeConfig && storeConfig.cms_page ? storeConfig.cms_page.split(',') : [];
 
     React.useMemo(() => {

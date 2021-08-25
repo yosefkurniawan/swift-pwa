@@ -10,6 +10,7 @@ import { custDataNameCookie, features, modules } from '@config';
 import {
     getCategories, getCustomer, removeToken, getVesMenu,
 } from '@core_modules/theme/services/graphql';
+import { vesMenuConfig } from '@services/graphql/repository/pwa_config';
 
 const CoreTopNavigation = (props) => {
     const {
@@ -17,13 +18,54 @@ const CoreTopNavigation = (props) => {
     } = props;
     const [value, setValue] = React.useState('');
     const [deleteTokenGql] = removeToken();
-    const { data, loading } = features.vesMenu.enabled
-        ? getVesMenu({
-            variables: {
-                alias: features.vesMenu.alias,
-            },
-        })
-        : getCategories();
+    const [stateData, setData] = React.useState({
+        loading: true,
+        data: null,
+    });
+    const { loading: loadConfig, data: dataConfig, error: errorConfig } = vesMenuConfig();
+    const [actGetVestMenu, {
+        loading: loadVesMenu, data: dataVesmenu,
+    }] = getVesMenu();
+    const [actGetCategory, { loading: loadCategory, data: dataCategory }] = getCategories();
+
+    React.useEffect(() => {
+        if (!loadVesMenu && dataVesmenu && dataVesmenu.vesMenu) {
+            setData({
+                ...stateData,
+                loading: false,
+                data: dataVesmenu,
+            });
+        }
+    }, [dataVesmenu]);
+
+    React.useEffect(() => {
+        if (!loadCategory && dataCategory && dataCategory.vesMenu) {
+            setData({
+                ...stateData,
+                loading: false,
+                data: dataCategory,
+            });
+        }
+    }, [dataCategory]);
+
+    React.useEffect(() => {
+        setData({
+            ...stateData,
+            loading: true,
+        });
+        if (!loadConfig && !errorConfig && dataConfig && dataConfig.storeConfig) {
+            if (dataConfig.storeConfig.pwa.ves_menu_enable) {
+                actGetVestMenu({
+                    variables: {
+                        alias: dataConfig.storeConfig.pwa.ves_menu_alias,
+                    },
+                });
+            } else {
+                actGetCategory();
+            }
+        }
+    }, [dataConfig]);
+
     let customerData = {};
     if (isLogin && typeof window !== 'undefined') {
         const customer = getCustomer();
@@ -79,24 +121,29 @@ const CoreTopNavigation = (props) => {
         }
     };
 
-    return (
-        <Content
-            t={t}
-            isLogin={isLogin}
-            data={data}
-            loading={loading}
-            storeConfig={storeConfig}
-            handleSearch={handleSearch}
-            searchByClick={searchByClick}
-            setValue={setValue}
-            customer={customerData}
-            handleLogout={handleLogout}
-            value={value}
-            app_cookies={app_cookies}
-            showGlobalPromo={showGlobalPromo}
-            modules={modules}
-        />
-    );
+    if (!loadConfig && !errorConfig && dataConfig && dataConfig.storeConfig) {
+        return (
+            <Content
+                t={t}
+                isLogin={isLogin}
+                data={stateData.data}
+                loading={stateData.loading}
+                vesMenuConfig={dataConfig.storeConfig.pwa}
+                storeConfig={storeConfig}
+                handleSearch={handleSearch}
+                searchByClick={searchByClick}
+                setValue={setValue}
+                customer={customerData}
+                handleLogout={handleLogout}
+                value={value}
+                app_cookies={app_cookies}
+                showGlobalPromo={showGlobalPromo}
+                modules={modules}
+            />
+        );
+    }
+
+    return null;
 };
 
 export default CoreTopNavigation;

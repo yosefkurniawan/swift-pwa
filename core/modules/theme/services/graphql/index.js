@@ -8,11 +8,11 @@ if (typeof window !== 'undefined') {
     isLogin = getLoginInfo();
 }
 
-export const getCategories = () => useQuery(schema.categories);
+export const getCategories = () => useLazyQuery(schema.categories);
 export const getCategoryByName = (name) => useLazyQuery(schema.getCategoryByName(name));
 export const getProduct = (key) => useLazyQuery(schema.getProduct(key));
 export const getRecentlyProduct = () => useLazyQuery(schema.getRecentlyProduct());
-export const getVesMenu = (options) => useQuery(schema.vesMenu, options);
+export const getVesMenu = (options) => useLazyQuery(schema.vesMenu, options);
 export const getCurrency = () => useQuery(schema.getCurrencySchema);
 
 export const getCustomer = () => useQuery(schema.getCustomer, {
