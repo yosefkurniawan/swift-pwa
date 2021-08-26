@@ -26,6 +26,7 @@ const ImageWithAction = ({
     return (
         <Link onClick={handleClick}>
             <Thumbor
+                magezon
                 // eslint-disable-next-line no-nested-ternary
                 src={url || '/assets/img/placeholder.png'}
                 className={classImage}
@@ -174,6 +175,7 @@ const MagezonSingleImage = (props) => {
                 ? (
                     <MagezonLink link={custom_link}>
                         <Thumbor
+                            magezon
                             // eslint-disable-next-line no-nested-ternary
                             src={isHover ? hoverImage : url}
                             className={classImage}
@@ -193,6 +195,7 @@ const MagezonSingleImage = (props) => {
                             <div className={openPopup ? '' : 'hide'}>
                                 <SRLWrapper options={ligtboxSetting} callbacks={callbacks}>
                                     <Thumbor
+                                        magezon
                                         // eslint-disable-next-line no-nested-ternary
                                         src={popupImageUrl}
                                         className={classImage}

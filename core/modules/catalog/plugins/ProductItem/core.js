@@ -15,7 +15,7 @@ import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import Button from '@material-ui/core/IconButton';
 import { addWishlist, getDetailProduct } from '@core_modules/catalog/services/graphql';
 import useStyles from '@plugin_productitem/style';
-import { addProductsToCompareList } from '@core_modules/product/services/graphql';
+import { addProductsToCompareList, createCompareList } from '@core_modules/product/services/graphql';
 import { getCompareList, getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { localCompare } from '@services/graphql/schema/local';
 
@@ -53,12 +53,27 @@ const ProductItem = (props) => {
     const [getProductCompare, { data: compareList, refetch }] = getCompareList();
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
     const [addProductCompare] = addProductsToCompareList();
+    const [setCompareList] = createCompareList();
     const { client } = useQuery(localCompare);
 
     React.useEffect(() => {
-        if (!compareList && modules.productcompare.enabled) {
-            const uid_product = getCookies('uid_product_compare');
-            if (uid_product) {
+        const uid_product = getCookies('uid_product_compare');
+        if (uid_product) {
+            if (compareList && compareList.compareList == null) {
+                setCompareList({
+                    variables: {
+                        uid: [],
+                    },
+                })
+                    .then(async (res) => {
+                        setCookies('uid_product_compare', res.data.createCompareList.uid);
+                        getProductCompare({
+                            variables: {
+                                uid: res.data.createCompareList.uid,
+                            },
+                        });
+                    });
+            } else if ((!compareList) && modules.productcompare.enabled) {
                 getProductCompare({
                     variables: {
                         uid: uid_product,
@@ -141,6 +156,7 @@ const ProductItem = (props) => {
                         }
                     })
                     .catch((e) => {
+                        console.log(e);
                         window.toastMessage({
                             open: true,
                             variant: 'error',

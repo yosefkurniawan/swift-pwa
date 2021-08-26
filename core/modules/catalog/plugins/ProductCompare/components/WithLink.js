@@ -6,7 +6,7 @@ import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 
 const useStyles = makeStyles({
     root: {
-        margin: 20,
+        margin: 5,
         cursor: 'pointer',
     },
 });
