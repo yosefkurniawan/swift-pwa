@@ -126,7 +126,9 @@
         "placeholder": "Masukkan alamat email Anda",
         "buttonLabel": "Langganan",
         "emailFormat": "Format email salah",
-        "emptyValue": "Harap masukkan alamat email"
+        "emptyValue": "Harap masukkan alamat email",
+        "firstname": "Masukkan nama depan anda",
+        "lastname": "Masukkan nama belakang anda"
     },
     "setting": {
         "title": "Pengaturan",

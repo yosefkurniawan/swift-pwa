@@ -250,7 +250,7 @@ const PaypalButton = (props) => {
             window.backdropLoader(false);
             Router.push(`/${modules.checkout.paypal.returnUrl}`);
         }).catch((e) => {
-            console.log(e);
+            // console.log(e);
             onErrorPaypal(e);
         });
     };

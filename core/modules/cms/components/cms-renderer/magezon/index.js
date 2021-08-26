@@ -8,6 +8,7 @@ import MagezonButton from '@core_modules/cms/components/cms-renderer/magezon/Mag
 import MagezonRawHtml from '@core_modules/cms/components/cms-renderer/magezon/MagezonRawHtml';
 import MagezonWidget from '@core_modules/cms/components/cms-renderer/magezon/MagezonWidget';
 import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
+import MagezonIconList from '@core_modules/cms/components/cms-renderer/magezon/MagezonIconList';
 import MagezonSeparator from '@core_modules/cms/components/cms-renderer/magezon/MagezonSeparator';
 import MagezonEmpty from '@core_modules/cms/components/cms-renderer/magezon/MagezonEmpty';
 import MagezonFanspage from '@core_modules/cms/components/cms-renderer/magezon/MagezonFanspage';
@@ -15,15 +16,19 @@ import MagezonToggle from '@core_modules/cms/components/cms-renderer/magezon/Mag
 import MagezonFlipBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonFlipBox';
 import MagezonCounter from '@core_modules/cms/components/cms-renderer/magezon/MagezonCounter/index';
 import MagezonMessageBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonMessageBox';
+import MagezonNewsletter from '@core_modules/cms/components/cms-renderer/magezon/MagezonNewsletter';
+import MagezonSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonSlider';
 import MagezonContactForm from '@core_modules/cms/components/cms-renderer/magezon/MagezonContactForm';
 import MagezonCta from '@core_modules/cms/components/cms-renderer/magezon/MagezonCta';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import MagezonSearchForm from '@core_modules/cms/components/cms-renderer/magezon/MagezonSearchForm';
 import MagezonStaticBlock from '@core_modules/cms/components/cms-renderer/magezon/MagezonStaticBlock';
+import MagezonImageGallery from '@core_modules/cms/components/cms-renderer/magezon/MagezonImageGallery';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
 import 'animate.css';
+import useStyles from '@core_modules/cms/components/cms-renderer/magezon/style';
 
 const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed'), { ssr: false });
 const MagezonPinterest = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonPinterest'), { ssr: false });
@@ -31,6 +36,7 @@ const MagezonTwitter = dynamic(() => import('@core_modules/cms/components/cms-re
 const MagezonParallax = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonParallax'), { ssr: false });
 const MagezonFlickr = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonFlickr'), { ssr: false });
 const MagezonCountdown = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCountdown'), { ssr: false });
+const MagezonCaraousel = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel'), { ssr: false });
 
 const MagezonElement = (props) => {
     const {
@@ -39,11 +45,14 @@ const MagezonElement = (props) => {
         parallax_type, parallax_speed,
         mouse_parallax, mouse_parallax_size, mouse_parallax_speed,
         background_image, background_color, full_height,
+        xs_hide, sm_hide, md_hide, lg_hide, xl_hide,
+        hidden_default, disable_element,
         storeConfig,
     } = props;
     const { base_media_url } = storeConfig;
+    const customStyles = useStyles();
     let childrenContent;
-    let classes = 'mgz-element ';
+    let classes = `${customStyles.wrapper} mgz-element `;
     const { className, styles } = generateCustomCssAnimation(animation_duration, animation_delay, animation_infinite);
 
     const enumCustomAnimation = {
@@ -60,6 +69,16 @@ const MagezonElement = (props) => {
     if (full_height) {
         classes += 'full_height ';
     }
+
+    if (disable_element) return null;
+
+    if (xs_hide) classes += 'xs-hide ';
+    if (sm_hide) classes += 'sm-hide ';
+    if (md_hide) classes += 'md-hide ';
+    if (lg_hide) classes += 'lg-hide ';
+    if (xl_hide) classes += 'xl-hide ';
+
+    if (hidden_default) classes += 'hidden-default ';
 
     if (animation_in) {
         if (!Object.values(enumCustomAnimation).includes(animation_in)) {
@@ -124,6 +143,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonTwitter {...props} />; break;
         case 'icon':
             childrenContent = <MagezonIcon {...props} />; break;
+        case 'icon_list':
+            childrenContent = <MagezonIconList {...props} />; break;
         case 'separator':
             childrenContent = <MagezonSeparator {...props} />; break;
         case 'empty_space':
@@ -140,6 +161,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonCounter {...props} />; break;
         case 'message_box':
             childrenContent = <MagezonMessageBox {...props} />; break;
+        case 'newsletter_form':
+            childrenContent = <MagezonNewsletter {...props} />; break;
         case 'contact_form':
             childrenContent = <MagezonContactForm {...props} />; break;
         case 'flip_box':
@@ -152,8 +175,14 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonCta {...props} />; break;
         case 'countdown':
             childrenContent = <MagezonCountdown {...props} />; break;
+        case 'slider':
+            childrenContent = <MagezonSlider {...props} />; break;
+        case 'image_carousel':
+            childrenContent = <MagezonCaraousel {...props} />; break;
         case 'search_form':
             childrenContent = <MagezonSearchForm {...props} />; break;
+        case 'image_gallery':
+            childrenContent = <MagezonImageGallery {...props} />; break;
         default:
             childrenContent = null;
         }
@@ -186,6 +215,9 @@ const MagezonElement = (props) => {
                     }
                     .full_height {
                         min-height: 433px;
+                    }
+                    .hidden-default {
+                        display: none;
                     }
                 `}
             </style>
