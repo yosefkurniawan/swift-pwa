@@ -4,26 +4,34 @@ import { sortByDataSearch, sortByDataCatalog } from '@plugin_productlist/compone
 
 const Filter = (props) => {
     const {
-        FilterModalView, FilterView, filterValue, isSearch, defaultSort, setFiltervalue, ...other
+        FilterModalView, FilterView, filterValue, isSearch, defaultSort, setFiltervalue, filter, ...other
     } = props;
     const sortByData = isSearch ? sortByDataSearch : sortByDataCatalog;
     const [openFilter, setOpenFilter] = React.useState(false);
     const [selectedFilter, setFilter] = React.useState(filterValue);
     const [sort, setSort] = React.useState(filterValue.sort ? filterValue.sort : '');
-    const [priceRange, setPriceRange] = React.useState(filterValue.priceRange ? filterValue.priceRange.split(',') : [0, 0]);
+    const [priceRange, setPriceRange] = React.useState([0, 0]);
     const router = useRouter();
 
     // reset filter if route change
     React.useEffect(() => {
+        const pricerangelist = filter.filter((data) => data.field === 'price');
+        // eslint-disable-next-line radix
+        const pricerangelistmaxvalue = parseInt(pricerangelist[0]?.value[pricerangelist[0]?.value.length - 1].value) || 0;
+
+        setPriceRange(filterValue.priceRange ? filterValue.priceRange.split(',') : [0, pricerangelistmaxvalue]);
         setFilter(filterValue);
-    }, [router.asPath]);
+    }, [router.asPath, filter]);
 
     const handleClear = () => {
+        const pricerangelist = filter.filter((data) => data.field === 'price');
+        // eslint-disable-next-line radix
+        const pricerangelistmaxvalue = parseInt(pricerangelist[0]?.value[pricerangelist[0]?.value.length - 1].value) || 0;
         // reset value for sort component
         setSort(defaultSort || '');
 
         // reset value for price range component
-        setPriceRange([0, 0]);
+        setPriceRange(filterValue.priceRange ? filterValue.priceRange.split(',') : [0, pricerangelistmaxvalue]);
 
         // new filter with clear/reset value
         const newFilter = {
