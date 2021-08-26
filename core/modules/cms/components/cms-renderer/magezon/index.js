@@ -24,6 +24,7 @@ import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomC
 import MagezonSearchForm from '@core_modules/cms/components/cms-renderer/magezon/MagezonSearchForm';
 import MagezonStaticBlock from '@core_modules/cms/components/cms-renderer/magezon/MagezonStaticBlock';
 import MagezonImageGallery from '@core_modules/cms/components/cms-renderer/magezon/MagezonImageGallery';
+import MagezonCategories from '@core_modules/cms/components/cms-renderer/magezon/MagezonCategories';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
@@ -54,7 +55,7 @@ const MagezonElement = (props) => {
     let childrenContent;
     let classes = `${customStyles.wrapper} mgz-element `;
     const { className, styles } = generateCustomCssAnimation(animation_duration, animation_delay, animation_infinite);
-
+    console.log(props);
     const enumCustomAnimation = {
         topToBottom: 'mgz_top-to-bottom',
         bottomToTop: 'mgz_bottom-to-top',
@@ -183,6 +184,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonSearchForm {...props} />; break;
         case 'image_gallery':
             childrenContent = <MagezonImageGallery {...props} />; break;
+        case 'categories':
+            childrenContent = <MagezonCategories {...props} />; break;
         default:
             childrenContent = null;
         }
