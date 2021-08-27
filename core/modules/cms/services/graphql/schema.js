@@ -50,4 +50,30 @@ export const getCmsBlocks = gql`
     }
 `;
 
+export const getCategories = gql`
+    query getCategories($ids: [String]) {
+        categoryList(filters: { ids: { in: $ids } }) {
+            name
+            children_count
+            url_path
+            children {
+                name
+                url_path
+                children {
+                    name
+                    url_path
+                    children {
+                        name
+                        url_path
+                        children {
+                            name
+                            url_path
+                        }
+                    }
+                }
+            }
+        }
+    }
+`;
+
 export default { getCmsPage };

@@ -1,5 +1,8 @@
 /* eslint-disable no-unused-vars */
 import Typography from '@common_typography';
+import { Accordion, AccordionSummary, AccordionDetails } from '@core_modules/cms/components/cms-renderer/magezon/MagezonCategories/accordion';
+
+import { getCategories } from '@core_modules/cms/services/graphql';
 
 const MagezonCategories = (props) => {
     // prettier-ignore
@@ -15,6 +18,11 @@ const MagezonCategories = (props) => {
     const showLineClass = show_line ? 'mgz-categories-heading-line' : '';
     const linePosClass = show_line && line_position === 'bottom' ? 'mgz-categories-heading-line--bottom' : '';
 
+    const { data, loading } = getCategories({ ids: categories });
+    console.log(data);
+
+    if (loading && !data) return <>Loading</>;
+
     return (
         <>
             <div className="mgz-categories">
@@ -25,6 +33,14 @@ const MagezonCategories = (props) => {
                         </Typography>
                     </div>
                     <div className="mgz-categories-heading-description">{description}</div>
+                </div>
+                <div className="mgz-categories-content">
+                    {data.categoryList.map((category, index) => (
+                        <Accordion>
+                            <AccordionSummary>Accordion 1</AccordionSummary>
+                            <AccordionDetails>Details</AccordionDetails>
+                        </Accordion>
+                    ))}
                 </div>
             </div>
             <style jsx>
