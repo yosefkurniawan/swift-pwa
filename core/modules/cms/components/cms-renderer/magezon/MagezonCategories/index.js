@@ -1,8 +1,12 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-unneeded-ternary */
 import Typography from '@common_typography';
 import { Accordion, AccordionSummary, AccordionDetails } from '@core_modules/cms/components/cms-renderer/magezon/MagezonCategories/accordion';
+import Link from 'next/link';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { getCategories } from '@core_modules/cms/services/graphql';
+import { useMemo } from 'react';
 
 const MagezonCategories = (props) => {
     // prettier-ignore
@@ -23,6 +27,28 @@ const MagezonCategories = (props) => {
 
     if (loading && !data) return <>Loading</>;
 
+    const renderCategories = (categoryList) => categoryList.map((category, index) => {
+        const { children, url_path } = category;
+
+        return (
+            <Accordion key={index} disabled={!show_hierarchical || (children && children.length <= 0)} TransitionProps={{ unmountOnExit: true }}>
+                <AccordionSummary expandIcon={show_hierarchical && children && children.length > 0 ? <ExpandMoreIcon /> : ''}>
+                    <Link href={url_path} onClick={(e) => e.stopPropagation()}>
+                        <a className="mgz-categories-link">
+                            {category.name}
+                            {show_count && `(${category.product_count})`}
+                        </a>
+                    </Link>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <div className="accordion-details-inner">{children && children.length > 0 && renderCategories(children)}</div>
+                </AccordionDetails>
+            </Accordion>
+        );
+    });
+
+    // const memoizedCategories = useMemo(() => renderCategories(data.categoryList), [data.categoryList]);
+
     return (
         <>
             <div className="mgz-categories">
@@ -35,12 +61,8 @@ const MagezonCategories = (props) => {
                     <div className="mgz-categories-heading-description">{description}</div>
                 </div>
                 <div className="mgz-categories-content">
-                    {data.categoryList.map((category, index) => (
-                        <Accordion>
-                            <AccordionSummary>Accordion 1</AccordionSummary>
-                            <AccordionDetails>Details</AccordionDetails>
-                        </Accordion>
-                    ))}
+                    {/* {memoizedCategories} */}
+                    {renderCategories(data.categoryList)}
                 </div>
             </div>
             <style jsx>
@@ -70,6 +92,25 @@ const MagezonCategories = (props) => {
                         background-color: #ffffff;
                         display: inline-block;
                         position: relative;
+                    }
+                    .mgz-categories :global(.accordion-details-inner) {
+                        display: flex;
+                        flex-direction: column;
+                        margin: 1px;
+                        width: 100%;
+                        justify-content: flex-start;
+                    }
+                    .mgz-categories :global(.mgz-categories-link) {
+                        ${link_color ? `color: ${link_color};` : ''}
+                        ${link_font_size ? `font-size: ${link_font_size}px;` : ''}
+                        ${link_font_weight ? `font-weight: ${link_font_weight};` : ''}
+                    }
+                    .mgz-categories :global(.mgz-categories-link:hover) {
+                        ${link_hover_color ? `color: ${link_hover_color};` : ''}
+                    }
+                    .mgz-categories :global(.MuiAccordion-root) {
+                        border-bottom: ${link_border_width ? `${link_border_width}px` : '1px'} solid
+                            ${link_border_color ? link_border_color : '#000000'};
                     }
                 `}
             </style>

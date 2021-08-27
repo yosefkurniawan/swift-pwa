@@ -54,19 +54,23 @@ export const getCategories = gql`
     query getCategories($ids: [String]) {
         categoryList(filters: { ids: { in: $ids } }) {
             name
-            children_count
+            product_count
             url_path
             children {
                 name
+                product_count
                 url_path
                 children {
                     name
+                    product_count
                     url_path
                     children {
                         name
+                        product_count
                         url_path
                         children {
                             name
+                            product_count
                             url_path
                         }
                     }

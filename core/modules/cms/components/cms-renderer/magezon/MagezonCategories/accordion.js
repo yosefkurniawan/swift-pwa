@@ -1,47 +1,68 @@
-import { withStyles } from '@material-ui/core/styles';
-
 import MuiAccordion from '@material-ui/core/Accordion';
-import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
+import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
+import { withStyles } from '@material-ui/core/styles';
 
 const Accordion = withStyles({
     root: {
-        border: '1px solid rgba(0, 0, 0, .125)',
+        borderBottom: '1px solid red',
         boxShadow: 'none',
-        '&:not(:last-child)': {
-            borderBottom: 0,
+        '&:last-child': {
+            borderBottom: 'none',
         },
         '&:before': {
             display: 'none',
         },
         '&$expanded': {
-            margin: 'auto',
+            margin: '0',
+        },
+        '&$disabled': {
+            backgroundColor: '#ffffff !important',
         },
     },
+    rounded: {
+        '&:last-child': {
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
+        },
+    },
+    disabled: {},
     expanded: {},
 })(MuiAccordion);
 
 const AccordionSummary = withStyles({
     root: {
-        backgroundColor: 'rgba(0, 0, 0, .03)',
-        borderBottom: '1px solid rgba(0, 0, 0, .125)',
+        // borderBottom: '1px solid rgba(0, 0, 0, .125)',
         marginBottom: -1,
-        minHeight: 56,
+        minHeight: 14,
         '&$expanded': {
-            minHeight: 56,
+            minHeight: 14,
+        },
+        '&$disabled': {
+            opacity: 1,
         },
     },
     content: {
+        margin: '8px 0',
+        '& a': {
+            color: 'inherit',
+            cursor: 'pointer',
+            pointerEvents: 'auto',
+        },
         '&$expanded': {
-            margin: '12px 0',
+            margin: '8px 0',
         },
     },
     expanded: {},
+    disabled: {},
+    expandIcon: {
+        padding: 0,
+    },
 })(MuiAccordionSummary);
 
 const AccordionDetails = withStyles((theme) => ({
     root: {
-        padding: theme.spacing(2),
+        padding: theme.spacing(0, 0, 0, 2),
     },
 }))(MuiAccordionDetails);
 
