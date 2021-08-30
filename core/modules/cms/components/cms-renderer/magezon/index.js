@@ -23,6 +23,7 @@ import MagezonCta from '@core_modules/cms/components/cms-renderer/magezon/Magezo
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import MagezonSearchForm from '@core_modules/cms/components/cms-renderer/magezon/MagezonSearchForm';
 import MagezonStaticBlock from '@core_modules/cms/components/cms-renderer/magezon/MagezonStaticBlock';
+import MagezonVideoPlayer from '@core_modules/cms/components/cms-renderer/magezon/MagezonVideoPlayer';
 import MagezonPricingTable from '@core_modules/cms/components/cms-renderer/magezon/MagezonPricingTable';
 import MagezonImageGallery from '@core_modules/cms/components/cms-renderer/magezon/MagezonImageGallery';
 import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
@@ -183,6 +184,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonCaraousel {...props} />; break;
         case 'search_form':
             childrenContent = <MagezonSearchForm {...props} />; break;
+        case 'video':
+            childrenContent = <MagezonVideoPlayer {...props} />; break;
         case 'pricing_table':
             childrenContent = <MagezonPricingTable {...props} />; break;
         case 'image_gallery':
