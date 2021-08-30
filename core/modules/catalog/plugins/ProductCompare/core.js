@@ -5,24 +5,29 @@
 import React from 'react';
 import Router from 'next/router';
 import propTypes from 'prop-types';
-import { getCookies } from '@helper_cookies';
+import { setCookies, getCookies } from '@helper_cookies';
 import { getCompareList, getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { localCompare } from '@services/graphql/schema/local';
+import { createCompareList } from '@core_modules/product/services/graphql';
 import { useQuery } from '@apollo/client';
 import Typography from '@common_typography';
 import { useTranslation } from '@i18n';
 
 const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
-    const [getProductCompare, { data: compareList }] = getCompareList();
+    const [getProductCompare, { loading, data: compareList }] = getCompareList();
     const [getUid, { data: dataUid }] = getCustomerUid();
     const { data: dataCompare, client } = useQuery(localCompare);
+    const [setCompareList] = createCompareList();
     const { t } = useTranslation();
 
     React.useEffect(() => {
-        if (!dataCompare && compareList) {
-            client.readQuery({
+        if (!dataCompare && compareList && compareList.compareList != null) {
+            client.writeQuery({
                 query: localCompare,
-                variables: {},
+                data: {
+                    item_count: compareList.compareList.item_count,
+                    items: compareList.compareList.items,
+                },
             });
         }
     }, [dataCompare]);
@@ -43,6 +48,16 @@ const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
                     },
                 });
             }
+        }
+        if (!loading && (compareList && compareList.compareList == null) && !isLogin) {
+            setCompareList({
+                variables: {
+                    uid: [],
+                },
+            })
+                .then(async (res) => {
+                    setCookies('uid_product_compare', res.data.createCompareList.uid);
+                });
         }
     }, [compareList, isLogin]);
 

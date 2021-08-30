@@ -45,6 +45,7 @@ const Content = (props) => {
     };
 
     if (compareList.compareList.items.length === 0) {
+        console.log('hereee 222', compareList);
         return <Empty t={t} />;
     }
 
