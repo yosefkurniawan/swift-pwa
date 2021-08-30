@@ -91,7 +91,8 @@
         "notFound" : "Data tidak di temukan",
         "fileReject": "Tidak dapat mengupload file harus ber type ",
         "fetchError": "Terjadi kesalahan. Silakan coba lagi nanti",
-        "browser": "Browser tidak didukung"
+        "browser": "Browser tidak didukung",
+        "videoNotSupported": "Browser anda tidak mendukung elemen video."
     },
     "fileUpload": {
         "reject": "Tidak dapat mengupload, file harus ber type  ",
@@ -126,7 +127,9 @@
         "placeholder": "Masukkan alamat email Anda",
         "buttonLabel": "Langganan",
         "emailFormat": "Format email salah",
-        "emptyValue": "Harap masukkan alamat email"
+        "emptyValue": "Harap masukkan alamat email",
+        "firstname": "Masukkan nama depan anda",
+        "lastname": "Masukkan nama belakang anda"
     },
     "setting": {
         "title": "Pengaturan",

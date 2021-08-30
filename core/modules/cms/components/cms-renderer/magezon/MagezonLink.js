@@ -51,7 +51,7 @@ const MagezonLink = (props) => {
                                 color="inherit"
                                 underline="none"
                             >
-                                <a target={(blank === true || blank === 'true' ? '_blank' : '_self')}>
+                                <a target={(blank === true || blank === 'true' ? '_blank' : '_self')} style={{ width: '100%' }}>
                                     { children || title }
                                 </a>
                             </Link>
@@ -66,6 +66,7 @@ const MagezonLink = (props) => {
                                 <a
                                     target={(blank === true || blank === 'true' ? '_blank' : '_self')}
                                     onClick={() => handleClickProduct(url_key, blank)}
+                                    style={{ width: '100%' }}
                                 >
                                     { children || title }
                                 </a>
@@ -80,6 +81,7 @@ const MagezonLink = (props) => {
                                 <a
                                     target={(blank === true || blank === 'true' ? '_blank' : '_self')}
                                     onClick={() => handleClickCategory(url_key, id, blank)}
+                                    style={{ width: '100%' }}
                                 >
                                     { children || title }
                                 </a>
@@ -92,6 +94,7 @@ const MagezonLink = (props) => {
                             >
                                 <a
                                     target={(blank === true || blank === 'true' ? '_blank' : '_self')}
+                                    style={{ width: '100%' }}
                                 >
                                     { children || title }
                                 </a>

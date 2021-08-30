@@ -54,6 +54,9 @@ const MagezonIcon = (props) => {
                     .magezon-icon :global(.magezon-icon-inner:hover i) {
                         color: ${icon_hover_color};
                     }
+                    .magezon-icon-size-undefined {
+                        display: inline-flex;
+                    }
                     .magezon-icon-size-xs :global(.magezon-icon-inner) {
                         width: 2.5em;
                         height: 2.5em;

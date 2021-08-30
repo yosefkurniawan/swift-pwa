@@ -6,26 +6,29 @@ import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 
 const useStyles = makeStyles({
     root: {
-        margin: 20,
+        margin: 5,
         cursor: 'pointer',
     },
 });
 
 const WithLink = ({ compareList, handleLink }) => {
     const styles = useStyles();
-    return (
-        <div className={styles.root} onClick={handleLink}>
-            {compareList ? (
-                <Badge color="secondary" badgeContent={compareList.compareList.item_count > 0 ? compareList.compareList.item_count : 0}>
-                    <CompareArrowsIcon color="secondary" />
-                </Badge>
-            ) : (
-                <Badge color="secondary" badgeContent={0}>
-                    <CompareArrowsIcon color="secondary" />
-                </Badge>
-            )}
-        </div>
-    );
+    if (compareList && compareList.compareList && compareList.compareList.item_count) {
+        return (
+            <div className={styles.root} onClick={handleLink}>
+                {compareList ? (
+                    <Badge color="secondary" badgeContent={compareList.compareList.item_count > 0 ? compareList.compareList.item_count : 0}>
+                        <CompareArrowsIcon color="secondary" />
+                    </Badge>
+                ) : (
+                    <Badge color="secondary" badgeContent={0}>
+                        <CompareArrowsIcon color="secondary" />
+                    </Badge>
+                )}
+            </div>
+        );
+    }
+    return null;
 };
 
 export default WithLink;

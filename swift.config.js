@@ -9,7 +9,7 @@ const iconAppleTouch = '/assets/img/swiftpwa_apple_touch.png';
 const HOST = {
     local: 'http://localhost:3000',
     dev: 'https://swiftpwa.testingnow.me',
-    stage: 'https://pwa.getswift.asia.dmmy.me',
+    stage: 'https://getswift-pwa.gcp-staging.testingnow.me/',
     prod: 'https://pwa.getswift.asia',
 };
 
@@ -17,7 +17,7 @@ const HOST = {
 const graphqlEndpoint = {
     local: 'https://swiftpwa-be.testingnow.me/graphql',
     dev: 'https://swiftpwa-be.testingnow.me/graphql',
-    stage: 'https://swiftpwa-be.testingnow.me/graphql',
+    stage: 'https://b2cdemonew.gcp-staging.testingnow.me/graphql',
     prod: 'https://b2cdemo.getswift.asia/graphql',
 };
 
@@ -183,6 +183,16 @@ const features = {
             mobile: {
                 width: 960,
                 height: 1120,
+            },
+            desktop: {
+                width: 1800,
+                height: 750,
+            },
+        },
+        magezonSlider: {
+            mobile: {
+                width: 1800,
+                height: 750,
             },
             desktop: {
                 width: 1800,
