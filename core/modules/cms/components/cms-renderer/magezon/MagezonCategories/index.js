@@ -1,12 +1,14 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-unneeded-ternary */
 import Typography from '@common_typography';
 import { Accordion, AccordionSummary, AccordionDetails } from '@core_modules/cms/components/cms-renderer/magezon/MagezonCategories/accordion';
 import Link from 'next/link';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 
 import { getCategories } from '@core_modules/cms/services/graphql';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 const MagezonCategories = (props) => {
     // prettier-ignore
@@ -19,20 +21,40 @@ const MagezonCategories = (props) => {
         title, title_align, title_tag,
     } = props;
 
+    const [expanded, setExpanded] = useState(false);
     const showLineClass = show_line ? 'mgz-categories-heading-line' : '';
     const linePosClass = show_line && line_position === 'bottom' ? 'mgz-categories-heading-line--bottom' : '';
-
     const { data, loading } = getCategories({ ids: categories });
-    console.log(data);
+
+    const handleExpand = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
+    };
 
     if (loading && !data) return <>Loading</>;
 
     const renderCategories = (categoryList) => categoryList.map((category, index) => {
         const { children, url_path } = category;
+        const expandIconCondition = show_hierarchical && children && children.length > 0 && expanded;
 
         return (
-            <Accordion key={index} disabled={!show_hierarchical || (children && children.length <= 0)} TransitionProps={{ unmountOnExit: true }}>
-                <AccordionSummary expandIcon={show_hierarchical && children && children.length > 0 ? <ExpandMoreIcon /> : ''}>
+            <Accordion
+                key={index}
+                expanded={expanded === index}
+                onChange={handleExpand(index)}
+                disabled={!show_hierarchical || (children && children.length <= 0)}
+                TransitionProps={{ unmountOnExit: true }}
+            >
+                <AccordionSummary
+                    expandIcon={
+                        show_hierarchical && children && children.length > 0 && expanded === index ? (
+                            <RemoveIcon />
+                        ) : show_hierarchical && children && children.length > 0 && expanded !== index ? (
+                            <AddIcon />
+                        ) : (
+                            ''
+                        )
+                    }
+                >
                     <Link href={url_path} onClick={(e) => e.stopPropagation()}>
                         <a className="mgz-categories-link">
                             {category.name}

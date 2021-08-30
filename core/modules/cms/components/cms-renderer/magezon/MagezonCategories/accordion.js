@@ -8,7 +8,7 @@ const Accordion = withStyles({
         borderBottom: '1px solid red',
         boxShadow: 'none',
         '&:last-child': {
-            borderBottom: 'none',
+            borderBottom: 'none !important',
         },
         '&:before': {
             display: 'none',
