@@ -68,21 +68,25 @@ const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
 
     if (withLink) {
         let tempCompare = null;
-        if (dataCompare) {
+        if (dataCompare && dataCompare.item_count) {
             tempCompare = {
                 compareList: {
                     item_count: dataCompare.item_count,
                 },
             };
         }
-        return (
-            <>
-                <WihtLinkView compareList={tempCompare || compareList} handleLink={handleLink} />
-            </>
-        );
+        if (tempCompare || compareList) {
+            return (
+                <>
+                    <WihtLinkView compareList={tempCompare || compareList} handleLink={handleLink} />
+                </>
+            );
+        }
+        return null;
     }
 
     /* eslint-disable */
+   if (dataCompare || compareList) {
     return (
         <>
             <Typography variant="span" type="bold" letter="uppercase">
@@ -90,6 +94,9 @@ const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
             </Typography>
         </>
     );
+   }
+
+   return null
     /* eslint-enable */
 };
 

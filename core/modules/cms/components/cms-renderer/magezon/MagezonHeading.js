@@ -20,7 +20,7 @@ const MagezonHeading = (props) => {
     style.width = '100%';
     if (color && color !== '') style.color = color;
     if (font_weight && font_weight !== '') style.fontWeight = font_weight;
-    if (font_size && font_size !== '') style.fontSize = `${font_size.replace('px', '')}px`;
+    if (font_size && font_size !== '') style.fontSize = `${typeof font_size === 'number' ? `${font_size}px` : `${font_size.replace('px', '')}px`}`;
     if (align && align !== '') style.textAlign = align;
 
     return (
