@@ -25,6 +25,7 @@ import MagezonSearchForm from '@core_modules/cms/components/cms-renderer/magezon
 import MagezonStaticBlock from '@core_modules/cms/components/cms-renderer/magezon/MagezonStaticBlock';
 import MagezonPricingTable from '@core_modules/cms/components/cms-renderer/magezon/MagezonPricingTable';
 import MagezonImageGallery from '@core_modules/cms/components/cms-renderer/magezon/MagezonImageGallery';
+import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
@@ -186,6 +187,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonPricingTable {...props} />; break;
         case 'image_gallery':
             childrenContent = <MagezonImageGallery {...props} />; break;
+        case 'content_slider':
+            childrenContent = <MagezonContentSlider {...props} />; break;
         default:
             childrenContent = null;
         }
