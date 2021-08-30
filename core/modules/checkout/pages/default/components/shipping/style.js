@@ -10,9 +10,13 @@ const configStyleIcon = {
 };
 
 export const IconAccordion = {
-    regular: {
+    reguler: {
         ...configStyleIcon,
         backgroundImage: 'url(/assets/img/shipping-reguler.svg)',
+    },
+    freeshipping: {
+        ...configStyleIcon,
+        backgroundImage: 'url(/assets/img/shipping-free.svg)',
     },
     express: {
         ...configStyleIcon,
