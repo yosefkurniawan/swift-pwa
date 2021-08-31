@@ -13,13 +13,14 @@ const RecentlyViewed = (props) => {
     const styles = useStyles();
     const { recentlyBtn, isActive } = props;
     const { t } = useTranslation();
+    const [openViewBar, setViewBar] = React.useState(false);
+    const [getProduct, { data: product, loading }] = getRecentlyProduct();
     const desktop = breakPointsUp('sm');
     let viewedProduct = false;
     if (typeof window !== 'undefined') {
         viewedProduct = getLocalStorage('recently_viewed_product');
     }
-    const [openViewBar, setViewBar] = React.useState(false);
-    const [getProduct, { data: product, loading }] = getRecentlyProduct();
+    console.log(viewedProduct);
     const toggleDrawer = (open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
