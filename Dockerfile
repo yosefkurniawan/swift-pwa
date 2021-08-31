@@ -1,5 +1,8 @@
 FROM node:14
 
+#Install pm2
+RUN npm install pm2 -g
+
 # Setting working directory. All the path will be relative to WORKDIR
 WORKDIR /usr/src/app
 
