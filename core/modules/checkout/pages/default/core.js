@@ -70,7 +70,7 @@ const Checkout = (props) => {
                 Router.push(urlRedirect);
             }
             if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
-                pwaCheckoutState = Cookies.get(nameCheckoutState);
+                pwaCheckoutState = encodeURIComponent(Cookies.get(nameCheckoutState));
             }
             setCartId(cartid);
         }

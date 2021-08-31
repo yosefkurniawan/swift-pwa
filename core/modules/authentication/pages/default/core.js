@@ -82,7 +82,7 @@ const Authentication = (props) => {
                             actUpdatePwaCheckoutLog({
                                 variables: {
                                     cart_id: cartId,
-                                    state,
+                                    state: encodeURIComponent(state),
                                     status: 0,
                                 },
                             });
@@ -96,7 +96,7 @@ const Authentication = (props) => {
                         actUpdatePwaCheckoutLog({
                             variables: {
                                 cart_id: '',
-                                state,
+                                state: encodeURIComponent(state),
                                 status: 0,
                             },
                         });
@@ -110,7 +110,7 @@ const Authentication = (props) => {
                     actUpdatePwaCheckoutLog({
                         variables: {
                             cart_id: '',
-                            state,
+                            state: encodeURIComponent(state),
                             status: 0,
                         },
                     });
