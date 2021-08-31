@@ -59,9 +59,6 @@ const Checkout = (props) => {
     if (modules.checkout.checkoutOnly) {
         urlRedirect = getStoreHost(getAppEnv());
     }
-    if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
-        pwaCheckoutState = encodeURIComponent(Cookies.get(nameCheckoutState));
-    }
 
     const [cartId, setCartId] = useState(propsCardId);
 
@@ -71,6 +68,9 @@ const Checkout = (props) => {
             isLogin = Cookies.get('isLogin');
             if (!cartid) {
                 Router.push(urlRedirect);
+            }
+            if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
+                pwaCheckoutState = Cookies.get(nameCheckoutState);
             }
             setCartId(cartid);
         }

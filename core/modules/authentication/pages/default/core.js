@@ -82,7 +82,7 @@ const Authentication = (props) => {
                             actUpdatePwaCheckoutLog({
                                 variables: {
                                     cart_id: cartId,
-                                    state: encodeURIComponent(state),
+                                    state,
                                     status: 0,
                                 },
                             });
@@ -92,11 +92,29 @@ const Authentication = (props) => {
                 }).catch(() => {
                     setAuthFailed(true);
                     setLoad(false);
+                    if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
+                        actUpdatePwaCheckoutLog({
+                            variables: {
+                                cart_id: '',
+                                state,
+                                status: 0,
+                            },
+                        });
+                    }
                     // backToStore();
                 });
             }).catch(() => {
                 setAuthFailed(true);
                 setLoad(false);
+                if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
+                    actUpdatePwaCheckoutLog({
+                        variables: {
+                            cart_id: '',
+                            state,
+                            status: 0,
+                        },
+                    });
+                }
                 // backToStore();
             });
         }
