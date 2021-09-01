@@ -8,7 +8,6 @@ import ProductCompareIcon from '@core_modules/catalog/plugins/ProductCompare';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
 import DesktopInstallApp from '@core_modules/theme/components/custom-install-popup/desktop';
-import { features } from '@config';
 import Menu from '@core_modules/theme/components/header/desktop/components/mcategory';
 import TopMenu from '@core_modules/theme/components/header/desktop/components/mtop';
 import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
@@ -30,12 +29,20 @@ const ViewTopNavigation = (props) => {
         app_cookies,
         showGlobalPromo,
         modules,
+        appName = 'Swift PWA',
+        installMessage = 'Install',
+        enablePopupInstallation = false,
     } = props;
     return (
         <div id="header">
             <div className="row header-top">
                 <main style={{ width: '97%' }}>
-                    {features.customInstallApp.enabled ? <DesktopInstallApp /> : null}
+                    {enablePopupInstallation ? (
+                        <DesktopInstallApp
+                            appName={appName}
+                            installMessage={installMessage}
+                        />
+                    ) : null}
                     <TopMenu t={t} isLogin={isLogin} data={customer} handleLogout={handleLogout} app_cookies={app_cookies} />
                 </main>
             </div>

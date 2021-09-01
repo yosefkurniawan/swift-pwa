@@ -13,7 +13,7 @@ import {
 
 const CoreTopNavigation = (props) => {
     const {
-        Content, storeConfig, t, app_cookies, isLogin, showGlobalPromo,
+        Content, storeConfig, t, app_cookies, isLogin, showGlobalPromo, ...other
     } = props;
     const [value, setValue] = React.useState('');
     const [deleteTokenGql] = removeToken();
@@ -95,6 +95,7 @@ const CoreTopNavigation = (props) => {
             app_cookies={app_cookies}
             showGlobalPromo={showGlobalPromo}
             modules={modules}
+            {...other}
         />
     );
 };
