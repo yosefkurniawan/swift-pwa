@@ -31,6 +31,7 @@ import {
     getSigninMethodSocialLogin,
 } from '@core_modules/login/services/graphql';
 import { getCustomer } from '@core_modules/login/services/graphql/schema';
+import { localCompare } from '@services/graphql/schema/local';
 import { assignCompareListToCustomer } from '@core_modules/productcompare/service/graphql';
 
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
@@ -162,7 +163,7 @@ const Login = (props) => {
         skip: !cusIsLogin,
     });
     const [mergeCart] = mutationMergeCart();
-    const [mergeCompareProduct] = assignCompareListToCustomer();
+    const [mergeCompareProduct, { client }] = assignCompareListToCustomer();
 
     const [actSocialLogin] = socialLogin();
 
@@ -343,6 +344,13 @@ const Login = (props) => {
                 })
                     .then((res) => {
                         setCookies('uid_product_compare', res.data.assignCompareListToCustomer.compare_list.uid);
+                        client.writeQuery({
+                            query: localCompare,
+                            data: {
+                                item_count: res.data.assignCompareListToCustomer.compare_list.item_count,
+                                items: res.data.assignCompareListToCustomer.compare_list.items,
+                            },
+                        });
                     })
                     .catch(() => {
                         //
