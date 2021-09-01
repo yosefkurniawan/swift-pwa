@@ -14,7 +14,9 @@ import Typography from '@common_typography';
 import { useTranslation } from '@i18n';
 
 const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
-    const [getProductCompare, { loading, data: compareList }] = getCompareList();
+    const [getProductCompare, { loading, data: compareList }] = getCompareList({
+        errorPolicy: 'all',
+    });
     const [getUid, { data: dataUid }] = getCustomerUid();
     const { data: dataCompare, client } = useQuery(localCompare);
     const [setCompareList] = createCompareList();
