@@ -89,6 +89,7 @@ const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
             tempCompare = {
                 compareList: {
                     item_count: dataCompare.item_count,
+                    items: dataCompare.items,
                 },
             };
         }

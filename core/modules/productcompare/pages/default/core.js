@@ -133,6 +133,11 @@ const HomeCore = (props) => {
                 refetch();
                 window.backdropLoader(false);
                 window.toastMessage({ open: true, variant: 'success', text: t('common:productCompare:successRemove') });
+                if (res.data.removeProductsFromCompareList.item_count === 0) {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 500);
+                }
             })
             .catch(() => {
                 window.backdropLoader(false);
