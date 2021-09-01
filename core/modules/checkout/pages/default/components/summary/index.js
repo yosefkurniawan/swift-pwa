@@ -158,7 +158,7 @@ const Summary = ({
 
         if (cart.prices.grand_total.value === 0 && cart.selected_payment_method && cart.selected_payment_method.code !== 'free') {
             state = { ...checkout };
-            result = await setPaymentMethod({ variables: { cartId: cart.id, code: 'free' } });
+            result = await setPaymentMethod({ variables: { cartId: cart.id, payment_method: { code: 'free' } } });
 
             if (!validateReponse(result, state)) {
                 return;
