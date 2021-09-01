@@ -26,7 +26,7 @@ const HomeCore = (props) => {
     }, [isLogin]);
 
     React.useEffect(() => {
-        if (!compareList && !isLogin) {
+        if (!isLogin) {
             const uid = getCookies('uid_product_compare');
             if (uid) {
                 getProduct({
@@ -36,23 +36,21 @@ const HomeCore = (props) => {
                 });
             }
         }
-    }, [compareList, isLogin]);
+    }, []);
 
     React.useEffect(() => {
-        if (!compareList && dataUid) {
-            if (isLogin) {
-                const uid = getCookies('uid_product_compare');
-                if (uid) {
-                    const uid_product = dataUid.customer.compare_list.uid;
-                    getProduct({
-                        variables: {
-                            uid: uid_product,
-                        },
-                    });
-                }
+        if (dataUid && isLogin) {
+            const uid = getCookies('uid_product_compare');
+            if (uid) {
+                const uid_product = dataUid.customer.compare_list.uid;
+                getProduct({
+                    variables: {
+                        uid: uid_product,
+                    },
+                });
             }
         }
-    }, [compareList, dataUid]);
+    }, [dataUid]);
     const schemaOrg = [
         {
             '@context': 'https://schema.org',
@@ -91,7 +89,7 @@ const HomeCore = (props) => {
         );
     }
 
-    if (!compareList) {
+    if (!compareList || compareList.compareList == null) {
         return (
             <Layout {...props} pageConfig={config} {...other}>
                 <Empty t={t} />
@@ -108,6 +106,7 @@ const HomeCore = (props) => {
     }
 
     const handleRemoveProduct = (id) => {
+        window.backdropLoader(true);
         const uid_product = getCookies('uid_product_compare');
         const uids = [];
         let uid_customer = '';
@@ -124,16 +123,24 @@ const HomeCore = (props) => {
             },
         })
             .then(async (res) => {
-                await window.toastMessage({ open: true, variant: 'success', text: t('common:productCompare:successRemove') });
-                client.writeQuery({
+                await client.writeQuery({
                     query: localCompare,
                     data: {
                         item_count: res.data.removeProductsFromCompareList.item_count,
+                        items: res.data.removeProductsFromCompareList.items,
                     },
                 });
                 refetch();
+                window.backdropLoader(false);
+                window.toastMessage({ open: true, variant: 'success', text: t('common:productCompare:successRemove') });
+                if (res.data.removeProductsFromCompareList.item_count === 0) {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 500);
+                }
             })
             .catch(() => {
+                window.backdropLoader(false);
                 window.toastMessage({
                     open: true,
                     variant: 'error',

@@ -16,7 +16,7 @@ import Button from '@material-ui/core/IconButton';
 import { addWishlist, getDetailProduct } from '@core_modules/catalog/services/graphql';
 import useStyles from '@plugin_productitem/style';
 import { addProductsToCompareList } from '@core_modules/product/services/graphql';
-import { getCompareList, getCustomerUid } from '@core_modules/productcompare/service/graphql';
+import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { localCompare } from '@services/graphql/schema/local';
 
 const ModalQuickView = dynamic(() => import('@plugin_productitem/components/QuickView'), { ssr: false });
@@ -50,23 +50,9 @@ const ProductItem = (props) => {
     if (typeof window !== 'undefined') isLogin = getLoginInfo();
     const [getProduct, detailProduct] = getDetailProduct();
     const [postAddWishlist] = addWishlist();
-    const [getProductCompare, { data: compareList, refetch }] = getCompareList();
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
     const [addProductCompare] = addProductsToCompareList();
-    const { client } = useQuery(localCompare);
-
-    React.useEffect(() => {
-        if (!compareList && modules.productcompare.enabled) {
-            const uid_product = getCookies('uid_product_compare');
-            if (uid_product) {
-                getProductCompare({
-                    variables: {
-                        uid: uid_product,
-                    },
-                });
-            }
-        }
-    }, [compareList]);
+    const { data: dataCompare, client } = useQuery(localCompare);
 
     React.useEffect(() => {
         if (isLogin && !dataUid && modules.productcompare.enabled) {
@@ -103,6 +89,7 @@ const ProductItem = (props) => {
     };
 
     const handleSetCompareList = (id_compare) => {
+        window.backdropLoader(true);
         const uid_product_compare = getCookies('uid_product_compare');
         const uids = [];
         let uid_customer = '';
@@ -113,47 +100,50 @@ const ProductItem = (props) => {
             /* eslint-enable */
         }
         let isExist = false;
-        if (compareList) {
-            compareList.compareList.items.map((res) => {
-                if (res.uid === id_compare.toString()) {
+        if (dataCompare && dataCompare.items && dataCompare.items.length > 0) {
+            dataCompare.items.map((item) => {
+                if (item.uid === id_compare.toString()) {
                     isExist = true;
                 }
                 return null;
             });
-            if (!isExist) {
-                addProductCompare({
-                    variables: {
-                        uid: isLogin ? uid_customer : uid_product_compare,
-                        products: uids,
-                    },
-                })
-                    .then(async (res) => {
-                        await window.toastMessage({ open: true, variant: 'success', text: t('common:productCompare:successCompare') });
-                        client.writeQuery({
-                            query: localCompare,
-                            data: {
-                                item_count: res.data.addProductsToCompareList.item_count,
-                            },
-                        });
-                        refetch();
-                        if (isLogin) {
-                            refetchCustomerUid();
-                        }
-                    })
-                    .catch((e) => {
-                        window.toastMessage({
-                            open: true,
-                            variant: 'error',
-                            text: debuging.originalError ? e.message.split(':')[1] : t('common:productCompare:failedCompare'),
-                        });
+        }
+        if (!isExist) {
+            addProductCompare({
+                variables: {
+                    uid: isLogin ? uid_customer : uid_product_compare,
+                    products: uids,
+                },
+            })
+                .then(async (res) => {
+                    client.writeQuery({
+                        query: localCompare,
+                        data: {
+                            item_count: res.data.addProductsToCompareList.item_count,
+                            items: res.data.addProductsToCompareList.items,
+                        },
                     });
-            } else {
-                window.toastMessage({
-                    open: true,
-                    variant: 'error',
-                    text: t('common:productCompare:existProduct'),
+                    if (isLogin) {
+                        refetchCustomerUid();
+                    }
+                    window.backdropLoader(false);
+                    window.toastMessage({ open: true, variant: 'success', text: t('common:productCompare:successCompare') });
+                })
+                .catch((e) => {
+                    window.backdropLoader(false);
+                    window.toastMessage({
+                        open: true,
+                        variant: 'error',
+                        text: debuging.originalError ? e.message.split(':')[1] : t('common:productCompare:failedCompare'),
+                    });
                 });
-            }
+        } else {
+            window.backdropLoader(false);
+            window.toastMessage({
+                open: true,
+                variant: 'error',
+                text: t('common:productCompare:existProduct'),
+            });
         }
     };
 
@@ -325,7 +315,7 @@ const ProductItem = (props) => {
                                         {...other}
                                     />
                                 ) // eslint-disable-next-line indent
-                                : null}
+                                    : null}
                             </div>
                         </div>
                     </div>

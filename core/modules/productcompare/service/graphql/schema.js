@@ -12,6 +12,7 @@ export const getCompareList = gql`
             items {
                 uid
                 product {
+                    id
                     sku
                     name
                     brand
@@ -100,6 +101,7 @@ export const assignCompareListToCustomer = gql`
                 items {
                     uid
                     product {
+                        id
                         sku
                         name
                         description {
@@ -124,6 +126,7 @@ export const removeProductsFromCompareList = gql`
             items {
                 uid
                 product {
+                    id
                     sku
                     name
                     description {

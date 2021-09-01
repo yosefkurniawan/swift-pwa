@@ -99,8 +99,11 @@
     "shippingGrouping": {
         "freeshipping": "Free shipping",
         "express": "Express",
-        "nextday": "Next day",
+        "sameday": "Same Day",
         "reguler": "Reguler",
+        "trucking": "Trucking",
+        "international": "International",
+        "instant": "Instant",
         "others": "Others"
     },
     "error": {

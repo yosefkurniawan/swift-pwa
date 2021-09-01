@@ -12,7 +12,7 @@ import { setResolver, getResolver } from '@helper_localstorage';
 const DOM_NAME = 'pwalink';
 
 const MagezonLink = (props) => {
-    const { link, children } = props;
+    const { link, link_target, children } = props;
 
     const handleClickProduct = async (url_key, blank) => {
         if (!blank || blank === 0) {
@@ -106,6 +106,16 @@ const MagezonLink = (props) => {
                 }
             },
         });
+    }
+
+    if (contentLink && contentLink !== '' && !contentLink.includes(DOM_NAME)) {
+        return (
+            <Link href={`${contentLink}`}>
+                <a target={link_target === '_blank' ? '_blank' : '_self'}>
+                    {children}
+                </a>
+            </Link>
+        );
     }
     return children;
 };
