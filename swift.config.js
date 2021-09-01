@@ -549,7 +549,7 @@ const modules = {
         enabled: true,
     },
     productcompare: {
-        enabled: true,
+        enabled: false,
     },
     order: {
         enabled: true,

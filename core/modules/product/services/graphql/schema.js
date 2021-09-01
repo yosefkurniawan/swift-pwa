@@ -595,6 +595,7 @@ export const createCompareList = gql`
           items {
               uid
               product {
+                  id
                   sku
                   name
                   description {

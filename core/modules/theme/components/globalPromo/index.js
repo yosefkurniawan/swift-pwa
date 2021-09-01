@@ -8,11 +8,9 @@ import {
 const GlobalPromoMessage = (props) => {
     const { storeConfig, showGlobalPromo, ...other } = props;
     const { key_cookies } = features.globalPromo;
-    const { data } = getCmsBlocks(
-        {
-            identifiers: 'weltpixel_global_promo_message',
-        },
-    );
+    const { data } = getCmsBlocks({
+        identifiers: 'weltpixel_global_promo_message',
+    });
 
     if (storeConfig.global_promo.enable && showGlobalPromo && data
         && data.cmsBlocks && data.cmsBlocks.items[0] && data.cmsBlocks.items[0].content) {

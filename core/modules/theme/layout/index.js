@@ -55,7 +55,7 @@ const Layout = (props) => {
     const [state, setState] = useState({
         toastMessage: {
             open: false,
-            variant: '',
+            variant: 'success',
             text: '',
         },
         backdropLoader: false,

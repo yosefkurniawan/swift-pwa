@@ -15,6 +15,7 @@ export const localResolver = gql`
 export const localCompare = gql`
     {
         item_count @client
+        items @client
     }
 `;
 

@@ -45,6 +45,7 @@ const Content = (props) => {
     };
 
     if (compareList.compareList.items.length === 0) {
+        console.log('hereee 222', compareList);
         return <Empty t={t} />;
     }
 
@@ -71,7 +72,7 @@ const Content = (props) => {
                                             style={{ width: columnWidth }}
                                         >
                                             <div className={styles.productImage}>
-                                                <ProductItem {...product} id={product_id} enableProductCompare={false} />
+                                                <ProductItem {...product} enableProductCompare={false} />
                                                 <ClearIcon className="clearIcon" onClick={() => confirmDelete(productCompare)} />
                                             </div>
                                         </TableCell>
