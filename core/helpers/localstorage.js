@@ -26,7 +26,14 @@ export const getLocalStorage = (key) => {
     if (typeof window !== 'undefined' && testLocalStorage() === true) {
         const data = localStorage.getItem(key);
         if (data && data !== null) {
-            return JSON.parse(data);
+            let returnData;
+            try {
+                returnData = JSON.parse(data);
+            } catch {
+                return false;
+            }
+
+            return returnData;
         }
         return data;
     }

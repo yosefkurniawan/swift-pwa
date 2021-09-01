@@ -9,6 +9,7 @@ const MagezonIcon = (props) => {
         icon_background_color, icon_border_color, icon_border_radius,
         icon_border_style, icon_border_width, icon_color,
         icon_hover_background_color, icon_hover_border_color, icon_hover_color,
+        link_target,
     } = props;
     const classIcon = 'magezon-icon ';
     const sizeClasses = `magezon-icon-size-${icon_size} `;
@@ -23,7 +24,7 @@ const MagezonIcon = (props) => {
     return (
         <div className={classnames(classIcon, sizeClasses)}>
             <div className="wrapperIcon">
-                <MagezonLink link={customUrl}>
+                <MagezonLink link={customUrl} link_target={link_target}>
                     <div className="magezon-icon-inner">
                         <i className={iconRes} />
                     </div>
@@ -52,6 +53,9 @@ const MagezonIcon = (props) => {
                     }
                     .magezon-icon :global(.magezon-icon-inner:hover i) {
                         color: ${icon_hover_color};
+                    }
+                    .magezon-icon-size-undefined {
+                        display: inline-flex;
                     }
                     .magezon-icon-size-xs :global(.magezon-icon-inner) {
                         width: 2.5em;

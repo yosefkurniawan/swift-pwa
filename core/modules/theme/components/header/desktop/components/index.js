@@ -170,8 +170,8 @@ const ViewTopNavigation = (props) => {
                         padding-right: 16px;
                     }
                     .header-middle__icons > div {
-                        margin-right: -15px;
-                        margin-left: -10px;
+                        margin-right: -5px;
+                        margin-left: 0px;
                         display: inline-block;
                     }
                     .search-icon {
