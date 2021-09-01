@@ -32,7 +32,6 @@ const MagezonFlipBox = (props) => {
         button_title,
         enable_button,
     } = props;
-    console.log(props);
 
     const flipValue = () => {
         switch (flip_direction) {
