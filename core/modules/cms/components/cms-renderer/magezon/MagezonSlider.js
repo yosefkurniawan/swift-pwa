@@ -71,7 +71,7 @@ const MagezonSliderContent = (props) => {
 
     const getBackgroundImageUrl = (backgroundType, img) => {
         if (backgroundType === 'image') {
-            const thumborUrl = generateThumborUrl(`${mediaUrl}/${img}`, slideWidth, slideHeight);
+            const thumborUrl = generateThumborUrl(`${mediaUrl}/${img}`, 0, 0);
             return `url("${thumborUrl}")`;
         }
         return 'url()';
@@ -86,7 +86,7 @@ const MagezonSliderContent = (props) => {
             ) : (
                 <div
                     className="magezon-slide"
-                    style={{ backgroundImage: getBackgroundImageUrl(background_type, image) }}
+                    style={{ backgroundImage: getBackgroundImageUrl(background_type, image), height: slider_height }}
                 >
                     <div className={`magezon-slide-captions ${content_position}`}>
                         <div>
@@ -236,12 +236,12 @@ const useHoverStyle = (hoverEffect) => {
 
 const MagezonSlider = (props) => {
     const {
-        items, image_hover_effect,
+        items, image_hover_effect, content_position,
         owl_nav, owl_dots, owl_lazyLoad, owl_loop, owl_autoplay, owl_autoplay_timeout, owl_rtl,
         owl_nav_size, owl_nav_position, owl_animate_in, owl_animate_out,
         owl_active_background_color, owl_background_color, owl_color,
         owl_hover_background_color, owl_hover_color,
-        slider_height,
+        owl_dots_insie, slider_height,
     } = props;
     const [slideIndex, setSlideIndex] = useState(0);
     const { unhoverStyle, hoverStyle } = useHoverStyle(image_hover_effect);
@@ -253,15 +253,22 @@ const MagezonSlider = (props) => {
 
     const settings = {
         arrows: false,
+        dots: true,
         infinite: owl_loop,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: owl_autoplay,
         autoplaySpeed: owl_autoplay_timeout || 2000,
+        adaptiveHeight: true,
         pauseOnHover: true,
         lazyLoad: owl_lazyLoad,
         rtl: owl_rtl,
+        customPaging: () => (
+            <a>
+                <div className="custom-slick-dots" />
+            </a>
+        ),
         beforeChange: (oldIdx, newIdx) => {
             const containerEl = sliderRef.innerSlider.list.querySelector(`[data-index="${newIdx}"] > div > div`);
             const prevContainerEl = sliderRef.innerSlider.list.querySelector(`[data-index="${oldIdx}"] > div > div`);
@@ -311,7 +318,7 @@ const MagezonSlider = (props) => {
     return (
         <>
             <div className="magezon-slider">
-                {owl_nav_position.includes('top') && (
+                {owl_nav && owl_nav_position.includes('top') && (
                     <div className="magezon-slider-nav-top-arrow">
                         <div className="magezon-slider-button-nav" onClick={() => sliderRef.slickPrev()}>
                             <LeftArrowIcon />
@@ -321,7 +328,7 @@ const MagezonSlider = (props) => {
                         </div>
                     </div>
                 )}
-                {owl_nav_position === 'center_split' && (
+                {owl_nav && owl_nav_position === 'center_split' && (
                     <div className="magezon-slider-nav-center-arrow">
                         <div className="magezon-slider-button-nav" onClick={() => sliderRef.slickPrev()}>
                             <LeftArrowIcon />
@@ -334,12 +341,12 @@ const MagezonSlider = (props) => {
                 <div className="magezon-slider-inner">
                     <Slider ref={(slider) => (sliderRef = slider)} {...settings}>
                         {items.map((item, i) => (
-                            <MagezonSliderContent key={i} slider_height={slider_height} {...item} />
+                            <MagezonSliderContent key={i} slider_height={slider_height} content_position={content_position} {...item} />
                         ))}
                     </Slider>
                 </div>
                 <div className="magezon-slider-nav-bottom">
-                    {owl_nav_position.includes('bottom') && (
+                    {owl_nav && owl_nav_position.includes('bottom') && (
                         <div className="magezon-slider-nav-bottom-arrow">
                             <div className="magezon-slider-button-nav" onClick={() => sliderRef.slickPrev()}>
                                 <LeftArrowIcon />
@@ -347,15 +354,6 @@ const MagezonSlider = (props) => {
                             <div className="magezon-slider-button-nav" onClick={() => sliderRef.slickNext()}>
                                 <RightArrowIcon />
                             </div>
-                        </div>
-                    )}
-                    {owl_dots && (
-                        <div className="magezon-slider-nav-dots">
-                            {items.map((item, index) => (
-                                <div className={`magezon-slider-nav-dots-item ${slideIndex === index && 'magezon-slider-nav-dots-item-active'}`} key={index} onClick={() => sliderRef.slickGoTo(index)}>
-                                    <span />
-                                </div>
-                            ))}
                         </div>
                     )}
                 </div>
@@ -395,7 +393,7 @@ const MagezonSlider = (props) => {
                     .magezon-slider-inner :global(.magezon-slide) {
                         text-align: center;
                         position: relative;
-                        padding-bottom: ${100 * (slideHeight / slideWidth)}%;
+                        // padding-bottom: ${100 * (slideHeight / slideWidth)}%;
                         background-color: #ddd;
                         background-position: center;
                         background-size: cover;
@@ -469,37 +467,23 @@ const MagezonSlider = (props) => {
                         justify-content: center;
                         align-items: center;
                     }
-                    .magezon-slider-nav-dots {
-                        min-width: 100px;
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: center;
+                    .magezon-slider-inner :global(.slick-dots) {
+                        position: relative;
+                        ${owl_dots_insie ? 'bottom: 50px;' : ''}
                     }
-                    .magezon-slider-nav-dots-item {
-                        width: 30px;
-                        height: 30px;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                    }
-                    .magezon-slider-nav-dots-item span {
-                        display: block;
+                    .magezon-slider-inner :global(.custom-slick-dots) {
                         width: 10px;
                         height: 10px;
                         background-color: ${owl_background_color || '#eee'};
                         border-radius: 50px;
+                        transition: transform 0.5s;
                     }
-                    .magezon-slider-nav-dots-item-active span {
-                        ${owl_active_background_color && `background-color: ${owl_active_background_color};`}
+                    .magezon-slider-inner :global(.slick-active .custom-slick-dots) {
+                        background-color: ${owl_active_background_color || '#ffffff'};
+                        ${owl_dots_insie ? 'transform: scale(1.5);' : ''}
                     }
-                    .magezon-slider-nav-dots-item:hover {
-                        cursor: pointer;
-                    }
-                    .magezon-slider-nav-dots-item:hover span {
+                    .magezon-slider-inner :global(.slick-slider li:not(.slick-active) .custom-slick-dots:hover) {
                         background-color: ${owl_hover_background_color};
-                    }
-                    .magezon-slider-nav-dots-item-active:hover span {
-                        ${owl_active_background_color && `background-color: ${owl_active_background_color};`}
                     }
                 `}
             </style>

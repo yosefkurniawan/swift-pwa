@@ -31,7 +31,7 @@ const internalGenerateSession = async (parent, { state }, context) => {
         if (res.response && res.response.errors) {
             return {
                 result: false,
-                cartId: null,
+                cartId,
                 isLogin: false,
                 redirect_path,
             };

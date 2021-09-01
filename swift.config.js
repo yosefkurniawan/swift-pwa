@@ -136,6 +136,7 @@ const storeConfigNameCookie = 'storeConfig';
 const nameCartId = 'nci';
 const custDataNameCookie = 'cdt';
 const nameCheckoutCookie = 'ccdt';
+const nameCheckoutState = 'ncs';
 const nameGlobalCookie = 'spwa';
 const nameToken = 'sk';
 const expiredToken = new Date(Date.now() + 1000 * 60 * 60);
@@ -620,6 +621,7 @@ module.exports = {
     cmsSocialMediaLinkIdentifiers,
     custDataNameCookie,
     nameCheckoutCookie,
+    nameCheckoutState,
     nameGlobalCookie,
     enableSocialMediaLink,
     features,
