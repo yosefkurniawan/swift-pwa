@@ -54,15 +54,46 @@ export const getProductList = gql`
     query getProductList($search: String!, $pageSize: Int) {
         products(search: $search, pageSize: $pageSize) {
             items {
+                id
                 name
                 sku
+                url_key
                 price_range {
                     maximum_price {
                         regular_price {
-                            currency
                             value
                         }
+                        final_price {
+                            value
+                        }
+                        discount {
+                            amount_off
+                            percent_off
+                        }
                     }
+                    minimum_price {
+                        regular_price {
+                            value
+                        }
+                        final_price {
+                            value
+                        }
+                        discount {
+                            amount_off
+                            percent_off
+                        }
+                    }
+                }
+                price_tiers {
+                    discount {
+                        amount_off
+                        percent_off
+                    }
+                    final_price {
+                        currency
+                        value
+                    }
+                    quantity
                 }
                 small_image {
                     label
@@ -149,6 +180,8 @@ export const getProductList = gql`
                         }
                     }
                 }
+                special_from_date
+                special_to_date
             }
         }
     }
