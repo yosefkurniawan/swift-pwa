@@ -95,8 +95,11 @@
     "shippingGrouping": {
         "freeshipping": "Pengiriman gratis",
         "express": "Pengiriman kilat",
-        "nextday": "Next day",
+        "sameday": "Same day",
         "reguler": "Reguler",
+        "trucking": "Trucking",
+        "international": "Internasional",
+        "instant": "Instan",
         "others": "Lainnya"
     },
     "cartError": "Ada yang salah saat mengambil data keranjang",

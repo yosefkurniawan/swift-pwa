@@ -95,8 +95,11 @@
     "shippingGrouping": {
         "freeshipping": "Free shipping",
         "express": "Express",
-        "nextday": "Next day",
+        "sameday": "Same Day",
         "reguler": "Reguler",
+        "trucking": "Trucking",
+        "international": "International",
+        "instant": "Instant",
         "others": "Others"
     },
     "cartError": "Something went wrong during fetching the cart data",

@@ -10,21 +10,33 @@ const configStyleIcon = {
 };
 
 export const IconAccordion = {
-    nextday: {
+    reguler: {
         ...configStyleIcon,
-        backgroundImage: 'url(/assets/img/ship_nextday.svg)',
-    },
-    express: {
-        ...configStyleIcon,
-        backgroundImage: 'url(/assets/img/ship_express.svg)',
+        backgroundImage: 'url(/assets/img/shipping-reguler.svg)',
     },
     freeshipping: {
         ...configStyleIcon,
-        backgroundImage: 'url(/assets/img/ship_freeshipping.svg)',
+        backgroundImage: 'url(/assets/img/shipping-free.svg)',
     },
-    reguler: {
+    express: {
         ...configStyleIcon,
-        backgroundImage: 'url(/assets/img/ship_reguler.svg)',
+        backgroundImage: 'url(/assets/img/shipping-express.svg)',
+    },
+    instant: {
+        ...configStyleIcon,
+        backgroundImage: 'url(/assets/img/shipping-instant.svg)',
+    },
+    sameday: {
+        ...configStyleIcon,
+        backgroundImage: 'url(/assets/img/shipping-sameday.svg)',
+    },
+    international: {
+        ...configStyleIcon,
+        backgroundImage: 'url(/assets/img/shipping-international.svg)',
+    },
+    trucking: {
+        ...configStyleIcon,
+        backgroundImage: 'url(/assets/img/shipping-trucking.svg)',
     },
 };
 
