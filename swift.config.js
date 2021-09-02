@@ -28,17 +28,6 @@ const graphqlEndpoint = {
 const installMessage = 'Get our free app.';
 const appName = 'Swift APP';
 
-/* Social Sharing */
-const shareIcon = {
-    facebook: true,
-    twitter: true,
-    line: true,
-    email: true,
-    telegram: true,
-    pinterest: false,
-    linkedin: false,
-};
-
 /* Password Validator */
 const passwordStrength = {
     minValue: 8,
@@ -608,7 +597,6 @@ module.exports = {
     GTM,
     HOST,
     graphqlEndpoint,
-    shareIcon,
     passwordStrength,
     expiredCookies,
     storeConfigNameCookie,
