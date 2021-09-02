@@ -6,5 +6,6 @@
     "message": "Message",
     "telephone": "Telephone",
     "successSubmit": "Sucess submit message",
-    "failedSubmit": "Failed submit message, please check your input or connection"
+    "failedSubmit": "Failed submit message, please check your input or connection",
+    "nullCmsIdentifer": "Cms identifier is not configure, try again later"
 }
