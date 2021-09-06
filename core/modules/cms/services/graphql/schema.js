@@ -59,8 +59,8 @@ export const getCmsBlocks = gql`
 `;
 
 export const getProductList = gql`
-    query getProductList($search: String!, $pageSize: Int) {
-        products(search: $search, pageSize: $pageSize) {
+    query getProductList($search: String, $pageSize: Int, $filter: ProductAttributeFilterInput) {
+        products(search: $search, pageSize: $pageSize, filter: $filter) {
             items {
                 id
                 name
