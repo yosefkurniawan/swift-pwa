@@ -16,6 +16,10 @@ export const getCmsPage = (variables) => useQuery(Schema.getCmsPage, {
 });
 export const getInstagramToken = () => useLazyQuery(Schema.getInstagramToken);
 
+export const getPageBuilderTemplate = (variables) => useQuery(Schema.getPageBuilderTemplate, {
+    variables,
+});
+
 // mutation
 export const getInstagramFeed = () => useMutation(Schema.getInstagramFeed, {
     context: {

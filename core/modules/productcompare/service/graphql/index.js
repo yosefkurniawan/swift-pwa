@@ -1,15 +1,12 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
 import * as Schema from '@core_modules/productcompare/service/graphql/schema';
 
-let fetchPolicy = '';
-fetchPolicy = 'cache-first';
 const USING_INTERNAL = true;
 
 const config = (isUsingInternal) => {
     const context = isUsingInternal ? { request: 'internal' } : {};
 
     return {
-        notifyOnNetworkStatusChange: true,
         context,
     };
 };
@@ -18,8 +15,8 @@ const config = (isUsingInternal) => {
 
 export const getCompareList = (params) => useLazyQuery(Schema.getCompareList, {
     ...params,
-    fetchPolicy,
     ...config(USING_INTERNAL),
+    fetchPolicy: 'no-cache',
 });
 
 export const getCustomerUid = (options = {}) => useLazyQuery(Schema.getCustomerUid, {
