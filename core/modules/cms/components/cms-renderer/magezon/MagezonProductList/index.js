@@ -1,3 +1,5 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
@@ -5,9 +7,11 @@
 import { useQuery } from '@apollo/client';
 import Thumbor from '@common_image';
 import PriceFormat from '@common_priceformat';
+import RatingStar from '@common_ratingstar';
 import Typography from '@common_typography';
 import { debuging, features, modules } from '@config';
 import useStyles from '@core_modules/cms/components/cms-renderer/magezon/MagezonProductList/style';
+// import getProductListConditions from '@core_modules/cms/helpers/getProductListConditions';
 import { getProductList } from '@core_modules/cms/services/graphql';
 import OptionItem from '@core_modules/product/plugins/OptionItem/index';
 import { addProductsToCompareList, addWishlist as mutationAddWishlist } from '@core_modules/product/services/graphql';
@@ -21,14 +25,15 @@ import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import { getCookies } from '@root/core/helpers/cookies';
 import { localCompare } from '@services/graphql/schema/local';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 const ProductContent = (props) => {
     // prettier-ignore
     const {
         product, t,
-        product_addtocart, product_compare,
+        product_addtocart, product_compare, product_shortdescription,
         product_image, product_price, product_review,
         product_swatches, product_wishlist, product_name,
     } = props;
@@ -36,7 +41,7 @@ const ProductContent = (props) => {
     const {
         name, url_key, id, __typename,
         price_range, price_tiers,
-        special_from_date, special_to_date,
+        special_from_date, special_to_date, review_count,
     } = product;
     const [wishlist, setWishlist] = useState(false);
     const styles = useStyles();
@@ -162,58 +167,93 @@ const ProductContent = (props) => {
     };
 
     return (
-        <Grid container spacing={4}>
-            {product_image && (
-                <Grid item>
-                    <div style={{ height: features.imageSize.product.height, width: features.imageSize.product.width }}>
-                        <Thumbor src={product.small_image.url} width={features.imageSize.product.width} height={features.imageSize.product.height} />
-                    </div>
-                </Grid>
-            )}
-            <Grid item xs={12} sm container direction="column">
-                {product_name && (
-                    <Grid item>
-                        <Typography variant="h4">{name}</Typography>
+        <>
+            <Grid container spacing={4}>
+                {product_image && (
+                    <Grid item xs={4}>
+                        <div style={{ height: features.imageSize.product.height, width: features.imageSize.product.width, maxWidth: '100%' }}>
+                            <Thumbor
+                                src={product.small_image.url}
+                                width={features.imageSize.product.width}
+                                height={features.imageSize.product.height}
+                            />
+                        </div>
                     </Grid>
                 )}
-                <Grid item container direction="row">
-                    <Grid item>
-                        {product_price && (
-                            <Typography variant="h1">
-                                <PriceFormat {...price} />
+                <Grid item xs={8} sm container direction="column">
+                    {product_name && (
+                        <Grid item>
+                            <Typography variant="h4">{name}</Typography>
+                        </Grid>
+                    )}
+                    {product_review && (
+                        <Grid item container>
+                            <RatingStar value={review_count} />
+                            <Typography variant="p" type="regular" letter="capitalize">
+                                {review_count || 0}
+                                {' '}
+                                {review_count > 1 ? `${t('product:review')}s` : t('product:review')}
                             </Typography>
-                        )}
-                        {product_swatches && (
-                            <div className="mgz-product-list-option-item">
-                                <OptionItem
-                                    data={product}
-                                    setPrice={setPrice}
-                                    t={t}
-                                    noLabel
-                                    noValidate
-                                    customPos
-                                    disabled={false}
-                                    showAddToCart={product_addtocart}
-                                    handleAddToCart={handleClick}
-                                />
-                            </div>
-                        )}
-                    </Grid>
-                    <Grid item style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end' }}>
-                        {product_wishlist && (
-                            <IconButton className={styles.btnShare} onClick={handleAddtowishlist}>
-                                {favoritIcon}
-                            </IconButton>
-                        )}
-                        {modules.productcompare.enabled && product_compare && (
-                            <IconButton className={styles.btnShare} onClick={() => handleSetCompareList(id)}>
-                                <CompareArrowsIcon className={styles.iconShare} />
-                            </IconButton>
-                        )}
+                        </Grid>
+                    )}
+                    <Grid item container direction="row">
+                        <Grid item>
+                            {product_price && <PriceFormat {...price} />}
+                            {product_swatches && (
+                                <div className="mgz-product-list-option-item">
+                                    <OptionItem
+                                        data={product}
+                                        setPrice={setPrice}
+                                        t={t}
+                                        noLabel
+                                        noValidate
+                                        customPos
+                                        disabled={false}
+                                        showAddToCart={product_addtocart}
+                                        handleAddToCart={handleClick}
+                                    />
+                                </div>
+                            )}
+                        </Grid>
+                        <Grid item style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end' }}>
+                            {product_wishlist && (
+                                <IconButton className={styles.btnShare} onClick={handleAddtowishlist}>
+                                    {favoritIcon}
+                                </IconButton>
+                            )}
+                            {modules.productcompare.enabled && product_compare && (
+                                <IconButton className={styles.btnShare} onClick={() => handleSetCompareList(id)}>
+                                    <CompareArrowsIcon className={styles.iconShare} />
+                                </IconButton>
+                            )}
+                            {product_shortdescription && (
+                                <IconButton>
+                                    <Link href={url_key}>
+                                        <Typography variant="h4">Learn More</Typography>
+                                    </Link>
+                                </IconButton>
+                            )}
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>
-        </Grid>
+            <style jsx>
+                {`
+                    @media (max-width: 600px) {
+                        .mgz-product-list-option-item :global(div[role='radiogroup'] > div) {
+                            margin: 2px 5px;
+                        }
+                        .mgz-product-list-option-item :global(div[role='radiogroup'] > div > span) {
+                            font-size: 11px;
+                        }
+                        .mgz-product-list-option-item :global(div[class*='btnAdd'] button) {
+                            font-size: 11px;
+                            height: 31px;
+                        }
+                    }
+                `}
+            </style>
+        </>
     );
 };
 
@@ -222,20 +262,19 @@ const MagezonProductList = (props) => {
     const {
         condition, description, show_line, source,
         line_color, line_position, line_width,
-        max_items, orer_by, product_addtocart,
-        product_background, product_equalheight, product_padding,
-        product_compare, product_image, product_name,
+        max_items, orer_by, product_addtocart, product_shortdescription,
+        product_background, product_compare, product_image, product_name,
         product_price, product_review, product_swatches, product_wishlist,
         title, title_align, title_tag,
     } = props;
     const { t } = useTranslation();
-    const { data } = getProductList({ search: 'chaz', pageSize: max_items });
+    const { data } = getProductList({ search: 'kenobi', pageSize: max_items });
     const showLineClass = show_line ? 'mgz-product-list-heading-line' : '';
     const linePosClass = show_line && line_position === 'bottom' ? 'mgz-product-list-heading-line--bottom' : '';
 
-    console.log(props);
-    console.log(data);
+    // const dataCondition = useMemo(() => getProductListConditions(condition), [condition]);
 
+    console.log(props);
     return (
         <>
             <div className="mgz-product-list">
@@ -262,6 +301,7 @@ const MagezonProductList = (props) => {
                             product_swatches={product_swatches}
                             product_wishlist={product_wishlist}
                             product_name={product_name}
+                            product_shortdescription={product_shortdescription}
                         />
                     ))}
                 </div>
@@ -293,6 +333,9 @@ const MagezonProductList = (props) => {
                         background-color: #ffffff;
                         display: inline-block;
                         position: relative;
+                    }
+                    .mgz-product-list :global(.MuiGrid-item h4) {
+                        margin: 0;
                     }
                 `}
             </style>
