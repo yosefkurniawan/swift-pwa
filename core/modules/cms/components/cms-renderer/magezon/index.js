@@ -28,6 +28,7 @@ import MagezonVideoPlayer from '@core_modules/cms/components/cms-renderer/magezo
 import MagezonPricingTable from '@core_modules/cms/components/cms-renderer/magezon/MagezonPricingTable';
 import MagezonImageGallery from '@core_modules/cms/components/cms-renderer/magezon/MagezonImageGallery';
 import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
+import MagezonProductGrid from '@core_modules/cms/components/cms-renderer/magezon/MagezonProductGrid';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
@@ -198,6 +199,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonImageGallery {...props} />; break;
         case 'content_slider':
             childrenContent = <MagezonContentSlider {...props} />; break;
+        case 'product_grid':
+            childrenContent = <MagezonProductGrid {...props} />; break;
         default:
             childrenContent = null;
         }

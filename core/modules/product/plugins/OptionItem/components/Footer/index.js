@@ -9,9 +9,14 @@ const ConfigurableView = (props) => {
     const {
         loading, disabled, showQty = true, handleAddToCart, qty, setQty,
         t, showAddToCart = true, customStyleBtnAddToCard = '', labelAddToCart = '',
-        maxQty = 10000,
+        maxQty = 10000, customButton,
     } = props;
     const styles = useStyles();
+
+    if (customButton) {
+        return customButton;
+    }
+
     return (
         <>
             { showQty && (

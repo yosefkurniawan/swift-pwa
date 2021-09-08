@@ -81,6 +81,7 @@ const OptionsItemsBundle = (props) => {
         View,
         loading: customLoading,
         setLoading: setCustomLoading,
+        customButton,
     } = props;
     const client = useApolloClient();
     const [items, setItems] = React.useState([]);
@@ -226,6 +227,7 @@ const OptionsItemsBundle = (props) => {
             loading={loading || loadingAdd}
             t={t}
             disabled={stock_status === 'OUT_OF_STOCK'}
+            customButton={customButton}
         />
     );
 };
