@@ -85,6 +85,13 @@ const MagezonProductList = (props) => {
                     .mgz-product-list :global(.MuiGrid-item h4) {
                         margin: 0;
                     }
+                    .mgz-product-list-content > :global(div) {
+                        margin-bottom: 20px;
+                    }
+                    .mgz-product-list-content > :global(div:hover) {
+                        box-shadow: 0px 20px 50px -20px rgb(0 0 0 / 50%) !important;
+                        border: 0px solid #fff !important;
+                    }
                 `}
             </style>
         </>

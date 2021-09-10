@@ -13,6 +13,7 @@ import { addProductsToCompareList, addWishlist as mutationAddWishlist } from '@c
 import { getCompareList, getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { getLoginInfo } from '@helper_auth';
 import Grid from '@material-ui/core/Grid';
+import CustomButton from '@core_modules/commons/Button';
 import IconButton from '@material-ui/core/IconButton';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import Favorite from '@material-ui/icons/Favorite';
@@ -191,21 +192,50 @@ const ProductContent = (props) => {
                     <Grid item container direction="row">
                         <Grid item>
                             {product_price && <PriceFormat {...price} />}
-                            {product_swatches && (
-                                <div className="mgz-product-list-option-item">
-                                    <OptionItem
-                                        data={product}
-                                        setPrice={setPrice}
-                                        t={t}
-                                        noLabel
-                                        noValidate
-                                        customPos
-                                        disabled={false}
-                                        showAddToCart={product_addtocart}
-                                        handleAddToCart={handleClick}
-                                    />
-                                </div>
-                            )}
+                            <div className="mgz-product-list-option-item">
+                                {__typename === 'GroupedProduct'
+                                    ? (
+                                        <CustomButton className={styles.btnAddToCard} onClick={handleClick}>
+                                            <Typography
+                                                align="center"
+                                                type="bold"
+                                                letter="uppercase"
+                                                color="white"
+                                                variant="inherit"
+                                            >
+                                                {t('product:addToCart')}
+                                            </Typography>
+                                        </CustomButton>
+                                    )
+                                    : (
+                                        <OptionItem
+                                            data={product}
+                                            setPrice={setPrice}
+                                            t={t}
+                                            noLabel
+                                            noValidate
+                                            customPos
+                                            showSwatches={product_swatches}
+                                            showQty={false}
+                                            disabled={false}
+                                            showAddToCart={product_addtocart}
+                                            handleAddToCart={handleClick}
+                                            customButton={(
+                                                <CustomButton className={styles.btnAddToCard} onClick={handleClick}>
+                                                    <Typography
+                                                        align="center"
+                                                        type="bold"
+                                                        letter="uppercase"
+                                                        color="white"
+                                                        variant="inherit"
+                                                    >
+                                                        {t('product:addToCart')}
+                                                    </Typography>
+                                                </CustomButton>
+                                            )}
+                                        />
+                                    )}
+                            </div>
                         </Grid>
                         <Grid item style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end' }}>
                             {product_wishlist && (
@@ -231,6 +261,9 @@ const ProductContent = (props) => {
             </Grid>
             <style jsx>
                 {`
+                    .mgz-product-list-option-item {
+                        margin-top: 10px;
+                    }
                     @media (max-width: 600px) {
                         .mgz-product-list-option-item :global(div[role='radiogroup'] > div) {
                             margin: 2px 5px;

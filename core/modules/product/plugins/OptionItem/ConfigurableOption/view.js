@@ -6,14 +6,14 @@ const ConfigurableView = (props) => {
     const {
         loading, disabled, showQty = true, handleAddToCart, qty, setQty,
         t, options, selectConfigurable, showAddToCart = true, isGrid = true,
-        customPos = false,
+        showSwatches = true, customPos = false,
         ...other
     } = props;
     const updatedOptions = customPos ? [...options].sort((a, b) => a.options.position - b.options.position) : options;
 
     return (
         <>
-            {updatedOptions.map((item, index) => (
+            {showSwatches && updatedOptions.map((item, index) => (
                 <Item
                     key={index}
                     option={item.options}
@@ -26,7 +26,7 @@ const ConfigurableView = (props) => {
             <Footer
                 loading={loading}
                 disabled={disabled}
-                showQty={!showQty}
+                showQty={showQty}
                 handleAddToCart={handleAddToCart}
                 qty={qty}
                 setQty={setQty}
