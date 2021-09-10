@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-restricted-syntax */
@@ -24,6 +26,7 @@ import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import { generateThumborUrl } from '@root/core/helpers/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 
@@ -259,7 +262,7 @@ const ProductContent = (props) => {
                 item
                 container
                 direction="column"
-                className={getCol5Classes()}
+                className={`mgz-product-grid-product-card ${getCol5Classes()}`}
                 xl={item_xl !== 5 && 12 / item_xl}
                 lg={item_lg !== 5 && 12 / item_lg}
                 md={item_md !== 5 && 12 / item_md}
@@ -268,7 +271,7 @@ const ProductContent = (props) => {
             >
                 {product_image && (
                     <Grid item xs container justify="center" alignItems="center">
-                        <div style={{ width: features.imageSize.product.width, maxWidth: '100%' }}>
+                        <div onClick={handleClick} style={{ width: features.imageSize.product.width, maxWidth: '100%' }}>
                             <img
                                 data-pagespeed-no-defer
                                 src={generateThumborUrl(product.small_image.url, 0, 0)}
@@ -284,7 +287,11 @@ const ProductContent = (props) => {
                 <Grid item xs container direction="column" alignItems="center">
                     {product_name && (
                         <Grid item>
-                            <Typography variant="h4">{name}</Typography>
+                            <Link href={url_key}>
+                                <a>
+                                    <Typography variant="h4">{name}</Typography>
+                                </a>
+                            </Link>
                         </Grid>
                     )}
                     {product_review && (
@@ -302,51 +309,50 @@ const ProductContent = (props) => {
                                     <PriceFormat {...price} />
                                 </div>
                             )}
-                            {product_swatches && (
-                                <div className="mgz-product-grid-option-item">
-                                    {__typename === 'GroupedProduct'
-                                        ? (
-                                            <CustomButton className={styles.btnAddToCard} onClick={handleClick}>
-                                                <Typography
-                                                    align="center"
-                                                    type="bold"
-                                                    letter="uppercase"
-                                                    color="white"
-                                                    variant="inherit"
-                                                >
-                                                    {t('product:addToCart')}
-                                                </Typography>
-                                            </CustomButton>
-                                        )
-                                        : (
-                                            <OptionItem
-                                                data={product}
-                                                setPrice={setPrice}
-                                                t={t}
-                                                noLabel
-                                                noValidate
-                                                customPos
-                                                disabled={false}
-                                                showAddToCart={product_addtocart}
-                                                showQty={false}
-                                                handleAddToCart={handleClick}
-                                                customButton={(
-                                                    <CustomButton className={styles.btnAddToCard} onClick={handleClick}>
-                                                        <Typography
-                                                            align="center"
-                                                            type="bold"
-                                                            letter="uppercase"
-                                                            color="white"
-                                                            variant="inherit"
-                                                        >
-                                                            {t('product:addToCart')}
-                                                        </Typography>
-                                                    </CustomButton>
-                                                )}
-                                            />
-                                        )}
-                                </div>
-                            )}
+                            <div className="mgz-product-grid-option-item">
+                                {__typename === 'GroupedProduct'
+                                    ? (
+                                        <CustomButton className={styles.btnAddToCard} onClick={handleClick}>
+                                            <Typography
+                                                align="center"
+                                                type="bold"
+                                                letter="uppercase"
+                                                color="white"
+                                                variant="inherit"
+                                            >
+                                                {t('product:addToCart')}
+                                            </Typography>
+                                        </CustomButton>
+                                    )
+                                    : (
+                                        <OptionItem
+                                            data={product}
+                                            setPrice={setPrice}
+                                            t={t}
+                                            noLabel
+                                            noValidate
+                                            customPos
+                                            showSwatches={product_swatches}
+                                            disabled={false}
+                                            showAddToCart={product_addtocart}
+                                            showQty={false}
+                                            handleAddToCart={handleClick}
+                                            customButton={(
+                                                <CustomButton className={styles.btnAddToCard} onClick={handleClick}>
+                                                    <Typography
+                                                        align="center"
+                                                        type="bold"
+                                                        letter="uppercase"
+                                                        color="white"
+                                                        variant="inherit"
+                                                    >
+                                                        {t('product:addToCart')}
+                                                    </Typography>
+                                                </CustomButton>
+                                            )}
+                                        />
+                                    )}
+                            </div>
                         </Grid>
                         <Grid item container justify="center">
                             {product_wishlist && (
@@ -381,6 +387,18 @@ const ProductContent = (props) => {
                         text-align: center;
                         margin: 5px 0;
                     }
+                    img:hover {
+                        cursor: pointer;
+                    }
+                `}
+            </style>
+            <style jsx global>
+                {`
+                    .mgz-product-grid-product-card:hover {
+                        border: 1px solid #bbbbbb;
+                        position: relative;
+                        z-index: 2;
+                    }
                 `}
             </style>
         </>
@@ -396,7 +414,7 @@ const MagezonProductGrid = (props) => {
         max_items, product_addtocart,
         product_background, product_compare, product_image, product_name,
         product_price, product_review, product_swatches, product_wishlist,
-        title, title_align, title_tag,
+        title, title_align, title_color, title_tag,
     } = props;
     const { t } = useTranslation();
     const showLineClass = show_line ? 'mgz-product-grid-heading-line' : '';
@@ -404,6 +422,8 @@ const MagezonProductGrid = (props) => {
     const dataCondition = useMemo(() => getProductListConditions(condition), [condition]);
     const dataFilter = generateQueries(dataCondition);
     const { data } = getProductList({ ...dataFilter, pageSize: max_items });
+
+    console.log(props);
 
     return (
         <>
@@ -469,6 +489,12 @@ const MagezonProductGrid = (props) => {
                         background-color: #ffffff;
                         display: inline-block;
                         position: relative;
+                    }
+                    .mgz-product-grid-heading-title :global(*[class*="Typography"]) {
+                        ${title_color ? `color: ${title_color};` : ''}
+                    }
+                    .mgz-product-grid :global(a:hover) {
+                        text-decoration: underline;
                     }
                     .mgz-product-grid :global(.MuiGrid-item h4) {
                         margin: 0;
