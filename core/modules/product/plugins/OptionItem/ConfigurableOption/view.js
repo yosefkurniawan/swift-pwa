@@ -6,11 +6,12 @@ const ConfigurableView = (props) => {
     const {
         loading, disabled, showQty = true, handleAddToCart, qty, setQty,
         t, options, selectConfigurable, showAddToCart = true, isGrid = true,
+        showSwatches = true,
         ...other
     } = props;
     return (
         <>
-            {options.map((item, index) => (
+            {showSwatches && options.map((item, index) => (
                 <Item
                     key={index}
                     option={item.options}
