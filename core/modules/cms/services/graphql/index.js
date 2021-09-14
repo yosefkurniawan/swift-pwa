@@ -35,4 +35,6 @@ export const getCmsBlocks = (variables) => useQuery(Schema.getCmsBlocks, {
     fetchPolicy: isLogin ? 'network-only' : '',
 });
 
+export const getProductReviews = (variables) => useQuery(Schema.getProductReviews, { variables });
+
 export default { getCmsPage };
