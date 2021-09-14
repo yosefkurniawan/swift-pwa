@@ -23,7 +23,7 @@ const MagezonRecentReviews = (props) => {
         description,
         line_color, line_position, line_width, show_line,
         title, title_align, title_tag,
-        product_sku,
+        product_sku, max_items,
         review_color, review_content,
         review_customer, review_date, review_product_image,
         review_product_name, review_rating_star, review_title,
@@ -37,10 +37,8 @@ const MagezonRecentReviews = (props) => {
         owl_hover_background_color, owl_hover_color,
         owl_autoplay, owl_autoplay_hover_pause,
     } = props;
-    const { data, loading } = getProductReviews({ sku: product_sku });
+    const { data, loading } = getProductReviews({ sku: product_sku, pageSize: max_items });
     const reviewData = data?.products?.items[0] || [];
-
-    console.log('data', data);
 
     const showLineClass = show_line ? 'mgz-recent-reviews-heading-line' : '';
     const linePosClass = show_line && line_position === 'bottom' ? 'mgz-recent-reviews-heading-line--bottom' : '';
@@ -93,7 +91,6 @@ const MagezonRecentReviews = (props) => {
 
     if (loading) return null;
 
-    console.log(props);
     return (
         <>
             <div className="mgz-recent-reviews">

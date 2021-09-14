@@ -59,12 +59,15 @@ export const getCmsBlocks = gql`
 `;
 
 export const getProductReviews = gql`
-    query getProductReviews($sku: String!) {
-        products(filter: { 
-            sku: {
-                eq: $sku
-            }
-         }) {
+    query getProductReviews($sku: String, $pageSize: Int) {
+        products(
+            filter: { 
+                sku: {
+                    eq: $sku
+                }
+            }, 
+            pageSize: $pageSize
+        ) {
             items {
                 id
                 sku
