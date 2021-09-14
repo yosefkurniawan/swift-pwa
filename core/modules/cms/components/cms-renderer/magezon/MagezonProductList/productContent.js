@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-nested-ternary */
 
@@ -166,7 +168,11 @@ const ProductContent = (props) => {
             <Grid container spacing={4}>
                 {product_image && (
                     <Grid item xs={4}>
-                        <div style={{ height: features.imageSize.product.height, width: features.imageSize.product.width, maxWidth: '100%' }}>
+                        <div
+                            onClick={handleClick}
+                            style={{ height: features.imageSize.product.height, width: features.imageSize.product.width, maxWidth: '100%' }}
+                            className="product-list-image"
+                        >
                             <Thumbor
                                 src={product.small_image.url}
                                 width={features.imageSize.product.width}
@@ -275,6 +281,9 @@ const ProductContent = (props) => {
                             font-size: 11px;
                             height: 31px;
                         }
+                    }
+                    .product-list-image :global(img:hover) {
+                        cursor: pointer;
                     }
                 `}
             </style>
