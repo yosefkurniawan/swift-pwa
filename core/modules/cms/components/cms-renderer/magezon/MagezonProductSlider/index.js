@@ -413,14 +413,18 @@ const MagezonProductSlider = (props) => {
     return (
         <>
             <div className="mgz-product-slider">
-                <div className={`mgz-product-slider-heading ${showLineClass} ${linePosClass}`}>
-                    <div className="mgz-product-slider-heading-title">
-                        <Typography variant={title_tag} align={title_align}>
-                            {title.toUpperCase()}
-                        </Typography>
+                {(title || description) && (
+                    <div className={`mgz-product-slider-heading ${showLineClass} ${linePosClass}`}>
+                        {title && (
+                            <div className="mgz-product-slider-heading-title">
+                                <Typography variant={title_tag} align={title_align}>
+                                    {title.toUpperCase()}
+                                </Typography>
+                            </div>
+                        )}
+                        <div>{description}</div>
                     </div>
-                    <div>{description}</div>
-                </div>
+                )}
                 <div className="mgz-product-slider-content">
                     <Slider ref={(slider) => (sliderRef = slider)} {...settings}>
                         {data?.products?.items.map((product, index) => (
