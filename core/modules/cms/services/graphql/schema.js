@@ -67,6 +67,9 @@ export const getProductList = gql`
                 sku
                 url_key
                 review_count
+                short_description {
+                    html
+                }
                 price_range {
                     maximum_price {
                         regular_price {
