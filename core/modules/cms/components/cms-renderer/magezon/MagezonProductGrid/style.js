@@ -2,7 +2,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import { PRIMARY, WHITE } from '@theme_color';
 import { CreateMargin } from '@theme_mixins';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     btnShare: {
         margin: '0px !important',
     },
@@ -22,15 +22,15 @@ const useStyles = makeStyles((theme) => ({
             background: WHITE,
         },
     },
-    btnAddToCart: {
+    btnAddToCard: {
+        ...CreateMargin(0, 8, 0, 0),
         width: '100%',
         height: 41,
+        bottom: 0,
+        left: 0,
+        opacity: 'none',
         color: WHITE,
         borderRadius: 100,
-        [theme.breakpoints.down('576')]: {
-            fontSize: 9,
-            height: 31,
-        },
     },
 }));
 
