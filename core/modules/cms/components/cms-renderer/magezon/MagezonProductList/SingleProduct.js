@@ -1,3 +1,5 @@
+/* eslint-disable arrow-body-style */
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -34,12 +36,15 @@ const CustomButton = (props) => {
 const SingleProduct = (props) => {
     // prettier-ignore
     const {
+        type,
         product, product_display,
         product_addtocart, product_compare, product_shortdescription,
         product_image, product_price, product_review,
         product_swatches, product_wishlist, product_name,
+        item_xl, item_lg, item_md, item_sm, item_xs,
     } = props;
     const isGrid = product_display && product_display === 'grid';
+    const isProductGrid = type === 'product_grid';
     const { t } = useTranslation();
     // prettier-ignore
     const {
@@ -55,15 +60,61 @@ const SingleProduct = (props) => {
 
     const favoritIcon = wishlist ? <Favorite className={styles.iconShare} /> : <FavoriteBorderOutlined className={styles.iconShare} />;
 
+    const getCol5Classes = () => {
+        let classes = '';
+        if (item_xl === 5) {
+            classes += 'col-xl-5 ';
+        }
+        if (item_lg === 5) {
+            classes += 'col-lg-5 ';
+        }
+        if (item_md === 5) {
+            classes += 'col-md-5 ';
+        }
+        if (item_sm === 5) {
+            classes += 'col-sm-5 ';
+        }
+        if (item_xs === 5) {
+            classes += 'col-xs-5 ';
+        }
+
+        return classes;
+    };
+
+    const getImgSrc = () => {
+        return generateThumborUrl(
+            small_image.url,
+            isProductGrid ? 0 : features.imageSize.product.width,
+            isProductGrid ? 0 : features.imageSize.product.height,
+        );
+    };
+
     return (
         <>
-            <Grid container direction={isGrid ? 'column' : 'row'} alignItems={isGrid ? 'center' : 'stretch'} className="mgz-single-product-card">
+            <Grid
+                item={isProductGrid}
+                container
+                direction={isGrid || isProductGrid ? 'column' : 'row'}
+                alignItems={isGrid ? 'center' : 'stretch'}
+                className={`mgz-single-product-card ${getCol5Classes()}`}
+                xl={isProductGrid && item_xl !== 5 && 12 / item_xl}
+                lg={isProductGrid && item_lg !== 5 && 12 / item_lg}
+                md={isProductGrid && item_md !== 5 && 12 / item_md}
+                sm={isProductGrid && item_sm !== 5 && 12 / item_sm}
+                xs={isProductGrid && item_xs !== 5 && 12 / item_xs}
+            >
                 {product_image && (
-                    <Grid item xs={isGrid ? 6 : 3} container justify="center">
+                    <Grid
+                        item
+                        xs={isGrid ? 6 : isProductGrid ? true : 3}
+                        container
+                        justify="center"
+                        alignItems={isProductGrid ? 'center' : 'stretch'}
+                    >
                         <div onClick={handleClick} style={{ width: features.imageSize.product.width, maxWidth: '100%' }}>
                             <img
                                 data-pagespeed-no-defer
-                                src={generateThumborUrl(small_image.url, features.imageSize.product.width, features.imageSize.product.height)}
+                                src={getImgSrc()}
                                 onError={(e) => {
                                     e.target.onerror = null;
                                     e.target.src = '/assets/img/placeholder.png';
@@ -73,21 +124,21 @@ const SingleProduct = (props) => {
                         </div>
                     </Grid>
                 )}
-                <Grid item xs container direction="column" alignItems={isGrid ? 'center' : 'stretch'}>
+                <Grid item xs container direction="column" alignItems={isGrid || isProductGrid ? 'center' : 'stretch'}>
                     {product_name && (
                         <Grid item>
                             <Typography variant="h4">{name}</Typography>
                         </Grid>
                     )}
                     {product_review && (
-                        <Grid item container justify={isGrid ? 'center' : 'flex-start'}>
+                        <Grid item container justify={isGrid || isProductGrid ? 'center' : 'flex-start'}>
                             <RatingStar value={review_count} />
                             <Typography variant="p" type="regular" letter="capitalize">
                                 {review_count || 0} {review_count > 1 ? `${t('product:review')}s` : t('product:review')}
                             </Typography>
                         </Grid>
                     )}
-                    <Grid item container justify={isGrid ? 'center' : 'flex-start'}>
+                    <Grid item container justify={isGrid || isProductGrid ? 'center' : 'flex-start'}>
                         <Grid item>
                             {product_price && (
                                 <div className="mgz-single-product-price">
@@ -162,7 +213,7 @@ const SingleProduct = (props) => {
                         ${isGrid ? 'justify-content: center;' : ''}
                     }
                     .mgz-single-product-price {
-                        ${isGrid ? 'text-align: center;' : ''}
+                        ${isGrid || isProductGrid ? 'text-align: center;' : ''}
                     }
                     @media (max-width: 600px) {
                         .mgz-single-product-option-item :global(div[role='radiogroup'] > div) {
@@ -176,6 +227,17 @@ const SingleProduct = (props) => {
                             height: 31px;
                         }
                     }
+                `}
+            </style>
+            <style jsx global>
+                {`
+                    ${isProductGrid && `
+                        .mgz-single-product-card:hover {
+                            border: 1px solid #bbbbbb;
+                            position: relative;
+                            z-index: 2;
+                        }
+                    `}
                 `}
             </style>
         </>

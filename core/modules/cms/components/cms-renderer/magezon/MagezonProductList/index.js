@@ -2,6 +2,7 @@ import Typography from '@common_typography';
 import SingleProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProductList/SingleProduct';
 import { generateQueries, getProductListConditions } from '@core_modules/cms/helpers/getProductListConditions';
 import { getProductList } from '@core_modules/cms/services/graphql';
+import Grid from '@material-ui/core/Grid';
 import { useMemo } from 'react';
 
 const MagezonProductList = (props) => {
@@ -14,10 +15,12 @@ const MagezonProductList = (props) => {
         product_compare, product_image, product_name,
         product_price, product_review, product_swatches, product_wishlist, product_sku, product_display,
         title, title_align, title_tag, title_color,
+        item_xl, item_lg, item_md, item_sm, item_xs,
         // source, orer_by,
     } = props;
 
     const productProps = {
+        type,
         product_addtocart,
         product_compare,
         product_image,
@@ -28,6 +31,11 @@ const MagezonProductList = (props) => {
         product_name,
         product_shortdescription,
         product_display,
+        item_xl,
+        item_lg,
+        item_md,
+        item_sm,
+        item_xs,
     };
     let content;
     const showLineClass = show_line ? 'mgz-product-heading-line' : '';
@@ -42,6 +50,16 @@ const MagezonProductList = (props) => {
 
     if (type === 'product_list') {
         content = data?.products?.items.map((product, index) => <SingleProduct key={index} product={product} {...productProps} />);
+    }
+
+    if (type === 'product_grid') {
+        content = (
+            <Grid container>
+                {data?.products?.items.map((product, index) => (
+                    <SingleProduct key={index} product={product} {...productProps} />
+                ))}
+            </Grid>
+        );
     }
 
     if (type === 'single_product') {
@@ -103,8 +121,11 @@ const MagezonProductList = (props) => {
                         margin-bottom: 20px;
                     }
                     .mgz-product-content > :global(div:hover) {
-                        box-shadow: 0px 20px 50px -20px rgb(0 0 0 / 50%) !important;
-                        border: 1px solid ${border_hover_color || '#ffffff'} !important;
+                        ${type !== 'product_grid'
+                        && `
+                            box-shadow: 0px 20px 50px -20px rgb(0 0 0 / 50%) !important;
+                            border: 1px solid ${border_hover_color || '#ffffff'} !important;
+                        `}
                     }
                     .mgz-product-content :global(.mgz-single-product-card) {
                         padding: 20px 0;
@@ -112,6 +133,36 @@ const MagezonProductList = (props) => {
                     .mgz-product-content :global(.mgz-single-product-card img) {
                         max-width: 100%;
                         cursor: pointer;
+                    }
+                    @media (max-width: 575px) {
+                        .mgz-product :global(.col-xs-5) {
+                            flex: 1 20%;
+                            max-width: 20%;
+                        }
+                    }
+                    @media (min-width: 576px) and (max-width: 767px) {
+                        .mgz-product :global(.col-sm-5) {
+                            flex: 1 20%;
+                            max-width: 20%;
+                        }
+                    }
+                    @media (min-width: 768px) and (max-width: 991px) {
+                        .mgz-product :global(.col-md-5) {
+                            flex: 1 20%;
+                            max-width: 20%;
+                        }
+                    }
+                    @media (min-width: 992px) and (max-width: 1200px) {
+                        .mgz-product :global(.col-lg-5) {
+                            flex: 1 20%;
+                            max-width: 20%;
+                        }
+                    }
+                    @media (min-width: 1200px) {
+                        .mgz-product :global(.col-xl-5) {
+                            flex: 1 20%;
+                            max-width: 20%;
+                        }
                     }
                 `}
             </style>
