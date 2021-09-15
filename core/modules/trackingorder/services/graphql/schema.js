@@ -24,6 +24,7 @@ export const getTrackingOrder = gql`
                         shipping_description
                         shipping_detail {
                             track_number
+                            trackorder_type
                             data_detail
                             __typename
                         }

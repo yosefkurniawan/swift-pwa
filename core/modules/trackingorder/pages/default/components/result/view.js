@@ -57,7 +57,7 @@ const resultItem = ({
                     secondary: (
                         <Button variant="text" onClick={openModal} align="left" className={styles.btnTrackOrder}>
                             <Typography type="bold" decoration="underline">
-                                {detail.shipping_methods.track_number}
+                                {detail.shipping_methods.shipping_detail.track_number}
                             </Typography>
                         </Button>
                     ),
@@ -65,13 +65,13 @@ const resultItem = ({
             } else {
                 items.push({
                     primary: t('trackingorder:trackingOrder'),
-                    secondary: detail.shipping_methods.track_number,
+                    secondary: detail.shipping_methods.shipping_detail.track_number,
                 });
             }
         } else {
             items.push({
                 primary: t('trackingorder:trackingOrder'),
-                secondary: detail.shipping_methods.track_number,
+                secondary: detail.shipping_methods.shipping_detail.track_number,
             });
         }
         return (
