@@ -8,7 +8,7 @@ import PriceFormat from '@common_priceformat';
 import RatingStar from '@common_ratingstar';
 import { features, modules } from '@config';
 import CmsRenderer from '@core_modules/cms/components/cms-renderer';
-import { useProduct } from '@core_modules/cms/components/cms-renderer/magezon/MagezonProductList/helpers/useProduct';
+import { useProduct } from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/helpers/useProduct';
 import Button from '@core_modules/commons/Button';
 import Typography from '@core_modules/commons/Typography';
 import OptionItem from '@core_modules/product/plugins/OptionItem';
@@ -45,6 +45,7 @@ const SingleProduct = (props) => {
     } = props;
     const isGrid = product_display && product_display === 'grid';
     const isProductGrid = type === 'product_grid';
+    const isSlider = type === 'product_slider';
     const { t } = useTranslation();
     // prettier-ignore
     const {
@@ -84,8 +85,8 @@ const SingleProduct = (props) => {
     const getImgSrc = () => {
         return generateThumborUrl(
             small_image.url,
-            isProductGrid ? 0 : features.imageSize.product.width,
-            isProductGrid ? 0 : features.imageSize.product.height,
+            isProductGrid ? 0 : isSlider ? features.imageSize.product.height : features.imageSize.product.width,
+            isProductGrid ? 0 : isSlider ? features.imageSize.product.width : features.imageSize.product.height,
         );
     };
 
@@ -94,8 +95,8 @@ const SingleProduct = (props) => {
             <Grid
                 item={isProductGrid}
                 container
-                direction={isGrid || isProductGrid ? 'column' : 'row'}
-                alignItems={isGrid ? 'center' : 'stretch'}
+                direction={isGrid || isProductGrid || isSlider ? 'column' : 'row'}
+                alignItems={isGrid || isSlider ? 'center' : 'stretch'}
                 className={`mgz-single-product-card ${getCol5Classes()}`}
                 xl={isProductGrid && item_xl !== 5 && 12 / item_xl}
                 lg={isProductGrid && item_lg !== 5 && 12 / item_lg}
@@ -106,7 +107,7 @@ const SingleProduct = (props) => {
                 {product_image && (
                     <Grid
                         item
-                        xs={isGrid ? 6 : isProductGrid ? true : 3}
+                        xs={isGrid ? 6 : isProductGrid || isSlider ? true : 3}
                         container
                         justify="center"
                         alignItems={isProductGrid ? 'center' : 'stretch'}
@@ -124,21 +125,21 @@ const SingleProduct = (props) => {
                         </div>
                     </Grid>
                 )}
-                <Grid item xs container direction="column" alignItems={isGrid || isProductGrid ? 'center' : 'stretch'}>
+                <Grid item xs container direction="column" alignItems={isGrid || isProductGrid || isSlider ? 'center' : 'stretch'}>
                     {product_name && (
                         <Grid item>
                             <Typography variant="h4">{name}</Typography>
                         </Grid>
                     )}
                     {product_review && (
-                        <Grid item container justify={isGrid || isProductGrid ? 'center' : 'flex-start'}>
+                        <Grid item container justify={isGrid || isProductGrid || isSlider ? 'center' : 'flex-start'}>
                             <RatingStar value={review_count} />
                             <Typography variant="p" type="regular" letter="capitalize">
                                 {review_count || 0} {review_count > 1 ? `${t('product:review')}s` : t('product:review')}
                             </Typography>
                         </Grid>
                     )}
-                    <Grid item container justify={isGrid || isProductGrid ? 'center' : 'flex-start'}>
+                    <Grid item container justify={isGrid || isProductGrid || isSlider ? 'center' : 'flex-start'}>
                         <Grid item>
                             {product_price && (
                                 <div className="mgz-single-product-price">
@@ -171,7 +172,7 @@ const SingleProduct = (props) => {
                                 )}
                             </div>
                         </Grid>
-                        {!isGrid && (
+                        {(!isGrid && !isSlider) && (
                             <Grid item style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end' }}>
                                 {product_wishlist && (
                                     <IconButton className={styles.btnShare} onClick={handleAddtowishlist}>
@@ -186,7 +187,7 @@ const SingleProduct = (props) => {
                             </Grid>
                         )}
                     </Grid>
-                    {isGrid && (
+                    {(isGrid || isSlider) && (
                         <Grid item>
                             {product_wishlist && (
                                 <IconButton className={styles.btnShare} onClick={handleAddtowishlist}>
@@ -231,13 +232,13 @@ const SingleProduct = (props) => {
             </style>
             <style jsx global>
                 {`
-                    ${isProductGrid && `
-                        .mgz-single-product-card:hover {
+                    .mgz-single-product-card:hover {
+                        ${isProductGrid && `
                             border: 1px solid #bbbbbb;
                             position: relative;
                             z-index: 2;
-                        }
-                    `}
+                        `}
+                    }
                 `}
             </style>
         </>

@@ -4,7 +4,7 @@
 
 import { useQuery } from '@apollo/client';
 import { debuging, modules } from '@config';
-import useStyles from '@core_modules/cms/components/cms-renderer/magezon/MagezonProductList/style';
+import useStyles from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/style';
 import { addProductsToCompareList, addWishlist as mutationAddWishlist } from '@core_modules/product/services/graphql';
 import { getCompareList, getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { getLoginInfo } from '@helper_auth';

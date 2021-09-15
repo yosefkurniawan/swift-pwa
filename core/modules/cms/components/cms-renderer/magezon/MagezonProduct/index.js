@@ -1,5 +1,6 @@
 import Typography from '@common_typography';
-import SingleProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProductList/SingleProduct';
+import SingleProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/SingleProduct';
+import ProductSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/Slider';
 import { generateQueries, getProductListConditions } from '@core_modules/cms/helpers/getProductListConditions';
 import { getProductList } from '@core_modules/cms/services/graphql';
 import Grid from '@material-ui/core/Grid';
@@ -16,6 +17,7 @@ const MagezonProductList = (props) => {
         product_price, product_review, product_swatches, product_wishlist, product_sku, product_display,
         title, title_align, title_tag, title_color,
         item_xl, item_lg, item_md, item_sm, item_xs,
+        ...rest
         // source, orer_by,
     } = props;
 
@@ -44,9 +46,11 @@ const MagezonProductList = (props) => {
     const dataFilter = generateQueries(type, type === 'single_product' ? { sku: { eq: product_sku } } : dataCondition);
     const { data, loading } = getProductList({ ...dataFilter, pageSize: max_items });
 
-    console.log(type);
-
     if (loading) return null;
+
+    if (type === 'single_product') {
+        content = data?.products?.items[0] && <SingleProduct product={data.products.items[0]} {...productProps} />;
+    }
 
     if (type === 'product_list') {
         content = data?.products?.items.map((product, index) => <SingleProduct key={index} product={product} {...productProps} />);
@@ -62,8 +66,14 @@ const MagezonProductList = (props) => {
         );
     }
 
-    if (type === 'single_product') {
-        content = data?.products?.items[0] && <SingleProduct product={data.products.items[0]} {...productProps} />;
+    if (type === 'product_slider') {
+        content = (
+            <ProductSlider {...rest}>
+                {data?.products?.items.map((product, index) => (
+                    <SingleProduct key={index} product={product} {...productProps} />
+                ))}
+            </ProductSlider>
+        );
     }
 
     return (
@@ -115,13 +125,15 @@ const MagezonProductList = (props) => {
                         ${title_color ? `color: ${title_color};` : ''}
                     }
                     .mgz-product :global(.MuiGrid-item h4) {
-                        margin: 0;
+                        ${type === 'product_list' && `
+                            margin: 0;
+                        `}
                     }
                     .mgz-product-content > :global(div) {
                         margin-bottom: 20px;
                     }
                     .mgz-product-content > :global(div:hover) {
-                        ${type !== 'product_grid'
+                        ${(type !== 'product_grid' && type !== 'product_slider')
                         && `
                             box-shadow: 0px 20px 50px -20px rgb(0 0 0 / 50%) !important;
                             border: 1px solid ${border_hover_color || '#ffffff'} !important;
