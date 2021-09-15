@@ -27,7 +27,7 @@ import MagezonPagebuilderTemplate from '@core_modules/cms/components/cms-rendere
 import MagezonVideoPlayer from '@core_modules/cms/components/cms-renderer/magezon/MagezonVideoPlayer';
 import MagezonPricingTable from '@core_modules/cms/components/cms-renderer/magezon/MagezonPricingTable';
 import MagezonImageGallery from '@core_modules/cms/components/cms-renderer/magezon/MagezonImageGallery';
-import MagezonProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct';
+import MagezonProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProductList';
 import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
