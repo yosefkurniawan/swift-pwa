@@ -14,18 +14,12 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export const useProduct = (props) => {
+    const { product, t } = props;
     // prettier-ignore
     const {
-        product, t,
-        product_addtocart, product_compare, product_shortdescription,
-        product_image, product_price, product_review,
-        product_swatches, product_wishlist, product_name,
-    } = props;
-    // prettier-ignore
-    const {
-        name, url_key, id, __typename,
+        url_key, id, __typename,
         price_range, price_tiers,
-        special_from_date, special_to_date, review_count,
+        special_from_date, special_to_date,
     } = product;
     const [wishlist, setWishlist] = useState(false);
     const styles = useStyles();
@@ -149,6 +143,11 @@ export const useProduct = (props) => {
     };
 
     return {
+        styles,
+        wishlist,
+        setWishlist,
+        price,
+        setPrice,
         handleClick,
         handleAddtowishlist,
         handleSetCompareList,

@@ -2,7 +2,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import { PRIMARY, WHITE } from '@theme_color';
 import { CreateMargin } from '@theme_mixins';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     btnShare: {
         margin: '0px !important',
     },
@@ -20,6 +20,16 @@ const useStyles = makeStyles(() => ({
         justifyContent: 'space-between',
         '&:hover': {
             background: WHITE,
+        },
+    },
+    btnAddToCart: {
+        width: '100%',
+        height: 41,
+        color: WHITE,
+        borderRadius: 100,
+        [theme.breakpoints.down('576')]: {
+            fontSize: 9,
+            height: 31,
         },
     },
 }));

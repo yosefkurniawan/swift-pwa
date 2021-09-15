@@ -1,31 +1,45 @@
+/* eslint-disable no-else-return */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
 
 const getProductListConditions = (conditions) => {
-    const parsedConditions = JSON.parse(conditions);
     const newConditions = {
         aggregator: '',
         attributes: [],
     };
-    for (const condition_index in parsedConditions) {
-        const condition_item = parsedConditions[condition_index];
 
-        if (condition_index.split('--').length === 1 && condition_item.aggregator && condition_item.aggregator === 'all') {
-            newConditions.aggregator = 'all';
-        }
+    if (conditions) {
+        const parsedConditions = JSON.parse(conditions);
 
-        if (condition_index.split('--').length === 2 && condition_item.attribute) {
-            newConditions.attributes.push(condition_item);
+        for (const condition_index in parsedConditions) {
+            const condition_item = parsedConditions[condition_index];
+
+            if (condition_index.split('--').length === 1 && condition_item.aggregator && condition_item.aggregator === 'all') {
+                newConditions.aggregator = 'all';
+            }
+
+            if (condition_index.split('--').length === 2 && condition_item.attribute) {
+                newConditions.attributes.push(condition_item);
+            }
         }
     }
 
     return newConditions;
 };
 
-const generateQueries = (variables) => {
+const generateQueries = (type, variables) => {
     const queryVariables = {
         filter: {},
     };
+
+    if (type === 'single_product') {
+        return {
+            filter: {
+                ...variables,
+            },
+        };
+    }
+
     variables.attributes.forEach((variable) => {
         const { attribute, operator, value } = variable;
         let newValue;
