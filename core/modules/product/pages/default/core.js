@@ -17,7 +17,7 @@ import {
 import Header from '@core_modules/product/pages/default/components/header';
 import generateSchemaOrg from '@core_modules/product/helpers/schema.org';
 import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
-import { getCompareList, getCustomerUid } from '@core_modules/productcompare/service/graphql';
+import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { localCompare } from '@services/graphql/schema/local';
 import { useQuery } from '@apollo/client';
 
@@ -28,23 +28,9 @@ const ContentDetail = ({
     const route = useRouter();
 
     const reviewValue = parseInt(item.review.rating_summary, 0) / 20;
-    const [getProductCompare, { data: compareList, refetch }] = getCompareList();
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
     const [addProductCompare] = addProductsToCompareList();
-    const { client } = useQuery(localCompare);
-
-    React.useEffect(() => {
-        if (!compareList && modules.productcompare.enabled) {
-            const uid_product = getCookies('uid_product_compare');
-            if (uid_product) {
-                getProductCompare({
-                    variables: {
-                        uid: uid_product,
-                    },
-                });
-            }
-        }
-    }, [compareList]);
+    const { data: dataCompare, client } = useQuery(localCompare);
 
     React.useEffect(() => {
         if (isLogin && !dataUid && modules.productcompare.enabled) {
@@ -249,6 +235,7 @@ const ContentDetail = ({
     };
 
     const handleSetCompareList = (id_compare) => {
+        window.backdropLoader(true);
         const uid_product_compare = getCookies('uid_product_compare');
         const uids = [];
         let uid_customer = '';
@@ -259,47 +246,50 @@ const ContentDetail = ({
             /* eslint-enable */
         }
         let isExist = false;
-        if (compareList) {
-            compareList.compareList.items.map((res) => {
-                if (res.uid === id_compare.toString()) {
+        if (dataCompare && dataCompare.items && dataCompare.items.length > 0) {
+            dataCompare.items.map((itemCompare) => {
+                if (itemCompare.uid === id_compare.toString()) {
                     isExist = true;
                 }
                 return null;
             });
-            if (!isExist) {
-                addProductCompare({
-                    variables: {
-                        uid: isLogin ? uid_customer : uid_product_compare,
-                        products: uids,
-                    },
-                })
-                    .then(async (res) => {
-                        await window.toastMessage({ open: true, variant: 'success', text: t('common:productCompare:successCompare') });
-                        client.writeQuery({
-                            query: localCompare,
-                            data: {
-                                item_count: res.data.addProductsToCompareList.item_count,
-                            },
-                        });
-                        refetch();
-                        if (isLogin) {
-                            refetchCustomerUid();
-                        }
-                    })
-                    .catch((e) => {
-                        window.toastMessage({
-                            open: true,
-                            variant: 'error',
-                            text: debuging.originalError ? e.message.split(':')[1] : t('common:productCompare:failedCompare'),
-                        });
+        }
+        if (!isExist) {
+            addProductCompare({
+                variables: {
+                    uid: isLogin ? uid_customer : uid_product_compare,
+                    products: uids,
+                },
+            })
+                .then(async (res) => {
+                    client.writeQuery({
+                        query: localCompare,
+                        data: {
+                            item_count: res.data.addProductsToCompareList.item_count,
+                            items: res.data.addProductsToCompareList.items,
+                        },
                     });
-            } else {
-                window.toastMessage({
-                    open: true,
-                    variant: 'error',
-                    text: t('common:productCompare:existProduct'),
+                    if (isLogin) {
+                        refetchCustomerUid();
+                    }
+                    window.backdropLoader(false);
+                    window.toastMessage({ open: true, variant: 'success', text: t('common:productCompare:successCompare') });
+                })
+                .catch((e) => {
+                    window.backdropLoader(false);
+                    window.toastMessage({
+                        open: true,
+                        variant: 'error',
+                        text: debuging.originalError ? e.message.split(':')[1] : t('common:productCompare:failedCompare'),
+                    });
                 });
-            }
+        } else {
+            window.backdropLoader(false);
+            window.toastMessage({
+                open: true,
+                variant: 'error',
+                text: t('common:productCompare:existProduct'),
+            });
         }
     };
 

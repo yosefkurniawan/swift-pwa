@@ -23,8 +23,12 @@ import MagezonCta from '@core_modules/cms/components/cms-renderer/magezon/Magezo
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
 import MagezonSearchForm from '@core_modules/cms/components/cms-renderer/magezon/MagezonSearchForm';
 import MagezonStaticBlock from '@core_modules/cms/components/cms-renderer/magezon/MagezonStaticBlock';
+import MagezonPagebuilderTemplate from '@core_modules/cms/components/cms-renderer/magezon/MagezonPageBuilderTemplate';
+import MagezonVideoPlayer from '@core_modules/cms/components/cms-renderer/magezon/MagezonVideoPlayer';
+import MagezonPricingTable from '@core_modules/cms/components/cms-renderer/magezon/MagezonPricingTable';
 import MagezonImageGallery from '@core_modules/cms/components/cms-renderer/magezon/MagezonImageGallery';
 import MagezonCategories from '@core_modules/cms/components/cms-renderer/magezon/MagezonCategories';
+import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
@@ -38,6 +42,7 @@ const MagezonParallax = dynamic(() => import('@core_modules/cms/components/cms-r
 const MagezonFlickr = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonFlickr'), { ssr: false });
 const MagezonCountdown = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCountdown'), { ssr: false });
 const MagezonCaraousel = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonCaraousel'), { ssr: false });
+const MagezonSocialIcons = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonSocialIcons'), { ssr: false });
 
 const MagezonElement = (props) => {
     const {
@@ -182,10 +187,20 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonCaraousel {...props} />; break;
         case 'search_form':
             childrenContent = <MagezonSearchForm {...props} />; break;
+        case 'social_icons':
+            childrenContent = <MagezonSocialIcons {...props} />; break;
+        case 'pagebuilder_template':
+            childrenContent = <MagezonPagebuilderTemplate {...props} />; break;
+        case 'video':
+            childrenContent = <MagezonVideoPlayer {...props} />; break;
+        case 'pricing_table':
+            childrenContent = <MagezonPricingTable {...props} />; break;
         case 'image_gallery':
             childrenContent = <MagezonImageGallery {...props} />; break;
         case 'categories':
             childrenContent = <MagezonCategories {...props} />; break;
+        case 'content_slider':
+            childrenContent = <MagezonContentSlider {...props} />; break;
         default:
             childrenContent = null;
         }

@@ -6,7 +6,7 @@ import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 
 const useStyles = makeStyles({
     root: {
-        margin: 20,
+        margin: 5,
         cursor: 'pointer',
     },
 });
@@ -28,7 +28,13 @@ const WithLink = ({ compareList, handleLink }) => {
             </div>
         );
     }
-    return null;
+    return (
+        <div className={styles.root} onClick={handleLink}>
+            <Badge color="secondary" badgeContent={0}>
+                <CompareArrowsIcon color="secondary" />
+            </Badge>
+        </div>
+    );
 };
 
 export default WithLink;

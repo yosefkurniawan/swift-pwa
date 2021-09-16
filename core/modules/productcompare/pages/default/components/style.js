@@ -40,6 +40,7 @@ const useStyles = makeStyles(() => ({
             top: 5,
             right: 5,
             zIndex: 100,
+            cursor: 'pointer',
         },
     },
     sku: {

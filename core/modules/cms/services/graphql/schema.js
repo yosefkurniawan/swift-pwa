@@ -21,6 +21,14 @@ export const getInstagramToken = gql`
 }
 `;
 
+export const getPageBuilderTemplate = gql`
+query($identifier: String!){
+    getPageBuilderTemplate(id: $identifier){
+        data
+    }
+}
+`;
+
 export const getInstagramFeed = gql`
 mutation getInstagramFeed($token: String!) {
     internalGetInstagramFeed(token: $token) {

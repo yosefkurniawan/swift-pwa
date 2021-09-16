@@ -13,6 +13,7 @@ import { removeIsLoginFlagging } from '@helper_auth';
 import { getAppEnv } from '@helpers/env';
 import firebase from 'firebase/app';
 import cookies from 'js-cookie';
+import { removeCookies } from '@root/core/helpers/cookies';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData: {
@@ -37,6 +38,7 @@ const logoutLink = onError((err) => {
     } else if (graphQLErrors && graphQLErrors[0] && graphQLErrors[0].status === 401 && typeof window !== 'undefined') {
         removeCartId();
         removeIsLoginFlagging();
+        removeCookies('uid_product_compare');
         firebase
             .auth()
             .signOut()
