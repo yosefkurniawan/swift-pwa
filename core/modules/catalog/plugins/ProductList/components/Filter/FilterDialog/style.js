@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
     drawerPaper: {
         width: '100%',
         backgroundColor: WHITE,
+        [theme.breakpoints.down('sm')]: {
+            height: '100%',
+        },
         [theme.breakpoints.up('md')]: {
             width: '20%',
         },
