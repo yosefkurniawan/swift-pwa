@@ -35,6 +35,7 @@ const OptionsItemConfig = (props) => {
         customizableOptions,
         handleSelecteProduct = () => { },
         isGrid,
+        noValidate = false,
         ...other
     } = props;
 
@@ -210,12 +211,14 @@ const OptionsItemConfig = (props) => {
             open: true,
         };
         const errorData = {};
-        // eslint-disable-next-line array-callback-return
-        configProduct.data.products.items[0].configurable_options.map((option) => {
-            if (selectConfigurable[option.attribute_code] === '' || !selectConfigurable[option.attribute_code]) {
-                errorData[option.attribute_code] = `${option.attribute_code} ${t('validate:required')}`;
-            }
-        });
+        if (!noValidate) {
+            // eslint-disable-next-line array-callback-return
+            configProduct.data.products.items[0].configurable_options.map((option) => {
+                if (selectConfigurable[option.attribute_code] === '' || !selectConfigurable[option.attribute_code]) {
+                    errorData[option.attribute_code] = `${option.attribute_code} ${t('validate:required')}`;
+                }
+            });
+        }
         setError(errorData);
 
         if (JSON.stringify(errorData) === '{}') {

@@ -54,10 +54,15 @@ const AccordionDetails = withStyles(() => ({
 const BundleView = (props) => {
     const {
         t, data, items, changeQty, generateBundlePrice, selectOptions,
-        handleAddToCart, loading, disabled,
+        handleAddToCart, loading, disabled, customButton,
     } = props;
     const [open, setOpen] = React.useState(false || (typeof window !== 'undefined' && window.innerWidth <= 768));
     const styles = useStyles();
+
+    if (customButton) {
+        return customButton;
+    }
+
     return (
         <div>
             <Accordion disabled={disabled} square expanded={open} onChange={() => setOpen(!open)}>
