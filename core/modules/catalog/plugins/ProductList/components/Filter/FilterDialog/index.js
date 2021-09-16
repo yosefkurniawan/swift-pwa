@@ -95,19 +95,14 @@ const FilterDialog = ({
 
                     if (itemFilter.field !== 'attribute_set_id') {
                         if (itemFilter.field === 'price') {
-                            const price = priceRange;
-                            price[1] = price[1] || parseInt(itemFilter.value[itemFilter.value.length - 1].value);
                             return (
                                 <div className={styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']} key={idx}>
                                     <RangeSlider
                                         label={itemFilter.label}
                                         maxValue={parseInt(itemFilter.value[itemFilter.value.length - 1].value)}
-                                        value={price}
+                                        value={priceRange}
                                         storeConfig={storeConfig}
-                                        onChange={
-                                            itemProps.priceRangeChange
-                                            || setPriceRange
-                                        }
+                                        onChange={itemProps.priceRangeChange || setPriceRange}
                                     />
                                 </div>
                             );
