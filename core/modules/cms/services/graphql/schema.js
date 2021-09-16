@@ -199,4 +199,34 @@ export const getProductList = gql`
     }
 `;
 
+export const getCategories = gql`
+    query getCategories($ids: [String]) {
+        categoryList(filters: { ids: { in: $ids } }) {
+            name
+            product_count
+            url_path
+            children {
+                name
+                product_count
+                url_path
+                children {
+                    name
+                    product_count
+                    url_path
+                    children {
+                        name
+                        product_count
+                        url_path
+                        children {
+                            name
+                            product_count
+                            url_path
+                        }
+                    }
+                }
+            }
+        }
+    }
+`;
+
 export default { getCmsPage };
