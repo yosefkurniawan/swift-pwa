@@ -6,11 +6,14 @@ const ConfigurableView = (props) => {
     const {
         loading, disabled, showQty = true, handleAddToCart, qty, setQty,
         t, options, selectConfigurable, showAddToCart = true, isGrid = true,
+        showSwatches = true, customPos = false,
         ...other
     } = props;
+    const updatedOptions = customPos ? [...options].sort((a, b) => a.options.position - b.options.position) : options;
+
     return (
         <>
-            {options.map((item, index) => (
+            {showSwatches && updatedOptions.map((item, index) => (
                 <Item
                     key={index}
                     option={item.options}
