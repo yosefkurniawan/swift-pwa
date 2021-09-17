@@ -3,6 +3,7 @@ import {
     compose,
     withProps,
     withHandlers,
+    withStateHandlers,
     lifecycle,
 } from 'recompose';
 import {
@@ -10,6 +11,7 @@ import {
     withGoogleMap,
     GoogleMap,
     Marker,
+    InfoWindow,
 } from 'react-google-maps';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
@@ -24,7 +26,7 @@ const IcubeMaps = compose(
     withProps((props) => ({
         googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${props.gmapKey}&libraries=geometry,drawing,places`,
         loadingElement: <div style={{ height: '100%' }} />,
-        containerElement: <div style={{ height: '210px' }} />,
+        containerElement: props.containerElement || <div style={{ height: '210px' }} />,
         mapElement: <div style={{ height: '100%' }} />,
         isMarkerShown: true,
     })),
@@ -36,6 +38,27 @@ const IcubeMaps = compose(
             };
             dragMarkerDone(newPosition);
         },
+    }),
+    withStateHandlers((props) => {
+        const {
+            infoBoxDefaultOpen, markers,
+        } = props;
+        const isOpen = {};
+
+        if (infoBoxDefaultOpen && markers.length > 0) {
+            markers.forEach((_, index) => {
+                isOpen[index] = true;
+            });
+        }
+
+        return { isOpen };
+    }, {
+        onToggleOpen: ({ isOpen }) => (id) => ({
+            isOpen: {
+                ...isOpen,
+                [id]: typeof isOpen[id] === 'undefined' ? true : !isOpen[id],
+            },
+        }),
     }),
     lifecycle({
         componentWillMount() {
@@ -61,6 +84,14 @@ const IcubeMaps = compose(
     withScriptjs,
     withGoogleMap,
 )((props) => {
+    const {
+        searchBox = true,
+        markers = [],
+        defaultZoom = 17,
+        defaultOptions,
+        center,
+        infoBoxStyle,
+    } = props;
     const setZeroIfEmpty = (value) => {
         const emptyValues = [undefined, null, '', 'undefined', 'null'];
         return emptyValues.includes(value) ? 0 : Number(value);
@@ -74,37 +105,58 @@ const IcubeMaps = compose(
     return (
         <>
             <GoogleMap
-                defaultZoom={17}
+                defaultZoom={defaultZoom}
                 defaultCenter={mapPosition}
-                center={mapPosition}
+                defaultOptions={{ ...defaultOptions }}
+                center={center || mapPosition}
             >
-                {props.isMarkerShown && (
-                    <Marker
-                        draggable
-                        onDragEnd={(event) => props.handleDragEnd(event)}
-                        position={mapPosition}
-                    />
-                )}
+                {props.isMarkerShown
+                    && (markers && markers.length > 0)
+                    ? markers.map((marker, index) => (
+                        <Marker
+                            key={index}
+                            position={{ lat: marker.lat, lng: marker.lng }}
+                            onClick={() => props.onToggleOpen(index)}
+                            icon={{ url: `${props.secureUrl}${marker.image}` }}
+                        >
+                            {props.isOpen[index] && (
+                                <InfoWindow onCloseClick={props.onToggleOpen}>
+                                    <div style={{ ...infoBoxStyle }}>
+                                        {marker.info}
+                                    </div>
+                                </InfoWindow>
+                            )}
+                        </Marker>
+                    ))
+                    : (
+                        <Marker
+                            draggable
+                            onDragEnd={(event) => props.handleDragEnd(event)}
+                            position={mapPosition}
+                        />
+                    )}
             </GoogleMap>
-            <div data-standalone-searchbox="">
-                <StandaloneSearchBox
-                    ref={props.onSearchBoxMounted}
-                    bounds={props.bounds}
-                    onPlacesChanged={props.onPlacesChanged}
-                >
-                    <TextField
-                        fullWidth
-                        placeholder={t('common:search:location')}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <SearchIcon color="secondary" />
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
-                </StandaloneSearchBox>
-            </div>
+            {searchBox && (
+                <div data-standalone-searchbox="">
+                    <StandaloneSearchBox
+                        ref={props.onSearchBoxMounted}
+                        bounds={props.bounds}
+                        onPlacesChanged={props.onPlacesChanged}
+                    >
+                        <TextField
+                            fullWidth
+                            placeholder={t('common:search:location')}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon color="secondary" />
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </StandaloneSearchBox>
+                </div>
+            )}
         </>
     );
 });
