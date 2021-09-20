@@ -32,6 +32,7 @@ import MagezonCategories from '@core_modules/cms/components/cms-renderer/magezon
 import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
 import MagezonRecentReviews from '@core_modules/cms/components/cms-renderer/magezon/MagezonRecentReviews';
 import MagezonGoogleMaps from '@core_modules/cms/components/cms-renderer/magezon/MagezonGoogleMaps';
+import MagezonAccordion from '@core_modules/cms/components/cms-renderer/magezon/MagezonAccordion';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
@@ -63,7 +64,6 @@ const MagezonElement = (props) => {
     let childrenContent;
     let classes = `${customStyles.wrapper} mgz-element `;
     const { className, styles } = generateCustomCssAnimation(animation_duration, animation_delay, animation_infinite);
-
     const enumCustomAnimation = {
         topToBottom: 'mgz_top-to-bottom',
         bottomToTop: 'mgz_bottom-to-top',
@@ -216,6 +216,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonProduct {...props} />; break;
         case 'gmaps':
             childrenContent = <MagezonGoogleMaps {...props} />; break;
+        case 'accordion':
+            childrenContent = <MagezonAccordion {...props} />; break;
         default:
             childrenContent = null;
         }
