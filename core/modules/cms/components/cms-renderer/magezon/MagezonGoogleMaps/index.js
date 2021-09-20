@@ -43,7 +43,7 @@ const MagezonGoogleMaps = (props) => {
                         infoBoxStyle={infoBoxStyles}
                         infoBoxDefaultOpen={infobox_opened}
                         secureUrl={storeConfig.secure_base_media_url}
-                        center={{ lat: center.lat, lng: center.lng }}
+                        center={{ lat: parseFloat(center.lat), lng: parseFloat(center.lng) }}
                     />
                 )}
             </div>

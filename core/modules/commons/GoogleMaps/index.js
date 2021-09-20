@@ -115,7 +115,7 @@ const IcubeMaps = compose(
                     ? markers.map((marker, index) => (
                         <Marker
                             key={index}
-                            position={{ lat: marker.lat, lng: marker.lng }}
+                            position={{ lat: parseFloat(marker.lat), lng: parseFloat(marker.lng) }}
                             onClick={() => props.onToggleOpen(index)}
                             icon={{ url: `${props.secureUrl}${marker.image}` }}
                         >
