@@ -5,18 +5,18 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable operator-linebreak */
 
-import Heading from '@core_modules/cms/components/cms-renderer/magezon/components/commons/heading';
 import Typography from '@common_typography';
-import { Accordion, AccordionDetails, AccordionSummary } from '@core_modules/cms/components/cms-renderer/magezon/MagezonCategories/accordion';
-import { useState } from 'react';
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DetailsIcon from '@material-ui/icons/Details';
-import FiberManualRecordOutlinedIcon from '@material-ui/icons/FiberManualRecordOutlined';
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import CmsRenderer from '@core_modules/cms/components/cms-renderer';
+import Heading from '@core_modules/cms/components/cms-renderer/magezon/components/commons/heading';
+import { Accordion, AccordionDetails, AccordionSummary } from '@core_modules/cms/components/cms-renderer/magezon/MagezonCategories/accordion';
 import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
+import AddIcon from '@material-ui/icons/Add';
+import DetailsIcon from '@material-ui/icons/Details';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import FiberManualRecordOutlinedIcon from '@material-ui/icons/FiberManualRecordOutlined';
+import RemoveIcon from '@material-ui/icons/Remove';
+import { useState } from 'react';
 
 const MagezonAccordion = (props) => {
     // prettier-ignore
@@ -32,6 +32,7 @@ const MagezonAccordion = (props) => {
         spacing,
         line_color, line_position, line_width, show_line,
         title, title_align, title_tag, title_color, title_font_size,
+        storeConfig,
     } = props;
     const accordionsState = {};
     let expandMoreIcon;
@@ -104,7 +105,7 @@ const MagezonAccordion = (props) => {
 
     const renderContent = (content) => {
         const newContent = Array.isArray(content) ? content[0] : content;
-        return <CmsRenderer {...newContent} />;
+        return <CmsRenderer content={newContent} storeConfig={storeConfig} />;
     };
 
     return (
@@ -164,7 +165,7 @@ const MagezonAccordion = (props) => {
                         color: ${section_color || '#000000'};
                         ${title_font_size ? `font-size: ${title_font_size}px` : ''}
                     }
-                    .mgz-accordion :global(.Mui-expanded *[class*='Typography']) {
+                    .mgz-accordion :global(.Mui-expanded .MuiAccordionSummary-root *[class*='Typography']) {
                         color: ${section_active_color || '#000000'};
                     }
                     .mgz-accordion :global(.MuiAccordion-root div:not(.Mui-expanded):hover *[class*='Typography']) {
