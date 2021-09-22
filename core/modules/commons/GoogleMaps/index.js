@@ -117,7 +117,7 @@ const IcubeMaps = compose(
                             key={index}
                             position={{ lat: parseFloat(marker.lat), lng: parseFloat(marker.lng) }}
                             onClick={() => props.onToggleOpen(index)}
-                            icon={{ url: `${props.secureUrl}${marker.image}` }}
+                            icon={marker.image ? `${props.secureUrl}${marker.image}` : ''}
                         >
                             {props.isOpen[index] && (
                                 <InfoWindow onCloseClick={props.onToggleOpen}>

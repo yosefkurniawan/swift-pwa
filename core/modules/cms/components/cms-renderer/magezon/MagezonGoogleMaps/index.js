@@ -16,7 +16,7 @@ const MagezonGoogleMaps = (props) => {
         width: map_width && map_width.toString().includes('%') ? map_width : map_width.toString().includes('px') ? map_width : `${map_width}px`,
     };
     const gmapKey = (storeConfig || {}).icube_pinlocation_gmap_key;
-    const center = items.find((item) => item.center === '1');
+    const center = items.find((item) => item.center === '1') || items[0];
     const defaultOptions = {
         disableDefaultUI: map_ui,
         scrollwheel: map_scrollwheel,
@@ -50,7 +50,7 @@ const MagezonGoogleMaps = (props) => {
             <style jsx>
                 {`
                     .mgz-google-maps :global(div[role='dialog'][class*='gm-style-iw']) {
-                        background-color: ${infobox_background_color || '#000000'};
+                        background-color: ${infobox_background_color || '#ffffff'};
                         max-height: none !important;
                         padding: 10px !important;
                     }
