@@ -18,6 +18,8 @@ import useStyles from '@plugin_productitem/style';
 import { addProductsToCompareList } from '@core_modules/product/services/graphql';
 import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { localCompare } from '@services/graphql/schema/local';
+import { getStoreHost } from '@helpers/config';
+import { getAppEnv } from '@root/core/helpers/env';
 
 const ModalQuickView = dynamic(() => import('@plugin_productitem/components/QuickView'), { ssr: false });
 const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
@@ -148,13 +150,17 @@ const ProductItem = (props) => {
     };
 
     const handleClick = async () => {
-        const urlResolver = getResolver();
-        urlResolver[`/${url_key}`] = {
-            type: 'PRODUCT',
-        };
-        await setResolver(urlResolver);
-        setCookies('lastCategory', categorySelect);
-        route.push('/[...slug]', `/${url_key}`);
+        if (modules.checkout.checkoutOnly) {
+            window.open(`${getStoreHost(getAppEnv()) + url_key}.html`);
+        } else {
+            const urlResolver = getResolver();
+            urlResolver[`/${url_key}`] = {
+                type: 'PRODUCT',
+            };
+            await setResolver(urlResolver);
+            setCookies('lastCategory', categorySelect);
+            route.push('/[...slug]', `/${url_key}`);
+        }
     };
 
     const handleQuickView = async () => {
