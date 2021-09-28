@@ -14,6 +14,10 @@ export default makeStyles(() => ({
         ...FlexColumn,
         alignItems: 'center',
         ...CreatePadding(10, 30, 30, 30),
+        '& * .Mui-error, * .Mui-error > span': {
+            fontSize: 10,
+            fontWeight: 300,
+        },
     },
     btnSigin: {
         ...CreateMargin(30, 0, 10, 0),
