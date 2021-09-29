@@ -1,30 +1,30 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable react/jsx-wrap-multilines */
+
 import Header from '@common_headermobile';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Typography from '@common_typography';
+import { modules } from '@config';
+import ShipperView from '@core_modules/trackingorder/pages/default/components/shipper';
+import useStyles from '@core_modules/trackingorder/pages/default/components/style';
+import { checkJson } from '@core_modules/trackingorder/pages/default/helpers/checkJson';
+import formatDate from '@helper_date';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Slide from '@material-ui/core/Slide';
-import Typography from '@common_typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+import Slide from '@material-ui/core/Slide';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Alert from '@material-ui/lab/Alert';
-import formatDate from '@helper_date';
 import { startCase } from 'lodash';
-import { modules } from '@config';
 import Link from 'next/link';
-
-import { checkJson } from '@core_modules/trackingorder/pages/default/helpers/checkJson';
-import useStyles from '@core_modules/trackingorder/pages/default/components/style';
-import ShipperJNE from '@core_modules/trackingorder/pages/default/components/shipper/jne';
-import ShipperAnterAja from '@core_modules/trackingorder/pages/default/components/shipper/anterAja';
-import ShipperSAP from '@core_modules/trackingorder/pages/default/components/shipper/sap';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 const ModalResult = (props) => {
+    // prettier-ignore
     const {
         open, setOpen, t, orders, modalType, modalData,
     } = props;
@@ -58,47 +58,13 @@ const ModalResult = (props) => {
 
                         const listField = gosend ? trackingorder.fieldDetail.gosend : trackingorder.fieldDetail.shipperid;
 
-                        if (modalType === 'Anteraja') {
-                            const AnterajaContent = modalData.content || {};
-                            const nameReceiver = AnterajaContent.order?.receiver.name;
-                            const description = AnterajaContent.history && AnterajaContent.history[0].message.id;
-                            const updateDate = AnterajaContent.history && AnterajaContent.history[0].timestamp;
-                            trackOrder = (
-                                <ShipperAnterAja
-                                    nameReceiver={nameReceiver}
-                                    description={description}
-                                    updateDate={updateDate}
-                                    styles={styles}
-                                    t={t}
-                                />
-                            );
-                        } else if (modalType === 'JNE') {
-                            const nameReceiver = modalData.cnote.cnote_receiver_name;
-                            const description = modalData.cnote.keterangan;
-                            const updateDate = modalData.cnote.cnote_date;
-                            trackOrder = (
-                                <ShipperJNE
-                                    nameReceiver={nameReceiver}
-                                    description={description}
-                                    updateDate={updateDate}
-                                    styles={styles}
-                                    t={t}
-                                />
-                            );
-                        } else if (modalType === 'SAP') {
-                            const sap = modalData[modalData.length - 1];
-                            const nameReceiver = sap.receiver_name;
-                            const descriptionSap = sap.description;
-                            const updateDate = sap.create_date;
-                            trackOrder = (
-                                <ShipperSAP
-                                    nameReceiver={nameReceiver}
-                                    description={descriptionSap}
-                                    updateDate={updateDate}
-                                    styles={styles}
-                                    t={t}
-                                />
-                            );
+                        if (
+                            modalType.toLowerCase().includes('jne') ||
+                            modalType.toLowerCase().includes('sap') ||
+                            modalType.toLowerCase().includes('shipperid') ||
+                            modalType.toLowerCase().includes('anteraja')
+                        ) {
+                            trackOrder = <ShipperView type={modalType} data={modalData} styles={styles} t={t} />;
                         } else {
                             const keys = Object.keys(dt);
                             for (let idx = 0; idx < keys.length; idx += 1) {

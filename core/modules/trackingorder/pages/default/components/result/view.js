@@ -55,6 +55,7 @@ const resultItem = ({
                     dt = dt.replace(/'/g, '`');
                     dt = dt.replace(/"/g, "'");
                     dt = dt.replace(/`/g, '"');
+
                     if (checkJson(dt) && !JSON.parse(dt).errors) {
                         dt = JSON.parse(dt);
                         items.push({
