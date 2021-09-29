@@ -136,7 +136,11 @@ const MagezonAccordion = (props) => {
                                             <Typography variant="h4">{element.title}</Typography>
                                         </div>
                                     </AccordionSummary>
-                                    <AccordionDetails>{renderContent(element.elements)}</AccordionDetails>
+                                    <AccordionDetails>
+                                        {element.elements.map((ele, k) => (
+                                            <div style={{ marginBottom: 10 }}>{renderContent(ele)}</div>
+                                        ))}
+                                    </AccordionDetails>
                                 </Accordion>
                             );
                         })}
@@ -180,6 +184,7 @@ const MagezonAccordion = (props) => {
                         ${!no_fill_content_area ? `border: 1px solid ${section_active_border_color || '#eee'};` : ''}
                     }
                     .mgz-accordion :global(.MuiAccordionDetails-root) {
+                        display: block;
                         padding: 14px 20px;
                     }
                     .mgz-accordion :global(.MuiCollapse-container) {
