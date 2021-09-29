@@ -240,8 +240,9 @@ const MagezonElement = (props) => {
                 {`
                     .mgz-element {
                         position: relative;
+                        display: inline-block;
                         width: 100%;
-                        background-color: ${background_color};
+                        ${background_color ? `background-color: ${background_color};` : ''}
                     }
                     .full_height {
                         min-height: 433px;
