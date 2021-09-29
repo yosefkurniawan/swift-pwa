@@ -153,16 +153,19 @@ const MagezonTestimonials = (props) => {
                     ))}
                 </Carousel>
             </div>
-            <style jsx global>
+            <style jsx>
                 {`
-                    .mgz-testimonial-item {
+                    .mgz-testimonials :global(.mgz-testimonial-item) {
                         ${box_background_color ? `background-color: ${box_background_color} !important;` : ''}
                         ${box_color ? `color: ${box_color} !important;` : ''}
+                        ${testimonial_type === 'type3' && !box_background_color ? 'background-color: #34495e;' : ''}
+                        ${testimonial_type === 'type3' && !box_color ? 'color: #ffffff;' : ''}
                         ${box_border_radius ? `border-radius: ${box_border_radius}px` : ''}
                     }
-                    .mgz-testimonial-item:before {
-                        ${testimonial_type === 'type3'
-                            ? `
+                    .mgz-testimonials :global(.mgz-testimonial-item:before) {
+                        ${
+                            testimonial_type === 'type3'
+                                ? `
                             position: absolute;
                             left: 35px;
                             bottom: -20px;
@@ -171,34 +174,41 @@ const MagezonTestimonials = (props) => {
                             width: 0;
                             border: medium solid transparent;
                             ${box_background_color ? `border-top-color: ${box_background_color};` : ''}
+                            ${testimonial_type === 'type3' && !box_background_color ? 'border-top-color: #34495e;' : ''}
                             border-width: 10px;
                         `
-                            : ''}
+                                : ''
+                        }
                     }
-                    .mgz-testimonial-meta > *[class*='Typography'] {
+                    .mgz-testimonials :global(.mgz-testimonial-meta > *[class*='Typography']) {
                         ${box_color ? `color: ${box_color} !important;` : ''}
                     }
-                    .mgz-testimonial-content {
-                        ${testimonial_type !== 'type3' ? `
+                    .mgz-testimonials :global(.mgz-testimonial-content) {
+                        ${
+                            testimonial_type !== 'type3'
+                                ? `
                             margin: 20px 0;
-                        ` : ''}
+                        `
+                                : ''
+                        }
                         ${content_align ? `text-align: ${content_align};` : ''}
+                        ${testimonial_type === 'type3' && !content_align ? 'text-align: left' : ''}
                         ${content_color ? `color: ${content_color};` : ''}
                         ${content_font_weight ? `font-weight: ${content_font_weight};` : ''}
                         ${content_font_size ? `font-size: ${content_font_size}px;` : ''}
                     }
-                    .mgz-testimonial-img {
+                    .mgz-testimonials :global(.mgz-testimonial-img) {
                         width: ${image_width ? `${image_width}px` : '90px'};
                         border-radius: ${image_border_radius ? `${image_border_radius}px` : '50px'}; ;
                         overflow: hidden;
                         margin: auto;
                     }
-                    .mgz-testimonial-meta span:nth-child(1) {
+                    .mgz-testimonials :global(.mgz-testimonial-meta span:nth-child(1)) {
                         ${name_color ? `color: ${name_color} !important;` : ''}
                         ${name_font_size ? `font-size: ${name_font_size}px;` : ''}
                         ${name_font_weight ? `font-weight: ${name_font_weight};` : ''}
                     }
-                    .mgz-testimonial-meta span:nth-child(2) {
+                    .mgz-testimonials :global(.mgz-testimonial-meta span:nth-child(2)) {
                         margin: 0;
                         ${job_color ? `color: ${job_color} !important;` : ''}
                         ${job_font_size ? `font-size: ${job_font_size}px;` : ''}

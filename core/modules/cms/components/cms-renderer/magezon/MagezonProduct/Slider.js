@@ -108,7 +108,6 @@ const ProductSlider = (props) => {
                     }
                     .mgz-product-slider :global(.slick-dots) {
                         position: relative;
-                        bottom: -70px;
                     }
                     .mgz-product-slider :global(.slick-dots li) {
                         padding: 0 5px;
