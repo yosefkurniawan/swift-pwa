@@ -31,6 +31,7 @@ import MagezonProduct from '@core_modules/cms/components/cms-renderer/magezon/Ma
 import MagezonCategories from '@core_modules/cms/components/cms-renderer/magezon/MagezonCategories';
 import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
 import MagezonAccordion from '@core_modules/cms/components/cms-renderer/magezon/MagezonAccordion';
+import MagezonSection from '@core_modules/cms/components/cms-renderer/magezon/MagezonSection';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
@@ -213,6 +214,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonProduct {...props} />; break;
         case 'accordion':
             childrenContent = <MagezonAccordion {...props} />; break;
+        case 'section':
+            childrenContent = <MagezonSection {...props} />; break;
         default:
             childrenContent = null;
         }
