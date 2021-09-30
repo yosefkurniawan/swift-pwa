@@ -12,11 +12,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
 import Slide from '@material-ui/core/Slide';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import LaunchIcon from '@material-ui/icons/Launch';
 import Alert from '@material-ui/lab/Alert';
 import { startCase } from 'lodash';
 import Link from 'next/link';
@@ -72,11 +70,16 @@ const ModalResult = (props) => {
                                     let secondary = dt[keys[idx]];
                                     if (secondary !== null && secondary !== '' && secondary.includes('http')) {
                                         secondary = (
-                                            <Link href={secondary}>
-                                                <a target="_blank" className="item-link">
-                                                    {secondary}
-                                                </a>
-                                            </Link>
+                                            <div className="track-link">
+                                                <Link href={secondary}>
+                                                    <a target="_blank" className="item-link">
+                                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                            <span>{t('trackingorder:track')}</span>
+                                                            <LaunchIcon fontSize="small" />
+                                                        </div>
+                                                    </a>
+                                                </Link>
+                                            </div>
                                         );
                                     }
 
@@ -106,24 +109,32 @@ const ModalResult = (props) => {
                         <List>
                             {trackOrder}
                             {items.map((item, i) => (
-                                <ListItem key={i} className={styles.listItem}>
-                                    <ListItemText
-                                        className={styles.label}
-                                        primary={
-                                            <Typography letter="capitalize" className="clear-margin-padding">
-                                                {item.primary}
-                                            </Typography>
-                                        }
-                                    />
-                                    <ListItemSecondaryAction className={styles.detail}>
-                                        <Typography variant="span" type="regular" className="clear-margin-padding">
+                                <>
+                                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
+                                        <Typography letter="capitalize" className="clear-margin-padding" style={{ width: '40%' }}>
+                                            {item.primary}
+                                        </Typography>
+                                        <Typography variant="span" type="regular" className="clear-margin-padding" style={{ width: '60%' }}>
                                             {item.secondary}
                                         </Typography>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
+                                    </div>
+                                </>
                             ))}
                         </List>
                     </div>
+                    <style jsx>
+                        {`
+                            .row :global(.track-link) {
+                                display: flex;
+                            }
+                            .row :global(.track-link > *) {
+                                background-color: #eee;
+                                padding: 5px;
+                                text-decoration: none !important;
+                                border-radius: 5px;
+                            }
+                        `}
+                    </style>
                     <style jsx global>
                         {`
                             .label-result {
