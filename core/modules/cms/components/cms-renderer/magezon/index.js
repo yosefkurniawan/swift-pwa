@@ -27,8 +27,11 @@ import MagezonPagebuilderTemplate from '@core_modules/cms/components/cms-rendere
 import MagezonVideoPlayer from '@core_modules/cms/components/cms-renderer/magezon/MagezonVideoPlayer';
 import MagezonPricingTable from '@core_modules/cms/components/cms-renderer/magezon/MagezonPricingTable';
 import MagezonImageGallery from '@core_modules/cms/components/cms-renderer/magezon/MagezonImageGallery';
+import MagezonProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct';
+import MagezonCategories from '@core_modules/cms/components/cms-renderer/magezon/MagezonCategories';
 import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
 import MagezonRecentReviews from '@core_modules/cms/components/cms-renderer/magezon/MagezonRecentReviews';
+import MagezonGoogleMaps from '@core_modules/cms/components/cms-renderer/magezon/MagezonGoogleMaps';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
@@ -197,10 +200,22 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonPricingTable {...props} />; break;
         case 'image_gallery':
             childrenContent = <MagezonImageGallery {...props} />; break;
+        case 'categories':
+            childrenContent = <MagezonCategories {...props} />; break;
         case 'content_slider':
             childrenContent = <MagezonContentSlider {...props} />; break;
         case 'recent_reviews':
             childrenContent = <MagezonRecentReviews {...props} />; break;
+        case 'single_product':
+            childrenContent = <MagezonProduct {...props} />; break;
+        case 'product_list':
+            childrenContent = <MagezonProduct {...props} />; break;
+        case 'product_grid':
+            childrenContent = <MagezonProduct {...props} />; break;
+        case 'product_slider':
+            childrenContent = <MagezonProduct {...props} />; break;
+        case 'gmaps':
+            childrenContent = <MagezonGoogleMaps {...props} />; break;
         default:
             childrenContent = null;
         }
