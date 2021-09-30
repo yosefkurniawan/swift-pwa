@@ -6,10 +6,10 @@
 /* eslint-disable operator-linebreak */
 
 import Typography from '@common_typography';
-import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 import Heading from '@core_modules/cms/components/cms-renderer/magezon/components/commons/heading';
 import { Accordion, AccordionDetails, AccordionSummary } from '@core_modules/cms/components/cms-renderer/magezon/MagezonCategories/accordion';
 import MagezonIcon from '@core_modules/cms/components/cms-renderer/magezon/MagezoneIcon';
+import MagezonSection from '@core_modules/cms/components/cms-renderer/magezon/MagezonSection';
 import AddIcon from '@material-ui/icons/Add';
 import DetailsIcon from '@material-ui/icons/Details';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -103,11 +103,6 @@ const MagezonAccordion = (props) => {
         });
     };
 
-    const renderContent = (content) => {
-        const newContent = Array.isArray(content) ? content[0] : content;
-        return <CmsRenderer content={newContent} storeConfig={storeConfig} />;
-    };
-
     return (
         <>
             <div className="mgz-accordion">
@@ -137,9 +132,7 @@ const MagezonAccordion = (props) => {
                                         </div>
                                     </AccordionSummary>
                                     <AccordionDetails>
-                                        {element.elements.map((ele, k) => (
-                                            <div style={{ marginBottom: 10 }}>{renderContent(ele)}</div>
-                                        ))}
+                                        <MagezonSection elements={element.elements} storeConfig={storeConfig} />
                                     </AccordionDetails>
                                 </Accordion>
                             );
