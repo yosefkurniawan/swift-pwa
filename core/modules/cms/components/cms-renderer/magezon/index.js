@@ -30,6 +30,7 @@ import MagezonImageGallery from '@core_modules/cms/components/cms-renderer/magez
 import MagezonProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct';
 import MagezonCategories from '@core_modules/cms/components/cms-renderer/magezon/MagezonCategories';
 import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
+import MagezonRecentReviews from '@core_modules/cms/components/cms-renderer/magezon/MagezonRecentReviews';
 import MagezonGoogleMaps from '@core_modules/cms/components/cms-renderer/magezon/MagezonGoogleMaps';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -203,6 +204,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonCategories {...props} />; break;
         case 'content_slider':
             childrenContent = <MagezonContentSlider {...props} />; break;
+        case 'recent_reviews':
+            childrenContent = <MagezonRecentReviews {...props} />; break;
         case 'single_product':
             childrenContent = <MagezonProduct {...props} />; break;
         case 'product_list':
