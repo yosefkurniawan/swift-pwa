@@ -12,7 +12,7 @@ const MagezonProductList = (props) => {
         type, condition, border_hover_color,
         description, show_line,
         line_color, line_position, line_width,
-        max_items, product_addtocart, product_shortdescription,
+        max_items, order_by, product_addtocart, product_shortdescription,
         product_compare, product_image, product_name,
         product_price, product_review, product_swatches, product_wishlist, product_sku, product_display,
         title, title_align, title_tag, title_color,
@@ -43,8 +43,12 @@ const MagezonProductList = (props) => {
     const showLineClass = show_line ? 'mgz-product-heading-line' : '';
     const linePosClass = show_line && line_position === 'bottom' ? 'mgz-product-heading-line--bottom' : '';
     const dataCondition = useMemo(() => getProductListConditions(condition), [condition]);
-    const dataFilter = generateQueries(type, type === 'single_product' ? { sku: { eq: product_sku } } : dataCondition);
-    const { data, loading } = getProductList({ ...dataFilter, pageSize: max_items });
+    const dataFilter = generateQueries(type, type === 'single_product' ? { sku: { eq: product_sku } } : dataCondition, order_by);
+    console.log('dataFilter', dataFilter);
+    const { data, loading, error } = getProductList({ ...dataFilter, pageSize: max_items });
+    console.log('data', data, error);
+
+    console.log('props', props);
 
     if (loading) return null;
 

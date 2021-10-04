@@ -27,10 +27,15 @@ const getProductListConditions = (conditions) => {
     return newConditions;
 };
 
-const generateQueries = (type, variables) => {
+const generateQueries = (type, variables, sort) => {
+    const ASC = 'ASC';
+    const DESC = 'DESC';
+
     const queryVariables = {
         filter: {},
+        sort: {},
     };
+    let sortAttribute;
 
     if (type === 'single_product') {
         return {
@@ -40,39 +45,79 @@ const generateQueries = (type, variables) => {
         };
     }
 
+    // prettier-ignore
+    switch (sort) {
+    case 'default':
+        sortAttribute = {}; break;
+    case 'alphabetically':
+        sortAttribute = { alphabetically_pwa: ASC }; break;
+    case 'price_low_to_high':
+        sortAttribute = { price: ASC }; break;
+    case 'price_high_to_low':
+        sortAttribute = { price: DESC }; break;
+    case 'random':
+        sortAttribute = { random_pwa: ASC }; break;
+    case 'newestfirst':
+        sortAttribute = { new_old_pwa: DESC }; break;
+    case 'oldestfirst':
+        sortAttribute = { new_old_pwa: ASC }; break;
+    case 'new':
+        sortAttribute = { new_pwa: DESC }; break;
+    case 'bestseller':
+        sortAttribute = { bestseller_pwa: DESC }; break;
+    case 'onsale':
+        sortAttribute = { onsale_pwa: DESC }; break;
+    case 'mostviewed':
+        sortAttribute = { mostviewed_pwa: DESC }; break;
+    case 'wishlisttop':
+        sortAttribute = { wishlisttop_pwa: DESC }; break;
+    case 'toprated':
+        sortAttribute = { toprated_pwa: DESC }; break;
+    case 'featured':
+        sortAttribute = { featured_pwa: DESC }; break;
+    case 'fee':
+        sortAttribute = { free_pwa: DESC }; break;
+
+    default:
+        sortAttribute = {}; break;
+    }
+    queryVariables.sort = { ...sortAttribute };
+
     variables.attributes.forEach((variable) => {
         const { attribute, operator, value } = variable;
         let newValue;
+        let filterAttribute;
 
-        // prettier-ignore
-        switch (operator) {
-        case '<':
+        if (operator === '<' || operator === '<=') {
+            // less than; equals or less than
             newValue = Number(value - 1).toString();
-            break;
-        case '>':
+            filterAttribute = { to: operator === '<' ? newValue : value };
+        } else if (operator === '>' || operator === '>=') {
+            // greater than; equals or greater than
             newValue = Number(value + 1).toString();
-            break;
-
-        default:
-            newValue = value;
+            filterAttribute = { from: operator === '>' ? newValue : value };
+        } else if (operator === '==') {
+            // is
+            filterAttribute = { eq: value };
+        } else if (operator === '{}') {
+            // contains
+            filterAttribute = { in: [value] };
         }
 
+        queryVariables.filter[attribute] = {
+            ...queryVariables.filter[attribute],
+            ...filterAttribute,
+        };
+
         if (attribute === 'price') {
-            if (operator === '>' || operator === '>=') {
-                queryVariables.filter.price = { ...queryVariables.filter.price, from: operator === '>' ? newValue : value };
-            }
-            if (operator === '<' || operator === '<=') {
-                queryVariables.filter.price = { ...queryVariables.filter.price, to: operator === '<' ? newValue : value };
-            }
             if (operator === '==') {
                 queryVariables.filter.price = { ...queryVariables.filter.price, from: newValue, to: newValue };
             }
         }
 
         if (attribute === 'category_ids') {
-            if (operator === '==') {
-                queryVariables.filter.category_id = { ...queryVariables.filter.category_id, in: [value] };
-            }
+            queryVariables.filter.category_id = { ...queryVariables.filter.category_ids };
+            delete queryVariables.filter.category_ids;
         }
     });
     return queryVariables;
