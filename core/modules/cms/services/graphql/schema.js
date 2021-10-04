@@ -58,6 +58,42 @@ export const getCmsBlocks = gql`
     }
 `;
 
+export const getProductReviews = gql`
+    query getProductReviews($sku: String, $pageSize: Int) {
+        products(
+            filter: { 
+                sku: {
+                    eq: $sku
+                }
+            }, 
+            pageSize: $pageSize
+        ) {
+            items {
+                id
+                sku
+                name
+                url_key
+                small_image {
+                    url
+                    label
+                }
+                reviews {
+                    items {
+                        nickname
+                        summary
+                        created_at
+                        text
+                        ratings_breakdown {
+                            name
+                            value
+                        }
+                    }
+                }
+            }
+        }
+    }
+`;
+
 export const getProductList = gql`
     query getProductList($search: String, $pageSize: Int, $filter: ProductAttributeFilterInput, $sort: ProductAttributeSortInput) {
         products(search: $search, pageSize: $pageSize, filter: $filter, sort: $sort) {

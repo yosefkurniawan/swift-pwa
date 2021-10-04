@@ -6,6 +6,8 @@ const cookieSession = require('cookie-session');
 const express = require('express');
 const next = require('next');
 const http = require('http');
+const blocker = require('express-user-agent-blocker');
+const fs = require('fs');
 
 const LRUCache = require('lru-cache');
 const cookieParser = require('cookie-parser');
@@ -81,8 +83,20 @@ async function renderAndCache(req, res) {
 }
 
 (async () => {
+    const botList = fs.readFileSync('./botlist.txt')
+        .toString()
+        .split('\n')
+        .filter(Boolean);
+
     await app.prepare();
     const server = express();
+
+    // block bot
+    server.use(blocker(
+        botList,
+        { text: 'Unauthorized request' },
+    ));
+
     server.use(cookieParser());
     // disable x-powered-by
     server.disable('x-powered-by');
