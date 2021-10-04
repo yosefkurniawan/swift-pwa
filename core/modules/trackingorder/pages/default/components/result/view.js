@@ -25,6 +25,8 @@ const resultItem = ({
     if (orders.data.length > 0) {
         let { detail } = data;
         detail = detail[0];
+        const shippingMethods = detail.shipping_methods.shipping_detail;
+
         const items = [
             { primary: t('trackingorder:orderStatus'), secondary: data.status_label },
             {
@@ -45,33 +47,46 @@ const resultItem = ({
                 secondary: detail.shipping_methods.shipping_description,
             },
         ];
-        if (detail.shipping_methods.shipping_detail[0].data_detail) {
-            let dt = detail.shipping_methods.shipping_detail[0].data_detail;
-            dt = dt.replace(/'/g, '`');
-            dt = dt.replace(/"/g, "'");
-            dt = dt.replace(/`/g, '"');
-            if (checkJson(dt) && !JSON.parse(dt).errors) {
-                dt = JSON.parse(dt);
-                items.push({
-                    primary: t('trackingorder:trackingOrder'),
-                    secondary: (
-                        <Button variant="text" onClick={openModal} align="left" className={styles.btnTrackOrder}>
-                            <Typography type="bold" decoration="underline">
-                                {detail.shipping_methods.track_number}
-                            </Typography>
-                        </Button>
-                    ),
-                });
-            } else {
-                items.push({
-                    primary: t('trackingorder:trackingOrder'),
-                    secondary: detail.shipping_methods.track_number,
-                });
-            }
-        } else {
-            items.push({
-                primary: t('trackingorder:trackingOrder'),
-                secondary: detail.shipping_methods.track_number,
+
+        if (shippingMethods.length > 0) {
+            shippingMethods.forEach((shipping) => {
+                if (shipping.data_detail) {
+                    let dt = shipping.data_detail;
+                    dt = dt.replace(/'/g, '`');
+                    dt = dt.replace(/"/g, "'");
+                    dt = dt.replace(/`/g, '"');
+
+                    if (checkJson(dt) && !JSON.parse(dt).errors) {
+                        dt = JSON.parse(dt);
+                        items.push({
+                            primary: t('trackingorder:trackingOrder'),
+                            secondary: (
+                                <Button
+                                    variant="text"
+                                    onClick={() => openModal(shipping.trackorder_type, dt)}
+                                    align="left"
+                                    className={styles.btnTrackOrder}
+                                >
+                                    <Typography type="bold" decoration="underline" align="left">
+                                        {shipping.track_number}
+                                        {' '}
+                                        {`(${shipping.trackorder_type})`}
+                                    </Typography>
+                                </Button>
+                            ),
+                        });
+                    } else {
+                        items.push({
+                            primary: t('trackingorder:trackingOrder'),
+                            secondary: shipping.track_number,
+                        });
+                    }
+                } else {
+                    items.push({
+                        primary: t('trackingorder:trackingOrder'),
+                        secondary: shipping.track_number,
+                    });
+                }
             });
         }
         return (
