@@ -5503,6 +5503,11 @@ express-session@^1.17.1:
     safe-buffer "5.2.0"
     uid-safe "~2.1.5"
 
+express-user-agent-blocker@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/express-user-agent-blocker/-/express-user-agent-blocker-2.0.4.tgz#7bdb1b322af66519be81e303b8b78f6b3c4965a1"
+  integrity sha512-N6vDwn7OTxzra3QL/YJFV+/k7mqL3ZIQUmIy5Tr4c8DhkH5EH8FCylsBNjIXcEQqaZBFE9R4hU6EHmVTEtHRTg==
+
 express@^4.16.3, express@^4.17.1:
   version "4.17.1"
   resolved "https://registry.yarnpkg.com/express/-/express-4.17.1.tgz#4491fc38605cf51f8629d39c2b5d026f98a4c134"

@@ -30,6 +30,8 @@ import MagezonImageGallery from '@core_modules/cms/components/cms-renderer/magez
 import MagezonProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct';
 import MagezonCategories from '@core_modules/cms/components/cms-renderer/magezon/MagezonCategories';
 import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
+import MagezonRecentReviews from '@core_modules/cms/components/cms-renderer/magezon/MagezonRecentReviews';
+import MagezonGoogleMaps from '@core_modules/cms/components/cms-renderer/magezon/MagezonGoogleMaps';
 import MagezonProgressBar from '@core_modules/cms/components/cms-renderer/magezon/MagezonProgressBar';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -62,7 +64,6 @@ const MagezonElement = (props) => {
     let childrenContent;
     let classes = `${customStyles.wrapper} mgz-element `;
     const { className, styles } = generateCustomCssAnimation(animation_duration, animation_delay, animation_infinite);
-    // console.log(props);
     const enumCustomAnimation = {
         topToBottom: 'mgz_top-to-bottom',
         bottomToTop: 'mgz_bottom-to-top',
@@ -203,6 +204,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonCategories {...props} />; break;
         case 'content_slider':
             childrenContent = <MagezonContentSlider {...props} />; break;
+        case 'recent_reviews':
+            childrenContent = <MagezonRecentReviews {...props} />; break;
         case 'single_product':
             childrenContent = <MagezonProduct {...props} />; break;
         case 'product_list':
@@ -211,6 +214,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonProduct {...props} />; break;
         case 'product_slider':
             childrenContent = <MagezonProduct {...props} />; break;
+        case 'gmaps':
+            childrenContent = <MagezonGoogleMaps {...props} />; break;
         case 'progress_bar':
             childrenContent = <MagezonProgressBar {...props} />; break;
         default:
