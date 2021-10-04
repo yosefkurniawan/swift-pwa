@@ -1,10 +1,16 @@
+/* eslint-disable no-nested-ternary */
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 const FormCom = (props) => {
-    const { setOrderField, t, email, FormView, data, loading, error, SkeletonResult, DetailView, ResultView, getTrackOrder, ...other } = props;
+    const {
+        setOrderField, t, email, FormView, data, loading, error, SkeletonResult, DetailView, ResultView, getTrackOrder,
+        ...other
+    } = props;
     const [openResult, setOpenResult] = React.useState(false);
     const [openModal, setOpenModal] = React.useState(false);
+    const [modalType, setModalType] = React.useState('');
+    const [modalData, setModalData] = React.useState('');
 
     const TrackingSchema = Yup.object().shape({
         email: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
@@ -17,7 +23,6 @@ const FormCom = (props) => {
         },
         validationSchema: TrackingSchema,
         onSubmit: async (values, { resetForm, setValues }) => {
-            console.log('call');
             await setOrderField(values);
             getTrackOrder();
             setOpenResult(true);
@@ -28,6 +33,12 @@ const FormCom = (props) => {
 
     const handleOpenResult = (val) => {
         setOpenResult(val);
+    };
+
+    const handleOpenModal = (type, datas) => {
+        setOpenModal(true);
+        setModalType(type);
+        setModalData(datas);
     };
 
     return (
@@ -42,11 +53,18 @@ const FormCom = (props) => {
                             <SkeletonResult />
                         ) : (
                             <>
-                                <ResultView {...other} t={t} orders={data.ordersFilter} openModal={() => setOpenModal(true)} />
-                                <DetailView {...props} open={openModal} setOpen={setOpenModal} orders={data.ordersFilter} />
+                                {data.ordersFilter && <ResultView {...other} t={t} orders={data.ordersFilter} openModal={handleOpenModal} />}
+                                <DetailView
+                                    {...props}
+                                    modalType={modalType}
+                                    modalData={modalData}
+                                    open={openModal}
+                                    setOpen={setOpenModal}
+                                    orders={data.ordersFilter}
+                                />
                             </>
-                         )
-                     ) : null}
+                        )
+                    ) : null}
                 </div>
             </div>
         </>
