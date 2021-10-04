@@ -244,7 +244,7 @@ const features = {
     },
     thumbor: {
         enable: true,
-        useHttps: false,
+        useHttpsOrHttp: false,
         url: 'https://thumbor.sirclocdn.com/unsafe/widthxheight/filters:format(webp)/',
     },
     globalPromo: {

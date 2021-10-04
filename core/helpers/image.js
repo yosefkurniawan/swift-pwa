@@ -3,11 +3,11 @@ import { features } from '@config';
 const { thumbor } = features;
 
 export const generateThumborUrl = (src = '', width = 400, height = 400) => {
-    const { enable, useHttps } = thumbor;
+    const { enable, useHttpsOrHttp } = thumbor;
     let { url } = thumbor;
     if (enable) {
         let source = src;
-        if (!useHttps) {
+        if (!useHttpsOrHttp) {
             if (source.includes('http')) {
                 source = source.replace('http://', '');
             }
