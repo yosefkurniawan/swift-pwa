@@ -3,10 +3,24 @@ import { features } from '@config';
 const { thumbor } = features;
 
 export const generateThumborUrl = (src = '', width = 400, height = 400) => {
+    const { enable, useHttps } = thumbor;
     let { url } = thumbor;
-    url = url.replace('width', width);
-    url = url.replace('height', height);
-    return url + src;
+    if (enable) {
+        let source = src;
+        if (!useHttps) {
+            if (source.includes('http')) {
+                source = source.replace('http://', '');
+            }
+            if (source.includes('https')) {
+                source = source.replace('https://', '');
+            }
+        }
+        url = url.replace('width', width);
+        url = url.replace('height', height);
+        return url + source;
+    }
+
+    return src;
 };
 
 export const generateImageDimensions = (url = '') => {
