@@ -47,7 +47,9 @@ const BarComponent = (props) => {
             <div className="progressbar-content">
                 {text_position === 'above' && (
                     <div className="progressbar-label">
-                        <span>{`${label} ${value}${units}`}</span>
+                        <span>{`${label}`}</span>
+                        <span ref={progressNumberRef}>0</span>
+                        {units}
                     </div>
                 )}
                 <div className="progressbar-container">
@@ -62,7 +64,9 @@ const BarComponent = (props) => {
                 </div>
                 {text_position === 'below' && (
                     <div className="progressbar-label">
-                        <span>{`${label} ${value}${units}`}</span>
+                        <span>{`${label}`}</span>
+                        <span ref={progressNumberRef}>0</span>
+                        {units}
                     </div>
                 )}
             </div>
@@ -77,6 +81,8 @@ const BarComponent = (props) => {
                     }
                     .progressbar-label {
                         ${color ? `color: ${color};` : ''}
+                        ${text_position === 'above' ? 'margin-bottom: 5px;' : ''}
+                        ${text_position === 'below' ? 'margin: 5px 0;' : ''}
                     }
                 `}
             </style>
@@ -91,6 +97,7 @@ const MagezonProgressBar = (props) => {
         delay, items, label_font_size, label_font_weight,
         speed, striped, text_position, units,
     } = props;
+    const barHeight = text_position === 'inside' ? bar_height / 2 : bar_height;
 
     return (
         <>
@@ -116,11 +123,11 @@ const MagezonProgressBar = (props) => {
                     .mgz-progress-bar :global(.progressbar-container) {
                         position: relative;
                         background-color: #f7f7f7;
-                        margin-bottom: 10px;
+                        margin-bottom: ${text_position === 'below' ? '0' : '10px'};
                         overflow: hidden;
                         ${bar_border_radius ? `border-radius: ${bar_border_radius}px;` : ''}
-                        ${bar_height ? `min-height: ${bar_height / 2}px;` : ''}
-                        ${bar_height ? `line-height: ${bar_height / 2}px;` : ''}
+                        ${bar_height ? `min-height: ${barHeight}px;` : ''}
+                        ${bar_height ? `line-height: ${barHeight}px;` : ''}
                     }
                     .mgz-progress-bar :global(.progressbar-container > *) {
                         padding: 0.6rem;
@@ -134,7 +141,7 @@ const MagezonProgressBar = (props) => {
                         ${label_font_weight ? `font-weight: ${label_font_weight};` : ''}
                     }
                     .mgz-progress-bar :global(.progressbar-label > span:nth-child(1)) {
-                        ${text_position !== 'inside' ? 'margin: 0;' : 'margin: 5px;'}
+                        ${text_position !== 'inside' ? 'margin-right: 5px;' : 'margin: 5px;'}
                     }
                     .mgz-progress-bar :global(.progressbar-progression) {
                         position: absolute;
