@@ -50,33 +50,33 @@ const generateQueries = (type, variables, sort) => {
     case 'default':
         sortAttribute = {}; break;
     case 'alphabetically':
-        sortAttribute = { alphabetically_pwa: ASC }; break;
+        sortAttribute = { alphabetically: ASC }; break;
     case 'price_low_to_high':
         sortAttribute = { price: ASC }; break;
     case 'price_high_to_low':
         sortAttribute = { price: DESC }; break;
     case 'random':
-        sortAttribute = { random_pwa: ASC }; break;
+        sortAttribute = { random: ASC }; break;
     case 'newestfirst':
-        sortAttribute = { new_old_pwa: DESC }; break;
+        sortAttribute = { new_old: DESC }; break;
     case 'oldestfirst':
-        sortAttribute = { new_old_pwa: ASC }; break;
+        sortAttribute = { new_old: ASC }; break;
     case 'new':
-        sortAttribute = { new_pwa: DESC }; break;
+        sortAttribute = { new: DESC }; break;
     case 'bestseller':
-        sortAttribute = { bestseller_pwa: DESC }; break;
+        sortAttribute = { bestseller: DESC }; break;
     case 'onsale':
-        sortAttribute = { onsale_pwa: DESC }; break;
+        sortAttribute = { onsale: DESC }; break;
     case 'mostviewed':
-        sortAttribute = { mostviewed_pwa: DESC }; break;
+        sortAttribute = { mostviewed: DESC }; break;
     case 'wishlisttop':
-        sortAttribute = { wishlisttop_pwa: DESC }; break;
+        sortAttribute = { wishlisttop: DESC }; break;
     case 'toprated':
-        sortAttribute = { toprated_pwa: DESC }; break;
+        sortAttribute = { toprated: DESC }; break;
     case 'featured':
-        sortAttribute = { featured_pwa: DESC }; break;
+        sortAttribute = { featured: DESC }; break;
     case 'fee':
-        sortAttribute = { free_pwa: DESC }; break;
+        sortAttribute = { free: DESC }; break;
 
     default:
         sortAttribute = {}; break;
