@@ -30,8 +30,9 @@ import MagezonImageGallery from '@core_modules/cms/components/cms-renderer/magez
 import MagezonProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct';
 import MagezonCategories from '@core_modules/cms/components/cms-renderer/magezon/MagezonCategories';
 import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
-import MagezonAccordion from '@core_modules/cms/components/cms-renderer/magezon/MagezonAccordion';
 import MagezonSection from '@core_modules/cms/components/cms-renderer/magezon/MagezonSection';
+import MagezonAccordion from '@core_modules/cms/components/cms-renderer/magezon/MagezonAccordion';
+import MagezonPageableContainer from '@core_modules/cms/components/cms-renderer/magezon/MagezonPageableContainer';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
@@ -212,10 +213,12 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonProduct {...props} />; break;
         case 'product_slider':
             childrenContent = <MagezonProduct {...props} />; break;
-        case 'accordion':
-            childrenContent = <MagezonAccordion {...props} />; break;
         case 'section':
             childrenContent = <MagezonSection {...props} />; break;
+        case 'accordion':
+            childrenContent = <MagezonAccordion {...props} />; break;
+        case 'pageable_container':
+            childrenContent = <MagezonPageableContainer {...props} />; break;
         default:
             childrenContent = null;
         }
