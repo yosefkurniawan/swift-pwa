@@ -18,13 +18,8 @@ const MixedContent = (props) => {
 
 const MagezonRenderer = (props) => {
     const { content, storeConfig } = props;
-    const contentIsString = typeof content === 'string';
-    const mixedContents = contentIsString && content.replace('[/mgz_pagebuilder]', '[mgz_pagebuilder]').split('[mgz_pagebuilder]');
-    const removeIdentifier = contentIsString ? JSON.parse(mixedContents[1]) : content;
-
-    if (typeof removeIdentifier === 'object' && !removeIdentifier.elements) {
-        return <MagezonElement {...removeIdentifier} storeConfig={storeConfig} />;
-    }
+    const mixedContents = content.replace('[/mgz_pagebuilder]', '[mgz_pagebuilder]').split('[mgz_pagebuilder]');
+    const removeIdentifier = JSON.parse(mixedContents[1]);
 
     return (
         <>

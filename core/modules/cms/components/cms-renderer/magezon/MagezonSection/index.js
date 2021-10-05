@@ -1,4 +1,4 @@
-import CmsRenderer from '@core_modules/cms/components/cms-renderer';
+import MagezonElement from '@core_modules/cms/components/cms-renderer/magezon/index';
 
 const MagezonSection = (props) => {
     const { elements, storeConfig } = props;
@@ -8,7 +8,7 @@ const MagezonSection = (props) => {
             <div className="mgz-section">
                 {elements.map((element, index) => (
                     <div className="mgz-section-item">
-                        <CmsRenderer key={index} content={element} storeConfig={storeConfig} />
+                        <MagezonElement key={index} {...element} storeConfig={storeConfig} />
                     </div>
                 ))}
             </div>
