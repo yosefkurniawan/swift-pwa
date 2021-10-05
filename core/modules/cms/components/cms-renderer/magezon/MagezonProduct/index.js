@@ -1,9 +1,12 @@
+/* eslint-disable operator-linebreak */
 import Typography from '@common_typography';
 import SingleProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/SingleProduct';
 import ProductSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/Slider';
 import { generateQueries, getProductListConditions } from '@core_modules/cms/helpers/getProductListConditions';
 import { getProductList } from '@core_modules/cms/services/graphql';
+import { useTranslation } from '@i18n';
 import Grid from '@material-ui/core/Grid';
+import ErrorMessage from '@plugin_productlist/components/ErrorMessage';
 import { useMemo } from 'react';
 
 const MagezonProductList = (props) => {
@@ -20,6 +23,7 @@ const MagezonProductList = (props) => {
         ...rest
         // source, orer_by,
     } = props;
+    const { t } = useTranslation();
 
     const productProps = {
         type,
@@ -44,13 +48,7 @@ const MagezonProductList = (props) => {
     const linePosClass = show_line && line_position === 'bottom' ? 'mgz-product-heading-line--bottom' : '';
     const dataCondition = useMemo(() => getProductListConditions(condition), [condition]);
     const dataFilter = generateQueries(type, type === 'single_product' ? { sku: { eq: product_sku } } : dataCondition, order_by);
-    console.log('dataFilter', dataFilter);
-    const { data, loading, error } = getProductList({ ...dataFilter, pageSize: max_items });
-    console.log('data', data, error);
-
-    console.log('props', props);
-
-    if (loading) return null;
+    const { data, error } = getProductList({ ...dataFilter, pageSize: max_items });
 
     if (type === 'single_product') {
         content = data?.products?.items[0] && <SingleProduct product={data.products.items[0]} {...productProps} />;
@@ -96,6 +94,13 @@ const MagezonProductList = (props) => {
                     </div>
                 )}
                 <div className="mgz-product-content">{content}</div>
+                {error && (
+                    <>
+                        <div className="mgz-product-error">
+                            <ErrorMessage variant="warning" text={t('catalog:emptyProductSearchResult')} open />
+                        </div>
+                    </>
+                )}
             </div>
             <style jsx>
                 {`
@@ -129,7 +134,8 @@ const MagezonProductList = (props) => {
                         ${title_color ? `color: ${title_color};` : ''}
                     }
                     .mgz-product :global(.MuiGrid-item h4) {
-                        ${type === 'product_list' && `
+                        ${type === 'product_list' &&
+                        `
                             margin: 0;
                         `}
                     }
@@ -137,8 +143,9 @@ const MagezonProductList = (props) => {
                         margin-bottom: 20px;
                     }
                     .mgz-product-content > :global(div:hover) {
-                        ${(type !== 'product_grid' && type !== 'product_slider')
-                        && `
+                        ${type !== 'product_grid' &&
+                        type !== 'product_slider' &&
+                        `
                             box-shadow: 0px 20px 50px -20px rgb(0 0 0 / 50%) !important;
                             border: 1px solid ${border_hover_color || '#ffffff'} !important;
                         `}
@@ -149,6 +156,9 @@ const MagezonProductList = (props) => {
                     .mgz-product-content :global(.mgz-single-product-card img) {
                         max-width: 100%;
                         cursor: pointer;
+                    }
+                    .mgz-product-error {
+                        padding: 20px 0;
                     }
                     @media (max-width: 575px) {
                         .mgz-product :global(.col-xs-5) {
