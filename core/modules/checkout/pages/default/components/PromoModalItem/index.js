@@ -47,6 +47,7 @@ const PromoModalItem = (props) => {
                 cart_items: [{
                     quantity: data.qty || 1,
                     sku: data.sku,
+                    customizable_options: data.customizable_options,
                     promo_item_data: {
                         ruleId: data.freeItemsData.promo_item_data.ruleId,
                         minimalPrice: data.freeItemsData.promo_item_data.minimalPrice,
