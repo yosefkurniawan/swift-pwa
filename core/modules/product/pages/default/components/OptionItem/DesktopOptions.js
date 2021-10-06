@@ -5,7 +5,7 @@ import VirtualOption from '@plugin_optionitem/Virtual';
 import DownloadOption from '@plugin_optionitem/Download';
 import BundleOption from '@plugin_optionitem/BundleOption';
 import GroupedOption from '@plugin_optionitem/GroupedProduct';
-import CustomizableOption from '@core_modules/product/pages/default/components/CustomizableOption';
+import CustomizableOption from '@plugin_cutomizableitem';
 
 const Options = (props) => {
     const {
@@ -19,6 +19,7 @@ const Options = (props) => {
                 <CustomizableOption
                     {...data}
                     price={price}
+                    showCustomizableOption
                     customizableOptions={customizableOptions}
                     setCustomizableOptions={setCustomizableOptions}
                     errorCustomizableOptions={errorCustomizableOptions}
