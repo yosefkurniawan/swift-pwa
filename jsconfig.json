@@ -190,6 +190,8 @@
 
             "@plugin_optionitem": ["src/modules/product/plugins/OptionItem", "core/modules/product/plugins/OptionItem"],
             "@plugin_optionitem/*": ["src/modules/product/plugins/OptionItem/*", "core/modules/product/plugins/OptionItem/*"],
+            "@plugin_cutomizableitem": ["src/modules/product/plugins/CustomizableOption", "core/modules/product/plugins/CustomizableOption"],
+            "@plugin_cutomizableitem/*": ["src/modules/product/plugins/CustomizableOption/*", "core/modules/product/plugins/CustomizableOption/*"],
             "@plugin_rewardpointinfo": ["src/modules/rewardpoint/plugins/info", "core/modules/rewardpoint/plugins/info"],
             "@plugin_rewardpointinfo/*": ["src/modules/rewardpoint/plugins/info/*", "core/modules/rewardpoint/plugins/info/*"]
         }
