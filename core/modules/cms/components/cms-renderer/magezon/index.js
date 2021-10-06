@@ -32,6 +32,7 @@ import MagezonCategories from '@core_modules/cms/components/cms-renderer/magezon
 import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
 import MagezonRecentReviews from '@core_modules/cms/components/cms-renderer/magezon/MagezonRecentReviews';
 import MagezonGoogleMaps from '@core_modules/cms/components/cms-renderer/magezon/MagezonGoogleMaps';
+import MagezonTabs from '@core_modules/cms/components/cms-renderer/magezon/MagezonTabs';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
@@ -216,6 +217,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonProduct {...props} />; break;
         case 'gmaps':
             childrenContent = <MagezonGoogleMaps {...props} />; break;
+        case 'tabs':
+            childrenContent = <MagezonTabs {...props} />; break;
         default:
             childrenContent = null;
         }
