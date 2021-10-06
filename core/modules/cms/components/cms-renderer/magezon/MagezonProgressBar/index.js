@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-param-reassign */
 
@@ -97,7 +98,7 @@ const MagezonProgressBar = (props) => {
         delay, items, label_font_size, label_font_weight,
         speed, striped, text_position, units,
     } = props;
-    const barHeight = text_position === 'inside' ? bar_height / 2 : bar_height;
+    const barHeight = bar_height ? (text_position === 'inside' ? bar_height / 2 : bar_height) : 12.5;
 
     return (
         <>
@@ -125,12 +126,12 @@ const MagezonProgressBar = (props) => {
                         background-color: #f7f7f7;
                         margin-bottom: ${text_position === 'below' ? '0' : '10px'};
                         overflow: hidden;
-                        ${bar_border_radius ? `border-radius: ${bar_border_radius}px;` : ''}
-                        ${bar_height ? `min-height: ${barHeight}px;` : ''}
-                        ${bar_height ? `line-height: ${barHeight}px;` : ''}
+                        border-radius: ${bar_border_radius ? `${bar_border_radius}px` : '3px'};
+                        min-height: ${barHeight}px;
+                        line-height: ${barHeight}px;
                     }
-                    .mgz-progress-bar :global(.progressbar-container > *) {
-                        padding: 0.6rem;
+                    .mgz-progress-bar :global(.progressbar-container) {
+                        ${text_position === 'inside' ? 'padding: 0.6rem;' : ''}
                     }
                     .mgz-progress-bar :global(.progressbar-label) {
                         position: relative;
@@ -152,7 +153,7 @@ const MagezonProgressBar = (props) => {
                         z-index: 0;
                         width: 0;
                         transition: width 0 linear;
-                        ${bar_border_radius ? `border-radius: ${bar_border_radius}px;` : ''}
+                        border-radius: ${bar_border_radius ? `${bar_border_radius}px` : '3px'};
                         ${bar_border_style ? `border-style: ${bar_border_style};` : ''}
                         ${bar_border_width ? `border-width: ${bar_border_width}px;` : ''}
                     }
