@@ -20,6 +20,7 @@ import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { localCompare } from '@services/graphql/schema/local';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
+import CustomizableOption from '@plugin_cutomizableitem';
 
 const ModalQuickView = dynamic(() => import('@plugin_productitem/components/QuickView'), { ssr: false });
 const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
@@ -47,6 +48,72 @@ const ProductItem = (props) => {
     const [feed, setFeed] = React.useState(false);
     const [spesificProduct, setSpesificProduct] = React.useState({});
     const [openQuickView, setOpenQuickView] = React.useState(false);
+
+    // Customizable Options
+    const [customizableOptions, setCustomizableOptions] = React.useState([]);
+    const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
+    const [additionalPrice, setAdditionalPrice] = React.useState(0);
+
+    React.useEffect(() => {
+        if (errorCustomizableOptions && errorCustomizableOptions.length > 0) {
+            // eslint-disable-next-line consistent-return
+            const errorCustomizable = errorCustomizableOptions.filter((err) => {
+                const findValue = customizableOptions.find((op) => op.option_id === err.option_id);
+                return !findValue;
+            });
+            setErrorCustomizableOptions(errorCustomizable);
+        }
+    }, [customizableOptions]);
+
+    const [price, setPrice] = React.useState({
+        priceRange: other.price_range,
+        priceTiers: other.price_tiers,
+        // eslint-disable-next-line no-underscore-dangle
+        productType: other.__typename,
+        specialFromDate: other.special_from_date,
+        specialToDate: other.special_to_date,
+    });
+
+    const checkCustomizableOptionsValue = async () => {
+        if (other.options && other.options.length > 0) {
+            const requiredOptions = other.options.filter((op) => op.required);
+            if (requiredOptions.length > 0) {
+                if (customizableOptions.length > 0) {
+                    let countError = 0;
+                    const optionsError = [];
+                    for (let idx = 0; idx < requiredOptions.length; idx += 1) {
+                        const op = requiredOptions[idx];
+                        const findValue = customizableOptions.find((val) => val.option_id === op.option_id);
+                        if (!findValue) {
+                            optionsError.push(op);
+                            countError += 1;
+                        }
+                    }
+                    if (countError > 0) {
+                        await setErrorCustomizableOptions(optionsError);
+                        return false;
+                    }
+                    return true;
+                }
+                await setErrorCustomizableOptions(requiredOptions);
+
+                return false;
+            }
+            return true;
+        }
+        return true;
+    };
+
+    React.useEffect(() => {
+        if (errorCustomizableOptions && errorCustomizableOptions.length > 0) {
+            // eslint-disable-next-line consistent-return
+            const errorCustomizable = errorCustomizableOptions.filter((err) => {
+                const findValue = customizableOptions.find((op) => op.option_id === err.option_id);
+                return !findValue;
+            });
+            setErrorCustomizableOptions(errorCustomizable);
+        }
+    }, [customizableOptions]);
 
     let isLogin = '';
     if (typeof window !== 'undefined') isLogin = getLoginInfo();
@@ -232,6 +299,20 @@ const ProductItem = (props) => {
                     </div>
                     <div className={styles.detailItem}>
                         <DetailProductView t={t} {...DetailProps} {...other} catalogList={catalogList} />
+                        { modules.product.customizableOptions.enabled && (
+                            <CustomizableOption
+                                price={price}
+                                setPrice={setPrice}
+                                showCustomizableOption={showAddToCart}
+                                customizableOptions={customizableOptions}
+                                setCustomizableOptions={setCustomizableOptions}
+                                errorCustomizableOptions={errorCustomizableOptions}
+                                additionalPrice={additionalPrice}
+                                setAdditionalPrice={setAdditionalPrice}
+                                {...other}
+                                url_key={url_key}
+                            />
+                        ) }
                         {showOption ? (
                             <ConfigurableOpt
                                 enableBundle={false}
@@ -252,6 +333,10 @@ const ProductItem = (props) => {
                                 labelAddToCart="Add to cart"
                                 isGrid={isGrid}
                                 {...other}
+                                customizableOptions={customizableOptions}
+                                setCustomizableOptions={setCustomizableOptions}
+                                errorCustomizableOptions={errorCustomizableOptions}
+                                checkCustomizableOptionsValue={checkCustomizableOptionsValue}
                             />
                         ) : null}
                     </div>
