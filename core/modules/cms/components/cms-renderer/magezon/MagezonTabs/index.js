@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import MagezonElement from '@core_modules/cms/components/cms-renderer/magezon/index';
 import MuiTabs from '@material-ui/core/Tabs';
 import { withStyles } from '@material-ui/core/styles';
@@ -19,67 +20,161 @@ const TabPanel = (props) => {
     );
 };
 
-const Tabs = withStyles({
+const Tabs = withStyles(() => ({
     indicator: {
         backgroundColor: 'transparent',
     },
-})(MuiTabs);
+}))(MuiTabs);
 
-const Tab = withStyles({
-    root: {
-        backgroundColor: '#ebebeb',
-        marginRight: 5,
-        border: '1px solid #e3e3e3',
-        borderBottom: 'none',
-        borderRadius: '5px 5px 0 0',
+const Tab = withStyles(() => ({
+    root: (props) => {
+        // prettier-ignore
+        const {
+            gap, no_fill_content_area, spacing,
+            tab_background_color, tab_border_color, tab_color,
+            tab_hover_background_color, tab_hover_border_color, tab_hover_color,
+            tab_border_style,
+            borderRadius, borderWidth, isVertical,
+        } = props;
+
+        return {
+            backgroundColor: tab_background_color || '#ebebeb',
+            color: tab_color || 'initial',
+            marginRight: spacing ? `${spacing}px` : 5,
+            '&:last-child': {
+                marginRight: isVertical ? (spacing ? `${spacing}px` : 5) : 0,
+            },
+            minWidth: 100,
+            marginBottom: gap ? `${gap}px` : '0',
+            border: `${borderWidth} ${tab_border_style || 'solid'} ${tab_border_color || '#e3e3e3'}`,
+            borderBottom: no_fill_content_area || gap ? `${borderWidth} solid #e3e3e3` : 'none',
+            borderRadius: no_fill_content_area || gap ? borderRadius : `${borderRadius} ${borderRadius} 0 0`,
+            opacity: 1,
+            '&:hover': {
+                backgroundColor: tab_hover_background_color || '#f8f8f8',
+                borderColor: tab_hover_border_color || '#e3e3e3',
+                color: tab_hover_color || '#000000',
+            },
+        };
     },
-    selected: {
-        backgroundColor: '#f8f8f8',
+    wrapper: {
+        fontSize: (props) => (props.title_font_size ? `${props.title_font_size}px` : 14),
+        textTransform: 'none',
     },
-})(MuiTab);
+    selected: (props) => {
+        // prettier-ignore
+        const {
+            tab_active_background_color, tab_active_border_color, tab_active_color,
+        } = props;
+
+        return {
+            backgroundColor: tab_active_background_color || '#f8f8f8',
+            borderColor: tab_active_border_color || '#e3e3e3',
+            color: tab_active_color || '#000000',
+        };
+    },
+}))(MuiTab);
 
 const MagezonTabs = (props) => {
     // prettier-ignore
     const {
-        active_tab, elements, no_fill_content_area, tab_align, tab_position,
+        active_tab, elements, gap,
+        hide_empty_tab, hover_active, mobile_accordion, no_fill_content_area, spacing,
+        tab_active_background_color, tab_active_border_color, tab_active_color,
+        tab_background_color, tab_border_color, tab_color, tab_content_background_color,
+        tab_hover_background_color, tab_hover_border_color, tab_hover_color,
+        tab_align, tab_border_radius, tab_border_style, tab_border_width, tab_position, title_font_size,
         storeConfig,
     } = props;
-    const [activeTab, setActiveTab] = useState(0);
-    console.log(props);
+    const [activeTab, setActiveTab] = useState(active_tab - 1);
+    const isVertical = tab_position === 'left' || tab_position === 'right';
+    const borderRadius = tab_border_radius ? `${tab_border_radius}px` : '5px';
+    const borderWidth = tab_border_width ? `${tab_border_width}px` : '1px';
+    const contentBgColor = tab_content_background_color || '#f8f8f8';
+    const tabAlign = tab_align === 'left' ? 'flex-start' : tab_align === 'right' ? 'flex-end' : 'center';
+    const tabDirection = isVertical ? (tab_position === 'left' ? 'row' : 'row-reverse') : tab_position === 'top' ? 'column' : 'column-reverse';
+    // console.log('props', props);
     const TabProps = {
-        active_tab,
+        gap,
+        hide_empty_tab,
+        mobile_accordion,
         no_fill_content_area,
+        spacing,
         tab_align,
+        tab_active_background_color,
+        tab_active_border_color,
+        tab_active_color,
+        tab_background_color,
+        tab_border_color,
+        tab_color,
+        tab_hover_background_color,
+        tab_hover_border_color,
+        tab_hover_color,
+        tab_border_radius,
+        tab_border_style,
+        tab_border_width,
         tab_position,
-        storeConfig,
+        title_font_size,
+        borderRadius,
+        borderWidth,
+        isVertical,
     };
 
     const handleChange = (event, newValue) => {
         setActiveTab(newValue);
     };
 
+    const handleHover = (index) => {
+        if (hover_active) setActiveTab(index);
+    };
+
     return (
         <>
             <div className="mgz-tabs">
-                <Tabs value={activeTab} onChange={handleChange}>
-                    {elements.map((element, index) => (
-                        <Tab key={index} label={element.title} disableRipple disableFocusRipple />
-                    ))}
-                </Tabs>
+                <div className="tabs">
+                    <Tabs value={activeTab} onChange={handleChange} orientation={isVertical ? 'vertical' : 'horizontal'}>
+                        {elements.map((element, index) => (
+                            <Tab
+                                key={index}
+                                label={element.title}
+                                onMouseEnter={() => handleHover(index)}
+                                disableRipple
+                                disableFocusRipple
+                                {...TabProps}
+                            />
+                        ))}
+                    </Tabs>
+                </div>
                 <div className="tab-body">
                     {elements.map((element, index) => (
-                        <TabPanel key={index} elements={element.elements} value={activeTab} index={index} {...TabProps} />
+                        <TabPanel
+                            key={index}
+                            elements={typeof element.elements === 'object' ? element.elements : []}
+                            value={activeTab}
+                            index={index}
+                            storeConfig={storeConfig}
+                        />
                     ))}
                 </div>
             </div>
             <style jsx>
                 {`
+                    .mgz-tabs {
+                        display: flex;
+                        flex-direction: ${tabDirection};
+                    }
+                    .tabs {
+                        display: flex;
+                        justify-content: ${tabAlign};
+                    }
                     .tab-body {
-                        background-color: #f8f8f8;
-                        border: 1px solid #e3e3e3;
-                        border-top: none;
-                        border-radius: 0 0 5px 5px;
-                        padding: 20px;
+                        display: flex;
+                        flex: 1;
+                        background-color: ${no_fill_content_area || activeTab < 0 ? 'transparent' : contentBgColor};
+                        border: ${no_fill_content_area || activeTab < 0 ? 'none' : `${borderWidth} solid #e3e3e3`};
+                        ${no_fill_content_area || gap || activeTab < 0 ? '' : 'border-top: none;'}
+                        border-radius: ${no_fill_content_area || gap || activeTab < 0 ? borderRadius : `0 0 ${borderRadius} ${borderRadius}`};
+                        ${activeTab >= 0 ? 'padding: 20px;' : ''}
                     }
                 `}
             </style>
