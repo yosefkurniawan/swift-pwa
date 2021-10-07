@@ -1,12 +1,16 @@
 import React from 'react';
 import Typography from '@common_typography';
 import DropFile from '@common_dropfile';
+import classNames from 'classnames';
+import useStyles from '@plugin_cutomizableitem/components/style';
 
 const ViewCustomizableFileOption = ({
     data = {}, onChange = () => {}, error = '', required = false, t, disabled,
 }) => {
     let maxSize = 2000000;
     let acceptedFile = 'image/*';
+    const styles = useStyles();
+    const customClass = classNames('column', styles.container, styles.customizableFileOption);
     if (data && data.image_size_x && data.image_size_y) {
         maxSize = (data.image_size_x * data.image_size_y) * 3;
     }
@@ -18,7 +22,7 @@ const ViewCustomizableFileOption = ({
         });
     }
     return (
-        <div className="column customizable-container">
+        <div className={customClass}>
             {
                 data && data.uid && (
                     <>

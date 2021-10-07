@@ -1,6 +1,8 @@
 import React from 'react';
 import Radio from '@common_radio';
 import Typography from '@common_typography';
+import classNames from 'classnames';
+import useStyles from '@plugin_cutomizableitem/components/style';
 
 const ViewCustomizableRadioOption = ({
     title = 'test', data = [], selected = [], disabled,
@@ -15,8 +17,10 @@ const ViewCustomizableRadioOption = ({
             </Typography>
         </>
     );
+    const styles = useStyles();
+    const customClass = classNames('column', styles.container, styles.customizableRadioOption);
     return (
-        <div className="column customizable-container">
+        <div className={customClass}>
             {
                 data && data.length > 0 && (
                     <Radio
