@@ -16,6 +16,7 @@ const Accordion = withStyles(() => ({
         },
     },
 }))(MuiAccordion);
+
 const AccordionSummary = withStyles(() => ({
     root: (props) => {
         // prettier-ignore
@@ -38,6 +39,7 @@ const AccordionSummary = withStyles(() => ({
         };
     },
 }))(MuiAccordionSummary);
+
 const AccordionDetails = withStyles(() => ({
     root: {
         display: 'block',

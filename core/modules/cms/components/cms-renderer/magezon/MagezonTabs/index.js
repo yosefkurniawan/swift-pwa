@@ -95,7 +95,6 @@ const MagezonTabs = (props) => {
     const tabAlign = tab_align === 'left' ? 'flex-start' : tab_align === 'right' ? 'flex-end' : 'center';
     const tabDirection = isVertical ? (tab_position === 'left' ? 'row' : 'row-reverse') : tab_position === 'top' ? 'column' : 'column-reverse';
     const isMobile = useMediaQuery('(max-width:576px)');
-    // console.log('props', props);
     const TabProps = {
         gap,
         hide_empty_tab,
