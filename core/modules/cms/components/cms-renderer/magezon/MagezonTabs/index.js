@@ -132,7 +132,7 @@ const MagezonTabs = (props) => {
     return (
         <>
             <div className="mgz-tabs">
-                {!isMobile ? (
+                {!(isMobile && mobile_accordion) ? (
                     <>
                         <div className="tabs">
                             <Tabs value={activeTab} onChange={handleChange} orientation={isVertical ? 'vertical' : 'horizontal'}>
