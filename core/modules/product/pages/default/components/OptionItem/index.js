@@ -50,6 +50,7 @@ const OptionDialog = (props) => {
                             <CustomizableOption
                                 {...data}
                                 price={price}
+                                showCustomizableOption
                                 customizableOptions={customizableOptions}
                                 setCustomizableOptions={setCustomizableOptions}
                                 errorCustomizableOptions={errorCustomizableOptions}
