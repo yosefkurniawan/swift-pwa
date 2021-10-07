@@ -1,14 +1,15 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable no-nested-ternary */
-import MagezonElement from '@core_modules/cms/components/cms-renderer/magezon/index';
-import MuiTabs from '@material-ui/core/Tabs';
+import MagezonElement from '@core_modules/cms/components/cms-renderer/magezon';
+import MobileAccordion from '@core_modules/cms/components/cms-renderer/magezon/MagezonTabs/MobileAccordion';
 import { withStyles } from '@material-ui/core/styles';
 import MuiTab from '@material-ui/core/Tab';
+import MuiTabs from '@material-ui/core/Tabs';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useState } from 'react';
 
 const TabPanel = (props) => {
-    const {
-        elements, value, index, storeConfig,
-    } = props;
+    const { elements, value, index, storeConfig } = props;
     return (
         <>
             <div role="tabpanel" hidden={value !== index}>
@@ -93,6 +94,7 @@ const MagezonTabs = (props) => {
     const contentBgColor = tab_content_background_color || '#f8f8f8';
     const tabAlign = tab_align === 'left' ? 'flex-start' : tab_align === 'right' ? 'flex-end' : 'center';
     const tabDirection = isVertical ? (tab_position === 'left' ? 'row' : 'row-reverse') : tab_position === 'top' ? 'column' : 'column-reverse';
+    const isMobile = useMediaQuery('(max-width:576px)');
     // console.log('props', props);
     const TabProps = {
         gap,
@@ -131,31 +133,39 @@ const MagezonTabs = (props) => {
     return (
         <>
             <div className="mgz-tabs">
-                <div className="tabs">
-                    <Tabs value={activeTab} onChange={handleChange} orientation={isVertical ? 'vertical' : 'horizontal'}>
-                        {elements.map((element, index) => (
-                            <Tab
-                                key={index}
-                                label={element.title}
-                                onMouseEnter={() => handleHover(index)}
-                                disableRipple
-                                disableFocusRipple
-                                {...TabProps}
-                            />
-                        ))}
-                    </Tabs>
-                </div>
-                <div className="tab-body">
-                    {elements.map((element, index) => (
-                        <TabPanel
-                            key={index}
-                            elements={typeof element.elements === 'object' ? element.elements : []}
-                            value={activeTab}
-                            index={index}
-                            storeConfig={storeConfig}
-                        />
-                    ))}
-                </div>
+                {!isMobile ? (
+                    <>
+                        <div className="tabs">
+                            <Tabs value={activeTab} onChange={handleChange} orientation={isVertical ? 'vertical' : 'horizontal'}>
+                                {elements.map((element, index) => (
+                                    <Tab
+                                        key={index}
+                                        label={element.title}
+                                        onMouseEnter={() => handleHover(index)}
+                                        disableRipple
+                                        disableFocusRipple
+                                        {...TabProps}
+                                    />
+                                ))}
+                            </Tabs>
+                        </div>
+                        <div className="tab-body">
+                            {elements.map((element, index) => (
+                                <TabPanel
+                                    key={index}
+                                    elements={typeof element.elements === 'object' ? element.elements : []}
+                                    value={activeTab}
+                                    index={index}
+                                    storeConfig={storeConfig}
+                                />
+                            ))}
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <MobileAccordion {...props} borderRadius={borderRadius} borderWidth={borderWidth} />
+                    </>
+                )}
             </div>
             <style jsx>
                 {`
