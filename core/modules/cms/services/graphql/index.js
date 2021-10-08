@@ -36,7 +36,7 @@ export const getCmsBlocks = (variables) => useQuery(Schema.getCmsBlocks, {
 });
 
 export const getProductReviews = (variables) => useQuery(Schema.getProductReviews, { variables });
-export const getProductList = (variables) => useQuery(Schema.getProductList, { variables });
+export const getProductList = (variables, context) => useQuery(Schema.getProductList, { variables, context: { ...context } });
 export const getCategories = (variables) => useQuery(Schema.getCategories, { variables });
 
 export default { getCmsPage };

@@ -75,7 +75,7 @@ const generateQueries = (type, variables, sort) => {
         sortAttribute = { toprated: DESC }; break;
     case 'featured':
         sortAttribute = { featured: DESC }; break;
-    case 'fee':
+    case 'free':
         sortAttribute = { free: DESC }; break;
 
     default:

@@ -334,6 +334,21 @@ const modules = {
             quickView: {
                 enabled: true,
             },
+            sort: {
+                position: true,
+                name: true,
+                price: true,
+                random: true,
+                new_old: false,
+                new: true,
+                bestseller: true,
+                onsale: true,
+                mostviewed: true,
+                wishlisttop: true,
+                toprated: true,
+                featured: true,
+                free: true,
+            },
         },
         pdp: {
             popupDetailImage: {

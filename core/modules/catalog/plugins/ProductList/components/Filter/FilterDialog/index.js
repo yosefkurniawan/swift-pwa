@@ -73,7 +73,7 @@ const FilterDialog = ({
             </AppBar>
             <div className={styles.body}>
                 {itemProps && itemProps.sortBy === false ? null : (
-                    <div className={styles.fieldContainer}>
+                    <div className={`${styles.fieldContainer} ${styles.sortContainer}`}>
                         <RadioGroup
                             label={itemProps.labelSortBy || t('catalog:title:short')}
                             valueData={sortByData || []}
@@ -138,7 +138,10 @@ const FilterDialog = ({
                             return <span key={idx} />;
                         }
                         return (
-                            <div className={styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']} key={idx}>
+                            <div
+                                className={`${styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']} ${styles.sortContainer}`}
+                                key={idx}
+                            >
                                 {elastic ? (
                                     <CheckBox
                                         field={itemFilter.field}

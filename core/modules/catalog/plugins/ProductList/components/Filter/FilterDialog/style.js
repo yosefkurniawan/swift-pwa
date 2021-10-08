@@ -76,6 +76,9 @@ const useStyles = makeStyles((theme) => ({
         borderBottom: `1px solid ${GRAY_PRIMARY}`,
         marginBottom: 80,
     },
+    sortContainer: {
+        overflow: 'scroll',
+    },
     last: {
         marginBottom: 70,
     },
