@@ -13,5 +13,11 @@
     "orderNotFound": "Sorry, order number is not valid",
     "name": "Name",
     "description": "Description",
-    "updateDate": "Update date"
+    "updateDate": "Update date",
+    "receiverName": "Receiver Name",
+    "shipperName": "Shipper Name",
+    "lastStatus": "Last Status",
+    "history": "History",
+    "liveTracking": "Live Tracking",
+    "track": "Track"
 }
