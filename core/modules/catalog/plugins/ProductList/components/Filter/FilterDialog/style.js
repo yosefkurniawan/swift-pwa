@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
     body: {
         ...FlexColumn,
         position: 'relative',
-        height: '100%',
     },
     textSearch: {
         ...FlexRow,
@@ -75,10 +74,6 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: 18,
         borderBottom: `1px solid ${GRAY_PRIMARY}`,
         marginBottom: 80,
-    },
-    sortContainer: {
-        overflow: 'auto',
-        minHeight: '10%',
     },
     last: {
         marginBottom: 70,

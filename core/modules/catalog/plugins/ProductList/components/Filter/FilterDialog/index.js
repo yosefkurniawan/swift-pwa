@@ -73,7 +73,7 @@ const FilterDialog = ({
             </AppBar>
             <div className={styles.body}>
                 {itemProps && itemProps.sortBy === false ? null : (
-                    <div className={`${styles.fieldContainer} ${styles.sortContainer}`}>
+                    <div className={`${styles.fieldContainer}`}>
                         <RadioGroup
                             label={itemProps.labelSortBy || t('catalog:title:short')}
                             valueData={sortByData || []}
@@ -139,7 +139,7 @@ const FilterDialog = ({
                         }
                         return (
                             <div
-                                className={`${styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']} ${styles.sortContainer}`}
+                                className={`${styles[idx < data.length - 1 ? 'fieldContainer' : 'fieldContainerLast']}`}
                                 key={idx}
                             >
                                 {elastic ? (
