@@ -24,7 +24,7 @@ const MagezonPageableContainer = (props) => {
                     .mgz-pageable-container :global(.slick-list),
                     .mgz-pageable-container :global(.slick-track),
                     .mgz-pageable-container :global(.slick-track > div) {
-                        max-height: 600px;
+                        // max-height: 600px;
                     }
                     .mgz-pageable-container :global(.slick-track > div) {
                         overflow-y: scroll;
@@ -36,6 +36,10 @@ const MagezonPageableContainer = (props) => {
                     .mgz-pageable-container :global(.slick-track > div) {
                         -ms-overflow-style: none; /* IE and Edge */
                         scrollbar-width: none; /* Firefox */
+                    }
+                    .mgz-pageable-container :global(.slick-list) {
+                        max-width: 100vw;
+                        width: 100%;
                     }
                 `}
             </style>

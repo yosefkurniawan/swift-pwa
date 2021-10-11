@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+/* eslint-disable object-curly-newline */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -30,7 +32,7 @@ const MagezonInstagramFeedView = (props) => {
         xs_hide, sm_hide, md_hide, lg_hide, title, title_tag,
         title_align, line_position, line_color, line_width, title_color,
         link_text, instagram_username, data, max_items,
-        item_lg, item_md, item_sm, item_xs, gap, hover_effect,
+        item_xl, item_lg, item_md, item_sm, item_xs, gap, hover_effect,
         onclick, link_target,
     } = props;
     let Popup = <></>;
@@ -54,10 +56,10 @@ const MagezonInstagramFeedView = (props) => {
 
     let classItem = '';
 
-    if (item_xs && item_xs !== '') classItem += `col-xs-${(12 / item_xs).toFixed(0)} `;
-    if (item_sm && item_sm !== '') classItem += `col-sm-${(12 / item_sm).toFixed(0)} `;
-    if (item_md && item_md !== '') classItem += `col-md-${(12 / item_md).toFixed(0)} `;
-    if (item_lg && item_lg !== '') classItem += `col-lg-${(12 / item_lg).toFixed(0)} `;
+    if (item_xs && item_xs !== '') classItem += `col-xs-${(item_xs !== 5 ? 12 / item_xs : item_xs)} `;
+    if (item_sm && item_sm !== '') classItem += `col-sm-${(item_sm !== 5 ? 12 / item_sm : item_sm)} `;
+    if (item_md && item_md !== '') classItem += `col-md-${(item_md !== 5 ? 12 / item_md : item_md)} `;
+    if ((item_xl && item_xl !== '') || (item_lg && item_lg !== '')) classItem += `col-lg-${(item_xl !== 5 ? 12 / item_xl : item_xl)} `;
 
     const handleClick = (id) => {
         if (onclick && onclick !== '') {
@@ -174,6 +176,34 @@ const MagezonInstagramFeedView = (props) => {
                         </Typography>
                     </a>
                 </Link>
+                <style jsx>
+                    {`
+                        @media only screen and (max-width: 47em) {
+                            .col-xs-5 {
+                                flex: 1 20%;
+                                max-width: 20%;
+                            }
+                        }
+                        @media only screen and (min-width: 48em) and (max-width: 63em) {
+                            .col-sm-5 {
+                                flex: 1 20%;
+                                max-width: 20%;
+                            }
+                        }
+                        @media only screen and (min-width: 64em) and (max-width: 74em) {
+                            .col-md-5 {
+                                flex: 1 20%;
+                                max-width: 20%;
+                            }
+                        }
+                        @media only screen and (min-width: 75em) {
+                            .col-lg-5 {
+                                flex: 1 20%;
+                                max-width: 20%;
+                            }
+                        }
+                    `}
+                </style>
                 <style jsx global>
                     {`
                         
@@ -193,23 +223,21 @@ const MagezonInstagramFeedView = (props) => {
                         .magezon-instagram-img {
                             object-fit: cover;
                             width: 100%;
-                            ${
-        onclick && onclick !== '' && hover_effect === 'zoomin'
-            ? ` transition: transform 1s, filter 2s ease-in-out;
-                transform: scale(1.1);` : onclick && onclick !== null && hover_effect === 'zoomout'
-                ? `transform-origin: 0 0;
-                                            transition: transform .25s, visibility .25s ease-in;`
-                : ''
-        }
+                            transform: scale(1);
+                            ${onclick && onclick !== '' && hover_effect === 'zoomin'
+                                ? 'transition: transform 1s, filter 2s ease-in-out;'
+                                : onclick && onclick !== null && hover_effect === 'zoomout'
+                                    ? 'transition: transform 1s, visibility 1s ease-in-out;'
+                                    : ''
+                            }
                         }
                         .magezon-instagram-img:hover {
-                            ${
-        onclick && onclick !== '' && hover_effect === 'zoomin'
-            ? ' transform: scale(1);' : onclick && onclick !== null && hover_effect === 'zoomout'
-                ? `
-                                        transform: scale(1.1);`
-                : ''
-        }
+                            ${onclick && onclick !== '' && hover_effect === 'zoomin'
+                                ? ' transform: scale(1.1);'
+                                : onclick && onclick !== null && hover_effect === 'zoomout'
+                                    ? 'transform: scale(0.9);'
+                                    : ''
+                            }
                         }
                         .magezon-instagram {
                             width: 100%;
@@ -239,7 +267,7 @@ const MagezonInstagramFeedView = (props) => {
                             height: ${line_width}px;
                             background: ${line_color};
                             z-index:0;
-                        } 
+                        }
                     `}
                 </style>
             </div>
