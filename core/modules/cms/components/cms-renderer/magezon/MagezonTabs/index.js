@@ -1,5 +1,6 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-nested-ternary */
+
 import MagezonElement from '@core_modules/cms/components/cms-renderer/magezon';
 import MobileAccordion from '@core_modules/cms/components/cms-renderer/magezon/MagezonTabs/MobileAccordion';
 import { withStyles } from '@material-ui/core/styles';
@@ -9,14 +10,18 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useState } from 'react';
 
 const TabPanel = (props) => {
-    const { elements, value, index, storeConfig } = props;
+    const { elements, value, index, storeConfig, hide_empty_tab } = props;
+    const hideWhenEmpty = hide_empty_tab && elements.length === 0;
+
     return (
         <>
-            <div role="tabpanel" hidden={value !== index}>
-                {elements.map((element, k) => (
-                    <MagezonElement key={k} {...element} storeConfig={storeConfig} />
-                ))}
-            </div>
+            {hideWhenEmpty ? null : (
+                <div role="tabpanel" hidden={value !== index}>
+                    {elements.map((element, k) => (
+                        <MagezonElement key={k} {...element} storeConfig={storeConfig} />
+                    ))}
+                </div>
+            )}
         </>
     );
 };
@@ -72,6 +77,11 @@ const Tab = withStyles(() => ({
             backgroundColor: tab_active_background_color || '#f8f8f8',
             borderColor: tab_active_border_color || '#e3e3e3',
             color: tab_active_color || '#000000',
+            '&:hover': {
+                backgroundColor: tab_active_background_color || '#f8f8f8',
+                borderColor: tab_active_border_color || '#e3e3e3',
+                color: tab_active_color || '#000000',
+            },
         };
     },
 }))(MuiTab);
@@ -136,16 +146,23 @@ const MagezonTabs = (props) => {
                     <>
                         <div className="tabs">
                             <Tabs value={activeTab} onChange={handleChange} orientation={isVertical ? 'vertical' : 'horizontal'}>
-                                {elements.map((element, index) => (
-                                    <Tab
-                                        key={index}
-                                        label={element.title}
-                                        onMouseEnter={() => handleHover(index)}
-                                        disableRipple
-                                        disableFocusRipple
-                                        {...TabProps}
-                                    />
-                                ))}
+                                {elements.map((element, index) => {
+                                    const hideWhenEmpty = hide_empty_tab && element.elements.length === 0;
+
+                                    if (!hideWhenEmpty) {
+                                        return (
+                                            <Tab
+                                                key={index}
+                                                label={element.title}
+                                                onMouseEnter={() => handleHover(index)}
+                                                disableRipple
+                                                disableFocusRipple
+                                                {...TabProps}
+                                            />
+                                        );
+                                    }
+                                    return null;
+                                })}
                             </Tabs>
                         </div>
                         <div className="tab-body">
@@ -156,6 +173,7 @@ const MagezonTabs = (props) => {
                                     value={activeTab}
                                     index={index}
                                     storeConfig={storeConfig}
+                                    hide_empty_tab={hide_empty_tab}
                                 />
                             ))}
                         </div>
