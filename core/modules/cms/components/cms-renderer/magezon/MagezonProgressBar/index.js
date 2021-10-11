@@ -28,7 +28,7 @@ const BarComponent = (props) => {
                 if (numberEl !== null) {
                     let counter = 0;
                     const timer = setInterval(() => {
-                        if (counter === value) {
+                        if (counter === Number(value)) {
                             clearInterval(timer);
                         }
                         numberEl.textContent = counter;
