@@ -196,7 +196,9 @@ const MagezonTabs = (props) => {
                     }
                     .tab-body {
                         display: flex;
+                        flex-direction: column;
                         flex: 1;
+                        min-width: 0;
                         background-color: ${no_fill_content_area || activeTab < 0 ? 'transparent' : contentBgColor};
                         border: ${no_fill_content_area || activeTab < 0 ? 'none' : `${borderWidth} solid #e3e3e3`};
                         ${no_fill_content_area || gap || activeTab < 0 ? '' : 'border-top: none;'}
