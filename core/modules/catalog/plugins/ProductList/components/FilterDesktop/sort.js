@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { modules } from '@config';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
@@ -73,7 +72,7 @@ const SortDesktop = (props) => {
 
     const classes = useStyles();
     const [value, setValue] = React.useState(defaultSort);
-    const [selectedFilter, setFilter] = React.useState(filterValue);
+    const [selectedFilter] = React.useState(filterValue);
 
     const handleChange = (event) => {
         setValue(event.target.value);

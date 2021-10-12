@@ -335,6 +335,7 @@ const modules = {
                 enabled: true,
             },
             sort: {
+                relevance: true,
                 position: true,
                 name: true,
                 price: true,
