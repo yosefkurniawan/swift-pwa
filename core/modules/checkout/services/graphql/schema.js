@@ -708,6 +708,10 @@ export const setShippingMethod = gql`
                 ${modules.checkout.cashback.enabled ? applied_cashback : ''}
                 ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
                 ${prices}
+                ${modules.promo.enabled ? applied_coupons : ''}
+                ${modules.rewardpoint.enabled ? applied_reward_points : ''}
+                ${modules.giftcard.enabled ? applied_giftcard : ''}
+                ${modules.storecredit.enabled ? applied_store_credit : ''}
             }
         }
     }
