@@ -32,8 +32,8 @@ import MagezonCategories from '@core_modules/cms/components/cms-renderer/magezon
 import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
 import MagezonRecentReviews from '@core_modules/cms/components/cms-renderer/magezon/MagezonRecentReviews';
 import MagezonGoogleMaps from '@core_modules/cms/components/cms-renderer/magezon/MagezonGoogleMaps';
-import MagezonSection from '@core_modules/cms/components/cms-renderer/magezon/MagezonSection';
 import MagezonAccordion from '@core_modules/cms/components/cms-renderer/magezon/MagezonAccordion';
+import MagezonSection from '@core_modules/cms/components/cms-renderer/magezon/MagezonSection';
 import MagezonPageableContainer from '@core_modules/cms/components/cms-renderer/magezon/MagezonPageableContainer';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
