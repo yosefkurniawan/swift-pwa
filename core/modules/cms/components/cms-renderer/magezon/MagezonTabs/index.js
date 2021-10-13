@@ -8,6 +8,7 @@ import MuiTab from '@material-ui/core/Tab';
 import MuiTabs from '@material-ui/core/Tabs';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useState } from 'react';
+import MagezonIcon from '../MagezoneIcon';
 
 const TabPanel = (props) => {
     const { elements, value, index, storeConfig, hide_empty_tab } = props;
@@ -46,6 +47,7 @@ const Tab = withStyles(() => ({
         return {
             backgroundColor: tab_background_color || '#ebebeb',
             color: tab_color || 'initial',
+            textAlign: 'left',
             marginRight: spacing ? `${spacing}px` : 5,
             '&:last-child': {
                 marginRight: isVertical ? (spacing ? `${spacing}px` : 5) : 0,
@@ -56,6 +58,17 @@ const Tab = withStyles(() => ({
             borderBottom: no_fill_content_area || gap ? `${borderWidth} solid #e3e3e3` : 'none',
             borderRadius: no_fill_content_area || gap ? borderRadius : `${borderRadius} ${borderRadius} 0 0`,
             opacity: 1,
+            '&.icon-left': {
+                '& > .MuiTab-wrapper': {
+                    flexDirection: 'row',
+                },
+            },
+            '&.icon-right': {
+                '& > .MuiTab-wrapper': {
+                    flexDirection: 'row-reverse',
+                    justifyContent: 'flex-end',
+                },
+            },
             '&:hover': {
                 backgroundColor: tab_hover_background_color || '#f8f8f8',
                 borderColor: tab_hover_border_color || '#e3e3e3',
@@ -66,6 +79,15 @@ const Tab = withStyles(() => ({
     wrapper: {
         fontSize: (props) => (props.title_font_size ? `${props.title_font_size}px` : 14),
         textTransform: 'none',
+        flexDirection: 'row',
+        justifyContent: (props) => (props.tab_position === 'top' || props.tab_position === 'bottom' ? 'center' : 'flex-start'),
+        '& > .magezon-icon': {
+            margin: '0 5px',
+            marginBottom: '0 !important',
+        },
+    },
+    labelIcon: {
+        minHeight: 50,
     },
     selected: (props) => {
         // prettier-ignore
@@ -147,7 +169,9 @@ const MagezonTabs = (props) => {
                         <div className="tabs">
                             <Tabs value={activeTab} onChange={handleChange} orientation={isVertical ? 'vertical' : 'horizontal'}>
                                 {elements.map((element, index) => {
+                                    const { icon, icon_position } = element;
                                     const hideWhenEmpty = hide_empty_tab && element.elements.length === 0;
+                                    const IconProps = icon ? { icon: <MagezonIcon icon={icon} /> } : {};
 
                                     if (!hideWhenEmpty) {
                                         return (
@@ -157,6 +181,8 @@ const MagezonTabs = (props) => {
                                                 onMouseEnter={() => handleHover(index)}
                                                 disableRipple
                                                 disableFocusRipple
+                                                className={`${icon ? `icon-${icon_position}` : ''}`}
+                                                {...IconProps}
                                                 {...TabProps}
                                             />
                                         );
