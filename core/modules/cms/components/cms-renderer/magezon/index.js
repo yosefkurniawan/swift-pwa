@@ -30,6 +30,7 @@ import MagezonImageGallery from '@core_modules/cms/components/cms-renderer/magez
 import MagezonProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct';
 import MagezonCategories from '@core_modules/cms/components/cms-renderer/magezon/MagezonCategories';
 import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
+import MagezonTestimonials from '@core_modules/cms/components/cms-renderer/magezon/MagezonTestimonials';
 import MagezonRecentReviews from '@core_modules/cms/components/cms-renderer/magezon/MagezonRecentReviews';
 import MagezonGoogleMaps from '@core_modules/cms/components/cms-renderer/magezon/MagezonGoogleMaps';
 import MagezonAccordion from '@core_modules/cms/components/cms-renderer/magezon/MagezonAccordion';
@@ -216,6 +217,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonProduct {...props} />; break;
         case 'product_slider':
             childrenContent = <MagezonProduct {...props} />; break;
+        case 'testimonials':
+            childrenContent = <MagezonTestimonials {...props} />; break;
         case 'gmaps':
             childrenContent = <MagezonGoogleMaps {...props} />; break;
         case 'section':
