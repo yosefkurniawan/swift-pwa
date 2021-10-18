@@ -14,7 +14,7 @@ const ProductSlider = (props) => {
     // prettier-ignore
     const {
         children,
-        owl_auto_height, owl_autoplay_timeout, owl_dots, owl_dots_speed,
+        owl_active, owl_auto_height, owl_autoplay_timeout, owl_dots, owl_dots_speed,
         owl_item_xl, owl_item_lg, owl_item_md, owl_item_sm, owl_item_xs,
         owl_lazyload, owl_loop, owl_nav, owl_nav_position,
         owl_nav_size, owl_stage_padding,
@@ -34,13 +34,13 @@ const ProductSlider = (props) => {
     let sliderRef = useRef();
 
     const getItemsToShow = () => {
-        let itemsToShow;
+        let itemsToShow = 1;
 
-        if (isXl) itemsToShow = owl_item_xl;
-        if (isLg) itemsToShow = owl_item_lg;
-        if (isMd) itemsToShow = owl_item_md;
-        if (isSm) itemsToShow = owl_item_sm;
-        if (isXs) itemsToShow = owl_item_xs;
+        if (isXl && owl_item_xl) itemsToShow = owl_item_xl;
+        if (isLg && owl_item_lg) itemsToShow = owl_item_lg;
+        if (isMd && owl_item_md) itemsToShow = owl_item_md;
+        if (isSm && owl_item_sm) itemsToShow = owl_item_sm;
+        if (isXs && owl_item_xs) itemsToShow = owl_item_xs;
 
         return itemsToShow;
     };
@@ -54,14 +54,15 @@ const ProductSlider = (props) => {
         arrows: false,
         lazyload: owl_lazyload ? 'ondemand' : null,
         pauseOnHover: owl_autoplay_hover_pause,
-        adaptiveHeight: owl_auto_height,
+        adaptiveHeight: owl_auto_height || false,
         customPaging: (i) => (
             <a key={i}>
                 <div className="custom-slick-dots" />
             </a>
         ),
         slidesToShow: getItemsToShow(),
-        slidesToScroll: owl_slide_by,
+        slidesToScroll: owl_slide_by || 1,
+        initialSlide: owl_active ? owl_active - 1 : 0,
         onReInit: () => {
             if (document.querySelector('.slick-dots')) {
                 setShowNav(true);
@@ -108,7 +109,6 @@ const ProductSlider = (props) => {
                     }
                     .mgz-product-slider :global(.slick-dots) {
                         position: relative;
-                        bottom: -70px;
                     }
                     .mgz-product-slider :global(.slick-track) {
                         display: flex;
