@@ -23,6 +23,7 @@ export const storeConfig = `
             header_logo_src
             head_shortcut_icon
             icube_pinlocation_gmap_key
+            locale
             logo_alt
             logo_width
             logo_height

@@ -1,4 +1,5 @@
-import { features } from '@config';
+import { features, storeConfigNameCookie, defaultLocale } from '@config';
+import helperCookies from '@helper_cookies';
 
 /* eslint-disable no-param-reassign */
 const { general } = require('@config');
@@ -33,13 +34,15 @@ const getCurrentCurrency = ({ APP_CURRENCY, value }) => {
  * @param {string} currency
  */
 export const formatPrice = (value, currency = general.defaultCurrencyCode) => {
-    const default_locales = 'en-US';
+    const isServer = typeof window === 'undefined';
+    const storeConfig = helperCookies.get(storeConfigNameCookie);
+    const locale = !isServer && storeConfig ? storeConfig.locale.replace('_', '-') : defaultLocale;
 
     /* --- CHANGE TO CURRENT CURRENCY --- */
     /**
      * window === undefined to handle localstorage from reload
      */
-    const APP_CURRENCY = typeof window === 'undefined' ? undefined : cookies.get('app_currency');
+    const APP_CURRENCY = isServer ? undefined : cookies.get('app_currency');
     if (APP_CURRENCY !== undefined) {
         const getCurrent = getCurrentCurrency({ APP_CURRENCY, value });
         currency = getCurrent.currency;
@@ -47,7 +50,7 @@ export const formatPrice = (value, currency = general.defaultCurrencyCode) => {
     }
     /* --- CHANGE TO CURRENT CURRENCY --- */
 
-    const price = new Intl.NumberFormat(default_locales, {
+    const price = new Intl.NumberFormat(locale, {
         style: 'currency',
         currency,
     }).format(value);
