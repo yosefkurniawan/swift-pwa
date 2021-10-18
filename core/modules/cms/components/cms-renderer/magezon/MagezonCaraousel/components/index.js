@@ -16,6 +16,26 @@ const Caraousel = (props) => {
         adaptiveHeight = false, arrows = true, lazyLoad = false, initialSlide = 0, centerPadding = '50px',
     } = props;
     const styles = useStyles();
+    const [slickHeight, setSlickHeight] = React.useState(0);
+    let sliderRef = React.createRef();
+
+    const adjustSlickListHeight = () => {
+        setTimeout(() => {
+            let highestHeight = 0;
+            if (sliderRef) {
+                const activeSlides = sliderRef?.innerSlider?.track?.node?.querySelectorAll('.slick-slide.slick-active');
+                activeSlides.forEach((slide) => {
+                    highestHeight = slide.offsetHeight > highestHeight ? slide.offsetHeight : highestHeight;
+                });
+                setSlickHeight(highestHeight);
+            }
+        }, 250);
+    };
+
+    React.useEffect(() => {
+        adjustSlickListHeight();
+    }, [slickHeight]);
+
     const settings = {
         initialSlide,
         adaptiveHeight,
@@ -35,6 +55,9 @@ const Caraousel = (props) => {
         pauseOnHover,
         lazyLoad: lazyLoad ? 'ondemand' : 'progressive',
         className: 'slider',
+        beforeChange: () => {
+            adjustSlickListHeight();
+        },
         responsive: [
             {
                 breakpoint: 1199,
@@ -65,7 +88,6 @@ const Caraousel = (props) => {
         ],
     };
 
-    let sliderRef = React.createRef();
     const [slideIndex] = React.useState(0);
     const handleLeftArrow = () => {
         if (slideIndex === 0) {
@@ -82,6 +104,7 @@ const Caraousel = (props) => {
             sliderRef.slickNext(slideIndex + 1);
         }
     };
+
     return (
         <div
             className={classNames('carousel', styles.caraousel)}
@@ -105,6 +128,14 @@ const Caraousel = (props) => {
                     </>
                 ) : null
             }
+            <style jsx>
+                {`
+                    .carousel :global(.slick-list) {
+                        height: ${slickHeight}px !important;
+                        transition: all .25s ease;
+                    }
+                `}
+            </style>
         </div>
     );
 };

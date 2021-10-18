@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
     body: {
         ...FlexColumn,
         position: 'relative',
-        height: '100%',
     },
     textSearch: {
         ...FlexRow,

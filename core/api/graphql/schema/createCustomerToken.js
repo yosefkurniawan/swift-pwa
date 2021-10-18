@@ -18,6 +18,8 @@ input internalCreateCustomerTokenInput {
     firstname: String
     lastname: String
     email: String
+    gender: Int
+    date_of_birth: String
     password: String
     phonenumber: String
     is_subscribed: Boolean

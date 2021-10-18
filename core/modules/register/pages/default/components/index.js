@@ -1,14 +1,17 @@
 import Button from '@common_button';
 import PasswordField from '@common_password';
+import Select from '@common_select';
 import TextField from '@common_textfield';
 import Typography from '@common_typography';
+import useStyles from '@core_modules/register/pages/default/components/style';
+import DateDayJs from '@date-io/dayjs';
+import { breakPointsUp } from '@helper_theme';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import OtpBlock from '@plugin_otp';
 import classNames from 'classnames';
-import { breakPointsUp } from '@helper_theme';
 import ReCAPTCHA from 'react-google-recaptcha';
-import useStyles from '@core_modules/register/pages/default/components/style';
 
 const RegisterView = ({
     t,
@@ -17,15 +20,19 @@ const RegisterView = ({
     setdisabled,
     handleChangePhone,
     handleWa,
+    handleChangeDate,
     phoneIsWa,
     enableRecaptcha,
     sitekey,
     handleChangeCaptcha,
     disabled,
     recaptchaRef,
+    gender,
+    dob,
 }) => {
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
+
     return (
         <>
             <form className={classNames('col-md-6', styles.container)} onSubmit={formik.handleSubmit}>
@@ -54,6 +61,30 @@ const RegisterView = ({
                     error={!!(formik.touched.email && formik.errors.email)}
                     errorMessage={(formik.touched.email && formik.errors.email) || null}
                 />
+                {gender && (
+                    <Select
+                        className="genderField"
+                        options={[{ label: 'Male', value: 1 }, { label: 'Female', value: 2 }]}
+                        label={t('common:form:gender')}
+                        name="gender"
+                        value={formik.values.gender}
+                        onChange={formik.handleChange}
+                        helperText={t('common:form:select')}
+                        error={!!(formik.touched.gender && formik.errors.gender)}
+                        errorMessage={(formik.touched.gender && formik.errors.gender) || null}
+                    />
+                )}
+                {dob && (
+                    <DatePicker
+                        fullWidth
+                        label={t('common:form:dob')}
+                        name="dob"
+                        value={formik.values.dob}
+                        onChange={handleChangeDate}
+                        error={!!(formik.touched.dob && formik.errors.dob)}
+                        helperText={(formik.touched.dob && formik.errors.dob) || null}
+                    />
+                )}
                 <PasswordField
                     label="Password"
                     showVisible
@@ -158,4 +189,10 @@ const RegisterView = ({
     );
 };
 
-export default RegisterView;
+const RegisterViewProvider = (props) => (
+    <MuiPickersUtilsProvider utils={DateDayJs}>
+        <RegisterView {...props} />
+    </MuiPickersUtilsProvider>
+);
+
+export default RegisterViewProvider;
