@@ -59,7 +59,11 @@ module.exports = withOffline({
         swDest: process.env.NEXT_EXPORT ? 'service-worker.js' : 'static/service-worker.js',
         runtimeCaching: [
             {
-                urlPattern: /^https?.*/,
+                urlPattern: /facebook/,
+                handler: 'NetworkFirst',
+            },
+            {
+                urlPattern: /_next/,
                 handler: 'NetworkFirst',
                 options: {
                     cacheName: 'offlineCache',
