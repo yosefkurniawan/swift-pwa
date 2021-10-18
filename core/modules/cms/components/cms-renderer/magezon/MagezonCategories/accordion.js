@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 const Accordion = withStyles({
     root: {
-        borderBottom: '1px solid red',
+        borderBottom: '1px solid black',
         boxShadow: 'none',
         '&:last-child': {
             borderBottom: 'none !important',

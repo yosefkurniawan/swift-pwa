@@ -190,7 +190,7 @@ const MagezonImageGallery = (props) => {
 
     return (
         <>
-            <div className={`mgz-img-gallery ${zoom && 'fullscreen'}`}>
+            <div className={`mgz-img-gallery ${zoom ? 'fullscreen' : ''}`}>
                 {/* <Dialog open={true} fullScreen>
                 </Dialog> */}
                 <div className="mgz-img-gallery-container" ref={elementRef} onClick={clickNavigate}>

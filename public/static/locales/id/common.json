@@ -58,6 +58,8 @@
         "firstName": "Nama Depan",
         "lastName": "Nama Belakang",
         "phoneNumber": "Nomor Telepon",
+        "gender": "Jenis Kelamin",
+        "dob": "Tanggal Lahir",
         "confirm": "Konfirmasi Password",
         "currentPasword": "Password Lama",
         "state": "Bagian / Provinsi",
@@ -65,7 +67,8 @@
         "city": "Kota",
         "country": "Negara",
         "street": "Alamat Jalan",
-        "postal": "Kode Pos"
+        "postal": "Kode Pos",
+        "select": "Pilih Salah Satu"
     },
     "title": {
         "qty": "Jumlah",

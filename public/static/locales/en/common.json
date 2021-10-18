@@ -59,6 +59,8 @@
         "firstName": "First Name",
         "lastName": "Last Name",
         "phoneNumber": "Phone Number",
+        "gender": "Gender",
+        "dob": "Date of Birth",
         "confirm": "Confirm Password",
         "currentPassword": "Current Password",
         "state": "State/Province",
@@ -66,7 +68,8 @@
         "city": "City",
         "country": "Country",
         "street": "Street Address",
-        "postal": "Postal Code"
+        "postal": "Postal Code",
+        "select": "Select One"
     },
     "title": {
         "qty": "Quantity",

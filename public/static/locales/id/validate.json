@@ -68,5 +68,11 @@
     "captcha": {
         "required": "Captcha tidak boleh kosong",
         "wrong": "Captcha tidak sesuai"
+    },
+    "gender": {
+        "required": "Jenis kelamin tidak boleh kosong"
+    },
+    "dob": {
+        "required": "Tanggal lahir tidak boleh kosong"
     }
 }

@@ -20,6 +20,8 @@ export const storeConfig = `
             default_keywords
             default_description
             default_display_currency_code
+            date_of_birth
+            gender
             header_logo_src
             head_shortcut_icon
             icube_pinlocation_gmap_key

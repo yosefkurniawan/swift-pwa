@@ -68,5 +68,11 @@
     "captcha": {
         "required": "Captcha is required",
         "wrong": "Captcha is not valid"
+    },
+    "gender": {
+        "required": "Gender is required"
+    },
+    "dob": {
+        "required": "Date of Birth is required"
     }
 }

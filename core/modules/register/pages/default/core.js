@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable max-len */
 import Layout from '@layout';
 import React from 'react';
@@ -52,6 +53,7 @@ const Register = (props) => {
     const expired = storeConfig.oauth_access_token_lifetime_customer
         ? new Date(Date.now() + parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) * 3600000)
         : expiredToken;
+    const { date_of_birth, gender } = storeConfig;
 
     if (typeof window !== 'undefined') {
         cartId = getCartId();
@@ -109,6 +111,26 @@ const Register = (props) => {
         };
     }
 
+    if (gender) {
+        // prettier-ignore
+        configValidation = {
+            ...configValidation,
+            gender: gender && gender === 'req'
+                ? Yup.mixed().nullable().required(t('validate:gender:required')).oneOf([null, 1, 2])
+                : Yup.mixed().nullable().oneOf([null, 1, 2]),
+        };
+    }
+
+    if (date_of_birth) {
+        // prettier-ignore
+        configValidation = {
+            ...configValidation,
+            dob: date_of_birth && date_of_birth === 'req'
+                ? Yup.string().nullable().required(t('validate:dob:required'))
+                : Yup.string().nullable(),
+        };
+    }
+
     const RegisterSchema = Yup.object().shape(configValidation);
 
     const handleSendRegister = (values, resetForm) => {
@@ -154,6 +176,8 @@ const Register = (props) => {
             firstName: '',
             lastName: '',
             email: '',
+            gender: null,
+            dob: null,
             password: '',
             confirmPassword: '',
             phoneNumber: '',
@@ -223,6 +247,10 @@ const Register = (props) => {
         formik.setFieldValue('phoneNumber', value);
     };
 
+    const handleChangeDate = (date) => {
+        formik.setFieldValue('dob', date);
+    };
+
     if (cartData.data && custData.data) {
         Cookies.set(custDataNameCookie, {
             email: custData.data.customer.email,
@@ -290,6 +318,9 @@ const Register = (props) => {
                 handleChangeCaptcha={handleChangeCaptcha}
                 disabled={disabled}
                 recaptchaRef={recaptchaRef}
+                gender={gender}
+                dob={date_of_birth}
+                handleChangeDate={handleChangeDate}
             />
         </Layout>
     );

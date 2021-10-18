@@ -60,8 +60,8 @@ const ProgressBarLayout = (props) => {
     // prettier-ignore
     const {
         delay, speed, bar_color,
-        number, number_type,
-        number_position, max,
+        number, number_type, number_text,
+        number_position, max, icon,
         after_number_text, after_text_color, after_text_size,
         before_number_text, before_text_color, before_text_size,
     } = props;
@@ -71,7 +71,6 @@ const ProgressBarLayout = (props) => {
     const animationDelay = delay * 1000 || 1000;
     let hasDecimals = numberProgress.toFixed(2).split('.');
     hasDecimals = hasDecimals.length > 1 && Number(hasDecimals[1]) !== 0;
-
     const progressNumberRef = React.useRef();
     const progressBarRef = React.useRef();
 
@@ -119,9 +118,11 @@ const ProgressBarLayout = (props) => {
         [int, dec] = [Number(int), Number(dec)];
 
         progressTransition();
-        increaseNumber(int, 'int');
-        if (hasDecimals) {
-            increaseNumber(dec, 'dec');
+        if (!(number_text || icon)) {
+            increaseNumber(int, 'int');
+            if (hasDecimals) {
+                increaseNumber(dec, 'dec');
+            }
         }
 
         return () => {

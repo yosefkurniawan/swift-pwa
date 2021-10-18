@@ -22,6 +22,7 @@ const Product = (props) => {
 
     const [page, setPage] = React.useState(1);
     const [loadmore, setLoadmore] = React.useState(false);
+    const [filterSaved, setFilterSaved] = React.useState(false);
     const elastic = catalog_search_engine === 'elasticsuite';
     let config = {
         customFilter: false,
@@ -37,6 +38,7 @@ const Product = (props) => {
     }
 
     const setFiltervalue = (v) => {
+        setFilterSaved(true);
         let queryParams = '';
         // eslint-disable-next-line array-callback-return
         Object.keys(v).map((key) => {
@@ -61,7 +63,7 @@ const Product = (props) => {
     }
 
     config = generateConfig(query, config, elastic, availableFilter);
-    let context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
+    let context = (isLogin && isLogin === 1) || (config.sort && config.sort.key === 'random') ? { request: 'internal' } : {};
     if (token && token !== '') {
         context = {
             ...context,
@@ -70,12 +72,14 @@ const Product = (props) => {
             },
         };
     }
+
     const { loading, data, fetchMore } = getProduct(config, {
         variables: {
             pageSize: modules.catalog.productListing.pageSize || 10,
             currentPage: 1,
         },
         context,
+        fetchPolicy: (config.sort && config.sort.key === 'random') && filterSaved ? 'cache-and-network' : 'cache-first',
     });
     let products = {};
     products = data && data.products ? data.products : {
@@ -105,6 +109,7 @@ const Product = (props) => {
     };
 
     const handleLoadMore = async () => {
+        setFilterSaved(false);
         try {
             if (fetchMore && typeof fetchMore !== 'undefined') {
                 await setLoadmore(true);
