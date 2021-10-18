@@ -1,12 +1,12 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { sortByDataSearch, sortByDataCatalog } from '@plugin_productlist/components/FilterDesktop/sort';
+import { generateCatalogSorting } from '@plugin_productlist/components/FilterDesktop/sort';
 
 const Filter = (props) => {
     const {
         FilterModalView, FilterView, filterValue, isSearch, defaultSort, setFiltervalue, filter, ...other
     } = props;
-    const sortByData = isSearch ? sortByDataSearch : sortByDataCatalog;
+    const sortByData = React.useMemo(() => generateCatalogSorting(isSearch), []);
     const [openFilter, setOpenFilter] = React.useState(false);
     const [selectedFilter, setFilter] = React.useState(filterValue);
     const [sort, setSort] = React.useState(filterValue.sort ? filterValue.sort : '');
