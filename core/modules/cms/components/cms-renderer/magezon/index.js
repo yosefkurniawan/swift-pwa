@@ -30,9 +30,13 @@ import MagezonImageGallery from '@core_modules/cms/components/cms-renderer/magez
 import MagezonProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct';
 import MagezonCategories from '@core_modules/cms/components/cms-renderer/magezon/MagezonCategories';
 import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
+import MagezonTestimonials from '@core_modules/cms/components/cms-renderer/magezon/MagezonTestimonials';
 import MagezonRecentReviews from '@core_modules/cms/components/cms-renderer/magezon/MagezonRecentReviews';
 import MagezonGoogleMaps from '@core_modules/cms/components/cms-renderer/magezon/MagezonGoogleMaps';
 import MagezonProgressBar from '@core_modules/cms/components/cms-renderer/magezon/MagezonProgressBar';
+import MagezonAccordion from '@core_modules/cms/components/cms-renderer/magezon/MagezonAccordion';
+import MagezonSection from '@core_modules/cms/components/cms-renderer/magezon/MagezonSection';
+import MagezonPageableContainer from '@core_modules/cms/components/cms-renderer/magezon/MagezonPageableContainer';
 import dynamic from 'next/dynamic';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.css';
@@ -214,10 +218,18 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonProduct {...props} />; break;
         case 'product_slider':
             childrenContent = <MagezonProduct {...props} />; break;
+        case 'testimonials':
+            childrenContent = <MagezonTestimonials {...props} />; break;
         case 'gmaps':
             childrenContent = <MagezonGoogleMaps {...props} />; break;
         case 'progress_bar':
             childrenContent = <MagezonProgressBar {...props} />; break;
+        case 'section':
+            childrenContent = <MagezonSection {...props} />; break;
+        case 'accordion':
+            childrenContent = <MagezonAccordion {...props} />; break;
+        case 'pageable_container':
+            childrenContent = <MagezonPageableContainer {...props} />; break;
         default:
             childrenContent = null;
         }
@@ -245,8 +257,9 @@ const MagezonElement = (props) => {
                 {`
                     .mgz-element {
                         position: relative;
+                        display: inline-block;
                         width: 100%;
-                        background-color: ${background_color};
+                        ${background_color ? `background-color: ${background_color};` : ''}
                     }
                     .full_height {
                         min-height: 433px;
