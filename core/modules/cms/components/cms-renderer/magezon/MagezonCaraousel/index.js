@@ -49,7 +49,7 @@ const MagezonText = (props) => {
         content_background, content_color, content_fullwidth, content_padding, content_position,
         display_on_hover, hover_effect, overlay_color, onclick, show_line, items,
         description, description_font_size, description_font_weight,
-        title, title_tag, title_align, title_font_size, title_font_weight,
+        title, title_tag, title_color, title_align, title_font_size, title_font_weight,
         image_border_color, image_border_radius, image_border_style, image_border_width, image_size,
         line_color, line_position, line_width,
         owl_color, owl_hover_color, owl_active_color,
@@ -289,7 +289,7 @@ const MagezonText = (props) => {
             {title || description
                 ? title && (
                     <div className="mgz-carousel-heading">
-                        <Typography className="mgz-carousel-heading-title" variant={title_tag} letter="uppercase">
+                        <Typography className="mgz-carousel-heading-title" variant={title_tag} align={title_align} letter="uppercase">
                             {title}
                         </Typography>
                         {description
@@ -438,6 +438,7 @@ const MagezonText = (props) => {
                         padding-bottom: 10px;
                         position: relative;
                         text-align: ${title_align};
+                        ${title_color ? `color: ${title_color}` : ''}
                     }
                     .mgz-carousel :global(.mgz-carousel-heading:before) {
                         content: '';
@@ -447,9 +448,10 @@ const MagezonText = (props) => {
                         background: ${line_color};
                         position: absolute;
                         top: ${line_position ? '40%' : '90%'};
+                        bottom: 0;
                         z-index: 0;
                     }
-                    .mgz-carousel-heading-title {
+                    .mgz-carousel :global(.mgz-carousel-heading-title) {
                         display: inline-block;
                         background: #FFF;
                         padding: 0 10px;

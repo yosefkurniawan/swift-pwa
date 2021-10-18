@@ -10,10 +10,9 @@ const MagezonVideoPlayer = (props) => {
         title, title_align, title_color, title_tag,
         link, video_title, video_type,
         controls, autoplay, loop, mute,
-
     } = props;
     const { t } = useTranslation(['common']);
-    // console.log(props);
+
     let classVideoPlayer = '';
     if (xs_hide) classVideoPlayer += 'hidden-mobile ';
     if (sm_hide) classVideoPlayer += 'hidden-sm ';
@@ -80,6 +79,10 @@ const MagezonVideoPlayer = (props) => {
         if (video_type === 'vimeo') {
             videoId = videoLink.split('/');
             videoLink = `https://player.vimeo.com/video/${videoId[3]}`;
+        }
+        if (video_type === 'youtube') {
+            const videoUrl = link && link.split('=')[1];
+            videoLink = `https://www.youtube.com/embed/${videoUrl}`;
         }
         return (
             <div className="mgz-video-content">
