@@ -137,6 +137,7 @@ const CategoryPage = ({
                             dataTabs={categoryTabs(categoryList.children)}
                             onChangeTabs={handleChange}
                             storeConfig={storeConfig}
+                            defaultSort={{ key: 'position', value: 'ASC' }}
                             {...other}
                         />
                     )
