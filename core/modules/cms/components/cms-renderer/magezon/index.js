@@ -33,6 +33,7 @@ import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/mage
 import MagezonTestimonials from '@core_modules/cms/components/cms-renderer/magezon/MagezonTestimonials';
 import MagezonRecentReviews from '@core_modules/cms/components/cms-renderer/magezon/MagezonRecentReviews';
 import MagezonGoogleMaps from '@core_modules/cms/components/cms-renderer/magezon/MagezonGoogleMaps';
+import MagezonProgressBar from '@core_modules/cms/components/cms-renderer/magezon/MagezonProgressBar';
 import MagezonAccordion from '@core_modules/cms/components/cms-renderer/magezon/MagezonAccordion';
 import MagezonSection from '@core_modules/cms/components/cms-renderer/magezon/MagezonSection';
 import MagezonPageableContainer from '@core_modules/cms/components/cms-renderer/magezon/MagezonPageableContainer';
@@ -221,6 +222,8 @@ const MagezonElement = (props) => {
             childrenContent = <MagezonTestimonials {...props} />; break;
         case 'gmaps':
             childrenContent = <MagezonGoogleMaps {...props} />; break;
+        case 'progress_bar':
+            childrenContent = <MagezonProgressBar {...props} />; break;
         case 'section':
             childrenContent = <MagezonSection {...props} />; break;
         case 'accordion':
