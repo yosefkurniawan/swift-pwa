@@ -142,7 +142,6 @@ const nameToken = 'sk';
 const expiredToken = new Date(Date.now() + 1000 * 60 * 60);
 const expiredDefault = 365;
 const localResolverKey = 'resolver';
-const defaultLocale = 'en-US';
 
 const features = {
     useCustomStyle: false,
@@ -599,6 +598,7 @@ const debuging = {
 
 const general = {
     defaultCurrencyCode: 'IDR',
+    defaultCurrencyLocale: 'id-ID',
 };
 
 module.exports = {
@@ -634,7 +634,6 @@ module.exports = {
     installMessage,
     appName,
     localResolverKey,
-    defaultLocale,
     useMagentoCommerce,
     rollbar,
     translation,
