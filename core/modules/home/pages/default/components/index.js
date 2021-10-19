@@ -1,9 +1,12 @@
 /* eslint-disable max-len */
 import { modules } from '@config';
-import BannerSlider from '@core_modules/home/pages/default/components/Banner';
+import dynamic from 'next/dynamic';
+// import BannerSlider from '@core_modules/home/pages/default/components/Banner';
 import FeaturedProducts from '@core_modules/home/pages/default/components/FeaturedProducts';
 import CategoryList from '@core_modules/home/pages/default/components/CategoryList';
 import useStyles from '@core_modules/home/pages/default/components/style';
+
+const BannerSlider = dynamic(() => import('@core_modules/home/pages/default/components/Banner'), { ssr: false });
 
 const Content = (props) => {
     const styles = useStyles();
