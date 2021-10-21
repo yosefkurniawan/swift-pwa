@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import LazyImage from './LazyImage';
 
@@ -11,11 +11,12 @@ const imgError = (image) => {
     return true;
 };
 
-const Image = ({
+const CustomImage = ({
     src, width = 500, height = 500, magezon,
     classContainer = '', className = '', alt = 'Image', quality = 100, style = {}, lazy = false, ...other
 }) => {
     const imageUrl = generateThumborUrl(src, width, height);
+    const [imgSource, setImgSource] = useState(imageUrl);
     const styleImage = magezon ? {
         maxWidth: '100%',
         maxHeight: '100%',
@@ -26,6 +27,12 @@ const Image = ({
         top: '0',
         left: '0',
     };
+
+    useEffect(() => {
+        const img = new Image();
+        img.src = imgSource;
+        img.onerror = () => setImgSource('/assets/img/placeholder.png');
+    }, []);
 
     return (
         <div
@@ -42,22 +49,21 @@ const Image = ({
             }}
         >
             <picture>
-                <source srcSet={imageUrl} type="image/webp" />
-                <source srcSet={getImageFallbackUrl(imageUrl)} type="image/jpeg" />
+                <source srcSet={imgSource} type="image/webp" />
+                <source srcSet={getImageFallbackUrl(imgSource)} type="image/jpeg" />
                 {!lazy ? (
                     <img
                         data-pagespeed-no-defer
                         style={styleImage}
                         className={`img ${className}`}
-                        src={imageUrl}
-                        onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
+                        src={imgSource}
                         alt={alt}
                         {...other}
                     />
                 ) : (
                     <LazyImage
                         style={styleImage}
-                        src={imageUrl}
+                        src={imgSource}
                         alt={alt}
                     />
                 )}
@@ -66,4 +72,4 @@ const Image = ({
     );
 };
 
-export default Image;
+export default CustomImage;
