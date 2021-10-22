@@ -5,7 +5,7 @@ import { formatPrice } from '@helpers/currency';
 import { useTranslation } from '@i18n';
 import dayjs from 'dayjs';
 import getPrice from '@core_modules/product/helpers/getPrice';
-import View from '@plugin_cutomizableitem/components/CustomizableDateOption/view';
+import View from '@plugin_customizableitem/components/CustomizableDateOption/view';
 import { getCustomizableDateOption } from '@core_modules/product/services/graphql/customizableSchema';
 
 const CustomizableDateOption = ({

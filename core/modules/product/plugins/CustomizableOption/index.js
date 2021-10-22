@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
-import Content from '@plugin_cutomizableitem/components';
-import Core from '@plugin_cutomizableitem/core';
+import Content from '@plugin_customizableitem/components';
+import Core from '@plugin_customizableitem/core';
 
 const CustomizableOption = (props) => {
     const { showCustomizableOption } = props;

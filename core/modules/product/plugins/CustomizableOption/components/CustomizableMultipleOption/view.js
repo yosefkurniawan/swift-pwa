@@ -2,7 +2,7 @@ import React from 'react';
 import CheckBox from '@common_checkbox';
 import Typography from '@common_typography';
 import classNames from 'classnames';
-import useStyles from '@plugin_cutomizableitem/components/style';
+import useStyles from '@plugin_customizableitem/components/style';
 
 const ViewCustomizableMultipleOption = ({
     title = 'test', data = [], selected = [], disabled,

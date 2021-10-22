@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@common_typography';
 import Select from '@common_select';
 import classNames from 'classnames';
-import useStyles from '@plugin_cutomizableitem/components/style';
+import useStyles from '@plugin_customizableitem/components/style';
 
 const ViewCustomizableDropDownOption = ({
     title = 'test', data = [], selected = '', disabled,

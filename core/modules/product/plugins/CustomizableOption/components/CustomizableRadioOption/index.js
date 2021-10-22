@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client';
 import { formatPrice } from '@helpers/currency';
 import { useTranslation } from '@i18n';
 import getPrice from '@core_modules/product/helpers/getPrice';
-import View from '@plugin_cutomizableitem/components/CustomizableRadioOption/view';
+import View from '@plugin_customizableitem/components/CustomizableRadioOption/view';
 import { getCustomizableRadioOption } from '@core_modules/product/services/graphql/customizableSchema';
 
 const CustomizableCheckboxOption = ({

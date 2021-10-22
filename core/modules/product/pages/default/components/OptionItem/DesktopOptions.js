@@ -5,7 +5,7 @@ import VirtualOption from '@plugin_optionitem/Virtual';
 import DownloadOption from '@plugin_optionitem/Download';
 import BundleOption from '@plugin_optionitem/BundleOption';
 import GroupedOption from '@plugin_optionitem/GroupedProduct';
-import CustomizableOption from '@plugin_cutomizableitem';
+import CustomizableOption from '@plugin_customizableitem';
 
 const Options = (props) => {
     const {

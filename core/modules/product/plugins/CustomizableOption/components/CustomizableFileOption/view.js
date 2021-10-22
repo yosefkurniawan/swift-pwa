@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@common_typography';
 import DropFile from '@common_dropfile';
 import classNames from 'classnames';
-import useStyles from '@plugin_cutomizableitem/components/style';
+import useStyles from '@plugin_customizableitem/components/style';
 
 const ViewCustomizableFileOption = ({
     data = {}, onChange = () => {}, error = '', required = false, t, disabled,

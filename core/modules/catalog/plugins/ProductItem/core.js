@@ -20,7 +20,7 @@ import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { localCompare } from '@services/graphql/schema/local';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
-import CustomizableOption from '@plugin_cutomizableitem';
+import CustomizableOption from '@plugin_customizableitem';
 
 const ModalQuickView = dynamic(() => import('@plugin_productitem/components/QuickView'), { ssr: false });
 const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });

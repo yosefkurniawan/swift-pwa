@@ -2,7 +2,7 @@ import React from 'react';
 import Radio from '@common_radio';
 import Typography from '@common_typography';
 import classNames from 'classnames';
-import useStyles from '@plugin_cutomizableitem/components/style';
+import useStyles from '@plugin_customizableitem/components/style';
 
 const ViewCustomizableRadioOption = ({
     title = 'test', data = [], selected = [], disabled,

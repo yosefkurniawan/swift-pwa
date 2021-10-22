@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@common_typography';
 import TextField from '@common_textfield';
 import classNames from 'classnames';
-import useStyles from '@plugin_cutomizableitem/components/style';
+import useStyles from '@plugin_customizableitem/components/style';
 
 const ViewCustomizableFieldOption = ({
     title = 'test', data = {}, value = '', disabled,
