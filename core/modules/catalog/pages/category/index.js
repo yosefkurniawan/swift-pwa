@@ -1,4 +1,3 @@
-// import Banner from '@common_image/LazyImage';
 import BreadcrumbView from '@common_breadcrumb';
 import TabView from '@common_tabs';
 import Content from '@core_modules/catalog/pages/category/components';
