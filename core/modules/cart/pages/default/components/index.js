@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import Summary from '@plugin_summary';
 import useStyles from '@core_modules/cart/pages/default/components/style';
 import dynamic from 'next/dynamic';
+import Promo from '@core_modules/cart/pages/default/components/FeeAndPromotion';
+import { modules } from '@config';
 
 const CrossSell = dynamic(() => import('@core_modules/cart/pages/default/components/crosssell'), { ssr: false });
 const GimmickBanner = dynamic(() => import('@plugin_gimmickbanner'), { ssr: false });
@@ -11,7 +13,8 @@ const Content = (props) => {
     const {
         ItemView, CrossSellView, CheckoutDrawerView, dataCart, t, handleFeed,
         toggleEditMode, editMode, deleteItem, toggleEditDrawer, crosssell, errorCart,
-        EditDrawerView, editItem, openEditDrawer, updateItem, SummaryView, ...other
+        EditDrawerView, editItem, openEditDrawer, updateItem, SummaryView, PromoModalItemView, handleAddPromoItemToCart, applyCoupon, removeCoupon,
+        ...other
     } = props;
     const handleOnCheckoutClicked = () => {
         Route.push('/checkout');
@@ -47,6 +50,29 @@ const Content = (props) => {
                         handleActionSummary={handleOnCheckoutClicked}
                     />
                 </div>
+                {modules.promo.enabled ? (
+                    <Promo
+                        t={t}
+                        dataCart={dataCart}
+                        PromoModalItemView={PromoModalItemView}
+                        handleAddPromoItemToCart={handleAddPromoItemToCart}
+                        applyCoupon={applyCoupon}
+                        removeCoupon={removeCoupon}
+                    />
+                ) : null}
+                {/* {modules.giftcard.enabled ? (
+                    <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">
+                        <GiftCard
+                            t={t}
+                            checkout={checkout}
+                            setCheckout={setCheckout}
+                            handleOpenMessage={handleOpenMessage}
+                            formik={formik}
+                            storeConfig={storeConfig}
+                            GiftCardView={GiftCardView}
+                        />
+                    </div>
+                ) : null} */}
             </div>
             <div className="col-xs-12 col-sm-4 col-md-3 hidden-mobile">
                 <Summary

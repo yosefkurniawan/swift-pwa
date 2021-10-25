@@ -96,7 +96,6 @@ const PromoModalItem = (props) => {
                         setAvailableMaxQty(checkout.data.cart.available_free_items[0].quantity);
                         const newDataArray = [];
                         for (const [key, value] of Object.entries(checkout.data.cart.available_free_items)) {
-                            // console.log(value.sku, key);
                             newDataArray.push(value.sku);
                         }
                         setDataArray(newDataArray);
