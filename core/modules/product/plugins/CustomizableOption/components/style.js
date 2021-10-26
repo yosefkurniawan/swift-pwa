@@ -16,7 +16,7 @@ const configStyleContainer = {
     '& label + *': {
         marginTop: 0,
     },
-    '& div[class*="checkboxContainer"]': {
+    '& div.checkbox-container': {
         justifyContent: 'flex-start',
         overflow: 'initial',
         '& > label': {
