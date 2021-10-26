@@ -21,7 +21,7 @@ import Copyright from '@core_modules/theme/components/footer/desktop/components/
 const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
 const HeaderMobile = dynamic(() => import('@common_headermobile'), { ssr: false });
-const HeaderDesktop = dynamic(() => import('@common_headerdesktop'), { ssr: false });
+const HeaderDesktop = dynamic(() => import('@common_headerdesktop'), { ssr: true });
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false });
 const ScrollToTop = dynamic(() => import('@common_scrolltotop'), { ssr: false });
@@ -214,7 +214,6 @@ const Layout = (props) => {
             {features.customInstallApp.enabled ? <PopupInstallAppMobile /> : null}
             {withLayoutHeader && (
                 <header ref={refHeader}>
-
                     { typeof window !== 'undefined'
                         && storeConfig.global_promo && storeConfig.global_promo.enable
                         && (
@@ -225,29 +224,26 @@ const Layout = (props) => {
                                 handleClose={handleClosePromo}
                             />
                         )}
-                    {desktop ? (
-                        <div className="hidden-mobile">
-                            {headerDesktop
-                                ? (
-                                    <HeaderDesktop
-                                        storeConfig={storeConfig}
-                                        isLogin={isLogin}
-                                        t={t}
-                                        app_cookies={app_cookies}
-                                        showGlobalPromo={showGlobalPromo}
-                                    />
-                                )
-                                : null}
-                        </div>
-                    ) : (
-                        <div className="hidden-desktop">
-                            {React.isValidElement(CustomHeader) ? (
-                                <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
-                            ) : (
-                                <HeaderMobile {...headerProps} pageConfig={pageConfig} />
-                            )}
-                        </div>
-                    )}
+                    <div className="hidden-mobile">
+                        {headerDesktop
+                            ? (
+                                <HeaderDesktop
+                                    storeConfig={storeConfig}
+                                    isLogin={isLogin}
+                                    t={t}
+                                    app_cookies={app_cookies}
+                                    showGlobalPromo={showGlobalPromo}
+                                />
+                            )
+                            : null}
+                    </div>
+                    <div className="hidden-desktop">
+                        {React.isValidElement(CustomHeader) ? (
+                            <>{React.cloneElement(CustomHeader, { pageConfig, ...headerProps })}</>
+                        ) : (
+                            <HeaderMobile {...headerProps} pageConfig={pageConfig} />
+                        )}
+                    </div>
                 </header>
             )}
 
