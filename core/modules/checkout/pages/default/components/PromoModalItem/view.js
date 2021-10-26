@@ -84,6 +84,7 @@ const PromoModalItemView = (props) => {
                         enableQuickView={false}
                         showQty
                         maxQty={availableMaxQty}
+                        slideLg={5}
                     />
                 </div>
             </Dialog>

@@ -16,6 +16,13 @@ const configStyleContainer = {
     '& label + *': {
         marginTop: 0,
     },
+    '& div[class*="checkboxContainer"]': {
+        justifyContent: 'flex-start',
+        overflow: 'initial',
+        '& > label': {
+            margin: 'auto 0',
+        },
+    },
 };
 
 export default makeStyles(() => ({
