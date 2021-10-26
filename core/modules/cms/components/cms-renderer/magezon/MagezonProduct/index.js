@@ -21,7 +21,6 @@ const MagezonProductList = (props) => {
         title, title_align, title_tag, title_color,
         item_xl, item_lg, item_md, item_sm, item_xs,
         ...rest
-        // source, orer_by,
     } = props;
     const { t } = useTranslation();
 
