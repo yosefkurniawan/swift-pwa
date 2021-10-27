@@ -43,6 +43,7 @@ const FeeAndPromotion = (props) => {
         setOpenModal(false);
     };
 
+    // add and remove code handler
     const handleAddRemovePromo = async () => {
         setLoading(true);
         if (!couponApplied) {
@@ -101,7 +102,7 @@ const FeeAndPromotion = (props) => {
     };
 
     useEffect(() => {
-        // after apply
+        // set max available free item qty
         if (dataCart?.available_free_items && dataCart.available_free_items.length > 0) {
             const itemQty = dataCart.available_free_items[0].quantity;
             setAvailableMaxQty(itemQty);
@@ -119,7 +120,8 @@ const FeeAndPromotion = (props) => {
     }, [dataCart]);
 
     useEffect(() => {
-        const freeItemSkus = freeItems.map((item) => item.sku);
+        // get the free items details
+        const freeItemSkus = freeItems && freeItems.length > 0 ? freeItems.map((item) => item.sku) : [];
         if (freeItemSkus.length > 0) {
             getProductBySku({ variables: { sku: freeItemSkus } });
         } else {
