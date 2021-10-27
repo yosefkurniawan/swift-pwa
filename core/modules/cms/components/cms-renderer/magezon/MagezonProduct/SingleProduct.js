@@ -90,6 +90,13 @@ const SingleProduct = (props) => {
         );
     };
 
+    const customButton = () => {
+        if (product_addtocart) {
+            return <CustomButton t={t} styles={styles} handleClick={handleClick} />;
+        }
+        return null;
+    };
+
     return (
         <>
             <Grid
@@ -167,7 +174,7 @@ const SingleProduct = (props) => {
                                         disabled={false}
                                         showAddToCart={product_addtocart}
                                         handleAddToCart={handleClick}
-                                        customButton={<CustomButton t={t} styles={styles} handleClick={handleClick} />}
+                                        customButton={customButton}
                                     />
                                 )}
                             </div>

@@ -1,6 +1,7 @@
 /* eslint-disable operator-linebreak */
 import Typography from '@common_typography';
 import SingleProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/SingleProduct';
+import Skeleton from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/Skeleton';
 import ProductSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/Slider';
 import { generateQueries, getProductListConditions } from '@core_modules/cms/helpers/getProductListConditions';
 import { getProductList } from '@core_modules/cms/services/graphql';
@@ -48,7 +49,9 @@ const MagezonProductList = (props) => {
     const dataCondition = useMemo(() => getProductListConditions(condition), [condition]);
     const dataFilter = generateQueries(type, type === 'single_product' ? { sku: { eq: product_sku } } : dataCondition, orer_by);
     const context = dataFilter.sort.random ? { request: 'internal' } : {};
-    const { data, error } = getProductList({ ...dataFilter, pageSize: max_items }, context);
+    const { data, error, loading } = getProductList({ ...dataFilter, pageSize: max_items }, context);
+
+    if (loading) return <Skeleton />;
 
     if (type === 'single_product') {
         content = data?.products?.items[0] && <SingleProduct product={data.products.items[0]} {...productProps} />;
