@@ -45,7 +45,7 @@ const CustomCheckbox = ({
 }) => {
     const styles = useStyles();
     const [selected, setSelected] = React.useState(value);
-    const checkStyle = classNames(styles.checkboxContainer, styles[flex]);
+    const checkStyle = classNames('checkbox-container', styles.checkboxContainer, styles[flex]);
 
     // change value from parent => change state selected
     React.useEffect(() => { setSelected(value); }, [value]);

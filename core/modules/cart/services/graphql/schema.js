@@ -258,12 +258,28 @@ ${modules.storecredit.enabled ? applied_store_credit : ''}
 ${prices}
 ${promoBanner}
 `;
+const cartAvailableFreeItems = `
+    available_free_items {
+        sku
+        quantity
+        promo_item_data {
+            ruleId
+            minimalPrice
+            discountItem
+            isDeleted
+            qtyToProcess
+            __typename
+        }
+        __typename
+    }
+`;
 export const getCart = gql`
     query getCartData($cartId: String!) {
         cart(cart_id: $cartId) {
             ${applied_giftcard}
             ${cartRequiredSelection}
             ${cartAvailablePaymentMethods}
+            ${cartAvailableFreeItems}
         }
     }
 `;
@@ -498,6 +514,7 @@ export const deleteCartItemOnPage = gql`
           ${prices}
           ${items}
           ${promoBanner}
+          ${cartAvailableFreeItems}
         }
       }
     }
@@ -515,6 +532,7 @@ export const updateCartitem = gql`
           ${applied_giftcard}
           ${cartRequiredSelection}
           ${items}
+          ${cartAvailableFreeItems}
         }
       }
     }
@@ -564,4 +582,53 @@ export const getCmsBlocks = gql`
           }
       }
   }
+`;
+
+export const applyCouponToCart = gql`
+    mutation($cartId: String!, $coupon: String!) {
+        applyCouponToCart(input: { cart_id: $cartId, coupon_code: $coupon }) {
+            cart {
+                id
+                ${applied_giftcard}
+                ${cartRequiredSelection}
+                ${cartAvailableFreeItems}
+                ${items}
+            }
+        }
+    }
+`;
+
+export const removeCouponFromCart = gql`
+    mutation($cartId: String!) {
+        removeCouponFromCart(input: { cart_id: $cartId }) {
+            cart {
+                id
+                ${applied_giftcard}
+                ${cartRequiredSelection}
+                ${cartAvailableFreeItems}
+                ${items}
+            }
+        }
+    }
+`;
+
+export const addProductsToPromoCart = gql`
+    mutation addProductsToCartPromo(
+        $cart_id: String!,
+        $cart_items: [CartItemPromoInput]!
+    ) {
+          addProductsToCartPromo(
+              input: {
+                cart_id: $cart_id
+                cart_items: $cart_items
+              }
+          ) {
+              cart {
+                  ${applied_giftcard}
+                  ${cartRequiredSelection}
+                  ${items}
+                  ${cartAvailableFreeItems}
+              }
+          }
+    }
 `;
