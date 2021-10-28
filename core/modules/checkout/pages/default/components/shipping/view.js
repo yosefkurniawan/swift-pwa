@@ -8,6 +8,7 @@ import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import { withStyles } from '@material-ui/core/styles';
 import Arrow from '@material-ui/icons/ArrowDropDown';
 import DeliveryItem from '@core_modules/checkout/components/radioitem';
+import Alert from '@material-ui/lab/Alert';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 
 import {
@@ -70,7 +71,10 @@ const ShippingView = (props) => {
                     const checkShipping = groupData.find((x) => x.method_code === element.method_code);
 
                     if (identifier.match(new RegExp(`^${cnf[idc]}`)) !== null && !checkShipping) {
-                        groupData.push(element);
+                        groupData.push({
+                            ...element,
+                            disabled: !element.available,
+                        });
                     }
                 }
             }
@@ -118,6 +122,12 @@ const ShippingView = (props) => {
                 <div className={styles.paymentExpansionContainer}>
                     {shipping.map((item, keyIndex) => {
                         if (item.data.length !== 0) {
+                            const error = [];
+                            item.data.forEach((dt) => {
+                                if (dt.error_message) {
+                                    error.push(dt.error_message);
+                                }
+                            });
                             return (
                                 <Accordion
                                     expanded={
@@ -144,20 +154,29 @@ const ShippingView = (props) => {
                                         </div>
                                     </AccordionSummary>
                                     <AccordionDetails>
-                                        {item.data.length !== 0 ? (
-                                            <Radio
-                                                value={selected.shipping}
-                                                onChange={handleShipping}
-                                                valueData={item.data}
-                                                CustomItem={DeliveryItem}
-                                                classContainer={styles.radioShiping}
-                                                storeConfig={storeConfig}
-                                                propsItem={{
-                                                    borderBottom: false,
-                                                    classContent: styles.listShippingGroup,
-                                                }}
-                                            />
-                                        ) : null}
+                                        <div className="column">
+                                            {item.data.length !== 0 ? (
+                                                <Radio
+                                                    value={selected.shipping}
+                                                    onChange={handleShipping}
+                                                    valueData={item.data}
+                                                    CustomItem={DeliveryItem}
+                                                    classContainer={styles.radioShiping}
+                                                    storeConfig={storeConfig}
+                                                    propsItem={{
+                                                        borderBottom: false,
+                                                        classContent: styles.listShippingGroup,
+                                                    }}
+                                                />
+                                            ) : null}
+                                            {
+                                                error && error.length > 0 && error.map((msg, key) => (
+                                                    <Alert key={key} style={{ fontSize: 10, marginBottom: 5 }} severity="error">
+                                                        {msg}
+                                                    </Alert>
+                                                ))
+                                            }
+                                        </div>
                                     </AccordionDetails>
                                 </Accordion>
                             );

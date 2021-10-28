@@ -298,6 +298,7 @@ available_shipping_methods {
         currency
     }
     shipping_promo_name
+    error_message
     price_incl_tax {
         value
     }

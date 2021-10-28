@@ -10,10 +10,12 @@ const RadioDeliveryItem = (props) => {
     const styles = useStyles();
     const {
         value, label, promoLabel, selected, onChange = () => { }, borderBottom = true, image = null, classContent = '',
-        amount, price_incl_tax, storeConfig,
+        amount, price_incl_tax, storeConfig, disabled = false,
     } = props;
     const handleChange = () => {
-        onChange(value);
+        if (!disabled) {
+            onChange(value);
+        }
     };
     const labelType = selected ? 'bold' : 'regular';
     const rootStyle = borderBottom ? styles.root : styles.rootRmBorder;
@@ -66,11 +68,17 @@ const RadioDeliveryItem = (props) => {
     );
 
     return (
-        <div className={rootStyle} onClick={handleChange} id="checkoutRadioItem">
-            <Radio color="default" size="small" checked={selected} />
+        <div
+            className={rootStyle}
+            onClick={handleChange}
+            id="checkoutRadioItem"
+        >
+            {
+                !disabled && (<Radio color="default" size="small" checked={selected} />)
+            }
             <div className={classNames(styles.labelContainer, classContent)}>
                 {shippingLabel}
-                {rightSide}
+                {!disabled && rightSide}
             </div>
         </div>
     );
