@@ -3,8 +3,6 @@ import classNames from 'classnames';
 import Summary from '@plugin_summary';
 import useStyles from '@core_modules/cart/pages/default/components/style';
 import dynamic from 'next/dynamic';
-import Promo from '@core_modules/cart/pages/default/components/FeeAndPromotion';
-import { modules } from '@config';
 
 const CrossSell = dynamic(() => import('@core_modules/cart/pages/default/components/crosssell'), { ssr: false });
 const GimmickBanner = dynamic(() => import('@plugin_gimmickbanner'), { ssr: false });
@@ -50,7 +48,8 @@ const Content = (props) => {
                         handleActionSummary={handleOnCheckoutClicked}
                     />
                 </div>
-                {modules.promo.enabled ? (
+                {/* commented for now */}
+                {/* {modules.promo.enabled ? (
                     <Promo
                         t={t}
                         dataCart={dataCart}
@@ -59,19 +58,6 @@ const Content = (props) => {
                         applyCoupon={applyCoupon}
                         removeCoupon={removeCoupon}
                     />
-                ) : null}
-                {/* {modules.giftcard.enabled ? (
-                    <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">
-                        <GiftCard
-                            t={t}
-                            checkout={checkout}
-                            setCheckout={setCheckout}
-                            handleOpenMessage={handleOpenMessage}
-                            formik={formik}
-                            storeConfig={storeConfig}
-                            GiftCardView={GiftCardView}
-                        />
-                    </div>
                 ) : null} */}
             </div>
             <div className="col-xs-12 col-sm-4 col-md-3 hidden-mobile">

@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-unused-vars */
 import React from 'react';
@@ -27,65 +28,83 @@ const PromoModalItem = (props) => {
 
     const handleAddToCart = async (params) => {
         let data = params;
-        if (params.childProduct && params.parentProduct) {
-            data = {
-                ...params.childProduct,
-                freeItemsData: params.parentProduct.freeItemsData,
-            };
-        }
-        let state = {
-            ...checkout,
-        };
-        state.loading.payment = true;
-        state.loading.order = true;
-        await setCheckout(state);
-        await window.backdropLoader(true);
-        await handleClose();
-        await mutationAddToCart({
-            variables: {
-                cart_id: checkout.data.cart.id,
-                cart_items: [{
-                    quantity: data.qty || 1,
-                    sku: data.sku,
-                    customizable_options: data.customizable_options,
-                    promo_item_data: {
-                        ruleId: data.freeItemsData.promo_item_data.ruleId,
-                        minimalPrice: data.freeItemsData.promo_item_data.minimalPrice,
-                        discountItem: data.freeItemsData.promo_item_data.discountItem,
-                        isDeleted: data.freeItemsData.promo_item_data.isDeleted,
-                        qtyToProcess: data.freeItemsData.promo_item_data.qtyToProcess,
-                    },
-                }],
-            },
-        }).then(async (res) => {
-            state = {
-                ...checkout,
-            };
-            if (res && res.data && res.data.addProductsToCartPromo && res.data.addProductsToCartPromo.cart) {
-                state.data.cart = {
-                    ...state.data.cart,
-                    ...res.data.addProductsToCartPromo.cart,
-                };
-            }
-            await setCheckout(state);
-            window.backdropLoader(false);
+        const checkIfExistInCart = checkout.data.cart.items
+            .filter((item) => item.product.sku === params.sku) || [];
+        const checkFreeItemQtyInCart = checkIfExistInCart.length > 1
+            ? checkIfExistInCart.reduce((prev, curr) => prev + curr.quantity, 0)
+            : checkIfExistInCart.length > 0
+                ? checkIfExistInCart[0].quantity
+                : 0;
+        const checkIfItemAtMaxQty = checkout.data.cart.available_free_items
+            .find((item) => item.sku === params.sku && item.quantity === checkFreeItemQtyInCart);
+
+        if (checkIfExistInCart && checkIfItemAtMaxQty) {
             window.toastMessage({
                 open: true,
-                text: t('checkout:message:addFreeItemPromoSuccess'),
-                variant: 'success',
-            });
-        }).catch(() => {
-            window.backdropLoader(false);
-            window.toastMessage({
-                open: true,
-                text: t('checkout:message:addFreeItemPromoFailed'),
+                text: t('checkout:message:freeItemFull'),
                 variant: 'error',
             });
-        });
-        state = { ...checkout };
-        state.loading.payment = false;
-        state.loading.order = false;
-        await setCheckout(state);
+        } else {
+            if (params.childProduct && params.parentProduct) {
+                data = {
+                    ...params.childProduct,
+                    freeItemsData: params.parentProduct.freeItemsData,
+                };
+            }
+            let state = {
+                ...checkout,
+            };
+            state.loading.payment = true;
+            state.loading.order = true;
+            await setCheckout(state);
+            await window.backdropLoader(true);
+            await handleClose();
+            await mutationAddToCart({
+                variables: {
+                    cart_id: checkout.data.cart.id,
+                    cart_items: [{
+                        quantity: data.qty || 1,
+                        sku: data.sku,
+                        customizable_options: data.customizable_options,
+                        promo_item_data: {
+                            ruleId: data.freeItemsData.promo_item_data.ruleId,
+                            minimalPrice: data.freeItemsData.promo_item_data.minimalPrice,
+                            discountItem: data.freeItemsData.promo_item_data.discountItem,
+                            isDeleted: data.freeItemsData.promo_item_data.isDeleted,
+                            qtyToProcess: data.freeItemsData.promo_item_data.qtyToProcess,
+                        },
+                    }],
+                },
+            }).then(async (res) => {
+                state = {
+                    ...checkout,
+                };
+                if (res && res.data && res.data.addProductsToCartPromo && res.data.addProductsToCartPromo.cart) {
+                    state.data.cart = {
+                        ...state.data.cart,
+                        ...res.data.addProductsToCartPromo.cart,
+                    };
+                }
+                await setCheckout(state);
+                window.backdropLoader(false);
+                window.toastMessage({
+                    open: true,
+                    text: t('checkout:message:addFreeItemPromoSuccess'),
+                    variant: 'success',
+                });
+            }).catch(() => {
+                window.backdropLoader(false);
+                window.toastMessage({
+                    open: true,
+                    text: t('checkout:message:addFreeItemPromoFailed'),
+                    variant: 'error',
+                });
+            });
+            state = { ...checkout };
+            state.loading.payment = false;
+            state.loading.order = false;
+            await setCheckout(state);
+        }
     };
 
     React.useMemo(() => {
@@ -93,11 +112,15 @@ const PromoModalItem = (props) => {
             if (checkout.data.cart) {
                 if (checkout.data.cart.available_free_items) {
                     if (checkout.data.cart.available_free_items.length > 0) {
-                        setAvailableMaxQty(checkout.data.cart.available_free_items[0].quantity);
                         const newDataArray = [];
+                        let newMaxQty = 0;
                         for (const [key, value] of Object.entries(checkout.data.cart.available_free_items)) {
                             newDataArray.push(value.sku);
+                            if (!value.promo_item_data.isAuto) {
+                                newMaxQty += value.quantity;
+                            }
                         }
+                        setAvailableMaxQty(newMaxQty);
                         setDataArray(newDataArray);
                     } else {
                         setDataArray([]);
@@ -130,8 +153,11 @@ const PromoModalItem = (props) => {
                 const product = checkout.data.cart.items.filter((pd) => pd.product.sku === item.sku);
                 const freeItemsData = checkout.data.cart.available_free_items.filter((val) => val.sku === item.sku);
                 if (product && product.length > 0) {
-                    if (product && product.length > 0 && product[0].quantity) {
+                    if (product.length === 1 && product[0].quantity) {
                         qtyFreeItem += product[0].quantity;
+                    }
+                    if (product.length > 1) {
+                        qtyFreeItem += product.reduce((prev, curr) => prev + curr.quantity, 0);
                     }
                 }
                 if (dataArray.find((dt) => dt === item.sku)) {
@@ -143,14 +169,11 @@ const PromoModalItem = (props) => {
             }
 
             setAvailableMaxQty(availableMaxQty - qtyFreeItem);
-
-            if (qtyFreeItem < checkout.data.cart.available_free_items[0].quantity) {
-                setItemsData(items);
-            }
+            setItemsData(items);
         }
     }, [dataProducts]);
 
-    if (itemsData && itemsData.length > 0 && availableMaxQty > 0) {
+    if (itemsData && itemsData.length > 0) {
         return (
             <PromoModalItemView
                 {...props}
@@ -160,6 +183,7 @@ const PromoModalItem = (props) => {
                 handleClose={handleClose}
                 open={open}
                 availableMaxQty={availableMaxQty}
+                customQty
             />
         );
     }
