@@ -614,6 +614,7 @@ const debuging = {
 
 const general = {
     defaultCurrencyCode: 'IDR',
+    defaultCurrencyLocale: 'id-ID',
 };
 
 module.exports = {
