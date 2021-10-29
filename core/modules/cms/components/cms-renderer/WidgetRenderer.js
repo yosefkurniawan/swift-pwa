@@ -18,6 +18,7 @@ const DOM_NAME = 'pwa';
 
 const WidgetRenderer = (props) => {
     const { content, storeConfig } = props;
+    const updatedContent = content.includes('widget') ? content.replace('{{widget', '<pwa').replace('}}', ' />') : content;
 
     React.useEffect(() => {
         const coll = document.getElementsByClassName('collapsible');
@@ -56,7 +57,7 @@ const WidgetRenderer = (props) => {
      */
     /* eslint-disable */
     const WidgetComponent = () => {
-        return parse(content, {
+        return parse(updatedContent, {
             replace: (domNode) => {
                 if (domNode.name === DOM_NAME && domNode.attribs) {
                     const propsWidget = domNode.attribs;
