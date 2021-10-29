@@ -27,6 +27,7 @@ available_free_items {
         discountItem
         isDeleted
         qtyToProcess
+        isAuto
         __typename
     }
     __typename
@@ -1081,23 +1082,22 @@ export const deleteCartitem = gql`
       removeItemFromCart(
         input: { cart_id: $cartId, cart_item_id: $cart_item_id }
       ) {
-        cart {            
-            id
+        cart {
             total_quantity
-            ${applied_giftcard}
-            ${modules.checkout.cashback.enabled ? applied_cashback : ''}
-            ${modules.rewardpoint.enabled ? applied_reward_points : ''}
-            ${modules.promo.enabled ? applied_coupons : ''}
-            ${modules.checkout.extraFee.enabled ? applied_extrafee : ''}
-            ${modules.storecredit.enabled ? applied_store_credit : ''}
-            ${prices}
-            ${cartAvailFreeItems}
+            ${cartRequiredSelection}
             ${cartShippingAddress}
             ${cartAvailablePaymentMethods}
             ${itemsProduct}
-            ${cartRequiredSelection}
         }
       }
+    }
+`;
+
+export const getAvailableFreeItems = gql`
+    query getAvailableFreeItems($cartId: String!) {
+        cart(cart_id: $cartId) {
+            ${cartAvailFreeItems}
+        }
     }
 `;
 

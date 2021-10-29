@@ -47,11 +47,12 @@ const SpanCategory = (props) => {
                                 style={{
                                     width: '100%',
                                     maxWidth: '100%',
-                                    maxHeight: '100%',
+                                    maxHeight: '100% !important',
                                 }}
                                 quality={80}
                                 width={features.imageSize.category.width}
                                 height={features.imageSize.category.height}
+                                lazy
                             />
                         </a>
                     </Link>
