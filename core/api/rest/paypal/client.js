@@ -19,8 +19,8 @@ const { modules } = require('../../../../swift.config');
  */
 function environment() {
     const appEnv = getAppEnv();
-    const clientId = modules.checkout.paypal.clientId[appEnv];
-    const clientSecret = modules.checkout.paypal.clientSecret[appEnv];
+    const clientId = modules.paypal.clientId[appEnv];
+    const clientSecret = modules.paypal.clientSecret[appEnv];
 
     return new checkoutNodeJssdk.core.SandboxEnvironment(
         clientId, clientSecret,
