@@ -67,18 +67,19 @@ const RadioDeliveryItem = (props) => {
         </div>
     );
 
+    if (disabled) return null;
+
     return (
         <div
             className={rootStyle}
             onClick={handleChange}
             id="checkoutRadioItem"
         >
-            {
-                !disabled && (<Radio color="default" size="small" checked={selected} />)
-            }
+            <Radio color="default" size="small" checked={selected} />
+
             <div className={classNames(styles.labelContainer, classContent)}>
                 {shippingLabel}
-                {!disabled && rightSide}
+                {rightSide}
             </div>
         </div>
     );

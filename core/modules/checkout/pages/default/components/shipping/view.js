@@ -112,77 +112,84 @@ const ShippingView = (props) => {
         if (shipping.length > 0) {
             // check if have active on group data by default selected if
             let itemActive = false;
+            const error = [];
             for (let idx = 0; idx < shipping.length; idx += 1) {
                 const element = shipping[idx];
                 if (element.active) {
                     itemActive = true;
                 }
+                if (element.data && element.data.length > 0) {
+                    element.data.forEach((dt) => {
+                        if (dt.error_message) {
+                            error.push(dt.error_message);
+                        }
+                    });
+                }
             }
             content = (
-                <div className={styles.paymentExpansionContainer}>
-                    {shipping.map((item, keyIndex) => {
-                        if (item.data.length !== 0) {
-                            const error = [];
-                            item.data.forEach((dt) => {
-                                if (dt.error_message) {
-                                    error.push(dt.error_message);
-                                }
-                            });
-                            return (
-                                <Accordion
-                                    expanded={
-                                        expanded === keyIndex // if key index same with expanded active
+                <div className="column">
+                    <div className={styles.paymentExpansionContainer}>
+                        {shipping.map((item, keyIndex) => {
+                            if (item.data.length !== 0) {
+                                return (
+                                    <Accordion
+                                        expanded={
+                                            expanded === keyIndex // if key index same with expanded active
                                         || (item.active && expandedActive) // expand if item active and not change expand
                                         || (!itemActive && expandedActive && keyIndex === 0)
-                                    } // if dont have item active, set index 0 to active
-                                    onChange={handleChange(keyIndex)}
-                                    key={keyIndex}
-                                >
-                                    <AccordionSummary
-                                        aria-controls="panel1d-content"
-                                        id={`panel-${item.group}`}
-                                        expandIcon={<Arrow className={styles.icon} />}
+                                        } // if dont have item active, set index 0 to active
+                                        onChange={handleChange(keyIndex)}
+                                        key={keyIndex}
                                     >
-                                        <div className={styles.labelAccordion}>
-                                            <IconLabel label={item.group.replace('sg-', '')} />
-                                            <Typography letter="uppercase" variant="span" type="bold">
-                                                {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
+                                        <AccordionSummary
+                                            aria-controls="panel1d-content"
+                                            id={`panel-${item.group}`}
+                                            expandIcon={<Arrow className={styles.icon} />}
+                                        >
+                                            <div className={styles.labelAccordion}>
+                                                <IconLabel label={item.group.replace('sg-', '')} />
+                                                <Typography letter="uppercase" variant="span" type="bold">
+                                                    {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
                                                 === `shippingGrouping.${item.group.replace('sg-', '')}`
-                                                    ? item.group.replace('pg-', '')
-                                                    : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
-                                            </Typography>
-                                        </div>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        <div className="column">
-                                            {item.data.length !== 0 ? (
-                                                <Radio
-                                                    value={selected.shipping}
-                                                    onChange={handleShipping}
-                                                    valueData={item.data}
-                                                    CustomItem={DeliveryItem}
-                                                    classContainer={styles.radioShiping}
-                                                    storeConfig={storeConfig}
-                                                    propsItem={{
-                                                        borderBottom: false,
-                                                        classContent: styles.listShippingGroup,
-                                                    }}
-                                                />
-                                            ) : null}
-                                            {
-                                                error && error.length > 0 && error.map((msg, key) => (
-                                                    <Alert key={key} style={{ fontSize: 10, marginBottom: 5 }} severity="error">
-                                                        {msg}
-                                                    </Alert>
-                                                ))
-                                            }
-                                        </div>
-                                    </AccordionDetails>
-                                </Accordion>
-                            );
+                                                        ? item.group.replace('pg-', '')
+                                                        : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
+                                                </Typography>
+                                            </div>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <div className="column">
+                                                {item.data.length !== 0 ? (
+                                                    <Radio
+                                                        value={selected.shipping}
+                                                        onChange={handleShipping}
+                                                        valueData={item.data}
+                                                        CustomItem={DeliveryItem}
+                                                        classContainer={styles.radioShiping}
+                                                        storeConfig={storeConfig}
+                                                        propsItem={{
+                                                            borderBottom: false,
+                                                            classContent: styles.listShippingGroup,
+                                                        }}
+                                                    />
+                                                ) : null}
+                                            </div>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                );
+                            }
+                            return null;
+                        })}
+                    </div>
+
+                    <div className={styles.listError}>
+                        {
+                            error && error.length > 0 && error.map((msg, key) => (
+                                <Alert key={key} style={{ fontSize: 10, marginBottom: 5 }} severity="error">
+                                    {msg}
+                                </Alert>
+                            ))
                         }
-                        return null;
-                    })}
+                    </div>
                 </div>
             );
         } else {
