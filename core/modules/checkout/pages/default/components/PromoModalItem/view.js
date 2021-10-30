@@ -18,7 +18,7 @@ const Caraousel = dynamic(() => import('@common_slick/Caraousel'), { ssr: false 
 const PromoModalItemView = (props) => {
     const {
         items, handleAddToCart, handleClickOpen, handleClose, open,
-        availableMaxQty,
+        availableMaxQty, customQty,
     } = props;
     const styles = useStyles();
 
@@ -83,7 +83,9 @@ const PromoModalItemView = (props) => {
                         enableRating={false}
                         enableQuickView={false}
                         showQty
+                        customQty={customQty}
                         maxQty={availableMaxQty}
+                        slideLg={5}
                     />
                 </div>
             </Dialog>

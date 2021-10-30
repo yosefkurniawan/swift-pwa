@@ -22,6 +22,13 @@ const CategoryListView = ({ data = [], ...other }) => {
                     />
                 </div>
             )) }
+            <style jsx>
+                {`
+                    #home-category :global(img.has-error) {
+                        height: 100% !important;
+                    }
+                `}
+            </style>
         </div>
     );
 };

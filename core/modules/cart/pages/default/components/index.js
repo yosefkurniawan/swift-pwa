@@ -11,7 +11,8 @@ const Content = (props) => {
     const {
         ItemView, CrossSellView, CheckoutDrawerView, dataCart, t, handleFeed,
         toggleEditMode, editMode, deleteItem, toggleEditDrawer, crosssell, errorCart,
-        EditDrawerView, editItem, openEditDrawer, updateItem, SummaryView, ...other
+        EditDrawerView, editItem, openEditDrawer, updateItem, SummaryView, PromoModalItemView, handleAddPromoItemToCart, applyCoupon, removeCoupon,
+        ...other
     } = props;
     const handleOnCheckoutClicked = () => {
         Route.push('/checkout');
@@ -47,6 +48,17 @@ const Content = (props) => {
                         handleActionSummary={handleOnCheckoutClicked}
                     />
                 </div>
+                {/* commented for now */}
+                {/* {modules.promo.enabled ? (
+                    <Promo
+                        t={t}
+                        dataCart={dataCart}
+                        PromoModalItemView={PromoModalItemView}
+                        handleAddPromoItemToCart={handleAddPromoItemToCart}
+                        applyCoupon={applyCoupon}
+                        removeCoupon={removeCoupon}
+                    />
+                ) : null} */}
             </div>
             <div className="col-xs-12 col-sm-4 col-md-3 hidden-mobile">
                 <Summary
