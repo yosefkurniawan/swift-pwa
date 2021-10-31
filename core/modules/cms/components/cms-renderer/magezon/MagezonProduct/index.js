@@ -48,7 +48,7 @@ const MagezonProductList = (props) => {
     const linePosClass = show_line && line_position === 'bottom' ? 'mgz-product-heading-line--bottom' : '';
     const dataCondition = useMemo(() => getProductListConditions(condition), [condition]);
     const dataFilter = generateQueries(type, type === 'single_product' ? { sku: { eq: product_sku } } : dataCondition, orer_by);
-    const context = dataFilter.sort.random ? { request: 'internal' } : {};
+    const context = type !== 'single_product' && dataFilter.sort.random ? { request: 'internal' } : {};
     const { data, error, loading } = getProductList({ ...dataFilter, pageSize: max_items }, context);
 
     if (loading) return <Skeleton />;

@@ -18,8 +18,8 @@ import IconButton from '@material-ui/core/IconButton';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
-import { generateThumborUrl } from '@root/core/helpers/image';
 import Link from 'next/link';
+import Image from '@common_image';
 
 const CustomButton = (props) => {
     const { t, styles, handleClick } = props;
@@ -82,14 +82,6 @@ const SingleProduct = (props) => {
         return classes;
     };
 
-    const getImgSrc = () => {
-        return generateThumborUrl(
-            small_image.url,
-            isProductGrid ? 0 : isSlider ? features.imageSize.product.height : features.imageSize.product.width,
-            isProductGrid ? 0 : isSlider ? features.imageSize.product.width : features.imageSize.product.height,
-        );
-    };
-
     const customButton = () => {
         if (product_addtocart) {
             return <CustomButton t={t} styles={styles} handleClick={handleClick} />;
@@ -119,16 +111,8 @@ const SingleProduct = (props) => {
                         justify="center"
                         alignItems={isProductGrid ? 'center' : 'stretch'}
                     >
-                        <div onClick={handleClick} style={{ width: features.imageSize.product.width, maxWidth: '100%' }}>
-                            <img
-                                data-pagespeed-no-defer
-                                src={getImgSrc()}
-                                onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = '/assets/img/placeholder.png';
-                                }}
-                                alt="mediaimage"
-                            />
+                        <div onClick={handleClick} style={{ width: features.imageSize.product.width }}>
+                            <Image src={small_image.url} width={features.imageSize.product.width} height={features.imageSize.product.height} />
                         </div>
                     </Grid>
                 )}
@@ -181,7 +165,7 @@ const SingleProduct = (props) => {
                         </Grid>
                         {(!isGrid && !isSlider) && (
                             <Grid item style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end' }}>
-                                {product_wishlist && (
+                                {modules.wishlist.enabled && product_wishlist && (
                                     <IconButton className={styles.btnShare} onClick={handleAddtowishlist}>
                                         {favoritIcon}
                                     </IconButton>
@@ -196,7 +180,7 @@ const SingleProduct = (props) => {
                     </Grid>
                     {(isGrid || isSlider) && (
                         <Grid item>
-                            {product_wishlist && (
+                            {modules.wishlist.enabled && product_wishlist && (
                                 <IconButton className={styles.btnShare} onClick={handleAddtowishlist}>
                                     {favoritIcon}
                                 </IconButton>
