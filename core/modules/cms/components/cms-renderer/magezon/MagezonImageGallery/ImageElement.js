@@ -3,9 +3,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import { generateThumborUrl } from '@helpers/image';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import WidgetRenderer from '@core_modules/cms/components/cms-renderer/WidgetRenderer';
+import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 
 const ImageElement = (props) => {
     // prettier-ignore
@@ -27,6 +27,7 @@ const ImageElement = (props) => {
                 ? `${baseUrl}${full_image}`
                 : `${baseUrl}${image}`
             : `${baseUrl}${image}`;
+    const getImgUrl = generateThumborUrl(imgUrl, 0, 0);
 
     if (type === 'link' || type === 'media') {
         return (
@@ -37,31 +38,29 @@ const ImageElement = (props) => {
                             <WidgetRenderer content={caption} />
                         </div>
                     )}
-                    <img
-                        data-pagespeed-no-defer
-                        src={generateThumborUrl(imgUrl, 0, 0)}
-                        onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = '/assets/img/placeholder.png';
-                        }}
-                        alt="mediaimage"
-                    />
+                    <picture>
+                        <source srcSet={getImgUrl} type="image/webp" />
+                        <source srcSet={getImageFallbackUrl(getImgUrl)} type="image/jpeg" />
+                        <img
+                            data-pagespeed-no-defer
+                            src={getImgUrl}
+                            onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = '/assets/img/placeholder.png';
+                            }}
+                            alt="mediaimage"
+                        />
+                    </picture>
                 </div>
                 <style jsx>
                     {`
                         .mgz-img-gallery-img-container {
-                            // width: 100%;
-                            // display: flex;
-                            // flex: 1;
-                            // justify-content: center;
-                            // margin: auto;
                             position: relative;
                             text-align: center;
                             overflow: hidden;
                         }
                         img {
                             display: block;
-                            // width: 672px;
                             max-width: 100%;
                             height: ${height}px;
                             object-fit: ${fit === 'scaledown' ? 'scale-down' : fit};

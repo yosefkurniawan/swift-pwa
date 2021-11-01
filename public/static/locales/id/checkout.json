@@ -67,7 +67,8 @@
             "default": "Tidak ada alamat pengiriman yang dipilih"
         },
         "addFreeItemPromoSuccess": "Item gratis berhasil di tambahkan ke keranjang",
-        "addFreeItemPromoFailed": "Item gratis gagal di tambahkan ke keranjang"
+        "addFreeItemPromoFailed": "Item gratis gagal di tambahkan ke keranjang",
+        "freeItemFull": "Item yang dipilih telah mencapai jumlah maksimum."
     },
     "checkBalance": "Cek sisa",
     "myPoint": {

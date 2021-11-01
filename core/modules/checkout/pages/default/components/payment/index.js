@@ -146,13 +146,13 @@ export default function CustomizedExpansionPanels({
                     },
                 };
                 setCheckout(state);
-                if (initialOptionPaypal['data-order-id'] === '' && checkout.selected.payment === 'paypal_express') {
+                if (modules.paypal.enabled && initialOptionPaypal['data-order-id'] === '' && checkout.selected.payment === 'paypal_express') {
                     getPaypalToken({
                         variables: {
                             cartId: cart.id,
                             code: 'paypal_express',
-                            returnUrl: modules.checkout.paypal.returnUrl,
-                            cancelUrl: modules.checkout.paypal.cancelUrl,
+                            returnUrl: modules.paypal.returnUrl,
+                            cancelUrl: modules.paypal.cancelUrl,
                         },
                     }).then((res) => {
                         if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {

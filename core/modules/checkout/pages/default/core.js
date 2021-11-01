@@ -168,13 +168,13 @@ const Checkout = (props) => {
 
     // config paypal
     const [initialOptionPaypal, setInitialOptionPaypal] = useState({
-        'client-id': modules.checkout.paypal.clientId[appEnv],
-        currency: modules.checkout.paypal.defaultCurrency,
-        intent: modules.checkout.paypal.intent,
+        'client-id': modules.paypal.clientId[appEnv],
+        currency: modules.paypal.defaultCurrency,
+        intent: modules.paypal.intent,
         'data-order-id': '',
-        // debug: modules.checkout.paypal.debug,
-        'disable-funding': modules.checkout.paypal.disableFunding,
-        'merchant-id': modules.checkout.paypal.merchantId,
+        // debug: modules.paypal.debug,
+        'disable-funding': modules.paypal.disableFunding,
+        'merchant-id': modules.paypal.merchantId,
     });
 
     const [tokenData, setTokenData] = useState({});
@@ -355,7 +355,7 @@ const Checkout = (props) => {
         // init shipping method
         if (shipping && shipping.available_shipping_methods) {
             const availableShipping = shipping.available_shipping_methods.filter(
-                (x) => x.available && x.carrier_code !== 'pickup' && x.carrier_code !== 'instore',
+                (x) => x.carrier_code !== 'pickup' && x.carrier_code !== 'instore',
             );
 
             state.data.shippingMethods = availableShipping.map((item) => ({
@@ -420,13 +420,13 @@ const Checkout = (props) => {
 
         if (cart.selected_payment_method) {
             state.selected.payment = cart.selected_payment_method.code;
-            if (cart.selected_payment_method.code === 'paypal_express' && initialOptionPaypal['data-order-id'] === '') {
+            if (modules.paypal.enabled && cart.selected_payment_method.code === 'paypal_express' && initialOptionPaypal['data-order-id'] === '') {
                 getPaypalToken({
                     variables: {
                         cartId: cart.id,
                         code: 'paypal_express',
-                        returnUrl: modules.checkout.paypal.returnUrl,
-                        cancelUrl: modules.checkout.paypal.cancelUrl,
+                        returnUrl: modules.paypal.returnUrl,
+                        cancelUrl: modules.paypal.cancelUrl,
                     },
                 }).then((res) => {
                     if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
@@ -571,7 +571,7 @@ const Checkout = (props) => {
             // init shipping address
             const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
             if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
-                const availableShipping = shipping.available_shipping_methods.filter((x) => x.available && x.carrier_code !== 'pickup');
+                const availableShipping = shipping.available_shipping_methods.filter((x) => x.carrier_code !== 'pickup');
                 state.data.shippingMethods = availableShipping.map((item) => ({
                     ...item,
                     label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
@@ -726,12 +726,12 @@ const Checkout = (props) => {
                     paypalData.details = details.data.result;
                 }
             }
-            setLocalStorage(modules.checkout.paypal.keyData, paypalData);
+            setLocalStorage(modules.paypal.keyData, paypalData);
             state = { ...checkout };
             window.backdropLoader(false);
             state.loading.order = false;
             setCheckout(state);
-            Router.push(`/${modules.checkout.paypal.returnUrl}`);
+            Router.push(`/${modules.paypal.returnUrl}`);
         }).catch((e) => {
             onErrorPaypal(e);
         });
