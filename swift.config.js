@@ -9,8 +9,8 @@ const iconAppleTouch = '/assets/img/swiftpwa_apple_touch.png';
 const HOST = {
     local: 'http://localhost:3000',
     dev: 'https://swiftpwa.testingnow.me',
-    stage: 'https://checkout-getswift-pwa.gcp-staging.testingnow.me',
-    prod: 'https://pwa-checkout.getswift.asia',
+    stage: 'https://getswift-pwa.gcp-staging.testingnow.me',
+    prod: 'https://pwa.getswift.asia',
 };
 
 /* Magento GraphQL Endpoint */
@@ -390,29 +390,6 @@ const modules = {
         howtoPay: {
             enabled: true,
         },
-        paypal: {
-            clientId: {
-                local: 'AfcrKzLRhgwpdBWbK8owz2Vv_gYyPUbwzOuOAgz1BfBqvGle_omyRPX4jTZrDpOkfO-jRBc_2YyxEJM2',
-                dev: '',
-                prod: '',
-                stage: '',
-            },
-            clientSecret: {
-                local: 'EAwFhNBD5KKb8WLCK2xPxAD_L0Pb9wYUflFMXUfQYMKAbM5jGykvIbRHM-sJPoR8V3avAcEU3stvTJPd',
-                dev: '',
-                prod: '',
-                stage: '',
-            },
-            defaultCurrency: 'USD',
-            intent: 'authorize',
-            returnUrl: 'paypal/express/review',
-            cancelUrl: 'checkout/cart',
-            keyData: 'paypal-data',
-            keyToken: 'paypal-token',
-            merchantId: 'M4TYHSS9A9Z8C',
-            debug: true,
-            disableFunding: 'venmo%2Cbancontact%2Ceps%2Cgiropay%2Cideal%2Cmybank%2Cp24%2Csofort',
-        },
         xendit: {
             paymentPrefixCodeOnSuccess: [
                 'alfamart',
@@ -434,6 +411,31 @@ const modules = {
                 'kredivo',
             ],
         },
+    },
+    paypal: {
+        enabled: false,
+        path: '/paypal',
+        clientId: {
+            local: 'AfcrKzLRhgwpdBWbK8owz2Vv_gYyPUbwzOuOAgz1BfBqvGle_omyRPX4jTZrDpOkfO-jRBc_2YyxEJM2',
+            dev: '',
+            prod: '',
+            stage: '',
+        },
+        clientSecret: {
+            local: 'EAwFhNBD5KKb8WLCK2xPxAD_L0Pb9wYUflFMXUfQYMKAbM5jGykvIbRHM-sJPoR8V3avAcEU3stvTJPd',
+            dev: '',
+            prod: '',
+            stage: '',
+        },
+        defaultCurrency: 'USD',
+        intent: 'authorize',
+        returnUrl: 'paypal/express/review',
+        cancelUrl: 'checkout/cart',
+        keyData: 'paypal-data',
+        keyToken: 'paypal-token',
+        merchantId: 'M4TYHSS9A9Z8C',
+        debug: true,
+        disableFunding: 'venmo%2Cbancontact%2Ceps%2Cgiropay%2Cideal%2Cmybank%2Cp24%2Csofort',
     },
     cart: {
         enabled: true,
@@ -614,6 +616,7 @@ const debuging = {
 
 const general = {
     defaultCurrencyCode: 'IDR',
+    defaultCurrencyLocale: 'id-ID',
 };
 
 module.exports = {

@@ -9,7 +9,7 @@ const PaymentMethod = (props) => {
     const { t, checkout } = props;
     let paypalData = {};
     if (typeof window !== 'undefined') {
-        paypalData = JSON.parse(localStorage.getItem(modules.checkout.paypal.keyData));
+        paypalData = JSON.parse(localStorage.getItem(modules.paypal.keyData));
     }
 
     let paymentMethod = {};

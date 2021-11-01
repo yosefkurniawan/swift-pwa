@@ -4,13 +4,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-restricted-globals */
 
-import { generateThumborUrl } from '@root/core/helpers/image';
+import Image from '@common_image';
+import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Slider from 'react-slick';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
-import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
 const ImageElement = dynamic(import('@core_modules/cms/components/cms-renderer/magezon/MagezonImageGallery/ImageElement'), { ssr: false });
 
@@ -243,18 +243,7 @@ const MagezonImageGallery = (props) => {
                                     }}
                                 >
                                     {nav === 'thumbs'
-                                        ? (
-                                            <img
-                                                data-pagespeed-no-defer
-                                                src={generateThumborUrl(imgUrl, 0, 0)}
-                                                onError={(e) => {
-                                                    e.target.onerror = null;
-                                                    e.target.src = '/assets/img/placeholder.png';
-                                                }}
-                                                style={{ width: '100%', height: '100%' }}
-                                                alt={`nav-${nav}-item`}
-                                            />
-                                        )
+                                        ? <Image src={imgUrl} />
                                         : <span />}
                                 </div>
                             );

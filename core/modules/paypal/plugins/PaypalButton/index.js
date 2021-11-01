@@ -31,13 +31,13 @@ const PaypalButton = (props) => {
 
     // config paypal
     const [initialOptionPaypal, setInitialOptionPaypal] = React.useState({
-        'client-id': modules.checkout.paypal.clientId[appEnv],
-        currency: modules.checkout.paypal.defaultCurrency,
-        intent: modules.checkout.paypal.intent,
+        'client-id': modules.paypal.clientId[appEnv],
+        currency: modules.paypal.defaultCurrency,
+        intent: modules.paypal.intent,
         'data-order-id': '',
-        // debug: modules.checkout.paypal.debug,
-        'disable-funding': modules.checkout.paypal.disableFunding,
-        'merchant-id': modules.checkout.paypal.merchantId,
+        // debug: modules.paypal.debug,
+        'disable-funding': modules.paypal.disableFunding,
+        'merchant-id': modules.paypal.merchantId,
     });
 
     const [tokenData, setTokenData] = React.useState({});
@@ -61,20 +61,20 @@ const PaypalButton = (props) => {
     };
 
     React.useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const initialTokenData = getLocalStorage(modules.checkout.paypal.keyToken);
+        if (typeof window !== 'undefined' && modules.paypal.enabled) {
+            const initialTokenData = getLocalStorage(modules.paypal.keyToken);
             if (!initialTokenData && cartId) {
                 getPaypalToken({
                     variables: {
                         cartId: cart.id,
                         code: 'paypal_express',
-                        returnUrl: modules.checkout.paypal.returnUrl,
-                        cancelUrl: modules.checkout.paypal.cancelUrl,
+                        returnUrl: modules.paypal.returnUrl,
+                        cancelUrl: modules.paypal.cancelUrl,
                     },
                 }).then((res) => {
                     if (res.data && res.data.createPaypalExpressToken && res.data.createPaypalExpressToken.token) {
                         const { token } = res.data.createPaypalExpressToken;
-                        setLocalStorage(modules.checkout.paypal.keyToken, res.data.createPaypalExpressToken);
+                        setLocalStorage(modules.paypal.keyToken, res.data.createPaypalExpressToken);
                         setTokenData(res.data.createPaypalExpressToken);
                         setInitialOptionPaypal({
                             ...initialOptionPaypal,
@@ -246,9 +246,9 @@ const PaypalButton = (props) => {
             if (details && details.data && details.data.result) {
                 paypalData.details = details.data.result;
             }
-            setLocalStorage(modules.checkout.paypal.keyData, paypalData);
+            setLocalStorage(modules.paypal.keyData, paypalData);
             window.backdropLoader(false);
-            Router.push(`/${modules.checkout.paypal.returnUrl}`);
+            Router.push(`/${modules.paypal.returnUrl}`);
         }).catch((e) => {
             // console.log(e);
             onErrorPaypal(e);
@@ -272,14 +272,18 @@ const PaypalButton = (props) => {
         onShippingChange: onShippingChangePaypal,
         createOrder: createOrderPaypal,
     };
-    return (
-        <PaypalButtonView
-            {...props}
-            paypalToken={paypalToken}
-            initialOptionPaypal={initialOptionPaypal}
-            paypalHandlingProps={paypalHandlingProps}
-        />
-    );
+    if (modules.paypal.enabled) {
+        return (
+            <PaypalButtonView
+                {...props}
+                paypalToken={paypalToken}
+                initialOptionPaypal={initialOptionPaypal}
+                paypalHandlingProps={paypalHandlingProps}
+            />
+        );
+    }
+
+    return null;
 };
 
 export default PaypalButton;

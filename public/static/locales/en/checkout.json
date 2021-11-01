@@ -67,7 +67,8 @@
             "default": "No Default Address"
         },
         "addFreeItemPromoSuccess": "Free item success add to cart",
-        "addFreeItemPromoFailed": "Free item failed add to cart"
+        "addFreeItemPromoFailed": "Free item failed add to cart",
+        "freeItemFull": "The selected item have reached maximum quantity."
     },
     "checkBalance": "Check balance",
     "myPoint": {

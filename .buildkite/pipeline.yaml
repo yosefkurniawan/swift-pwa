@@ -4,7 +4,7 @@ steps:
 
   - label: ":docker: build docker"
     command:
-      - "sh .buildkite/build.sh getswift-pwa-checkout"
+      - "sh .buildkite/build.sh getswift-pwa"
     agents:
       - "icube-staging=true"
     
@@ -12,7 +12,7 @@ steps:
 
   - label: "Release to staging"
     command:
-      - "sh .buildkite/deploy.sh iii-nonprod getswift-pwa-checkout"
+      - "sh .buildkite/deploy.sh iii-nonprod getswift-pwa"
     agents:
       - "icube-staging=true"
   
@@ -20,6 +20,6 @@ steps:
 
   - label: ":rocket: Deploy iii-prod"
     command:
-      - "sh .buildkite/deploy.sh iii-prod getswift-pwa-checkout"
+      - "sh .buildkite/deploy.sh iii-prod getswift-pwa"
     agents:
       - "iii-prod=true"

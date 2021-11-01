@@ -1,6 +1,6 @@
 /* eslint-disable radix */
 /* eslint-disable no-plusplus */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getCartId, setCartId } from '@helper_cartid';
 import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
@@ -8,7 +8,7 @@ import Layout from '@layout';
 import { localTotalCart } from '@services/graphql/schema/local';
 import {
     addWishlist as mutationWishlist, reOrder as mutationReOrder,
-    getCartDataLazy, getCartItemLazy, deleteCartItem, updateCartitem,
+    getCartDataLazy, getCartItemLazy, deleteCartItem, updateCartitem, addProductToCartPromo, applyCouponToCart, removeCouponFromCart,
 } from '@core_modules/cart/services/graphql';
 
 const Cart = (props) => {
@@ -60,6 +60,13 @@ const Cart = (props) => {
     const [getCart, responseCart] = getCartDataLazy();
 
     const [getCartItem, responseCartItem] = getCartItemLazy();
+
+    // updatePromoItems
+    const [mutationAddToCart, promoItems] = addProductToCartPromo();
+
+    // apply and remove coupon
+    const [applyCoupon, appliedCouponResult] = applyCouponToCart({ onError: () => {} });
+    const [removeCoupon, removedCouponResult] = removeCouponFromCart({ onError: () => {} });
 
     React.useEffect(() => {
         if (paymentFailed && orderId) {
@@ -260,6 +267,53 @@ const Cart = (props) => {
             });
     };
 
+    // add free items handler
+    const handleAddPromoItemToCart = async (params, cartId) => {
+        let data = params;
+        if (params.childProduct && params.parentProduct) {
+            data = {
+                ...params.childProduct,
+                freeItemsData: params.parentProduct.freeItemsData,
+            };
+        }
+        await window.backdropLoader(true);
+        await mutationAddToCart({
+            variables: {
+                cart_id: cartId,
+                cart_items: [
+                    {
+                        quantity: data.qty || 1,
+                        sku: data.sku,
+                        customizable_options: data.customizable_options,
+                        promo_item_data: {
+                            ruleId: data.freeItemsData.promo_item_data.ruleId,
+                            minimalPrice: data.freeItemsData.promo_item_data.minimalPrice,
+                            discountItem: data.freeItemsData.promo_item_data.discountItem,
+                            isDeleted: data.freeItemsData.promo_item_data.isDeleted,
+                            qtyToProcess: data.freeItemsData.promo_item_data.qtyToProcess,
+                        },
+                    },
+                ],
+            },
+        })
+            .then(() => {
+                window.backdropLoader(false);
+                window.toastMessage({
+                    open: true,
+                    text: t('checkout:message:addFreeItemPromoSuccess'),
+                    variant: 'success',
+                });
+            })
+            .catch(() => {
+                window.backdropLoader(false);
+                window.toastMessage({
+                    open: true,
+                    text: t('checkout:message:addFreeItemPromoFailed'),
+                    variant: 'error',
+                });
+            });
+    };
+
     React.useMemo(() => {
         if (!update.loading && update.data && update.data.updateCartItems) {
             setCart({ ...update.data.updateCartItems.cart });
@@ -271,6 +325,27 @@ const Cart = (props) => {
             setCart({ ...deleteData.data.removeItemFromCart.cart });
         }
     }, [deleteData.loading]);
+
+    // update cart with free items data
+    useEffect(() => {
+        if (!promoItems.loading && promoItems.data?.addProductsToCartPromo) {
+            setCart({ ...promoItems.data.addProductsToCartPromo.cart });
+        }
+    }, [promoItems.loading]);
+
+    // update cart after applying coupon code
+    useEffect(() => {
+        if (!appliedCouponResult.loading && appliedCouponResult.data?.applyCouponToCart) {
+            setCart({ ...appliedCouponResult.data.applyCouponToCart.cart });
+        }
+    }, [appliedCouponResult.loading]);
+
+    // update cart after removing coupon code
+    useEffect(() => {
+        if (!removedCouponResult.loading && removedCouponResult.data?.removeCouponFromCart) {
+            setCart({ ...removedCouponResult.data.removeCouponFromCart.cart });
+        }
+    }, [removedCouponResult.loading]);
 
     React.useMemo(() => {
         if (cart.items.length > 0) {
@@ -374,6 +449,9 @@ const Cart = (props) => {
         storeConfig,
         globalCurrency,
         errorCart,
+        handleAddPromoItemToCart,
+        applyCoupon,
+        removeCoupon,
     };
     return (
         <Layout pageConfig={config || pageConfig} {...props} showRecentlyBar={false}>
