@@ -12,6 +12,7 @@ import {
 import { getHost } from '@helper_config';
 import { breakPointsUp } from '@helper_theme';
 import { setCookies, getCookies } from '@helper_cookies';
+import { getAppEnv } from '@helpers/env';
 import useStyles from '@core_modules/theme/layout/style';
 import { createCompareList } from '@core_modules/product/services/graphql';
 
@@ -52,6 +53,7 @@ const Layout = (props) => {
         ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true,
     } = pageConfig;
     const router = useRouter();
+    const appEnv = getAppEnv();
     const [state, setState] = useState({
         toastMessage: {
             open: false,
@@ -194,7 +196,7 @@ const Layout = (props) => {
                     name="keywords"
                     content={pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa'}
                 />
-                <meta name="robots" content="INDEX,FOLLOW" />
+                <meta name="robots" content={appEnv === 'production' ? 'INDEX,FOLLOW' : 'none'} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="format-detection" content="telephone=no" />
                 <meta name="description" content={ogData['og:description']} />
