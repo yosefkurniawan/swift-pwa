@@ -32,6 +32,7 @@ const Register = (props) => {
     const {
         t, storeConfig, pageConfig, Content, query, lastPathNoAuth,
     } = props;
+
     const config = {
         title: t('register:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)
@@ -268,15 +269,15 @@ const Register = (props) => {
                 text: t('register:success'),
                 variant: 'success',
             });
-            if (query && query.redirect) {
-                setTimeout(() => {
-                    Router.push(query.redirect);
-                }, 1500);
-            } else if (redirectLastPath && redirectLastPath !== '') {
-                Router.push(redirectLastPath);
-            } else {
-                Router.push('/customer/account');
-            }
+            setTimeout(() => {
+                if (query && query.redirect) {
+                    Router.replace(query.redirect);
+                } else if (redirectLastPath && redirectLastPath !== '') {
+                    Router.replace(redirectLastPath);
+                } else {
+                    Router.replace('/customer/account');
+                }
+            }, 700);
         } else if (!called && cartId !== custCartId) {
             mergeCart({
                 variables: {
@@ -292,15 +293,15 @@ const Register = (props) => {
                         text: t('register:success'),
                         variant: 'success',
                     });
-                    if (query && query.redirect) {
-                        setTimeout(() => {
-                            Router.push(query.redirect);
-                        }, 1500);
-                    } else if (redirectLastPath && redirectLastPath !== '') {
-                        Router.push(redirectLastPath);
-                    } else {
-                        Router.push('/customer/account');
-                    }
+                    setTimeout(() => {
+                        if (query && query.redirect) {
+                            Router.replace(query.redirect);
+                        } else if (redirectLastPath && redirectLastPath !== '') {
+                            Router.replace(redirectLastPath);
+                        } else {
+                            Router.replace('/customer/account');
+                        }
+                    }, 700);
                 })
                 .catch((e) => {
                     setdisabled(false);
@@ -312,7 +313,15 @@ const Register = (props) => {
                     });
                 });
         } else {
-            Router.push('/customer/account');
+            setTimeout(() => {
+                if (query && query.redirect) {
+                    Router.replace(query.redirect);
+                } else if (redirectLastPath && redirectLastPath !== '') {
+                    Router.replace(redirectLastPath);
+                } else {
+                    Router.replace('/customer/account');
+                }
+            }, 700);
         }
     }
 
