@@ -24,6 +24,7 @@ import { useQuery } from '@apollo/client';
 const ContentDetail = ({
     t, product, Content, isLogin, weltpixel_labels, dataProductTabs,
 }) => {
+    // const { data, error, loading } = productResults;
     const item = product.items[0];
     const route = useRouter();
 
@@ -75,10 +76,6 @@ const ContentDetail = ({
         };
         TagManager.dataLayer(tagManagerArgs);
     }, []);
-
-    // const client = useApolloClient();
-
-    // if (typeof window !== 'undefined') console.log(item);
 
     const bannerData = [];
     if (item.media_gallery.length > 0) {
@@ -395,9 +392,18 @@ const PageDetail = (props) => {
     } = props;
 
     const context = isLogin && isLogin === 1 ? { request: 'internal' } : {};
+    const router = useRouter();
+    const productProps = router.query.productProps ? JSON.parse(router.query.productProps) : {};
+    const checkProductProps = productProps.name ? {
+        variables: {
+            includeName: productProps.name && productProps.name !== '',
+            includePrice: productProps.price && true,
+        },
+    } : {};
 
     const labels = getProductLabel(slug[0], { context });
-    const { loading, data, error } = getProduct(slug[0], { context });
+    const { loading, data, error } = getProduct(slug[0], { context, ...checkProductProps });
+    const productResults = getProduct(slug[0], { context, ...checkProductProps });
     const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
     React.useEffect(() => {
         if (slug[0] !== '') {
@@ -412,6 +418,7 @@ const PageDetail = (props) => {
             });
         }
     }, [slug[0]]);
+
     if (error || loading || !data) {
         return (
             <Layout pageConfig={{}} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props}>
@@ -422,10 +429,19 @@ const PageDetail = (props) => {
     if (data) {
         let temporaryArr = [];
         product = data.products;
+
+        // if (productProps.name) {
+        //     product = {
+        //         ...product,
+        //         items: [{ ...product.items[0], name: productProps.name }],
+        //     };`
+        // }
+
         const viewedProduct = getLocalStorage('recently_viewed_product');
         if (product.items.length > 0) {
             const item = product.items[0];
             let isExist = false;
+
             if (viewedProduct) {
                 temporaryArr = viewedProduct;
                 if (viewedProduct.length > 0) {
@@ -465,8 +481,8 @@ const PageDetail = (props) => {
                 };
         }
     }
-    const schemaOrg = generateSchemaOrg(product.items[0]);
 
+    const schemaOrg = generateSchemaOrg(product.items[0]);
     const config = {
         title: product.items.length > 0 ? product.items[0].name : '',
         bottomNav: false,
@@ -499,6 +515,7 @@ const PageDetail = (props) => {
         <Layout pageConfig={pageConfig || config} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props}>
             <ContentDetail
                 product={product}
+                productResults={productResults}
                 t={t}
                 Content={Content}
                 isLogin={isLogin}

@@ -195,47 +195,91 @@ const tabListProduct = `
  * @returns grapql query
  */
 
+const productDetailFragment = gql`
+  fragment CORE_PRODUCT_DETAILS on ProductInterface {
+    id
+    name @skip(if: $includeName)
+    sku
+    ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
+    stock_status
+    url_key
+    __typename
+    attribute_set_id
+    small_image {
+      url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
+      label
+    }
+    image {
+      url
+    }
+    media_gallery_entries {
+      media_type
+      video_content {
+        video_url
+      }
+    }
+    review {
+      rating_summary
+      reviews_count
+    }
+    categories {
+      id
+      name
+      url_path
+      breadcrumbs {
+        category_id
+        category_url_path
+        category_name
+      }
+    }
+    special_from_date
+    special_to_date
+  }
+`;
+
 export const getProduct = (url) => {
-    const query = gql`{
+    const query = gql`
+    ${productDetailFragment}
+    query getProducts($includeName: Boolean = false) {
         products(
             search: "" ,filter: {
               url_key: {
                 eq: "${url}"
               }
             }
-          ) {
-            items {
-              ${productDetail}
-              ${priceRange}
-              ${priceTiers}
-              description {
-                html
-              }
-              ${modules.brands.enabled ? 'brand' : ''}
-              short_description {
-                html
-              }
-              more_info {
-                label
-                value
-              }
-              media_gallery {
-                url
-                label
-                ... on ProductVideo {
-                    video_content {
-                        media_type
-                        video_provider
-                        video_url
-                        video_title
-                        video_description
-                        video_metadata
-                    }
-                }
+        ) {
+          items {
+            ...CORE_PRODUCT_DETAILS
+            ${priceRange}
+            ${priceTiers}
+            description {
+              html
+            }
+            ${modules.brands.enabled ? 'brand' : ''}
+            short_description {
+              html
+            }
+            more_info {
+              label
+              value
+            }
+            media_gallery {
+              url
+              label
+              ... on ProductVideo {
+                  video_content {
+                      media_type
+                      video_provider
+                      video_url
+                      video_title
+                      video_description
+                      video_metadata
+                  }
               }
             }
-            total_count
           }
+          total_count
+        }
     }`;
     return query;
 };
