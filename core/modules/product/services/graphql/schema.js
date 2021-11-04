@@ -195,6 +195,63 @@ const tabListProduct = `
  * @returns grapql query
  */
 
+const priceRangePartial = `
+  minimum_price {
+    discount {
+      amount_off
+      percent_off
+    }
+    final_price {
+      currency
+      value
+    }
+    fixed_product_taxes {
+      amount {
+        currency
+        value
+      }
+      label
+    }
+    regular_price {
+      currency
+      value
+    }
+  }
+  maximum_price {
+    discount {
+      amount_off
+      percent_off
+    }
+    final_price {
+      currency
+      value
+    }
+    fixed_product_taxes {
+      amount {
+        currency
+        value
+      }
+      label
+    }
+    regular_price {
+      currency
+      value
+    }
+  }
+ `;
+
+const priceTiersPartial = `
+  discount {
+    amount_off
+    percent_off
+  }
+  final_price {
+    currency
+    value
+  }
+  quantity
+ `;
+
 const productDetailFragment = gql`
   fragment CORE_PRODUCT_DETAILS on ProductInterface {
     id
@@ -205,7 +262,7 @@ const productDetailFragment = gql`
     url_key
     __typename
     attribute_set_id
-    small_image {
+    small_image @skip(if: $includeImg) {
       url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
       label
     }
@@ -234,13 +291,23 @@ const productDetailFragment = gql`
     }
     special_from_date
     special_to_date
+    price_range @skip(if: $includePrice) {
+      ${priceRangePartial}
+    }
+    price_tiers @skip(if: $includePrice) {
+      ${priceTiersPartial}
+    }
   }
 `;
 
 export const getProduct = (url) => {
     const query = gql`
     ${productDetailFragment}
-    query getProducts($includeName: Boolean = false) {
+    query getProducts(
+      $includeName: Boolean = false,
+      $includePrice: Boolean = false,
+      $includeImg: Boolean = false,
+    ) {
         products(
             search: "" ,filter: {
               url_key: {
@@ -250,8 +317,6 @@ export const getProduct = (url) => {
         ) {
           items {
             ...CORE_PRODUCT_DETAILS
-            ${priceRange}
-            ${priceTiers}
             description {
               html
             }
