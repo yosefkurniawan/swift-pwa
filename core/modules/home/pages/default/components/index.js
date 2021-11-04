@@ -1,4 +1,6 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable max-len */
+
 import { modules } from '@config';
 import BannerSlider from '@core_modules/home/pages/default/components/Banner';
 import CategoryList from '@core_modules/home/pages/default/components/CategoryList';
@@ -12,17 +14,19 @@ const Content = (props) => {
         BannerSliderSkeleton, BannerView, FeaturedSkeleton, FeaturedView, CategoryListSkeleton, CategoryListView, CmsPage, ...other
     } = props;
     const { useCmsPage } = modules.home;
+    const logoUrl = `${props.storeConfig.secure_base_media_url}logo/${props.storeConfig.header_logo_src}`;
+
+    let content = (
+        <>
+            <BannerSlider BannerSliderSkeleton={BannerSliderSkeleton} BannerView={BannerView} {...other} />
+            <FeaturedProducts FeaturedView={FeaturedView} FeaturedSkeleton={FeaturedSkeleton} {...other} />
+            <CategoryList CategoryListSkeleton={CategoryListSkeleton} CategoryListView={CategoryListView} {...other} />
+        </>
+    );
 
     if (useCmsPage.enable) {
-        const { storeConfig } = props;
-        const logoUrl = `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`;
-        return (
+        content = (
             <>
-                <div className={classNames(styles.header)} id="home-banner">
-                    <div className={classNames(styles.logo, 'hidden-desktop')}>
-                        <img src={logoUrl} alt="logo" className={styles.imgLogo} />
-                    </div>
-                </div>
                 <CmsPage onlyCms slug={[useCmsPage.identifier]} withLayoutHeader={false} withLayoutFooter={false} withCmsTitle={false} {...other} />
             </>
         );
@@ -30,9 +34,12 @@ const Content = (props) => {
 
     return (
         <div className={styles.container}>
-            <BannerSlider BannerSliderSkeleton={BannerSliderSkeleton} BannerView={BannerView} {...other} />
-            <FeaturedProducts FeaturedView={FeaturedView} FeaturedSkeleton={FeaturedSkeleton} {...other} />
-            <CategoryList CategoryListSkeleton={CategoryListSkeleton} CategoryListView={CategoryListView} {...other} />
+            <div className={classNames(styles.header)}>
+                <div className={classNames(styles.logo, 'hidden-desktop')}>
+                    <img src={logoUrl} alt="logo" className={styles.imgLogo} />
+                </div>
+            </div>
+            {content}
         </div>
     );
 };

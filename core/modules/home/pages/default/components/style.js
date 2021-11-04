@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
         color: WHITE,
     },
     imgLogo: {
-        ...CreateMargin(15),
+        marginTop: '25%',
         width: 100,
         height: '100%',
     },

@@ -211,7 +211,7 @@ const Layout = (props) => {
                     ))
                     : null}
             </Head>
-            {features.customInstallApp.enabled ? <PopupInstallAppMobile /> : null}
+            {features.customInstallApp.enabled && !onlyCms ? <PopupInstallAppMobile /> : null}
             {withLayoutHeader && (
                 <header ref={refHeader}>
 
@@ -283,7 +283,7 @@ const Layout = (props) => {
                 )
             }
             {
-                showRecentlyBar && (
+                showRecentlyBar && !onlyCms && (
                     <RecentlyViewed
                         isActive={storeConfig && storeConfig.weltpixel_RecentlyViewedBar_general_enable}
                         recentlyBtn={bodyStyles.recentView}
