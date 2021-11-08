@@ -8,9 +8,12 @@ const MagezonPageableContainer = (props) => {
         <>
             <div className="mgz-pageable-container">
                 <Carousel {...rest}>
-                    {elements.map((element, index) => (
-                        <MagezonSection key={index} elements={element.elements} storeConfig={storeConfig} />
-                    ))}
+                    {elements.map((element, index) => {
+                        if (element.length === 0) {
+                            return null;
+                        }
+                        return <MagezonSection key={index} elements={element.elements} storeConfig={storeConfig} />;
+                    })}
                 </Carousel>
             </div>
             <style jsx>

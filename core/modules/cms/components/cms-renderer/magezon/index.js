@@ -17,7 +17,6 @@ import MagezonFlipBox from '@core_modules/cms/components/cms-renderer/magezon/Ma
 import MagezonCounter from '@core_modules/cms/components/cms-renderer/magezon/MagezonCounter/index';
 import MagezonMessageBox from '@core_modules/cms/components/cms-renderer/magezon/MagezonMessageBox';
 import MagezonNewsletter from '@core_modules/cms/components/cms-renderer/magezon/MagezonNewsletter';
-import MagezonSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonSlider';
 import MagezonContactForm from '@core_modules/cms/components/cms-renderer/magezon/MagezonContactForm';
 import MagezonCta from '@core_modules/cms/components/cms-renderer/magezon/MagezonCta';
 import generateCustomCssAnimation from '@core_modules/cms/helpers/magezonCustomCssAnimationGenerator';
@@ -27,7 +26,6 @@ import MagezonPagebuilderTemplate from '@core_modules/cms/components/cms-rendere
 import MagezonVideoPlayer from '@core_modules/cms/components/cms-renderer/magezon/MagezonVideoPlayer';
 import MagezonPricingTable from '@core_modules/cms/components/cms-renderer/magezon/MagezonPricingTable';
 import MagezonImageGallery from '@core_modules/cms/components/cms-renderer/magezon/MagezonImageGallery';
-import MagezonProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct';
 import MagezonCategories from '@core_modules/cms/components/cms-renderer/magezon/MagezonCategories';
 import MagezonContentSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonContentSlider';
 import MagezonTestimonials from '@core_modules/cms/components/cms-renderer/magezon/MagezonTestimonials';
@@ -43,6 +41,8 @@ import 'open-iconic/font/css/open-iconic-bootstrap.css';
 import 'animate.css';
 import useStyles from '@core_modules/cms/components/cms-renderer/magezon/style';
 
+const MagezonProduct = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonProduct'));
+const MagezonSlider = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonSlider'));
 const MagezonInstagram = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonInstagramFeed'), { ssr: false });
 const MagezonPinterest = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonPinterest'), { ssr: false });
 const MagezonTwitter = dynamic(() => import('@core_modules/cms/components/cms-renderer/magezon/MagezonTwitter'), { ssr: false });
