@@ -1,6 +1,7 @@
 /* eslint-disable operator-linebreak */
 import Typography from '@common_typography';
 import SingleProduct from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/SingleProduct';
+import Skeleton from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/Skeleton';
 import ProductSlider from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/Slider';
 import { generateQueries, getProductListConditions } from '@core_modules/cms/helpers/getProductListConditions';
 import { getProductList } from '@core_modules/cms/services/graphql';
@@ -21,7 +22,6 @@ const MagezonProductList = (props) => {
         title, title_align, title_tag, title_color,
         item_xl, item_lg, item_md, item_sm, item_xs,
         ...rest
-        // source, orer_by,
     } = props;
     const { t } = useTranslation();
 
@@ -48,8 +48,10 @@ const MagezonProductList = (props) => {
     const linePosClass = show_line && line_position === 'bottom' ? 'mgz-product-heading-line--bottom' : '';
     const dataCondition = useMemo(() => getProductListConditions(condition), [condition]);
     const dataFilter = generateQueries(type, type === 'single_product' ? { sku: { eq: product_sku } } : dataCondition, orer_by);
-    const context = dataFilter.sort.random ? { request: 'internal' } : {};
-    const { data, error } = getProductList({ ...dataFilter, pageSize: max_items }, context);
+    const context = type !== 'single_product' && dataFilter.sort.random ? { request: 'internal' } : {};
+    const { data, error, loading } = getProductList({ ...dataFilter, pageSize: max_items }, context);
+
+    if (loading) return <Skeleton />;
 
     if (type === 'single_product') {
         content = data?.products?.items[0] && <SingleProduct product={data.products.items[0]} {...productProps} />;

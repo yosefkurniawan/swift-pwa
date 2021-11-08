@@ -25,16 +25,11 @@ const currenciesToLocale = {
  */
 const getCurrentCurrency = ({ APP_CURRENCY, value }) => {
     const APP_CURRENCY_OBJECT = JSON.parse(APP_CURRENCY);
-    const rateBaseCurrency = APP_CURRENCY_OBJECT.base_currency_rate;
     const rateDefaultCurrency = APP_CURRENCY_OBJECT.default_currency_rate;
     const codeDefaultCurrency = APP_CURRENCY_OBJECT.default_display_currency_code;
 
     const currency = codeDefaultCurrency;
-    if (rateBaseCurrency > rateDefaultCurrency) {
-        value *= rateDefaultCurrency;
-    } else if (rateBaseCurrency < rateDefaultCurrency) {
-        value /= rateDefaultCurrency;
-    }
+    value = Math.floor(value * rateDefaultCurrency);
 
     return { currency, value };
 };

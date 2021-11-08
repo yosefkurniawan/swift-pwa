@@ -2,30 +2,16 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-return-assign */
-import React from 'react';
-import Carousel from '@common_slick/Caraousel';
-import ProductItem from '@plugin_productitem';
 import GridList from '@common_gridlist';
+import Carousel from '@common_slick/Caraousel';
 import SkeletonWidget from '@common_slick/Caraousel/Skeleton';
-
 import { modules } from '@config';
-import { getCategoryProducts } from '@core_modules/catalog/services/graphql';
-/**
- * [COMBINE] data condition for better format
- * @param {json} condition_object
- * @returns
- */
-const getDataCondition = ({ condition_object }) => {
-    let conditions = {};
-    for (const condition_index in condition_object) {
-        const condition_item = condition_object[condition_index];
-        const attribute = condition_item?.attribute;
-        const aggregator = condition_item?.aggregator;
-        if (attribute !== undefined) conditions = { ...conditions, attribute, attribute_value: condition_item?.value };
-        if (aggregator !== undefined) conditions = { ...conditions, aggregator, aggregator_value: condition_item?.value };
-    }
-    return conditions;
-};
+import { generateQueries, getProductListConditions } from '@core_modules/cms/helpers/getProductListConditions';
+import { getProductList } from '@core_modules/cms/services/graphql';
+import ProductItem from '@plugin_productitem';
+import ErrorMessage from '@plugin_productlist/components/ErrorMessage';
+import React, { useMemo } from 'react';
+import { useTranslation } from '@i18n';
 
 /**
  * [CONSTANT] variable
@@ -35,21 +21,15 @@ const TEMPLATE_GRID = 'grid';
 
 const WidgetListProduct = (props) => {
     const { template, products_count, conditions_encoded } = props;
-    const condition_object = JSON.parse(conditions_encoded);
-    const dataCondition = getDataCondition({ condition_object });
-    const page = 1;
-
-    let dataLoading = true;
-    let dataItems = [];
+    const { t } = useTranslation();
 
     /**
      * [QUERY] query for products items
      */
-    if (dataCondition.attribute === 'category_ids') {
-        const { data, loading } = getCategoryProducts({ category_id: dataCondition.attribute_value, products_count, page });
-        dataLoading = loading;
-        dataItems = data?.categoryList[0]?.products?.items;
-    }
+    const dataConditions = useMemo(() => getProductListConditions(conditions_encoded), [conditions_encoded]);
+    const dataFilter = generateQueries(template, dataConditions);
+    const { data, loading, error } = getProductList({ ...dataFilter, pageSize: products_count });
+    const dataItems = data?.products?.items || [];
 
     /**
      * [METHOD] on reinit trigger when all data has been rendered, hide skeleton
@@ -72,14 +52,29 @@ const WidgetListProduct = (props) => {
     /**
      * [TEMPLATE] type slider
      */
-    const classSkeleton = typeof window === 'undefined' ? 'full-width widget-product-list-skeleton' : 'full-width widget-product-list-skeleton hide';
-    const classProductList = typeof window === 'undefined' ? 'full-width widget-product-list hide' : 'full-width widget-product-list';
-    if (template === TEMPLATE_SLIDER && !dataLoading && dataItems?.length > 0) {
+    const classSkeleton = 'full-width widget-product-list-skeleton';
+    const classProductList = 'full-width widget-product-list';
+    if (loading) {
+        return (
+            <div className={classSkeleton}>
+                <SkeletonWidget />
+            </div>
+        );
+    }
+
+    if (error) {
         return (
             <>
-                <div className={classSkeleton}>
-                    <SkeletonWidget />
+                <div className="mgz-product-error">
+                    <ErrorMessage variant="warning" text={t('catalog:emptyProductSearchResult')} open />
                 </div>
+            </>
+        );
+    }
+
+    if (template === TEMPLATE_SLIDER && !loading && dataItems?.length > 0) {
+        return (
+            <>
                 <div className={classProductList}>
                     <Carousel
                         onReInit={onReInit}
@@ -96,12 +91,9 @@ const WidgetListProduct = (props) => {
     /**
      * [TEMPLATE] type grid
      */
-    if (template === TEMPLATE_GRID && !dataLoading && dataItems?.length > 0) {
+    if (template === TEMPLATE_GRID && !loading && dataItems?.length > 0) {
         return (
             <>
-                <div className={classSkeleton}>
-                    <SkeletonWidget />
-                </div>
                 <div className={classProductList}>
                     <GridList
                         data={dataItems}
@@ -111,19 +103,6 @@ const WidgetListProduct = (props) => {
                     />
                 </div>
             </>
-        );
-    }
-
-    /**
-     * [TEMPLATE] not found
-     */
-    if (!dataLoading && dataItems?.length < 1) {
-        return (
-            <div>
-                our widget still not supported for
-                {' '}
-                <strong>{dataCondition.attribute}</strong>
-            </div>
         );
     }
 
