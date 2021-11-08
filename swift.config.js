@@ -539,8 +539,8 @@ const modules = {
     home: {
         enabled: true,
         useCmsPage: {
-            enable: true,
-            identifier: 'pwa-homepage-2',
+            enable: false,
+            identifier: 'pwa-homepage',
         },
         featuresProduct: {
             enable: true,
