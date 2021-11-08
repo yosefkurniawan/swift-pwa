@@ -2,11 +2,13 @@
 /* eslint-disable max-len */
 
 import { modules } from '@config';
-import BannerSlider from '@core_modules/home/pages/default/components/Banner';
-import CategoryList from '@core_modules/home/pages/default/components/CategoryList';
-import FeaturedProducts from '@core_modules/home/pages/default/components/FeaturedProducts';
+import dynamic from 'next/dynamic';
 import useStyles from '@core_modules/home/pages/default/components/style';
 import classNames from 'classnames';
+
+const BannerSlider = dynamic(() => import('@core_modules/home/pages/default/components/Banner'));
+const FeaturedProducts = dynamic(() => import('@core_modules/home/pages/default/components/FeaturedProducts'));
+const CategoryList = dynamic(() => import('@core_modules/home/pages/default/components/CategoryList'));
 
 const Content = (props) => {
     const styles = useStyles();

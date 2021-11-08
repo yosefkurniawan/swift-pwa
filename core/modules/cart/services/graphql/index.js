@@ -93,3 +93,23 @@ export const updateCartitem = () => useMutation(Schema.updateCartitem, {
         request: 'internal',
     },
 });
+
+export const applyCouponToCart = (options = {}) => useMutation(Schema.applyCouponToCart, {
+    ...options,
+    context: {
+        request: 'internal',
+    },
+});
+
+export const removeCouponFromCart = (options = {}) => useMutation(Schema.removeCouponFromCart, {
+    ...options,
+    context: {
+        request: 'internal',
+    },
+});
+
+export const addProductToCartPromo = () => useMutation(Schema.addProductsToPromoCart, {
+    context: {
+        request: 'internal',
+    },
+});

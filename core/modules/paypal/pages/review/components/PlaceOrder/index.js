@@ -19,7 +19,7 @@ const PlaceOrder = (props) => {
     // eslint-disable-next-line no-unused-vars
     let paypalData = {};
     if (typeof window !== 'undefined') {
-        paypalData = JSON.parse(localStorage.getItem(modules.checkout.paypal.keyData));
+        paypalData = JSON.parse(localStorage.getItem(modules.paypal.keyData));
     }
 
     const [placeOrder] = gqlService.placeOrder({ onError: () => {} });
@@ -79,7 +79,7 @@ const PlaceOrder = (props) => {
                 variant: 'success',
                 text: t('checkout:message:placeOrder'),
             });
-            localStorage.removeItem(modules.checkout.paypal.keyData);
+            localStorage.removeItem(modules.paypal.keyData);
             window.location.replace(generatesuccessRedirect(orderNumber));
         } else {
             window.backdropLoader(false);

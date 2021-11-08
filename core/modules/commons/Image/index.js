@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
 /* eslint-disable no-unused-vars */
-import React from 'react';
-import { generateThumborUrl } from '@helpers/image';
+import React, { useEffect, useState } from 'react';
+import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import LazyImage from './LazyImage';
 
 const imgError = (image) => {
@@ -11,10 +11,12 @@ const imgError = (image) => {
     return true;
 };
 
-const Image = ({
+const CustomImage = ({
     src, width = 500, height = 500, magezon,
     classContainer = '', className = '', alt = 'Image', quality = 100, style = {}, lazy = false, ...other
 }) => {
+    const imageUrl = generateThumborUrl(src, width, height);
+    const [imgSource, setImgSource] = useState(imageUrl);
     const styleImage = magezon ? {
         maxWidth: '100%',
         maxHeight: '100%',
@@ -25,10 +27,16 @@ const Image = ({
         top: '0',
         left: '0',
     };
+
+    useEffect(() => {
+        const img = new Image();
+        img.src = imgSource;
+        img.onerror = () => setImgSource('/assets/img/placeholder.png');
+    }, []);
+
     return (
         <div
             className={classContainer}
-            // ref={imgContainer}
             style={magezon ? {
                 width: 'fit-content',
                 overflow: 'hidden',
@@ -40,25 +48,28 @@ const Image = ({
                 overflow: 'hidden',
             }}
         >
-            {!lazy ? (
-                <img
-                    data-pagespeed-no-defer
-                    style={styleImage}
-                    className={`img ${className}`}
-                    src={generateThumborUrl(src, width, height)}
-                    onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
-                    alt={alt}
-                    {...other}
-                />
-            ) : (
-                <LazyImage
-                    style={styleImage}
-                    src={generateThumborUrl(src, width, height)}
-                    alt={alt}
-                />
-            )}
+            <picture>
+                <source srcSet={imgSource} type="image/webp" />
+                <source srcSet={getImageFallbackUrl(imgSource)} type="image/jpeg" />
+                {!lazy ? (
+                    <img
+                        data-pagespeed-no-defer
+                        style={styleImage}
+                        className={`img ${className}`}
+                        src={imgSource}
+                        alt={alt}
+                        {...other}
+                    />
+                ) : (
+                    <LazyImage
+                        style={styleImage}
+                        src={imgSource}
+                        alt={alt}
+                    />
+                )}
+            </picture>
         </div>
     );
 };
 
-export default Image;
+export default CustomImage;

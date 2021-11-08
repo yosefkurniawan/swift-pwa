@@ -11,7 +11,6 @@ import {
 } from '@config';
 import { getHost } from '@helper_config';
 import { breakPointsUp } from '@helper_theme';
-import Newsletter from '@plugin_newsletter';
 import { setCookies, getCookies } from '@helper_cookies';
 import useStyles from '@core_modules/theme/layout/style';
 import { createCompareList } from '@core_modules/product/services/graphql';
@@ -21,13 +20,14 @@ import Copyright from '@core_modules/theme/components/footer/desktop/components/
 
 const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
-const HeaderMobile = dynamic(() => import('@common_headermobile'));
+const HeaderMobile = dynamic(() => import('@common_headermobile'), { ssr: false });
 const HeaderDesktop = dynamic(() => import('@common_headerdesktop'), { ssr: true });
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const Loading = dynamic(() => import('@common_loaders/Backdrop'), { ssr: false });
 const ScrollToTop = dynamic(() => import('@common_scrolltotop'), { ssr: false });
-const Footer = dynamic(() => import('@common_footer'), { ssr: true });
+const Footer = dynamic(() => import('@common_footer'), { ssr: false });
 const RestrictionPopup = dynamic(() => import('@common_restrictionPopup'), { ssr: false });
+const Newsletter = dynamic(() => import('@plugin_newsletter'), { ssr: false });
 const NewsletterPopup = dynamic(() => import('@core_modules/theme/components/newsletterPopup'), { ssr: false });
 const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/recentlyViewed'), { ssr: false });
 
@@ -214,7 +214,6 @@ const Layout = (props) => {
             {features.customInstallApp.enabled && !onlyCms ? <PopupInstallAppMobile /> : null}
             {withLayoutHeader && (
                 <header ref={refHeader}>
-
                     { typeof window !== 'undefined'
                         && storeConfig.global_promo && storeConfig.global_promo.enable
                         && (

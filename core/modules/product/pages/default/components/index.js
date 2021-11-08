@@ -2,9 +2,6 @@
 /* eslint-disable array-callback-return */
 import Button from '@common_button';
 import PriceFormat from '@common_priceformat';
-import Banner from '@common_slick/BannerThumbnail';
-// import Caraousel from '@common_slick/Caraousel';
-// import CarouselSkeleton from '@common_slick/Caraousel/Skeleton';
 import Typography from '@common_typography';
 import IconButton from '@material-ui/core/IconButton';
 import Favorite from '@material-ui/icons/Favorite';
@@ -27,9 +24,10 @@ import ModalPopupImage from '@core_modules/product/pages/default/components/Moda
 import { modules } from '@config';
 import { getProductBannerLite } from '@core_modules/product/services/graphql';
 
+const Banner = dynamic(() => import('@common_slick/BannerThumbnail'), { ssr: true });
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: true });
 const TabsView = dynamic(() => import('@core_modules/product/pages/default/components/DesktopTabs'), { ssr: true });
-const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: true });
+const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: false });
 const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
 const UpsellDrawer = dynamic(() => import('@core_modules/product/pages/default/components/RightDrawer'), { ssr: false });
 const RelatedProductCaraousel = dynamic(() => import('@core_modules/product/pages/default/components/RelatedProductCaraousel'), { ssr: false });

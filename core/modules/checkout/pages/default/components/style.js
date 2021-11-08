@@ -132,4 +132,8 @@ export default makeStyles((theme) => ({
     howToPay: {
         ...CreatePadding(5, 15, 5, 15),
     },
+    listError: {
+        ...FlexColumn,
+        marginTop: 20,
+    },
 }));

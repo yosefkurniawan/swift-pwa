@@ -9,7 +9,7 @@
 import React, { useRef, useState } from 'react';
 import Slider from 'react-slick';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { generateThumborUrl } from '@helpers/image';
+import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import { features } from '@config';
 import { getStoreHost } from '@helpers/config';
 import MagezonHeading from '@core_modules/cms/components/cms-renderer/magezon/MagezonHeading';
@@ -68,14 +68,7 @@ const MagezonSliderContent = (props) => {
     const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('sm'));
     const slideHeight = features.imageSize.magezonSlider[isDesktop ? 'desktop' : 'mobile'].height;
     const slideWidth = features.imageSize.magezonSlider[isDesktop ? 'desktop' : 'mobile'].width;
-
-    const getBackgroundImageUrl = (backgroundType, img) => {
-        if (backgroundType === 'image') {
-            const thumborUrl = generateThumborUrl(`${mediaUrl}/${img}`, 0, 0);
-            return `url("${thumborUrl}")`;
-        }
-        return 'url()';
-    };
+    const getImgThumbor = generateThumborUrl(`${mediaUrl}/${image}`, 0, 0);
 
     return (
         <>
@@ -84,10 +77,7 @@ const MagezonSliderContent = (props) => {
                     <VideoContent background_type={background_type} youtube_id={youtube_id} vimeo_id={vimeo_id} local_link={local_link} />
                 </div>
             ) : (
-                <div
-                    className="magezon-slide"
-                    style={{ backgroundImage: getBackgroundImageUrl(background_type, image), height: slider_height }}
-                >
+                <div className="magezon-slide">
                     <div className={`magezon-slide-captions ${content_position}`}>
                         <div>
                             {heading && (
@@ -125,10 +115,36 @@ const MagezonSliderContent = (props) => {
                             )}
                         </div>
                     </div>
+                    <div className="magezon-slide-image">
+                        <picture>
+                            <source srcSet={getImgThumbor} type="image/webp" />
+                            <source srcSet={getImageFallbackUrl(getImgThumbor)} type="image/jpeg" />
+                            <img
+                                data-pagespeed-no-defer
+                                className="img-bg"
+                                src={getImgThumbor}
+                                onError={(e) => { e.target.onerror = null; e.target.src = '/assets/img/placeholder.png'; }}
+                                alt="gambar"
+                            />
+                        </picture>
+                    </div>
                 </div>
             )}
             <style jsx>
                 {`
+                    .magezon-slide {
+                        height: ${slider_height}px;
+                    }
+                    .magezon-slide-image {
+                        z-index: -1;
+                        height: ${slider_height}px;
+                        overflow: hidden;
+                    }
+                    .magezon-slide-image img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
                     .magezon-slide-content-wrapper {
                         display: flex;
                         justify-content: flex-start;
@@ -143,6 +159,7 @@ const MagezonSliderContent = (props) => {
                         top: 0;
                         left: 0;
                         right: 0;
+                        z-index: 100;
                     }
                     .magezon-slide-captions > div {
                         max-width: ${content_width}px;

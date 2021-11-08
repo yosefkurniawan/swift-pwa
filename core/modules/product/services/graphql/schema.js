@@ -281,30 +281,6 @@ export const getProductBySku = () => {
                 label
                 value
               }
-              upsell_products {
-                ${productDetail}
-                ${priceRange}
-                ${priceTiers}
-              }
-              media_gallery {
-                url
-                label
-                ... on ProductVideo {
-                    video_content {
-                        media_type
-                        video_provider
-                        video_url
-                        video_title
-                        video_description
-                        video_metadata
-                    }
-                }
-              }
-              related_products {
-               ${productDetail}
-               ${priceRange}
-               ${priceTiers}
-              }
             }
             total_count
           }

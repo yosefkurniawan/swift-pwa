@@ -19,6 +19,7 @@ const ImageDetail = (props) => {
             height={height}
             quality={80}
             alt={name}
+            lazy
         />
     );
 };

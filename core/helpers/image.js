@@ -1,3 +1,5 @@
+/* eslint-disable arrow-body-style */
+
 import { features } from '@config';
 
 const { thumbor } = features;
@@ -21,6 +23,10 @@ export const generateThumborUrl = (src = '', width = 400, height = 400) => {
     }
 
     return src;
+};
+
+export const getImageFallbackUrl = (src) => {
+    return src.replace('webp', 'jpeg');
 };
 
 export const generateImageDimensions = (url = '') => {
