@@ -59,7 +59,6 @@ const Menu = (props) => {
             await setResolver(urlResolver);
         }
     };
-
     return (
         <div className="menu-wrapper" role="navigation">
             <ul className="nav" role="menubar">

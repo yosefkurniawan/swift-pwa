@@ -12,6 +12,7 @@ import {
 import { getHost } from '@helper_config';
 import { breakPointsUp } from '@helper_theme';
 import { setCookies, getCookies } from '@helper_cookies';
+import { getAppEnv } from '@helpers/env';
 import useStyles from '@core_modules/theme/layout/style';
 import { createCompareList } from '@core_modules/product/services/graphql';
 
@@ -52,6 +53,7 @@ const Layout = (props) => {
         ogContent = {}, schemaOrg = null, headerDesktop = true, footer = true,
     } = pageConfig;
     const router = useRouter();
+    const appEnv = getAppEnv();
     const [state, setState] = useState({
         toastMessage: {
             open: false,
@@ -194,7 +196,7 @@ const Layout = (props) => {
                     name="keywords"
                     content={pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa'}
                 />
-                <meta name="robots" content="INDEX,FOLLOW" />
+                <meta name="robots" content={appEnv === 'production' ? 'INDEX,FOLLOW' : 'NOINDEX,NOFOLLOW'} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="format-detection" content="telephone=no" />
                 <meta name="description" content={ogData['og:description']} />
@@ -211,7 +213,7 @@ const Layout = (props) => {
                     ))
                     : null}
             </Head>
-            {features.customInstallApp.enabled ? <PopupInstallAppMobile /> : null}
+            {features.customInstallApp.enabled && !onlyCms ? <PopupInstallAppMobile /> : null}
             {withLayoutHeader && (
                 <header ref={refHeader}>
                     { typeof window !== 'undefined'
@@ -282,7 +284,7 @@ const Layout = (props) => {
                 )
             }
             {
-                showRecentlyBar && (
+                showRecentlyBar && !onlyCms && (
                     <RecentlyViewed
                         isActive={storeConfig && storeConfig.weltpixel_RecentlyViewedBar_general_enable}
                         recentlyBtn={bodyStyles.recentView}

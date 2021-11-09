@@ -35,6 +35,7 @@ const Login = (props) => {
         sitekey,
         handleChangeCaptcha,
         recaptchaRef,
+        query,
     } = props;
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
@@ -261,7 +262,11 @@ const Login = (props) => {
                             <Button
                                 className={styles.generalButton}
                                 fullWidth={false}
-                                href="/customer/account/create"
+                                href={
+                                    (query && query.redirect)
+                                        ? `/customer/account/create?redirect=${query.redirect}`
+                                        : '/customer/account/create'
+                                }
                                 disabled={desktop ? false : disabled}
                                 align={desktop ? 'left' : 'center'}
                             >

@@ -2,7 +2,7 @@
 /* eslint-disable max-len */
 import Layout from '@layout';
 import React from 'react';
-import { setLogin, setEmailConfirmationFlag } from '@helper_auth';
+import { setLogin, setEmailConfirmationFlag, getLastPathWithoutLogin } from '@helper_auth';
 import { setCartId, getCartId } from '@helper_cartid';
 import {
     expiredToken, custDataNameCookie, recaptcha, modules,
@@ -30,8 +30,9 @@ const appEnv = getAppEnv();
 
 const Register = (props) => {
     const {
-        t, storeConfig, pageConfig, Content,
+        t, storeConfig, pageConfig, Content, query, lastPathNoAuth,
     } = props;
+
     const config = {
         title: t('register:pageTitle'),
         header: 'relative', // available values: "absolute", "relative", false (default)
@@ -55,8 +56,12 @@ const Register = (props) => {
         : expiredToken;
     const { date_of_birth, gender } = storeConfig;
 
+    let redirectLastPath = lastPathNoAuth;
     if (typeof window !== 'undefined') {
         cartId = getCartId();
+        if (lastPathNoAuth === '' || !lastPathNoAuth) {
+            redirectLastPath = getLastPathWithoutLogin();
+        }
     }
     React.useEffect(() => {
         if (Object.keys(router.query).length !== 0) {
@@ -264,7 +269,15 @@ const Register = (props) => {
                 text: t('register:success'),
                 variant: 'success',
             });
-            Router.push('/customer/account');
+            setTimeout(() => {
+                if (query && query.redirect) {
+                    Router.replace(query.redirect);
+                } else if (redirectLastPath && redirectLastPath !== '') {
+                    Router.replace(redirectLastPath);
+                } else {
+                    Router.replace('/customer/account');
+                }
+            }, 700);
         } else if (!called && cartId !== custCartId) {
             mergeCart({
                 variables: {
@@ -280,7 +293,15 @@ const Register = (props) => {
                         text: t('register:success'),
                         variant: 'success',
                     });
-                    Router.push('/customer/account');
+                    setTimeout(() => {
+                        if (query && query.redirect) {
+                            Router.replace(query.redirect);
+                        } else if (redirectLastPath && redirectLastPath !== '') {
+                            Router.replace(redirectLastPath);
+                        } else {
+                            Router.replace('/customer/account');
+                        }
+                    }, 700);
                 })
                 .catch((e) => {
                     setdisabled(false);
@@ -292,11 +313,19 @@ const Register = (props) => {
                     });
                 });
         } else {
-            Router.push('/customer/account');
+            setTimeout(() => {
+                if (query && query.redirect) {
+                    Router.replace(query.redirect);
+                } else if (redirectLastPath && redirectLastPath !== '') {
+                    Router.replace(redirectLastPath);
+                } else {
+                    Router.replace('/customer/account');
+                }
+            }, 700);
         }
     }
 
-    if (guestData) {
+    if (guestData && guestData.ordersFilter && guestData.ordersFilter.data && guestData.ordersFilter.data.length > 0) {
         formik.initialValues.firstName = guestData.ordersFilter.data[0].detail[0].customer_firstname;
         formik.initialValues.lastName = guestData.ordersFilter.data[0].detail[0].customer_lastname;
         formik.initialValues.email = guestData.ordersFilter.data[0].detail[0].customer_email;

@@ -27,7 +27,7 @@ const getProductListConditions = (conditions) => {
     return newConditions;
 };
 
-const generateQueries = (type, variables, sort) => {
+const generateQueries = (type, variables, sort = 'default') => {
     const ASC = 'ASC';
     const DESC = 'DESC';
 

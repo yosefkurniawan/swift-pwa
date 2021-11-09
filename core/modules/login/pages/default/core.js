@@ -446,6 +446,7 @@ const Login = (props) => {
                 sitekey={sitekey}
                 handleChangeCaptcha={handleChangeCaptcha}
                 recaptchaRef={recaptchaRef}
+                query={query}
             />
         </Layout>
     );

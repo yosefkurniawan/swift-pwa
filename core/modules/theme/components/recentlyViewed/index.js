@@ -20,7 +20,7 @@ const RecentlyViewed = (props) => {
     if (typeof window !== 'undefined') {
         viewedProduct = getLocalStorage('recently_viewed_product');
     }
-
+    // console.log(viewedProduct);
     const toggleDrawer = (open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
