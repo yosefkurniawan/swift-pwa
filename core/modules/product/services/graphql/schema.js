@@ -205,6 +205,19 @@ export const getProduct = (url) => {
             }
           ) {
             items {
+              ... on AwGiftCardProduct {
+                aw_gc_amounts
+                # aw_gc_custom_amount
+                # aw_gc_delivery_date
+                # aw_gc_delivery_date_timezone
+                # aw_gc_headline
+                # aw_gc_message
+                # aw_gc_recipient_email
+                # aw_gc_recipient_name
+                # aw_gc_sender_email
+                # aw_gc_sender_name
+                # aw_gc_template
+              }
               ${productDetail}
               ${priceRange}
               ${priceTiers}

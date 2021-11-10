@@ -212,6 +212,38 @@ export const addProductToCart = gql`
     }
 `;
 
+export const addGiftCardProductsToCart = gql`
+mutation addGiftCardProductsToCart(
+    $cartId: String!,
+    $qty: Float!,
+    $sku: String!,
+    ${modules.product.customizableOptions.enabled
+      && `
+      $customizable_options: [CustomizableOptionInput],
+      $entered_options: [EnteredOptionInput] 
+    `}
+) {
+    addAwGcProductToCart(input:{
+      cart_id: $cartId,
+      cart_items: {
+        ${modules.product.customizableOptions.enabled
+          && ' customizable_options: $customizable_options'}
+        data: {
+          quantity: $qty,
+          sku: $sku,
+          ${modules.product.customizableOptions.enabled
+            && ' entered_options: $entered_options'}
+        }
+      }
+    }) {
+      cart {
+        id
+        total_quantity
+      }
+    }
+  }
+`;
+
 export default {
     createCartIdGuest,
 };

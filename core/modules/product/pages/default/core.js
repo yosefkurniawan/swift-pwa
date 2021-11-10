@@ -398,6 +398,7 @@ const PageDetail = (props) => {
 
     const labels = getProductLabel(slug[0], { context });
     const { loading, data, error } = getProduct(slug[0], { context });
+    // console.log('data', data);
     const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
     React.useEffect(() => {
         if (slug[0] !== '') {
