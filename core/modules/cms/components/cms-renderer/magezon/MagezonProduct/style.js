@@ -32,6 +32,36 @@ const useStyles = makeStyles((theme) => ({
             height: 31,
         },
     },
+    contentContainer: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        [theme.breakpoints.down('sm')]: {
+            marginTop: 10,
+            marginBottom: 10,
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: 750,
+        },
+        [theme.breakpoints.up('md')]: {
+            width: 970,
+        },
+        [theme.breakpoints.up('lg')]: {
+            width: 1170,
+        },
+    },
+    contentFeatured: {
+        transition: '0.3s',
+        borderTopLeftRadius: 5,
+        borderBottomLeftRadius: 5,
+        [theme.breakpoints.up('sm')]: {
+            padding: 8,
+        },
+    },
+    contentMobileFeatured: {
+        [theme.breakpoints.down('sm')]: {
+            padding: '0',
+        },
+    },
 }));
 
 export default useStyles;
