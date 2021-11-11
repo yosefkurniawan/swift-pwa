@@ -93,9 +93,6 @@ const ProductSlider = (props) => {
             </div>
             <style jsx>
                 {`
-                    .mgz-product-slider {
-                        ${isSm ? 'min-height: 600px;' : isXs ? 'min-height: 700px;' : ''}
-                    }
                     .mgz-product-slider :global(img) {
                         max-width: 100%;
                     }

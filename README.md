@@ -112,3 +112,12 @@ Click [here](core/public/readme.md) for more detail.
 # Overriding
 Do not ever touch files under under [core](core) folder!
 Do override in [src](src) folder instead!
+
+# Homepage Setup
+By default, Swift PWA comes with hardcode contents which are sliders, highlighted products list, and highlighted categories.
+But we recommend to use CMS Page instead.
+To do so please follow this step:
+1. Download the sample CMS page from [here](sample/pwa-homepage.csv), then upload/import on Magento backoffice using Firebear feature
+2. Update the Swift PWA swift.config.js
+    - home ▸ useCmsPage ▸ enable = true
+    - home ▸ useCmsPage ▸ identifier = "pwa-homepage" or any CMS identifier you created for PWA Homepage.

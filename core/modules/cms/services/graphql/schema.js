@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { features } from '@config';
 
 export const getCmsPage = gql`
     query($identifier: String!) {
@@ -145,8 +146,7 @@ export const getProductList = gql`
                 }
                 small_image {
                     label
-                    url
-                    position
+                    url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height})
                 }
                 ... on ConfigurableProduct {
                     configurable_options {

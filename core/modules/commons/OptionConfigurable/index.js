@@ -45,6 +45,11 @@ const SelectOption = (props) => {
         childContent = '';
     }
 
+    if (!content.includes('#') && content.length > 2) {
+        const newWidth = ((content.length - 2) * 10) + 30;
+        customStyle.width = `${newWidth}px`;
+    }
+
     const handleChange = () => {
         // eslint-disable-next-line no-unused-expressions
         !disabled && onChange(value);

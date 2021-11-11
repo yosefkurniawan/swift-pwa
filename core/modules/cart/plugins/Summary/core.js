@@ -67,7 +67,7 @@ const CoreSummary = (props) => {
         if (prices && prices.discounts && prices.discounts.length) {
             const discounts = prices.discounts.map((disc) => {
                 const price = formatPrice(disc.amount.value, disc.amount.currency);
-                return { item: `${disc.label} - ${price}`, value: `-${price}` };
+                return { item: `${disc.label}`, value: `-${price}` };
             });
             dataSummary = dataSummary.concat(discounts);
         }
