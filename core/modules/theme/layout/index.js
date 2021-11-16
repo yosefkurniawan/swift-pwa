@@ -14,6 +14,7 @@ import { breakPointsUp } from '@helper_theme';
 import { setCookies, getCookies } from '@helper_cookies';
 import { getAppEnv } from '@helpers/env';
 import useStyles from '@core_modules/theme/layout/style';
+import { popupInstallConfig } from '@services/graphql/repository/pwa_config';
 import { createCompareList } from '@core_modules/product/services/graphql';
 
 import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
@@ -65,6 +66,22 @@ const Layout = (props) => {
     const [restrictionCookies, setRestrictionCookies] = useState(false);
     const [showGlobalPromo, setShowGlobalPromo] = React.useState(false);
     const [setCompareList] = createCompareList();
+
+    // get app name config
+    const { loading: loadPopupConfig, data: dataPopupConfig } = popupInstallConfig();
+    let appName = '';
+    let installMessage = '';
+    let showPopup = false;
+    let iconAppleTouch = '/assets/img/swiftpwa_apple_touch.png';
+
+    if (!loadPopupConfig && dataPopupConfig && dataPopupConfig.storeConfig
+        && dataPopupConfig.storeConfig.pwa && dataPopupConfig.storeConfig.pwa.app_name) {
+        appName = dataPopupConfig.storeConfig.pwa.app_name;
+        showPopup = dataPopupConfig.storeConfig.pwa.custom_install_app_enable;
+        installMessage = dataPopupConfig.storeConfig.pwa.install_message || 'Install';
+        iconAppleTouch = dataPopupConfig.storeConfig.pwa.icon_apple_touch;
+    }
+
     // const [mainMinimumHeight, setMainMinimumHeight] = useState(0);
     const refFooter = useRef(null);
     const refHeader = useRef(null);
@@ -197,6 +214,7 @@ const Layout = (props) => {
                     content={pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa'}
                 />
                 <meta name="robots" content={appEnv === 'production' ? 'INDEX,FOLLOW' : 'NOINDEX,NOFOLLOW'} />
+                <link rel="apple-touch-icon" href={iconAppleTouch} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="format-detection" content="telephone=no" />
                 <meta name="description" content={ogData['og:description']} />
@@ -213,7 +231,7 @@ const Layout = (props) => {
                     ))
                     : null}
             </Head>
-            {features.customInstallApp.enabled && !onlyCms ? <PopupInstallAppMobile /> : null}
+            {showPopup ? <PopupInstallAppMobile appName={appName} installMessage={installMessage} /> : null}
             {withLayoutHeader && (
                 <header ref={refHeader}>
                     { typeof window !== 'undefined'
@@ -235,6 +253,9 @@ const Layout = (props) => {
                                     t={t}
                                     app_cookies={app_cookies}
                                     showGlobalPromo={showGlobalPromo}
+                                    enablePopupInstallation={showPopup}
+                                    appName={appName}
+                                    installMessage={installMessage}
                                 />
                             )
                             : null}

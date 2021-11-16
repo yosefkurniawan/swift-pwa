@@ -4,6 +4,9 @@ import * as Schema from '@services/graphql/schema/pwa_config';
 
 export const vesMenuConfig = () => useQuery(Schema.vesMenuConfig);
 
+export const popupInstallConfig = () => useQuery(Schema.popupInstallConfig);
+
 export default {
     vesMenuConfig,
+    popupInstallConfig,
 };

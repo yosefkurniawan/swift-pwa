@@ -4,7 +4,6 @@
 const useMagentoCommerce = false; // setup uses magento commerce or community
 const storeCode = ''; // fill it with any store code when the magento is setup with multiple stores. leave it empty to use default store.
 const assetsVersion = '1.0.6';
-const iconAppleTouch = '/assets/img/swiftpwa_apple_touch.png';
 
 const HOST = {
     local: 'http://localhost:3000',
@@ -26,8 +25,6 @@ const graphqlEndpoint = {
 /* --------------------------------------- */
 
 const installMessage = 'Get our free app.';
-const appName = 'Swift APP';
-
 /* Social Sharing */
 const shareIcon = {
     facebook: true,
@@ -621,7 +618,6 @@ const general = {
 
 module.exports = {
     assetsVersion,
-    iconAppleTouch,
     general,
     sentry,
     storeCode,
@@ -650,7 +646,6 @@ module.exports = {
     recaptcha,
     modules,
     installMessage,
-    appName,
     localResolverKey,
     useMagentoCommerce,
     rollbar,
