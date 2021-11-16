@@ -59,6 +59,18 @@ export const contactConfig = gql`
     }
 }
 `;
+
+export const popupDetailImagePdp = gql`
+{
+  storeConfig {
+    pwa {
+      popup_detail_image_enable
+      
+    }
+  }
+}
+`;
+
 export default {
     vesMenuConfig,
     popupInstallConfig,

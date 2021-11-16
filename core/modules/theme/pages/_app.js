@@ -145,9 +145,7 @@ class MyApp extends App {
                 ctx.res.redirect('/maintenance');
             }
             removeDecimalConfig = removeDecimalConfig.storeConfig.pwa.remove_decimal_price_enable;
-            console.log('decimal', removeDecimalConfig);
         }
-        console.log('decimal', removeDecimalConfig);
 
         /*
          * ---------------------------------------------
@@ -285,7 +283,6 @@ class MyApp extends App {
     render() {
         const { Component, pageProps } = this.props;
         const storeCookie = helperCookies.get(storeConfigNameCookie);
-        const removeDecimalConfig = Cookie.getJSON('remove_decimal_config');
         Cookie.set('remove_decimal_config', pageProps.removeDecimalConfig, { expires: 365 });
         if (!storeCookie) {
             const config = { ...pageProps.storeConfig };

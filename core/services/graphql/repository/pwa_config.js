@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { useQuery } from '@apollo/client';
+import { useQuery, useLazyQuery } from '@apollo/client';
 import * as Schema from '@services/graphql/schema/pwa_config';
 
 export const vesMenuConfig = () => useQuery(Schema.vesMenuConfig);
@@ -10,9 +10,12 @@ export const shareIconConfig = () => useQuery(Schema.shareIconConfig);
 
 export const contactConfig = () => useQuery(Schema.contactConfig);
 
+export const popupDetailImagePdp = () => useLazyQuery(Schema.popupDetailImagePdp);
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
     shareIconConfig,
     contactConfig,
+    popupDetailImagePdp,
 };

@@ -62,6 +62,7 @@ const ProductPage = (props) => {
         smartProductTabs,
         isLogin,
         handleSetCompareList,
+        enablePopupImage,
     } = props;
     const desktop = breakPointsUp('sm');
 
@@ -91,7 +92,11 @@ const ProductPage = (props) => {
                     dataProduct={data}
                     isLogin={isLogin}
                 />
-                <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} />
+                {
+                    enablePopupImage && (
+                        <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} />
+                    )
+                }
             </div>
             <OptionItem {...props} open={openOption} setOpen={() => setOpenOption(!openOption)} setBanner={setBanner} setPrice={setPrice} />
             <SharePopup open={openShare} setOpen={() => setOpenShare(!openShare)} link={getHost() + route.asPath} {...props} />
@@ -148,7 +153,7 @@ const ProductPage = (props) => {
                         autoPlay={false}
                         width={960}
                         height={1120}
-                        actionImage={desktop ? handleOpenImageDetail : () => { }}
+                        actionImage={(desktop && enablePopupImage) ? handleOpenImageDetail : () => { }}
                         customProduct={styles.bannerProduct}
                     >
                         {
