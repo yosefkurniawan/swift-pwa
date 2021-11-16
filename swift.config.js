@@ -237,9 +237,6 @@ const features = {
         desktop: 'pwa_footer',
         mobile: 'pwa_footer',
     },
-    removeDecimalPrice: {
-        enabled: false,
-    },
 };
 
 const modules = {

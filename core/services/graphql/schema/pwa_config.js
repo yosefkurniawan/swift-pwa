@@ -39,6 +39,16 @@ export const shareIconConfig = gql`
   }
 `;
 
+export const getRemoveDecimalConfig = `
+{
+    storeConfig {
+      pwa {        
+        remove_decimal_price_enable
+      }
+    }
+  }
+`;
+
 export const contactConfig = gql`
 {
     storeConfig {
@@ -54,4 +64,5 @@ export default {
     popupInstallConfig,
     shareIconConfig,
     contactConfig,
+    getRemoveDecimalConfig,
 };
