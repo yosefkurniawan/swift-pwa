@@ -99,10 +99,6 @@ const rollbar = {
     },
 };
 
-/* Contact Us */
-// identifiers for cmsBlocks in contact page
-const cmsContactIdentifiers = 'weltpixel_contact_page';
-
 /* Dashboard */
 // identifiers for cmsBlocks in contact page
 const cmsSocialMediaLinkIdentifiers = 'pwa_socmed_links';
@@ -443,9 +439,6 @@ const modules = {
     contact: {
         enabled: true,
         path: '/contact',
-        recaptcha: {
-            enabled: true,
-        },
     },
     forgotpassword: {
         enabled: true,
@@ -623,7 +616,6 @@ module.exports = {
     expiredToken,
     expiredDefault,
     loaderImage,
-    cmsContactIdentifiers,
     cmsSocialMediaLinkIdentifiers,
     custDataNameCookie,
     nameCheckoutCookie,

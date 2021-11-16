@@ -8,8 +8,11 @@ export const popupInstallConfig = () => useQuery(Schema.popupInstallConfig);
 
 export const shareIconConfig = () => useQuery(Schema.shareIconConfig);
 
+export const contactConfig = () => useQuery(Schema.contactConfig);
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
     shareIconConfig,
+    contactConfig,
 };
