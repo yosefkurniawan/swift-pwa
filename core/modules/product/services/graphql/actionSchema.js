@@ -217,13 +217,14 @@ mutation addGiftCardProductsToCart(
     $cartId: String!,
     $qty: Float!,
     $sku: String!,
+    $awGcInput: awGcGiftCardOptionInput!,
     ${modules.product.customizableOptions.enabled
       && `
       $customizable_options: [CustomizableOptionInput],
       $entered_options: [EnteredOptionInput] 
     `}
 ) {
-    addAwGcProductToCart(input:{
+    addAwGcProductToCart(input: {
       cart_id: $cartId,
       cart_items: {
         ${modules.product.customizableOptions.enabled
@@ -234,10 +235,24 @@ mutation addGiftCardProductsToCart(
           ${modules.product.customizableOptions.enabled
             && ' entered_options: $entered_options'}
         }
+        aw_giftcard_option: $awGcInput
       }
     }) {
       cart {
         id
+        items {
+          ... on AwGiftCardCartItem {
+            quantity
+            prices {
+              price {
+                value
+              }
+            }
+            product {
+              name
+            }
+          }
+        }
         total_quantity
       }
     }
