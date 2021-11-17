@@ -199,7 +199,7 @@ const Checkout = (props) => {
         if (cartItems) {
             const cartItemsFilter = cartItems.filter((item) => {
                 const { __typename } = item.product;
-                return __typename === 'VirtualProduct' || __typename === 'DownloadableProduct';
+                return __typename === 'VirtualProduct' || __typename === 'DownloadableProduct' || __typename === 'AwGiftCardProduct';
             });
 
             /**
@@ -207,7 +207,17 @@ const Checkout = (props) => {
              * it's mean cart only contain virtual product
              */
             const isAllVirtual = cartItems.length === cartItemsFilter.length && cartItems.length == 1;
-            if (isAllVirtual) return true;
+
+            /**
+             * If item is of type AwGiftCardProduct and Gift Card type is VIRTUAL
+             */
+            const virtualAwGcFilter = cartItems.filter((item) => {
+                const { aw_gc_type, __typename } = item.product;
+                return __typename === 'AwGiftCardProduct' && (aw_gc_type && aw_gc_type === 'VIRTUAL');
+            });
+            const isAwGcVirtual = virtualAwGcFilter.length;
+
+            if (isAllVirtual && isAwGcVirtual) return true;
         }
         return false;
     }, [checkout?.data?.cart]);

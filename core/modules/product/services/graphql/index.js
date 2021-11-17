@@ -114,7 +114,7 @@ export const addBundleProductsToCart = () => useMutation(ActionSchema.addBundleP
     },
 });
 
-export const addGiftCardProductsToCart = () => useMutation(ActionSchema.addSimpleProductsToCart, {
+export const addGiftCardProductsToCart = () => useMutation(ActionSchema.addGiftCardProductsToCart, {
     context: {
         request: 'internal',
     },

@@ -22,7 +22,7 @@ import { localCompare } from '@services/graphql/schema/local';
 import { useQuery } from '@apollo/client';
 
 const ContentDetail = ({
-    t, product, Content, isLogin, weltpixel_labels, dataProductTabs,
+    t, product, Content, isLogin, weltpixel_labels, dataProductTabs, storeConfig,
 }) => {
     const item = product.items[0];
     const route = useRouter();
@@ -377,6 +377,7 @@ const ContentDetail = ({
             smartProductTabs={dataProductTabs}
             isLogin={isLogin}
             handleSetCompareList={handleSetCompareList}
+            storeConfig={storeConfig}
         />
     );
 };
@@ -391,14 +392,13 @@ const PageDetail = (props) => {
         },
     };
     const {
-        slug, Content, t, isLogin, pageConfig, CustomHeader,
+        slug, Content, t, isLogin, pageConfig, CustomHeader, storeConfig,
     } = props;
 
     const context = isLogin && isLogin === 1 ? { request: 'internal' } : {};
 
     const labels = getProductLabel(slug[0], { context });
     const { loading, data, error } = getProduct(slug[0], { context });
-    // console.log('data', data);
     const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
     React.useEffect(() => {
         if (slug[0] !== '') {
@@ -505,6 +505,7 @@ const PageDetail = (props) => {
                 isLogin={isLogin}
                 weltpixel_labels={weltpixel_labels}
                 dataProductTabs={productTab}
+                storeConfig={storeConfig}
             />
         </Layout>
     );
