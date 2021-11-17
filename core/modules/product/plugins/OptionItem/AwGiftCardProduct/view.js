@@ -22,6 +22,7 @@ import Footer from '@plugin_optionitem/components/Footer';
 import classnames from 'classnames';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import MagezonElement from '@core_modules/cms/components/cms-renderer/index';
 
 const AwGiftCardProduct = (props) => {
     const {
@@ -45,7 +46,7 @@ const AwGiftCardProduct = (props) => {
     // prettier-ignore
     const {
         aw_gc_allow_delivery_date, aw_gc_allow_open_amount,
-        aw_gc_custom_message_fields, aw_gc_amounts,
+        aw_gc_custom_message_fields, aw_gc_amounts, aw_gc_description,
         aw_gc_open_amount_max, aw_gc_open_amount_min, aw_gc_type,
     } = data;
 
@@ -96,6 +97,11 @@ const AwGiftCardProduct = (props) => {
 
     return (
         <div className="gc-detailview">
+            {aw_gc_description && (
+                <div className="hidden-mobile">
+                    <MagezonElement content={aw_gc_description} storeConfig={storeConfig} />
+                </div>
+            )}
             {(aw_gc_allow_open_amount || aw_gc_amounts.length > 1) && (
                 <div className="gc-first">
                     <Typography variant="h2">{`1. ${t('validate:chooseAmount')}`}</Typography>
