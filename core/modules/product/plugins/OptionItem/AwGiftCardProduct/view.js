@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable arrow-body-style */
 /* eslint-disable react/jsx-one-expression-per-line */
@@ -63,7 +64,7 @@ const AwGiftCardProduct = (props) => {
     const [selectedCustomAmount, setselectedCustomAmount] = useState(aw_gc_amounts[0]);
 
     const handleSelectTemplate = (e) => {
-        const templateValue = e.currentTarget.dataset.template === 'aw_giftcard_email_template' ? '0' : e.currentTarget.dataset.template;
+        const templateValue = e.currentTarget.dataset.template;
         const imgTemplate = emailTemplates.find((template) => template.value === templateValue).image_url;
         setSelectedTemplate({ value: templateValue, image: imgTemplate });
         formik.setFieldValue('aw_gc_template', templateValue);
@@ -159,10 +160,13 @@ const AwGiftCardProduct = (props) => {
             <div className="gc-second">
                 <Typography variant="h2">
                     {aw_gc_type === 'PHYSICAL'
-                        ? '2.'
+                        ? (aw_gc_allow_open_amount || aw_gc_amounts.length > 1)
+                            ? '2.'
+                            : '1.'
                         : aw_gc_allow_open_amount
                             ? '3.'
                             : '2.'}
+                    {' '}
                     {`${t('validate:composeEmail')}`}
                 </Typography>
                 <form>
