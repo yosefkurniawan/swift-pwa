@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable arrow-body-style */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable operator-linebreak */
@@ -62,7 +63,7 @@ const AwGiftCardProduct = (props) => {
     const [selectedCustomAmount, setselectedCustomAmount] = useState(aw_gc_amounts[0]);
 
     const handleSelectTemplate = (e) => {
-        const templateValue = e.currentTarget.dataset.template;
+        const templateValue = e.currentTarget.dataset.template === 'aw_giftcard_email_template' ? '0' : e.currentTarget.dataset.template;
         const imgTemplate = emailTemplates.find((template) => template.value === templateValue).image_url;
         setSelectedTemplate({ value: templateValue, image: imgTemplate });
         formik.setFieldValue('aw_gc_template', templateValue);
@@ -127,35 +128,42 @@ const AwGiftCardProduct = (props) => {
                     </div>
                 </div>
             )}
-            <div className="gc-first">
-                <Typography variant="h2">
-                    {aw_gc_allow_open_amount || aw_gc_amounts.length > 1 ? '2.' : '1.'} {`${t('validate:selectDesign')}`}
-                </Typography>
-                <div className="row">
-                    {emailTemplates.map((template, idx) => {
-                        return (
-                            <div
-                                key={idx}
-                                className={classnames('col-xs-12 col-sm-6 col-md-4 template-option', {
-                                    'template-selected': selectedTemplate.value === template.value,
-                                })}
-                                onClick={handleSelectTemplate}
-                                data-template={template.value}
-                            >
-                                <Image src={template.image_url} width={150} height={112} />
-                            </div>
-                        );
-                    })}
-                    {!!(formik.touched.aw_gc_template && formik.errors.aw_gc_template) && (
-                        <Typography variant="p" color="red">
-                            {formik.errors.aw_gc_template}
-                        </Typography>
-                    )}
+            {aw_gc_type !== 'PHYSICAL' && (
+                <div className="gc-first">
+                    <Typography variant="h2">
+                        {aw_gc_allow_open_amount || aw_gc_amounts.length > 1 ? '2.' : '1.'} {`${t('validate:selectDesign')}`}
+                    </Typography>
+                    <div className="row">
+                        {emailTemplates.map((template, idx) => {
+                            return (
+                                <div
+                                    key={idx}
+                                    className={classnames('col-xs-12 col-sm-6 col-md-4 template-option', {
+                                        'template-selected': selectedTemplate.value === template.value,
+                                    })}
+                                    onClick={handleSelectTemplate}
+                                    data-template={template.value}
+                                >
+                                    <Image src={template.image_url} width={150} height={112} />
+                                </div>
+                            );
+                        })}
+                        {!!(formik.touched.aw_gc_template && formik.errors.aw_gc_template) && (
+                            <Typography variant="p" color="red">
+                                {formik.errors.aw_gc_template}
+                            </Typography>
+                        )}
+                    </div>
                 </div>
-            </div>
+            )}
             <div className="gc-second">
                 <Typography variant="h2">
-                    {aw_gc_allow_open_amount ? '3.' : '2.'} {`${t('validate:composeEmail')}`}
+                    {aw_gc_type === 'PHYSICAL'
+                        ? '2.'
+                        : aw_gc_allow_open_amount
+                            ? '3.'
+                            : '2.'}
+                    {`${t('validate:composeEmail')}`}
                 </Typography>
                 <form>
                     {aw_gc_allow_delivery_date && (
