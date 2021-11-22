@@ -115,6 +115,18 @@ const ContentDetail = ({
     const [customizableOptions, setCustomizableOptions] = React.useState([]);
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
 
+    React.useEffect(() => {
+        setPrice({
+            priceRange: item.price_range,
+            priceTiers: item.price_tiers,
+            // eslint-disable-next-line no-underscore-dangle
+            productType: item.__typename,
+            specialFromDate: item.special_from_date,
+            specialToDate: item.special_to_date,
+        });
+        setBanner(bannerData);
+    }, [item]);
+
     const [addWishlist] = mutationAddWishlist();
     const handleWishlist = () => {
         if (isLogin && isLogin === 1) {

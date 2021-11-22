@@ -143,7 +143,8 @@ export const getUpsellProduct = (url) => gql`
       }
     }
   ) {
-    items {      
+    items {
+      id
       upsell_products {
         ${productDetail}        
         ${weltpixel_labels}
@@ -165,6 +166,7 @@ export const getRelatedProduct = (url) => gql`
     }
   ) {
     items {      
+      id
       related_products {
         ${productDetail}        
         ${weltpixel_labels}
@@ -354,6 +356,7 @@ export const smartProductTabs = () => {
     query getSmartProductTabs($search: String, $filter: ProductAttributeFilterInput) {
       products(search: $search, filter: $filter) {
         items {
+          id
           smartProductTabs {
             ${tabListProduct}
           }
@@ -632,6 +635,7 @@ export const getProductLabel = (url) => gql`
     }
   ) {
     items {
+      id
       __typename
       ${weltpixel_labels}
     }
@@ -649,6 +653,7 @@ export const getProductBannerLite = (url) => {
           }
         ) {
           items {
+            id
             banners_data {
               entity_id
               salesrule_id

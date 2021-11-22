@@ -116,7 +116,19 @@ export default function createApolloClient(initialState, ctx) {
                 ProductInterface: [
                     'ConfigurableProduct', 'SimpleProduct', 'BundleProduct',
                     'VirtualProduct', 'DownloadableProduct', 'GroupedProduct',
+                    'AwGiftCardProduct',
                 ],
+            },
+            typePolicies: {
+                Query: {
+                    fields: {
+                        products: {
+                            merge(existing = [], incoming) {
+                                return { ...existing, ...incoming };
+                            },
+                        },
+                    },
+                },
             },
         }).restore(initialState),
         // reference https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools
