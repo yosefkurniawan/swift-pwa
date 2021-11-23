@@ -325,7 +325,7 @@ const modules = {
                 },
             },
             configurableOptions: {
-                enabled: false,
+                enabled: true,
             },
             rating: {
                 enabled: true,

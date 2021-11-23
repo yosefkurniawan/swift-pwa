@@ -22,7 +22,7 @@ const GridList = ({
         >
             {data.map((item, index) => (
                 <Grid item xs={6} key={index} {...gridItemProps}>
-                    <ItemComponent {...itemProps} {...item} />
+                    <ItemComponent {...itemProps} {...item} itemProps={item} />
                 </Grid>
             ))}
         </Grid>

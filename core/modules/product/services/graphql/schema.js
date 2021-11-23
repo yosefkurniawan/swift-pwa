@@ -426,6 +426,7 @@ export const getConfigurableProduct = (sku) => {
       }
     ) {
       items {
+        id
         ... on ConfigurableProduct {
           configurable_options {
             id
