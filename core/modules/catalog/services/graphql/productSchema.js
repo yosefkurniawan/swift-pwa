@@ -261,20 +261,6 @@ export const getProduct = (config = {}) => gql`
                   }
                 }
               }
-              media_gallery {
-                url
-                label
-                ... on ProductVideo {
-                    video_content {
-                        media_type
-                        video_provider
-                        video_url
-                        video_title
-                        video_description
-                        video_metadata
-                    }
-                }
-              }
               special_from_date
               special_to_date
               new_from_date

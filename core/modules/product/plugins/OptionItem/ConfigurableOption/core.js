@@ -1,4 +1,3 @@
-/* eslint-disable array-callback-return */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import { useApolloClient } from '@apollo/client';
@@ -37,7 +36,6 @@ const OptionsItemConfig = (props) => {
         handleSelecteProduct = () => { },
         isGrid,
         noValidate = false,
-        itemProps,
         ...other
     } = props;
 
@@ -58,10 +56,7 @@ const OptionsItemConfig = (props) => {
         setLoading = setCustomLoading;
     }
 
-    const configProduct = itemProps ? {
-        configurable_options: [...itemProps.configurable_options],
-        variants: [...itemProps.variants],
-    } : getConfigurableProduct(sku);
+    const configProduct = getConfigurableProduct(sku);
 
     const [firstSelected, setFirstSelected] = React.useState({});
     const [combination, setCombination] = React.useState({});
@@ -69,14 +64,13 @@ const OptionsItemConfig = (props) => {
 
     const handleSelect = async (value, key) => {
         const selectedOption = handleSelected(selectConfigurable, key, value);
-        const comb = generateAvailableCombination(selectedOption, itemProps ? configProduct : configProduct.data.products.items[0]);
-        const product = await ProductByVariant(selectedOption, itemProps ? configProduct.variants : configProduct.data.products.items[0].variants);
-
+        const comb = configProduct.data && generateAvailableCombination(selectedOption, configProduct.data.products.items[0]);
         setCombination({ ...comb });
         setSelectConfigurable({
             ...selectedOption,
         });
-
+        // console.log(configProduct.data.products.items[0].variants);
+        const product = await ProductByVariant(selectedOption, configProduct.data.products.items[0].variants);
         if (product && JSON.stringify(product) !== '{}') {
             setSelectedProduct({ ...product });
             handleSelecteProduct({ ...product });
@@ -218,19 +212,12 @@ const OptionsItemConfig = (props) => {
         };
         const errorData = {};
         if (!noValidate) {
-            if (itemProps) {
-                configProduct.configurable_options.map((option) => {
-                    if (selectConfigurable[option.attribute_code] === '' || !selectConfigurable[option.attribute_code]) {
-                        errorData[option.attribute_code] = `${option.attribute_code} ${t('validate:required')}`;
-                    }
-                });
-            } else {
-                configProduct.data.products.items[0].configurable_options.map((option) => {
-                    if (selectConfigurable[option.attribute_code] === '' || !selectConfigurable[option.attribute_code]) {
-                        errorData[option.attribute_code] = `${option.attribute_code} ${t('validate:required')}`;
-                    }
-                });
-            }
+            // eslint-disable-next-line array-callback-return
+            configProduct.data.products.items[0].configurable_options.map((option) => {
+                if (selectConfigurable[option.attribute_code] === '' || !selectConfigurable[option.attribute_code]) {
+                    errorData[option.attribute_code] = `${option.attribute_code} ${t('validate:required')}`;
+                }
+            });
         }
         setError(errorData);
 
@@ -341,13 +328,6 @@ const OptionsItemConfig = (props) => {
     };
 
     React.useEffect(() => {
-        if (itemProps && configProduct.configurable_options) {
-            const op = generateValue(selectConfigurable, configProduct.configurable_options, combination);
-            setOptions(op);
-        }
-    }, []);
-
-    React.useEffect(() => {
         if (configProduct.data && configProduct.data.products.items.length > 0
             && options.length === 0 && configProduct.data.products.items[0].configurable_options) {
             const op = generateValue(selectConfigurable, configProduct.data.products.items[0].configurable_options, combination);
@@ -356,10 +336,8 @@ const OptionsItemConfig = (props) => {
     }, [configProduct]);
 
     React.useMemo(() => {
-        if (itemProps && configProduct.configurable_options) {
-            const op = generateValue(selectConfigurable, configProduct.configurable_options, combination);
-            setOptions(op);
-        } else if (configProduct.data && configProduct.data.products.items.length > 0 && configProduct.data.products.items[0].configurable_options) {
+        if (configProduct.data && configProduct.data.products.items.length > 0
+            && configProduct.data.products.items[0].configurable_options) {
             const op = generateValue(selectConfigurable, configProduct.data.products.items[0].configurable_options, combination);
             setOptions(op);
         }
