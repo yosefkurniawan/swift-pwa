@@ -143,7 +143,8 @@ export const getUpsellProduct = (url) => gql`
       }
     }
   ) {
-    items {      
+    items {
+      id
       upsell_products {
         ${productDetail}        
         ${weltpixel_labels}
@@ -165,6 +166,7 @@ export const getRelatedProduct = (url) => gql`
     }
   ) {
     items {      
+      id
       related_products {
         ${productDetail}        
         ${weltpixel_labels}
@@ -195,47 +197,156 @@ const tabListProduct = `
  * @returns grapql query
  */
 
+const priceRangePartial = `
+  minimum_price {
+    discount {
+      amount_off
+      percent_off
+    }
+    final_price {
+      currency
+      value
+    }
+    fixed_product_taxes {
+      amount {
+        currency
+        value
+      }
+      label
+    }
+    regular_price {
+      currency
+      value
+    }
+  }
+  maximum_price {
+    discount {
+      amount_off
+      percent_off
+    }
+    final_price {
+      currency
+      value
+    }
+    fixed_product_taxes {
+      amount {
+        currency
+        value
+      }
+      label
+    }
+    regular_price {
+      currency
+      value
+    }
+  }
+ `;
+
+const priceTiersPartial = `
+  discount {
+    amount_off
+    percent_off
+  }
+  final_price {
+    currency
+    value
+  }
+  quantity
+ `;
+
+const productDetailFragment = gql`
+  fragment CORE_PRODUCT_DETAILS on ProductInterface {
+    id
+    name @skip(if: $includeName)
+    sku
+    ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
+    stock_status
+    url_key
+    __typename
+    attribute_set_id
+    small_image @skip(if: $includeImg) {
+      url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
+      label
+    }
+    image {
+      url
+    }
+    media_gallery_entries {
+      media_type
+      video_content {
+        video_url
+      }
+    }
+    review {
+      rating_summary
+      reviews_count
+    }
+    categories {
+      id
+      name
+      url_path
+      breadcrumbs {
+        category_id
+        category_url_path
+        category_name
+      }
+    }
+    special_from_date
+    special_to_date
+    price_range @skip(if: $includePrice) {
+      ${priceRangePartial}
+    }
+    price_tiers @skip(if: $includePrice) {
+      ${priceTiersPartial}
+    }
+  }
+`;
+
 export const getProduct = (url) => {
-    const query = gql`{
+    const query = gql`
+    ${productDetailFragment}
+    query getProducts(
+      $includeName: Boolean = false,
+      $includePrice: Boolean = false,
+      $includeImg: Boolean = false,
+    ) {
         products(
             search: "" ,filter: {
               url_key: {
                 eq: "${url}"
               }
             }
-          ) {
-            items {
-              ${productDetail}
-              ${priceRange}
-              ${priceTiers}
-              description {
-                html
-              }
-              ${modules.brands.enabled ? 'brand' : ''}
-              short_description {
-                html
-              }
-              more_info {
-                label
-                value
-              }
-              media_gallery {
-                url
-                label
-                ... on ProductVideo {
-                    video_content {
-                        media_type
-                        video_provider
-                        video_url
-                        video_title
-                        video_description
-                        video_metadata
-                    }
-                }
+        ) {
+          items {
+            ...CORE_PRODUCT_DETAILS
+            description {
+              html
+            }
+            ${modules.brands.enabled ? 'brand' : ''}
+            short_description {
+              html
+            }
+            more_info {
+              label
+              value
+            }
+            media_gallery {
+              url
+              label
+              ... on ProductVideo {
+                  video_content {
+                      media_type
+                      video_provider
+                      video_url
+                      video_title
+                      video_description
+                      video_metadata
+                  }
               }
             }
-            total_count
           }
+          total_count
+        }
     }`;
     return query;
 };
@@ -245,6 +356,7 @@ export const smartProductTabs = () => {
     query getSmartProductTabs($search: String, $filter: ProductAttributeFilterInput) {
       products(search: $search, filter: $filter) {
         items {
+          id
           smartProductTabs {
             ${tabListProduct}
           }
@@ -523,6 +635,7 @@ export const getProductLabel = (url) => gql`
     }
   ) {
     items {
+      id
       __typename
       ${weltpixel_labels}
     }
@@ -540,6 +653,7 @@ export const getProductBannerLite = (url) => {
           }
         ) {
           items {
+            id
             banners_data {
               entity_id
               salesrule_id

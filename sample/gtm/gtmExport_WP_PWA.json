@@ -2367,7 +2367,7 @@
                                     {
                                         "type": "TEMPLATE",
                                         "key": "value",
-                                        "value": "{{Page Path}}{{New History Fragment}}"
+                                        "value": "{{Page URL}}{{New History Fragment}}"
                                     }
                                 ]
                             }

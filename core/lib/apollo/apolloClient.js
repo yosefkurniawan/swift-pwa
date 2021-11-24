@@ -112,7 +112,23 @@ export default function createApolloClient(initialState, ctx) {
         link: from([middlewareHeader, logoutLink, link]),
         cache: new InMemoryCache({
             fragmentMatcher,
+            possibleTypes: {
+                ProductInterface: [
+                    'ConfigurableProduct', 'SimpleProduct', 'BundleProduct',
+                    'VirtualProduct', 'DownloadableProduct', 'GroupedProduct',
+                    'AwGiftCardProduct',
+                ],
+            },
             typePolicies: {
+                Query: {
+                    fields: {
+                        products: {
+                            merge(existing = [], incoming) {
+                                return { ...existing, ...incoming };
+                            },
+                        },
+                    },
+                },
                 ProductImage: {
                     keyFields: ['url'],
                 },
