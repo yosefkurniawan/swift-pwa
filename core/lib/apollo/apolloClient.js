@@ -110,7 +110,14 @@ export default function createApolloClient(initialState, ctx) {
     return new ApolloClient({
         ssrMode: Boolean(ctx),
         link: from([middlewareHeader, logoutLink, link]),
-        cache: new InMemoryCache({ fragmentMatcher }).restore(initialState),
+        cache: new InMemoryCache({
+            fragmentMatcher,
+            typePolicies: {
+                ProductImage: {
+                    keyFields: ['url'],
+                },
+            },
+        }).restore(initialState),
         // reference https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools
         // eslint-disable-next-line no-underscore-dangle
         connectToDevTools: typeof window !== 'undefined' && window.__APOLLO_CLIENT__ && appEnv === 'local',
