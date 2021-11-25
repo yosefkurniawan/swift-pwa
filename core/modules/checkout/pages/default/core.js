@@ -196,17 +196,18 @@ const Checkout = (props) => {
     const isOnlyVirtualProductOnCart = React.useMemo(() => {
         const { cart } = checkout.data;
         const cartItems = cart?.items;
+
         if (cartItems) {
             const cartItemsFilter = cartItems.filter((item) => {
                 const { __typename } = item.product;
-                return __typename === 'VirtualProduct' || __typename === 'DownloadableProduct';
+                return __typename !== 'VirtualProduct' && __typename !== 'DownloadableProduct' && __typename !== 'AwGiftCardProduct';
             });
 
             /**
-             * if cartitems and cartItemsFilter length same
-             * it's mean cart only contain virtual product
+             * If cart has items of type VirtualProduct, DownloadableProduct, and AwGiftCardProduct,
+             * It means cart contains only virtual product(s).
              */
-            const isAllVirtual = cartItems.length === cartItemsFilter.length && cartItems.length == 1;
+            const isAllVirtual = cartItemsFilter.length === 0;
             if (isAllVirtual) return true;
         }
         return false;
