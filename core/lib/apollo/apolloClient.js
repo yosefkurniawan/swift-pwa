@@ -129,6 +129,9 @@ export default function createApolloClient(initialState, ctx) {
                         },
                     },
                 },
+                ProductImage: {
+                    keyFields: ['url'],
+                },
             },
         }).restore(initialState),
         // reference https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools
