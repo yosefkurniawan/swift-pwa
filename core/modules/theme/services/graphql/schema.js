@@ -143,7 +143,11 @@ export const getProduct = (key) => {
                 }
                 price_range{
                     minimum_price {
-                        final_price{
+                        final_price {
+                            currency
+                            value
+                        }
+                        regular_price {
                             currency
                             value
                         }

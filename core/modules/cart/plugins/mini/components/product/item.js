@@ -9,6 +9,7 @@ import { useTranslation } from '@i18n';
 const Item = (props) => {
     const {
         quantity, prices, product, deleteCart, updateCart, id, configurable_options, bundle_options, customizable_options,
+        aw_giftcard_option,
     } = props;
     const { t } = useTranslation(['common']);
     return (
@@ -77,6 +78,22 @@ const Item = (props) => {
                                                 {item.label && item.label !== '' ? item.label : item.value}
                                             </p>
                                         ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : null}
+                    {aw_giftcard_option && aw_giftcard_option.length ? (
+                        <div className="product-options">
+                            {aw_giftcard_option.map((val, idx) => (
+                                <div className="option-wrapper" key={idx}>
+                                    <div className="row option-wrapper__item">
+                                        <strong>
+                                            {val.label}
+                                            {' '}
+                                            :
+                                        </strong>
+                                        {val.value}
                                     </div>
                                 </div>
                             ))}
