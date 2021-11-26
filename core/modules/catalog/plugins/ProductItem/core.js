@@ -220,13 +220,23 @@ const ProductItem = (props) => {
         if (modules.checkout.checkoutOnly) {
             window.open(`${getStoreHost(getAppEnv()) + url_key}.html`);
         } else {
+            const { name, small_image } = props;
+            const sharedProp = {
+                name, small_image, price,
+            };
             const urlResolver = getResolver();
             urlResolver[`/${url_key}`] = {
                 type: 'PRODUCT',
             };
             await setResolver(urlResolver);
             setCookies('lastCategory', categorySelect);
-            route.push('/[...slug]', `/${url_key}`);
+            route.push({
+                pathname: '/[...slug]',
+                query: {
+                    slug: url_key,
+                    productProps: JSON.stringify(sharedProp),
+                },
+            }, `/${url_key}`);
         }
     };
 
@@ -270,6 +280,7 @@ const ProductItem = (props) => {
     const showAddToCart = typeof enableAddToCart !== 'undefined' ? enableAddToCart : modules.catalog.productListing.addToCart.enabled;
     const showOption = typeof enableOption !== 'undefined' ? enableOption : modules.catalog.productListing.configurableOptions.enabled;
     const showQuickView = typeof enableQuickView !== 'undefined' ? enableQuickView : modules.catalog.productListing.quickView.enabled;
+
     if (isGrid) {
         return (
             <>

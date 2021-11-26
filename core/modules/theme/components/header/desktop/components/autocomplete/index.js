@@ -114,9 +114,23 @@ export default function ComboBox(props) {
             onInputChange={(e) => startAutocomplete(e)}
             onKeyPress={(e) => handleKeyPress(e)}
             onChange={(e, value) => {
-                setOpen(false);
-                setClose(true);
-                Router.push('/[...slug]', `/${value.url_key}`);
+                if (value) {
+                    const sharedProp = {
+                        name: value?.name || '',
+                        small_image: value?.small_image || {},
+                        price: value?.price_range ? { priceRange: value.price_range } : {},
+                    };
+
+                    setOpen(false);
+                    setClose(true);
+
+                    Router.push({
+                        pathname: '/[...slug]',
+                        query: {
+                            productProps: JSON.stringify(sharedProp),
+                        },
+                    }, `/${value.url_key}`);
+                }
             }}
             onClose={() => {
                 setClose(true);

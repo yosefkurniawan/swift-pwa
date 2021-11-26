@@ -22,7 +22,7 @@ import { localCompare } from '@services/graphql/schema/local';
 import { useQuery } from '@apollo/client';
 
 const ContentDetail = ({
-    t, product, Content, isLogin, weltpixel_labels, dataProductTabs,
+    t, product, Content, isLogin, weltpixel_labels, dataProductTabs, storeConfig,
 }) => {
     const item = product.items[0];
     const route = useRouter();
@@ -76,10 +76,6 @@ const ContentDetail = ({
         TagManager.dataLayer(tagManagerArgs);
     }, []);
 
-    // const client = useApolloClient();
-
-    // if (typeof window !== 'undefined') console.log(item);
-
     const bannerData = [];
     if (item.media_gallery.length > 0) {
         // eslint-disable-next-line array-callback-return
@@ -118,6 +114,18 @@ const ContentDetail = ({
     // Customizable Options
     const [customizableOptions, setCustomizableOptions] = React.useState([]);
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
+
+    React.useEffect(() => {
+        setPrice({
+            priceRange: item.price_range,
+            priceTiers: item.price_tiers,
+            // eslint-disable-next-line no-underscore-dangle
+            productType: item.__typename,
+            specialFromDate: item.special_from_date,
+            specialToDate: item.special_to_date,
+        });
+        setBanner(bannerData);
+    }, [item]);
 
     const [addWishlist] = mutationAddWishlist();
     const handleWishlist = () => {
@@ -377,6 +385,7 @@ const ContentDetail = ({
             smartProductTabs={dataProductTabs}
             isLogin={isLogin}
             handleSetCompareList={handleSetCompareList}
+            storeConfig={storeConfig}
         />
     );
 };
@@ -391,13 +400,26 @@ const PageDetail = (props) => {
         },
     };
     const {
-        slug, Content, t, isLogin, pageConfig, CustomHeader,
+        slug, Content, t, isLogin, pageConfig, CustomHeader, storeConfig,
     } = props;
 
     const context = isLogin && isLogin === 1 ? { request: 'internal' } : {};
 
+    /**
+     * Check if partial data exists, AKA being navigated from a PLP or search page.
+     */
+    const router = useRouter();
+    const productProps = router.query.productProps ? JSON.parse(router.query.productProps) : {};
+    const productVariables = Object.keys(productProps).length > 0 ? {
+        variables: {
+            includeName: productProps.name && productProps.name !== '',
+            includePrice: productProps.price && true,
+            includeImg: productProps.small_image?.url && true,
+        },
+    } : {};
+
     const labels = getProductLabel(slug[0], { context });
-    const { loading, data, error } = getProduct(slug[0], { context });
+    const { loading, data, error } = getProduct(slug[0], { context, ...productVariables });
     const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
     React.useEffect(() => {
         if (slug[0] !== '') {
@@ -412,20 +434,43 @@ const PageDetail = (props) => {
             });
         }
     }, [slug[0]]);
+
     if (error || loading || !data) {
         return (
             <Layout pageConfig={{}} CustomHeader={CustomHeader ? <CustomHeader /> : <Header />} {...props}>
-                <Loading />
+                <Loading
+                    name={productProps.name || ''}
+                    price={productProps.price || 0}
+                    banner={productProps.small_image ? [{ link: '#', imageUrl: productProps.small_image?.url, videoUrl: '#' }] : []}
+                />
             </Layout>
         );
     }
     if (data) {
         let temporaryArr = [];
         product = data.products;
+
+        if (Object.keys(productProps).length > 0) {
+            product = {
+                ...product,
+                items: [{
+                    ...product.items[0],
+                    name: productProps.name || '',
+                    small_image: productProps.small_image || {},
+                    price: productProps.price || {},
+                    price_range: { ...productProps.price.priceRange },
+                    price_tiers: { ...productProps.price.priceTiers },
+                    special_from_date: { ...productProps.price.specialFromDate },
+                    special_to_date: { ...productProps.price.specialToDate },
+                }],
+            };
+        }
+
         const viewedProduct = getLocalStorage('recently_viewed_product');
         if (product.items.length > 0) {
             const item = product.items[0];
             let isExist = false;
+
             if (viewedProduct) {
                 temporaryArr = viewedProduct;
                 if (viewedProduct.length > 0) {
@@ -465,8 +510,8 @@ const PageDetail = (props) => {
                 };
         }
     }
-    const schemaOrg = generateSchemaOrg(product.items[0]);
 
+    const schemaOrg = generateSchemaOrg(product.items[0]);
     const config = {
         title: product.items.length > 0 ? product.items[0].name : '',
         bottomNav: false,
@@ -504,6 +549,7 @@ const PageDetail = (props) => {
                 isLogin={isLogin}
                 weltpixel_labels={weltpixel_labels}
                 dataProductTabs={productTab}
+                storeConfig={storeConfig}
             />
         </Layout>
     );
