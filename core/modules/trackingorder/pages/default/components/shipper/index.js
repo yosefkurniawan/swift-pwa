@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 /* eslint-disable operator-linebreak */
 /* eslint-disable react/no-danger */
 /* eslint-disable no-nested-ternary */
@@ -13,12 +14,11 @@ const ShipperView = (props) => {
         data, type, styles, t,
     } = props;
 
+    const isLGX = type.toLowerCase().includes('logistix');
     const isJNE = type.toLowerCase().includes('jne');
     const isSAP = type.toLowerCase().includes('sap');
     const isShipperid = type.toLowerCase().includes('shipperid');
     const isAnteraja = type.toLowerCase().includes('anteraja');
-    const histories = isJNE ? data.history : isSAP || isShipperid ? data : isAnteraja ? data.content.history : [];
-    const detail = isJNE ? data : isSAP || isShipperid ? data[data.length - 1] : isAnteraja ? data.content.order : {};
     const shipperData = {
         detail: {
             receiver_name: '',
@@ -29,46 +29,61 @@ const ShipperView = (props) => {
             live_tracking: '',
         },
     };
+    let histories = [];
 
-    if (isJNE) {
+    if (isLGX) {
+        histories = data.data.shipmentTracking.trackingData[0]?.historyStatus || [];
         shipperData.detail = {
             ...shipperData.detail,
-            receiver_name: detail.detail[0].cnote_receiver_name || '',
-            shipper_name: detail.detail[0].cnote_shipper_name || '',
-            description: detail.cnote.keterangan || '',
-            update_date: detail.detail[0].cnote_date || '',
-            last_status: detail.cnote.last_status || '',
+            description: histories[histories.length - 1]?.note || '',
+            update_date: formatDate(histories[histories.length - 1].timestamp, 'DD-MM-YYYY HH:mm'),
+            last_status: histories[histories.length - 1]?.status || '',
+            live_tracking: data.data.shipmentTracking.trackingData[0].trackingUrl || '',
         };
-    }
+    } else {
+        const detail = isJNE ? data : isSAP || isShipperid ? data[data.length - 1] : isAnteraja ? data.content.order : {};
+        histories = isJNE ? data.history : isSAP || isShipperid ? data : isAnteraja ? data.content.history : [];
 
-    if (isSAP) {
-        shipperData.detail = {
-            ...shipperData.detail,
-            receiver_name: detail.receiver_name || '',
-            description: detail.description || '',
-            update_date: detail.create_date || '',
-            last_status: detail.rowstate_name || '',
-        };
-    }
+        if (isJNE) {
+            shipperData.detail = {
+                ...shipperData.detail,
+                receiver_name: detail.detail[0].cnote_receiver_name || '',
+                shipper_name: detail.detail[0].cnote_shipper_name || '',
+                description: detail.cnote.keterangan || '',
+                update_date: detail.detail[0].cnote_date || '',
+                last_status: detail.cnote.last_status || '',
+            };
+        }
 
-    if (isShipperid) {
-        shipperData.detail = {
-            ...shipperData.detail,
-            description: <span dangerouslySetInnerHTML={{ __html: detail.logisticStatus[0].description }} /> || '',
-            update_date: formatDate(detail.createdDate, 'DD-MM-YYYY HH:mm') || '',
-            last_status: detail.trackStatus.description || '',
-            live_tracking: detail.trackURL && detail.trackURL !== '' ? detail.trackURL : '',
-        };
-    }
+        if (isSAP) {
+            shipperData.detail = {
+                ...shipperData.detail,
+                receiver_name: detail.receiver_name || '',
+                description: detail.description || '',
+                update_date: detail.create_date || '',
+                last_status: detail.rowstate_name || '',
+            };
+        }
 
-    if (isAnteraja) {
-        shipperData.detail = {
-            ...shipperData.detail,
-            receiver_name: detail?.receiver.name || '',
-            shipper_name: detail?.shipper.name || '',
-            update_date: histories ? formatDate(histories[histories.length - 1].timestamp, 'DD-MM-YYYY HH:mm') : '',
-            last_status: histories ? histories[histories.length - 1].message.id : '',
-        };
+        if (isShipperid) {
+            shipperData.detail = {
+                ...shipperData.detail,
+                description: <span dangerouslySetInnerHTML={{ __html: detail.logisticStatus[0].description }} /> || '',
+                update_date: formatDate(detail.createdDate, 'DD-MM-YYYY HH:mm') || '',
+                last_status: detail.trackStatus.description || '',
+                live_tracking: detail.trackURL && detail.trackURL !== '' ? detail.trackURL : '',
+            };
+        }
+
+        if (isAnteraja) {
+            shipperData.detail = {
+                ...shipperData.detail,
+                receiver_name: detail?.receiver.name || '',
+                shipper_name: detail?.shipper.name || '',
+                update_date: histories ? formatDate(histories[histories.length - 1].timestamp, 'DD-MM-YYYY HH:mm') : '',
+                last_status: histories ? histories[histories.length - 1].message.id : '',
+            };
+        }
     }
 
     return (
@@ -133,29 +148,31 @@ const ShipperView = (props) => {
                 {histories &&
                     histories.map((history, index) => {
                         let dateTime;
-                        if (isJNE) dateTime = history.date.split(' ');
-                        if (isSAP) dateTime = history.create_date.split(' ');
-                        if (isShipperid) {
-                            dateTime = formatDate(history.createdDate, 'DD-MM-YYYY HH:mm').split(' ');
+                        let description;
+
+                        if (isLGX) {
+                            dateTime = formatDate(history.timestamp, 'DD-MM-YYYY HH:mm').split(' ');
+                            description = history.note;
+                        } else {
+                            if (isJNE) {
+                                dateTime = history.date.split(' ');
+                                description = history.desc;
+                            } else if (isSAP) {
+                                dateTime = history.create_date.split(' ');
+                                description = history.description;
+                            } else if (isShipperid) {
+                                dateTime = formatDate(history.createdDate, 'DD-MM-YYYY HH:mm').split(' ');
+                                description = <span dangerouslySetInnerHTML={{ __html: history.logisticStatus[0].description }} />;
+                            } else if (isAnteraja) {
+                                dateTime = formatDate(history.timestamp, 'DD-MM-YYYY HH:mm').split(' ');
+                                description = history.message.id;
+                            }
                         }
-                        if (isAnteraja) dateTime = formatDate(history.timestamp, 'DD-MM-YYYY HH:mm').split(' ');
 
                         return (
                             <div key={index} style={{ marginBottom: 10 }}>
                                 <Typography type="bold">{`${dateTime[0]}, ${dateTime[1]}`}</Typography>
-                                <Typography>
-                                    {isJNE ? (
-                                        history.desc
-                                    ) : isSAP ? (
-                                        history.description
-                                    ) : isShipperid ? (
-                                        <span dangerouslySetInnerHTML={{ __html: history.logisticStatus[0].description }} />
-                                    ) : isAnteraja ? (
-                                        history.message.id
-                                    ) : (
-                                        ''
-                                    )}
-                                </Typography>
+                                <Typography>{description}</Typography>
                             </div>
                         );
                     })}
