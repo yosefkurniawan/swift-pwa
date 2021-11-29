@@ -134,9 +134,9 @@ const ShippingView = (props) => {
                                 return (
                                     <Accordion
                                         expanded={
-                                            expanded === keyIndex // if key index same with expanded active
-                                        || (item.active && expandedActive) // expand if item active and not change expand
-                                        || (!itemActive && expandedActive && keyIndex === 0)
+                                            expanded === keyIndex || // if key index same with expanded active
+                                            (item.active && expandedActive) || // expand if item active and not change expand
+                                            (!itemActive && expandedActive && keyIndex === 0)
                                         } // if dont have item active, set index 0 to active
                                         onChange={handleChange(keyIndex)}
                                         key={keyIndex}
@@ -147,10 +147,18 @@ const ShippingView = (props) => {
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
                                             <div className={styles.labelAccordion}>
-                                                <IconLabel label={item.group.replace('sg-', '')} />
+                                                <img
+                                                    className={styles.shippingGroupStyleIcon}
+                                                    src={`./assets/img/shipping-${item.group.replace('sg-', '')}.svg`}
+                                                    onError={(e) => {
+                                                        e.target.onerror = null;
+                                                        e.target.src = './assets/img/shipping-default.svg';
+                                                    }}
+                                                    alt={item.group}
+                                                />
                                                 <Typography letter="uppercase" variant="span" type="bold">
-                                                    {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
-                                                === `shippingGrouping.${item.group.replace('sg-', '')}`
+                                                    {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`) ===
+                                                    `shippingGrouping.${item.group.replace('sg-', '')}`
                                                         ? item.group.replace('pg-', '')
                                                         : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
                                                 </Typography>
@@ -182,13 +190,13 @@ const ShippingView = (props) => {
                     </div>
 
                     <div className={styles.listError}>
-                        {
-                            error && error.length > 0 && error.map((msg, key) => (
+                        {error &&
+                            error.length > 0 &&
+                            error.map((msg, key) => (
                                 <Alert key={key} style={{ fontSize: 10, marginBottom: 5 }} severity="error">
                                     {msg}
                                 </Alert>
-                            ))
-                        }
+                            ))}
                     </div>
                 </div>
             );
