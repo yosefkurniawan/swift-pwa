@@ -38,6 +38,26 @@ const Loader = () => (
     </>
 );
 
+const ImageWithFallbacks = (props) => {
+    let fallbacks = [`./assets/img/payment-${props.src.replace('pg-', '')}.svg`, `./assets/img/payment-default.svg`];
+    const styles = useStyles();
+
+    // check if image exist on the backoffice, otherwise use fallback image from PWA
+    const [imageSrc, setImageSrc] = React.useState(`${props.baseMediaUrl}checkout/payment/payment-${props.src.replace('pg-', '')}.svg`);
+    const [fallbackImageIndex, setFallbackImageIndex] = React.useState(0);
+
+    // set image fallback url
+    const getFallbackImageSrc = () => {
+        if (fallbackImageIndex > fallbacks.length) {
+            return;
+        }
+        setImageSrc(fallbacks[fallbackImageIndex]);
+        setFallbackImageIndex(fallbackImageIndex + 1);
+    };
+
+    return <img className={styles.paymentGroupStyleIcon} src={imageSrc} alt={props.src.replace('pg-', '')} onError={() => getFallbackImageSrc()} />;
+};
+
 /**
  * [VIEW] Payment
  * @param {object} props
@@ -46,8 +66,18 @@ const Loader = () => (
 const PaymentView = (props) => {
     const styles = useStyles();
     const {
-        loading, data, checkout, storeConfig, t, handlePayment, handlePurchaseOrder,
-        handlePurchaseOrderSubmit, selected, paypalTokenData, paypalHandlingProps, initialOptionPaypal,
+        loading,
+        data,
+        checkout,
+        storeConfig,
+        t,
+        handlePayment,
+        handlePurchaseOrder,
+        handlePurchaseOrderSubmit,
+        selected,
+        paypalTokenData,
+        paypalHandlingProps,
+        initialOptionPaypal,
     } = props;
     const { modules } = commonConfig;
     const [expanded, setExpanded] = React.useState(null);
@@ -136,9 +166,9 @@ const PaymentView = (props) => {
                                 return (
                                     <ExpansionPanel
                                         expanded={
-                                            expanded === index // if key index same with expanded active
-                                            || (item.active && expandedActive) // expand if item active and not change expand
-                                            || (!itemActive && expandedActive && index === 0)
+                                            expanded === index || // if key index same with expanded active
+                                            (item.active && expandedActive) || // expand if item active and not change expand
+                                            (!itemActive && expandedActive && index === 0)
                                         } // if dont have item active, set index 0 to active
                                         onChange={handleChange(index)}
                                         key={index}
@@ -148,12 +178,15 @@ const PaymentView = (props) => {
                                             id={`panel-${item.group}`}
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
-                                            <Typography letter="uppercase" variant="span" type="bold">
-                                                {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
-                                                === `paymentGrouping.${item.group.replace('pg-', '')}`
-                                                    ? item.group.replace('pg-', '')
-                                                    : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)}
-                                            </Typography>
+                                            <div className={styles.labelSummary}>
+                                                <ImageWithFallbacks src={item.group} baseMediaUrl={storeConfig.base_media_url} />
+                                                <Typography letter="uppercase" variant="span" type="bold">
+                                                    {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`) ===
+                                                    `paymentGrouping.${item.group.replace('pg-', '')}`
+                                                        ? item.group.replace('pg-', '')
+                                                        : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)}
+                                                </Typography>
+                                            </div>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails>
                                             <Grid container>
@@ -187,8 +220,11 @@ const PaymentView = (props) => {
                                                                         </Grid>
                                                                     );
                                                                 }
-                                                                if (isPaypal && !paypalTokenData.loading
-                                                                    && initialOptionPaypal['data-order-id'] !== '') {
+                                                                if (
+                                                                    isPaypal &&
+                                                                    !paypalTokenData.loading &&
+                                                                    initialOptionPaypal['data-order-id'] !== ''
+                                                                ) {
                                                                     return (
                                                                         <Grid item xs={12} lg="3" md="4">
                                                                             <PayPalScriptProvider defer options={initialOptionPaypal}>
