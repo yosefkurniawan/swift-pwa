@@ -39,6 +39,9 @@ export const storeConfig = `
             weight_unit
             oauth_access_token_lifetime_customer
             payments_configuration
+            pwa {
+              footer_desktop
+            }
             pwa_checkout_debug_enable
             shipments_configuration
             snap_client_key
