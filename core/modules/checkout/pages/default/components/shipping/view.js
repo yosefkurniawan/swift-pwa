@@ -31,11 +31,29 @@ const Loader = () => (
     </>
 );
 
+const ImageWithFallbacks = (props) => {
+    let fallbacks = [`./assets/img/shipping-${props.src.replace('sg-', '')}.svg`, `./assets/img/shipping-default.svg`];
+    const styles = useStyles();
+
+    // check if image exist on the backoffice, otherwise use fallback image from PWA
+    const [imageSrc, setImageSrc] = React.useState(`${props.baseMediaUrl}checkout/shipping/shipping-${props.src.replace('sg-', '')}.svg`);
+    const [fallbackImageIndex, setFallbackImageIndex] = React.useState(0);
+
+    // set image fallback url
+    const getFallbackImageSrc = () => {
+        if (fallbackImageIndex > fallbacks.length) {
+            return;
+        }
+        setImageSrc(fallbacks[fallbackImageIndex]);
+        setFallbackImageIndex(fallbackImageIndex + 1);
+    };
+
+    return <img className={styles.paymentGroupStyleIcon} src={imageSrc} alt={props.src.replace('pg-', '')} onError={() => getFallbackImageSrc()} />;
+};
+
 const ShippingView = (props) => {
     const styles = useStyles();
-    const {
-        isOnlyVirtualProductOnCart, checkout, storeConfig, loading, selected, handleShipping, data, t,
-    } = props;
+    const { isOnlyVirtualProductOnCart, checkout, storeConfig, loading, selected, handleShipping, data, t } = props;
     let content;
     const [expanded, setExpanded] = React.useState(null);
     const [expandedActive, setExpandedActive] = React.useState(true);
@@ -147,15 +165,7 @@ const ShippingView = (props) => {
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
                                             <div className={styles.labelAccordion}>
-                                                <img
-                                                    className={styles.shippingGroupStyleIcon}
-                                                    src={`./assets/img/shipping-${item.group.replace('sg-', '')}.svg`}
-                                                    onError={(e) => {
-                                                        e.target.onerror = null;
-                                                        e.target.src = './assets/img/shipping-default.svg';
-                                                    }}
-                                                    alt={item.group}
-                                                />
+                                                <ImageWithFallbacks src={item.group} baseMediaUrl={storeConfig.base_media_url} />
                                                 <Typography letter="uppercase" variant="span" type="bold">
                                                     {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`) ===
                                                     `shippingGrouping.${item.group.replace('sg-', '')}`
