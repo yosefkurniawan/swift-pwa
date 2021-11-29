@@ -12,6 +12,7 @@ import DownloadOption from '@plugin_optionitem/Download';
 import BundleOption from '@plugin_optionitem/BundleOption';
 import GroupedOption from '@plugin_optionitem/GroupedProduct';
 import CustomizableOption from '@plugin_customizableitem';
+import AwGiftCardProduct from '@plugin_optionitem/AwGiftCardProduct';
 import useStyles from '@core_modules/product/pages/default/components/OptionItem/style';
 
 const Transition = React.forwardRef((props, ref) => (
@@ -101,6 +102,9 @@ const OptionDialog = (props) => {
                             <GroupedOption
                                 {...props}
                             />
+                        )}
+                        {__typename === 'AwGiftCardProduct' && (
+                            <AwGiftCardProduct {...props} />
                         )}
                     </div>
                 </div>
