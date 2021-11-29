@@ -20,6 +20,7 @@ import TagManager from 'react-gtm-module';
 import {
     getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl,
 } from '@core_modules/checkout/helpers/config';
+import { formatPrice } from '@helper_currency';
 
 function equalTo(ref, msg) {
     return this.test({
@@ -268,6 +269,25 @@ const Checkout = (props) => {
         const { items } = itemCart.cart;
         const state = { ...checkout };
         cart.items = items;
+
+        // Check minimum order amount and enabled Start
+        const minimumOrderEnabled = storeConfig.minimum_order_enable;
+        const grandTotalValue = cart.prices.grand_total.value;
+        const minimumOrderAmount = storeConfig.minimum_order_amount;
+        if (minimumOrderEnabled && grandTotalValue < minimumOrderAmount) {
+            const errorMessage = {
+                variant: 'error',
+                text: `Unable to place order: Minimum order amount is ${formatPrice(minimumOrderAmount)}`,
+                open: true,
+            };
+            window.toastMessage({
+                ...errorMessage,
+            });
+            setTimeout(() => {
+                Router.push('/checkout/cart');
+            }, 3000);
+        }
+        // Check minimum order amount and enabled End
 
         if (cart && cart.items && cart.items.length === 0) {
             if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
