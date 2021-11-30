@@ -18,7 +18,7 @@ export const drawerFilterOnDesktopConfig = () => useQuery(Schema.drawerFilterOnD
 
 export const labelConfig = () => useQuery(Schema.labelConfig);
 
-labelConfig
+export const configurableOptionsConfig = () => useQuery(Schema.configurableOptionsConfig);
 
 export default {
     vesMenuConfig,
@@ -28,5 +28,6 @@ export default {
     popupDetailImagePdp,
     pageSizeConfig,
     drawerFilterOnDesktopConfig,
-    labelConfig
+    labelConfig,
+    configurableOptionsConfig
 };

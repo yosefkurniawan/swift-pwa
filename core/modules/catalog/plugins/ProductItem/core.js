@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { modules, debuging } from '@config';
-import { labelConfig } from '@services/graphql/repository/pwa_config';
+import { labelConfig, configurableOptionsConfig } from '@services/graphql/repository/pwa_config';
 import { getLoginInfo } from '@helper_auth';
 import { setCookies, getCookies } from '@helper_cookies';
 import { useTranslation } from '@i18n';
@@ -56,12 +56,20 @@ const ProductItem = (props) => {
     const [additionalPrice, setAdditionalPrice] = React.useState(0);
     
     let labelEnable = {};
+    let configurableOptions = {};
 
     const { data: dataLabel, loading: loadingLabel } = labelConfig();
+    const { data: dataConfigurableOptions, loading: loadingConfigurableOptionsConfig } = configurableOptionsConfig();
 
     if (!loadingLabel && dataLabel && dataLabel.storeConfig && dataLabel.storeConfig.pwa) {
         labelEnable = {
             ...dataLabel.storeConfig.pwa,
+        };
+    }
+
+    if (!loadingConfigurableOptionsConfig && dataConfigurableOptions && dataConfigurableOptions.storeConfig && dataConfigurableOptions.storeConfig.pwa) {
+        configurableOptions = {
+            ...dataConfigurableOptions.storeConfig.pwa,
         };
     }
 
@@ -279,7 +287,7 @@ const ProductItem = (props) => {
         enableProductCompare,
     };
     const showAddToCart = typeof enableAddToCart !== 'undefined' ? enableAddToCart : modules.catalog.productListing.addToCart.enabled;
-    const showOption = typeof enableOption !== 'undefined' ? enableOption : modules.catalog.productListing.configurableOptions.enabled;
+    const showOption = typeof enableOption !== 'undefined' ? enableOption : configurableOptions.configurable_options_enable;
     const showQuickView = typeof enableQuickView !== 'undefined' ? enableQuickView : modules.catalog.productListing.quickView.enabled;
     if (isGrid) {
         return (

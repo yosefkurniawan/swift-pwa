@@ -2,6 +2,8 @@
 
 import { gql } from '@apollo/client';
 import { features, modules } from '@config';
+import { configurableOptionsConfig } from '@services/graphql/repository/pwa_config';
+
 /**
  * generate dynamic filter query
  * @param catId number
@@ -38,6 +40,19 @@ const filterProduct = (filter) => {
     queryFilter += '}';
     return queryFilter;
 };
+
+const getConfigurableOptions = () => {
+  let configurableOptions = {};
+  const { data: dataConfigurableOptions, loading: loadingConfigurableOptionsConfig } = configurableOptionsConfig();
+
+  if (!loadingConfigurableOptionsConfig && dataConfigurableOptions && dataConfigurableOptions.storeConfig && dataConfigurableOptions.storeConfig.pwa) {
+    configurableOptions = {
+          ...dataConfigurableOptions.storeConfig.pwa,
+      };
+  }
+  
+  return configurableOptions.configurable_options_enable;
+}
 
 export const getProductAgragations = () => gql`
   {
@@ -118,7 +133,7 @@ export const getProduct = (config = {}) => gql`
           }
         }        
         ` : ''}
-        ${modules.catalog.productListing.configurableOptions ? `review {
+        ${getConfigurableOptions ? `review {
           rating_summary
           reviews_count
         }` : ''}
@@ -177,7 +192,7 @@ export const getProduct = (config = {}) => gql`
         new_from_date
         new_to_date
         ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
-        ${modules.catalog.productListing.configurableOptions.enabled ? `
+        ${getConfigurableOptions ? `
         ... on ConfigurableProduct {
           configurable_options {
             id

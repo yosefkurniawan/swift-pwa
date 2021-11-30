@@ -98,6 +98,15 @@ export const labelConfig = gql`
   }
 }`;
 
+export const configurableOptionsConfig = gql`
+{
+  storeConfig {
+    pwa {
+      configurable_options_enable
+    }
+  }
+}`;
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
@@ -106,5 +115,6 @@ export default {
     getRemoveDecimalConfig,
     pageSizeConfig,
     drawerFilterOnDesktopConfig,
-    labelConfig
+    labelConfig,
+    configurableOptionsConfig
 };
