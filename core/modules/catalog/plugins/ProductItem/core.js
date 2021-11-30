@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { modules, debuging } from '@config';
+import { labelConfig } from '@services/graphql/repository/pwa_config';
 import { getLoginInfo } from '@helper_auth';
 import { setCookies, getCookies } from '@helper_cookies';
 import { useTranslation } from '@i18n';
@@ -53,6 +54,16 @@ const ProductItem = (props) => {
     const [customizableOptions, setCustomizableOptions] = React.useState([]);
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
     const [additionalPrice, setAdditionalPrice] = React.useState(0);
+    
+    let labelEnable = {};
+
+    const { data: dataLabel, loading: loadingLabel } = labelConfig();
+
+    if (!loadingLabel && dataLabel && dataLabel.storeConfig && dataLabel.storeConfig.pwa) {
+        labelEnable = {
+            ...dataLabel.storeConfig.pwa,
+        };
+    }
 
     React.useEffect(() => {
         if (errorCustomizableOptions && errorCustomizableOptions.length > 0) {
@@ -283,11 +294,11 @@ const ProductItem = (props) => {
                     />
                 )}
                 <div className={classNames(styles.itemContainer, 'item-product', className, showQuickView ? styles.quickView : '')}>
-                    {modules.catalog.productListing.label.enabled && LabelView ? (
+                    {labelEnable.label_enable && LabelView ? (
                         <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
                     ) : null}
                     <div className={styles.imgItem}>
-                        {modules.catalog.productListing.label.enabled && modules.catalog.productListing.label.weltpixel.enabled && (
+                        {labelEnable.label_enable && modules.catalog.productListing.label.weltpixel.enabled && (
                             <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel />
                         )}
                         {showQuickView && (
@@ -364,10 +375,10 @@ const ProductItem = (props) => {
                 <div className="row start-xs">
                     <div className="col-xs-6 col-sm-6 col-md-4 col-lg-3">
                         <div className={styles.listImgItem}>
-                            {modules.catalog.productListing.label.enabled && LabelView ? (
+                            {labelEnable.label_enable && LabelView ? (
                                 <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
                             ) : null}
-                            {modules.catalog.productListing.label.enabled && modules.catalog.productListing.label.weltpixel.enabled && (
+                            {labelEnable.label_enable && modules.catalog.productListing.label.weltpixel.enabled && (
                                 <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel />
                             )}
                             {showQuickView && (

@@ -14,7 +14,11 @@ export const popupDetailImagePdp = () => useLazyQuery(Schema.popupDetailImagePdp
 
 export const pageSizeConfig = () => useQuery(Schema.pageSizeConfig);
 
-export const drawerFilterOnDesktopConfig = () => useQuery(Schema.drawerFilterOnDesktop);
+export const drawerFilterOnDesktopConfig = () => useQuery(Schema.drawerFilterOnDesktopConfig);
+
+export const labelConfig = () => useQuery(Schema.labelConfig);
+
+labelConfig
 
 export default {
     vesMenuConfig,
@@ -23,5 +27,6 @@ export default {
     contactConfig,
     popupDetailImagePdp,
     pageSizeConfig,
-    drawerFilterOnDesktopConfig
+    drawerFilterOnDesktopConfig,
+    labelConfig
 };

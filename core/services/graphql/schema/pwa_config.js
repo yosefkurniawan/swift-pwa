@@ -80,11 +80,20 @@ export const pageSizeConfig = gql`
   }
 }`;
 
-export const drawerFilterOnDesktop = gql`
+export const drawerFilterOnDesktopConfig = gql`
 {
   storeConfig {
     pwa {
       drawer_filter_on_desktop_enable
+    }
+  }
+}`;
+
+export const labelConfig = gql`
+{
+  storeConfig {
+    pwa {
+      label_enable
     }
   }
 }`;
@@ -96,5 +105,6 @@ export default {
     contactConfig,
     getRemoveDecimalConfig,
     pageSizeConfig,
-    drawerFilterOnDesktop
+    drawerFilterOnDesktopConfig,
+    labelConfig
 };

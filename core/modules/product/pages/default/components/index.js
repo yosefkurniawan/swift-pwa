@@ -22,6 +22,7 @@ import OptionItem from '@core_modules/product/pages/default/components/OptionIte
 import SharePopup from '@core_modules/product/pages/default/components/SharePopup';
 import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
 import { modules } from '@config';
+import { labelConfig } from '@services/graphql/repository/pwa_config';
 import { getProductBannerLite } from '@core_modules/product/services/graphql';
 
 const Banner = dynamic(() => import('@common_slick/BannerThumbnail'), { ssr: true });
@@ -69,6 +70,15 @@ const ProductPage = (props) => {
     const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
     const [getBannerLite, bannerLiteResult] = getProductBannerLite(route.asPath.slice(1), { context });
 
+    let labelEnable = {};
+
+    const { data: dataLabel, loading: loadingLabel } = labelConfig();
+
+    if (!loadingLabel && dataLabel && dataLabel.storeConfig && dataLabel.storeConfig.pwa) {
+        labelEnable = {
+            ...dataLabel.storeConfig.pwa,
+        };
+    }
     React.useEffect(() => {
         getBannerLite();
     }, [bannerLiteResult.called]);
@@ -157,7 +167,7 @@ const ProductPage = (props) => {
                         customProduct={styles.bannerProduct}
                     >
                         {
-                            modules.catalog.productListing.label.enabled
+                            labelEnable.label_enable
                             && modules.catalog.productListing.label.weltpixel.enabled && (
                                 <WeltpixelLabel
                                     t={t}
@@ -235,7 +245,7 @@ const ProductPage = (props) => {
                     </div>
                     <div className="row">
                         {
-                            modules.catalog.productListing.label.enabled
+                            labelEnable.label_enable
                             && modules.catalog.productListing.label.weltpixel.enabled && (
                                 <WeltpixelLabel
                                     t={t}
