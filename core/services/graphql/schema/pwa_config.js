@@ -80,6 +80,15 @@ export const pageSizeConfig = gql`
   }
 }`;
 
+export const drawerFilterOnDesktop = gql`
+{
+  storeConfig {
+    pwa {
+      drawer_filter_on_desktop_enable
+    }
+  }
+}`;
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
@@ -87,4 +96,5 @@ export default {
     contactConfig,
     getRemoveDecimalConfig,
     pageSizeConfig,
+    drawerFilterOnDesktop
 };
