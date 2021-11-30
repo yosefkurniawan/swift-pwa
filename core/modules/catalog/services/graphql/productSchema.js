@@ -2,7 +2,9 @@
 
 import { gql } from '@apollo/client';
 import { features, modules } from '@config';
-import { configurableOptionsConfig } from '@services/graphql/repository/pwa_config';
+import { configurableOptionsConfig, ratingConfig } from '@services/graphql/repository/pwa_config';
+import { useEffect } from 'react';
+
 
 /**
  * generate dynamic filter query
@@ -10,7 +12,27 @@ import { configurableOptionsConfig } from '@services/graphql/repository/pwa_conf
  * @param filter array of filter value
  * @returns string query to generate on grapql tag
  */
+
+
+let configurableOptions = {};
+let rating = {};
+
 const filterProduct = (filter) => {
+    const { data: dataConfigurableOptions, loading: loadingConfigurableOptionsConfig } = configurableOptionsConfig();
+    const { data: dataRatingConfig, loading: loadingRatingConfig } = ratingConfig();
+
+    if (!loadingConfigurableOptionsConfig && dataConfigurableOptions && dataConfigurableOptions.storeConfig && dataConfigurableOptions.storeConfig.pwa) {
+        configurableOptions = {
+          ...dataConfigurableOptions.storeConfig.pwa,
+        }
+      }
+      
+      if (!loadingRatingConfig && dataRatingConfig && dataRatingConfig.storeConfig && dataRatingConfig.storeConfig.pwa) {
+        rating = {
+          ...dataRatingConfig.storeConfig.pwa,
+        }
+      }
+      
     let queryFilter = '{ ';
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < filter.length; index++) {
@@ -41,18 +63,6 @@ const filterProduct = (filter) => {
     return queryFilter;
 };
 
-const getConfigurableOptions = () => {
-  let configurableOptions = {};
-  const { data: dataConfigurableOptions, loading: loadingConfigurableOptionsConfig } = configurableOptionsConfig();
-
-  if (!loadingConfigurableOptionsConfig && dataConfigurableOptions && dataConfigurableOptions.storeConfig && dataConfigurableOptions.storeConfig.pwa) {
-    configurableOptions = {
-          ...dataConfigurableOptions.storeConfig.pwa,
-      };
-  }
-  
-  return configurableOptions.configurable_options_enable;
-}
 
 export const getProductAgragations = () => gql`
   {
@@ -133,7 +143,7 @@ export const getProduct = (config = {}) => gql`
           }
         }        
         ` : ''}
-        ${getConfigurableOptions ? `review {
+        ${null ? `review {
           rating_summary
           reviews_count
         }` : ''}
@@ -192,7 +202,7 @@ export const getProduct = (config = {}) => gql`
         new_from_date
         new_to_date
         ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
-        ${getConfigurableOptions ? `
+        ${configurableOptions.configurable_options_enable ? `
         ... on ConfigurableProduct {
           configurable_options {
             id
@@ -229,7 +239,7 @@ export const getProduct = (config = {}) => gql`
               sku
               stock_status
               url_key
-              ${modules.catalog.productListing.rating
+              ${rating.rating_enable
         ? `review {
                 rating_summary
                 reviews_count

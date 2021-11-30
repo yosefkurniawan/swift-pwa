@@ -20,6 +20,8 @@ export const labelConfig = () => useQuery(Schema.labelConfig);
 
 export const configurableOptionsConfig = () => useQuery(Schema.configurableOptionsConfig);
 
+export const ratingConfig = () => useQuery(Schema.ratingConfig);
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
@@ -29,5 +31,6 @@ export default {
     pageSizeConfig,
     drawerFilterOnDesktopConfig,
     labelConfig,
-    configurableOptionsConfig
+    configurableOptionsConfig,
+    ratingConfig
 };

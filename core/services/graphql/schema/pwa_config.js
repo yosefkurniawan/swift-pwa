@@ -107,6 +107,15 @@ export const configurableOptionsConfig = gql`
   }
 }`;
 
+export const ratingConfig = gql`
+{
+  storeConfig {
+    pwa {
+      rating_enable
+    }
+  }
+}`;
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
@@ -116,5 +125,6 @@ export default {
     pageSizeConfig,
     drawerFilterOnDesktopConfig,
     labelConfig,
-    configurableOptionsConfig
+    configurableOptionsConfig,
+    ratingConfig
 };
