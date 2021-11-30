@@ -143,7 +143,7 @@ export const getProduct = (config = {}) => gql`
           }
         }        
         ` : ''}
-        ${null ? `review {
+        ${configurableOptions.configurable_options_enable ? `review {
           rating_summary
           reviews_count
         }` : ''}
