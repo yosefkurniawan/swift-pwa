@@ -116,6 +116,15 @@ export const ratingConfig = gql`
   }
 }`;
 
+export const addToCartConfig = gql`
+{
+  storeConfig {
+    pwa {
+      add_to_cart_enable
+    }
+  }
+}`;
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
@@ -126,5 +135,6 @@ export default {
     drawerFilterOnDesktopConfig,
     labelConfig,
     configurableOptionsConfig,
-    ratingConfig
+    ratingConfig,
+    addToCartConfig
 };

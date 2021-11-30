@@ -22,6 +22,8 @@ export const configurableOptionsConfig = () => useQuery(Schema.configurableOptio
 
 export const ratingConfig = () => useQuery(Schema.ratingConfig);
 
+export const addToCartConfig = () => useQuery(Schema.addToCartConfig);
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
@@ -32,5 +34,6 @@ export default {
     drawerFilterOnDesktopConfig,
     labelConfig,
     configurableOptionsConfig,
-    ratingConfig
+    ratingConfig,
+    addToCartConfig
 };
