@@ -31,12 +31,12 @@ const Loader = () => (
     </>
 );
 
-const ImageWithFallbacks = (props) => {
-    let fallbacks = [`./assets/img/shipping-${props.src.replace('sg-', '')}.svg`, `./assets/img/shipping-default.svg`];
+const ShippingGroupIcon = (props) => {
+    let fallbacks = [`${props.baseMediaUrl}checkout/shipping/shipping-${props.src.replace('sg-', '')}.svg`, null];
     const styles = useStyles();
 
     // check if image exist on the backoffice, otherwise use fallback image from PWA
-    const [imageSrc, setImageSrc] = React.useState(`${props.baseMediaUrl}checkout/shipping/shipping-${props.src.replace('sg-', '')}.svg`);
+    const [imageSrc, setImageSrc] = React.useState(`./assets/img/shipping-${props.src.replace('sg-', '')}.svg`);
     const [fallbackImageIndex, setFallbackImageIndex] = React.useState(0);
 
     // set image fallback url
@@ -48,7 +48,19 @@ const ImageWithFallbacks = (props) => {
         setFallbackImageIndex(fallbackImageIndex + 1);
     };
 
-    return <img className={styles.paymentGroupStyleIcon} src={imageSrc} alt={props.src.replace('pg-', '')} onError={() => getFallbackImageSrc()} />;
+    return (
+        <>
+            {(imageSrc && (
+                <img
+                    className={styles.shippingGroupStyleIcon}
+                    src={imageSrc}
+                    alt={props.src.replace('sg-', '')}
+                    onError={() => getFallbackImageSrc()}
+                />
+            )) ||
+                ''}
+        </>
+    );
 };
 
 const ShippingView = (props) => {
@@ -165,11 +177,11 @@ const ShippingView = (props) => {
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
                                             <div className={styles.labelAccordion}>
-                                                <ImageWithFallbacks src={item.group} baseMediaUrl={storeConfig.base_media_url} />
+                                                <ShippingGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
                                                 <Typography letter="uppercase" variant="span" type="bold">
                                                     {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`) ===
                                                     `shippingGrouping.${item.group.replace('sg-', '')}`
-                                                        ? item.group.replace('pg-', '')
+                                                        ? item.group.replace('sg-', '')
                                                         : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
                                                 </Typography>
                                             </div>

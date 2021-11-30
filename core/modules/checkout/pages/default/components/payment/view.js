@@ -38,12 +38,12 @@ const Loader = () => (
     </>
 );
 
-const ImageWithFallbacks = (props) => {
-    let fallbacks = [`./assets/img/payment-${props.src.replace('pg-', '')}.svg`, `./assets/img/payment-default.svg`];
+const PaymentGroupIcon = (props) => {
+    let fallbacks = [`${props.baseMediaUrl}checkout/payment/payment-${props.src.replace('pg-', '')}.svg`, null];
     const styles = useStyles();
 
     // check if image exist on the backoffice, otherwise use fallback image from PWA
-    const [imageSrc, setImageSrc] = React.useState(`${props.baseMediaUrl}checkout/payment/payment-${props.src.replace('pg-', '')}.svg`);
+    const [imageSrc, setImageSrc] = React.useState(`./assets/img/payment-${props.src.replace('pg-', '')}.svg`);
     const [fallbackImageIndex, setFallbackImageIndex] = React.useState(0);
 
     // set image fallback url
@@ -55,7 +55,19 @@ const ImageWithFallbacks = (props) => {
         setFallbackImageIndex(fallbackImageIndex + 1);
     };
 
-    return <img className={styles.paymentGroupStyleIcon} src={imageSrc} alt={props.src.replace('pg-', '')} onError={() => getFallbackImageSrc()} />;
+    return (
+        <>
+            {(imageSrc && (
+                <img
+                    className={styles.paymentGroupStyleIcon}
+                    src={imageSrc}
+                    alt={props.src.replace('pg-', '')}
+                    onError={() => getFallbackImageSrc()}
+                />
+            )) ||
+                ''}
+        </>
+    );
 };
 
 /**
@@ -179,7 +191,7 @@ const PaymentView = (props) => {
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
                                             <div className={styles.labelSummary}>
-                                                <ImageWithFallbacks src={item.group} baseMediaUrl={storeConfig.base_media_url} />
+                                                <PaymentGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
                                                 <Typography letter="uppercase" variant="span" type="bold">
                                                     {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`) ===
                                                     `paymentGrouping.${item.group.replace('pg-', '')}`
