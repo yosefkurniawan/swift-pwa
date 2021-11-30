@@ -18,6 +18,7 @@ import ExtraFee from '@core_modules/checkout/pages/default/components/ExtraFee';
 import PromoModalItem from '@core_modules/checkout/pages/default/components/PromoModalItem';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 import InStorePickup from '@core_modules/checkout/pages/default/components/instorepickup';
+import Confirmation from '@core_modules/checkout/pages/default/components/Confirmation';
 import dynamic from 'next/dynamic';
 
 const GimmickBanner = dynamic(() => import('@plugin_gimmickbanner'), { ssr: false });
@@ -59,6 +60,7 @@ const Content = (props) => {
         setInitialOptionPaypal,
         initialOptionPaypal,
         setTokenData,
+        ConfirmationView,
     } = props;
 
     const styles = useStyles();
@@ -257,6 +259,17 @@ const Content = (props) => {
                         initialOptionPaypal={initialOptionPaypal}
                         setTokenData={setTokenData}
                     />
+                    
+                    <Confirmation
+                        checkout={checkout}
+                        setCheckout={setCheckout}
+                        updateFormik={updateFormik}
+                        handleOpenMessage={handleOpenMessage}
+                        t={t}
+                        storeConfig={storeConfig}
+                        ConfirmationView={ConfirmationView}
+                    />
+                    
                     {modules.checkout.orderComment.enabled ? (
                         <div className={classNames(styles.block)}>
                             <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">

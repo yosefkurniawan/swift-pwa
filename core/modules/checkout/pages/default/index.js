@@ -24,6 +24,7 @@ import Content from '@core_modules/checkout/pages/default/components';
 import HeaderView from '@core_modules/checkout/pages/default/components/Header';
 import PromoModalItemView from '@core_modules/checkout/pages/default/components/PromoModalItem/view';
 import OrderCommentView from '@core_modules/checkout/pages/default/components/OrderComment/view';
+import ConfirmationView from '@core_modules/checkout/pages/default/components/Confirmation/view';
 
 const Page = (props) => (
     <Core
@@ -45,6 +46,7 @@ const Page = (props) => (
         ExtraFeeView={ExtraFeeView}
         PromoModalItemView={PromoModalItemView}
         OrderCommentView={OrderCommentView}
+        ConfirmationView={ConfirmationView}
         pageConfig={{
             title: props.t('checkout:pageTitle'),
             header: 'relative', // available values: "absolute", "relative", false (default)

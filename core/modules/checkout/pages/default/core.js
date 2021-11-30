@@ -143,6 +143,7 @@ const Checkout = (props) => {
             giftCard: false,
             extraFee: false,
             paypal: false,
+            confirmation: false,
         },
         status: {
             addresses: false,
