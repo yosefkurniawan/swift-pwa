@@ -74,5 +74,23 @@
     },
     "dob": {
         "required": "Date of Birth is required"
-    }
+    },
+    "to": "To",
+    "from": "From",
+    "recipientName": "Recipient Name",
+    "recipientEmail": "Recipient Email",
+    "senderName": "Sender Name",
+    "senderEmail": "Sender Email",
+    "emailTemplate": "Email Template",
+    "amount": "Amount",
+    "notValid": "is not valid",
+    "greaterThanOrEqual": "must be greater than or equal to",
+    "lessThanOrEqual": "must be less than or equal to",
+    "value": "Value",
+    "code": "Code",
+    "chooseAmount": "Choose an Amount",
+    "customAmount": "Enter Custom Amount",
+    "selectDesign": "Select a Design",
+    "composeEmail": "Compose Your Email",
+    "deliveryDate": "Delivery Date"
 }

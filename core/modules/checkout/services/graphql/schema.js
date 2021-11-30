@@ -212,6 +212,15 @@ items {
             url
             label
         }
+        ... on AwGiftCardProduct {
+            aw_gc_type
+        }
+    }
+    ... on AwGiftCardCartItem {
+        aw_giftcard_option {
+          label
+          value
+        }
     }
 }`;
 
