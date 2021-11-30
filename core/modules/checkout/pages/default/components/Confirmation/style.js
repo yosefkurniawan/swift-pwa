@@ -29,4 +29,8 @@ export default makeStyles(() => ({
         margin: '10px 0px',
         ...FlexColumn,
     },
+    linkModal: {
+        marginTop: 12,
+        padding: 0,
+    }
 }));

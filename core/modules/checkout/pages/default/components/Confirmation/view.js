@@ -4,7 +4,7 @@ import React from 'react';
 import Typography from '@common_typography';
 import Checkbox from '@common_checkbox';
 import Skeleton from '@material-ui/lab/Skeleton';
-import Button from '@material-ui/core/Button';
+import Button from '@common_button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -66,20 +66,24 @@ const ConfirmationView = ({
                                 <Typography variant="span" type="bold" className="clear-margin-padding">
                                     Confirmation
                                 </Typography>
-                                <Grid item md={6} xs={6}>
-                                    <Checkbox
-                                        label=""
-                                        key={key}
-                                        flex="column"
-                                        data={data}
-                                        value={state[item.agreement_id] ? state[item.agreement_id] : []}
-                                        classCheckbox={styles.checkbox}
-                                        classContainer={styles.checkboxContainer}
-                                        onChange={(val) => handleChange(item.agreement_id, val)}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={6}>
-                                    <Button onClick={handleClickOpen('paper')}>Open {item.name}</Button>
+                                <Grid id="agreement-row" container spacing={0}>
+                                    <Grid item md={12} xs={12}>
+                                        <Checkbox
+                                            label=""
+                                            key={key}
+                                            flex="column"
+                                            data={data}
+                                            value={state[item.agreement_id] ? state[item.agreement_id] : []}
+                                            classCheckbox={styles.checkbox}
+                                            classContainer={styles.checkboxContainer}
+                                            onChange={(val) => handleChange(item.agreement_id, val)}
+                                        />
+                                        <Button className={styles.linkModal} align="left" variant="text" onClick={handleClickOpen('paper')}>
+                                            <Typography variant="span" type="regular" decoration="underline" size="12">
+                                            Open {item.name}
+                                            </Typography>
+                                        </Button>
+                                    </Grid>
                                 </Grid>
                                 <Dialog
                                     open={open}

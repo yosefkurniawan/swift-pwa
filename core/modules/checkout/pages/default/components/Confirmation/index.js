@@ -5,13 +5,14 @@ import { checkoutAgreements } from '@core_modules/checkout/services/graphql';
 
 const Confirmation = (props) => {
     const {
-        t, storeConfig, ConfirmationView, data
+        t, storeConfig, ConfirmationView, data, handleOpenMessage
     } = props;
 
     const { loading, data: agreements } = checkoutAgreements();
     
 
     const [state, setState] = React.useState({});
+    const [load, setLoad] = useState(false);
     
     const handleChange = async (key, value) => {
         const newState = { ...state, [key]: value };
