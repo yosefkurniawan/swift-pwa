@@ -71,10 +71,20 @@ export const popupDetailImagePdp = gql`
 }
 `;
 
+export const pageSizeConfig = gql`
+{
+  storeConfig {
+    pwa {
+      page_size
+    }
+  }
+}`;
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
     shareIconConfig,
     contactConfig,
     getRemoveDecimalConfig,
+    pageSizeConfig,
 };

@@ -12,10 +12,13 @@ export const contactConfig = () => useQuery(Schema.contactConfig);
 
 export const popupDetailImagePdp = () => useLazyQuery(Schema.popupDetailImagePdp);
 
+export const pageSizeConfig = () => useQuery(Schema.pageSizeConfig);
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
     shareIconConfig,
     contactConfig,
     popupDetailImagePdp,
+    pageSizeConfig,
 };
