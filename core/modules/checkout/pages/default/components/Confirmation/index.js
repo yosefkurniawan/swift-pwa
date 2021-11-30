@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { checkoutAgreements } from '@core_modules/checkout/services/graphql';
 
 const Confirmation = (props) => {
@@ -9,10 +9,9 @@ const Confirmation = (props) => {
     } = props;
 
     const { loading, data: agreements } = checkoutAgreements();
-    
 
     const [state, setState] = React.useState({});
-    const [load, setLoad] = useState(false);
+    const [setLoad] = useState(false);
     
     const handleChange = async (key, value) => {
         const newState = { ...state, [key]: value };
@@ -29,16 +28,18 @@ const Confirmation = (props) => {
                     };
                 });
                 select_options.push(...options);
-                if (!options || options.errors) {
-                    handleOpenMessage({
-                        variant: 'error',
-                        text: t('checkout:message:problemConnection'),
-                    });
-                    setLoad(false);
-                }
             }
         }
+
+        if (select_options == []) {
+            handleOpenMessage({
+                variant: 'error',
+                text: t('checkout:message:problemConnection'),
+            });
+            setLoad(false);
+        }
     };
+
     return (
         <ConfirmationView
             agreements={agreements}
@@ -49,7 +50,6 @@ const Confirmation = (props) => {
             loading={loading}
         />
     );
-
 
     return null;
 };
