@@ -19,7 +19,6 @@ module.exports = withOffline({
     productionBrowserSourceMaps: true,
     publicRuntimeConfig: {
         appEnv: process.env.APP_ENV,
-        nodeEnv: process.env.NODE_ENV,
         rootDir: __dirname,
     },
     optimization: {

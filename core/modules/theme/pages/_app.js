@@ -175,9 +175,9 @@ class MyApp extends App {
         /*
          * ---------------------------------------------
          * REMOVE CONSOLE
-         * remove all console.log statement when APP_ENV = 'prod' and NODE_ENV = 'production'
+         * remove all console.log statement when APP_ENV = 'prod'
          */
-        if (publicRuntimeConfig.nodeEnv === 'production' && getAppEnv() === 'prod') {
+        if (getAppEnv() === 'prod') {
             console.log = () => {};
         }
 
