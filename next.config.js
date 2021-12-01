@@ -19,6 +19,7 @@ module.exports = withOffline({
     productionBrowserSourceMaps: true,
     publicRuntimeConfig: {
         appEnv: process.env.APP_ENV,
+        nodeEnv: process.env.NODE_ENV,
         rootDir: __dirname,
     },
     optimization: {
@@ -33,7 +34,7 @@ module.exports = withOffline({
             isServer,
             defaultLoaders,
             webpack,
-        },
+        }
     ) => {
         // Note: we provide webpack above so you should not `require` it
         // Perform customizations to webpack config
@@ -45,7 +46,7 @@ module.exports = withOffline({
         config.plugins.push(
             new webpack.ProvidePlugin({
                 React: 'react',
-            }),
+            })
         );
         if (!isServer) {
             // eslint-disable-next-line no-param-reassign

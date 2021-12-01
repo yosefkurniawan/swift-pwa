@@ -20,6 +20,7 @@ import {
 } from '@config';
 import { getLoginInfo, getLastPathWithoutLogin } from '@helper_auth';
 import { setResolver, testLocalStorage, setLocalStorage } from '@helper_localstorage';
+import { getAppEnv } from '@root/core/helpers/env';
 import { RewriteFrames } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
 import { unregister } from 'next-offline/runtime';
@@ -73,9 +74,7 @@ class MyApp extends App {
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
         }
-        const {
-            res, pathname, query, req,
-        } = ctx;
+        const { res, pathname, query, req } = ctx;
 
         /*
          * ---------------------------------------------
@@ -93,9 +92,10 @@ class MyApp extends App {
         } else {
             isLogin = allcookie.isLogin || 0;
             customerData = allcookie[custDataNameCookie];
-            lastPathNoAuth = req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
-                ? req.session.lastPathNoAuth
-                : '/customer/account';
+            lastPathNoAuth =
+                req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
+                    ? req.session.lastPathNoAuth
+                    : '/customer/account';
         }
         isLogin = parseInt(isLogin);
 
@@ -170,6 +170,15 @@ class MyApp extends App {
                     this.registerServiceWorker();
                 });
             }
+        }
+
+        /*
+         * ---------------------------------------------
+         * REMOVE CONSOLE
+         * remove all console.log statement when APP_ENV = 'prod' and NODE_ENV = 'production'
+         */
+        if (publicRuntimeConfig.nodeEnv === 'production' && getAppEnv() === 'prod') {
+            console.log = () => {};
         }
 
         /*
@@ -264,7 +273,7 @@ class MyApp extends App {
             },
             (err) => {
                 console.log('Service Worker registration failed: ', err);
-            },
+            }
         );
     }
 
