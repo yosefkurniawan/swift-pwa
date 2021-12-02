@@ -15,6 +15,8 @@ import Button from '@common_button';
 import RatingStar from '@common_ratingstar';
 import { getHost } from '@helper_config';
 import { modules } from '@config';
+import { labelConfig } from '@services/graphql/repository/pwa_config';
+
 
 import useStyles from '@plugin_productitem/components/QuickView/style';
 
@@ -65,6 +67,16 @@ const QuickView = (props) => {
     // Customizable Options
     const [customizableOptions, setCustomizableOptions] = React.useState([]);
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
+
+    let labelEnable = {};
+
+    const { data: dataLabel, loading: loadingLabel } = labelConfig();
+
+    if (!loadingLabel && dataLabel && dataLabel.storeConfig && dataLabel.storeConfig.pwa) {
+        labelEnable = {
+            ...dataLabel.storeConfig.pwa,
+        };
+    }
 
     const checkCustomizableOptionsValue = async () => {
         if (product.options && product.options.length > 0) {
@@ -130,7 +142,7 @@ const QuickView = (props) => {
                             customClassCaraousel={styles.caraousel}
                         >
                             {
-                                modules.catalog.productListing.label.enabled
+                                    labelEnable.label_enable
                                     && modules.catalog.productListing.label.weltpixel.enabled && (
                                     <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel={false} />
                                 )
@@ -179,7 +191,7 @@ const QuickView = (props) => {
                         </div>
                         <div className="row">
                             {
-                                modules.catalog.productListing.label.enabled
+                                    labelEnable.label_enable
                                     && modules.catalog.productListing.label.weltpixel.enabled && (
                                     <WeltpixelLabel
                                         t={t}

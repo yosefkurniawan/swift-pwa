@@ -6,5 +6,6 @@
     "message": "Pesan",
     "telephone": "Telepon",
     "successSubmit": "Sukses mengirim pesan",
-    "failedSubmit": "Gagal mengirim pesan, silahkan periksa masukan atau koneksi Anda"
+    "failedSubmit": "Gagal mengirim pesan, silahkan periksa masukan atau koneksi Anda",
+    "nullCmsIdentifer": "Cms identifier belum di konfigurasi, coba lagi nanti"
 }

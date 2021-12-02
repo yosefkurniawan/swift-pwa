@@ -3,10 +3,11 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { regexPhone } from '@helper_regex';
 import {
-    cmsContactIdentifiers, recaptcha, debuging, modules,
+    recaptcha, debuging,
 } from '@config';
 import { getAppEnv } from '@helpers/env';
 import gqlService from '@core_modules/contact/services/graphql';
+import { contactConfig } from '@services/graphql/repository/pwa_config';
 
 const Contact = (props) => {
     const {
@@ -15,7 +16,7 @@ const Contact = (props) => {
 
     const appEnv = getAppEnv();
     // enable recaptcha
-    const enableRecaptcha = recaptcha.enable && modules.contact.recaptcha.enabled;
+    let enableRecaptcha = false;
 
     const Config = {
         title: t('contact:pageTitle'),
@@ -35,6 +36,21 @@ const Contact = (props) => {
         : recaptcha.siteKey.dev;
 
     const [contactusFormSubmit] = gqlService.contactusFormSubmit();
+
+    // query config cms contact identifier
+    let cmsContactIdentifiers;
+    const { loading: loadingConfig, data: dataConfig } = contactConfig();
+
+    if (!loadingConfig && dataConfig && dataConfig.storeConfig && dataConfig.storeConfig.pwa) {
+        if (dataConfig.storeConfig.pwa.cms_contact_identifiers
+            && dataConfig.storeConfig.pwa.cms_contact_identifiers !== '') {
+            cmsContactIdentifiers = dataConfig.storeConfig.pwa.cms_contact_identifiers;
+        }
+
+        if (dataConfig.storeConfig.pwa.recaptcha_contact_enable != null) {
+            enableRecaptcha = recaptcha.enable && dataConfig.storeConfig.pwa.recaptcha_contact_enable;
+        }
+    }
 
     const submitForm = async (values, resetForm) => {
         contactusFormSubmit({
@@ -124,9 +140,26 @@ const Contact = (props) => {
     const handleChangeCaptcha = (value) => {
         formik.setFieldValue('captcha', value || '');
     };
-    const { error, loading, data } = gqlService.getCmsBlocks({ identifiers: [cmsContactIdentifiers] });
+
+    const { error, loading, data } = gqlService.getCmsBlocks(
+        { identifiers: [cmsContactIdentifiers] },
+        { skip: !cmsContactIdentifiers },
+    );
+
+    if (!cmsContactIdentifiers) {
+        return (
+            <Layout pageConfig={pageConfig || Config} {...props}>
+                <ErrorInfo variant="error" text={props.t('contact:nullCmsIdentifer')} />
+            </Layout>
+        );
+    }
+
     if (error) {
-        return <ErrorInfo variant="error" text={debuging.originalError ? error.message.split(':')[1] : props.t('common:error:fetchError')} />;
+        return (
+            <Layout pageConfig={pageConfig || Config} {...props}>
+                <ErrorInfo variant="error" text={debuging.originalError ? error.message.split(':')[1] : props.t('common:error:fetchError')} />
+            </Layout>
+        );
     }
 
     if (isCms) {

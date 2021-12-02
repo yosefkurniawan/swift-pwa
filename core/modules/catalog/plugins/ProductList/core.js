@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helper_generatequery';
 import TagManager from 'react-gtm-module';
-import { modules } from '@config';
+import { pageSizeConfig } from '@services/graphql/repository/pwa_config';
 import { getProduct, getProductAgragations } from '@core_modules/catalog/services/graphql';
 import * as Schema from '@core_modules/catalog/services/graphql/productSchema';
 import getCategoryFromAgregations from '@core_modules/catalog/helpers/getCategory';
@@ -31,6 +31,16 @@ const Product = (props) => {
         currentPage: 1,
         filter: [],
     };
+
+    let pageSize = {};
+
+    const { data: dataPageSize, loading: loadingPageSize } = pageSizeConfig();
+
+    if (!loadingPageSize && dataPageSize && dataPageSize.storeConfig && dataPageSize.storeConfig.pwa) {
+        pageSize = {
+            ...dataPageSize.storeConfig.pwa,
+        };
+    }
 
     // set default sort when there is no sort in query
     if (defaultSort && !query.sort) {
@@ -75,7 +85,7 @@ const Product = (props) => {
 
     const { loading, data, fetchMore } = getProduct(config, {
         variables: {
-            pageSize: modules.catalog.productListing.pageSize || 10,
+            pageSize: pageSize.page_size || 10,
             currentPage: 1,
         },
         context,
@@ -117,7 +127,7 @@ const Product = (props) => {
                 fetchMore({
                     query: Schema.getProduct({ ...config, currentPage: page + 1 }),
                     variables: {
-                        pageSize: modules.catalog.productListing.pageSize || 10,
+                        pageSize: pageSize.page_size || 10,
                         currentPage: page + 1,
                     },
                     context,

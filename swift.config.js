@@ -4,7 +4,6 @@
 const useMagentoCommerce = false; // setup uses magento commerce or community
 const storeCode = ''; // fill it with any store code when the magento is setup with multiple stores. leave it empty to use default store.
 const assetsVersion = '1.0.6';
-const iconAppleTouch = '/assets/img/swiftpwa_apple_touch.png';
 
 const HOST = {
     local: 'http://localhost:3000',
@@ -26,18 +25,6 @@ const graphqlEndpoint = {
 /* --------------------------------------- */
 
 const installMessage = 'Get our free app.';
-const appName = 'Swift APP';
-
-/* Social Sharing */
-const shareIcon = {
-    facebook: true,
-    twitter: true,
-    line: true,
-    email: true,
-    telegram: true,
-    pinterest: false,
-    linkedin: false,
-};
 
 /* Password Validator */
 const passwordStrength = {
@@ -111,10 +98,6 @@ const rollbar = {
         captureUnhandledRejections: true,
     },
 };
-
-/* Contact Us */
-// identifiers for cmsBlocks in contact page
-const cmsContactIdentifiers = 'weltpixel_contact_page';
 
 /* Dashboard */
 // identifiers for cmsBlocks in contact page
@@ -254,9 +237,6 @@ const features = {
     footer: {
         desktop: 'pwa_footer',
         mobile: 'pwa_footer',
-    },
-    removeDecimalPrice: {
-        enabled: false,
     },
 };
 
@@ -457,9 +437,6 @@ const modules = {
     contact: {
         enabled: true,
         path: '/contact',
-        recaptcha: {
-            enabled: true,
-        },
     },
     forgotpassword: {
         enabled: true,
@@ -622,7 +599,6 @@ const general = {
 
 module.exports = {
     assetsVersion,
-    iconAppleTouch,
     general,
     sentry,
     storeCode,
@@ -630,7 +606,6 @@ module.exports = {
     GTM,
     HOST,
     graphqlEndpoint,
-    shareIcon,
     passwordStrength,
     expiredCookies,
     storeConfigNameCookie,
@@ -639,7 +614,6 @@ module.exports = {
     expiredToken,
     expiredDefault,
     loaderImage,
-    cmsContactIdentifiers,
     cmsSocialMediaLinkIdentifiers,
     custDataNameCookie,
     nameCheckoutCookie,
@@ -651,7 +625,6 @@ module.exports = {
     recaptcha,
     modules,
     installMessage,
-    appName,
     localResolverKey,
     useMagentoCommerce,
     rollbar,
