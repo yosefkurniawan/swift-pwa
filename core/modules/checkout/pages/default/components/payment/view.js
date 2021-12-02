@@ -17,6 +17,7 @@ import RadioItem from '@core_modules/checkout/components/radioitem';
 import ModalHowtoPay from '@core_modules/checkout/pages/default/components/ModalHowtoPay';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import TextField from '@common_textfield';
 
 import { ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle } from './style';
 
@@ -25,6 +26,7 @@ const ExpansionPanelSummary = withStyles(ExpanSummaryStyle)(MuiExpansionPanelSum
 const ExpansionPanelDetails = withStyles(ExpanDetailStyle)(MuiExpansionPanelDetails);
 const PO = 'purchaseorder';
 const PaypalCode = 'paypal_express';
+const travelokapay = 'travelokapay';
 
 /**
  * Loader
@@ -49,12 +51,26 @@ const PaymentView = (props) => {
         loading, data, checkout, storeConfig, t, handlePayment, handlePurchaseOrder,
         handlePurchaseOrderSubmit, selected, paypalTokenData, paypalHandlingProps, initialOptionPaypal,
     } = props;
+    // const { payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id } = storeConfig;
     const { modules } = commonConfig;
     const [expanded, setExpanded] = React.useState(null);
     const [expandedActive, setExpandedActive] = React.useState(true);
     const [openModal, setModal] = React.useState(false);
 
     let content;
+
+    React.useEffect(() => {
+        window.Xendit.setPublishableKey(storeConfig.payment_travelokapay_public_key);
+        if (window.Xendit.card.validateCardNumber('4661601010720652')) {
+            // console.log('card valid');
+        }
+        if (window.Xendit.card.validateExpiry('07', '2030')) {
+            // console.log('expiry valid');
+        }
+        if (window.Xendit.card.validateCvn('123')) {
+            // console.log('cvv valid');
+        }
+    }, []);
 
     /**
      * [METHOD] handle change
@@ -126,6 +142,7 @@ const PaymentView = (props) => {
                 }
             }
         }
+        // console.log('storeConfig', payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id);
         content = (
             <div>
                 <Typography variant="p">{t('checkout:paymentSubtitle')}</Typography>
@@ -168,6 +185,9 @@ const PaymentView = (props) => {
                                                                 // prettier-ignore
                                                                 const isPurchaseOrder = item.code === PO || selected.payment === PO;
                                                                 const isPaypal = item.code === PaypalCode && selected.payment === PaypalCode;
+                                                                const isTravelokaPay = item.code === travelokapay
+                                                                    && selected.payment === travelokapay;
+
                                                                 if (isPurchaseOrder) {
                                                                     return (
                                                                         <Grid item xs={12}>
@@ -198,6 +218,34 @@ const PaymentView = (props) => {
                                                                                 />
                                                                             </PayPalScriptProvider>
                                                                         </Grid>
+                                                                    );
+                                                                }
+                                                                if (isTravelokaPay) {
+                                                                    return (
+                                                                        <>
+                                                                            <div className="travelokapay-form" style={{ marginLeft: '2rem' }}>
+                                                                                <Typography>
+                                                                                    Enter your payment details:
+                                                                                </Typography>
+                                                                                <form>
+                                                                                    <div style={{ display: 'flex' }}>
+                                                                                        <TextField placeholder="Name on Card" />
+                                                                                        <TextField placeholder="Card Number" />
+                                                                                    </div>
+                                                                                    <div style={{ display: 'flex' }}>
+                                                                                        <TextField placeholder="MM/YY" />
+                                                                                        <TextField placeholder="CVV" />
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                            <style jsx>
+                                                                                {`
+                                                                                    .travelokapay-form {
+                                                                                        // background-color: red;
+                                                                                    }
+                                                                                `}
+                                                                            </style>
+                                                                        </>
                                                                     );
                                                                 }
 
