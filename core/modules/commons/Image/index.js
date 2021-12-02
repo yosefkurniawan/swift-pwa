@@ -5,12 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
 import LazyImage from './LazyImage';
 
-const imgError = (image) => {
-    image.onerror = '';
-    image.src = '/assets/img/placeholder.png';
-    return true;
-};
-
 const CustomImage = ({
     src, width = 500, height = 500, magezon,
     classContainer = '', className = '', alt = 'Image', quality = 100, style = {}, lazy = false, ...other
@@ -29,7 +23,6 @@ const CustomImage = ({
     };
 
     useEffect(() => {
-        // setImgSource(imageUrl);
         const img = new Image();
         img.src = imageUrl;
         img.onerror = () => setImgSource('/assets/img/placeholder.png');
