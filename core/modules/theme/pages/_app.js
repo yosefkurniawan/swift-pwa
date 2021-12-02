@@ -15,6 +15,7 @@ import helperCookies from '@helper_cookies';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { appWithTranslation } from '@i18n';
 import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
+import { getRemoveDecimalConfig } from '@services/graphql/schema/pwa_config';
 import {
     storeConfigNameCookie, GTM, custDataNameCookie, features, sentry,
 } from '@config';
@@ -86,10 +87,12 @@ class MyApp extends App {
         let lastPathNoAuth = '';
         let customerData = {};
         const allcookie = req ? req.cookies : {};
+        let removeDecimalConfig;
         if (typeof window !== 'undefined') {
             isLogin = getLoginInfo();
             lastPathNoAuth = getLastPathWithoutLogin();
             customerData = Cookie.getJSON(custDataNameCookie);
+            removeDecimalConfig = Cookie.getJson('remove_decimal_config');
         } else {
             isLogin = allcookie.isLogin || 0;
             customerData = allcookie[custDataNameCookie];
@@ -136,6 +139,14 @@ class MyApp extends App {
             storeConfig = storeConfig.storeConfig;
         }
 
+        if (typeof removeDecimalConfig === 'undefined') {
+            removeDecimalConfig = await graphRequest(getRemoveDecimalConfig);
+            if (ctx && removeDecimalConfig.response && removeDecimalConfig.response.status && removeDecimalConfig.response.status > 500) {
+                ctx.res.redirect('/maintenance');
+            }
+            removeDecimalConfig = removeDecimalConfig.storeConfig.pwa.remove_decimal_price_enable;
+        }
+
         /*
          * ---------------------------------------------
          * RETURNS
@@ -153,6 +164,7 @@ class MyApp extends App {
                 lastPathNoAuth,
                 customerData,
                 token,
+                removeDecimalConfig,
             },
         };
     }
@@ -271,6 +283,7 @@ class MyApp extends App {
     render() {
         const { Component, pageProps } = this.props;
         const storeCookie = helperCookies.get(storeConfigNameCookie);
+        Cookie.set('remove_decimal_config', pageProps.removeDecimalConfig, { expires: 365 });
         if (!storeCookie) {
             const config = { ...pageProps.storeConfig };
             config.cms_page = null;

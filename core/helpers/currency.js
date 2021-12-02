@@ -1,4 +1,4 @@
-import { features, storeConfigNameCookie } from '@config';
+import { storeConfigNameCookie } from '@config';
 import helperCookies from '@helper_cookies';
 
 /* eslint-disable no-param-reassign */
@@ -63,6 +63,8 @@ export const formatPrice = (value, currency = general.defaultCurrencyCode) => {
         currency,
     }).format(value);
 
+    const enableRemoveDecimal = isServer ? false : cookies.getJSON('remove_decimal_config');
+
     const decimalFeature = () => {
         const decimal = price.substr(price.length - 3).substring(1);
         const resultDecimal = parseInt(decimal, 10);
@@ -73,7 +75,7 @@ export const formatPrice = (value, currency = general.defaultCurrencyCode) => {
         return price;
     };
 
-    return features.removeDecimalPrice.enabled === true ? decimalFeature() : price;
+    return enableRemoveDecimal === true ? decimalFeature() : price;
 };
 
 export default { formatPrice };

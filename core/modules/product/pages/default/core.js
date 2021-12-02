@@ -20,6 +20,7 @@ import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
 import { getCustomerUid } from '@core_modules/productcompare/service/graphql';
 import { localCompare } from '@services/graphql/schema/local';
 import { useQuery } from '@apollo/client';
+import { popupDetailImagePdp } from '@services/graphql/repository/pwa_config';
 
 const ContentDetail = ({
     t, product, Content, isLogin, weltpixel_labels, dataProductTabs,
@@ -31,6 +32,7 @@ const ContentDetail = ({
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
     const [addProductCompare] = addProductsToCompareList();
     const { data: dataCompare, client } = useQuery(localCompare);
+    const [getConfigPdp, { data: configPdp }] = popupDetailImagePdp();
 
     React.useEffect(() => {
         if (isLogin && !dataUid && modules.productcompare.enabled) {
@@ -74,6 +76,7 @@ const ContentDetail = ({
             },
         };
         TagManager.dataLayer(tagManagerArgs);
+        getConfigPdp();
     }, []);
 
     const bannerData = [];
@@ -346,6 +349,11 @@ const ContentDetail = ({
         }
     }, [customizableOptions]);
 
+    let enablePopupImage = false;
+    if (configPdp && configPdp.storeConfig && configPdp.storeConfig.pwa) {
+        enablePopupImage = configPdp.storeConfig.pwa.popup_detail_image_enable;
+    }
+
     return (
         <Content
             data={{
@@ -385,6 +393,7 @@ const ContentDetail = ({
             smartProductTabs={dataProductTabs}
             isLogin={isLogin}
             handleSetCompareList={handleSetCompareList}
+            enablePopupImage={enablePopupImage}
         />
     );
 };
@@ -449,6 +458,7 @@ const PageDetail = (props) => {
         let temporaryArr = [];
         product = data.products;
 
+
         if (Object.keys(productProps).length > 0) {
             product = {
                 ...product,
@@ -465,7 +475,7 @@ const PageDetail = (props) => {
             };
         }
 
-        const viewedProduct = getLocalStorage('recently_viewed_product');
+        const viewedProduct = typeof window !== 'undefined' && getLocalStorage('recently_viewed_product');
         if (product.items.length > 0) {
             const item = product.items[0];
             let isExist = false;
