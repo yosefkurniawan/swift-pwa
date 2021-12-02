@@ -29,10 +29,11 @@ const CustomImage = ({
     };
 
     useEffect(() => {
-        setImgSource(imageUrl);
+        // setImgSource(imageUrl);
         const img = new Image();
-        img.src = imgSource;
+        img.src = imageUrl;
         img.onerror = () => setImgSource('/assets/img/placeholder.png');
+        img.onload = () => setImgSource(imageUrl);
     }, [imageUrl]);
 
     return (
