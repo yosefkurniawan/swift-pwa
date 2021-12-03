@@ -162,6 +162,7 @@ const Checkout = (props) => {
         disabled: {
             address: false,
         },
+        confirmation : false,
     });
 
     const [isError, setError] = useState(false);
@@ -234,6 +235,7 @@ const Checkout = (props) => {
         shipping: isOnlyVirtualProductOnCart
             ? null
             : checkout.selected.delivery === 'home' && Yup.object().nullable().required(t('validate:required')),
+        confirmation: checkout.confirmation ? '' : Yup.object().nullable().required(t('validate:required')),
     });
 
     const formik = useFormik({
@@ -247,6 +249,7 @@ const Checkout = (props) => {
             shipping: null,
             payment: null,
             billing: null,
+            confirmation: false,
         },
         validationSchema: CheckoutSchema,
         onSubmit: () => { },

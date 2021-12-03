@@ -1,43 +1,25 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable consistent-return */
 import React, { useState } from 'react';
 import { checkoutAgreements } from '@core_modules/checkout/services/graphql';
 
 const Confirmation = (props) => {
     const {
-        t, storeConfig, ConfirmationView, data, handleOpenMessage
+        t, checkout, setCheckout, storeConfig, ConfirmationView
     } = props;
 
-    const { loading, data: agreements } = checkoutAgreements();
-
-    const [state, setState] = React.useState({});
-    const [setLoad] = useState(false);
+    const { data: agreements } = checkoutAgreements();
+    const [state] = useState(false);
     
-    const handleChange = async (key, value) => {
-        const newState = { ...state, [key]: value };
-        await setState(newState);
-        const keyState = Object.keys(newState);
-        const select_options = [];
-        for (let index = 0; index < keyState.length; index += 1) {
-            if (Array.isArray(newState[keyState[index]])) {
-                const options = newState[keyState[index]].map((option) => {
-                    const val = JSON.parse(option);
-                    return {
-                        label: val.label,
-                        option_id: val.option_id,
-                    };
-                });
-                select_options.push(...options);
-            }
+    const handleChange = async (value) => {
+        let isAgree = false;
+        
+        if (value.length > 0) {
+            isAgree = true;
+        } else {
+            isAgree = false;
         }
-
-        if (select_options == []) {
-            handleOpenMessage({
-                variant: 'error',
-                text: t('checkout:message:problemConnection'),
-            });
-            setLoad(false);
-        }
+        
+        checkout.confirmation =isAgree;
+        await setCheckout(checkout);
     };
 
     return (
@@ -47,11 +29,8 @@ const Confirmation = (props) => {
             storeConfig={storeConfig}
             t={t}
             handleChange={handleChange}
-            loading={loading}
         />
     );
-
-    return null;
 };
 
 export default Confirmation;

@@ -32,5 +32,9 @@ export default makeStyles(() => ({
     linkModal: {
         marginTop: 12,
         padding: 0,
-    }
+    },
+    customFormControl: {
+        marginTop: '10px',
+        marginBottom: '20px',
+    },
 }));

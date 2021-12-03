@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
-import React from 'react';
+import React, { useState } from 'react';
 import Typography from '@common_typography';
 import Checkbox from '@common_checkbox';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -10,14 +10,15 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Grid from '@material-ui/core/Grid'
+import Grid from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
 import useStyles from '@core_modules/checkout/pages/default/components/Confirmation/style';
 
 const ConfirmationView = ({
-    t, state, handleChange, loading, agreements
+    t, state, handleChange,  agreements
 }) => {
-    const [open, setOpen] = React.useState(false);
-    const [scroll, setScroll] = React.useState('paper');
+    const [open, setOpen] = useState(false);
+    const [scroll, setScroll] = useState('paper');
 
     const handleClickOpen = (scrollType) => () => {
         setOpen(true);
@@ -29,26 +30,17 @@ const ConfirmationView = ({
     };
 
     const descriptionElementRef = React.useRef(null);
+
     React.useEffect(() => {
         if (open) {
-        const { current: descriptionElement } = descriptionElementRef;
-        if (descriptionElement !== null) {
-            descriptionElement.focus();
-        }
+            const { current: descriptionElement } = descriptionElementRef;
+            if (descriptionElement !== null) {
+                descriptionElement.focus();
+            }
         }
     }, [open]);
 
     const styles = useStyles();
-    const Loader = () => (
-        <div className={styles.container}>
-            <Skeleton variant="text" width="40%" height={35} />
-            <Skeleton variant="text" width="80%" height={30} />
-            <Skeleton variant="text" width="80%" height={30} />
-        </div>
-    );
-    if (loading.all || loading.confirmation) {
-        return <Loader />;
-    }
     
     const data = agreements && agreements.checkoutAgreements.map((option) => ({
         ...option,
@@ -56,31 +48,33 @@ const ConfirmationView = ({
         label: `${option.checkbox_text}`,
         value: JSON.stringify(option),
     }));
+
     return (
         <>
             <div className={styles.container} id="checkoutAgreements">
+                <FormControl
+                    fullWidth
+                    className={styles.customFormControl}
+                >
                 {
                     agreements && agreements.checkoutAgreements.map((item, key) => {
                         return (
                             <div className={styles.boxItem} key={key}>
-                                <Typography variant="span" type="bold" className="clear-margin-padding">
-                                    Confirmation
-                                </Typography>
                                 <Grid id="agreement-row" container spacing={0}>
                                     <Grid item md={12} xs={12}>
                                         <Checkbox
-                                            label=""
-                                            key={key}
-                                            flex="column"
+                                            name="confirmation"
+                                            label={t('checkout:confirmation')}
+                                            key={item.agreement_id}
                                             data={data}
                                             value={state[item.agreement_id] ? state[item.agreement_id] : []}
                                             classCheckbox={styles.checkbox}
                                             classContainer={styles.checkboxContainer}
-                                            onChange={(val) => handleChange(item.agreement_id, val)}
+                                            onChange={handleChange}
                                         />
                                         <Button className={styles.linkModal} align="left" variant="text" onClick={handleClickOpen('paper')}>
                                             <Typography variant="span" type="regular" decoration="underline" size="12">
-                                            Open {item.name}
+                                            {t('checkout:open')} {item.name}
                                             </Typography>
                                         </Button>
                                     </Grid>
@@ -102,13 +96,14 @@ const ConfirmationView = ({
                                     </DialogContentText>
                                     </DialogContent>
                                     <DialogActions>
-                                        <Button onClick={handleClose}>Close</Button>
+                                        <Button onClick={handleClose}>{t('checkout:close')}</Button>
                                     </DialogActions>
                                 </Dialog>
                             </div>
                         );
                     })
                 }
+                </FormControl>
             </div>
         </>
     );

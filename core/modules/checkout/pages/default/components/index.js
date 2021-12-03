@@ -261,11 +261,9 @@ const Content = (props) => {
                     />
                     
                     <Confirmation
+                        t={t}
                         checkout={checkout}
                         setCheckout={setCheckout}
-                        updateFormik={updateFormik}
-                        handleOpenMessage={handleOpenMessage}
-                        t={t}
                         storeConfig={storeConfig}
                         ConfirmationView={ConfirmationView}
                     />
