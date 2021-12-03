@@ -39,11 +39,11 @@ const Loader = () => (
 );
 
 const PaymentGroupIcon = (props) => {
-    let fallbacks = [`${props.baseMediaUrl}checkout/payment/payment-${props.src.replace('pg-', '')}.svg`, null];
+    let fallbacks = [`${props.baseMediaUrl}checkout/payment/paymenticons-${props.src.replace('pg-', '')}.svg`, null];
     const styles = useStyles();
 
     // check if image exist on the backoffice, otherwise use fallback image from PWA
-    const [imageSrc, setImageSrc] = React.useState(`./assets/img/payment-${props.src.replace('pg-', '')}.svg`);
+    const [imageSrc, setImageSrc] = React.useState(`./assets/img/paymenticons-${props.src.replace('pg-', '')}.svg`);
     const [fallbackImageIndex, setFallbackImageIndex] = React.useState(0);
 
     // set image fallback url
