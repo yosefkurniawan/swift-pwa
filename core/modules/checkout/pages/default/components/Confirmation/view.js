@@ -58,49 +58,87 @@ const ConfirmationView = ({
                 >
                 {
                     agreements && agreements.checkoutAgreements.map((item, key) => {
-                        return (
-                            <div className={styles.boxItem} key={key}>
-                                <Grid id="agreement-row" container spacing={0}>
-                                    <Grid item md={12} xs={12}>
-                                        <Checkbox
-                                            name="confirmation"
-                                            label={t('checkout:confirmation')}
-                                            key={item.agreement_id}
-                                            data={data}
-                                            value={state[item.agreement_id] ? state[item.agreement_id] : []}
-                                            classCheckbox={styles.checkbox}
-                                            classContainer={styles.checkboxContainer}
-                                            onChange={handleChange}
-                                        />
-                                        <Button className={styles.linkModal} align="left" variant="text" onClick={handleClickOpen('paper')}>
-                                            <Typography variant="span" type="regular" decoration="underline" size="12">
-                                            {t('checkout:open')} {item.name}
-                                            </Typography>
-                                        </Button>
+                        if(item.mode === "MANUAL"){
+                            return (
+                                <div className={styles.boxItem} key={key}>
+                                    <Grid id="agreement-row" container spacing={0}>
+                                        <Grid item md={12} xs={12}>
+                                            <Checkbox
+                                                name="confirmation"
+                                                label={t('checkout:confirmation')}
+                                                key={item.agreement_id}
+                                                data={data}
+                                                value={state[item.agreement_id] ? state[item.agreement_id] : []}
+                                                classCheckbox={styles.checkbox}
+                                                classContainer={styles.checkboxContainer}
+                                                onChange={handleChange}
+                                            />
+                                            <Button className={styles.linkModal} align="left" variant="text" onClick={handleClickOpen('paper')}>
+                                                <Typography variant="span" type="regular" decoration="underline" size="12">
+                                                {t('checkout:open')} {item.name}
+                                                </Typography>
+                                            </Button>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                                <Dialog
-                                    open={open}
-                                    onClose={handleClose}
-                                    scroll={scroll}
-                                    aria-labelledby="scroll-dialog-title"
-                                    aria-describedby="scroll-dialog-description"
-                                >
-                                    <DialogTitle id="scroll-dialog-title">{item.name}</DialogTitle>
-                                    <DialogContent dividers={scroll === 'paper'}>
-                                    <DialogContentText
-                                        id="scroll-dialog-description"
-                                        tabIndex={-1}
+                                    <Dialog
+                                        open={open}
+                                        onClose={handleClose}
+                                        scroll={scroll}
+                                        aria-labelledby="scroll-dialog-title"
+                                        aria-describedby="scroll-dialog-description"
                                     >
-                                        <div className="contentAgreement" dangerouslySetInnerHTML={{__html: item.content}}/>
-                                    </DialogContentText>
-                                    </DialogContent>
-                                    <DialogActions>
-                                        <Button onClick={handleClose}>{t('checkout:close')}</Button>
-                                    </DialogActions>
-                                </Dialog>
-                            </div>
-                        );
+                                        <DialogTitle id="scroll-dialog-title">{item.name}</DialogTitle>
+                                        <DialogContent dividers={scroll === 'paper'}>
+                                        <DialogContentText
+                                            id="scroll-dialog-description"
+                                            tabIndex={-1}
+                                        >
+                                            <div className="contentAgreement" dangerouslySetInnerHTML={{__html: item.content}}/>
+                                        </DialogContentText>
+                                        </DialogContent>
+                                        <DialogActions>
+                                            <Button onClick={handleClose}>{t('checkout:close')}</Button>
+                                        </DialogActions>
+                                    </Dialog>
+                                </div>
+                            );
+                        } else {
+                            const autoAgreement = "automatically";
+                            handleChange(autoAgreement);
+                            return (
+                                <div className={styles.boxItem} key={key}>
+                                    <Grid id="agreement-row" container spacing={0}>
+                                        <Grid item md={12} xs={12}>
+                                            <Button className={styles.linkModal} align="left" variant="text" onClick={handleClickOpen('paper')}>
+                                                <Typography variant="span" type="regular" decoration="underline" size="12">
+                                                {t('checkout:open')} {item.name}
+                                                </Typography>
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                    <Dialog
+                                        open={open}
+                                        onClose={handleClose}
+                                        scroll={scroll}
+                                        aria-labelledby="scroll-dialog-title"
+                                        aria-describedby="scroll-dialog-description"
+                                    >
+                                        <DialogTitle id="scroll-dialog-title">{item.name}</DialogTitle>
+                                        <DialogContent dividers={scroll === 'paper'}>
+                                        <DialogContentText
+                                            id="scroll-dialog-description"
+                                            tabIndex={-1}
+                                        >
+                                            <div className="contentAgreement" dangerouslySetInnerHTML={{__html: item.content}}/>
+                                        </DialogContentText>
+                                        </DialogContent>
+                                        <DialogActions>
+                                            <Button onClick={handleClose}>{t('checkout:close')}</Button>
+                                        </DialogActions>
+                                    </Dialog>
+                                </div>
+                            );
+                        }
                     })
                 }
                 </FormControl>

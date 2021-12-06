@@ -12,13 +12,13 @@ const Confirmation = (props) => {
     const handleChange = async (value) => {
         let isAgree = false;
         
-        if (value.length > 0) {
+        if (value.length > 0 || value === "automatically") {
             isAgree = true;
         } else {
             isAgree = false;
         }
         
-        checkout.confirmation =isAgree;
+        checkout.confirmation = isAgree;
         await setCheckout(checkout);
     };
 
