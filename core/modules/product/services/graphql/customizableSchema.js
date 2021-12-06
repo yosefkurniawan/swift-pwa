@@ -42,6 +42,7 @@ export const getCustomizableOption = (url) => gql`
     }
   ) {
     items {
+      id
       ${modules.product.customizableOptions.enabled && `
         ... on CustomizableProductInterface {
           options {
