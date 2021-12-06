@@ -1,6 +1,5 @@
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useEffect } from 'react';
-import { formatPrice } from '@helper_currency';
 import TagManager from 'react-gtm-module';
 import _ from 'lodash';
 import gqlService from '@core_modules/checkout/services/graphql';
@@ -70,18 +69,6 @@ const Address = (props) => {
             state.selected.address = updatedCart?.billing_address;
         } else {
             const [shippingAddress] = updatedCart.shipping_addresses;
-            let shippingMethods = [];
-            if (shippingAddress !== undefined || shippingAddress !== null) {
-                shippingMethods = shippingAddress.available_shipping_methods.map((shipping) => ({
-                    ...shipping,
-                    label: `${shipping.method_title} ${shipping.carrier_title}`,
-                    value: {
-                        name: { carrier_code: shipping.carrier_code, method_code: shipping.method_code },
-                        price: formatPrice(shipping.amount.value, shipping.amount.currency),
-                    },
-                }));
-            }
-
             if (shippingAddress && data.isGuest) {
                 state.selected.address = shippingAddress;
             }
@@ -89,8 +76,6 @@ const Address = (props) => {
             if (checkout.selected.delivery === 'home' && typeof shippingAddress.is_valid_city !== 'undefined') {
                 state.error.shippingAddress = !shippingAddress.is_valid_city;
             }
-
-            state.data.shippingMethods = shippingMethods;
         }
         state.loading.addresses = false;
         const mergeCart = {
@@ -98,6 +83,7 @@ const Address = (props) => {
             ...updatedCart,
         };
         state.data.cart = mergeCart;
+
         setCheckout(state);
 
         updateFormik(mergeCart);
