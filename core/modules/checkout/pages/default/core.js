@@ -20,6 +20,7 @@ import TagManager from 'react-gtm-module';
 import {
     getCartCallbackUrl, getIpayUrl, getLoginCallbackUrl, getSuccessCallbackUrl,
 } from '@core_modules/checkout/helpers/config';
+import { formatPrice } from '@helper_currency';
 
 function equalTo(ref, msg) {
     return this.test({
@@ -196,6 +197,7 @@ const Checkout = (props) => {
     const isOnlyVirtualProductOnCart = React.useMemo(() => {
         const { cart } = checkout.data;
         const cartItems = cart?.items;
+
         if (cartItems) {
             const cartItemsFilter = cartItems.filter((item) => {
                 const { __typename } = item.product;
@@ -207,17 +209,7 @@ const Checkout = (props) => {
              * It means cart contains only virtual product(s).
              */
             const isAllVirtual = cartItemsFilter.length === 0;
-
-            /**
-             * If item is of type AwGiftCardProduct and Gift Card type is VIRTUAL
-             */
-            const virtualAwGcFilter = cartItems.filter((item) => {
-                const { aw_gc_type, __typename } = item.product;
-                return __typename === 'AwGiftCardProduct' && (aw_gc_type && aw_gc_type !== 'VIRTUAL');
-            });
-            const isAwGcVirtual = virtualAwGcFilter.length < 1;
-
-            if (isAllVirtual && isAwGcVirtual) return true;
+            if (isAllVirtual) return true;
         }
         return false;
     }, [checkout?.data?.cart]);
@@ -278,6 +270,25 @@ const Checkout = (props) => {
         const { items } = itemCart.cart;
         const state = { ...checkout };
         cart.items = items;
+
+        // Check minimum order amount and enabled Start
+        const minimumOrderEnabled = storeConfig.minimum_order_enable;
+        const grandTotalValue = cart.prices.grand_total.value;
+        const minimumOrderAmount = storeConfig.minimum_order_amount;
+        if (minimumOrderEnabled && grandTotalValue < minimumOrderAmount) {
+            const errorMessage = {
+                variant: 'error',
+                text: `Unable to place order: Minimum order amount is ${formatPrice(minimumOrderAmount)}`,
+                open: true,
+            };
+            window.toastMessage({
+                ...errorMessage,
+            });
+            setTimeout(() => {
+                Router.push('/checkout/cart');
+            }, 3000);
+        }
+        // Check minimum order amount and enabled End
 
         if (cart && cart.items && cart.items.length === 0) {
             if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
