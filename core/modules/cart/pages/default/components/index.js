@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import Summary from '@plugin_summary';
 import useStyles from '@core_modules/cart/pages/default/components/style';
 import dynamic from 'next/dynamic';
+import { formatPrice } from '@helper_currency';
 
 const CrossSell = dynamic(() => import('@core_modules/cart/pages/default/components/crosssell'), { ssr: false });
 const GimmickBanner = dynamic(() => import('@plugin_gimmickbanner'), { ssr: false });
@@ -11,11 +12,27 @@ const Content = (props) => {
     const {
         ItemView, CrossSellView, CheckoutDrawerView, dataCart, t, handleFeed,
         toggleEditMode, editMode, deleteItem, toggleEditDrawer, crosssell, errorCart,
-        EditDrawerView, editItem, openEditDrawer, updateItem, SummaryView, PromoModalItemView, handleAddPromoItemToCart, applyCoupon, removeCoupon,
+        EditDrawerView, editItem, openEditDrawer, updateItem, SummaryView, PromoModalItemView, handleAddPromoItemToCart,
+        applyCoupon, removeCoupon, storeConfig,
         ...other
     } = props;
     const handleOnCheckoutClicked = () => {
-        Route.push('/checkout');
+        const minimumOrderEnabled = storeConfig.minimum_order_enable;
+        const grandTotalValue = dataCart.prices.grand_total.value;
+        const minimumOrderAmount = storeConfig.minimum_order_amount;
+
+        if (minimumOrderEnabled && grandTotalValue < minimumOrderAmount) {
+            const errorMessage = {
+                variant: 'error',
+                text: `Unable to place order: Minimum order amount is ${formatPrice(minimumOrderAmount)}`,
+                open: true,
+            };
+            window.toastMessage({
+                ...errorMessage,
+            });
+        } else {
+            Route.push('/checkout');
+        }
     };
     const styles = useStyles();
     return (

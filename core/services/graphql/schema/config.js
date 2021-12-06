@@ -76,6 +76,8 @@ export const storeConfig = `
             weltpixel_thankyoupage_create_account_enable
             pin_location_latitude
             pin_location_longitude
+            minimum_order_amount
+            minimum_order_enable
         }
     }
 `;

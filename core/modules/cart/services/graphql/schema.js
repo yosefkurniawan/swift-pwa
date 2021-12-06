@@ -189,6 +189,12 @@ items {
       title
     }
   }
+  ... on AwGiftCardCartItem {
+    aw_giftcard_option {
+      label
+      value
+    }
+  }
   prices {
     discounts {
       amount {
@@ -444,6 +450,12 @@ export const getMiniCart = gql`
                   title
                 }
               }
+              ... on AwGiftCardCartItem {
+                aw_giftcard_option {
+                  label
+                  value
+                }
+              }
               prices {
                 discounts {
                   amount {
@@ -465,19 +477,19 @@ export const getMiniCart = gql`
                 }
             }
             product {
-                id
-                name
-                small_image {
-                  url
-                  label
-                }
-                url_key
-                sku
-                stock_status
-                categories {
-                 name
-                }
+              id
+              name
+              small_image {
+                url
+                label
               }
+              url_key
+              sku
+              stock_status
+              categories {
+                name
+              }
+            }
           }
         }
     }
