@@ -197,6 +197,7 @@ const Checkout = (props) => {
     const isOnlyVirtualProductOnCart = React.useMemo(() => {
         const { cart } = checkout.data;
         const cartItems = cart?.items;
+
         if (cartItems) {
             const cartItemsFilter = cartItems.filter((item) => {
                 const { __typename } = item.product;
@@ -208,17 +209,7 @@ const Checkout = (props) => {
              * It means cart contains only virtual product(s).
              */
             const isAllVirtual = cartItemsFilter.length === 0;
-
-            /**
-             * If item is of type AwGiftCardProduct and Gift Card type is VIRTUAL
-             */
-            const virtualAwGcFilter = cartItems.filter((item) => {
-                const { aw_gc_type, __typename } = item.product;
-                return __typename === 'AwGiftCardProduct' && (aw_gc_type && aw_gc_type !== 'VIRTUAL');
-            });
-            const isAwGcVirtual = virtualAwGcFilter.length < 1;
-
-            if (isAllVirtual && isAwGcVirtual) return true;
+            if (isAllVirtual) return true;
         }
         return false;
     }, [checkout?.data?.cart]);
