@@ -17,7 +17,7 @@ import RadioItem from '@core_modules/checkout/components/radioitem';
 import ModalHowtoPay from '@core_modules/checkout/pages/default/components/ModalHowtoPay';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
-import TextField from '@common_textfield';
+import TravelokaPayForm from '@core_modules/checkout/pages/default/components/payment/components/TravelokaPayForm';
 
 import { ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle } from './style';
 
@@ -49,28 +49,15 @@ const PaymentView = (props) => {
     const styles = useStyles();
     const {
         loading, data, checkout, storeConfig, t, handlePayment, handlePurchaseOrder,
-        handlePurchaseOrderSubmit, selected, paypalTokenData, paypalHandlingProps, initialOptionPaypal,
+        handlePurchaseOrderSubmit, selected, paypalTokenData, paypalHandlingProps, initialOptionPaypal, travelokaPayRef,
     } = props;
-    // const { payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id } = storeConfig;
+    const { payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id } = storeConfig;
     const { modules } = commonConfig;
     const [expanded, setExpanded] = React.useState(null);
     const [expandedActive, setExpandedActive] = React.useState(true);
     const [openModal, setModal] = React.useState(false);
 
     let content;
-
-    React.useEffect(() => {
-        window.Xendit.setPublishableKey(storeConfig.payment_travelokapay_public_key);
-        if (window.Xendit.card.validateCardNumber('4661601010720652')) {
-            // console.log('card valid');
-        }
-        if (window.Xendit.card.validateExpiry('07', '2030')) {
-            // console.log('expiry valid');
-        }
-        if (window.Xendit.card.validateCvn('123')) {
-            // console.log('cvv valid');
-        }
-    }, []);
 
     /**
      * [METHOD] handle change
@@ -222,30 +209,13 @@ const PaymentView = (props) => {
                                                                 }
                                                                 if (isTravelokaPay) {
                                                                     return (
-                                                                        <>
-                                                                            <div className="travelokapay-form" style={{ marginLeft: '2rem' }}>
-                                                                                <Typography>
-                                                                                    Enter your payment details:
-                                                                                </Typography>
-                                                                                <form>
-                                                                                    <div style={{ display: 'flex' }}>
-                                                                                        <TextField placeholder="Name on Card" />
-                                                                                        <TextField placeholder="Card Number" />
-                                                                                    </div>
-                                                                                    <div style={{ display: 'flex' }}>
-                                                                                        <TextField placeholder="MM/YY" />
-                                                                                        <TextField placeholder="CVV" />
-                                                                                    </div>
-                                                                                </form>
-                                                                            </div>
-                                                                            <style jsx>
-                                                                                {`
-                                                                                    .travelokapay-form {
-                                                                                        // background-color: red;
-                                                                                    }
-                                                                                `}
-                                                                            </style>
-                                                                        </>
+                                                                        <TravelokaPayForm
+                                                                            checkout={checkout}
+                                                                            payment_travelokapay_bin_whitelist={payment_travelokapay_bin_whitelist}
+                                                                            payment_travelokapay_public_key={payment_travelokapay_public_key}
+                                                                            payment_travelokapay_user_id={payment_travelokapay_user_id}
+                                                                            travelokaPayRef={travelokaPayRef}
+                                                                        />
                                                                     );
                                                                 }
 

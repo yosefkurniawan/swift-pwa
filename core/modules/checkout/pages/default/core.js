@@ -251,6 +251,28 @@ const Checkout = (props) => {
         onSubmit: () => { },
     });
 
+    const travelokaPayValidationSchema = Yup.object().shape({
+        name: Yup.string().nullable().required(),
+        cardNumber: Yup
+            .string().nullable().required()
+            .matches(/^[0-9]+$/, 'Card number is invalid') // digit only
+            .min(16, 'Card number is invalid')
+            .max(16, 'Card number is invalid'),
+        expiryDate: Yup.string().nullable().required(),
+        cvv: Yup.string().nullable().required(),
+    });
+
+    const travelokaForm = useFormik({
+        initialValues: {
+            name: '',
+            cardNumber: '',
+            expiryDate: '',
+            cvv: '',
+        },
+        travelokaPayValidationSchema,
+        onSubmit: () => {},
+    });
+
     const updateFormik = (cart) => {
         const address = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
         const shipping = address && address.selected_shipping_method;
@@ -779,6 +801,7 @@ const Checkout = (props) => {
         setInitialOptionPaypal,
         initialOptionPaypal,
         setTokenData,
+        travelokaForm,
     };
 
     return (
