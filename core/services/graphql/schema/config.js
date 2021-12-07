@@ -29,6 +29,9 @@ export const storeConfig = `
             logo_alt
             logo_width
             logo_height
+            pwa {
+              default_robot
+            }
             store_name
             welcome
             timezone
