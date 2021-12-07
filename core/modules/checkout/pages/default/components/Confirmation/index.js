@@ -6,10 +6,20 @@ const Confirmation = (props) => {
         t, checkout, setCheckout, storeConfig, ConfirmationView
     } = props;
 
-    const { data: agreements } = checkoutAgreements();
+    const { loading, data: agreements } = checkoutAgreements();
     const [state] = useState(false);
     
     const handleChange = async (value) => {
+        const isState = {
+            ...checkout,
+            loading: {
+                ...checkout.loading,
+                all: true,
+            },
+        };
+
+        setCheckout(isState);
+
         let isAgree = false;
         
         if (value.length > 0 || value === "automatically") {
@@ -29,6 +39,7 @@ const Confirmation = (props) => {
             storeConfig={storeConfig}
             t={t}
             handleChange={handleChange}
+            loading={loading}
         />
     );
 };

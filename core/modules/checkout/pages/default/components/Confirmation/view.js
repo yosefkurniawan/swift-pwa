@@ -11,14 +11,27 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
+import Spiner from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
 import useStyles from '@core_modules/checkout/pages/default/components/Confirmation/style';
 
 const ConfirmationView = ({
-    t, state, handleChange,  agreements
+    t, state, handleChange, agreements, loading
 }) => {
     const [open, setOpen] = useState(false);
     const [scroll, setScroll] = useState('paper');
+
+    const Loader = () => (
+        <div className={styles.container}>
+            <Skeleton variant="text" width="40%" height={35} />
+            <Skeleton variant="text" width="80%" height={30} />
+            <Skeleton variant="text" width="80%" height={30} />
+        </div>
+    );
+
+    if (loading.all || loading.confirmation) {
+        return <Loader />;
+    }
 
     const handleClickOpen = (scrollType) => () => {
         setOpen(true);
@@ -63,6 +76,11 @@ const ConfirmationView = ({
                                 <div className={styles.boxItem} key={key}>
                                     <Grid id="agreement-row" container spacing={0}>
                                         <Grid item md={12} xs={12}>
+                                            {
+                                                loading.all ? (
+                                                    <Spiner size="1rem" />
+                                                ) : null
+                                            }
                                             <Checkbox
                                                 name="confirmation"
                                                 label={t('checkout:confirmation')}
