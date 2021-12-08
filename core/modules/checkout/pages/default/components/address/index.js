@@ -14,7 +14,8 @@ const Loader = () => (
 
 const Address = (props) => {
     const {
-        isOnlyVirtualProductOnCart, checkout, t, setCheckout, defaultAddress, updateFormik, AddressView, storeConfig, ...other
+        isOnlyVirtualProductOnCart, checkout, t, setCheckout, defaultAddress, updateFormik, AddressView, storeConfig,
+        refetchDataCart, refetchItemCart, ...other
     } = props;
 
     const [setShippingAddressById] = gqlService.setShippingAddress();
@@ -84,6 +85,12 @@ const Address = (props) => {
         };
         state.data.cart = mergeCart;
 
+        if (refetchDataCart && typeof refetchDataCart() === 'function') {
+            refetchDataCart();
+        }
+        if (refetchItemCart && typeof refetchItemCart() === 'function') {
+            refetchItemCart();
+        }
         setCheckout(state);
 
         updateFormik(mergeCart);

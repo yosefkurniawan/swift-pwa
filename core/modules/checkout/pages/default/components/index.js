@@ -59,6 +59,8 @@ const Content = (props) => {
         setInitialOptionPaypal,
         initialOptionPaypal,
         setTokenData,
+        refetchDataCart,
+        refetchItemCart,
     } = props;
 
     const styles = useStyles();
@@ -148,6 +150,8 @@ const Content = (props) => {
                             storeConfig={storeConfig}
                             formik={formik}
                             isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
+                            refetchDataCart={refetchDataCart}
+                            refetchItemCart={refetchItemCart}
                         />
                     ) : checkout.selected.delivery === 'pickup' ? (
                             <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
