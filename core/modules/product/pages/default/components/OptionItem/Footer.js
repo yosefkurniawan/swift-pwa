@@ -2,7 +2,9 @@ import Typography from '@common_typography';
 import ButtonQty from '@common_buttonqty';
 // import Router from 'next/router';
 import React from 'react';
-import Button from '@common_button';
+import dynamic from 'next/dynamic';
+
+const Button = dynamic(() => import('@common_button'), { ssr: true });
 import useStyles from '@core_modules/product/pages/default/components/OptionItem/style';
 
 const Footer = ({
