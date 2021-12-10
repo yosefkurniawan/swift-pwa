@@ -538,6 +538,15 @@ export const getCart = gql`
     }
 `;
 
+export const getCheckoutConfigurations = gql`
+    query getCheckoutConfigurations {
+        storeConfig {
+            payments_configuration
+            shipments_configuration
+        }
+    }
+`;
+
 export const setShippingAddressById = gql`
     mutation setShippingAddressById($addressId: Int!, $cartId: String!) {
         setShippingAddressesOnCart(input: { cart_id: $cartId, shipping_addresses: { customer_address_id: $addressId } }) {
