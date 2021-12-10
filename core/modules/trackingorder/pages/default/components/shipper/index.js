@@ -151,7 +151,7 @@ const ShipperView = (props) => {
                         let description;
 
                         if (isLGX) {
-                            dateTime = formatDate(history.timestamp, 'DD-MM-YYYY HH:mm').split(' ');
+                            dateTime = formatDate(new Date(history.timestamp * 1000), 'DD-MM-YYYY HH:mm').split(' ');
                             description = history.note;
                         } else {
                             if (isJNE) {
