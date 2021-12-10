@@ -8,47 +8,40 @@ const ItemAddressCore = (props) => {
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
-
     const handleSave = async (data) => {
         setLoading(true);
         updateAddress({
             variables: {
                 ...data,
             },
-        }).then(async () => {
-            if (data.defaultShippingBilling) {
-                await new Promise((resolve) => {
-                    const change = handleChange({
-                        target: {
-                            value: data.addressId,
+        })
+            .then(async () => {
+                if (data.defaultShippingBilling || data.addressId === props.selectedAddressId) {
+                    await handleChange(
+                        {
+                            target: {
+                                value: data.addressId,
+                            },
                         },
-                    });
-                    resolve(change);
-                });
-            }
-            setSuccess(true);
-            setLoading(false);
-            setTimeout(() => {
-                setOpen(false);
+                        data.addressId === props.selectedAddressId,
+                    );
+                }
+                setSuccess(true);
+                setLoading(false);
+                setTimeout(() => {
+                    setOpen(false);
+                    setSuccess(false);
+                    manageCustomer.refetch();
+                }, 1500);
+            })
+            .catch(() => {
                 setSuccess(false);
-                manageCustomer.refetch();
-            }, 1500);
-        }).catch(() => {
-            setSuccess(false);
-            setLoading(false);
-        });
+                setLoading(false);
+                setOpen(false);
+            });
     };
 
-    return (
-        <Component
-            {...props}
-            loading={loading}
-            handleSave={handleSave}
-            setOpen={setOpen}
-            success={success}
-            open={open}
-        />
-    );
+    return <Component {...props} loading={loading} handleSave={handleSave} setOpen={setOpen} success={success} open={open} />;
 };
 
 export default ItemAddressCore;

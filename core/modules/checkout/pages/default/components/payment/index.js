@@ -15,15 +15,14 @@ export default function CustomizedExpansionPanels({
      */
     const { loading, data, selected } = checkout;
     const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
+    const { data: paymentMethodList } = gqlService.getCheckoutConfigurations();
     const [getPaypalToken, paypalTokenData] = gqlService.createPaypalExpressToken();
 
     /**
      * [METHOD] handle when get result from set payment method
      * @param {state, result, val, cart} params
      */
-    const onHandleResult = ({
-        state, result, val, cart,
-    }) => {
+    const onHandleResult = ({ state, result, val, cart }) => {
         state = {
             ...checkout,
             selected: {
@@ -217,7 +216,10 @@ export default function CustomizedExpansionPanels({
         const payment_method = { code: selected_payment, purchase_order_number };
         const result = await setPaymentMethod({ variables: { cartId: cart.id, payment_method } });
         onHandleResult({
-            state, result, val: selected_payment, cart,
+            state,
+            result,
+            val: selected_payment,
+            cart,
         });
 
         handleOpenMessage({
@@ -237,6 +239,7 @@ export default function CustomizedExpansionPanels({
             selected={selected}
             checkout={checkout}
             storeConfig={storeConfig}
+            paymentMethodList={paymentMethodList}
             handlePayment={handlePayment}
             handlePurchaseOrder={handlePurchaseOrder}
             handlePurchaseOrderSubmit={handlePurchaseOrderSubmit}

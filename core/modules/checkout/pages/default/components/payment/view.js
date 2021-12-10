@@ -46,8 +46,19 @@ const Loader = () => (
 const PaymentView = (props) => {
     const styles = useStyles();
     const {
-        loading, data, checkout, storeConfig, t, handlePayment, handlePurchaseOrder,
-        handlePurchaseOrderSubmit, selected, paypalTokenData, paypalHandlingProps, initialOptionPaypal,
+        loading,
+        data,
+        checkout,
+        storeConfig,
+        t,
+        paymentMethodList,
+        handlePayment,
+        handlePurchaseOrder,
+        handlePurchaseOrderSubmit,
+        selected,
+        paypalTokenData,
+        paypalHandlingProps,
+        initialOptionPaypal,
     } = props;
     const { modules } = commonConfig;
     const [expanded, setExpanded] = React.useState(null);
@@ -81,8 +92,8 @@ const PaymentView = (props) => {
         content = <Loader />;
     } else if (data.cart.prices.grand_total.value === 0) {
         content = <Typography variant="p">{t('checkout:noNeedPayment')}</Typography>;
-    } else if (data.paymentMethod.length !== 0 && storeConfig.payments_configuration) {
-        let paymentConfig = JSON.parse(`${storeConfig.payments_configuration}`);
+    } else if (data.paymentMethod.length !== 0 && paymentMethodList && paymentMethodList.storeConfig) {
+        let paymentConfig = JSON.parse(`${paymentMethodList.storeConfig.payments_configuration}`);
         const groups = paymentConfig ? Object.keys(paymentConfig) : [];
         // create grouping by config
         paymentConfig = groups.map((key) => {
@@ -136,9 +147,9 @@ const PaymentView = (props) => {
                                 return (
                                     <ExpansionPanel
                                         expanded={
-                                            expanded === index // if key index same with expanded active
-                                            || (item.active && expandedActive) // expand if item active and not change expand
-                                            || (!itemActive && expandedActive && index === 0)
+                                            expanded === index || // if key index same with expanded active
+                                            (item.active && expandedActive) || // expand if item active and not change expand
+                                            (!itemActive && expandedActive && index === 0)
                                         } // if dont have item active, set index 0 to active
                                         onChange={handleChange(index)}
                                         key={index}
@@ -149,8 +160,8 @@ const PaymentView = (props) => {
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
                                             <Typography letter="uppercase" variant="span" type="bold">
-                                                {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
-                                                === `paymentGrouping.${item.group.replace('pg-', '')}`
+                                                {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`) ===
+                                                `paymentGrouping.${item.group.replace('pg-', '')}`
                                                     ? item.group.replace('pg-', '')
                                                     : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)}
                                             </Typography>
@@ -187,8 +198,11 @@ const PaymentView = (props) => {
                                                                         </Grid>
                                                                     );
                                                                 }
-                                                                if (isPaypal && !paypalTokenData.loading
-                                                                    && initialOptionPaypal['data-order-id'] !== '') {
+                                                                if (
+                                                                    isPaypal &&
+                                                                    !paypalTokenData.loading &&
+                                                                    initialOptionPaypal['data-order-id'] !== ''
+                                                                ) {
                                                                     return (
                                                                         <Grid item xs={12} lg="3" md="4">
                                                                             <PayPalScriptProvider defer options={initialOptionPaypal}>
