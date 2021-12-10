@@ -12,6 +12,9 @@ import useStyles from '@plugin_minicart/components/style';
 
 import PaypalButtonView from '@plugin_paypalbutton';
 
+import { storeConfigNameCookie } from '@config';
+import helperCookies from '@helper_cookies';
+
 const MiniComponent = (props) => {
     const router = useRouter();
     const {
@@ -57,7 +60,23 @@ const MiniComponent = (props) => {
                                 <div
                                     className="checkout-button"
                                     onClick={() => {
-                                        if (subtotal_including_tax) {
+                                        const storeConfig = helperCookies.get(storeConfigNameCookie);
+                                        const minimumOrderEnabled = storeConfig.minimum_order_enable;
+                                        const grandTotalValue = data.prices.grand_total.value;
+                                        const minimumOrderAmount = storeConfig.minimum_order_amount;
+                                        if (minimumOrderEnabled && grandTotalValue < minimumOrderAmount) {
+                                            const errorMessage = {
+                                                variant: 'error',
+                                                text: `Unable to place order: Minimum order amount is ${formatPrice(minimumOrderAmount)}`,
+                                                open: true,
+                                            };
+                                            window.toastMessage({
+                                                ...errorMessage,
+                                            });
+                                            setTimeout(() => {
+                                                router.push('/checkout/cart');
+                                            }, 3000);
+                                        } else if (subtotal_including_tax) {
                                             setOpen();
                                             router.push('/checkout');
                                         } else {

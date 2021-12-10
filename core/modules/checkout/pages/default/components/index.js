@@ -59,6 +59,8 @@ const Content = (props) => {
         setInitialOptionPaypal,
         initialOptionPaypal,
         setTokenData,
+        refetchDataCart,
+        refetchItemCart,
     } = props;
 
     const styles = useStyles();
@@ -148,6 +150,8 @@ const Content = (props) => {
                             storeConfig={storeConfig}
                             formik={formik}
                             isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
+                            refetchDataCart={refetchDataCart}
+                            refetchItemCart={refetchItemCart}
                         />
                     ) : checkout.selected.delivery === 'pickup' ? (
                             <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
@@ -304,7 +308,7 @@ const Content = (props) => {
                     onClick={handleClick}
                     fullWidth
                     loading={loading}
-                    disabled={disabled || checkout.error.shippingAddress || (isSelectedPurchaseOrder && !isPurchaseOrderApply)}
+                    disabled={disabled || checkout.error.shippingAddress || (isSelectedPurchaseOrder && !isPurchaseOrderApply) || (storeConfig.minimum_order_enable && checkout.data.cart.prices.grand_total.value < storeConfig.minimum_order_amount)}
                     className={styles.placeOrderDesktop}
                 >
                     <Typography variant="span" letter="uppercase" type="bold" color="white">

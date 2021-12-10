@@ -45,7 +45,7 @@ function CustomRadio({
     const styles = useStyles();
 
     const rootStyle = classNames(styles.root, className);
-    const containerStyle = classNames(styles[flex], classContainer, styles.error);
+    const containerStyle = classNames('radio-container', styles[flex], classContainer, styles.error);
 
     const handleChange = (event) => {
         !disabled && onChange(event.target.value);
