@@ -24,6 +24,8 @@ export const ratingConfig = () => useQuery(Schema.ratingConfig);
 
 export const addToCartConfig = () => useQuery(Schema.addToCartConfig);
 
+export const quickViewConfig = () => useQuery(Schema.quickViewConfig);
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
@@ -35,5 +37,6 @@ export default {
     labelConfig,
     configurableOptionsConfig,
     ratingConfig,
-    addToCartConfig
+    addToCartConfig,
+    quickViewConfig,
 };

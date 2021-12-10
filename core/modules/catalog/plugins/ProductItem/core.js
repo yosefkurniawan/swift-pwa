@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { modules, debuging } from '@config';
-import { labelConfig, configurableOptionsConfig, addToCartConfig } from '@services/graphql/repository/pwa_config';
+import { labelConfig, configurableOptionsConfig, addToCartConfig, quickViewConfig } from '@services/graphql/repository/pwa_config';
 import { getLoginInfo } from '@helper_auth';
 import { setCookies, getCookies } from '@helper_cookies';
 import { useTranslation } from '@i18n';
@@ -54,14 +54,16 @@ const ProductItem = (props) => {
     const [customizableOptions, setCustomizableOptions] = React.useState([]);
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
     const [additionalPrice, setAdditionalPrice] = React.useState(0);
-    
+
     let labelEnable = {};
     let configurableOptions = {};
     let addToCart = {};
+    let quickView = {};
 
     const { data: dataLabel, loading: loadingLabel } = labelConfig();
     const { data: dataConfigurableOptions, loading: loadingConfigurableOptionsConfig } = configurableOptionsConfig();
     const { data: dataAddToCartConfig, loading: loadingAddToCartConfig } = addToCartConfig();
+    const { data: dataQuickViewConfig, loading: loadingQuickViewConfig } = quickViewConfig();
 
     if (!loadingLabel && dataLabel && dataLabel.storeConfig && dataLabel.storeConfig.pwa) {
         labelEnable = {
@@ -69,7 +71,12 @@ const ProductItem = (props) => {
         };
     }
 
-    if (!loadingConfigurableOptionsConfig && dataConfigurableOptions && dataConfigurableOptions.storeConfig && dataConfigurableOptions.storeConfig.pwa) {
+    if (
+        !loadingConfigurableOptionsConfig &&
+        dataConfigurableOptions &&
+        dataConfigurableOptions.storeConfig &&
+        dataConfigurableOptions.storeConfig.pwa
+    ) {
         configurableOptions = {
             ...dataConfigurableOptions.storeConfig.pwa,
         };
@@ -78,6 +85,12 @@ const ProductItem = (props) => {
     if (!loadingAddToCartConfig && dataAddToCartConfig && dataAddToCartConfig.storeConfig && dataAddToCartConfig.storeConfig.pwa) {
         addToCart = {
             ...dataAddToCartConfig.storeConfig.pwa,
+        };
+    }
+
+    if (!loadingQuickViewConfig && dataQuickViewConfig && dataQuickViewConfig.storeConfig && dataQuickViewConfig.storeConfig.pwa) {
+        quickView = {
+            ...dataQuickViewConfig.storeConfig.pwa,
         };
     }
 
@@ -271,11 +284,11 @@ const ProductItem = (props) => {
             window.backdropLoader(false);
         }
         if (
-            !detailProduct.loading
-            && detailProduct.data
-            && detailProduct.data.products
-            && detailProduct.data.products.items
-            && detailProduct.data.products.items.length > 0
+            !detailProduct.loading &&
+            detailProduct.data &&
+            detailProduct.data.products &&
+            detailProduct.data.products.items &&
+            detailProduct.data.products.items.length > 0
         ) {
             window.backdropLoader(false);
             setOpenQuickView(true);
@@ -296,7 +309,7 @@ const ProductItem = (props) => {
     };
     const showAddToCart = typeof enableAddToCart !== 'undefined' ? enableAddToCart : addToCart.add_to_cart_enable;
     const showOption = typeof enableOption !== 'undefined' ? enableOption : configurableOptions.configurable_options_enable;
-    const showQuickView = typeof enableQuickView !== 'undefined' ? enableQuickView : modules.catalog.productListing.quickView.enabled;
+    const showQuickView = typeof enableQuickView !== 'undefined' ? enableQuickView : quickView.quick_view_enable;
     if (isGrid) {
         return (
             <>
@@ -310,9 +323,7 @@ const ProductItem = (props) => {
                     />
                 )}
                 <div className={classNames(styles.itemContainer, 'item-product', className, showQuickView ? styles.quickView : '')}>
-                    {labelEnable.label_enable && LabelView ? (
-                        <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
-                    ) : null}
+                    {labelEnable.label_enable && LabelView ? <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} /> : null}
                     <div className={styles.imgItem}>
                         {labelEnable.label_enable && modules.catalog.productListing.label.weltpixel.enabled && (
                             <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel />
@@ -326,7 +337,7 @@ const ProductItem = (props) => {
                     </div>
                     <div className={styles.detailItem}>
                         <DetailProductView t={t} {...DetailProps} {...other} catalogList={catalogList} />
-                        { modules.product.customizableOptions.enabled && (
+                        {modules.product.customizableOptions.enabled && (
                             <CustomizableOption
                                 price={price}
                                 setPrice={setPrice}
@@ -339,7 +350,7 @@ const ProductItem = (props) => {
                                 {...other}
                                 url_key={url_key}
                             />
-                        ) }
+                        )}
                         {showOption ? (
                             <ConfigurableOpt
                                 enableBundle={false}
@@ -432,8 +443,8 @@ const ProductItem = (props) => {
                                         isGrid={isGrid}
                                         {...other}
                                     />
-                                ) // eslint-disable-next-line indent
-                                    : null}
+                                ) : // eslint-disable-next-line indent
+                                null}
                             </div>
                         </div>
                     </div>

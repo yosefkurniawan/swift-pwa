@@ -125,6 +125,16 @@ export const addToCartConfig = gql`
   }
 }`;
 
+export const quickViewConfig = gql`
+    {
+        storeConfig {
+            pwa {
+                quick_view_enable
+            }
+        }
+    }
+`;
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
@@ -136,5 +146,6 @@ export default {
     labelConfig,
     configurableOptionsConfig,
     ratingConfig,
-    addToCartConfig
+    addToCartConfig,
+    quickViewConfig,
 };
