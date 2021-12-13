@@ -209,8 +209,8 @@ const Layout = (props) => {
                 <title>{pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa'}</title>
                 {schemaOrg
                     ? schemaOrg.map((val, idx) => (
-                          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} key={idx} />
-                      ))
+                        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} key={idx} />
+                    ))
                     : null}
             </Head>
             {features.customInstallApp.enabled && !onlyCms ? <PopupInstallAppMobile /> : null}
