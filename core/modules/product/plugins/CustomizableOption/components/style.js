@@ -23,6 +23,14 @@ const configStyleContainer = {
             margin: 'auto 0',
         },
     },
+    '& div.radio-container': {
+        justifyContent: 'flex-start',
+        overflow: 'initial',
+        margin: '10px 0',
+        '& > label': {
+            margin: 'auto 0',
+        },
+    },
 };
 
 export default makeStyles(() => ({

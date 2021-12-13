@@ -184,8 +184,8 @@ const Checkout = (props) => {
 
     // start init graphql
     const [getCustomer, manageCustomer] = gqlService.getCustomer();
-    const [getCart, { data: dataCart, error: errorCart }] = gqlService.getCart();
-    const [getItemCart, { data: itemCart, error: errorItem }] = gqlService.getItemCart();
+    const [getCart, { data: dataCart, error: errorCart, refetch: refetchDataCart }] = gqlService.getCart();
+    const [getItemCart, { data: itemCart, error: errorItem, refetch: refetchItemCart }] = gqlService.getItemCart();
     const [getRewardPoint, rewardPoint] = gqlService.getRewardPoint();
     const [getCustomerAddress, addressCustomer] = gqlService.getAddressCustomer();
     const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
@@ -270,10 +270,10 @@ const Checkout = (props) => {
     };
 
     const initData = () => {
-        const { cart } = dataCart;
+        let { cart } = dataCart;
         const { items } = itemCart.cart;
         const state = { ...checkout };
-        cart.items = items;
+        cart = { ...cart, items };
 
         // Check minimum order amount and enabled Start
         const minimumOrderEnabled = storeConfig.minimum_order_enable;
@@ -787,6 +787,8 @@ const Checkout = (props) => {
         chasbackMessage,
         updateFormik,
         setCheckout,
+        refetchDataCart,
+        refetchItemCart,
         manageCustomer,
         config,
         isOnlyVirtualProductOnCart,

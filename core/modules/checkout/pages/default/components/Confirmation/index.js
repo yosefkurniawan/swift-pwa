@@ -1,45 +1,78 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { checkoutAgreements } from '@core_modules/checkout/services/graphql';
 
 const Confirmation = (props) => {
     const {
-        t, checkout, setCheckout, storeConfig, ConfirmationView
+        t, checkout, setCheckout, ConfirmationView
     } = props;
 
     const { loading, data: agreements } = checkoutAgreements();
-    const [state] = useState(false);
-    
-    const handleChange = async (value) => {
-        const isState = {
-            ...checkout,
-            loading: {
-                ...checkout.loading,
-                all: true,
-            },
-        };
+    const [modalList, setModalList] = useState([]);
+    const [checkList, setCheckList] = useState([]);
+    const [isAgree, setIsAgree] = useState(false);
 
-        setCheckout(isState);
-
-        let isAgree = false;
-        
-        if (value.length > 0 || value === "automatically") {
-            isAgree = true;
-        } else {
-            isAgree = false;
+    const checkAgree = (checkboxItem) => {
+        for(let i = 0; i < checkboxItem.length; i++) {
+            if((checkboxItem[i].mode === "MANUAL" && checkboxItem[i].isChecked) || checkboxItem[i].mode === "AUTO") {
+                setIsAgree(true);
+            }
+            else if(checkboxItem[i].mode === "MANUAL" && !checkboxItem[i].isChecked) {
+                setIsAgree(false);
+                break;
+            }
         }
-        
-        checkout.confirmation = isAgree;
-        await setCheckout(checkout);
+    }
+
+    const handleCheckbox = (index) => {
+        let checkboxItem = [...checkList];
+        checkboxItem[index].isChecked = !checkboxItem[index].isChecked;
+        setCheckList(checkboxItem);
+        checkAgree(checkboxItem);
     };
+
+    const handleOpenModal = (index) => {
+        let modalItem = [...modalList];
+        modalItem[index].isOpen = true;
+        setModalList(modalItem);
+    }
+
+    const handleCloseModal = (index) => {
+        let modalItem = [...modalList];
+        modalItem[index].isOpen = false;
+        setModalList(modalItem);
+    }
+
+    useEffect(() => {
+        if(agreements && checkList.length === 0) {
+            let checkboxItem = [];
+            let modalItem = [];
+            for(let i = 0; i < agreements.checkoutAgreements.length; i++) {
+                checkboxItem = [...checkboxItem, {
+                    id: i, 
+                    name: agreements.checkoutAgreements[i].name,
+                    mode: agreements.checkoutAgreements[i].mode,
+                    isChecked: agreements.checkoutAgreements[i].mode === "AUTO" ? true : false
+                }];
+                modalItem = [...modalItem, {id: i, isOpen: false}];
+            }
+            setCheckList(checkboxItem);
+            setModalList(modalItem);
+            checkAgree(checkboxItem);
+        }
+        checkout.confirmation = isAgree;
+        setCheckout(checkout);
+    }, [agreements, isAgree]);
 
     return (
         <ConfirmationView
-            agreements={agreements}
-            state={state}
-            storeConfig={storeConfig}
             t={t}
-            handleChange={handleChange}
             loading={loading}
+            agreements={agreements}
+            checkList={checkList}
+            modalList={modalList}
+            handleCheckbox={handleCheckbox}
+            handleOpenModal={handleOpenModal}
+            handleCloseModal={handleCloseModal}
         />
     );
 };

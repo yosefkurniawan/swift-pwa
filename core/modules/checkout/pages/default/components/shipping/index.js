@@ -9,6 +9,8 @@ const Shipping = (props) => {
 
     const { loading, data, selected } = checkout;
     const [setShippingMethod] = gqlService.setShippingMethod({ onError: () => {} });
+    const { data: shippingMethodList } = gqlService.getCheckoutConfigurations();
+
     const handleShipping = async (val) => {
         if (val) {
             const { cart } = checkout.data;
@@ -116,6 +118,7 @@ const Shipping = (props) => {
             checkout={checkout}
             storeConfig={storeConfig}
             t={t}
+            shippingMethodList={shippingMethodList}
             handleShipping={handleShipping}
             loading={loading}
             selected={selected}

@@ -37,6 +37,7 @@ const AddressView = (props) => {
             content = address.map((item) => (
                 <ItemAddress
                     {...item}
+                    selectedAddressId={selectedAddressId}
                     checked={item.id === selectedAddressId}
                     key={item.id}
                     addressId={item.id}
