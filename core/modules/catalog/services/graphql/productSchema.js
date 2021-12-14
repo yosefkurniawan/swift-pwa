@@ -2,13 +2,35 @@
 
 import { gql } from '@apollo/client';
 import { features, modules } from '@config';
+import { configurableOptionsConfig, ratingConfig } from '@services/graphql/repository/pwa_config';
+
 /**
  * generate dynamic filter query
  * @param catId number
  * @param filter array of filter value
  * @returns string query to generate on grapql tag
  */
+
+let configurableOptions = {};
+let rating = {};
+
 const filterProduct = (filter) => {
+    const { data: dataConfigurableOptions, loading: loadingConfigurableOptionsConfig } = configurableOptionsConfig();
+    const { data: dataRatingConfig, loading: loadingRatingConfig } = ratingConfig();
+
+    if (!loadingConfigurableOptionsConfig && dataConfigurableOptions
+      && dataConfigurableOptions.storeConfig && dataConfigurableOptions.storeConfig.pwa) {
+        configurableOptions = {
+            ...dataConfigurableOptions.storeConfig.pwa,
+        };
+    }
+
+    if (!loadingRatingConfig && dataRatingConfig && dataRatingConfig.storeConfig && dataRatingConfig.storeConfig.pwa) {
+        rating = {
+            ...dataRatingConfig.storeConfig.pwa,
+        };
+    }
+
     let queryFilter = '{ ';
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < filter.length; index++) {
@@ -118,7 +140,7 @@ export const getProduct = (config = {}) => gql`
           }
         }        
         ` : ''}
-        ${modules.catalog.productListing.configurableOptions ? `review {
+        ${configurableOptions.configurable_options_enable ? `review {
           rating_summary
           reviews_count
         }` : ''}
@@ -177,7 +199,7 @@ export const getProduct = (config = {}) => gql`
         new_from_date
         new_to_date
         ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
-        ${modules.catalog.productListing.configurableOptions.enabled ? `
+        ${configurableOptions.configurable_options_enable ? `
         ... on ConfigurableProduct {
           configurable_options {
             id
@@ -214,7 +236,7 @@ export const getProduct = (config = {}) => gql`
               sku
               stock_status
               url_key
-              ${modules.catalog.productListing.rating
+              ${rating.rating_enable
         ? `review {
                 rating_summary
                 reviews_count

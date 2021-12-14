@@ -71,10 +71,81 @@ export const popupDetailImagePdp = gql`
 }
 `;
 
+export const pageSizeConfig = gql`
+{
+  storeConfig {
+    pwa {
+      page_size
+    }
+  }
+}`;
+
+export const drawerFilterOnDesktopConfig = gql`
+{
+  storeConfig {
+    pwa {
+      drawer_filter_on_desktop_enable
+    }
+  }
+}`;
+
+export const labelConfig = gql`
+{
+  storeConfig {
+    pwa {
+      label_enable
+    }
+  }
+}`;
+
+export const configurableOptionsConfig = gql`
+{
+  storeConfig {
+    pwa {
+      configurable_options_enable
+    }
+  }
+}`;
+
+export const ratingConfig = gql`
+{
+  storeConfig {
+    pwa {
+      rating_enable
+    }
+  }
+}`;
+
+export const addToCartConfig = gql`
+{
+  storeConfig {
+    pwa {
+      add_to_cart_enable
+    }
+  }
+}`;
+
+export const quickViewConfig = gql`
+    {
+        storeConfig {
+            pwa {
+                quick_view_enable
+            }
+        }
+    }
+`;
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
     shareIconConfig,
     contactConfig,
     getRemoveDecimalConfig,
+    pageSizeConfig,
+    drawerFilterOnDesktopConfig,
+    labelConfig,
+    configurableOptionsConfig,
+    ratingConfig,
+    addToCartConfig,
+    quickViewConfig,
 };
