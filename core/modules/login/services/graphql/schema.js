@@ -40,12 +40,22 @@ mutation getToken(
   }
 `;
 
+export const getCustomerTokenPhonePassword = gql`
+    mutation getToken($username: String!, $password: String!) {
+        internalGenerateCustomerTokenCustom(username: $username, password: $password) {
+            originalToken
+            token
+            message
+        }
+    }
+`;
+
 export const removeToken = gql`
-mutation {
-  internalDeleteCustomerToken{
-    result
-  }
-}
+    mutation {
+        internalDeleteCustomerToken {
+            result
+        }
+    }
 `;
 
 export const requestOtpRegister = gql`
@@ -89,14 +99,11 @@ export const requestOtpLogin = gql`
 `;
 
 export const checkOtpLogin = gql`
-mutation checkOtp(
-    $phoneNumber: String!,
-    $otp: String!,
-) {
-    checkOtpLogin(phonenumber: $phoneNumber, otp: $otp) {
-        is_valid_otp
-      }
-}
+    mutation checkOtp($phoneNumber: String!, $otp: String!) {
+        checkOtpLogin(phonenumber: $phoneNumber, otp: $otp) {
+            is_valid_otp
+        }
+    }
 `;
 
 export const getCartIdUser = gql`
@@ -108,32 +115,26 @@ export const getCartIdUser = gql`
 `;
 
 export const mergeCart = gql`
-mutation mergeCart(
-    $sourceCartId: String!,
-    $destionationCartId: String!
-) {
-    mergeCarts(
-      source_cart_id:$sourceCartId,
-      destination_cart_id: $destionationCartId
-    ) {
-      id
-      total_quantity
+    mutation mergeCart($sourceCartId: String!, $destionationCartId: String!) {
+        mergeCarts(source_cart_id: $sourceCartId, destination_cart_id: $destionationCartId) {
+            id
+            total_quantity
+        }
     }
-  }
 `;
 
 export const getCustomer = gql`
-{
-    customer {
-      id
-      firstname
-      lastname
-      email
-      phonenumber
-      whatsapp_number
-      customer_group
+    {
+        customer {
+            id
+            firstname
+            lastname
+            email
+            phonenumber
+            whatsapp_number
+            customer_group
+        }
     }
-  }
 `;
 
 export const otpConfig = gql`
@@ -165,16 +166,17 @@ export const otpConfig = gql`
 `;
 
 export const getSigninMethodSocialLogin = gql`
-{
-    getSigninMethodSocialLogin{
-      signin_method_allowed
+    {
+        getSigninMethodSocialLogin {
+            signin_method_allowed
+        }
     }
-  }
 `;
 
 export default {
     getCustomerToken,
     getCustomerTokenOtp,
+    getCustomerTokenPhonePassword,
     removeToken,
     getSigninMethodSocialLogin,
 };
