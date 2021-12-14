@@ -48,6 +48,7 @@ export const storeConfig = `
             aw_blog_general_enabled
             pickup_store
             cookie_restriction
+            login_phone_password
             global_promo {
               enable
               text_color
