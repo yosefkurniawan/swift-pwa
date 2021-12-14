@@ -26,12 +26,12 @@ import {
 } from '@core_modules/register/services/graphql';
 import { getCustomer } from '@core_modules/register/services/graphql/schema';
 
+import { registerConfig } from '@services/graphql/repository/pwa_config';
+
 const appEnv = getAppEnv();
 
 const Register = (props) => {
-    const {
-        t, storeConfig, pageConfig, Content, query, lastPathNoAuth,
-    } = props;
+    const { t, storeConfig, pageConfig, Content, query, lastPathNoAuth } = props;
 
     const config = {
         title: t('register:pageTitle'),
@@ -40,7 +40,15 @@ const Register = (props) => {
         bottomNav: false,
     };
     // enable recaptcha
-    const enableRecaptcha = recaptcha.enable && modules.register.recaptcha.enabled;
+    let enableRecaptcha = false;
+
+    const { loading: loadingRegisterConfig, data: dataRegisterConfig } = registerConfig();
+
+    if (!loadingRegisterConfig && dataRegisterConfig && dataRegisterConfig.storeConfig && dataRegisterConfig.storeConfig.pwa) {
+        if (dataRegisterConfig.storeConfig.pwa.recaptcha_register_enable !== null) {
+            enableRecaptcha = recaptcha.enable && dataRegisterConfig.storeConfig.pwa.recaptcha_register_enable;
+        }
+    }
 
     const [phoneIsWa, setPhoneIsWa] = React.useState(false);
     const [cusIsLogin, setIsLogin] = React.useState(0);
