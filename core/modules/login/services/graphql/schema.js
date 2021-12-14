@@ -40,7 +40,7 @@ mutation getToken(
   }
 `;
 
-export const getCustomerTokenPhonePassword = gql`
+export const getCustomerTokenPhoneEmail = gql`
     mutation getToken($username: String!, $password: String!) {
         internalGenerateCustomerTokenCustom(username: $username, password: $password) {
             originalToken
@@ -176,7 +176,7 @@ export const getSigninMethodSocialLogin = gql`
 export default {
     getCustomerToken,
     getCustomerTokenOtp,
-    getCustomerTokenPhonePassword,
+    getCustomerTokenPhoneEmail,
     removeToken,
     getSigninMethodSocialLogin,
 };
