@@ -20,6 +20,7 @@ import useStyles from '@core_modules/login/pages/default/components/style';
 const Login = (props) => {
     const {
         formik,
+        formikPhoneEmail,
         otpConfig,
         isOtp,
         setIsOtp,
@@ -36,6 +37,7 @@ const Login = (props) => {
         handleChangeCaptcha,
         recaptchaRef,
         query,
+        phonePassword,
     } = props;
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
@@ -109,7 +111,7 @@ const Login = (props) => {
                                 </Typography>
                             </div>
                         </div>
-                        {(!isOtp || desktop) && (
+                        {(!isOtp || desktop) && phonePassword === null && (
                             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div className={classNames(styles.spanLabel, 'hidden-mobile')}>
                                     <Typography type="bold" variant="p" className="clear-margin-padding">
@@ -146,6 +148,80 @@ const Login = (props) => {
                                                 <>
                                                     <ReCAPTCHA sitekey={sitekey} onChange={handleChangeCaptcha} ref={recaptchaRef} />
                                                     {formik.errors.captcha && <Typography color="red">{formik.errors.captcha}</Typography>}
+                                                </>
+                                            ) : null}
+                                        </div>
+                                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <Button
+                                                className={styles.generalButton}
+                                                fullWidth={!desktop}
+                                                type="submit"
+                                                disabled={desktop ? false : disabled}
+                                                align={desktop ? 'left' : 'center'}
+                                            >
+                                                <Typography variant="span" type="bold" letter="uppercase" color="white">
+                                                    {loading ? 'Loading' : t('login:pageTitle')}
+                                                </Typography>
+                                            </Button>
+                                        </div>
+                                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <FirebaseSocialLogin />
+                                        </div>
+                                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <Button
+                                                fullWidth={false}
+                                                variant="text"
+                                                href="/customer/account/forgotpassword"
+                                                align={desktop ? 'left' : 'center'}
+                                            >
+                                                <Typography variant="span" type="regular" letter="capitalize" decoration="underline">
+                                                    {t('login:forgotPassword')}
+                                                </Typography>
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        )}
+                        {(!isOtp || desktop) && phonePassword !== null && (
+                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div className={classNames(styles.spanLabel, 'hidden-mobile')}>
+                                    <Typography type="bold" variant="p" className="clear-margin-padding">
+                                        {t('login:loginPhoneEmailInformation')}
+                                    </Typography>
+                                </div>
+                                <form onSubmit={formikPhoneEmail.handleSubmit}>
+                                    <div className="row center-xs start-sm">
+                                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <TextField
+                                                name="username"
+                                                label={t('login:phoneEmailLabel')}
+                                                placeholder={t('login:phoneEmailFields')}
+                                                value={formikPhoneEmail.values.username}
+                                                onChange={formikPhoneEmail.handleChange}
+                                                error={!!formikPhoneEmail.errors.username}
+                                                errorMessage={formikPhoneEmail.errors.username || null}
+                                            />
+                                        </div>
+                                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <PasswordField
+                                                name="password"
+                                                label="Password"
+                                                placeholder="********"
+                                                value={formikPhoneEmail.values.password}
+                                                onChange={formikPhoneEmail.handleChange}
+                                                error={!!formikPhoneEmail.errors.password}
+                                                errorMessage={formikPhoneEmail.errors.password || null}
+                                                showVisible
+                                            />
+                                        </div>
+                                        <div className="col-xs-12  col-sm-12">
+                                            {enableRecaptcha ? (
+                                                <>
+                                                    <ReCAPTCHA sitekey={sitekey} onChange={handleChangeCaptcha} ref={recaptchaRef} />
+                                                    {formikPhoneEmail.errors.captcha && (
+                                                        <Typography color="red">{formikPhoneEmail.errors.captcha}</Typography>
+                                                    )}
                                                 </>
                                             ) : null}
                                         </div>
@@ -262,11 +338,7 @@ const Login = (props) => {
                             <Button
                                 className={styles.generalButton}
                                 fullWidth={false}
-                                href={
-                                    (query && query.redirect)
-                                        ? `/customer/account/create?redirect=${query.redirect}`
-                                        : '/customer/account/create'
-                                }
+                                href={query && query.redirect ? `/customer/account/create?redirect=${query.redirect}` : '/customer/account/create'}
                                 disabled={desktop ? false : disabled}
                                 align={desktop ? 'left' : 'center'}
                             >
