@@ -10,7 +10,7 @@ import { setLogin, getLastPathWithoutLogin } from '@helper_auth';
 import { getCookies, setCookies } from '@helper_cookies';
 import { setCartId, getCartId } from '@helper_cartid';
 import { useQuery } from '@apollo/client';
-import { expiredToken, custDataNameCookie, recaptcha, modules } from '@config';
+import { expiredToken, custDataNameCookie, recaptcha } from '@config';
 import Router from 'next/router';
 import Cookies from 'js-cookie';
 import { regexPhone } from '@helper_regex';
@@ -30,6 +30,7 @@ import {
     socialLogin,
     getSigninMethodSocialLogin,
 } from '@core_modules/login/services/graphql';
+import { loginConfig } from '@services/graphql/repository/pwa_config';
 import { getCustomer } from '@core_modules/login/services/graphql/schema';
 import { localCompare } from '@services/graphql/schema/local';
 import { assignCompareListToCustomer } from '@core_modules/productcompare/service/graphql';
@@ -202,7 +203,15 @@ const Login = (props) => {
     }, [isOtp]);
 
     // enable recaptcha
-    const enableRecaptcha = recaptcha.enable && modules.login.recaptcha.enabled;
+    let enableRecaptcha = false;
+
+    const { loading: loadingLoginConfig, data: dataLoginConfig } = loginConfig();
+
+    if (!loadingLoginConfig && dataLoginConfig && dataLoginConfig.storeConfig && dataLoginConfig.storeConfig.pwa) {
+        if (dataLoginConfig.storeConfig.pwa.recaptcha_login_enable !== null) {
+            enableRecaptcha = recaptcha.enable && dataLoginConfig.storeConfig.pwa.recaptcha_login_enable;
+        }
+    }
 
     const LoginSchema = Yup.object().shape({
         username: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
