@@ -14,8 +14,8 @@ const HOST = {
 
 /* Magento GraphQL Endpoint */
 const graphqlEndpoint = {
-    local: 'https://swiftpwa-be.testingnow.me/graphql',
-    dev: 'https://swiftpwa-be.testingnow.me/graphql',
+    local: 'https://swift-sprint.testingnow.me/graphql',
+    dev: 'https://swift-sprint.testingnow.me/graphql',
     stage: 'https://b2cdemonew.gcp-staging.testingnow.me/graphql',
     prod: 'https://b2cdemo.getswift.asia/graphql',
 };
@@ -157,6 +157,7 @@ const features = {
         GroupedProduct: true,
         BundleProduct: true,
         DownloadableProduct: false,
+        AwGiftCardProduct: true,
     },
     imageSize: {
         product: {

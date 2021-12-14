@@ -1,103 +1,160 @@
 /* eslint-disable no-mixed-operators */
+import PriceFormat from '@common_priceformat';
 import Skeleton from '@common_skeleton';
-// import CarouselSkeleton from '@common_slick/Caraousel/Skeleton';
+import Typography from '@common_typography';
 import useStyles from '@core_modules/product/pages/default/components/Loader/style';
+import classNames from 'classnames';
+import dynamic from 'next/dynamic';
 
-const SkeletonLoader = () => {
+const Banner = dynamic(() => import('@common_slick/BannerThumbnail'), { ssr: false });
+
+const SkeletonLoader = (props) => {
+    const { name, price, banner } = props;
     const styles = useStyles();
+
     return (
         <div className="column row">
-            <div className="col-lg-1 hidden-mobile">
-                <Skeleton
-                    marginbottom={27}
-                    variant="rect"
-                    animation="wave"
-                    mdStyle={{
-                        width: '100%',
-                        paddingBottom: '100%',
-                        marginBottom: '10px',
-                    }}
-                    lgStyle={{
-                        width: '100%',
-                        paddingBottom: '100%',
-                        marginBottom: '10px',
-                    }}
-                />
-                <Skeleton
-                    marginbottom={27}
-                    variant="rect"
-                    animation="wave"
-                    mdStyle={{
-                        width: '100%',
-                        paddingBottom: '100%',
-                        marginBottom: '10px',
-                    }}
-                    lgStyle={{
-                        width: '100%',
-                        paddingBottom: '100%',
-                        marginBottom: '10px',
-                    }}
-                />
+            <div className="col-sm-12 col-lg-12 hidden-mobile">
+                <div className="row col-md-3" style={{ marginBottom: 20, justifyContent: 'space-between' }}>
+                    <Skeleton width={75} />
+                    <Skeleton width={75} />
+                    <Skeleton width={75} />
+                    <Skeleton width={75} />
+                </div>
             </div>
-            <div className="col-sm-12 col-xs-12 col-lg-5">
-                <Skeleton
-                    marginbottom={27}
-                    variant="rect"
-                    animation="wave"
-                    xsStyle={{
-                        width: '100%',
-                        paddingBottom: '110%',
-                    }}
-                    mdStyle={{
-                        width: '100%',
-                        paddingBottom: '140%',
-                    }}
-                    lgStyle={{
-                        width: '100%',
-                        height: '100%',
-                        paddingBottom: '140%',
-                    }}
-                />
-            </div>
+            {!banner || banner.length === 0 && (
+                <div className="col-lg-1 hidden-mobile">
+                    <Skeleton
+                        marginbottom={27}
+                        variant="rect"
+                        animation="wave"
+                        mdStyle={{
+                            width: '100%',
+                            paddingBottom: '100%',
+                            marginBottom: '10px',
+                        }}
+                        lgStyle={{
+                            width: '100%',
+                            paddingBottom: '100%',
+                            marginBottom: '10px',
+                        }}
+                    />
+                    <Skeleton
+                        marginbottom={27}
+                        variant="rect"
+                        animation="wave"
+                        mdStyle={{
+                            width: '100%',
+                            paddingBottom: '100%',
+                            marginBottom: '10px',
+                        }}
+                        lgStyle={{
+                            width: '100%',
+                            paddingBottom: '100%',
+                            marginBottom: '10px',
+                        }}
+                    />
+                </div>
+            )}
             <div className="col-sm-12 col-xs-12 col-lg-6">
+                {banner && banner.length > 0 ? (
+                    <Banner
+                        data={banner}
+                        noLink
+                        thumbnail
+                        showArrow={false}
+                        contentWidth="auto"
+                        autoPlay={false}
+                        width={960}
+                        height={1120}
+                        customProduct={styles.bannerProduct}
+                    />
+                ) : (
+                    <Skeleton
+                        marginbottom={27}
+                        variant="rect"
+                        animation="wave"
+                        xsStyle={{
+                            width: '100%',
+                            paddingBottom: '110%',
+                        }}
+                        mdStyle={{
+                            width: '100%',
+                            paddingBottom: '140%',
+                        }}
+                        lgStyle={{
+                            width: '100%',
+                            height: '100%',
+                            paddingBottom: '140%',
+                        }}
+                    />
+                )}
+            </div>
+            <div className={classNames(
+                'col-sm-12 col-xs-12', {
+                    'col-lg-6': banner && banner.length > 0,
+                    'col-lg-5': !banner || banner.length === 0,
+                },
+            )}
+            >
                 <div className={styles.container}>
-                    <Skeleton
-                        animation="wave"
-                        variant="text"
-                        width={225}
-                        height={53}
-                        mdStyle={{
-                            marginTop: '8px',
-                        }}
-                    />
-                    <Skeleton
-                        animation="wave"
-                        variant="text"
-                        width={225}
-                        height={53}
-                        mdStyle={{
-                            marginTop: '-17px',
-                        }}
-                    />
-                    <Skeleton
-                        animation="wave"
-                        variant="text"
-                        width={225}
-                        height={53}
-                        mdStyle={{
-                            marginTop: '-12px',
-                        }}
-                    />
+                    <div className={styles.titleContainer}>
+                        <div className={styles.titlePriceContainer}>
+                            {name ? (
+                                <Typography
+                                    variant="title"
+                                    type="bold"
+                                    letter="capitalize"
+                                    className={classNames(styles.title, 'clear-margin-padding')}
+                                >
+                                    {name}
+                                </Typography>
+                            ) : (
+                                <Skeleton
+                                    animation="wave"
+                                    variant="text"
+                                    width={225}
+                                    height={53}
+                                    mdStyle={{
+                                        marginTop: '8px',
+                                    }}
+                                />
+                            )}
+                            {price ? (
+                                <PriceFormat {...price} additionalPrice={0} />
+                            ) : (
+                                <Skeleton
+                                    animation="wave"
+                                    variant="text"
+                                    width={225}
+                                    height={53}
+                                    mdStyle={{
+                                        marginTop: '-17px',
+                                    }}
+                                />
+                            )}
+                            <Skeleton
+                                animation="wave"
+                                variant="text"
+                                width={225}
+                                height={53}
+                                mdStyle={{
+                                    marginTop: '-12px',
+                                }}
+                            />
 
-                    <Skeleton
-                        animation="wave"
-                        variant="text"
-                        width={75}
-                        height={20}
-                        mdStyle={{
-                            marginTop: '3px',
-                        }}
-                    />
+                            <Skeleton
+                                animation="wave"
+                                variant="text"
+                                width={75}
+                                height={20}
+                                mdStyle={{
+                                    marginTop: '3px',
+                                }}
+                            />
+                        </div>
+                        <div className={styles.shareContainer} />
+                    </div>
                     <div className="hidden-desktop">
                         <hr />
                         <Skeleton animation="wave" variant="text" width="100%" height={32} />
