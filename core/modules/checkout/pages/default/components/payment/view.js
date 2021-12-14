@@ -49,7 +49,6 @@ const PaymentView = (props) => {
         loading,
         data,
         checkout,
-        storeConfig,
         t,
         paymentMethodList,
         handlePayment,
@@ -147,9 +146,9 @@ const PaymentView = (props) => {
                                 return (
                                     <ExpansionPanel
                                         expanded={
-                                            expanded === index || // if key index same with expanded active
-                                            (item.active && expandedActive) || // expand if item active and not change expand
-                                            (!itemActive && expandedActive && index === 0)
+                                            expanded === index // if key index same with expanded active
+                                            || (item.active && expandedActive) // expand if item active and not change expand
+                                            || (!itemActive && expandedActive && index === 0)
                                         } // if dont have item active, set index 0 to active
                                         onChange={handleChange(index)}
                                         key={index}
@@ -160,8 +159,8 @@ const PaymentView = (props) => {
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
                                             <Typography letter="uppercase" variant="span" type="bold">
-                                                {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`) ===
-                                                `paymentGrouping.${item.group.replace('pg-', '')}`
+                                                {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
+                                                    === `paymentGrouping.${item.group.replace('pg-', '')}`
                                                     ? item.group.replace('pg-', '')
                                                     : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)}
                                             </Typography>
@@ -177,8 +176,9 @@ const PaymentView = (props) => {
                                                             CustomItem={RadioItem}
                                                             ComponentOptional={(item) => {
                                                                 // prettier-ignore
-                                                                const isPurchaseOrder = item.code === PO || selected.payment === PO;
+                                                                const isPurchaseOrder = item.code === PO && selected.payment === PO;
                                                                 const isPaypal = item.code === PaypalCode && selected.payment === PaypalCode;
+
                                                                 if (isPurchaseOrder) {
                                                                     return (
                                                                         <Grid item xs={12}>
@@ -199,9 +199,9 @@ const PaymentView = (props) => {
                                                                     );
                                                                 }
                                                                 if (
-                                                                    isPaypal &&
-                                                                    !paypalTokenData.loading &&
-                                                                    initialOptionPaypal['data-order-id'] !== ''
+                                                                    isPaypal
+                                                                    && !paypalTokenData.loading
+                                                                    && initialOptionPaypal['data-order-id'] !== ''
                                                                 ) {
                                                                     return (
                                                                         <Grid item xs={12} lg="3" md="4">
