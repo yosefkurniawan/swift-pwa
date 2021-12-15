@@ -16,6 +16,8 @@
     "updateDate": "Tanggal pembaruan",
     "receiverName": "Nama Penerima",
     "shipperName": "Nama Pengirim",
+    "driverName": "Nama Kurir",
+    "driverPhone": "Nomor Telepon Kurir",
     "lastStatus": "Status Terakhir",
     "history": "Riwayat",
     "liveTracking": "Lacak Pengiriman",
