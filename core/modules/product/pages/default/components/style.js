@@ -216,6 +216,9 @@ const useStyles = makeStyles((theme) => ({
     bannerLiteAfter: {
         ...CreatePadding(10, 0, 10, 0),
     },
+    shareIcon: {
+        width: '100%',
+    },
     rowItem: {
         ...FlexRow,
         justifyContent: 'space-around',
