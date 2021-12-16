@@ -59,6 +59,10 @@ const Confirmation = (props) => {
             setModalList(modalItem);
             checkAgree(checkboxItem);
         }
+        //If there's no terms & condition list in GraphQL responses, checkout confirmation should be true
+        else if(!agreements && checkList.length === 0) {
+            setIsAgree(true);
+        }
         checkout.confirmation = isAgree;
         setCheckout(checkout);
     }, [agreements, isAgree]);
