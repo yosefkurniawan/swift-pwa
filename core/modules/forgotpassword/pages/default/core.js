@@ -6,7 +6,7 @@ import Router from 'next/router';
 import { requestLinkToken, otpConfig } from '../../services/graphql';
 
 const ForgotPassword = (props) => {
-    const { t, pageConfig, Content } = props;
+    const { t, storeConfig, pageConfig, Content } = props;
     const config = {
         title: t('forgotpassword:title'),
         header: 'relative', // available values: "absolute", "relative", false (default)
@@ -23,28 +23,43 @@ const ForgotPassword = (props) => {
     const [load, setLoad] = React.useState(false);
     const [disabled, setDisabled] = React.useState(true);
     const [getToken] = requestLinkToken();
+
+    const forgotWithPhone = storeConfig.forgot_password_phone;
     const formik = useFormik({
         initialValues: {
             email: '',
             otp: '',
             phoneNumber: '',
+            phoneNumberExclusive: '',
         },
         validationSchema: Yup.object().shape({
-            email: (useEmail || (data && !data.otpConfig.otp_enable[0].enable_otp_forgot_password))
-                && Yup.string().required(t('validate:email:required')),
+            email:
+                // (useEmail || (data && !data.otpConfig.otp_enable[0].enable_otp_forgot_password)) &&
+                (!forgotWithPhone || (data && !data.otpConfig.otp_enable[0].enable_otp_forgot_password)) &&
+                Yup.string().required(t('validate:email:required')),
+            phoneNumberExclusive:
+                forgotWithPhone && Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
             phoneNumber:
-                !useEmail && data
-                && data.otpConfig.otp_enable[0].enable_otp_forgot_password
-                && Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
-            otp: !useEmail && data && data.otpConfig.otp_enable[0].enable_otp_forgot_password && Yup.string().required('Otp is required'),
+                !useEmail &&
+                data &&
+                data.otpConfig.otp_enable[0].enable_otp_forgot_password &&
+                Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
+            otp:
+                !useEmail &&
+                !forgotWithPhone &&
+                data &&
+                data.otpConfig.otp_enable[0].enable_otp_forgot_password &&
+                Yup.string().required('Otp is required'),
         }),
         onSubmit: (values) => {
             setLoad(true);
-            const getVariables = () => (
-                useEmail
-                    ? { phoneNumber: '', otp: '', email: values.email }
-                    : { phoneNumber: values.phoneNumber, otp: values.otp, email: '' }
-            );
+            const getVariables = () => {
+                if (forgotWithPhone) {
+                    return { phoneNumber: values.phoneNumberExclusive, otp: '', email: '' };
+                } else {
+                    useEmail ? { phoneNumber: '', otp: '', email: values.email } : { phoneNumber: values.phoneNumber, otp: values.otp, email: '' };
+                }
+            };
             getToken({
                 variables: getVariables(),
             })
@@ -107,6 +122,7 @@ const ForgotPassword = (props) => {
                 setToast={setToast}
                 setDisabled={setDisabled}
                 disabled={disabled}
+                forgotWithPhone={forgotWithPhone}
             />
         </Layout>
     );
