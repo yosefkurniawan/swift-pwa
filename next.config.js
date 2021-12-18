@@ -33,7 +33,7 @@ module.exports = withOffline({
             isServer,
             defaultLoaders,
             webpack,
-        }
+        },
     ) => {
         // Note: we provide webpack above so you should not `require` it
         // Perform customizations to webpack config
@@ -45,7 +45,7 @@ module.exports = withOffline({
         config.plugins.push(
             new webpack.ProvidePlugin({
                 React: 'react',
-            })
+            }),
         );
         if (!isServer) {
             // eslint-disable-next-line no-param-reassign

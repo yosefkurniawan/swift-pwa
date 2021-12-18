@@ -74,7 +74,9 @@ class MyApp extends App {
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
         }
-        const { res, pathname, query, req } = ctx;
+        const {
+            res, pathname, query, req,
+        } = ctx;
 
         /*
          * ---------------------------------------------
@@ -92,10 +94,9 @@ class MyApp extends App {
         } else {
             isLogin = allcookie.isLogin || 0;
             customerData = allcookie[custDataNameCookie];
-            lastPathNoAuth =
-                req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
-                    ? req.session.lastPathNoAuth
-                    : '/customer/account';
+            lastPathNoAuth = req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
+                ? req.session.lastPathNoAuth
+                : '/customer/account';
         }
         isLogin = parseInt(isLogin);
 
@@ -273,7 +274,7 @@ class MyApp extends App {
             },
             (err) => {
                 console.log('Service Worker registration failed: ', err);
-            }
+            },
         );
     }
 
