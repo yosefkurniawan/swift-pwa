@@ -80,7 +80,6 @@ const ProductPage = (props) => {
     };
 
     const favoritIcon = wishlist ? <Favorite className={styles.iconShare} /> : <FavoriteBorderOutlined className={styles.iconShare} />;
-
     return (
         <>
             <div className="hidden-mobile">
@@ -228,6 +227,28 @@ const ProductPage = (props) => {
                             </Typography>
                         </div>
                     </div>
+
+                    <div className={styles.titleContainer}>
+                        <div className={styles.priceTiersContainer}>
+                            {
+                                price.priceTiers.length && price.priceTiers.map((tiers, index) => {
+                                        const priceTiers = {
+                                            quantity: tiers.quantity,
+                                            currency: tiers.final_price.currency,
+                                            price: tiers.final_price.value,
+                                            discount: tiers.discount.percent_off
+                                        }
+                                        return (
+                                            <Typography variant="p" type="regular" key={index}>
+                                                {t('product:priceTiers', { priceTiers })}
+                                            </Typography>
+                                        )
+                                    }
+                                )
+                            }
+                        </div>
+                    </div>
+                    
                     <div className="row">
                         {
                             modules.catalog.productListing.label.enabled

@@ -27,5 +27,6 @@
     "productNotAvailable": "Sekarang kami belum support untuk tipe produk ini",
     "customizeAdd": "Sesuaikan dan Tambahkan ke Keranjang",
     "yourCustomization": "Pilihan Kamu",
-    "quantity": "Jumlah"
+    "quantity": "Jumlah",
+    "priceTiers": "Beli {{priceTiers.quantity}} seharga {{priceTiers.currency}}{{priceTiers.price}} masing-masing and hemat {{priceTiers.discount}}%"
 }
