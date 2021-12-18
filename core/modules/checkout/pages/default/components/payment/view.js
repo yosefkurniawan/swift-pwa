@@ -39,11 +39,12 @@ const Loader = () => (
 );
 
 const PaymentGroupIcon = (props) => {
-    let fallbacks = [`${props.baseMediaUrl}checkout/payment/paymenticons-${props.src.replace('pg-', '')}.svg`, null];
+    const { baseMediaUrl, src } = props;
+    const fallbacks = [`${baseMediaUrl}checkout/payment/paymenticons-${src.replace('pg-', '')}.svg`, null];
     const styles = useStyles();
 
     // check if image exist on the backoffice, otherwise use fallback image from PWA
-    const [imageSrc, setImageSrc] = React.useState(`./assets/img/paymenticons-${props.src.replace('pg-', '')}.svg`);
+    const [imageSrc, setImageSrc] = React.useState(`./assets/img/paymenticons-${src.replace('pg-', '')}.svg`);
     const [fallbackImageIndex, setFallbackImageIndex] = React.useState(0);
 
     // set image fallback url
@@ -61,11 +62,11 @@ const PaymentGroupIcon = (props) => {
                 <img
                     className={styles.paymentGroupStyleIcon}
                     src={imageSrc}
-                    alt={props.src.replace('pg-', '')}
+                    alt={src.replace('pg-', '')}
                     onError={() => getFallbackImageSrc()}
                 />
-            )) ||
-                ''}
+            ))
+                || ''}
         </>
     );
 };
@@ -83,6 +84,7 @@ const PaymentView = (props) => {
         checkout,
         storeConfig,
         t,
+        paymentMethodList,
         handlePayment,
         handlePurchaseOrder,
         handlePurchaseOrderSubmit,
@@ -123,8 +125,8 @@ const PaymentView = (props) => {
         content = <Loader />;
     } else if (data.cart.prices.grand_total.value === 0) {
         content = <Typography variant="p">{t('checkout:noNeedPayment')}</Typography>;
-    } else if (data.paymentMethod.length !== 0 && storeConfig.payments_configuration) {
-        let paymentConfig = JSON.parse(`${storeConfig.payments_configuration}`);
+    } else if (data.paymentMethod.length !== 0 && paymentMethodList && paymentMethodList.storeConfig) {
+        let paymentConfig = JSON.parse(`${paymentMethodList.storeConfig.payments_configuration}`);
         const groups = paymentConfig ? Object.keys(paymentConfig) : [];
         // create grouping by config
         paymentConfig = groups.map((key) => {
@@ -178,9 +180,9 @@ const PaymentView = (props) => {
                                 return (
                                     <ExpansionPanel
                                         expanded={
-                                            expanded === index || // if key index same with expanded active
-                                            (item.active && expandedActive) || // expand if item active and not change expand
-                                            (!itemActive && expandedActive && index === 0)
+                                            expanded === index // if key index same with expanded active
+                                            || (item.active && expandedActive) // expand if item active and not change expand
+                                            || (!itemActive && expandedActive && index === 0)
                                         } // if dont have item active, set index 0 to active
                                         onChange={handleChange(index)}
                                         key={index}
@@ -193,8 +195,8 @@ const PaymentView = (props) => {
                                             <div className={styles.labelSummary}>
                                                 <PaymentGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
                                                 <Typography letter="uppercase" variant="span" type="bold">
-                                                    {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`) ===
-                                                    `paymentGrouping.${item.group.replace('pg-', '')}`
+                                                    {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
+                                                    === `paymentGrouping.${item.group.replace('pg-', '')}`
                                                         ? item.group.replace('pg-', '')
                                                         : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)}
                                                 </Typography>
@@ -233,9 +235,9 @@ const PaymentView = (props) => {
                                                                     );
                                                                 }
                                                                 if (
-                                                                    isPaypal &&
-                                                                    !paypalTokenData.loading &&
-                                                                    initialOptionPaypal['data-order-id'] !== ''
+                                                                    isPaypal
+                                                                    && !paypalTokenData.loading
+                                                                    && initialOptionPaypal['data-order-id'] !== ''
                                                                 ) {
                                                                     return (
                                                                         <Grid item xs={12} lg="3" md="4">

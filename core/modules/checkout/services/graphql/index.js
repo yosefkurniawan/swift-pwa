@@ -60,6 +60,8 @@ export const getItemCart = (options = {}) => useLazyQuery(Schema.getItemCart, {
     errorPolicy: 'all',
 });
 
+export const getCheckoutConfigurations = () => useQuery(Schema.getCheckoutConfigurations);
+
 export const getRewardPoint = () => useLazyQuery(Schema.getRewardPoint, { ...config(USING_INTERNAL) });
 
 export const setShippingAddress = (options = {}) => useMutation(Schema.setShippingAddressById, {
@@ -260,6 +262,7 @@ export default {
     getAddressCustomer,
     getCart,
     getItemCart,
+    getCheckoutConfigurations,
     getRewardPoint,
     setShippingAddress,
     setShippingMethod,
