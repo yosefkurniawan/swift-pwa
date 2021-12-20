@@ -231,7 +231,7 @@ const ProductPage = (props) => {
                     <div className={styles.titleContainer}>
                         <div className={styles.priceTiersContainer}>
                             {
-                                price.priceTiers.length && price.priceTiers.map((tiers, index) => {
+                                price.priceTiers.length > 0 && price.priceTiers.map((tiers, index) => {
                                         const priceTiers = {
                                             quantity: tiers.quantity,
                                             currency: tiers.final_price.currency,
