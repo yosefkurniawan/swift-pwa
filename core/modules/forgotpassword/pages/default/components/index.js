@@ -42,13 +42,13 @@ const ForgotPassword = (props) => {
                     ) : (
                         <Toast open={toast.open} setOpen={() => setToast({ ...toast, open: false })} message={toast.text} variant={toast.variant} />
                     )}
-                    {((!forgotWithPhone || (data && !data.otpConfig.otp_enable[0].enable_otp_forgot_password)) && (
+                    {(!useEmail && forgotWithPhone && !data.otpConfig.otp_enable[0].enable_otp_forgot_password && (
                         <>
                             <Typography variant="span" align="left">
                                 {t('forgotpassword:contentWithPhone')}
                             </Typography>
                             <TextField
-                                label="Phone"
+                                label="Phone Number"
                                 name="phoneNumberExclusive"
                                 value={formik.values.phoneNumberExclusive}
                                 onChange={formik.handleChange}
