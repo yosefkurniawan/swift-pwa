@@ -82,11 +82,19 @@ const OtpBlock = ({
                 });
             }).catch((e) => {
                 window.backdropLoader(false);
-                window.toastMessage({
-                    open: true,
-                    text: e.message.split(':')[1] || t('otp:sendFailed'),
-                    variant: 'error',
-                });
+                if (e.message == 'phone number is already Registered') {
+                    window.toastMessage({
+                        open: true,
+                        text: `${t('otp:registerOtpFailed1')} ${phoneNumber} ${t('otp:registerOtpFailed2')}`,
+                        variant: 'error',
+                    });
+                } else {
+                    window.toastMessage({
+                        open: true,
+                        text: e.message.split(':')[1] || t('otp:sendFailed'),
+                        variant: 'error',
+                    });
+                }
             });
         } else {
             window.toastMessage({
