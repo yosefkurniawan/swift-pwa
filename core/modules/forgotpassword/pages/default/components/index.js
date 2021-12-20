@@ -13,7 +13,7 @@ import useStyles from '@core_modules/forgotpassword/pages/default/components/sty
 
 const ForgotPassword = (props) => {
     const styles = useStyles();
-    const { t, loading, data, formik, load, useEmail, handleSwitch, toast, setToast, setDisabled, disabled, forgotWithPhone } = props;
+    const { t, loading, data, formik, load, useEmail, handleSwitch, toast, setToast, setDisabled, disabled, useForgotWithPhone } = props;
 
     if (loading || !data) return <Loading open />;
 
@@ -42,7 +42,7 @@ const ForgotPassword = (props) => {
                     ) : (
                         <Toast open={toast.open} setOpen={() => setToast({ ...toast, open: false })} message={toast.text} variant={toast.variant} />
                     )}
-                    {(!useEmail && forgotWithPhone && !data.otpConfig.otp_enable[0].enable_otp_forgot_password && (
+                    {(!useEmail && useForgotWithPhone && (
                         <>
                             <Typography variant="span" align="left">
                                 {t('forgotpassword:contentWithPhone')}
@@ -56,21 +56,22 @@ const ForgotPassword = (props) => {
                                 errorMessage={formik.errors.phoneNumberExclusive || null}
                             />
                         </>
-                    )) || (
-                        <>
-                            <Typography variant="span" align="left">
-                                {t('forgotpassword:content')}
-                            </Typography>
-                            <TextField
-                                label="Email"
-                                name="email"
-                                value={formik.values.email}
-                                onChange={formik.handleChange}
-                                error={!!formik.errors.email}
-                                errorMessage={formik.errors.email || null}
-                            />
-                        </>
-                    )}
+                    )) ||
+                        (useEmail && (
+                            <>
+                                <Typography variant="span" align="left">
+                                    {t('forgotpassword:content')}
+                                </Typography>
+                                <TextField
+                                    label="Email"
+                                    name="email"
+                                    value={formik.values.email}
+                                    onChange={formik.handleChange}
+                                    error={!!formik.errors.email}
+                                    errorMessage={formik.errors.email || null}
+                                />
+                            </>
+                        ))}
                     {data && data.otpConfig.otp_enable[0].enable_otp_forgot_password && !useEmail && (
                         <OtpBlock
                             setDisabled={setDisabled}

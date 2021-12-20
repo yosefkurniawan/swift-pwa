@@ -18,13 +18,14 @@ const ForgotPassword = (props) => {
         variant: 'success',
         text: '',
     });
+    const forgotWithPhone = storeConfig.forgot_password_phone;
     const [useEmail, setUseEmail] = React.useState(false);
+    const [useForgotWithPhone, setUseForgotWithPhone] = React.useState(forgotWithPhone);
     const { loading, data } = otpConfig();
     const [load, setLoad] = React.useState(false);
     const [disabled, setDisabled] = React.useState(true);
     const [getToken] = requestLinkToken();
 
-    const forgotWithPhone = storeConfig.forgot_password_phone;
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -33,23 +34,20 @@ const ForgotPassword = (props) => {
             phoneNumberExclusive: '',
         },
         validationSchema: Yup.object().shape({
-            email:
-                // (useEmail || (data && !data.otpConfig.otp_enable[0].enable_otp_forgot_password)) &&
-                useEmail &&
-                !forgotWithPhone &&
-                !data.otpConfig.otp_enable[0].enable_otp_forgot_password &&
-                Yup.string().required(t('validate:email:required')),
+            email: useEmail && Yup.string().required(t('validate:email:required')),
             phoneNumberExclusive:
-                forgotWithPhone && Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
+                useForgotWithPhone &&
+                !data.otpConfig.otp_enable[0].enable_otp_forgot_password &&
+                Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
             phoneNumber:
                 !useEmail &&
-                !forgotWithPhone &&
+                !useForgotWithPhone &&
                 data &&
                 data.otpConfig.otp_enable[0].enable_otp_forgot_password &&
                 Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
             otp:
                 !useEmail &&
-                !forgotWithPhone &&
+                !useForgotWithPhone &&
                 data &&
                 data.otpConfig.otp_enable[0].enable_otp_forgot_password &&
                 Yup.string().required('Otp is required'),
@@ -58,7 +56,7 @@ const ForgotPassword = (props) => {
             console.log(values);
             setLoad(true);
             const getVariables = () => {
-                if (forgotWithPhone) {
+                if (useForgotWithPhone) {
                     return { phoneNumber: values.phoneNumberExclusive, otp: '', email: '' };
                 } else {
                     if (useEmail) {
@@ -81,7 +79,7 @@ const ForgotPassword = (props) => {
                             text: t('forgotpassword:success'),
                         });
                         setTimeout(() => {
-                            Router.push(`/customer/account/newpassword?token=${token}`);
+                            Router.push(`/customer/account/createPassword?token=${token}`);
                         }, 3000);
                     } else {
                         setToast({
@@ -105,16 +103,19 @@ const ForgotPassword = (props) => {
     const handleSwitch = () => {
         setToast({ ...toast, open: false });
         setUseEmail(!useEmail);
+        // setUseForgotWithPhone(false);
         if (data && data.otpConfig.otp_enable[0].enable_otp_forgot_password) {
             setDisabled(!disabled);
         }
     };
 
     React.useEffect(() => {
-        if (data && !data.otpConfig.otp_enable[0].enable_otp_forgot_password && !forgotWithPhone) {
+        if (data && !data.otpConfig.otp_enable[0].enable_otp_forgot_password && !useForgotWithPhone) {
             setUseEmail(true);
+        } else if (data && data.otpConfig.otp_enable[0].enable_otp_forgot_password) {
+            setUseForgotWithPhone(false);
         }
-    }, [useEmail]);
+    }, [useEmail, useForgotWithPhone]);
 
     return (
         <Layout pageConfig={pageConfig || config} {...props}>
@@ -130,7 +131,7 @@ const ForgotPassword = (props) => {
                 setToast={setToast}
                 setDisabled={setDisabled}
                 disabled={disabled}
-                forgotWithPhone={forgotWithPhone}
+                useForgotWithPhone={useForgotWithPhone}
             />
         </Layout>
     );
