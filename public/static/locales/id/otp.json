@@ -15,5 +15,7 @@
     "sendSuccess": "OTP berhasil terkirim",
     "sendFailed": "OTP gagal terkirim",
     "valid": "OTP benar",
-    "invalid": "OTP tidak benar"
+    "invalid": "OTP tidak benar",
+    "registerOtpFailed1": "Nomor telepon",
+    "registerOtpFailed2": "telah terdaftar sebelumnya. Silahkan daftar dengan nomor lain."
   }
