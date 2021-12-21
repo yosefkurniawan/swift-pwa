@@ -1,13 +1,14 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import dynamic from 'next/dynamic';
 import Typography from '@common_typography';
+
 import useStyles from '@plugin_optionitem/BundleOption/style';
 
-const Button = dynamic(() => import('@common_button'), { ssr: true });
+const Button = dynamic(() => import('@common_button'), { ssr: false });
 const Customize = dynamic(() => import('@plugin_optionitem/BundleOption/components/customize'), { ssr: true });
 
 const Accordion = withStyles(
