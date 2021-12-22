@@ -129,6 +129,7 @@ export default function createApolloClient(initialState, ctx) {
                         },
                     },
                 },
+
                 ProductImage: {
                     keyFields: ['url'],
                 },

@@ -1,10 +1,15 @@
 import Layout from '@layout';
 import { getHost } from '@helper_config';
+import { getCmsPageConfig } from '@core_modules/home/service/graphql';
 
 const HomeCore = (props) => {
     const {
         Content, pageConfig, storeConfig, ...other
     } = props;
+
+    const {
+        data: cmsPageConfig,
+    } = getCmsPageConfig();
 
     const schemaOrg = [
         {
@@ -38,7 +43,7 @@ const HomeCore = (props) => {
 
     return (
         <Layout {...props} pageConfig={config} {...other}>
-            <Content storeConfig={storeConfig} {...other} />
+            <Content storeConfig={storeConfig} cmsPageConfig={cmsPageConfig} {...other} />
         </Layout>
     );
 };

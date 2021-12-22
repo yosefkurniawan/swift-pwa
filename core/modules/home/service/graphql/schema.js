@@ -24,7 +24,7 @@ export const getBannerSlider = gql`
                 image_id
                 image_url
                 mobile_image_url
-                thumb_image_url
+                thumb_image_url 
                 url_redirection
             }
         }
@@ -131,9 +131,21 @@ export const getCategoryList = gql`
     }
 `;
 
+export const getCmsPageConfig = gql`
+    {
+        storeConfig {
+            pwa {
+                use_cms_page_enable
+                use_cms_page_identifier
+            }
+        }
+    }
+`;
+
 export default {
     getBannerSlider,
     getCategoryList,
     getFeaturedProducts,
     getSlider,
+    getCmsPageConfig,
 };
