@@ -16,6 +16,6 @@
     "sendFailed": "OTP gagal terkirim",
     "valid": "OTP benar",
     "invalid": "OTP tidak benar",
-    "registerOtpFailed1": "Nomor telepon",
-    "registerOtpFailed2": "telah terdaftar sebelumnya. Silahkan daftar dengan nomor lain."
+    "registerOtpFailed": "Nomor telepon {{phoneNumber}} telah terdaftar sebelumnya. Silahkan daftar dengan nomor lain.",
+    "registerOtpTooManyRetries": "Anda telah mengirim kode verifikasi otp terlalu banyak. Silahkan coba lagi nanti : {{phoneNumber}}"
   }

@@ -85,7 +85,13 @@ const OtpBlock = ({
                 if (e.message == 'phone number is already Registered') {
                     window.toastMessage({
                         open: true,
-                        text: `${t('otp:registerOtpFailed1')} ${phoneNumber} ${t('otp:registerOtpFailed2')}`,
+                        text: `${t('otp:registerOtpFailed', {phoneNumber})}`,
+                        variant: 'error',
+                    });
+                } else if (e.message == 'Max retries exceeded') {
+                    window.toastMessage({
+                        open: true,
+                        text: `${t('otp:registerOtpTooManyRetries', {phoneNumber})}`,
                         variant: 'error',
                     });
                 } else {

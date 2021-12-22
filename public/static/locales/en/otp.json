@@ -16,6 +16,6 @@
     "sendFailed": "Otp failed to send",
     "valid": "Otp is valid",
     "invalid": "Otp is in valid",
-    "registerOtpFailed1": "Phone number of",
-    "registerOtpFailed2": "is already registered, please use another phone number."
+    "registerOtpFailed": "Phone number of {{phoneNumber}} is already registered, please use another phone number.",
+    "registerOtpTooManyRetries": "You have exceeded the maximum number of retries : ({{phoneNumber}}"
 }
