@@ -44,6 +44,8 @@ const AddressFormDialog = (props) => {
         storeConfig = helperCookies.get(storeConfigNameCookie);
     }
     const gmapKey = (storeConfig || {}).icube_pinlocation_gmap_key;
+    const pinLocations = storeConfig ?? {};
+    const { pin_location_latitude, pin_location_longitude } = pinLocations;
 
     const [getCountries, responCountries] = getAllCountries();
     const [getRegion, responRegion] = getRegions();
@@ -72,8 +74,8 @@ const AddressFormDialog = (props) => {
     const splitCityValue = (cityValue) => cityValue.split(', ');
 
     const [mapPosition, setMapPosition] = useState({
-        lat: latitude || '-6.197361',
-        lng: longitude || '106.774535',
+        lat: latitude || pin_location_latitude,
+        lng: longitude || pin_location_longitude,
     });
 
     const displayLocationInfo = (position) => {
@@ -83,6 +85,14 @@ const AddressFormDialog = (props) => {
         setMapPosition({
             lat,
             lng,
+        });
+    };
+
+    const displayLocationFallback = () => {
+        // A callback that triggers when user deny map permissions.
+        setMapPosition({
+            lat: pin_location_latitude,
+            lng: pin_location_longitude,
         });
     };
 
@@ -207,7 +217,7 @@ const AddressFormDialog = (props) => {
 
             // only set current location for add mode
             if (typeof window !== 'undefined' && navigator && navigator.geolocation && !addressId) {
-                navigator.geolocation.getCurrentPosition(displayLocationInfo);
+                navigator.geolocation.getCurrentPosition(displayLocationInfo, displayLocationFallback);
             }
 
             // update map position after edit data

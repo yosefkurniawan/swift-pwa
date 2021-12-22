@@ -31,12 +31,12 @@ const WidgetListProduct = (props) => {
     const { data, loading, error } = getProductList({ ...dataFilter, pageSize: products_count });
     const dataItems = data?.products?.items || [];
 
-
     let drawerFilterOnDesktop = {};
 
     const { data: dataDrawerFilterOnDesktop, loading: loadingDrawerFilterOnDesktop } = drawerFilterOnDesktopConfig();
 
-    if (!loadingDrawerFilterOnDesktop && dataDrawerFilterOnDesktop && dataDrawerFilterOnDesktop.storeConfig && dataDrawerFilterOnDesktop.storeConfig.pwa) {
+    if (!loadingDrawerFilterOnDesktop && dataDrawerFilterOnDesktop
+        && dataDrawerFilterOnDesktop.storeConfig && dataDrawerFilterOnDesktop.storeConfig.pwa) {
         drawerFilterOnDesktop = {
             ...dataDrawerFilterOnDesktop.storeConfig.pwa,
         };

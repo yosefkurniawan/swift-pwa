@@ -125,6 +125,36 @@ export const addToCartConfig = gql`
   }
 }`;
 
+export const quickViewConfig = gql`
+    {
+        storeConfig {
+            pwa {
+                quick_view_enable
+            }
+        }
+    }
+`;
+
+export const loginConfig = gql`
+    {
+        storeConfig {
+            pwa {
+                recaptcha_login_enable
+            }
+        }
+    }
+`;
+
+export const registerConfig = gql`
+    {
+        storeConfig {
+            pwa {
+                recaptcha_register_enable
+            }
+        }
+    }
+`;
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
@@ -136,5 +166,8 @@ export default {
     labelConfig,
     configurableOptionsConfig,
     ratingConfig,
-    addToCartConfig
+    addToCartConfig,
+    quickViewConfig,
+    loginConfig,
+    registerConfig,
 };

@@ -65,8 +65,8 @@ const ModalAddressCustomer = (props) => {
     };
 
     // handle change selected address
-    const handleChange = async (event) => {
-        if (selectedAddressId !== event.target.value) {
+    const handleChange = async (event, forceUpdate = false) => {
+        if (selectedAddressId !== event.target.value || forceUpdate) {
             const state = { ...checkout };
             state.loading.addresses = true;
             state.loading.order = true;

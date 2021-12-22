@@ -109,7 +109,7 @@ const DetailOrder = (props) => {
                                     {formatDate(detail[0].created_at)}
                                 </Typography>
                             </div>
-                            {detail[0].detail[0].shipping_address.length > 0 && (
+                            {Object.keys(detail[0].detail[0].shipping_address).length > 0 && (
                                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                     <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                         {detail[0].detail[0].pickup_store && detail[0].detail[0].pickup_store.is_using_pickup_store
@@ -184,7 +184,7 @@ const DetailOrder = (props) => {
                                     {detail[0].detail[0].billing_address.postcode || ''}
                                 </Typography>
                             </div>
-                            {detail[0].detail[0].shipping_address.length > 0 && (
+                            {Object.keys(detail[0].detail[0].shipping_address).length > 0 && (
                                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                     <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                         {t('order:shippingMethod')}

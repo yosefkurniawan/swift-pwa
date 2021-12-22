@@ -3,8 +3,6 @@
 import { gql } from '@apollo/client';
 import { features, modules } from '@config';
 import { configurableOptionsConfig, ratingConfig } from '@services/graphql/repository/pwa_config';
-import { useEffect } from 'react';
-
 
 /**
  * generate dynamic filter query
@@ -13,7 +11,6 @@ import { useEffect } from 'react';
  * @returns string query to generate on grapql tag
  */
 
-
 let configurableOptions = {};
 let rating = {};
 
@@ -21,18 +18,19 @@ const filterProduct = (filter) => {
     const { data: dataConfigurableOptions, loading: loadingConfigurableOptionsConfig } = configurableOptionsConfig();
     const { data: dataRatingConfig, loading: loadingRatingConfig } = ratingConfig();
 
-    if (!loadingConfigurableOptionsConfig && dataConfigurableOptions && dataConfigurableOptions.storeConfig && dataConfigurableOptions.storeConfig.pwa) {
+    if (!loadingConfigurableOptionsConfig && dataConfigurableOptions
+      && dataConfigurableOptions.storeConfig && dataConfigurableOptions.storeConfig.pwa) {
         configurableOptions = {
-          ...dataConfigurableOptions.storeConfig.pwa,
-        }
-      }
-      
-      if (!loadingRatingConfig && dataRatingConfig && dataRatingConfig.storeConfig && dataRatingConfig.storeConfig.pwa) {
+            ...dataConfigurableOptions.storeConfig.pwa,
+        };
+    }
+
+    if (!loadingRatingConfig && dataRatingConfig && dataRatingConfig.storeConfig && dataRatingConfig.storeConfig.pwa) {
         rating = {
-          ...dataRatingConfig.storeConfig.pwa,
-        }
-      }
-      
+            ...dataRatingConfig.storeConfig.pwa,
+        };
+    }
+
     let queryFilter = '{ ';
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < filter.length; index++) {
@@ -62,7 +60,6 @@ const filterProduct = (filter) => {
     queryFilter += '}';
     return queryFilter;
 };
-
 
 export const getProductAgragations = () => gql`
   {

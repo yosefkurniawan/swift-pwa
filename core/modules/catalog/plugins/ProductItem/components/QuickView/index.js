@@ -17,7 +17,6 @@ import { getHost } from '@helper_config';
 import { modules } from '@config';
 import { labelConfig } from '@services/graphql/repository/pwa_config';
 
-
 import useStyles from '@plugin_productitem/components/QuickView/style';
 
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: false });
@@ -142,7 +141,7 @@ const QuickView = (props) => {
                             customClassCaraousel={styles.caraousel}
                         >
                             {
-                                    labelEnable.label_enable
+                                labelEnable.label_enable
                                     && modules.catalog.productListing.label.weltpixel.enabled && (
                                     <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel={false} />
                                 )
@@ -191,7 +190,7 @@ const QuickView = (props) => {
                         </div>
                         <div className="row">
                             {
-                                    labelEnable.label_enable
+                                labelEnable.label_enable
                                     && modules.catalog.productListing.label.weltpixel.enabled && (
                                     <WeltpixelLabel
                                         t={t}

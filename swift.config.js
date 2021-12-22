@@ -157,6 +157,7 @@ const features = {
         GroupedProduct: true,
         BundleProduct: true,
         DownloadableProduct: false,
+        AwGiftCardProduct: true,
     },
     imageSize: {
         product: {

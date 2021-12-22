@@ -74,5 +74,23 @@
     },
     "dob": {
         "required": "Tanggal lahir tidak boleh kosong"
-    }
+    },
+    "to": "Dari",
+    "from": "Ke",
+    "recipientName": "Nama Penerima",
+    "recipientEmail": "Email Penerima",
+    "senderName": "Nama Pengirim",
+    "senderEmail": "Email Pengirim",
+    "emailTemplate": "Email Template",
+    "amount": "Jumlah",
+    "notValid": "tidak valid",
+    "greaterThanOrEqual": "harus lebih dari atau sama dengan",
+    "lessThanOrEqual": "harus kurang dari atau sama dengan",
+    "value": "Nilai",
+    "code": "Kode",
+    "chooseAmount": "Pilih Jumlah",
+    "customAmount": "Masukkan Jumlah Lainnya",
+    "selectDesign": "Pilih Desain",
+    "composeEmail": "Susun Email",
+    "deliveryDate": "Tanggal Pengiriman"
 }

@@ -212,6 +212,15 @@ items {
             url
             label
         }
+        ... on AwGiftCardProduct {
+            aw_gc_type
+        }
+    }
+    ... on AwGiftCardCartItem {
+        aw_giftcard_option {
+          label
+          value
+        }
     }
 }`;
 
@@ -525,6 +534,15 @@ export const getCart = gql`
             ${cartShippingAddress}
             ${cartBillingAddress}
             ${selected_payment_method}
+        }
+    }
+`;
+
+export const getCheckoutConfigurations = gql`
+    query getCheckoutConfigurations {
+        storeConfig {
+            payments_configuration
+            shipments_configuration
         }
     }
 `;

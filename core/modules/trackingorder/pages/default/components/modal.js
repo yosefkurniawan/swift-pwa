@@ -57,6 +57,7 @@ const ModalResult = (props) => {
                         const listField = gosend ? trackingorder.fieldDetail.gosend : trackingorder.fieldDetail.shipperid;
 
                         if (
+                            modalType.toLowerCase().includes('logistix') ||
                             modalType.toLowerCase().includes('jne') ||
                             modalType.toLowerCase().includes('sap') ||
                             modalType.toLowerCase().includes('shipperid') ||

@@ -24,6 +24,12 @@ export const ratingConfig = () => useQuery(Schema.ratingConfig);
 
 export const addToCartConfig = () => useQuery(Schema.addToCartConfig);
 
+export const quickViewConfig = () => useQuery(Schema.quickViewConfig);
+
+export const loginConfig = () => useQuery(Schema.loginConfig);
+
+export const registerConfig = () => useQuery(Schema.registerConfig);
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
@@ -35,5 +41,8 @@ export default {
     labelConfig,
     configurableOptionsConfig,
     ratingConfig,
-    addToCartConfig
+    addToCartConfig,
+    quickViewConfig,
+    loginConfig,
+    registerConfig,
 };

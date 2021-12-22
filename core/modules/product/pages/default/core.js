@@ -23,7 +23,7 @@ import { useQuery } from '@apollo/client';
 import { popupDetailImagePdp } from '@services/graphql/repository/pwa_config';
 
 const ContentDetail = ({
-    t, product, Content, isLogin, weltpixel_labels, dataProductTabs,
+    t, product, Content, isLogin, weltpixel_labels, dataProductTabs, storeConfig,
 }) => {
     const item = product.items[0];
     const route = useRouter();
@@ -394,6 +394,7 @@ const ContentDetail = ({
             isLogin={isLogin}
             handleSetCompareList={handleSetCompareList}
             enablePopupImage={enablePopupImage}
+            storeConfig={storeConfig}
         />
     );
 };
@@ -408,7 +409,7 @@ const PageDetail = (props) => {
         },
     };
     const {
-        slug, Content, t, isLogin, pageConfig, CustomHeader,
+        slug, Content, t, isLogin, pageConfig, CustomHeader, storeConfig,
     } = props;
 
     const context = isLogin && isLogin === 1 ? { request: 'internal' } : {};
@@ -476,6 +477,23 @@ const PageDetail = (props) => {
         }
 
         const viewedProduct = typeof window !== 'undefined' && getLocalStorage('recently_viewed_product');
+
+        if (Object.keys(productProps).length > 0) {
+            product = {
+                ...product,
+                items: [{
+                    ...product.items[0],
+                    name: productProps.name || '',
+                    small_image: productProps.small_image || {},
+                    price: productProps.price || {},
+                    price_range: { ...productProps.price.priceRange },
+                    price_tiers: { ...productProps.price.priceTiers },
+                    special_from_date: { ...productProps.price.specialFromDate },
+                    special_to_date: { ...productProps.price.specialToDate },
+                }],
+            };
+        }
+
         if (product.items.length > 0) {
             const item = product.items[0];
             let isExist = false;
@@ -558,6 +576,7 @@ const PageDetail = (props) => {
                 isLogin={isLogin}
                 weltpixel_labels={weltpixel_labels}
                 dataProductTabs={productTab}
+                storeConfig={storeConfig}
             />
         </Layout>
     );
