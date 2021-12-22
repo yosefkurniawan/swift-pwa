@@ -48,6 +48,12 @@
                 "containerId": "<<@CONTAINER_ID>>",
                 "type": "EVENT",
                 "name": "Event"
+            },
+            {
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
+                "type": "NEW_HISTORY_FRAGMENT",
+                "name": "New History Fragment"
             }
         ],
         "variable": [
@@ -921,6 +927,11 @@
                         "type": "TEMPLATE",
                         "key": "measurementId",
                         "value": "{{PWA - MEASUREMENT ID}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "value",
+                        "value": "{{Page URL}}{{New History Fragment}}"
                     }
                 ],
                 "monitoringMetadata": {
