@@ -38,12 +38,10 @@ export const storeConfig = `
             website_id
             weight_unit
             oauth_access_token_lifetime_customer
-            payments_configuration
             pwa {
               footer_desktop
             }
             pwa_checkout_debug_enable
-            shipments_configuration
             snap_client_key
             allow_guest_checkout
             snap_is_production
@@ -77,6 +75,10 @@ export const storeConfig = `
             aw_blog_related_products_display_add_to_cart
             weltpixel_RecentlyViewedBar_general_enable
             weltpixel_thankyoupage_create_account_enable
+            pin_location_latitude
+            pin_location_longitude
+            minimum_order_amount
+            minimum_order_enable
         }
     }
 `;

@@ -393,6 +393,7 @@ const ContentDetail = ({
             smartProductTabs={dataProductTabs}
             isLogin={isLogin}
             handleSetCompareList={handleSetCompareList}
+            enablePopupImage={enablePopupImage}
             storeConfig={storeConfig}
             enablePopupImage={enablePopupImage}
         />
@@ -458,6 +459,7 @@ const PageDetail = (props) => {
     if (data) {
         let temporaryArr = [];
         product = data.products;
+        const viewedProduct = typeof window !== 'undefined' && getLocalStorage('recently_viewed_product');
 
         if (Object.keys(productProps).length > 0) {
             product = {
@@ -475,7 +477,6 @@ const PageDetail = (props) => {
             };
         }
 
-        const viewedProduct = typeof window !== 'undefined' && getLocalStorage('recently_viewed_product');
         if (product.items.length > 0) {
             const item = product.items[0];
             let isExist = false;

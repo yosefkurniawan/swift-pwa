@@ -34,7 +34,8 @@ const Loader = () => (
 const ShippingView = (props) => {
     const styles = useStyles();
     const {
-        isOnlyVirtualProductOnCart, checkout, storeConfig, loading, selected, handleShipping, data, t,
+        isOnlyVirtualProductOnCart, checkout, storeConfig, loading, selected,
+        handleShipping, data, t, shippingMethodList,
     } = props;
     let content;
     const [expanded, setExpanded] = React.useState(null);
@@ -53,7 +54,8 @@ const ShippingView = (props) => {
         content = <Loader />;
     } else if (data.shippingMethods.length !== 0) {
         const available = data.shippingMethods;
-        const config = storeConfig.shipments_configuration ? JSON.parse(`${storeConfig.shipments_configuration}`) : {};
+        const config = shippingMethodList && shippingMethodList.storeConfig
+            ? JSON.parse(`${shippingMethodList.storeConfig.shipments_configuration}`) : {};
         const group = config ? Object.keys(config) : [];
         const shipping = [];
         for (let index = 0; index < group.length; index += 1) {
@@ -135,8 +137,8 @@ const ShippingView = (props) => {
                                     <Accordion
                                         expanded={
                                             expanded === keyIndex // if key index same with expanded active
-                                        || (item.active && expandedActive) // expand if item active and not change expand
-                                        || (!itemActive && expandedActive && keyIndex === 0)
+                                            || (item.active && expandedActive) // expand if item active and not change expand
+                                            || (!itemActive && expandedActive && keyIndex === 0)
                                         } // if dont have item active, set index 0 to active
                                         onChange={handleChange(keyIndex)}
                                         key={keyIndex}
@@ -150,7 +152,7 @@ const ShippingView = (props) => {
                                                 <IconLabel label={item.group.replace('sg-', '')} />
                                                 <Typography letter="uppercase" variant="span" type="bold">
                                                     {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
-                                                === `shippingGrouping.${item.group.replace('sg-', '')}`
+                                                    === `shippingGrouping.${item.group.replace('sg-', '')}`
                                                         ? item.group.replace('pg-', '')
                                                         : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
                                                 </Typography>
@@ -182,13 +184,13 @@ const ShippingView = (props) => {
                     </div>
 
                     <div className={styles.listError}>
-                        {
-                            error && error.length > 0 && error.map((msg, key) => (
+                        {error
+                            && error.length > 0
+                            && error.map((msg, key) => (
                                 <Alert key={key} style={{ fontSize: 10, marginBottom: 5 }} severity="error">
                                     {msg}
                                 </Alert>
-                            ))
-                        }
+                            ))}
                     </div>
                 </div>
             );

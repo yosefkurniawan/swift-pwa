@@ -16,8 +16,6 @@ import RatingStar from '@common_ratingstar';
 import { getHost } from '@helper_config';
 import { modules } from '@config';
 import { labelConfig } from '@services/graphql/repository/pwa_config';
-
-
 import useStyles from '@plugin_productitem/components/QuickView/style';
 
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: false });
