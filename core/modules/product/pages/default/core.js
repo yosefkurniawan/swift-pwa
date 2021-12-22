@@ -395,6 +395,7 @@ const ContentDetail = ({
             handleSetCompareList={handleSetCompareList}
             enablePopupImage={enablePopupImage}
             storeConfig={storeConfig}
+            enablePopupImage={enablePopupImage}
         />
     );
 };
