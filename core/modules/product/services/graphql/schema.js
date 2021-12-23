@@ -319,6 +319,7 @@ export const getProduct = (url) => {
         ) {
           items {
             ...CORE_PRODUCT_DETAILS
+
             ... on AwGiftCardProduct {
               aw_gc_allow_delivery_date
               aw_gc_allow_open_amount

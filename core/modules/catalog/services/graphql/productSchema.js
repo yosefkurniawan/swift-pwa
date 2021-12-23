@@ -30,7 +30,7 @@ const filterProduct = (filter) => {
             ...dataRatingConfig.storeConfig.pwa,
         };
     }
-
+  
     let queryFilter = '{ ';
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < filter.length; index++) {
@@ -60,6 +60,7 @@ const filterProduct = (filter) => {
     queryFilter += '}';
     return queryFilter;
 };
+
 
 export const getProductAgragations = () => gql`
   {

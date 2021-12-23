@@ -25,6 +25,10 @@ export const getCategoryList = (variables) => useQuery(Schema.getCategoryList, {
     fetchPolicy,
 });
 
+export const getCmsPageConfig = () => useQuery(Schema.getCmsPageConfig, {
+    fetchPolicy,
+});
+
 export default {
-    getCategoryList, getBannerSlider, getFeaturedProducts, getSlider,
+    getCategoryList, getBannerSlider, getFeaturedProducts, getSlider, getCmsPageConfig,
 };

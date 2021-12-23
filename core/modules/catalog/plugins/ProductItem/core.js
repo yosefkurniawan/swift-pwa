@@ -56,6 +56,32 @@ const ProductItem = (props) => {
     const [customizableOptions, setCustomizableOptions] = React.useState([]);
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
     const [additionalPrice, setAdditionalPrice] = React.useState(0);
+    
+    let labelEnable = {};
+    let configurableOptions = {};
+    let addToCart = {};
+
+    const { data: dataLabel, loading: loadingLabel } = labelConfig();
+    const { data: dataConfigurableOptions, loading: loadingConfigurableOptionsConfig } = configurableOptionsConfig();
+    const { data: dataAddToCartConfig, loading: loadingAddToCartConfig } = addToCartConfig();
+
+    if (!loadingLabel && dataLabel && dataLabel.storeConfig && dataLabel.storeConfig.pwa) {
+        labelEnable = {
+            ...dataLabel.storeConfig.pwa,
+        };
+    }
+
+    if (!loadingConfigurableOptionsConfig && dataConfigurableOptions && dataConfigurableOptions.storeConfig && dataConfigurableOptions.storeConfig.pwa) {
+        configurableOptions = {
+            ...dataConfigurableOptions.storeConfig.pwa,
+        };
+    }
+
+    if (!loadingAddToCartConfig && dataAddToCartConfig && dataAddToCartConfig.storeConfig && dataAddToCartConfig.storeConfig.pwa) {
+        addToCart = {
+            ...dataAddToCartConfig.storeConfig.pwa,
+        };
+    }
 
     let labelEnable = {};
     let configurableOptions = {};
@@ -335,7 +361,9 @@ const ProductItem = (props) => {
                     />
                 )}
                 <div className={classNames(styles.itemContainer, 'item-product', className, showQuickView ? styles.quickView : '')}>
-                    {labelEnable.label_enable && LabelView ? <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} /> : null}
+                    {labelEnable.label_enable && LabelView ? (
+                        <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
+                    ) : null}
                     <div className={styles.imgItem}>
                         {labelEnable.label_enable && modules.catalog.productListing.label.weltpixel.enabled && (
                             <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel />

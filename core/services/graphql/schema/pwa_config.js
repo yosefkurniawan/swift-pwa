@@ -135,6 +135,26 @@ export const quickViewConfig = gql`
     }
 `;
 
+export const loginConfig = gql`
+    {
+        storeConfig {
+            pwa {
+                recaptcha_login_enable
+            }
+        }
+    }
+`;
+
+export const registerConfig = gql`
+    {
+        storeConfig {
+            pwa {
+                recaptcha_register_enable
+            }
+        }
+    }
+`;
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
@@ -148,4 +168,6 @@ export default {
     ratingConfig,
     addToCartConfig,
     quickViewConfig,
+    loginConfig,
+    registerConfig,
 };
