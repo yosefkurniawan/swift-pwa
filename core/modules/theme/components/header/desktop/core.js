@@ -14,7 +14,7 @@ import { vesMenuConfig } from '@services/graphql/repository/pwa_config';
 
 const CoreTopNavigation = (props) => {
     const {
-        Content, storeConfig, t, app_cookies, isLogin, showGlobalPromo,
+        Content, storeConfig, t, app_cookies, isLogin, showGlobalPromo, ...other
     } = props;
     const [value, setValue] = React.useState('');
     const [deleteTokenGql] = removeToken();
@@ -124,6 +124,7 @@ const CoreTopNavigation = (props) => {
     if (!loadConfig && !errorConfig && dataConfig && dataConfig.storeConfig) {
         return (
             <Content
+                {...other}
                 t={t}
                 isLogin={isLogin}
                 data={stateData.data}

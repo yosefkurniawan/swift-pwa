@@ -93,7 +93,7 @@ class MyApp extends App {
             isLogin = getLoginInfo();
             lastPathNoAuth = getLastPathWithoutLogin();
             customerData = Cookie.getJSON(custDataNameCookie);
-            removeDecimalConfig = Cookie.getJson('remove_decimal_config');
+            removeDecimalConfig = Cookie.getJSON('remove_decimal_config');
         } else {
             isLogin = allcookie.isLogin || 0;
             customerData = allcookie[custDataNameCookie];
