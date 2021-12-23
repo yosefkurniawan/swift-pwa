@@ -160,20 +160,19 @@ const AwGiftCardProduct = (props) => {
             <div className="gc-second">
                 <Typography variant="h2">
                     {aw_gc_type === 'PHYSICAL'
-                        ? (aw_gc_allow_open_amount || aw_gc_amounts.length > 1)
+                        ? aw_gc_allow_open_amount || aw_gc_amounts.length > 1
                             ? '2.'
                             : '1.'
                         : aw_gc_allow_open_amount
                             ? '3.'
-                            : '2.'}
-                    {' '}
+                            : '2.'}{' '}
                     {`${t('validate:composeEmail')}`}
                 </Typography>
                 <form>
                     {aw_gc_allow_delivery_date && (
                         <DatePicker
                             fullWidth
-                            label={t('common:form:Delivery Date')}
+                            label={t('validate:deliveryDate')}
                             name="aw_gc_delivery_date"
                             value={formik.values.aw_gc_delivery_date}
                             onChange={handleChangeDate}

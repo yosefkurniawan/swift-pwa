@@ -21,6 +21,7 @@ import {
 } from '@config';
 import { getLoginInfo, getLastPathWithoutLogin } from '@helper_auth';
 import { setResolver, testLocalStorage, setLocalStorage } from '@helper_localstorage';
+import { getAppEnv } from '@root/core/helpers/env';
 import { RewriteFrames } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
 import { unregister } from 'next-offline/runtime';
@@ -182,6 +183,15 @@ class MyApp extends App {
                     this.registerServiceWorker();
                 });
             }
+        }
+
+        /*
+         * ---------------------------------------------
+         * REMOVE CONSOLE
+         * remove all console.log statement when APP_ENV = 'prod'
+         */
+        if (getAppEnv() === 'prod') {
+            console.log = () => {};
         }
 
         /*
