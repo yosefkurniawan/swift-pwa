@@ -56,7 +56,7 @@ const ProductItem = (props) => {
     const [customizableOptions, setCustomizableOptions] = React.useState([]);
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
     const [additionalPrice, setAdditionalPrice] = React.useState(0);
-    
+
     let labelEnable = {};
     let configurableOptions = {};
     let addToCart = {};
@@ -71,40 +71,10 @@ const ProductItem = (props) => {
         };
     }
 
-    if (!loadingConfigurableOptionsConfig && dataConfigurableOptions && dataConfigurableOptions.storeConfig && dataConfigurableOptions.storeConfig.pwa) {
-        configurableOptions = {
-            ...dataConfigurableOptions.storeConfig.pwa,
-        };
-    }
-
-    if (!loadingAddToCartConfig && dataAddToCartConfig && dataAddToCartConfig.storeConfig && dataAddToCartConfig.storeConfig.pwa) {
-        addToCart = {
-            ...dataAddToCartConfig.storeConfig.pwa,
-        };
-    }
-
-    let labelEnable = {};
-    let configurableOptions = {};
-    let addToCart = {};
-    let quickView = {};
-
-    const { data: dataLabel, loading: loadingLabel } = labelConfig();
-    const { data: dataConfigurableOptions, loading: loadingConfigurableOptionsConfig } = configurableOptionsConfig();
-    const { data: dataAddToCartConfig, loading: loadingAddToCartConfig } = addToCartConfig();
-    const { data: dataQuickViewConfig, loading: loadingQuickViewConfig } = quickViewConfig();
-
-    if (!loadingLabel && dataLabel && dataLabel.storeConfig && dataLabel.storeConfig.pwa) {
-        labelEnable = {
-            ...dataLabel.storeConfig.pwa,
-        };
-    }
-
-    if (
-        !loadingConfigurableOptionsConfig
+    if (!loadingConfigurableOptionsConfig
         && dataConfigurableOptions
         && dataConfigurableOptions.storeConfig
-        && dataConfigurableOptions.storeConfig.pwa
-    ) {
+        && dataConfigurableOptions.storeConfig.pwa) {
         configurableOptions = {
             ...dataConfigurableOptions.storeConfig.pwa,
         };
@@ -115,6 +85,10 @@ const ProductItem = (props) => {
             ...dataAddToCartConfig.storeConfig.pwa,
         };
     }
+
+    let quickView = {};
+
+    const { data: dataQuickViewConfig, loading: loadingQuickViewConfig } = quickViewConfig();
 
     if (!loadingQuickViewConfig && dataQuickViewConfig && dataQuickViewConfig.storeConfig && dataQuickViewConfig.storeConfig.pwa) {
         quickView = {
