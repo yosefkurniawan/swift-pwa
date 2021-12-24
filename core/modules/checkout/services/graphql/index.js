@@ -60,6 +60,8 @@ export const getItemCart = (options = {}) => useLazyQuery(Schema.getItemCart, {
     errorPolicy: 'all',
 });
 
+export const getCheckoutConfigurations = () => useQuery(Schema.getCheckoutConfigurations);
+
 export const getRewardPoint = () => useLazyQuery(Schema.getRewardPoint, { ...config(USING_INTERNAL) });
 
 export const setShippingAddress = (options = {}) => useMutation(Schema.setShippingAddressById, {
@@ -249,6 +251,10 @@ export const createPaypalExpressToken = () => useMutation(PaypalSchema.createPay
     ...config(USING_INTERNAL),
 });
 
+export const checkoutAgreements = () => useQuery(Schema.checkoutAgreements, {
+    fetchPolicy: 'no-cache',
+});
+
 export default {
     updateExtraFee,
     updatedDefaultAddress,
@@ -260,6 +266,7 @@ export default {
     getAddressCustomer,
     getCart,
     getItemCart,
+    getCheckoutConfigurations,
     getRewardPoint,
     setShippingAddress,
     setShippingMethod,
@@ -294,4 +301,5 @@ export default {
     setInstoreShippingAddress,
     xenditCreateInvoice,
     xenditSimulateQr,
+    checkoutAgreements,
 };

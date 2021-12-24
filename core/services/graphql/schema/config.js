@@ -29,6 +29,9 @@ export const storeConfig = `
             logo_alt
             logo_width
             logo_height
+            pwa {
+              default_robot
+            }
             store_name
             welcome
             timezone
@@ -38,9 +41,7 @@ export const storeConfig = `
             website_id
             weight_unit
             oauth_access_token_lifetime_customer
-            payments_configuration
             pwa_checkout_debug_enable
-            shipments_configuration
             snap_client_key
             allow_guest_checkout
             snap_is_production
@@ -77,6 +78,10 @@ export const storeConfig = `
             payment_travelokapay_public_key
             payment_travelokapay_user_id
             payment_travelokapay_bin_whitelist
+            pin_location_latitude
+            pin_location_longitude
+            minimum_order_amount
+            minimum_order_enable
         }
     }
 `;
