@@ -31,7 +31,6 @@ const ForgotPassword = (props) => {
             email: '',
             otp: '',
             phoneNumber: '',
-<<<<<<< HEAD
             phoneNumberEmail: '',
         },
         validationSchema: Yup.object().shape({
@@ -49,16 +48,6 @@ const ForgotPassword = (props) => {
                         }
                         return true;
                     }),
-=======
-            phoneNumberExclusive: '',
-        },
-        validationSchema: Yup.object().shape({
-            email: useEmail && Yup.string().required(t('validate:email:required')),
-            phoneNumberExclusive:
-                useForgotWithPhone &&
-                !data.otpConfig.otp_enable[0].enable_otp_forgot_password &&
-                Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
->>>>>>> cbe70bb9e5f2d5b730bc51b0b780524447a09e88
             phoneNumber:
                 !useEmail &&
                 !useForgotWithPhone &&
@@ -73,9 +62,7 @@ const ForgotPassword = (props) => {
                 Yup.string().required('Otp is required'),
         }),
         onSubmit: (values) => {
-            console.log(values);
             setLoad(true);
-<<<<<<< HEAD
 
             let email, phone;
 
@@ -96,11 +83,6 @@ const ForgotPassword = (props) => {
                         console.log('phone number');
                         return { phoneNumber: values.phoneNumberEmail, otp: '', email: '' };
                     }
-=======
-            const getVariables = () => {
-                if (useForgotWithPhone) {
-                    return { phoneNumber: values.phoneNumberExclusive, otp: '', email: '' };
->>>>>>> cbe70bb9e5f2d5b730bc51b0b780524447a09e88
                 } else {
                     if (useEmail) {
                         return { phoneNumber: '', otp: '', email: values.email };
@@ -164,7 +146,6 @@ const ForgotPassword = (props) => {
     const handleSwitch = () => {
         setToast({ ...toast, open: false });
         setUseEmail(!useEmail);
-        // setUseForgotWithPhone(false);
         if (data && data.otpConfig.otp_enable[0].enable_otp_forgot_password) {
             setDisabled(!disabled);
         }
