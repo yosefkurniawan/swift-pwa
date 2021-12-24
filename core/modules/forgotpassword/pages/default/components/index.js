@@ -45,15 +45,16 @@ const ForgotPassword = (props) => {
                     {(!useEmail && useForgotWithPhone && (
                         <>
                             <Typography variant="span" align="left">
-                                {t('forgotpassword:contentWithPhone')}
+                                {t('forgotpassword:contentWithPhoneEmail')}
                             </Typography>
                             <TextField
-                                label="Phone Number"
-                                name="phoneNumberExclusive"
-                                value={formik.values.phoneNumberExclusive}
+                                label={t('forgotpassword:phoneEmailLabel')}
+                                placeholder={t('forgotpassword:phoneEmailFields')}
+                                name="phoneNumberEmail"
+                                value={formik.values.phoneNumberEmail}
                                 onChange={formik.handleChange}
-                                error={!!formik.errors.phoneNumberExclusive}
-                                errorMessage={formik.errors.phoneNumberExclusive || null}
+                                error={!!formik.errors.phoneNumberEmail}
+                                errorMessage={formik.errors.phoneNumberEmail || null}
                             />
                         </>
                     )) ||
