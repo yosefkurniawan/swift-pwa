@@ -1,6 +1,6 @@
 import Layout from '@layout';
 import { useFormik } from 'formik';
-import { regexPhone } from '@helper_regex';
+import { regexPhone, regexEmail } from '@helper_regex';
 import * as Yup from 'yup';
 import Router from 'next/router';
 import { requestLinkToken, otpConfig } from '../../services/graphql';
@@ -31,14 +31,23 @@ const ForgotPassword = (props) => {
             email: '',
             otp: '',
             phoneNumber: '',
-            phoneNumberExclusive: '',
+            phoneNumberEmail: '',
         },
         validationSchema: Yup.object().shape({
             email: useEmail && Yup.string().required(t('validate:email:required')),
-            phoneNumberExclusive:
+            phoneNumberEmail:
                 useForgotWithPhone &&
                 !data.otpConfig.otp_enable[0].enable_otp_forgot_password &&
-                Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
+                Yup.string()
+                    .required(t('validate:phoneEmail:required'))
+                    .test('phoneEmail', t('validate:phoneEmail:wrong'), (value) => {
+                        const emailRegex = regexEmail.test(value);
+                        const phoneRegex = regexPhone.test(value);
+                        if (!emailRegex && !phoneRegex) {
+                            return false;
+                        }
+                        return true;
+                    }),
             phoneNumber:
                 !useEmail &&
                 !useForgotWithPhone &&
@@ -53,11 +62,27 @@ const ForgotPassword = (props) => {
                 Yup.string().required('Otp is required'),
         }),
         onSubmit: (values) => {
-            console.log(values);
             setLoad(true);
+
+            let email, phone;
+
+            if (useForgotWithPhone) {
+                email = values.phoneNumberEmail;
+                phone = values.phoneNumberEmail;
+            } else {
+                email = values.email;
+                phone = values.phoneNumber;
+            }
+
             const getVariables = () => {
                 if (useForgotWithPhone) {
-                    return { phoneNumber: values.phoneNumberExclusive, otp: '', email: '' };
+                    if (regexEmail.test(values.phoneNumberEmail) && !regexPhone.test(values.phoneNumberEmail)) {
+                        console.log('email');
+                        return { phoneNumber: '', otp: '', email: values.phoneNumberEmail };
+                    } else {
+                        console.log('phone number');
+                        return { phoneNumber: values.phoneNumberEmail, otp: '', email: '' };
+                    }
                 } else {
                     if (useEmail) {
                         return { phoneNumber: '', otp: '', email: values.email };
@@ -72,29 +97,47 @@ const ForgotPassword = (props) => {
                 .then((res) => {
                     setLoad(false);
                     const { token, message } = res.data.requestLinkForgotPassword;
+
                     if (token) {
                         setToast({
                             open: true,
                             variant: 'success',
-                            text: t('forgotpassword:success'),
+                            text: `${t('forgotpassword:successPhone', { phone })}`,
                         });
                         setTimeout(() => {
                             Router.push(`/customer/account/createPassword?token=${token}`);
                         }, 3000);
                     } else {
-                        setToast({
-                            open: true,
-                            variant: 'success',
-                            text: message || t('forgotpassword:successEmail1') + values.email + t('forgotpassword:successEmail2'),
-                        });
+                        if (message == 'Email is not registered.') {
+                            setToast({
+                                open: true,
+                                variant: 'error',
+                                text: `${t('forgotpassword:failedEmail', { email })}`,
+                            });
+                            setLoad(false);
+                        } else {
+                            setToast({
+                                open: true,
+                                variant: 'success',
+                                text: `${t('forgotpassword:successEmail', { email })}`,
+                            });
+                        }
                     }
                 })
                 .catch((e) => {
-                    setToast({
-                        open: true,
-                        variant: 'error',
-                        text: e.message.split(':')[1] || t('forgotpassword:failed'),
-                    });
+                    if (e.message == 'phone number is not registered.') {
+                        setToast({
+                            open: true,
+                            variant: 'error',
+                            text: t('forgotpassword:failedPhone', { phone }),
+                        });
+                    } else {
+                        setToast({
+                            open: true,
+                            variant: 'error',
+                            text: e.message.split(':')[1] || t('forgotpassword:failed'),
+                        });
+                    }
                     setLoad(false);
                 });
         },
@@ -103,7 +146,6 @@ const ForgotPassword = (props) => {
     const handleSwitch = () => {
         setToast({ ...toast, open: false });
         setUseEmail(!useEmail);
-        // setUseForgotWithPhone(false);
         if (data && data.otpConfig.otp_enable[0].enable_otp_forgot_password) {
             setDisabled(!disabled);
         }
