@@ -141,6 +141,17 @@ export const getProduct = (key) => {
                     url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height})
                     label
                 }
+                price_tiers {
+                    discount {
+                      percent_off
+                      amount_off
+                    }
+                    final_price {
+                      currency
+                      value
+                    }
+                    quantity
+                }
                 price_range{
                     maximum_price {
                         final_price {
