@@ -30,6 +30,12 @@ export const loginConfig = () => useQuery(Schema.loginConfig);
 
 export const registerConfig = () => useQuery(Schema.registerConfig);
 
+export const featuresConfig = () => useQuery(Schema.featuresConfig);
+
+export const categoryListConfig = () => useQuery(Schema.categoryListConfig);
+
+export const bannerSliderConfig = () => useQuery(Schema.bannerSliderConfig);
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
@@ -45,4 +51,7 @@ export default {
     quickViewConfig,
     loginConfig,
     registerConfig,
+    featuresConfig,
+    categoryListConfig,
+    bannerSliderConfig,
 };

@@ -1,16 +1,23 @@
 /* eslint-disable consistent-return */
-import { modules } from '@config';
+import { useEffect } from 'react';
 import gqlService from '@core_modules/home/service/graphql';
+import { categoryListConfig } from '@root/core/services/graphql/repository/pwa_config';
 
 const CategoryList = ({
     storeConfig, t, CategoryListSkeleton, ErrorInfo, CategoryListView,
 }) => {
-    const { home } = modules;
-    const { loading, data, error } = gqlService.getCategoryList({
-        url_key: home.categoryList.url_key,
-    });
+    const { loading: categoryListConfigLoading, data: categoryListConfigData } = categoryListConfig();
+    const [loadCategoryList, { loading, data, error }] = gqlService.getCategoryList();
 
-    if (loading) return <CategoryListSkeleton />;
+    useEffect(() => {
+        if (!categoryListConfigLoading && categoryListConfigData) {
+            loadCategoryList({
+                variables: { url_key: categoryListConfigData.storeConfig.pwa.category_list_url_key },
+            });
+        }
+    }, [categoryListConfigLoading, categoryListConfigData]);
+
+    if (loading || categoryListConfigLoading) return <CategoryListSkeleton />;
     if (error) {
         return (
             <ErrorInfo variant="error" text={t('home:errorFetchData')} />
