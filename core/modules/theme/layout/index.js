@@ -72,14 +72,13 @@ const Layout = (props) => {
     let appName = '';
     let installMessage = '';
     let showPopup = false;
-    let iconAppleTouch = '/assets/img/swiftpwa_apple_touch.png';
-
+    let iconAppleTouch = storeConfig.pwa.icon_apple_touch || '/assets/img/swiftpwa_apple_touch.png';
+    
     if (!loadPopupConfig && dataPopupConfig && dataPopupConfig.storeConfig
         && dataPopupConfig.storeConfig.pwa && dataPopupConfig.storeConfig.pwa.app_name) {
         appName = dataPopupConfig.storeConfig.pwa.app_name;
         showPopup = dataPopupConfig.storeConfig.pwa.custom_install_app_enable;
         installMessage = dataPopupConfig.storeConfig.pwa.install_message || 'Install';
-        iconAppleTouch = dataPopupConfig.storeConfig.pwa.icon_apple_touch;
     }
 
     // const [mainMinimumHeight, setMainMinimumHeight] = useState(0);
