@@ -10,62 +10,27 @@ import { custDataNameCookie, features, modules } from '@config';
 import {
     getCategories, getCustomer, removeToken, getVesMenu,
 } from '@core_modules/theme/services/graphql';
-import { vesMenuConfig } from '@services/graphql/repository/pwa_config';
+import Content from '@core_modules/theme/components/header/desktop/components';
 
 const CoreTopNavigation = (props) => {
     const {
-        Content, storeConfig, t, app_cookies, isLogin, showGlobalPromo, ...other
+        dataVesMenu, storeConfig, t, app_cookies, isLogin, showGlobalPromo,
     } = props;
+    let data = dataVesMenu;
+    let loading = dataVesMenu ? false : true;
+    if(!data && storeConfig && storeConfig.pwa) {
+        const { data: dataVesMenu, loading: loadingVesMenu } = storeConfig.pwa.ves_menu_enable
+            ? getVesMenu({
+                variables: {
+                    alias: storeConfig.pwa.ves_menu_alias,
+                },
+            })
+            : getCategories();
+        data = dataVesMenu;
+        loading = loadingVesMenu;
+    }
     const [value, setValue] = React.useState('');
     const [deleteTokenGql] = removeToken();
-    const [stateData, setData] = React.useState({
-        loading: true,
-        data: null,
-    });
-    const { loading: loadConfig, data: dataConfig, error: errorConfig } = vesMenuConfig();
-    const [actGetVestMenu, {
-        loading: loadVesMenu, data: dataVesmenu,
-    }] = getVesMenu();
-    const [actGetCategory, { loading: loadCategory, data: dataCategory }] = getCategories();
-
-    React.useEffect(() => {
-        if (!loadVesMenu && dataVesmenu && dataVesmenu.vesMenu) {
-            setData({
-                ...stateData,
-                loading: false,
-                data: dataVesmenu,
-            });
-        }
-    }, [dataVesmenu]);
-
-    React.useEffect(() => {
-        if (!loadCategory && dataCategory && dataCategory.vesMenu) {
-            setData({
-                ...stateData,
-                loading: false,
-                data: dataCategory,
-            });
-        }
-    }, [dataCategory]);
-
-    React.useEffect(() => {
-        setData({
-            ...stateData,
-            loading: true,
-        });
-        if (!loadConfig && !errorConfig && dataConfig && dataConfig.storeConfig) {
-            if (dataConfig.storeConfig.pwa.ves_menu_enable) {
-                actGetVestMenu({
-                    variables: {
-                        alias: dataConfig.storeConfig.pwa.ves_menu_alias,
-                    },
-                });
-            } else {
-                actGetCategory();
-            }
-        }
-    }, [dataConfig]);
-
     let customerData = {};
     if (isLogin && typeof window !== 'undefined') {
         const customer = getCustomer();
@@ -120,31 +85,24 @@ const CoreTopNavigation = (props) => {
             });
         }
     };
-
-    if (!loadConfig && !errorConfig && dataConfig && dataConfig.storeConfig) {
-        return (
-            <Content
-                {...other}
-                t={t}
-                isLogin={isLogin}
-                data={stateData.data}
-                loading={stateData.loading}
-                vesMenuConfig={dataConfig.storeConfig.pwa}
-                storeConfig={storeConfig}
-                handleSearch={handleSearch}
-                searchByClick={searchByClick}
-                setValue={setValue}
-                customer={customerData}
-                handleLogout={handleLogout}
-                value={value}
-                app_cookies={app_cookies}
-                showGlobalPromo={showGlobalPromo}
-                modules={modules}
-            />
-        );
-    }
-
-    return null;
+    return (
+        <Content
+            t={t}
+            isLogin={isLogin}
+            data={data}
+            loading={loading}
+            storeConfig={storeConfig}
+            handleSearch={handleSearch}
+            searchByClick={searchByClick}
+            setValue={setValue}
+            customer={customerData}
+            handleLogout={handleLogout}
+            value={value}
+            app_cookies={app_cookies}
+            showGlobalPromo={showGlobalPromo}
+            modules={modules}
+        />
+    );
 };
 
 export default CoreTopNavigation;

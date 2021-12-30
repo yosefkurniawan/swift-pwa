@@ -36,6 +36,7 @@ const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/rece
 const Layout = (props) => {
     const bodyStyles = useStyles();
     const {
+        dataVesMenu,
         pageConfig,
         children,
         app_cookies,
@@ -249,6 +250,7 @@ const Layout = (props) => {
                                 enablePopupInstallation={showPopup}
                                 appName={appName}
                                 installMessage={installMessage}
+                                dataVesMenu={dataVesMenu}
                             />
                         ) : null}
                     </div>
