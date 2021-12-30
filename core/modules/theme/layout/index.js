@@ -72,8 +72,10 @@ const Layout = (props) => {
     let appName = '';
     let installMessage = '';
     let showPopup = false;
-    let iconAppleTouch = storeConfig.pwa.icon_apple_touch || '/assets/img/swiftpwa_apple_touch.png';
-    
+    let iconAppleTouch = '/assets/img/swiftpwa_apple_touch.png';
+    if(storeConfig && storeConfig.pwa) {
+        iconAppleTouch = storeConfig.pwa.icon_apple_touch
+    }
     if (!loadPopupConfig && dataPopupConfig && dataPopupConfig.storeConfig
         && dataPopupConfig.storeConfig.pwa && dataPopupConfig.storeConfig.pwa.app_name) {
         appName = dataPopupConfig.storeConfig.pwa.app_name;
