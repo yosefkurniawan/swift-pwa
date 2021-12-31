@@ -6,14 +6,16 @@ import dynamic from 'next/dynamic';
 import Typography from '@common_typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+
+import useStyles from '@plugin_optionitem/ConfigurableOption/style';
 // import SelectOption from '@common_optionconfigurable';
 const CustomRadio = dynamic(() => import('@common_radio'), { ssr: true });
 const SelectOption = dynamic(() => import('@common_optionconfigurable'), { ssr: true });
 
-import useStyles from '@plugin_optionitem/ConfigurableOption/style';
-
 const ItemConfigurableView = (props) => {
-    const { option, selected, value, handleSelect, error, loading, configProduct, isGrid, disableItem, ...other } = props;
+    const {
+        option, selected, value, handleSelect, error, loading, configProduct, isGrid, disableItem, ...other
+    } = props;
     const styles = useStyles();
     const classItem = styles.stylesItemOption;
 

@@ -163,7 +163,7 @@ const Checkout = (props) => {
         disabled: {
             address: false,
         },
-        confirmation : false,
+        confirmation: false,
     });
 
     const [isError, setError] = useState(false);

@@ -111,7 +111,7 @@ const Login = (props) => {
                                 </Typography>
                             </div>
                         </div>
-                        {(!isOtp || desktop) && phonePassword == false && (
+                        {(!isOtp || desktop) && phonePassword === false && (
                             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div className={classNames(styles.spanLabel, 'hidden-mobile')}>
                                     <Typography type="bold" variant="p" className="clear-margin-padding">
@@ -183,7 +183,7 @@ const Login = (props) => {
                                 </form>
                             </div>
                         )}
-                        {(!isOtp || desktop) && phonePassword != false && (
+                        {(!isOtp || desktop) && phonePassword !== false && (
                             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div className={classNames(styles.spanLabel, 'hidden-mobile')}>
                                     <Typography type="bold" variant="p" className="clear-margin-padding">
