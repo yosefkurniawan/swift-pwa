@@ -13,7 +13,7 @@ import { useQuery } from '@apollo/client';
 import { expiredToken, custDataNameCookie, recaptcha, modules } from '@config';
 import Router from 'next/router';
 import Cookies from 'js-cookie';
-import { regexPhone } from '@helper_regex';
+import { regexPhone, regexEmail } from '@helper_regex';
 import { useFormik } from 'formik';
 import dynamic from 'next/dynamic';
 import * as Yup from 'yup';
@@ -23,6 +23,7 @@ import { getAppEnv } from '@helpers/env';
 import {
     getToken,
     getTokenOtp,
+    getTokenPhoneEmail,
     removeToken as deleteToken,
     otpConfig as queryOtpConfig,
     getCustomerCartId,
@@ -159,6 +160,7 @@ const Login = (props) => {
     const [deleteTokenGql] = deleteToken();
     const [getCustomerToken] = getToken();
     const [getCustomerTokenOtp] = getTokenOtp();
+    const [getCustomerTokenPhoneEmail] = getTokenPhoneEmail();
     const cartData = getCustomerCartId({
         skip: !cusIsLogin,
     });
@@ -214,34 +216,54 @@ const Login = (props) => {
         otp: Yup.number().required('Otp is required'),
         captcha: enableRecaptcha && Yup.string().required(t('validate:captcha:required')),
     });
+    const LoginPhoneEmailSchema = Yup.object().shape({
+        username: Yup.string()
+            .required(t('validate:phoneEmail:required'))
+            .test('phoneEmail', t('validate:phoneEmail:wrong'), (value) => {
+                const emailRegex = regexEmail.test(value);
+                const phoneRegex = regexPhone.test(value);
+                if (!emailRegex && !phoneRegex) {
+                    return false;
+                }
+                return true;
+            }),
+        password: Yup.string().required(t('validate:password:required')),
+    });
 
     const handleSubmit = (formOtp, variables) => {
         let getTokenCustomer;
-        if (formOtp) {
+        if (formOtp == 'otp') {
             getTokenCustomer = getCustomerTokenOtp;
-        } else {
+        } else if (formOtp == 'password') {
             getTokenCustomer = getCustomerToken;
+        } else if (formOtp == 'phoneEmail') {
+            getTokenCustomer = getCustomerTokenPhoneEmail;
         }
         setDisabled(true);
         setLoading(true);
         window.backdropLoader(true);
+        console.log(formOtp);
         const sendData = (data) => {
             getTokenCustomer({
                 variables: data,
             })
                 .then(async (res) => {
                     let token = '';
-                    if (formOtp) {
+                    if (formOtp == 'otp') {
                         token = res.data.internalGenerateCustomerTokenOtp.token;
-                    } else {
+                    } else if (formOtp == 'password') {
                         token = res.data.internalGenerateCustomerToken.token;
+                    } else if (formOtp == 'phoneEmail') {
+                        token = res.data.internalGenerateCustomerTokenCustom.token;
                     }
                     if (token) {
+                        console.log(token);
                         setLogin(1, expired);
                         await setIsLogin(1);
                     }
                 })
                 .catch((e) => {
+                    console.log(1);
                     setDisabled(false);
                     setLoading(false);
                     window.backdropLoader(false);
@@ -292,6 +314,23 @@ const Login = (props) => {
         }
     };
 
+    const formikPhoneEmail = useFormik({
+        initialValues: {
+            username: '',
+            password: '',
+            captcha: '',
+        },
+        validationSchema: LoginPhoneEmailSchema,
+        onSubmit: (values) => {
+            const variables = {
+                username: values.username,
+                password: values.password,
+                captcha: values.captcha,
+            };
+            handleSubmit('phoneEmail', variables);
+        },
+    });
+
     const formikOtp = useFormik({
         initialValues: {
             username: '',
@@ -305,7 +344,7 @@ const Login = (props) => {
                 otp: values.otp,
                 captcha: values.captcha,
             };
-            handleSubmit(true, variables);
+            handleSubmit('otp', variables);
         },
     });
 
@@ -323,7 +362,7 @@ const Login = (props) => {
                 password: values.password,
                 captcha: values.captcha,
             };
-            handleSubmit(false, variables);
+            handleSubmit('password', variables);
         },
     });
 
@@ -431,6 +470,7 @@ const Login = (props) => {
         <Layout {...props} pageConfig={pageConfig || config}>
             <Content
                 formik={formik}
+                formikPhoneEmail={formikPhoneEmail}
                 otpConfig={otpConfig}
                 isOtp={isOtp}
                 setIsOtp={setIsOtp}
@@ -447,6 +487,7 @@ const Login = (props) => {
                 handleChangeCaptcha={handleChangeCaptcha}
                 recaptchaRef={recaptchaRef}
                 query={query}
+                phonePassword={storeConfig.login_phone_password}
             />
         </Layout>
     );

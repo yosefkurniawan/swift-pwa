@@ -38,6 +38,39 @@ const Loader = () => (
     </>
 );
 
+const PaymentGroupIcon = (props) => {
+    const { baseMediaUrl, src } = props;
+    const fallbacks = [`${baseMediaUrl}checkout/payment/paymenticons-${src.replace('pg-', '')}.svg`, null];
+    const styles = useStyles();
+
+    // check if image exist on the backoffice, otherwise use fallback image from PWA
+    const [imageSrc, setImageSrc] = React.useState(`./assets/img/paymenticons-${src.replace('pg-', '')}.svg`);
+    const [fallbackImageIndex, setFallbackImageIndex] = React.useState(0);
+
+    // set image fallback url
+    const getFallbackImageSrc = () => {
+        if (fallbackImageIndex > fallbacks.length) {
+            return;
+        }
+        setImageSrc(fallbacks[fallbackImageIndex]);
+        setFallbackImageIndex(fallbackImageIndex + 1);
+    };
+
+    return (
+        <>
+            {(imageSrc && (
+                <img
+                    className={styles.paymentGroupStyleIcon}
+                    src={imageSrc}
+                    alt={src.replace('pg-', '')}
+                    onError={() => getFallbackImageSrc()}
+                />
+            ))
+                || ''}
+        </>
+    );
+};
+
 /**
  * [VIEW] Payment
  * @param {object} props
@@ -58,6 +91,7 @@ const PaymentView = (props) => {
         paypalTokenData,
         paypalHandlingProps,
         initialOptionPaypal,
+        storeConfig,
     } = props;
     const { modules } = commonConfig;
     const [expanded, setExpanded] = React.useState(null);
@@ -158,12 +192,15 @@ const PaymentView = (props) => {
                                             id={`panel-${item.group}`}
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
-                                            <Typography letter="uppercase" variant="span" type="bold">
-                                                {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
+                                            <div className={styles.labelSummary}>
+                                                <PaymentGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
+                                                <Typography letter="uppercase" variant="span" type="bold">
+                                                    {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
                                                     === `paymentGrouping.${item.group.replace('pg-', '')}`
-                                                    ? item.group.replace('pg-', '')
-                                                    : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)}
-                                            </Typography>
+                                                        ? item.group.replace('pg-', '')
+                                                        : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)}
+                                                </Typography>
+                                            </div>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails>
                                             <Grid container>

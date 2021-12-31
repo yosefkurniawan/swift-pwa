@@ -144,6 +144,7 @@ const Checkout = (props) => {
             giftCard: false,
             extraFee: false,
             paypal: false,
+            confirmation: false,
         },
         status: {
             addresses: false,
@@ -162,6 +163,7 @@ const Checkout = (props) => {
         disabled: {
             address: false,
         },
+        confirmation: false,
     });
 
     const [isError, setError] = useState(false);
@@ -217,6 +219,7 @@ const Checkout = (props) => {
     Yup.addMethod(Yup.string, 'equalTo', equalTo);
 
     const CheckoutSchema = Yup.object().shape({
+        confirmation: checkout.confirmation ? '' : Yup.bool().oneOf([true], 'Accept Ts & Cs is required'),
         email: checkout.data.isGuest ? Yup.string().nullable().email(t('validate:email:wrong')).required(t('validate:email.required')) : null,
         payment: Yup.string().nullable().required(t('validate:required')),
         oldEmail: checkout.data.isGuest ? Yup.string().equalTo(Yup.ref('email')) : null,
@@ -238,6 +241,7 @@ const Checkout = (props) => {
             shipping: null,
             payment: null,
             billing: null,
+            confirmation: false,
         },
         validationSchema: CheckoutSchema,
         onSubmit: () => { },

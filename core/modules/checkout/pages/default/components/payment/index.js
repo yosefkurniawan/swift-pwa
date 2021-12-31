@@ -22,7 +22,9 @@ export default function CustomizedExpansionPanels({
      * [METHOD] handle when get result from set payment method
      * @param {state, result, val, cart} params
      */
-    const onHandleResult = ({ state, result, val, cart }) => {
+    const onHandleResult = ({
+        state, result, val, cart,
+    }) => {
         state = {
             ...checkout,
             selected: {

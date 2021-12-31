@@ -165,6 +165,9 @@ const OptionsItemsBundle = (props) => {
             const options = [];
             for (let index = 0; index < items.length; index++) {
                 const element = items[index];
+                const optionQty = element.qty
+                    ? element.qty
+                    : element.options.find((option) => option.is_default).quantity || 1;
                 const value = [];
                 for (let idx = 0; idx < element.options.length; idx++) {
                     const opt = element.options[idx];
@@ -174,7 +177,7 @@ const OptionsItemsBundle = (props) => {
                 }
                 options.push({
                     id: element.option_id,
-                    quantity: element.qty || 1,
+                    quantity: optionQty,
                     value,
                 });
             }
