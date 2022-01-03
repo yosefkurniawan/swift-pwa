@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
 import React from 'react';

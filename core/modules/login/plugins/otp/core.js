@@ -82,16 +82,16 @@ const OtpBlock = ({
                 });
             }).catch((e) => {
                 window.backdropLoader(false);
-                if (e.message == 'phone number is already Registered') {
+                if (e.message === 'phone number is already Registered') {
                     window.toastMessage({
                         open: true,
-                        text: `${t('otp:registerOtpFailed', {phoneNumber})}`,
+                        text: `${t('otp:registerOtpFailed', { phoneNumber })}`,
                         variant: 'error',
                     });
-                } else if (e.message == 'Max retries exceeded') {
+                } else if (e.message === 'Max retries exceeded') {
                     window.toastMessage({
                         open: true,
-                        text: `${t('otp:registerOtpTooManyRetries', {phoneNumber})}`,
+                        text: `${t('otp:registerOtpTooManyRetries', { phoneNumber })}`,
                         variant: 'error',
                     });
                 } else {
