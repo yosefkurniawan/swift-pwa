@@ -29,6 +29,9 @@ export const storeConfig = `
             logo_alt
             logo_width
             logo_height
+            pwa {
+              default_robot
+            }
             store_name
             welcome
             timezone
@@ -45,6 +48,8 @@ export const storeConfig = `
             aw_blog_general_enabled
             pickup_store
             cookie_restriction
+            login_phone_password
+            forgot_password_phone
             global_promo {
               enable
               text_color

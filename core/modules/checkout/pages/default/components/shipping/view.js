@@ -12,10 +12,8 @@ import Alert from '@material-ui/lab/Alert';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 
 import {
-    ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle, IconAccordion,
+    ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle,
 } from './style';
-
-const IconLabel = withStyles(IconAccordion)(({ classes, label }) => <div id={`${label}Icon`} className={classes[label]} />);
 
 const Accordion = withStyles(ExpanPanelStyle)(MuiAccordion);
 
@@ -31,9 +29,44 @@ const Loader = () => (
     </>
 );
 
+const ShippingGroupIcon = (props) => {
+    const { baseMediaUrl, src } = props;
+    const fallbacks = [`${baseMediaUrl}checkout/shipping/shipping-${src.replace('sg-', '')}.svg`, null];
+    const styles = useStyles();
+
+    // check if image exist on the backoffice, otherwise use fallback image from PWA
+    const [imageSrc, setImageSrc] = React.useState(`./assets/img/shipping-${src.replace('sg-', '')}.svg`);
+    const [fallbackImageIndex, setFallbackImageIndex] = React.useState(0);
+
+    // set image fallback url
+    const getFallbackImageSrc = () => {
+        if (fallbackImageIndex > fallbacks.length) {
+            return;
+        }
+        setImageSrc(fallbacks[fallbackImageIndex]);
+        setFallbackImageIndex(fallbackImageIndex + 1);
+    };
+
+    return (
+        <>
+            {(imageSrc && (
+                <img
+                    className={styles.shippingGroupStyleIcon}
+                    src={imageSrc}
+                    alt={src.replace('sg-', '')}
+                    onError={() => getFallbackImageSrc()}
+                />
+            ))
+                || ''}
+        </>
+    );
+};
+
 const ShippingView = (props) => {
     const styles = useStyles();
-    const { isOnlyVirtualProductOnCart, checkout, storeConfig, loading, selected, handleShipping, data, t, shippingMethodList } = props;
+    const {
+        isOnlyVirtualProductOnCart, checkout, storeConfig, loading, selected, handleShipping, data, t, shippingMethodList,
+    } = props;
     let content;
     const [expanded, setExpanded] = React.useState(null);
     const [expandedActive, setExpandedActive] = React.useState(true);
@@ -51,8 +84,8 @@ const ShippingView = (props) => {
         content = <Loader />;
     } else if (data.shippingMethods.length !== 0) {
         const available = data.shippingMethods;
-        const config =
-            shippingMethodList && shippingMethodList.storeConfig ? JSON.parse(`${shippingMethodList.storeConfig.shipments_configuration}`) : {};
+        const config = shippingMethodList && shippingMethodList.storeConfig
+            ? JSON.parse(`${shippingMethodList.storeConfig.shipments_configuration}`) : {};
         const group = config ? Object.keys(config) : [];
         const shipping = [];
         for (let index = 0; index < group.length; index += 1) {
@@ -133,9 +166,9 @@ const ShippingView = (props) => {
                                 return (
                                     <Accordion
                                         expanded={
-                                            expanded === keyIndex || // if key index same with expanded active
-                                            (item.active && expandedActive) || // expand if item active and not change expand
-                                            (!itemActive && expandedActive && keyIndex === 0)
+                                            expanded === keyIndex // if key index same with expanded active
+                                            || (item.active && expandedActive) // expand if item active and not change expand
+                                            || (!itemActive && expandedActive && keyIndex === 0)
                                         } // if dont have item active, set index 0 to active
                                         onChange={handleChange(keyIndex)}
                                         key={keyIndex}
@@ -146,11 +179,11 @@ const ShippingView = (props) => {
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
                                             <div className={styles.labelAccordion}>
-                                                <IconLabel label={item.group.replace('sg-', '')} />
+                                                <ShippingGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
                                                 <Typography letter="uppercase" variant="span" type="bold">
-                                                    {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`) ===
-                                                    `shippingGrouping.${item.group.replace('sg-', '')}`
-                                                        ? item.group.replace('pg-', '')
+                                                    {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
+                                                    === `shippingGrouping.${item.group.replace('sg-', '')}`
+                                                        ? item.group.replace('sg-', '')
                                                         : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
                                                 </Typography>
                                             </div>
@@ -181,9 +214,9 @@ const ShippingView = (props) => {
                     </div>
 
                     <div className={styles.listError}>
-                        {error &&
-                            error.length > 0 &&
-                            error.map((msg, key) => (
+                        {error
+                            && error.length > 0
+                            && error.map((msg, key) => (
                                 <Alert key={key} style={{ fontSize: 10, marginBottom: 5 }} severity="error">
                                     {msg}
                                 </Alert>
