@@ -18,6 +18,7 @@ import ExtraFee from '@core_modules/checkout/pages/default/components/ExtraFee';
 import PromoModalItem from '@core_modules/checkout/pages/default/components/PromoModalItem';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 import InStorePickup from '@core_modules/checkout/pages/default/components/instorepickup';
+import Confirmation from '@core_modules/checkout/pages/default/components/Confirmation';
 import dynamic from 'next/dynamic';
 
 const GimmickBanner = dynamic(() => import('@plugin_gimmickbanner'), { ssr: false });
@@ -59,6 +60,9 @@ const Content = (props) => {
         setInitialOptionPaypal,
         initialOptionPaypal,
         setTokenData,
+        refetchDataCart,
+        refetchItemCart,
+        ConfirmationView,
     } = props;
 
     const styles = useStyles();
@@ -148,6 +152,8 @@ const Content = (props) => {
                             storeConfig={storeConfig}
                             formik={formik}
                             isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
+                            refetchDataCart={refetchDataCart}
+                            refetchItemCart={refetchItemCart}
                         />
                     ) : checkout.selected.delivery === 'pickup' ? (
                             <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
@@ -257,6 +263,15 @@ const Content = (props) => {
                         initialOptionPaypal={initialOptionPaypal}
                         setTokenData={setTokenData}
                     />
+                    
+                    <Confirmation
+                        t={t}
+                        checkout={checkout}
+                        setCheckout={setCheckout}
+                        storeConfig={storeConfig}
+                        ConfirmationView={ConfirmationView}
+                    />
+                    
                     {modules.checkout.orderComment.enabled ? (
                         <div className={classNames(styles.block)}>
                             <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">
@@ -304,7 +319,7 @@ const Content = (props) => {
                     onClick={handleClick}
                     fullWidth
                     loading={loading}
-                    disabled={disabled || checkout.error.shippingAddress || (isSelectedPurchaseOrder && !isPurchaseOrderApply)}
+                    disabled={disabled || checkout.error.shippingAddress || (isSelectedPurchaseOrder && !isPurchaseOrderApply) || (storeConfig.minimum_order_enable && checkout.data.cart.prices.grand_total.value < storeConfig.minimum_order_amount)}
                     className={styles.placeOrderDesktop}
                 >
                     <Typography variant="span" letter="uppercase" type="bold" color="white">

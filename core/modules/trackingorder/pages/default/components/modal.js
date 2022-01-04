@@ -57,12 +57,13 @@ const ModalResult = (props) => {
                         const listField = gosend ? trackingorder.fieldDetail.gosend : trackingorder.fieldDetail.shipperid;
 
                         if (
+                            modalType.toLowerCase().includes('logistix') ||
                             modalType.toLowerCase().includes('jne') ||
                             modalType.toLowerCase().includes('sap') ||
                             modalType.toLowerCase().includes('shipperid') ||
                             modalType.toLowerCase().includes('anteraja')
                         ) {
-                            trackOrder = <ShipperView type={modalType} data={modalData} styles={styles} t={t} />;
+                            trackOrder = <ShipperView type={modalType} data={modalData} orders={orders} styles={styles} t={t} />;
                         } else {
                             const keys = Object.keys(dt);
                             for (let idx = 0; idx < keys.length; idx += 1) {

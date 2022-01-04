@@ -29,6 +29,9 @@ export const storeConfig = `
             logo_alt
             logo_width
             logo_height
+            pwa {
+              default_robot
+            }
             store_name
             welcome
             timezone
@@ -38,15 +41,15 @@ export const storeConfig = `
             website_id
             weight_unit
             oauth_access_token_lifetime_customer
-            payments_configuration
             pwa_checkout_debug_enable
-            shipments_configuration
             snap_client_key
             allow_guest_checkout
             snap_is_production
             aw_blog_general_enabled
             pickup_store
             cookie_restriction
+            login_phone_password
+            forgot_password_phone
             global_promo {
               enable
               text_color
@@ -74,6 +77,10 @@ export const storeConfig = `
             aw_blog_related_products_display_add_to_cart
             weltpixel_RecentlyViewedBar_general_enable
             weltpixel_thankyoupage_create_account_enable
+            pin_location_latitude
+            pin_location_longitude
+            minimum_order_amount
+            minimum_order_enable
         }
     }
 `;

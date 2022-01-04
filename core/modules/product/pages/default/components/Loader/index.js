@@ -318,6 +318,24 @@ const SkeletonLoader = (props) => {
                                 marginTop: '6px',
                             }}
                         />
+                        <Skeleton
+                            animation="wave"
+                            variant="text"
+                            width={316}
+                            height={15}
+                            mdStyle={{
+                                marginTop: '8px',
+                            }}
+                        />
+                        <Skeleton
+                            animation="wave"
+                            variant="text"
+                            width={70}
+                            height={15}
+                            mdStyle={{
+                                marginTop: '6px',
+                            }}
+                        />
                     </div>
                 </div>
             </div>

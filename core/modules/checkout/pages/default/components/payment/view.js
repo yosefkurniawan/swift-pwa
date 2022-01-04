@@ -38,6 +38,39 @@ const Loader = () => (
     </>
 );
 
+const PaymentGroupIcon = (props) => {
+    const { baseMediaUrl, src } = props;
+    const fallbacks = [`${baseMediaUrl}checkout/payment/paymenticons-${src.replace('pg-', '')}.svg`, null];
+    const styles = useStyles();
+
+    // check if image exist on the backoffice, otherwise use fallback image from PWA
+    const [imageSrc, setImageSrc] = React.useState(`./assets/img/paymenticons-${src.replace('pg-', '')}.svg`);
+    const [fallbackImageIndex, setFallbackImageIndex] = React.useState(0);
+
+    // set image fallback url
+    const getFallbackImageSrc = () => {
+        if (fallbackImageIndex > fallbacks.length) {
+            return;
+        }
+        setImageSrc(fallbacks[fallbackImageIndex]);
+        setFallbackImageIndex(fallbackImageIndex + 1);
+    };
+
+    return (
+        <>
+            {(imageSrc && (
+                <img
+                    className={styles.paymentGroupStyleIcon}
+                    src={imageSrc}
+                    alt={src.replace('pg-', '')}
+                    onError={() => getFallbackImageSrc()}
+                />
+            ))
+                || ''}
+        </>
+    );
+};
+
 /**
  * [VIEW] Payment
  * @param {object} props
@@ -46,8 +79,19 @@ const Loader = () => (
 const PaymentView = (props) => {
     const styles = useStyles();
     const {
-        loading, data, checkout, storeConfig, t, handlePayment, handlePurchaseOrder,
-        handlePurchaseOrderSubmit, selected, paypalTokenData, paypalHandlingProps, initialOptionPaypal,
+        loading,
+        data,
+        checkout,
+        t,
+        paymentMethodList,
+        handlePayment,
+        handlePurchaseOrder,
+        handlePurchaseOrderSubmit,
+        selected,
+        paypalTokenData,
+        paypalHandlingProps,
+        initialOptionPaypal,
+        storeConfig,
     } = props;
     const { modules } = commonConfig;
     const [expanded, setExpanded] = React.useState(null);
@@ -81,8 +125,8 @@ const PaymentView = (props) => {
         content = <Loader />;
     } else if (data.cart.prices.grand_total.value === 0) {
         content = <Typography variant="p">{t('checkout:noNeedPayment')}</Typography>;
-    } else if (data.paymentMethod.length !== 0 && storeConfig.payments_configuration) {
-        let paymentConfig = JSON.parse(`${storeConfig.payments_configuration}`);
+    } else if (data.paymentMethod.length !== 0 && paymentMethodList && paymentMethodList.storeConfig) {
+        let paymentConfig = JSON.parse(`${paymentMethodList.storeConfig.payments_configuration}`);
         const groups = paymentConfig ? Object.keys(paymentConfig) : [];
         // create grouping by config
         paymentConfig = groups.map((key) => {
@@ -148,12 +192,15 @@ const PaymentView = (props) => {
                                             id={`panel-${item.group}`}
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
-                                            <Typography letter="uppercase" variant="span" type="bold">
-                                                {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
-                                                === `paymentGrouping.${item.group.replace('pg-', '')}`
-                                                    ? item.group.replace('pg-', '')
-                                                    : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)}
-                                            </Typography>
+                                            <div className={styles.labelSummary}>
+                                                <PaymentGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
+                                                <Typography letter="uppercase" variant="span" type="bold">
+                                                    {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
+                                                    === `paymentGrouping.${item.group.replace('pg-', '')}`
+                                                        ? item.group.replace('pg-', '')
+                                                        : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)}
+                                                </Typography>
+                                            </div>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails>
                                             <Grid container>
@@ -166,8 +213,9 @@ const PaymentView = (props) => {
                                                             CustomItem={RadioItem}
                                                             ComponentOptional={(item) => {
                                                                 // prettier-ignore
-                                                                const isPurchaseOrder = item.code === PO || selected.payment === PO;
+                                                                const isPurchaseOrder = item.code === PO && selected.payment === PO;
                                                                 const isPaypal = item.code === PaypalCode && selected.payment === PaypalCode;
+
                                                                 if (isPurchaseOrder) {
                                                                     return (
                                                                         <Grid item xs={12}>
@@ -187,8 +235,11 @@ const PaymentView = (props) => {
                                                                         </Grid>
                                                                     );
                                                                 }
-                                                                if (isPaypal && !paypalTokenData.loading
-                                                                    && initialOptionPaypal['data-order-id'] !== '') {
+                                                                if (
+                                                                    isPaypal
+                                                                    && !paypalTokenData.loading
+                                                                    && initialOptionPaypal['data-order-id'] !== ''
+                                                                ) {
                                                                     return (
                                                                         <Grid item xs={12} lg="3" md="4">
                                                                             <PayPalScriptProvider defer options={initialOptionPaypal}>
