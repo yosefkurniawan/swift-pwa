@@ -19,8 +19,8 @@ const Item = (props) => {
                 <ul>
                     {children.map((val, idx) => (
                         <li key={idx} className={styles.listBrand}>
-                            {val.category_url ? (
-                                <Link href="/[...slug]" as={`/${val.category_url.replace('.html', '')}`}>
+                            {val.attribute_id ? (
+                                <Link href={`/catalogsearch/advanced/result?brand[]=${val.attribute_id}`}>
                                     <a>{val.name}</a>
                                 </Link>
                             ) : val.name}
