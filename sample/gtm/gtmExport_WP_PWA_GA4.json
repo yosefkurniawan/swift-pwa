@@ -927,11 +927,6 @@
                         "type": "TEMPLATE",
                         "key": "measurementId",
                         "value": "{{PWA - MEASUREMENT ID}}"
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "value",
-                        "value": "{{Page URL}}{{New History Fragment}}"
                     }
                 ],
                 "monitoringMetadata": {
