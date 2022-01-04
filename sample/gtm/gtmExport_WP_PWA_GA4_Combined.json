@@ -2406,6 +2406,59 @@
             {
                 "accountId": "<<@ACCOUNT_ID>>",
                 "containerId": "<<@CONTAINER_ID>>",
+                "tagId": "59",
+                "name": "PWA - Pageview",
+                "type": "ua",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "overrideGaSettings",
+                        "value": "true"
+                    },
+                    {
+                        "type": "LIST",
+                        "key": "fieldsToSet",
+                        "list": [
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "fieldName",
+                                        "value": "page"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{Page URL}}{{New History Fragment}}"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackType",
+                        "value": "TRACK_PAGEVIEW"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackingId",
+                        "value": "{{PWA - UA Tracking ID}}"
+                    }
+                ],
+                "fingerprint": "1607912598635",
+                "firingTriggerId": [
+                    "59"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                }
+            },
+            {
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "tagId": "60",
                 "name": "PWA - GA4",
                 "type": "gaawc",
@@ -2419,11 +2472,6 @@
                         "type": "TEMPLATE",
                         "key": "measurementId",
                         "value": "{{PWA - MEASUREMENT ID}}"
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "value",
-                        "value": "{{Page URL}}{{New History Fragment}}"
                     }
                 ],
                 "fingerprint": "1640000388522",
@@ -4327,6 +4375,14 @@
             {
                 "accountId": "<<@ACCOUNT_ID>>",
                 "containerId": "<<@CONTAINER_ID>>",
+                "triggerId": "59",
+                "name": "PWA - All History Change",
+                "type": "HISTORY_CHANGE",
+                "fingerprint": "1607669076032"
+            },
+            {
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
                 "triggerId": "57",
                 "name": "PWA - GA4 - view_item_list",
                 "type": "CUSTOM_EVENT",
@@ -5004,11 +5060,6 @@
                         "type": "TEMPLATE",
                         "key": "name",
                         "value": "pageName"
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "value",
-                        "value": "{{Page URL}}{{New History Fragment}}"
                     }
                 ],
                 "fingerprint": "1640000201359"
