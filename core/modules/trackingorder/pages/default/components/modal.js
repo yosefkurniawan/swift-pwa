@@ -63,7 +63,7 @@ const ModalResult = (props) => {
                             modalType.toLowerCase().includes('shipperid') ||
                             modalType.toLowerCase().includes('anteraja')
                         ) {
-                            trackOrder = <ShipperView type={modalType} data={modalData} styles={styles} t={t} />;
+                            trackOrder = <ShipperView type={modalType} data={modalData} orders={orders} styles={styles} t={t} />;
                         } else {
                             const keys = Object.keys(dt);
                             for (let idx = 0; idx < keys.length; idx += 1) {

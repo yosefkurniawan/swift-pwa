@@ -84,7 +84,6 @@ const PaymentView = (props) => {
         loading,
         data,
         checkout,
-        storeConfig,
         t,
         paymentMethodList,
         handlePayment,
@@ -95,6 +94,7 @@ const PaymentView = (props) => {
         paypalHandlingProps,
         initialOptionPaypal,
         travelokaPayRef,
+        storeConfig,
     } = props;
     const { payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id } = storeConfig;
     const { modules } = commonConfig;
@@ -218,7 +218,7 @@ const PaymentView = (props) => {
                                                             CustomItem={RadioItem}
                                                             ComponentOptional={(item) => {
                                                                 // prettier-ignore
-                                                                const isPurchaseOrder = item.code === PO || selected.payment === PO;
+                                                                const isPurchaseOrder = item.code === PO && selected.payment === PO;
                                                                 const isPaypal = item.code === PaypalCode && selected.payment === PaypalCode;
                                                                 const isTravelokaPay = item.code === travelokapay
                                                                     && selected.payment === travelokapay;

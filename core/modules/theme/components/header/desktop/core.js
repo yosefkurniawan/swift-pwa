@@ -33,9 +33,9 @@ const CoreTopNavigation = (props) => {
     }
     const client = useApolloClient();
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         window.backdropLoader(true);
-        deleteTokenGql()
+        await deleteTokenGql()
             .then(() => {
                 Cookies.remove(custDataNameCookie);
                 removeIsLoginFlagging();
@@ -57,7 +57,7 @@ const CoreTopNavigation = (props) => {
             .catch((e) => {
                 window.backdropLoader(false);
                 console.log(e);
-                //
+                Router.push('/customer/account/login');
             });
     };
 
