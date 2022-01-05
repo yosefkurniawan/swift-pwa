@@ -13,7 +13,9 @@ import useStyles from '@core_modules/forgotpassword/pages/default/components/sty
 
 const ForgotPassword = (props) => {
     const styles = useStyles();
-    const { t, loading, data, formik, load, useEmail, handleSwitch, toast, setToast, setDisabled, disabled, useForgotWithPhone } = props;
+    const {
+        t, loading, data, formik, load, useEmail, handleSwitch, toast, setToast, setDisabled, disabled, useForgotWithPhone,
+    } = props;
 
     if (loading || !data) return <Loading open />;
 
@@ -57,8 +59,8 @@ const ForgotPassword = (props) => {
                                 errorMessage={formik.errors.phoneNumberEmail || null}
                             />
                         </>
-                    )) ||
-                        (useEmail && (
+                    ))
+                        || (useEmail && (
                             <>
                                 <Typography variant="span" align="left">
                                     {t('forgotpassword:content')}

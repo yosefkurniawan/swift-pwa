@@ -6,6 +6,6 @@ export default makeStyles(() => ({
         ...FlexColumn,
         ...CreatePadding(0, 20, 0, 20),
         width: '100%',
-        marginTop: "13px",
+        marginTop: '13px',
     },
 }));

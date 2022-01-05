@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
 import React from 'react';
@@ -14,9 +15,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import useStyles from '@core_modules/checkout/pages/default/components/Confirmation/style';
 
 const ConfirmationView = ({
-    t, loading, agreements, checkList, modalList, handleCheckbox, handleOpenModal, handleCloseModal
+    t, loading, agreements, checkList, modalList, handleCheckbox, handleOpenModal, handleCloseModal,
 }) => {
-
     const styles = useStyles();
 
     const Loader = () => (
@@ -35,12 +35,11 @@ const ConfirmationView = ({
         <>
             <div className={styles.container} id="checkoutAgreements">
                 {
-                    agreements && agreements.checkoutAgreements.map((item, index) => {
-                        return (
-                            <Grid id="agreement-row" container spacing={0} key={index}>
-                                <Grid item md={12} xs={12}>
-                                    {
-                                        item.mode === "MANUAL" ?
+                    agreements && agreements.checkoutAgreements.map((item, index) => (
+                        <Grid id="agreement-row" container spacing={0} key={index}>
+                            <Grid item md={12} xs={12}>
+                                {
+                                    item.mode === 'MANUAL' ? (
                                         <Checkbox
                                             checked={(checkList.length === 0) ? false : checkList[index].isChecked}
                                             onChange={() => handleCheckbox(index)}
@@ -48,50 +47,51 @@ const ConfirmationView = ({
                                             color="primary"
                                             size="small"
                                         />
-                                        :
-                                        <Checkbox
-                                            disabled
-                                            checked={true}
-                                            inputProps={{ 'aria-label': 'primary checkbox' }}
-                                            color="primary"
-                                            size="small"
-                                        />
-                                    }
-                                    <Button onClick={() => handleOpenModal(index)}>
-                                        <Typography 
-                                            variant="span" 
-                                            type="regular" 
-                                            decoration="underline" 
-                                            size="12"
-                                        >
-                                            {item.checkbox_text}
-                                        </Typography>
-                                    </Button>
-                                    <Dialog 
-                                        onClose={() => handleCloseModal(index)} 
-                                        aria-labelledby="customized-dialog-title" 
-                                        open={modalList.length && modalList[index].isOpen}
-                                    >
-                                        <DialogTitle>{item.name}</DialogTitle>
-                                        <DialogContent dividers>
-                                            <DialogContentText>
-                                                <div dangerouslySetInnerHTML={{__html: item.content}}></div>
-                                            </DialogContentText>
-                                        </DialogContent>
-                                        <DialogActions>
-                                            <Button 
-                                                variant="contained"
-                                                onClick={() => handleCloseModal(index)} 
+                                    )
+                                        : (
+                                            <Checkbox
+                                                disabled
+                                                checked
+                                                inputProps={{ 'aria-label': 'primary checkbox' }}
                                                 color="primary"
-                                            >
-                                                {t('checkout:close')}
-                                            </Button>
-                                        </DialogActions>
-                                    </Dialog>
-                                </Grid>
+                                                size="small"
+                                            />
+                                        )
+                                }
+                                <Button onClick={() => handleOpenModal(index)}>
+                                    <Typography
+                                        variant="span"
+                                        type="regular"
+                                        decoration="underline"
+                                        size="12"
+                                    >
+                                        {item.checkbox_text}
+                                    </Typography>
+                                </Button>
+                                <Dialog
+                                    onClose={() => handleCloseModal(index)}
+                                    aria-labelledby="customized-dialog-title"
+                                    open={modalList.length && modalList[index].isOpen}
+                                >
+                                    <DialogTitle>{item.name}</DialogTitle>
+                                    <DialogContent dividers>
+                                        <DialogContentText>
+                                            <div dangerouslySetInnerHTML={{ __html: item.content }} />
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button
+                                            variant="contained"
+                                            onClick={() => handleCloseModal(index)}
+                                            color="primary"
+                                        >
+                                            {t('checkout:close')}
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
                             </Grid>
-                        );
-                    })
+                        </Grid>
+                    ))
                 }
             </div>
         </>

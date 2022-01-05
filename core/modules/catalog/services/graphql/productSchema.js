@@ -88,6 +88,9 @@ export const getProduct = (config = {}) => gql`
         name
         url_key
         stock_status
+        short_description {
+          html
+        }
         ${modules.catalog.productListing.label.weltpixel.enabled ? `
         weltpixel_labels {
           categoryLabel {
@@ -295,6 +298,9 @@ const productDetail = `
     id
     name
     sku
+    short_description {
+      html
+    }
     ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
     stock_status
     url_key

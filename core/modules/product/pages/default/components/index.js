@@ -243,7 +243,6 @@ const ProductPage = (props) => {
                     </div>
 
                     <div className="hidden-desktop">
-                        {' '}
                         <div className={styles.desc}>
                             <Typography variant="span" type="regular" size="10">
                                 {data.short_description.html ? <span dangerouslySetInnerHTML={{ __html: data.short_description.html }} /> : null}
@@ -300,6 +299,11 @@ const ProductPage = (props) => {
                                     </Button>
                                 )}
                             </div>
+                        </div>
+                        <div className={styles.desc}>
+                            <Typography variant="span" type="regular" size="10">
+                                {data.short_description.html ? <span dangerouslySetInnerHTML={{ __html: data.short_description.html }} /> : null}
+                            </Typography>
                         </div>
                     </div>
                 </div>

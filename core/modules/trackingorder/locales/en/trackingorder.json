@@ -16,6 +16,8 @@
     "updateDate": "Update date",
     "receiverName": "Receiver Name",
     "shipperName": "Shipper Name",
+    "driverName": "Driver Name",
+    "driverPhone": "Driver Phone",
     "lastStatus": "Last Status",
     "history": "History",
     "liveTracking": "Live Tracking",

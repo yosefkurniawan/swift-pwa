@@ -30,7 +30,7 @@ const Accordion = withStyles(
         },
         expanded: {},
     },
-    { name: 'MuiBundleViewAccordion' }
+    { name: 'MuiBundleViewAccordion' },
 )(MuiAccordion);
 
 const AccordionSummary = withStyles(
@@ -50,7 +50,7 @@ const AccordionSummary = withStyles(
         },
         expanded: {},
     },
-    { name: 'MuiBundleViewAccordionSummary' }
+    { name: 'MuiBundleViewAccordionSummary' },
 )(MuiAccordionSummary);
 
 const AccordionDetails = withStyles(
@@ -60,7 +60,7 @@ const AccordionDetails = withStyles(
             display: 'block',
         },
     },
-    { name: 'MuiBundleViewAccordionDetails' }
+    { name: 'MuiBundleViewAccordionDetails' },
 )(MuiAccordionDetails);
 
 const BundleView = (props) => {

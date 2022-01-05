@@ -15,24 +15,20 @@ export const getTokenOtp = () => useMutation(Schema.getCustomerTokenOtp, {
     ...useInternal,
 });
 
-export const getTokenPhoneEmail = () =>
-    useMutation(Schema.getCustomerTokenPhoneEmail, {
-        ...useInternal,
-    });
+export const getTokenPhoneEmail = () => useMutation(Schema.getCustomerTokenPhoneEmail, {
+    ...useInternal,
+});
 
-export const removeToken = () =>
-    useMutation(Schema.removeToken, {
-        ...useInternal,
-    });
+export const removeToken = () => useMutation(Schema.removeToken, {
+    ...useInternal,
+});
 
-export const requestOtpRegister = () =>
-    useMutation(Schema.requestOtpRegister, {
-        ...useInternal,
-    });
-export const socialLogin = () =>
-    useMutation(Schema.socialLogin, {
-        ...useInternal,
-    });
+export const requestOtpRegister = () => useMutation(Schema.requestOtpRegister, {
+    ...useInternal,
+});
+export const socialLogin = () => useMutation(Schema.socialLogin, {
+    ...useInternal,
+});
 
 export const getSigninMethodSocialLogin = () => useQuery(Schema.getSigninMethodSocialLogin);
 
@@ -42,19 +38,17 @@ export const checkOtpLogin = () => useMutation(Schema.checkOtpLogin, { ...useInt
 export const requestOtpForgotPassword = () => useMutation(Schema.requestOtpForgotPassword, { ...useInternal });
 export const checkOtpForgotPassword = () => useMutation(Schema.checkOtpForgotPassword, { ...useInternal });
 
-export const mergeCart = () =>
-    useMutation(Schema.mergeCart, {
-        ...useInternal,
-    });
+export const mergeCart = () => useMutation(Schema.mergeCart, {
+    ...useInternal,
+});
 
-export const getCustomerCartId = (options = {}) =>
-    useQuery(Schema.getCartIdUser, {
-        context: {
-            request: 'internal',
-        },
-        fetchPolicy: 'no-cache',
-        ...options,
-    });
+export const getCustomerCartId = (options = {}) => useQuery(Schema.getCartIdUser, {
+    context: {
+        request: 'internal',
+    },
+    fetchPolicy: 'no-cache',
+    ...options,
+});
 
 export const otpConfig = () => useQuery(Schema.otpConfig);
 

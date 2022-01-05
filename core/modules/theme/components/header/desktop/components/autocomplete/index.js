@@ -17,6 +17,7 @@ const generateItemData = (product, category) => {
             url_key: element.url_key,
             position: index,
             small_image: element.small_image,
+            price_tiers: element.price_tiers,
             price_range: element.price_range,
             type: 'product',
         };
@@ -118,7 +119,7 @@ export default function ComboBox(props) {
                     const sharedProp = {
                         name: value?.name || '',
                         small_image: value?.small_image || {},
-                        price: value?.price_range ? { priceRange: value.price_range } : {},
+                        price: value?.price_range ? { priceRange: value.price_range, priceTiers: value.price_tiers || [] } : {},
                     };
 
                     setOpen(false);
