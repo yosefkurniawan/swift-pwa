@@ -1,17 +1,19 @@
 /* eslint-disable comma-dangle */
 
 import { useState } from 'react';
-// import { getStoreHost } from '@helper_config';
-// import { getAppEnv } from '@root/core/helpers/env';
+import gqlService from '@core_modules/checkout/services/graphql';
 
 const useTravelokaPay = (data = {}) => {
     // prettier-ignore
     const {
         t, travelokaPayRef, config, handleOpenMessage, checkout, setCheckout,
+        payment_travelokapay_user_id,
+        // payment_travelokapay_bin_whitelist,
     } = data;
     const [open, setOpen] = useState(false);
     const [cardToken, setCardToken] = useState('');
     const state = { ...checkout };
+    const [createCharge] = gqlService.travelokaCreateCharge();
 
     const handleClose = () => {
         setOpen(false);
@@ -50,19 +52,36 @@ const useTravelokaPay = (data = {}) => {
                 });
                 return;
             }
-            // console.log(creditCardCharge);
 
             if (creditCardCharge.status === 'VERIFIED') {
                 const token = creditCardCharge.id;
                 setCardToken(token);
-                handleClose();
-                handleOpenMessage({
-                    variant: 'success',
-                    text: t('checkout:message:placeOrder'),
+
+                createCharge({
+                    variables: {
+                        token_id: token,
+                        amount: checkout.data.cart.prices.grand_total.value.toString(),
+                        card_cvn: cvv,
+                    },
+                }).then((res) => {
+                    handleClose();
+                    if (res.data?.travelokaCharge?.status === 'CAPTURED') {
+                        handleOpenMessage({
+                            variant: 'success',
+                            text: t('checkout:message:placeOrder'),
+                        });
+                        window.location.replace(generatesuccessRedirect(orderNumber));
+                    } else if (res.errors) {
+                        handleOpenMessage({
+                            variant: 'error',
+                            text: res.errors[0].message || t('checkout:message:serverError'),
+                        });
+                        window.location.replace(generateCartRedirect(orderNumber));
+                    }
                 });
 
                 // window.location.replace(generateCartRedirect(orderNumber));
-                window.location.replace(generatesuccessRedirect(orderNumber));
+                // window.location.replace(generatesuccessRedirect(orderNumber));
             } else if (creditCardCharge.status === 'IN_REVIEW') {
                 const authenticationUrl = creditCardCharge.payer_authentication_url;
                 setCardToken(authenticationUrl);
@@ -91,6 +110,7 @@ const useTravelokaPay = (data = {}) => {
                 card_exp_year: `20${expiryDatas[1]}`, // 2025
                 card_cvn: cvv, // 123
                 is_multiple_use: false,
+                on_behalf_of: payment_travelokapay_user_id || '',
             },
             // {
             //     amount: '100000',
@@ -110,7 +130,7 @@ const useTravelokaPay = (data = {}) => {
         handleClose,
         handleTravelokaPay,
         cardToken,
-        setCardToken
+        setCardToken,
     };
 };
 

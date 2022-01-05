@@ -47,9 +47,12 @@ const Summary = ({
 
     // travelokapay
     const {
+        payment_travelokapay_public_key, payment_travelokapay_user_id, payment_travelokapay_bin_whitelist,
+    } = storeConfig;
+    const {
         open: openTraveloka, setOpen: setOpenTraveloka, handleClose, handleTravelokaPay,
     } = useTravelokaPay({
-        t, travelokaPayRef, config, handleOpenMessage, checkout, setCheckout,
+        t, travelokaPayRef, config, handleOpenMessage, checkout, setCheckout, payment_travelokapay_user_id, payment_travelokapay_bin_whitelist,
     });
 
     // mutation update delete
@@ -189,7 +192,7 @@ const Summary = ({
         formValidation = await formik.validateForm();
 
         if (checkout.data.cart.selected_payment_method.code.match(/travelokapay/)) {
-            window.Xendit.setPublishableKey(storeConfig.payment_travelokapay_public_key);
+            window.Xendit.setPublishableKey(payment_travelokapay_public_key);
             const { values: { cardNumber, cvv, expiryDate } } = travelokaPayRef.current;
             // travelokaPayRef.current.resetForm();
             // console.log(travelokaPayRef.current);
