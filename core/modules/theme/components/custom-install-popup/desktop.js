@@ -1,9 +1,24 @@
 import Button from '@material-ui/core/Button';
 import { installMessage } from '@config';
 import useStyles from '@core_modules/theme/components/custom-install-popup/style';
+import TagManager from 'react-gtm-module';
 
 const DesktopInstall = () => {
     const styles = useStyles();
+    
+    const onClick = () => {
+        const timestamp = Date.now();
+        const identifier = `${(Math.floor(Math.random() * 100) * Math.floor(Math.random() * 100))}_${timestamp}`;
+        const dataLayer = {
+            event: 'countPopupInstallation',
+            eventCategory: 'Count Popup Installation',
+            eventAction: 'Installed',
+            eventLabel: 'installPWA',
+            eventValue: identifier,
+        };
+        TagManager.dataLayer({ dataLayer });
+    };
+
     return (
         <div id="popup-desktop__install" className={styles.popupInstallDesktop}>
             <Button
@@ -11,6 +26,7 @@ const DesktopInstall = () => {
                 variant="contained"
                 color="primary"
                 className={styles.btnInstallDesktop}
+                onClick={onClick}
             >
                 Install
             </Button>
