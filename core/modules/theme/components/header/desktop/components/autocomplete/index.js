@@ -84,8 +84,8 @@ export default function ComboBox(props) {
         }, 300);
     };
 
-    const handleKeyPress = (e) => {
-        handleSearch(e);
+    const handleKeyPress = (e, val) => {
+        handleSearch(e, val);
     };
 
     return (
@@ -113,7 +113,7 @@ export default function ComboBox(props) {
                 />
             )}
             onInputChange={(e) => startAutocomplete(e)}
-            onKeyPress={(e) => handleKeyPress(e)}
+            onKeyPress={(e) => handleKeyPress(e, data)}
             onChange={(e, value) => {
                 if (value) {
                     const sharedProp = {

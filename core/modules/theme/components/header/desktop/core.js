@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import Router from 'next/router';
 import { removeIsLoginFlagging } from '@helper_auth';
 import { removeCartId } from '@helper_cartid';
@@ -54,28 +55,23 @@ const CoreTopNavigation = (props) => {
                 window.backdropLoader(false);
                 Router.push('/customer/account/login');
             })
-            .catch((e) => {
+            .catch(() => {
                 window.backdropLoader(false);
-                console.log(e);
                 Router.push('/customer/account/login');
             });
     };
 
     const handleSearch = (ev) => {
+        // const searchData = val?.products;
+        // console.log(searchData);
         if (ev.key === 'Enter' && ev.target.value !== '') {
-            Router.push({
-                pathname: '/catalogsearch/result',
-                query: { q: value },
-            });
+            Router.push(`/catalogsearch/result?q=${value}`);
         }
     };
 
     const searchByClick = () => {
         if (value !== '') {
-            Router.push({
-                pathname: '/catalogsearch/result',
-                query: { q: value },
-            });
+            Router.push(`/catalogsearch/result?q=${value}`);
         }
     };
 
