@@ -82,7 +82,6 @@ const PaymentView = (props) => {
         loading,
         data,
         checkout,
-        storeConfig,
         t,
         paymentMethodList,
         handlePayment,
@@ -92,6 +91,7 @@ const PaymentView = (props) => {
         paypalTokenData,
         paypalHandlingProps,
         initialOptionPaypal,
+        storeConfig,
     } = props;
     const { modules } = commonConfig;
     const [expanded, setExpanded] = React.useState(null);
@@ -213,8 +213,9 @@ const PaymentView = (props) => {
                                                             CustomItem={RadioItem}
                                                             ComponentOptional={(item) => {
                                                                 // prettier-ignore
-                                                                const isPurchaseOrder = item.code === PO || selected.payment === PO;
+                                                                const isPurchaseOrder = item.code === PO && selected.payment === PO;
                                                                 const isPaypal = item.code === PaypalCode && selected.payment === PaypalCode;
+
                                                                 if (isPurchaseOrder) {
                                                                     return (
                                                                         <Grid item xs={12}>
