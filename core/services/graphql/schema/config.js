@@ -35,6 +35,7 @@ export const storeConfig = `
               ves_menu_enable
               ves_menu_alias
               icon_apple_touch
+              recaptcha_login_enable
             }
             store_name
             welcome
@@ -91,6 +92,17 @@ export const getCmsList = `
 {
   storeConfig {
     cms_page  
+  }
+}
+`;
+
+export const recaptchaConfig = `
+{
+  storeConfig {
+    recaptcha_server_key_local
+    recaptcha_server_key_dev
+    recaptcha_server_key_stage
+    recaptcha_server_key_prod
   }
 }
 `;

@@ -10,7 +10,7 @@ import { setLogin, getLastPathWithoutLogin } from '@helper_auth';
 import { getCookies, setCookies } from '@helper_cookies';
 import { setCartId, getCartId } from '@helper_cartid';
 import { useQuery } from '@apollo/client';
-import { expiredToken, custDataNameCookie, recaptcha } from '@config';
+import { expiredToken, custDataNameCookie } from '@config';
 import Router from 'next/router';
 import Cookies from 'js-cookie';
 import { regexPhone } from '@helper_regex';
@@ -146,8 +146,8 @@ const Login = (props) => {
         }
     }
     let redirectLastPath = lastPathNoAuth;
-    const expired = storeConfig.oauth_access_token_lifetime_customer
-        ? new Date(Date.now() + parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) * 3600000)
+    const expired = storeConfig?.oauth_access_token_lifetime_customer
+        ? new Date(Date.now() + parseInt(storeConfig?.oauth_access_token_lifetime_customer, 10) * 3600000)
         : expiredToken;
 
     if (typeof window !== 'undefined') {
@@ -206,10 +206,9 @@ const Login = (props) => {
     let enableRecaptcha = false;
 
     const { loading: loadingLoginConfig, data: dataLoginConfig } = loginConfig();
-
     if (!loadingLoginConfig && dataLoginConfig && dataLoginConfig.storeConfig && dataLoginConfig.storeConfig.pwa) {
         if (dataLoginConfig.storeConfig.pwa.recaptcha_login_enable !== null) {
-            enableRecaptcha = recaptcha.enable && dataLoginConfig.storeConfig.pwa.recaptcha_login_enable;
+            enableRecaptcha = storeConfig?.pwa?.recaptcha_enable && dataLoginConfig.storeConfig.pwa.recaptcha_login_enable;
         }
     }
 
@@ -434,7 +433,20 @@ const Login = (props) => {
     };
 
     const recaptchaRef = React.createRef();
-    const sitekey = recaptcha.siteKey[appEnv] ? recaptcha.siteKey[appEnv] : recaptcha.siteKey.dev;
+    let sitekey;
+
+    if(appEnv === 'local') {
+        sitekey = dataLoginConfig?.storeConfig.pwa.recaptcha_site_key_local;
+    }
+    else if(appEnv === 'dev') {
+        sitekey = dataLoginConfig?.storeConfig.pwa.recaptcha_site_key_dev;
+    }
+    else if(appEnv === 'stage') {
+        sitekey = dataLoginConfig?.storeConfig.pwa.recaptcha_site_key_stage;
+    }
+    else if(appEnv === 'prod') {
+        sitekey = dataLoginConfig?.storeConfig.pwa.recaptcha_site_key_prod;
+    }
 
     return (
         <Layout {...props} pageConfig={pageConfig || config}>

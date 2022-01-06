@@ -2,22 +2,25 @@ import Layout from '@layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { regexPhone } from '@helper_regex';
-import {
-    recaptcha, debuging,
-} from '@config';
+import { debuging } from '@config';
 import { getAppEnv } from '@helpers/env';
 import gqlService from '@core_modules/contact/services/graphql';
 import { contactConfig } from '@services/graphql/repository/pwa_config';
 
 const Contact = (props) => {
     const {
-        Content, t, pageConfig, ErrorInfo, Skeleton, isCms = false,
+        Content,
+        t,
+        pageConfig,
+        ErrorInfo,
+        Skeleton,
+        isCms = false,
+        storeConfig,
     } = props;
 
     const appEnv = getAppEnv();
     // enable recaptcha
     let enableRecaptcha = false;
-
     const Config = {
         title: t('contact:pageTitle'),
         headerTitle: t('contact:pageTitle'),
@@ -31,24 +34,34 @@ const Contact = (props) => {
     });
     const [load, setLoad] = React.useState(false);
     const recaptchaRef = React.createRef();
-    const sitekey = recaptcha.siteKey[appEnv]
-        ? recaptcha.siteKey[appEnv]
-        : recaptcha.siteKey.dev;
-
-    const [contactusFormSubmit] = gqlService.contactusFormSubmit();
 
     // query config cms contact identifier
     let cmsContactIdentifiers;
-    const { loading: loadingConfig, data: dataConfig } = contactConfig();
+    const { loading: loadingConfig, data: dataContactConfig } = contactConfig();
+    let sitekey;
 
-    if (!loadingConfig && dataConfig && dataConfig.storeConfig && dataConfig.storeConfig.pwa) {
-        if (dataConfig.storeConfig.pwa.cms_contact_identifiers
-            && dataConfig.storeConfig.pwa.cms_contact_identifiers !== '') {
-            cmsContactIdentifiers = dataConfig.storeConfig.pwa.cms_contact_identifiers;
+    if(appEnv === 'local') {
+        sitekey = dataContactConfig?.storeConfig.pwa.recaptcha_site_key_local;
+    }
+    else if(appEnv === 'dev') {
+        sitekey = dataContactConfig?.storeConfig.pwa.recaptcha_site_key_dev;
+    }
+    else if(appEnv === 'stage') {
+        sitekey = dataContactConfig?.storeConfig.pwa.recaptcha_site_key_stage;
+    }
+    else if(appEnv === 'prod') {
+        sitekey = dataContactConfig?.storeConfig.pwa.recaptcha_site_key_prod;
+    }
+
+    const [contactusFormSubmit] = gqlService.contactusFormSubmit();
+    if (!loadingConfig && dataContactConfig && dataContactConfig.storeConfig && dataContactConfig.storeConfig.pwa) {
+        if (dataContactConfig.storeConfig.pwa.cms_contact_identifiers
+            && dataContactConfig.storeConfig.pwa.cms_contact_identifiers !== '') {
+            cmsContactIdentifiers = dataContactConfig.storeConfig.pwa.cms_contact_identifiers;
         }
 
-        if (dataConfig.storeConfig.pwa.recaptcha_contact_enable != null) {
-            enableRecaptcha = recaptcha.enable && dataConfig.storeConfig.pwa.recaptcha_contact_enable;
+        if (dataContactConfig.storeConfig.pwa.recaptcha_contact_enable != null) {
+            enableRecaptcha = storeConfig?.pwa?.recaptcha_enable && dataContactConfig.storeConfig.pwa.recaptcha_contact_enable;
         }
     }
 

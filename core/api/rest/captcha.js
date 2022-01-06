@@ -1,12 +1,28 @@
 const qs = require('querystring');
-const { recaptcha } = require('../../../swift.config');
 const { getAppEnv } = require('../../helpers/env');
+import { recaptchaConfig } from '@services/graphql/schema/config';
+import graphRequest from '@graphql_request';
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
+    let secret;
     const { response } = req.body;
-    const appEnv = getAppEnv();
-    const secret = recaptcha.serverKey[appEnv] || recaptcha.serverKey.prod;
-    fetch('https://www.google.com/recaptcha/api/siteverify', {
+    const appEnv = await getAppEnv();
+    const getRecaptcha = await graphRequest(recaptchaConfig);
+
+    if(appEnv === 'local') {
+        secret = getRecaptcha?.storeConfig.pwa.recaptcha_server_key_local;
+    }
+    else if(appEnv === 'dev') {
+        secret = getRecaptcha?.storeConfig.pwa.recaptcha_server_key_dev;
+    }
+    else if(appEnv === 'stage') {
+        secret = getRecaptcha?.storeConfig.pwa.recaptcha_server_key_stage;
+    }
+    else if(appEnv === 'prod') {
+        secret = getRecaptcha?.storeConfig.pwa.recaptcha_server_key_prod;
+    }
+
+    await fetch('https://www.google.com/recaptcha/api/siteverify', {
         method: 'post',
         body: qs.stringify({
             response,
