@@ -145,8 +145,8 @@ class MyApp extends App {
             if (ctx && removeDecimalConfig.response && removeDecimalConfig.response.status && removeDecimalConfig.response.status > 500) {
                 ctx.res.redirect('/maintenance');
             }
-            removeDecimalConfig = removeDecimalConfig.storeConfig.pwa.remove_decimal_price_enable !== null
-                ? removeDecimalConfig.storeConfig.pwa.remove_decimal_price_enable
+            removeDecimalConfig = removeDecimalConfig?.storeConfig?.pwa?.remove_decimal_price_enable !== null
+                ? removeDecimalConfig?.storeConfig?.pwa?.remove_decimal_price_enable
                 : false;
         }
 
