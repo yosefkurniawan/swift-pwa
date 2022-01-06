@@ -62,6 +62,7 @@ const useTravelokaPay = (data = {}) => {
                         token_id: token,
                         amount: checkout.data.cart.prices.grand_total.value.toString(),
                         card_cvn: cvv,
+                        order_id: orderNumber
                     },
                 }).then((res) => {
                     handleClose();
