@@ -124,5 +124,10 @@
         "usePromo": "Gunakan kode promo",        
         "label": "PayPal express checkout",        
         "noShippingMethod": "Silahkan pilih metode pengiriman"
+    },
+    "travelokaPay": {
+        "enterPaymentDetails": "Enter your payment details:",
+        "activateTravelokaPaylater": "Activate your Traveloka Paylater now!",
+        "switchPayment": "Switch your payment into installment with the Traveloka app."
     }
 }

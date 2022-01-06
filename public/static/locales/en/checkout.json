@@ -124,5 +124,10 @@
         "usePromo": "Use promo code",
         "label": "PayPal express checkout",
         "noShippingMethod": "Please select a shipping method"
+    },
+    "travelokaPay": {
+        "enterPaymentDetails": "Enter your payment details:",
+        "activateTravelokaPaylater": "Activate your Traveloka Paylater now!",
+        "switchPayment": "Switch your payment into installment with the Traveloka app."
     }
 }
