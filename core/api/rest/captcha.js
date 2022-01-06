@@ -1,7 +1,7 @@
 const qs = require('querystring');
 const { getAppEnv } = require('../../helpers/env');
-import { recaptchaConfig } from '@services/graphql/schema/config';
-import graphRequest from '@graphql_request';
+const { recaptchaConfig } = require('../../services/graphql/schema/recaptcha_config');
+const graphRequest = require('../graphql/request/index');
 
 module.exports = async (req, res) => {
     let secret;
