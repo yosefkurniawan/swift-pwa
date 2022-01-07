@@ -79,10 +79,9 @@ const RadioDeliveryItem = (props) => {
     return (
         <div
             className={rootStyle}
-            onClick={handleChange}
             id="checkoutRadioItem"
         >
-            <Radio color="default" size="small" checked={selected} />
+            <Radio color="default" size="small" checked={selected} onClick={handleChange} />
 
             <div className={classNames(styles.labelContainer, classContent)}>
                 {shippingLabel}
@@ -90,6 +89,9 @@ const RadioDeliveryItem = (props) => {
             </div>
             <style jsx>
                 {`
+                    {/* #checkoutRadioItem:hover {
+                        cursor: pointer;
+                    } */}
                     #checkoutRadioItem :global(.travelokapay-ic) {
                         background-image: url(/assets/img/traveloka_paylater_ic.jpg);
                         width: 60px;

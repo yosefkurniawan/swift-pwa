@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable jsx-a11y/iframe-has-title */
 import TextField from '@common_textfield';
@@ -62,12 +63,13 @@ const TravelokaPayForm = (props) => {
                 </div>
                 <br />
                 <Typography> {t('checkout:travelokaPay:enterPaymentDetails')}</Typography>
-                <form>
+                <form className="travelokapay-form-content">
                     <div style={{ display: 'flex' }}>
                         <TextField
-                            className="textfield"
+                            className="travelokapay-form-input"
                             name="name"
                             placeholder="Name on Card"
+                            fullWidth={false}
                             value={formik.values.name}
                             onChange={(e) => handleChangeInput('name', e.target.value)}
                             error={!!(formik.touched.name && formik.errors.name)}
@@ -75,12 +77,17 @@ const TravelokaPayForm = (props) => {
                         />
                         <TextField
                             className="textfield"
+                            type="number"
                             name="cardNumber"
                             placeholder="Card Number"
                             value={formik.values.cardNumber}
                             onChange={(e) => handleChangeInput('cardNumber', e.target.value)}
                             error={!!(formik.touched.cardNumber && formik.errors.cardNumber)}
                             errorMessage={(formik.touched.cardNumber && formik.errors.cardNumber) || null}
+                            onInput={(e) => {
+                                e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 16);
+                            }}
+                            onWheel={(e) => e.target.blur()}
                         />
                     </div>
                     <div style={{ display: 'flex' }}>
@@ -121,6 +128,18 @@ const TravelokaPayForm = (props) => {
                 {`
                     .travelokapay-apply-link {
                         color: #0000cd;
+                    }
+                    .travelokapay-form-content :global(input[type='number']::-webkit-outer-spin-button),
+                    .travelokapay-form-content :global(input[type='number']::-webkit-inner-spin-button) {
+                        -webkit-appearance: none;
+                        margin: 0;
+                    }
+                    .travelokapay-form-content :global(input[type='number']) {
+                        -moz-appearance: textfield;
+                    }
+                    .travelokapay-form-content :global(.travelokapay-form-input) {
+                        color: red;
+                        margin: 10px;
                     }
                 `}
             </style>
