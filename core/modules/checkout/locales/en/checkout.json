@@ -111,6 +111,14 @@
     "travelokaPay": {
         "enterPaymentDetails": "Enter your payment details:",
         "activateTravelokaPaylater": "Activate your Traveloka Paylater now!",
-        "switchPayment": "Switch your payment into installment with the Traveloka app."
+        "switchPayment": "Switch your payment into installment with the Traveloka app.",
+        "validation": {
+            "nameOnCard": "Name on Card",
+            "cardNumber": "Card Number",
+            "expiryDate": "Expiry Date (MM/YY)",
+            "cvv": "CVV",
+            "required": "is required.",
+            "invalid": "is invalid."
+        }
     }
 }

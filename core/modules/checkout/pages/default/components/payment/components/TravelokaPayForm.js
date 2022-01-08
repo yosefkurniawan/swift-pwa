@@ -19,7 +19,7 @@ const TravelokaPayForm = (props) => {
             .matches(/^[0-9]+$/, 'Card number is invalid') // digit only
             .min(16, 'Card number is invalid')
             .max(16, 'Card number is invalid'),
-        expiryDate: Yup.string().nullable().required(),
+        expiryDate: Yup.string().nullable().required().matches(/(\d\/\d)/),
         cvv: Yup.string().nullable().required(),
     });
 
@@ -68,7 +68,7 @@ const TravelokaPayForm = (props) => {
                         <TextField
                             className="travelokapay-form-input"
                             name="name"
-                            placeholder="Name on Card"
+                            placeholder={t('checkout:travelokaPay:validation:nameOnCard')}
                             fullWidth={false}
                             value={formik.values.name}
                             onChange={(e) => handleChangeInput('name', e.target.value)}
@@ -76,10 +76,10 @@ const TravelokaPayForm = (props) => {
                             errorMessage={(formik.touched.name && formik.errors.name) || null}
                         />
                         <TextField
-                            className="textfield"
+                            className="travelokapay-form-input"
                             type="number"
                             name="cardNumber"
-                            placeholder="Card Number"
+                            placeholder={t('checkout:travelokaPay:validation:cardNumber')}
                             value={formik.values.cardNumber}
                             onChange={(e) => handleChangeInput('cardNumber', e.target.value)}
                             error={!!(formik.touched.cardNumber && formik.errors.cardNumber)}
@@ -92,9 +92,9 @@ const TravelokaPayForm = (props) => {
                     </div>
                     <div style={{ display: 'flex' }}>
                         <TextField
-                            className="textfield"
+                            className="travelokapay-form-input"
                             name="expiryDate"
-                            placeholder="MM/YY"
+                            placeholder={t('checkout:travelokaPay:validation:expiryDate')}
                             value={formik.values.expiryDate}
                             onChange={(e) => {
                                 let { value } = e.target;
@@ -113,13 +113,18 @@ const TravelokaPayForm = (props) => {
                             errorMessage={(formik.touched.expiryDate && formik.errors.expiryDate) || null}
                         />
                         <TextField
-                            className="textfield"
+                            className="travelokapay-form-input"
+                            type="number"
                             name="cvv"
-                            placeholder="CVV"
+                            placeholder={t('checkout:travelokaPay:validation:cvv')}
                             value={formik.values.cvv}
                             onChange={(e) => handleChangeInput('cvv', e.target.value)}
                             error={!!(formik.touched.cvv && formik.errors.cvv)}
                             errorMessage={(formik.touched.cvv && formik.errors.cvv) || null}
+                            onInput={(e) => {
+                                e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 3);
+                            }}
+                            onWheel={(e) => e.target.blur()}
                         />
                     </div>
                 </form>
@@ -138,8 +143,8 @@ const TravelokaPayForm = (props) => {
                         -moz-appearance: textfield;
                     }
                     .travelokapay-form-content :global(.travelokapay-form-input) {
-                        color: red;
-                        margin: 10px;
+                        margin-left: 10px;
+                        margin-right: 10px;
                     }
                 `}
             </style>
