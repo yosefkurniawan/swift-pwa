@@ -10,8 +10,6 @@ import { useTranslation } from '@i18n';
 const TravelokaPayForm = (props) => {
     const { travelokaPayRef, payment_travelokapay_bin_whitelist } = props;
     const { t } = useTranslation(['checkout']);
-    // console.log('payment_travelokapay_bin_whitelist', payment_travelokapay_bin_whitelist);
-    // whitelist -> 531571
 
     const cardNumberPattern = new RegExp(payment_travelokapay_bin_whitelist ? `^${payment_travelokapay_bin_whitelist}[0-9]+$` : /^[0-9]+$/);
 

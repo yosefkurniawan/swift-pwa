@@ -199,19 +199,25 @@ const Summary = ({
             const errorMessages = [];
 
             travelokaPayRef.current.submitForm();
-            await travelokaPayRef.current.validateForm();
+            const travelokaValidateForm = await travelokaPayRef.current.validateForm();
+            if (Object.keys(travelokaValidateForm).length > 0) return;
 
             if (!window.Xendit.card.validateCardNumber(cardNumber)) {
-                errorMessages.push('Card number is invalid. ');
+                travelokaPayRef.current.setFieldError('cardNumber',
+                    `${t('checkout:travelokaPay:validation:nameOnCard')} ${t('checkout:travelokaPay:validation:required')}`);
+                errorMessages.push(`${t('checkout:travelokaPay:validation:nameOnCard')} ${t('checkout:travelokaPay:validation:required')}`);
             }
             if (!window.Xendit.card.validateExpiry(expiryDatas[0], `20${expiryDatas[1]}`)) {
-                errorMessages.push('Expiry Date is invalid. ');
+                travelokaPayRef.current.setFieldError('expiryDate',
+                    `${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:required')}`);
+                errorMessages.push(`${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:required')}`);
             }
             if (!window.Xendit.card.validateCvn(cvv)) {
-                errorMessages.push('CVV is invalid. ');
+                travelokaPayRef.current.setFieldError('cvv',
+                    `${t('checkout:travelokaPay:validation:cvv')} ${t('checkout:travelokaPay:validation:required')}`);
+                errorMessages.push(`${t('checkout:travelokaPay:validation:cvv')} ${t('checkout:travelokaPay:validation:required')}`);
             }
 
-            // return;
             if (errorMessages.length > 0) {
                 handleOpenMessage({
                     variant: 'error',
