@@ -62,8 +62,6 @@ const CoreTopNavigation = (props) => {
     };
 
     const handleSearch = (ev) => {
-        // const searchData = val?.products;
-        // console.log(searchData);
         if (ev.key === 'Enter' && ev.target.value !== '') {
             Router.push(`/catalogsearch/result?q=${value}`);
         }
