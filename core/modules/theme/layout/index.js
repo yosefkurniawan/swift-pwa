@@ -146,6 +146,7 @@ const Layout = (props) => {
 
     if (!loadFacebookMeta && dataFacebookbMeta && dataFacebookbMeta.storeConfig.pwa.facebook_meta_id_enable) {
         ogData['fb:app_id'] = dataFacebookbMeta.storeConfig.pwa.facebook_meta_id_app_id;
+        console.log(dataFacebookbMeta.storeConfig.pwa.facebook_meta_id_app_id);
     }
 
     React.useEffect(() => {
