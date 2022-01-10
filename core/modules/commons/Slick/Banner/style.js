@@ -5,26 +5,31 @@ import { features } from '@config';
 
 const generateSliderContainer = (width = features.imageSize.homeSlider.mobile.width, height = features.imageSize.homeSlider.mobile.height) => {
     let paddingTop;
-    if (width / height > 0.5 && width / height <= 0.9) {
-        paddingTop = (width / height) * 135;
-        return `${paddingTop}%`;
-    } else if (width / height > 0.8 && width / height <= 0.8) {
-        paddingTop = (width / height) * 150;
-        return `${paddingTop}%`;
-    } else if (width / height > 0.75 && width / height <= 0.8) {
-        paddingTop = (width / height) * 175;
-        return `${paddingTop}%`;
-    } else if (width / height > 0.7 && width / height <= 0.75) {
-        paddingTop = (width / height) * 200;
-        return `${paddingTop}%`;
-    } else if (width / height > 0.65 && width / height <= 0.7) {
-        paddingTop = (width / height) * 225;
-        return `${paddingTop}%`;
-    } else if (width / height >= 0.6 && width / height <= 0.65) {
-        paddingTop = (width / height) * 250;
-        return `${paddingTop}%`;
+    if (width < height) {
+        if (width / height > 0.85 && width / height <= 0.9) {
+            paddingTop = (width / height) * 135;
+            return `${paddingTop}%`;
+        } else if (width / height > 0.8 && width / height <= 0.85) {
+            paddingTop = (width / height) * 150;
+            return `${paddingTop}%`;
+        } else if (width / height > 0.75 && width / height <= 0.8) {
+            paddingTop = (width / height) * 175;
+            return `${paddingTop}%`;
+        } else if (width / height > 0.7 && width / height <= 0.75) {
+            paddingTop = (width / height) * 200;
+            return `${paddingTop}%`;
+        } else if (width / height > 0.65 && width / height <= 0.7) {
+            paddingTop = (width / height) * 225;
+            return `${paddingTop}%`;
+        } else if (width / height >= 0.6 && width / height <= 0.65) {
+            paddingTop = (width / height) * 250;
+            return `${paddingTop}%`;
+        } else {
+            paddingTop = (width / height) * 275;
+            return `${paddingTop}%`;
+        }
     } else {
-        paddingTop = (width / height) * 275;
+        paddingTop = (height / width) * 150;
         return `${paddingTop}%`;
     }
 };
