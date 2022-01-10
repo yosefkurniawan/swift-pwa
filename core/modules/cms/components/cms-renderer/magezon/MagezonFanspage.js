@@ -3,10 +3,13 @@ import {
     FacebookProvider, Page, Comments, Like,
 } from 'react-facebook';
 import useStyles from '@core_modules/cms/components/cms-renderer/magezon/style';
+// import { facebookMetaConfig } from '@services/graphql/repository/pwa_config';
 import { features } from '@config';
 
 const MagezonFanspage = (props) => {
     const { page_url, btn_url, type } = props;
+    // query get fb meta
+    // const { loading: loadFacebookMeta, data: dataFacebookbMeta } = facebookMetaConfig();
     const classes = useStyles(props);
     let contentType = '';
     let url = '';
