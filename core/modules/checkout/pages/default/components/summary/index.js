@@ -193,31 +193,25 @@ const Summary = ({
 
         if (checkout.data.cart.selected_payment_method.code.match(/travelokapay/)) {
             window.Xendit.setPublishableKey(payment_travelokapay_public_key);
+
             const { values: { cardNumber, cvv, expiryDate } } = travelokaPayRef.current;
-            // travelokaPayRef.current.resetForm();
-            // console.log(travelokaPayRef.current);
-            // console.log(formik);
             const expiryDatas = expiryDate.split('/');
             const errorMessages = [];
 
             travelokaPayRef.current.submitForm();
-            // const travelokaValidation = await travelokaPayRef.current.customValidate();
             await travelokaPayRef.current.validateForm();
-            // console.log(travelokaValidation);
 
             if (!window.Xendit.card.validateCardNumber(cardNumber)) {
-                travelokaPayRef.current.setFieldError('cardNumber', 'Card number is invalid.');
                 errorMessages.push('Card number is invalid. ');
             }
             if (!window.Xendit.card.validateExpiry(expiryDatas[0], `20${expiryDatas[1]}`)) {
-                travelokaPayRef.current.setFieldError('expiryDate', 'Expiry Date is invalid.');
                 errorMessages.push('Expiry Date is invalid. ');
             }
             if (!window.Xendit.card.validateCvn(cvv)) {
-                travelokaPayRef.current.setFieldError('cvv', 'CVV is invalid.');
                 errorMessages.push('CVV is invalid. ');
             }
 
+            // return;
             if (errorMessages.length > 0) {
                 handleOpenMessage({
                     variant: 'error',
@@ -233,16 +227,7 @@ const Summary = ({
                     text: 'Successfully Validated.',
                 });
             }
-
-            // travelokaPayRef.current.setSubmitting(false);
         }
-
-        // if (Object.keys(travelokaPayRef.current.errors).length > 0) {
-        //     // Object.keys(travelokaPayRef.current.errors).length > 0
-        //     state.loading.order = false;
-        //     setCheckout(state);
-        //     return;
-        // }
 
         if (Object.keys(formValidation).length === 0 && formValidation.constructor === Object) {
             if (checkout.selected.delivery === 'pickup' && (checkout.error.pickupInformation || checkout.error.selectStore)) {

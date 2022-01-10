@@ -8,19 +8,30 @@ import * as Yup from 'yup';
 import { useTranslation } from '@i18n';
 
 const TravelokaPayForm = (props) => {
-    const { travelokaPayRef } = props;
+    const { travelokaPayRef, payment_travelokapay_bin_whitelist } = props;
     const { t } = useTranslation(['checkout']);
+    // console.log('payment_travelokapay_bin_whitelist', payment_travelokapay_bin_whitelist);
+    // whitelist -> 531571
 
-    // prettier-ignore
+    const cardNumberPattern = new RegExp(payment_travelokapay_bin_whitelist ? `^${payment_travelokapay_bin_whitelist}[0-9]+$` : /^[0-9]+$/);
+
     const validationSchema = Yup.object().shape({
-        name: Yup.string().nullable().required(),
-        cardNumber: Yup
-            .string().nullable().required()
-            .matches(/^[0-9]+$/, 'Card number is invalid') // digit only
-            .min(16, 'Card number is invalid')
-            .max(16, 'Card number is invalid'),
-        expiryDate: Yup.string().nullable().required().matches(/(\d\/\d)/),
-        cvv: Yup.string().nullable().required(),
+        name: Yup.string()
+            .nullable()
+            .required(`${t('checkout:travelokaPay:validation:nameOnCard')} ${t('checkout:travelokaPay:validation:required')}`),
+        cardNumber: Yup.string()
+            .nullable()
+            .required(`${t('checkout:travelokaPay:validation:cardNumber')} ${t('checkout:travelokaPay:validation:required')}`)
+            .matches(cardNumberPattern, `${t('checkout:travelokaPay:validation:cardNumber')} ${t('checkout:travelokaPay:validation:invalid')}`) // digit only
+            .min(16, `${t('checkout:travelokaPay:validation:cardNumber')} ${t('checkout:travelokaPay:validation:invalid')}`)
+            .max(16, `${t('checkout:travelokaPay:validation:cardNumber')} ${t('checkout:travelokaPay:validation:invalid')}`),
+        expiryDate: Yup.string()
+            .nullable()
+            .required(`${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:required')}`)
+            .matches(/(\d{2}\/\d{2})/, `${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:invalid')}`),
+        cvv: Yup.string()
+            .nullable()
+            .required(`${t('checkout:travelokaPay:validation:cvv')} ${t('checkout:travelokaPay:validation:required')}`),
     });
 
     const formik = useFormik({
