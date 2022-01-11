@@ -69,7 +69,7 @@ const Layout = (props) => {
 
     // get app name config
     const { loading: loadPopupConfig, data: dataPopupConfig } = popupInstallConfig();
-    const { loading: loadFacebookMeta, data: dataFacebookbMeta } = facebookMetaConfig();
+    const { loading: loadFacebookMeta, data: dataFacebookMeta } = facebookMetaConfig();
     let appName = '';
     let installMessage = '';
     let showPopup = false;
@@ -140,13 +140,8 @@ const Layout = (props) => {
         ogData['og:description'] = storeConfig.default_description || '';
     }
 
-    // if (features.facebookMetaId.enabled) {
-    //     ogData['fb:app_id'] = features.facebookMetaId.app_id;
-    // }
-
-    if (!loadFacebookMeta && dataFacebookbMeta && dataFacebookbMeta.storeConfig.pwa.facebook_meta_id_enable) {
-        ogData['fb:app_id'] = dataFacebookbMeta.storeConfig.pwa.facebook_meta_id_app_id;
-        console.log(dataFacebookbMeta.storeConfig.pwa.facebook_meta_id_app_id);
+    if (!loadFacebookMeta && dataFacebookMeta && dataFacebookMeta.storeConfig.pwa.facebook_meta_id_enable) {
+        ogData['fb:app_id'] = dataFacebookMeta.storeConfig.pwa.facebook_meta_id_app_id;
     }
 
     React.useEffect(() => {
