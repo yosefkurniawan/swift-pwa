@@ -14,10 +14,28 @@ import useStyles from '@plugin_addressform/components/style';
 
 const AddressView = (props) => {
     const {
-        t, open, setOpen, pageTitle, formik, addressState, setAddressState,
-        mapPosition, handleDragPosition, disableDefaultAddress, loading, success, gmapKey, enableSplitCity,
-        getCountries, responCountries, getRegion, responRegion, responCities,
+        t,
+        open,
+        setOpen,
+        pageTitle,
+        formik,
+        addressState,
+        setAddressState,
+        mapPosition,
+        handleDragPosition,
+        disableDefaultAddress,
+        loading,
+        success,
+        gmapKey,
+        enableSplitCity,
+        getCountries,
+        responCountries,
+        getRegion,
+        responRegion,
+        responCities,
         getCities,
+        pinLocationInfo,
+        loadingGetPinLocationInfo,
     } = props;
     const styles = useStyles();
     const headerConfig = {
@@ -55,11 +73,7 @@ const AddressView = (props) => {
                     }
                 }}
                 loading={responCountries.loading}
-                options={
-                    responCountries
-                    && responCountries.data
-                    && responCountries.data.countries
-                }
+                options={responCountries && responCountries.data && responCountries.data.countries}
                 getOptions={getCountries}
                 name="country"
                 label={t('common:form:country')}
@@ -168,8 +182,7 @@ const AddressView = (props) => {
 
     // city or kabupaten
     const getCityRender = () => {
-        if (addressState.dropdown.city && addressState.dropdown.city.length
-            && addressState.dropdown.city.length > 0 && open) {
+        if (addressState.dropdown.city && addressState.dropdown.city.length && addressState.dropdown.city.length > 0 && open) {
             return (
                 <Autocomplete
                     disabled={!formik.values.region}
@@ -237,8 +250,7 @@ const AddressView = (props) => {
 
     // district / kecamatan
     const getDistrictRender = () => {
-        if (addressState.dropdown.district && addressState.dropdown.district.length
-            && addressState.dropdown.district.length > 0 && open) {
+        if (addressState.dropdown.district && addressState.dropdown.district.length && addressState.dropdown.district.length > 0 && open) {
             return (
                 <Autocomplete
                     disabled={!formik.values.city}
@@ -302,8 +314,7 @@ const AddressView = (props) => {
     };
 
     const getVillageRender = () => {
-        if (addressState.dropdown.village && addressState.dropdown.village.length
-            && addressState.dropdown.village.length > 0 && open) {
+        if (addressState.dropdown.village && addressState.dropdown.village.length && addressState.dropdown.village.length > 0 && open) {
             return (
                 <Autocomplete
                     disabled={!formik.values.district}
@@ -428,17 +439,53 @@ const AddressView = (props) => {
                                     onChange={() => formik.setFieldValue('defaultShippingBilling', !formik.values.defaultShippingBilling)}
                                     name="defaultShippingBilling"
                                     control={<Checkbox name="newsletter" color="primary" size="small" />}
-                                    label={(
+                                    label={
                                         <Typography variant="p" letter="capitalize" className="row center">
                                             {t('customer:address:useDefault')}
                                         </Typography>
-                                    )}
+                                    }
                                 />
                             </div>
                         )}
 
+                        {console.log(disableDefaultAddress)}
+                        {disableDefaultAddress ? null : <hr />}
+
+                        {gmapKey && (
+                            <div>
+                                <Typography variant="h3" color="black">
+                                    {`${t('customer:address:confirmPinPointTitle')}`}
+                                </Typography>
+                                <FormControlLabel
+                                    value={formik.values.confirmPinPoint}
+                                    checked={formik.values.confirmPinPoint}
+                                    onChange={() => formik.setFieldValue('confirmPinPoint', !formik.values.confirmPinPoint)}
+                                    name="confirmPinPoint"
+                                    control={<Checkbox name="newsletter" color="primary" size="small" />}
+                                    label={
+                                        <Typography variant="h4" className="row center" style={{ fontWeight: '600' }}>
+                                            {/* {`${t('customer:address:confirmPinPoint')} ${pinLocationInfo || ''}`} */}
+                                            {`${t('customer:address:confirmPinPoint')}`}
+                                        </Typography>
+                                    }
+                                />
+                                {!!(formik.touched.confirmPinPoint && formik.errors.confirmPinPoint) && (
+                                    <div style={{ marginTop: 12 }}>
+                                        <Typography variant="p" color="red">
+                                            {(formik.touched.confirmPinPoint && formik.errors.confirmPinPoint) || null}
+                                        </Typography>
+                                    </div>
+                                )}
+                            </div>
+                        )}
                         <div className={styles.wrapper}>
-                            <Button className={addBtn} fullWidth type="submit" disabled={loading} loading={loading}>
+                            <Button
+                                className={addBtn}
+                                fullWidth
+                                type="submit"
+                                disabled={loading || loadingGetPinLocationInfo}
+                                loading={loading || loadingGetPinLocationInfo}
+                            >
                                 <Typography variant="span" type="bold" letter="uppercase" color="white">
                                     {t(success ? 'common:button:saved' : 'common:button:save')}
                                 </Typography>
