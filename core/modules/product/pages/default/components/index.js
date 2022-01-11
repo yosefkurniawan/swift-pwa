@@ -23,6 +23,7 @@ import SharePopup from '@core_modules/product/pages/default/components/SharePopu
 import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
 import { modules } from '@config';
 import { getProductBannerLite } from '@core_modules/product/services/graphql';
+import { formatPrice } from '@helper_currency';
 
 const Banner = dynamic(() => import('@common_slick/BannerThumbnail'), { ssr: true });
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: true });
@@ -235,7 +236,7 @@ const ProductPage = (props) => {
                                         const priceTiers = {
                                             quantity: tiers.quantity,
                                             currency: tiers.final_price.currency,
-                                            price: tiers.final_price.value,
+                                            price: formatPrice(tiers.final_price.value),
                                             discount: tiers.discount.percent_off
                                         }
                                         return (
