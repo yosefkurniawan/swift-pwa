@@ -43,7 +43,7 @@ export const getCustomizableOption = (url) => gql`
   ) {
     items {
       id
-      ${modules.product.customizableOptions.enabled && `
+      ${modules.product.customizableOptions.enabled ? `
         ... on CustomizableProductInterface {
           options {
             title
@@ -53,7 +53,7 @@ export const getCustomizableOption = (url) => gql`
             __typename
           }
         }
-      `}
+      ` : ''}
     }
   }
 }
