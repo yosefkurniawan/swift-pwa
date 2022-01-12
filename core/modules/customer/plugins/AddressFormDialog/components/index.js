@@ -431,14 +431,14 @@ const AddressView = (props) => {
                             </div>
                         )}
 
-                        {disableDefaultAddress ? null : (
+                        {disableDefaultAddress != null && (
                             <div>
                                 <FormControlLabel
                                     value={formik.values.defaultShippingBilling}
                                     checked={formik.values.defaultShippingBilling}
                                     onChange={() => formik.setFieldValue('defaultShippingBilling', !formik.values.defaultShippingBilling)}
                                     name="defaultShippingBilling"
-                                    control={<Checkbox name="newsletter" color="primary" size="small" />}
+                                    control={<Checkbox name="checkboxDefaultShippingBilling" color="primary" size="small" />}
                                     label={
                                         <Typography variant="p" letter="capitalize" className="row center">
                                             {t('customer:address:useDefault')}
@@ -448,14 +448,8 @@ const AddressView = (props) => {
                             </div>
                         )}
 
-                        {console.log(disableDefaultAddress)}
-                        {disableDefaultAddress ? null : <hr />}
-
                         {gmapKey && (
-                            <div>
-                                <Typography variant="h3" color="black">
-                                    {`${t('customer:address:confirmPinPointTitle')}`}
-                                </Typography>
+                            <div style={{ marginTop: '1rem' }}>
                                 <FormControlLabel
                                     value={formik.values.confirmPinPoint}
                                     checked={formik.values.confirmPinPoint}
@@ -470,7 +464,7 @@ const AddressView = (props) => {
                                     }
                                 />
                                 {!!(formik.touched.confirmPinPoint && formik.errors.confirmPinPoint) && (
-                                    <div style={{ marginTop: 12 }}>
+                                    <div style={{ marginTop: '1.5rem', marginLeft: '1.75rem' }}>
                                         <Typography variant="p" color="red">
                                             {(formik.touched.confirmPinPoint && formik.errors.confirmPinPoint) || null}
                                         </Typography>
