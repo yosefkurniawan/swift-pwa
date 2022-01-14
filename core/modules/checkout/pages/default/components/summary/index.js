@@ -71,7 +71,7 @@ const Summary = ({
     };
 
     const generateCartRedirect = (orderNumber = '') => {
-        if (config && config.cartRedirect && config.cartRedirect.link) {
+        if (config && config.cartRedirect && config.cartRedirect.link && originName === 'pwa-checkout') {
             if (orderNumber && orderNumber !== '') {
                 return `${getStoreHost(getAppEnv())}snap/payment/fail?order_id=${orderNumber}`;
             }
