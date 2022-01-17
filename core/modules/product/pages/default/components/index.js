@@ -21,6 +21,7 @@ import SharePopup from '@core_modules/product/pages/default/components/SharePopu
 import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
 import { modules } from '@config';
 import { getProductBannerLite } from '@core_modules/product/services/graphql';
+import { formatPrice } from '@helper_currency';
 
 const Banner = dynamic(() => import('@common_slick/BannerThumbnail'), { ssr: true });
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: true });
@@ -80,7 +81,6 @@ const ProductPage = (props) => {
     };
 
     const favoritIcon = wishlist ? <Favorite className={styles.iconShare} /> : <FavoriteBorderOutlined className={styles.iconShare} />;
-
     return (
         <>
             <div className="hidden-mobile">
@@ -228,6 +228,28 @@ const ProductPage = (props) => {
                             </Typography>
                         </div>
                     </div>
+
+                    <div className={styles.titleContainer}>
+                        <div className={styles.priceTiersContainer}>
+                            {
+                                price.priceTiers.length > 0 && price.priceTiers.map((tiers, index) => {
+                                        const priceTiers = {
+                                            quantity: tiers.quantity,
+                                            currency: tiers.final_price.currency,
+                                            price: formatPrice(tiers.final_price.value),
+                                            discount: tiers.discount.percent_off
+                                        }
+                                        return (
+                                            <Typography variant="p" type="regular" key={index}>
+                                                {t('product:priceTiers', { priceTiers })}
+                                            </Typography>
+                                        )
+                                    }
+                                )
+                            }
+                        </div>
+                    </div>
+                    
                     <div className="row">
                         {
                             modules.catalog.productListing.label.enabled

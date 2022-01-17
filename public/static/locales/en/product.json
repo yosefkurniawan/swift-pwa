@@ -38,5 +38,6 @@
     "productNotAvailable": "We don’t support this product type yet",
     "customizeAdd": "Customize and Add toCart",
     "yourCustomization": "Your Customization",
-    "quantity": "Quantity"
+    "quantity": "Quantity",
+    "priceTiers": "Buy {{priceTiers.quantity}} for {{priceTiers.currency}}{{priceTiers.price}} each and save {{priceTiers.discount}}%"
 }
