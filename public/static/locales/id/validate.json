@@ -79,6 +79,9 @@
     "dob": {
         "required": "Tanggal lahir tidak boleh kosong"
     },
+    "confirmPinPoint": {
+        "required": "Anda harus menyetujui pernyataan diatas ini."
+    },
     "to": "Dari",
     "from": "Ke",
     "recipientName": "Nama Penerima",
