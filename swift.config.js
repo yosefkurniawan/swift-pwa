@@ -145,10 +145,6 @@ const features = {
             prod: 'http://swiftcrm.testingnow.me/graphql',
         },
     },
-    facebookMetaId: {
-        enabled: false,
-        app_id: '3080154482073095', // if enabled add fb app id here. e.g. 3080154482073095
-    },
     // masuk module -> pindah jika module sudah siap
     productAvailableToCart: {
         SimpleProduct: true,

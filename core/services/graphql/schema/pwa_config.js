@@ -154,6 +154,17 @@ export const registerConfig = gql`
     }
 `;
 
+export const facebookMetaConfig = gql`
+    {
+        storeConfig {
+            pwa {
+              facebook_meta_id_enable
+              facebook_meta_id_app_id
+            }
+        }
+    }
+`;
+
 export default {
     vesMenuConfig,
     popupInstallConfig,
@@ -169,4 +180,5 @@ export default {
     quickViewConfig,
     loginConfig,
     registerConfig,
+    facebookMetaConfig,
 };
