@@ -1,4 +1,88 @@
 /* eslint-disable import/prefer-default-export */
+export const getCategories = `
+    {
+        categoryList {
+            children_count
+            children {
+                id
+                level
+                name
+                path
+                url_path
+                url_key
+                include_in_menu
+                children {
+                    id
+                    level
+                    name
+                    path
+                    url_path
+                    url_key
+                    image
+                    image_path
+                    children {
+                        id
+                        level
+                        name
+                        path
+                        url_path
+                        url_key
+                        children {
+                            id
+                            level
+                            name
+                            path
+                            url_path
+                            url_key
+                        }
+                    }
+                }
+            }
+        }
+    }
+`;
+
+
+export const getVesMenu = `
+    query getVesMenu($alias: String!) {
+        vesMenu(alias: $alias) {
+            menu_id
+            name
+            items {
+                id
+                name
+                link
+                content_type
+                link_type
+                category_id
+                menu_id
+                children {
+                    id
+                    name
+                    link
+                    link_type
+                    category_id
+                    children {
+                        id
+                        name
+                        link
+                        link_type
+                        category_id
+                        children {
+                            id
+                            name
+                            link
+                            link_type
+                            category_id
+                        }
+                    }
+                }
+            }
+        }
+    }
+`;
+
+
 
 export const storeConfig = `
     {
