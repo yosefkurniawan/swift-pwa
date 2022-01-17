@@ -1,7 +1,7 @@
 import React from 'react';
 import Product from '@plugin_productlist';
 import Typography from '@common_typography';
-import useStyles from '@core_modules/searchresult/pages/default/components/style';
+import useStyles from '@core_modules/searchresult/components/style';
 
 const SearchResult = (props) => {
     const styles = useStyles();
@@ -18,7 +18,7 @@ const SearchResult = (props) => {
             </div>
             <Product
                 defaultSort={{ key: 'relevance', value: 'DESC' }}
-                url_path="catalogsearch/result"
+                url_path="catalogsearch/advanced/result"
                 showTabs
                 catalog_search_engine={storeConfig.catalog_search_engine}
                 t={t}
