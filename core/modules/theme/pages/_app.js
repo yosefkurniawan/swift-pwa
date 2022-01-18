@@ -92,7 +92,7 @@ class MyApp extends App {
             isLogin = getLoginInfo();
             lastPathNoAuth = getLastPathWithoutLogin();
             customerData = Cookie.getJSON(custDataNameCookie);
-            removeDecimalConfig = Cookie.getJson('remove_decimal_config');
+            removeDecimalConfig = Cookie.getJSON('remove_decimal_config');
         } else {
             isLogin = allcookie.isLogin || 0;
             customerData = allcookie[custDataNameCookie];
@@ -144,7 +144,9 @@ class MyApp extends App {
             if (ctx && removeDecimalConfig.response && removeDecimalConfig.response.status && removeDecimalConfig.response.status > 500) {
                 ctx.res.redirect('/maintenance');
             }
-            removeDecimalConfig = removeDecimalConfig.storeConfig.pwa.remove_decimal_price_enable;
+            removeDecimalConfig = removeDecimalConfig.storeConfig.pwa.remove_decimal_price_enable !== null
+                ? removeDecimalConfig.storeConfig.pwa.remove_decimal_price_enable
+                : false;
         }
 
         /*

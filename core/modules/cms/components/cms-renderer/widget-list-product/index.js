@@ -34,9 +34,10 @@ const WidgetListProduct = (props) => {
     let drawerFilterOnDesktop = {};
     const { data: dataDrawerFilterOnDesktop, loading: loadingDrawerFilterOnDesktop } = drawerFilterOnDesktopConfig();
 
-    if (!loadingDrawerFilterOnDesktop && dataDrawerFilterOnDesktop && dataDrawerFilterOnDesktop.storeConfig && dataDrawerFilterOnDesktop.storeConfig.pwa) {
-    if (!loadingDrawerFilterOnDesktop && dataDrawerFilterOnDesktop
-        && dataDrawerFilterOnDesktop.storeConfig && dataDrawerFilterOnDesktop.storeConfig.pwa) {
+    if (!loadingDrawerFilterOnDesktop
+        && dataDrawerFilterOnDesktop
+        && dataDrawerFilterOnDesktop.storeConfig
+        && dataDrawerFilterOnDesktop.storeConfig.pwa) {
         drawerFilterOnDesktop = {
             ...dataDrawerFilterOnDesktop.storeConfig.pwa,
         };
