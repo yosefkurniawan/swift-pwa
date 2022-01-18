@@ -36,6 +36,7 @@ export const categoryListConfig = () => useQuery(Schema.categoryListConfig);
 
 export const bannerSliderConfig = () => useQuery(Schema.bannerSliderConfig);
 
+export const facebookMetaConfig = () => useQuery(Schema.
 export default {
     vesMenuConfig,
     popupInstallConfig,
@@ -54,4 +55,5 @@ export default {
     featuresConfig,
     categoryListConfig,
     bannerSliderConfig,
+    facebookMetaConfig,
 };

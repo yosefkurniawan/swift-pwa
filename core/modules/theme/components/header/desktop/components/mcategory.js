@@ -14,15 +14,12 @@ import dynamic from 'next/dynamic';
 const MenuChildren = dynamic(() => import('@common_headerdesktop/components/mcategoryChildren'), { ssr: false });
 
 const Menu = (props) => {
-    const { data, storeConfig, vesMenuConfig } = props;
+    const { data, storeConfig } = props;
     const cmsPages = storeConfig && storeConfig.cms_page ? storeConfig.cms_page.split(',') : [];
-    let menu;
-    if (data) {
-        menu = vesMenuConfig.ves_menu_enable ? data.vesMenu.items : data.categoryList[0].children;
-    }
+    const menu = storeConfig.pwa.ves_menu_enable ? data.vesMenu.items : data.categoryList[0].children;
     const generateLink = (cat) => {
         const link = cat.link ? getPath(cat.link) : `/${cat.url_path}`;
-        if (vesMenuConfig.ves_menu_enable) {
+        if (storeConfig.pwa.ves_menu_enable) {
             if (cat.link_type === 'category_link') {
                 return ['/[...slug]', link];
             }
@@ -37,7 +34,7 @@ const Menu = (props) => {
     const handleClick = async (cat) => {
         const link = cat.link ? getPath(cat.link) : `/${cat.url_path}`;
         const urlResolver = getResolver();
-        if (vesMenuConfig.enabled) {
+        if (storeConfig.pwa.ves_menu_enable) {
             if (cat.link_type === 'category_link') {
                 urlResolver[link] = {
                     type: 'CATEGORY',
@@ -61,42 +58,41 @@ const Menu = (props) => {
             await setResolver(urlResolver);
         }
     };
-    if (menu && menu.length > 0) {
-        return (
-            <div className="menu-wrapper" role="navigation">
-                <ul className="nav" role="menubar">
-                    {menu.map((val, idx) => {
-                        if ((val.include_in_menu || vesMenuConfig.ves_menu_enable) && val.name) {
-                            return (
-                                <li key={idx} role="menuitem">
-                                    {val.link ? (
-                                        <>
-                                            <Link href={generateLink(val)[0]} as={generateLink(val)[1]}>
-                                                <a onClick={() => handleClick(val)} dangerouslySetInnerHTML={{ __html: val.name }} />
-                                            </Link>
-                                            {
-                                                val.children.length > 0 ? (
-                                                    <div className="pointer" />
-                                                ) : null
-                                            }
-                                        </>
-                                    ) : (
-                                        <a href="#" dangerouslySetInnerHTML={{ __html: val.name }} />
-                                    ) }
+    return (
+        <div className="menu-wrapper" role="navigation">
+            <ul className="nav" role="menubar">
+                {menu.map((val, idx) => {
+                    if ((val.include_in_menu || storeConfig.pwa.ves_menu_enable) && val.name) {
+                        return (
+                            <li key={idx} role="menuitem">
+                                {val.link ? (
+                                    <>
+                                        <Link href={generateLink(val)[0]} as={generateLink(val)[1]}>
+                                            <a onClick={() => handleClick(val)} dangerouslySetInnerHTML={{ __html: val.name }} />
+                                        </Link>
+                                        {
+                                            val.children.length > 0 ? (
+                                                <div className="pointer" />
+                                            ) : null
+                                        }
+                                    </>
+                                ) : (
+                                    <a href="#" dangerouslySetInnerHTML={{ __html: val.name }} />
+                                ) }
 
-                                    {val.children.length > 0 ? (
-                                        <div className="mega-menu row" aria-hidden="true" role="menu">
-                                            <MenuChildren data={val.children} handleClick={handleClick} generateLink={generateLink} />
-                                        </div>
-                                    ) : null}
-                                </li>
-                            );
-                        }
-                        return null;
-                    })}
-                </ul>
-                <style jsx global>
-                    {`
+                                {val.children.length > 0 ? (
+                                    <div className="mega-menu row" aria-hidden="true" role="menu">
+                                        <MenuChildren data={val.children} handleClick={handleClick} generateLink={generateLink} />
+                                    </div>
+                                ) : null}
+                            </li>
+                        );
+                    }
+                    return null;
+                })}
+            </ul>
+            <style jsx global>
+                {`
                     /* mini reset */
                     .nav {
                         width: 100%;
@@ -243,50 +239,17 @@ const Menu = (props) => {
                             position: absolute;
                             transition: all 0s ease 0s;
                             visibility: hidden;
-                            width: 190%;
+                            width: 140%;
                             left: 0;
-                            margin-left: -18%;
-                            min-height: 300px;
+                            padding: auto;
+                            margin: auto;
+                            min-height: 300px; 
                         }
                         li:hover > .mega-menu {
                             opacity: 1;
                             overflow: visible;
                             visibility: visible;
-    
                         }
-    
-                        @media (max-width: 1249px) {
-                            .mega-menu {
-                                background: #fff;
-                                border: 1px solid #ddd;
-                                border-top: 5px solid #000000;
-                                border-radius: 0 0 3px 3px;
-                                opacity: 0;
-                                position: absolute;
-                                transition: all 0s ease 0s;
-                                visibility: hidden;
-                                width: 140%;
-                                left: 0;
-                                padding: auto;
-                                margin: auto;
-                                min-height: 300px; 
-                            }
-                            li:hover > .mega-menu {
-                                opacity: 1;
-                                overflow: visible;
-                                visibility: visible;
-                            }
-                            .nav-column a {
-                                color: #000000 !important;
-                                display: block;
-                                font-weight: bold;
-                                line-height: 1.75;
-                                margin: 0;
-                                padding: 7px;
-                            }
-                        }
-    
-                        /* menu content */
                         .nav-column a {
                             color: #000000 !important;
                             display: block;
@@ -295,40 +258,48 @@ const Menu = (props) => {
                             margin: 0;
                             padding: 7px;
                         }
-                        .nav-column a:hover {
-                            color: #000000 !important;
-                        }
-    
-                        .nav-column .active {
-                            color: #000000 !important;
-                            background: #DCDCDC;
-                        }
-                        .nav-column h3 {
-                            color: #372f2b;
-                            font-size: 0.95em;
-                            font-weight: bold;
-                            line-height: 1.15;
-                            margin: 1.25em 0 0.75em;
-                            text-transform: uppercase;
-                        }
-                        .cat-label-v2 {
-                            top: -6px;
-                            position: absolute;
-                            background: red;
-                            z-index: 99;
-                            left: 10px;
-                            height: 20px;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                        }
-                    `}
-                </style>
-            </div>
-        );
-    }
+                    }
 
-    return null;
+                    /* menu content */
+                    .nav-column a {
+                        color: #000000 !important;
+                        display: block;
+                        font-weight: bold;
+                        line-height: 1.75;
+                        margin: 0;
+                        padding: 7px;
+                    }
+                    .nav-column a:hover {
+                        color: #000000 !important;
+                    }
+
+                    .nav-column .active {
+                        color: #000000 !important;
+                        background: #DCDCDC;
+                    }
+                    .nav-column h3 {
+                        color: #372f2b;
+                        font-size: 0.95em;
+                        font-weight: bold;
+                        line-height: 1.15;
+                        margin: 1.25em 0 0.75em;
+                        text-transform: uppercase;
+                    }
+                    .cat-label-v2 {
+                        top: -6px;
+                        position: absolute;
+                        background: red;
+                        z-index: 99;
+                        left: 10px;
+                        height: 20px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                `}
+            </style>
+        </div>
+    );
 };
 
 export default Menu;

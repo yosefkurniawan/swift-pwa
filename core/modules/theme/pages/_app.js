@@ -14,7 +14,7 @@ import helperCookies from '@helper_cookies';
 
 import { ThemeProvider } from '@material-ui/core/styles';
 import { appWithTranslation } from '@i18n';
-import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
+import { storeConfig as ConfigSchema, getVesMenu, getCategories } from '@services/graphql/schema/config';
 import { getRemoveDecimalConfig } from '@services/graphql/schema/pwa_config';
 import {
     storeConfigNameCookie, GTM, custDataNameCookie, features, sentry,
@@ -126,6 +126,7 @@ class MyApp extends App {
          * GET CONFIGURATIONS FROM COOKIES
          * TO BE PROVIDED INTO PAGE PROPS
          */
+        let dataVesMenu;
         let storeConfig = helperCookies.get(storeConfigNameCookie) || pageProps.storeConfig;
         if (!pageProps.storeConfig && (!storeConfig || typeof window === 'undefined' || typeof storeConfig.secure_base_media_url === 'undefined')) {
             // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
@@ -137,7 +138,9 @@ class MyApp extends App {
                 ctx.res.redirect('/maintenance');
             }
             storeConfig = storeConfig.storeConfig;
+            dataVesMenu = storeConfig.pwa.ves_menu_enable ? await graphRequest(getVesMenu, {alias: storeConfig.pwa.ves_menu_alias,}) : await graphRequest(getCategories);
         }
+
 
         if (typeof removeDecimalConfig === 'undefined') {
             removeDecimalConfig = await graphRequest(getRemoveDecimalConfig);
@@ -167,6 +170,7 @@ class MyApp extends App {
                 customerData,
                 token,
                 removeDecimalConfig,
+                dataVesMenu,
             },
         };
     }
