@@ -23,9 +23,8 @@ const Content = (props) => {
 
     const handleScroll = () => {
         // To get page offset of last user
-        const lastUserLoaded = document.querySelector(
-            '.grid-item:last-child',
-        );
+        // const lastUserLoaded = document.querySelector(`.grid-item:last-child`);
+        const lastUserLoaded = document.querySelector('.latest-product-indicator');
         if (lastUserLoaded) {
             const lastUserLoadedOffset = lastUserLoaded.offsetTop + lastUserLoaded.clientHeight;
             const pageOffset = window.pageYOffset + window.innerHeight;
@@ -150,6 +149,7 @@ const Content = (props) => {
                                 }
                             />
                         )}
+                        <div className={'latest-product-indicator'}></div>
                         {(products.items.length === products.total_count) || loading
                             ? renderEmptyMessage(products.items.length, loading)
                             : null}

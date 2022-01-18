@@ -111,13 +111,16 @@ const Product = (props) => {
     const handleLoadMore = async () => {
         setFilterSaved(false);
         try {
-            if (fetchMore && typeof fetchMore !== 'undefined') {
+            const pageSize = modules.catalog.productListing.pageSize || 10;
+            const totalProduct = products && products.total_count ? products.total_count : 0;
+            const totalPage = Math.ceil(totalProduct / pageSize);
+            if (fetchMore && typeof fetchMore !== 'undefined' && page < totalPage) {
                 await setLoadmore(true);
                 setPage(page + 1);
                 fetchMore({
                     query: Schema.getProduct({ ...config, currentPage: page + 1 }),
                     variables: {
-                        pageSize: modules.catalog.productListing.pageSize || 10,
+                        pageSize,
                         currentPage: page + 1,
                     },
                     context,
