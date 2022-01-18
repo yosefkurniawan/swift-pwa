@@ -13,7 +13,7 @@ import CheckBoxSize from '@common_forms/CheckBoxSize';
 import CheckBoxColor from '@common_forms/CheckBoxColor';
 import RadioGroup from '@common_radio';
 import Skeleton from '@common_skeleton';
-import useStyles from '@plugin_productlist/components/Filter/style';
+import useStyles from '@plugin_productlist/components/FilterDesktop/style';
 
 let globalTimeout = null;
 
