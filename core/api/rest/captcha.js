@@ -1,25 +1,35 @@
 const qs = require('querystring');
 const { getAppEnv } = require('../../helpers/env');
 const { recaptchaConfig } = require('../../services/graphql/schema/recaptcha_config');
-const graphRequest = require('../graphql/request/index');
+const { graphqlEndpoint } = require('../../../swift.config');
 
 module.exports = async (req, res) => {
     let secret;
     const { response } = req.body;
     const appEnv = await getAppEnv();
-    const getRecaptcha = await graphRequest(recaptchaConfig);
+    const query = recaptchaConfig;
+
+    const fetchResult = await fetch(graphqlEndpoint[appEnv], {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query }),
+    });
+    
+    const result = await fetchResult.json();
 
     if(appEnv === 'local') {
-        secret = getRecaptcha?.storeConfig.pwa.recaptcha_server_key_local;
+        secret = result?.data?.storeConfig?.pwa?.recaptcha_server_key_local;
     }
     else if(appEnv === 'dev') {
-        secret = getRecaptcha?.storeConfig.pwa.recaptcha_server_key_dev;
+        secret = result?.data?.storeConfig?.pwa?.recaptcha_server_key_dev;
     }
     else if(appEnv === 'stage') {
-        secret = getRecaptcha?.storeConfig.pwa.recaptcha_server_key_stage;
+        secret = result?.data?.storeConfig?.pwa?.recaptcha_server_key_stage;
     }
     else if(appEnv === 'prod') {
-        secret = getRecaptcha?.storeConfig.pwa.recaptcha_server_key_prod;
+        secret = result?.data?.storeConfig?.pwa?.recaptcha_server_key_prod;
     }
 
     await fetch('https://www.google.com/recaptcha/api/siteverify', {
