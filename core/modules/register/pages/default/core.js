@@ -11,6 +11,7 @@ import { useQuery } from '@apollo/client';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/router';
+import { useRef } from 'react';
 
 import { regexPhone } from '@helper_regex';
 import { getAppEnv } from '@helpers/env';
@@ -51,7 +52,7 @@ const Register = (props) => {
     const [cusIsLogin, setIsLogin] = React.useState(0);
     const [disabled, setdisabled] = React.useState(false);
     const [getGuest, { data: guestData }] = getGuestCustomer();
-    const recaptchaRef = React.createRef();
+    const recaptchaRef = useRef();
     let sitekey;
 
     if(appEnv === 'local') {

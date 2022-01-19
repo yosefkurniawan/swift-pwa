@@ -20,6 +20,7 @@ import * as Yup from 'yup';
 import firebase from 'firebase/app';
 import React from 'react';
 import { getAppEnv } from '@helpers/env';
+import { useRef } from 'react';
 import {
     getToken,
     getTokenOtp,
@@ -432,7 +433,7 @@ const Login = (props) => {
         formik.setFieldValue('captcha', value || '');
     };
 
-    const recaptchaRef = React.createRef();
+    const recaptchaRef = useRef();
     let sitekey;
 
     if(appEnv === 'local') {

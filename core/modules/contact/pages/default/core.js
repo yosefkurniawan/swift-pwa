@@ -6,6 +6,7 @@ import { debuging } from '@config';
 import { getAppEnv } from '@helpers/env';
 import gqlService from '@core_modules/contact/services/graphql';
 import { contactConfig } from '@services/graphql/repository/pwa_config';
+import { useRef } from 'react';
 
 const Contact = (props) => {
     const {
@@ -33,7 +34,7 @@ const Contact = (props) => {
         text: '',
     });
     const [load, setLoad] = React.useState(false);
-    const recaptchaRef = React.createRef();
+    const recaptchaRef = useRef();
 
     // query config cms contact identifier
     let cmsContactIdentifiers;
@@ -110,7 +111,7 @@ const Contact = (props) => {
             window.backdropLoader(true);
             setLoad(true);
             if (enableRecaptcha) {
-                fetch('/captcha-validation', {
+                await fetch('/captcha-validation', {
                     method: 'post',
                     body: JSON.stringify({
                         response: values.captcha,
