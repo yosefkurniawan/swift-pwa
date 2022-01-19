@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable comma-dangle */
 
 import { useState } from 'react';
@@ -12,33 +13,38 @@ const useTravelokaPay = (data = {}) => {
     } = data;
     const [open, setOpen] = useState(false);
     const [cardToken, setCardToken] = useState('');
+    const [orderId, setorderId] = useState('');
     const state = { ...checkout };
     const [createCharge] = gqlService.travelokaCreateCharge();
 
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const generatesuccessRedirect = (orderNumber) => {
+    const generatesuccessRedirect = () => {
         if (config && config.successRedirect && config.successRedirect.link) {
-            return `${config.successRedirect.link}${config.successRedirect.orderId ? `?orderId=${orderNumber}` : ''}`;
+            return `${config.successRedirect.link}${config.successRedirect.orderId ? `?orderId=${orderId}` : ''}`;
         }
         return '/checkout/onepage/success';
     };
 
-    const generateCartRedirect = (orderNumber = '') => {
+    const generateCartRedirect = () => {
         if (config && config.cartRedirect && config.cartRedirect.link) {
-            if (orderNumber && orderNumber !== '') {
+            if (orderId && orderId !== '') {
                 // return `${getStoreHost(getAppEnv())}snap/payment/fail?order_id=${orderNumber}`;
-                return `http://localhost:3000/checkout/cart?paymentFailed=true&orderId=${orderNumber}`;
+                return `http://localhost:3000/checkout/cart?paymentFailed=true&orderId=${orderId}`;
             }
             return config.cartRedirect.link;
         }
         return '/checkout/cart';
     };
 
+    const handleClose = () => {
+        setOpen(false);
+        if (cardToken === 'IN_REVIEW' && orderId) {
+            window.location.replace(generateCartRedirect(orderId));
+        }
+    };
+
     const handleTravelokaPay = (orderNumber = '') => {
         const { cardNumber, cvv, expiryDate } = travelokaPayRef.current.values;
+        setorderId(orderNumber);
         // console.log('useTravelokapayRef', travelokaPayRef);
         const expiryDatas = expiryDate.split('/');
         state.loading.order = true;
@@ -84,8 +90,8 @@ const useTravelokaPay = (data = {}) => {
                 // window.location.replace(generateCartRedirect(orderNumber));
                 // window.location.replace(generatesuccessRedirect(orderNumber));
             } else if (creditCardCharge.status === 'IN_REVIEW') {
-                const authenticationUrl = creditCardCharge.payer_authentication_url;
-                setCardToken(authenticationUrl);
+                const status = creditCardCharge.status;
+                setCardToken(status);
                 setOpen(true);
 
                 window.open(creditCardCharge.payer_authentication_url, 'sample-inline-frame');
