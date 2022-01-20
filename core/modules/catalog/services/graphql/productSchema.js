@@ -408,7 +408,7 @@ query getDetailproduct($url_key: String!){
       }
     ) {
       items {
-        ${modules.product.customizableOptions.enabled && `
+        ${modules.product.customizableOptions.enabled ? `
         ... on CustomizableProductInterface {
           options {
             title
@@ -418,7 +418,7 @@ query getDetailproduct($url_key: String!){
             __typename
           }
         }
-        `}
+        ` : ''}
         ${productDetail}
         ${priceRange}
         ${priceTiers}

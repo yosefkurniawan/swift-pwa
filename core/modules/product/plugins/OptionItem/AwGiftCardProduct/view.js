@@ -55,7 +55,7 @@ const AwGiftCardProduct = (props) => {
     } = data;
 
     const emailTemplates = data?.aw_gc_email_templates || [];
-    const amountList = aw_gc_amounts.map((amount) => ({
+    const amountList = aw_gc_amounts?.map((amount) => ({
         label: formatPrice(amount),
         value: amount,
     }));
@@ -63,7 +63,11 @@ const AwGiftCardProduct = (props) => {
         amountList.push({ label: 'Enter Custom Amount', value: 'custom' });
     }
     const [selectedTemplate, setSelectedTemplate] = useState({});
-    const [selectedCustomAmount, setselectedCustomAmount] = useState(aw_gc_amounts[0]);
+    const [selectedCustomAmount, setselectedCustomAmount] = useState([]);
+
+    React.useEffect(() => {
+        aw_gc_amounts ? setselectedCustomAmount(aw_gc_amounts[0]) : setselectedCustomAmount([]);
+    }, [aw_gc_amounts])
 
     const handleSelectTemplate = (e) => {
         const templateValue = e.currentTarget.dataset.template;
@@ -106,7 +110,7 @@ const AwGiftCardProduct = (props) => {
                     <MagezonElement content={aw_gc_description} storeConfig={storeConfig} />
                 </div>
             )}
-            {(aw_gc_allow_open_amount || aw_gc_amounts.length > 1) && (
+            {(aw_gc_allow_open_amount || aw_gc_amounts?.length > 1) && (
                 <div className="gc-first">
                     <Typography variant="h2">{`1. ${t('validate:chooseAmount')}`}</Typography>
                     <div className="row" style={{ margin: 10 }}>
@@ -134,7 +138,7 @@ const AwGiftCardProduct = (props) => {
             {aw_gc_type !== 'PHYSICAL' && (
                 <div className="gc-first">
                     <Typography variant="h2">
-                        {aw_gc_allow_open_amount || aw_gc_amounts.length > 1 ? '2.' : '1.'} {`${t('validate:selectDesign')}`}
+                        {aw_gc_allow_open_amount || aw_gc_amounts?.length > 1 ? '2.' : '1.'} {`${t('validate:selectDesign')}`}
                     </Typography>
                     <div className="row">
                         {emailTemplates.map((template, idx) => {
@@ -162,7 +166,7 @@ const AwGiftCardProduct = (props) => {
             <div className="gc-second">
                 <Typography variant="h2">
                     {aw_gc_type === 'PHYSICAL'
-                        ? aw_gc_allow_open_amount || aw_gc_amounts.length > 1
+                        ? aw_gc_allow_open_amount || aw_gc_amounts?.length > 1
                             ? '2.'
                             : '1.'
                         : aw_gc_allow_open_amount
@@ -310,10 +314,10 @@ const AwGiftCardProduct = (props) => {
                             <Typography variant="h1">GIFT CARD</Typography>
                             <div className="gc-dialog-storelogo">
                                 <img
-                                    src={`${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`}
+                                    src={`${storeConfig?.secure_base_media_url}logo/${storeConfig?.header_logo_src}`}
                                     width={240}
                                     height={104}
-                                    alt={storeConfig.logo_alt}
+                                    alt={storeConfig?.logo_alt}
                                 />
                             </div>
                             <div className="gc-dialog-card-details">

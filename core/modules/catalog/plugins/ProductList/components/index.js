@@ -23,9 +23,8 @@ const Content = (props) => {
 
     const handleScroll = () => {
         // To get page offset of last user
-        const lastUserLoaded = document.querySelector(
-            '.grid-item:last-child',
-        );
+        // const lastUserLoaded = document.querySelector(`.grid-item:last-child`);
+        const lastUserLoaded = document.querySelector('.latest-product-indicator');
         if (lastUserLoaded) {
             const lastUserLoadedOffset = lastUserLoaded.offsetTop + lastUserLoaded.clientHeight;
             const pageOffset = window.pageYOffset + window.innerHeight;
@@ -150,16 +149,15 @@ const Content = (props) => {
                                 }
                             />
                         )}
+                        <div className={'latest-product-indicator'}></div>
                         {(products.items.length === products.total_count) || loading
                             ? renderEmptyMessage(products.items.length, loading)
                             : null}
-                        {loadmore ? (
-                            <div className={styles.divLoadMore}>
-                                <Typography align="center" variant="span" type="bold" letter="uppercase" color="gray">
-                                    Loading
-                                </Typography>
-                            </div>
-                        ) : null}
+                        <div className={loadmore ? styles.divLoadMore : styles.hideDivLoadMore}>
+                            <Typography align="center" variant="span" type="bold" letter="uppercase" color="gray">
+                                Loading
+                            </Typography>
+                        </div>
                     </div>
                 </div>
             </div>

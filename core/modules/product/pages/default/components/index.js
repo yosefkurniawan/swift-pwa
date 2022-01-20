@@ -1,6 +1,5 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable array-callback-return */
-import Button from '@common_button';
 import Typography from '@common_typography';
 import IconButton from '@material-ui/core/IconButton';
 import Favorite from '@material-ui/icons/Favorite';
@@ -23,6 +22,7 @@ import { modules } from '@config';
 import { getProductBannerLite } from '@core_modules/product/services/graphql';
 import { formatPrice } from '@helper_currency';
 
+const Button = dynamic(() => import('@common_button'), { ssr: false });
 const Banner = dynamic(() => import('@common_slick/BannerThumbnail'), { ssr: true });
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: true });
 const TabsView = dynamic(() => import('@core_modules/product/pages/default/components/DesktopTabs'), { ssr: false });
