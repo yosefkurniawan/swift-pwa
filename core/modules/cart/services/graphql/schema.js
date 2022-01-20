@@ -584,6 +584,14 @@ mutation reOrder($order_id: String!) {
 }
 `;
 
+export const cancelAndReOrder = gql`
+mutation cancelAndReorder($order_id: String!) {
+  cancelAndReorder(order_id: $order_id) {
+    cart_id
+  }
+}
+`;
+
 export const getCmsBlocks = gql`
   query($identifiers: [String]) {
       cmsBlocks(identifiers: $identifiers) {
