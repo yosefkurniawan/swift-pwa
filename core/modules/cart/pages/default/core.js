@@ -7,8 +7,8 @@ import { useRouter } from 'next/router';
 import Layout from '@layout';
 import { localTotalCart } from '@services/graphql/schema/local';
 import {
-    addWishlist as mutationWishlist, reOrder as mutationReOrder,
-    getCartDataLazy, getCartItemLazy, deleteCartItem, updateCartitem, addProductToCartPromo, applyCouponToCart, removeCouponFromCart,
+    addWishlist as mutationWishlist, getCartDataLazy, getCartItemLazy,
+    deleteCartItem, updateCartitem, addProductToCartPromo, applyCouponToCart, removeCouponFromCart, cancelAndReOrder,
 } from '@core_modules/cart/services/graphql';
 
 const Cart = (props) => {
@@ -54,7 +54,7 @@ const Cart = (props) => {
     const [actUpdateItem, update] = updateCartitem();
 
     // reorder
-    const [reOrder, responseReorder] = mutationReOrder();
+    const [cancelAndReorderMutation, cancelAndReorderResponse] = cancelAndReOrder();
 
     // getCartDataLazzy
     const [getCart, responseCart] = getCartDataLazy();
@@ -78,7 +78,7 @@ const Cart = (props) => {
                     }, 1000);
                 }
             } else {
-                reOrder({
+                cancelAndReorderMutation({
                     variables: {
                         order_id: orderId,
                     },
@@ -106,8 +106,8 @@ const Cart = (props) => {
     }, []);
 
     React.useEffect(() => {
-        if (responseReorder && responseReorder.data && responseReorder.data.reorder && responseReorder.data.reorder.cart_id) {
-            const { cart_id } = responseReorder.data.reorder;
+        if (cancelAndReorderResponse?.data?.cancelAndReorder?.cart_id) {
+            const { cart_id } = cancelAndReorderMutation.data.cancelAndReorder;
             if (typeof window !== 'undefined') {
                 if (cart_id) {
                     setCartId(cart_id);
@@ -131,7 +131,7 @@ const Cart = (props) => {
                 }
             }
         }
-    }, [responseReorder]);
+    }, [cancelAndReorderResponse]);
 
     React.useEffect(() => {
         if (responseCart.loading || responseCartItem.loading) setLoadingCart(true);

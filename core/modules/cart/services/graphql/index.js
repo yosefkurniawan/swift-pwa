@@ -82,6 +82,12 @@ export const reOrder = () => useMutation(Schema.reOrder, {
     },
 });
 
+export const cancelAndReOrder = () => useMutation(Schema.cancelAndReOrder, {
+    context: {
+        request: 'internal',
+    },
+});
+
 export const deleteCartItem = () => useMutation(Schema.deleteCartItemOnPage, {
     context: {
         request: 'internal',

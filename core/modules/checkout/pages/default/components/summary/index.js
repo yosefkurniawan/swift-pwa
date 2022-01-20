@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { setCartId, removeCartId } from '@helper_cartid';
-import { getStoreHost } from '@helper_config';
-import { getAppEnv } from '@root/core/helpers/env';
+import { getHost } from '@helper_config';
 import { setCheckoutData } from '@helper_cookies';
 import { localTotalCart } from '@services/graphql/schema/local';
 import { modules } from '@config';
@@ -73,7 +72,7 @@ const Summary = ({
     const generateCartRedirect = (orderNumber = '') => {
         if (config && config.cartRedirect && config.cartRedirect.link) {
             if (orderNumber && orderNumber !== '') {
-                return `${getStoreHost(getAppEnv())}snap/payment/fail?order_id=${orderNumber}`;
+                return `${getHost()}/checkout/cart?paymentFailed=true&orderId=${orderNumber}`;
             }
             return config.cartRedirect.link;
         }
@@ -134,7 +133,7 @@ const Summary = ({
             state.loading.order = false;
             setCheckout(state);
 
-            const msg = e.graphQLErrors.length > 0 ? e.graphQLErrors[0] : t('checkout:message:serverError');
+            const msg = e.graphQLErrors.length > 0 ? e.graphQLErrors[0].message : t('checkout:message:serverError');
 
             handleOpenMessage({
                 variant: 'error',
@@ -142,7 +141,7 @@ const Summary = ({
             });
 
             setTimeout(() => {
-                window.location.replace(generateCartRedirect(orderId));
+                window.location.replace(generateCartRedirect(order_id));
             }, 1000);
         });
     };

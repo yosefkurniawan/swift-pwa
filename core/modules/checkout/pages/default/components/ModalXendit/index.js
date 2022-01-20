@@ -1,8 +1,7 @@
 import React from 'react';
 import View from '@core_modules/checkout/pages/default/components/ModalXendit/view';
 import { modules } from '@config';
-import { getStoreHost } from '@helper_config';
-import { getAppEnv } from '@root/core/helpers/env';
+import { getHost } from '@helper_config';
 import { removeCheckoutData } from '@helper_cookies';
 import { xenditSimulateQr } from '@core_modules/checkout/services/graphql';
 import { useTranslation } from '@i18n';
@@ -37,7 +36,7 @@ const ModalXendit = (props) => {
         } else if (payment_code === 'qr_codes') {
             generatesuccessRedirect();
         } else {
-            window.location.replace(`${getStoreHost(getAppEnv())}xendit/checkout/failure?order_id=${order_id}`);
+            window.location.replace(`${getHost()}/checkout/cart?paymentFailed=true&orderId=${order_id}`);
         }
     };
 
