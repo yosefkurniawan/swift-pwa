@@ -25,10 +25,10 @@ const useTravelokaPay = (data = {}) => {
         return '/checkout/onepage/success';
     };
 
-    const generateCartRedirect = () => {
+    const generateCartRedirect = (orderNumber = '') => {
         if (config && config.cartRedirect && config.cartRedirect.link) {
-            if (orderId && orderId !== '') {
-                return `${getHost()}/checkout/cart?paymentFailed=true&orderId=${orderId}`;
+            if (orderNumber && orderNumber !== '') {
+                return `${getHost()}/checkout/cart?paymentFailed=true&orderId=${orderNumber}`;
             }
             return config.cartRedirect.link;
         }
@@ -67,7 +67,7 @@ const useTravelokaPay = (data = {}) => {
                         token_id: token,
                         amount: checkout.data.cart.prices.grand_total.value.toString(),
                         card_cvn: cvv,
-                        order_id: orderId
+                        order_id: orderNumber
                     },
                 }).then((res) => {
                     handleClose();
@@ -76,20 +76,20 @@ const useTravelokaPay = (data = {}) => {
                             variant: 'success',
                             text: t('checkout:message:placeOrder'),
                         });
-                        window.location.replace(generatesuccessRedirect(orderId));
+                        window.location.replace(generatesuccessRedirect(orderNumber));
                     } else if (res.errors) {
                         handleOpenMessage({
                             variant: 'error',
                             text: t('checkout:message:serverError'),
                         });
-                        window.location.replace(generateCartRedirect(orderId));
+                        window.location.replace(generateCartRedirect(orderNumber));
                     }
                 }).catch((error) => {
                     handleOpenMessage({
                         variant: 'error',
                         text: error || t('checkout:message:serverError'),
                     });
-                    window.location.replace(generateCartRedirect(orderId));
+                    window.location.replace(generateCartRedirect(orderNumber));
                 });
             } else if (creditCardCharge.status === 'IN_REVIEW') {
                 const status = creditCardCharge.status;
@@ -107,7 +107,7 @@ const useTravelokaPay = (data = {}) => {
                     variant: 'error',
                     text: msg,
                 });
-                window.location.replace(generateCartRedirect(orderId));
+                window.location.replace(generateCartRedirect(orderNumber));
             }
         };
 
