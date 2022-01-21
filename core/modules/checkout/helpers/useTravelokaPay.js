@@ -1,9 +1,11 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable comma-dangle */
 
-import { useState } from 'react';
+import { modules } from '@config';
 import gqlService from '@core_modules/checkout/services/graphql';
-import { getHost } from '@helper_config';
+import { getHost, getStoreHost } from '@helper_config';
+import { getAppEnv } from '@root/core/helpers/env';
+import { useState } from 'react';
 
 const useTravelokaPay = (data = {}) => {
     // prettier-ignore
@@ -12,6 +14,7 @@ const useTravelokaPay = (data = {}) => {
         payment_travelokapay_user_id,
         // payment_travelokapay_bin_whitelist,
     } = data;
+    const originName = modules.checkout.checkoutOnly ? 'pwa-checkout' : 'pwa';
     const [open, setOpen] = useState(false);
     const [cardToken, setCardToken] = useState('');
     const [orderId, setorderId] = useState('');
@@ -28,6 +31,9 @@ const useTravelokaPay = (data = {}) => {
     const generateCartRedirect = (orderNumber = '') => {
         if (config && config.cartRedirect && config.cartRedirect.link) {
             if (orderNumber && orderNumber !== '') {
+                if (originName === 'pwa-checkout') {
+                    return `${getStoreHost(getAppEnv())}snap/payment/fail?order_id=${orderNumber}`;
+                }
                 return `${getHost()}/checkout/cart?paymentFailed=true&orderId=${orderNumber}`;
             }
             return config.cartRedirect.link;
@@ -67,30 +73,32 @@ const useTravelokaPay = (data = {}) => {
                         token_id: token,
                         amount: checkout.data.cart.prices.grand_total.value.toString(),
                         card_cvn: cvv,
-                        order_id: orderNumber
+                        order_id: orderNumber,
                     },
-                }).then((res) => {
-                    handleClose();
-                    if (res.data?.travelokaCharge?.status === 'CAPTURED') {
-                        handleOpenMessage({
-                            variant: 'success',
-                            text: t('checkout:message:placeOrder'),
-                        });
-                        window.location.replace(generatesuccessRedirect(orderNumber));
-                    } else if (res.errors) {
+                })
+                    .then((res) => {
+                        handleClose();
+                        if (res.data?.travelokaCharge?.status === 'CAPTURED') {
+                            handleOpenMessage({
+                                variant: 'success',
+                                text: t('checkout:message:placeOrder'),
+                            });
+                            window.location.replace(generatesuccessRedirect(orderNumber));
+                        } else if (res.errors) {
+                            handleOpenMessage({
+                                variant: 'error',
+                                text: t('checkout:message:serverError'),
+                            });
+                            window.location.replace(generateCartRedirect(orderNumber));
+                        }
+                    })
+                    .catch((error) => {
                         handleOpenMessage({
                             variant: 'error',
-                            text: t('checkout:message:serverError'),
+                            text: error || t('checkout:message:serverError'),
                         });
                         window.location.replace(generateCartRedirect(orderNumber));
-                    }
-                }).catch((error) => {
-                    handleOpenMessage({
-                        variant: 'error',
-                        text: error || t('checkout:message:serverError'),
                     });
-                    window.location.replace(generateCartRedirect(orderNumber));
-                });
             } else if (creditCardCharge.status === 'IN_REVIEW') {
                 const status = creditCardCharge.status;
                 setCardToken(status);
