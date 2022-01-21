@@ -1,16 +1,19 @@
+/* eslint-disable no-lonely-if */
 import React from 'react';
 import View from '@core_modules/checkout/pages/default/components/ModalXendit/view';
 import { modules } from '@config';
-import { getHost } from '@helper_config';
+import { getHost, getStoreHost } from '@helper_config';
 import { removeCheckoutData } from '@helper_cookies';
 import { xenditSimulateQr } from '@core_modules/checkout/services/graphql';
 import { useTranslation } from '@i18n';
 import { getSuccessCallbackUrl } from '@core_modules/checkout/helpers/config';
+import { getAppEnv } from '@root/core/helpers/env';
 
 const ModalXendit = (props) => {
     const {
         payment_code, order_id, fromOrder, amount, xendit_qrcode_external_id,
     } = props;
+    const originName = modules.checkout.checkoutOnly ? 'pwa-checkout' : 'pwa';
     const [requestSimulateQr] = xenditSimulateQr();
     const { t } = useTranslation(['common']);
 
@@ -36,7 +39,11 @@ const ModalXendit = (props) => {
         } else if (payment_code === 'qr_codes') {
             generatesuccessRedirect();
         } else {
-            window.location.replace(`${getHost()}/checkout/cart?paymentFailed=true&orderId=${order_id}`);
+            if (originName === 'pwa-checkout') {
+                window.location.replace(`${getStoreHost(getAppEnv())}xendit/checkout/failure?order_id=${order_id}`);
+            } else {
+                window.location.replace(`${getHost()}/checkout/cart?paymentFailed=true&orderId=${order_id}`);
+            }
         }
     };
 

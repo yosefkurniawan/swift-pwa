@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { setCartId, removeCartId } from '@helper_cartid';
-import { getHost } from '@helper_config';
+import { getHost, getStoreHost } from '@helper_config';
 import { setCheckoutData } from '@helper_cookies';
 import { localTotalCart } from '@services/graphql/schema/local';
 import { modules } from '@config';
@@ -12,6 +12,7 @@ import gqlService from '@core_modules/checkout/services/graphql';
 import { getIpayUrl } from '@core_modules/checkout/helpers/config';
 
 import ModalXendit from '@core_modules/checkout/pages/default/components/ModalXendit/index';
+import { getAppEnv } from '@root/core/helpers/env';
 
 const Summary = ({
     t, checkout, setCheckout, handleOpenMessage, formik, updateFormik, config, refSummary, storeConfig,
@@ -72,6 +73,9 @@ const Summary = ({
     const generateCartRedirect = (orderNumber = '') => {
         if (config && config.cartRedirect && config.cartRedirect.link) {
             if (orderNumber && orderNumber !== '') {
+                if (originName === 'pwa-checkout') {
+                    return `${getStoreHost(getAppEnv())}snap/payment/fail?order_id=${orderNumber}`;
+                }
                 return `${getHost()}/checkout/cart?paymentFailed=true&orderId=${orderNumber}`;
             }
             return config.cartRedirect.link;

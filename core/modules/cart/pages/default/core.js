@@ -107,7 +107,7 @@ const Cart = (props) => {
 
     React.useEffect(() => {
         if (cancelAndReorderResponse?.data?.cancelAndReorder?.cart_id) {
-            const { cart_id } = cancelAndReorderMutation.data.cancelAndReorder;
+            const { cart_id } = cancelAndReorderResponse.data.cancelAndReorder;
             if (typeof window !== 'undefined') {
                 if (cart_id) {
                     setCartId(cart_id);
