@@ -807,6 +807,7 @@ const Checkout = (props) => {
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <script src="https://js.braintreegateway.com/web/3.78.2/js/client.min.js" />
                 <script src="https://js.braintreegateway.com/web/3.78.2/js/paypal-checkout.min.js" />
+                <script type="text/javascript" src="https://js.xendit.co/v1/xendit.min.js" />
             </Head>
             <Content {...contentProps} {...props} modules={modules} />
             <Toast open={isError} message={t('checkout:cartError')} variant="error" setOpen={setError} />

@@ -71,6 +71,7 @@ const Content = (props) => {
     const isSelectedPurchaseOrder = checkout.selected.payment === 'purchaseorder';
     // prettier-ignore
     const isPurchaseOrderApply = isSelectedPurchaseOrder && checkout.status.purchaseOrderApply;
+    const travelokaPayRef = React.useRef();
 
     /**
      * [METHOD] handle click for place order
@@ -262,6 +263,7 @@ const Content = (props) => {
                         setInitialOptionPaypal={setInitialOptionPaypal}
                         initialOptionPaypal={initialOptionPaypal}
                         setTokenData={setTokenData}
+                        travelokaPayRef={travelokaPayRef}
                     />
                     
                     <Confirmation
@@ -311,6 +313,7 @@ const Content = (props) => {
                     // eslint-disable-next-line no-return-assign
                     refSummary={SummaryRef}
                     isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
+                    travelokaPayRef={travelokaPayRef}
                 />
             </div>
             <div className="col-xs-12 col-sm-8 hidden-mobile center">

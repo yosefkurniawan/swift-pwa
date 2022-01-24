@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import React, { useState, useEffect } from 'react';
 import { checkoutAgreements } from '@core_modules/checkout/services/graphql';
 
@@ -59,7 +60,6 @@ const Confirmation = (props) => {
             checkAgree(checkboxItem);
         } else if (!agreements && checkList.length === 0) {
             // If there's no terms & condition list in GraphQL responses, checkout confirmation should be true
-
             setIsAgree(true);
         }
         checkout.confirmation = isAgree;
