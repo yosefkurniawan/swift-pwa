@@ -7,6 +7,10 @@
         "required": "Phone number is required",
         "wrong": "Phone number is not valid"
     },
+    "phoneEmail": {
+        "required": "Phone number or email is required",
+        "wrong": "Phone number or email is not valid"
+    },
     "password": {
         "required": "Password is required",
         "wrong": "Password is not valid"
@@ -74,6 +78,9 @@
     },
     "dob": {
         "required": "Date of Birth is required"
+    },
+    "confirmPinPoint": {
+        "required": "You have to check the agreements above."
     },
     "to": "To",
     "from": "From",

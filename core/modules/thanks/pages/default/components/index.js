@@ -35,7 +35,7 @@ const View = (props) => {
 
     const [openXendit, setOpenXendit] = React.useState(false);
 
-    const registerGuestEnabled = parseInt(storeConfig.weltpixel_thankyoupage_create_account_enable, 10);
+    const registerGuestEnabled = storeConfig.weltpixel_thankyoupage_create_account_enable;
     return (
         <div className={styles.container}>
             {

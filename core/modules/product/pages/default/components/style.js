@@ -165,7 +165,18 @@ const useStyles = makeStyles((theme) => ({
     ratingContainer: {
         ...FlexRow,
         [theme.breakpoints.up('sm')]: {
-            marginBottom: 20,
+            marginBottom: 16,
+        },
+    },
+    priceTiersContainer: {
+        ...FlexColumn,
+        [theme.breakpoints.up('sm')]: {
+            marginBottom: 16,
+        },
+        '& > *': {
+            flex: '0 0 100%',
+            margin: '5px 0',
+            fontSize: 12,
         },
     },
     btnLoadReview: {

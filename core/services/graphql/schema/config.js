@@ -42,7 +42,6 @@ export const getCategories = `
     }
 `;
 
-
 export const getVesMenu = `
     query getVesMenu($alias: String!) {
         vesMenu(alias: $alias) {
@@ -81,8 +80,6 @@ export const getVesMenu = `
         }
     }
 `;
-
-
 
 export const storeConfig = `
     {
@@ -136,6 +133,8 @@ export const storeConfig = `
             aw_blog_general_enabled
             pickup_store
             cookie_restriction
+            login_phone_password
+            forgot_password_phone
             global_promo {
               enable
               text_color
@@ -163,6 +162,9 @@ export const storeConfig = `
             aw_blog_related_products_display_add_to_cart
             weltpixel_RecentlyViewedBar_general_enable
             weltpixel_thankyoupage_create_account_enable
+            payment_travelokapay_public_key
+            payment_travelokapay_user_id
+            payment_travelokapay_bin_whitelist
             pin_location_latitude
             pin_location_longitude
             minimum_order_amount

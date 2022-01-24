@@ -17,6 +17,7 @@ import RadioItem from '@core_modules/checkout/components/radioitem';
 import ModalHowtoPay from '@core_modules/checkout/pages/default/components/ModalHowtoPay';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import TravelokaPayForm from '@core_modules/checkout/pages/default/components/payment/components/TravelokaPayForm';
 
 import { ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle } from './style';
 
@@ -25,6 +26,7 @@ const ExpansionPanelSummary = withStyles(ExpanSummaryStyle)(MuiExpansionPanelSum
 const ExpansionPanelDetails = withStyles(ExpanDetailStyle)(MuiExpansionPanelDetails);
 const PO = 'purchaseorder';
 const PaypalCode = 'paypal_express';
+const travelokapay = 'travelokapay';
 
 /**
  * Loader
@@ -91,8 +93,10 @@ const PaymentView = (props) => {
         paypalTokenData,
         paypalHandlingProps,
         initialOptionPaypal,
+        travelokaPayRef,
         storeConfig,
     } = props;
+    const { payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id } = storeConfig;
     const { modules } = commonConfig;
     const [expanded, setExpanded] = React.useState(null);
     const [expandedActive, setExpandedActive] = React.useState(true);
@@ -170,6 +174,7 @@ const PaymentView = (props) => {
                 }
             }
         }
+        // console.log('storeConfig', payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id);
         content = (
             <div>
                 <Typography variant="p">{t('checkout:paymentSubtitle')}</Typography>
@@ -213,8 +218,11 @@ const PaymentView = (props) => {
                                                             CustomItem={RadioItem}
                                                             ComponentOptional={(item) => {
                                                                 // prettier-ignore
-                                                                const isPurchaseOrder = item.code === PO || selected.payment === PO;
+                                                                const isPurchaseOrder = item.code === PO && selected.payment === PO;
                                                                 const isPaypal = item.code === PaypalCode && selected.payment === PaypalCode;
+                                                                const isTravelokaPay = item.code === travelokapay
+                                                                    && selected.payment === travelokapay;
+
                                                                 if (isPurchaseOrder) {
                                                                     return (
                                                                         <Grid item xs={12}>
@@ -248,6 +256,17 @@ const PaymentView = (props) => {
                                                                                 />
                                                                             </PayPalScriptProvider>
                                                                         </Grid>
+                                                                    );
+                                                                }
+                                                                if (isTravelokaPay) {
+                                                                    return (
+                                                                        <TravelokaPayForm
+                                                                            checkout={checkout}
+                                                                            payment_travelokapay_bin_whitelist={payment_travelokapay_bin_whitelist}
+                                                                            payment_travelokapay_public_key={payment_travelokapay_public_key}
+                                                                            payment_travelokapay_user_id={payment_travelokapay_user_id}
+                                                                            travelokaPayRef={travelokaPayRef}
+                                                                        />
                                                                     );
                                                                 }
 
