@@ -512,10 +512,6 @@ const modules = {
     },
     home: {
         enabled: true,
-        featuresProduct: {
-            enable: true,
-            url_key: 'homepage-featured-products',
-        },
         categoryList: {
             enable: true,
             url_key: 'homepage-featured-categories',
@@ -529,10 +525,6 @@ const modules = {
                     height: 465,
                 },
             },
-        },
-        bannerSlider: {
-            enable: true,
-            title: 'Client App Homepage Slider',
         },
     },
     promo: {

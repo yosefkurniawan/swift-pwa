@@ -12,8 +12,10 @@ import Alert from '@material-ui/lab/Alert';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 
 import {
-    ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle,
+    ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle, IconAccordion,
 } from './style';
+
+const IconLabel = withStyles(IconAccordion)(({ classes, label }) => <div id={`${label}Icon`} className={classes[label]} />);
 
 const Accordion = withStyles(ExpanPanelStyle)(MuiAccordion);
 
@@ -29,43 +31,11 @@ const Loader = () => (
     </>
 );
 
-const ShippingGroupIcon = (props) => {
-    const { baseMediaUrl, src } = props;
-    const fallbacks = [`${baseMediaUrl}checkout/shipping/shipping-${src.replace('sg-', '')}.svg`, null];
-    const styles = useStyles();
-
-    // check if image exist on the backoffice, otherwise use fallback image from PWA
-    const [imageSrc, setImageSrc] = React.useState(`./assets/img/shipping-${src.replace('sg-', '')}.svg`);
-    const [fallbackImageIndex, setFallbackImageIndex] = React.useState(0);
-
-    // set image fallback url
-    const getFallbackImageSrc = () => {
-        if (fallbackImageIndex > fallbacks.length) {
-            return;
-        }
-        setImageSrc(fallbacks[fallbackImageIndex]);
-        setFallbackImageIndex(fallbackImageIndex + 1);
-    };
-
-    return (
-        <>
-            {(imageSrc && (
-                <img
-                    className={styles.shippingGroupStyleIcon}
-                    src={imageSrc}
-                    alt={src.replace('sg-', '')}
-                    onError={() => getFallbackImageSrc()}
-                />
-            ))
-                || ''}
-        </>
-    );
-};
-
 const ShippingView = (props) => {
     const styles = useStyles();
     const {
-        isOnlyVirtualProductOnCart, checkout, storeConfig, loading, selected, handleShipping, data, t, shippingMethodList,
+        isOnlyVirtualProductOnCart, checkout, storeConfig, loading, selected,
+        handleShipping, data, t, shippingMethodList,
     } = props;
     let content;
     const [expanded, setExpanded] = React.useState(null);
@@ -186,11 +156,11 @@ const ShippingView = (props) => {
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
                                             <div className={styles.labelAccordion}>
-                                                <ShippingGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
+                                                <IconLabel label={item.group.replace('sg-', '')} />
                                                 <Typography letter="uppercase" variant="span" type="bold">
                                                     {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
                                                     === `shippingGrouping.${item.group.replace('sg-', '')}`
-                                                        ? item.group.replace('sg-', '')
+                                                        ? item.group.replace('pg-', '')
                                                         : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
                                                 </Typography>
                                             </div>

@@ -1,20 +1,16 @@
-import dynamic from 'next/dynamic';
-
-// import CustomRadio from '@common_radio';
+import CustomRadio from '@common_radio';
 // import SelectColor from '@common_forms/SelectColor';
 // import SelectSize from '@common_forms/SelectSize';
 import Typography from '@common_typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-
+import SelectOption from '@common_optionconfigurable';
 import useStyles from '@plugin_optionitem/ConfigurableOption/style';
-// import SelectOption from '@common_optionconfigurable';
-const CustomRadio = dynamic(() => import('@common_radio'), { ssr: true });
-const SelectOption = dynamic(() => import('@common_optionconfigurable'), { ssr: true });
 
 const ItemConfigurableView = (props) => {
     const {
-        option, selected, value, handleSelect, error, loading, configProduct, isGrid, disableItem, ...other
+        option, selected, value, handleSelect, error, loading, configProduct,
+        isGrid, disableItem, ...other
     } = props;
     const styles = useStyles();
     const classItem = styles.stylesItemOption;
@@ -30,7 +26,9 @@ const ItemConfigurableView = (props) => {
                 <Typography className="label-select" variant="label" type="bold" letter="uppercase">
                     {`${option.label.replace(/_/g, ' ')}`}
                 </Typography>
-                <span className="hidden-mobile label-select-value">{selectedLabel}</span>
+                <span className="hidden-mobile label-select-value">
+                    {selectedLabel}
+                </span>
             </div>
         );
         return (

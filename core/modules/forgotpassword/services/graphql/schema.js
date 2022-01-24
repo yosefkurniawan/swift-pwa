@@ -6,7 +6,6 @@ export const requestLinkToken = gql`
             token
             app_url
             url
-            message
         }
     }
 `;

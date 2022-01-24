@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable array-callback-return */
+import PriceFormat from '@common_priceformat';
 import Typography from '@common_typography';
 import IconButton from '@material-ui/core/IconButton';
 import Favorite from '@material-ui/icons/Favorite';
@@ -10,6 +11,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { getHost } from '@helper_config';
 import Breadcrumb from '@common_breadcrumb';
+import RatingStar from '@common_ratingstar';
 import { breakPointsUp } from '@helper_theme';
 import dynamic from 'next/dynamic';
 import useStyles from '@core_modules/product/pages/default/components/style';
@@ -26,10 +28,8 @@ import { formatPrice } from '@helper_currency';
 const Button = dynamic(() => import('@common_button'), { ssr: false });
 const Banner = dynamic(() => import('@common_slick/BannerThumbnail'), { ssr: true });
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: true });
-const TabsView = dynamic(() => import('@core_modules/product/pages/default/components/DesktopTabs'), { ssr: false });
-const PriceFormat = dynamic(() => import('@common_priceformat'), { ssr: true });
-const RatingStar = dynamic(() => import('@common_ratingstar'), { ssr: true });
-const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: true });
+const TabsView = dynamic(() => import('@core_modules/product/pages/default/components/DesktopTabs'), { ssr: true });
+const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: false });
 const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
 const UpsellDrawer = dynamic(() => import('@core_modules/product/pages/default/components/RightDrawer'), { ssr: false });
 const RelatedProductCaraousel = dynamic(() => import('@core_modules/product/pages/default/components/RelatedProductCaraousel'), { ssr: false });

@@ -55,5 +55,4 @@ export const otpConfig = () => useQuery(Schema.otpConfig);
 export default {
     getToken,
     getTokenOtp,
-    getTokenPhoneEmail,
 };

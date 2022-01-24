@@ -48,7 +48,6 @@ type internalDeleteSessionOutput {
 type Mutation {
     internalGenerateCustomerToken(username: String!, password: String!): Token
     internalCreateCustomerToken(input: internalCreateCustomerTokenInput): Token
-    internalGenerateCustomerTokenCustom(username: String!, password: String!): Token
     internalCreateSocialLogin(input: internalCreateSocialLoginInput): Token
     internalGenerateCustomerTokenOtp(username: String!, otp: String!): Token
     internalDeleteCustomerToken: RevokeCustomerTokenOutput

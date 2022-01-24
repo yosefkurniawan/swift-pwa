@@ -6,6 +6,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
+import Button from '@common_button';
 import TextField from '@common_forms/TextField';
 import Image from '@common_image';
 import Select from '@common_select';
@@ -19,14 +20,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import Footer from '@plugin_optionitem/components/Footer';
 import classnames from 'classnames';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import dynamic from 'next/dynamic';
-
-const Button = dynamic(() => import('@common_button'), { ssr: false });
-const Footer = dynamic(() => import('@plugin_optionitem/components/Footer'), { ssr: true });
-const MagezonElement = dynamic(() => import('@core_modules/cms/components/cms-renderer/index'), { ssr: false });
+import MagezonElement from '@core_modules/cms/components/cms-renderer/index';
 
 const AwGiftCardProduct = (props) => {
     const {
@@ -174,14 +172,15 @@ const AwGiftCardProduct = (props) => {
                             : '1.'
                         : aw_gc_allow_open_amount
                             ? '3.'
-                            : '2.'}{' '}
+                            : '2.'}
+                    {' '}
                     {`${t('validate:composeEmail')}`}
                 </Typography>
                 <form>
                     {aw_gc_allow_delivery_date && (
                         <DatePicker
                             fullWidth
-                            label={t('validate:deliveryDate')}
+                            label={t('common:form:Delivery Date')}
                             name="aw_gc_delivery_date"
                             value={formik.values.aw_gc_delivery_date}
                             onChange={handleChangeDate}

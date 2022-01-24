@@ -78,12 +78,12 @@ export default makeStyles((theme) => ({
         },
         ...CreateMargin(0, 8, 0, 0),
         width: '100%',
-        // height: 41,
+        height: 41,
         bottom: 0,
         left: 0,
         opacity: 'none',
         color: WHITE,
-        // borderRadius: 100,
+        borderRadius: 100,
     },
     textBtnAddToCard: {
         fontSize: 16,
@@ -149,9 +149,9 @@ export default makeStyles((theme) => ({
         opacity: '1',
     },
     loadingCart: {
-        // height: '100px',
-        // display: 'flex',
-        // justifyContent: 'center',
-        // alignItems: 'center',
+        height: '100px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 }));

@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
     },
     fullWidth: {
         width: '100%',
-        margin: '0',
+        margin: 'auto',
         [theme.breakpoints.up('sm')]: {
             maxWidth: 375,
         },

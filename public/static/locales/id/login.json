@@ -10,10 +10,7 @@
     "customerLogin": "Login pelanggan",
     "registerCustomer": "Pelanggan terdaftar",
     "newCustomer": "Pelanggan baru",
-    "loginInformation": "Jika kamu sudah mempunyai akun, silahkan masuk dengan email.",
-    "loginPhoneEmailInformation": "Jika kamu sudah mempunyai akun, silahkan masuk dengan email.",
-    "phoneEmailLabel": "Email atau Nomor Telepon",
-    "phoneEmailFields": "john.doe@gmail.com / +628123456789",
+    "loginInformation": "Jika kamu sudah mempunyai akun, silahkan masuk dengan email atau nomor telepon.",
     "loginOtpInformation": " Jika kamu mempunyai akun terdaftar dengan nomor telepon, masuk dengan nomor telepon.",
     "registerInformation": "Membuat akun akan mendapatkan benefit : checkout dengan cepat, simpan lebih dari satu alamat pengiriman, lacak pembelian and masih banyak lagi."
 }

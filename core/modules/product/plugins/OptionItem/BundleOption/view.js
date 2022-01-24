@@ -1,67 +1,55 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
 import { withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
+import Button from '@common_button';
 import Typography from '@common_typography';
-
 import useStyles from '@plugin_optionitem/BundleOption/style';
+import Customize from '@plugin_optionitem/BundleOption/components/customize';
 
-const Button = dynamic(() => import('@common_button'), { ssr: false });
-const Customize = dynamic(() => import('@plugin_optionitem/BundleOption/components/customize'), { ssr: true });
-
-const Accordion = withStyles(
-    {
-        root: {
-            boxShadow: 'none',
-            '&:not(:last-child)': {
-                borderBottom: 0,
-            },
-            '&:before': {
-                display: 'none',
-            },
-            '&$expanded': {
-                margin: 'auto',
-            },
+const Accordion = withStyles({
+    root: {
+        boxShadow: 'none',
+        '&:not(:last-child)': {
+            borderBottom: 0,
         },
-        disabled: {
-            background: '#fff !important',
+        '&:before': {
+            display: 'none',
         },
-        expanded: {},
+        '&$expanded': {
+            margin: 'auto',
+        },
     },
-    { name: 'MuiBundleViewAccordion' },
-)(MuiAccordion);
+    disabled: {
+        background: '#fff !important',
+    },
+    expanded: {},
+})(MuiAccordion);
 
-const AccordionSummary = withStyles(
-    {
-        root: {
-            marginBottom: -1,
-            padding: 0,
+const AccordionSummary = withStyles({
+    root: {
+        marginBottom: -1,
+        padding: 0,
+        minHeight: 56,
+        '&$expanded': {
             minHeight: 56,
-            '&$expanded': {
-                minHeight: 56,
-            },
         },
-        content: {
-            '&$expanded': {
-                margin: '12px 0',
-            },
-        },
-        expanded: {},
     },
-    { name: 'MuiBundleViewAccordionSummary' },
-)(MuiAccordionSummary);
+    content: {
+        '&$expanded': {
+            margin: '12px 0',
+        },
+    },
+    expanded: {},
+})(MuiAccordionSummary);
 
-const AccordionDetails = withStyles(
-    {
-        root: {
-            padding: 0,
-            display: 'block',
-        },
+const AccordionDetails = withStyles(() => ({
+    root: {
+        padding: 0,
+        display: 'block',
     },
-    { name: 'MuiBundleViewAccordionDetails' },
-)(MuiAccordionDetails);
+}))(MuiAccordionDetails);
 
 const BundleView = (props) => {
     const {

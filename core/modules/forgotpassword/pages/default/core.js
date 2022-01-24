@@ -27,13 +27,11 @@ const ForgotPassword = (props) => {
     const [load, setLoad] = React.useState(false);
     const [disabled, setDisabled] = React.useState(true);
     const [getToken] = requestLinkToken();
-
     const formik = useFormik({
         initialValues: {
             email: '',
             otp: '',
             phoneNumber: '',
-            phoneNumberEmail: '',
         },
         validationSchema: Yup.object().shape({
             email: useEmail && Yup.string().required(t('validate:email:required')),
@@ -97,12 +95,11 @@ const ForgotPassword = (props) => {
                 .then((res) => {
                     setLoad(false);
                     const { token, message } = res.data.requestLinkForgotPassword;
-
                     if (token) {
                         setToast({
                             open: true,
                             variant: 'success',
-                            text: `${t('forgotpassword:successPhone', { phone })}`,
+                            text: t('forgotpassword:success'),
                         });
                         setTimeout(() => {
                             Router.push(`/customer/account/createPassword?token=${token}`);
@@ -126,16 +123,17 @@ const ForgotPassword = (props) => {
                     if (e.message === 'phone number is not registered.') {
                         setToast({
                             open: true,
-                            variant: 'error',
+                            variant: 'success',
                             text: t('forgotpassword:failedPhone', { phone }),
                         });
-                    } else {
-                        setToast({
-                            open: true,
-                            variant: 'error',
-                            text: e.message.split(':')[1] || t('forgotpassword:failed'),
-                        });
                     }
+                })
+                .catch((e) => {
+                    setToast({
+                        open: true,
+                        variant: 'error',
+                        text: e.message.split(':')[1] || t('forgotpassword:failed'),
+                    });
                     setLoad(false);
                 });
         },

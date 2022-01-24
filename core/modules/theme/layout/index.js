@@ -216,8 +216,8 @@ const Layout = (props) => {
                     name="keywords"
                     content={pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa'}
                 />
+                <meta name="robots" content={appEnv === 'production' ? 'INDEX,FOLLOW' : 'NOINDEX,NOFOLLOW'} />
                 <link rel="apple-touch-icon" href={iconAppleTouch} />
-                <meta name="robots" content={appEnv === 'prod' && storeConfig.pwa ? storeConfig.pwa.default_robot : 'NOINDEX,NOFOLLOW'} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="format-detection" content="telephone=no" />
                 <meta name="description" content={ogData['og:description']} />
@@ -237,23 +237,35 @@ const Layout = (props) => {
             {showPopup ? <PopupInstallAppMobile appName={appName} installMessage={installMessage} /> : null}
             {withLayoutHeader && (
                 <header ref={refHeader}>
-                    {typeof window !== 'undefined' && storeConfig.global_promo && storeConfig.global_promo.enable && (
-                        <GlobalPromoMessage t={t} storeConfig={storeConfig} showGlobalPromo={showGlobalPromo} handleClose={handleClosePromo} />
-                    )}
-                    <div className="hidden-mobile">
-                        {headerDesktop ? (
-                            <HeaderDesktop
-                                storeConfig={storeConfig}
-                                isLogin={isLogin}
+                    { typeof window !== 'undefined'
+                        && storeConfig.global_promo && storeConfig.global_promo.enable
+                        && (
+                            <GlobalPromoMessage
                                 t={t}
-                                app_cookies={app_cookies}
+                                storeConfig={storeConfig}
                                 showGlobalPromo={showGlobalPromo}
+                                handleClose={handleClosePromo}
                                 enablePopupInstallation={showPopup}
                                 appName={appName}
                                 installMessage={installMessage}
                                 dataVesMenu={dataVesMenu}
                             />
-                        ) : null}
+                        )}
+                    <div className="hidden-mobile">
+                        {headerDesktop
+                            ? (
+                                <HeaderDesktop
+                                    storeConfig={storeConfig}
+                                    isLogin={isLogin}
+                                    t={t}
+                                    app_cookies={app_cookies}
+                                    showGlobalPromo={showGlobalPromo}
+                                    enablePopupInstallation={showPopup}
+                                    appName={appName}
+                                    installMessage={installMessage}
+                                />
+                            )
+                            : null}
                     </div>
                     <div className="hidden-desktop">
                         {React.isValidElement(CustomHeader) ? (
@@ -290,19 +302,27 @@ const Layout = (props) => {
                     {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} />}
                 </footer>
             )}
-            {storeConfig.cookie_restriction && !restrictionCookies && (
-                <RestrictionPopup handleRestrictionCookies={handleRestrictionCookies} restrictionStyle={bodyStyles.cookieRestriction} />
-            )}
-            {showRecentlyBar && !onlyCms && (
-                <RecentlyViewed
-                    isActive={storeConfig && storeConfig.weltpixel_RecentlyViewedBar_general_enable}
-                    recentlyBtn={bodyStyles.recentView}
-                    wrapperContent={bodyStyles.recentlyWrapperContent}
-                    recentlyBtnContent={bodyStyles.recentlyBtnContent}
-                    contentFeatured={bodyStyles.contentFeatured}
-                    className={bodyStyles.itemProduct}
-                />
-            )}
+            {
+                storeConfig.cookie_restriction && !restrictionCookies
+                && (
+                    <RestrictionPopup
+                        handleRestrictionCookies={handleRestrictionCookies}
+                        restrictionStyle={bodyStyles.cookieRestriction}
+                    />
+                )
+            }
+            {
+                showRecentlyBar && !onlyCms && (
+                    <RecentlyViewed
+                        isActive={storeConfig && storeConfig.weltpixel_RecentlyViewedBar_general_enable}
+                        recentlyBtn={bodyStyles.recentView}
+                        wrapperContent={bodyStyles.recentlyWrapperContent}
+                        recentlyBtnContent={bodyStyles.recentlyBtnContent}
+                        contentFeatured={bodyStyles.contentFeatured}
+                        className={bodyStyles.itemProduct}
+                    />
+                )
+            }
         </>
     );
 };

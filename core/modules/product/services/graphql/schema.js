@@ -492,7 +492,6 @@ export const getBundleProduct = (sku) => {
             is_default
             label
             quantity
-            can_change_quantity
             product {
               id
               name

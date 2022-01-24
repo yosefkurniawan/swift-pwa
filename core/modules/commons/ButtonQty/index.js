@@ -9,11 +9,6 @@ const ButtonQty = ({
 }) => {
     const styles = useStyles();
     const [localValue, setLocalValue] = React.useState(value);
-
-    React.useEffect(() => {
-        setLocalValue(value);
-    }, [value]);
-
     const handleMinus = () => {
         if (!disabled && localValue > 1 && localValue <= max) {
             if (onChange) {
@@ -54,7 +49,6 @@ const ButtonQty = ({
     };
     const disabledMin = disabled || localValue === 1;
     const disableMax = disabled || localValue === max;
-
     return (
         <div className={styles.box}>
             <div className={classNames(styles.minus, disabledMin ? styles.disabled : '')} onClick={handleMinus}>-</div>

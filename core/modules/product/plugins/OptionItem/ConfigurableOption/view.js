@@ -1,11 +1,6 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
-
-// import Item from '@plugin_optionitem/ConfigurableOption/Item';
-// import Footer from '@plugin_optionitem/components/Footer';
-
-const Item = dynamic(() => import('@plugin_optionitem/ConfigurableOption/Item'), { ssr: true });
-const Footer = dynamic(() => import('@plugin_optionitem/components/Footer'), { ssr: true });
+import Item from '@plugin_optionitem/ConfigurableOption/Item';
+import Footer from '@plugin_optionitem/components/Footer';
 
 const ConfigurableView = (props) => {
     const {

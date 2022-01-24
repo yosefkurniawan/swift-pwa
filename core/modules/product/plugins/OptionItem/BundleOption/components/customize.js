@@ -66,10 +66,9 @@ const Customize = (props) => {
                                             {t('product:quantity')}
                                         </Typography>
                                         <ButtonQty
-                                            value={val.options.find((option) => option.is_default)?.quantity}
+                                            value={1}
                                             onChange={(e) => changeQty(val.position, e)}
                                             max={10000}
-                                            disabled={!val.options.find((option) => option.is_default)?.can_change_quantity}
                                         />
                                     </div>
                                 ))}
