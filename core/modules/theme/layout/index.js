@@ -14,7 +14,7 @@ import { breakPointsUp } from '@helper_theme';
 import { setCookies, getCookies } from '@helper_cookies';
 import { getAppEnv } from '@helpers/env';
 import useStyles from '@core_modules/theme/layout/style';
-import { popupInstallConfig } from '@services/graphql/repository/pwa_config';
+import { popupInstallConfig, facebookMetaConfig } from '@services/graphql/repository/pwa_config';
 import { createCompareList } from '@core_modules/product/services/graphql';
 
 import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
@@ -36,6 +36,7 @@ const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/rece
 const Layout = (props) => {
     const bodyStyles = useStyles();
     const {
+        dataVesMenu,
         pageConfig,
         children,
         app_cookies,
@@ -69,12 +70,13 @@ const Layout = (props) => {
 
     // get app name config
     const { loading: loadPopupConfig, data: dataPopupConfig } = popupInstallConfig();
+    const { loading: loadFacebookMeta, data: dataFacebookMeta } = facebookMetaConfig();
     let appName = '';
     let installMessage = '';
     let showPopup = false;
     let iconAppleTouch = '/assets/img/swiftpwa_apple_touch.png';
-    if(storeConfig && storeConfig.pwa) {
-        iconAppleTouch = storeConfig.pwa.icon_apple_touch
+    if (storeConfig && storeConfig.pwa) {
+        iconAppleTouch = storeConfig.pwa.icon_apple_touch;
     }
     if (!loadPopupConfig && dataPopupConfig && dataPopupConfig.storeConfig
         && dataPopupConfig.storeConfig.pwa && dataPopupConfig.storeConfig.pwa.app_name) {
@@ -139,8 +141,8 @@ const Layout = (props) => {
         ogData['og:description'] = storeConfig.default_description || '';
     }
 
-    if (features.facebookMetaId.enabled) {
-        ogData['fb:app_id'] = features.facebookMetaId.app_id;
+    if (!loadFacebookMeta && dataFacebookMeta && dataFacebookMeta.storeConfig.pwa.facebook_meta_id_enable) {
+        ogData['fb:app_id'] = dataFacebookMeta.storeConfig.pwa.facebook_meta_id_app_id;
     }
 
     React.useEffect(() => {
@@ -249,6 +251,7 @@ const Layout = (props) => {
                                 enablePopupInstallation={showPopup}
                                 appName={appName}
                                 installMessage={installMessage}
+                                dataVesMenu={dataVesMenu}
                             />
                         ) : null}
                     </div>

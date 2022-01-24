@@ -22,11 +22,34 @@ const Content = (props) => {
     const [isGrid, setGridState] = useState(true);
 
     let drawerFilterOnDesktop = {};
+    let aggregationsDesktop;
+    let customFilterDesktop;
+    let loadingAggregations = false;
 
     const { data: dataDrawerFilterOnDesktop, loading: loadingDrawerFilterOnDesktop } = drawerFilterOnDesktopConfig();
 
-    if (!loadingDrawerFilterOnDesktop && dataDrawerFilterOnDesktop
-        && dataDrawerFilterOnDesktop.storeConfig && dataDrawerFilterOnDesktop.storeConfig.pwa) {
+    useEffect(() => {
+        if (aggregations.length > 0) {
+            aggregationsDesktop = aggregations;
+        }
+        if (customFilter != undefined) {
+            customFilterDesktop = customFilter;
+        }
+        if (
+            (aggregations.length > 0 || customFilter != undefined) &&
+            !loadingDrawerFilterOnDesktop &&
+            dataDrawerFilterOnDesktop.drawer_filter_on_desktop_enable == false
+        ) {
+            loadingAggregations = true;
+        }
+    }, [aggregations, customFilter]);
+
+    if (
+        !loadingDrawerFilterOnDesktop &&
+        dataDrawerFilterOnDesktop &&
+        dataDrawerFilterOnDesktop.storeConfig &&
+        dataDrawerFilterOnDesktop.storeConfig.pwa
+    ) {
         drawerFilterOnDesktop = {
             ...dataDrawerFilterOnDesktop.storeConfig.pwa,
         };
@@ -34,9 +57,7 @@ const Content = (props) => {
 
     const handleScroll = () => {
         // To get page offset of last user
-        const lastUserLoaded = document.querySelector(
-            '.grid-item:last-child',
-        );
+        const lastUserLoaded = document.querySelector('.grid-item:last-child');
         if (lastUserLoaded) {
             const lastUserLoadedOffset = lastUserLoaded.offsetTop + lastUserLoaded.clientHeight;
             const pageOffset = window.pageYOffset + window.innerHeight;
@@ -78,25 +99,44 @@ const Content = (props) => {
                     />
                 </div>
             ) : null}
-            <div className={drawerFilterOnDesktop.drawer_filter_on_desktop_enable ? 'hidden-desktop' : ''}>
-                <Filter
-                    filter={customFilter || aggregations}
-                    defaultSort={JSON.stringify(defaultSort)}
-                    filterValue={query}
-                    setFiltervalue={setFiltervalue}
-                    isSearch={!!config.search}
-                    products={products}
-                    renderEmptyMessage={renderEmptyMessage}
-                    loading={loading}
-                    setGrid={(state) => setGrid(state)}
-                    t={t}
-                    {...other}
-                />
-            </div>
-            {drawerFilterOnDesktop.drawer_filter_on_desktop_enable ? (
+            {(drawerFilterOnDesktop.drawer_filter_on_desktop_enable == true && (
+                // <div className={drawerFilterOnDesktop.drawer_filter_on_desktop_enable == true ? 'hidden-desktop' : ''}>
+                <>
+                    <Filter
+                        filter={customFilter || aggregations}
+                        defaultSort={JSON.stringify(defaultSort)}
+                        filterValue={query}
+                        setFiltervalue={setFiltervalue}
+                        isSearch={!!config.search}
+                        products={products}
+                        renderEmptyMessage={renderEmptyMessage}
+                        loading={loading}
+                        setGrid={(state) => setGrid(state)}
+                        t={t}
+                        {...other}
+                    />
+                </>
+            )) || (
+                <div className="hidden-desktop">
+                    <Filter
+                        filter={customFilter || aggregations}
+                        defaultSort={JSON.stringify(defaultSort)}
+                        filterValue={query}
+                        setFiltervalue={setFiltervalue}
+                        isSearch={!!config.search}
+                        products={products}
+                        renderEmptyMessage={renderEmptyMessage}
+                        loading={loading}
+                        setGrid={(state) => setGrid(state)}
+                        t={t}
+                        {...other}
+                    />
+                </div>
+            )}
+            {drawerFilterOnDesktop.drawer_filter_on_desktop_enable == false ? (
                 <div className={classNames(styles.filterBtnContainer, 'hidden-mobile')}>
                     <Sort
-                        filter={customFilter || aggregations}
+                        filter={customFilterDesktop || aggregationsDesktop}
                         defaultSort={JSON.stringify(defaultSort)}
                         filterValue={query}
                         setFiltervalue={setFiltervalue}
@@ -108,34 +148,32 @@ const Content = (props) => {
             ) : null}
 
             <div className="row">
-                {drawerFilterOnDesktop.drawer_filter_on_desktop_enable
-                    ? (
-                        <div className="col-sm-12 col-lg-2 hidden-mobile">
-                            <FilterDesktop
-                                filter={customFilter || aggregations}
-                                defaultSort={JSON.stringify(defaultSort)}
-                                filterValue={query}
-                                setFiltervalue={setFiltervalue}
-                                isSearch={!!config.search}
-                                products={products}
-                                renderEmptyMessage={renderEmptyMessage}
-                                loading={loading}
-                                tabs={dataTabs}
-                                t={t}
-                                onChangeTabs={onChangeTabs}
-                            />
-                        </div>
-                    )
-                    : null}
-                <div className={`col-sm-12 col-xs-12 col-lg-${drawerFilterOnDesktop.drawer_filter_on_desktop_enable ? '10' : '12'}`}>
-                    {drawerFilterOnDesktop.drawer_filter_on_desktop_enable
-                        ? (
-                            <Typography variant="p" type="regular" className={classNames('hidden-mobile', styles.countProductTextDesktop)}>
-                                {products.total_count}
-                                {' '}
-                                {t('catalog:product:name')}
-                            </Typography>
-                        ) : null}
+                {drawerFilterOnDesktop.drawer_filter_on_desktop_enable == false &&
+                aggregationsDesktop != undefined &&
+                aggregationsDesktop.length > 0 ? (
+                    <div className="col-sm-12 col-lg-2 hidden-mobile">
+                        <p>bb</p>
+                        <FilterDesktop
+                            filter={customFilterDesktop || aggregationsDesktop}
+                            defaultSort={JSON.stringify(defaultSort)}
+                            filterValue={query}
+                            setFiltervalue={setFiltervalue}
+                            isSearch={!!config.search}
+                            products={products}
+                            renderEmptyMessage={renderEmptyMessage}
+                            loading={loading}
+                            tabs={dataTabs}
+                            t={t}
+                            onChangeTabs={onChangeTabs}
+                        />
+                    </div>
+                ) : null}
+                <div className={`col-sm-12 col-xs-12 col-lg-${drawerFilterOnDesktop.drawer_filter_on_desktop_enable == false ? '12' : '12'}`}>
+                    {drawerFilterOnDesktop.drawer_filter_on_desktop_enable == false ? (
+                        <Typography variant="p" type="regular" className={classNames('hidden-mobile', styles.countProductTextDesktop)}>
+                            {products.total_count} {t('catalog:product:name')}
+                        </Typography>
+                    ) : null}
                     <div className={styles.productContainer}>
                         {loading && <ProductListSkeleton />}
                         {!loading && (
@@ -154,16 +192,19 @@ const Content = (props) => {
                                 gridItemProps={
                                     isGrid
                                         ? {
-                                            xs: 6, sm: 4, md: drawerFilterOnDesktop.drawer_filter_on_desktop_enable ? 3 : 2,
-                                        } : {
-                                            xs: 12, sm: 12, md: drawerFilterOnDesktop.drawer_filter_on_desktop_enable ? 12 : 12,
-                                        }
+                                              xs: 6,
+                                              sm: 4,
+                                              md: drawerFilterOnDesktop.drawer_filter_on_desktop_enable ? 3 : 2,
+                                          }
+                                        : {
+                                              xs: 12,
+                                              sm: 12,
+                                              md: drawerFilterOnDesktop.drawer_filter_on_desktop_enable ? 12 : 12,
+                                          }
                                 }
                             />
                         )}
-                        {(products.items.length === products.total_count) || loading
-                            ? renderEmptyMessage(products.items.length, loading)
-                            : null}
+                        {products.items.length === products.total_count || loading ? renderEmptyMessage(products.items.length, loading) : null}
                         {loadmore ? (
                             <div className={styles.divLoadMore}>
                                 <Typography align="center" variant="span" type="bold" letter="uppercase" color="gray">
@@ -174,7 +215,6 @@ const Content = (props) => {
                     </div>
                 </div>
             </div>
-
         </>
     );
 };
