@@ -200,22 +200,30 @@ const Summary = ({
 
             travelokaPayRef.current.submitForm();
             const travelokaValidateForm = await travelokaPayRef.current.validateForm();
-            if (Object.keys(travelokaValidateForm).length > 0) return;
+            if (Object.keys(travelokaValidateForm).length > 0) {
+                handleOpenMessage({
+                    variant: 'error',
+                    text: Object.values(travelokaValidateForm),
+                });
+                state.loading.order = false;
+                setCheckout(state);
+                return;
+            }
 
             if (!window.Xendit.card.validateCardNumber(cardNumber)) {
                 travelokaPayRef.current.setFieldError('cardNumber',
-                    `${t('checkout:travelokaPay:validation:nameOnCard')} ${t('checkout:travelokaPay:validation:required')}`);
-                errorMessages.push(`${t('checkout:travelokaPay:validation:nameOnCard')} ${t('checkout:travelokaPay:validation:required')}`);
+                    `${t('checkout:travelokaPay:validation:cardNumber')} ${t('checkout:travelokaPay:validation:invalid')}`);
+                errorMessages.push(`${t('checkout:travelokaPay:validation:cardNumber')} ${t('checkout:travelokaPay:validation:invalid')}`);
             }
             if (!window.Xendit.card.validateExpiry(expiryDatas[0], `20${expiryDatas[1]}`)) {
                 travelokaPayRef.current.setFieldError('expiryDate',
-                    `${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:required')}`);
-                errorMessages.push(`${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:required')}`);
+                    `${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:invalid')}`);
+                errorMessages.push(`${t('checkout:travelokaPay:validation:expiryDate')} ${t('checkout:travelokaPay:validation:invalid')}`);
             }
             if (!window.Xendit.card.validateCvn(cvv)) {
                 travelokaPayRef.current.setFieldError('cvv',
-                    `${t('checkout:travelokaPay:validation:cvv')} ${t('checkout:travelokaPay:validation:required')}`);
-                errorMessages.push(`${t('checkout:travelokaPay:validation:cvv')} ${t('checkout:travelokaPay:validation:required')}`);
+                    `${t('checkout:travelokaPay:validation:cvv')} ${t('checkout:travelokaPay:validation:invalid')}`);
+                errorMessages.push(`${t('checkout:travelokaPay:validation:cvv')} ${t('checkout:travelokaPay:validation:invalid')}`);
             }
 
             if (errorMessages.length > 0) {

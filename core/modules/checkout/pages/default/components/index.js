@@ -60,7 +60,6 @@ const Content = (props) => {
         setInitialOptionPaypal,
         initialOptionPaypal,
         setTokenData,
-        travelokaForm,
         refetchDataCart,
         refetchItemCart,
         ConfirmationView,
@@ -265,7 +264,6 @@ const Content = (props) => {
                         initialOptionPaypal={initialOptionPaypal}
                         setTokenData={setTokenData}
                         travelokaPayRef={travelokaPayRef}
-                        travelokaForm={travelokaForm}
                     />
                     
                     <Confirmation
