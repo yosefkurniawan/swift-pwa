@@ -4,9 +4,24 @@ import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
 import { installMessage, appName } from '@config';
 import useStyles from '@core_modules/theme/components/custom-install-popup/style';
+import TagManager from 'react-gtm-module';
 
 const PopupInstalation = () => {
     const styles = useStyles();
+
+    const onClick = () => {
+        const timestamp = Date.now();
+        const identifier = `${(Math.floor(Math.random() * 100) * Math.floor(Math.random() * 100))}_${timestamp}`;
+        const dataLayer = {
+            event: 'countPopupInstallation',
+            eventCategory: 'Count Popup Installation',
+            eventAction: 'Installed',
+            eventLabel: 'installPWA',
+            eventValue: identifier,
+        };
+        TagManager.dataLayer({ dataLayer });
+    };
+
     const closePopup = () => {
         const el = document.getElementById('popup-mobile__install');
         // hidden popup
@@ -20,6 +35,7 @@ const PopupInstalation = () => {
         localStorage.setItem('hideInstallPopup', true);
         localStorage.setItem('expiredHideInstallPopup', date.getDate());
     };
+
     return (
         <div id="popup-mobile__install" className={classNames('row', styles.containerMobile)}>
             <div className={styles.iconClose}>
@@ -30,7 +46,13 @@ const PopupInstalation = () => {
                 <p style={{ margin: 0 }}>{installMessage}</p>
             </div>
             <div className={styles.btnInstallContainer}>
-                <Button className={styles.btnInstall} id="btn-install__mobile" variant="contained" color="primary">
+                <Button 
+                    className={styles.btnInstall} 
+                    id="btn-install__mobile" 
+                    variant="contained" 
+                    color="primary"
+                    onClick={onClick}
+                >
                     Install
                 </Button>
             </div>

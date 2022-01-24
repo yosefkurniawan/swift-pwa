@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
 import { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
 import { useTranslation } from '@i18n';
 import PriceFormat from '@common_priceformat';
 import Banner from '@common_slick/BannerThumbnail';
@@ -15,12 +14,10 @@ import Button from '@common_button';
 import RatingStar from '@common_ratingstar';
 import { getHost } from '@helper_config';
 import { modules } from '@config';
-
 import useStyles from '@plugin_productitem/components/QuickView/style';
-
-const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: false });
-const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: false });
-const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
+import DesktopOptions from '@core_modules/product/pages/default/components/OptionItem/DesktopOptions';
+import ItemShare from '@core_modules/product/pages/default/components/SharePopup/item';
+import WeltpixelLabel from '@plugin_productitem/components/WeltpixelLabel';
 
 const QuickView = (props) => {
     const styles = useStyles();
@@ -30,13 +27,13 @@ const QuickView = (props) => {
         onClose, selectedValue, open, data, weltpixel_labels,
     } = props;
 
-    const product = data.items[0];
+    const product = data?.items[0];
 
-    const reviewValue = parseInt(product.review.rating_summary, 0) / 20;
+    const reviewValue = parseInt(product?.review?.rating_summary, 0) / 20;
 
     // generate banner image
     const bannerData = [];
-    if (product.media_gallery.length > 0) {
+    if (product?.media_gallery?.length > 0) {
         // eslint-disable-next-line array-callback-return
         product.media_gallery.map((media) => {
             bannerData.push({
@@ -47,7 +44,7 @@ const QuickView = (props) => {
     } else {
         bannerData.push({
             link: '#',
-            imageUrl: product.image.url,
+            imageUrl: product?.image?.url,
         });
     }
 
@@ -204,7 +201,7 @@ const QuickView = (props) => {
                             <DesktopOptions
                                 price={price}
                                 t={t}
-                                data={data.items[0]}
+                                data={data?.items[0]}
                                 setBanner={setBanner}
                                 setPrice={setPrice}
                                 setStockStatus={setStockStatus}
