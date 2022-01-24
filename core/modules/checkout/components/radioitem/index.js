@@ -10,7 +10,7 @@ const RadioDeliveryItem = (props) => {
     const styles = useStyles();
     const {
         value, label, promoLabel, selected, onChange = () => { }, borderBottom = true, image = null, classContent = '',
-        amount, price_incl_tax, storeConfig, disabled = false,
+        amount, price_incl_tax, storeConfig, disabled = false, code,
     } = props;
     const handleChange = () => {
         if (!disabled) {
@@ -54,9 +54,16 @@ const RadioDeliveryItem = (props) => {
 
     const shippingLabel = (
         <div>
-            <Typography variant="p" type={labelType} className={styles.originalLabel}>
-                {label}
-            </Typography>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                {code === 'travelokapay' && (
+                    <div style={{ display: 'flex', alignItems: 'center', width: 60 }}>
+                        <div className="travelokapay-ic" />
+                    </div>
+                )}
+                <Typography variant="p" type={labelType} className={styles.originalLabel}>
+                    {label}
+                </Typography>
+            </div>
             {promoLabel ? (
                 <Typography variant="p" type={labelType}>
                     (
@@ -72,15 +79,30 @@ const RadioDeliveryItem = (props) => {
     return (
         <div
             className={rootStyle}
-            onClick={handleChange}
             id="checkoutRadioItem"
         >
-            <Radio color="default" size="small" checked={selected} />
+            <Radio color="default" size="small" checked={selected} onClick={handleChange} />
 
             <div className={classNames(styles.labelContainer, classContent)}>
                 {shippingLabel}
                 {rightSide}
             </div>
+            <style jsx>
+                {`
+                    {/* #checkoutRadioItem:hover {
+                        cursor: pointer;
+                    } */}
+                    #checkoutRadioItem :global(.travelokapay-ic) {
+                        background-image: url(/assets/img/traveloka_paylater_ic.jpg);
+                        width: 60px;
+                        height: 60px;
+                        background-repeat: no-repeat;
+                        background-size: 100%;
+                        background-position-y: center;
+                        position: absolute;
+                    }
+                `}
+            </style>
         </div>
     );
 };
