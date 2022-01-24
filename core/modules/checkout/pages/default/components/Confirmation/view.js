@@ -1,5 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
+/* eslint-disable react/no-danger */
 import React from 'react';
 import Typography from '@common_typography';
 import Button from '@material-ui/core/Button';

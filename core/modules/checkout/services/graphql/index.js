@@ -251,10 +251,6 @@ export const createPaypalExpressToken = () => useMutation(PaypalSchema.createPay
     ...config(USING_INTERNAL),
 });
 
-export const checkoutAgreements = () => useQuery(Schema.checkoutAgreements, {
-    fetchPolicy: 'no-cache',
-});
-
 export default {
     updateExtraFee,
     updatedDefaultAddress,
@@ -301,5 +297,4 @@ export default {
     setInstoreShippingAddress,
     xenditCreateInvoice,
     xenditSimulateQr,
-    checkoutAgreements,
 };

@@ -1,20 +1,29 @@
 /* eslint-disable consistent-return */
-import config from '@config';
+import { useEffect } from 'react';
 import gqlService from '@core_modules/home/service/graphql';
+import { bannerSliderConfig } from '@root/core/services/graphql/repository/pwa_config';
 
 const BannerSlider = (props) => {
-    const { home } = config.modules;
     const {
         storeConfig, t, BannerSliderSkeleton, ErrorInfo, BannerView, slider_id,
     } = props;
     const logoUrl = `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`;
-    const { loading, data, error } = gqlService.getSlider({
-        variables: {
-            input: slider_id === undefined ? { title: home.bannerSlider.title } : { id: slider_id },
-        },
-    });
+    const { loading: sliderConfigLoading, data: sliderConfigData } = bannerSliderConfig();
+    const [loadSlider, { loading, data, error }] = gqlService.getSlider();
 
-    if (loading && !data) {
+    useEffect(() => {
+        if (!sliderConfigLoading && sliderConfigData) {
+            loadSlider({
+                variables: {
+                    input: slider_id === undefined
+                        ? { title: sliderConfigData.storeConfig.pwa.banner_slider_title }
+                        : { id: slider_id },
+                },
+            });
+        }
+    }, [sliderConfigLoading, sliderConfigData]);
+
+    if ((loading || sliderConfigLoading) && !data) {
         return <BannerSliderSkeleton logoUrl={logoUrl} />;
     }
     if (error) {

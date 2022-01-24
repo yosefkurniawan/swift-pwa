@@ -57,8 +57,8 @@
         "giftCardError": "The gift card code isn't valid. Verify the code and try again.",
         "placeOrder": "Your order has been placed",
         "serverError": "There is a problem on the server or your connection, try again later",
-        "guestFormValidation": "Please provide email information, address, select shipping, payment and check the agreement before place order.",
-        "customerFormValidation": "Please select addresss, shipping, payment and check the agreement before place order.",
+        "guestFormValidation": "Please provide email information, address, select shipping, and payment before place order.",
+        "customerFormValidation": "Please select addresss, shipping, and payment before place order.",
         "address": {
             "add": "Please add shipping address",
             "default": "No Default Address"
@@ -104,8 +104,5 @@
     },
     "cartError": "Something went wrong during fetching the cart data",
     "buttonOk": "Ok",
-    "howtoPay": "How to pay",
-    "confirmation": "Confirmation",
-    "open": "Open",
-    "close": "Close"
+    "howtoPay": "How to pay"
 }

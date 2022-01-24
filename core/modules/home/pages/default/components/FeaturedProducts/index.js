@@ -1,18 +1,27 @@
 /* eslint-disable consistent-return */
-import { modules } from '@config';
+import { useEffect } from 'react';
 import gqlService from '@core_modules/home/service/graphql';
+import { featuresConfig } from '@services/graphql/repository/pwa_config';
 
 const FeaturedProducts = ({
     t, ErrorInfo, FeaturedSkeleton, FeaturedView, isLogin,
 }) => {
-    const { home } = modules;
     const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
-    const { loading, data, error } = gqlService.getFeaturedProducts({
-        url_key: home.featuresProduct.url_key,
-        context,
-    });
+    const { loading: featuresConfigLoading, data: featuresConfigData } = featuresConfig();
+    const [loadFeaturedProducts, { loading, data, error }] = gqlService.getFeaturedProducts();
 
-    if (loading && !data) return <FeaturedSkeleton />;
+    useEffect(() => {
+        if (!featuresConfigLoading && featuresConfigData) {
+            loadFeaturedProducts({
+                variables: {
+                    url_key: featuresConfigData.storeConfig.pwa.features_product_url_key,
+                    context,
+                },
+            });
+        }
+    }, [featuresConfigLoading, featuresConfigData]);
+
+    if ((loading || featuresConfigLoading) && !data) return <FeaturedSkeleton />;
     if (error) {
         return <ErrorInfo variant="error" text={t('home:errorFetchData')} />;
     }

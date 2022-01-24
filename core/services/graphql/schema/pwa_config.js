@@ -16,6 +16,7 @@ export const popupInstallConfig = gql`
     storeConfig {
       pwa {        
         app_name
+        icon_apple_touch
         custom_install_app_enable
         install_message
       }
@@ -154,6 +155,37 @@ export const registerConfig = gql`
     }
 `;
 
+
+export const featuresConfig = gql`
+{
+  storeConfig {
+    pwa {
+      features_product_enable
+      features_product_url_key
+    }
+  }
+}`;
+
+export const categoryListConfig = gql`
+{
+  storeConfig {
+    pwa {
+      category_list_enable
+      category_list_url_key
+    }
+  }
+}`;
+
+export const bannerSliderConfig = gql`
+{
+  storeConfig {
+    pwa {
+      banner_slider_enable
+      banner_slider_title
+    }
+  }
+}`;
+
 export const facebookMetaConfig = gql`
     {
         storeConfig {
@@ -180,5 +212,8 @@ export default {
     quickViewConfig,
     loginConfig,
     registerConfig,
+    featuresConfig,
+    categoryListConfig,
+    bannerSliderConfig,
     facebookMetaConfig,
 };
