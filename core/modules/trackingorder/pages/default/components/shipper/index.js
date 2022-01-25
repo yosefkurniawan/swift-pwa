@@ -19,6 +19,7 @@ const ShipperView = (props) => {
     const isSAP = type.toLowerCase().includes('sap');
     const isShipperid = type.toLowerCase().includes('shipperid');
     const isAnteraja = type.toLowerCase().includes('anteraja');
+    const isPopaket = type.toLowerCase().includes('popaket');
     const shipperData = {
         detail: {
             receiver_name: '',
@@ -47,7 +48,7 @@ const ShipperView = (props) => {
             live_tracking: data.data.shipmentTracking.trackingData[0].trackingUrl || '',
         };
     } else {
-        const detail = isJNE ? data : isSAP || isShipperid ? data[data.length - 1] : isAnteraja ? data.content.order : {};
+        const detail = isJNE ? data : isSAP || isShipperid ? data[data.length - 1] : isAnteraja ? data.content.order : isPopaket ? data[0] : {};
         histories = isJNE ? data.history : isSAP || isShipperid ? data : isAnteraja ? data.content.history : [];
 
         if (isJNE) {
@@ -88,6 +89,15 @@ const ShipperView = (props) => {
                 shipper_name: detail?.shipper.name || '',
                 update_date: histories ? formatDate(histories[histories.length - 1].timestamp, 'DD-MM-YYYY HH:mm') : '',
                 last_status: histories ? histories[histories.length - 1].message.id : '',
+            };
+        }
+
+        if (isPopaket) {
+            shipperData.detail = {
+                ...shipperData.detail,
+                update_date: formatDate(detail.date, 'DD-MM-YYYY HH:mm'),
+                last_status: detail.status || '',
+                description: detail.description || '',
             };
         }
     }
