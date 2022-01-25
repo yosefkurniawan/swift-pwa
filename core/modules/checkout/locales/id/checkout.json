@@ -57,8 +57,8 @@
         "giftCardError": "Kode gift card tidak dapat digunakan. Silahkan periksa terlebih kode kupon Anda dan coba kembali.",
         "placeOrder": "Berhasil melakukan pesanan",
         "serverError": "Terjadi gangguan pada server atau koneksi Anda, silahkan coba kembali",
-        "guestFormValidation": "Dimohon untuk menyertakan email, alamat pengiriman, memilih metode pengiriman, metode pembayaran dan menyetujui term and condition sebelum melakukan pesanan.",
-        "customerFormValidation": "Dimohon untuk memilih alamat pengiriman, metode pengiriman, metode pembayaran dan menyetujui term and condition sebelum melakukan pesanan.",
+        "guestFormValidation": "Dimohon untuk menyertakan email, alamat pengiriman, memilih metode pengiriman, dan metode pembayaran sebelum melakukan pesanan.",
+        "customerFormValidation": "Dimohon untuk memilih alamat pengiriman, metode pengiriman, dan metode pembayaran sebelum melakukan pesanan.",
         "address": {
             "add": "Silahkan menambahkan alamat pengiriman",
             "default": "Tidak ada alamat pengiriman yang dipilih"
@@ -107,5 +107,18 @@
     "howtoPay": "Bagaimana cara membayar",
     "confirmation": "Konfirmasi",
     "open": "Buka",
-    "close": "Tutup"
+    "close": "Tutup",
+    "travelokaPay": {
+        "enterPaymentDetails": "Masukkan info pembayaran:",
+        "activateTravelokaPaylater": "Aktifkan Traveloka PayLater-mu Sekarang!",
+        "switchPayment": "Ubah pembayaranmu jadi cicilan melalui aplikasi Traveloka.",
+        "validation": {
+            "nameOnCard": "Nama pada Kartu",
+            "cardNumber": "Nomor Kartu",
+            "expiryDate": "Masa Aktif (MM/YY)",
+            "cvv": "CVV",
+            "required": "tidak boleh kosong.",
+            "invalid": "tidak sesuai format."
+        }
+    }
 }

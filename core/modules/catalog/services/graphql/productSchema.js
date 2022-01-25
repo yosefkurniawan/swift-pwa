@@ -30,7 +30,7 @@ const filterProduct = (filter) => {
             ...dataRatingConfig.storeConfig.pwa,
         };
     }
-  
+
     let queryFilter = '{ ';
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < filter.length; index++) {
@@ -60,7 +60,6 @@ const filterProduct = (filter) => {
     queryFilter += '}';
     return queryFilter;
 };
-
 
 export const getProductAgragations = () => gql`
   {
@@ -111,6 +110,9 @@ export const getProduct = (config = {}) => gql`
         name
         url_key
         stock_status
+        short_description {
+          html
+        }
         ${modules.catalog.productListing.label.weltpixel.enabled ? `
         weltpixel_labels {
           categoryLabel {
@@ -318,6 +320,9 @@ const productDetail = `
     id
     name
     sku
+    short_description {
+      html
+    }
     ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
     stock_status
     url_key
@@ -425,7 +430,7 @@ query getDetailproduct($url_key: String!){
       }
     ) {
       items {
-        ${modules.product.customizableOptions.enabled && `
+        ${modules.product.customizableOptions.enabled ? `
         ... on CustomizableProductInterface {
           options {
             title
@@ -435,7 +440,7 @@ query getDetailproduct($url_key: String!){
             __typename
           }
         }
-        `}
+        ` : ''}
         ${productDetail}
         ${priceRange}
         ${priceTiers}

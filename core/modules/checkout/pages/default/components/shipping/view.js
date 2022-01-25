@@ -12,8 +12,10 @@ import Alert from '@material-ui/lab/Alert';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 
 import {
-    ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle,
+    ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle, IconAccordion,
 } from './style';
+
+const IconLabel = withStyles(IconAccordion)(({ classes, label }) => <div id={`${label}Icon`} className={classes[label]} />);
 
 const Accordion = withStyles(ExpanPanelStyle)(MuiAccordion);
 
@@ -29,43 +31,11 @@ const Loader = () => (
     </>
 );
 
-const ShippingGroupIcon = (props) => {
-    const { baseMediaUrl, src } = props;
-    const fallbacks = [`${baseMediaUrl}checkout/shipping/shipping-${src.replace('sg-', '')}.svg`, null];
-    const styles = useStyles();
-
-    // check if image exist on the backoffice, otherwise use fallback image from PWA
-    const [imageSrc, setImageSrc] = React.useState(`./assets/img/shipping-${src.replace('sg-', '')}.svg`);
-    const [fallbackImageIndex, setFallbackImageIndex] = React.useState(0);
-
-    // set image fallback url
-    const getFallbackImageSrc = () => {
-        if (fallbackImageIndex > fallbacks.length) {
-            return;
-        }
-        setImageSrc(fallbacks[fallbackImageIndex]);
-        setFallbackImageIndex(fallbackImageIndex + 1);
-    };
-
-    return (
-        <>
-            {(imageSrc && (
-                <img
-                    className={styles.shippingGroupStyleIcon}
-                    src={imageSrc}
-                    alt={src.replace('sg-', '')}
-                    onError={() => getFallbackImageSrc()}
-                />
-            ))
-                || ''}
-        </>
-    );
-};
-
 const ShippingView = (props) => {
     const styles = useStyles();
     const {
-        isOnlyVirtualProductOnCart, checkout, storeConfig, loading, selected, handleShipping, data, t, shippingMethodList,
+        isOnlyVirtualProductOnCart, checkout, storeConfig, loading, selected,
+        handleShipping, data, t, shippingMethodList,
     } = props;
     let content;
     const [expanded, setExpanded] = React.useState(null);
@@ -87,22 +57,28 @@ const ShippingView = (props) => {
         const config = shippingMethodList && shippingMethodList.storeConfig
             ? JSON.parse(`${shippingMethodList.storeConfig.shipments_configuration}`) : {};
         const group = config ? Object.keys(config) : [];
+
         const shipping = [];
         for (let index = 0; index < group.length; index += 1) {
             const groupData = [];
             const key = group[index];
             let cnf = config[key];
-            cnf = cnf.split(',');
+            cnf = cnf.replaceAll(' ', '-').split(',');
+
             // create group data if same label on config
             for (let idx = 0; idx < available.length; idx += 1) {
                 const element = available[idx];
-                const identifier = `${element.carrier_code}_${element.method_code}`;
+                const identifier = `${element.value.replaceAll(' ', '-')}`;
 
                 for (let idc = 0; idc < cnf.length; idc += 1) {
-                    // add check if available on group shipping
-                    const checkShipping = groupData.find((x) => x.method_code === element.method_code);
+                    // check if shipping method already exist on groupData
+                    const checkShipping = groupData.find(
+                        (x) => x.method_code === element.method_code
+                            && x.carrier_code === element.carrier_code
+                            && x.carrier_title === element.carrier_title,
+                    );
 
-                    if (identifier.match(new RegExp(`^${cnf[idc]}`)) !== null && !checkShipping) {
+                    if (identifier.match(new RegExp(`^${cnf[idc]}`, 'i')) !== null && !checkShipping) {
                         groupData.push({
                             ...element,
                             disabled: !element.available,
@@ -110,6 +86,7 @@ const ShippingView = (props) => {
                     }
                 }
             }
+
             if (groupData.length > 0) {
                 // ad active key if on group data selected payment method
                 let active = false;
@@ -179,11 +156,11 @@ const ShippingView = (props) => {
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
                                             <div className={styles.labelAccordion}>
-                                                <ShippingGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
+                                                <IconLabel label={item.group.replace('sg-', '')} />
                                                 <Typography letter="uppercase" variant="span" type="bold">
                                                     {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
                                                     === `shippingGrouping.${item.group.replace('sg-', '')}`
-                                                        ? item.group.replace('sg-', '')
+                                                        ? item.group.replace('pg-', '')
                                                         : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
                                                 </Typography>
                                             </div>

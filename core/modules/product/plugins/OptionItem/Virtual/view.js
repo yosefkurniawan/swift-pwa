@@ -1,7 +1,5 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
-
-const Footer = dynamic(() => import('@plugin_optionitem/components/Footer'), { ssr: true });
+import Footer from '@plugin_optionitem/components/Footer';
 
 const SimpleOptionView = ({
     qty = 1,

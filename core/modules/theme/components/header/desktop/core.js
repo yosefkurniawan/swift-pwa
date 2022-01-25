@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import Router from 'next/router';
 import { removeIsLoginFlagging } from '@helper_auth';
 import { removeCartId } from '@helper_cartid';
@@ -14,11 +15,11 @@ import Content from '@core_modules/theme/components/header/desktop/components';
 
 const CoreTopNavigation = (props) => {
     const {
-        dataVesMenu, storeConfig, t, app_cookies, isLogin, showGlobalPromo,
+        dataVesMenu: propsVesMenu, storeConfig, t, app_cookies, isLogin, showGlobalPromo,
     } = props;
-    let data = dataVesMenu;
-    let loading = dataVesMenu ? false : true;
-    if(!data && storeConfig && storeConfig.pwa) {
+    let data = propsVesMenu;
+    let loading = !propsVesMenu;
+    if (!data && storeConfig && storeConfig.pwa) {
         const { data: dataVesMenu, loading: loadingVesMenu } = storeConfig.pwa.ves_menu_enable
             ? getVesMenu({
                 variables: {
@@ -40,9 +41,9 @@ const CoreTopNavigation = (props) => {
     }
     const client = useApolloClient();
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         window.backdropLoader(true);
-        deleteTokenGql()
+        await deleteTokenGql()
             .then(() => {
                 Cookies.remove(custDataNameCookie);
                 removeIsLoginFlagging();
@@ -61,28 +62,21 @@ const CoreTopNavigation = (props) => {
                 window.backdropLoader(false);
                 Router.push('/customer/account/login');
             })
-            .catch((e) => {
+            .catch(() => {
                 window.backdropLoader(false);
-                console.log(e);
-                //
+                Router.push('/customer/account/login');
             });
     };
 
     const handleSearch = (ev) => {
         if (ev.key === 'Enter' && ev.target.value !== '') {
-            Router.push({
-                pathname: '/catalogsearch/result',
-                query: { q: value },
-            });
+            Router.push(`/catalogsearch/result?q=${value}`);
         }
     };
 
     const searchByClick = () => {
         if (value !== '') {
-            Router.push({
-                pathname: '/catalogsearch/result',
-                query: { q: value },
-            });
+            Router.push(`/catalogsearch/result?q=${value}`);
         }
     };
     return (

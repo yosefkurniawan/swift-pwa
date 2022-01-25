@@ -53,7 +53,7 @@ const CoreGiftCardOptionItem = ({
     }
 
     const formInitalValues = {
-        aw_gc_amount: aw_gc_amounts[0],
+        aw_gc_amount: aw_gc_amounts ? aw_gc_amounts[0] : [],
         aw_gc_recipient_name: '',
         aw_gc_recipient_email: '',
         aw_gc_sender_name: '',

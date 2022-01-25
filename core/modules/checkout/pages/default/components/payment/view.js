@@ -17,6 +17,7 @@ import RadioItem from '@core_modules/checkout/components/radioitem';
 import ModalHowtoPay from '@core_modules/checkout/pages/default/components/ModalHowtoPay';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import TravelokaPayForm from '@core_modules/checkout/pages/default/components/payment/components/TravelokaPayForm';
 
 import { ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle } from './style';
 
@@ -25,6 +26,7 @@ const ExpansionPanelSummary = withStyles(ExpanSummaryStyle)(MuiExpansionPanelSum
 const ExpansionPanelDetails = withStyles(ExpanDetailStyle)(MuiExpansionPanelDetails);
 const PO = 'purchaseorder';
 const PaypalCode = 'paypal_express';
+const travelokapay = 'travelokapay';
 
 /**
  * Loader
@@ -37,39 +39,6 @@ const Loader = () => (
         <Skeleton variant="rect" width="100%" height={20} animation="wave" style={{ marginBottom: 10 }} />
     </>
 );
-
-const PaymentGroupIcon = (props) => {
-    const { baseMediaUrl, src } = props;
-    const fallbacks = [`${baseMediaUrl}checkout/payment/paymenticons-${src.replace('pg-', '')}.svg`, null];
-    const styles = useStyles();
-
-    // check if image exist on the backoffice, otherwise use fallback image from PWA
-    const [imageSrc, setImageSrc] = React.useState(`./assets/img/paymenticons-${src.replace('pg-', '')}.svg`);
-    const [fallbackImageIndex, setFallbackImageIndex] = React.useState(0);
-
-    // set image fallback url
-    const getFallbackImageSrc = () => {
-        if (fallbackImageIndex > fallbacks.length) {
-            return;
-        }
-        setImageSrc(fallbacks[fallbackImageIndex]);
-        setFallbackImageIndex(fallbackImageIndex + 1);
-    };
-
-    return (
-        <>
-            {(imageSrc && (
-                <img
-                    className={styles.paymentGroupStyleIcon}
-                    src={imageSrc}
-                    alt={src.replace('pg-', '')}
-                    onError={() => getFallbackImageSrc()}
-                />
-            ))
-                || ''}
-        </>
-    );
-};
 
 /**
  * [VIEW] Payment
@@ -91,8 +60,10 @@ const PaymentView = (props) => {
         paypalTokenData,
         paypalHandlingProps,
         initialOptionPaypal,
+        travelokaPayRef,
         storeConfig,
     } = props;
+    const { payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id } = storeConfig;
     const { modules } = commonConfig;
     const [expanded, setExpanded] = React.useState(null);
     const [expandedActive, setExpandedActive] = React.useState(true);
@@ -170,6 +141,7 @@ const PaymentView = (props) => {
                 }
             }
         }
+        // console.log('storeConfig', payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id);
         content = (
             <div>
                 <Typography variant="p">{t('checkout:paymentSubtitle')}</Typography>
@@ -192,15 +164,12 @@ const PaymentView = (props) => {
                                             id={`panel-${item.group}`}
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
-                                            <div className={styles.labelSummary}>
-                                                <PaymentGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
-                                                <Typography letter="uppercase" variant="span" type="bold">
-                                                    {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
-                                                    === `paymentGrouping.${item.group.replace('pg-', '')}`
-                                                        ? item.group.replace('pg-', '')
-                                                        : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)}
-                                                </Typography>
-                                            </div>
+                                            <Typography letter="uppercase" variant="span" type="bold">
+                                                {t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)
+                                                === `paymentGrouping.${item.group.replace('pg-', '')}`
+                                                    ? item.group.replace('pg-', '')
+                                                    : t(`checkout:paymentGrouping:${item.group.replace('pg-', '')}`)}
+                                            </Typography>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails>
                                             <Grid container>
@@ -213,8 +182,11 @@ const PaymentView = (props) => {
                                                             CustomItem={RadioItem}
                                                             ComponentOptional={(item) => {
                                                                 // prettier-ignore
-                                                                const isPurchaseOrder = item.code === PO || selected.payment === PO;
+                                                                const isPurchaseOrder = item.code === PO && selected.payment === PO;
                                                                 const isPaypal = item.code === PaypalCode && selected.payment === PaypalCode;
+                                                                const isTravelokaPay = item.code === travelokapay
+                                                                    && selected.payment === travelokapay;
+
                                                                 if (isPurchaseOrder) {
                                                                     return (
                                                                         <Grid item xs={12}>
@@ -248,6 +220,17 @@ const PaymentView = (props) => {
                                                                                 />
                                                                             </PayPalScriptProvider>
                                                                         </Grid>
+                                                                    );
+                                                                }
+                                                                if (isTravelokaPay) {
+                                                                    return (
+                                                                        <TravelokaPayForm
+                                                                            checkout={checkout}
+                                                                            payment_travelokapay_bin_whitelist={payment_travelokapay_bin_whitelist}
+                                                                            payment_travelokapay_public_key={payment_travelokapay_public_key}
+                                                                            payment_travelokapay_user_id={payment_travelokapay_user_id}
+                                                                            travelokaPayRef={travelokaPayRef}
+                                                                        />
                                                                     );
                                                                 }
 

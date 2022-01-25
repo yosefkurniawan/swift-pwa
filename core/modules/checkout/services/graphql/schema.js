@@ -1300,21 +1300,3 @@ mutation xenditSimulateQr($external_id: String!, $amount: Int!){
     }
 }
 `;
-
-const agreementData = `
-    agreement_id
-    checkbox_text
-    content
-    content_height
-    is_html
-    mode
-    name
-`;
-
-export const checkoutAgreements = gql`
-    query {
-        checkoutAgreements {
-            ${agreementData}
-        }
-    }
-`;

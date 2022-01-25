@@ -11,7 +11,7 @@ import Link from 'next/link';
 const ShipperView = (props) => {
     // prettier-ignore
     const {
-        data, type, styles, t,
+        data, orders, type, styles, t,
     } = props;
 
     const isLGX = type.toLowerCase().includes('logistix');
@@ -22,6 +22,8 @@ const ShipperView = (props) => {
     const shipperData = {
         detail: {
             receiver_name: '',
+            driver_name: '',
+            driver_phone: '',
             shipper_name: '',
             description: '',
             update_date: '',
@@ -32,9 +34,13 @@ const ShipperView = (props) => {
     let histories = [];
 
     if (isLGX) {
+        const receiver_fullname = `${orders.data[0].detail[0].shipping_address.firstname} ${orders.data[0].detail[0].shipping_address.lastname}`;
         histories = data.data.shipmentTracking.trackingData[0]?.historyStatus || [];
         shipperData.detail = {
             ...shipperData.detail,
+            receiver_name: receiver_fullname || 'unknown',
+            driver_name: data.data.shipmentTracking.trackingData[0]?.driverInfo.name || 'unknown',
+            driver_phone: data.data.shipmentTracking.trackingData[0]?.driverInfo.phoneNumber || 'unknown',
             description: histories[histories.length - 1]?.note || '',
             update_date: formatDate(histories[histories.length - 1].timestamp, 'DD-MM-YYYY HH:mm'),
             last_status: histories[histories.length - 1]?.status || '',
@@ -97,6 +103,18 @@ const ShipperView = (props) => {
                         <div className="list-item">
                             <Typography className="list-item__title">{t('trackingorder:receiverName')}</Typography>
                             <Typography className="list-item__desc">{shipperData.detail.receiver_name}</Typography>
+                        </div>
+                    )}
+                    {shipperData.detail.driver_name !== '' && (
+                        <div className="list-item">
+                            <Typography className="list-item__title">{t('trackingorder:driverName')}</Typography>
+                            <Typography className="list-item__desc">{shipperData.detail.driver_name}</Typography>
+                        </div>
+                    )}
+                    {shipperData.detail.driver_phone !== '' && (
+                        <div className="list-item">
+                            <Typography className="list-item__title">{t('trackingorder:driverPhone')}</Typography>
+                            <Typography className="list-item__desc">{shipperData.detail.driver_phone}</Typography>
                         </div>
                     )}
                     {shipperData.detail.shipper_name !== '' && (

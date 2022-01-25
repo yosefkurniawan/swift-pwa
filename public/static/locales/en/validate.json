@@ -75,6 +75,9 @@
     "dob": {
         "required": "Date of Birth is required"
     },
+    "confirmPinPoint": {
+        "required": "You have to check the agreements above."
+    },
     "to": "To",
     "from": "From",
     "recipientName": "Recipient Name",

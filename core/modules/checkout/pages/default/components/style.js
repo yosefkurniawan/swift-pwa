@@ -120,20 +120,6 @@ export default makeStyles((theme) => ({
         ...FlexRow,
         alignItems: 'center',
     },
-    shippingGroupStyleIcon: {
-        width: '45px',
-        height: '45px',
-        marginRight: '10px',
-    },
-    labelSummary: {
-        ...FlexRow,
-        alignItems: 'center',
-    },
-    paymentGroupStyleIcon: {
-        width: '45px',
-        height: '45px',
-        marginRight: '10px',
-    },
     mobileBottomSpace: {
         [theme.breakpoints.down('sm')]: {
             marginBottom: 140,

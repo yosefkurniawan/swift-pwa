@@ -1,7 +1,6 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable array-callback-return */
-import Button from '@common_button';
-// import PriceFormat from '@common_priceformat';
+import PriceFormat from '@common_priceformat';
 import Typography from '@common_typography';
 import IconButton from '@material-ui/core/IconButton';
 import Favorite from '@material-ui/icons/Favorite';
@@ -12,7 +11,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { getHost } from '@helper_config';
 import Breadcrumb from '@common_breadcrumb';
-// import RatingStar from '@common_ratingstar';
+import RatingStar from '@common_ratingstar';
 import { breakPointsUp } from '@helper_theme';
 import dynamic from 'next/dynamic';
 import useStyles from '@core_modules/product/pages/default/components/style';
@@ -24,12 +23,12 @@ import ModalPopupImage from '@core_modules/product/pages/default/components/Moda
 import { modules } from '@config';
 import { labelConfig } from '@services/graphql/repository/pwa_config';
 import { getProductBannerLite } from '@core_modules/product/services/graphql';
+import { formatPrice } from '@helper_currency';
 
+const Button = dynamic(() => import('@common_button'), { ssr: false });
 const Banner = dynamic(() => import('@common_slick/BannerThumbnail'), { ssr: true });
 const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: true });
-const TabsView = dynamic(() => import('@core_modules/product/pages/default/components/DesktopTabs'), { ssr: false });
-const PriceFormat = dynamic(() => import('@common_priceformat'), { ssr: true });
-const RatingStar = dynamic(() => import('@common_ratingstar'), { ssr: true });
+const TabsView = dynamic(() => import('@core_modules/product/pages/default/components/DesktopTabs'), { ssr: true });
 const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: false });
 const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
 const UpsellDrawer = dynamic(() => import('@core_modules/product/pages/default/components/RightDrawer'), { ssr: false });
@@ -93,7 +92,6 @@ const ProductPage = (props) => {
     };
 
     const favoritIcon = wishlist ? <Favorite className={styles.iconShare} /> : <FavoriteBorderOutlined className={styles.iconShare} />;
-
     return (
         <>
             <div className="hidden-mobile">
@@ -245,6 +243,27 @@ const ProductPage = (props) => {
                             </Typography>
                         </div>
                     </div>
+
+                    <div className={styles.titleContainer}>
+                        <div className={styles.priceTiersContainer}>
+                            {
+                                price.priceTiers.length > 0 && price.priceTiers.map((tiers, index) => {
+                                    const priceTiers = {
+                                        quantity: tiers.quantity,
+                                        currency: tiers.final_price.currency,
+                                        price: formatPrice(tiers.final_price.value),
+                                        discount: tiers.discount.percent_off,
+                                    };
+                                    return (
+                                        <Typography variant="p" type="regular" key={index}>
+                                            {t('product:priceTiers', { priceTiers })}
+                                        </Typography>
+                                    );
+                                })
+                            }
+                        </div>
+                    </div>
+
                     <div className="row">
                         {
                             labelEnable.label_enable
@@ -260,7 +279,6 @@ const ProductPage = (props) => {
                     </div>
 
                     <div className="hidden-desktop">
-                        {' '}
                         <div className={styles.desc}>
                             <Typography variant="span" type="regular" size="10">
                                 {data.short_description.html ? <span dangerouslySetInnerHTML={{ __html: data.short_description.html }} /> : null}
@@ -317,6 +335,11 @@ const ProductPage = (props) => {
                                     </Button>
                                 )}
                             </div>
+                        </div>
+                        <div className={styles.desc}>
+                            <Typography variant="span" type="regular" size="10">
+                                {data.short_description.html ? <span dangerouslySetInnerHTML={{ __html: data.short_description.html }} /> : null}
+                            </Typography>
                         </div>
                     </div>
                 </div>

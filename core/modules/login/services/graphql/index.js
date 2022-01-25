@@ -15,6 +15,10 @@ export const getTokenOtp = () => useMutation(Schema.getCustomerTokenOtp, {
     ...useInternal,
 });
 
+export const getTokenPhoneEmail = () => useMutation(Schema.getCustomerTokenPhoneEmail, {
+    ...useInternal,
+});
+
 export const removeToken = () => useMutation(Schema.removeToken, {
     ...useInternal,
 });

@@ -395,7 +395,6 @@ const ContentDetail = ({
             handleSetCompareList={handleSetCompareList}
             enablePopupImage={enablePopupImage}
             storeConfig={storeConfig}
-            enablePopupImage={enablePopupImage}
         />
     );
 };
@@ -459,8 +458,6 @@ const PageDetail = (props) => {
     if (data) {
         let temporaryArr = [];
         product = data.products;
-
-
         if (Object.keys(productProps).length > 0) {
             product = {
                 ...product,
@@ -470,25 +467,7 @@ const PageDetail = (props) => {
                     small_image: productProps.small_image || {},
                     price: productProps.price || {},
                     price_range: { ...productProps.price.priceRange },
-                    price_tiers: { ...productProps.price.priceTiers },
-                    special_from_date: { ...productProps.price.specialFromDate },
-                    special_to_date: { ...productProps.price.specialToDate },
-                }],
-            };
-        }
-
-        const viewedProduct = typeof window !== 'undefined' && getLocalStorage('recently_viewed_product');
-
-        if (Object.keys(productProps).length > 0) {
-            product = {
-                ...product,
-                items: [{
-                    ...product.items[0],
-                    name: productProps.name || '',
-                    small_image: productProps.small_image || {},
-                    price: productProps.price || {},
-                    price_range: { ...productProps.price.priceRange },
-                    price_tiers: { ...productProps.price.priceTiers },
+                    price_tiers: [...productProps.price.priceTiers],
                     special_from_date: { ...productProps.price.specialFromDate },
                     special_to_date: { ...productProps.price.specialToDate },
                 }],
@@ -498,6 +477,7 @@ const PageDetail = (props) => {
         if (product.items.length > 0) {
             const item = product.items[0];
             let isExist = false;
+            const viewedProduct = getLocalStorage('recently_viewed_product');
 
             if (viewedProduct) {
                 temporaryArr = viewedProduct;

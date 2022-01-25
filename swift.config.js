@@ -222,7 +222,7 @@ const features = {
 const modules = {
     product: {
         customizableOptions: {
-            enabled: true,
+            enabled: false,
             availableOptions: {
                 CustomizableAreaOption: true,
                 CustomizableDateOption: true,
@@ -273,7 +273,7 @@ const modules = {
                 enabled: false, // used if need to desktop view on large screen
             },
             label: {
-                enabled: true,
+                enabled: false,
                 new: {
                     enabled: false,
                 },
@@ -281,14 +281,14 @@ const modules = {
                     enabled: false,
                 },
                 weltpixel: {
-                    enabled: true,
+                    enabled: false,
                 },
             },
             configurableOptions: {
                 enabled: false,
             },
             rating: {
-                enabled: true,
+                enabled: false,
             },
             addToCart: {
                 enabled: false,
@@ -495,10 +495,6 @@ const modules = {
     },
     home: {
         enabled: true,
-        featuresProduct: {
-            enable: true,
-            url_key: 'homepage-featured-products',
-        },
         categoryList: {
             enable: true,
             url_key: 'homepage-featured-categories',
@@ -512,10 +508,6 @@ const modules = {
                     height: 465,
                 },
             },
-        },
-        bannerSlider: {
-            enable: true,
-            title: 'Client App Homepage Slider',
         },
     },
     promo: {

@@ -121,7 +121,9 @@ const Product = (props) => {
     const handleLoadMore = async () => {
         setFilterSaved(false);
         try {
-            if (fetchMore && typeof fetchMore !== 'undefined') {
+            const totalProduct = products && products.total_count ? products.total_count : 0;
+            const totalPage = Math.ceil(totalProduct / pageSize);
+            if (fetchMore && typeof fetchMore !== 'undefined' && page < totalPage) {
                 await setLoadmore(true);
                 setPage(page + 1);
                 fetchMore({

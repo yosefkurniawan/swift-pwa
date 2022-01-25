@@ -4,6 +4,7 @@ import Button from '@common_button';
 import Typography from '@common_typography';
 import classNames from 'classnames';
 import React from 'react';
+import dynamic from 'next/dynamic';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { setCountReview } from '@core_modules/product/pages/default/components/@core_modules/product/pages/default/components/redux/action';
 import { getReviews } from '@core_modules/product/services/graphql';
@@ -11,7 +12,8 @@ import * as Schema from '@core_modules/product/services/graphql/schema';
 import useStyles from '@core_modules/product/pages/default/components/style';
 import AddReviewDialog from '@core_modules/product/pages/default/components/AddReviewDialog';
 import AddReviewDialogView from '@core_modules/product/pages/default/components/AddReviewDialog/view';
-import CustomerReview from '@core_modules/product/pages/default/components/CustomerReview';
+
+const CustomerReview = dynamic(() => import('@core_modules/product/pages/default/components/CustomerReview'), { ssr: false });
 
 const ListReviews = (props) => {
     const styles = useStyles();

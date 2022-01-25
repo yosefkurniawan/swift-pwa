@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery, useLazyQuery } from '@apollo/client';
 import * as Schema from '@core_modules/home/service/graphql/schema';
 
 let fetchPolicy = '';
@@ -10,17 +10,17 @@ export const getBannerSlider = () => useQuery(Schema.getBannerSlider, {
     fetchPolicy,
 });
 
-export const getSlider = (options = {}) => useQuery(Schema.getSlider, {
+export const getSlider = (options = {}) => useLazyQuery(Schema.getSlider, {
     fetchPolicy,
     ...options,
 });
 
-export const getFeaturedProducts = (variables, options = {}) => useQuery(Schema.getFeaturedProducts, {
+export const getFeaturedProducts = (variables, options = {}) => useLazyQuery(Schema.getFeaturedProducts, {
     variables,
     fetchPolicy,
     ...options,
 });
-export const getCategoryList = (variables) => useQuery(Schema.getCategoryList, {
+export const getCategoryList = (variables) => useLazyQuery(Schema.getCategoryList, {
     variables,
     fetchPolicy,
 });
