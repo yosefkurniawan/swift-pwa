@@ -75,7 +75,6 @@ const Contact = (props) => {
                             && (dataContactConfig && dataContactConfig.storeConfig
                                 && dataContactConfig.storeConfig.pwa
                                 && dataContactConfig.storeConfig.pwa.recaptcha_contact_enable);
-            console.log('captcha enable :', enableRecaptcha);
         }
     }
 
