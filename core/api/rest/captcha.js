@@ -16,20 +16,33 @@ module.exports = async (req, res) => {
         },
         body: JSON.stringify({ query }),
     });
-    
+
     const result = await fetchResult.json();
 
-    if(appEnv === 'local') {
-        secret = result?.data?.storeConfig?.pwa?.recaptcha_server_key_local;
-    }
-    else if(appEnv === 'dev') {
-        secret = result?.data?.storeConfig?.pwa?.recaptcha_server_key_dev;
-    }
-    else if(appEnv === 'stage') {
-        secret = result?.data?.storeConfig?.pwa?.recaptcha_server_key_stage;
-    }
-    else if(appEnv === 'prod') {
-        secret = result?.data?.storeConfig?.pwa?.recaptcha_server_key_prod;
+    if (appEnv === 'local') {
+        secret = result
+            && result.data
+            && result.data.storeConfig
+            && result.data.storeConfig.pwa
+            && result.data.storeConfig.pwa.recaptcha_server_key_local;
+    } else if (appEnv === 'dev') {
+        secret = result
+            && result.data
+            && result.data.storeConfig
+            && result.data.storeConfig.pwa
+            && result.data.storeConfig.pwa.recaptcha_server_key_dev;
+    } else if (appEnv === 'stage') {
+        secret = result
+            && result.data
+            && result.data.storeConfig
+            && result.data.storeConfig.pwa
+            && result.data.storeConfig.pwa.recaptcha_server_key_stage;
+    } else if (appEnv === 'prod') {
+        secret = result
+            && result.data
+            && result.data.storeConfig
+            && result.data.storeConfig.pwa
+            && result.data.storeConfig.pwa.recaptcha_server_key_prod;
     }
 
     await fetch('https://www.google.com/recaptcha/api/siteverify', {

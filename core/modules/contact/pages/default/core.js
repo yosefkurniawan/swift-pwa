@@ -41,17 +41,26 @@ const Contact = (props) => {
     const { loading: loadingConfig, data: dataContactConfig } = contactConfig();
     let sitekey;
 
-    if(appEnv === 'local') {
-        sitekey = dataContactConfig?.storeConfig.pwa.recaptcha_site_key_local;
-    }
-    else if(appEnv === 'dev') {
-        sitekey = dataContactConfig?.storeConfig.pwa.recaptcha_site_key_dev;
-    }
-    else if(appEnv === 'stage') {
-        sitekey = dataContactConfig?.storeConfig.pwa.recaptcha_site_key_stage;
-    }
-    else if(appEnv === 'prod') {
-        sitekey = dataContactConfig?.storeConfig.pwa.recaptcha_site_key_prod;
+    if (appEnv === 'local') {
+        sitekey = dataContactConfig
+                && dataContactConfig.storeConfig
+                && dataContactConfig.storeConfig.pwa
+                && dataContactConfig.storeConfig.pwa.recaptcha_site_key_local;
+    } else if (appEnv === 'dev') {
+        sitekey = dataContactConfig
+                && dataContactConfig.storeConfig
+                && dataContactConfig.storeConfig.pwa
+                && dataContactConfig.storeConfig.pwa.recaptcha_site_key_dev;
+    } else if (appEnv === 'stage') {
+        sitekey = dataContactConfig
+                && dataContactConfig.storeConfig
+                && dataContactConfig.storeConfig.pwa
+                && dataContactConfig.storeConfig.pwa.recaptcha_site_key_stage;
+    } else if (appEnv === 'prod') {
+        sitekey = dataContactConfig
+                && dataContactConfig.storeConfig
+                && dataContactConfig.storeConfig.pwa
+                && dataContactConfig.storeConfig.pwa.recaptcha_site_key_prod;
     }
 
     const [contactusFormSubmit] = gqlService.contactusFormSubmit();
@@ -61,8 +70,12 @@ const Contact = (props) => {
             cmsContactIdentifiers = dataContactConfig.storeConfig.pwa.cms_contact_identifiers;
         }
 
-        if (dataContactConfig.storeConfig.pwa.recaptcha_contact_enable != null) {
-            enableRecaptcha = storeConfig?.pwa?.recaptcha_enable && dataContactConfig.storeConfig.pwa.recaptcha_contact_enable;
+        if (dataContactConfig.storeConfig.pwa.recaptcha_contact_enable !== null) {
+            enableRecaptcha = (storeConfig && storeConfig.pwa.recaptcha_enable)
+                            && (dataContactConfig && dataContactConfig.storeConfig
+                                && dataContactConfig.storeConfig.pwa
+                                && dataContactConfig.storeConfig.pwa.recaptcha_contact_enable);
+            console.log('captcha enable :', enableRecaptcha);
         }
     }
 
