@@ -49,7 +49,7 @@ const ShipperView = (props) => {
         };
     } else {
         const detail = isJNE ? data : isSAP || isShipperid ? data[data.length - 1] : isAnteraja ? data.content.order : isPopaket ? data[0] : {};
-        histories = isJNE ? data.history : isSAP || isShipperid ? data : isAnteraja ? data.content.history : [];
+        histories = isJNE ? data.history : isSAP || isShipperid ? data : isAnteraja ? data.content.history : isPopaket ? data : [];
 
         if (isJNE) {
             shipperData.detail = {
@@ -194,6 +194,9 @@ const ShipperView = (props) => {
                             } else if (isAnteraja) {
                                 dateTime = formatDate(history.timestamp, 'DD-MM-YYYY HH:mm').split(' ');
                                 description = history.message.id;
+                            } else if (isPopaket) {
+                                dateTime = formatDate(history.date, 'DD-MM-YYYY HH:mm').split(' ');
+                                description = history.description;
                             }
                         }
 
