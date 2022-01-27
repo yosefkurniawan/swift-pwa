@@ -12,10 +12,8 @@ import Alert from '@material-ui/lab/Alert';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
 
 import {
-    ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle, IconAccordion,
+    ExpanDetailStyle, ExpanPanelStyle, ExpanSummaryStyle,
 } from './style';
-
-const IconLabel = withStyles(IconAccordion)(({ classes, label }) => <div id={`${label}Icon`} className={classes[label]} />);
 
 const Accordion = withStyles(ExpanPanelStyle)(MuiAccordion);
 
@@ -30,6 +28,39 @@ const Loader = () => (
         <Skeleton variant="rect" width="100%" height={20} animation="wave" style={{ marginBottom: 10 }} />
     </>
 );
+
+const ShippingGroupIcon = (props) => {
+    const { baseMediaUrl, src } = props;
+    const fallbacks = [`${baseMediaUrl}checkout/shipping/shipping-${src.replace('sg-', '')}.svg`, null];
+    const styles = useStyles();
+
+    // check if image exist on the backoffice, otherwise use fallback image from PWA
+    const [imageSrc, setImageSrc] = React.useState(`./assets/img/shipping-${src.replace('sg-', '')}.svg`);
+    const [fallbackImageIndex, setFallbackImageIndex] = React.useState(0);
+
+    // set image fallback url
+    const getFallbackImageSrc = () => {
+        if (fallbackImageIndex > fallbacks.length) {
+            return;
+        }
+        setImageSrc(fallbacks[fallbackImageIndex]);
+        setFallbackImageIndex(fallbackImageIndex + 1);
+    };
+
+    return (
+        <>
+            {(imageSrc && (
+                <img
+                    className={styles.shippingGroupStyleIcon}
+                    src={imageSrc}
+                    alt={src.replace('sg-', '')}
+                    onError={() => getFallbackImageSrc()}
+                />
+            ))
+                || ''}
+        </>
+    );
+};
 
 const ShippingView = (props) => {
     const styles = useStyles();
@@ -156,11 +187,11 @@ const ShippingView = (props) => {
                                             expandIcon={<Arrow className={styles.icon} />}
                                         >
                                             <div className={styles.labelAccordion}>
-                                                <IconLabel label={item.group.replace('sg-', '')} />
+                                                <ShippingGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
                                                 <Typography letter="uppercase" variant="span" type="bold">
                                                     {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
                                                     === `shippingGrouping.${item.group.replace('sg-', '')}`
-                                                        ? item.group.replace('pg-', '')
+                                                        ? item.group.replace('sg-', '')
                                                         : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
                                                 </Typography>
                                             </div>
