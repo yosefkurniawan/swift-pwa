@@ -11,7 +11,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '@theme_theme';
 import Cookie from 'js-cookie';
 import helperCookies from '@helper_cookies';
-
+import { getAppEnv } from '@root/core/helpers/env';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { appWithTranslation } from '@i18n';
 import { storeConfig as ConfigSchema, getVesMenu, getCategories } from '@services/graphql/schema/config';
@@ -187,6 +187,15 @@ class MyApp extends App {
                     this.registerServiceWorker();
                 });
             }
+        }
+
+        /*
+         * ---------------------------------------------
+         * REMOVE CONSOLE
+         * remove all console.log statement when APP_ENV = 'prod'
+         */
+        if (getAppEnv() === 'prod') {
+            console.log = () => {};
         }
 
         /*

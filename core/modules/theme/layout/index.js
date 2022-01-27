@@ -216,7 +216,7 @@ const Layout = (props) => {
                     name="keywords"
                     content={pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa'}
                 />
-                <meta name="robots" content={appEnv === 'production' ? 'INDEX,FOLLOW' : 'NOINDEX,NOFOLLOW'} />
+                <meta name="robots" content={appEnv === 'prod' && storeConfig.pwa ? storeConfig.pwa.default_robot : 'NOINDEX,NOFOLLOW'} />
                 <link rel="apple-touch-icon" href={iconAppleTouch} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="format-detection" content="telephone=no" />

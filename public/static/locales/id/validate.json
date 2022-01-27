@@ -7,6 +7,11 @@
         "required": "Nomor telepon tidak boleh kosong",
         "wrong": "Nomor telepon tidak sesuai"
     },
+    
+    "phoneEmail": {
+        "required": "Nomor telepon atau email tidak boleh kosong",
+        "wrong": "Nomor telepon atau email tidak sesuai"
+    },
     "password": {
         "required": "Password tidak boleh kosong",
         "wrong": "Password tidak sesuai"
