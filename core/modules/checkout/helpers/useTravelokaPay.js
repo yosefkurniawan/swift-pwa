@@ -21,9 +21,9 @@ const useTravelokaPay = (data = {}) => {
     const state = { ...checkout };
     const [createCharge] = gqlService.travelokaCreateCharge();
 
-    const generatesuccessRedirect = () => {
+    const generatesuccessRedirect = (orderNumber = '') => {
         if (config && config.successRedirect && config.successRedirect.link) {
-            return `${config.successRedirect.link}${config.successRedirect.orderId ? `?orderId=${orderId}` : ''}`;
+            return `${config.successRedirect.link}${config.successRedirect.orderId ? `?orderId=${orderNumber}` : ''}`;
         }
         return '/checkout/onepage/success';
     };
