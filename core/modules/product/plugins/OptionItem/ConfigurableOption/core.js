@@ -9,10 +9,11 @@ import { localTotalCart } from '@services/graphql/schema/local';
 import { modules } from '@config';
 import Router from 'next/router';
 import {
-    addConfigProductsToCart,
+    // addConfigProductsToCart,
     getConfigurableProduct,
     getGuestCartId as queryGetGuestCartId,
     getCustomerCartId,
+    addConfigurableProductsToCart,
 } from '@core_modules/product/services/graphql';
 
 const OptionsItemConfig = (props) => {
@@ -58,6 +59,8 @@ const OptionsItemConfig = (props) => {
 
     const configProduct = getConfigurableProduct(sku);
 
+    // console.log('configProduct', configProduct);
+
     const [firstSelected, setFirstSelected] = React.useState({});
     const [combination, setCombination] = React.useState({});
     const [options, setOptions] = React.useState([]);
@@ -71,6 +74,7 @@ const OptionsItemConfig = (props) => {
         });
         // console.log(configProduct.data.products.items[0].variants);
         const product = await ProductByVariant(selectedOption, configProduct.data.products.items[0].variants);
+        // console.log('product', product);
         if (product && JSON.stringify(product) !== '{}') {
             setSelectedProduct({ ...product });
             handleSelecteProduct({ ...product });
@@ -149,7 +153,8 @@ const OptionsItemConfig = (props) => {
         cartId = getCartId();
     }
 
-    const [addCartConfig] = addConfigProductsToCart();
+    // const [addCartConfig] = addConfigProductsToCart();
+    const [addConfigurableProducts] = addConfigurableProductsToCart();
     const [getGuestCartId] = queryGetGuestCartId();
     const cartUser = getCustomerCartId();
 
@@ -221,6 +226,16 @@ const OptionsItemConfig = (props) => {
         }
         setError(errorData);
 
+        // prettier-ignore
+        /**
+         * Find attributes that have the same 'selectConfigurable' values
+         * eg: color with the value of 52, size with the value of 24, etc.
+         */
+        const selectedVariantAttrs = configProduct.data.products.items[0].variants
+            .find((variant) => variant.attributes
+                .every((attr) => Object.keys(selectConfigurable)
+                    .some((sc) => sc === attr.code && selectConfigurable[sc] === attr.value_index)));
+
         if (JSON.stringify(errorData) === '{}') {
             if (CustomAddToCart && typeof CustomAddToCart === 'function') {
                 CustomAddToCart({
@@ -259,14 +274,25 @@ const OptionsItemConfig = (props) => {
                     }
                 }
                 if (__typename === 'ConfigurableProduct') {
+                    // const variables = {
+                    //     cartId,
+                    //     sku: selectedProduct.sku,
+                    //     qty: parseFloat(qty),
+                    //     parentSku: sku,
+                    //     customizable_options,
+                    //     entered_options,
+                    // };
                     const variables = {
                         cartId,
-                        sku: selectedProduct.sku,
-                        qty: parseFloat(qty),
-                        parentSku: sku,
-                        customizable_options,
-                        entered_options,
+                        cartItems: [
+                            {
+                                quantity: 1,
+                                sku,
+                                selected_options: selectedVariantAttrs.attributes.map((selectedOpt) => selectedOpt.uid),
+                            },
+                        ],
                     };
+                    // console.log('variables', variables);
                     TagManager.dataLayer({
                         dataLayer: {
                             event: 'addToCart',
@@ -289,13 +315,35 @@ const OptionsItemConfig = (props) => {
                             },
                         },
                     });
-                    addCartConfig({
+                    // addCartConfig({
+                    //     variables,
+                    // })
+                    //     .then((res) => {
+                    //         client.writeQuery({
+                    //             query: localTotalCart,
+                    //             data: { totalCart: res.data.addConfigurableProductsToCart.cart.total_quantity },
+                    //         });
+                    //         window.toastMessage({ variant: 'success', text: t('product:successAddCart'), open: true });
+                    //         setLoading(false);
+                    //         setOpen(false);
+                    //     })
+                    //     .catch((e) => {
+                    //         if (e.message === "The product's required option(s) weren't entered. Make sure the options are entered and try again.") {
+                    //             Router.push(`/${url_key}`);
+                    //         }
+                    //         setLoading(false);
+                    //         window.toastMessage({
+                    //             ...errorMessage,
+                    //             text: e.message.split(':')[1] || errorMessage.text,
+                    //         });
+                    //     });
+                    addConfigurableProducts({
                         variables,
                     })
                         .then((res) => {
                             client.writeQuery({
                                 query: localTotalCart,
-                                data: { totalCart: res.data.addConfigurableProductsToCart.cart.total_quantity },
+                                data: { totalCart: res.data.addProductsToCart.cart.total_quantity },
                             });
                             window.toastMessage({ variant: 'success', text: t('product:successAddCart'), open: true });
                             setLoading(false);
@@ -342,6 +390,11 @@ const OptionsItemConfig = (props) => {
             setOptions(op);
         }
     }, [selectConfigurable]);
+
+    // console.log('options', options);
+    // console.log('combination', combination);
+    // console.log('selectConfigurable', selectConfigurable);
+
     return (
         <View
             options={options}
