@@ -117,6 +117,7 @@ export const storeConfig = `
               ves_menu_enable
               ves_menu_alias
               icon_apple_touch
+              recaptcha_enable
             }
             store_name
             welcome

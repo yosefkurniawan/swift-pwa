@@ -1,12 +1,51 @@
 const qs = require('querystring');
-const { recaptcha } = require('../../../swift.config');
 const { getAppEnv } = require('../../helpers/env');
+const { recaptchaConfig } = require('../../services/graphql/schema/recaptcha_config');
+const { graphqlEndpoint } = require('../../../swift.config');
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
+    let secret;
     const { response } = req.body;
-    const appEnv = getAppEnv();
-    const secret = recaptcha.serverKey[appEnv] || recaptcha.serverKey.prod;
-    fetch('https://www.google.com/recaptcha/api/siteverify', {
+    const appEnv = await getAppEnv();
+    const query = recaptchaConfig;
+
+    const fetchResult = await fetch(graphqlEndpoint[appEnv], {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query }),
+    });
+
+    const result = await fetchResult.json();
+
+    if (appEnv === 'local') {
+        secret = result
+            && result.data
+            && result.data.storeConfig
+            && result.data.storeConfig.pwa
+            && result.data.storeConfig.pwa.recaptcha_server_key_local;
+    } else if (appEnv === 'dev') {
+        secret = result
+            && result.data
+            && result.data.storeConfig
+            && result.data.storeConfig.pwa
+            && result.data.storeConfig.pwa.recaptcha_server_key_dev;
+    } else if (appEnv === 'stage') {
+        secret = result
+            && result.data
+            && result.data.storeConfig
+            && result.data.storeConfig.pwa
+            && result.data.storeConfig.pwa.recaptcha_server_key_stage;
+    } else if (appEnv === 'prod') {
+        secret = result
+            && result.data
+            && result.data.storeConfig
+            && result.data.storeConfig.pwa
+            && result.data.storeConfig.pwa.recaptcha_server_key_prod;
+    }
+
+    await fetch('https://www.google.com/recaptcha/api/siteverify', {
         method: 'post',
         body: qs.stringify({
             response,

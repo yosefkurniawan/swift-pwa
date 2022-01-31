@@ -55,6 +55,10 @@ export const contactConfig = gql`
       pwa {
           cms_contact_identifiers
           recaptcha_contact_enable
+          recaptcha_site_key_local
+          recaptcha_site_key_dev
+          recaptcha_site_key_stage
+          recaptcha_site_key_prod
       }
     }
 }
@@ -140,6 +144,10 @@ export const loginConfig = gql`
         storeConfig {
             pwa {
                 recaptcha_login_enable
+                recaptcha_site_key_local
+                recaptcha_site_key_dev
+                recaptcha_site_key_stage
+                recaptcha_site_key_prod
             }
         }
     }
@@ -150,6 +158,10 @@ export const registerConfig = gql`
         storeConfig {
             pwa {
                 recaptcha_register_enable
+                recaptcha_site_key_local
+                recaptcha_site_key_dev
+                recaptcha_site_key_stage
+                recaptcha_site_key_prod
             }
         }
     }

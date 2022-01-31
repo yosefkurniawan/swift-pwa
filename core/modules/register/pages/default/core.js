@@ -4,15 +4,14 @@ import Layout from '@layout';
 import React from 'react';
 import { setLogin, setEmailConfirmationFlag, getLastPathWithoutLogin } from '@helper_auth';
 import { setCartId, getCartId } from '@helper_cartid';
-import {
-    expiredToken, custDataNameCookie, recaptcha, modules,
-} from '@config';
+import { expiredToken, custDataNameCookie } from '@config';
 import Cookies from 'js-cookie';
 import { useQuery } from '@apollo/client';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/router';
+import { useRef } from 'react';
 
 import { regexPhone } from '@helper_regex';
 import { getAppEnv } from '@helpers/env';
@@ -43,10 +42,9 @@ const Register = (props) => {
     let enableRecaptcha = false;
 
     const { loading: loadingRegisterConfig, data: dataRegisterConfig } = registerConfig();
-
     if (!loadingRegisterConfig && dataRegisterConfig && dataRegisterConfig.storeConfig && dataRegisterConfig.storeConfig.pwa) {
         if (dataRegisterConfig.storeConfig.pwa.recaptcha_register_enable !== null) {
-            enableRecaptcha = recaptcha.enable && dataRegisterConfig.storeConfig.pwa.recaptcha_register_enable;
+            enableRecaptcha = storeConfig?.pwa?.recaptcha_enable && dataRegisterConfig.storeConfig.pwa.recaptcha_register_enable;
         }
     }
 
@@ -54,8 +52,21 @@ const Register = (props) => {
     const [cusIsLogin, setIsLogin] = React.useState(0);
     const [disabled, setdisabled] = React.useState(false);
     const [getGuest, { data: guestData }] = getGuestCustomer();
-    const recaptchaRef = React.createRef();
-    const sitekey = recaptcha.siteKey[appEnv] ? recaptcha.siteKey[appEnv] : recaptcha.siteKey.dev;
+    const recaptchaRef = useRef();
+    let sitekey;
+
+    if(appEnv === 'local') {
+        sitekey = dataRegisterConfig?.storeConfig.pwa.recaptcha_site_key_local;
+    }
+    else if(appEnv === 'dev') {
+        sitekey = dataRegisterConfig?.storeConfig.pwa.recaptcha_site_key_dev;
+    }
+    else if(appEnv === 'stage') {
+        sitekey = dataRegisterConfig?.storeConfig.pwa.recaptcha_site_key_stage;
+    }
+    else if(appEnv === 'prod') {
+        sitekey = dataRegisterConfig?.storeConfig.pwa.recaptcha_site_key_prod;
+    }
 
     let cartId = '';
     const { router } = Router;
