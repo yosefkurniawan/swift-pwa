@@ -84,7 +84,11 @@ const ProductPage = (props) => {
         getBannerLite();
     }, [bannerLiteResult.called]);
 
-    const bannerLiteData = bannerLiteResult.data ? bannerLiteResult.data.products.items[0].banners_data : [];
+    let bannerLiteData = [];
+    if (bannerLiteResult && bannerLiteResult.data && bannerLiteResult.data.products.items
+        && bannerLiteResult.data.products.items.length > 0 && bannerLiteResult.data.products.items[0].banners_data) {
+        bannerLiteData = bannerLiteResult.data.products.items[0].banners_data;
+    }
     const bannerLiteObj = {
         top: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '0') || [],
         after: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '1') || [],

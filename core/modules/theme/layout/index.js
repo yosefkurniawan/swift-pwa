@@ -296,7 +296,7 @@ const Layout = (props) => {
                     <div className="hidden-mobile">
                         {modules.customer.plugin.newsletter.enabled && footer ? <Newsletter /> : null}
 
-                        {footer ? <Footer storeConfig={storeConfig} /> : null}
+                        {footer ? <Footer t={t} storeConfig={storeConfig} /> : null}
                         <Copyright storeConfig={storeConfig} />
                     </div>
                     {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} />}
