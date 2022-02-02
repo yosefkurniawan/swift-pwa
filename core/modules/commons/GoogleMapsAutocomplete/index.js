@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
 /* eslint-disable no-undef */
-/* eslint-disable quotes */
-/* eslint-disable max-len */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable indent */
 /* eslint-disable import/no-extraneous-dependencies */
@@ -109,34 +107,33 @@ const IcubeMapsAutocomplete = compose(
         lng: setZeroIfEmpty(props.mapPosition && props.mapPosition.lng),
     };
     const { t } = useTranslation(['common']);
-    let mapsRes = {
-        lat: setZeroIfEmpty(props.mapPosition && props.mapPosition.lat),
-        lng: setZeroIfEmpty(props.mapPosition && props.mapPosition.lng),
-    };
+    // let mapsRes = {
+    //     lat: setZeroIfEmpty(props.mapPosition && props.mapPosition.lat),
+    //     lng: setZeroIfEmpty(props.mapPosition && props.mapPosition.lng),
+    // };
 
     const [stateBounds, setStateBounds] = useState({});
 
     useEffect(() => {
-        // eslint-disable-next-line max-len
         if (formik !== false) {
-            if (formik.values.village !== '' && formik.values.district !== '' && formik.values.city !== '' && formik.values.region !== '') {
+            if ((formik.values.village !== '' && formik.values.village !== undefined)
+                && (formik.values.district !== '' && formik.values.district !== undefined)
+                && (formik.values.city !== '' && formik.values.city !== undefined)
+                && (formik.values.region !== '' && formik.values.region !== undefined)) {
+                // eslint-disable-next-line max-len
                 fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formik.values.village.label}+${formik.values.district.label}+${formik.values.city.label}+${formik.values.region.name}&language=id&key=AIzaSyAsE5tvjrOes4cyL0jpUEtLKMVY65rAwgQ`)
                     .then((response) => response.json())
                     .then((responseData) => {
                         if (responseData.results.length > 0) {
                             const { location } = responseData.results[0].geometry;
-                            mapsRes = {
-                                lat: parseFloat(location.lat),
-                                lng: parseFloat(location.lng),
-                            };
+                            // mapsRes = {
+                            //     lat: parseFloat(location.lat),
+                            //     lng: parseFloat(location.lng),
+                            // };
                             setStateBounds({
                                 lat: parseFloat(location.lat),
                                 lng: parseFloat(location.lng),
                             });
-                            if (mapsRes.lat !== stateBounds.lat) {
-                                console.log(mapsRes);
-                                console.log(stateBounds);
-                            }
                         }
                     })
                     .catch((e) => {
@@ -161,16 +158,16 @@ const IcubeMapsAutocomplete = compose(
                         <StandaloneSearchBox
                             ref={props.onSearchBoxMounted}
                             bounds={new google.maps.LatLngBounds(
-                                new google.maps.LatLng(parseFloat(stateBounds.lat !== undefined ? stateBounds.lat : mapsRes.lat),
-                                    parseFloat(stateBounds.lng !== undefined ? stateBounds.lng : mapsRes.lng)),
-                                new google.maps.LatLng(parseFloat(stateBounds.lat !== undefined ? stateBounds.lat : mapsRes.lat),
-                                    parseFloat(stateBounds.lng !== undefined ? stateBounds.lng : mapsRes.lng)),
+                                new google.maps.LatLng(parseFloat(stateBounds.lat !== undefined ? stateBounds.lat : mapPosition.lat),
+                                    parseFloat(stateBounds.lng !== undefined ? stateBounds.lng : mapPosition.lng)),
+                                new google.maps.LatLng(parseFloat(stateBounds.lat !== undefined ? stateBounds.lat : mapPosition.lat),
+                                    parseFloat(stateBounds.lng !== undefined ? stateBounds.lng : mapPosition.lng)),
                             )}
                             defaultBounds={new google.maps.LatLngBounds(
-                                new google.maps.LatLng(parseFloat(stateBounds.lat !== undefined ? stateBounds.lat : mapsRes.lat),
-                                    parseFloat(stateBounds.lng !== undefined ? stateBounds.lng : mapsRes.lng)),
-                                new google.maps.LatLng(parseFloat(stateBounds.lat !== undefined ? stateBounds.lat : mapsRes.lat),
-                                    parseFloat(stateBounds.lng !== undefined ? stateBounds.lng : mapsRes.lng)),
+                                new google.maps.LatLng(parseFloat(stateBounds.lat !== undefined ? stateBounds.lat : mapPosition.lat),
+                                    parseFloat(stateBounds.lng !== undefined ? stateBounds.lng : mapPosition.lng)),
+                                new google.maps.LatLng(parseFloat(stateBounds.lat !== undefined ? stateBounds.lat : mapPosition.lat),
+                                    parseFloat(stateBounds.lng !== undefined ? stateBounds.lng : mapPosition.lng)),
                             )}
                             onPlacesChanged={props.onPlacesChanged}
                         >
