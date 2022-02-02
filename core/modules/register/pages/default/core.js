@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable max-len */
 import Layout from '@layout';
-import React from 'react';
+import React, { useRef } from 'react';
 import { setLogin, setEmailConfirmationFlag, getLastPathWithoutLogin } from '@helper_auth';
 import { setCartId, getCartId } from '@helper_cartid';
 import { expiredToken, custDataNameCookie } from '@config';
@@ -11,7 +11,6 @@ import { useQuery } from '@apollo/client';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/router';
-import { useRef } from 'react';
 
 import { regexPhone } from '@helper_regex';
 import { getAppEnv } from '@helpers/env';
@@ -30,7 +29,9 @@ import { registerConfig } from '@services/graphql/repository/pwa_config';
 const appEnv = getAppEnv();
 
 const Register = (props) => {
-    const { t, storeConfig, pageConfig, Content, query, lastPathNoAuth } = props;
+    const {
+        t, storeConfig, pageConfig, Content, query, lastPathNoAuth,
+    } = props;
 
     const config = {
         title: t('register:pageTitle'),
@@ -55,16 +56,13 @@ const Register = (props) => {
     const recaptchaRef = useRef();
     let sitekey;
 
-    if(appEnv === 'local') {
+    if (appEnv === 'local') {
         sitekey = dataRegisterConfig?.storeConfig.pwa.recaptcha_site_key_local;
-    }
-    else if(appEnv === 'dev') {
+    } else if (appEnv === 'dev') {
         sitekey = dataRegisterConfig?.storeConfig.pwa.recaptcha_site_key_dev;
-    }
-    else if(appEnv === 'stage') {
+    } else if (appEnv === 'stage') {
         sitekey = dataRegisterConfig?.storeConfig.pwa.recaptcha_site_key_stage;
-    }
-    else if(appEnv === 'prod') {
+    } else if (appEnv === 'prod') {
         sitekey = dataRegisterConfig?.storeConfig.pwa.recaptcha_site_key_prod;
     }
 

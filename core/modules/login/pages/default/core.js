@@ -18,9 +18,9 @@ import { useFormik } from 'formik';
 import dynamic from 'next/dynamic';
 import * as Yup from 'yup';
 import firebase from 'firebase/app';
-import React from 'react';
+import React, { useRef } from 'react';
 import { getAppEnv } from '@helpers/env';
-import { useRef } from 'react';
+
 import {
     getToken,
     getTokenOtp,
@@ -474,16 +474,13 @@ const Login = (props) => {
     const recaptchaRef = useRef();
     let sitekey;
 
-    if(appEnv === 'local') {
+    if (appEnv === 'local') {
         sitekey = dataLoginConfig?.storeConfig.pwa.recaptcha_site_key_local;
-    }
-    else if(appEnv === 'dev') {
+    } else if (appEnv === 'dev') {
         sitekey = dataLoginConfig?.storeConfig.pwa.recaptcha_site_key_dev;
-    }
-    else if(appEnv === 'stage') {
+    } else if (appEnv === 'stage') {
         sitekey = dataLoginConfig?.storeConfig.pwa.recaptcha_site_key_stage;
-    }
-    else if(appEnv === 'prod') {
+    } else if (appEnv === 'prod') {
         sitekey = dataLoginConfig?.storeConfig.pwa.recaptcha_site_key_prod;
     }
 
