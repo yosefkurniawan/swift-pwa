@@ -113,9 +113,11 @@ export const storeConfig = `
             pwa {
               default_robot
               footer_desktop
+              footer_mobile
               ves_menu_enable
               ves_menu_alias
               icon_apple_touch
+              recaptcha_enable
             }
             store_name
             welcome
