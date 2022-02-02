@@ -123,14 +123,16 @@ const AddressView = (props) => {
                 </div>
             </div>
             <div className="alert-empty-pin-point">
-                {gmapKey
+                {
+                    gmapKey
                     && address
-                    && !(loading.addresses || loading.all)
-                    && (!dest_latitude || !dest_longitude || (dest_latitude === '0' && dest_longitude === '0')) && (
-                    <Alert style={{ fontSize: 10 }} severity="warning">
-                        {t('customer:address:emptyPinPointMessage')}
-                    </Alert>
-                )}
+                    && (!loading.addresses || !loading.all)
+                    && ((!dest_latitude && !dest_longitude) || (dest_latitude === '0' && dest_longitude === '0')) && (
+                        <Alert style={{ fontSize: 10 }} severity="warning">
+                            {t('customer:address:emptyPinPointMessage')}
+                        </Alert>
+                    )
+                }
                 {
                     checkout.error.shippingAddress && (
                         <Alert style={{ fontSize: 10 }} severity="error">
