@@ -469,6 +469,8 @@ const Login = (props) => {
 
     const handleChangeCaptcha = (value) => {
         formik.setFieldValue('captcha', value || '');
+        formikOtp.setFieldValue('captcha', value || '');
+        formikPhoneEmail.setFieldValue('captcha', value || '');
     };
 
     const recaptchaRef = useRef();
