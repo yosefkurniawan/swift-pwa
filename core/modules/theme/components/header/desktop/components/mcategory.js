@@ -16,7 +16,10 @@ const MenuChildren = dynamic(() => import('@common_headerdesktop/components/mcat
 const Menu = (props) => {
     const { data, storeConfig } = props;
     const cmsPages = storeConfig && storeConfig.cms_page ? storeConfig.cms_page.split(',') : [];
-    const menu = storeConfig.pwa.ves_menu_enable ? data.vesMenu.items : data.categoryList[0].children;
+    let menu = storeConfig.pwa.ves_menu_enable ? data?.vesMenu?.items : data?.categoryList[0].children;
+    if (!menu) {
+        menu = [];
+    }
     const generateLink = (cat) => {
         const link = cat.link ? getPath(cat.link) : `/${cat.url_path}`;
         if (storeConfig.pwa.ves_menu_enable) {

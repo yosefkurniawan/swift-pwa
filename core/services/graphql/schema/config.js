@@ -116,8 +116,12 @@ export const storeConfig = `
               footer_mobile
               ves_menu_enable
               ves_menu_alias
+              app_name
               icon_apple_touch
-              recaptcha_enable
+              custom_install_app_enable
+              install_message
+              facebook_meta_id_enable
+              facebook_meta_id_app_id
             }
             store_name
             welcome
