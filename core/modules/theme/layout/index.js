@@ -248,7 +248,6 @@ const Layout = (props) => {
                                 enablePopupInstallation={showPopup}
                                 appName={appName}
                                 installMessage={installMessage}
-                                dataVesMenu={dataVesMenu}
                             />
                         )}
                     <div className="hidden-mobile">
@@ -263,6 +262,7 @@ const Layout = (props) => {
                                     enablePopupInstallation={showPopup}
                                     appName={appName}
                                     installMessage={installMessage}
+                                    dataVesMenu={dataVesMenu}
                                 />
                             )
                             : null}
