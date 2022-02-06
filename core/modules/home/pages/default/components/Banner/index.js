@@ -1,36 +1,36 @@
 /* eslint-disable consistent-return */
-import { useEffect } from 'react';
 import gqlService from '@core_modules/home/service/graphql';
-import { bannerSliderConfig } from '@root/core/services/graphql/repository/pwa_config';
+import BannerSliderSkeleton from '@core_modules/home/pages/default/components/Skeleton/BannerSkeleton';
+import BannerView from '@core_modules/home/pages/default/components/Banner/view';
+import ErrorInfo from '@core_modules/home/pages/default/components/ErrorInfo';
 
 const BannerSlider = (props) => {
     const {
-        storeConfig, t, BannerSliderSkeleton, ErrorInfo, BannerView, slider_id,
+        storeConfig, t, slider_id,
     } = props;
     const logoUrl = `${storeConfig.secure_base_media_url}logo/${storeConfig.header_logo_src}`;
-    const { loading: sliderConfigLoading, data: sliderConfigData } = bannerSliderConfig();
-    const [loadSlider, { loading, data, error }] = gqlService.getSlider();
+    const { loading, data, error } = gqlService.getSlider({
+        skip: !storeConfig,
+        variables: {
+            input: slider_id === undefined
+                ? { title: storeConfig?.pwa?.banner_slider_title }
+                : { id: slider_id },
+        },
+    });
 
-    useEffect(() => {
-        if (!sliderConfigLoading && sliderConfigData) {
-            loadSlider({
-                variables: {
-                    input: slider_id === undefined
-                        ? { title: sliderConfigData.storeConfig.pwa.banner_slider_title }
-                        : { id: slider_id },
-                },
-            });
-        }
-    }, [sliderConfigLoading, sliderConfigData]);
-
-    if ((loading || sliderConfigLoading) && !data) {
+    if ((loading) && !data) {
         return <BannerSliderSkeleton logoUrl={logoUrl} />;
     }
     if (error) {
         return <ErrorInfo variant="error" text={t('home:errorFetchData')} />;
     }
     if (!data || data.slider.images.length === 0) {
-        return <ErrorInfo variant="warning" text={t('home:nullData')} />;
+        return (
+            <>
+                <h1>Test</h1>
+                <ErrorInfo variant="warning" text={t('home:nullData')} />
+            </>
+        );
     }
 
     if (data && data.slider) {

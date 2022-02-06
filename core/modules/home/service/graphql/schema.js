@@ -142,6 +142,23 @@ export const getCmsPageConfig = gql`
     }
 `;
 
+export const getHomePageConfig = `
+{
+    storeConfig {
+        pwa {
+            use_cms_page_enable
+            use_cms_page_identifier
+            banner_slider_enable
+            banner_slider_title
+            category_list_enable
+            category_list_url_key
+            features_product_enable
+            features_product_url_key
+        }
+    }
+}
+`;
+
 export default {
     getBannerSlider,
     getCategoryList,

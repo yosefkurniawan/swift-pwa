@@ -1,9 +1,10 @@
 import Layout from '@layout';
 import { getCmsPage } from '@core_modules/cms/services/graphql';
+import Content from '@core_modules/cms/pages/default/components';
 
 const CmsSlug = (props) => {
     const {
-        Content, pageConfig, t, slug, ...other
+        pageConfig, t, slug, ...other
     } = props;
     const { data, error, loading } = getCmsPage({ identifier: slug[0] });
     const Config = {

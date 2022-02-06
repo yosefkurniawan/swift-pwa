@@ -109,6 +109,10 @@ const expiredToken = new Date(Date.now() + 1000 * 60 * 60);
 const expiredDefault = 365;
 const localResolverKey = 'resolver';
 
+const keyLocalStorage = {
+    home: 'homePageConfig',
+};
+
 const features = {
     useCustomStyle: false,
     ssrCache: false,
@@ -595,4 +599,5 @@ module.exports = {
     useMagentoCommerce,
     rollbar,
     translation,
+    keyLocalStorage,
 };

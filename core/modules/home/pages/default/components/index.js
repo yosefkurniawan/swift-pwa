@@ -3,6 +3,7 @@
 
 import dynamic from 'next/dynamic';
 import useStyles from '@core_modules/home/pages/default/components/style';
+import CmsPage from '@core_modules/cms/pages/default';
 import classNames from 'classnames';
 
 const BannerSlider = dynamic(() => import('@core_modules/home/pages/default/components/Banner'));
@@ -14,30 +15,49 @@ const Content = (props) => {
     let useCmsPage = {};
 
     const {
-        BannerSliderSkeleton, BannerView, FeaturedSkeleton, FeaturedView, CategoryListSkeleton, CategoryListView, CmsPage, cmsPageConfig, ...other
+        homePageConfig, storeConfig: config, ...other
     } = props;
 
-    if (cmsPageConfig) {
+    let storeConfig = config;
+
+    if (homePageConfig && homePageConfig.storeConfig && homePageConfig.storeConfig.pwa) {
+        storeConfig = {
+            ...config,
+            pwa: {
+                ...config.pwa,
+                ...homePageConfig.storeConfig.pwa,
+            },
+        };
         useCmsPage = {
-            enable: cmsPageConfig.storeConfig.pwa.use_cms_page_enable,
-            identifier: cmsPageConfig.storeConfig.pwa.use_cms_page_identifier,
+            enable: storeConfig.pwa.use_cms_page_enable,
+            identifier: storeConfig.pwa.use_cms_page_identifier,
         };
     }
 
     const logoUrl = `${props.storeConfig.secure_base_media_url}logo/${props.storeConfig.header_logo_src}`;
 
-    let content = (
-        <>
-            <BannerSlider BannerSliderSkeleton={BannerSliderSkeleton} BannerView={BannerView} {...other} />
-            <FeaturedProducts FeaturedView={FeaturedView} FeaturedSkeleton={FeaturedSkeleton} {...other} />
-            <CategoryList CategoryListSkeleton={CategoryListSkeleton} CategoryListView={CategoryListView} {...other} />
-        </>
-    );
+    let content = '';
 
-    if (cmsPageConfig && useCmsPage && useCmsPage.enable) {
+    if (homePageConfig && useCmsPage && useCmsPage.enable) {
         content = (
             <>
-                <CmsPage onlyCms slug={[useCmsPage.identifier]} withLayoutHeader={false} withLayoutFooter={false} withCmsTitle={false} {...other} />
+                <CmsPage
+                    onlyCms
+                    slug={[useCmsPage.identifier]}
+                    withLayoutHeader={false}
+                    withLayoutFooter={false}
+                    withCmsTitle={false}
+                    {...other}
+                    storeConfig={storeConfig}
+                />
+            </>
+        );
+    } else {
+        content = (
+            <>
+                <BannerSlider {...other} storeConfig={storeConfig} />
+                <FeaturedProducts {...other} storeConfig={storeConfig} />
+                <CategoryList {...other} storeConfig={storeConfig} />
             </>
         );
     }
