@@ -233,23 +233,22 @@ const ProductPage = (props) => {
                         <div className={styles.priceTiersContainer}>
                             {
                                 price.priceTiers.length > 0 && price.priceTiers.map((tiers, index) => {
-                                        const priceTiers = {
-                                            quantity: tiers.quantity,
-                                            currency: tiers.final_price.currency,
-                                            price: formatPrice(tiers.final_price.value),
-                                            discount: tiers.discount.percent_off
-                                        }
-                                        return (
-                                            <Typography variant="p" type="regular" key={index}>
-                                                {t('product:priceTiers', { priceTiers })}
-                                            </Typography>
-                                        )
-                                    }
-                                )
+                                    const priceTiers = {
+                                        quantity: tiers.quantity,
+                                        currency: tiers.final_price.currency,
+                                        price: formatPrice(tiers.final_price.value),
+                                        discount: tiers.discount.percent_off,
+                                    };
+                                    return (
+                                        <Typography variant="p" type="regular" key={index}>
+                                            {t('product:priceTiers', { priceTiers })}
+                                        </Typography>
+                                    );
+                                })
                             }
                         </div>
                     </div>
-                    
+
                     <div className="row">
                         {
                             modules.catalog.productListing.label.enabled

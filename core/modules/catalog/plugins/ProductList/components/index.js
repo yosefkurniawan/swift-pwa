@@ -149,7 +149,7 @@ const Content = (props) => {
                                 }
                             />
                         )}
-                        <div className={'latest-product-indicator'}></div>
+                        <div className="latest-product-indicator" />
                         {(products.items.length === products.total_count) || loading
                             ? renderEmptyMessage(products.items.length, loading)
                             : null}
