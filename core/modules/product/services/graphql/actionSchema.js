@@ -182,6 +182,10 @@ export const addConfigurableProductsToCart = gql`
         id
         total_quantity
       }
+      user_errors {
+        code
+        message
+      }
     }
   }
 `;
