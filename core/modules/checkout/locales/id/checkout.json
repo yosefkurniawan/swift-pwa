@@ -107,5 +107,18 @@
     "howtoPay": "Bagaimana cara membayar",
     "confirmation": "Konfirmasi",
     "open": "Buka",
-    "close": "Tutup"
+    "close": "Tutup",
+    "travelokaPay": {
+        "enterPaymentDetails": "Masukkan info pembayaran:",
+        "activateTravelokaPaylater": "Aktifkan Traveloka PayLater-mu Sekarang!",
+        "switchPayment": "Ubah pembayaranmu jadi cicilan melalui aplikasi Traveloka.",
+        "validation": {
+            "nameOnCard": "Nama pada Kartu",
+            "cardNumber": "Nomor Kartu",
+            "expiryDate": "Masa Aktif (MM/YY)",
+            "cvv": "CVV",
+            "required": "tidak boleh kosong.",
+            "invalid": "tidak sesuai format."
+        }
+    }
 }

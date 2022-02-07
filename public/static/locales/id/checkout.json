@@ -124,5 +124,18 @@
         "usePromo": "Gunakan kode promo",        
         "label": "PayPal express checkout",        
         "noShippingMethod": "Silahkan pilih metode pengiriman"
+    },
+    "travelokaPay": {
+        "enterPaymentDetails": "Enter your payment details:",
+        "activateTravelokaPaylater": "Activate your Traveloka Paylater now!",
+        "switchPayment": "Switch your payment into installment with the Traveloka app.",
+        "validation": {
+            "nameOnCard": "Nama pada Kartu",
+            "cardNumber": "Nomor Kartu",
+            "expiryDate": "Masa Aktif (MM/YY)",
+            "cvv": "CVV",
+            "required": "tidak boleh kosong.",
+            "invalid": "tidak sesuai format."
+        }
     }
 }

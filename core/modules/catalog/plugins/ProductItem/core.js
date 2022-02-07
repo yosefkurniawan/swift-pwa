@@ -9,7 +9,6 @@ import React from 'react';
 import { setResolver, getResolver } from '@helper_localstorage';
 import classNames from 'classnames';
 import ConfigurableOpt from '@plugin_optionitem';
-import dynamic from 'next/dynamic';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import Button from '@material-ui/core/IconButton';
@@ -21,9 +20,8 @@ import { localCompare } from '@services/graphql/schema/local';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
 import CustomizableOption from '@plugin_customizableitem';
-
-const ModalQuickView = dynamic(() => import('@plugin_productitem/components/QuickView'), { ssr: false });
-const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
+import ModalQuickView from '@plugin_productitem/components/QuickView';
+import WeltpixelLabel from '@plugin_productitem/components/WeltpixelLabel';
 
 const ProductItem = (props) => {
     const {
@@ -104,20 +102,15 @@ const ProductItem = (props) => {
         return true;
     };
 
-    React.useEffect(() => {
-        if (errorCustomizableOptions && errorCustomizableOptions.length > 0) {
-            // eslint-disable-next-line consistent-return
-            const errorCustomizable = errorCustomizableOptions.filter((err) => {
-                const findValue = customizableOptions.find((op) => op.option_id === err.option_id);
-                return !findValue;
-            });
-            setErrorCustomizableOptions(errorCustomizable);
-        }
-    }, [customizableOptions]);
-
     let isLogin = '';
     if (typeof window !== 'undefined') isLogin = getLoginInfo();
-    const [getProduct, detailProduct] = getDetailProduct();
+
+    const [getProduct, {
+        data: dataDetailProduct,
+        error: errorDetailProduct,
+        loading: loadingDetailProduct,
+    }] = getDetailProduct();
+
     const [postAddWishlist] = addWishlist();
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
     const [addProductCompare] = addProductsToCompareList();
@@ -242,28 +235,25 @@ const ProductItem = (props) => {
 
     const handleQuickView = async () => {
         window.backdropLoader(true);
-        getProduct({
+        await getProduct({
             variables: {
                 url_key,
             },
         });
     };
 
-    React.useMemo(() => {
-        if (detailProduct.error) {
+    React.useEffect(() => {
+        if (errorDetailProduct) {
             window.backdropLoader(false);
         }
         if (
-            !detailProduct.loading
-            && detailProduct.data
-            && detailProduct.data.products
-            && detailProduct.data.products.items
-            && detailProduct.data.products.items.length > 0
+            !loadingDetailProduct
+            && dataDetailProduct?.products?.items?.length > 0
         ) {
             window.backdropLoader(false);
             setOpenQuickView(true);
         }
-    }, [detailProduct]);
+    }, [dataDetailProduct]);
 
     const ratingValue = review && review.rating_summary ? parseInt(review.rating_summary, 0) / 20 : 0;
     const enableProductCompare = modules.productcompare.enabled;
@@ -288,7 +278,7 @@ const ProductItem = (props) => {
                     <ModalQuickView
                         open={openQuickView}
                         onClose={() => setOpenQuickView(false)}
-                        data={detailProduct.data.products}
+                        data={dataDetailProduct?.products}
                         t={t}
                         weltpixel_labels={weltpixel_labels}
                     />
@@ -366,7 +356,7 @@ const ProductItem = (props) => {
                 <ModalQuickView
                     open={openQuickView}
                     onClose={() => setOpenQuickView(false)}
-                    data={detailProduct.data.products}
+                    data={dataDetailProduct?.products}
                     t={t}
                     weltpixel_labels={weltpixel_labels}
                 />
