@@ -116,10 +116,10 @@ const IcubeMapsAutocomplete = compose(
 
     useEffect(() => {
         if (formik !== false) {
-            if ((formik.values.village !== '' && formik.values.village !== undefined)
-                && (formik.values.district !== '' && formik.values.district !== undefined)
-                && (formik.values.city !== '' && formik.values.city !== undefined)
-                && (formik.values.region !== '' && formik.values.region !== undefined)) {
+            if ((formik.values.village !== '' && formik.values.village !== undefined && formik.values.village !== null)
+                && (formik.values.district !== '' && formik.values.district !== undefined && formik.values.district !== null)
+                && (formik.values.city !== '' && formik.values.city !== undefined && formik.values.city !== null)
+                && (formik.values.region !== '' && formik.values.region !== undefined && formik.values.region !== null)) {
                 // eslint-disable-next-line max-len
                 fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formik.values.village.label}+${formik.values.district.label}+${formik.values.city.label}+${formik.values.region.name}&language=id&key=AIzaSyAsE5tvjrOes4cyL0jpUEtLKMVY65rAwgQ`)
                     .then((response) => response.json())
