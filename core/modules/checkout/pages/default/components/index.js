@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@common_button';
 import Typography from '@common_typography';
 import classNames from 'classnames';
@@ -72,6 +72,8 @@ const Content = (props) => {
     // prettier-ignore
     const isPurchaseOrderApply = isSelectedPurchaseOrder && checkout.status.purchaseOrderApply;
     const travelokaPayRef = React.useRef();
+
+    const [displayHowToPay, setDisplayHowToPay] = useState(false);
 
     /**
      * [METHOD] handle click for place order
@@ -269,6 +271,8 @@ const Content = (props) => {
                         initialOptionPaypal={initialOptionPaypal}
                         setTokenData={setTokenData}
                         travelokaPayRef={travelokaPayRef}
+                        displayHowToPay={displayHowToPay}
+                        setDisplayHowToPay={setDisplayHowToPay}
                     />
                     
                     <Confirmation
