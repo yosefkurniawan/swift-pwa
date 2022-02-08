@@ -11,7 +11,8 @@
         "title": "Search",
         "mainTitle": "New in Collection",
         "backTitle": "back in stock sale",
-        "location": "Search Location"
+        "location": "Search Location",
+        "addressDetail": "Please enter your address detail"
     },
     "button": {
         "edit": "Edit",
@@ -36,7 +37,9 @@
         "close": "Close",
         "goCheckout": "Go to checkout",
         "viewandedit": "View and Edit",
-        "allowCookies": "Allow Cookies"
+        "addToCart": "Add To Cart",
+        "allowCookies": "Allow Cookies",
+        "simulateQrCode": "Simulate Qrcode Payment"
     },
     "cart": {
         "myCart": "My Cart",
@@ -46,6 +49,7 @@
         "updateSuccess": "Update cart item success",
         "updateFailed": "Update cart item failed",
         "emptyCart": "YOU HAVE NO ITEMS IN YOUR SHOPPING CART.",
+        "oos": "Out of stock",
         "cartError": "Something error with your cart, please clear and try again"
     },
     "subtotal": "Subtotal",
@@ -66,7 +70,8 @@
         "country": "Country",
         "street": "Street Address",
         "postal": "Postal Code",
-        "select": "Select One"
+        "select": "Select One",
+        "addressDetail": "Address Detail"
     },
     "title": {
         "qty": "Quantity",
@@ -85,17 +90,21 @@
         "relatedProduct": "Related products",
         "sale": "Sale",
         "new": "New",
-        "free": "Free"
+        "free": "Free",
+        "none": "None"
     },
     "error": {
         "notFound": "Data not found",
         "fileReject": "Cannot upload, Files must be a type ",
-        "fetchError": "Connection Error. Please try again later."
+        "fetchError": "Connection Error. Please try again later.",
+        "browser": "Browser not supported",
+        "videoNotSupported": "Your browser does not support the video tag."
     },
     "fileUpload": {
         "reject": "Cannot upload, Files must be a type ",
         "dragActive": "Drop the files here ...",
-        "dragNonActive": "Drag drop some files here, or click to select file"
+        "dragNonActive": "Drag drop some files here, or click to select file",
+        "maxSizeImage": "Maximum size image "
     },
     "menu": {
         "confirmpayment": "Confirm Payment",
@@ -107,10 +116,7 @@
         "myaccount": "My Account",
         "mywishlist": "My Wishlist",
         "signout": "Sign Out",
-        "currency": "Currency",
-        "loading": "Loading",
-        "changeto": "Change to",
-        "setting": "Setting"
+        "loading": "Loading"
     },
     "header": {
         "welcome": "Welcome!",
@@ -119,17 +125,32 @@
     "message": {
         "feedSuccess": "Product success added to wishlist",
         "feedFailed": "Add to wishlist failed",
+        "browserError": "Please change browsers or check cookie settings, javascript settings or others",
         "restrictionCookies": "We use cookies to make your experience better. To comply with the new e-Privacy directive, we need to ask for your consent to set the cookies. Learn more."
     },
     "newsletter": {
         "title": "SIGN UP NEWSLETTER",
         "placeholder": "Enter your email address",
         "buttonLabel": "Subscribe",
+        "emailFormat": "Invalid email format",
+        "emptyValue": "Please insert email address",
         "firstname": "Enter your firstname",
         "lastname": "Enter your lastname"
     },
+    "setting": {
+        "title": "Setting",
+        "language": "Language",
+        "currency": "Currency",
+        "changeto": "Change to"
+    },
     "recentlyView": {
         "title" : "Recently Viewed"
+    },
+    "instagramFeed": {
+        "shareFb": "Share on facebook",
+        "tweet": "Tweet",
+        "pinit": "Pin it",
+        "downloadImage": "Download image"
     },
     "productCompare": {
         "title": "Product Compare",
@@ -151,4 +172,11 @@
         "tweetTo": "Tweet to",
         "tweetBy": "Tweet by"
     },
+    "summary": {
+        "title": "Summary",
+        "tax": "Tax",
+        "storeCredit": "Store credit",
+        "rewardPoint": "Reward point",
+        "giftCard": "Gift card"
+    }
 }

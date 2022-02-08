@@ -61,9 +61,7 @@ const AddressFormDialog = (props) => {
         },
     });
 
-    const [enableSplitCity, setEnableSplitCity] = React.useState(
-        country === 'ID' && modules.customer.plugin.address.splitCity,
-    );
+    const [enableSplitCity, setEnableSplitCity] = React.useState(country === 'ID' && modules.customer.plugin.address.splitCity);
 
     const getCityByLabel = (label, dataCity = null) => {
         const data = dataCity || addressState.dropdown.city;
@@ -77,39 +75,6 @@ const AddressFormDialog = (props) => {
         lat: latitude || pin_location_latitude,
         lng: longitude || pin_location_longitude,
     });
-
-    const [pinLocationInfo, setPinLocationInfo] = useState();
-    const [loadingGetPinLocationInfo, setLoadingGetPinLocationInfo] = useState(false);
-
-    useEffect(() => {
-        if (mapPosition && mapPosition.lat && mapPosition.lng) {
-            if (!mapPosition.formattedAddress) {
-                setLoadingGetPinLocationInfo(true);
-                fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${mapPosition.lat},${mapPosition.lng}&key=${gmapKey}`)
-                    .then((response) => response.json())
-                    .then((responseData) => {
-                        const pinPointInfo =
-                            responseData &&
-                            responseData.results &&
-                            responseData.results[0] &&
-                            responseData.results[0].address_components &&
-                            responseData.results[0].address_components.length &&
-                            responseData.results[0].address_components.reduce(
-                                (accumulator, current) => accumulator + (current.types.includes('political') ? `${current.long_name}, ` : ''),
-                                ''
-                            );
-                        setPinLocationInfo(pinPointInfo);
-                        setLoadingGetPinLocationInfo(false);
-                    })
-                    .catch(() => {
-                        setPinLocationInfo('');
-                        setLoadingGetPinLocationInfo(false);
-                    });
-            } else {
-                setPinLocationInfo(mapPosition.formattedAddress);
-            }
-        }
-    }, [mapPosition]);
 
     const displayLocationInfo = (position) => {
         const lng = position.coords.longitude;
@@ -266,11 +231,11 @@ const AddressFormDialog = (props) => {
             }
 
             if (
-                region &&
-                typeof region === 'string' &&
-                addressState.dropdown.region &&
-                addressState.dropdown.region.length &&
-                addressState.dropdown.region.length > 0
+                region
+                && typeof region === 'string'
+                && addressState.dropdown.region
+                && addressState.dropdown.region.length
+                && addressState.dropdown.region.length > 0
             ) {
                 const selectRegion = addressState.dropdown.region.filter((item) => item.name === region);
                 if (selectRegion && selectRegion.length > 0) formik.setFieldValue('region', selectRegion[0]);
@@ -367,16 +332,16 @@ const AddressFormDialog = (props) => {
                 formik.setFieldValue('village', '');
                 // formik.setFieldValue('postcode', '');
             } else if (
-                enableSplitCity &&
-                responCities &&
-                responCities.data &&
-                !responCities.loading &&
-                !responCities.error &&
-                responCities.data.getCityByRegionId
+                enableSplitCity
+                && responCities
+                && responCities.data
+                && !responCities.loading
+                && !responCities.error
+                && responCities.data.getCityByRegionId
             ) {
                 const { data } = responCities;
-                const district =
-                    data && data.getCityByRegionId ? groupingSubCity(formik.values.city.label, 'district', data.getCityByRegionId.item) : null;
+                const district = data && data.getCityByRegionId
+                    ? groupingSubCity(formik.values.city.label, 'district', data.getCityByRegionId.item) : null;
                 state.dropdown.district = district;
                 state.dropdown.village = null;
                 if (city && !formik.values.district) {
@@ -417,13 +382,13 @@ const AddressFormDialog = (props) => {
                 // formik.setFieldValue('postcode', formik.values.postcode || postcode);
             }
         } else if (
-            formik.values.district &&
-            enableSplitCity &&
-            responCities &&
-            responCities.data &&
-            !responCities.loading &&
-            !responCities.error &&
-            responCities.data.getCityByRegionId
+            formik.values.district
+            && enableSplitCity
+            && responCities
+            && responCities.data
+            && !responCities.loading
+            && !responCities.error
+            && responCities.data.getCityByRegionId
         ) {
             const { data } = responCities;
             const village = groupingSubCity(formik.values.district.label, 'village', data.getCityByRegionId.item, formik.values.city);
@@ -489,8 +454,6 @@ const AddressFormDialog = (props) => {
             responCountries={responCountries}
             getRegion={getRegion}
             responRegion={responRegion}
-            pinLocationInfo={pinLocationInfo}
-            loadingGetPinLocationInfo={loadingGetPinLocationInfo}
         />
     );
 };
