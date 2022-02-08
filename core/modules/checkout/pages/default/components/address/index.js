@@ -30,6 +30,25 @@ const Address = (props) => {
     const street = _.isNull(address) ? null : address.street.join(' ');
     let dialogProps;
 
+    let dest_latitude, dest_longitude = {};
+
+    let emptyPinpoint = false;
+    let showEmptyPinpoint = false;
+
+    useEffect(() => {
+        if (data && data.cart && data.cart.dest_location) {
+            dest_latitude = data.cart.dest_location.dest_latitude;
+            dest_longitude = data.cart.dest_location.dest_longitude;
+            if(!dest_latitude || !dest_longitude || dest_latitude === '0' || dest_longitude === '0') {
+                emptyPinpoint = true;
+            }
+        }
+    }, [data]);
+    
+    if (address && !loading.addresses && !loading.all && emptyPinpoint) {
+        showEmptyPinpoint = true;
+    }
+
     if (data.isGuest) {
         dialogProps = address
             ? {
@@ -276,6 +295,7 @@ const Address = (props) => {
             content={content}
             storeConfig={storeConfig}
             isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
+            showEmptyPinpoint={showEmptyPinpoint}
             {...other}
         />
     );
