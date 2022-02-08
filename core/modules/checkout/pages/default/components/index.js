@@ -91,9 +91,14 @@ const Content = (props) => {
                 <HeaderView storeConfig={storeConfig} />
             </div>
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
-                {checkout.data.cart && checkout.data.cart.promoBanner && (
-                    <GimmickBanner data={checkout.data.cart.promoBanner || []} />
-                )}
+                {   
+                    checkout 
+                    && checkout.data
+                    && checkout.data.cart 
+                    && checkout.data.cart.promoBanner.length > 0 && (
+                        <GimmickBanner data={checkout.data.cart.promoBanner || []} />
+                    )
+                }
             </div>
             <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8" style={containerStyle || {}}>
                 {modules.checkout.cashback.enabled && checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
