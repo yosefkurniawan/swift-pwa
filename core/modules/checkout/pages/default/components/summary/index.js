@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { setCartId, removeCartId } from '@helper_cartid';
-import { getStoreHost } from '@helper_config';
-import { getAppEnv } from '@root/core/helpers/env';
+import { getHost, getStoreHost } from '@helper_config';
 import { setCheckoutData } from '@helper_cookies';
 import { localTotalCart } from '@services/graphql/schema/local';
 import { modules } from '@config';
@@ -14,6 +13,7 @@ import gqlService from '@core_modules/checkout/services/graphql';
 import { getIpayUrl } from '@core_modules/checkout/helpers/config';
 
 import ModalXendit from '@core_modules/checkout/pages/default/components/ModalXendit/index';
+import { getAppEnv } from '@root/core/helpers/env';
 import Traveloka3DSModal from '@core_modules/checkout/pages/default/components/payment/components/Traveloka3DSModal';
 import useTravelokaPay from '@core_modules/checkout/helpers/useTravelokaPay';
 
@@ -86,7 +86,10 @@ const Summary = ({
     const generateCartRedirect = (orderNumber = '') => {
         if (config && config.cartRedirect && config.cartRedirect.link) {
             if (orderNumber && orderNumber !== '') {
-                return `${getStoreHost(getAppEnv())}snap/payment/fail?order_id=${orderNumber}`;
+                if (originName === 'pwa-checkout') {
+                    return `${getStoreHost(getAppEnv())}snap/payment/fail?order_id=${orderNumber}`;
+                }
+                return `${getHost()}/checkout/cart?paymentFailed=true&orderId=${orderNumber}`;
             }
             return config.cartRedirect.link;
         }
@@ -147,7 +150,7 @@ const Summary = ({
             state.loading.order = false;
             setCheckout(state);
 
-            const msg = e.graphQLErrors.length > 0 ? e.graphQLErrors[0] : t('checkout:message:serverError');
+            const msg = e.graphQLErrors.length > 0 ? e.graphQLErrors[0].message : t('checkout:message:serverError');
 
             handleOpenMessage({
                 variant: 'error',
@@ -155,7 +158,7 @@ const Summary = ({
             });
 
             setTimeout(() => {
-                window.location.replace(generateCartRedirect(orderId));
+                window.location.replace(generateCartRedirect(order_id));
             }, 1000);
         });
     };

@@ -11,7 +11,8 @@
         "title": "Cari",
         "mainTitle": "Koleksi terbaru",
         "backTitle": "kembali ke produk",
-        "location": "Cari Lokasi"
+        "location": "Cari Lokasi",
+        "addressDetail": "Silahkan masukkan detail alamat anda"
     },
     "button": {
         "edit": "Edit",
@@ -35,10 +36,10 @@
         "goCheckout": "Checkout",
         "viewandedit": "Lihat dan Ubah",
         "addToCart": "Tambah ke Keranjang",
-        "allowCookies": "Ijinkan Cookie",        
+        "allowCookies": "Ijinkan Cookie",
         "simulateQrCode": "Sumulasi Pembayaran Qrcode"
     },
-    "cart" : {
+    "cart": {
         "myCart": "Cart Saya",
         "cardTotal": "Cart Subtotal",
         "deleteSuccess": "Hapus item cart berhasil",
@@ -68,7 +69,8 @@
         "country": "Negara",
         "street": "Alamat Jalan",
         "postal": "Kode Pos",
-        "select": "Pilih Salah Satu"
+        "select": "Pilih Salah Satu",
+        "addressDetail": "Detail Alamat"
     },
     "title": {
         "qty": "Jumlah",
@@ -91,7 +93,7 @@
         "none": "Tidak ada"
     },
     "error": {
-        "notFound" : "Data tidak di temukan",
+        "notFound": "Data tidak di temukan",
         "fileReject": "Tidak dapat mengupload file harus ber type ",
         "fetchError": "Terjadi kesalahan. Silakan coba lagi nanti",
         "browser": "Browser tidak didukung",
@@ -103,12 +105,12 @@
         "dragNonActive": "Tarik dan taruh file kesini, atau klik untuk pilih file",
         "maxSizeImage": "Maksimal ukuran gambar "
     },
-    "menu" : {
-        "confirmpayment" : "Konfirmasi Pembayaran",
-        "trackingorder" : "Lacak Pesanan",
-        "sign" : "Masuk",
-        "register" : "Buat Akun",
-        "or" : "Atau",
+    "menu": {
+        "confirmpayment": "Konfirmasi Pembayaran",
+        "trackingorder": "Lacak Pesanan",
+        "sign": "Masuk",
+        "register": "Buat Akun",
+        "or": "Atau",
         "notification": "Notifikasi",
         "myaccount": "Akun Saya",
         "mywishlist": "Daftar Saya",
@@ -156,7 +158,7 @@
         "existProduct" : "Produk sudah ada di keranjang compare",
         "emptyCompare" : "Daftar perbandingan Anda kosong",
         "successRemove": "Product compare berhasil dihapus",
-        "failedRemove": "Product compare gagal dihapus",        
+        "failedRemove": "Product compare gagal dihapus",
         "label": {
             "sku": "sku",
             "description": "Deskripsi",

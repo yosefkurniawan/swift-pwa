@@ -75,7 +75,7 @@ const useStyles = makeStyles(() => ({
         textAlign: 'center',
         padding: 20,
         visibility: 'hidden',
-    }
+    },
 }));
 
 export default useStyles;

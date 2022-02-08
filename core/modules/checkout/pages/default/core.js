@@ -535,11 +535,11 @@ const Checkout = (props) => {
         }
 
         if (
-            dataCart &&
-            dataCart.cart &&
-            dataCart.cart.shipping_addresses &&
-            dataCart.cart.shipping_addresses.length === 0 &&
-            !checkout.data.isGuest
+            dataCart
+            && dataCart.cart
+            && dataCart.cart.shipping_addresses
+            && dataCart.cart.shipping_addresses.length === 0
+            && !checkout.data.isGuest
         ) {
             setCheckout({
                 ...checkout,
@@ -573,11 +573,11 @@ const Checkout = (props) => {
         let customer;
         let address;
         if (
-            !state.data.isGuest &&
-            addressCustomer &&
-            addressCustomer.data &&
-            addressCustomer.data.customer &&
-            addressCustomer.data.customer.addresses
+            !state.data.isGuest
+            && addressCustomer
+            && addressCustomer.data
+            && addressCustomer.data.customer
+            && addressCustomer.data.customer.addresses
         ) {
             customer = addressCustomer.data.customer;
             [address] = customer ? customer.addresses.filter((item) => item.default_shipping) : [null];
@@ -605,14 +605,14 @@ const Checkout = (props) => {
             }
 
             if (
-                shipping &&
-                shipping.selected_shipping_method &&
-                shipping.available_shipping_methods &&
-                shipping.available_shipping_methods.length > 0
+                shipping
+                && shipping.selected_shipping_method
+                && shipping.available_shipping_methods
+                && shipping.available_shipping_methods.length > 0
             ) {
                 const shippingMethod = shipping.selected_shipping_method;
                 const availableShipping = shipping.available_shipping_methods.filter(
-                    (x) => x.available && x.carrier_code === shippingMethod.carrier_code && x.method_code === shippingMethod.method_code
+                    (x) => x.available && x.carrier_code === shippingMethod.carrier_code && x.method_code === shippingMethod.method_code,
                 );
                 state.selected.shipping = `${shippingMethod.carrier_code}_${shippingMethod.method_code}`;
             }
@@ -767,10 +767,9 @@ const Checkout = (props) => {
         // const { shipping_addresses } = params;
     };
 
-    const createOrderPaypal = (data, actions) =>
-        new Promise((resolve, reject) => {
-            resolve(initialOptionPaypal['data-order-id']);
-        });
+    const createOrderPaypal = (data, actions) => new Promise((resolve, reject) => {
+        resolve(initialOptionPaypal['data-order-id']);
+    });
 
     const paypalHandlingProps = {
         onClick: onClickPaypal,

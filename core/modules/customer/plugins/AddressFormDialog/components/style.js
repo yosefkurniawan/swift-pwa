@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
         ...CreateMargin(30, 0, 30, 0),
     },
     boxMap: {
-        ...CreateMargin(30, 0, 60, 0),
+        ...CreateMargin(70, 0, 30, 0),
         height: 'auto',
     },
     fontWhite: {

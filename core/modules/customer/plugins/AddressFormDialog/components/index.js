@@ -1,7 +1,7 @@
 import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import IcubeMaps from '@common_googlemaps';
+import IcubeMapsAutocomplete from '@common_googlemaps_autocomplete';
 import Header from '@common_headermobile';
 import Button from '@common_button';
 import TextField from '@material-ui/core/TextField';
@@ -34,8 +34,6 @@ const AddressView = (props) => {
         responRegion,
         responCities,
         getCities,
-        pinLocationInfo,
-        loadingGetPinLocationInfo,
     } = props;
     const styles = useStyles();
     const headerConfig = {
@@ -395,12 +393,12 @@ const AddressView = (props) => {
                         />
                         <CustomTextField
                             autoComplete="new-password"
-                            label={t('common:form:street')}
-                            name="street"
-                            value={formik.values.street}
+                            label={t('common:form:phoneNumber')}
+                            name="telephone"
+                            value={formik.values.telephone}
                             onChange={formik.handleChange}
-                            error={!!(formik.touched.street && formik.errors.street)}
-                            errorMessage={(formik.touched.street && formik.errors.street) || null}
+                            error={!!(formik.touched.telephone && formik.errors.telephone)}
+                            errorMessage={(formik.touched.telephone && formik.errors.telephone) || null}
                         />
                         {getCountriesRender()}
                         {getRegionRender()}
@@ -416,18 +414,24 @@ const AddressView = (props) => {
                             error={!!(formik.touched.postcode && formik.errors.postcode)}
                             errorMessage={(formik.touched.postcode && formik.errors.postcode) || null}
                         />
-                        <CustomTextField
+                        {/* <CustomTextField
                             autoComplete="new-password"
-                            label={t('common:form:phoneNumber')}
-                            name="telephone"
-                            value={formik.values.telephone}
+                            label={t('common:form:street')}
+                            name="street"
+                            value={formik.values.street}
                             onChange={formik.handleChange}
-                            error={!!(formik.touched.telephone && formik.errors.telephone)}
-                            errorMessage={(formik.touched.telephone && formik.errors.telephone) || null}
-                        />
+                            error={!!(formik.touched.street && formik.errors.street)}
+                            errorMessage={(formik.touched.street && formik.errors.street) || null}
+                        /> */}
                         {gmapKey && (
                             <div className={styles.boxMap}>
-                                <IcubeMaps height="230px" mapPosition={mapPosition} dragMarkerDone={handleDragPosition} gmapKey={gmapKey} />
+                                <IcubeMapsAutocomplete
+                                    height="230px"
+                                    mapPosition={mapPosition}
+                                    dragMarkerDone={handleDragPosition}
+                                    gmapKey={gmapKey}
+                                    formik={formik}
+                                />
                             </div>
                         )}
 
@@ -439,11 +443,11 @@ const AddressView = (props) => {
                                     onChange={() => formik.setFieldValue('defaultShippingBilling', !formik.values.defaultShippingBilling)}
                                     name="defaultShippingBilling"
                                     control={<Checkbox name="checkboxDefaultShippingBilling" color="primary" size="small" />}
-                                    label={
+                                    label={(
                                         <Typography variant="p" letter="capitalize" className="row center">
                                             {t('customer:address:useDefault')}
                                         </Typography>
-                                    }
+                                    )}
                                 />
                             </div>
                         )}
@@ -456,12 +460,11 @@ const AddressView = (props) => {
                                     onChange={() => formik.setFieldValue('confirmPinPoint', !formik.values.confirmPinPoint)}
                                     name="confirmPinPoint"
                                     control={<Checkbox name="newsletter" color="primary" size="small" />}
-                                    label={
+                                    label={(
                                         <Typography variant="h4" className="row center" style={{ fontWeight: '600' }}>
-                                            {/* {`${t('customer:address:confirmPinPoint')} ${pinLocationInfo || ''}`} */}
                                             {`${t('customer:address:confirmPinPoint')}`}
                                         </Typography>
-                                    }
+                                    )}
                                 />
                                 {!!(formik.touched.confirmPinPoint && formik.errors.confirmPinPoint) && (
                                     <div style={{ marginTop: '1.5rem', marginLeft: '1.75rem' }}>
@@ -477,8 +480,8 @@ const AddressView = (props) => {
                                 className={addBtn}
                                 fullWidth
                                 type="submit"
-                                disabled={loading || loadingGetPinLocationInfo}
-                                loading={loading || loadingGetPinLocationInfo}
+                                disabled={loading}
+                                loading={loading}
                             >
                                 <Typography variant="span" type="bold" letter="uppercase" color="white">
                                     {t(success ? 'common:button:saved' : 'common:button:save')}
