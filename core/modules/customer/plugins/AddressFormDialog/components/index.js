@@ -1,7 +1,6 @@
 import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import IcubeMaps from '@common_googlemaps';
 import IcubeMapsAutocomplete from '@common_googlemaps_autocomplete';
 import Header from '@common_headermobile';
 import Button from '@common_button';
@@ -394,12 +393,12 @@ const AddressView = (props) => {
                         />
                         <CustomTextField
                             autoComplete="new-password"
-                            label={t('common:form:street')}
-                            name="street"
-                            value={formik.values.street}
+                            label={t('common:form:phoneNumber')}
+                            name="telephone"
+                            value={formik.values.telephone}
                             onChange={formik.handleChange}
-                            error={!!(formik.touched.street && formik.errors.street)}
-                            errorMessage={(formik.touched.street && formik.errors.street) || null}
+                            error={!!(formik.touched.telephone && formik.errors.telephone)}
+                            errorMessage={(formik.touched.telephone && formik.errors.telephone) || null}
                         />
                         {getCountriesRender()}
                         {getRegionRender()}
@@ -414,15 +413,6 @@ const AddressView = (props) => {
                             onChange={formik.handleChange}
                             error={!!(formik.touched.postcode && formik.errors.postcode)}
                             errorMessage={(formik.touched.postcode && formik.errors.postcode) || null}
-                        />
-                        <CustomTextField
-                            autoComplete="new-password"
-                            label={t('common:form:phoneNumber')}
-                            name="telephone"
-                            value={formik.values.telephone}
-                            onChange={formik.handleChange}
-                            error={!!(formik.touched.telephone && formik.errors.telephone)}
-                            errorMessage={(formik.touched.telephone && formik.errors.telephone) || null}
                         />
                         {gmapKey && (
                             <div className={styles.boxMap}>
