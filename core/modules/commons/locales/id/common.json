@@ -11,7 +11,8 @@
         "title": "Cari",
         "mainTitle": "Koleksi terbaru",
         "backTitle": "kembali ke produk",
-        "location": "Cari Lokasi"
+        "location": "Cari Lokasi",
+        "addressDetail": "Please input your address detail"
     },
     "button": {
         "edit": "Edit",
@@ -34,7 +35,9 @@
         "viewAll": "Lihat Semua",
         "goCheckout": "Checkout",
         "viewandedit": "Lihat dan Ubah",
-        "allowCookies": "Ijinkan Cookie"
+        "addToCart": "Tambah ke Keranjang",
+        "allowCookies": "Ijinkan Cookie",
+        "simulateQrCode": "Sumulasi Pembayaran Qrcode"
     },
     "cart": {
         "myCart": "Cart Saya",
@@ -66,7 +69,10 @@
         "country": "Negara",
         "street": "Alamat Jalan",
         "postal": "Kode Pos",
-        "select": "Pilih Salah Satu"
+        "select": "Pilih Salah Satu",
+        "addressDetail": "Detil Alamat",
+        "mapError": "Tidak dapat memuat peta. Silahkan periksa koneksi internet anda.",
+        "mapLoading": "Memuat peta..."
     },
     "title": {
         "qty": "Jumlah",
@@ -85,17 +91,21 @@
         "relatedProduct": "Relasi Produk",
         "sale": "Diskon",
         "new": "Baru",
-        "free": "Free"
+        "free": "Free",
+        "none": "Tidak ada"
     },
     "error": {
         "notFound": "Data tidak di temukan",
         "fileReject": "Tidak dapat mengupload file harus ber type ",
-        "fetchError": "Terjadi kesalahan. Silakan coba lagi nanti"
+        "fetchError": "Terjadi kesalahan. Silakan coba lagi nanti",
+        "browser": "Browser tidak didukung",
+        "videoNotSupported": "Browser anda tidak mendukung elemen video."
     },
     "fileUpload": {
         "reject": "Tidak dapat mengupload, file harus ber type  ",
         "dragActive": "Taruh file kesini ...",
-        "dragNonActive": "Tarik dan taruh file kesini, atau klik untuk pilih file"
+        "dragNonActive": "Tarik dan taruh file kesini, atau klik untuk pilih file",
+        "maxSizeImage": "Maksimal ukuran gambar "
     },
     "menu": {
         "confirmpayment": "Konfirmasi Pembayaran",
@@ -107,10 +117,7 @@
         "myaccount": "Akun Saya",
         "mywishlist": "Daftar Saya",
         "signout": "keluar",
-        "currency": "Mata Uang",
-        "loading": "Menunggu",
-        "changeto": "Ganti ke",
-        "setting": "Pengaturan"
+        "loading": "Menunggu"
     },
     "header": {
         "welcome": "Selamat Datang!",
@@ -119,17 +126,32 @@
     "message": {
         "feedSuccess": "Produk berhasil di tambahkan ke wishlist",
         "feedFailed": "Tambah wishlist gagal",
+        "browserError": "Silahkan ganti browser atau cek setingan cookies, javascript atau lainnya",
         "restrictionCookies": "Kami menggunakan cookie untuk membuat pengalaman Anda lebih baik. Untuk mematuhi arahan e-Privacy yang baru, kami perlu meminta persetujuan Anda untuk menyetel cookie. Pelajari lebih lanjut."
     },
     "newsletter": {
         "title": "DAFTAR NEWSLETTER",
         "placeholder": "Masukkan alamat email Anda",
         "buttonLabel": "Langganan",
+        "emailFormat": "Format email salah",
+        "emptyValue": "Harap masukkan alamat email",
         "firstname": "Masukkan nama depan anda",
         "lastname": "Masukkan nama belakang anda"
     },
+    "setting": {
+        "title": "Pengaturan",
+        "language": "Bahasa",
+        "currency": "Mata Uang",
+        "changeto": "Ganti ke"
+    },
     "recentlyView": {
         "title" : "Baru Saja Dilihat"
+    },
+    "instagramFeed": {
+        "shareFb": "Bagikan ke facebook",
+        "tweet": "Tweet",
+        "pinit": "Sematkan",
+        "downloadImage": "Unduh gambar"
     },
     "productCompare": {
         "title": "Product Compare",
@@ -141,7 +163,7 @@
         "failedRemove": "Product compare gagal dihapus",
         "label": {
             "sku": "sku",
-            "description": "deskripsi",
+            "description": "Deskripsi",
             "shortDescription": "Deskripsi Singkat",
             "brand": "Merek"
         }
@@ -151,4 +173,11 @@
         "tweetTo": "Tweet ke",
         "tweetBy": "Tweet oleh"
     },
+    "summary": {
+        "title": "Ringkasan",
+        "tax": "Pajak",
+        "storeCredit": "Kredit toko",
+        "rewardPoint": "Poin reward",
+        "giftCard": "Gift card (hadiah)"
+    }
 }

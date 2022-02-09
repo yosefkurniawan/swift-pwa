@@ -2,6 +2,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IcubeMaps from '@common_googlemaps';
+import IcubeMapsAutocomplete from '@common_googlemaps_autocomplete';
 import Header from '@common_headermobile';
 import Button from '@common_button';
 import TextField from '@material-ui/core/TextField';
@@ -34,8 +35,6 @@ const AddressView = (props) => {
         responRegion,
         responCities,
         getCities,
-        pinLocationInfo,
-        loadingGetPinLocationInfo,
     } = props;
     const styles = useStyles();
     const headerConfig = {
@@ -427,7 +426,12 @@ const AddressView = (props) => {
                         />
                         {gmapKey && (
                             <div className={styles.boxMap}>
-                                <IcubeMaps height="230px" mapPosition={mapPosition} dragMarkerDone={handleDragPosition} gmapKey={gmapKey} />
+                                <IcubeMapsAutocomplete
+                                    gmapKey={gmapKey}
+                                    formik={formik}
+                                    mapPosition={mapPosition}
+                                    dragMarkerDone={handleDragPosition}
+                                />
                             </div>
                         )}
 
@@ -439,11 +443,11 @@ const AddressView = (props) => {
                                     onChange={() => formik.setFieldValue('defaultShippingBilling', !formik.values.defaultShippingBilling)}
                                     name="defaultShippingBilling"
                                     control={<Checkbox name="checkboxDefaultShippingBilling" color="primary" size="small" />}
-                                    label={
+                                    label={(
                                         <Typography variant="p" letter="capitalize" className="row center">
                                             {t('customer:address:useDefault')}
                                         </Typography>
-                                    }
+                                    )}
                                 />
                             </div>
                         )}
@@ -456,12 +460,12 @@ const AddressView = (props) => {
                                     onChange={() => formik.setFieldValue('confirmPinPoint', !formik.values.confirmPinPoint)}
                                     name="confirmPinPoint"
                                     control={<Checkbox name="newsletter" color="primary" size="small" />}
-                                    label={
+                                    label={(
                                         <Typography variant="h4" className="row center" style={{ fontWeight: '600' }}>
                                             {/* {`${t('customer:address:confirmPinPoint')} ${pinLocationInfo || ''}`} */}
                                             {`${t('customer:address:confirmPinPoint')}`}
                                         </Typography>
-                                    }
+                                    )}
                                 />
                                 {!!(formik.touched.confirmPinPoint && formik.errors.confirmPinPoint) && (
                                     <div style={{ marginTop: '1.5rem', marginLeft: '1.75rem' }}>
@@ -477,8 +481,8 @@ const AddressView = (props) => {
                                 className={addBtn}
                                 fullWidth
                                 type="submit"
-                                disabled={loading || loadingGetPinLocationInfo}
-                                loading={loading || loadingGetPinLocationInfo}
+                                disabled={loading}
+                                loading={loading}
                             >
                                 <Typography variant="span" type="bold" letter="uppercase" color="white">
                                     {t(success ? 'common:button:saved' : 'common:button:save')}

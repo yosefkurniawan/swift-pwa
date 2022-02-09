@@ -11,7 +11,8 @@
         "title": "Search",
         "mainTitle": "New in Collection",
         "backTitle": "back in stock sale",
-        "location": "Search Location"
+        "location": "Search Location",
+        "addressDetail": "Please input your address detail"
     },
     "button": {
         "edit": "Edit",
@@ -69,7 +70,10 @@
         "country": "Country",
         "street": "Street Address",
         "postal": "Postal Code",
-        "select": "Select One"
+        "select": "Select One",
+        "addressDetail": "Address Detail",
+        "mapError": "Cannot load map, please check your internet connection",
+        "mapLoading": "Loading map..."
     },
     "title": {
         "qty": "Quantity",
@@ -169,7 +173,7 @@
         "follow": "Follow",
         "tweetTo": "Tweet to",
         "tweetBy": "Tweet by"
-    },       
+    },
     "summary": {
         "title": "Summary",
         "tax": "Tax",
