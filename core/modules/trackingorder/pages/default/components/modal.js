@@ -61,7 +61,8 @@ const ModalResult = (props) => {
                             modalType.toLowerCase().includes('jne') ||
                             modalType.toLowerCase().includes('sap') ||
                             modalType.toLowerCase().includes('shipperid') ||
-                            modalType.toLowerCase().includes('anteraja')
+                            modalType.toLowerCase().includes('anteraja') ||
+                            modalType.toLowerCase().includes('popaket')
                         ) {
                             trackOrder = <ShipperView type={modalType} data={modalData} orders={orders} styles={styles} t={t} />;
                         } else {
