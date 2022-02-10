@@ -69,7 +69,6 @@ const DetailOrder = (props) => {
             }
         })
     }
-    console.log(shippingMethods);
     if (detail.length > 0) {
         const handleOpenXendit = () => {
             setCheckoutData({
