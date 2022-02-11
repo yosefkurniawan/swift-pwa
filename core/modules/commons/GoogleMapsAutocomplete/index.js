@@ -9,21 +9,24 @@ import {
 import { useTranslation } from '@i18n';
 import CustomTextField from '@common_textfield';
 
+// Set map container size
 const containerStyle = {
     width: '100%',
     height: '230px',
 };
 
+// Set initial refs for google maps instance
 const refs = {
     marker: null,
     autoComplete: null,
-    searchBox: null,
 };
 
+// Get autocomplete components instance
 const autoCompleteLoad = (ref) => {
     refs.autoComplete = ref;
 };
 
+// Get marker components instance
 const markerLoad = (ref) => {
     refs.marker = ref;
 };
@@ -37,12 +40,16 @@ const IcubeMapsAutocomplete = (props) => {
     } = props;
     const { t } = useTranslation(['common']);
 
-    const [libraries] = useState(['places', 'geometry', 'drawing']);
+    // set libraries to use in Google Maps API
+    const [libraries] = useState(['places', 'geometry']);
+
+    // Set initial bounds to autocomplete services
     const [stateBounds, setStateBounds] = useState({
         northeast: {},
         southwest: {},
     });
 
+    // Initiate google maps instance with configurations
     const { isLoaded, loadError } = useJsApiLoader({
         googleMapsApiKey: gmapKey,
         libraries,
@@ -53,11 +60,13 @@ const IcubeMapsAutocomplete = (props) => {
         return emptyValues.includes(value) ? 0 : Number(value);
     };
 
+    // Get initial map coordinates if user already saved an address before or fetch from browser's navigator location
     const mapPosition = {
         lat: setZeroIfEmpty(props.mapPosition && props.mapPosition.lat),
         lng: setZeroIfEmpty(props.mapPosition && props.mapPosition.lng),
     };
 
+    // Set a new coordinates information when user drag the marker icon
     const handleDragEnd = (event) => {
         const newPosition = {
             lat: event.latLng.lat(),
@@ -66,16 +75,41 @@ const IcubeMapsAutocomplete = (props) => {
         dragMarkerDone(newPosition);
     };
 
+    // Set address detail fields value on formik when user select a location on autocomplete box
     const onPlaceChanged = () => {
         if (refs.autoComplete !== null) {
-            const { location } = refs.autoComplete.getPlace().geometry;
+            const { name, address_components, geometry } = refs.autoComplete.getPlace();
+            const tempInputValue = formik.values.street;
+            const street_name = address_components.filter((item) => item.types.includes('route'));
+
             dragMarkerDone({
-                lat: location.lat(),
-                lng: location.lng(),
+                lat: geometry.location.lat(),
+                lng: geometry.location.lng(),
             });
+
+            if (tempInputValue !== name) {
+                if (street_name[0] !== undefined) {
+                    if (street_name[0].long_name === name) {
+                        if (tempInputValue === street_name[0].long_name || tempInputValue === street_name[0].short_name) {
+                            formik.setFieldValue('street', `${street_name[0].long_name}`);
+                        } else {
+                            formik.setFieldValue('street', tempInputValue);
+                        }
+                    } else if (tempInputValue.length > name.length) {
+                        formik.setFieldValue('street', `${street_name[0].short_name} ${tempInputValue}`);
+                    } else {
+                        formik.setFieldValue('street', `${street_name[0].short_name} ${name}`);
+                    }
+                } else {
+                    formik.setFieldValue('street', tempInputValue);
+                }
+            } else {
+                formik.setFieldValue('street', name);
+            }
         }
     };
 
+    // Get a new coordinates bounds based on current address information input (village, district, city, region)
     useEffect(() => {
         if (formik !== false) {
             if ((formik.values.village !== '' && formik.values.village !== undefined && formik.values.village !== null)
@@ -108,6 +142,7 @@ const IcubeMapsAutocomplete = (props) => {
         }
     }, [formik.values.village, formik.values.district, formik.values.city, formik.values.region]);
 
+    // Function to render the maps
     // eslint-disable-next-line arrow-body-style
     const renderMap = () => {
         return (
@@ -156,10 +191,12 @@ const IcubeMapsAutocomplete = (props) => {
         );
     };
 
+    // Return an error message if maps failed to load
     if (loadError) {
         return <div>{t('common:form:mapError')}</div>;
     }
 
+    // Render the maps
     return isLoaded ? renderMap() : <div>{t('common:form:mapLoading')}</div>;
 };
 
