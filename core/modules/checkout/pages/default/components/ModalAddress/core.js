@@ -67,6 +67,7 @@ const ModalAddressCustomer = (props) => {
     // handle change selected address
     const handleChange = async (event, forceUpdate = false) => {
         if (selectedAddressId !== event.target.value || forceUpdate) {
+            console.log(`${selectedAddressId} && ${event.target.value} && ${forceUpdate} cek`);
             const state = { ...checkout };
             state.loading.addresses = true;
             state.loading.order = true;
@@ -84,7 +85,7 @@ const ModalAddressCustomer = (props) => {
             const dataAddress = await updatedDefaultAddress({
                 variables: {
                     addressId,
-                    street: detail.street[0],
+                    street: event.target.valueAddress !== detail.street[0] ? event.target.valueAddress : detail.street[0],
                 },
             });
 

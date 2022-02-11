@@ -78,6 +78,7 @@ const IcubeMapsAutocomplete = (props) => {
     // Set address detail fields value on formik when user select a location on autocomplete box
     const onPlaceChanged = () => {
         if (refs.autoComplete !== null) {
+            console.log(refs.autoComplete.getPlace());
             const { name, address_components, geometry } = refs.autoComplete.getPlace();
             const tempInputValue = formik.values.street;
             const street_name = address_components.filter((item) => item.types.includes('route'));
@@ -100,8 +101,10 @@ const IcubeMapsAutocomplete = (props) => {
                     } else {
                         formik.setFieldValue('street', `${street_name[0].short_name} ${name}`);
                     }
-                } else {
+                } else if (tempInputValue.length > name.length) {
                     formik.setFieldValue('street', tempInputValue);
+                } else {
+                    formik.setFieldValue('street', name);
                 }
             } else {
                 formik.setFieldValue('street', name);
