@@ -27,7 +27,7 @@ mutation addSimpleProductsToCart(
     $qty: Float!,
     $sku: String!,
     ${modules.product.customizableOptions.enabled
-      ? `
+        ? `
       $customizable_options: [CustomizableOptionInput],
       $entered_options: [EnteredOptionInput] 
     ` : ''}
@@ -36,12 +36,12 @@ mutation addSimpleProductsToCart(
       cart_id: $cartId,
       cart_items: {
         ${modules.product.customizableOptions.enabled
-          ? ' customizable_options: $customizable_options' : ''}
+        ? ' customizable_options: $customizable_options' : ''}
         data: {
           quantity: $qty,
           sku: $sku,
           ${modules.product.customizableOptions.enabled
-            ? ' entered_options: $entered_options' : ''}
+        ? ' entered_options: $entered_options' : ''}
         }
       }
     }) {
@@ -59,7 +59,7 @@ mutation addVirtualProductToCart(
     $qty: Float!,
     $sku: String!,
     ${modules.product.customizableOptions.enabled
-      ? `
+        ? `
       $customizable_options: [CustomizableOptionInput],      
       $entered_options: [EnteredOptionInput] 
       ` : ''}
@@ -68,12 +68,12 @@ mutation addVirtualProductToCart(
       cart_id: $cartId,
       cart_items: {
         ${modules.product.customizableOptions.enabled
-          ? ' customizable_options: $customizable_options' : ''}
+        ? ' customizable_options: $customizable_options' : ''}
         data: {
           quantity: $qty,
           sku: $sku,
           ${modules.product.customizableOptions.enabled
-            ? ' entered_options: $entered_options' : ''}
+        ? ' entered_options: $entered_options' : ''}
         }
       }
     }) {
@@ -92,7 +92,7 @@ mutation(
   $qty: Float!,
   $download_product_link: [DownloadableProductLinksInput],
   ${modules.product.customizableOptions.enabled
-    ? `
+        ? `
     $customizable_options: [CustomizableOptionInput],      
     $entered_options: [EnteredOptionInput] 
     ` : ''}
@@ -102,12 +102,12 @@ mutation(
       cart_id: $cartId
       cart_items: {
         ${modules.product.customizableOptions.enabled
-          ? ' customizable_options: $customizable_options' : ''}
+        ? ' customizable_options: $customizable_options' : ''}
         data: {
           sku: $sku,
           quantity: $qty,
           ${modules.product.customizableOptions.enabled
-            ? ' entered_options: $entered_options' : ''}
+        ? ' entered_options: $entered_options' : ''}
         }
         downloadable_product_links: $download_product_link
       }
@@ -143,7 +143,7 @@ mutation (
   $sku: String!,
   $parentSku: String!,  
   ${modules.product.customizableOptions.enabled
-    ? `
+        ? `
     $customizable_options: [CustomizableOptionInput],
     $entered_options: [EnteredOptionInput] 
   ` : ''}
@@ -153,12 +153,12 @@ mutation (
       cart_id: $cartId,
       cart_items: {
         ${modules.product.customizableOptions.enabled
-          ? ' customizable_options: $customizable_options' : ''}
+        ? ' customizable_options: $customizable_options' : ''}
         data: {
           quantity : $qty,
           sku: $sku,
           ${modules.product.customizableOptions.enabled
-            ? ' entered_options: $entered_options' : ''}            
+        ? ' entered_options: $entered_options' : ''}            
         parent_sku: $parentSku
         }
       }
@@ -219,7 +219,7 @@ mutation addGiftCardProductsToCart(
     $sku: String!,
     $awGcInput: awGcGiftCardOptionInput!,
     ${modules.product.customizableOptions.enabled
-      ? `
+        ? `
       $customizable_options: [CustomizableOptionInput],
       $entered_options: [EnteredOptionInput] 
     ` : ''}
@@ -228,12 +228,12 @@ mutation addGiftCardProductsToCart(
       cart_id: $cartId,
       cart_items: {
         ${modules.product.customizableOptions.enabled
-          ? ' customizable_options: $customizable_options' : ''}
+        ? ' customizable_options: $customizable_options' : ''}
         data: {
           quantity: $qty,
           sku: $sku,
           ${modules.product.customizableOptions.enabled
-            ? ' entered_options: $entered_options' : ''}
+        ? ' entered_options: $entered_options' : ''}
         }
         aw_giftcard_option: $awGcInput
       }

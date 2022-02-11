@@ -104,11 +104,11 @@ const ProductItem = (props) => {
 
     let isLogin = '';
     if (typeof window !== 'undefined') isLogin = getLoginInfo();
-    
-    const [getProduct, { 
-        data: dataDetailProduct, 
-        error: errorDetailProduct, 
-        loading: loadingDetailProduct 
+
+    const [getProduct, {
+        data: dataDetailProduct,
+        error: errorDetailProduct,
+        loading: loadingDetailProduct,
     }] = getDetailProduct();
 
     const [postAddWishlist] = addWishlist();
