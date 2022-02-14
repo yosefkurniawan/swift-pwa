@@ -8,6 +8,7 @@ import {
 } from '@react-google-maps/api';
 import { useTranslation } from '@i18n';
 import CustomTextField from '@common_textfield';
+import { capitalizeEachWord } from '@root/core/helpers/text';
 
 // Set map container size
 const containerStyle = {
@@ -96,7 +97,7 @@ const IcubeMapsAutocomplete = (props) => {
                         } else if (tempInputValue.length < street_name[0].long_name.length || tempInputValue.length === street_name[0].long_name.length) {
                             formik.setFieldValue('street', `${street_name[0].long_name}`);
                         } else {
-                            formik.setFieldValue('street', tempInputValue);
+                            formik.setFieldValue('street', capitalizeEachWord(tempInputValue));
                         }
                     } else if (tempInputValue.length > name.length) {
                         formik.setFieldValue('street', `${street_name[0].short_name} ${tempInputValue}`);
@@ -104,7 +105,7 @@ const IcubeMapsAutocomplete = (props) => {
                         formik.setFieldValue('street', `${street_name[0].short_name} ${name}`);
                     }
                 } else if (tempInputValue.length > name.length) {
-                    formik.setFieldValue('street', tempInputValue);
+                    formik.setFieldValue('street', capitalizeEachWord(tempInputValue));
                 } else {
                     formik.setFieldValue('street', name);
                 }
