@@ -6,7 +6,7 @@ import { features } from '@config';
 import { setCartId } from '@helper_cartid';
 import { getHost } from '@helpers/config';
 import Alert from '@material-ui/lab/Alert';
-import { getOrderDetail, reOrder as mutationReorder, getPaymentInformation } from '@core_modules/order/services/graphql';
+import { getOrderDetail, reOrder as mutationReorder, getPaymentInformation, getTrackingOrder } from '@core_modules/order/services/graphql';
 
 const OrderDetail = (props) => {
     const {
@@ -28,7 +28,8 @@ const OrderDetail = (props) => {
     const { loading, data, error } = getOrderDetail(params);
     const { loading: loadingPaymentInfo, data: paymentInfo, error: errorPaymentInfo } = getPaymentInformation(params);
     const [actionReorder] = mutationReorder();
-    if (error || errorPaymentInfo) {
+    const { loading: loadingTrackingOrder, data: dataTrackingOrder, error: errorTrackingOrder } = getTrackingOrder({ order_id: params.order_id });
+    if (error || errorPaymentInfo || errorTrackingOrder) {
         return (
             <Layout pageConfig={pageConfig} {...props}>
                 <CustomerLayout {...props}>
@@ -39,7 +40,7 @@ const OrderDetail = (props) => {
             </Layout>
         );
     }
-    if (loading || !data || loadingPaymentInfo || !paymentInfo) {
+    if (loading || !data || loadingPaymentInfo || !paymentInfo || loadingTrackingOrder || !dataTrackingOrder) {
         return (
             <Layout pageConfig={pageConfig} {...props}>
                 <CustomerLayout {...props}>
@@ -96,6 +97,7 @@ const OrderDetail = (props) => {
                 returnUrl={returnUrl}
                 reOrder={reOrder}
                 paymentInfo={paymentInfo.OrderPaymentInformation}
+                dataTrackingOrder={dataTrackingOrder}
             />
         </Layout>
     );

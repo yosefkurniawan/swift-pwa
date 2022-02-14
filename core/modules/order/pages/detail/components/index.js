@@ -18,18 +18,28 @@ import OrderStatusIcon from '@core_modules/order/pages/detail/components/OrderSt
 import dayjs from 'dayjs';
 import Button from '@common_button';
 import ModalXendit from '@core_modules/checkout/pages/default/components/ModalXendit';
+import ModalTrackOrder from '@core_modules/trackingorder/plugins/ModalTrackOrder';
 import { setCheckoutData } from '@helper_cookies';
+import { checkJson } from '@core_modules/trackingorder/pages/default/helpers/checkJson';
 
 const DetailOrder = (props) => {
     const {
         t, detail, currency, features, reOrder, returnUrl,
-        paymentInfo,
+        paymentInfo, dataTrackingOrder,
     } = props;
     const { checkout: { xendit: { paymentPrefixCodeOnSuccess } } } = modules;
     const styles = useStyles();
+    
     const [openXendit, setOpenXendit] = React.useState(false);
+    const [openModal, setOpenModal] = React.useState(false);
+    const [modalType, setModalType] = React.useState('');
+    const [modalData, setModalData] = React.useState('');
 
     let items = [];
+    const shipping = {
+        track_number: dataTrackingOrder.ordersFilter.data[0].detail[0].shipping_methods.shipping_detail[0].track_number,
+        trackorder_type: dataTrackingOrder.ordersFilter.data[0].detail[0].shipping_methods.shipping_detail[0].trackorder_type,
+    }
     if (detail.length > 0 && detail[0].detail[0].items.length) {
         const configurableProduct = [];
         detail[0].detail[0].items.map((item) => {
@@ -43,6 +53,22 @@ const DetailOrder = (props) => {
         const simpleProduct = detail[0].detail[0].items.filter((item) => !configurableProduct.find(({ sku }) => item.sku === sku) && item);
         items = [...configurableProduct, ...simpleProduct];
     }
+    let dt;
+    const shippingMethods = dataTrackingOrder.ordersFilter.data[0].detail[0].shipping_methods.shipping_detail;
+    if (shippingMethods.length > 0) {
+        shippingMethods.forEach((shipping) => {
+            if (shipping.data_detail) {
+                dt = shipping.data_detail;
+                dt = dt.replace(/'/g, '`');
+                dt = dt.replace(/"/g, "'");
+                dt = dt.replace(/`/g, '"');
+
+                if (checkJson(dt) && !JSON.parse(dt).errors) {
+                    dt = JSON.parse(dt);
+                }
+            }
+        })
+    }
     if (detail.length > 0) {
         const handleOpenXendit = () => {
             setCheckoutData({
@@ -52,6 +78,13 @@ const DetailOrder = (props) => {
             });
             setOpenXendit(!openXendit);
         };
+
+        const handleOpenModal = (type, datas) => {
+            setOpenModal(true);
+            setModalType(type);
+            setModalData(datas);
+        };
+
         return (
             <Layout t={t} wishlist={[]} activeMenu="/sales/order/history">
                 {
@@ -192,8 +225,36 @@ const DetailOrder = (props) => {
                                     <Typography variant="span" className="clear-margin-padding">
                                         {detail[0].detail[0].shipping_methods.shipping_description || ''}
                                     </Typography>
+                                    {
+                                        shippingMethods.length > 0
+                                        && shipping.track_number 
+                                        && shipping.trackorder_type && (
+                                            <Button
+                                                variant="text"
+                                                onClick={() => handleOpenModal(shipping.trackorder_type, dt)}
+                                                align="left"
+                                                className={styles.btnTrackOrder}
+                                            >
+                                                <Typography type="bold" decoration="underline" align="left">
+                                                    {t('order:trackingOrder')}
+                                                    {': '}
+                                                    {shipping.track_number}
+                                                    {' '}
+                                                    {`(${shipping.trackorder_type})`}
+                                                </Typography>
+                                            </Button>
+                                        )
+                                    }
                                 </div>
                             )}
+                            <ModalTrackOrder
+                                {...props}
+                                modalType={modalType}
+                                modalData={modalData}
+                                open={openModal}
+                                setOpen={setOpenModal}
+                                orders={dataTrackingOrder.ordersFilter}
+                            />
                             <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                     {t('order:paymentMethod')}
