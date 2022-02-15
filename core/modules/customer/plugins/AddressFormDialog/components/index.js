@@ -413,6 +413,7 @@ const AddressView = (props) => {
                             onChange={formik.handleChange}
                             error={!!(formik.touched.postcode && formik.errors.postcode)}
                             errorMessage={(formik.touched.postcode && formik.errors.postcode) || null}
+                            onFocus={(e) => { e.target.setAttribute('autocomplete', 'new-password'); e.target.setAttribute('autocorrect', 'false'); e.target.setAttribute('aria-autocomplete', 'both'); e.target.setAttribute('aria-haspopup', 'false'); e.target.setAttribute('spellcheck', 'off'); e.target.setAttribute('autocapitalize', 'off'); e.target.setAttribute('autofocus', ''); e.target.setAttribute('role', 'combobox'); }}
                         />
                         {gmapKey && (
                             <div className={styles.boxMap}>

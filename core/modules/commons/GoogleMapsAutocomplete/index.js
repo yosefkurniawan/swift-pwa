@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/destructuring-assignment */
 import React, { useState, useEffect } from 'react';
 import {
@@ -20,6 +21,7 @@ const containerStyle = {
 const refs = {
     marker: null,
     autoComplete: null,
+    googleMap: null,
 };
 
 // Get autocomplete components instance
@@ -31,6 +33,11 @@ const autoCompleteLoad = (ref) => {
 const markerLoad = (ref) => {
     refs.marker = ref;
 };
+
+// Get google map instance
+const mapLoad = (ref) => {
+    refs.googleMap = ref;
+}
 
 const IcubeMapsAutocomplete = (props) => {
     const {
@@ -78,9 +85,10 @@ const IcubeMapsAutocomplete = (props) => {
 
     // Set address detail fields value on formik when user select a location on autocomplete box
     const onPlaceChanged = () => {
+        // const compareStreetName = () => {}
         if (refs.autoComplete !== null) {
             const { name, address_components, geometry } = refs.autoComplete.getPlace();
-            const tempInputValue = formik.values.street;
+            const tempInputValue = formik.values.addressDetail;
             const street_name = address_components.filter((item) => item.types.includes('route'));
 
             dragMarkerDone({
@@ -93,14 +101,12 @@ const IcubeMapsAutocomplete = (props) => {
                     if (street_name[0].long_name === name) {
                         if (tempInputValue === street_name[0].long_name || tempInputValue === street_name[0].short_name) {
                             formik.setFieldValue('street', `${street_name[0].long_name}`);
-                            // eslint-disable-next-line max-len
                         } else if (tempInputValue.length < street_name[0].long_name.length || tempInputValue.length === street_name[0].long_name.length) {
                             formik.setFieldValue('street', `${street_name[0].long_name}`);
                         } else {
                             formik.setFieldValue('street', capitalizeEachWord(tempInputValue));
                         }
                     } else if (tempInputValue.length > name.length) {
-                        // eslint-disable-next-line max-len
                         if (tempInputValue.toLowerCase().includes(street_name[0].long_name.toLowerCase()) || tempInputValue.toLowerCase().includes(street_name[0].short_name.toLowerCase()) || tempInputValue.toLowerCase().includes(name.toLowerCase())) {
                             // eslint-disable-next-line max-len
                             if (tempInputValue.toLowerCase().includes(`${street_name[0].long_name.toLowerCase()} ${name.toLowerCase()}`) || tempInputValue.toLowerCase().includes(`${street_name[0].short_name.toLowerCase()} ${name.toLowerCase()}`)) {
@@ -111,7 +117,6 @@ const IcubeMapsAutocomplete = (props) => {
                         } else {
                             formik.setFieldValue('street', capitalizeEachWord(tempInputValue));
                         }
-                        // eslint-disable-next-line max-len
                     } else if (name.length > street_name[0].short_name.length && (name.toLowerCase().includes(street_name[0].short_name.toLowerCase()) || name.toLowerCase().includes(street_name[0].long_name.toLowerCase()))) {
                         formik.setFieldValue('street', name);
                     } else {
@@ -131,11 +136,7 @@ const IcubeMapsAutocomplete = (props) => {
     // Get a new coordinates bounds based on current address information input (village, district, city, region)
     useEffect(() => {
         if (formik !== false) {
-            if ((formik.values.village !== '' && formik.values.village !== undefined && formik.values.village !== null)
-                && (formik.values.district !== '' && formik.values.district !== undefined && formik.values.district !== null)
-                && (formik.values.city !== '' && formik.values.city !== undefined && formik.values.city !== null)
-                && (formik.values.region !== '' && formik.values.region !== undefined && formik.values.region !== null)) {
-                // eslint-disable-next-line max-len
+            if (!!formik.values.village && !!formik.values.district && !!formik.values.city && !!formik.values.region) {
                 fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formik.values.village.label}+${formik.values.district.label}+${formik.values.city.label}+${formik.values.region.name}&language=id&key=AIzaSyAsE5tvjrOes4cyL0jpUEtLKMVY65rAwgQ`)
                     .then((response) => response.json())
                     .then((responseData) => {
@@ -186,19 +187,34 @@ const IcubeMapsAutocomplete = (props) => {
                         autoComplete="new-password"
                         label={t('common:form:addressDetail')}
                         placeholder={t('common:search:addressDetail')}
-                        name="street"
-                        value={formik.values.street}
+                        name="addressDetail"
+                        value={formik.values.addressDetail}
                         onChange={(e) => { formik.handleChange(e); }}
-                        error={!!(formik.touched.street && formik.errors.street)}
-                        errorMessage={(formik.touched.street && formik.errors.street) || null}
-                        onFocus={(e) => e.target.setAttribute('autocomplete', 'one-time-code')}
+                        error={!!(formik.touched.addressDetail && formik.errors.addressDetail)}
+                        errorMessage={(formik.touched.addressDetail && formik.errors.addressDetail) || null}
+                        onFocus={(e) => { e.target.setAttribute('autocomplete', 'off'); e.target.setAttribute('autocorrect', 'false'); e.target.setAttribute('aria-autocomplete', 'both'); e.target.setAttribute('aria-haspopup', 'false'); e.target.setAttribute('spellcheck', 'off'); e.target.setAttribute('autocapitalize', 'off'); e.target.setAttribute('autofocus', ''); e.target.setAttribute('role', 'combobox'); }}
                     />
                 </Autocomplete>
                 <GoogleMap
                     id="google-maps-container"
                     mapContainerStyle={containerStyle}
                     center={mapPosition}
+                    onLoad={mapLoad}
                     zoom={defaultZoom}
+                    options={{
+                        restriction: {
+                            // eslint-disable-next-line no-undef
+                            latLngBounds: new google.maps.LatLngBounds(
+                                // eslint-disable-next-line no-undef
+                                new google.maps.LatLng(parseFloat(stateBounds.southwest.lat !== undefined ? stateBounds.southwest.lat : mapPosition.lat),
+                                    parseFloat(stateBounds.southwest.lng !== undefined ? stateBounds.southwest.lng : mapPosition.lng)),
+                                // eslint-disable-next-line no-undef
+                                new google.maps.LatLng(parseFloat(stateBounds.northeast.lat !== undefined ? stateBounds.northeast.lat : mapPosition.lat),
+                                    parseFloat(stateBounds.northeast.lng !== undefined ? stateBounds.northeast.lng : mapPosition.lng)),
+                            ),
+                            strictBounds: true,
+                        },
+                    }}
                 >
                     <Marker
                         onLoad={markerLoad}
