@@ -100,7 +100,10 @@ const IcubeMapsAutocomplete = (props) => {
                             formik.setFieldValue('street', capitalizeEachWord(tempInputValue));
                         }
                     } else if (tempInputValue.length > name.length) {
-                        formik.setFieldValue('street', `${street_name[0].short_name} ${tempInputValue}`);
+                        formik.setFieldValue('street', capitalizeEachWord(tempInputValue));
+                        // eslint-disable-next-line max-len
+                    } else if (name.length > street_name[0].short_name.length && (name.toLowerCase().includes(street_name[0].short_name.toLowerCase()) || name.toLowerCase().includes(street_name[0].long_name.toLowerCase()))) {
+                        formik.setFieldValue('street', name);
                     } else {
                         formik.setFieldValue('street', `${street_name[0].short_name} ${name}`);
                     }
