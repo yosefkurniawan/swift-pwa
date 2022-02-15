@@ -100,35 +100,35 @@ const IcubeMapsAutocomplete = (props) => {
                 if (street_name[0] !== undefined) {
                     if (street_name[0].long_name === name) {
                         if (tempInputValue === street_name[0].long_name || tempInputValue === street_name[0].short_name) {
-                            formik.setFieldValue('street', `${street_name[0].long_name}`);
+                            formik.setFieldValue('addressDetail', `${street_name[0].long_name}`);
                         } else if (tempInputValue.length < street_name[0].long_name.length || tempInputValue.length === street_name[0].long_name.length) {
-                            formik.setFieldValue('street', `${street_name[0].long_name}`);
+                            formik.setFieldValue('addressDetail', `${street_name[0].long_name}`);
                         } else {
-                            formik.setFieldValue('street', capitalizeEachWord(tempInputValue));
+                            formik.setFieldValue('addressDetail', capitalizeEachWord(tempInputValue));
                         }
                     } else if (tempInputValue.length > name.length) {
                         if (tempInputValue.toLowerCase().includes(street_name[0].long_name.toLowerCase()) || tempInputValue.toLowerCase().includes(street_name[0].short_name.toLowerCase()) || tempInputValue.toLowerCase().includes(name.toLowerCase())) {
                             // eslint-disable-next-line max-len
                             if (tempInputValue.toLowerCase().includes(`${street_name[0].long_name.toLowerCase()} ${name.toLowerCase()}`) || tempInputValue.toLowerCase().includes(`${street_name[0].short_name.toLowerCase()} ${name.toLowerCase()}`)) {
-                                formik.setFieldValue('street', capitalizeEachWord(tempInputValue));
+                                formik.setFieldValue('addressDetail', capitalizeEachWord(tempInputValue));
                             } else {
-                                formik.setFieldValue('street', `${street_name[0].short_name} ${name}`);
+                                formik.setFieldValue('addressDetail', `${street_name[0].short_name} ${name}`);
                             }
                         } else {
-                            formik.setFieldValue('street', capitalizeEachWord(tempInputValue));
+                            formik.setFieldValue('addressDetail', capitalizeEachWord(tempInputValue));
                         }
                     } else if (name.length > street_name[0].short_name.length && (name.toLowerCase().includes(street_name[0].short_name.toLowerCase()) || name.toLowerCase().includes(street_name[0].long_name.toLowerCase()))) {
-                        formik.setFieldValue('street', name);
+                        formik.setFieldValue('addressDetail', name);
                     } else {
-                        formik.setFieldValue('street', `${street_name[0].short_name} ${name}`);
+                        formik.setFieldValue('addressDetail', `${street_name[0].short_name} ${name}`);
                     }
                 } else if (tempInputValue.length > name.length) {
-                    formik.setFieldValue('street', capitalizeEachWord(tempInputValue));
+                    formik.setFieldValue('addressDetail', capitalizeEachWord(tempInputValue));
                 } else {
-                    formik.setFieldValue('street', name);
+                    formik.setFieldValue('addressDetail', name);
                 }
             } else {
-                formik.setFieldValue('street', name);
+                formik.setFieldValue('addressDetail', name);
             }
         }
     };
