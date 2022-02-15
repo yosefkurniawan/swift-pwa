@@ -170,18 +170,19 @@ const IcubeMapsAutocomplete = (props) => {
                     }}
                 >
                     <CustomTextField
+                        autoComplete="new-password"
                         label={t('common:form:addressDetail')}
                         placeholder={t('common:search:addressDetail')}
-                        autoComplete="new-address"
                         name="street"
                         value={formik.values.street}
                         onChange={(e) => { formik.handleChange(e); }}
                         error={!!(formik.touched.street && formik.errors.street)}
                         errorMessage={(formik.touched.street && formik.errors.street) || null}
+                        onFocus={(e) => e.target.setAttribute('autocomplete', 'new-password')}
                     />
                 </Autocomplete>
                 <GoogleMap
-                    id="searchbox-example"
+                    id="google-maps-container"
                     mapContainerStyle={containerStyle}
                     center={mapPosition}
                     zoom={defaultZoom}
