@@ -84,7 +84,7 @@ const ModalAddressCustomer = (props) => {
             const dataAddress = await updatedDefaultAddress({
                 variables: {
                     addressId,
-                    street: detail.street[0],
+                    street: event.target.valueAddress !== detail.street[0] ? event.target.valueAddress : detail.street[0],
                 },
             });
 

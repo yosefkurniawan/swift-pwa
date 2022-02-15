@@ -12,7 +12,7 @@
         "mainTitle": "Koleksi terbaru",
         "backTitle": "kembali ke produk",
         "location": "Cari Lokasi",
-        "addressDetail": "Silahkan masukkan detail alamat anda"
+        "addressDetail": "Please input your address detail"
     },
     "button": {
         "edit": "Edit",
@@ -70,7 +70,9 @@
         "street": "Alamat Jalan",
         "postal": "Kode Pos",
         "select": "Pilih Salah Satu",
-        "addressDetail": "Detail Alamat"
+        "addressDetail": "Detil Alamat",
+        "mapError": "Tidak dapat memuat peta. Silahkan periksa koneksi internet anda.",
+        "mapLoading": "Memuat peta..."
     },
     "title": {
         "qty": "Jumlah",

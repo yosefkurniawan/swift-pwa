@@ -12,7 +12,7 @@
         "mainTitle": "New in Collection",
         "backTitle": "back in stock sale",
         "location": "Search Location",
-        "addressDetail": "Please enter your address detail"
+        "addressDetail": "Please input your address detail"
     },
     "button": {
         "edit": "Edit",
@@ -71,7 +71,9 @@
         "street": "Street Address",
         "postal": "Postal Code",
         "select": "Select One",
-        "addressDetail": "Address Detail"
+        "addressDetail": "Address Detail",
+        "mapError": "Cannot load map, please check your internet connection",
+        "mapLoading": "Loading map..."
     },
     "title": {
         "qty": "Quantity",

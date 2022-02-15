@@ -413,24 +413,15 @@ const AddressView = (props) => {
                             onChange={formik.handleChange}
                             error={!!(formik.touched.postcode && formik.errors.postcode)}
                             errorMessage={(formik.touched.postcode && formik.errors.postcode) || null}
+                            onFocus={(e) => { e.target.setAttribute('autocomplete', 'new-password'); e.target.setAttribute('autocorrect', 'false'); e.target.setAttribute('aria-autocomplete', 'both'); e.target.setAttribute('aria-haspopup', 'false'); e.target.setAttribute('spellcheck', 'off'); e.target.setAttribute('autocapitalize', 'off'); e.target.setAttribute('autofocus', ''); e.target.setAttribute('role', 'combobox'); }}
                         />
-                        {/* <CustomTextField
-                            autoComplete="new-password"
-                            label={t('common:form:street')}
-                            name="street"
-                            value={formik.values.street}
-                            onChange={formik.handleChange}
-                            error={!!(formik.touched.street && formik.errors.street)}
-                            errorMessage={(formik.touched.street && formik.errors.street) || null}
-                        /> */}
                         {gmapKey && (
                             <div className={styles.boxMap}>
                                 <IcubeMapsAutocomplete
-                                    height="230px"
-                                    mapPosition={mapPosition}
-                                    dragMarkerDone={handleDragPosition}
                                     gmapKey={gmapKey}
                                     formik={formik}
+                                    mapPosition={mapPosition}
+                                    dragMarkerDone={handleDragPosition}
                                 />
                             </div>
                         )}
@@ -462,6 +453,7 @@ const AddressView = (props) => {
                                     control={<Checkbox name="newsletter" color="primary" size="small" />}
                                     label={(
                                         <Typography variant="h4" className="row center" style={{ fontWeight: '600' }}>
+                                            {/* {`${t('customer:address:confirmPinPoint')} ${pinLocationInfo || ''}`} */}
                                             {`${t('customer:address:confirmPinPoint')}`}
                                         </Typography>
                                     )}
