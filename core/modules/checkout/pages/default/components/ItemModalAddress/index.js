@@ -21,6 +21,7 @@ const ItemAddressCore = (props) => {
                         {
                             target: {
                                 value: data.addressId,
+                                valueAddress: data.detailAddress,
                             },
                         },
                         data.addressId === props.selectedAddressId,

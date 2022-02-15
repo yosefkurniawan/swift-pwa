@@ -102,7 +102,7 @@ const AddressFormDialog = (props) => {
         firstname: Yup.string().required(t('validate:firstName:required')),
         lastname: Yup.string().required(t('validate:lastName:required')),
         telephone: Yup.string().required(t('validate:telephone:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
-        street: Yup.string().required(t('validate:street:required')),
+        addressDetail: Yup.string().required(t('validate:street:required')),
         postcode: Yup.string().required(t('validate:postal:required')).min(3, t('validate:postal:wrong')).max(20, t('validate:postal:wrong')),
         country: Yup.string().nullable().required(t('validate:country:required')),
         region: Yup.string().nullable().required(t('validate:state:required')),
@@ -114,7 +114,7 @@ const AddressFormDialog = (props) => {
         firstname: firstname || '',
         lastname: lastname || '',
         telephone: telephone || '',
-        street: street || '',
+        addressDetail: street || '',
         country: {
             id: 'ID',
             full_name_locale: 'Indonesia',
@@ -151,6 +151,7 @@ const AddressFormDialog = (props) => {
         onSubmit: async (values, { resetForm }) => {
             const data = {
                 ...values,
+                street: values.addressDetail,
                 defaultBilling: values.defaultShippingBilling,
                 defaultShipping: values.defaultShippingBilling,
                 countryCode: values.country.id,
@@ -201,7 +202,7 @@ const AddressFormDialog = (props) => {
         if (open) {
             formik.setFieldValue('firstname', firstname);
             formik.setFieldValue('lastname', lastname);
-            formik.setFieldValue('street', street);
+            formik.setFieldValue('addressDetail', street);
             formik.setFieldValue('telephone', telephone);
             formik.setFieldValue('postcode', postcode);
 

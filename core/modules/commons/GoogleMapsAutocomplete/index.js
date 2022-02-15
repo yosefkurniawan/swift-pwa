@@ -1,217 +1,239 @@
-/* eslint-disable no-console */
-/* eslint-disable no-undef */
-/* eslint-disable react/jsx-indent */
-/* eslint-disable indent */
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable max-len */
+/* eslint-disable react/destructuring-assignment */
+import React, { useState, useEffect } from 'react';
 import {
-    compose,
-    withProps,
-    withHandlers,
-    withStateHandlers,
-    lifecycle,
-} from 'recompose';
-import {
-    withScriptjs,
-    withGoogleMap,
     GoogleMap,
+    Autocomplete,
     Marker,
-    InfoWindow,
-} from 'react-google-maps';
-import CustomTextField from '@common_textfield';
+    useJsApiLoader,
+} from '@react-google-maps/api';
 import { useTranslation } from '@i18n';
-import { useState, useEffect } from 'react';
+import CustomTextField from '@common_textfield';
+import { capitalizeEachWord } from '@root/core/helpers/text';
 
-const {
-    StandaloneSearchBox,
-} = require('react-google-maps/lib/components/places/StandaloneSearchBox');
+// Set map container size
+const containerStyle = {
+    width: '100%',
+    height: '230px',
+};
 
-const IcubeMapsAutocomplete = compose(
-    withProps((props) => ({
-        googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${props.gmapKey}&libraries=geometry,drawing,places`,
-        loadingElement: <div style={{ height: '100%' }} />,
-        containerElement: props.containerElement || <div style={{ height: '210px' }} />,
-        mapElement: <div style={{ height: '100%' }} />,
-        isMarkerShown: true,
-    })),
-    withHandlers({
-        handleDragEnd: ({ dragMarkerDone }) => (event) => {
-            const newPosition = {
-                lat: event.latLng.lat(),
-                lng: event.latLng.lng(),
-            };
-            dragMarkerDone(newPosition);
-        },
-    }),
-    withStateHandlers((props) => {
-        const {
-            infoBoxDefaultOpen, markers,
-        } = props;
-        const isOpen = {};
+// Set initial refs for google maps instance
+const refs = {
+    marker: null,
+    autoComplete: null,
+    googleMap: null,
+};
 
-        if (infoBoxDefaultOpen && markers.length > 0) {
-            markers.forEach((_, index) => {
-                isOpen[index] = true;
-            });
-        }
+// Get autocomplete components instance
+const autoCompleteLoad = (ref) => {
+    refs.autoComplete = ref;
+};
 
-        return { isOpen };
-    }, {
-        onToggleOpen: ({ isOpen }) => (id) => ({
-            isOpen: {
-                ...isOpen,
-                [id]: typeof isOpen[id] === 'undefined' ? true : !isOpen[id],
-            },
-        }),
-    }),
-    lifecycle({
-        componentWillMount() {
-            const refs = {};
+// Get marker components instance
+const markerLoad = (ref) => {
+    refs.marker = ref;
+};
 
-            this.setState({
-                places: [],
-                bounds: null,
-                onMapMounted: (ref) => {
-                    refs.map = ref;
-                },
-                onSearchBoxMounted: (ref) => {
-                    refs.searchBox = ref;
-                },
-                onPlacesChanged: () => {
-                    const { location } = refs.searchBox.getPlaces()[0].geometry;
-                    this.props.dragMarkerDone({
-                        lat: location.lat(),
-                        lng: location.lng(),
-                    });
-                },
-            });
-        },
-    }),
-    withScriptjs,
-    withGoogleMap,
-)((props) => {
+// Get google map instance
+const mapLoad = (ref) => {
+    refs.googleMap = ref;
+}
+
+const IcubeMapsAutocomplete = (props) => {
     const {
-        searchBox = true,
-        markers = [],
+        gmapKey,
+        formik,
+        dragMarkerDone,
         defaultZoom = 17,
-        defaultOptions,
-        center,
-        infoBoxStyle,
-        formik = false,
     } = props;
+    const { t } = useTranslation(['common']);
+
+    // set libraries to use in Google Maps API
+    const [libraries] = useState(['places', 'geometry']);
+
+    // Set initial bounds to autocomplete services
+    const [stateBounds, setStateBounds] = useState({
+        northeast: {},
+        southwest: {},
+    });
+
+    // Initiate google maps instance with configurations
+    const { isLoaded, loadError } = useJsApiLoader({
+        googleMapsApiKey: gmapKey,
+        libraries,
+    });
+
     const setZeroIfEmpty = (value) => {
         const emptyValues = [undefined, null, '', 'undefined', 'null'];
         return emptyValues.includes(value) ? 0 : Number(value);
     };
+
+    // Get initial map coordinates if user already saved an address before or fetch from browser's navigator location
     const mapPosition = {
         lat: setZeroIfEmpty(props.mapPosition && props.mapPosition.lat),
         lng: setZeroIfEmpty(props.mapPosition && props.mapPosition.lng),
     };
-    const { t } = useTranslation(['common']);
-    // let mapsRes = {
-    //     lat: setZeroIfEmpty(props.mapPosition && props.mapPosition.lat),
-    //     lng: setZeroIfEmpty(props.mapPosition && props.mapPosition.lng),
-    // };
 
-    const [stateBounds, setStateBounds] = useState({});
+    // Set a new coordinates information when user drag the marker icon
+    const handleDragEnd = (event) => {
+        const newPosition = {
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng(),
+        };
+        dragMarkerDone(newPosition);
+    };
 
+    // Set address detail fields value on formik when user select a location on autocomplete box
+    const onPlaceChanged = () => {
+        // const compareStreetName = () => {}
+        if (refs.autoComplete !== null) {
+            const { name, address_components, geometry } = refs.autoComplete.getPlace();
+            const tempInputValue = formik.values.addressDetail;
+            const street_name = address_components.filter((item) => item.types.includes('route'));
+
+            dragMarkerDone({
+                lat: geometry.location.lat(),
+                lng: geometry.location.lng(),
+            });
+
+            if (tempInputValue !== name) {
+                if (street_name[0] !== undefined) {
+                    if (street_name[0].long_name === name) {
+                        if (tempInputValue === street_name[0].long_name || tempInputValue === street_name[0].short_name) {
+                            formik.setFieldValue('addressDetail', `${street_name[0].long_name}`);
+                        } else if (tempInputValue.length < street_name[0].long_name.length || tempInputValue.length === street_name[0].long_name.length) {
+                            formik.setFieldValue('addressDetail', `${street_name[0].long_name}`);
+                        } else {
+                            formik.setFieldValue('addressDetail', capitalizeEachWord(tempInputValue));
+                        }
+                    } else if (tempInputValue.length > name.length) {
+                        if (tempInputValue.toLowerCase().includes(street_name[0].long_name.toLowerCase()) || tempInputValue.toLowerCase().includes(street_name[0].short_name.toLowerCase()) || tempInputValue.toLowerCase().includes(name.toLowerCase())) {
+                            // eslint-disable-next-line max-len
+                            if (tempInputValue.toLowerCase().includes(`${street_name[0].long_name.toLowerCase()} ${name.toLowerCase()}`) || tempInputValue.toLowerCase().includes(`${street_name[0].short_name.toLowerCase()} ${name.toLowerCase()}`)) {
+                                formik.setFieldValue('addressDetail', capitalizeEachWord(tempInputValue));
+                            } else {
+                                formik.setFieldValue('addressDetail', `${street_name[0].short_name} ${name}`);
+                            }
+                        } else {
+                            formik.setFieldValue('addressDetail', capitalizeEachWord(tempInputValue));
+                        }
+                    } else if (name.length > street_name[0].short_name.length && (name.toLowerCase().includes(street_name[0].short_name.toLowerCase()) || name.toLowerCase().includes(street_name[0].long_name.toLowerCase()))) {
+                        formik.setFieldValue('addressDetail', name);
+                    } else {
+                        formik.setFieldValue('addressDetail', `${street_name[0].short_name} ${name}`);
+                    }
+                } else if (tempInputValue.length > name.length) {
+                    formik.setFieldValue('addressDetail', capitalizeEachWord(tempInputValue));
+                } else {
+                    formik.setFieldValue('addressDetail', name);
+                }
+            } else {
+                formik.setFieldValue('addressDetail', name);
+            }
+        }
+    };
+
+    // Get a new coordinates bounds based on current address information input (village, district, city, region)
     useEffect(() => {
         if (formik !== false) {
-            if ((formik.values.village !== '' && formik.values.village !== undefined && formik.values.village !== null)
-                && (formik.values.district !== '' && formik.values.district !== undefined && formik.values.district !== null)
-                && (formik.values.city !== '' && formik.values.city !== undefined && formik.values.city !== null)
-                && (formik.values.region !== '' && formik.values.region !== undefined && formik.values.region !== null)) {
-                // eslint-disable-next-line max-len
+            if (!!formik.values.village && !!formik.values.district && !!formik.values.city && !!formik.values.region) {
                 fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formik.values.village.label}+${formik.values.district.label}+${formik.values.city.label}+${formik.values.region.name}&language=id&key=AIzaSyAsE5tvjrOes4cyL0jpUEtLKMVY65rAwgQ`)
                     .then((response) => response.json())
                     .then((responseData) => {
                         if (responseData.results.length > 0) {
-                            const { location } = responseData.results[0].geometry;
-                            // mapsRes = {
-                            //     lat: parseFloat(location.lat),
-                            //     lng: parseFloat(location.lng),
-                            // };
+                            const { bounds } = responseData.results[0].geometry;
                             setStateBounds({
-                                lat: parseFloat(location.lat),
-                                lng: parseFloat(location.lng),
+                                northeast: {
+                                    lat: parseFloat(bounds.northeast.lat),
+                                    lng: parseFloat(bounds.northeast.lng),
+                                },
+                                southwest: {
+                                    lat: parseFloat(bounds.southwest.lat),
+                                    lng: parseFloat(bounds.southwest.lng),
+                                },
                             });
                         }
                     })
                     .catch((e) => {
+                        // eslint-disable-next-line no-console
                         console.log(e);
                     });
             }
         }
     }, [formik.values.village, formik.values.district, formik.values.city, formik.values.region]);
 
-    return (
-        <>
-            <GoogleMap
-                ref={props.onMapMounted}
-                bounds={props.bounds}
-                defaultZoom={defaultZoom}
-                defaultCenter={mapPosition}
-                defaultOptions={{ ...defaultOptions }}
-                center={center || mapPosition}
-            >
-                {searchBox && (
-                    <div data-standalone-searchbox="" style={{ marginTop: '-295px' }}>
-                        <StandaloneSearchBox
-                            ref={props.onSearchBoxMounted}
-                            bounds={new google.maps.LatLngBounds(
-                                new google.maps.LatLng(parseFloat(stateBounds.lat !== undefined ? stateBounds.lat : mapPosition.lat),
-                                    parseFloat(stateBounds.lng !== undefined ? stateBounds.lng : mapPosition.lng)),
-                                new google.maps.LatLng(parseFloat(stateBounds.lat !== undefined ? stateBounds.lat : mapPosition.lat),
-                                    parseFloat(stateBounds.lng !== undefined ? stateBounds.lng : mapPosition.lng)),
-                            )}
-                            defaultBounds={new google.maps.LatLngBounds(
-                                new google.maps.LatLng(parseFloat(stateBounds.lat !== undefined ? stateBounds.lat : mapPosition.lat),
-                                    parseFloat(stateBounds.lng !== undefined ? stateBounds.lng : mapPosition.lng)),
-                                new google.maps.LatLng(parseFloat(stateBounds.lat !== undefined ? stateBounds.lat : mapPosition.lat),
-                                    parseFloat(stateBounds.lng !== undefined ? stateBounds.lng : mapPosition.lng)),
-                            )}
-                            onPlacesChanged={props.onPlacesChanged}
-                        >
-                            <CustomTextField
-                                label={t('common:form:addressDetail')}
-                                placeholder={t('common:search:addressDetail')}
-                                autoComplete="new-password"
-                                name="street"
-                                value={formik.values.street}
-                                onChange={(e) => { formik.handleChange(e); }}
-                                error={!!(formik.touched.street && formik.errors.street)}
-                                errorMessage={(formik.touched.street && formik.errors.street) || null}
-                            />
-                        </StandaloneSearchBox>
-                    </div>
-                )}
-                {props.isMarkerShown
-                    && (markers && markers.length > 0)
-                    ? markers.map((marker, index) => (
-                        <Marker
-                            key={index}
-                            position={{ lat: parseFloat(marker.lat), lng: parseFloat(marker.lng) }}
-                            onClick={() => props.onToggleOpen(index)}
-                            icon={marker.image ? `${props.secureUrl}${marker.image}` : ''}
-                        >
-                            {props.isOpen[index] && (
-                                <InfoWindow onCloseClick={props.onToggleOpen}>
-                                    <div style={{ ...infoBoxStyle }}>
-                                        {marker.info}
-                                    </div>
-                                </InfoWindow>
-                            )}
-                        </Marker>
-                    ))
-                    : (
-                        <Marker
-                            draggable
-                            onDragEnd={(event) => props.handleDragEnd(event)}
-                            position={mapPosition}
-                        />
-                    )}
-            </GoogleMap>
-        </>
-    );
-});
+    // Function to render the maps
+    // eslint-disable-next-line arrow-body-style
+    const renderMap = () => {
+        return (
+            <>
+                <Autocomplete
+                    onLoad={autoCompleteLoad}
+                    onPlaceChanged={onPlaceChanged}
+                    options={{
+                        // eslint-disable-next-line no-undef
+                        bounds: new google.maps.LatLngBounds(
+                            // eslint-disable-next-line no-undef
+                            new google.maps.LatLng(parseFloat(stateBounds.southwest.lat !== undefined ? stateBounds.southwest.lat : mapPosition.lat),
+                                parseFloat(stateBounds.southwest.lng !== undefined ? stateBounds.southwest.lng : mapPosition.lng)),
+                            // eslint-disable-next-line no-undef
+                            new google.maps.LatLng(parseFloat(stateBounds.northeast.lat !== undefined ? stateBounds.northeast.lat : mapPosition.lat),
+                                parseFloat(stateBounds.northeast.lng !== undefined ? stateBounds.northeast.lng : mapPosition.lng)),
+                        ),
+                        strictBounds: true,
+                    }}
+                >
+                    <CustomTextField
+                        autoComplete="new-password"
+                        label={t('common:form:addressDetail')}
+                        placeholder={t('common:search:addressDetail')}
+                        name="addressDetail"
+                        value={formik.values.addressDetail}
+                        onChange={(e) => { formik.handleChange(e); }}
+                        error={!!(formik.touched.addressDetail && formik.errors.addressDetail)}
+                        errorMessage={(formik.touched.addressDetail && formik.errors.addressDetail) || null}
+                        onFocus={(e) => { e.target.setAttribute('autocomplete', 'off'); e.target.setAttribute('autocorrect', 'false'); e.target.setAttribute('aria-autocomplete', 'both'); e.target.setAttribute('aria-haspopup', 'false'); e.target.setAttribute('spellcheck', 'off'); e.target.setAttribute('autocapitalize', 'off'); e.target.setAttribute('autofocus', ''); e.target.setAttribute('role', 'combobox'); }}
+                    />
+                </Autocomplete>
+                <GoogleMap
+                    id="google-maps-container"
+                    mapContainerStyle={containerStyle}
+                    center={mapPosition}
+                    onLoad={mapLoad}
+                    zoom={defaultZoom}
+                    options={{
+                        restriction: {
+                            // eslint-disable-next-line no-undef
+                            latLngBounds: new google.maps.LatLngBounds(
+                                // eslint-disable-next-line no-undef
+                                new google.maps.LatLng(parseFloat(stateBounds.southwest.lat !== undefined ? stateBounds.southwest.lat : mapPosition.lat),
+                                    parseFloat(stateBounds.southwest.lng !== undefined ? stateBounds.southwest.lng : mapPosition.lng)),
+                                // eslint-disable-next-line no-undef
+                                new google.maps.LatLng(parseFloat(stateBounds.northeast.lat !== undefined ? stateBounds.northeast.lat : mapPosition.lat),
+                                    parseFloat(stateBounds.northeast.lng !== undefined ? stateBounds.northeast.lng : mapPosition.lng)),
+                            ),
+                            strictBounds: true,
+                        },
+                    }}
+                >
+                    <Marker
+                        onLoad={markerLoad}
+                        position={mapPosition}
+                        onDragEnd={(event) => handleDragEnd(event)}
+                        draggable
+                    />
+                </GoogleMap>
+            </>
+        );
+    };
+
+    // Return an error message if maps failed to load
+    if (loadError) {
+        return <div>{t('common:form:mapError')}</div>;
+    }
+
+    // Render the maps
+    return isLoaded ? renderMap() : <div>{t('common:form:mapLoading')}</div>;
+};
 
 export default IcubeMapsAutocomplete;

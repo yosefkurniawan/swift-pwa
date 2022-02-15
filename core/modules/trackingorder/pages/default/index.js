@@ -5,7 +5,7 @@ import Skeleton from '@core_modules/trackingorder/pages/default/components/skele
 import FormView from '@core_modules/trackingorder/pages/default/components/form/view';
 import ResultView from '@core_modules/trackingorder/pages/default/components/result/view';
 import SkeletonResult from '@core_modules/trackingorder/pages/default/components/skeletonresult';
-import DetailView from '@core_modules/trackingorder/pages/default/components/modal';
+import DetailView from '@core_modules/trackingorder/plugins/ModalTrackOrder';
 
 const DefaultTracking = (props) => (
     <Core

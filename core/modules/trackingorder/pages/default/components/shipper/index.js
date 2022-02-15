@@ -95,9 +95,9 @@ const ShipperView = (props) => {
         if (isPopaket) {
             shipperData.detail = {
                 ...shipperData.detail,
-                update_date: formatDate(detail.date, 'DD-MM-YYYY HH:mm'),
-                last_status: detail.status || '',
-                description: detail.description || '',
+                update_date: detail?.date ? formatDate(detail.date, 'DD-MM-YYYY HH:mm') : '',
+                last_status: detail?.status || '',
+                description: detail?.description || '',
             };
         }
     }

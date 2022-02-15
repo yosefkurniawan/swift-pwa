@@ -985,7 +985,7 @@ export const updateCustomerAddress = gql`
         $lastname: String!
         $telephone: String!
         $postcode: String!
-        $street: String!
+        $addressDetail: String!
         $addressId: Int!
         $region: String!
         $regionCode: String
@@ -1004,7 +1004,7 @@ export const updateCustomerAddress = gql`
                 firstname: $firstname
                 lastname: $lastname
                 postcode: $postcode
-                street: [$street]
+                street: [$addressDetail]
                 telephone: $telephone
                 region: { region: $region, region_code: $regionCode, region_id: $regionId }
                 longitude: $longitude
