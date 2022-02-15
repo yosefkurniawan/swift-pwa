@@ -129,6 +129,7 @@ class MyApp extends App {
         let dataVesMenu;
         let storeConfig = helperCookies.get(storeConfigNameCookie) || pageProps.storeConfig;
         if (!pageProps.storeConfig && (!storeConfig || typeof window === 'undefined' || typeof storeConfig.secure_base_media_url === 'undefined')) {
+            console.log('always');
             // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
             storeConfig = await graphRequest(ConfigSchema);
 
@@ -138,7 +139,9 @@ class MyApp extends App {
                 ctx.res.redirect('/maintenance');
             }
             storeConfig = storeConfig.storeConfig;
-            dataVesMenu = storeConfig.pwa.ves_menu_enable ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias }) : await graphRequest(getCategories);
+            if (storeConfig && storeConfig.pwa) {
+                dataVesMenu = storeConfig.pwa.ves_menu_enable ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias }) : await graphRequest(getCategories);
+            }
         }
 
         if (typeof removeDecimalConfig === 'undefined') {

@@ -208,6 +208,23 @@ export const facebookMetaConfig = gql`
     }
 `;
 
+export const productListConfig = gql`
+{
+    storeConfig {
+      pwa {
+        label_enable
+        label_new_enable
+        label_sale_enable
+        label_weltpixel_enable
+        configurable_options_enable
+        rating_enable
+        add_to_cart_enable
+        quick_view_enable
+      }
+    }
+  }
+`;
+
 export default {
     vesMenuConfig,
     popupInstallConfig,

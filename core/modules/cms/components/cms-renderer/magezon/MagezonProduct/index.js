@@ -23,7 +23,7 @@ const MagezonProductList = (props) => {
         item_xl, item_lg, item_md, item_sm, item_xs,
         ...rest
     } = props;
-    const { t } = useTranslation();
+    const { t } = useTranslation(['common', 'catalog']);
 
     const productProps = {
         type,

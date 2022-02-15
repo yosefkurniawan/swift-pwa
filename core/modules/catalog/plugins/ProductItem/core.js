@@ -1,8 +1,4 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { modules, debuging } from '@config';
-import {
-    labelConfig, configurableOptionsConfig, addToCartConfig, quickViewConfig,
-} from '@services/graphql/repository/pwa_config';
 import { getLoginInfo } from '@helper_auth';
 import { setCookies, getCookies } from '@helper_cookies';
 import { useTranslation } from '@i18n';
@@ -26,6 +22,9 @@ import CustomizableOption from '@plugin_customizableitem';
 import ModalQuickView from '@plugin_productitem/components/QuickView';
 import WeltpixelLabel from '@plugin_productitem/components/WeltpixelLabel';
 
+// graphql
+import { productListConfig } from '@services/graphql/repository/pwa_config';
+
 const ProductItem = (props) => {
     const {
         id,
@@ -44,6 +43,7 @@ const ProductItem = (props) => {
         weltpixel_labels,
         ...other
     } = props;
+    const { storeConfig } = props;
     const styles = useStyles();
     const { t } = useTranslation(['catalog', 'common']);
     const [feed, setFeed] = React.useState(false);
@@ -55,44 +55,25 @@ const ProductItem = (props) => {
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
     const [additionalPrice, setAdditionalPrice] = React.useState(0);
 
-    let labelEnable = {};
-    let configurableOptions = {};
-    let addToCart = {};
+    let pwaConfig = {};
 
-    const { data: dataLabel, loading: loadingLabel } = labelConfig();
-    const { data: dataConfigurableOptions, loading: loadingConfigurableOptionsConfig } = configurableOptionsConfig();
-    const { data: dataAddToCartConfig, loading: loadingAddToCartConfig } = addToCartConfig();
+    if (storeConfig && storeConfig.pwa) {
+        pwaConfig = storeConfig.pwa;
+    }
 
-    if (!loadingLabel && dataLabel && dataLabel.storeConfig && dataLabel.storeConfig.pwa) {
-        labelEnable = {
-            ...dataLabel.storeConfig.pwa,
+    const [getPwaConfig, { data: dataPwaConfig, loading: loadingPwaConfig }] = productListConfig();
+
+    if (!loadingPwaConfig && dataPwaConfig && dataPwaConfig.storeConfig && dataPwaConfig.storeConfig.pwa) {
+        pwaConfig = {
+            ...dataPwaConfig.storeConfig.pwa,
         };
     }
 
-    if (!loadingConfigurableOptionsConfig
-        && dataConfigurableOptions
-        && dataConfigurableOptions.storeConfig
-        && dataConfigurableOptions.storeConfig.pwa) {
-        configurableOptions = {
-            ...dataConfigurableOptions.storeConfig.pwa,
-        };
-    }
-
-    if (!loadingAddToCartConfig && dataAddToCartConfig && dataAddToCartConfig.storeConfig && dataAddToCartConfig.storeConfig.pwa) {
-        addToCart = {
-            ...dataAddToCartConfig.storeConfig.pwa,
-        };
-    }
-
-    let quickView = {};
-
-    const { data: dataQuickViewConfig, loading: loadingQuickViewConfig } = quickViewConfig();
-
-    if (!loadingQuickViewConfig && dataQuickViewConfig && dataQuickViewConfig.storeConfig && dataQuickViewConfig.storeConfig.pwa) {
-        quickView = {
-            ...dataQuickViewConfig.storeConfig.pwa,
-        };
-    }
+    React.useEffect(() => {
+        if (!storeConfig || !storeConfig.pwa) {
+            getPwaConfig();
+        }
+    }, [storeConfig]);
 
     React.useEffect(() => {
         if (errorCustomizableOptions && errorCustomizableOptions.length > 0) {
@@ -151,7 +132,7 @@ const ProductItem = (props) => {
         data: dataDetailProduct,
         error: errorDetailProduct,
         loading: loadingDetailProduct,
-    }] = getDetailProduct();
+    }] = getDetailProduct(pwaConfig);
 
     const [postAddWishlist] = addWishlist();
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
@@ -309,9 +290,10 @@ const ProductItem = (props) => {
         handleSetCompareList,
         enableProductCompare,
     };
-    const showAddToCart = typeof enableAddToCart !== 'undefined' ? enableAddToCart : addToCart.add_to_cart_enable;
-    const showOption = typeof enableOption !== 'undefined' ? enableOption : configurableOptions.configurable_options_enable;
-    const showQuickView = typeof enableQuickView !== 'undefined' ? enableQuickView : quickView.quick_view_enable;
+
+    const showAddToCart = typeof enableAddToCart !== 'undefined' ? enableAddToCart : pwaConfig.add_to_cart_enable;
+    const showOption = typeof enableOption !== 'undefined' ? enableOption : pwaConfig.configurable_options_enable;
+    const showQuickView = typeof enableQuickView !== 'undefined' ? enableQuickView : pwaConfig.quick_view_enable;
     if (isGrid) {
         return (
             <>
@@ -325,11 +307,11 @@ const ProductItem = (props) => {
                     />
                 )}
                 <div className={classNames(styles.itemContainer, 'item-product', className, showQuickView ? styles.quickView : '')}>
-                    {labelEnable.label_enable && LabelView ? (
+                    {pwaConfig.label_enable && LabelView ? (
                         <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
                     ) : null}
                     <div className={styles.imgItem}>
-                        {labelEnable.label_enable && modules.catalog.productListing.label.weltpixel.enabled && (
+                        {pwaConfig.label_enable && pwaConfig.label_weltpixel_enable && (
                             <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel />
                         )}
                         {showQuickView && (
@@ -406,10 +388,10 @@ const ProductItem = (props) => {
                 <div className="row start-xs">
                     <div className="col-xs-6 col-sm-6 col-md-4 col-lg-3">
                         <div className={styles.listImgItem}>
-                            {labelEnable.label_enable && LabelView ? (
+                            {pwaConfig.label_enable && LabelView ? (
                                 <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
                             ) : null}
-                            {labelEnable.label_enable && modules.catalog.productListing.label.weltpixel.enabled && (
+                            {pwaConfig.label_enable && pwaConfig.label_weltpixel_enable && (
                                 <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel />
                             )}
                             {showQuickView && (

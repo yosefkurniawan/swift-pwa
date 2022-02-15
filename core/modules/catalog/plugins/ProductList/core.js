@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helper_generatequery';
 import TagManager from 'react-gtm-module';
-import { pageSizeConfig } from '@services/graphql/repository/pwa_config';
 import { getProduct, getProductAgragations } from '@core_modules/catalog/services/graphql';
 import * as Schema from '@core_modules/catalog/services/graphql/productSchema';
 import getCategoryFromAgregations from '@core_modules/catalog/helpers/getCategory';
@@ -32,13 +31,11 @@ const Product = (props) => {
         filter: [],
     };
 
-    let pageSize = {};
+    let pwaConfig = {};
 
-    const { data: dataPageSize, loading: loadingPageSize } = pageSizeConfig();
-
-    if (!loadingPageSize && dataPageSize && dataPageSize.storeConfig && dataPageSize.storeConfig.pwa) {
-        pageSize = {
-            ...dataPageSize.storeConfig.pwa,
+    if (storeConfig && storeConfig.pwa) {
+        pwaConfig = {
+            ...storeConfig.pwa,
         };
     }
 
@@ -83,9 +80,14 @@ const Product = (props) => {
         };
     }
 
+    config = {
+        ...config,
+        ...pwaConfig,
+    };
+
     const { loading, data, fetchMore } = getProduct(config, {
         variables: {
-            pageSize: pageSize.page_size || 10,
+            pageSize: pwaConfig.page_size || 10,
             currentPage: 1,
         },
         context,
@@ -122,14 +124,14 @@ const Product = (props) => {
         setFilterSaved(false);
         try {
             const totalProduct = products && products.total_count ? products.total_count : 0;
-            const totalPage = Math.ceil(totalProduct / pageSize);
+            const totalPage = Math.ceil(totalProduct / (pwaConfig.page_size || 10));
             if (fetchMore && typeof fetchMore !== 'undefined' && page < totalPage) {
                 await setLoadmore(true);
                 setPage(page + 1);
                 fetchMore({
                     query: Schema.getProduct({ ...config, currentPage: page + 1 }),
                     variables: {
-                        pageSize: pageSize.page_size || 10,
+                        pageSize: pwaConfig.page_size || 10,
                         currentPage: page + 1,
                     },
                     context,

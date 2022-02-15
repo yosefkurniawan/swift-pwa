@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import GridList from '@common_gridlist';
 import Typography from '@common_typography';
 import classNames from 'classnames';
-import { drawerFilterOnDesktopConfig } from '@services/graphql/repository/pwa_config';
 import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
 import Filter from '@plugin_productlist/components/Filter';
 import FilterDesktop from '@plugin_productlist/components/FilterDesktop';
@@ -18,6 +17,7 @@ const Content = (props) => {
         products, categoryPath, renderEmptyMessage, ProductListSkeleton, loading,
         loadmore, handleLoadMore, dataTabs, onChangeTabs, ...other
     } = props;
+    const { storeConfig } = props;
     const styles = useStyles();
     const [isGrid, setGridState] = useState(true);
 
@@ -27,7 +27,12 @@ const Content = (props) => {
     // eslint-disable-next-line no-unused-vars
     let loadingAggregations = false;
 
-    const { data: dataDrawerFilterOnDesktop, loading: loadingDrawerFilterOnDesktop } = drawerFilterOnDesktopConfig();
+    if (storeConfig && storeConfig.pwa
+    ) {
+        drawerFilterOnDesktop = {
+            ...storeConfig.pwa,
+        };
+    }
 
     useEffect(() => {
         if (aggregations.length > 0) {
@@ -38,23 +43,11 @@ const Content = (props) => {
         }
         if (
             (aggregations.length > 0 || customFilter !== undefined)
-            && !loadingDrawerFilterOnDesktop
-            && dataDrawerFilterOnDesktop.drawer_filter_on_desktop_enable === false
+            && !drawerFilterOnDesktop.drawer_filter_on_desktop_enable
         ) {
             loadingAggregations = true;
         }
     }, [aggregations, customFilter]);
-
-    if (
-        !loadingDrawerFilterOnDesktop
-        && dataDrawerFilterOnDesktop
-        && dataDrawerFilterOnDesktop.storeConfig
-        && dataDrawerFilterOnDesktop.storeConfig.pwa
-    ) {
-        drawerFilterOnDesktop = {
-            ...dataDrawerFilterOnDesktop.storeConfig.pwa,
-        };
-    }
 
     const handleScroll = () => {
         // To get page offset of last user
@@ -79,7 +72,7 @@ const Content = (props) => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    });
+    }, []);
 
     useEffect(() => {
         const gridView = getLocalStorage('isGrid');
@@ -101,8 +94,7 @@ const Content = (props) => {
                     />
                 </div>
             ) : null}
-            {(drawerFilterOnDesktop.drawer_filter_on_desktop_enable === true && (
-                // <div className={drawerFilterOnDesktop.drawer_filter_on_desktop_enable == true ? 'hidden-desktop' : ''}>
+            {(!drawerFilterOnDesktop.drawer_filter_on_desktop_enable && (
                 <>
                     <Filter
                         filter={customFilter || aggregations}
@@ -135,7 +127,7 @@ const Content = (props) => {
                     />
                 </div>
             )}
-            {drawerFilterOnDesktop.drawer_filter_on_desktop_enable === false ? (
+            {drawerFilterOnDesktop.drawer_filter_on_desktop_enable ? (
                 <div className={classNames(styles.filterBtnContainer, 'hidden-mobile')}>
                     <Sort
                         filter={customFilterDesktop || aggregationsDesktop}
@@ -150,8 +142,8 @@ const Content = (props) => {
             ) : null}
 
             <div className="row">
-                {drawerFilterOnDesktop.drawer_filter_on_desktop_enable === false
-                && aggregationsDesktop !== undefined && aggregationsDesktop.length > 0
+                {!drawerFilterOnDesktop.drawer_filter_on_desktop_enable
+                    && aggregationsDesktop !== undefined && aggregationsDesktop.length > 0
                     ? (
 
                         <div className="col-sm-12 col-lg-2 hidden-mobile">
@@ -171,8 +163,8 @@ const Content = (props) => {
                         </div>
                     )
                     : null}
-                <div className={`col-sm-12 col-xs-12 col-lg-${drawerFilterOnDesktop.drawer_filter_on_desktop_enable === false ? '12' : '12'}`}>
-                    {drawerFilterOnDesktop.drawer_filter_on_desktop_enable === false ? (
+                <div className={`col-sm-12 col-xs-12 col-lg-${!drawerFilterOnDesktop.drawer_filter_on_desktop_enable ? '12' : '12'}`}>
+                    {!drawerFilterOnDesktop.drawer_filter_on_desktop_enable ? (
                         <Typography variant="p" type="regular" className={classNames('hidden-mobile', styles.countProductTextDesktop)}>
                             {products.total_count}
                             {' '}

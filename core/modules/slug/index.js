@@ -1,24 +1,14 @@
 import { withApollo } from '@lib_apollo';
 import { withTranslation } from '@i18n';
-import CategoryPage from '@core_modules/catalog/pages/category';
-import ProductPage from '@core_modules/product/pages/default';
-import CmsPage from '@core_modules/cms/pages/default';
-import ProductLoader from '@core_modules/product/pages/default/components/Loader';
-import CategorySkeleton from '@core_modules/catalog/pages/category/components/Skeleton';
 import { getCmsList } from '@services/graphql/schema/config';
+import { slugPageSchema } from '@core_modules/slug/services/graphql/schema';
 import graphRequest from '@graphql_request';
-import { storeConfigNameCookie } from '@config';
+import { storeConfigNameCookie, keyLocalStorage } from '@config';
 import Core from '@core_modules/slug/core';
-import LoadingView from '@common_backdrop';
+import { getLocalStorage } from '@helper_localstorage';
 
 const Page = (props) => (
     <Core
-        CategoryPage={CategoryPage}
-        ProductPage={ProductPage}
-        CmsPage={CmsPage}
-        LoadingView={LoadingView}
-        ProductLoader={ProductLoader}
-        CategorySkeleton={CategorySkeleton}
         {...props}
     />
 );
@@ -32,6 +22,17 @@ Page.getInitialProps = async ({ query, req }) => {
     if (typeof window === 'undefined' && !req.cookies[storeConfigNameCookie]) {
         cmsList = await graphRequest(getCmsList);
     }
+
+    let slugPageConfig;
+    if (typeof window === 'undefined') {
+        slugPageConfig = await graphRequest(slugPageSchema);
+    } else {
+        slugPageConfig = getLocalStorage(keyLocalStorage.slugConfig);
+        if (!slugPageConfig) {
+            slugPageConfig = await graphRequest(slugPageSchema);
+        }
+    }
+
     const allcookie = req ? req.cookies : {};
     const obj = {
         slug: query.slug,
@@ -42,6 +43,8 @@ Page.getInitialProps = async ({ query, req }) => {
             ? `${req.protocol}://${req.get('host')}`
             : `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`,
     };
+
+    obj.slugPageConfig = slugPageConfig;
 
     obj.cms_page = cmsList.storeConfig && cmsList.storeConfig.cms_page ? cmsList.storeConfig.cms_page : '';
     return obj;

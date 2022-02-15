@@ -95,7 +95,6 @@ export const storeConfig = `
             code
             catalog_search_engine
             copyright
-            catalog_default_sort_by
             category_url_suffix
             default_title
             default_keywords
@@ -104,7 +103,6 @@ export const storeConfig = `
             date_of_birth
             gender
             header_logo_src
-            head_shortcut_icon
             icube_pinlocation_gmap_key
             locale
             logo_alt
@@ -126,11 +124,6 @@ export const storeConfig = `
             store_name
             welcome
             timezone
-            title_prefix
-            title_suffix
-            title_separator
-            website_id
-            weight_unit
             oauth_access_token_lifetime_customer
             pwa_checkout_debug_enable
             snap_client_key
@@ -165,7 +158,6 @@ export const storeConfig = `
             aw_blog_related_products_block_layout
             aw_blog_related_products_block_position
             aw_blog_related_products_products_limit
-            aw_blog_related_products_display_add_to_cart
             weltpixel_RecentlyViewedBar_general_enable
             weltpixel_thankyoupage_create_account_enable
             payment_travelokapay_public_key
@@ -177,6 +169,16 @@ export const storeConfig = `
             minimum_order_enable
         }
     }
+`;
+
+export const renewalStoreConfig = `
+{
+    storeConfig {
+        pwa {
+            
+        }
+    }
+}
 `;
 
 export const getCmsList = `

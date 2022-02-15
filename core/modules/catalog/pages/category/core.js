@@ -8,7 +8,7 @@ const Page = (props) => {
         Content, categoryId, storeConfig, SkeletonView, pageConfig = {}, ErrorView, ...other
     } = props;
     const { loading, data } = getCategory({
-        productSize: 10,
+        productSize: storeConfig?.pwa?.page_size || 10,
         id: categoryId,
     });
     const ogContent = {};
@@ -31,9 +31,10 @@ const Page = (props) => {
         };
     }
     if (loading && !data) {
+        const pwaConfig = storeConfig?.pwa || {};
         return (
             <Layout {...props} pageConfig={config}>
-                <SkeletonView />
+                <SkeletonView {...pwaConfig} />
             </Layout>
         );
     }

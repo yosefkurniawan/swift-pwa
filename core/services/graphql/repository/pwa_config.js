@@ -38,6 +38,8 @@ export const bannerSliderConfig = () => useQuery(Schema.bannerSliderConfig);
 
 export const facebookMetaConfig = () => useQuery(Schema.facebookMetaConfig);
 
+export const productListConfig = () => useLazyQuery(Schema.productListConfig);
+
 export default {
     vesMenuConfig,
     popupInstallConfig,

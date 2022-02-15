@@ -111,6 +111,7 @@ const localResolverKey = 'resolver';
 
 const keyLocalStorage = {
     home: 'homePageConfig',
+    slugConfig: 'slugPageConfig',
 };
 
 const features = {

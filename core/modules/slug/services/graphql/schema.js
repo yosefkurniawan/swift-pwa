@@ -20,3 +20,22 @@ export const getResolver = (url) => {
   `;
     return query;
 };
+
+export const slugPageSchema = `
+{
+    storeConfig {
+      pwa {
+        page_size
+        drawer_filter_on_desktop_enable
+        label_enable
+        label_new_enable
+        label_sale_enable
+        label_weltpixel_enable
+        configurable_options_enable
+        rating_enable
+        add_to_cart_enable
+        quick_view_enable
+      }
+    }
+  }
+`;

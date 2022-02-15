@@ -4,10 +4,17 @@ import Error from '@core_modules/error/pages/default';
 import { getResolver as getLocalResolver, getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import Layout from '@layout';
 import { getResolver } from '@core_modules/slug/services/graphql';
+import { keyLocalStorage } from '@config';
+
+// import components
+import CategoryPage from '@core_modules/catalog/pages/category';
+import ProductPage from '@core_modules/product/pages/default';
+import CmsPage from '@core_modules/cms/pages/default';
+import LoadingView from '@common_backdrop';
 
 const ContainerResolver = (props) => {
     const {
-        CategoryPage, ProductPage, CmsPage, resolver, contentProps, storeConfig, ...other
+        resolver, contentProps, storeConfig, ...other
     } = props;
 
     if (resolver.type === 'CATEGORY') {
@@ -24,7 +31,7 @@ const ContainerResolver = (props) => {
 
 const Slug = (props) => {
     const {
-        slug, storeConfig, ProductLoader, CategorySkeleton, LoadingView, t, cms_page = '', ...other
+        slug, storeConfig, t, cms_page = '', ...other
     } = props;
 
     const cmsList = getLocalStorage('cms_page');
@@ -59,8 +66,28 @@ const Slug = (props) => {
 };
 
 const SlugContainer = (props) => {
-    const { slug, storeConfig } = props;
+    const {
+        slugPageConfig, storeConfig: config, ...other
+    } = props;
+    const { slug } = props;
     let localResolver;
+    let storeConfig = config;
+    if (slugPageConfig && slugPageConfig.storeConfig && slugPageConfig.storeConfig.pwa) {
+        storeConfig = {
+            ...config,
+            pwa: {
+                ...config.pwa,
+                ...slugPageConfig.storeConfig.pwa,
+            },
+        };
+    }
+
+    const slugKey = keyLocalStorage.slugConfig;
+
+    if (typeof window !== 'undefined' && slugPageConfig) {
+        setLocalStorage(slugKey, slugPageConfig);
+    }
+
     if (typeof window !== 'undefined') {
         const contentProps = { slug, storeConfig };
         let key = '';
@@ -72,10 +99,10 @@ const SlugContainer = (props) => {
         const resolver = localResolver[key];
         if (resolver && resolver.type) {
             resolver.relative_url = key;
-            return <ContainerResolver resolver={resolver} {...props} contentProps={contentProps} />;
+            return <ContainerResolver resolver={resolver} {...other} contentProps={contentProps} />;
         }
     }
-    return <Slug {...props} />;
+    return <Slug {...other} storeConfig={storeConfig} />;
 };
 
 export default SlugContainer;
