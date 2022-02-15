@@ -100,7 +100,17 @@ const IcubeMapsAutocomplete = (props) => {
                             formik.setFieldValue('street', capitalizeEachWord(tempInputValue));
                         }
                     } else if (tempInputValue.length > name.length) {
-                        formik.setFieldValue('street', capitalizeEachWord(tempInputValue));
+                        // eslint-disable-next-line max-len
+                        if (tempInputValue.toLowerCase().includes(street_name[0].long_name.toLowerCase()) || tempInputValue.toLowerCase().includes(street_name[0].short_name.toLowerCase()) || tempInputValue.toLowerCase().includes(name.toLowerCase())) {
+                            // eslint-disable-next-line max-len
+                            if (tempInputValue.toLowerCase().includes(`${street_name[0].long_name.toLowerCase()} ${name.toLowerCase()}`) || tempInputValue.toLowerCase().includes(`${street_name[0].short_name.toLowerCase()} ${name.toLowerCase()}`)) {
+                                formik.setFieldValue('street', capitalizeEachWord(tempInputValue));
+                            } else {
+                                formik.setFieldValue('street', `${street_name[0].short_name} ${name}`);
+                            }
+                        } else {
+                            formik.setFieldValue('street', capitalizeEachWord(tempInputValue));
+                        }
                         // eslint-disable-next-line max-len
                     } else if (name.length > street_name[0].short_name.length && (name.toLowerCase().includes(street_name[0].short_name.toLowerCase()) || name.toLowerCase().includes(street_name[0].long_name.toLowerCase()))) {
                         formik.setFieldValue('street', name);
@@ -181,7 +191,7 @@ const IcubeMapsAutocomplete = (props) => {
                         onChange={(e) => { formik.handleChange(e); }}
                         error={!!(formik.touched.street && formik.errors.street)}
                         errorMessage={(formik.touched.street && formik.errors.street) || null}
-                        onFocus={(e) => e.target.setAttribute('autocomplete', 'new-password')}
+                        onFocus={(e) => e.target.setAttribute('autocomplete', 'one-time-code')}
                     />
                 </Autocomplete>
                 <GoogleMap
