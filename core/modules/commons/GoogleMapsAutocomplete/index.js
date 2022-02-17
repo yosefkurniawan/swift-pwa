@@ -119,6 +119,8 @@ const IcubeMapsAutocomplete = (props) => {
                         }
                     } else if (name.length > street_name[0].short_name.length && (name.toLowerCase().includes(street_name[0].short_name.toLowerCase()) || name.toLowerCase().includes(street_name[0].long_name.toLowerCase()))) {
                         formik.setFieldValue('addressDetail', name);
+                    } else if (name.toLowerCase().includes('street')) {
+                        formik.setFieldValue('addressDetail', `${street_name[0].short_name}`);
                     } else {
                         formik.setFieldValue('addressDetail', `${street_name[0].short_name} ${name}`);
                     }
