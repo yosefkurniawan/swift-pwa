@@ -63,7 +63,9 @@ const ModalAddressCustomer = (props) => {
         setOpenNew(!openNew);
         setTypeAddress(type);
     };
-
+    const handleCloseDiff = async () => {
+        setOpen(false);
+    };
     // handle change selected address
     const handleChange = async (event, forceUpdate = false) => {
         if (selectedAddressId !== event.target.value || forceUpdate) {
@@ -81,10 +83,17 @@ const ModalAddressCustomer = (props) => {
                 }
             }
 
+            const streetAddress = () => {
+                if (!!event.target.valueAddress && event.target.valueAddress !== detail.street[0]) {
+                    return event.target.valueAddress;
+                }
+                return detail.street[0];
+            };
+
             const dataAddress = await updatedDefaultAddress({
                 variables: {
                     addressId,
-                    street: event.target.valueAddress !== detail.street[0] ? event.target.valueAddress : detail.street[0],
+                    street: streetAddress(),
                 },
             });
 
@@ -176,6 +185,7 @@ const ModalAddressCustomer = (props) => {
             addressCustomer={addressCustomer}
             address={address}
             selectedAddressId={selectedAddressId}
+            handleCloseDiff={handleCloseDiff}
             handleChange={handleChange}
             handleOpenNew={handleOpenNew}
             handleAddress={handleAddress}

@@ -37,7 +37,7 @@ const markerLoad = (ref) => {
 // Get google map instance
 const mapLoad = (ref) => {
     refs.googleMap = ref;
-}
+};
 
 const IcubeMapsAutocomplete = (props) => {
     const {
