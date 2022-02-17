@@ -14,7 +14,7 @@ const AddressView = (props) => {
     const {
         t, open, setOpen, loading, success,
         address, handleAddress, selectedAddressId, loadingAddress,
-        handleChange, handleOpenNew, openNew, typeAddress, dataEdit,
+        handleChange, handleCloseDiff, handleOpenNew, openNew, typeAddress, dataEdit,
         updateAddress, manageCustomer,
     } = props;
     const styles = useStyles();
@@ -62,6 +62,7 @@ const AddressView = (props) => {
                     manageCustomer={manageCustomer}
                     updateAddress={updateAddress}
                     handleChange={handleChange}
+                    handleCloseDiff={handleCloseDiff}
                 />
             ));
         }

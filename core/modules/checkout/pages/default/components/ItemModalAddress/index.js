@@ -3,7 +3,7 @@ import Component from '@core_modules/checkout/pages/default/components/ItemModal
 import { updateCustomerAddress } from '@core_modules/checkout/services/graphql';
 
 const ItemAddressCore = (props) => {
-    const { manageCustomer, handleChange } = props;
+    const { manageCustomer, handleChange, handleCloseDiff } = props;
     const [updateAddress] = updateCustomerAddress();
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
@@ -21,11 +21,13 @@ const ItemAddressCore = (props) => {
                         {
                             target: {
                                 value: data.addressId,
-                                valueAddress: data.detailAddress,
+                                valueAddress: data.addressDetail,
                             },
                         },
                         data.addressId === props.selectedAddressId,
                     );
+                } else if (data.addressId !== props.selectedAddressId) {
+                    await handleCloseDiff();
                 }
                 setSuccess(true);
                 setLoading(false);
