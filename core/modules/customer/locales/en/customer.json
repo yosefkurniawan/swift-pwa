@@ -42,10 +42,17 @@
     "postcode" : "Zip/Postal code",
     "phone" : "Phone number",
     "emptyMessage" : "You haven't added an address",
+    "emptyPinPointMessage": "Selected address does not have pin point. Please set it for possibility of using Instant Delivery Courier.",
     "useDefault" : "Use as default",
-    "warningDelete": "Are you sure to remove this address?"
+    "warningDelete": "Are you sure to remove this address?",
+    "confirmPinPoint": "I confirm that pin point matches with the address. Any shipping error due to invalid pin point is not merchant responsibility.",
+    "confirmPinPointTitle": "Address Pinpoint Agreement"
   },
   "menu": {
+    "contactInformation": "Contact information",
+    "newsletter": "Newsletter",
+    "noSubcription": "You are not subscribed to 'General Subscription'.",
+    "subcription": "You are subscribed to General Subscription'.",
     "aboutUs": "About us",
     "contactUs": "Contact us",
     "myPoint": "My point",
@@ -104,7 +111,8 @@
     "message": "Message",
     "validateField": "Please fill in the fields correctly!",
     "shareSuccess" : "Item has been shared successfully",
-    "shareFailed": "Failed on sharing item"
+    "shareFailed": "Failed on sharing item",
+    "myProductReview": "My product review"
   },
   "order": {
     "recentOrder" : "Recent order",

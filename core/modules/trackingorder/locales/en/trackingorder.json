@@ -21,5 +21,6 @@
     "lastStatus": "Last Status",
     "history": "History",
     "liveTracking": "Live Tracking",
-    "track": "Track"
+    "track": "Track",
+    "noDataAvailable": "No data available"
 }

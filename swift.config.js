@@ -9,8 +9,8 @@ const iconAppleTouch = '/assets/img/swiftpwa_apple_touch.png';
 const HOST = {
     local: 'http://localhost:3000',
     dev: 'https://swiftpwa.testingnow.me',
-    stage: 'https://getswift-pwa.gcp-staging.testingnow.me',
-    prod: 'https://pwa.getswift.asia',
+    stage: 'https://checkout-getswift-pwa.gcp-staging.testingnow.me',
+    prod: 'https://pwa-checkout.getswift.asia',
 };
 
 /* Magento GraphQL Endpoint */
@@ -222,7 +222,7 @@ const features = {
         alias: 'top-menu',
     },
     customInstallApp: {
-        enabled: true,
+        enabled: false,
     },
     firebase: {
         config: {
@@ -263,7 +263,7 @@ const features = {
 const modules = {
     product: {
         customizableOptions: {
-            enabled: true,
+            enabled: false,
             availableOptions: {
                 CustomizableAreaOption: true,
                 CustomizableDateOption: true,
@@ -314,7 +314,7 @@ const modules = {
                 enabled: false, // used if need to desktop view on large screen
             },
             label: {
-                enabled: true,
+                enabled: false,
                 new: {
                     enabled: false,
                 },
@@ -322,14 +322,14 @@ const modules = {
                     enabled: false,
                 },
                 weltpixel: {
-                    enabled: true,
+                    enabled: false,
                 },
             },
             configurableOptions: {
                 enabled: false,
             },
             rating: {
-                enabled: true,
+                enabled: false,
             },
             addToCart: {
                 enabled: false,
@@ -366,7 +366,7 @@ const modules = {
     },
     checkout: {
         enabled: true,
-        checkoutOnly: false,
+        checkoutOnly: true,
         path: '/checkout',
         ipayUrl: 'ipay88/ipayredirect/?orderId=',
         snapUrl: {

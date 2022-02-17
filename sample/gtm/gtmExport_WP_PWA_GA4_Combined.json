@@ -3853,6 +3853,102 @@
                 "consentSettings": {
                     "consentStatus": "NOT_SET"
                 }
+            },
+            {
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
+                "tagId": "107",
+                "name": "PWA - Count Popup Installation",
+                "type": "ua",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "nonInteraction",
+                        "value": "true"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventCategory",
+                        "value": "Count Popup Installation"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackType",
+                        "value": "TRACK_EVENT"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventAction",
+                        "value": "Installed"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventLabel",
+                        "value": "{{PWA - Event Label}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackingId",
+                        "value": "{{PWA - UA Tracking ID}}"
+                    }
+                ],
+                "fingerprint": "1589871777792",
+                "firingTriggerId": [
+                    "107"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT"
+            },
+            {
+                "name": "PWA - GA4 - Count Popup Installation",
+                "firingTriggerId": [
+                    "108"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "type": "gaawe",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventName",
+                        "value": "countPopupInstallation"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "nonInteraction",
+                        "value": "true"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventCategory",
+                        "value": "Count Popup Installation"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackType",
+                        "value": "TRACK_EVENT"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventAction",
+                        "value": "Installed"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventLabel",
+                        "value": "{{PWA - Event Label}}"
+                    },
+                    {
+                        "type": "TAG_REFERENCE",
+                        "key": "measurementId",
+                        "value": "PWA - GA4"
+                    }
+                ],
+                "monitoringMetadata": {
+                    "type": "MAP"
+                },
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
+                "tagId": "108",
+                "fingerprint": "1639454140"
             }
         ],
         "trigger": [
@@ -4796,6 +4892,56 @@
                     }
                 ],
                 "fingerprint": "1640000388606"
+            },
+            {
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
+                "triggerId": "107",
+                "name": "PWA - Count Popup Installation",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "countPopupInstallation"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1589871777792"
+            },
+            {
+                "name": "PWA - GA4 - Count Popup Installation",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "countPopupInstallation"
+                            }
+                        ]
+                    }
+                ],
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
+                "triggerId": "108",
+                "fingerprint": "1639454140"
             }
         ],
         "variable": [

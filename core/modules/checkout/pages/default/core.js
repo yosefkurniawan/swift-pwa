@@ -379,9 +379,7 @@ const Checkout = (props) => {
 
         // init shipping method
         if (shipping && shipping.available_shipping_methods) {
-            const availableShipping = shipping.available_shipping_methods.filter(
-                (x) => x.carrier_code !== 'pickup' && x.carrier_code !== 'instore',
-            );
+            const availableShipping = shipping.available_shipping_methods.filter((x) => x.carrier_code !== 'pickup' && x.carrier_code !== 'instore');
 
             state.data.shippingMethods = availableShipping.map((item) => ({
                 ...item,
@@ -597,6 +595,7 @@ const Checkout = (props) => {
             const shipping = cart && cart.shipping_addresses && cart.shipping_addresses.length > 0 ? cart.shipping_addresses[0] : null;
             if (shipping && shipping.available_shipping_methods && shipping.available_shipping_methods.length > 0) {
                 const availableShipping = shipping.available_shipping_methods.filter((x) => x.carrier_code !== 'pickup');
+
                 state.data.shippingMethods = availableShipping.map((item) => ({
                     ...item,
                     label: `${item.method_title === null ? '' : `${item.method_title} - `} ${item.carrier_title} `,
@@ -670,96 +669,98 @@ const Checkout = (props) => {
                     },
                 },
             },
-        }).then(async (result) => {
-            let state = { ...checkout };
+        })
+            .then(async (result) => {
+                let state = { ...checkout };
 
-            if (result && result.data && result.data.setPaymentMethodOnCart && result.data.setPaymentMethodOnCart.cart) {
-                const mergeCart = {
-                    ...state.data.cart,
-                    ...result.data.setPaymentMethodOnCart.cart,
-                };
-                state.data.cart = mergeCart;
-                state.status.purchaseOrderApply = true;
-                updateFormik(mergeCart);
-            } else {
-                state.selected.payment = null;
-                handleOpenMessage({
-                    variant: 'error',
-                    text: t('checkout:message:emptyShippingError'),
-                });
-            }
-
-            setCheckout(state);
-
-            const selectedPayment = checkout.data.paymentMethod.filter((item) => item.code === 'paypal_express');
-            const dataLayer = {
-                event: 'checkout',
-                ecommerce: {
-                    checkout: {
-                        actionField: { step: 3, option: selectedPayment[0].title, action: 'checkout' },
-                        products: cart.items.map(({ quantity, product, prices }) => ({
-                            name: product.name,
-                            id: product.sku,
-                            price: JSON.stringify(prices.price.value),
-                            category: product.categories.length > 0 ? product.categories[0].name : '',
-                            list: product.categories.length > 0 ? product.categories[0].name : '',
-                            quantity: JSON.stringify(quantity),
-                            dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
-                            dimension5: '',
-                            dimension6: '',
-                            dimension7: prices.discount ? 'YES' : 'NO',
-                        })),
-                    },
-                    currencyCode: storeConfig.base_currency_code || 'IDR',
-                },
-            };
-            const dataLayerOption = {
-                event: 'checkoutOption',
-                ecommerce: {
-                    currencyCode: storeConfig.base_currency_code || 'IDR',
-                    checkout_option: {
-                        actionField: { step: 3, option: selectedPayment[0].title, action: 'checkout_option' },
-                    },
-                },
-            };
-            TagManager.dataLayer({ dataLayer });
-            TagManager.dataLayer({ dataLayer: dataLayerOption });
-
-            let details = await fetch('/paypal/detail-transaction', {
-                method: 'post',
-                headers: {
-                    'content-type': 'application/json',
-                },
-                body: JSON.stringify({
-                    orderID: data.orderID,
-                }),
-            });
-
-            // set local data
-
-            const paypalData = {
-                data: {
-                    ...data,
-                    ...initialOptionPaypal,
-                    ...tokenData,
-                },
-                details: {},
-            };
-            if (details) {
-                details = await details.json();
-                if (details && details.data && details.data.result) {
-                    paypalData.details = details.data.result;
+                if (result && result.data && result.data.setPaymentMethodOnCart && result.data.setPaymentMethodOnCart.cart) {
+                    const mergeCart = {
+                        ...state.data.cart,
+                        ...result.data.setPaymentMethodOnCart.cart,
+                    };
+                    state.data.cart = mergeCart;
+                    state.status.purchaseOrderApply = true;
+                    updateFormik(mergeCart);
+                } else {
+                    state.selected.payment = null;
+                    handleOpenMessage({
+                        variant: 'error',
+                        text: t('checkout:message:emptyShippingError'),
+                    });
                 }
-            }
-            setLocalStorage(modules.paypal.keyData, paypalData);
-            state = { ...checkout };
-            window.backdropLoader(false);
-            state.loading.order = false;
-            setCheckout(state);
-            Router.push(`/${modules.paypal.returnUrl}`);
-        }).catch((e) => {
-            onErrorPaypal(e);
-        });
+
+                setCheckout(state);
+
+                const selectedPayment = checkout.data.paymentMethod.filter((item) => item.code === 'paypal_express');
+                const dataLayer = {
+                    event: 'checkout',
+                    ecommerce: {
+                        checkout: {
+                            actionField: { step: 3, option: selectedPayment[0].title, action: 'checkout' },
+                            products: cart.items.map(({ quantity, product, prices }) => ({
+                                name: product.name,
+                                id: product.sku,
+                                price: JSON.stringify(prices.price.value),
+                                category: product.categories.length > 0 ? product.categories[0].name : '',
+                                list: product.categories.length > 0 ? product.categories[0].name : '',
+                                quantity: JSON.stringify(quantity),
+                                dimension4: product.stock_status === 'IN_STOCK' ? 'In stock' : 'Out stock',
+                                dimension5: '',
+                                dimension6: '',
+                                dimension7: prices.discount ? 'YES' : 'NO',
+                            })),
+                        },
+                        currencyCode: storeConfig.base_currency_code || 'IDR',
+                    },
+                };
+                const dataLayerOption = {
+                    event: 'checkoutOption',
+                    ecommerce: {
+                        currencyCode: storeConfig.base_currency_code || 'IDR',
+                        checkout_option: {
+                            actionField: { step: 3, option: selectedPayment[0].title, action: 'checkout_option' },
+                        },
+                    },
+                };
+                TagManager.dataLayer({ dataLayer });
+                TagManager.dataLayer({ dataLayer: dataLayerOption });
+
+                let details = await fetch('/paypal/detail-transaction', {
+                    method: 'post',
+                    headers: {
+                        'content-type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        orderID: data.orderID,
+                    }),
+                });
+
+                // set local data
+
+                const paypalData = {
+                    data: {
+                        ...data,
+                        ...initialOptionPaypal,
+                        ...tokenData,
+                    },
+                    details: {},
+                };
+                if (details) {
+                    details = await details.json();
+                    if (details && details.data && details.data.result) {
+                        paypalData.details = details.data.result;
+                    }
+                }
+                setLocalStorage(modules.paypal.keyData, paypalData);
+                state = { ...checkout };
+                window.backdropLoader(false);
+                state.loading.order = false;
+                setCheckout(state);
+                Router.push(`/${modules.paypal.returnUrl}`);
+            })
+            .catch((e) => {
+                onErrorPaypal(e);
+            });
     };
 
     const onShippingChangePaypal = (params) => {
@@ -805,6 +806,7 @@ const Checkout = (props) => {
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <script src="https://js.braintreegateway.com/web/3.78.2/js/client.min.js" />
                 <script src="https://js.braintreegateway.com/web/3.78.2/js/paypal-checkout.min.js" />
+                <script type="text/javascript" src="https://js.xendit.co/v1/xendit.min.js" />
             </Head>
             <Content {...contentProps} {...props} modules={modules} />
             <Toast open={isError} message={t('checkout:cartError')} variant="error" setOpen={setError} />

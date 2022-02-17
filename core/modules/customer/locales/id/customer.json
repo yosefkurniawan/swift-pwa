@@ -13,7 +13,7 @@
   "setting" : {
     "title" : "Pengaturan",
     "newsletter" : "Buletin",
-    "newsletter_subscription": "Newsletter subscriptions",
+    "newsletter_subscription": "Langganan Buletin",
     "newsletter_success": "Buletin berhasil diperbarui",
     "newsletter_error": "Buletin gagal diperbarui",
     "language" : "Bahasa",
@@ -42,29 +42,37 @@
     "postcode" : "Kode pos",
     "phone" : "Telepon",
     "emptyMessage" : "Kamu belum menambahkan alamat",
+    "emptyPinPointMessage": "Alamat yang Anda pilih belum punya pin point. Silakan set pin point untuk menggunakan kurir Instant Delivery.",
     "useDefault" : "Gunakan sebagai default",
-    "warningDelete": "Anda yakin mau menghapus alamat ini?"
+    "warningDelete": "Anda yakin mau menghapus alamat ini?",
+    "confirmPinPoint": "Saya yakin bahwa pinpoint pada peta cocok dengan alamat saya. Segala bentuk kesalahan dalam pengiriman dikarenakan kesalahan pada pemilihan pinpoint bukan menjadi tanggung jawab marketplace.",
+    "confirmPinPointTitle": "Pernyataan Alamat Pinpoint"
   },
   "menu": {
+    "contactInformation": "Informasi kontak",
+    "newsletter": "Buletin",
+    "noSubcription": "Anda tidak berlangganan 'Langganan Umum'.",
+    "subcription": "Anda berlangganan 'Langganan Umum'.",
     "aboutUs": "Tentang kami",
     "contactUs": "Hubungi kami",
-    "myPoint": "Point saya",
+    "myPoint": "Poin saya",
     "myOrder": "Pesanan saya",
     "myAccount": "Akun saya",
     "address": "Buku alamat",
-    "findAStore": "Lihat lokasi store",
+    "findAStore": "Lihat lokasi toko",
     "setting": "Pengaturan",
-    "storeCredit": "Store credit",
+    "storeCredit": "Kredit toko",
     "readMore": "Selengkapnya",
-    "rewardPoint": "Reward poin",
+    "rewardPoint": "Poin reward",
     "blog": "Artikel",
-    "return": "Retur saya",
+    "return": "Pengembalian saya",
     "confirmPayment": "Konfirmasi pembayaran",
     "accountInformation": "Informasi akun",
     "notification": "Notifikasi",
     "viewall" : "Lihat semua",
     "trackingOrder": "Lacak Pesanan",
-    "myDownload": "Produk Unduh saya"
+    "myDownload": "Unduh produk saya",
+    "myProductReview": "Penilaian produk saya"
   },
   "giftCard": {
     "notFound": "Anda tidak memiliki gift card",
@@ -104,7 +112,7 @@
     "message": "Pesan",
     "validateField": "Harap isi kolom dengan benar!",
     "shareSuccess" : "Item telah berhasil dibagikan",
-    "shareFailed": "Gagal membagikan item" 
+    "shareFailed": "Gagal membagikan item"
   },
   "order": {
     "recentOrder" : "Order terbaru",

@@ -23,13 +23,15 @@ const AddressView = (props) => {
         content,
         manageCustomer,
         isOnlyVirtualProductOnCart,
+        showEmptyPinpoint,
         ...other
     } = props;
-    const { dest_latitude, dest_longitude } = (data && data.cart && data.cart.dest_location) || {};
+    
     const gmapKey = other && other.storeConfig && other.storeConfig.icube_pinlocation_gmap_key;
     const { formik } = other;
 
     const [openAddress, setOpenAddress] = React.useState(false);
+
     return (
         <div className={styles.block} id="checkoutAddress">
             <style jsx>
@@ -123,14 +125,13 @@ const AddressView = (props) => {
                 </div>
             </div>
             <div className="alert-empty-pin-point">
-                {gmapKey
-                    && address
-                    && !(loading.addresses || loading.all)
-                    && (!dest_latitude || !dest_longitude || (dest_latitude === '0' && dest_longitude === '0')) && (
-                    <Alert style={{ fontSize: 10 }} severity="warning">
-                        {t('customer:address:emptyPinPointMessage')}
-                    </Alert>
-                )}
+                {
+                    showEmptyPinpoint && gmapKey && (
+                        <Alert style={{ fontSize: 10 }} severity="warning">
+                            {t('customer:address:emptyPinPointMessage')}
+                        </Alert>
+                    )
+                }
                 {
                     checkout.error.shippingAddress && (
                         <Alert style={{ fontSize: 10 }} severity="error">

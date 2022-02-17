@@ -2392,6 +2392,55 @@
                 "monitoringMetadata": {
                     "type": "MAP"
                 }
+            },
+            {
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
+                "tagId": "61",
+                "name": "PWA - Count Popup Installation",
+                "type": "ua",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "nonInteraction",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "overrideGaSettings",
+                        "value": "true"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventCategory",
+                        "value": "Count Popup Installation"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackType",
+                        "value": "TRACK_EVENT"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventAction",
+                        "value": "Installed"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventLabel",
+                        "value": "{{PWA - Event Label}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackingId",
+                        "value": "{{PWA - UA Tracking ID}}"
+                    }
+                ],
+                "fingerprint": "1589871777792",
+                "firingTriggerId": [
+                    "61"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT"
             }
         ],
         "trigger": [
@@ -2918,6 +2967,31 @@
                 "name": "PWA - All History Change",
                 "type": "HISTORY_CHANGE",
                 "fingerprint": "1607669076032"
+            },
+            {
+                "accountId": "<<@ACCOUNT_ID>>",
+                "containerId": "<<@CONTAINER_ID>>",
+                "triggerId": "61",
+                "name": "PWA - Count Popup Installation",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "countPopupInstallation"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1589871777792"
             }
         ],
         "variable": [

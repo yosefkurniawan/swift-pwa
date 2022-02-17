@@ -1,31 +1,44 @@
 import StoreLocatorMaps from '@core_modules/storelocator/pages/default/components/Maps';
 import SkeletonStoreLocator from '@core_modules/storelocator/pages/default/components/Skeleton';
 import StoreList from '@core_modules/storelocator/pages/default/components/StoreList';
+import WarningIcon from '@material-ui/icons/Warning';
 
 const StoreLocatorContent = ({ gmapKey, storeLocations, t }) => {
     // state
     const [centerPosition, setCenterPosition] = React.useState({});
     const [selectedStore, setSelectedStore] = React.useState();
-    const [storeList, setStoreList] = React.useState(
+    const [storeList, setStoreList] = storeLocations !== null ? React.useState(
         storeLocations.map((storeLocation) => ({
             ...storeLocation,
             lat: storeLocation.latitude,
             lng: storeLocation.longitude,
         })),
-    );
+    ) : React.useState(null);
 
     // effect
     React.useEffect(() => {
-        if (navigator && navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                const lng = position.coords.longitude;
-                const lat = position.coords.latitude;
-                setCenterPosition({ lat, lng });
-            });
-        } else {
-            setCenterPosition({ lat: -6.17539, lng: 106.82715 });
+        if (storeList !== null) {
+            if (navigator && navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const lng = position.coords.longitude;
+                    const lat = position.coords.latitude;
+                    setCenterPosition({ lat, lng });
+                });
+            } else {
+                setCenterPosition({ lat: -6.17539, lng: 106.82715 });
+            }
         }
     }, []);
+
+    if (storeList === null) {
+        return (
+            <div style={{ textAlign: 'center', paddingTop: '20vh' }}>
+                <WarningIcon style={{ fontSize: '100px' }} />
+                <br />
+                <span style={{ fontSize: '2rem' }}>{t('storelocator:noAvailableStore')}</span>
+            </div>
+        );
+    }
 
     return (
         <div className="row" style={{ padding: '0 16px' }}>

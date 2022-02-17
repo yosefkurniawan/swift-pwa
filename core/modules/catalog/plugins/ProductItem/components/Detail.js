@@ -36,7 +36,7 @@ const Detail = (props) => {
     const classFeedActive = classNames(styles.iconFeed, styles.iconActive);
     const FeedIcon = feed ? <Favorite className={classFeedActive} /> : <FavoriteBorderOutlined className={styles.iconFeed} />;
     const showWishlist = typeof enableWishlist !== 'undefined' ? enableWishlist : modules.wishlist.enabled;
-    const showRating = typeof enableRating !== 'undefined' ? enableRating : modules.catalog.productListing.rating;
+    const showRating = typeof enableRating !== 'undefined' ? enableRating : modules.catalog.productListing.rating.enabled;
     return (
         <div className={styles.descItem}>
             {showWishlist && (
