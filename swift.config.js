@@ -540,7 +540,7 @@ const modules = {
     home: {
         enabled: true,
         useCmsPage: {
-            enable: false,
+            enable: true,
             identifier: 'pwa-homepage',
         },
         featuresProduct: {
