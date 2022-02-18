@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -415,7 +416,7 @@ const AddressView = (props) => {
                             errorMessage={(formik.touched.postcode && formik.errors.postcode) || null}
                             onFocus={(e) => { e.target.setAttribute('autocomplete', 'new-password'); e.target.setAttribute('autocorrect', 'false'); e.target.setAttribute('aria-autocomplete', 'both'); e.target.setAttribute('aria-haspopup', 'false'); e.target.setAttribute('spellcheck', 'off'); e.target.setAttribute('autocapitalize', 'off'); e.target.setAttribute('autofocus', ''); e.target.setAttribute('role', 'combobox'); }}
                         />
-                        {gmapKey && (
+                        {gmapKey ? (
                             <div className={styles.boxMap}>
                                 <IcubeMapsAutocomplete
                                     gmapKey={gmapKey}
@@ -424,6 +425,27 @@ const AddressView = (props) => {
                                     dragMarkerDone={handleDragPosition}
                                 />
                             </div>
+                        ) : (
+                            <CustomTextField
+                                autoComplete="new-password"
+                                label={t('common:form:addressDetail')}
+                                placeholder={t('common:search:addressDetail')}
+                                name="addressDetail"
+                                value={formik.values.addressDetail}
+                                onChange={formik.handleChange}
+                                error={!!(formik.touched.addressDetail && formik.errors.addressDetail)}
+                                errorMessage={(formik.touched.addressDetail && formik.errors.addressDetail) || null}
+                                onFocus={(e) => {
+                                    e.target.setAttribute('autocomplete', 'off');
+                                    e.target.setAttribute('autocorrect', 'false');
+                                    e.target.setAttribute('aria-autocomplete', 'both');
+                                    e.target.setAttribute('aria-haspopup', 'false');
+                                    e.target.setAttribute('spellcheck', 'off');
+                                    e.target.setAttribute('autocapitalize', 'off');
+                                    e.target.setAttribute('autofocus', '');
+                                    e.target.setAttribute('role', 'combobox');
+                                }}
+                            />
                         )}
 
                         {disableDefaultAddress != null && (
@@ -443,7 +465,7 @@ const AddressView = (props) => {
                             </div>
                         )}
 
-                        {gmapKey && (
+                        {gmapKey ? (
                             <div style={{ marginTop: '1rem' }}>
                                 <FormControlLabel
                                     value={formik.values.confirmPinPoint}
@@ -453,7 +475,6 @@ const AddressView = (props) => {
                                     control={<Checkbox name="newsletter" color="primary" size="small" />}
                                     label={(
                                         <Typography variant="h4" className="row center" style={{ fontWeight: '600' }}>
-                                            {/* {`${t('customer:address:confirmPinPoint')} ${pinLocationInfo || ''}`} */}
                                             {`${t('customer:address:confirmPinPoint')}`}
                                         </Typography>
                                     )}
@@ -466,7 +487,7 @@ const AddressView = (props) => {
                                     </div>
                                 )}
                             </div>
-                        )}
+                        ) : ''}
                         <div className={styles.wrapper}>
                             <Button
                                 className={addBtn}
