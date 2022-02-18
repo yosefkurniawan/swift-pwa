@@ -119,6 +119,8 @@ const IcubeMapsAutocomplete = (props) => {
                         }
                     } else if (name.length > street_name[0].short_name.length && (name.toLowerCase().includes(street_name[0].short_name.toLowerCase()) || name.toLowerCase().includes(street_name[0].long_name.toLowerCase()))) {
                         formik.setFieldValue('addressDetail', name);
+                    } else if (name.toLowerCase().includes('street')) {
+                        formik.setFieldValue('addressDetail', `${street_name[0].short_name}`);
                     } else {
                         formik.setFieldValue('addressDetail', `${street_name[0].short_name} ${name}`);
                     }
@@ -192,7 +194,16 @@ const IcubeMapsAutocomplete = (props) => {
                         onChange={(e) => { formik.handleChange(e); }}
                         error={!!(formik.touched.addressDetail && formik.errors.addressDetail)}
                         errorMessage={(formik.touched.addressDetail && formik.errors.addressDetail) || null}
-                        onFocus={(e) => { e.target.setAttribute('autocomplete', 'off'); e.target.setAttribute('autocorrect', 'false'); e.target.setAttribute('aria-autocomplete', 'both'); e.target.setAttribute('aria-haspopup', 'false'); e.target.setAttribute('spellcheck', 'off'); e.target.setAttribute('autocapitalize', 'off'); e.target.setAttribute('autofocus', ''); e.target.setAttribute('role', 'combobox'); }}
+                        onFocus={(e) => {
+                            e.target.setAttribute('autocomplete', 'off');
+                            e.target.setAttribute('autocorrect', 'false');
+                            e.target.setAttribute('aria-autocomplete', 'both');
+                            e.target.setAttribute('aria-haspopup', 'false');
+                            e.target.setAttribute('spellcheck', 'off');
+                            e.target.setAttribute('autocapitalize', 'off');
+                            e.target.setAttribute('autofocus', '');
+                            e.target.setAttribute('role', 'combobox');
+                        }}
                     />
                 </Autocomplete>
                 <GoogleMap
@@ -206,11 +217,11 @@ const IcubeMapsAutocomplete = (props) => {
                             // eslint-disable-next-line no-undef
                             latLngBounds: new google.maps.LatLngBounds(
                                 // eslint-disable-next-line no-undef
-                                new google.maps.LatLng(parseFloat(stateBounds.southwest.lat !== undefined ? stateBounds.southwest.lat : mapPosition.lat),
-                                    parseFloat(stateBounds.southwest.lng !== undefined ? stateBounds.southwest.lng : mapPosition.lng)),
+                                new google.maps.LatLng(parseFloat(stateBounds.southwest.lat !== undefined ? stateBounds.southwest.lat : mapPosition.lat - 0.025),
+                                    parseFloat(stateBounds.southwest.lng !== undefined ? stateBounds.southwest.lng : mapPosition.lng - 0.025)),
                                 // eslint-disable-next-line no-undef
-                                new google.maps.LatLng(parseFloat(stateBounds.northeast.lat !== undefined ? stateBounds.northeast.lat : mapPosition.lat),
-                                    parseFloat(stateBounds.northeast.lng !== undefined ? stateBounds.northeast.lng : mapPosition.lng)),
+                                new google.maps.LatLng(parseFloat(stateBounds.northeast.lat !== undefined ? stateBounds.northeast.lat : mapPosition.lat + 0.025),
+                                    parseFloat(stateBounds.northeast.lng !== undefined ? stateBounds.northeast.lng : mapPosition.lng + 0.025)),
                             ),
                             strictBounds: true,
                         },
