@@ -126,7 +126,7 @@ const AddressFormDialog = (props) => {
         defaultShippingBilling: defaultShipping || defaultBilling,
         regionCode: '',
         regionId: '',
-        confirmPinPoint: false,
+        confirmPinPoint: !gmapKey,
     };
 
     // add initial value if split city enabled
