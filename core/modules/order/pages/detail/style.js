@@ -107,4 +107,8 @@ export default makeStyles((theme) => ({
     btnPayNow: {
         marginTop: 15,
     },
+    btnTrackOrder: {
+        padding: 0,
+        marginLeft: -4,
+    },
 }));

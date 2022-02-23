@@ -66,8 +66,11 @@ const AwGiftCardProduct = (props) => {
     const [selectedCustomAmount, setselectedCustomAmount] = useState([]);
 
     React.useEffect(() => {
-        aw_gc_amounts ? setselectedCustomAmount(aw_gc_amounts[0]) : setselectedCustomAmount([]);
-    }, [aw_gc_amounts])
+        if (aw_gc_amounts) {
+            setselectedCustomAmount(aw_gc_amounts[0]);
+        }
+        setselectedCustomAmount([]);
+    }, [aw_gc_amounts]);
 
     const handleSelectTemplate = (e) => {
         const templateValue = e.currentTarget.dataset.template;
@@ -317,7 +320,7 @@ const AwGiftCardProduct = (props) => {
                                     src={`${storeConfig?.secure_base_media_url}logo/${storeConfig?.header_logo_src}`}
                                     width={240}
                                     height={104}
-                                    alt={storeConfig?.logo_alt}
+                                    alt={storeConfig.logo_alt || ''}
                                 />
                             </div>
                             <div className="gc-dialog-card-details">

@@ -1,7 +1,8 @@
+/* eslint-disable max-len */
 import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import IcubeMaps from '@common_googlemaps';
+import IcubeMapsAutocomplete from '@common_googlemaps_autocomplete';
 import Header from '@common_headermobile';
 import Button from '@common_button';
 import TextField from '@material-ui/core/TextField';
@@ -34,8 +35,6 @@ const AddressView = (props) => {
         responRegion,
         responCities,
         getCities,
-        pinLocationInfo,
-        loadingGetPinLocationInfo,
     } = props;
     const styles = useStyles();
     const headerConfig = {
@@ -395,12 +394,12 @@ const AddressView = (props) => {
                         />
                         <CustomTextField
                             autoComplete="new-password"
-                            label={t('common:form:street')}
-                            name="street"
-                            value={formik.values.street}
+                            label={t('common:form:phoneNumber')}
+                            name="telephone"
+                            value={formik.values.telephone}
                             onChange={formik.handleChange}
-                            error={!!(formik.touched.street && formik.errors.street)}
-                            errorMessage={(formik.touched.street && formik.errors.street) || null}
+                            error={!!(formik.touched.telephone && formik.errors.telephone)}
+                            errorMessage={(formik.touched.telephone && formik.errors.telephone) || null}
                         />
                         {getCountriesRender()}
                         {getRegionRender()}
@@ -415,20 +414,38 @@ const AddressView = (props) => {
                             onChange={formik.handleChange}
                             error={!!(formik.touched.postcode && formik.errors.postcode)}
                             errorMessage={(formik.touched.postcode && formik.errors.postcode) || null}
+                            onFocus={(e) => { e.target.setAttribute('autocomplete', 'new-password'); e.target.setAttribute('autocorrect', 'false'); e.target.setAttribute('aria-autocomplete', 'both'); e.target.setAttribute('aria-haspopup', 'false'); e.target.setAttribute('spellcheck', 'off'); e.target.setAttribute('autocapitalize', 'off'); e.target.setAttribute('autofocus', ''); e.target.setAttribute('role', 'combobox'); }}
                         />
-                        <CustomTextField
-                            autoComplete="new-password"
-                            label={t('common:form:phoneNumber')}
-                            name="telephone"
-                            value={formik.values.telephone}
-                            onChange={formik.handleChange}
-                            error={!!(formik.touched.telephone && formik.errors.telephone)}
-                            errorMessage={(formik.touched.telephone && formik.errors.telephone) || null}
-                        />
-                        {gmapKey && (
+                        {gmapKey ? (
                             <div className={styles.boxMap}>
-                                <IcubeMaps height="230px" mapPosition={mapPosition} dragMarkerDone={handleDragPosition} gmapKey={gmapKey} />
+                                <IcubeMapsAutocomplete
+                                    gmapKey={gmapKey}
+                                    formik={formik}
+                                    mapPosition={mapPosition}
+                                    dragMarkerDone={handleDragPosition}
+                                />
                             </div>
+                        ) : (
+                            <CustomTextField
+                                autoComplete="new-password"
+                                label={t('common:form:addressDetail')}
+                                placeholder={t('common:search:addressDetail')}
+                                name="addressDetail"
+                                value={formik.values.addressDetail}
+                                onChange={formik.handleChange}
+                                error={!!(formik.touched.addressDetail && formik.errors.addressDetail)}
+                                errorMessage={(formik.touched.addressDetail && formik.errors.addressDetail) || null}
+                                onFocus={(e) => {
+                                    e.target.setAttribute('autocomplete', 'off');
+                                    e.target.setAttribute('autocorrect', 'false');
+                                    e.target.setAttribute('aria-autocomplete', 'both');
+                                    e.target.setAttribute('aria-haspopup', 'false');
+                                    e.target.setAttribute('spellcheck', 'off');
+                                    e.target.setAttribute('autocapitalize', 'off');
+                                    e.target.setAttribute('autofocus', '');
+                                    e.target.setAttribute('role', 'combobox');
+                                }}
+                            />
                         )}
 
                         {disableDefaultAddress != null && (
@@ -439,16 +456,16 @@ const AddressView = (props) => {
                                     onChange={() => formik.setFieldValue('defaultShippingBilling', !formik.values.defaultShippingBilling)}
                                     name="defaultShippingBilling"
                                     control={<Checkbox name="checkboxDefaultShippingBilling" color="primary" size="small" />}
-                                    label={
+                                    label={(
                                         <Typography variant="p" letter="capitalize" className="row center">
                                             {t('customer:address:useDefault')}
                                         </Typography>
-                                    }
+                                    )}
                                 />
                             </div>
                         )}
 
-                        {gmapKey && (
+                        {gmapKey ? (
                             <div style={{ marginTop: '1rem' }}>
                                 <FormControlLabel
                                     value={formik.values.confirmPinPoint}
@@ -456,12 +473,11 @@ const AddressView = (props) => {
                                     onChange={() => formik.setFieldValue('confirmPinPoint', !formik.values.confirmPinPoint)}
                                     name="confirmPinPoint"
                                     control={<Checkbox name="newsletter" color="primary" size="small" />}
-                                    label={
+                                    label={(
                                         <Typography variant="h4" className="row center" style={{ fontWeight: '600' }}>
-                                            {/* {`${t('customer:address:confirmPinPoint')} ${pinLocationInfo || ''}`} */}
                                             {`${t('customer:address:confirmPinPoint')}`}
                                         </Typography>
-                                    }
+                                    )}
                                 />
                                 {!!(formik.touched.confirmPinPoint && formik.errors.confirmPinPoint) && (
                                     <div style={{ marginTop: '1.5rem', marginLeft: '1.75rem' }}>
@@ -471,14 +487,14 @@ const AddressView = (props) => {
                                     </div>
                                 )}
                             </div>
-                        )}
+                        ) : ''}
                         <div className={styles.wrapper}>
                             <Button
                                 className={addBtn}
                                 fullWidth
                                 type="submit"
-                                disabled={loading || loadingGetPinLocationInfo}
-                                loading={loading || loadingGetPinLocationInfo}
+                                disabled={loading}
+                                loading={loading}
                             >
                                 <Typography variant="span" type="bold" letter="uppercase" color="white">
                                     {t(success ? 'common:button:saved' : 'common:button:save')}

@@ -30,7 +30,7 @@ const CustomTextField = ({
                 {label}
             </InputLabel>
             <Input
-                id={label}
+                // id={label}
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}

@@ -5,3 +5,6 @@ export const StripHtmlTags = (str = '') => {
     str = str.toString();
     return str.replace(/<[^>]*>/g, '');
 };
+
+// eslint-disable-next-line max-len
+export const capitalizeEachWord = (str = '') => str.toLowerCase().split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');

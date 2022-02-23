@@ -242,7 +242,6 @@ const Login = (props) => {
         setDisabled(true);
         setLoading(true);
         window.backdropLoader(true);
-        console.log(formOtp);
         const sendData = (data) => {
             getTokenCustomer({
                 variables: data,
@@ -257,13 +256,11 @@ const Login = (props) => {
                         token = res.data.internalGenerateCustomerTokenCustom.token;
                     }
                     if (token) {
-                        console.log(token);
                         setLogin(1, expired);
                         await setIsLogin(1);
                     }
                 })
                 .catch((e) => {
-                    console.log(1);
                     setDisabled(false);
                     setLoading(false);
                     window.backdropLoader(false);

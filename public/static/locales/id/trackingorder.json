@@ -21,5 +21,6 @@
     "lastStatus": "Status Terakhir",
     "history": "Riwayat",
     "liveTracking": "Lacak Pengiriman",
-    "track": "Lacak"
+    "track": "Lacak",
+    "noDataAvailable": "Belum ada data tersedia"
 }
