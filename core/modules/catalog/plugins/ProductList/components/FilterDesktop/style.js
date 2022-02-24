@@ -93,8 +93,31 @@ const useStyles = makeStyles((theme) => ({
         width: 'calc(100% - 12px)',
         height: 41,
     },
+    btnSavePrice: {
+        float: 'right',
+    },
+    listCategoryWrapper: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(1fr)',
+    },
     listCategory: {
         cursor: 'pointer',
+        margin: '0 0 10px 0',
+        padding: '0 0 5px 5px',
+        listStyleType: 'none',
+        '&:hover': {
+            backgroundColor: '#f5f5f5',
+        },
+        '&:active': {
+            backgroundColor: '#dedede',
+        },
+        '&:focus': {
+            backgroundColor: '#dedede',
+        },
+    },
+    checkboxCustom: {
+        display: 'block',
+        paddingRight: 0,
     },
 }));
 
