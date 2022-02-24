@@ -195,6 +195,7 @@ const AddressFormDialog = (props) => {
     React.useEffect(() => {
         const countryId = formik.values.country && formik.values.country.id;
         setEnableSplitCity(countryId === 'ID' && modules.customer.plugin.address.splitCity);
+        if (!formik.values.country) formik.setFieldValue('region', '');
     }, [formik.values.country]);
 
     const [getCities, responCities] = getCityByRegionId({});
@@ -283,6 +284,8 @@ const AddressFormDialog = (props) => {
             } else if (formik.values.region === region) {
                 formik.setFieldValue('city', city);
             }
+        } else if (!formik.values.region) {
+            formik.setFieldValue('city', '');
         }
     }, [formik.values.region]);
 
@@ -412,16 +415,6 @@ const AddressFormDialog = (props) => {
 
     // clear child location value when clear parent location
     // example: clear country => clear region
-    React.useEffect(() => {
-        if (!formik.values.country) formik.setFieldValue('region', '');
-    }, [formik.values.country]);
-
-    React.useEffect(() => {
-        if (!formik.values.region) {
-            formik.setFieldValue('city', '');
-        }
-    }, [formik.values.region]);
-
     React.useEffect(() => {
         if (!formik.values.city) formik.setFieldValue('district', '');
     }, [formik.values.city]);

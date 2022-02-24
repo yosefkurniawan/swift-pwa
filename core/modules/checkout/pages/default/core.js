@@ -67,11 +67,15 @@ const Checkout = (props) => {
         if (typeof window !== 'undefined') {
             const cartid = getCartId();
             isLogin = Cookies.get('isLogin');
+            const cdt = getCheckoutData();
             if (!cartid) {
                 Router.push(urlRedirect);
             }
             if (modules.checkout.checkoutOnly && storeConfig.pwa_checkout_debug_enable === '1') {
                 pwaCheckoutState = encodeURIComponent(Cookies.get(nameCheckoutState));
+            }
+            if (cdt) {
+                removeCheckoutData();
             }
             setCartId(cartid);
         }
@@ -474,13 +478,6 @@ const Checkout = (props) => {
         setCheckout(state);
         updateFormik(cart);
     };
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const cdt = getCheckoutData();
-            if (cdt) removeCheckoutData();
-        }
-    }, []);
 
     useEffect(() => {
         setCheckout({
