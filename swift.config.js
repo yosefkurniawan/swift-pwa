@@ -263,7 +263,7 @@ const features = {
 const modules = {
     product: {
         customizableOptions: {
-            enabled: true,
+            enabled: false,
             availableOptions: {
                 CustomizableAreaOption: true,
                 CustomizableDateOption: true,
