@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import { useApolloClient } from '@apollo/client';
@@ -10,7 +10,6 @@ import { localTotalCart } from '@services/graphql/schema/local';
 import { modules } from '@config';
 import Router from 'next/router';
 import {
-    addConfigProductsToCart,
     getConfigurableProduct,
     getGuestCartId as queryGetGuestCartId,
     getCustomerCartId,
@@ -59,8 +58,6 @@ const OptionsItemConfig = (props) => {
     }
 
     const configProduct = getConfigurableProduct(sku);
-
-    // console.log('configProduct', configProduct);
 
     const [firstSelected, setFirstSelected] = React.useState({});
     const [combination, setCombination] = React.useState({});
@@ -154,33 +151,29 @@ const OptionsItemConfig = (props) => {
         cartId = getCartId();
     }
 
-    const [addCartConfig] = addConfigProductsToCart();
     const [addConfigurableProducts] = addConfigurableProductsToCart();
     const [getGuestCartId] = queryGetGuestCartId();
     const cartUser = getCustomerCartId();
 
     const [error, setError] = React.useState({});
 
-    console.log('customizableOptions', customizableOptions);
-
     const addToCart = async () => {
         let customizable_options = [];
         const entered_options = [];
         const uids = [];
-        const entereds = [];
         if (modules.product.customizableOptions.enabled && customizableOptions && customizableOptions.length > 0) {
             customizableOptions.map((op) => {
                 if (customizable_options.length > 0) {
-                    // console.log('customizable_options', customizable_options);
+                    /**
+                     * Marking this as potential unused code
+                     */
                     const findOptions = customizable_options.find((item) => item.id === op.option_id);
                     if (findOptions) {
                         customizable_options = customizable_options.filter(
                             (item) => item.id !== op.option_id,
                         );
-                        console.log('findOptions');
 
                         if (op.isEnteredOption) {
-                            console.log('entered');
                             entered_options.push({
                                 uid: op.uid,
                                 value: `${findOptions.value_string},${op.value}`,
@@ -191,36 +184,27 @@ const OptionsItemConfig = (props) => {
                                 value_string: `${findOptions.value_string},${op.value}`,
                             });
                         }
-                    } else if (op.isEnteredOption) {
-                        console.log('sana');
-
+                    } else if (op.__typename === 'CustomizableFieldValue' || op.__typename === 'CustomizableAreaValue') {
                         entered_options.push({
                             uid: op.uid,
                             value: op.value,
                         });
                     } else {
-                        console.log('sini', op);
-                        customizable_options.push({
-                            id: op.option_id,
-                            value_string: op.value,
-                        });
-                        // uids.push(op.uid);
+                        uids.push(op.uid);
                     }
                 }
+                /** Mark ends here */
                 if (customizable_options.length === 0) {
-                    console.log('halo');
-                    if (op.isEnteredOption) {
+                    if (op.__typename === 'CustomizableFieldValue'
+                        || op.__typename === 'CustomizableAreaValue'
+                        || op.__typename === 'CustomizableDateValue'
+                    ) {
                         entered_options.push({
                             uid: op.uid,
                             value: op.value,
                         });
                     } else {
-                        console.log('first', op);
-                        customizable_options.push({
-                            id: op.option_id,
-                            value_string: op.value,
-                        });
-                        // uids.push(op.uid);
+                        uids.push(op.uid);
                     }
                 }
                 return op;
@@ -292,26 +276,16 @@ const OptionsItemConfig = (props) => {
                 if (__typename === 'ConfigurableProduct') {
                     const variables = {
                         cartId,
-                        sku: selectedProduct.sku,
-                        qty: parseFloat(qty),
-                        parentSku: sku,
-                        customizable_options,
-                        entered_options,
+                        cartItems: [
+                            {
+                                quantity: parseFloat(qty),
+                                sku,
+                                selected_options: [...selectedVariantAttrs.attributes.map((selectedOpt) => selectedOpt.uid), ...uids],
+                                entered_options,
+                            },
+                        ],
                     };
-                    // const variables = {
-                    //     cartId,
-                    //     cartItems: [
-                    //         {
-                    //             quantity: 1,
-                    //             sku,
-                    //             selected_options: [...selectedVariantAttrs.attributes.map((selectedOpt) => selectedOpt.uid), ...uids],
-                    //             // entered_options: [{ uid: 'Y3VzdG9tLW9wdGlvbi8xMw==', value: 'test' }],
-                    //         },
-                    //     ],
-                    // };
-                    console.log('variables', variables);
-                    // console.log('customizable_options', customizable_options);
-                    // console.log('uids', uids);
+
                     TagManager.dataLayer({
                         dataLayer: {
                             event: 'addToCart',
@@ -334,13 +308,14 @@ const OptionsItemConfig = (props) => {
                             },
                         },
                     });
-                    addCartConfig({
+
+                    addConfigurableProducts({
                         variables,
                     })
                         .then((res) => {
                             client.writeQuery({
                                 query: localTotalCart,
-                                data: { totalCart: res.data.addConfigurableProductsToCart.cart.total_quantity },
+                                data: { totalCart: res.data.addProductsToCart.cart.total_quantity },
                             });
                             window.toastMessage({ variant: 'success', text: t('product:successAddCart'), open: true });
                             setLoading(false);
@@ -356,28 +331,6 @@ const OptionsItemConfig = (props) => {
                                 text: e.message.split(':')[1] || errorMessage.text,
                             });
                         });
-                    // addConfigurableProducts({
-                    //     variables,
-                    // })
-                    //     .then((res) => {
-                    //         client.writeQuery({
-                    //             query: localTotalCart,
-                    //             data: { totalCart: res.data.addProductsToCart.cart.total_quantity },
-                    //         });
-                    //         window.toastMessage({ variant: 'success', text: t('product:successAddCart'), open: true });
-                    //         setLoading(false);
-                    //         setOpen(false);
-                    //     })
-                    //     .catch((e) => {
-                    //         if (e.message === "The product's required option(s) weren't entered. Make sure the options are entered and try again.") {
-                    //             Router.push(`/${url_key}`);
-                    //         }
-                    //         setLoading(false);
-                    //         window.toastMessage({
-                    //             ...errorMessage,
-                    //             text: e.message.split(':')[1] || errorMessage.text,
-                    //         });
-                    //     });
                 }
             }
         }
