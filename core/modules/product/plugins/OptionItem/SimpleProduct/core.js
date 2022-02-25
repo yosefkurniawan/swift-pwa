@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { getCartId, setCartId } from '@helper_cartid';
 import { getLoginInfo } from '@helper_auth';
 import { useApolloClient } from '@apollo/client';
@@ -6,7 +7,11 @@ import { modules } from '@config';
 import Router from 'next/router';
 import React, { useState } from 'react';
 import TagManager from 'react-gtm-module';
-import { addSimpleProductsToCart, getGuestCartId as queryGetGuestCartId, getCustomerCartId } from '@core_modules/product/services/graphql';
+import {
+    getGuestCartId as queryGetGuestCartId,
+    getCustomerCartId,
+    addConfigurableProductsToCart,
+} from '@core_modules/product/services/graphql';
 
 const CoreSimpleOptionItem = ({
     setOpen = () => {},
@@ -35,7 +40,7 @@ const CoreSimpleOptionItem = ({
         cartId = getCartId();
     }
 
-    const [addCartSimple] = addSimpleProductsToCart();
+    const [addConfigurableProducts] = addConfigurableProductsToCart();
     const [getGuestCartId] = queryGetGuestCartId();
     const cartUser = getCustomerCartId();
     let [loading, setLoading] = useState(false);
@@ -48,6 +53,8 @@ const CoreSimpleOptionItem = ({
     const addToCart = async () => {
         let customizable_options = [];
         const entered_options = [];
+        const uids = [];
+
         if (modules.product.customizableOptions.enabled && customizableOptions && customizableOptions.length > 0) {
             customizableOptions.map((op) => {
                 if (customizable_options.length > 0) {
@@ -80,21 +87,22 @@ const CoreSimpleOptionItem = ({
                     }
                 }
                 if (customizable_options.length === 0) {
-                    if (op.isEnteredOption) {
+                    if (op.__typename === 'CustomizableFieldValue'
+                        || op.__typename === 'CustomizableAreaValue'
+                        || op.__typename === 'CustomizableDateValue'
+                    ) {
                         entered_options.push({
                             uid: op.uid,
                             value: op.value,
                         });
                     } else {
-                        customizable_options.push({
-                            id: op.option_id,
-                            value_string: op.value,
-                        });
+                        uids.push(op.uid);
                     }
                 }
                 return op;
             });
         }
+
         if (CustomAddToCart && typeof CustomAddToCart === 'function') {
             CustomAddToCart({
                 ...data,
@@ -130,6 +138,18 @@ const CoreSimpleOptionItem = ({
                 }
             }
             if (__typename === 'SimpleProduct') {
+                const variables = {
+                    cartId,
+                    cartItems: [
+                        {
+                            quantity: parseFloat(qty),
+                            sku,
+                            selected_options: [...uids],
+                            entered_options,
+                        },
+                    ],
+                };
+
                 TagManager.dataLayer({
                     dataLayer: {
                         event: 'addToCart',
@@ -150,22 +170,16 @@ const CoreSimpleOptionItem = ({
                         },
                     },
                 });
-                addCartSimple({
-                    variables: {
-                        cartId,
-                        sku,
-                        qty: parseFloat(qty),
-                        customizable_options,
-                        entered_options,
-                    },
+
+                addConfigurableProducts({
+                    variables,
                 })
                     .then((res) => {
-                        client.writeQuery({ query: localTotalCart, data: { totalCart: res.data.addSimpleProductsToCart.cart.total_quantity } });
-                        window.toastMessage({
-                            variant: 'success',
-                            text: t('product:successAddCart'),
-                            open: true,
+                        client.writeQuery({
+                            query: localTotalCart,
+                            data: { totalCart: res.data.addProductsToCart.cart.total_quantity },
                         });
+                        window.toastMessage({ variant: 'success', text: t('product:successAddCart'), open: true });
                         setLoading(false);
                         setOpen(false);
                     })
