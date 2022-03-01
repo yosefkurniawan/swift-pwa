@@ -14,7 +14,9 @@ import {
 } from '@core_modules/customer/services/graphql';
 
 const AddressCustomer = (props) => {
-    const { t, pageConfig, Content } = props;
+    const {
+        t, pageConfig, Content, storeConfig,
+    } = props;
     const config = {
         title: t('customer:address:pageTitle'),
         headerTitle: t('customer:address:pageTitle'),
@@ -27,7 +29,7 @@ const AddressCustomer = (props) => {
     const [updateAddress] = updateCustomerAddress();
     const [addAddress] = createCustomerAddress();
     const [removeAddress] = gqlRemoveAddress();
-    const getCustomer = gqlGetCustomer();
+    const getCustomer = gqlGetCustomer(storeConfig);
     // state
     const [address, setAddress] = useState([]);
     const [selectedAddressId, setSelectedAddressId] = useState(null);

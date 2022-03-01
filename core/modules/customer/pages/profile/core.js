@@ -136,7 +136,7 @@ const ProfilePage = (props) => {
 };
 
 const Profile = (props) => {
-    const { t, pageConfig } = props;
+    const { t, pageConfig, storeConfig } = props;
     const config = {
         title: t('customer:profile:title'),
         header: 'relative', // available values: "absolute", "relative", false (default)
@@ -144,7 +144,7 @@ const Profile = (props) => {
         bottomNav: false,
     };
 
-    const { error, loading, data } = getCustomer();
+    const { error, loading, data } = getCustomer(storeConfig);
 
     return (
         <Layout pageConfig={pageConfig || config} {...props}>

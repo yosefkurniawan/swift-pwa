@@ -8,10 +8,12 @@ import TagManager from 'react-gtm-module';
 const View = dynamic(() => import('@core_modules/product/pages/default/components/RelatedProductCaraousel/view'), { ssr: false });
 const Loader = dynamic(() => import('@common_slick/Caraousel/Skeleton'));
 
-const RelatedProductCaraousel = ({ dataProduct, isLogin, ...other }) => {
+const RelatedProductCaraousel = ({
+    dataProduct, isLogin, storeConfig, ...other
+}) => {
     const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
 
-    const { loading, data, error } = getRelatedProduct(dataProduct.url_key, { context });
+    const { loading, data, error } = getRelatedProduct(storeConfig, { context, variables: { url: dataProduct.url_key } });
 
     React.useEffect(() => {
         if (!loading && !error && data && data.products && data.products.items.length > 0

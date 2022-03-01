@@ -8,7 +8,7 @@ import theme from '@theme_theme';
 
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import {
-    features, rollbar, assetsVersion,
+    rollbar,
 } from '@config';
 
 export default class MyDocument extends Document {
@@ -26,7 +26,6 @@ export default class MyDocument extends Document {
                     {/* PWA primary color */}
                     <meta name="theme-color" content={theme.palette.primary.main} />
                     <link rel="manifest" href="/manifest.json" />
-                    {features.customInstallApp.enabled ? <script src={`/static/firebase/install.${assetsVersion}.js`} defer /> : ''}
                     {rollbar && rollbar.enabled ? (
                         <script
                             dangerouslySetInnerHTML={{

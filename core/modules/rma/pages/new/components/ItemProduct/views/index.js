@@ -3,15 +3,21 @@ import { formatPrice } from '@helper_currency';
 import React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import Image from '@common_image';
-import { features } from '@config';
 import useStyles from '@core_modules/rma/pages/new/components/styles';
 
 const ItemProductView = (props) => {
     const {
         checked, disabled, handleChange, name,
-        image_url, price_incl_tax, currency,
+        image_url, price_incl_tax, currency, storeConfig = {},
     } = props;
     const styles = useStyles();
+
+    let defaultWidth = storeConfig?.pwa?.image_product_width;
+    let defaultHeight = storeConfig?.pwa?.image_product_height;
+
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+
     return (
         <div className={styles.itemContainer}>
             <Checkbox checked={checked} disabled={disabled} onChange={handleChange} inputProps={{ 'aria-label': name }} />
@@ -20,8 +26,8 @@ const ItemProductView = (props) => {
                     src={image_url}
                     className={styles.productImg}
                     alt={name}
-                    width={features.imageSize.product.width}
-                    height={features.imageSize.product.height}
+                    width={defaultWidth}
+                    height={defaultHeight}
                     quality={80}
                 />
             </div>

@@ -4,7 +4,6 @@ import Error from '@core_modules/error/pages/default';
 import { getResolver as getLocalResolver, getLocalStorage, setLocalStorage } from '@helper_localstorage';
 import Layout from '@layout';
 import { getResolver } from '@core_modules/slug/services/graphql';
-import { keyLocalStorage } from '@config';
 
 // import components
 import CategoryPage from '@core_modules/catalog/pages/category';
@@ -67,27 +66,10 @@ const Slug = (props) => {
 
 const SlugContainer = (props) => {
     const {
-        slugPageConfig, storeConfig: config, ...other
+        slugPageConfig, storeConfig, ...other
     } = props;
     const { slug } = props;
     let localResolver;
-    let storeConfig = config;
-    if (slugPageConfig && slugPageConfig.storeConfig && slugPageConfig.storeConfig.pwa) {
-        storeConfig = {
-            ...config,
-            pwa: {
-                ...config.pwa,
-                ...slugPageConfig.storeConfig.pwa,
-            },
-        };
-    }
-
-    const slugKey = keyLocalStorage.slugConfig;
-
-    if (typeof window !== 'undefined' && slugPageConfig) {
-        setLocalStorage(slugKey, slugPageConfig);
-    }
-
     if (typeof window !== 'undefined') {
         const contentProps = { slug, storeConfig };
         let key = '';

@@ -9,9 +9,8 @@ import { setResolver, getResolver } from '@helper_localstorage';
 import CategorySkeleton from '@common_searchmodal/CategorySkeleton';
 import SubVesMenu from '@common_searchmodal/SubVesMenu';
 import VesMenu from '@common_searchmodal/VesMenu';
-import { vesMenuConfig } from '@services/graphql/repository/pwa_config';
 
-const CategoryWrapper = ({ handleCloseModal = () => {} }) => {
+const CategoryWrapper = ({ handleCloseModal = () => {}, storeConfig = {} }) => {
     // const {
     //     openedCategory, showCat, openSub, slideCat, showSubCat, closeSub,
     // } = props;
@@ -20,21 +19,14 @@ const CategoryWrapper = ({ handleCloseModal = () => {} }) => {
     const [historyData, setHistoryData] = React.useState([]);
     const [historyPosition, setHistoryPosition] = React.useState(-1);
     const [back, setBack] = React.useState(false);
-    const { loading: loadConfig, data: dataConfig, error: errorConfig } = vesMenuConfig();
-    const [actGetVestMenu, {
-        loading, data, error, storeConfig,
-    }] = getVesMenu();
-
-    React.useEffect(() => {
-        if (!loadConfig && !errorConfig && dataConfig && dataConfig.storeConfig
-            && dataConfig.storeConfig.pwa.ves_menu_enable) {
-            actGetVestMenu({
-                variables: {
-                    alias: dataConfig.storeConfig.pwa.ves_menu_alias,
-                },
-            });
-        }
-    }, [dataConfig]);
+    const {
+        loading, data, error,
+    } = getVesMenu({
+        variables: {
+            alias: storeConfig?.pwa?.ves_menu_alias,
+        },
+        skip: !storeConfig,
+    });
 
     const cmsPages = storeConfig && storeConfig.cms_page ? storeConfig.cms_page.split(',') : [];
 

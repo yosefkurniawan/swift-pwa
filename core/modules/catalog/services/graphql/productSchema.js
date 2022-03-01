@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
 import { gql } from '@apollo/client';
-import { features, modules } from '@config';
+import { modules } from '@config';
 
 /**
  * generate dynamic filter query
@@ -72,6 +72,11 @@ export const getProduct = (config = {}) => gql`
         : ''
 }
     ) {
+      page_info {
+        current_page
+       page_size
+       total_pages
+     }
       total_count
       ${!config.customFilter
         ? `aggregations {
@@ -128,7 +133,7 @@ export const getProduct = (config = {}) => gql`
           reviews_count
         }` : ''}
         small_image {
-          url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
+          url,
           label
         }
         categories {
@@ -272,7 +277,7 @@ export const getProduct = (config = {}) => gql`
               new_to_date
               ${config.label_sale_enable ? 'sale' : ''}
               small_image{
-                url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
+                url,
                 label
               }
               image {
@@ -309,7 +314,7 @@ const productDetail = (config = {}) => `
     __typename
     attribute_set_id
     small_image{
-      url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
+      url,
       label
     }
     image{

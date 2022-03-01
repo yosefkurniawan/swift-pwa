@@ -1,23 +1,19 @@
-/* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
-/* eslint-disable no-unused-vars */
 /* eslint-disable func-names */
 /* eslint-disable radix */
-/* eslint-disable max-len */
 import React from 'react';
 import App from 'next/app';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '@theme_theme';
 import Cookie from 'js-cookie';
-import helperCookies from '@helper_cookies';
 import { getAppEnv } from '@root/core/helpers/env';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { appWithTranslation } from '@i18n';
 import { storeConfig as ConfigSchema, getVesMenu, getCategories } from '@services/graphql/schema/config';
 import { getRemoveDecimalConfig } from '@services/graphql/schema/pwa_config';
 import {
-    storeConfigNameCookie, GTM, custDataNameCookie, features, sentry,
+    GTM, custDataNameCookie, features, sentry,
 } from '@config';
 import { getLoginInfo, getLastPathWithoutLogin } from '@helper_auth';
 import { setResolver, testLocalStorage, setLocalStorage } from '@helper_localstorage';
@@ -68,8 +64,9 @@ class MyApp extends App {
         this.isLogin = false;
     }
 
-    static async getInitialProps({ Component, ctx }) {
-        let pageProps = {};
+    static async getInitialProps(appContex) {
+        const { Component, ctx } = appContex;
+        let { pageProps } = await App.getInitialProps(appContex);
 
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
@@ -92,11 +89,11 @@ class MyApp extends App {
             isLogin = getLoginInfo();
             lastPathNoAuth = getLastPathWithoutLogin();
             customerData = Cookie.getJSON(custDataNameCookie);
-            removeDecimalConfig = Cookie.getJSON('remove_decimal_config');
         } else {
             isLogin = allcookie.isLogin || 0;
             customerData = allcookie[custDataNameCookie];
-            lastPathNoAuth = req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
+            lastPathNoAuth = req.session && typeof req.session !== 'undefined'
+                && req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
                 ? req.session.lastPathNoAuth
                 : '/customer/account';
         }
@@ -127,9 +124,8 @@ class MyApp extends App {
          * TO BE PROVIDED INTO PAGE PROPS
          */
         let dataVesMenu;
-        let storeConfig = helperCookies.get(storeConfigNameCookie) || pageProps.storeConfig;
-        if (!pageProps.storeConfig && (!storeConfig || typeof window === 'undefined' || typeof storeConfig.secure_base_media_url === 'undefined')) {
-            console.log('always');
+        let { storeConfig } = pageProps;
+        if (!storeConfig || typeof window === 'undefined' || typeof storeConfig.secure_base_media_url === 'undefined') {
             // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
             storeConfig = await graphRequest(ConfigSchema);
 
@@ -139,9 +135,8 @@ class MyApp extends App {
                 ctx.res.redirect('/maintenance');
             }
             storeConfig = storeConfig.storeConfig;
-            if (storeConfig && storeConfig.pwa) {
-                dataVesMenu = storeConfig.pwa.ves_menu_enable ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias }) : await graphRequest(getCategories);
-            }
+            dataVesMenu = storeConfig.pwa.ves_menu_enable
+                ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias }) : await graphRequest(getCategories);
         }
 
         if (typeof removeDecimalConfig === 'undefined') {
@@ -277,7 +272,6 @@ class MyApp extends App {
         if (typeof window !== 'undefined') {
             window.onbeforeunload = function () {
                 setResolver({});
-                helperCookies.remove(storeConfigNameCookie);
             };
         }
     }
@@ -299,17 +293,10 @@ class MyApp extends App {
 
     render() {
         const { Component, pageProps } = this.props;
-        const storeCookie = helperCookies.get(storeConfigNameCookie);
-        Cookie.set('remove_decimal_config', pageProps.removeDecimalConfig, { expires: 365 });
-        if (!storeCookie) {
-            const config = { ...pageProps.storeConfig };
-            config.cms_page = null;
-            setLocalStorage('cms_page', pageProps.storeConfig && pageProps.storeConfig.cms_page ? pageProps.storeConfig.cms_page : '');
-            helperCookies.set(storeConfigNameCookie, config);
-        }
         pageProps.storeConfig = pageProps.storeConfig ? pageProps.storeConfig : {};
         if (typeof window !== 'undefined' && testLocalStorage() === false) {
             // not available
+            setLocalStorage('cms_page', pageProps.storeConfig && pageProps.storeConfig.cms_page ? pageProps.storeConfig.cms_page : '');
             return (
                 <ThemeProvider theme={theme}>
                     {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}

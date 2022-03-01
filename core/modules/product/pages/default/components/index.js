@@ -19,7 +19,6 @@ import OptionItem from '@core_modules/product/pages/default/components/OptionIte
 import SharePopup from '@core_modules/product/pages/default/components/SharePopup';
 import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
 import { modules } from '@config';
-import { labelConfig } from '@services/graphql/repository/pwa_config';
 import { getProductBannerLite } from '@core_modules/product/services/graphql';
 import { formatPrice } from '@helper_currency';
 
@@ -65,21 +64,13 @@ const ProductPage = (props) => {
         isLogin,
         handleSetCompareList,
         enablePopupImage,
+        storeConfig,
     } = props;
     const desktop = breakPointsUp('sm');
 
     const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
     const [getBannerLite, bannerLiteResult] = getProductBannerLite(route.asPath.slice(1), { context });
 
-    let labelEnable = {};
-
-    const { data: dataLabel, loading: loadingLabel } = labelConfig();
-
-    if (!loadingLabel && dataLabel && dataLabel.storeConfig && dataLabel.storeConfig.pwa) {
-        labelEnable = {
-            ...dataLabel.storeConfig.pwa,
-        };
-    }
     React.useEffect(() => {
         getBannerLite();
     }, [bannerLiteResult.called]);
@@ -105,10 +96,11 @@ const ProductPage = (props) => {
                     t={t}
                     dataProduct={data}
                     isLogin={isLogin}
+                    storeConfig={storeConfig}
                 />
                 {
                     enablePopupImage && (
-                        <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} />
+                        <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} storeConfig={storeConfig} />
                     )
                 }
             </div>
@@ -128,6 +120,7 @@ const ProductPage = (props) => {
                             src={topBanner.banner_link}
                             imgSrc={topBanner.banner_image}
                             alt={topBanner.banner_alt}
+                            storeConfig={storeConfig}
                         />
                     ))
                 )}
@@ -142,6 +135,7 @@ const ProductPage = (props) => {
                                 src={topBanner.banner_link}
                                 imgSrc={topBanner.banner_image}
                                 alt={topBanner.banner_alt}
+                                storeConfig={storeConfig}
                             />
                         ))
                     )}
@@ -154,6 +148,7 @@ const ProductPage = (props) => {
                                     classes={classNames(styles.bannerLiteLabel, 'col-xs-6')}
                                     imgSrc={labelBanner.banner_image}
                                     alt={labelBanner.banner_alt}
+                                    storeConfig={storeConfig}
                                 />
                             ))
                         )}
@@ -169,10 +164,11 @@ const ProductPage = (props) => {
                         height={1120}
                         actionImage={(desktop && enablePopupImage) ? handleOpenImageDetail : () => { }}
                         customProduct={styles.bannerProduct}
+                        storeConfig={storeConfig}
                     >
                         {
-                            labelEnable.label_enable
-                            && modules.catalog.productListing.label.weltpixel.enabled && (
+                            storeConfig?.pwa?.label_enable
+                            && storeConfig?.pwa?.label_weltpixel_enable && (
                                 <WeltpixelLabel
                                     t={t}
                                     weltpixel_labels={data.weltpixel_labels || []}
@@ -270,8 +266,8 @@ const ProductPage = (props) => {
 
                     <div className="row">
                         {
-                            labelEnable.label_enable
-                            && modules.catalog.productListing.label.weltpixel.enabled && (
+                            storeConfig?.pwa?.label_enable
+                            && storeConfig?.pwa?.label_weltpixel_enable && (
                                 <WeltpixelLabel
                                     t={t}
                                     weltpixel_labels={data.weltpixel_labels || []}
@@ -301,6 +297,7 @@ const ProductPage = (props) => {
                                         src={bannerLiteObj.after.banner_link}
                                         imgSrc={afterBanner.banner_image}
                                         alt={afterBanner.banner_alt}
+                                        storeConfig={storeConfig}
                                     />
                                 ))
                             )}
@@ -319,6 +316,7 @@ const ProductPage = (props) => {
                                         src={bannerLiteObj.after.banner_link}
                                         imgSrc={afterBanner.banner_image}
                                         alt={afterBanner.banner_alt}
+                                        storeConfig={storeConfig}
                                     />
                                 ))
                             )}
@@ -362,7 +360,7 @@ const ProductPage = (props) => {
                         }}
                     />
                 </div>
-                <RelatedProductCaraousel t={t} dataProduct={data} isLogin={isLogin} />
+                <RelatedProductCaraousel t={t} dataProduct={data} isLogin={isLogin} storeConfig={storeConfig} />
                 <div className={classNames(styles.footer, 'hidden-desktop')}>
                     <Button
                         className={styles.btnAddToCard}

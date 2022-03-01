@@ -7,11 +7,12 @@ import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import {
-    custDataNameCookie, features, modules, debuging,
+    custDataNameCookie, features, modules, debuging, assetsVersion, storeConfigNameCookie,
 } from '@config';
 import { getHost } from '@helper_config';
 import { breakPointsUp } from '@helper_theme';
 import { setCookies, getCookies } from '@helper_cookies';
+import { setLocalStorage } from '@helper_localstorage';
 import { getAppEnv } from '@helpers/env';
 import useStyles from '@core_modules/theme/layout/style';
 import { createCompareList } from '@core_modules/product/services/graphql';
@@ -204,6 +205,10 @@ const Layout = (props) => {
         styles.marginTop = 0;
     }
 
+    if (typeof window !== 'undefined' && storeConfig) {
+        setLocalStorage(storeConfigNameCookie, storeConfig);
+    }
+
     return (
         <>
             <Head>
@@ -228,6 +233,9 @@ const Layout = (props) => {
                         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} key={idx} />
                     ))
                     : null}
+                {
+                    storeConfig.custom_install_app_enable && <script src={`/static/firebase/install.${assetsVersion}.js`} defer />
+                }
             </Head>
             {showPopup ? <PopupInstallAppMobile appName={appName} installMessage={installMessage} /> : null}
             {withLayoutHeader && (
@@ -294,7 +302,7 @@ const Layout = (props) => {
                         {footer ? <Footer storeConfig={storeConfig} t={t} /> : null}
                         <Copyright storeConfig={storeConfig} />
                     </div>
-                    {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} />}
+                    {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />}
                 </footer>
             )}
             {

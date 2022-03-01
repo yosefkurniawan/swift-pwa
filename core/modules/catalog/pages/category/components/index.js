@@ -4,7 +4,6 @@ import Router from 'next/router';
 import classNames from 'classnames';
 import Typography from '@common_typography';
 import Product from '@plugin_productlist';
-import { features } from '@config';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
 import useStyles from '@core_modules/catalog/pages/category/components/style';
@@ -71,6 +70,9 @@ const CategoryPage = ({
         link: '#',
         active: true,
     });
+
+    const { image_product_height, image_product_width } = storeConfig;
+
     return (
         <>
             <style jsx>
@@ -90,8 +92,8 @@ const CategoryPage = ({
                         ? (
                             <BannerView
                                 src={UrlString}
-                                width={features.imageSize.category.width}
-                                height={features.imageSize.category.height}
+                                width={typeof image_product_width === 'string' ? parseInt(image_product_width, 0) : image_product_width}
+                                height={typeof image_product_height === 'string' ? parseInt(image_product_height, 0) : image_product_height}
                                 showArrow={dataBanner.length > 1}
                                 style={{ width: '100%', height: 'auto' }}
                             />

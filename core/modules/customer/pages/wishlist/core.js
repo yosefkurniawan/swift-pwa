@@ -12,7 +12,7 @@ import {
 const Wishlist = (props) => {
     let wishlist = [];
     const {
-        Content, t, isLogin, pageConfig, Skeleton,
+        Content, t, isLogin, pageConfig, Skeleton, storeConfig,
     } = props;
     const config = {
         title: t('customer:wishlist:pageTitle'),
@@ -24,7 +24,7 @@ const Wishlist = (props) => {
     const [removeWishlist] = gqlremoveWishlist();
     const {
         data, loading, error, refetch,
-    } = getCustomer();
+    } = getCustomer(storeConfig);
     const [setShareWishlist, { loading: shareLoading }] = shareWishlist();
 
     const handleShareWishlist = async (emails, message) => {

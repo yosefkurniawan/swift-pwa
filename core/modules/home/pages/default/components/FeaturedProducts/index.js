@@ -14,7 +14,7 @@ const FeaturedProducts = ({
             url_key: storeConfig?.pwa?.features_product_url_key,
             context,
         },
-    });
+    }, storeConfig);
 
     if ((loading) && !data) return <FeaturedSkeleton />;
     if (error) {
@@ -40,7 +40,7 @@ const FeaturedProducts = ({
                 <div className="full-width" id="home-featured-skeleton">
                     <FeaturedSkeleton />
                 </div>
-                <FeaturedView onReInit={onReInit} data={data.categoryList[0].children} t={t} />
+                <FeaturedView onReInit={onReInit} data={data.categoryList[0].children} t={t} storeConfig={storeConfig} />
             </>
         );
     }

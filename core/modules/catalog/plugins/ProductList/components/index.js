@@ -15,7 +15,7 @@ const Content = (props) => {
         query, showTabs, customFilter, elastic, t,
         aggregations, setFiltervalue, category, defaultSort, config, TabView,
         products, categoryPath, renderEmptyMessage, ProductListSkeleton, loading,
-        loadmore, handleLoadMore, dataTabs, onChangeTabs, ...other
+        loadmore, handleLoadMore, dataTabs, onChangeTabs, page, ...other
     } = props;
     const { storeConfig } = props;
     const styles = useStyles();
@@ -57,7 +57,8 @@ const Content = (props) => {
             const lastUserLoadedOffset = lastUserLoaded.offsetTop + lastUserLoaded.clientHeight;
             const pageOffset = window.pageYOffset + window.innerHeight;
             if (pageOffset > lastUserLoadedOffset && !loadmore && products.items.length < products.total_count) {
-                handleLoadMore();
+                console.log('page', page + 1);
+                handleLoadMore(page + 1);
             }
         }
     };

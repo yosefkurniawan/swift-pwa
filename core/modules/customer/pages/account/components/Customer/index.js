@@ -10,7 +10,7 @@ const Customer = (props) => {
     } = props;
     let userData = {};
     let wishlist = [];
-    const { data, loading, error } = gqlService.getCustomer();
+    const { data, loading, error } = gqlService.getCustomer(storeConfig);
     const { data: customerNotificationList } = gqlService.customerNotificationList();
     const { data: customerOrders } = gqlService.getCustomerOrder();
     const totalUnread = customerNotificationList

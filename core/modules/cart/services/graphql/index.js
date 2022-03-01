@@ -30,7 +30,7 @@ export const getCartItem = (cartId) => useQuery(Schema.getCartItem,
         fetchPolicy: 'no-cache',
     });
 
-export const getCrossellCart = (cartId) => useQuery(Schema.getCrossellCart,
+export const getCrossellCart = (cartId, config = {}) => useQuery(Schema.getCrossellCart(config),
     {
         variables: { cartId },
         context: {

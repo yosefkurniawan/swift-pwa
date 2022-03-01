@@ -5,9 +5,17 @@ import Image from '@common_image';
 import useStyles from '@core_modules/order/pages/detail/style';
 
 const ItemProduct = ({
-    name, price_incl_tax, row_total_incl_tax, qty_ordered, currency, t, image_url, features: { imageSize },
+    name, price_incl_tax, row_total_incl_tax, qty_ordered, currency, t,
+    image_url, storeConfig,
 }) => {
     const styles = useStyles();
+
+    let defaultWidth = storeConfig?.pwa?.image_product_width;
+    let defaultHeight = storeConfig?.pwa?.image_product_height;
+
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+
     return (
         <div className={styles.itemContainer}>
             <div className={styles.productImgContainer}>
@@ -15,8 +23,8 @@ const ItemProduct = ({
                     src={image_url}
                     className={styles.productImg}
                     alt={name}
-                    width={imageSize.product.width}
-                    height={imageSize.product.height}
+                    width={defaultWidth}
+                    height={defaultHeight}
                     quality={80}
                 />
             </div>

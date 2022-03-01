@@ -49,6 +49,7 @@ const Content = (props) => {
                     deleteItem={deleteItem}
                     handleFeed={handleFeed}
                     toggleEditDrawer={toggleEditDrawer}
+                    storeConfig={storeConfig}
                 />
                 <CrossSell dataCart={dataCart} {...props} editMode={editMode} View={CrossSellView} />
                 {editItem.id ? (

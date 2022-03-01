@@ -22,7 +22,7 @@ import { setCheckoutData } from '@helper_cookies';
 
 const DetailOrder = (props) => {
     const {
-        t, detail, currency, features, reOrder, returnUrl,
+        t, detail, currency, storeConfig, reOrder, returnUrl,
         paymentInfo,
     } = props;
     const { checkout: { xendit: { paymentPrefixCodeOnSuccess } } } = modules;
@@ -275,7 +275,7 @@ const DetailOrder = (props) => {
                                 <div className="hidden-desktop">
                                     {items.length > 0
                                         && items.map((item, key) => (
-                                            <ItemProduct t={t} key={key} {...item} currency={currency} features={features} />
+                                            <ItemProduct t={t} key={key} {...item} currency={currency} storeConfig={storeConfig} />
                                         ))}
                                 </div>
                                 <div className="hidden-mobile">

@@ -12,16 +12,22 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { formatPrice } from '@helper_currency';
 import Image from '@common_image';
-import { features } from '@config';
 import { SkeletonTable } from '@core_modules/paypal/pages/review/components/Skeleton';
 
 const ListItemCart = (props) => {
     const styles = useStyles();
-    const { t, checkout } = props;
+    const { t, checkout, storeConfig } = props;
     let data = [];
     if (checkout.cart && checkout.cart.items && checkout.cart.items.length > 0) {
         data = checkout.cart.items;
     }
+
+    let defaultWidth = storeConfig?.pwa?.image_product_width;
+    let defaultHeight = storeConfig?.pwa?.image_product_height;
+
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+
     return (
         <div className={classNames('row', styles.containerItem)}>
             <div className={classNames('col-xs-12', styles.labelTitle)}>
@@ -86,8 +92,8 @@ const ListItemCart = (props) => {
                                                                                 src={val.product.small_image.url}
                                                                                 className={styles.productImg}
                                                                                 alt={val.product.name}
-                                                                                width={features.imageSize.product.width}
-                                                                                height={features.imageSize.product.height}
+                                                                                width={defaultWidth}
+                                                                                height={defaultHeight}
                                                                                 quality={80}
                                                                             />
                                                                         </a>

@@ -8,7 +8,9 @@ import Banner from '@common_slick/BannerThumbnail';
 import useStyles from '@core_modules/product/pages/default/components/ModalPopupImage/style';
 
 const PopupImage = (props) => {
-    const { open, setOpen, banner } = props;
+    const {
+        open, setOpen, banner, storeConfig,
+    } = props;
     const styles = useStyles();
     const refZoom = React.createRef();
 
@@ -49,6 +51,7 @@ const PopupImage = (props) => {
                     height={1120}
                     zoom
                     zoomRef={refZoom}
+                    storeConfig={storeConfig}
                 />
             </div>
         </Dialog>

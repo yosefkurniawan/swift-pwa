@@ -28,6 +28,7 @@ const OptionsItemConfig = (props) => {
         Footer,
         setStockStatus,
         stockStatus,
+        storeConfig,
     } = props;
 
     const client = useApolloClient();
@@ -35,7 +36,7 @@ const OptionsItemConfig = (props) => {
     const [selectedProduct, setSelectedProduct] = React.useState({});
     const [qty, setQty] = React.useState(1);
 
-    const configProduct = getConfigurableProduct(sku);
+    const configProduct = getConfigurableProduct(storeConfig, { variables: { sku } });
 
     const [firstSelected, setFirstSelected] = React.useState({});
     const [combination, setCombination] = React.useState({});

@@ -10,7 +10,6 @@ import PaypalButtonView from '@plugin_paypalbutton/view';
 import TagManager from 'react-gtm-module';
 import { getCartId } from '@helper_cartid';
 import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
-import helperCookies from '@helper_cookies';
 import { getLoginInfo } from '@helper_auth';
 import Router from 'next/router';
 
@@ -19,10 +18,11 @@ const PaypalButton = (props) => {
     const appEnv = getAppEnv();
     let cartId = cart ? cart.id : null;
     let isLogin = 0;
+    let storeConfig = {};
 
-    const storeConfig = helperCookies.get(storeConfigNameCookie) || {};
     if (typeof window !== 'undefined' && !cartId) {
         cartId = getCartId();
+        storeConfig = getLocalStorage(storeConfigNameCookie);
     }
 
     if (typeof window !== 'undefined') {
@@ -37,7 +37,7 @@ const PaypalButton = (props) => {
         'data-order-id': '',
         // debug: modules.paypal.debug,
         'disable-funding': modules.paypal.disableFunding,
-        'merchant-id': modules.paypal.merchantId,
+        'merchant-id': storeConfig?.pwa?.paypal_merchant_id,
     });
 
     const [tokenData, setTokenData] = React.useState({});
@@ -61,7 +61,7 @@ const PaypalButton = (props) => {
     };
 
     React.useEffect(() => {
-        if (typeof window !== 'undefined' && modules.paypal.enabled) {
+        if (typeof window !== 'undefined' && storeConfig?.pwa?.paypal_enable) {
             const initialTokenData = getLocalStorage(modules.paypal.keyToken);
             if (!initialTokenData && cartId) {
                 getPaypalToken({
@@ -272,7 +272,7 @@ const PaypalButton = (props) => {
         onShippingChange: onShippingChangePaypal,
         createOrder: createOrderPaypal,
     };
-    if (modules.paypal.enabled) {
+    if (storeConfig?.pwa?.paypal_enable) {
         return (
             <PaypalButtonView
                 {...props}

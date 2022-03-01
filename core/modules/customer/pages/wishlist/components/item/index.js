@@ -9,7 +9,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Delete from '@material-ui/icons/Delete';
 import Link from 'next/link';
 import Image from '@common_image';
-import { features } from '@config';
 import { setResolver, getResolver } from '@helper_localstorage';
 import useStyles from '@core_modules/customer/pages/wishlist/components/item/style';
 
@@ -17,8 +16,10 @@ const WishlistComp = ({
     price_range, price_tiers, __typename, imageSrc,
     name, wishlistItemId, t, sku, url_key,
     handleRemove, handleToCart, special_from_date, special_to_date,
+    storeConfig,
 }) => {
     const styles = useStyles();
+
     const [openDelete, setOpenDelete] = React.useState(false);
     const handleDelete = () => {
         handleRemove({ wishlistItemId });
@@ -36,6 +37,13 @@ const WishlistComp = ({
         };
         await setResolver(urlResolver);
     };
+
+    let defaultWidth = storeConfig?.pwa?.image_product_width;
+    let defaultHeight = storeConfig?.pwa?.image_product_height;
+
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+
     return (
         <>
             <ConfirmationDelete
@@ -50,8 +58,8 @@ const WishlistComp = ({
                         src={imageSrc}
                         className={styles.productImg}
                         alt={name}
-                        width={features.imageSize.product.width}
-                        height={features.imageSize.product.height}
+                        width={defaultWidth}
+                        height={defaultHeight}
                         quality={80}
                     />
                 </div>

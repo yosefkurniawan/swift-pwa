@@ -7,22 +7,22 @@ const defaultConfig = {
 
 };
 
-export const getProduct = (urlpath, options = {}) => useQuery(Schema.getProduct(urlpath), {
+export const getProduct = (config = {}, options = {}) => useQuery(Schema.getProduct(config), {
     ...defaultConfig,
     ...options,
 });
 
-export const getProductLabel = (urlpath, options = {}) => useQuery(Schema.getProductLabel(urlpath), {
+export const getProductLabel = (config = {}, options = {}) => useQuery(Schema.getProductLabel(config), {
     ...defaultConfig,
     ...options,
 });
 
-export const getRelatedProduct = (urlpath, options = {}) => useQuery(Schema.getRelatedProduct(urlpath), {
+export const getRelatedProduct = (config, options = {}) => useQuery(Schema.getRelatedProduct(config), {
     ...defaultConfig,
     ...options,
 });
 
-export const getUpsellProduct = (urlpath, options = {}) => useQuery(Schema.getUpsellProduct(urlpath), {
+export const getUpsellProduct = (config = {}, options = {}) => useQuery(Schema.getUpsellProduct(config), {
     ...defaultConfig,
     ...options,
 });
@@ -41,7 +41,7 @@ export const smartProductTabs = (params) => useLazyQuery(Schema.smartProductTabs
     fetchPolicy: 'cache-and-network',
 });
 
-export const getProductBySku = (params) => useQuery(Schema.getProductBySku(), {
+export const getProductBySku = (config, params) => useQuery(Schema.getProductBySku(config), {
     ...params,
     ...defaultConfig,
     context: {
@@ -67,8 +67,9 @@ export const addWishlist = () => useMutation(Schema.addWishlist, {
     },
 });
 
-export const getConfigurableProduct = (sku) => useQuery(Schema.getConfigurableProduct(sku), {
+export const getConfigurableProduct = (config = {}, params = {}) => useQuery(Schema.getConfigurableProduct(config), {
     ...defaultConfig,
+    ...params,
 });
 export const getBundleProduct = (sku) => useQuery(Schema.getBundleProduct(sku), {
     ...defaultConfig,
@@ -76,10 +77,9 @@ export const getBundleProduct = (sku) => useQuery(Schema.getBundleProduct(sku), 
 export const getDownloadroduct = (sku) => useQuery(Schema.getDownloadProduct(sku), {
     ...defaultConfig,
 });
-export const getGroupedProduct = (sku) => useQuery(Schema.getGroupedProduct, {
-    variables: { sku },
-    skip: !sku,
+export const getGroupedProduct = (config = {}, params = {}) => useQuery(Schema.getGroupedProduct(config), {
     ...defaultConfig,
+    ...params,
 });
 
 // actions add to cart

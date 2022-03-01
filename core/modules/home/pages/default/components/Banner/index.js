@@ -41,7 +41,7 @@ const BannerSlider = (props) => {
         }));
         return (
             <>
-                <BannerView logoUrl={logoUrl} images={bannerImages} />
+                <BannerView logoUrl={logoUrl} images={bannerImages} storeConfig={storeConfig} />
             </>
         );
     }

@@ -10,7 +10,7 @@ import Router from 'next/router';
 import { useState } from 'react';
 import useStyles from '@core_modules/theme/components/bottom-navigation/mobile/style';
 
-const Navigation = ({ active }) => {
+const Navigation = ({ active, ...other }) => {
     const styles = useStyles();
     const [openModal, setOpenModal] = useState(false);
     const handleOpenModal = (val) => {
@@ -19,7 +19,7 @@ const Navigation = ({ active }) => {
     if (active) {
         return (
             <>
-                <BrowseModal open={openModal} setOpenModal={handleOpenModal} />
+                <BrowseModal open={openModal} setOpenModal={handleOpenModal} {...other} />
                 <BottomNavigation
                     className={styles.navigation}
                     value={active}

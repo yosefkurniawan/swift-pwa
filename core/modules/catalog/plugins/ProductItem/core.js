@@ -1,4 +1,4 @@
-import { modules, debuging } from '@config';
+import { debuging, modules } from '@config';
 import { getLoginInfo } from '@helper_auth';
 import { setCookies, getCookies } from '@helper_cookies';
 import { useTranslation } from '@i18n';
@@ -22,9 +22,6 @@ import CustomizableOption from '@plugin_customizableitem';
 import ModalQuickView from '@plugin_productitem/components/QuickView';
 import WeltpixelLabel from '@plugin_productitem/components/WeltpixelLabel';
 
-// graphql
-import { productListConfig } from '@services/graphql/repository/pwa_config';
-
 const ProductItem = (props) => {
     const {
         id,
@@ -43,7 +40,7 @@ const ProductItem = (props) => {
         weltpixel_labels,
         ...other
     } = props;
-    const { storeConfig } = props;
+    const { storeConfig = {} } = props;
     const styles = useStyles();
     const { t } = useTranslation(['catalog', 'common']);
     const [feed, setFeed] = React.useState(false);
@@ -60,20 +57,6 @@ const ProductItem = (props) => {
     if (storeConfig && storeConfig.pwa) {
         pwaConfig = storeConfig.pwa;
     }
-
-    const [getPwaConfig, { data: dataPwaConfig, loading: loadingPwaConfig }] = productListConfig();
-
-    if (!loadingPwaConfig && dataPwaConfig && dataPwaConfig.storeConfig && dataPwaConfig.storeConfig.pwa) {
-        pwaConfig = {
-            ...dataPwaConfig.storeConfig.pwa,
-        };
-    }
-
-    React.useEffect(() => {
-        if (!storeConfig || !storeConfig.pwa) {
-            getPwaConfig();
-        }
-    }, [storeConfig]);
 
     React.useEffect(() => {
         if (errorCustomizableOptions && errorCustomizableOptions.length > 0) {
@@ -304,6 +287,7 @@ const ProductItem = (props) => {
                         data={dataDetailProduct?.products}
                         t={t}
                         weltpixel_labels={weltpixel_labels}
+                        storeConfig={storeConfig}
                     />
                 )}
                 <div className={classNames(styles.itemContainer, 'item-product', className, showQuickView ? styles.quickView : '')}>
@@ -387,7 +371,13 @@ const ProductItem = (props) => {
             <div className={classNames(styles.listContainer, className, showQuickView ? styles.quickView : '')}>
                 <div className="row start-xs">
                     <div className="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                        <div className={styles.listImgItem}>
+                        <div
+                            className={styles.listImgItem}
+                            style={{
+                                width: pwaConfig?.image_product_width,
+                                height: pwaConfig?.image_product_height,
+                            }}
+                        >
                             {pwaConfig.label_enable && LabelView ? (
                                 <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
                             ) : null}

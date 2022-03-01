@@ -24,8 +24,6 @@ const graphqlEndpoint = {
 /* FEATURES CONFIGURATION
 /* --------------------------------------- */
 
-const installMessage = 'Get our free app.';
-
 /* Password Validator */
 const passwordStrength = {
     minValue: 8,
@@ -111,7 +109,6 @@ const localResolverKey = 'resolver';
 
 const keyLocalStorage = {
     home: 'homePageConfig',
-    slugConfig: 'slugPageConfig',
 };
 
 const features = {
@@ -143,54 +140,6 @@ const features = {
         DownloadableProduct: false,
         AwGiftCardProduct: true,
     },
-    imageSize: {
-        product: {
-            width: 240,
-            height: 300,
-        },
-        homeSlider: {
-            mobile: {
-                width: 960,
-                height: 1120,
-            },
-            desktop: {
-                width: 1800,
-                height: 750,
-            },
-        },
-        magezonSlider: {
-            mobile: {
-                width: 1800,
-                height: 750,
-            },
-            desktop: {
-                width: 1800,
-                height: 750,
-            },
-        },
-        category: {
-            width: 960,
-            height: 577,
-        },
-        promoBannerLite: {
-            top: {
-                width: 1300,
-            },
-            label: {
-                width: 350,
-            },
-            after: {
-                width: 350,
-            },
-        },
-    },
-    vesMenu: {
-        enabled: true,
-        alias: 'top-menu',
-    },
-    customInstallApp: {
-        enabled: true,
-    },
     firebase: {
         config: {
             apiKey: '', // sample: AIzaSyCt9ks21BjiE9qirv-8xOEcUnUnH6viobw
@@ -218,16 +167,12 @@ const features = {
     globalPromo: {
         key_cookies: 'global_promo_enable',
     },
-    footer: {
-        desktop: 'pwa_footer',
-        mobile: 'pwa_footer',
-    },
 };
 
 const modules = {
     product: {
         customizableOptions: {
-            enabled: false,
+            enabled: true,
             availableOptions: {
                 CustomizableAreaOption: true,
                 CustomizableDateOption: true,
@@ -273,34 +218,6 @@ const modules = {
     catalog: {
         enabled: true,
         productListing: {
-            pageSize: 10,
-            drawerFilterOnDesktop: {
-                enabled: false, // used if need to desktop view on large screen
-            },
-            label: {
-                enabled: false,
-                new: {
-                    enabled: false,
-                },
-                sale: {
-                    enabled: false,
-                },
-                weltpixel: {
-                    enabled: false,
-                },
-            },
-            configurableOptions: {
-                enabled: false,
-            },
-            rating: {
-                enabled: false,
-            },
-            addToCart: {
-                enabled: false,
-            },
-            quickView: {
-                enabled: true,
-            },
             sort: {
                 relevance: true,
                 position: true,
@@ -316,11 +233,6 @@ const modules = {
                 toprated: true,
                 featured: true,
                 free: true,
-            },
-        },
-        pdp: {
-            popupDetailImage: {
-                enabled: true,
             },
         },
     },
@@ -378,7 +290,6 @@ const modules = {
         },
     },
     paypal: {
-        enabled: false,
         path: '/paypal',
         clientId: {
             local: 'AfcrKzLRhgwpdBWbK8owz2Vv_gYyPUbwzOuOAgz1BfBqvGle_omyRPX4jTZrDpOkfO-jRBc_2YyxEJM2',
@@ -392,14 +303,11 @@ const modules = {
             prod: '',
             stage: '',
         },
-        defaultCurrency: 'USD',
         intent: 'authorize',
         returnUrl: 'paypal/express/review',
         cancelUrl: 'checkout/cart',
         keyData: 'paypal-data',
         keyToken: 'paypal-token',
-        merchantId: 'M4TYHSS9A9Z8C',
-        debug: true,
         disableFunding: 'venmo%2Cbancontact%2Ceps%2Cgiropay%2Cideal%2Cmybank%2Cp24%2Csofort',
     },
     cart: {
@@ -500,20 +408,6 @@ const modules = {
     },
     home: {
         enabled: true,
-        categoryList: {
-            enable: true,
-            url_key: 'homepage-featured-categories',
-            imageSize: {
-                mobile: {
-                    width: 960,
-                    height: 577,
-                },
-                desktop: {
-                    width: 404,
-                    height: 465,
-                },
-            },
-        },
     },
     promo: {
         enabled: true,
@@ -595,7 +489,6 @@ module.exports = {
     features,
     nossrCache,
     modules,
-    installMessage,
     localResolverKey,
     useMagentoCommerce,
     rollbar,

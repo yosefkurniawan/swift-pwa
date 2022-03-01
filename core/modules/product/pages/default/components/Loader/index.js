@@ -9,7 +9,9 @@ import dynamic from 'next/dynamic';
 const Banner = dynamic(() => import('@common_slick/BannerThumbnail'), { ssr: false });
 
 const SkeletonLoader = (props) => {
-    const { name, price, banner } = props;
+    const {
+        name, price, banner, storeConfig,
+    } = props;
     const styles = useStyles();
 
     return (
@@ -68,6 +70,7 @@ const SkeletonLoader = (props) => {
                         width={960}
                         height={1120}
                         customProduct={styles.bannerProduct}
+                        storeConfig={storeConfig}
                     />
                 ) : (
                     <Skeleton

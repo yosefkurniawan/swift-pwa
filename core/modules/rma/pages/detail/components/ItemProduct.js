@@ -3,17 +3,22 @@ import { formatPrice } from '@helper_currency';
 import React from 'react';
 import { useTranslation } from '@i18n';
 import Image from '@common_image';
-import { features } from '@config';
 import useStyles from '@core_modules/rma/pages/detail/components/styles';
 
 const ItemProduct = (props) => {
     const {
         name, qty_rma, price_incl_tax, image_url,
-        currency = 'IDR', custom_fields,
+        currency = 'IDR', custom_fields, storeConfig = {},
     } = props;
     const { t } = useTranslation(['return']);
-    const { imageSize } = features;
     const styles = useStyles();
+
+    let defaultWidth = storeConfig?.pwa?.image_product_width;
+    let defaultHeight = storeConfig?.pwa?.image_product_height;
+
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+
     return (
         <div className="column">
             <div className={styles.itemContainer}>
@@ -22,8 +27,8 @@ const ItemProduct = (props) => {
                         src={image_url}
                         className={styles.productImg}
                         alt={name}
-                        width={imageSize.product.width}
-                        height={imageSize.product.height}
+                        width={defaultWidth}
+                        height={defaultHeight}
                         quality={80}
                     />
                 </div>

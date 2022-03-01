@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-len */
 /* eslint-disable no-nested-ternary */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-return-assign */
 
@@ -10,7 +9,6 @@ import React, { useRef, useState } from 'react';
 import Slider from 'react-slick';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { generateThumborUrl, getImageFallbackUrl } from '@helpers/image';
-import { features } from '@config';
 import { getStoreHost } from '@helpers/config';
 import MagezonHeading from '@core_modules/cms/components/cms-renderer/magezon/MagezonHeading';
 import LeftArrowIcon from '@material-ui/icons/ChevronLeft';
@@ -50,13 +48,13 @@ const VideoContent = (props) => {
 
 const MagezonSliderContent = (props) => {
     const {
-        heading, heading_animation, heading_animation_delay, heading_bg_color,
+        heading, heading_animation, heading_bg_color,
         heading_color, heading_font_size, heading_line_height,
         heading_padding, heading_font_weight, heading_type,
-        caption1, caption1_animation, caption1_animation_delay, caption1_bg_color,
+        caption1, caption1_animation, caption1_bg_color,
         caption1_color, caption1_font_size, caption1_font_weight,
         caption1_line_height, caption1_padding, caption1_type,
-        caption2, caption2_animation, caption2_animation_delay, caption2_bg_color,
+        caption2, caption2_animation, caption2_bg_color,
         caption2_color, caption2_font_size, caption2_font_weight,
         caption2_line_height, caption2_padding, caption2_type,
         content_align, content_padding, content_position,
@@ -65,9 +63,6 @@ const MagezonSliderContent = (props) => {
         image, background_type, slider_height,
     } = props;
     const mediaUrl = `${getStoreHost()}media`;
-    const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('sm'));
-    const slideHeight = features.imageSize.magezonSlider[isDesktop ? 'desktop' : 'mobile'].height;
-    const slideWidth = features.imageSize.magezonSlider[isDesktop ? 'desktop' : 'mobile'].width;
     const getImgThumbor = generateThumborUrl(`${mediaUrl}/${image}`, 0, 0);
 
     return (
@@ -254,17 +249,21 @@ const useHoverStyle = (hoverEffect) => {
 const MagezonSlider = (props) => {
     const {
         items, image_hover_effect, content_position,
-        owl_nav, owl_dots, owl_lazyLoad, owl_loop, owl_autoplay, owl_autoplay_timeout, owl_rtl,
+        owl_nav, owl_lazyLoad, owl_loop, owl_autoplay, owl_autoplay_timeout, owl_rtl,
         owl_nav_size, owl_nav_position, owl_animate_in, owl_animate_out,
         owl_active_background_color, owl_background_color, owl_color,
         owl_hover_background_color, owl_hover_color,
-        owl_dots_insie, slider_height,
+        owl_dots_insie, slider_height, storeConfig,
     } = props;
-    const [slideIndex, setSlideIndex] = useState(0);
+    const [, setSlideIndex] = useState(0);
     const { unhoverStyle, hoverStyle } = useHoverStyle(image_hover_effect);
     const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('sm'));
-    const slideHeight = features.imageSize.magezonSlider[isDesktop ? 'desktop' : 'mobile'].height;
-    const slideWidth = features.imageSize.magezonSlider[isDesktop ? 'desktop' : 'mobile'].width;
+
+    let slideHeight = isDesktop ? storeConfig.pwa?.magezon_slider_desktop_height : storeConfig.pwa?.magezon_slider_mobile_height;
+    let slideWidth = isDesktop ? storeConfig.pwa?.magezon_slider_desktop_width : storeConfig.pwa?.magezon_slider_mobile_width;
+    slideHeight = (typeof slideHeight === 'string') ? parseInt(slideHeight, 0) : slideHeight;
+    slideWidth = (typeof slideWidth === 'string') ? parseInt(slideWidth, 0) : slideWidth;
+
     const navSize = owl_nav_size === 'mini' ? 10 : owl_nav_size === 'small' ? 15 : owl_nav_size === 'normal' ? 20 : 25;
     let sliderRef = useRef();
 

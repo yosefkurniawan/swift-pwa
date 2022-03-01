@@ -15,7 +15,7 @@ export const getSlider = (options = {}) => useQuery(Schema.getSlider, {
     ...options,
 });
 
-export const getFeaturedProducts = (options = {}) => useQuery(Schema.getFeaturedProducts, {
+export const getFeaturedProducts = (options = {}, config = {}) => useQuery(Schema.getFeaturedProducts(config), {
     fetchPolicy,
     ...options,
 });
