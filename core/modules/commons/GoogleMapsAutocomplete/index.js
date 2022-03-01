@@ -139,7 +139,7 @@ const IcubeMapsAutocomplete = (props) => {
     useEffect(() => {
         if (formik !== false) {
             if (!!formik.values.village && !!formik.values.district && !!formik.values.city && !!formik.values.region) {
-                fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formik.values.village.label}+${formik.values.district.label}+${formik.values.city.label}+${formik.values.region.name}&language=id&key=AIzaSyAsE5tvjrOes4cyL0jpUEtLKMVY65rAwgQ`)
+                fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formik.values.village.label}+${formik.values.district.label}+${formik.values.city.label}+${formik.values.region.name}&language=id&key=${gmapKey}`)
                     .then((response) => response.json())
                     .then((responseData) => {
                         if (responseData.results.length > 0) {
