@@ -10,10 +10,11 @@ const useStyles = makeStyles({
 
 const CustomHeader = (props) => {
     const styles = useStyles();
+    const { storeConfig } = props;
     return (
         <Header
             RightComponent={(
-                <ShoppingBagIcon withLink />
+                <ShoppingBagIcon withLink storeConfig={storeConfig} />
             )}
             className={styles.container}
             {...props}

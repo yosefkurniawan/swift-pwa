@@ -6,7 +6,7 @@ import * as Schema from '@core_modules/cart/services/graphql/schema';
 
 const MiniCart = (props) => {
     const {
-        Content, open, setOpen, count, t,
+        Content, open, setOpen, count, t, storeConfig,
     } = props;
     const [cart, setCart] = React.useState({ items: [] });
     const [errorCart, setErrorCart] = React.useState(false);
@@ -166,6 +166,7 @@ const MiniCart = (props) => {
             updateCart={updateCart}
             errorCart={errorCart}
             t={t}
+            storeConfig={storeConfig}
         />
     );
 };

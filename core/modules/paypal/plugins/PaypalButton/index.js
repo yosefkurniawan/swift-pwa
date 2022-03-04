@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 import React from 'react';
-import { modules, storeConfigNameCookie } from '@config';
+import { modules } from '@config';
 import { getAppEnv } from '@helpers/env';
 import {
     setPaypalPaymentMethod, createPaypalExpressToken, setShippingAddressByInput, setBillingAddressByInput,
@@ -14,15 +14,13 @@ import { getLoginInfo } from '@helper_auth';
 import Router from 'next/router';
 
 const PaypalButton = (props) => {
-    const { t, cart } = props;
+    const { t, cart, storeConfig } = props;
     const appEnv = getAppEnv();
     let cartId = cart ? cart.id : null;
     let isLogin = 0;
-    let storeConfig = {};
 
     if (typeof window !== 'undefined' && !cartId) {
         cartId = getCartId();
-        storeConfig = getLocalStorage(storeConfigNameCookie);
     }
 
     if (typeof window !== 'undefined') {

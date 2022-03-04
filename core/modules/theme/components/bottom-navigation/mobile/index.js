@@ -16,6 +16,9 @@ const Navigation = ({ active, ...other }) => {
     const handleOpenModal = (val) => {
         setOpenModal(val);
     };
+
+    const { storeConfig } = other;
+
     if (active) {
         return (
             <>
@@ -63,7 +66,7 @@ const Navigation = ({ active, ...other }) => {
                     <BottomNavigationAction
                         label="Cart"
                         value="cart"
-                        icon={<ShoppingBagIcon />}
+                        icon={<ShoppingBagIcon storeConfig={storeConfig} />}
                         classes={{
                             label: 'hide',
                             root: styles.navAction,

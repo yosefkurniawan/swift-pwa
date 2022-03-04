@@ -14,7 +14,9 @@ import { getCountCart } from '@core_modules/cart/services/graphql';
 
 const MiniCart = dynamic(() => import('@plugin_minicart'), { ssr: false });
 
-const ShoppingBagIcon = ({ withLink, WihtLinkView, WithoutLinkView }) => {
+const ShoppingBagIcon = ({
+    withLink, WihtLinkView, WithoutLinkView, storeConfig,
+}) => {
     let isLogin = 0;
     let cartId = '';
     const [open, setOpen] = React.useState(false);
@@ -62,7 +64,8 @@ const ShoppingBagIcon = ({ withLink, WihtLinkView, WithoutLinkView }) => {
     if (withLink) {
         return (
             <>
-                {typeof window !== 'undefined' ? <MiniCart open={open} setOpen={() => setOpen(!open)} count={cartData} /> : null}
+                {typeof window !== 'undefined'
+                    ? <MiniCart storeConfig={storeConfig} open={open} setOpen={() => setOpen(!open)} count={cartData} /> : null}
                 <WihtLinkView
                     cartData={cartData}
                     handleLink={handleLink}
@@ -72,7 +75,8 @@ const ShoppingBagIcon = ({ withLink, WihtLinkView, WithoutLinkView }) => {
     }
     return (
         <>
-            {typeof window !== 'undefined' && cartData > 0 ? <MiniCart open={open} setOpen={() => setOpen(!open)} count={cartData} /> : null}
+            {typeof window !== 'undefined' && cartData > 0
+                ? <MiniCart storeConfig={storeConfig} open={open} setOpen={() => setOpen(!open)} count={cartData} /> : null}
             <WithoutLinkView cartData={cartData} />
         </>
     );

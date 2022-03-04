@@ -22,7 +22,7 @@ const Summary = (props) => {
         t, summary, handleActionSummary = () => { }, loading, disabled,
         showItems = false, items = [], hideButton = false, isDesktop,
         isLoader, deleteCart, updateCart, withAction, withLabel = true,
-        labelItemAlign = 'left', dataCart,
+        labelItemAlign = 'left', dataCart, storeConfig,
     } = props;
     const styles = useStyles();
     const [openItem, setOpenItem] = React.useState(false);
@@ -185,7 +185,7 @@ const Summary = (props) => {
                 {
                     !hideButton && dataCart && (
                         <div className={styles.paypalBtn}>
-                            <PaypalButtonView cart={dataCart} t={t} />
+                            <PaypalButtonView cart={dataCart} t={t} storeConfig={storeConfig} />
                         </div>
                     )
                 }

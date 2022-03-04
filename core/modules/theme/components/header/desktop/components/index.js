@@ -82,7 +82,7 @@ const ViewTopNavigation = (props) => {
                                         </div>
                                     )}
                                     <div className="shopping-bag">
-                                        <ShoppingBagIcon withLink />
+                                        <ShoppingBagIcon withLink storeConfig={storeConfig} />
                                     </div>
                                 </div>
                                 <div className="header-middle__search">
