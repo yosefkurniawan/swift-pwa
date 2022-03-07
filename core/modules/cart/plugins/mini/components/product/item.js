@@ -9,9 +9,12 @@ import { useTranslation } from '@i18n';
 const Item = (props) => {
     const {
         quantity, prices, product, deleteCart, updateCart, id, configurable_options, bundle_options, customizable_options,
+        SimpleMiniCustomizable, ConfigurableMiniCustomizable,
         aw_giftcard_option,
     } = props;
     const { t } = useTranslation(['common']);
+    const cartCustomOptions = SimpleMiniCustomizable || ConfigurableMiniCustomizable || customizable_options;
+
     return (
         <li>
             <div className="product">
@@ -63,9 +66,9 @@ const Item = (props) => {
                             ))}
                         </div>
                     ) : null}
-                    {customizable_options && customizable_options.length ? (
+                    {cartCustomOptions && cartCustomOptions.length ? (
                         <div className="product-options">
-                            {customizable_options.map((val, idx) => (
+                            {cartCustomOptions.map((val, idx) => (
                                 <div className="option-wrapper" key={idx}>
                                     <div className="row option-wrapper__item">
                                         <strong>

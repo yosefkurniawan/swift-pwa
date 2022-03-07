@@ -602,6 +602,7 @@ export const getConfigurableProduct = (sku) => {
               }
             }
             attributes {
+              uid
               label
               code
               value_index
