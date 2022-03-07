@@ -16,6 +16,7 @@ import Content from '@core_modules/theme/components/header/desktop/components';
 const CoreTopNavigation = (props) => {
     const {
         dataVesMenu: propsVesMenu, storeConfig, t, app_cookies, isLogin, showGlobalPromo,
+        enablePopupInstallation, installMessage,
     } = props;
     let data = propsVesMenu;
     let loading = !propsVesMenu;
@@ -95,6 +96,8 @@ const CoreTopNavigation = (props) => {
             app_cookies={app_cookies}
             showGlobalPromo={showGlobalPromo}
             modules={modules}
+            enablePopupInstallation={enablePopupInstallation}
+            installMessage={installMessage}
         />
     );
 };

@@ -234,7 +234,7 @@ const Layout = (props) => {
                     ))
                     : null}
                 {
-                    storeConfig.custom_install_app_enable && <script src={`/static/firebase/install.${assetsVersion}.js`} defer />
+                    showPopup && <script src={`/static/firebase/install.${assetsVersion}.js`} defer />
                 }
             </Head>
             {showPopup ? <PopupInstallAppMobile appName={appName} installMessage={installMessage} /> : null}
@@ -248,7 +248,6 @@ const Layout = (props) => {
                                 storeConfig={storeConfig}
                                 showGlobalPromo={showGlobalPromo}
                                 handleClose={handleClosePromo}
-                                enablePopupInstallation={showPopup}
                                 appName={appName}
                                 installMessage={installMessage}
                             />

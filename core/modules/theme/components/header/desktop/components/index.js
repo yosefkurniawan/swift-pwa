@@ -34,6 +34,7 @@ const ViewTopNavigation = (props) => {
         installMessage = 'Install',
         enablePopupInstallation = false,
     } = props;
+
     return (
         <div id="header">
             <div className="row header-top">
