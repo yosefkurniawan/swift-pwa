@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable radix */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
@@ -13,7 +14,8 @@ import CheckBoxSize from '@common_forms/CheckBoxSize';
 import CheckBoxColor from '@common_forms/CheckBoxColor';
 import RadioGroup from '@common_radio';
 import Skeleton from '@common_skeleton';
-import useStyles from '@plugin_productlist/components/Filter/style';
+import Button from '@common_button';
+import useStyles from '@plugin_productlist/components/FilterDesktop/style';
 
 let globalTimeout = null;
 
@@ -35,6 +37,7 @@ const ViewFilter = (props) => {
         onChangeTabs,
         isSearch,
         filter,
+        storeConfig,
     } = props;
     const styles = useStyles();
     const checkedFilter = (field, value) => {
@@ -57,15 +60,15 @@ const ViewFilter = (props) => {
         }, 1000);
     };
 
-    const setPrice = (value) => {
-        if (globalTimeout) {
-            clearTimeout(globalTimeout);
-        }
-        setPriceRange(value);
-        globalTimeout = setTimeout(() => {
-            handleSave();
-        }, 1000);
-    };
+    // const setPrice = (value) => {
+    //     if (globalTimeout) {
+    //         clearTimeout(globalTimeout);
+    //     }
+    //     setPriceRange(value);
+    //     globalTimeout = setTimeout(() => {
+    //         handleSave();
+    //     }, 1000);
+    // };
     const generateFilter = (data, itemFilter, idx) => {
         const ItemValueByLabel = [];
         // eslint-disable-next-line no-plusplus
@@ -86,17 +89,20 @@ const ViewFilter = (props) => {
                             label={itemFilter.label}
                             maxValue={parseInt(itemFilter.value[itemFilter.value.length - 1].value)}
                             value={price}
-                            onChange={
-                                itemProps.priceRangeChange
-                                || setPrice
-                            }
+                            onChange={itemProps.priceRangeChange || setPriceRange}
+                            storeConfig={storeConfig}
                         />
+                        <Button className={styles.btnSavePrice} onClick={handleSave}>
+                            {t('catalog:button:save')}
+                        </Button>
                     </div>
                 );
-            } if (itemFilter.field === 'color') {
+            }
+            if (itemFilter.field === 'color') {
                 return (
                     <div key={idx}>
                         <CheckBox
+                            className={styles.checkboxCustom}
                             name={itemFilter.field}
                             noLabel
                             label={itemFilter.label || t('catalog:title:color')}
@@ -108,10 +114,12 @@ const ViewFilter = (props) => {
                         />
                     </div>
                 );
-            } if (itemFilter.field === 'size') {
+            }
+            if (itemFilter.field === 'size') {
                 return (
                     <div key={idx}>
                         <CheckBox
+                            className={styles.checkboxCustom}
                             name={itemFilter.field}
                             noLabel
                             label={itemFilter.label || t('catalog:title:size')}
@@ -123,10 +131,28 @@ const ViewFilter = (props) => {
                         />
                     </div>
                 );
-            } if ((itemFilter.field === 'cat' || itemFilter.field === 'category_id') && !isSearch) {
+            }
+            if ((itemFilter.field === 'cat' || itemFilter.field === 'category_id') && !isSearch) {
                 return (
-                    <span key={idx} />
+                    <div className={styles.listCategoryWrapper}>
+                        {itemFilter.value.map((val, ids) => {
+                            if (val !== 'attribute_set_id') {
+                                return (
+                                    <span onClick={(e) => onChangeTabs(e, ids + 1)} className={styles.listCategory} key={ids}>
+                                        <Typography variant="span" letter="capitalize">
+                                            {`${val.label.replace(/_/g, ' ')} (${val.count})`}
+                                        </Typography>
+                                    </span>
+                                );
+                            }
+
+                            return null;
+                        })}
+                    </div>
                 );
+            }
+            if ((itemFilter.field === 'cat' || itemFilter.field === 'category_id') && !isSearch) {
+                return <span key={idx} />;
             }
             return (
                 <div key={idx}>
@@ -140,17 +166,16 @@ const ViewFilter = (props) => {
                             flex="column"
                             onChange={(val) => checkedFilter(itemFilter.field, val)}
                         />
-                    )
-                        : (
-                            <RadioGroup
-                                noLabel
-                                name={itemFilter.field}
-                                label={itemFilter.label || ''}
-                                valueData={itemFilter.value || []}
-                                value={selectedFilter[itemFilter.field]}
-                                onChange={(value) => selectFilter(itemFilter.field, value)}
-                            />
-                        )}
+                    ) : (
+                        <RadioGroup
+                            noLabel
+                            name={itemFilter.field}
+                            label={itemFilter.label || ''}
+                            valueData={itemFilter.value || []}
+                            value={selectedFilter[itemFilter.field]}
+                            onChange={(value) => selectFilter(itemFilter.field, value)}
+                        />
+                    )}
                 </div>
             );
         }
@@ -161,11 +186,7 @@ const ViewFilter = (props) => {
             {loading ? <Skeleton variant="rect" width="100%" height={705} /> : null}
             {tabs && tabs.length > 0 ? (
                 <Accordion>
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
-                    >
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                         <Typography className={styles.heading}>{t('catalog:title:category')}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
@@ -187,35 +208,22 @@ const ViewFilter = (props) => {
                     </AccordionDetails>
                 </Accordion>
             ) : null}
-
-            {filter.map((itemFilter, idx) => {
-                if ((itemFilter.field === 'cat' || itemFilter.field === 'category_id' || itemFilter.field === 'attribute_set_id') && !isSearch) {
+            {filter
+                && filter.map((itemFilter, idx) => {
+                    if ((itemFilter.field === 'cat' || itemFilter.field === 'attribute_set_id') && !isSearch) {
+                        return <span key={idx} />;
+                    }
                     return (
-                        <span key={idx} />
+                        <Accordion key={idx} defaultExpanded={typeof selectedFilter[itemFilter.field] !== 'undefined'}>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                                <Typography className={styles.heading} variant="span" letter="capitalize">
+                                    {itemFilter.label.replace(/_/g, ' ')}
+                                </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>{generateFilter(filter, itemFilter, idx)}</AccordionDetails>
+                        </Accordion>
                     );
-                }
-                return (
-                    <Accordion key={idx} defaultExpanded={typeof selectedFilter[itemFilter.field] !== 'undefined'}>
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1a-content"
-                            id="panel1a-header"
-                        >
-                            <Typography
-                                className={styles.heading}
-                                variant="span"
-                                letter="capitalize"
-                            >
-                                {itemFilter.label.replace(/_/g, ' ')}
-                            </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            {generateFilter(filter, itemFilter, idx)}
-                        </AccordionDetails>
-                    </Accordion>
-                );
-            })}
-
+                })}
         </div>
     );
 };
