@@ -23,4 +23,6 @@ export const addWishlist = () => useMutation(productSchema.addWishlist, {
 export const getDetailProduct = (config = {}) => useLazyQuery(productSchema.getDetailProduct(config), {
 });
 
+export const getPwaConfig = () => useQuery(schemaCategory.configpwa);
+
 export default { getCategory, getCategoryProducts };

@@ -65,10 +65,7 @@ const Slug = (props) => {
 };
 
 const SlugContainer = (props) => {
-    const {
-        slugPageConfig, storeConfig, ...other
-    } = props;
-    const { slug } = props;
+    const { slug, storeConfig } = props;
     let localResolver;
     if (typeof window !== 'undefined') {
         const contentProps = { slug, storeConfig };
@@ -81,10 +78,10 @@ const SlugContainer = (props) => {
         const resolver = localResolver[key];
         if (resolver && resolver.type) {
             resolver.relative_url = key;
-            return <ContainerResolver resolver={resolver} {...other} contentProps={contentProps} />;
+            return <ContainerResolver resolver={resolver} {...props} contentProps={contentProps} />;
         }
     }
-    return <Slug {...other} storeConfig={storeConfig} />;
+    return <Slug {...props} />;
 };
 
 export default SlugContainer;

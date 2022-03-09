@@ -106,6 +106,7 @@ const Filter = (props) => {
                 openFilter={openFilter}
                 setOpenFilter={setOpenFilter}
                 isSearch={isSearch}
+                filter={filter}
                 {...ModalProps}
                 {...other}
             />

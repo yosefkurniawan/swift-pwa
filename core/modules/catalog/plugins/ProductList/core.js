@@ -29,15 +29,8 @@ const Product = (props) => {
         pageSize: 8,
         currentPage: 1,
         filter: [],
+        ...storeConfig.pwa,
     };
-
-    let pwaConfig = {};
-
-    if (storeConfig && storeConfig.pwa) {
-        pwaConfig = {
-            ...storeConfig.pwa,
-        };
-    }
 
     // set default sort when there is no sort in query
     if (defaultSort && !query.sort) {
@@ -80,14 +73,9 @@ const Product = (props) => {
         };
     }
 
-    config = {
-        ...config,
-        ...pwaConfig,
-    };
-
     const { loading, data, fetchMore } = getProduct(config, {
         variables: {
-            pageSize: (typeof pwaConfig.page_size === 'string' ? parseInt(pwaConfig.page_size, 0) : pwaConfig.page_size) || 10,
+            pageSize: parseInt(storeConfig.pwa.page_size, 0) || 10,
             currentPage: 1,
         },
         context,
@@ -120,21 +108,20 @@ const Product = (props) => {
         return <ErrorMessage variant="warning" text={t('catalog:emptyProductSearchResult')} open />;
     };
 
-    if (typeof window !== 'undefined') console.log('pageoutsite', page);
-
-    const handleLoadMore = async (currentPage = page) => {
-        const pageSize = (typeof pwaConfig.page_size === 'string' ? parseInt(pwaConfig.page_size, 0) : pwaConfig.page_size) || 10;
+    const handleLoadMore = async () => {
+        const pageSize = storeConfig.pwa ? parseInt(storeConfig?.pwa?.page_size, 0) : 10;
         setFilterSaved(false);
         try {
             const totalProduct = products && products.total_count ? products.total_count : 0;
             const totalPage = Math.ceil(totalProduct / pageSize);
             if (fetchMore && typeof fetchMore !== 'undefined' && page < totalPage) {
                 await setLoadmore(true);
+                setPage(page + 1);
                 fetchMore({
-                    query: Schema.getProduct({ ...config, currentPage }),
+                    query: Schema.getProduct({ ...config, currentPage: page + 1 }),
                     variables: {
                         pageSize,
-                        currentPage,
+                        currentPage: page + 1,
                     },
                     context,
                     updateQuery: (
@@ -159,8 +146,6 @@ const Product = (props) => {
 
     React.useEffect(() => {
         if (data && data.products) {
-            console.log('current', data.products.page_info.current_page);
-            setPage(data.products.page_info.current_page);
             const tagManagerArgs = {
                 dataLayer: {
                     event: 'impression',
@@ -204,18 +189,17 @@ const Product = (props) => {
         category,
         defaultSort,
         config,
+        products,
         categoryPath,
         handleLoadMore,
         renderEmptyMessage,
         storeConfig,
-        page,
     };
 
     return (
         <Content
             {...contentProps}
             {...other}
-            products={products}
         />
     );
 };

@@ -1,6 +1,6 @@
 import { withApollo } from '@lib_apollo';
 import { withTranslation } from '@i18n';
-import { getCmsList, storeConfig as ConfigSchema } from '@services/graphql/schema/config';
+import { getCmsList } from '@services/graphql/schema/config';
 import graphRequest from '@graphql_request';
 import { storeConfigNameCookie } from '@config';
 import Core from '@core_modules/slug/core';
@@ -17,16 +17,11 @@ const Page = (props) => (
  */
 Page.getInitialProps = async ({ query, req }) => {
     let cmsList = {};
-    let storeConfig = {};
     if (typeof window === 'undefined' && !req.cookies[storeConfigNameCookie]) {
         cmsList = await graphRequest(getCmsList);
-        storeConfig = await graphRequest(ConfigSchema);
-        storeConfig = storeConfig.storeConfig;
     }
-
     const allcookie = req ? req.cookies : {};
     const obj = {
-        storeConfig,
         slug: query.slug,
         namespacesRequired: ['common', 'product', 'category', 'validate', 'catalog'],
         token: req && req.session ? req.session.token : '',

@@ -52,12 +52,6 @@ const ProductItem = (props) => {
     const [errorCustomizableOptions, setErrorCustomizableOptions] = React.useState([]);
     const [additionalPrice, setAdditionalPrice] = React.useState(0);
 
-    let pwaConfig = {};
-
-    if (storeConfig && storeConfig.pwa) {
-        pwaConfig = storeConfig.pwa;
-    }
-
     React.useEffect(() => {
         if (errorCustomizableOptions && errorCustomizableOptions.length > 0) {
             // eslint-disable-next-line consistent-return
@@ -115,7 +109,7 @@ const ProductItem = (props) => {
         data: dataDetailProduct,
         error: errorDetailProduct,
         loading: loadingDetailProduct,
-    }] = getDetailProduct(pwaConfig);
+    }] = getDetailProduct(storeConfig.pwa || {});
 
     const [postAddWishlist] = addWishlist();
     const [getUid, { data: dataUid, refetch: refetchCustomerUid }] = getCustomerUid();
@@ -274,9 +268,9 @@ const ProductItem = (props) => {
         enableProductCompare,
     };
 
-    const showAddToCart = typeof enableAddToCart !== 'undefined' ? enableAddToCart : pwaConfig.add_to_cart_enable;
-    const showOption = typeof enableOption !== 'undefined' ? enableOption : pwaConfig.configurable_options_enable;
-    const showQuickView = typeof enableQuickView !== 'undefined' ? enableQuickView : pwaConfig.quick_view_enable;
+    const showAddToCart = typeof enableAddToCart !== 'undefined' ? enableAddToCart : storeConfig?.pwa?.add_to_cart_enable;
+    const showOption = typeof enableOption !== 'undefined' ? enableOption : storeConfig?.pwa?.configurable_options_enable;
+    const showQuickView = typeof enableQuickView !== 'undefined' ? enableQuickView : storeConfig?.pwa?.quick_view_enable;
     if (isGrid) {
         return (
             <>
@@ -291,11 +285,11 @@ const ProductItem = (props) => {
                     />
                 )}
                 <div className={classNames(styles.itemContainer, 'item-product', className, showQuickView ? styles.quickView : '')}>
-                    {pwaConfig.label_enable && LabelView ? (
+                    {storeConfig?.pwa?.label_enable && LabelView ? (
                         <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
                     ) : null}
                     <div className={styles.imgItem}>
-                        {pwaConfig.label_enable && pwaConfig.label_weltpixel_enable && (
+                        {storeConfig?.pwa?.label_enable && storeConfig?.pwa?.label_weltpixel_enable && (
                             <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel />
                         )}
                         {showQuickView && (
@@ -374,14 +368,14 @@ const ProductItem = (props) => {
                         <div
                             className={styles.listImgItem}
                             style={{
-                                width: pwaConfig?.image_product_width,
-                                height: pwaConfig?.image_product_height,
+                                width: storeConfig?.pwa?.image_product_width,
+                                height: storeConfig?.pwa?.image_product_height,
                             }}
                         >
-                            {pwaConfig.label_enable && LabelView ? (
+                            {storeConfig?.pwa?.label_enable && LabelView ? (
                                 <LabelView t={t} {...other} isGrid={isGrid} spesificProduct={spesificProduct} />
                             ) : null}
-                            {pwaConfig.label_enable && pwaConfig.label_weltpixel_enable && (
+                            {storeConfig?.pwa?.label_enable && storeConfig?.pwa?.label_weltpixel_enable && (
                                 <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel />
                             )}
                             {showQuickView && (
