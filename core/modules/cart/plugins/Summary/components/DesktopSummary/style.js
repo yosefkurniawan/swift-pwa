@@ -99,6 +99,19 @@ const useStyles = makeStyles(() => ({
                 content: '">"',
             },
         },
+        '& .product-options': {
+            margin: '5px',
+            '& .option-wrapper': {
+                fontSize: 10,
+                '& .option-wrapper__item': {
+                    paddingLeft: 10,
+                },
+                '& .option-item': {
+                    margin: 0,
+                    marginLeft: 5,
+                },
+            },
+        },
     },
 }));
 
