@@ -53,7 +53,7 @@ const BannerThumbnail = (props) => {
     const mobileImageUrl = srcMobile ? generateThumborUrl(srcMobile, widthMobile, heightMobile) : null;
     const placeholderImage = '/assets/img/placeholder.png';
     const [imgSource, setImgSource] = useState(imageUrl);
-    const [mobileImgSource, setMobileImgSource] = useState(imageUrl);
+    const [mobileImgSource, setMobileImgSource] = useState(mobileImageUrl);
 
     const desktop = breakPointsUp('sm');
 

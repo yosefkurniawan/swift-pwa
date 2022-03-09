@@ -33,6 +33,15 @@ export const reOrder = () => useMutation(Schema.reOrder, {
     },
 });
 
+export const getTrackingOrder = (params) => useQuery(Schema.getTrackingOrder, {
+    context: {
+        request: 'internal',
+    },
+    variables: params,
+    skip: typeof window === 'undefined',
+    fetchPolicy: 'network-only',
+});
+
 export default {
     getOrder,
     reOrder,

@@ -8,6 +8,7 @@ import { modules } from '@config';
 export default function CustomizedExpansionPanels({
     checkout, setCheckout, updateFormik, handleOpenMessage, t, storeConfig, PaymentView,
     paypalHandlingProps, setInitialOptionPaypal, initialOptionPaypal, setTokenData, travelokaPayRef,
+    displayHowToPay, setDisplayHowToPay,
 }) {
     /**
      * [HOOKS]
@@ -250,6 +251,8 @@ export default function CustomizedExpansionPanels({
             paypalHandlingProps={paypalHandlingProps}
             initialOptionPaypal={initialOptionPaypal}
             travelokaPayRef={travelokaPayRef}
+            displayHowToPay={displayHowToPay}
+            setDisplayHowToPay={setDisplayHowToPay}
         />
     );
 }

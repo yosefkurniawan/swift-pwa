@@ -8,7 +8,7 @@ const assetsVersion = '1.0.6';
 const HOST = {
     local: 'http://localhost:3000',
     dev: 'https://swiftpwa.testingnow.me',
-    stage: 'https://getswift-pwa.gcp-staging.testingnow.me/',
+    stage: 'https://getswift-pwa.gcp-staging.testingnow.me',
     prod: 'https://pwa.getswift.asia',
 };
 

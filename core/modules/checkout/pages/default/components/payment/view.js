@@ -95,6 +95,8 @@ const PaymentView = (props) => {
         initialOptionPaypal,
         travelokaPayRef,
         storeConfig,
+        displayHowToPay,
+        setDisplayHowToPay,
     } = props;
     const { payment_travelokapay_bin_whitelist, payment_travelokapay_public_key, payment_travelokapay_user_id } = storeConfig;
     const { modules } = commonConfig;
@@ -298,12 +300,16 @@ const PaymentView = (props) => {
 
     return (
         <div className={styles.block} id="checkoutPayment">
-            <ModalHowtoPay open={openModal} setOpen={() => handleModal(false)} />
+            <ModalHowtoPay
+                open={openModal}
+                setOpen={() => handleModal(false)}
+                setDisplayHowToPay={setDisplayHowToPay}
+            />
             <div className={styles.paymentHeader}>
                 <Typography variant="title" type="bold" letter="uppercase">
                     {t('checkout:payment')}
                 </Typography>
-                {modules.checkout.howtoPay.enabled ? (
+                {(modules.checkout.howtoPay.enabled && displayHowToPay) ? (
                     <div>
                         <Button className={styles.howToPay} onClick={() => handleModal(true)}>
                             {t('checkout:howtoPay')}

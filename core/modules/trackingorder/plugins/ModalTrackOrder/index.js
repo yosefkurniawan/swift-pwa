@@ -28,7 +28,6 @@ const ModalResult = (props) => {
     } = props;
     const styles = useStyles();
     const { trackingorder } = modules;
-
     const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('md'));
 
     const content = () => {
@@ -61,7 +60,8 @@ const ModalResult = (props) => {
                             modalType.toLowerCase().includes('jne') ||
                             modalType.toLowerCase().includes('sap') ||
                             modalType.toLowerCase().includes('shipperid') ||
-                            modalType.toLowerCase().includes('anteraja')
+                            modalType.toLowerCase().includes('anteraja') ||
+                            modalType.toLowerCase().includes('popaket')
                         ) {
                             trackOrder = <ShipperView type={modalType} data={modalData} orders={orders} styles={styles} t={t} />;
                         } else {
@@ -107,21 +107,36 @@ const ModalResult = (props) => {
             return (
                 <div className="row">
                     <div className="col-xs-12">
-                        <List>
-                            {trackOrder}
-                            {items.map((item, i) => (
-                                <>
-                                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
-                                        <Typography letter="capitalize" className="clear-margin-padding" style={{ width: '40%' }}>
-                                            {item.primary}
-                                        </Typography>
-                                        <Typography variant="span" type="regular" className="clear-margin-padding" style={{ width: '60%' }}>
-                                            {item.secondary}
-                                        </Typography>
-                                    </div>
-                                </>
-                            ))}
-                        </List>
+                        {
+                            modalData.length > 0
+                                ? (
+                                    <List>
+                                        {trackOrder}
+                                        {items.map((item, i) => (
+                                            <>
+                                                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
+                                                    <Typography letter="capitalize" className="clear-margin-padding" style={{ width: '40%' }}>
+                                                        {item.primary}
+                                                    </Typography>
+                                                    <Typography
+                                                        variant="span"
+                                                        type="regular"
+                                                        className="clear-margin-padding"
+                                                        style={{ width: '60%' }}
+                                                    >
+                                                        {item.secondary}
+                                                    </Typography>
+                                                </div>
+                                            </>
+                                        ))}
+                                    </List>
+                                )
+
+                                :
+                                (
+                                    <Alert severity="warning" style={{ marginBottom: 32 }}>{t('trackingorder:noDataAvailable')}</Alert>
+                                )
+                        }
                     </div>
                     <style jsx>
                         {`

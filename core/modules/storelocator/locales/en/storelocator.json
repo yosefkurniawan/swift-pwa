@@ -1,5 +1,6 @@
 {
     "title" : "Store locator",
     "storeList": "Store list",
-    "direction": "Direction"
+    "direction": "Direction",
+    "noAvailableStore": "No available store"
 }

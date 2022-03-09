@@ -165,10 +165,15 @@ const Layout = (props) => {
     }, [isLogin]);
 
     useEffect(() => {
+        const isRestrictionMode = getCookies('user_allowed_save_cookie');
+        if (isRestrictionMode) {
+            setRestrictionCookies(isRestrictionMode);
+        }
         if (typeof window !== 'undefined') {
             window.toastMessage = handleSetToast;
             window.backdropLoader = handleLoader;
             const custData = Cookies.getJSON(custDataNameCookie);
+            const enablePromo = getCookies(features.globalPromo.key_cookies);
             const tagManagerArgs = {
                 dataLayer: {
                     pageName: pageConfig.title,
@@ -177,24 +182,15 @@ const Layout = (props) => {
             };
             if (custData && custData.email) tagManagerArgs.dataLayer.customerId = custData.email;
             TagManager.dataLayer(tagManagerArgs);
-        }
-        // setMainMinimumHeight(refFooter.current.clientHeight + refHeader.current.clientHeight);
-    }, []);
-
-    useEffect(() => {
-        const isRestrictionMode = getCookies('user_allowed_save_cookie');
-        if (isRestrictionMode) {
-            setRestrictionCookies(isRestrictionMode);
-        }
-        if (typeof window !== 'undefined') {
-            const enablePromo = getCookies(features.globalPromo.key_cookies);
             if (enablePromo !== '' && storeConfig.global_promo && storeConfig.global_promo.enable) {
                 setShowGlobalPromo(enablePromo);
             } else if (storeConfig.global_promo && storeConfig.global_promo.enable) {
                 setShowGlobalPromo(true);
             }
         }
+        // setMainMinimumHeight(refFooter.current.clientHeight + refHeader.current.clientHeight);
     }, []);
+
     const desktop = breakPointsUp('sm');
 
     const styles = {

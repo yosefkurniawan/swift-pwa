@@ -604,6 +604,7 @@ export const getConfigurableProduct = (config = {}) => {
               }
             }
             attributes {
+              uid
               label
               code
               value_index
