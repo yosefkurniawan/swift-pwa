@@ -38,6 +38,7 @@ const CheckoutDrawer = ({
     withAction,
     dataCart,
     isCart = false,
+    storeConfig,
 }) => {
     const styles = useStyles();
     const [expanded, setExpanded] = useState(null);
@@ -212,7 +213,7 @@ const CheckoutDrawer = ({
                     {
                         isCart && dataCart && (
                             <div className={styles.paypalBtn}>
-                                <PaypalButtonView cart={dataCart} t={t} />
+                                <PaypalButtonView cart={dataCart} t={t} storeConfig={storeConfig} />
                             </div>
                         )
                     }

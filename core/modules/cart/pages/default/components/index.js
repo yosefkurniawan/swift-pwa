@@ -62,6 +62,7 @@ const Content = (props) => {
                         t={t}
                         dataCart={dataCart}
                         editMode={editMode}
+                        storeConfig={storeConfig}
                         {...other}
                         handleActionSummary={handleOnCheckoutClicked}
                     />
@@ -85,6 +86,7 @@ const Content = (props) => {
                     t={t}
                     dataCart={dataCart}
                     editMode={editMode}
+                    storeConfig={storeConfig}
                     {...other}
                     handleActionSummary={handleOnCheckoutClicked}
                     isCart

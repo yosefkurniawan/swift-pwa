@@ -30,7 +30,7 @@ const PaypalButton = (props) => {
     // config paypal
     const [initialOptionPaypal, setInitialOptionPaypal] = React.useState({
         'client-id': modules.paypal.clientId[appEnv],
-        currency: modules.paypal.defaultCurrency,
+        currency: storeConfig?.base_currency_code || 'USD',
         intent: modules.paypal.intent,
         'data-order-id': '',
         // debug: modules.paypal.debug,

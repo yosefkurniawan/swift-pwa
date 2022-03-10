@@ -142,20 +142,20 @@ const features = {
     },
     firebase: {
         config: {
-            apiKey: '', // sample: AIzaSyCt9ks21BjiE9qirv-8xOEcUnUnH6viobw
-            authDomain: '', // sample: swift-pwa-dev.firebaseapp.com
-            databaseURL: '', // sample: https://swiftpwa-firebase.firebaseio.com
-            projectId: '', // sample: swift-pwa-dev
-            storageBucket: '', // sample: swift-pwa-dev.appspot.com
-            messagingSenderId: '', // sample: 1083571104838
-            appId: '', // sample: 1:1083571104838:web:4f06ca5a60b1c1a9efee47
-            measurementId: '', // sample: G-HBHPY22H0H
+            apiKey: 'AIzaSyCt9ks21BjiE9qirv-8xOEcUnUnH6viobw', // sample: AIzaSyCt9ks21BjiE9qirv-8xOEcUnUnH6viobw
+            authDomain: 'swift-pwa-dev.firebaseapp.com', // sample: swift-pwa-dev.firebaseapp.com
+            databaseURL: 'https://swiftpwa-firebase.firebaseio.com', // sample: https://swiftpwa-firebase.firebaseio.com
+            projectId: 'swift-pwa-dev', // sample: swift-pwa-dev
+            storageBucket: 'swift-pwa-dev.appspot.com', // sample: swift-pwa-dev.appspot.com
+            messagingSenderId: '1083571104838', // sample: 1083571104838
+            appId: '1:1083571104838:web:4f06ca5a60b1c1a9efee47', // sample: 1:1083571104838:web:4f06ca5a60b1c1a9efee47
+            measurementId: 'G-HBHPY22H0H', // sample: G-HBHPY22H0H
         },
         pushNotification: {
-            enabled: false,
+            enabled: true,
             config: {
                 // key from cloud messaging sertificat web push
-                pairKey: '', // sample: BJ2IqpfQQGrckDUAI7TaX8r0_v6aykBSIIEpZUqhlkzZI2e7WVZk9ZB4xOiWBqTbVo6wk44gnpRLAJDemB66zAU
+                pairKey: 'BJ2IqpfQQGrckDUAI7TaX8r0_v6aykBSIIEpZUqhlkzZI2e7WVZk9ZB4xOiWBqTbVo6wk44gnpRLAJDemB66zAU', // sample: BJ2IqpfQQGrckDUAI7TaX8r0_v6aykBSIIEpZUqhlkzZI2e7WVZk9ZB4xOiWBqTbVo6wk44gnpRLAJDemB66zAU
             },
         },
     },
@@ -262,7 +262,7 @@ const modules = {
             enabled: true,
         },
         orderComment: {
-            enabled: false,
+            enabled: true,
         },
         howtoPay: {
             enabled: true,
@@ -292,14 +292,14 @@ const modules = {
     paypal: {
         path: '/paypal',
         clientId: {
-            local: 'AfcrKzLRhgwpdBWbK8owz2Vv_gYyPUbwzOuOAgz1BfBqvGle_omyRPX4jTZrDpOkfO-jRBc_2YyxEJM2',
-            dev: '',
+            local: 'AQuL1gl_k6CAtUHIYLaNwjGphf-QeBC0fFul7KkjqPJB5XW_fQpK9bAdBlXJMXlcKXtA-gGqOA3q5vo5',
+            dev: 'AQuL1gl_k6CAtUHIYLaNwjGphf-QeBC0fFul7KkjqPJB5XW_fQpK9bAdBlXJMXlcKXtA-gGqOA3q5vo5',
             prod: '',
             stage: '',
         },
         clientSecret: {
-            local: 'EAwFhNBD5KKb8WLCK2xPxAD_L0Pb9wYUflFMXUfQYMKAbM5jGykvIbRHM-sJPoR8V3avAcEU3stvTJPd',
-            dev: '',
+            local: 'EE-zOOh9EYgK96Iji5FGNZuCDUYTebu9uJzXg-NlET3USyaUdBguRsCmA9rFJbteQK_CAjpwQTZVxMDG',
+            dev: 'EE-zOOh9EYgK96Iji5FGNZuCDUYTebu9uJzXg-NlET3USyaUdBguRsCmA9rFJbteQK_CAjpwQTZVxMDG',
             prod: '',
             stage: '',
         },
