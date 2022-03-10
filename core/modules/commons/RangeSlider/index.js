@@ -43,14 +43,14 @@ const RangeSlider = ({
                 <Typography variant="label" type="regular" letter="uppercase">
                     {
                         formatPrice(
-                            values[0], storeConfig.base_currency_code,
+                            values[0], storeConfig && storeConfig.base_currency_code,
                         )
                     }
                 </Typography>
                 <Typography variant="label" type="regular" letter="uppercase">
                     {
                         formatPrice(
-                            values[1], storeConfig.base_currency_code,
+                            values[1], storeConfig && storeConfig.base_currency_code,
                         )
                     }
                 </Typography>

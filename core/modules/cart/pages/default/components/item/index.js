@@ -10,7 +10,7 @@ import TableList from '@core_modules/cart/pages/default/components/item/TableLis
 const ItemProduct = (props) => {
     const {
         t, editMode, toggleEditDrawer, product, quantity, configurable_options = [], deleteItem, prices,
-        handleFeed, bundle_options, links, customizable_options,
+        handleFeed, bundle_options, links, customizable_options, SimpleMiniCustomizable, ConfigurableMiniCustomizable,
     } = props;
     const [confirmDel, setConfirmDel] = useState(false);
     const handleDelete = () => {
@@ -41,7 +41,7 @@ const ItemProduct = (props) => {
             prices={prices}
             editMode={editMode}
             toggleEditDrawer={toggleEditDrawer}
-            customizable_options={customizable_options}
+            customizable_options={SimpleMiniCustomizable || ConfigurableMiniCustomizable || customizable_options}
         />
     );
 };

@@ -4,7 +4,7 @@ import { generateCatalogSorting } from '@plugin_productlist/components/FilterDes
 
 const Filter = (props) => {
     const {
-        FilterModalView, FilterView, filterValue, isSearch, defaultSort, setFiltervalue, filter, ...other
+        FilterModalView, FilterView, filterValue, isSearch, defaultSort, setFiltervalue, filter, storeConfig, ...other
     } = props;
     const sortByData = React.useMemo(() => generateCatalogSorting(isSearch), []);
     const [openFilter, setOpenFilter] = React.useState(false);
@@ -106,6 +106,7 @@ const Filter = (props) => {
                 openFilter={openFilter}
                 setOpenFilter={setOpenFilter}
                 isSearch={isSearch}
+                filter={filter}
                 {...ModalProps}
                 {...other}
             />
