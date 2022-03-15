@@ -24,6 +24,7 @@
         "changePickupLocation": "Ubah lokasi pengambilan",
         "selectStoreLocation": "Pilih lokasi toko"
     },
+    "invalidToken": "Anda sedang membuka halaman checkout di perangkat lain. Silahkan tutup terlebih dahulu dan refresh halaman ini.",
     "purchaseOrderNumber": "Nomor Pesanan Pembelian",
     "pickupStore": "Ambil di toko",
     "instorePickup": "Instore Pickup",
