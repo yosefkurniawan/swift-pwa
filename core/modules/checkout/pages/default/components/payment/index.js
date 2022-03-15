@@ -7,7 +7,7 @@ import { modules } from '@config';
 
 export default function CustomizedExpansionPanels({
     checkout, setCheckout, updateFormik, handleOpenMessage, t, storeConfig, PaymentView,
-    paypalHandlingProps, setInitialOptionPaypal, initialOptionPaypal, setTokenData, travelokaPayRef,
+    paypalHandlingProps, setInitialOptionPaypal, initialOptionPaypal, setTokenData, travelokaPayRef, checkoutTokenState, setCheckoutTokenState,
 }) {
     /**
      * [HOOKS]
@@ -52,10 +52,14 @@ export default function CustomizedExpansionPanels({
             updateFormik(mergeCart);
         } else {
             state.selected.payment = null;
-            handleOpenMessage({
-                variant: 'error',
-                text: t('checkout:message:emptyShippingError'),
-            });
+            if (result.errors.message.includes('Token is wrong')) {
+                setCheckoutTokenState(!checkoutTokenState);
+            } else {
+                handleOpenMessage({
+                    variant: 'error',
+                    text: t('checkout:message:emptyShippingError'),
+                });
+            }
         }
 
         setCheckout(state);
@@ -168,7 +172,12 @@ export default function CustomizedExpansionPanels({
                 }
             } else {
                 const payment_method = { code: val };
-                const result = await setPaymentMethod({ variables: { cartId: cart.id, payment_method } });
+                const result = await setPaymentMethod({
+                    variables: {
+                        cartId: cart.id,
+                        payment_method,
+                    },
+                });
                 onHandleResult({
                     state,
                     result,
@@ -216,7 +225,12 @@ export default function CustomizedExpansionPanels({
         const selected_payment = state.selected.payment;
         const purchase_order_number = state.selected.purchaseOrderNumber;
         const payment_method = { code: selected_payment, purchase_order_number };
-        const result = await setPaymentMethod({ variables: { cartId: cart.id, payment_method } });
+        const result = await setPaymentMethod({
+            variables: {
+                cartId: cart.id,
+                payment_method,
+            },
+        });
         onHandleResult({
             state,
             result,

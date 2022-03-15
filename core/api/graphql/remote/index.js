@@ -11,10 +11,12 @@ const executor = async ({
 }) => {
     try {
         let token = '';
+        let checkoutToken = '';
         let store_code_storage = '';
         if (context) {
             token = context.headers.authorization || context.session.token;
             store_code_storage = context.cookies.store_code_storage;
+            checkoutToken = context.headers.token || context.session.checkoutToken;
         }
         const query = print(document);
         const appEnv = getAppEnv();
@@ -27,6 +29,9 @@ const executor = async ({
         const url = graphqlEndpoint[appEnv] || graphqlEndpoint.prod;
         if (token && token !== '') {
             additionalHeader.Authorization = `Bearer ${decrypt(token)}`;
+        }
+        if (checkoutToken && checkoutToken !== '') {
+            additionalHeader['Checkout-Token'] = `${decrypt(checkoutToken)}`;
         }
         const fetchResult = await fetch(url, {
             method: 'POST',

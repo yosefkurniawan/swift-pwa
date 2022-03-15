@@ -9,7 +9,7 @@ const query = `
                 cart_id: $cartId
             }
         ) {
-            token
+            checkout_token
         }
     }
 `;
@@ -20,10 +20,8 @@ const internalGenerateCartTokenSession = async (parent, args, context) => {
     };
     const res = await requestGraph(query, variables, context);
     if (res.setCheckoutSession) {
-        context.session.checkoutToken = encrypt(res.setCheckoutSession.token);
+        context.session.checkoutToken = encrypt(res.setCheckoutSession.checkout_token);
         return {
-            token: encrypt(res.setCheckoutSession.token),
-            originalToken: res.setCheckoutSession.token,
             message: `Checkout Token for cart ${variables.cartId} is created`,
         };
     }

@@ -15,7 +15,7 @@ const Loader = () => (
 const Address = (props) => {
     const {
         isOnlyVirtualProductOnCart, checkout, t, setCheckout, defaultAddress, updateFormik, AddressView, storeConfig,
-        refetchDataCart, refetchItemCart, ...other
+        refetchDataCart, refetchItemCart, checkoutTokenState, setCheckoutTokenState, ...other
     } = props;
 
     const [setShippingAddressById] = gqlService.setShippingAddress();
@@ -30,7 +30,8 @@ const Address = (props) => {
     const street = _.isNull(address) ? null : address.street.join(' ');
     let dialogProps;
 
-    let dest_latitude, dest_longitude = {};
+    let dest_latitude = {};
+    let dest_longitude = {};
 
     let emptyPinpoint = false;
     let showEmptyPinpoint = false;
@@ -39,12 +40,12 @@ const Address = (props) => {
         if (data && data.cart && data.cart.dest_location) {
             dest_latitude = data.cart.dest_location.dest_latitude;
             dest_longitude = data.cart.dest_location.dest_longitude;
-            if(!dest_latitude || !dest_longitude || dest_latitude === '0' || dest_longitude === '0') {
+            if (!dest_latitude || !dest_longitude || dest_latitude === '0' || dest_longitude === '0') {
                 emptyPinpoint = true;
             }
         }
     }, [data]);
-    
+
     if (address && !loading.addresses && !loading.all && emptyPinpoint) {
         showEmptyPinpoint = true;
     }
@@ -138,7 +139,11 @@ const Address = (props) => {
                         resolve();
                     })
                     .catch((e) => {
-                        reject(e);
+                        if (e.message.includes('Token is wrong.')) {
+                            setCheckoutTokenState(!checkoutTokenState);
+                        } else {
+                            reject(e);
+                        }
                     });
             } else {
                 setShippingAddressByInput({
@@ -163,11 +168,19 @@ const Address = (props) => {
                                 resolve();
                             })
                             .catch((e) => {
-                                reject(e);
+                                if (e.message.includes('Token is wrong.')) {
+                                    setCheckoutTokenState(!checkoutTokenState);
+                                } else {
+                                    reject(e);
+                                }
                             });
                     })
                     .catch((e) => {
-                        reject(e);
+                        if (e.message.includes('Token is wrong.')) {
+                            setCheckoutTokenState(!checkoutTokenState);
+                        } else {
+                            reject(e);
+                        }
                     });
             }
         } else if (isOnlyVirtualProductOnCart) {
@@ -182,7 +195,11 @@ const Address = (props) => {
                     resolve();
                 })
                 .catch((e) => {
-                    reject(e);
+                    if (e.message.includes('Token is wrong.')) {
+                        setCheckoutTokenState(!checkoutTokenState);
+                    } else {
+                        reject(e);
+                    }
                 });
         } else {
             const setShippingBilling = () => {
@@ -197,7 +214,11 @@ const Address = (props) => {
                         resolve();
                     })
                     .catch((e) => {
-                        reject(e);
+                        if (e.message.includes('Token is wrong.')) {
+                            setCheckoutTokenState(!checkoutTokenState);
+                        } else {
+                            reject(e);
+                        }
                     });
             };
             if (firstLoad) {

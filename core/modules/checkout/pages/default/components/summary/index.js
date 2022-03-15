@@ -18,7 +18,18 @@ import Traveloka3DSModal from '@core_modules/checkout/pages/default/components/p
 import useTravelokaPay from '@core_modules/checkout/helpers/useTravelokaPay';
 
 const Summary = ({
-    t, checkout, setCheckout, handleOpenMessage, formik, updateFormik, config, refSummary, storeConfig, travelokaPayRef,
+    t,
+    checkout,
+    setCheckout,
+    handleOpenMessage,
+    formik,
+    updateFormik,
+    config,
+    refSummary,
+    storeConfig,
+    travelokaPayRef,
+    checkoutTokenState,
+    setCheckoutTokenState,
 }) => {
     const { order: loading, all: disabled } = checkout.loading;
     const isSelectedPurchaseOrder = checkout.selected.payment === 'purchaseorder';
@@ -65,10 +76,14 @@ const Summary = ({
             state.loading.order = false;
             setCheckout(state);
 
-            handleOpenMessage({
-                variant: 'error',
-                text: t('checkout:message:serverError'),
-            });
+            if (response.errors.message.includes('Token is wrong.')) {
+                setCheckoutTokenState(!checkoutTokenState);
+            } else {
+                handleOpenMessage({
+                    variant: 'error',
+                    text: t('checkout:message:serverError'),
+                });
+            }
 
             return false;
         }
@@ -176,9 +191,7 @@ const Summary = ({
             state = { ...checkout };
             result = await setPaymentMethod({ variables: { cartId: cart.id, payment_method: { code: 'free' } } });
 
-            if (!validateReponse(result, state)) {
-                return;
-            }
+            if (!validateReponse(result, state)) return;
 
             state.data.cart = {
                 ...state.data.cart,
@@ -266,7 +279,12 @@ const Summary = ({
                         },
                     });
                 } else {
-                    result = await placeOrder({ variables: { cartId: cart.id, origin: originName } });
+                    result = await placeOrder({
+                        variables: {
+                            cartId: cart.id,
+                            origin: originName,
+                        },
+                    });
                 }
 
                 state = { ...checkout };

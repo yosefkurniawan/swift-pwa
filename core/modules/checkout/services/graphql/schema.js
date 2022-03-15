@@ -1020,8 +1020,6 @@ export const setCheckoutSession = gql`
             }
         ) {
             message
-            token
-            originalToken
         }
     }
 `;

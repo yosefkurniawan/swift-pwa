@@ -63,6 +63,9 @@ const Checkout = (props) => {
 
     const [cartId, setCartId] = useState(propsCardId);
 
+    const [setCheckoutSession] = gqlService.setCheckoutSession();
+    const [checkoutTokenState, setCheckoutTokenState] = useState();
+
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const cartid = getCartId();
@@ -74,6 +77,18 @@ const Checkout = (props) => {
                 pwaCheckoutState = encodeURIComponent(Cookies.get(nameCheckoutState));
             }
             setCartId(cartid);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (cartId) {
+            setCheckoutSession({
+                variables: {
+                    cartId: cartId || propsCardId,
+                },
+            }).then(async (result) => { }).catch((e) => {
+                console.log(e);
+            });
         }
     }, []);
 
@@ -797,6 +812,8 @@ const Checkout = (props) => {
         setInitialOptionPaypal,
         initialOptionPaypal,
         setTokenData,
+        checkoutTokenState,
+        setCheckoutTokenState,
     };
 
     return (
