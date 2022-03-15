@@ -107,9 +107,9 @@ const Content = (props) => {
             />
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
                 {
-                    checkout 
+                    checkout
                     && checkout.data
-                    && checkout.data.cart 
+                    && checkout.data.cart
                     && checkout.data.cart.promoBanner.length > 0 && (
                         <GimmickBanner data={checkout.data.cart.promoBanner || []} />
                     )
