@@ -106,7 +106,7 @@ const Content = (props) => {
                 message={`${t('checkout:invalidToken')}`}
             />
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
-                {   
+                {
                     checkout 
                     && checkout.data
                     && checkout.data.cart 

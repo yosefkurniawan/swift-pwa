@@ -1,11 +1,19 @@
 import React from 'react';
 import TagManager from 'react-gtm-module';
-import { decrypt } from '@helpers/encryption';
 import gqlService from '@core_modules/checkout/services/graphql';
 
 const Shipping = (props) => {
     const {
-        t, checkout, setCheckout, updateFormik, handleOpenMessage, storeConfig, isOnlyVirtualProductOnCart, ShippingView, checkoutTokenState, setCheckoutTokenState,
+        t,
+        checkout,
+        setCheckout,
+        updateFormik,
+        handleOpenMessage,
+        storeConfig,
+        isOnlyVirtualProductOnCart,
+        ShippingView,
+        checkoutTokenState,
+        setCheckoutTokenState,
     } = props;
 
     const { loading, data, selected } = checkout;

@@ -6,8 +6,22 @@ import gqlService from '@core_modules/checkout/services/graphql';
 import { modules } from '@config';
 
 export default function CustomizedExpansionPanels({
-    checkout, setCheckout, updateFormik, handleOpenMessage, t, storeConfig, PaymentView,
-    paypalHandlingProps, setInitialOptionPaypal, initialOptionPaypal, setTokenData, travelokaPayRef, checkoutTokenState, setCheckoutTokenState,
+    checkout,
+    setCheckout,
+    updateFormik,
+    handleOpenMessage,
+    t,
+    storeConfig,
+    PaymentView,
+    paypalHandlingProps,
+    setInitialOptionPaypal,
+    initialOptionPaypal,
+    setTokenData,
+    travelokaPayRef,
+    displayHowToPay,
+    setDisplayHowToPay,
+    checkoutTokenState,
+    setCheckoutTokenState,
 }) {
     /**
      * [HOOKS]
