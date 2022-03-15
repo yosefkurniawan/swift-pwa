@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@common_button';
 import Typography from '@common_typography';
 import classNames from 'classnames';
@@ -77,6 +77,8 @@ const Content = (props) => {
     const isPurchaseOrderApply = isSelectedPurchaseOrder && checkout.status.purchaseOrderApply;
     const travelokaPayRef = React.useRef();
 
+    const [displayHowToPay, setDisplayHowToPay] = useState(false);
+
     /**
      * [METHOD] handle click for place order
      */
@@ -104,9 +106,14 @@ const Content = (props) => {
                 message={`${t('checkout:invalidToken')}`}
             />
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
-                {checkout.data.cart && checkout.data.cart.promoBanner && (
-                    <GimmickBanner data={checkout.data.cart.promoBanner || []} />
-                )}
+                {   
+                    checkout 
+                    && checkout.data
+                    && checkout.data.cart 
+                    && checkout.data.cart.promoBanner.length > 0 && (
+                        <GimmickBanner data={checkout.data.cart.promoBanner || []} />
+                    )
+                }
             </div>
             <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8" style={containerStyle || {}}>
                 {modules.checkout.cashback.enabled && checkout.data.cart && checkout.data.cart.applied_cashback.is_cashback && (
@@ -285,6 +292,8 @@ const Content = (props) => {
                         initialOptionPaypal={initialOptionPaypal}
                         setTokenData={setTokenData}
                         travelokaPayRef={travelokaPayRef}
+                        displayHowToPay={displayHowToPay}
+                        setDisplayHowToPay={setDisplayHowToPay}
                     />
                     
                     <Confirmation

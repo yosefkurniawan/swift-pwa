@@ -19,6 +19,7 @@ const ItemView = (props) => {
         editMode, toggleEditDrawer, bundle_options, links, customizable_options,
     } = props;
     const styles = useStyles();
+
     return (
         <div className={styles.item}>
             <ConfirmationDelete

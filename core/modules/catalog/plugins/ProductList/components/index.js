@@ -16,7 +16,7 @@ const Content = (props) => {
         query, showTabs, customFilter, elastic, t,
         aggregations, setFiltervalue, category, defaultSort, config, TabView,
         products, categoryPath, renderEmptyMessage, ProductListSkeleton, loading,
-        loadmore, handleLoadMore, dataTabs, onChangeTabs, ...other
+        loadmore, handleLoadMore, dataTabs, onChangeTabs, storeConfig, ...other
     } = props;
     const styles = useStyles();
     const [isGrid, setGridState] = useState(true);
@@ -111,6 +111,7 @@ const Content = (props) => {
                                 tabs={dataTabs}
                                 t={t}
                                 onChangeTabs={onChangeTabs}
+                                storeConfig={storeConfig}
                             />
                         </div>
                     )

@@ -172,6 +172,24 @@ mutation (
 }
 `;
 
+export const addConfigurableProductsToCart = gql`
+  mutation addConfigurableProductsToCart(
+    $cartId: String!,
+    $cartItems: [CartItemInput!]!
+  ) {
+    addProductsToCart(cartId: $cartId, cartItems: $cartItems) {
+      cart {
+        id
+        total_quantity
+      }
+      user_errors {
+        code
+        message
+      }
+    }
+  }
+`;
+
 export const addBundleProductsToCart = gql`
 mutation (
   $cartId: String!,

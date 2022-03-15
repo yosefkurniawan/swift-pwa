@@ -108,6 +108,12 @@ export const addConfigProductsToCart = () => useMutation(ActionSchema.addConfigP
     },
 });
 
+export const addConfigurableProductsToCart = () => useMutation(ActionSchema.addConfigurableProductsToCart, {
+    context: {
+        request: 'internal',
+    },
+});
+
 export const addBundleProductsToCart = () => useMutation(ActionSchema.addBundleProductsToCart, {
     context: {
         request: 'internal',

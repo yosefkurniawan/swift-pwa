@@ -263,6 +263,8 @@ export default function CustomizedExpansionPanels({
             paypalHandlingProps={paypalHandlingProps}
             initialOptionPaypal={initialOptionPaypal}
             travelokaPayRef={travelokaPayRef}
+            displayHowToPay={displayHowToPay}
+            setDisplayHowToPay={setDisplayHowToPay}
         />
     );
 }

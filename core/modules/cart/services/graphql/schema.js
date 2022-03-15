@@ -159,14 +159,14 @@ items {
   id
   quantity
   ... on SimpleCartItem {
-    ${customizable_options}
+    SimpleMiniCustomizable: ${customizable_options}
   }
 
   ... on VirtualCartItem {
     virutalItemCustomizable: ${customizable_options}
   }
   ... on ConfigurableCartItem {
-      configurableItemCustomizable: ${customizable_options}
+    ConfigurableMiniCustomizable: ${customizable_options}
       configurable_options {
       option_label
       value_label
@@ -419,7 +419,7 @@ export const getMiniCart = gql`
               id
               quantity
               ... on SimpleCartItem {
-                SimpleMiniCustomizale: ${customizable_options}
+                SimpleMiniCustomizable: ${customizable_options}
               }
 
               ... on VirtualCartItem {
@@ -427,8 +427,8 @@ export const getMiniCart = gql`
               }
 
               ... on ConfigurableCartItem {
-                  configurableMinuCustomizable: ${customizable_options}
-                  configurable_options {
+                ConfigurableMiniCustomizable: ${customizable_options}
+                configurable_options {
                   option_label
                   value_label
                 }

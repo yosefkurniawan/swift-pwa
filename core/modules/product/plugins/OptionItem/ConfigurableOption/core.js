@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import { useApolloClient } from '@apollo/client';
@@ -9,10 +10,10 @@ import { localTotalCart } from '@services/graphql/schema/local';
 import { modules } from '@config';
 import Router from 'next/router';
 import {
-    addConfigProductsToCart,
     getConfigurableProduct,
     getGuestCartId as queryGetGuestCartId,
     getCustomerCartId,
+    addConfigurableProductsToCart,
 } from '@core_modules/product/services/graphql';
 
 const OptionsItemConfig = (props) => {
@@ -71,6 +72,7 @@ const OptionsItemConfig = (props) => {
         });
         // console.log(configProduct.data.products.items[0].variants);
         const product = await ProductByVariant(selectedOption, configProduct.data.products.items[0].variants);
+        // console.log('product', product);
         if (product && JSON.stringify(product) !== '{}') {
             setSelectedProduct({ ...product });
             handleSelecteProduct({ ...product });
@@ -149,7 +151,7 @@ const OptionsItemConfig = (props) => {
         cartId = getCartId();
     }
 
-    const [addCartConfig] = addConfigProductsToCart();
+    const [addConfigurableProducts] = addConfigurableProductsToCart();
     const [getGuestCartId] = queryGetGuestCartId();
     const cartUser = getCustomerCartId();
 
@@ -158,14 +160,19 @@ const OptionsItemConfig = (props) => {
     const addToCart = async () => {
         let customizable_options = [];
         const entered_options = [];
+        const uids = [];
         if (modules.product.customizableOptions.enabled && customizableOptions && customizableOptions.length > 0) {
             customizableOptions.map((op) => {
                 if (customizable_options.length > 0) {
+                    /**
+                     * Marking this as potential unused code
+                     */
                     const findOptions = customizable_options.find((item) => item.id === op.option_id);
                     if (findOptions) {
                         customizable_options = customizable_options.filter(
                             (item) => item.id !== op.option_id,
                         );
+
                         if (op.isEnteredOption) {
                             entered_options.push({
                                 uid: op.uid,
@@ -177,29 +184,27 @@ const OptionsItemConfig = (props) => {
                                 value_string: `${findOptions.value_string},${op.value}`,
                             });
                         }
-                    } else if (op.isEnteredOption) {
+                    } else if (op.__typename === 'CustomizableFieldValue' || op.__typename === 'CustomizableAreaValue') {
                         entered_options.push({
                             uid: op.uid,
                             value: op.value,
                         });
                     } else {
-                        customizable_options.push({
-                            id: op.option_id,
-                            value_string: op.value,
-                        });
+                        uids.push(op.uid);
                     }
                 }
+                /** Mark ends here */
                 if (customizable_options.length === 0) {
-                    if (op.isEnteredOption) {
+                    if (op.__typename === 'CustomizableFieldValue'
+                        || op.__typename === 'CustomizableAreaValue'
+                        || op.__typename === 'CustomizableDateValue'
+                    ) {
                         entered_options.push({
                             uid: op.uid,
                             value: op.value,
                         });
                     } else {
-                        customizable_options.push({
-                            id: op.option_id,
-                            value_string: op.value,
-                        });
+                        uids.push(op.uid);
                     }
                 }
                 return op;
@@ -220,6 +225,16 @@ const OptionsItemConfig = (props) => {
             });
         }
         setError(errorData);
+
+        // prettier-ignore
+        /**
+         * Find attributes that have the same 'selectConfigurable' values
+         * eg: color with the value of 52, size with the value of 24, etc.
+         */
+        const selectedVariantAttrs = configProduct.data.products.items[0].variants
+            .find((variant) => variant.attributes
+                .every((attr) => Object.keys(selectConfigurable)
+                    .some((sc) => sc === attr.code && selectConfigurable[sc] === attr.value_index)));
 
         if (JSON.stringify(errorData) === '{}') {
             if (CustomAddToCart && typeof CustomAddToCart === 'function') {
@@ -261,12 +276,16 @@ const OptionsItemConfig = (props) => {
                 if (__typename === 'ConfigurableProduct') {
                     const variables = {
                         cartId,
-                        sku: selectedProduct.sku,
-                        qty: parseFloat(qty),
-                        parentSku: sku,
-                        customizable_options,
-                        entered_options,
+                        cartItems: [
+                            {
+                                quantity: parseFloat(qty),
+                                sku,
+                                selected_options: [...selectedVariantAttrs.attributes.map((selectedOpt) => selectedOpt.uid), ...uids],
+                                entered_options,
+                            },
+                        ],
                     };
+
                     TagManager.dataLayer({
                         dataLayer: {
                             event: 'addToCart',
@@ -289,13 +308,14 @@ const OptionsItemConfig = (props) => {
                             },
                         },
                     });
-                    addCartConfig({
+
+                    addConfigurableProducts({
                         variables,
                     })
                         .then((res) => {
                             client.writeQuery({
                                 query: localTotalCart,
-                                data: { totalCart: res.data.addConfigurableProductsToCart.cart.total_quantity },
+                                data: { totalCart: res.data.addProductsToCart.cart.total_quantity },
                             });
                             window.toastMessage({ variant: 'success', text: t('product:successAddCart'), open: true });
                             setLoading(false);
@@ -342,6 +362,11 @@ const OptionsItemConfig = (props) => {
             setOptions(op);
         }
     }, [selectConfigurable]);
+
+    // console.log('options', options);
+    // console.log('combination', combination);
+    // console.log('selectConfigurable', selectConfigurable);
+
     return (
         <View
             options={options}

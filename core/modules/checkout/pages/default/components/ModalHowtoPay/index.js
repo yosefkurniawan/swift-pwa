@@ -21,6 +21,7 @@ const Transition = React.forwardRef((props, ref) => (
 const ModalHowtoPay = ({
     open,
     setOpen,
+    setDisplayHowToPay,
 }) => {
     const { t } = useTranslation(['common', 'checkout', 'validate']);
     const styles = useStyles();
@@ -28,6 +29,7 @@ const ModalHowtoPay = ({
     const { data, error, loading: loadingTutor } = gqlService.getCmsPage({ identifier: 'how-to-pay' });
 
     if (data && !error) {
+        setDisplayHowToPay(true);
         return (
             <Dialog
                 open={open}
