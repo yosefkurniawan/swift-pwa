@@ -28,7 +28,7 @@ export default function CustomizedExpansionPanels({
      * [VARIABLES]
      */
     const { loading, data, selected } = checkout;
-    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
+    const [setPaymentMethod] = gqlService.setPaymentMethod();
     const { data: paymentMethodList } = gqlService.getCheckoutConfigurations();
     const [getPaypalToken, paypalTokenData] = gqlService.createPaypalExpressToken();
 
@@ -37,7 +37,7 @@ export default function CustomizedExpansionPanels({
      * @param {state, result, val, cart} params
      */
     const onHandleResult = ({
-        state, result, val, cart,
+        state, result, val, cart, purchaseOrder = false,
     }) => {
         state = {
             ...checkout,
@@ -66,8 +66,13 @@ export default function CustomizedExpansionPanels({
             updateFormik(mergeCart);
         } else {
             state.selected.payment = null;
-            if (result.errors.message.includes('Token is wrong')) {
+            if (result.message.includes('Token is wrong.')) {
                 setCheckoutTokenState(!checkoutTokenState);
+            } else if (purchaseOrder) {
+                handleOpenMessage({
+                    variant: 'error',
+                    text: t('checkout:message:purchaseOrderFailed'),
+                });
             } else {
                 handleOpenMessage({
                     variant: 'error',
@@ -186,17 +191,26 @@ export default function CustomizedExpansionPanels({
                 }
             } else {
                 const payment_method = { code: val };
-                const result = await setPaymentMethod({
+                await setPaymentMethod({
                     variables: {
                         cartId: cart.id,
                         payment_method,
                     },
-                });
-                onHandleResult({
-                    state,
-                    result,
-                    val,
-                    cart,
+                }).then((result) => {
+                    onHandleResult({
+                        state,
+                        result,
+                        val,
+                        cart,
+                    });
+                }).catch((err) => {
+                    const result = err;
+                    onHandleResult({
+                        state,
+                        result,
+                        val,
+                        cart,
+                    });
                 });
             }
         }
@@ -239,22 +253,30 @@ export default function CustomizedExpansionPanels({
         const selected_payment = state.selected.payment;
         const purchase_order_number = state.selected.purchaseOrderNumber;
         const payment_method = { code: selected_payment, purchase_order_number };
-        const result = await setPaymentMethod({
+        await setPaymentMethod({
             variables: {
                 cartId: cart.id,
                 payment_method,
             },
-        });
-        onHandleResult({
-            state,
-            result,
-            val: selected_payment,
-            cart,
-        });
-
-        handleOpenMessage({
-            variant: 'success',
-            text: t('checkout:message:purchaseOrderApplied'),
+        }).then((result) => {
+            onHandleResult({
+                state,
+                result,
+                val: selected_payment,
+                cart,
+            });
+            handleOpenMessage({
+                variant: 'success',
+                text: t('checkout:message:purchaseOrderApplied'),
+            });
+        }).catch((err) => {
+            const result = err;
+            onHandleResult({
+                state,
+                result,
+                val: selected_payment,
+                cart,
+            });
         });
     };
 

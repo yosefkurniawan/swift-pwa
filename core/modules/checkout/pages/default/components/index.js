@@ -294,6 +294,8 @@ const Content = (props) => {
                         travelokaPayRef={travelokaPayRef}
                         displayHowToPay={displayHowToPay}
                         setDisplayHowToPay={setDisplayHowToPay}
+                        checkoutTokenState={checkoutTokenState}
+                        setCheckoutTokenState={setCheckoutTokenState}
                     />
                     
                     <Confirmation

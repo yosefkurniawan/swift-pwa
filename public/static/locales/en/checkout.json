@@ -57,6 +57,7 @@
         "storeCreditApplied": "Store credit has been applied",
         "storeCreditRemoved": "Store credit has been removed",
         "purchaseOrderApplied": "Purchase order number has been applied",
+        "purchaseOrderFailed": "Purchase order number has been failed",
         "couponError": "The coupon code isn't valid. Verify the code and try again.",
         "giftCardError": "The gift card code isn't valid. Verify the code and try again.",
         "placeOrder": "Your order has been placed",
