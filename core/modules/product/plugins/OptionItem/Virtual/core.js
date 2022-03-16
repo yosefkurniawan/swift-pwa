@@ -1,7 +1,5 @@
 import { getCartId, setCartId } from '@helper_cartid';
 import { getLoginInfo } from '@helper_auth';
-import { useApolloClient } from '@apollo/client';
-import { localTotalCart } from '@services/graphql/schema/local';
 import { modules } from '@config';
 import Router from 'next/router';
 import React from 'react';
@@ -22,7 +20,6 @@ const CoreOptionsItemVirtual = ({
     ...other
 }) => {
     const [qty, setQty] = React.useState(1);
-    const client = useApolloClient();
     let cartId = '';
     let isLogin = '';
 
@@ -161,8 +158,8 @@ const CoreOptionsItemVirtual = ({
                         entered_options,
                     },
                 })
-                    .then((res) => {
-                        client.writeQuery({ query: localTotalCart, data: { totalCart: res.data.addVirtualProductsToCart.cart.total_quantity } });
+                    .then(() => {
+                        window.reloadCartQty = true;
                         window.toastMessage({
                             variant: 'success',
                             text: t('product:successAddCart'),

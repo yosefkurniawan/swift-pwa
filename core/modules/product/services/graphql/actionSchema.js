@@ -47,7 +47,6 @@ mutation addSimpleProductsToCart(
     }) {
       cart {
         id
-        total_quantity
       }
     }
   }
@@ -79,7 +78,6 @@ mutation addVirtualProductToCart(
     }) {
       cart {
         id
-        total_quantity
       }
     }
   }
@@ -114,7 +112,6 @@ mutation(
     }
   ) {
     cart {
-      total_quantity
       items {
         product {
           sku
@@ -166,7 +163,6 @@ mutation (
   ) {
     cart {
       id
-      total_quantity
     }
   }
 }
@@ -180,7 +176,6 @@ export const addConfigurableProductsToCart = gql`
     addProductsToCart(cartId: $cartId, cartItems: $cartItems) {
       cart {
         id
-        total_quantity
       }
       user_errors {
         code
@@ -203,7 +198,6 @@ mutation (
       ) {
         cart {
           id
-          total_quantity
         }
       }
     }
@@ -220,7 +214,6 @@ export const addProductToCart = gql`
         ) {
             cart {
                 id
-                total_quantity
             }
             user_errors {
                 code
@@ -271,7 +264,6 @@ mutation addGiftCardProductsToCart(
             }
           }
         }
-        total_quantity
       }
     }
   }

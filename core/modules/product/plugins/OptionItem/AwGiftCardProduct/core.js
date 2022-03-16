@@ -1,9 +1,7 @@
-import { useApolloClient } from '@apollo/client';
 import { modules } from '@config';
 import { addGiftCardProductsToCart, getCustomerCartId, getGuestCartId as queryGetGuestCartId } from '@core_modules/product/services/graphql';
 import { getLoginInfo } from '@helper_auth';
 import { getCartId, setCartId } from '@helper_cartid';
-import { localTotalCart } from '@services/graphql/schema/local';
 import { useFormik } from 'formik';
 import Router from 'next/router';
 import React, { useState } from 'react';
@@ -25,7 +23,6 @@ const CoreGiftCardOptionItem = ({
     ...other
 }) => {
     const [qty, setQty] = React.useState(1);
-    const client = useApolloClient();
     let cartId = '';
     let isLogin = '';
 
@@ -228,8 +225,8 @@ const CoreGiftCardOptionItem = ({
                             },
                         },
                     })
-                        .then((res) => {
-                            client.writeQuery({ query: localTotalCart, data: { totalCart: res.data.addAwGcProductToCart.cart.total_quantity } });
+                        .then(() => {
+                            window.reloadCartQty = true;
                             window.toastMessage({
                                 variant: 'success',
                                 text: t('product:successAddCart'),
