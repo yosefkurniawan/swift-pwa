@@ -137,7 +137,7 @@ const Layout = (props) => {
         ogData['og:description'] = storeConfig.default_description || '';
     }
 
-    if (storeConfig && storeConfig.pwa) {
+    if (storeConfig && storeConfig.pwa && storeConfig.pwa.facebook_meta_id_app_id) {
         ogData['fb:app_id'] = storeConfig.pwa.facebook_meta_id_app_id;
     }
 
