@@ -222,7 +222,7 @@ const features = {
         alias: 'top-menu',
     },
     customInstallApp: {
-        enabled: true,
+        enabled: false,
     },
     firebase: {
         config: {
