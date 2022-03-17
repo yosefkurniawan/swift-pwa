@@ -11,6 +11,7 @@ const orderOutput = `
     total_pages
     items {
         id
+        order_comment
         grand_total
         status
         status_label
