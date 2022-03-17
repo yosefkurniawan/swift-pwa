@@ -28,6 +28,16 @@ const ViewSwitcherLanguage = (props) => {
     const transforOrigin = { vertical: 'top', horizontal: 'right' };
     const styleTitle = { fontSize: 12, textTransform: 'uppercase' };
     const styleButton = { fontFamily: 'Montserrat', padding: '0px', fontSize: title ? '12px' : '1em' };
+    const listDataLanguage = [];
+    if (dataLang !== undefined) {
+        dataLang.map((item) => {
+            const isCurrent = item.value === lang.value;
+            if (!isCurrent) {
+                listDataLanguage.push(item);
+            }
+            return item;
+        });
+    }
 
     /**
      * rendering
@@ -49,27 +59,28 @@ const ViewSwitcherLanguage = (props) => {
             </Button>
 
             {/* [CURRENCY] LIST */}
-            <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={anchorOrigin}
-                transformOrigin={transforOrigin}
-                container={buttonRef.current}
-            >
-                <List component="nav">
-                    {dataLang !== undefined
-                        && dataLang.map((item, index) => {
-                            const isCurrent = item.value === lang.value;
-                            return isCurrent ? null : (
+            {
+                listDataLanguage && listDataLanguage.length > 0 && (
+                    <Popover
+                        id={id}
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                        anchorOrigin={anchorOrigin}
+                        transformOrigin={transforOrigin}
+                        container={buttonRef.current}
+                    >
+                        <List component="nav">
+                            {listDataLanguage !== undefined
+                            && listDataLanguage.map((item, index) => (
                                 <ListItem button key={`language-${index}`} onClick={() => onClickLanguage({ item })}>
                                     <ListItemText classes={{ primary: classes.listItemText }} primary={`${item.label}`} />
                                 </ListItem>
-                            );
-                        })}
-                </List>
-            </Popover>
+                            ))}
+                        </List>
+                    </Popover>
+                )
+            }
         </div>
     );
 };
