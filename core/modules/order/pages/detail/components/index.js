@@ -313,13 +313,13 @@ const DetailOrder = (props) => {
                                     type="regular"
                                     className={classNames('clear-margin-padding', styles.blockLabel)}
                                 >
-                                    About Your Order
+                                    {t('order:orderComment:title')}
                                 </Typography>
                                 <hr />
                             </div>
                             <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
-                                    Order Comment
+                                    {t('order:orderComment:subTitle')}
                                 </Typography>
                                 <Typography variant="span" className="clear-margin-padding">
                                     {detail[0].order_comment || ''}
