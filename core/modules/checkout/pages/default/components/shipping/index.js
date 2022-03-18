@@ -4,11 +4,20 @@ import gqlService from '@core_modules/checkout/services/graphql';
 
 const Shipping = (props) => {
     const {
-        t, checkout, setCheckout, updateFormik, handleOpenMessage, storeConfig, isOnlyVirtualProductOnCart, ShippingView,
+        t,
+        checkout,
+        setCheckout,
+        updateFormik,
+        handleOpenMessage,
+        storeConfig,
+        isOnlyVirtualProductOnCart,
+        ShippingView,
+        checkoutTokenState,
+        setCheckoutTokenState,
     } = props;
 
     const { loading, data, selected } = checkout;
-    const [setShippingMethod] = gqlService.setShippingMethod({ onError: () => {} });
+    const [setShippingMethod] = gqlService.setShippingMethod();
     const { data: shippingMethodList } = gqlService.getCheckoutConfigurations();
 
     const handleShipping = async (val) => {
@@ -28,12 +37,17 @@ const Shipping = (props) => {
             state.selected.shipping = val;
             setCheckout(state);
 
-            let updatedCart = await setShippingMethod({
+            let updatedCart = {};
+            await setShippingMethod({
                 variables: {
                     cartId: cart.id,
                     carrierCode: carrier_code,
                     methodCode: method_code,
                 },
+            }).then((res) => {
+                updatedCart = res;
+            }).catch((err) => {
+                updatedCart = err;
             });
 
             state = {
@@ -49,7 +63,7 @@ const Shipping = (props) => {
             };
             setCheckout(state);
 
-            if (updatedCart && updatedCart.data) {
+            if (updatedCart && updatedCart.data && updatedCart.data.setShippingMethodsOnCart && updatedCart.data.setShippingMethodsOnCart.cart) {
                 updatedCart = {
                     ...checkout.data.cart,
                     ...updatedCart.data.setShippingMethodsOnCart.cart,
@@ -105,10 +119,15 @@ const Shipping = (props) => {
                     dataLayer: dataLayerOption,
                 });
             } else {
-                handleOpenMessage({
-                    variant: 'error',
-                    text: t('checkout:message:problemConnection'),
-                });
+                state.selected.shipping = null;
+                if (updatedCart.message.includes('Token is wrong.')) {
+                    setCheckoutTokenState(!checkoutTokenState);
+                } else {
+                    handleOpenMessage({
+                        variant: 'error',
+                        text: t('checkout:message:problemConnection'),
+                    });
+                }
             }
         }
     };

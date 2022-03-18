@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-indent */
+/* eslint-disable indent */
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -7,7 +9,7 @@ import propTypes from 'prop-types';
 import { useTranslation } from '@i18n';
 
 const ConfirmationDialog = ({
-    open = false, handleYes, handleCancel, message,
+    open = false, handleYes, handleCancel, message, confirmOnly = false,
 }) => {
     const { t } = useTranslation(['common']);
     return (
@@ -23,12 +25,20 @@ const ConfirmationDialog = ({
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleCancel} color="primary">
-                    {t('common:button:cancel')}
-                </Button>
-                <Button onClick={handleYes} color="primary" autoFocus>
-                    {t('common:button:yes')}
-                </Button>
+                {confirmOnly ? (
+                    <Button onClick={handleYes} color="primary" autoFocus>
+                        {t('common:button:confirm')}
+                    </Button>
+                ) : (
+                    <>
+                            <Button onClick={handleCancel} color="primary">
+                                {t('common:button:cancel')}
+                            </Button>
+                            <Button onClick={handleYes} color="primary" autoFocus>
+                                {t('common:button:yes')}
+                            </Button>
+                    </>
+                )}
             </DialogActions>
         </Dialog>
     );

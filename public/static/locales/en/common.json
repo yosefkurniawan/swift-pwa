@@ -19,6 +19,7 @@
         "save": "Save",
         "saved": "Saved",
         "continueShopping": "Continue Shopping",
+        "confirm": "Confirm",
         "cancel": "Cancel",
         "yes": "Yes",
         "checkout": "Checkout",
@@ -111,7 +112,7 @@
     "menu": {
         "confirmpayment": "Confirm Payment",
         "trackingorder": "Tracking Order",
-        "sign": "Sign",
+        "sign": "Sign In",
         "register": "Create Account",
         "or": "or",
         "notification": "Notification",

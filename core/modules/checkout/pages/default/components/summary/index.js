@@ -18,7 +18,18 @@ import Traveloka3DSModal from '@core_modules/checkout/pages/default/components/p
 import useTravelokaPay from '@core_modules/checkout/helpers/useTravelokaPay';
 
 const Summary = ({
-    t, checkout, setCheckout, handleOpenMessage, formik, updateFormik, config, refSummary, storeConfig, travelokaPayRef,
+    t,
+    checkout,
+    setCheckout,
+    handleOpenMessage,
+    formik,
+    updateFormik,
+    config,
+    refSummary,
+    storeConfig,
+    travelokaPayRef,
+    checkoutTokenState,
+    setCheckoutTokenState,
 }) => {
     const { order: loading, all: disabled } = checkout.loading;
     const isSelectedPurchaseOrder = checkout.selected.payment === 'purchaseorder';
@@ -35,8 +46,8 @@ const Summary = ({
     const [snapOpened, setSnapOpened] = useState(false);
     const [snapClosed, setSnapClosed] = useState(false);
     const [getSnapToken, manageSnapToken] = gqlService.getSnapToken({ onError: () => {} });
-    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
-    const [placeOrder] = gqlService.placeOrder({ onError: () => {} });
+    const [setPaymentMethod] = gqlService.setPaymentMethod();
+    const [placeOrder] = gqlService.placeOrder();
     const [placeOrderWithOrderComment] = gqlService.placeOrderWithOrderComment({ onError: () => {} });
     const [getSnapOrderStatusByOrderId, snapStatus] = gqlService.getSnapOrderStatusByOrderId({ onError: () => {} });
     const [getCustCartId, manageCustCartId] = gqlService.getCustomerCartId();
@@ -59,16 +70,20 @@ const Summary = ({
     const [actDeleteItem] = gqlService.deleteItemCart();
     const [actUpdateItem] = gqlService.updateItemCart();
 
-    const validateReponse = (response, parentState) => {
+    const validateResponse = (response, parentState) => {
         const state = parentState;
-        if ((response && response.errors) || !response) {
+        if (response.message) {
             state.loading.order = false;
             setCheckout(state);
 
-            handleOpenMessage({
-                variant: 'error',
-                text: t('checkout:message:serverError'),
-            });
+            if (response.message.includes('Token is wrong.')) {
+                setCheckoutTokenState(!checkoutTokenState);
+            } else {
+                handleOpenMessage({
+                    variant: 'error',
+                    text: t('checkout:message:serverError'),
+                });
+            }
 
             return false;
         }
@@ -174,11 +189,20 @@ const Summary = ({
 
         if (cart.prices.grand_total.value === 0 && cart.selected_payment_method && cart.selected_payment_method.code !== 'free') {
             state = { ...checkout };
-            result = await setPaymentMethod({ variables: { cartId: cart.id, payment_method: { code: 'free' } } });
+            await setPaymentMethod({
+                variables: {
+                    cartId: cart.id,
+                    payment_method: {
+                        code: 'free',
+                    },
+                },
+            }).then((res) => {
+                result = res;
+            }).catch((err) => {
+                result = err;
+            });
 
-            if (!validateReponse(result, state)) {
-                return;
-            }
+            if (!validateResponse(result, state)) return;
 
             state.data.cart = {
                 ...state.data.cart,
@@ -266,16 +290,23 @@ const Summary = ({
                         },
                     });
                 } else {
-                    result = await placeOrder({ variables: { cartId: cart.id, origin: originName } });
+                    await placeOrder({
+                        variables: {
+                            cartId: cart.id,
+                            origin: originName,
+                        },
+                    }).then((res) => {
+                        result = res;
+                    }).catch((err) => {
+                        result = err;
+                    });
                 }
 
                 state = { ...checkout };
                 state.loading.order = false;
                 setCheckout(state);
 
-                if (!validateReponse(result, state)) {
-                    return;
-                }
+                if (!validateResponse(result, state)) return;
 
                 let orderNumber = '';
                 if (result.data && result.data.placeOrder && result.data.placeOrder.order && result.data.placeOrder.order.order_number) {

@@ -24,6 +24,7 @@
         "changePickupLocation": "Ubah lokasi pengambilan",
         "selectStoreLocation": "Pilih lokasi toko"
     },
+    "invalidToken": "Anda sedang membuka halaman checkout di perangkat lain. Silahkan tutup terlebih dahulu dan refresh halaman ini.",
     "purchaseOrderNumber": "Nomor Pesanan Pembelian",
     "pickupStore": "Ambil di toko",
     "instorePickup": "Instore Pickup",
@@ -56,6 +57,7 @@
         "storeCreditApplied": "Store credit telah digunakan",
         "storeCreditRemoved": "Store credit tidak digunakan",
         "purchaseOrderApplied": "Nomor pesanan pembelian sudah di pasang",
+        "purchaseOrderFailed": "Nomor pesanan pembelian gagal di pasang",
         "couponError": "Kode kupon tidak dapat digunakan. Silahkan periksa terlebih kode kupon Anda dan coba kembali.",
         "giftCardError": "Kode gift card tidak dapat digunakan. Silahkan periksa terlebih kode kupon Anda dan coba kembali.",
         "placeOrder": "Berhasil melakukan pesanan",
