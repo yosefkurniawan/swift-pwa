@@ -11,12 +11,13 @@ import { getAppEnv } from '@root/core/helpers/env';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { appWithTranslation } from '@i18n';
 import { storeConfig as ConfigSchema, getVesMenu, getCategories } from '@services/graphql/schema/config';
-import { getRemoveDecimalConfig } from '@services/graphql/schema/pwa_config';
 import {
     GTM, custDataNameCookie, features, sentry,
 } from '@config';
 import { getLoginInfo, getLastPathWithoutLogin } from '@helper_auth';
-import { setResolver, testLocalStorage, setLocalStorage } from '@helper_localstorage';
+import {
+    setResolver, testLocalStorage, setLocalStorage, getLocalStorage,
+} from '@helper_localstorage';
 import { RewriteFrames } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
 import { unregister } from 'next-offline/runtime';
@@ -28,6 +29,7 @@ import routeMiddleware from '@middleware_route';
 import graphRequest from '@graphql_request';
 import Notification from '@lib_firebase/notification';
 import firebase from '@lib_firebase/index';
+import { gql } from '@apollo/client';
 
 import * as Sentry from '@sentry/node';
 import ModalCookies from '@core_modules/theme/components/modalCookies';
@@ -125,7 +127,7 @@ class MyApp extends App {
          */
         let dataVesMenu;
         let { storeConfig } = pageProps;
-        if (!storeConfig || typeof window === 'undefined' || typeof storeConfig.secure_base_media_url === 'undefined') {
+        if (typeof window === 'undefined' && (!storeConfig || typeof storeConfig.secure_base_media_url === 'undefined')) {
             // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
             storeConfig = await graphRequest(ConfigSchema);
 
@@ -137,15 +139,32 @@ class MyApp extends App {
             storeConfig = storeConfig.storeConfig;
             dataVesMenu = storeConfig.pwa.ves_menu_enable
                 ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias }) : await graphRequest(getCategories);
-        }
+            removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null
+                ? storeConfig?.pwa?.remove_decimal_price_enable
+                : false;
+        } else if (typeof window !== 'undefined' && !storeConfig) {
+            storeConfig = getLocalStorage('pwa_config');
+            if (!storeConfig || storeConfig === '' || storeConfig === {}) {
+                storeConfig = await pageProps.apolloClient.query({ query: gql`${ConfigSchema}` }).then(({ data }) => data);
 
-        if (typeof removeDecimalConfig === 'undefined') {
-            removeDecimalConfig = await graphRequest(getRemoveDecimalConfig);
-            if (ctx && removeDecimalConfig.response && removeDecimalConfig.response.status && removeDecimalConfig.response.status > 500) {
-                ctx.res.redirect('/maintenance');
+                // Handle redirecting to tomaintenance page automatically when GQL is in maintenance mode.
+                // We do this here since query storeConfig is the first query and be done in server side
+                if (ctx && storeConfig.response && storeConfig.response.status && storeConfig.response.status > 500) {
+                    ctx.res.redirect('/maintenance');
+                }
+
+                storeConfig = storeConfig.storeConfig;
             }
-            removeDecimalConfig = removeDecimalConfig?.storeConfig?.pwa?.remove_decimal_price_enable !== null
-                ? removeDecimalConfig?.storeConfig?.pwa?.remove_decimal_price_enable
+            dataVesMenu = getLocalStorage('pwa_vesmenu');
+            if (!dataVesMenu) {
+                dataVesMenu = storeConfig.pwa.ves_menu_enable
+                    ? await pageProps.apolloClient.query(
+                        { query: gql`${getVesMenu}`, variables: { alias: storeConfig.pwa.ves_menu_alias } },
+                    ).then(({ data }) => data)
+                    : await pageProps.apolloClient.query({ query: gql`${getCategories}` }).then(({ data }) => data);
+            }
+            removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null
+                ? storeConfig?.pwa?.remove_decimal_price_enable
                 : false;
         }
 
@@ -294,9 +313,9 @@ class MyApp extends App {
     render() {
         const { Component, pageProps } = this.props;
         pageProps.storeConfig = pageProps.storeConfig ? pageProps.storeConfig : {};
+        Cookie.set('remove_decimal_config', pageProps.removeDecimalConfig, { expires: 365 });
         if (typeof window !== 'undefined' && testLocalStorage() === false) {
             // not available
-            setLocalStorage('cms_page', pageProps.storeConfig && pageProps.storeConfig.cms_page ? pageProps.storeConfig.cms_page : '');
             return (
                 <ThemeProvider theme={theme}>
                     {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
@@ -304,6 +323,12 @@ class MyApp extends App {
                     <ModalCookies {...pageProps} />
                 </ThemeProvider>
             );
+        }
+
+        if (typeof window !== 'undefined') {
+            setLocalStorage('cms_page', pageProps.storeConfig && pageProps.storeConfig.cms_page ? pageProps.storeConfig.cms_page : '');
+            setLocalStorage('pwa_config', pageProps.storeConfig);
+            setLocalStorage('pwa_vesmenu', pageProps.dataVesMenu);
         }
 
         return (
