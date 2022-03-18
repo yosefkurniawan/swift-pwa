@@ -75,7 +75,7 @@ const Product = (props) => {
 
     const { loading, data, fetchMore } = getProduct(config, {
         variables: {
-            pageSize: parseInt(storeConfig.pwa.page_size, 0) || 10,
+            pageSize: parseInt(storeConfig?.pwa?.page_size, 0) || 10,
             currentPage: 1,
         },
         context,
