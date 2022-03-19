@@ -257,7 +257,7 @@ const Summary = ({
                     text: msg,
                 });
             } else {
-                if (modules.checkout.orderComment.enabled && formik.values.orderComment !== '') {
+                if (formik.values.orderComment !== '') {
                     result = await placeOrderWithOrderComment({
                         variables: {
                             cartId: cart.id,
