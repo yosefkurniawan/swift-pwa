@@ -30,6 +30,7 @@ export default makeStyles((theme) => ({
         marginTop: 10,
         boxShadow: 'none',
         width: '100%',
+        overflow: 'hidden !important',
         '& .product-options': {
             paddingLeft: 5,
             fontSize: 12,
@@ -56,6 +57,7 @@ export default makeStyles((theme) => ({
         },
     },
     tableRowResponsive: {
+        borderBottom: 'none',
         [theme.breakpoints.down('xs')]: {
             display: 'grid !important',
             borderBottom: '1px solid rgba(224, 224, 224, 1)',
@@ -94,6 +96,7 @@ export default makeStyles((theme) => ({
         width: 105,
         height: 130,
         position: 'relative',
+        overflow: 'hidden',
         '& span': {
             position: 'absolute',
             top: 0,

@@ -76,187 +76,184 @@ const ListItemCart = (props) => {
                                         <>
                                             {
                                                 data.map((val, index) => (
-                                                    <React.Fragment key={index}>
-                                                        <TableRow className={styles.tableRowResponsive} key={index}>
-                                                            <TableCell
-                                                                align="center"
-                                                                rowSpan={2}
-                                                            >
-                                                                <div className={styles.productImgContainer}>
+                                                    <TableRow key={index} className={styles.tableRowResponsive}>
+                                                        <TableCell
+                                                            align="center"
+                                                        >
+                                                            <div className={styles.productImgContainer}>
+                                                                <Link
+                                                                    href="/[...slug]"
+                                                                    as={`/${val.product.url_key}`}
+                                                                >
+                                                                    <a>
+                                                                        <Image
+                                                                            src={val.product.small_image.url}
+                                                                            className={styles.productImg}
+                                                                            alt={val.product.name}
+                                                                            width={defaultWidth}
+                                                                            height={defaultHeight}
+                                                                            quality={80}
+                                                                        />
+                                                                    </a>
+                                                                </Link>
+                                                                {
+                                                                    val.prices.price.value === 0 ? (
+                                                                        <span>Free</span>
+                                                                    ) : null
+                                                                }
+                                                            </div>
+                                                        </TableCell>
+                                                        <TableCell
+                                                            align="left"
+                                                            className={styles.noBorder}
+                                                        >
+                                                            <div className="row">
+                                                                <div className="col-xs-12">
                                                                     <Link
                                                                         href="/[...slug]"
                                                                         as={`/${val.product.url_key}`}
                                                                     >
                                                                         <a>
-                                                                            <Image
-                                                                                src={val.product.small_image.url}
-                                                                                className={styles.productImg}
-                                                                                alt={val.product.name}
-                                                                                width={defaultWidth}
-                                                                                height={defaultHeight}
-                                                                                quality={80}
-                                                                            />
+                                                                            <Typography variant="span" letter="capitalize">
+                                                                                {val.product.name}
+                                                                            </Typography>
                                                                         </a>
                                                                     </Link>
-                                                                    {
-                                                                        val.prices.price.value === 0 ? (
-                                                                            <span>Free</span>
-                                                                        ) : null
-                                                                    }
                                                                 </div>
-                                                            </TableCell>
-                                                            <TableCell
-                                                                align="left"
-                                                                className={styles.noBorder}
-                                                            >
-                                                                <div className="row">
-                                                                    <div className="col-xs-12">
-                                                                        <Link
-                                                                            href="/[...slug]"
-                                                                            as={`/${val.product.url_key}`}
-                                                                        >
-                                                                            <a>
-                                                                                <Typography variant="span" letter="capitalize">
-                                                                                    {val.product.name}
-                                                                                </Typography>
-                                                                            </a>
-                                                                        </Link>
-                                                                    </div>
-                                                                    <div className="col-xs-12 column">
-                                                                        { val.configurable_options ? val.configurable_options.map((item, idx) => (
-                                                                            <Typography variant="span" letter="capitalize" key={idx}>
-                                                                                <strong>{item.option_label}</strong>
+                                                                <div className="col-xs-12 column">
+                                                                    { val.configurable_options ? val.configurable_options.map((item, idx) => (
+                                                                        <Typography variant="span" letter="capitalize" key={idx}>
+                                                                            <strong>{item.option_label}</strong>
+                                                                            {' '}
+                                                                            :
+                                                                            {' '}
+                                                                            {item.value_label}
+                                                                        </Typography>
+                                                                    )) : null}
+                                                                </div>
+                                                                {
+                                                                    val.links && val.links.length > 0 && (
+                                                                        <div className="col-xs-12 row option-link">
+                                                                            <Typography variant="span" letter="capitalize" type="bold">
+                                                                                Downloads :
                                                                                 {' '}
-                                                                                :
-                                                                                {' '}
-                                                                                {item.value_label}
                                                                             </Typography>
-                                                                        )) : null}
-                                                                    </div>
-                                                                    {
-                                                                        val.links && val.links.length > 0 && (
-                                                                            <div className="col-xs-12 row option-link">
-                                                                                <Typography variant="span" letter="capitalize" type="bold">
-                                                                                    Downloads :
-                                                                                    {' '}
-                                                                                </Typography>
-                                                                                <div className="column">
-                                                                                    { val.links.map((item, idx) => (
-                                                                                        <Typography variant="span" letter="capitalize" key={idx}>
-                                                                                            {item.title}
-                                                                                        </Typography>
-                                                                                    )) }
-                                                                                </div>
+                                                                            <div className="column">
+                                                                                { val.links.map((item, idx) => (
+                                                                                    <Typography variant="span" letter="capitalize" key={idx}>
+                                                                                        {item.title}
+                                                                                    </Typography>
+                                                                                )) }
                                                                             </div>
-                                                                        )
-                                                                    }
-                                                                </div>
-                                                                {val.bundle_options && val.bundle_options.length ? (
-                                                                    <div className="product-options">
-                                                                        {val.bundle_options.map((value, idx) => (
-                                                                            <div className="option-wrapper" key={idx}>
-                                                                                <strong>{value.label}</strong>
-                                                                                {' '}
-                                                                                :
-                                                                                <div className="option-wrapper__item">
-                                                                                    {value.values.map((item, idt) => (
-                                                                                        <div key={idt}>
-                                                                                            {item.quantity}
-                                                                                            {' '}
-                                                                                            x
-                                                                                            {item.label}
-                                                                                            {' '}
-                                                                                            <strong>
-                                                                                                + $
-                                                                                                {item.price}
-                                                                                            </strong>
-                                                                                        </div>
-                                                                                    ))}
-                                                                                </div>
-                                                                            </div>
-                                                                        ))}
-                                                                    </div>
-                                                                ) : null}
-                                                                {val.bundle_options && val.bundle_options.length ? (
-                                                                    <div className="product-options">
-                                                                        {val.bundle_options.map((bundle, idb) => (
-                                                                            <div className="option-wrapper" key={idb}>
-                                                                                <strong>{bundle.label}</strong>
-                                                                                {' '}
-                                                                                :
-                                                                                <div className="option-wrapper__item">
-                                                                                    {bundle.values.map((item, idt) => (
-                                                                                        <div key={idt}>
-                                                                                            {item.quantity}
-                                                                                            {' '}
-                                                                                            x
-                                                                                            {item.label}
-                                                                                            {' '}
-                                                                                            <strong>
-                                                                                                + $
-                                                                                                {item.price}
-                                                                                            </strong>
-                                                                                        </div>
-                                                                                    ))}
-                                                                                </div>
-                                                                            </div>
-                                                                        ))}
-                                                                    </div>
-                                                                ) : null}
-                                                                {val.customizable_options && val.customizable_options.length ? (
-                                                                    <div className="product-options">
-                                                                        {val.customizable_options.map((op, idx) => (
-                                                                            <div className="option-wrapper" key={idx}>
-                                                                                <div className="row option-wrapper__item">
-                                                                                    <strong>
-                                                                                        {op.label}
+                                                                        </div>
+                                                                    )
+                                                                }
+                                                            </div>
+                                                            {val.bundle_options && val.bundle_options.length ? (
+                                                                <div className="product-options">
+                                                                    {val.bundle_options.map((value, idx) => (
+                                                                        <div className="option-wrapper" key={idx}>
+                                                                            <strong>{value.label}</strong>
+                                                                            {' '}
+                                                                            :
+                                                                            <div className="option-wrapper__item">
+                                                                                {value.values.map((item, idt) => (
+                                                                                    <div key={idt}>
+                                                                                        {item.quantity}
                                                                                         {' '}
-                                                                                        :
-                                                                                    </strong>
-                                                                                    {op.values.map((item, idt) => (
-                                                                                        <p key={idt} className="option-item">
-                                                                                            {(item.label && item.label !== '')
-                                                                                                ? item.label : item.value}
-                                                                                        </p>
-                                                                                    ))}
-                                                                                </div>
+                                                                                        x
+                                                                                        {item.label}
+                                                                                        {' '}
+                                                                                        <strong>
+                                                                                            + $
+                                                                                            {item.price}
+                                                                                        </strong>
+                                                                                    </div>
+                                                                                ))}
                                                                             </div>
-                                                                        ))}
-                                                                    </div>
-                                                                ) : null}
-                                                            </TableCell>
-                                                            <TableCell
-                                                                align="right"
-                                                                className={styles.noBorder}
-                                                            >
-                                                                <Typography variant="span" align="right" letter="capitalize" type="semiBold">
-                                                                    {formatPrice(
-                                                                        val.prices.row_total_including_tax.value,
-                                                                        val.prices.row_total_including_tax.currency || 'IDR',
-                                                                    )}
-                                                                </Typography>
-                                                            </TableCell>
-                                                            <TableCell
-                                                                align="right"
-                                                                className={styles.noBorder}
-                                                            >
-                                                                <Typography variant="span" align="right" letter="capitalize">
-                                                                    {val.quantity}
-                                                                </Typography>
-                                                            </TableCell>
-                                                            <TableCell
-                                                                align="right"
-                                                                className={styles.noBorder}
-                                                            >
-                                                                <Typography variant="span" align="right" letter="capitalize" type="semiBold">
-                                                                    {formatPrice(
-                                                                        val.prices.row_total_including_tax.value,
-                                                                        val.prices.row_total_including_tax.currency,
-                                                                    )}
-                                                                </Typography>
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    </React.Fragment>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            ) : null}
+                                                            {val.bundle_options && val.bundle_options.length ? (
+                                                                <div className="product-options">
+                                                                    {val.bundle_options.map((bundle, idb) => (
+                                                                        <div className="option-wrapper" key={idb}>
+                                                                            <strong>{bundle.label}</strong>
+                                                                            {' '}
+                                                                            :
+                                                                            <div className="option-wrapper__item">
+                                                                                {bundle.values.map((item, idt) => (
+                                                                                    <div key={idt}>
+                                                                                        {item.quantity}
+                                                                                        {' '}
+                                                                                        x
+                                                                                        {item.label}
+                                                                                        {' '}
+                                                                                        <strong>
+                                                                                            + $
+                                                                                            {item.price}
+                                                                                        </strong>
+                                                                                    </div>
+                                                                                ))}
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            ) : null}
+                                                            {val.customizable_options && val.customizable_options.length ? (
+                                                                <div className="product-options">
+                                                                    {val.customizable_options.map((op, idx) => (
+                                                                        <div className="option-wrapper" key={idx}>
+                                                                            <div className="row option-wrapper__item">
+                                                                                <strong>
+                                                                                    {op.label}
+                                                                                    {' '}
+                                                                                    :
+                                                                                </strong>
+                                                                                {op.values.map((item, idt) => (
+                                                                                    <p key={idt} className="option-item">
+                                                                                        {(item.label && item.label !== '')
+                                                                                            ? item.label : item.value}
+                                                                                    </p>
+                                                                                ))}
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            ) : null}
+                                                        </TableCell>
+                                                        <TableCell
+                                                            align="right"
+                                                            className={styles.noBorder}
+                                                        >
+                                                            <Typography variant="span" align="right" letter="capitalize" type="semiBold">
+                                                                {formatPrice(
+                                                                    val.prices.row_total_including_tax.value,
+                                                                    val.prices.row_total_including_tax.currency || 'IDR',
+                                                                )}
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell
+                                                            align="right"
+                                                            className={styles.noBorder}
+                                                        >
+                                                            <Typography variant="span" align="right" letter="capitalize">
+                                                                {val.quantity}
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell
+                                                            align="right"
+                                                            className={styles.noBorder}
+                                                        >
+                                                            <Typography variant="span" align="right" letter="capitalize" type="semiBold">
+                                                                {formatPrice(
+                                                                    val.prices.row_total_including_tax.value,
+                                                                    val.prices.row_total_including_tax.currency,
+                                                                )}
+                                                            </Typography>
+                                                        </TableCell>
+                                                    </TableRow>
                                                 ))
                                             }
                                         </>

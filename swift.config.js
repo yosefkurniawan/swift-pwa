@@ -14,8 +14,8 @@ const HOST = {
 
 /* Magento GraphQL Endpoint */
 const graphqlEndpoint = {
-    local: 'https://swift-sprint.testingnow.me/graphql',
-    dev: 'https://swift-sprint.testingnow.me/graphql',
+    local: 'https://swiftpwa-be.testingnow.me/graphql',
+    dev: 'https://swiftpwa-be.testingnow.me/graphql',
     stage: 'https://b2cdemonew.gcp-staging.testingnow.me/graphql',
     prod: 'https://b2cdemo.getswift.asia/graphql',
 };
@@ -290,16 +290,17 @@ const modules = {
         },
     },
     paypal: {
+        enabled: true,
         path: '/paypal',
         clientId: {
-            local: 'AQuL1gl_k6CAtUHIYLaNwjGphf-QeBC0fFul7KkjqPJB5XW_fQpK9bAdBlXJMXlcKXtA-gGqOA3q5vo5',
-            dev: 'AQuL1gl_k6CAtUHIYLaNwjGphf-QeBC0fFul7KkjqPJB5XW_fQpK9bAdBlXJMXlcKXtA-gGqOA3q5vo5',
+            local: '', // sample AaOafUT6j2w7kZNb97_cAlI0MjGexmWOaWo650ANV5xgrT3Ff1xtdwJxVByCHUJZ0Ga9HKvbRw5NIjNV
+            dev: '',
             prod: '',
             stage: '',
         },
         clientSecret: {
-            local: 'EE-zOOh9EYgK96Iji5FGNZuCDUYTebu9uJzXg-NlET3USyaUdBguRsCmA9rFJbteQK_CAjpwQTZVxMDG',
-            dev: 'EE-zOOh9EYgK96Iji5FGNZuCDUYTebu9uJzXg-NlET3USyaUdBguRsCmA9rFJbteQK_CAjpwQTZVxMDG',
+            local: '', // sample EM2Uqt5eiPEgcCMi6NAF94DNsOoP3YBgGRkBGyFQdEXahjzuPfi17sjfhW4N9CfmE_RLjDGuZ19Gf1WP
+            dev: '',
             prod: '',
             stage: '',
         },

@@ -110,6 +110,8 @@ export const storeConfig = `
       logo_alt
       logo_width
       logo_height
+      shipments_configuration
+      payments_configuration
       pwa {
         add_to_cart_enable
         app_name
