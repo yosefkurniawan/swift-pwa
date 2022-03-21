@@ -9,33 +9,41 @@ import propTypes from 'prop-types';
 import { useTranslation } from '@i18n';
 
 const ConfirmationDialog = ({
-    open = false, handleYes, handleCancel, message, confirmOnly = false,
+    open = false, handleYes, handleCancel, message, confirmationMessage, confirmOnly = false, yesNo = false,
 }) => {
     const { t } = useTranslation(['common']);
     return (
         <Dialog
             open={open}
             // onClose={handleClose}
+            maxWidth="xs"
+            fullWidth
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
             <DialogContent>
-                <DialogContentText id="alert-dialog-description">
+                <DialogContentText id="alert-dialog-description" style={{ color: 'rgba(0, 0, 0, 0.75' }}>
                     {message}
+                    {confirmationMessage !== '' ? (
+                        <>
+                            <br />
+                            {confirmationMessage}
+                        </>
+                    ) : ''}
                 </DialogContentText>
             </DialogContent>
-            <DialogActions>
+            <DialogActions style={{ background: 'rgba(0, 0, 0, 0.15', padding: '1rem' }}>
                 {confirmOnly ? (
                     <Button onClick={handleYes} color="primary" autoFocus>
                         {t('common:button:confirm')}
                     </Button>
                 ) : (
-                    <>
-                            <Button onClick={handleCancel} color="primary">
-                                {t('common:button:cancel')}
-                            </Button>
-                            <Button onClick={handleYes} color="primary" autoFocus>
+                        <>
+                            <Button onClick={handleYes} color="primary" autoFocus align="right" customRootStyle={{ width: 'unset' }}>
                                 {t('common:button:yes')}
+                            </Button>
+                            <Button onClick={handleCancel} color="primary" align="right" customRootStyle={{ width: 'unset' }}>
+                                {!yesNo ? t('common:button:cancel') : t('common:button:no')}
                             </Button>
                     </>
                 )}
