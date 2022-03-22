@@ -7,7 +7,11 @@ import { removeCookies } from '@helper_cookies';
 import { useApolloClient } from '@apollo/client';
 import { localTotalCart, localCompare } from '@services/graphql/schema/local';
 import firebase from 'firebase/app';
-import { custDataNameCookie, features, modules } from '@config';
+import {
+    custDataNameCookie,
+    features,
+    modules,
+} from '@config';
 import {
     getCategories, getCustomer, removeToken, getVesMenu,
 } from '@core_modules/theme/services/graphql';
@@ -36,24 +40,23 @@ const CoreTopNavigation = (props) => {
 
     const handleLogout = async () => {
         window.backdropLoader(true);
+        if (features.firebase.config.apiKey && features.firebase.config.apiKey !== '') {
+            firebase.auth().signOut().then(() => {
+                // Sign-out successful.
+            }).catch(() => {
+                // An error happened.
+            });
+        }
         await deleteTokenGql()
             .then(() => {
                 Cookies.remove(custDataNameCookie);
                 removeIsLoginFlagging();
                 removeCartId();
                 removeCookies('uid_product_compare');
-                if (features.firebase.config.apiKey && features.firebase.config.apiKey !== '') {
-                    firebase.auth().signOut().then(() => {
-                        // Sign-out successful.
-                    }).catch(() => {
-                        // An error happened.
-                        // console.log(error);
-                    });
-                }
                 client.writeQuery({ query: localTotalCart, data: { totalCart: 0 } });
                 client.writeQuery({ query: localCompare, data: { item_count: 0 } });
                 window.backdropLoader(false);
-                Router.push('/customer/account/login');
+                Router.reload();
             })
             .catch(() => {
                 window.backdropLoader(false);
