@@ -24,7 +24,7 @@
         "changePickupLocation": "Change pickup location",
         "selectStoreLocation": "Select store location"
     },
-    "invalidToken": "You have an active checkout session in another browser/device. You are allowed to checkout in one browser/device only.",
+    "invalidToken": "You have an active checkout session in another browser or device. You are allowed to checkout in one browser or device only.",
     "invalidTokenConfirmation": "Do you want to continue checkout here?",
     "purchaseOrderNumber": "Purchase Order Number",
     "pickupStore": "Pickup at store",

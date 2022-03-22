@@ -32,17 +32,17 @@ const ConfirmationDialog = ({
                     ) : ''}
                 </DialogContentText>
             </DialogContent>
-            <DialogActions style={{ background: 'rgba(0, 0, 0, 0.15', padding: '1rem' }}>
+            <DialogActions style={{ padding: '0rem 0rem 1rem' }}>
                 {confirmOnly ? (
                     <Button onClick={handleYes} color="primary" autoFocus>
                         {t('common:button:confirm')}
                     </Button>
                 ) : (
                         <>
-                            <Button onClick={handleYes} color="primary" autoFocus align="right" customRootStyle={{ width: 'unset' }}>
+                            <Button onClick={handleYes} color="primary" autoFocus align="right">
                                 {t('common:button:yes')}
                             </Button>
-                            <Button onClick={handleCancel} color="primary" align="right" customRootStyle={{ width: 'unset' }}>
+                            <Button onClick={handleCancel} color="primary" align="left">
                                 {!yesNo ? t('common:button:cancel') : t('common:button:no')}
                             </Button>
                     </>
