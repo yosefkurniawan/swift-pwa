@@ -20,6 +20,8 @@ import useStyles from '@core_modules/checkout/pages/default/components/style';
 import InStorePickup from '@core_modules/checkout/pages/default/components/instorepickup';
 import Confirmation from '@core_modules/checkout/pages/default/components/Confirmation';
 import dynamic from 'next/dynamic';
+import Router from 'next/router';
+import Modal from '@common_confirmdialog';
 
 const GimmickBanner = dynamic(() => import('@plugin_gimmickbanner'), { ssr: false });
 
@@ -63,6 +65,8 @@ const Content = (props) => {
         refetchDataCart,
         refetchItemCart,
         ConfirmationView,
+        checkoutTokenState,
+        setCheckoutTokenState,
     } = props;
 
     const styles = useStyles();
@@ -92,6 +96,15 @@ const Content = (props) => {
             <div className="col-xs-12 center hidden-mobile">
                 <HeaderView storeConfig={storeConfig} />
             </div>
+            <Modal
+                open={checkoutTokenState}
+                handleYes={() => {
+                    setCheckoutTokenState(!checkoutTokenState);
+                    Router.push('/checkout/cart');
+                }}
+                confirmOnly
+                message={`${t('checkout:invalidToken')}`}
+            />
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
                 {
                     checkout
@@ -135,6 +148,8 @@ const Content = (props) => {
                             handleOpenMessage={handleOpenMessage}
                             storeConfig={storeConfig}
                             isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
+                            checkoutTokenState={checkoutTokenState}
+                            setCheckoutTokenState={setCheckoutTokenState}
                         />
                     ) : null}
                     <Email
@@ -146,6 +161,8 @@ const Content = (props) => {
                         setCheckout={setCheckout}
                         handleOpenMessage={handleOpenMessage}
                         cartId={cartId}
+                        checkoutTokenState={checkoutTokenState}
+                        setCheckoutTokenState={setCheckoutTokenState}
                     />
                     {/* eslint-disable */}
                     {checkout.selected.delivery === 'home' ? (
@@ -162,6 +179,8 @@ const Content = (props) => {
                             isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
                             refetchDataCart={refetchDataCart}
                             refetchItemCart={refetchItemCart}
+                            checkoutTokenState={checkoutTokenState}
+                            setCheckoutTokenState={setCheckoutTokenState}
                         />
                     ) : checkout.selected.delivery === 'pickup' ? (
                             <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
@@ -183,6 +202,8 @@ const Content = (props) => {
                         storeConfig={storeConfig}
                         ShippingView={ShippingView}
                         isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
+                        checkoutTokenState={checkoutTokenState}
+                        setCheckoutTokenState={setCheckoutTokenState}
                     />
 
                     <div className={classNames(styles.block)}>
@@ -273,6 +294,8 @@ const Content = (props) => {
                         travelokaPayRef={travelokaPayRef}
                         displayHowToPay={displayHowToPay}
                         setDisplayHowToPay={setDisplayHowToPay}
+                        checkoutTokenState={checkoutTokenState}
+                        setCheckoutTokenState={setCheckoutTokenState}
                     />
                     
                     <Confirmation
@@ -323,6 +346,8 @@ const Content = (props) => {
                     refSummary={SummaryRef}
                     isOnlyVirtualProductOnCart={isOnlyVirtualProductOnCart}
                     travelokaPayRef={travelokaPayRef}
+                    checkoutTokenState={checkoutTokenState}
+                    setCheckoutTokenState={setCheckoutTokenState}
                 />
             </div>
             <div className="col-xs-12 col-sm-8 hidden-mobile center">
