@@ -115,7 +115,6 @@ export const storeConfig = `
       pwa {
         add_to_cart_enable
         app_name
-        catalog_enable
         cms_contact_identifiers
         cms_social_media_link_identifer
         configurable_options_enable
