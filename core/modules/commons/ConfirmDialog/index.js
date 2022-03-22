@@ -45,7 +45,7 @@ const ConfirmationDialog = ({
                             <Button onClick={handleCancel} color="primary" align="left">
                                 {!yesNo ? t('common:button:cancel') : t('common:button:no')}
                             </Button>
-                    </>
+                        </>
                 )}
             </DialogActions>
         </Dialog>
