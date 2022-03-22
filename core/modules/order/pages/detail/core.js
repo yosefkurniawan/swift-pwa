@@ -6,7 +6,9 @@ import { features } from '@config';
 import { setCartId } from '@helper_cartid';
 import { getHost } from '@helpers/config';
 import Alert from '@material-ui/lab/Alert';
-import { getOrderDetail, reOrder as mutationReorder, getPaymentInformation, getTrackingOrder } from '@core_modules/order/services/graphql';
+import {
+    getOrderDetail, reOrder as mutationReorder, getPaymentInformation, getTrackingOrder,
+} from '@core_modules/order/services/graphql';
 
 const OrderDetail = (props) => {
     const {

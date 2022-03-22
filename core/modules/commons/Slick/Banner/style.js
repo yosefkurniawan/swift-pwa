@@ -9,29 +9,27 @@ const generateSliderContainer = (width = features.imageSize.homeSlider.mobile.wi
         if (width / height > 0.85 && width / height <= 0.9) {
             paddingTop = (width / height) * 135;
             return `${paddingTop}%`;
-        } else if (width / height > 0.8 && width / height <= 0.85) {
+        } if (width / height > 0.8 && width / height <= 0.85) {
             paddingTop = (width / height) * 150;
             return `${paddingTop}%`;
-        } else if (width / height > 0.75 && width / height <= 0.8) {
+        } if (width / height > 0.75 && width / height <= 0.8) {
             paddingTop = (width / height) * 175;
             return `${paddingTop}%`;
-        } else if (width / height > 0.7 && width / height <= 0.75) {
+        } if (width / height > 0.7 && width / height <= 0.75) {
             paddingTop = (width / height) * 200;
             return `${paddingTop}%`;
-        } else if (width / height > 0.65 && width / height <= 0.7) {
+        } if (width / height > 0.65 && width / height <= 0.7) {
             paddingTop = (width / height) * 225;
             return `${paddingTop}%`;
-        } else if (width / height >= 0.6 && width / height <= 0.65) {
+        } if (width / height >= 0.6 && width / height <= 0.65) {
             paddingTop = (width / height) * 250;
             return `${paddingTop}%`;
-        } else {
-            paddingTop = (width / height) * 275;
-            return `${paddingTop}%`;
         }
-    } else {
-        paddingTop = (height / width) * 150;
+        paddingTop = (width / height) * 275;
         return `${paddingTop}%`;
     }
+    paddingTop = (height / width) * 150;
+    return `${paddingTop}%`;
 };
 
 const useStyles = makeStyles((theme) => ({

@@ -5,7 +5,7 @@ import TagManager from 'react-gtm-module';
 
 const DesktopInstall = () => {
     const styles = useStyles();
-    
+
     const onClick = () => {
         const timestamp = Date.now();
         const identifier = `${(Math.floor(Math.random() * 100) * Math.floor(Math.random() * 100))}_${timestamp}`;

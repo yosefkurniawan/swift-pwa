@@ -108,24 +108,24 @@ const ModalResult = (props) => {
                 <div className="row">
                     <div className="col-xs-12">
                         {
-                            modalData.length > 0 
-                            ?
-                                <List>
+                            modalData.length > 0
+                                ?
+                                    <List>
                                     {trackOrder}
                                     {items.map((item, i) => (
-                                        <>
+                                            <>
                                             <div key={i} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
-                                                <Typography letter="capitalize" className="clear-margin-padding" style={{ width: '40%' }}>
+                                                    <Typography letter="capitalize" className="clear-margin-padding" style={{ width: '40%' }}>
                                                     {item.primary}
                                                 </Typography>
-                                                <Typography variant="span" type="regular" className="clear-margin-padding" style={{ width: '60%' }}>
+                                                    <Typography variant="span" type="regular" className="clear-margin-padding" style={{ width: '60%' }}>
                                                     {item.secondary}
                                                 </Typography>
-                                            </div>
+                                                </div>
                                         </>
                                     ))}
                                 </List>
-                            : 
+                                :
                                 <Alert severity="warning" style={{ marginBottom: 32 }}>{t('trackingorder:noDataAvailable')}</Alert>
                         }
                     </div>

@@ -46,10 +46,10 @@ const PopupInstalation = () => {
                 <p style={{ margin: 0 }}>{installMessage}</p>
             </div>
             <div className={styles.btnInstallContainer}>
-                <Button 
-                    className={styles.btnInstall} 
-                    id="btn-install__mobile" 
-                    variant="contained" 
+                <Button
+                    className={styles.btnInstall}
+                    id="btn-install__mobile"
+                    variant="contained"
                     color="primary"
                     onClick={onClick}
                 >

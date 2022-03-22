@@ -29,7 +29,7 @@ const DetailOrder = (props) => {
     } = props;
     const { checkout: { xendit: { paymentPrefixCodeOnSuccess } } } = modules;
     const styles = useStyles();
-    
+
     const [openXendit, setOpenXendit] = React.useState(false);
     const [openModal, setOpenModal] = React.useState(false);
     const [modalType, setModalType] = React.useState('');
@@ -39,7 +39,7 @@ const DetailOrder = (props) => {
     const shipping = {
         track_number: dataTrackingOrder.ordersFilter.data[0].detail[0].shipping_methods.shipping_detail[0].track_number,
         trackorder_type: dataTrackingOrder.ordersFilter.data[0].detail[0].shipping_methods.shipping_detail[0].trackorder_type,
-    }
+    };
     if (detail.length > 0 && detail[0].detail[0].items.length) {
         const configurableProduct = [];
         detail[0].detail[0].items.map((item) => {
@@ -67,7 +67,7 @@ const DetailOrder = (props) => {
                     dt = JSON.parse(dt);
                 }
             }
-        })
+        });
     }
     if (detail.length > 0) {
         const handleOpenXendit = () => {
@@ -227,7 +227,7 @@ const DetailOrder = (props) => {
                                     </Typography>
                                     {
                                         shippingMethods.length > 0
-                                        && shipping.track_number 
+                                        && shipping.track_number
                                         && shipping.trackorder_type && (
                                             <Button
                                                 variant="text"
