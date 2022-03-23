@@ -12,6 +12,10 @@ const orderOutput = `
     items {
         id
         order_comment
+        comments {
+            message
+            timestamp
+        }
         grand_total
         status
         status_label

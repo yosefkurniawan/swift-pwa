@@ -317,7 +317,26 @@ const DetailOrder = (props) => {
                                 </Typography>
                                 <hr />
                             </div>
-                            <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
+                                    {t('order:orderComment:commentHistory')}
+                                </Typography>
+                                {detail[0].comments.map((item) => (
+                                    <div className="row" style={{ margin: '1rem 0rem 1rem' }}>
+                                        <div className="col-xs-12 col-sm-4 col-md-3 col-lg-2 clear-margin-padding">
+                                            <Typography variant="span" className="clear-margin-padding" style={{ fontWeight: 'bold' }}>
+                                                {formatDate(item.timestamp)}
+                                            </Typography>
+                                        </div>
+                                        <div className="col-xs-12 col-sm-8 col-md-9 col-lg-10 clear-margin-padding">
+                                            <Typography variant="span" className="clear-margin-padding">
+                                                {item.message}
+                                            </Typography>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
                                     {t('order:orderComment:subTitle')}
                                 </Typography>
