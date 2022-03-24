@@ -60,7 +60,7 @@
     },
     "orderComment": {
         "title": "Tentang Pesanan Anda",
-        "subTitle": "Komentar Order",
+        "subTitle": "Catatan Order",
         "commentHistory": "Riwayat Komentar"
     }
 }

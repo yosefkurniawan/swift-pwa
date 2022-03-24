@@ -59,7 +59,7 @@
     },
     "orderComment": {
         "title": "About Your Order",
-        "subTitle": "Order Comment",
+        "subTitle": "Order Note",
         "commentHistory": "Comment History"
     }
 }
