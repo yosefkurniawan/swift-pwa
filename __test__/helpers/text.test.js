@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { capitalizeEachWord } from '@helpers/text';
+import { capitalizeEachWord, StripHtmlTags } from '@helpers/text';
 
 describe('Text Helpers', () => {
     it('Prints out capitalize each word', () => {
@@ -13,4 +13,16 @@ describe('Text Helpers', () => {
 
         expect(capitalizedText).toBeInTheDocument();
     });
+
+    it('Should strip out HTML tags', () => {
+        render(
+            <p>
+                {StripHtmlTags('Hello <b>world</b>')}
+            </p>,
+        );
+
+        const strippedHtmlTags = screen.getByText('Hello world');
+
+        expect(strippedHtmlTags).toBeInTheDocument();
+    })
 });
