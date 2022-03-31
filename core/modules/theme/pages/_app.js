@@ -1,26 +1,23 @@
-/* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
-/* eslint-disable no-unused-vars */
 /* eslint-disable func-names */
 /* eslint-disable radix */
-/* eslint-disable max-len */
 import React from 'react';
 import App from 'next/app';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '@theme_theme';
 import Cookie from 'js-cookie';
-import helperCookies from '@helper_cookies';
-
+import { getAppEnv } from '@root/core/helpers/env';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { appWithTranslation } from '@i18n';
-import { storeConfig as ConfigSchema } from '@services/graphql/schema/config';
+import { storeConfig as ConfigSchema, getVesMenu, getCategories } from '@services/graphql/schema/config';
 import {
-    storeConfigNameCookie, GTM, custDataNameCookie, features, sentry,
+    GTM, custDataNameCookie, features, sentry,
 } from '@config';
 import { getLoginInfo, getLastPathWithoutLogin } from '@helper_auth';
-import { setResolver, testLocalStorage, setLocalStorage } from '@helper_localstorage';
-import { getAppEnv } from '@root/core/helpers/env';
+import {
+    setResolver, testLocalStorage, setLocalStorage, getLocalStorage,
+} from '@helper_localstorage';
 import { RewriteFrames } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
 import { unregister } from 'next-offline/runtime';
@@ -32,6 +29,7 @@ import routeMiddleware from '@middleware_route';
 import graphRequest from '@graphql_request';
 import Notification from '@lib_firebase/notification';
 import firebase from '@lib_firebase/index';
+import { gql } from '@apollo/client';
 
 import * as Sentry from '@sentry/node';
 import ModalCookies from '@core_modules/theme/components/modalCookies';
@@ -68,8 +66,9 @@ class MyApp extends App {
         this.isLogin = false;
     }
 
-    static async getInitialProps({ Component, ctx }) {
-        let pageProps = {};
+    static async getInitialProps(appContex) {
+        const { Component, ctx } = appContex;
+        let { pageProps } = await App.getInitialProps(appContex);
 
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
@@ -87,6 +86,7 @@ class MyApp extends App {
         let lastPathNoAuth = '';
         let customerData = {};
         const allcookie = req ? req.cookies : {};
+        let removeDecimalConfig;
         if (typeof window !== 'undefined') {
             isLogin = getLoginInfo();
             lastPathNoAuth = getLastPathWithoutLogin();
@@ -94,7 +94,8 @@ class MyApp extends App {
         } else {
             isLogin = allcookie.isLogin || 0;
             customerData = allcookie[custDataNameCookie];
-            lastPathNoAuth = req.session && typeof req.session !== 'undefined' && req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
+            lastPathNoAuth = req.session && typeof req.session !== 'undefined'
+                && req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
                 ? req.session.lastPathNoAuth
                 : '/customer/account';
         }
@@ -124,8 +125,9 @@ class MyApp extends App {
          * GET CONFIGURATIONS FROM COOKIES
          * TO BE PROVIDED INTO PAGE PROPS
          */
-        let storeConfig = helperCookies.get(storeConfigNameCookie) || pageProps.storeConfig;
-        if (!pageProps.storeConfig && (!storeConfig || typeof window === 'undefined' || typeof storeConfig.secure_base_media_url === 'undefined')) {
+        let dataVesMenu;
+        let { storeConfig } = pageProps;
+        if (typeof window === 'undefined' && (!storeConfig || typeof storeConfig.secure_base_media_url === 'undefined')) {
             // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
             storeConfig = await graphRequest(ConfigSchema);
 
@@ -135,6 +137,35 @@ class MyApp extends App {
                 ctx.res.redirect('/maintenance');
             }
             storeConfig = storeConfig.storeConfig;
+            dataVesMenu = storeConfig.pwa.ves_menu_enable
+                ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias }) : await graphRequest(getCategories);
+            removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null
+                ? storeConfig?.pwa?.remove_decimal_price_enable
+                : false;
+        } else if (typeof window !== 'undefined' && !storeConfig) {
+            storeConfig = getLocalStorage('pwa_config');
+            if (!storeConfig || storeConfig === '' || storeConfig === {}) {
+                storeConfig = await pageProps.apolloClient.query({ query: gql`${ConfigSchema}` }).then(({ data }) => data);
+
+                // Handle redirecting to tomaintenance page automatically when GQL is in maintenance mode.
+                // We do this here since query storeConfig is the first query and be done in server side
+                if (ctx && storeConfig.response && storeConfig.response.status && storeConfig.response.status > 500) {
+                    ctx.res.redirect('/maintenance');
+                }
+
+                storeConfig = storeConfig.storeConfig;
+            }
+            dataVesMenu = getLocalStorage('pwa_vesmenu');
+            if (!dataVesMenu) {
+                dataVesMenu = storeConfig.pwa.ves_menu_enable
+                    ? await pageProps.apolloClient.query(
+                        { query: gql`${getVesMenu}`, variables: { alias: storeConfig.pwa.ves_menu_alias } },
+                    ).then(({ data }) => data)
+                    : await pageProps.apolloClient.query({ query: gql`${getCategories}` }).then(({ data }) => data);
+            }
+            removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null
+                ? storeConfig?.pwa?.remove_decimal_price_enable
+                : false;
         }
 
         /*
@@ -154,6 +185,8 @@ class MyApp extends App {
                 lastPathNoAuth,
                 customerData,
                 token,
+                removeDecimalConfig,
+                dataVesMenu,
             },
         };
     }
@@ -258,7 +291,6 @@ class MyApp extends App {
         if (typeof window !== 'undefined') {
             window.onbeforeunload = function () {
                 setResolver({});
-                helperCookies.remove(storeConfigNameCookie);
             };
         }
     }
@@ -280,14 +312,8 @@ class MyApp extends App {
 
     render() {
         const { Component, pageProps } = this.props;
-        const storeCookie = helperCookies.get(storeConfigNameCookie);
-        if (!storeCookie) {
-            const config = { ...pageProps.storeConfig };
-            config.cms_page = null;
-            setLocalStorage('cms_page', pageProps.storeConfig && pageProps.storeConfig.cms_page ? pageProps.storeConfig.cms_page : '');
-            helperCookies.set(storeConfigNameCookie, config);
-        }
         pageProps.storeConfig = pageProps.storeConfig ? pageProps.storeConfig : {};
+        Cookie.set('remove_decimal_config', pageProps.removeDecimalConfig, { expires: 365 });
         if (typeof window !== 'undefined' && testLocalStorage() === false) {
             // not available
             return (
@@ -297,6 +323,12 @@ class MyApp extends App {
                     <ModalCookies {...pageProps} />
                 </ThemeProvider>
             );
+        }
+
+        if (typeof window !== 'undefined') {
+            setLocalStorage('cms_page', pageProps.storeConfig && pageProps.storeConfig.cms_page ? pageProps.storeConfig.cms_page : '');
+            setLocalStorage('pwa_config', pageProps.storeConfig);
+            setLocalStorage('pwa_vesmenu', pageProps.dataVesMenu);
         }
 
         return (

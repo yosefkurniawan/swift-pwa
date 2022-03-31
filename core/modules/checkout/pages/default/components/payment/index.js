@@ -6,16 +6,29 @@ import gqlService from '@core_modules/checkout/services/graphql';
 import { modules } from '@config';
 
 export default function CustomizedExpansionPanels({
-    checkout, setCheckout, updateFormik, handleOpenMessage, t, storeConfig, PaymentView,
-    paypalHandlingProps, setInitialOptionPaypal, initialOptionPaypal, setTokenData, travelokaPayRef,
-    displayHowToPay, setDisplayHowToPay,
+    checkout,
+    setCheckout,
+    updateFormik,
+    handleOpenMessage,
+    t,
+    storeConfig,
+    PaymentView,
+    paypalHandlingProps,
+    setInitialOptionPaypal,
+    initialOptionPaypal,
+    setTokenData,
+    travelokaPayRef,
+    displayHowToPay,
+    setDisplayHowToPay,
+    checkoutTokenState,
+    setCheckoutTokenState,
 }) {
     /**
      * [HOOKS]
      * [VARIABLES]
      */
     const { loading, data, selected } = checkout;
-    const [setPaymentMethod] = gqlService.setPaymentMethod({ onError: () => {} });
+    const [setPaymentMethod] = gqlService.setPaymentMethod();
     const { data: paymentMethodList } = gqlService.getCheckoutConfigurations();
     const [getPaypalToken, paypalTokenData] = gqlService.createPaypalExpressToken();
 
@@ -24,7 +37,7 @@ export default function CustomizedExpansionPanels({
      * @param {state, result, val, cart} params
      */
     const onHandleResult = ({
-        state, result, val, cart,
+        state, result, val, cart, purchaseOrder = false,
     }) => {
         state = {
             ...checkout,
@@ -53,10 +66,19 @@ export default function CustomizedExpansionPanels({
             updateFormik(mergeCart);
         } else {
             state.selected.payment = null;
-            handleOpenMessage({
-                variant: 'error',
-                text: t('checkout:message:emptyShippingError'),
-            });
+            if (result.message.includes('Token is wrong.')) {
+                setCheckoutTokenState(!checkoutTokenState);
+            } else if (purchaseOrder) {
+                handleOpenMessage({
+                    variant: 'error',
+                    text: t('checkout:message:purchaseOrderFailed'),
+                });
+            } else {
+                handleOpenMessage({
+                    variant: 'error',
+                    text: t('checkout:message:emptyShippingError'),
+                });
+            }
         }
 
         setCheckout(state);
@@ -148,7 +170,8 @@ export default function CustomizedExpansionPanels({
                     },
                 };
                 setCheckout(state);
-                if (modules.paypal.enabled && initialOptionPaypal['data-order-id'] === '' && checkout.selected.payment === 'paypal_express') {
+                if (storeConfig?.pwa?.paypal_enable
+                    && initialOptionPaypal['data-order-id'] === '' && checkout.selected.payment === 'paypal_express') {
                     getPaypalToken({
                         variables: {
                             cartId: cart.id,
@@ -169,12 +192,26 @@ export default function CustomizedExpansionPanels({
                 }
             } else {
                 const payment_method = { code: val };
-                const result = await setPaymentMethod({ variables: { cartId: cart.id, payment_method } });
-                onHandleResult({
-                    state,
-                    result,
-                    val,
-                    cart,
+                await setPaymentMethod({
+                    variables: {
+                        cartId: cart.id,
+                        payment_method,
+                    },
+                }).then((result) => {
+                    onHandleResult({
+                        state,
+                        result,
+                        val,
+                        cart,
+                    });
+                }).catch((err) => {
+                    const result = err;
+                    onHandleResult({
+                        state,
+                        result,
+                        val,
+                        cart,
+                    });
                 });
             }
         }
@@ -217,17 +254,30 @@ export default function CustomizedExpansionPanels({
         const selected_payment = state.selected.payment;
         const purchase_order_number = state.selected.purchaseOrderNumber;
         const payment_method = { code: selected_payment, purchase_order_number };
-        const result = await setPaymentMethod({ variables: { cartId: cart.id, payment_method } });
-        onHandleResult({
-            state,
-            result,
-            val: selected_payment,
-            cart,
-        });
-
-        handleOpenMessage({
-            variant: 'success',
-            text: t('checkout:message:purchaseOrderApplied'),
+        await setPaymentMethod({
+            variables: {
+                cartId: cart.id,
+                payment_method,
+            },
+        }).then((result) => {
+            onHandleResult({
+                state,
+                result,
+                val: selected_payment,
+                cart,
+            });
+            handleOpenMessage({
+                variant: 'success',
+                text: t('checkout:message:purchaseOrderApplied'),
+            });
+        }).catch((err) => {
+            const result = err;
+            onHandleResult({
+                state,
+                result,
+                val: selected_payment,
+                cart,
+            });
         });
     };
 

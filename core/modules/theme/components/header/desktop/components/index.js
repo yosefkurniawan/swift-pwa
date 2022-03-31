@@ -8,7 +8,6 @@ import ProductCompareIcon from '@core_modules/catalog/plugins/ProductCompare';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
 import DesktopInstallApp from '@core_modules/theme/components/custom-install-popup/desktop';
-import { features } from '@config';
 import Menu from '@core_modules/theme/components/header/desktop/components/mcategory';
 import TopMenu from '@core_modules/theme/components/header/desktop/components/mtop';
 import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
@@ -30,12 +29,22 @@ const ViewTopNavigation = (props) => {
         app_cookies,
         showGlobalPromo,
         modules,
+        vesMenuConfig,
+        appName = 'Swift PWA',
+        installMessage = 'Install',
+        enablePopupInstallation = false,
     } = props;
+
     return (
         <div id="header">
             <div className="row header-top">
                 <main style={{ width: '97%' }}>
-                    {features.customInstallApp.enabled ? <DesktopInstallApp /> : null}
+                    {enablePopupInstallation ? (
+                        <DesktopInstallApp
+                            appName={appName}
+                            installMessage={installMessage}
+                        />
+                    ) : null}
                     <TopMenu t={t} isLogin={isLogin} data={customer} handleLogout={handleLogout} app_cookies={app_cookies} />
                 </main>
             </div>
@@ -54,9 +63,13 @@ const ViewTopNavigation = (props) => {
                         </div>
                         <div className="header-middle__center">
                             <div className="row menu-category">
-                                <div className="col-xs-12 menu-middle">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
+                                <div className="col-xs-12 menu-middle">
+                                    {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
+                                </div>
                             </div>
-                            <div className="header-small__menu">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
+                            <div className="header-small__menu">
+                                {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
+                            </div>
                         </div>
                         <div className="header-middle__right">
                             <div className="box">
@@ -70,7 +83,7 @@ const ViewTopNavigation = (props) => {
                                         </div>
                                     )}
                                     <div className="shopping-bag">
-                                        <ShoppingBagIcon withLink />
+                                        <ShoppingBagIcon withLink storeConfig={storeConfig} />
                                     </div>
                                 </div>
                                 <div className="header-middle__search">
@@ -94,9 +107,11 @@ const ViewTopNavigation = (props) => {
             </main>
             <div className="header-tab">
                 <div className="row menu-category">
-                    <div className="col-xs-12">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
+                    <div className="col-xs-12">{loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}</div>
                 </div>
-                <div className="header-small__menu">{loading ? null : <Menu data={data} storeConfig={storeConfig} />}</div>
+                <div className="header-small__menu">
+                    {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
+                </div>
             </div>
             <style jsx>
                 {`

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import GridList from '@common_gridlist';
 import Typography from '@common_typography';
 import classNames from 'classnames';
-import { modules } from '@config';
 import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
 import Filter from '@plugin_productlist/components/Filter';
 import FilterDesktop from '@plugin_productlist/components/FilterDesktop';
@@ -16,11 +15,11 @@ const Content = (props) => {
         query, showTabs, customFilter, elastic, t,
         aggregations, setFiltervalue, category, defaultSort, config, TabView,
         products, categoryPath, renderEmptyMessage, ProductListSkeleton, loading,
-        loadmore, handleLoadMore, dataTabs, onChangeTabs, storeConfig, ...other
+        loadmore, handleLoadMore, dataTabs, onChangeTabs, ...other
     } = props;
+    const { storeConfig } = props;
     const styles = useStyles();
     const [isGrid, setGridState] = useState(true);
-
     const handleScroll = () => {
         // To get page offset of last user
         // const lastUserLoaded = document.querySelector(`.grid-item:last-child`);
@@ -66,7 +65,7 @@ const Content = (props) => {
                     />
                 </div>
             ) : null}
-            <div className={modules.catalog.productListing.drawerFilterOnDesktop.enabled ? 'hidden-desktop' : ''}>
+            <div className={storeConfig?.pwa?.drawer_filter_on_desktop_enable ? 'hidden-desktop' : ''}>
                 <Filter
                     filter={customFilter || aggregations}
                     defaultSort={JSON.stringify(defaultSort)}
@@ -81,7 +80,7 @@ const Content = (props) => {
                     {...other}
                 />
             </div>
-            {modules.catalog.productListing.drawerFilterOnDesktop.enabled ? (
+            {storeConfig?.pwa?.drawer_filter_on_desktop_enable ? (
                 <div className={classNames(styles.filterBtnContainer, 'hidden-mobile')}>
                     <Sort
                         filter={customFilter || aggregations}
@@ -96,7 +95,7 @@ const Content = (props) => {
             ) : null}
 
             <div className="row">
-                {modules.catalog.productListing.drawerFilterOnDesktop.enabled
+                {storeConfig?.pwa?.drawer_filter_on_desktop_enable
                     ? (
                         <div className="col-sm-12 col-lg-2 hidden-mobile">
                             <FilterDesktop
@@ -116,8 +115,8 @@ const Content = (props) => {
                         </div>
                     )
                     : null}
-                <div className={`col-sm-12 col-xs-12 col-lg-${modules.catalog.productListing.drawerFilterOnDesktop.enabled ? '10' : '12'}`}>
-                    {modules.catalog.productListing.drawerFilterOnDesktop.enabled
+                <div className={`col-sm-12 col-xs-12 col-lg-${storeConfig?.pwa?.drawer_filter_on_desktop_enable ? '10' : '12'}`}>
+                    {storeConfig?.pwa?.drawer_filter_on_desktop_enable
                         ? (
                             <Typography variant="p" type="regular" className={classNames('hidden-mobile', styles.countProductTextDesktop)}>
                                 {products.total_count}
@@ -143,9 +142,9 @@ const Content = (props) => {
                                 gridItemProps={
                                     isGrid
                                         ? {
-                                            xs: 6, sm: 4, md: modules.catalog.productListing.drawerFilterOnDesktop.enabled ? 3 : 2,
+                                            xs: 6, sm: 4, md: storeConfig?.pwa?.drawer_filter_on_desktop_enable ? 3 : 2,
                                         } : {
-                                            xs: 12, sm: 12, md: modules.catalog.productListing.drawerFilterOnDesktop.enabled ? 12 : 12,
+                                            xs: 12, sm: 12, md: storeConfig?.pwa?.drawer_filter_on_desktop_enable ? 12 : 12,
                                         }
                                 }
                             />

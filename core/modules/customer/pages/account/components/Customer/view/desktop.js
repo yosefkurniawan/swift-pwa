@@ -6,16 +6,18 @@ import Notification from '@core_modules/customer/pages/account/components/Custom
 import useStyles from '@core_modules/customer/pages/account/components/Customer/style';
 
 const ViewDesktop = (props) => {
-    const { t, userData, reOrder } = props;
+    const {
+        t, userData, reOrder, storeConfig,
+    } = props;
     const { customer, notificationList, customerOrders } = userData;
     const styles = useStyles();
     return (
         <div className="hidden-mobile">
             <div className={styles.desktopContainer}>
-                <Account customer={customer} styles={styles} t={t} />
-                <Address customer={customer} styles={styles} t={t} />
-                <Order customerOrders={customerOrders || {}} styles={styles} t={t} reOrder={reOrder} />
-                <Notification notification={notificationList || {}} styles={styles} t={t} />
+                <Account customer={customer} styles={styles} t={t} storeConfig={storeConfig} />
+                <Address customer={customer} styles={styles} t={t} storeConfig={storeConfig} />
+                <Order storeConfig={storeConfig} customerOrders={customerOrders || {}} styles={styles} t={t} reOrder={reOrder} />
+                <Notification storeConfig={storeConfig} notification={notificationList || {}} styles={styles} t={t} />
 
             </div>
         </div>

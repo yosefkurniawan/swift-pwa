@@ -196,6 +196,12 @@ export const mergeCart = () => useMutation(Schema.mergeCart, {
     skip: typeof window === 'undefined',
 });
 
+export const setCheckoutSession = () => useMutation(Schema.setCheckoutSession, {
+    context: {
+        request: 'internal',
+    },
+});
+
 export const updatedDefaultAddress = (options = {}) => useMutation(Schema.updatedDefaultAddress, {
     ...options,
     ...config(USING_INTERNAL),
@@ -270,6 +276,7 @@ export default {
     createCustomerAddress,
     getCustomerCartId,
     mergeCart,
+    setCheckoutSession,
     getCustomer,
     getAddressCustomer,
     getCart,

@@ -548,13 +548,31 @@ export const getCheckoutConfigurations = gql`
 `;
 
 export const setShippingAddressById = gql`
-    mutation setShippingAddressById($addressId: Int!, $cartId: String!) {
-        setShippingAddressesOnCart(input: { cart_id: $cartId, shipping_addresses: { customer_address_id: $addressId } }) {
+    mutation setShippingAddressById(
+        $addressId: Int!,
+        $cartId: String!
+    ) {
+        setShippingAddressesOnCart(
+            input: { 
+                cart_id: $cartId, 
+                shipping_addresses: { 
+                    customer_address_id: $addressId 
+                }
+            }
+        ) {
             cart {
                 id
             }
         }
-        setBillingAddressOnCart(input: { cart_id: $cartId, billing_address: { same_as_shipping: true, customer_address_id: $addressId } }) {
+        setBillingAddressOnCart(
+            input: { 
+                cart_id: $cartId,
+                billing_address: { 
+                    same_as_shipping: true, 
+                    customer_address_id: $addressId
+                }
+            }
+        ) {
             cart {
                 ${dest_location}
                 ${cartBillingAddress}
@@ -629,23 +647,23 @@ export const setBillingAddressVirtualProduct = gql`
             $longitude: String
         ) {
         setBillingAddressOnCart(input: { 
-                cart_id: $cartId, 
-                billing_address: { 
-                    same_as_shipping: true, 
-                    address:{
-                        city: $city
-                        country_code: $countryCode
-                        firstname: $firstname
-                        lastname: $lastname
-                        telephone: $telephone
-                        region: $region
-                        street: [$street]
-                        postcode: $postcode
-                        latitude: $latitude
-                        longitude: $longitude
-                        save_in_address_book: true
-                    } 
-            } 
+            cart_id: $cartId, 
+            billing_address: { 
+                same_as_shipping: true, 
+                address:{
+                    city: $city
+                    country_code: $countryCode
+                    firstname: $firstname
+                    lastname: $lastname
+                    telephone: $telephone
+                    region: $region
+                    street: [$street]
+                    postcode: $postcode
+                    latitude: $latitude
+                    longitude: $longitude
+                    save_in_address_book: true
+                } 
+            }
         }) {
             cart {
                 ${cartBillingAddress}
@@ -657,7 +675,13 @@ export const setBillingAddressVirtualProduct = gql`
 
 export const setBillingAddressById = gql`
     mutation setBillingAddressById($addressId: Int!, $cartId: String!) {
-        setBillingAddressOnCart(input: { cart_id: $cartId, billing_address: { same_as_shipping: true, customer_address_id: $addressId } }) {
+        setBillingAddressOnCart(input: { 
+            cart_id: $cartId, 
+            billing_address: { 
+                same_as_shipping: true, 
+                customer_address_id: $addressId 
+            }
+        }) {
             cart {
                 ${dest_location}
                 ${cartBillingAddress}
@@ -717,8 +741,19 @@ export const setBillingAddressByInput = gql`
 `;
 
 export const setShippingMethod = gql`
-    mutation setShippingMethod($cartId: String!, $carrierCode: String!, $methodCode: String!) {
-        setShippingMethodsOnCart(input: { cart_id: $cartId, shipping_methods: { carrier_code: $carrierCode, method_code: $methodCode } }) {
+    mutation setShippingMethod(
+        $cartId: String!,
+        $carrierCode: String!,
+        $methodCode: String!
+    ) {
+        setShippingMethodsOnCart(
+            input: {
+                cart_id: $cartId,
+                shipping_methods: {
+                    carrier_code: $carrierCode,
+                    method_code: $methodCode
+                }
+        }) {
             cart {
                 id
                 ${promoBanner}
@@ -738,8 +773,16 @@ export const setShippingMethod = gql`
 `;
 
 export const setPaymentMethod = gql`
-    mutation setPaymentMethod($cartId: String!, $payment_method: PaymentMethodInput!) {
-        setPaymentMethodOnCart(input: { cart_id: $cartId, payment_method: $payment_method }) {
+    mutation setPaymentMethod(
+        $cartId: String!,
+        $payment_method: PaymentMethodInput!
+    ) {
+        setPaymentMethodOnCart(
+            input: {
+                cart_id: $cartId,
+                payment_method: $payment_method
+            }
+        ) {
             cart {
                 id
                 ${selected_payment_method}
@@ -963,6 +1006,20 @@ export const mergeCart = gql`
         mergeCarts(source_cart_id: $sourceCartId, destination_cart_id: $destionationCartId) {
             id
             total_quantity
+        }
+    }
+`;
+
+export const setCheckoutSession = gql`
+    mutation setCheckoutSession(
+        $cartId: String!
+    ) {
+        internalGenerateCartTokenSession(
+            input: {
+                cart_id: $cartId
+            }
+        ) {
+            message
         }
     }
 `;

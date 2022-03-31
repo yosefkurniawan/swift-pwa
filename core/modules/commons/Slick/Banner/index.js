@@ -19,6 +19,7 @@ const Banner = ({
     showArrow = true,
     speed = 500,
     autoplaySpeed = 4000,
+    storeConfig = {},
 }) => {
     const styles = useStyles();
     const [slideIndex, setIndex] = useState(0);
@@ -60,7 +61,15 @@ const Banner = ({
         <div className={styles.caraousel}>
             <Slider ref={(slider) => (sliderRef = slider)} {...settings}>
                 {data.map((item, key) => (
-                    <ImageSlide height={height} width={width} noLink={noLink} contentWidth={contentWidth} key={key} {...item} />
+                    <ImageSlide
+                        storeConfig={storeConfig}
+                        height={height}
+                        width={width}
+                        noLink={noLink}
+                        contentWidth={contentWidth}
+                        key={key}
+                        {...item}
+                    />
                 ))}
             </Slider>
             {showArrow ? (

@@ -1,16 +1,23 @@
 import Layout from '@layout';
 import { StripHtmlTags } from '@helper_text';
-import { getCategory } from '@core_modules/catalog/services/graphql';
+import { getCategory, getPwaConfig } from '@core_modules/catalog/services/graphql';
 import generateSchemaOrg from '@core_modules/catalog/helpers/schema.org';
+import dynamic from 'next/dynamic';
+import Content from '@core_modules/catalog/pages/category/components';
+
+const ErrorView = dynamic(() => import('@core_modules/error/pages/default'), { ssr: false });
+const SkeletonView = dynamic(() => import('@core_modules/catalog/pages/category/components/Skeleton'), { ssr: false });
 
 const Page = (props) => {
     const {
-        Content, categoryId, storeConfig, SkeletonView, pageConfig = {}, ErrorView, ...other
+        categoryId, storeConfig: configStore, pageConfig = {}, ...other
     } = props;
     const { loading, data } = getCategory({
-        productSize: 10,
+        productSize: configStore?.pwa?.page_size || 10,
         id: categoryId,
     });
+    const { data: dataConfig } = getPwaConfig();
+    const storeConfig = dataConfig?.storeConfig || {};
     const ogContent = {};
     let config = {};
     let schemaOrg = null;
@@ -31,19 +38,20 @@ const Page = (props) => {
         };
     }
     if (loading && !data) {
+        const pwaConfig = storeConfig?.pwa || {};
         return (
             <Layout {...props} pageConfig={config}>
-                <SkeletonView />
+                <SkeletonView {...pwaConfig} />
             </Layout>
         );
     }
 
-    if (data && !data.categoryList[0]) {
+    if (!loading && data && !data.categoryList[0]) {
         return <ErrorView statusCode={404} {...props} />;
     }
     return (
         <Layout {...props} pageConfig={config || pageConfig}>
-            <Content categoryId={categoryId} storeConfig={storeConfig} data={data} {...other} />
+            <Content categoryId={categoryId} data={data} {...other} storeConfig={storeConfig} />
         </Layout>
     );
 };

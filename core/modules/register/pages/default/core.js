@@ -1,12 +1,10 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable max-len */
 import Layout from '@layout';
-import React from 'react';
+import React, { useRef } from 'react';
 import { setLogin, setEmailConfirmationFlag, getLastPathWithoutLogin } from '@helper_auth';
 import { setCartId, getCartId } from '@helper_cartid';
-import {
-    expiredToken, custDataNameCookie, recaptcha, modules,
-} from '@config';
+import { expiredToken, custDataNameCookie } from '@config';
 import Cookies from 'js-cookie';
 import { useQuery } from '@apollo/client';
 
@@ -26,6 +24,8 @@ import {
 } from '@core_modules/register/services/graphql';
 import { getCustomer } from '@core_modules/register/services/graphql/schema';
 
+import { registerConfig } from '@services/graphql/repository/pwa_config';
+
 const appEnv = getAppEnv();
 
 const Register = (props) => {
@@ -40,14 +40,31 @@ const Register = (props) => {
         bottomNav: false,
     };
     // enable recaptcha
-    const enableRecaptcha = recaptcha.enable && modules.register.recaptcha.enabled;
+    let enableRecaptcha = false;
+
+    const { loading: loadingRegisterConfig, data: dataRegisterConfig } = registerConfig();
+    if (!loadingRegisterConfig && dataRegisterConfig && dataRegisterConfig.storeConfig && dataRegisterConfig.storeConfig.pwa) {
+        if (dataRegisterConfig.storeConfig.pwa.recaptcha_register_enable !== null) {
+            enableRecaptcha = storeConfig?.pwa?.recaptcha_enable && dataRegisterConfig.storeConfig.pwa.recaptcha_register_enable;
+        }
+    }
 
     const [phoneIsWa, setPhoneIsWa] = React.useState(false);
     const [cusIsLogin, setIsLogin] = React.useState(0);
     const [disabled, setdisabled] = React.useState(false);
     const [getGuest, { data: guestData }] = getGuestCustomer();
-    const recaptchaRef = React.createRef();
-    const sitekey = recaptcha.siteKey[appEnv] ? recaptcha.siteKey[appEnv] : recaptcha.siteKey.dev;
+    const recaptchaRef = useRef();
+    let sitekey;
+
+    if (appEnv === 'local') {
+        sitekey = dataRegisterConfig?.storeConfig.pwa.recaptcha_site_key_local;
+    } else if (appEnv === 'dev') {
+        sitekey = dataRegisterConfig?.storeConfig.pwa.recaptcha_site_key_dev;
+    } else if (appEnv === 'stage') {
+        sitekey = dataRegisterConfig?.storeConfig.pwa.recaptcha_site_key_stage;
+    } else if (appEnv === 'prod') {
+        sitekey = dataRegisterConfig?.storeConfig.pwa.recaptcha_site_key_prod;
+    }
 
     let cartId = '';
     const { router } = Router;

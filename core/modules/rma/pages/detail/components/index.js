@@ -245,7 +245,7 @@ const DetailContent = (props) => {
                 <div className={styles.block}>
                     {
                         detail_rma.items.map((item, index) => (
-                            <ItemProduct key={index} {...item} currency={currency} />
+                            <ItemProduct key={index} {...item} currency={currency} storeConfig={storeConfig} />
                         ))
                     }
                 </div>

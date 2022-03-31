@@ -6,7 +6,6 @@ import Slide from '@material-ui/core/Slide';
 import Toolbar from '@material-ui/core/Toolbar';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import SearchIcon from '@material-ui/icons/Search';
-import { features } from '@config';
 import Router from 'next/router';
 import React, { useState } from 'react';
 import AutoComplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
@@ -24,8 +23,8 @@ const SearchPage = (props) => {
     const [showSubCat, setShowSubCat] = useState(false);
     const [slideCat, setSlideCat] = useState(false);
     const [value, setValue] = React.useState('');
-    const { open } = props;
-    const vesMenu = features.vesMenu.enabled;
+    const { open, storeConfig = {} } = props;
+    const vesMenu = storeConfig.pwa?.ves_menu_enable;
 
     const openSub = (cat) => {
         setOpenedCategory([cat]);
@@ -101,7 +100,10 @@ const SearchPage = (props) => {
                         </Toolbar>
                     </AppBar>
                     {open ? vesMenu ? (
-                        <VesMenuWrapper handleCloseModal={handleCloseModal} />
+                        <VesMenuWrapper
+                            handleCloseModal={handleCloseModal}
+                            storeConfig={storeConfig}
+                        />
                     ) : (
                         <CategoryWrapper
                             {...props}

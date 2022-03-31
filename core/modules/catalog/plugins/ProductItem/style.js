@@ -5,7 +5,6 @@ import {
 import {
     GRAY_PRIMARY, GRAY_THIRD, PRIMARY, WHITE,
 } from '@theme_color';
-import { features } from '@config';
 
 export default makeStyles((theme) => ({
     container: {},
@@ -123,8 +122,6 @@ export default makeStyles((theme) => ({
     listImgItem: {
         position: 'relative',
         maxWidth: '100%',
-        width: features.imageSize.product.width,
-        height: features.imageSize.product.height,
         '& .btn-quick-view': {
             position: 'absolute',
             zIndex: 2,

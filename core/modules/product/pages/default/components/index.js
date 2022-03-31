@@ -28,7 +28,7 @@ const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default
 const TabsView = dynamic(() => import('@core_modules/product/pages/default/components/DesktopTabs'), { ssr: false });
 const PriceFormat = dynamic(() => import('@common_priceformat'), { ssr: true });
 const RatingStar = dynamic(() => import('@common_ratingstar'), { ssr: true });
-const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: true });
+const ItemShare = dynamic(() => import('@core_modules/product/pages/default/components/SharePopup/item'), { ssr: false });
 const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
 const UpsellDrawer = dynamic(() => import('@core_modules/product/pages/default/components/RightDrawer'), { ssr: false });
 const RelatedProductCaraousel = dynamic(() => import('@core_modules/product/pages/default/components/RelatedProductCaraousel'), { ssr: false });
@@ -63,6 +63,8 @@ const ProductPage = (props) => {
         smartProductTabs,
         isLogin,
         handleSetCompareList,
+        enablePopupImage,
+        storeConfig,
     } = props;
     const desktop = breakPointsUp('sm');
 
@@ -73,7 +75,11 @@ const ProductPage = (props) => {
         getBannerLite();
     }, [bannerLiteResult.called]);
 
-    const bannerLiteData = bannerLiteResult.data ? bannerLiteResult.data.products.items[0].banners_data : [];
+    let bannerLiteData = [];
+    if (bannerLiteResult && bannerLiteResult.data && bannerLiteResult.data.products.items
+        && bannerLiteResult.data.products.items.length > 0 && bannerLiteResult.data.products.items[0].banners_data) {
+        bannerLiteData = bannerLiteResult.data.products.items[0].banners_data;
+    }
     const bannerLiteObj = {
         top: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '0') || [],
         after: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '1') || [],
@@ -90,8 +96,13 @@ const ProductPage = (props) => {
                     t={t}
                     dataProduct={data}
                     isLogin={isLogin}
+                    storeConfig={storeConfig}
                 />
-                <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} />
+                {
+                    enablePopupImage && (
+                        <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} storeConfig={storeConfig} />
+                    )
+                }
             </div>
             <OptionItem {...props} open={openOption} setOpen={() => setOpenOption(!openOption)} setBanner={setBanner} setPrice={setPrice} />
             <SharePopup open={openShare} setOpen={() => setOpenShare(!openShare)} link={getHost() + route.asPath} {...props} />
@@ -109,6 +120,7 @@ const ProductPage = (props) => {
                             src={topBanner.banner_link}
                             imgSrc={topBanner.banner_image}
                             alt={topBanner.banner_alt}
+                            storeConfig={storeConfig}
                         />
                     ))
                 )}
@@ -123,6 +135,7 @@ const ProductPage = (props) => {
                                 src={topBanner.banner_link}
                                 imgSrc={topBanner.banner_image}
                                 alt={topBanner.banner_alt}
+                                storeConfig={storeConfig}
                             />
                         ))
                     )}
@@ -135,6 +148,7 @@ const ProductPage = (props) => {
                                     classes={classNames(styles.bannerLiteLabel, 'col-xs-6')}
                                     imgSrc={labelBanner.banner_image}
                                     alt={labelBanner.banner_alt}
+                                    storeConfig={storeConfig}
                                 />
                             ))
                         )}
@@ -148,12 +162,13 @@ const ProductPage = (props) => {
                         autoPlay={false}
                         width={960}
                         height={1120}
-                        actionImage={desktop ? handleOpenImageDetail : () => { }}
+                        actionImage={(desktop && enablePopupImage) ? handleOpenImageDetail : () => { }}
                         customProduct={styles.bannerProduct}
+                        storeConfig={storeConfig}
                     >
                         {
-                            modules.catalog.productListing.label.enabled
-                            && modules.catalog.productListing.label.weltpixel.enabled && (
+                            storeConfig?.pwa?.label_enable
+                            && storeConfig?.pwa?.label_weltpixel_enable && (
                                 <WeltpixelLabel
                                     t={t}
                                     weltpixel_labels={data.weltpixel_labels || []}
@@ -251,8 +266,8 @@ const ProductPage = (props) => {
 
                     <div className="row">
                         {
-                            modules.catalog.productListing.label.enabled
-                            && modules.catalog.productListing.label.weltpixel.enabled && (
+                            storeConfig?.pwa?.label_enable
+                            && storeConfig?.pwa?.label_weltpixel_enable && (
                                 <WeltpixelLabel
                                     t={t}
                                     weltpixel_labels={data.weltpixel_labels || []}
@@ -282,6 +297,7 @@ const ProductPage = (props) => {
                                         src={bannerLiteObj.after.banner_link}
                                         imgSrc={afterBanner.banner_image}
                                         alt={afterBanner.banner_alt}
+                                        storeConfig={storeConfig}
                                     />
                                 ))
                             )}
@@ -300,6 +316,7 @@ const ProductPage = (props) => {
                                         src={bannerLiteObj.after.banner_link}
                                         imgSrc={afterBanner.banner_image}
                                         alt={afterBanner.banner_alt}
+                                        storeConfig={storeConfig}
                                     />
                                 ))
                             )}
@@ -343,7 +360,7 @@ const ProductPage = (props) => {
                         }}
                     />
                 </div>
-                <RelatedProductCaraousel t={t} dataProduct={data} isLogin={isLogin} />
+                <RelatedProductCaraousel t={t} dataProduct={data} isLogin={isLogin} storeConfig={storeConfig} />
                 <div className={classNames(styles.footer, 'hidden-desktop')}>
                     <Button
                         className={styles.btnAddToCard}

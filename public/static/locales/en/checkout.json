@@ -1,12 +1,12 @@
 {
     "pageTitle": "Checkout",
-    "shippingAddress" : "Shipping address",
+    "shippingAddress": "Shipping address",
     "billingAddress": "Billing address",
     "address": {
         "addTitle": "New address",
         "invalidAddress": "Your address city is invalid, please change or create new address"
     },
-    "deliveryMethod" : {
+    "deliveryMethod": {
         "label": "Delivery method",
         "homeDelivery": "Home delivery",
         "homeDeliveryDesc": "We deliver your order to your home",
@@ -24,14 +24,16 @@
         "changePickupLocation": "Change pickup location",
         "selectStoreLocation": "Select store location"
     },
+    "invalidToken": "You have an active checkout session in another browser or device. You are allowed to checkout in one browser or device only.",
+    "invalidTokenConfirmation": "Do you want to continue checkout here?",
     "purchaseOrderNumber": "Purchase Order Number",
     "pickupStore": "Pickup at store",
     "instorePickup": "Instore Pickup",
-    "shippingMethod" : "shipping method",
-    "payment" : "payment",
+    "shippingMethod": "shipping method",
+    "payment": "payment",
     "paymentMethod": "payment method",
-    "placeOrder" : "Place order",
-    "paymentSubtitle" : "Select your payment method",
+    "placeOrder": "Place order",
+    "paymentSubtitle": "Select your payment method",
     "emailAddress": "Email address",
     "emailHelper": "We'll send your order confirmation here.",
     "haveAccount": "Already have an account? Login Here",
@@ -56,6 +58,7 @@
         "storeCreditApplied": "Store credit has been applied",
         "storeCreditRemoved": "Store credit has been removed",
         "purchaseOrderApplied": "Purchase order number has been applied",
+        "purchaseOrderFailed": "Purchase order number has been failed",
         "couponError": "The coupon code isn't valid. Verify the code and try again.",
         "giftCardError": "The gift card code isn't valid. Verify the code and try again.",
         "placeOrder": "Your order has been placed",
@@ -125,6 +128,9 @@
         "label": "PayPal express checkout",
         "noShippingMethod": "Please select a shipping method"
     },
+    "confirmation": "Confirmation",
+    "open": "Open",
+    "close": "Close",
     "travelokaPay": {
         "enterPaymentDetails": "Enter your payment details:",
         "activateTravelokaPaylater": "Activate your Traveloka Paylater now!",

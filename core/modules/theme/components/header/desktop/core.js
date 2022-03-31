@@ -7,24 +7,36 @@ import { removeCookies } from '@helper_cookies';
 import { useApolloClient } from '@apollo/client';
 import { localTotalCart, localCompare } from '@services/graphql/schema/local';
 import firebase from 'firebase/app';
-import { custDataNameCookie, features, modules } from '@config';
+import {
+    custDataNameCookie,
+    features,
+    modules,
+} from '@config';
 import {
     getCategories, getCustomer, removeToken, getVesMenu,
 } from '@core_modules/theme/services/graphql';
+import Content from '@core_modules/theme/components/header/desktop/components';
 
 const CoreTopNavigation = (props) => {
     const {
-        Content, storeConfig, t, app_cookies, isLogin, showGlobalPromo,
+        dataVesMenu: propsVesMenu, storeConfig, t, app_cookies, isLogin, showGlobalPromo,
+        enablePopupInstallation, installMessage,
     } = props;
+    let data = propsVesMenu;
+    let loading = !propsVesMenu;
+    if (!data && storeConfig && storeConfig.pwa) {
+        const { data: dataVesMenu, loading: loadingVesMenu } = storeConfig.pwa.ves_menu_enable
+            ? getVesMenu({
+                variables: {
+                    alias: storeConfig.pwa.ves_menu_alias,
+                },
+            })
+            : getCategories();
+        data = dataVesMenu;
+        loading = loadingVesMenu;
+    }
     const [value, setValue] = React.useState('');
     const [deleteTokenGql] = removeToken();
-    const { data, loading } = features.vesMenu.enabled
-        ? getVesMenu({
-            variables: {
-                alias: features.vesMenu.alias,
-            },
-        })
-        : getCategories();
     let customerData = {};
     if (isLogin && typeof window !== 'undefined') {
         const customer = getCustomer();
@@ -36,24 +48,23 @@ const CoreTopNavigation = (props) => {
 
     const handleLogout = async () => {
         window.backdropLoader(true);
+        if (features.firebase.config.apiKey && features.firebase.config.apiKey !== '') {
+            firebase.auth().signOut().then(() => {
+                // Sign-out successful.
+            }).catch(() => {
+                // An error happened.
+            });
+        }
         await deleteTokenGql()
             .then(() => {
                 Cookies.remove(custDataNameCookie);
                 removeIsLoginFlagging();
                 removeCartId();
                 removeCookies('uid_product_compare');
-                if (features.firebase.config.apiKey && features.firebase.config.apiKey !== '') {
-                    firebase.auth().signOut().then(() => {
-                        // Sign-out successful.
-                    }).catch(() => {
-                        // An error happened.
-                        // console.log(error);
-                    });
-                }
                 client.writeQuery({ query: localTotalCart, data: { totalCart: 0 } });
                 client.writeQuery({ query: localCompare, data: { item_count: 0 } });
                 window.backdropLoader(false);
-                Router.push('/customer/account/login');
+                Router.reload();
             })
             .catch(() => {
                 window.backdropLoader(false);
@@ -72,7 +83,6 @@ const CoreTopNavigation = (props) => {
             Router.push(`/catalogsearch/result?q=${value}`);
         }
     };
-
     return (
         <Content
             t={t}
@@ -89,6 +99,8 @@ const CoreTopNavigation = (props) => {
             app_cookies={app_cookies}
             showGlobalPromo={showGlobalPromo}
             modules={modules}
+            enablePopupInstallation={enablePopupInstallation}
+            installMessage={installMessage}
         />
     );
 };

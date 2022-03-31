@@ -13,7 +13,6 @@ import classNames from 'classnames';
 import Button from '@common_button';
 import RatingStar from '@common_ratingstar';
 import { getHost } from '@helper_config';
-import { modules } from '@config';
 import useStyles from '@plugin_productitem/components/QuickView/style';
 import DesktopOptions from '@core_modules/product/pages/default/components/OptionItem/DesktopOptions';
 import ItemShare from '@core_modules/product/pages/default/components/SharePopup/item';
@@ -24,7 +23,7 @@ const QuickView = (props) => {
     const route = useRouter();
     const { t } = useTranslation(['common', 'product', 'catalog']);
     const {
-        onClose, selectedValue, open, data, weltpixel_labels,
+        onClose, selectedValue, open, data, weltpixel_labels, storeConfig = {},
     } = props;
 
     const product = data?.items[0];
@@ -125,10 +124,11 @@ const QuickView = (props) => {
                             width={600}
                             height={1120}
                             customClassCaraousel={styles.caraousel}
+                            storeConfig={storeConfig}
                         >
                             {
-                                modules.catalog.productListing.label.enabled
-                                    && modules.catalog.productListing.label.weltpixel.enabled && (
+                                storeConfig?.pwa?.label_enable
+                                    && storeConfig?.pwa?.label_weltpixel_enable && (
                                     <WeltpixelLabel t={t} weltpixel_labels={weltpixel_labels} categoryLabel={false} />
                                 )
                             }
@@ -176,8 +176,8 @@ const QuickView = (props) => {
                         </div>
                         <div className="row">
                             {
-                                modules.catalog.productListing.label.enabled
-                                    && modules.catalog.productListing.label.weltpixel.enabled && (
+                                storeConfig?.pwa?.label_enable
+                                    && storeConfig?.pwa?.label_weltpixel_enable && (
                                     <WeltpixelLabel
                                         t={t}
                                         weltpixel_labels={weltpixel_labels || []}

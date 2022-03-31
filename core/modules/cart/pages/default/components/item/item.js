@@ -6,7 +6,6 @@ import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import DeleteOutlineOutlined from '@material-ui/icons/DeleteOutlineOutlined';
 import { formatPrice } from '@helper_currency';
 import Alert from '@material-ui/lab/Alert';
-import { features } from '@config';
 import Image from '@common_image';
 import Typography from '@common_typography';
 import useStyles from '@core_modules/cart/pages/default/components/style';
@@ -17,8 +16,15 @@ const ItemView = (props) => {
         t, confirmDel, handleDelete, setConfirmDel,
         product, configurable_options, quantity, prices, handleAddWishlist,
         editMode, toggleEditDrawer, bundle_options, links, customizable_options,
+        storeConfig = {},
     } = props;
     const styles = useStyles();
+
+    let defaultWidth = storeConfig?.pwa?.image_product_width;
+    let defaultHeight = storeConfig?.pwa?.image_product_height;
+
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
 
     return (
         <div className={styles.item}>
@@ -33,8 +39,8 @@ const ItemView = (props) => {
                     src={product.small_image.url}
                     className={styles.itemImg}
                     alt={product.name}
-                    width={features.imageSize.product.width}
-                    height={features.imageSize.product.height}
+                    width={defaultWidth}
+                    height={defaultHeight}
                     quality={80}
                 />
                 {

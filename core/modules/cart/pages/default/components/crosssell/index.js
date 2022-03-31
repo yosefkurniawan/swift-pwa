@@ -17,11 +17,11 @@ const getCrossSellProduct = (items) => {
 
 const CrossSell = (props) => {
     const {
-        View, dataCart: { id }, ...other
+        View, dataCart: { id }, storeConfig = {}, ...other
     } = props;
     const { t } = other;
     let crossell = [];
-    const { data, loading, error } = getCrossellCart(id);
+    const { data, loading, error } = getCrossellCart(id, storeConfig);
 
     React.useMemo(() => {
         if (data && data.cart && data.cart.items) {

@@ -155,7 +155,7 @@ const RegisterView = ({
                                 {t('register:subscribe')}
                             </Typography>
                         )}
-                        className={enableRecaptcha && styles.subscribe}
+                        style={{ marginBottom: enableRecaptcha ? 25 : 0 }}
                     />
 
                     {

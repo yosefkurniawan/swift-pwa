@@ -4,7 +4,6 @@
 const useMagentoCommerce = false; // setup uses magento commerce or community
 const storeCode = ''; // fill it with any store code when the magento is setup with multiple stores. leave it empty to use default store.
 const assetsVersion = '1.0.6';
-const iconAppleTouch = '/assets/img/swiftpwa_apple_touch.png';
 
 const HOST = {
     local: 'http://localhost:3000',
@@ -24,20 +23,6 @@ const graphqlEndpoint = {
 /* --------------------------------------- */
 /* FEATURES CONFIGURATION
 /* --------------------------------------- */
-
-const installMessage = 'Get our free app.';
-const appName = 'Swift APP';
-
-/* Social Sharing */
-const shareIcon = {
-    facebook: true,
-    twitter: true,
-    line: true,
-    email: true,
-    telegram: true,
-    pinterest: false,
-    linkedin: false,
-};
 
 /* Password Validator */
 const passwordStrength = {
@@ -74,23 +59,6 @@ const GTM = {
     },
 };
 
-/* Recapthca Configuration */
-const recaptcha = {
-    enable: false,
-    siteKey: {
-        local: '', // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
-        dev: '', // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
-        stage: '', // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
-        prod: '', // sample: 6LcZmLEZAAAAADkdlp8S8tExis2EVhNiuMv6ayo7
-    },
-    serverKey: {
-        local: '', // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
-        dev: '', // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
-        stage: '', // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
-        prod: '', // sample: 6LcZmLEZAAAAANHhkqwoRna2vqIVWHNKwOvxm26n
-    },
-};
-
 // error management monitoring
 const sentry = {
     enabled: false,
@@ -111,10 +79,6 @@ const rollbar = {
         captureUnhandledRejections: true,
     },
 };
-
-/* Contact Us */
-// identifiers for cmsBlocks in contact page
-const cmsContactIdentifiers = 'weltpixel_contact_page';
 
 /* Dashboard */
 // identifiers for cmsBlocks in contact page
@@ -143,6 +107,10 @@ const expiredToken = new Date(Date.now() + 1000 * 60 * 60);
 const expiredDefault = 365;
 const localResolverKey = 'resolver';
 
+const keyLocalStorage = {
+    home: 'homePageConfig',
+};
+
 const features = {
     useCustomStyle: false,
     ssrCache: false,
@@ -162,10 +130,6 @@ const features = {
             prod: 'http://swiftcrm.testingnow.me/graphql',
         },
     },
-    facebookMetaId: {
-        enabled: false,
-        app_id: '3080154482073095', // if enabled add fb app id here. e.g. 3080154482073095
-    },
     // masuk module -> pindah jika module sudah siap
     productAvailableToCart: {
         SimpleProduct: true,
@@ -176,70 +140,22 @@ const features = {
         DownloadableProduct: false,
         AwGiftCardProduct: true,
     },
-    imageSize: {
-        product: {
-            width: 240,
-            height: 300,
-        },
-        homeSlider: {
-            mobile: {
-                width: 960,
-                height: 1120,
-            },
-            desktop: {
-                width: 1800,
-                height: 750,
-            },
-        },
-        magezonSlider: {
-            mobile: {
-                width: 1800,
-                height: 750,
-            },
-            desktop: {
-                width: 1800,
-                height: 750,
-            },
-        },
-        category: {
-            width: 960,
-            height: 577,
-        },
-        promoBannerLite: {
-            top: {
-                width: 1300,
-            },
-            label: {
-                width: 350,
-            },
-            after: {
-                width: 350,
-            },
-        },
-    },
-    vesMenu: {
-        enabled: true,
-        alias: 'top-menu',
-    },
-    customInstallApp: {
-        enabled: true,
-    },
     firebase: {
         config: {
-            apiKey: '', // sample: AIzaSyCt9ks21BjiE9qirv-8xOEcUnUnH6viobw
-            authDomain: '', // sample: swift-pwa-dev.firebaseapp.com
-            databaseURL: '', // sample: https://swiftpwa-firebase.firebaseio.com
-            projectId: '', // sample: swift-pwa-dev
-            storageBucket: '', // sample: swift-pwa-dev.appspot.com
-            messagingSenderId: '', // sample: 1083571104838
-            appId: '', // sample: 1:1083571104838:web:4f06ca5a60b1c1a9efee47
-            measurementId: '', // sample: G-HBHPY22H0H
+            apiKey: 'AIzaSyCt9ks21BjiE9qirv-8xOEcUnUnH6viobw', // sample: AIzaSyCt9ks21BjiE9qirv-8xOEcUnUnH6viobw
+            authDomain: 'swift-pwa-dev.firebaseapp.com', // sample: swift-pwa-dev.firebaseapp.com
+            databaseURL: 'https://swiftpwa-firebase.firebaseio.com', // sample: https://swiftpwa-firebase.firebaseio.com
+            projectId: 'swift-pwa-dev', // sample: swift-pwa-dev
+            storageBucket: 'swift-pwa-dev.appspot.com', // sample: swift-pwa-dev.appspot.com
+            messagingSenderId: '1083571104838', // sample: 1083571104838
+            appId: '1:1083571104838:web:4f06ca5a60b1c1a9efee47', // sample: 1:1083571104838:web:4f06ca5a60b1c1a9efee47
+            measurementId: 'G-HBHPY22H0H', // sample: G-HBHPY22H0H
         },
         pushNotification: {
-            enabled: false,
+            enabled: true,
             config: {
                 // key from cloud messaging sertificat web push
-                pairKey: '', // sample: BJ2IqpfQQGrckDUAI7TaX8r0_v6aykBSIIEpZUqhlkzZI2e7WVZk9ZB4xOiWBqTbVo6wk44gnpRLAJDemB66zAU
+                pairKey: 'BJ2IqpfQQGrckDUAI7TaX8r0_v6aykBSIIEpZUqhlkzZI2e7WVZk9ZB4xOiWBqTbVo6wk44gnpRLAJDemB66zAU', // sample: BJ2IqpfQQGrckDUAI7TaX8r0_v6aykBSIIEpZUqhlkzZI2e7WVZk9ZB4xOiWBqTbVo6wk44gnpRLAJDemB66zAU
             },
         },
     },
@@ -250,13 +166,6 @@ const features = {
     },
     globalPromo: {
         key_cookies: 'global_promo_enable',
-    },
-    footer: {
-        desktop: 'pwa_footer',
-        mobile: 'pwa_footer',
-    },
-    removeDecimalPrice: {
-        enabled: false,
     },
 };
 
@@ -309,34 +218,6 @@ const modules = {
     catalog: {
         enabled: true,
         productListing: {
-            pageSize: 10,
-            drawerFilterOnDesktop: {
-                enabled: false, // used if need to desktop view on large screen
-            },
-            label: {
-                enabled: false,
-                new: {
-                    enabled: false,
-                },
-                sale: {
-                    enabled: false,
-                },
-                weltpixel: {
-                    enabled: false,
-                },
-            },
-            configurableOptions: {
-                enabled: false,
-            },
-            rating: {
-                enabled: false,
-            },
-            addToCart: {
-                enabled: false,
-            },
-            quickView: {
-                enabled: true,
-            },
             sort: {
                 relevance: true,
                 position: true,
@@ -352,11 +233,6 @@ const modules = {
                 toprated: true,
                 featured: true,
                 free: true,
-            },
-        },
-        pdp: {
-            popupDetailImage: {
-                enabled: true,
             },
         },
     },
@@ -411,28 +287,25 @@ const modules = {
         },
     },
     paypal: {
-        enabled: false,
+        enabled: true,
         path: '/paypal',
         clientId: {
-            local: 'AfcrKzLRhgwpdBWbK8owz2Vv_gYyPUbwzOuOAgz1BfBqvGle_omyRPX4jTZrDpOkfO-jRBc_2YyxEJM2',
+            local: '', // sample AaOafUT6j2w7kZNb97_cAlI0MjGexmWOaWo650ANV5xgrT3Ff1xtdwJxVByCHUJZ0Ga9HKvbRw5NIjNV
             dev: '',
             prod: '',
             stage: '',
         },
         clientSecret: {
-            local: 'EAwFhNBD5KKb8WLCK2xPxAD_L0Pb9wYUflFMXUfQYMKAbM5jGykvIbRHM-sJPoR8V3avAcEU3stvTJPd',
+            local: '', // sample EM2Uqt5eiPEgcCMi6NAF94DNsOoP3YBgGRkBGyFQdEXahjzuPfi17sjfhW4N9CfmE_RLjDGuZ19Gf1WP
             dev: '',
             prod: '',
             stage: '',
         },
-        defaultCurrency: 'USD',
         intent: 'authorize',
         returnUrl: 'paypal/express/review',
         cancelUrl: 'checkout/cart',
         keyData: 'paypal-data',
         keyToken: 'paypal-token',
-        merchantId: 'M4TYHSS9A9Z8C',
-        debug: true,
         disableFunding: 'venmo%2Cbancontact%2Ceps%2Cgiropay%2Cideal%2Cmybank%2Cp24%2Csofort',
     },
     cart: {
@@ -454,9 +327,6 @@ const modules = {
     contact: {
         enabled: true,
         path: '/contact',
-        recaptcha: {
-            enabled: true,
-        },
     },
     forgotpassword: {
         enabled: true,
@@ -536,38 +406,12 @@ const modules = {
     },
     home: {
         enabled: true,
-        useCmsPage: {
-            enable: true,
-            identifier: 'pwa-homepage',
-        },
-        featuresProduct: {
-            enable: true,
-            url_key: 'homepage-featured-products',
-        },
-        categoryList: {
-            enable: true,
-            url_key: 'homepage-featured-categories',
-            imageSize: {
-                mobile: {
-                    width: 960,
-                    height: 577,
-                },
-                desktop: {
-                    width: 404,
-                    height: 465,
-                },
-            },
-        },
-        bannerSlider: {
-            enable: true,
-            title: 'Client App Homepage Slider',
-        },
     },
     promo: {
         enabled: true,
     },
     productcompare: {
-        enabled: false,
+        enabled: true,
     },
     order: {
         enabled: true,
@@ -619,7 +463,6 @@ const general = {
 
 module.exports = {
     assetsVersion,
-    iconAppleTouch,
     general,
     sentry,
     storeCode,
@@ -627,7 +470,6 @@ module.exports = {
     GTM,
     HOST,
     graphqlEndpoint,
-    shareIcon,
     passwordStrength,
     expiredCookies,
     storeConfigNameCookie,
@@ -636,7 +478,6 @@ module.exports = {
     expiredToken,
     expiredDefault,
     loaderImage,
-    cmsContactIdentifiers,
     cmsSocialMediaLinkIdentifiers,
     custDataNameCookie,
     nameCheckoutCookie,
@@ -645,12 +486,10 @@ module.exports = {
     enableSocialMediaLink,
     features,
     nossrCache,
-    recaptcha,
     modules,
-    installMessage,
-    appName,
     localResolverKey,
     useMagentoCommerce,
     rollbar,
     translation,
+    keyLocalStorage,
 };

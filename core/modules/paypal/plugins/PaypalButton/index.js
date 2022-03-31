@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 import React from 'react';
-import { modules, storeConfigNameCookie } from '@config';
+import { modules } from '@config';
 import { getAppEnv } from '@helpers/env';
 import {
     setPaypalPaymentMethod, createPaypalExpressToken, setShippingAddressByInput, setBillingAddressByInput,
@@ -10,17 +10,15 @@ import PaypalButtonView from '@plugin_paypalbutton/view';
 import TagManager from 'react-gtm-module';
 import { getCartId } from '@helper_cartid';
 import { setLocalStorage, getLocalStorage } from '@helper_localstorage';
-import helperCookies from '@helper_cookies';
 import { getLoginInfo } from '@helper_auth';
 import Router from 'next/router';
 
 const PaypalButton = (props) => {
-    const { t, cart } = props;
+    const { t, cart, storeConfig } = props;
     const appEnv = getAppEnv();
     let cartId = cart ? cart.id : null;
     let isLogin = 0;
 
-    const storeConfig = helperCookies.get(storeConfigNameCookie) || {};
     if (typeof window !== 'undefined' && !cartId) {
         cartId = getCartId();
     }
@@ -32,12 +30,12 @@ const PaypalButton = (props) => {
     // config paypal
     const [initialOptionPaypal, setInitialOptionPaypal] = React.useState({
         'client-id': modules.paypal.clientId[appEnv],
-        currency: modules.paypal.defaultCurrency,
+        currency: storeConfig?.base_currency_code || 'USD',
         intent: modules.paypal.intent,
         'data-order-id': '',
         // debug: modules.paypal.debug,
         'disable-funding': modules.paypal.disableFunding,
-        'merchant-id': modules.paypal.merchantId,
+        'merchant-id': storeConfig?.pwa?.paypal_merchant_id,
     });
 
     const [tokenData, setTokenData] = React.useState({});
@@ -61,7 +59,7 @@ const PaypalButton = (props) => {
     };
 
     React.useEffect(() => {
-        if (typeof window !== 'undefined' && modules.paypal.enabled) {
+        if (typeof window !== 'undefined' && storeConfig?.pwa?.paypal_enable) {
             const initialTokenData = getLocalStorage(modules.paypal.keyToken);
             if (!initialTokenData && cartId) {
                 getPaypalToken({
@@ -272,7 +270,7 @@ const PaypalButton = (props) => {
         onShippingChange: onShippingChangePaypal,
         createOrder: createOrderPaypal,
     };
-    if (modules.paypal.enabled) {
+    if (storeConfig?.pwa?.paypal_enable) {
         return (
             <PaypalButtonView
                 {...props}

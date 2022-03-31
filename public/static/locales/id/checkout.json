@@ -24,6 +24,8 @@
         "changePickupLocation": "Ubah lokasi pengambilan",
         "selectStoreLocation": "Pilih lokasi toko"
     },
+    "invalidToken": "Anda memiliki sesi checkout aktif pada perangkat atau peramban lain. Anda hanya diperbolehkan untuk checkout satu perangkat atau peramban saja.",
+    "invalidTokenConfirmation": "Apakah anda ingin melanjutkan checkout pada perangkat ini?",
     "purchaseOrderNumber": "Nomor Pesanan Pembelian",
     "pickupStore": "Ambil di toko",
     "instorePickup": "Instore Pickup",
@@ -56,6 +58,7 @@
         "storeCreditApplied": "Store credit telah digunakan",
         "storeCreditRemoved": "Store credit tidak digunakan",
         "purchaseOrderApplied": "Nomor pesanan pembelian sudah di pasang",
+        "purchaseOrderFailed": "Nomor pesanan pembelian gagal di pasang",
         "couponError": "Kode kupon tidak dapat digunakan. Silahkan periksa terlebih kode kupon Anda dan coba kembali.",
         "giftCardError": "Kode gift card tidak dapat digunakan. Silahkan periksa terlebih kode kupon Anda dan coba kembali.",
         "placeOrder": "Berhasil melakukan pesanan",
@@ -125,6 +128,9 @@
         "label": "PayPal express checkout",        
         "noShippingMethod": "Silahkan pilih metode pengiriman"
     },
+    "confirmation": "Konfirmasi",
+    "open": "Buka",
+    "close": "Tutup",
     "travelokaPay": {
         "enterPaymentDetails": "Enter your payment details:",
         "activateTravelokaPaylater": "Activate your Traveloka Paylater now!",

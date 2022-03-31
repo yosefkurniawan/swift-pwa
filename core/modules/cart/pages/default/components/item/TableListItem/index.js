@@ -15,12 +15,11 @@ import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import DeleteOutlineOutlined from '@material-ui/icons/DeleteOutlineOutlined';
 import Link from 'next/link';
 import Image from '@common_image';
-import { features } from '@config';
 import useStyles from '@core_modules/cart/pages/default/components/item/TableListItem/style';
 import ConfirmationDelete from '@core_modules/cart/pages/default/components/confirmDelete';
 
 const TableListProduct = ({
-    data, t, deleteItem, handleFeed, toggleEditDrawer,
+    data, t, deleteItem, handleFeed, toggleEditDrawer, storeConfig = {},
 }) => {
     const styles = useStyles();
     const [confirmDel, setConfirmDel] = React.useState(false);
@@ -55,6 +54,12 @@ const TableListProduct = ({
             product_name: item.product.name,
         });
     };
+
+    let defaultWidth = storeConfig?.pwa?.image_product_width;
+    let defaultHeight = storeConfig?.pwa?.image_product_height;
+
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
 
     return (
         <>
@@ -114,8 +119,8 @@ const TableListProduct = ({
                                                                         src={val.product.small_image.url}
                                                                         className={styles.productImg}
                                                                         alt={val.product.name}
-                                                                        width={features.imageSize.product.width}
-                                                                        height={features.imageSize.product.height}
+                                                                        width={defaultWidth}
+                                                                        height={defaultHeight}
                                                                         quality={80}
                                                                     />
                                                                 </a>

@@ -4,7 +4,6 @@
 import React from 'react';
 import Typography from '@common_typography';
 import { useTranslation } from '@i18n';
-import { features } from '@config';
 import setDefaultWhenEmpty from '@helper_checkimagesrc';
 import classNames from 'classnames';
 import { setResolver, getResolver } from '@helper_localstorage';
@@ -16,7 +15,7 @@ import Thumbor from '@common_image';
 
 const SpanCategory = (props) => {
     const {
-        imageSrc, name, description, url, right = false, id,
+        imageSrc, name, description, url, right = false, id, storeConfig = {},
     } = props;
     const { t } = useTranslation(['common']);
     const styles = useStyles();
@@ -35,6 +34,13 @@ const SpanCategory = (props) => {
     } else {
         UrlString = imageSrc;
     }
+
+    let imageWidth = storeConfig?.pwa?.image_category_width;
+    let imageHeight = storeConfig?.pwa?.image_category_height;
+
+    imageWidth = typeof imageWidth === 'string' ? parseInt(imageWidth, 0) : imageWidth;
+    imageHeight = typeof imageHeight === 'string' ? parseInt(imageHeight, 0) : imageHeight;
+
     return (
         <div className={styles.container}>
             <div className={classNames('row center middle-sm', right ? 'reverse' : '')}>
@@ -50,8 +56,8 @@ const SpanCategory = (props) => {
                                     maxHeight: '100% !important',
                                 }}
                                 quality={80}
-                                width={features.imageSize.category.width}
-                                height={features.imageSize.category.height}
+                                width={imageWidth}
+                                height={imageHeight}
                                 lazy
                             />
                         </a>

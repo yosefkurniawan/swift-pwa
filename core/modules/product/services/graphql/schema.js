@@ -1,8 +1,8 @@
 /* eslint-disable no-plusplus */
 import { gql } from '@apollo/client';
-import { features, modules } from '@config';
+import { modules } from '@config';
 
-const weltpixel_labels = modules.catalog.productListing.label.weltpixel.enabled ? `
+const weltpixel_labels = `
 weltpixel_labels {
   categoryLabel {
       css
@@ -31,19 +31,19 @@ weltpixel_labels {
       text_font_color  
   }
 }        
-` : '';
+`;
 
-const productDetail = `
+const productDetail = (config = {}) => `
     id
     name
     sku
-    ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
+    ${config?.pwa?.label_sale_enable ? 'sale' : ''}
     stock_status
     url_key
     __typename
     attribute_set_id
     small_image{
-      url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
+      url,
       label
     }
     image{
@@ -134,20 +134,20 @@ const priceTiers = `
     }
     `;
 
-export const getUpsellProduct = (url) => gql`
-{
+export const getUpsellProduct = (config = {}) => gql`
+query Product($url: String!){
   products(
     search: "" ,filter: {
       url_key: {
-        eq: "${url}"
+        eq: $url
       }
     }
   ) {
     items {
       id
       upsell_products {
-        ${productDetail}        
-        ${weltpixel_labels}
+        ${productDetail(config)}        
+        ${config?.pwa?.label_weltpixel_enable ? weltpixel_labels : ''}
         ${priceRange}
         ${priceTiers}
       }
@@ -156,20 +156,20 @@ export const getUpsellProduct = (url) => gql`
 }
 `;
 
-export const getRelatedProduct = (url) => gql`
-{
+export const getRelatedProduct = (config = {}) => gql`
+query Product($url: String!) {
   products(
     search: "" ,filter: {
       url_key: {
-        eq: "${url}"
+        eq: $url
       }
     }
   ) {
     items {      
       id
       related_products {
-        ${productDetail}        
-        ${weltpixel_labels}
+        ${productDetail(config)}        
+        ${config?.pwa?.label_weltpixel_enable ? weltpixel_labels : ''}
         ${priceRange}
         ${priceTiers}
       }
@@ -254,18 +254,18 @@ const priceTiersPartial = `
   quantity
  `;
 
-const productDetailFragment = gql`
+const productDetailFragment = (config = {}) => gql`
   fragment CORE_PRODUCT_DETAILS on ProductInterface {
     id
     name @skip(if: $includeName)
     sku
-    ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
+    ${config?.pwa?.label_sale_enable ? 'sale' : ''}
     stock_status
     url_key
     __typename
     attribute_set_id
     small_image @skip(if: $includeImg) {
-      url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
+      url,
       label
     }
     image {
@@ -302,18 +302,19 @@ const productDetailFragment = gql`
   }
 `;
 
-export const getProduct = (url) => {
+export const getProduct = (config = {}) => {
     const query = gql`
-    ${productDetailFragment}
+    ${productDetailFragment(config)}
     query getProducts(
       $includeName: Boolean = false,
       $includePrice: Boolean = false,
       $includeImg: Boolean = false,
+      $url: String!
     ) {
         products(
             search: "" ,filter: {
               url_key: {
-                eq: "${url}"
+                eq: $url
               }
             }
         ) {
@@ -382,7 +383,7 @@ export const smartProductTabs = () => {
     return query;
 };
 
-export const getProductBySku = () => {
+export const getProductBySku = (config = {}) => {
     const query = gql`query(
       $sku: [String]
     ){
@@ -394,7 +395,7 @@ export const getProductBySku = () => {
             }
           ) {
             items {
-              ${productDetail}
+              ${productDetail(config)}
               ${priceRange}
               ${priceTiers}
               description {
@@ -544,12 +545,13 @@ export const getDownloadProduct = (sku) => {
     return query;
 };
 
-export const getConfigurableProduct = (sku) => {
-    const query = gql`{
+export const getConfigurableProduct = (config = {}) => {
+    const query = gql`
+    query Product ($sku: String!) {
     products(
       search: "" ,filter: {
         sku: {
-          eq: "${sku}"
+          eq: $sku
         }
       }
     ) {
@@ -583,7 +585,7 @@ export const getConfigurableProduct = (sku) => {
           }
           variants {
             product {
-              ${productDetail}
+              ${productDetail(config)}
               ${priceRange}
               ${priceTiers}
               media_gallery {
@@ -615,7 +617,7 @@ export const getConfigurableProduct = (sku) => {
     return query;
 };
 
-export const getGroupedProduct = gql`
+export const getGroupedProduct = (config = {}) => gql`
     query getGroupedProduct($sku: String!) {
         products(search: "", filter: { sku: { eq: $sku } }) {
             items {
@@ -628,7 +630,7 @@ export const getGroupedProduct = gql`
                             id
                             name
                             sku
-                            ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
+                            ${config?.pwa?.label_sale_enable ? 'sale' : ''}
                             stock_status
                             special_from_date
                             special_to_date
@@ -642,19 +644,19 @@ export const getGroupedProduct = gql`
     }
 `;
 
-export const getProductLabel = (url) => gql`
-{
+export const getProductLabel = (config = {}) => gql`
+query Products($url: String){
   products(
     search: "" ,filter: {
       url_key: {
-        eq: "${url}"
+        eq: $url
       }
     }
   ) {
     items {
       id
       __typename
-      ${weltpixel_labels}
+      ${config?.pwa?.label_weltpixel_enable ? weltpixel_labels : ''}
     }
   }
 }

@@ -45,6 +45,7 @@ const IcubeMapsAutocomplete = (props) => {
         formik,
         dragMarkerDone,
         defaultZoom = 17,
+        mapPosition,
     } = props;
     const { t } = useTranslation(['common']);
 
@@ -62,17 +63,6 @@ const IcubeMapsAutocomplete = (props) => {
         googleMapsApiKey: gmapKey,
         libraries,
     });
-
-    const setZeroIfEmpty = (value) => {
-        const emptyValues = [undefined, null, '', 'undefined', 'null'];
-        return emptyValues.includes(value) ? 0 : Number(value);
-    };
-
-    // Get initial map coordinates if user already saved an address before or fetch from browser's navigator location
-    const mapPosition = {
-        lat: setZeroIfEmpty(props.mapPosition && props.mapPosition.lat),
-        lng: setZeroIfEmpty(props.mapPosition && props.mapPosition.lng),
-    };
 
     // Set a new coordinates information when user drag the marker icon
     const handleDragEnd = (event) => {
@@ -137,13 +127,18 @@ const IcubeMapsAutocomplete = (props) => {
 
     // Get a new coordinates bounds based on current address information input (village, district, city, region)
     useEffect(() => {
-        if (formik !== false) {
+        // Check if selected country is Indonesia
+        if (formik.values.country.full_name_locale === 'Indonesia') {
             if (!!formik.values.village && !!formik.values.district && !!formik.values.city && !!formik.values.region) {
-                fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formik.values.village.label}+${formik.values.district.label}+${formik.values.city.label}+${formik.values.region.name}&language=id&key=${gmapKey}`)
+                fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formik.values.village.label}+${formik.values.district.label}+${formik.values.city.label}+${formik.values.region.name}&key=${gmapKey}`)
                     .then((response) => response.json())
                     .then((responseData) => {
                         if (responseData.results.length > 0) {
-                            const { bounds } = responseData.results[0].geometry;
+                            const { bounds, location } = responseData.results[0].geometry;
+                            dragMarkerDone({
+                                lat: location.lat,
+                                lng: location.lng,
+                            });
                             setStateBounds({
                                 northeast: {
                                     lat: parseFloat(bounds.northeast.lat),
@@ -161,8 +156,64 @@ const IcubeMapsAutocomplete = (props) => {
                         console.log(e);
                     });
             }
+            // Check if selected country is USA
+        } else if (formik.values.country.full_name_locale === 'United States') {
+            if (!!formik.values.region && !!formik.values.country.full_name_locale) {
+                fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formik.values.region.name}+${formik.values.country.full_name_locale}&key=${gmapKey}`)
+                    .then((response) => response.json())
+                    .then((responseData) => {
+                        if (responseData.results.length > 0) {
+                            const { bounds, location } = responseData.results[0].geometry;
+                            dragMarkerDone({
+                                lat: location.lat,
+                                lng: location.lng,
+                            });
+                            setStateBounds({
+                                northeast: {
+                                    lat: parseFloat(bounds.northeast.lat),
+                                    lng: parseFloat(bounds.northeast.lng),
+                                },
+                                southwest: {
+                                    lat: parseFloat(bounds.southwest.lat),
+                                    lng: parseFloat(bounds.southwest.lng),
+                                },
+                            });
+                        }
+                    })
+                    .catch((e) => {
+                        // eslint-disable-next-line no-console
+                        console.log(e);
+                    });
+            }
+            // Check if selected country beside Indonesia or USA
+        } else {
+            fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formik.values.country.full_name_locale}&key=${gmapKey}`)
+                .then((response) => response.json())
+                .then((responseData) => {
+                    if (responseData.results.length > 0) {
+                        const { bounds, location } = responseData.results[0].geometry;
+                        dragMarkerDone({
+                            lat: location.lat,
+                            lng: location.lng,
+                        });
+                        setStateBounds({
+                            northeast: {
+                                lat: parseFloat(bounds.northeast.lat),
+                                lng: parseFloat(bounds.northeast.lng),
+                            },
+                            southwest: {
+                                lat: parseFloat(bounds.southwest.lat),
+                                lng: parseFloat(bounds.southwest.lng),
+                            },
+                        });
+                    }
+                })
+                .catch((e) => {
+                    // eslint-disable-next-line no-console
+                    console.log(e);
+                });
         }
-    }, [formik.values.village, formik.values.district, formik.values.city, formik.values.region]);
+    }, [formik.values.village, formik.values.district, formik.values.city, formik.values.region, formik.values.country]);
 
     // Function to render the maps
     // eslint-disable-next-line arrow-body-style
@@ -212,20 +263,6 @@ const IcubeMapsAutocomplete = (props) => {
                     center={mapPosition}
                     onLoad={mapLoad}
                     zoom={defaultZoom}
-                    options={{
-                        restriction: {
-                            // eslint-disable-next-line no-undef
-                            latLngBounds: new google.maps.LatLngBounds(
-                                // eslint-disable-next-line no-undef
-                                new google.maps.LatLng(parseFloat(stateBounds.southwest.lat !== undefined ? stateBounds.southwest.lat : mapPosition.lat - 0.025),
-                                    parseFloat(stateBounds.southwest.lng !== undefined ? stateBounds.southwest.lng : mapPosition.lng - 0.025)),
-                                // eslint-disable-next-line no-undef
-                                new google.maps.LatLng(parseFloat(stateBounds.northeast.lat !== undefined ? stateBounds.northeast.lat : mapPosition.lat + 0.025),
-                                    parseFloat(stateBounds.northeast.lng !== undefined ? stateBounds.northeast.lng : mapPosition.lng + 0.025)),
-                            ),
-                            strictBounds: true,
-                        },
-                    }}
                 >
                     <Marker
                         onLoad={markerLoad}

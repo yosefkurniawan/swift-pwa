@@ -26,7 +26,7 @@ const AddressView = (props) => {
         showEmptyPinpoint,
         ...other
     } = props;
-    
+
     const gmapKey = other && other.storeConfig && other.storeConfig.icube_pinlocation_gmap_key;
     const { formik } = other;
 

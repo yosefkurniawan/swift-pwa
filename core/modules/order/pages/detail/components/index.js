@@ -24,7 +24,8 @@ import { checkJson } from '@core_modules/trackingorder/pages/default/helpers/che
 
 const DetailOrder = (props) => {
     const {
-        t, detail, currency, features, reOrder, returnUrl, paymentInfo, dataTrackingOrder,
+        t, detail, currency, storeConfig, reOrder, returnUrl,
+        paymentInfo, dataTrackingOrder
     } = props;
     const {
         checkout: {
@@ -43,6 +44,7 @@ const DetailOrder = (props) => {
         track_number: dataTrackingOrder.ordersFilter.data[0].detail[0].shipping_methods.shipping_detail[0].track_number,
         trackorder_type: dataTrackingOrder.ordersFilter.data[0].detail[0].shipping_methods.shipping_detail[0].trackorder_type,
     };
+  
     if (detail.length > 0 && detail[0].detail[0].items.length) {
         const configurableProduct = [];
         detail[0].detail[0].items.map((item) => {
@@ -227,22 +229,26 @@ const DetailOrder = (props) => {
                                     <Typography variant="span" className="clear-margin-padding">
                                         {detail[0].detail[0].shipping_methods.shipping_description || ''}
                                     </Typography>
-                                    {shippingMethods.length > 0 && shipping.track_number && shipping.trackorder_type && (
-                                        <Button
-                                            variant="text"
-                                            onClick={() => handleOpenModal(shipping.trackorder_type, dt)}
-                                            align="left"
-                                            className={styles.btnTrackOrder}
-                                        >
-                                            <Typography type="bold" decoration="underline" align="left">
-                                                {t('order:trackingOrder')}
-                                                {': '}
-                                                {shipping.track_number}
-                                                {' '}
-                                                {`(${shipping.trackorder_type})`}
-                                            </Typography>
-                                        </Button>
-                                    )}
+                                    {
+                                        shippingMethods.length > 0
+                                        && shipping.track_number
+                                        && shipping.trackorder_type && (
+                                            <Button
+                                                variant="text"
+                                                onClick={() => handleOpenModal(shipping.trackorder_type, dt)}
+                                                align="left"
+                                                className={styles.btnTrackOrder}
+                                            >
+                                                <Typography type="bold" decoration="underline" align="left">
+                                                    {t('order:trackingOrder')}
+                                                    {': '}
+                                                    {shipping.track_number}
+                                                    {' '}
+                                                    {`(${shipping.trackorder_type})`}
+                                                </Typography>
+                                            </Button>
+                                        )
+                                    }
                                 </div>
                             )}
                             <ModalTrackOrder
@@ -362,7 +368,7 @@ const DetailOrder = (props) => {
                                 <div className="hidden-desktop">
                                     {items.length > 0
                                         && items.map((item, key) => (
-                                            <ItemProduct t={t} key={key} {...item} currency={currency} features={features} />
+                                            <ItemProduct t={t} key={key} {...item} currency={currency} storeConfig={storeConfig} />
                                         ))}
                                 </div>
                                 <div className="hidden-mobile">
