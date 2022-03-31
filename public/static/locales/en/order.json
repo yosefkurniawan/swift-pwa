@@ -56,5 +56,10 @@
         "shipping": "Shipping",
         "complete": "Order complete",
         "canceled": "Order cancel"
+    },
+    "orderComment": {
+        "title": "About Your Order",
+        "subTitle": "Order Note",
+        "commentHistory": "Comment History"
     }
 }

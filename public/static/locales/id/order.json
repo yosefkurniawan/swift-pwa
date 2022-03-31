@@ -57,5 +57,10 @@
         "shipping": "Sedang di kirim",
         "complete": "Pesanan selesai",
         "canceled": "Pesanan di batalkan"
+    },
+    "orderComment": {
+        "title": "Tentang Pesanan Anda",
+        "subTitle": "Catatan Order",
+        "commentHistory": "Riwayat Komentar"
     }
 }
