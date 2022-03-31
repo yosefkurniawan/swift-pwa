@@ -43,6 +43,15 @@ export const getCmsBlocks = (variables, options = {}) => useQuery(getCmsBlocksSc
     ...options,
 });
 
+export const getCountCart = () => useLazyQuery(schema.getCountCart,
+    {
+        context: {
+            request: 'internal',
+        },
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
+    });
+
 export default {
     getCmsBlocks,
     getCategories,
@@ -54,4 +63,5 @@ export default {
     getCategoryByName,
     getCurrency,
     getRecentlyProduct,
+    getCountCart,
 };

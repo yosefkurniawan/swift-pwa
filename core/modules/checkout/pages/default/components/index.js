@@ -100,10 +100,15 @@ const Content = (props) => {
                 open={checkoutTokenState}
                 handleYes={() => {
                     setCheckoutTokenState(!checkoutTokenState);
+                    Router.reload();
+                }}
+                handleCancel={() => {
+                    setCheckoutTokenState(!checkoutTokenState);
                     Router.push('/checkout/cart');
                 }}
-                confirmOnly
+                yesNo
                 message={`${t('checkout:invalidToken')}`}
+                confirmationMessage={`${t('checkout:invalidTokenConfirmation')}`}
             />
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
                 {

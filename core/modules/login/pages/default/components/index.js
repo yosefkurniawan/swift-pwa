@@ -73,7 +73,7 @@ const Login = (props) => {
         signInFlow: 'popup',
         signInOptions,
         callbacks: {
-            signInSuccess: () => false,
+            signInSuccessWithAuthResult: () => false,
         },
     };
 

@@ -94,7 +94,7 @@ const Checkout = (props) => {
                 console.log(e);
             });
         }
-    }, []);
+    }, [cartId]);
 
     const { snap_is_production, snap_client_key, allow_guest_checkout } = storeConfig;
     if (storeConfig && !allow_guest_checkout && !isLogin) {

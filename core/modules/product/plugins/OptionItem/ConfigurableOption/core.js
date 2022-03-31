@@ -1,12 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import { useApolloClient } from '@apollo/client';
 import ProductByVariant, { generateValue, generateAvailableCombination, handleSelected } from '@helper_productbyvariant';
 import { getLoginInfo } from '@helper_auth';
 import { getCartId, setCartId } from '@helper_cartid';
 import TagManager from 'react-gtm-module';
-import { localTotalCart } from '@services/graphql/schema/local';
 import { modules } from '@config';
 import Router from 'next/router';
 import {
@@ -41,8 +39,6 @@ const OptionsItemConfig = (props) => {
     } = props;
 
     const { storeConfig = {} } = props;
-
-    const client = useApolloClient();
 
     const {
         __typename, sku, media_gallery, image, price_range, price_tiers,
@@ -314,11 +310,8 @@ const OptionsItemConfig = (props) => {
                     addConfigurableProducts({
                         variables,
                     })
-                        .then((res) => {
-                            client.writeQuery({
-                                query: localTotalCart,
-                                data: { totalCart: res.data.addProductsToCart.cart.total_quantity },
-                            });
+                        .then(() => {
+                            window.reloadCartQty = true;
                             window.toastMessage({ variant: 'success', text: t('product:successAddCart'), open: true });
                             setLoading(false);
                             setOpen(false);

@@ -289,6 +289,15 @@ export const getCurrencySchema = gql`
     }
 `;
 
+export const getCountCart = gql`
+    query getCartData($cartId: String!) {
+        cart(cart_id: $cartId) {
+            id
+            total_quantity
+        }
+    }
+`;
+
 export default {
     categories,
     getCustomer,
@@ -298,4 +307,5 @@ export default {
     getProduct,
     getCategoryByName,
     getRecentlyProduct,
+    getCountCart,
 };
