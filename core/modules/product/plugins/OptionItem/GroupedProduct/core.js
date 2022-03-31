@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { getCartId, setCartId } from '@helper_cartid';
 import { getLoginInfo } from '@helper_auth';
-import { useApolloClient } from '@apollo/client';
-import { localTotalCart } from '@services/graphql/schema/local';
 import {
     getGroupedProduct, addProductsToCart, getGuestCartId as queryGetGuestCartId, getCustomerCartId,
 } from '@core_modules/product/services/graphql';
@@ -13,7 +11,6 @@ const GroupedProductOption = ({
     const {
         sku, __typename, stock_status,
     } = data;
-    const client = useApolloClient();
     const [loading, setLoading] = useState(false);
     const [itemsCart, setItemsCart] = useState({});
 
@@ -92,10 +89,7 @@ const GroupedProductOption = ({
                         });
                         setLoading(false);
                     } else if (res.data.addProductsToCart && res.data.addProductsToCart.cart) {
-                        client.writeQuery({
-                            query: localTotalCart,
-                            data: { totalCart: res.data.addProductsToCart.cart.total_quantity },
-                        });
+                        window.reloadCartQty = true;
                         window.toastMessage({
                             variant: 'success',
                             text: t('product:successAddCart'),

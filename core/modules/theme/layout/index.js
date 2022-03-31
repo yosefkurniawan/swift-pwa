@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-danger */
 import React, { useEffect, useState, useRef } from 'react';
+import { useApolloClient } from '@apollo/client';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import TagManager from 'react-gtm-module';
@@ -18,6 +19,9 @@ import { createCompareList } from '@core_modules/product/services/graphql';
 
 import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
 import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
+import { localTotalCart } from '@services/graphql/schema/local';
+import { getCountCart } from '@core_modules/theme/services/graphql';
+import { getCartId } from '@helper_cartid';
 
 const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
 const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
@@ -68,6 +72,7 @@ const Layout = (props) => {
     // const [mainMinimumHeight, setMainMinimumHeight] = useState(0);
     const refFooter = useRef(null);
     const refHeader = useRef(null);
+    const client = useApolloClient();
 
     const handleSetToast = (message) => {
         setState({
@@ -147,6 +152,34 @@ const Layout = (props) => {
             }
         }
     }, [isLogin]);
+
+    const reloadCartQty = typeof window !== 'undefined' && window && window.reloadCartQty;
+    let cartId = '';
+    const [getCart, RespondCart] = getCountCart();
+    if (typeof window !== 'undefined') {
+        cartId = getCartId();
+    }
+
+    useEffect(() => {
+        if (RespondCart && RespondCart.data) {
+            client.writeQuery({
+                query: localTotalCart,
+                data: { totalCart: RespondCart.data.cart.total_quantity },
+            });
+        }
+    }, [RespondCart]);
+
+    useEffect(() => {
+        if (reloadCartQty && cartId) {
+            // query get cart
+            getCart({
+                variables: {
+                    cartId,
+                },
+            });
+            window.reloadCartQty = false;
+        }
+    }, [reloadCartQty]);
 
     useEffect(() => {
         const isRestrictionMode = getCookies('user_allowed_save_cookie');
