@@ -8,6 +8,7 @@ import { groupingCity, groupingSubCity } from '@helpers/city';
 import { modules, storeConfigNameCookie } from '@config';
 import helperCookies from '@helper_cookies';
 import { getCityByRegionId, getCountries as getAllCountries, getRegions } from '@core_modules/customer/services/graphql';
+import { getLocalStorage } from '@helpers/localstorage';
 
 const AddressFormDialog = (props) => {
     const {
@@ -43,9 +44,9 @@ const AddressFormDialog = (props) => {
     if (!storeConfig && typeof window !== 'undefined') {
         storeConfig = helperCookies.get(storeConfigNameCookie);
     }
-    const gmapKey = (storeConfig || {}).icube_pinlocation_gmap_key;
-    const pinLocations = storeConfig ?? {};
-    const { pin_location_latitude, pin_location_longitude } = pinLocations;
+    const pwaConfig = getLocalStorage('pwa_config');
+    const gmapKey = pwaConfig && pwaConfig.icube_pinlocation_gmap_key ? pwaConfig.icube_pinlocation_gmap_key : null;
+    const { pin_location_latitude, pin_location_longitude } = pwaConfig ?? {};
 
     const [getCountries, responCountries] = getAllCountries();
     const [getRegion, responRegion] = getRegions();

@@ -30,7 +30,7 @@
     "@material-ui/pickers": "^3.2.10",
     "@paypal/checkout-server-sdk": "^1.0.2",
     "@paypal/react-paypal-js": "4.1.0",
-    "@react-google-maps/api": "^2.7.0",
+    "@react-google-maps/api": "icubebysirclo/react-google-maps-api#master_icube",
     "@sentry/browser": "^5.24.2",
     "@sentry/integrations": "^5.24.2",
     "@sentry/node": "^5.24.2",

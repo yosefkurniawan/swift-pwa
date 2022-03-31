@@ -6,6 +6,7 @@ import Typography from '@common_typography';
 import _ from 'lodash';
 import ModalAddress from '@core_modules/checkout/pages/default/components/ModalAddress';
 import useStyles from '@core_modules/checkout/pages/default/components/style';
+import { getLocalStorage } from '@helpers/localstorage';
 
 const CLOSE_ADDRESS_DIALOG = 100;
 
@@ -27,7 +28,8 @@ const AddressView = (props) => {
         ...other
     } = props;
 
-    const gmapKey = other && other.storeConfig && other.storeConfig.icube_pinlocation_gmap_key;
+    const pwaConfig = getLocalStorage('pwa_config');
+    const gmapKey = pwaConfig && pwaConfig.icube_pinlocation_gmap_key ? pwaConfig.icube_pinlocation_gmap_key : null;
     const { formik } = other;
 
     const [openAddress, setOpenAddress] = React.useState(false);
