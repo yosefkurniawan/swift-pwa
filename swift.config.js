@@ -261,9 +261,6 @@ const modules = {
         cashback: {
             enabled: true,
         },
-        orderComment: {
-            enabled: true,
-        },
         howtoPay: {
             enabled: true,
         },
