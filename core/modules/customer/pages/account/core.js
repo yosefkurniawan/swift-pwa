@@ -8,7 +8,7 @@ const Customer = dynamic(() => import('@core_modules/customer/pages/account/comp
 
 const CustomerAccount = (props) => {
     const {
-        t, isLogin, CustomerView, Skeleton, GuestView, pageConfig,
+        t, isLogin, CustomerView, Skeleton, GuestView, pageConfig, storeConfig,
     } = props;
     const router = useRouter();
     const config = {
@@ -17,9 +17,7 @@ const CustomerAccount = (props) => {
         bottomNav: 'account',
     };
     const [actionReorder] = mutationReorder();
-    const {
-        data,
-    } = getCmsBlocks({ identifiers: ['pwa_footer'] });
+    const { data } = getCmsBlocks({ identifiers: [storeConfig.pwa.footer_mobile] });
 
     const reOrder = (order_id) => {
         if (order_id && order_id !== '') {

@@ -11,11 +11,17 @@ import Image from '@common_image';
 import Tooltip from '@material-ui/core/Tooltip';
 import propTypes from 'prop-types';
 import useStyles from '@core_modules/product/pages/default/components/RightDrawer/style';
-import { features } from '@config';
 
 const ItemLook = (props) => {
-    const { url_key, small_image: { url, label } } = props;
+    const { url_key, small_image: { url, label }, storeConfig = {} } = props;
     const styles = useStyles();
+
+    let defaultWidth = storeConfig?.pwa?.image_product_width;
+    let defaultHeight = storeConfig?.pwa?.image_product_height;
+
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+
     return (
         <div className={classNames('col-xs-12 col-sm-12 col-md-6 col-lg-6', styles.itemLookContainer)}>
             <Link href="[...slug]" as={`${url_key}`}>
@@ -25,8 +31,8 @@ const ItemLook = (props) => {
                             src={url}
                             className={styles.img}
                             alt={label && url ? label : 'Product'}
-                            width={features.imageSize.product.width}
-                            height={features.imageSize.product.height}
+                            width={defaultWidth}
+                            height={defaultHeight}
                             quality={80}
                         />
                     </Tooltip>
@@ -38,7 +44,7 @@ const ItemLook = (props) => {
 
 const UpsellDrawerView = (props) => {
     const {
-        open = false, setOpen = () => {}, t, data = [],
+        open = false, setOpen = () => {}, t, data = [], storeConfig = {},
     } = props;
     // const data = props.data.upsell_products ? props.data.upsell_products : [];
     const styles = useStyles();
@@ -82,7 +88,7 @@ const UpsellDrawerView = (props) => {
                         <div className="row" style={{ height: 'fit-content', width: '100%' }}>
                             {
                                 data.length > 0
-                                && data.map((item, index) => (<ItemLook key={index} {...item} />))
+                                && data.map((item, index) => (<ItemLook key={index} {...item} storeConfig={storeConfig} />))
                             }
                         </div>
                     </div>

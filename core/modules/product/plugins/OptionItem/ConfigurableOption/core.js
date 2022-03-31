@@ -38,6 +38,8 @@ const OptionsItemConfig = (props) => {
         ...other
     } = props;
 
+    const { storeConfig = {} } = props;
+
     const {
         __typename, sku, media_gallery, image, price_range, price_tiers,
         small_image, name, categories, url_key, stock_status,
@@ -53,7 +55,7 @@ const OptionsItemConfig = (props) => {
         setLoading = setCustomLoading;
     }
 
-    const configProduct = getConfigurableProduct(sku);
+    const configProduct = getConfigurableProduct(storeConfig, { variables: { sku } });
 
     const [firstSelected, setFirstSelected] = React.useState({});
     const [combination, setCombination] = React.useState({});

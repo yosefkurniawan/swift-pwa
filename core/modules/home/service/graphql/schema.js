@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { features, modules } from '@config';
 
 export const getSlider = gql`
     query getSlider($input: InputSlider) {
@@ -24,14 +23,14 @@ export const getBannerSlider = gql`
                 image_id
                 image_url
                 mobile_image_url
-                thumb_image_url
+                thumb_image_url 
                 url_redirection
             }
         }
     }
 `;
 
-export const getFeaturedProducts = gql`
+export const getFeaturedProducts = (config = {}) => gql`
     query($url_key: String!) {
         categoryList(filters: { url_key: { eq: $url_key } }) {
             children {
@@ -51,9 +50,9 @@ export const getFeaturedProducts = gql`
                         new_to_date
                         canonical_url
                         small_image {
-                            url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
+                            url,
                         }
-                        ${modules.catalog.productListing.label.weltpixel.enabled ? `
+                        ${config?.pwa?.label_weltpixel_enable ? `
                             weltpixel_labels {
                             categoryLabel {
                                 css
@@ -131,9 +130,42 @@ export const getCategoryList = gql`
     }
 `;
 
+export const getCmsPageConfig = gql`
+    {
+        storeConfig {
+            pwa {
+                use_cms_page_enable
+                use_cms_page_identifier
+            }
+        }
+    }
+`;
+
+export const getHomePageConfig = `
+{
+    storeConfig {
+        pwa {
+            use_cms_page_enable
+            use_cms_page_identifier
+            banner_slider_enable
+            banner_slider_title
+            category_list_enable
+            category_list_url_key            
+            category_list_image_size_desktop_height
+            category_list_image_size_desktop_width
+            category_list_image_size_mobile_height
+            category_list_image_size_mobile_width
+            features_product_enable
+            features_product_url_key
+        }
+    }
+}
+`;
+
 export default {
     getBannerSlider,
     getCategoryList,
     getFeaturedProducts,
     getSlider,
+    getCmsPageConfig,
 };

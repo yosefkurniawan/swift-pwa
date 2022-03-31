@@ -8,11 +8,12 @@ import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import {
-    custDataNameCookie, features, modules, debuging,
+    custDataNameCookie, features, modules, debuging, assetsVersion, storeConfigNameCookie,
 } from '@config';
 import { getHost } from '@helper_config';
 import { breakPointsUp } from '@helper_theme';
 import { setCookies, getCookies } from '@helper_cookies';
+import { setLocalStorage } from '@helper_localstorage';
 import { getAppEnv } from '@helpers/env';
 import useStyles from '@core_modules/theme/layout/style';
 import { createCompareList } from '@core_modules/product/services/graphql';
@@ -39,6 +40,7 @@ const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/rece
 const Layout = (props) => {
     const bodyStyles = useStyles();
     const {
+        dataVesMenu,
         pageConfig,
         children,
         app_cookies,
@@ -69,6 +71,20 @@ const Layout = (props) => {
     const [restrictionCookies, setRestrictionCookies] = useState(false);
     const [showGlobalPromo, setShowGlobalPromo] = React.useState(false);
     const [setCompareList] = createCompareList();
+
+    // get app name config
+
+    let appName = '';
+    let installMessage = '';
+    let showPopup = false;
+    let iconAppleTouch = '/assets/img/swiftpwa_apple_touch.png';
+    if (storeConfig && storeConfig.pwa) {
+        iconAppleTouch = storeConfig.pwa.icon_apple_touch;
+        appName = storeConfig.pwa.app_name;
+        showPopup = storeConfig.pwa.custom_install_app_enable;
+        installMessage = storeConfig.pwa.install_message || 'Install';
+    }
+
     // const [mainMinimumHeight, setMainMinimumHeight] = useState(0);
     const refFooter = useRef(null);
     const refHeader = useRef(null);
@@ -126,8 +142,8 @@ const Layout = (props) => {
         ogData['og:description'] = storeConfig.default_description || '';
     }
 
-    if (features.facebookMetaId.enabled) {
-        ogData['fb:app_id'] = features.facebookMetaId.app_id;
+    if (storeConfig && storeConfig.pwa && storeConfig.pwa.facebook_meta_id_app_id) {
+        ogData['fb:app_id'] = storeConfig.pwa.facebook_meta_id_app_id;
     }
 
     React.useEffect(() => {
@@ -218,6 +234,10 @@ const Layout = (props) => {
         styles.marginTop = 0;
     }
 
+    if (typeof window !== 'undefined' && storeConfig) {
+        setLocalStorage(storeConfigNameCookie, storeConfig);
+    }
+
     return (
         <>
             <Head>
@@ -226,6 +246,7 @@ const Layout = (props) => {
                     content={pageConfig.title ? pageConfig.title : storeConfig.default_title ? storeConfig.default_title : 'Swift Pwa'}
                 />
                 <meta name="robots" content={appEnv === 'prod' && storeConfig.pwa ? storeConfig.pwa.default_robot : 'NOINDEX,NOFOLLOW'} />
+                <link rel="apple-touch-icon" href={iconAppleTouch} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="format-detection" content="telephone=no" />
                 <meta name="description" content={ogData['og:description']} />
@@ -241,23 +262,41 @@ const Layout = (props) => {
                         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(val) }} key={idx} />
                     ))
                     : null}
+                {
+                    showPopup && <script src={`/static/firebase/install.${assetsVersion}.js`} defer />
+                }
             </Head>
-            {features.customInstallApp.enabled && !onlyCms ? <PopupInstallAppMobile /> : null}
+            {showPopup ? <PopupInstallAppMobile appName={appName} installMessage={installMessage} /> : null}
             {withLayoutHeader && (
                 <header ref={refHeader}>
-                    {typeof window !== 'undefined' && storeConfig.global_promo && storeConfig.global_promo.enable && (
-                        <GlobalPromoMessage t={t} storeConfig={storeConfig} showGlobalPromo={showGlobalPromo} handleClose={handleClosePromo} />
-                    )}
-                    <div className="hidden-mobile">
-                        {headerDesktop ? (
-                            <HeaderDesktop
-                                storeConfig={storeConfig}
-                                isLogin={isLogin}
+                    { typeof window !== 'undefined'
+                        && storeConfig.global_promo && storeConfig.global_promo.enable
+                        && (
+                            <GlobalPromoMessage
                                 t={t}
-                                app_cookies={app_cookies}
+                                storeConfig={storeConfig}
                                 showGlobalPromo={showGlobalPromo}
+                                handleClose={handleClosePromo}
+                                appName={appName}
+                                installMessage={installMessage}
                             />
-                        ) : null}
+                        )}
+                    <div className="hidden-mobile">
+                        {headerDesktop
+                            ? (
+                                <HeaderDesktop
+                                    storeConfig={storeConfig}
+                                    isLogin={isLogin}
+                                    t={t}
+                                    app_cookies={app_cookies}
+                                    showGlobalPromo={showGlobalPromo}
+                                    enablePopupInstallation={showPopup}
+                                    appName={appName}
+                                    installMessage={installMessage}
+                                    dataVesMenu={dataVesMenu}
+                                />
+                            )
+                            : null}
                     </div>
                     <div className="hidden-desktop">
                         {React.isValidElement(CustomHeader) ? (
@@ -288,25 +327,33 @@ const Layout = (props) => {
                     <div className="hidden-mobile">
                         {modules.customer.plugin.newsletter.enabled && footer ? <Newsletter /> : null}
 
-                        {footer ? <Footer storeConfig={storeConfig} /> : null}
+                        {footer ? <Footer storeConfig={storeConfig} t={t} /> : null}
                         <Copyright storeConfig={storeConfig} />
                     </div>
-                    {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} />}
+                    {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />}
                 </footer>
             )}
-            {storeConfig.cookie_restriction && !restrictionCookies && (
-                <RestrictionPopup handleRestrictionCookies={handleRestrictionCookies} restrictionStyle={bodyStyles.cookieRestriction} />
-            )}
-            {showRecentlyBar && !onlyCms && (
-                <RecentlyViewed
-                    isActive={storeConfig && storeConfig.weltpixel_RecentlyViewedBar_general_enable}
-                    recentlyBtn={bodyStyles.recentView}
-                    wrapperContent={bodyStyles.recentlyWrapperContent}
-                    recentlyBtnContent={bodyStyles.recentlyBtnContent}
-                    contentFeatured={bodyStyles.contentFeatured}
-                    className={bodyStyles.itemProduct}
-                />
-            )}
+            {
+                storeConfig.cookie_restriction && !restrictionCookies
+                && (
+                    <RestrictionPopup
+                        handleRestrictionCookies={handleRestrictionCookies}
+                        restrictionStyle={bodyStyles.cookieRestriction}
+                    />
+                )
+            }
+            {
+                showRecentlyBar && !onlyCms && (
+                    <RecentlyViewed
+                        isActive={storeConfig && storeConfig.weltpixel_RecentlyViewedBar_general_enable}
+                        recentlyBtn={bodyStyles.recentView}
+                        wrapperContent={bodyStyles.recentlyWrapperContent}
+                        recentlyBtnContent={bodyStyles.recentlyBtnContent}
+                        contentFeatured={bodyStyles.contentFeatured}
+                        className={bodyStyles.itemProduct}
+                    />
+                )
+            }
         </>
     );
 };

@@ -11,6 +11,9 @@ const GroupedProductOption = ({
     const {
         sku, __typename, stock_status,
     } = data;
+
+    const { storeConfig = {} } = other;
+
     const [loading, setLoading] = useState(false);
     const [itemsCart, setItemsCart] = useState({});
 
@@ -25,7 +28,7 @@ const GroupedProductOption = ({
     }
     const [getGuestCartId] = queryGetGuestCartId();
     const cartUser = getCustomerCartId();
-    const { loading: loadData, data: products } = getGroupedProduct(sku);
+    const { loading: loadData, data: products } = getGroupedProduct(storeConfig, { variables: sku });
 
     let optionsData = [];
 

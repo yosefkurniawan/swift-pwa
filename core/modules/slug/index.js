@@ -1,24 +1,12 @@
 import { withApollo } from '@lib_apollo';
 import { withTranslation } from '@i18n';
-import CategoryPage from '@core_modules/catalog/pages/category';
-import ProductPage from '@core_modules/product/pages/default';
-import CmsPage from '@core_modules/cms/pages/default';
-import ProductLoader from '@core_modules/product/pages/default/components/Loader';
-import CategorySkeleton from '@core_modules/catalog/pages/category/components/Skeleton';
 import { getCmsList } from '@services/graphql/schema/config';
 import graphRequest from '@graphql_request';
 import { storeConfigNameCookie } from '@config';
 import Core from '@core_modules/slug/core';
-import LoadingView from '@common_backdrop';
 
 const Page = (props) => (
     <Core
-        CategoryPage={CategoryPage}
-        ProductPage={ProductPage}
-        CmsPage={CmsPage}
-        LoadingView={LoadingView}
-        ProductLoader={ProductLoader}
-        CategorySkeleton={CategorySkeleton}
         {...props}
     />
 );

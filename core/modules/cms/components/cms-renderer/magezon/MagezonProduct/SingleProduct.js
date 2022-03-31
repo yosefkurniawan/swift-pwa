@@ -6,7 +6,7 @@
 
 import PriceFormat from '@common_priceformat';
 import RatingStar from '@common_ratingstar';
-import { features, modules } from '@config';
+import { modules } from '@config';
 import CmsRenderer from '@core_modules/cms/components/cms-renderer';
 import { useProduct } from '@core_modules/cms/components/cms-renderer/magezon/MagezonProduct/helpers/useProduct';
 import Button from '@core_modules/commons/Button';
@@ -41,7 +41,7 @@ const SingleProduct = (props) => {
         product_addtocart, product_compare, product_shortdescription,
         product_image, product_price, product_review,
         product_swatches, product_wishlist, product_name,
-        item_xl, item_lg, item_md, item_sm, item_xs,
+        item_xl, item_lg, item_md, item_sm, item_xs, storeConfig,
     } = props;
     const isGrid = product_display && product_display === 'grid';
     const isProductGrid = type === 'product_grid';
@@ -53,6 +53,7 @@ const SingleProduct = (props) => {
         short_description, small_image,
     } = product;
     // prettier-ignore
+
     const {
         styles, wishlist,
         price, setPrice,
@@ -89,6 +90,12 @@ const SingleProduct = (props) => {
         return null;
     };
 
+    let defaultWidth = storeConfig?.pwa?.image_product_width;
+    let defaultHeight = storeConfig?.pwa?.image_product_height;
+
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+
     return (
         <>
             <Grid
@@ -111,8 +118,12 @@ const SingleProduct = (props) => {
                         justify="center"
                         alignItems={isProductGrid ? 'center' : 'stretch'}
                     >
-                        <div onClick={handleClick} style={{ width: features.imageSize.product.width }}>
-                            <Image src={small_image.url} width={features.imageSize.product.width} height={features.imageSize.product.height} />
+                        <div onClick={handleClick} style={{ width: defaultWidth }}>
+                            <Image
+                                src={small_image.url}
+                                width={defaultWidth}
+                                height={defaultHeight}
+                            />
                         </div>
                     </Grid>
                 )}

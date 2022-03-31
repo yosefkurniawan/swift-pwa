@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import Router, { useRouter } from 'next/router';
 import getQueryFromPath from '@helper_generatequery';
 import TagManager from 'react-gtm-module';
-import { modules } from '@config';
 import { getProduct, getProductAgragations } from '@core_modules/catalog/services/graphql';
 import * as Schema from '@core_modules/catalog/services/graphql/productSchema';
 import getCategoryFromAgregations from '@core_modules/catalog/helpers/getCategory';
@@ -30,6 +29,7 @@ const Product = (props) => {
         pageSize: 8,
         currentPage: 1,
         filter: [],
+        ...storeConfig.pwa,
     };
 
     // set default sort when there is no sort in query
@@ -75,7 +75,7 @@ const Product = (props) => {
 
     const { loading, data, fetchMore } = getProduct(config, {
         variables: {
-            pageSize: modules.catalog.productListing.pageSize || 10,
+            pageSize: parseInt(storeConfig?.pwa?.page_size, 0) || 10,
             currentPage: 1,
         },
         context,
@@ -109,9 +109,9 @@ const Product = (props) => {
     };
 
     const handleLoadMore = async () => {
+        const pageSize = storeConfig.pwa ? parseInt(storeConfig?.pwa?.page_size, 0) : 10;
         setFilterSaved(false);
         try {
-            const pageSize = modules.catalog.productListing.pageSize || 10;
             const totalProduct = products && products.total_count ? products.total_count : 0;
             const totalPage = Math.ceil(totalProduct / pageSize);
             if (fetchMore && typeof fetchMore !== 'undefined' && page < totalPage) {

@@ -65,7 +65,8 @@ const ShippingGroupIcon = (props) => {
 const ShippingView = (props) => {
     const styles = useStyles();
     const {
-        isOnlyVirtualProductOnCart, checkout, storeConfig, loading, selected, handleShipping, data, t, shippingMethodList,
+        isOnlyVirtualProductOnCart, checkout, storeConfig, loading, selected,
+        handleShipping, data, t, shippingMethodList,
     } = props;
     let content;
     const [expanded, setExpanded] = React.useState(null);
@@ -84,8 +85,8 @@ const ShippingView = (props) => {
         content = <Loader />;
     } else if (data.shippingMethods.length !== 0) {
         const available = data.shippingMethods;
-        const config =
-            shippingMethodList && shippingMethodList.storeConfig ? JSON.parse(`${shippingMethodList.storeConfig.shipments_configuration}`) : {};
+        const config = shippingMethodList && shippingMethodList.storeConfig
+            ? JSON.parse(`${shippingMethodList.storeConfig.shipments_configuration}`) : {};
         const group = config ? Object.keys(config) : [];
 
         const shipping = [];
@@ -103,10 +104,9 @@ const ShippingView = (props) => {
                 for (let idc = 0; idc < cnf.length; idc += 1) {
                     // check if shipping method already exist on groupData
                     const checkShipping = groupData.find(
-                        (x) =>
-                            x.method_code === element.method_code &&
-                            x.carrier_code === element.carrier_code &&
-                            x.carrier_title === element.carrier_title
+                        (x) => x.method_code === element.method_code
+                            && x.carrier_code === element.carrier_code
+                            && x.carrier_title === element.carrier_title,
                     );
 
                     if (identifier.match(new RegExp(`^${cnf[idc]}`, 'i')) !== null && !checkShipping) {
@@ -174,9 +174,9 @@ const ShippingView = (props) => {
                                 return (
                                     <Accordion
                                         expanded={
-                                            expanded === keyIndex || // if key index same with expanded active
-                                            (item.active && expandedActive) || // expand if item active and not change expand
-                                            (!itemActive && expandedActive && keyIndex === 0)
+                                            expanded === keyIndex // if key index same with expanded active
+                                            || (item.active && expandedActive) // expand if item active and not change expand
+                                            || (!itemActive && expandedActive && keyIndex === 0)
                                         } // if dont have item active, set index 0 to active
                                         onChange={handleChange(keyIndex)}
                                         key={keyIndex}
@@ -189,8 +189,8 @@ const ShippingView = (props) => {
                                             <div className={styles.labelAccordion}>
                                                 <ShippingGroupIcon src={item.group} baseMediaUrl={storeConfig.base_media_url} />
                                                 <Typography letter="uppercase" variant="span" type="bold">
-                                                    {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`) ===
-                                                    `shippingGrouping.${item.group.replace('sg-', '')}`
+                                                    {t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)
+                                                    === `shippingGrouping.${item.group.replace('sg-', '')}`
                                                         ? item.group.replace('sg-', '')
                                                         : t(`checkout:shippingGrouping:${item.group.replace('sg-', '')}`)}
                                                 </Typography>
@@ -222,9 +222,9 @@ const ShippingView = (props) => {
                     </div>
 
                     <div className={styles.listError}>
-                        {error &&
-                            error.length > 0 &&
-                            error.map((msg, key) => (
+                        {error
+                            && error.length > 0
+                            && error.map((msg, key) => (
                                 <Alert key={key} style={{ fontSize: 10, marginBottom: 5 }} severity="error">
                                     {msg}
                                 </Alert>

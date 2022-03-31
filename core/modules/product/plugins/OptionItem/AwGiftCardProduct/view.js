@@ -174,7 +174,8 @@ const AwGiftCardProduct = (props) => {
                             : '1.'
                         : aw_gc_allow_open_amount
                             ? '3.'
-                            : '2.'}{' '}
+                            : '2.'}
+                    {' '}
                     {`${t('validate:composeEmail')}`}
                 </Typography>
                 <form>

@@ -15,16 +15,23 @@ export const getSlider = (options = {}) => useQuery(Schema.getSlider, {
     ...options,
 });
 
-export const getFeaturedProducts = (variables, options = {}) => useQuery(Schema.getFeaturedProducts, {
-    variables,
+export const getFeaturedProducts = (options = {}, config = {}) => useQuery(Schema.getFeaturedProducts(config), {
     fetchPolicy,
     ...options,
 });
-export const getCategoryList = (variables) => useQuery(Schema.getCategoryList, {
-    variables,
+export const getCategoryList = (options = {}) => useQuery(Schema.getCategoryList, {
+    fetchPolicy,
+    ...options,
+});
+
+export const getCmsPageConfig = () => useQuery(Schema.getCmsPageConfig, {
+    fetchPolicy,
+});
+
+export const getHomePageConfig = () => useQuery(Schema.getHomePageConfig, {
     fetchPolicy,
 });
 
 export default {
-    getCategoryList, getBannerSlider, getFeaturedProducts, getSlider,
+    getCategoryList, getBannerSlider, getFeaturedProducts, getSlider, getCmsPageConfig,
 };

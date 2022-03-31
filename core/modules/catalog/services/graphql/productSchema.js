@@ -1,13 +1,15 @@
 /* eslint-disable import/prefer-default-export */
 
 import { gql } from '@apollo/client';
-import { features, modules } from '@config';
+import { modules } from '@config';
+
 /**
  * generate dynamic filter query
  * @param catId number
  * @param filter array of filter value
  * @returns string query to generate on grapql tag
  */
+
 const filterProduct = (filter) => {
     let queryFilter = '{ ';
     // eslint-disable-next-line no-plusplus
@@ -70,6 +72,11 @@ export const getProduct = (config = {}) => gql`
         : ''
 }
     ) {
+      page_info {
+        current_page
+       page_size
+       total_pages
+     }
       total_count
       ${!config.customFilter
         ? `aggregations {
@@ -91,7 +98,7 @@ export const getProduct = (config = {}) => gql`
         short_description {
           html
         }
-        ${modules.catalog.productListing.label.weltpixel.enabled ? `
+        ${config.label_weltpixel_enable ? `
         weltpixel_labels {
           categoryLabel {
             css
@@ -121,12 +128,12 @@ export const getProduct = (config = {}) => gql`
           }
         }        
         ` : ''}
-        ${modules.catalog.productListing.configurableOptions ? `review {
+        ${config.configurable_options_enable ? `review {
           rating_summary
           reviews_count
         }` : ''}
         small_image {
-          url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
+          url,
           label
         }
         categories {
@@ -179,8 +186,8 @@ export const getProduct = (config = {}) => gql`
         special_to_date
         new_from_date
         new_to_date
-        ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
-        ${modules.catalog.productListing.configurableOptions.enabled ? `
+        ${config.label_sale_enable ? 'sale' : ''}
+        ${config.configurable_options_enable ? `
         ... on ConfigurableProduct {
           configurable_options {
             id
@@ -217,7 +224,7 @@ export const getProduct = (config = {}) => gql`
               sku
               stock_status
               url_key
-              ${modules.catalog.productListing.rating
+              ${config.rating_enable
         ? `review {
                 rating_summary
                 reviews_count
@@ -268,9 +275,9 @@ export const getProduct = (config = {}) => gql`
               special_to_date
               new_from_date
               new_to_date
-              ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
+              ${config.label_sale_enable ? 'sale' : ''}
               small_image{
-                url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
+                url,
                 label
               }
               image {
@@ -294,20 +301,20 @@ export const addWishlist = gql`
     }
 `;
 
-const productDetail = `
+const productDetail = (config = {}) => `
     id
     name
     sku
     short_description {
       html
     }
-    ${modules.catalog.productListing.label.sale.enabled ? 'sale' : ''}
+    ${config.label_sale_enable ? 'sale' : ''}
     stock_status
     url_key
     __typename
     attribute_set_id
     small_image{
-      url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height}),
+      url,
       label
     }
     image{
@@ -398,7 +405,7 @@ const priceTiers = `
  * @returns grapql query
  */
 
-export const getDetailProduct = gql`
+export const getDetailProduct = (config = {}) => gql`
 query getDetailproduct($url_key: String!){
   products(
       search: "" ,filter: {
@@ -419,7 +426,7 @@ query getDetailproduct($url_key: String!){
           }
         }
         ` : ''}
-        ${productDetail}
+        ${productDetail(config)}
         ${priceRange}
         ${priceTiers}
         ${modules.brands.enabled ? 'brand' : ''}

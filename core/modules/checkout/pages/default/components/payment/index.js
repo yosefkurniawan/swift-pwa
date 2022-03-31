@@ -170,7 +170,8 @@ export default function CustomizedExpansionPanels({
                     },
                 };
                 setCheckout(state);
-                if (modules.paypal.enabled && initialOptionPaypal['data-order-id'] === '' && checkout.selected.payment === 'paypal_express') {
+                if (storeConfig?.pwa?.paypal_enable
+                    && initialOptionPaypal['data-order-id'] === '' && checkout.selected.payment === 'paypal_express') {
                     getPaypalToken({
                         variables: {
                             cartId: cart.id,

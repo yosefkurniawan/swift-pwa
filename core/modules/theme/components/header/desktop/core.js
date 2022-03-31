@@ -15,20 +15,28 @@ import {
 import {
     getCategories, getCustomer, removeToken, getVesMenu,
 } from '@core_modules/theme/services/graphql';
+import Content from '@core_modules/theme/components/header/desktop/components';
 
 const CoreTopNavigation = (props) => {
     const {
-        Content, storeConfig, t, app_cookies, isLogin, showGlobalPromo,
+        dataVesMenu: propsVesMenu, storeConfig, t, app_cookies, isLogin, showGlobalPromo,
+        enablePopupInstallation, installMessage,
     } = props;
+    let data = propsVesMenu;
+    let loading = !propsVesMenu;
+    if (!data && storeConfig && storeConfig.pwa) {
+        const { data: dataVesMenu, loading: loadingVesMenu } = storeConfig.pwa.ves_menu_enable
+            ? getVesMenu({
+                variables: {
+                    alias: storeConfig.pwa.ves_menu_alias,
+                },
+            })
+            : getCategories();
+        data = dataVesMenu;
+        loading = loadingVesMenu;
+    }
     const [value, setValue] = React.useState('');
     const [deleteTokenGql] = removeToken();
-    const { data, loading } = features.vesMenu.enabled
-        ? getVesMenu({
-            variables: {
-                alias: features.vesMenu.alias,
-            },
-        })
-        : getCategories();
     let customerData = {};
     if (isLogin && typeof window !== 'undefined') {
         const customer = getCustomer();
@@ -75,7 +83,6 @@ const CoreTopNavigation = (props) => {
             Router.push(`/catalogsearch/result?q=${value}`);
         }
     };
-
     return (
         <Content
             t={t}
@@ -92,6 +99,8 @@ const CoreTopNavigation = (props) => {
             app_cookies={app_cookies}
             showGlobalPromo={showGlobalPromo}
             modules={modules}
+            enablePopupInstallation={enablePopupInstallation}
+            installMessage={installMessage}
         />
     );
 };

@@ -52,9 +52,12 @@ export const setCookies = (key, data) => {
 
 export const removeCookies = (key) => {
     const data = Cookies.getJSON(nameGlobalCookie);
-    delete data[key];
-    Cookies.set(nameGlobalCookie, { ...data }, { expires: expiredDefault });
-    return true;
+    if (data) {
+        delete data[key];
+        Cookies.set(nameGlobalCookie, { ...data }, { expires: expiredDefault });
+        return true;
+    }
+    return false;
 };
 
 const set = (key, value) => {

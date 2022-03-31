@@ -1,16 +1,22 @@
 import Thumbor from '@common_image';
-import { features } from '@config';
 import { generateImageDimensions } from '@helpers/image';
 import { useEffect } from 'react';
 
 const PromoBannersLite = (props) => {
     const {
-        src = '', imgSrc = '', alt = '', classes, type = 'top',
+        src = '', imgSrc = '', alt = '', classes, type = 'top', storeConfig = {},
     } = props;
     let { width, height } = generateImageDimensions(imgSrc);
 
     const resizeImg = () => {
-        const { top, label, after } = features.imageSize.promoBannerLite;
+        let top = storeConfig?.pwa?.promo_banner_lite_top_width;
+        let label = storeConfig?.pwa?.promo_banner_lite_label_width;
+        let after = storeConfig?.pwa?.promo_banner_lite_after_width;
+
+        top = typeof top === 'string' ? parseInt(top, 0) : top;
+        label = typeof label === 'string' ? parseInt(label, 0) : label;
+        after = typeof after === 'string' ? parseInt(after, 0) : after;
+
         let ratio = 1;
 
         if (type === 'top' && width > top.width) {

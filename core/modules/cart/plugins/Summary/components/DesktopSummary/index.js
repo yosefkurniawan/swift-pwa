@@ -19,22 +19,10 @@ import PaypalButtonView from '@plugin_paypalbutton';
 
 const Summary = (props) => {
     const {
-        t,
-        summary,
-        handleActionSummary = () => {},
-        loading,
-        disabled,
-        showItems = false,
-        items = [],
-        hideButton = false,
-        isDesktop,
-        isLoader,
-        deleteCart,
-        updateCart,
-        withAction,
-        withLabel = true,
-        labelItemAlign = 'left',
-        dataCart,
+        t, summary, handleActionSummary = () => { }, loading, disabled,
+        showItems = false, items = [], hideButton = false, isDesktop,
+        isLoader, deleteCart, updateCart, withAction, withLabel = true,
+        labelItemAlign = 'left', dataCart, storeConfig,
     } = props;
     const styles = useStyles();
     const [openItem, setOpenItem] = React.useState(false);
@@ -192,18 +180,22 @@ const Summary = (props) => {
                 </ListItem>
             </List>
             <div className={styles.footer}>
-                {!hideButton ? (
-                    <Button loading={loading} disabled={disabled} className={styles.btnCheckout} onClick={handleActionSummary}>
-                        <Typography variant="span" color="white" type="bold" letter="uppercase">
-                            {t('common:button:checkout')}
-                        </Typography>
-                    </Button>
-                ) : null}
-                {!hideButton && dataCart && (
-                    <div className={styles.paypalBtn}>
-                        <PaypalButtonView cart={dataCart} t={t} />
-                    </div>
-                )}
+                {
+                    !hideButton ? (
+                        <Button loading={loading} disabled={disabled} className={styles.btnCheckout} onClick={handleActionSummary}>
+                            <Typography variant="span" color="white" type="bold" letter="uppercase">
+                                {t('common:button:checkout')}
+                            </Typography>
+                        </Button>
+                    ) : null
+                }
+                {
+                    !hideButton && dataCart && (
+                        <div className={styles.paypalBtn}>
+                            <PaypalButtonView cart={dataCart} t={t} storeConfig={storeConfig} />
+                        </div>
+                    )
+                }
             </div>
         </div>
     );

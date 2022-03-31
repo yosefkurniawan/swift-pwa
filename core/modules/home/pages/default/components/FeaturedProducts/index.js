@@ -1,18 +1,22 @@
 /* eslint-disable consistent-return */
-import { modules } from '@config';
+import FeaturedSkeleton from '@core_modules/home/pages/default/components/Skeleton/FeaturedSkeleton';
+import FeaturedView from '@core_modules/home/pages/default/components/FeaturedProducts/view';
 import gqlService from '@core_modules/home/service/graphql';
+import ErrorInfo from '@core_modules/home/pages/default/components/ErrorInfo';
 
 const FeaturedProducts = ({
-    t, ErrorInfo, FeaturedSkeleton, FeaturedView, isLogin,
+    t, isLogin, storeConfig,
 }) => {
-    const { home } = modules;
     const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
     const { loading, data, error } = gqlService.getFeaturedProducts({
-        url_key: home.featuresProduct.url_key,
-        context,
-    });
+        skip: !storeConfig,
+        variables: {
+            url_key: storeConfig?.pwa?.features_product_url_key,
+            context,
+        },
+    }, storeConfig);
 
-    if (loading && !data) return <FeaturedSkeleton />;
+    if ((loading) && !data) return <FeaturedSkeleton />;
     if (error) {
         return <ErrorInfo variant="error" text={t('home:errorFetchData')} />;
     }
@@ -36,7 +40,7 @@ const FeaturedProducts = ({
                 <div className="full-width" id="home-featured-skeleton">
                     <FeaturedSkeleton />
                 </div>
-                <FeaturedView onReInit={onReInit} data={data.categoryList[0].children} t={t} />
+                <FeaturedView onReInit={onReInit} data={data.categoryList[0].children} t={t} storeConfig={storeConfig} />
             </>
         );
     }

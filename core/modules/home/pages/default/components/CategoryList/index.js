@@ -1,13 +1,15 @@
 /* eslint-disable consistent-return */
-import { modules } from '@config';
+import CategoryListView from '@core_modules/home/pages/default/components/CategoryList/view';
+import CategoryListSkeleton from '@core_modules/home/pages/default/components/Skeleton/CategoryListSkeleton';
 import gqlService from '@core_modules/home/service/graphql';
+import ErrorInfo from '@core_modules/home/pages/default/components/ErrorInfo';
 
 const CategoryList = ({
-    storeConfig, t, CategoryListSkeleton, ErrorInfo, CategoryListView,
+    storeConfig, t,
 }) => {
-    const { home } = modules;
     const { loading, data, error } = gqlService.getCategoryList({
-        url_key: home.categoryList.url_key,
+        skip: !storeConfig,
+        variables: { url_key: storeConfig?.pwa?.category_list_url_key },
     });
 
     if (loading) return <CategoryListSkeleton />;

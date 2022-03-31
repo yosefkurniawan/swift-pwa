@@ -174,10 +174,10 @@ const useStyles = makeStyles((theme) => ({
             marginBottom: 16,
         },
         '& > *': {
-            flex: "0 0 100%",
-            margin: "5px 0",
+            flex: '0 0 100%',
+            margin: '5px 0',
             fontSize: 12,
-        }
+        },
     },
     btnLoadReview: {
         ...Centering,
