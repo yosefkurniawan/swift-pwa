@@ -60,8 +60,9 @@ const IcubeMapsAutocomplete = (props) => {
 
     // Initiate google maps instance with configurations
     const { isLoaded, loadError } = useJsApiLoader({
-        googleMapsApiKey: gmapKey,
+        googleMapsApiKey: 'AIzaSyAFabIgGEn7peAy2w9yuF-89bKiwcKB6cM',
         libraries,
+        url: 'https://gmapkey.sandbox.id/maps/api/js',
     });
 
     // Set a new coordinates information when user drag the marker icon
@@ -130,7 +131,7 @@ const IcubeMapsAutocomplete = (props) => {
         // Check if selected country is Indonesia
         if (formik.values.country.full_name_locale === 'Indonesia') {
             if (!!formik.values.village && !!formik.values.district && !!formik.values.city && !!formik.values.region) {
-                fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formik.values.village.label}+${formik.values.district.label}+${formik.values.city.label}+${formik.values.region.name}&key=${gmapKey}`)
+                fetch(`https://gmapkey.sandbox.id/maps/api/geocode/json?address=${formik.values.village.label}+${formik.values.district.label}+${formik.values.city.label}+${formik.values.region.name}&key='AIzaSyAFabIgGEn7peAy2w9yuF-89bKiwcKB6cM'`)
                     .then((response) => response.json())
                     .then((responseData) => {
                         if (responseData.results.length > 0) {
@@ -159,7 +160,7 @@ const IcubeMapsAutocomplete = (props) => {
             // Check if selected country is USA
         } else if (formik.values.country.full_name_locale === 'United States') {
             if (!!formik.values.region && !!formik.values.country.full_name_locale) {
-                fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formik.values.region.name}+${formik.values.country.full_name_locale}&key=${gmapKey}`)
+                fetch(`https://gmapkey.sandbox.id/maps/api/geocode/json?address=${formik.values.region.name}+${formik.values.country.full_name_locale}&key='AIzaSyAFabIgGEn7peAy2w9yuF-89bKiwcKB6cM'`)
                     .then((response) => response.json())
                     .then((responseData) => {
                         if (responseData.results.length > 0) {
@@ -187,7 +188,7 @@ const IcubeMapsAutocomplete = (props) => {
             }
             // Check if selected country beside Indonesia or USA
         } else {
-            fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formik.values.country.full_name_locale}&key=${gmapKey}`)
+            fetch(`https://gmapkey.sandbox.id/maps/api/geocode/json?address=${formik.values.country.full_name_locale}&key='AIzaSyAFabIgGEn7peAy2w9yuF-89bKiwcKB6cM'`)
                 .then((response) => response.json())
                 .then((responseData) => {
                     if (responseData.results.length > 0) {
