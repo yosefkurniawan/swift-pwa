@@ -26,6 +26,7 @@ const { SESSION_SECRET } = require('./swift-server.config');
 const generateXml = require('./core/api/rest/xml');
 const captchaValidation = require('./core/api/rest/captcha');
 const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');
+const geocodingServices = require('./core/api/rest/geocoding');
 
 // paypal
 const getPaypalDetail = require('./core/api/rest/paypal/getDetailTransaction');
@@ -186,6 +187,9 @@ async function renderAndCache(req, res) {
 
     // paypal route
     server.post('/paypal/detail-transaction', getPaypalDetail);
+
+    // geocoding services
+    server.post('/geocoding-services', geocodingServices);
 
     /**
      * configuration firebase messaging
