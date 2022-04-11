@@ -84,6 +84,7 @@ const NewContent = (props) => {
             ItemProductView,
             ItemFieldView,
             OtherRmaLink,
+            storeConfig,
             ...product,
         }));
     }

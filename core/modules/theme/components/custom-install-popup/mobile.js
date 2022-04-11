@@ -2,11 +2,11 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
-import { installMessage, appName } from '@config';
 import useStyles from '@core_modules/theme/components/custom-install-popup/style';
+import propTypes from 'prop-types';
 import TagManager from 'react-gtm-module';
 
-const PopupInstalation = () => {
+const PopupInstalation = ({ appName, installMessage }) => {
     const styles = useStyles();
 
     const onClick = () => {
@@ -58,6 +58,16 @@ const PopupInstalation = () => {
             </div>
         </div>
     );
+};
+
+PopupInstalation.propTypes = {
+    appName: propTypes.string,
+    installMessage: propTypes.string,
+};
+
+PopupInstalation.defaultProps = {
+    appName: 'Swift PWA',
+    installMessage: 'Install',
 };
 
 export default PopupInstalation;

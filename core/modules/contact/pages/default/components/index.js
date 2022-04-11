@@ -64,6 +64,7 @@ const ContactForm = (props) => {
                 onChange={formik.handleChange}
                 error={!!(formik.touched.message && formik.errors.message)}
                 errorMessage={(formik.touched.message && formik.errors.message) || null}
+                style={{ marginBottom: 20 }}
             />
             {
                 enableRecaptcha ? (
@@ -73,7 +74,7 @@ const ContactForm = (props) => {
                             onChange={handleChangeCaptcha}
                             ref={recaptchaRef}
                         />
-                        {formik.errors.captcha && (
+                        {formik.touched.captcha && formik.errors.captcha && (
                             <Typography color="red">{formik.errors.captcha}</Typography>
                         )}
                     </>

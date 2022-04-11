@@ -1,4 +1,4 @@
-import { debuging, features } from '@config';
+import { debuging } from '@config';
 import { useTranslation } from '@i18n';
 import Alert from '@material-ui/lab/Alert';
 import { getVesMenu } from '@core_modules/theme/services/graphql/index';
@@ -10,7 +10,7 @@ import CategorySkeleton from '@common_searchmodal/CategorySkeleton';
 import SubVesMenu from '@common_searchmodal/SubVesMenu';
 import VesMenu from '@common_searchmodal/VesMenu';
 
-const CategoryWrapper = ({ handleCloseModal = () => {} }) => {
+const CategoryWrapper = ({ handleCloseModal = () => {}, storeConfig = {} }) => {
     // const {
     //     openedCategory, showCat, openSub, slideCat, showSubCat, closeSub,
     // } = props;
@@ -19,14 +19,15 @@ const CategoryWrapper = ({ handleCloseModal = () => {} }) => {
     const [historyData, setHistoryData] = React.useState([]);
     const [historyPosition, setHistoryPosition] = React.useState(-1);
     const [back, setBack] = React.useState(false);
-
     const {
-        loading, data, error, storeConfig,
+        loading, data, error,
     } = getVesMenu({
         variables: {
-            alias: features.vesMenu.alias,
+            alias: storeConfig?.pwa?.ves_menu_alias,
         },
+        skip: !storeConfig,
     });
+
     const cmsPages = storeConfig && storeConfig.cms_page ? storeConfig.cms_page.split(',') : [];
 
     React.useMemo(() => {

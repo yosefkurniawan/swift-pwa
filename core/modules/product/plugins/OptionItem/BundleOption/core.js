@@ -3,12 +3,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import { useApolloClient } from '@apollo/client';
 import { getLoginInfo } from '@helper_auth';
 import { getCartId, setCartId } from '@helper_cartid';
 import { formatPrice } from '@helper_currency';
 import TagManager from 'react-gtm-module';
-import { localTotalCart } from '@services/graphql/schema/local';
 import {
     addBundleProductsToCart, getBundleProduct, getGuestCartId as queryGetGuestCartId, getCustomerCartId,
 } from '@core_modules/product/services/graphql';
@@ -83,7 +81,6 @@ const OptionsItemsBundle = (props) => {
         setLoading: setCustomLoading,
         customButton,
     } = props;
-    const client = useApolloClient();
     const [items, setItems] = React.useState([]);
     let [loadingAdd, setLoadingAdd] = React.useState(false);
 
@@ -190,8 +187,8 @@ const OptionsItemsBundle = (props) => {
                     cartItems,
                 },
             })
-                .then((res) => {
-                    client.writeQuery({ query: localTotalCart, data: { totalCart: res.data.addBundleProductsToCart.cart.total_quantity } });
+                .then(() => {
+                    window.reloadCartQty = true;
                     window.toastMessage({
                         variant: 'success',
                         text: t('product:successAddCart'),

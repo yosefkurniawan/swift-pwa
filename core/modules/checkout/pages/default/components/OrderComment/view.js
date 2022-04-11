@@ -15,8 +15,8 @@ const OrderCommentView = (props) => {
                         name="orderComment"
                         onChange={formik.handleChange}
                         value={formik.values.orderComment}
-                        placeholder="Order Coment"
-                        label="Order Coment"
+                        placeholder="Order Note"
+                        label="Order Note"
                         className={styles.textField}
                         multiline
                         row="4"

@@ -1,9 +1,8 @@
 import Button from '@material-ui/core/Button';
-import { installMessage } from '@config';
 import useStyles from '@core_modules/theme/components/custom-install-popup/style';
 import TagManager from 'react-gtm-module';
 
-const DesktopInstall = () => {
+const DesktopInstall = ({ installMessage = 'Install' }) => {
     const styles = useStyles();
 
     const onClick = () => {

@@ -1,10 +1,19 @@
 import Layout from '@layout';
 import { getHost } from '@helper_config';
+import { setLocalStorage } from '@helper_localstorage';
+import { keyLocalStorage } from '@config';
+import Content from '@core_modules/home/pages/default/components';
 
 const HomeCore = (props) => {
     const {
-        Content, pageConfig, storeConfig, ...other
+        pageConfig, storeConfig, homePageConfig, ...other
     } = props;
+
+    const homeKey = keyLocalStorage.home;
+
+    if (typeof window !== 'undefined' && homePageConfig) {
+        setLocalStorage(homeKey, homePageConfig);
+    }
 
     const schemaOrg = [
         {
@@ -37,8 +46,8 @@ const HomeCore = (props) => {
     };
 
     return (
-        <Layout {...props} pageConfig={config} {...other}>
-            <Content storeConfig={storeConfig} {...other} />
+        <Layout {...props} pageConfig={config}>
+            <Content storeConfig={storeConfig} homePageConfig={homePageConfig} {...other} />
         </Layout>
     );
 };

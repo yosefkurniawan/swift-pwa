@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { modules } from '@config';
 import Carousel from '@common_slick/Caraousel';
 import ProductItem from '@plugin_productitem';
 import { breakPointsUp } from '@helper_theme';
@@ -18,9 +17,19 @@ const MobileView = ({
 }) => {
     const styles = useStyles();
     const desktop = breakPointsUp('sm');
-    const { categoryList } = modules.home;
-    const width = desktop ? categoryList.imageSize.desktop.width : categoryList.imageSize.mobile.width;
-    const height = desktop ? categoryList.imageSize.desktop.height : categoryList.imageSize.mobile.height;
+    const { storeConfig = {} } = other;
+    const {
+        category_list_image_size_desktop_height,
+        category_list_image_size_desktop_width,
+        category_list_image_size_mobile_height,
+        category_list_image_size_mobile_width,
+    } = storeConfig;
+    let width = desktop ? category_list_image_size_desktop_width : category_list_image_size_mobile_width;
+    let height = desktop ? category_list_image_size_desktop_height : category_list_image_size_mobile_height;
+
+    if (typeof width === 'string') width = parseInt(width, 0);
+    if (typeof height === 'string') height = parseInt(height, 0);
+
     const handleClick = async (link) => {
         const urlResolver = getResolver();
         urlResolver[link] = {

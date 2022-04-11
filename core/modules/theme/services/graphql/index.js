@@ -35,12 +35,22 @@ export const removeToken = () => useMutation(schema.removeToken, {
     },
 });
 
-export const getCmsBlocks = (variables) => useQuery(getCmsBlocksSchema, {
+export const getCmsBlocks = (variables, options = {}) => useQuery(getCmsBlocksSchema, {
     variables,
     context: {
         request: isLogin ? 'internal' : '',
     },
+    ...options,
 });
+
+export const getCountCart = () => useLazyQuery(schema.getCountCart,
+    {
+        context: {
+            request: 'internal',
+        },
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
+    });
 
 export default {
     getCmsBlocks,
@@ -53,4 +63,5 @@ export default {
     getCategoryByName,
     getCurrency,
     getRecentlyProduct,
+    getCountCart,
 };

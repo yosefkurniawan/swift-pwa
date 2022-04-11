@@ -10,7 +10,7 @@ import { setLogin, getLastPathWithoutLogin } from '@helper_auth';
 import { getCookies, setCookies } from '@helper_cookies';
 import { setCartId, getCartId } from '@helper_cartid';
 import { useQuery } from '@apollo/client';
-import { expiredToken, custDataNameCookie, recaptcha, modules } from '@config';
+import { expiredToken, custDataNameCookie } from '@config';
 import Router from 'next/router';
 import Cookies from 'js-cookie';
 import { regexPhone, regexEmail } from '@helper_regex';
@@ -18,8 +18,9 @@ import { useFormik } from 'formik';
 import dynamic from 'next/dynamic';
 import * as Yup from 'yup';
 import firebase from 'firebase/app';
-import React from 'react';
+import React, { useRef } from 'react';
 import { getAppEnv } from '@helpers/env';
+
 import {
     getToken,
     getTokenOtp,
@@ -31,6 +32,7 @@ import {
     socialLogin,
     getSigninMethodSocialLogin,
 } from '@core_modules/login/services/graphql';
+import { loginConfig } from '@services/graphql/repository/pwa_config';
 import { getCustomer } from '@core_modules/login/services/graphql/schema';
 import { localCompare } from '@services/graphql/schema/local';
 import { assignCompareListToCustomer } from '@core_modules/productcompare/service/graphql';
@@ -146,8 +148,8 @@ const Login = (props) => {
         }
     }
     let redirectLastPath = lastPathNoAuth;
-    const expired = storeConfig.oauth_access_token_lifetime_customer
-        ? new Date(Date.now() + parseInt(storeConfig.oauth_access_token_lifetime_customer, 10) * 3600000)
+    const expired = storeConfig?.oauth_access_token_lifetime_customer
+        ? new Date(Date.now() + parseInt(storeConfig?.oauth_access_token_lifetime_customer, 10) * 3600000)
         : expiredToken;
 
     if (typeof window !== 'undefined') {
@@ -204,18 +206,21 @@ const Login = (props) => {
     }, [isOtp]);
 
     // enable recaptcha
-    const enableRecaptcha = recaptcha.enable && modules.login.recaptcha.enabled;
+    let enableRecaptcha = false;
+
+    const { loading: loadingLoginConfig, data: dataLoginConfig } = loginConfig();
+    if (!loadingLoginConfig && dataLoginConfig && dataLoginConfig.storeConfig && dataLoginConfig.storeConfig.pwa) {
+        if (dataLoginConfig.storeConfig.pwa.recaptcha_login_enable !== null) {
+            enableRecaptcha = storeConfig?.pwa?.recaptcha_enable && dataLoginConfig.storeConfig.pwa.recaptcha_login_enable;
+        }
+    }
 
     const LoginSchema = Yup.object().shape({
         username: Yup.string().email(t('validate:email:wrong')).required(t('validate:email:required')),
         password: Yup.string().required(t('validate:password:required')),
         captcha: enableRecaptcha && Yup.string().required(t('validate:captcha:required')),
     });
-    const LoginOtpSchema = Yup.object().shape({
-        username: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
-        otp: Yup.number().required('Otp is required'),
-        captcha: enableRecaptcha && Yup.string().required(t('validate:captcha:required')),
-    });
+
     const LoginPhoneEmailSchema = Yup.object().shape({
         username: Yup.string()
             .required(t('validate:phoneEmail:required'))
@@ -228,6 +233,12 @@ const Login = (props) => {
                 return true;
             }),
         password: Yup.string().required(t('validate:password:required')),
+    });
+
+    const LoginOtpSchema = Yup.object().shape({
+        username: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
+        otp: Yup.number().required('Otp is required'),
+        captcha: enableRecaptcha && Yup.string().required(t('validate:captcha:required')),
     });
 
     const handleSubmit = (formOtp, variables) => {
@@ -458,10 +469,22 @@ const Login = (props) => {
 
     const handleChangeCaptcha = (value) => {
         formik.setFieldValue('captcha', value || '');
+        formikOtp.setFieldValue('captcha', value || '');
+        formikPhoneEmail.setFieldValue('captcha', value || '');
     };
 
-    const recaptchaRef = React.createRef();
-    const sitekey = recaptcha.siteKey[appEnv] ? recaptcha.siteKey[appEnv] : recaptcha.siteKey.dev;
+    const recaptchaRef = useRef();
+    let sitekey;
+
+    if (appEnv === 'local') {
+        sitekey = dataLoginConfig?.storeConfig.pwa.recaptcha_site_key_local;
+    } else if (appEnv === 'dev') {
+        sitekey = dataLoginConfig?.storeConfig.pwa.recaptcha_site_key_dev;
+    } else if (appEnv === 'stage') {
+        sitekey = dataLoginConfig?.storeConfig.pwa.recaptcha_site_key_stage;
+    } else if (appEnv === 'prod') {
+        sitekey = dataLoginConfig?.storeConfig.pwa.recaptcha_site_key_prod;
+    }
 
     return (
         <Layout {...props} pageConfig={pageConfig || config}>

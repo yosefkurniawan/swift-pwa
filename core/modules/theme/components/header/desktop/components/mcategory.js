@@ -8,7 +8,6 @@ import React from 'react';
 import { WHITE, PRIMARY } from '@theme_color';
 import getPath from '@helper_getpath';
 import { setResolver, getResolver } from '@helper_localstorage';
-import { features } from '@config';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 
@@ -17,10 +16,13 @@ const MenuChildren = dynamic(() => import('@common_headerdesktop/components/mcat
 const Menu = (props) => {
     const { data, storeConfig } = props;
     const cmsPages = storeConfig && storeConfig.cms_page ? storeConfig.cms_page.split(',') : [];
-    const menu = features.vesMenu.enabled ? data.vesMenu.items : data.categoryList[0].children;
+    let menu = storeConfig.pwa.ves_menu_enable ? data?.vesMenu?.items : data?.categoryList[0].children;
+    if (!menu) {
+        menu = [];
+    }
     const generateLink = (cat) => {
         const link = cat.link ? getPath(cat.link) : `/${cat.url_path}`;
-        if (features.vesMenu.enabled) {
+        if (storeConfig.pwa.ves_menu_enable) {
             if (cat.link_type === 'category_link') {
                 return ['/[...slug]', link];
             }
@@ -35,7 +37,7 @@ const Menu = (props) => {
     const handleClick = async (cat) => {
         const link = cat.link ? getPath(cat.link) : `/${cat.url_path}`;
         const urlResolver = getResolver();
-        if (features.vesMenu.enabled) {
+        if (storeConfig.pwa.ves_menu_enable) {
             if (cat.link_type === 'category_link') {
                 urlResolver[link] = {
                     type: 'CATEGORY',
@@ -63,7 +65,7 @@ const Menu = (props) => {
         <div className="menu-wrapper" role="navigation">
             <ul className="nav" role="menubar">
                 {menu.map((val, idx) => {
-                    if ((val.include_in_menu || features.vesMenu.enabled) && val.name) {
+                    if ((val.include_in_menu || storeConfig.pwa.ves_menu_enable) && val.name) {
                         return (
                             <li key={idx} role="menuitem">
                                 {val.link ? (

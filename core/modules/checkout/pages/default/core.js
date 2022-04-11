@@ -94,7 +94,7 @@ const Checkout = (props) => {
                 console.log(e);
             });
         }
-    }, []);
+    }, [cartId]);
 
     const { snap_is_production, snap_client_key, allow_guest_checkout } = storeConfig;
     if (storeConfig && !allow_guest_checkout && !isLogin) {
@@ -191,12 +191,12 @@ const Checkout = (props) => {
     // config paypal
     const [initialOptionPaypal, setInitialOptionPaypal] = useState({
         'client-id': modules.paypal.clientId[appEnv],
-        currency: modules.paypal.defaultCurrency,
+        currency: storeConfig?.base_currency_code,
         intent: modules.paypal.intent,
         'data-order-id': '',
         // debug: modules.paypal.debug,
         'disable-funding': modules.paypal.disableFunding,
-        'merchant-id': modules.paypal.merchantId,
+        'merchant-id': storeConfig?.pwa?.paypal_merchant_id,
     });
 
     const [tokenData, setTokenData] = useState({});
@@ -462,7 +462,8 @@ const Checkout = (props) => {
 
         if (cart.selected_payment_method) {
             state.selected.payment = cart.selected_payment_method.code;
-            if (modules.paypal.enabled && cart.selected_payment_method.code === 'paypal_express' && initialOptionPaypal['data-order-id'] === '') {
+            if (storeConfig?.pwa?.paypal_enable && cart.selected_payment_method.code === 'paypal_express'
+                && initialOptionPaypal['data-order-id'] === '') {
                 getPaypalToken({
                     variables: {
                         cartId: cart.id,

@@ -9,7 +9,7 @@ const Footer = (props) => {
     } = props;
     const {
         data, loading, error,
-    } = getCmsBlocks({ identifiers: ['pwa_footer'] });
+    } = getCmsBlocks({ identifiers: [storeConfig?.pwa?.footer_desktop] }, { skip: !storeConfig });
     const router = useRouter();
     const Config = {
         title: data && data.cmsBlocks ? data.cmsBlocks.title : '',

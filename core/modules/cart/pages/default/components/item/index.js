@@ -49,7 +49,7 @@ const ItemProduct = (props) => {
 const ItemView = (props) => {
     const styles = useStyles();
     const {
-        data, t, toggleEditMode, editMode, deleteItem, handleFeed, toggleEditDrawer,
+        data, t, toggleEditMode, editMode, deleteItem, handleFeed, toggleEditDrawer, ...other
     } = props;
     return (
         <div className={styles.container}>
@@ -81,6 +81,7 @@ const ItemView = (props) => {
                         })}
                         deleteItem={deleteItem}
                         handleFeed={handleFeed}
+                        {...other}
                     />
                 ))}
             </div>
@@ -91,6 +92,7 @@ const ItemView = (props) => {
                     deleteItem={deleteItem}
                     handleFeed={handleFeed}
                     toggleEditDrawer={toggleEditDrawer}
+                    {...other}
                 />
             </div>
         </div>

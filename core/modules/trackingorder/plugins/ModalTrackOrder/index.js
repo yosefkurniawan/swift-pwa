@@ -109,24 +109,33 @@ const ModalResult = (props) => {
                     <div className="col-xs-12">
                         {
                             modalData.length > 0
-                                ?
+                                ? (
                                     <List>
-                                    {trackOrder}
-                                    {items.map((item, i) => (
+                                        {trackOrder}
+                                        {items.map((item, i) => (
                                             <>
-                                            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
+                                                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
                                                     <Typography letter="capitalize" className="clear-margin-padding" style={{ width: '40%' }}>
-                                                    {item.primary}
-                                                </Typography>
-                                                    <Typography variant="span" type="regular" className="clear-margin-padding" style={{ width: '60%' }}>
-                                                    {item.secondary}
-                                                </Typography>
+                                                        {item.primary}
+                                                    </Typography>
+                                                    <Typography
+                                                        variant="span"
+                                                        type="regular"
+                                                        className="clear-margin-padding"
+                                                        style={{ width: '60%' }}
+                                                    >
+                                                        {item.secondary}
+                                                    </Typography>
                                                 </div>
-                                        </>
-                                    ))}
-                                </List>
+                                            </>
+                                        ))}
+                                    </List>
+                                )
+
                                 :
-                                <Alert severity="warning" style={{ marginBottom: 32 }}>{t('trackingorder:noDataAvailable')}</Alert>
+                                (
+                                    <Alert severity="warning" style={{ marginBottom: 32 }}>{t('trackingorder:noDataAvailable')}</Alert>
+                                )
                         }
                     </div>
                     <style jsx>

@@ -65,7 +65,8 @@ const ShippingGroupIcon = (props) => {
 const ShippingView = (props) => {
     const styles = useStyles();
     const {
-        isOnlyVirtualProductOnCart, checkout, storeConfig, loading, selected, handleShipping, data, t, shippingMethodList,
+        isOnlyVirtualProductOnCart, checkout, storeConfig, loading, selected,
+        handleShipping, data, t, shippingMethodList,
     } = props;
     let content;
     const [expanded, setExpanded] = React.useState(null);
@@ -84,7 +85,8 @@ const ShippingView = (props) => {
         content = <Loader />;
     } else if (data.shippingMethods.length !== 0) {
         const available = data.shippingMethods;
-        const config = shippingMethodList && shippingMethodList.storeConfig ? JSON.parse(`${shippingMethodList.storeConfig.shipments_configuration}`) : {};
+        const config = shippingMethodList && shippingMethodList.storeConfig
+            ? JSON.parse(`${shippingMethodList.storeConfig.shipments_configuration}`) : {};
         const group = config ? Object.keys(config) : [];
 
         const shipping = [];

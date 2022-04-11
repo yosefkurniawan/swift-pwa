@@ -5,7 +5,7 @@
 import GridList from '@common_gridlist';
 import Carousel from '@common_slick/Caraousel';
 import SkeletonWidget from '@common_slick/Caraousel/Skeleton';
-import { modules } from '@config';
+import { drawerFilterOnDesktopConfig } from '@services/graphql/repository/pwa_config';
 import { generateQueries, getProductListConditions } from '@core_modules/cms/helpers/getProductListConditions';
 import { getProductList } from '@core_modules/cms/services/graphql';
 import ProductItem from '@plugin_productitem';
@@ -31,6 +31,17 @@ const WidgetListProduct = (props) => {
     const { data, loading, error } = getProductList({ ...dataFilter, pageSize: products_count });
     const dataItems = data?.products?.items || [];
 
+    let drawerFilterOnDesktop = {};
+    const { data: dataDrawerFilterOnDesktop, loading: loadingDrawerFilterOnDesktop } = drawerFilterOnDesktopConfig();
+
+    if (!loadingDrawerFilterOnDesktop
+        && dataDrawerFilterOnDesktop
+        && dataDrawerFilterOnDesktop.storeConfig
+        && dataDrawerFilterOnDesktop.storeConfig.pwa) {
+        drawerFilterOnDesktop = {
+            ...dataDrawerFilterOnDesktop.storeConfig.pwa,
+        };
+    }
     /**
      * [METHOD] on reinit trigger when all data has been rendered, hide skeleton
      */
@@ -99,7 +110,7 @@ const WidgetListProduct = (props) => {
                         data={dataItems}
                         ItemComponent={ProductItem}
                         className="grid"
-                        gridItemProps={{ xs: 6, sm: 4, md: modules.catalog.productListing.drawerFilterOnDesktop.enabled ? 3 : 2 }}
+                        gridItemProps={{ xs: 6, sm: 4, md: drawerFilterOnDesktop.drawer_filter_on_desktop_enable ? 3 : 2 }}
                     />
                 </div>
             </>

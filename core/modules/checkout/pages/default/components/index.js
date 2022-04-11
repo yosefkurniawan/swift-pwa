@@ -100,10 +100,15 @@ const Content = (props) => {
                 open={checkoutTokenState}
                 handleYes={() => {
                     setCheckoutTokenState(!checkoutTokenState);
+                    Router.reload();
+                }}
+                handleCancel={() => {
+                    setCheckoutTokenState(!checkoutTokenState);
                     Router.push('/checkout/cart');
                 }}
-                confirmOnly
+                yesNo
                 message={`${t('checkout:invalidToken')}`}
+                confirmationMessage={`${t('checkout:invalidTokenConfirmation')}`}
             />
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
                 {
@@ -183,14 +188,9 @@ const Content = (props) => {
                             setCheckoutTokenState={setCheckoutTokenState}
                         />
                     ) : checkout.selected.delivery === 'pickup' ? (
-                            <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
+                        <PickupInfo t={t} formik={formik} checkout={checkout} setCheckout={setCheckout} />
                     ) : (
-                        <InStorePickup 
-                            handleOpenMessage={handleOpenMessage}
-                            t={t}
-                            checkout={checkout}
-                            setCheckout={setCheckout}
-                        />
+                        <InStorePickup handleOpenMessage={handleOpenMessage} t={t} checkout={checkout} setCheckout={setCheckout} />
                     )}
                     <Shipping
                         t={t}
@@ -297,7 +297,7 @@ const Content = (props) => {
                         checkoutTokenState={checkoutTokenState}
                         setCheckoutTokenState={setCheckoutTokenState}
                     />
-                    
+
                     <Confirmation
                         t={t}
                         checkout={checkout}
@@ -305,22 +305,20 @@ const Content = (props) => {
                         storeConfig={storeConfig}
                         ConfirmationView={ConfirmationView}
                     />
-                    
-                    {modules.checkout.orderComment.enabled ? (
-                        <div className={classNames(styles.block)}>
-                            <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">
-                                <OrderComment
-                                    t={t}
-                                    checkout={checkout}
-                                    setCheckout={setCheckout}
-                                    handleOpenMessage={handleOpenMessage}
-                                    formik={formik}
-                                    storeConfig={storeConfig}
-                                    OrderCommentView={OrderCommentView}
-                                />
-                            </div>
+
+                    <div className={classNames(styles.block)}>
+                        <div className="col-xs-12 col-sm-12 col-md-12 col-xl-12">
+                            <OrderComment
+                                t={t}
+                                checkout={checkout}
+                                setCheckout={setCheckout}
+                                handleOpenMessage={handleOpenMessage}
+                                formik={formik}
+                                storeConfig={storeConfig}
+                                OrderCommentView={OrderCommentView}
+                            />
                         </div>
-                    ) : null}
+                    </div>
                 </>
             </div>
             <div className="col-xs-12 col-sm-4 col-md-4 col-lg-3">
@@ -356,7 +354,12 @@ const Content = (props) => {
                     onClick={handleClick}
                     fullWidth
                     loading={loading}
-                    disabled={disabled || checkout.error.shippingAddress || (isSelectedPurchaseOrder && !isPurchaseOrderApply) || (storeConfig.minimum_order_enable && checkout.data.cart.prices.grand_total.value < storeConfig.minimum_order_amount)}
+                    disabled={
+                        disabled ||
+                        checkout.error.shippingAddress ||
+                        (isSelectedPurchaseOrder && !isPurchaseOrderApply) ||
+                        (storeConfig.minimum_order_enable && checkout.data.cart.prices.grand_total.value < storeConfig.minimum_order_amount)
+                    }
                     className={styles.placeOrderDesktop}
                 >
                     <Typography variant="span" letter="uppercase" type="bold" color="white">

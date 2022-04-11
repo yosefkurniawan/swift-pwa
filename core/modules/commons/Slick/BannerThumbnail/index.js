@@ -30,6 +30,7 @@ const Banner = ({
     customClassCaraousel = '',
     customProduct = '',
     children,
+    storeConfig = {},
 }) => {
     const styles = useStyles();
     const [slideIndex, setIndex] = useState(0);
@@ -65,6 +66,12 @@ const Banner = ({
         arrows: false,
     };
 
+    let defaultWidthMobile = storeConfig?.pwa?.home_slider_desktop_width;
+    let defaultHeightMobile = storeConfig?.pwa?.home_slider_desktop_height;
+
+    if (typeof defaultWidthMobile === 'string') defaultWidthMobile = parseInt(defaultWidthMobile, 0);
+    if (typeof defaultHeightMobile === 'string') defaultHeightMobile = parseInt(defaultHeightMobile, 0);
+
     return (
         <div className={styles.container}>
             {thumbnail ? (
@@ -87,6 +94,8 @@ const Banner = ({
                                 quality={100}
                                 className={styles.thumbnailImg}
                                 videoUrl={item.videoUrl}
+                                widthMobile={width || defaultWidthMobile}
+                                heightMobile={height || defaultHeightMobile}
                             />
                         </div>
                     ))}

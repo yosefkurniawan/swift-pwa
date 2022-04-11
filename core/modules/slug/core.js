@@ -5,9 +5,15 @@ import { getResolver as getLocalResolver, getLocalStorage, setLocalStorage } fro
 import Layout from '@layout';
 import { getResolver } from '@core_modules/slug/services/graphql';
 
+// import components
+import CategoryPage from '@core_modules/catalog/pages/category';
+import ProductPage from '@core_modules/product/pages/default';
+import CmsPage from '@core_modules/cms/pages/default';
+import LoadingView from '@common_backdrop';
+
 const ContainerResolver = (props) => {
     const {
-        CategoryPage, ProductPage, CmsPage, resolver, contentProps, storeConfig, ...other
+        resolver, contentProps, storeConfig, ...other
     } = props;
 
     if (resolver.type === 'CATEGORY') {
@@ -24,7 +30,7 @@ const ContainerResolver = (props) => {
 
 const Slug = (props) => {
     const {
-        slug, storeConfig, ProductLoader, CategorySkeleton, LoadingView, t, cms_page = '', ...other
+        slug, storeConfig, t, cms_page = '', ...other
     } = props;
 
     const cmsList = getLocalStorage('cms_page');

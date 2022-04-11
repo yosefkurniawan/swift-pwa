@@ -12,13 +12,10 @@ import useStyles from '@plugin_minicart/components/style';
 
 import PaypalButtonView from '@plugin_paypalbutton';
 
-import { storeConfigNameCookie } from '@config';
-import helperCookies from '@helper_cookies';
-
 const MiniComponent = (props) => {
     const router = useRouter();
     const {
-        open, setOpen, count, t, loading, data, deleteCart, updateCart, errorCart,
+        open, setOpen, count, t, loading, data, deleteCart, updateCart, errorCart, storeConfig,
     } = props;
     const styles = useStyles();
     const disabled = errorCart && errorCart.length > 0;
@@ -60,7 +57,6 @@ const MiniComponent = (props) => {
                                 <div
                                     className="checkout-button"
                                     onClick={() => {
-                                        const storeConfig = helperCookies.get(storeConfigNameCookie);
                                         const minimumOrderEnabled = storeConfig.minimum_order_enable;
                                         const grandTotalValue = data.prices.grand_total.value;
                                         const minimumOrderAmount = storeConfig.minimum_order_amount;
@@ -97,6 +93,7 @@ const MiniComponent = (props) => {
                                 <PaypalButtonView
                                     cart={data}
                                     t={t}
+                                    storeConfig={storeConfig}
                                 />
                             </div>
                         )}

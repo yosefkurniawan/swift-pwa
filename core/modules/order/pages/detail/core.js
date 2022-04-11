@@ -2,7 +2,6 @@ import Layout from '@layout';
 import CustomerLayout from '@layout_customer';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { features } from '@config';
 import { setCartId } from '@helper_cartid';
 import { getHost } from '@helpers/config';
 import Alert from '@material-ui/lab/Alert';
@@ -95,7 +94,6 @@ const OrderDetail = (props) => {
                 {...props}
                 detail={detail}
                 currency={currency}
-                features={features}
                 returnUrl={returnUrl}
                 reOrder={reOrder}
                 paymentInfo={paymentInfo.OrderPaymentInformation}

@@ -20,7 +20,6 @@ import useStyles from '@core_modules/login/pages/default/components/style';
 const Login = (props) => {
     const {
         formik,
-        formikPhoneEmail,
         otpConfig,
         isOtp,
         setIsOtp,
@@ -37,6 +36,7 @@ const Login = (props) => {
         handleChangeCaptcha,
         recaptchaRef,
         query,
+        formikPhoneEmail,
         phonePassword,
     } = props;
     const styles = useStyles();
@@ -73,7 +73,7 @@ const Login = (props) => {
         signInFlow: 'popup',
         signInOptions,
         callbacks: {
-            signInSuccess: () => false,
+            signInSuccessWithAuthResult: () => false,
         },
     };
 
@@ -338,7 +338,11 @@ const Login = (props) => {
                             <Button
                                 className={styles.generalButton}
                                 fullWidth={false}
-                                href={query && query.redirect ? `/customer/account/create?redirect=${query.redirect}` : '/customer/account/create'}
+                                href={
+                                    (query && query.redirect)
+                                        ? `/customer/account/create?redirect=${query.redirect}`
+                                        : '/customer/account/create'
+                                }
                                 disabled={desktop ? false : disabled}
                                 align={desktop ? 'left' : 'center'}
                             >

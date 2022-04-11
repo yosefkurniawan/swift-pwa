@@ -1,8 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { gql } from '@apollo/client';
-import config from '@config';
-
-const { modules } = config;
+import { modules } from '@config';
 
 const applied_store_credit = modules.storecredit.useCommerceModule
     ? `
@@ -296,7 +294,7 @@ export const getCartItem = gql`query getCartData($cartId: String!) {
   }
 }`;
 
-export const getCrossellCart = gql`
+export const getCrossellCart = (config = {}) => gql`
 query getCartData($cartId: String!) {
   cart(cart_id: $cartId) {
      items {
@@ -306,7 +304,7 @@ query getCartData($cartId: String!) {
           name
           url_key
           sku
-          ${modules.catalog.productListing.label.weltpixel.enabled ? `
+          ${config?.pwa?.label_weltpixel_enable ? `
           weltpixel_labels {
             categoryLabel {
                 css

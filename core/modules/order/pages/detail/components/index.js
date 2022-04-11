@@ -24,10 +24,14 @@ import { checkJson } from '@core_modules/trackingorder/pages/default/helpers/che
 
 const DetailOrder = (props) => {
     const {
-        t, detail, currency, features, reOrder, returnUrl,
+        t, detail, currency, storeConfig, reOrder, returnUrl,
         paymentInfo, dataTrackingOrder,
     } = props;
-    const { checkout: { xendit: { paymentPrefixCodeOnSuccess } } } = modules;
+    const {
+        checkout: {
+            xendit: { paymentPrefixCodeOnSuccess },
+        },
+    } = modules;
     const styles = useStyles();
 
     const [openXendit, setOpenXendit] = React.useState(false);
@@ -40,6 +44,7 @@ const DetailOrder = (props) => {
         track_number: dataTrackingOrder.ordersFilter.data[0].detail[0].shipping_methods.shipping_detail[0].track_number,
         trackorder_type: dataTrackingOrder.ordersFilter.data[0].detail[0].shipping_methods.shipping_detail[0].trackorder_type,
     };
+
     if (detail.length > 0 && detail[0].detail[0].items.length) {
         const configurableProduct = [];
         detail[0].detail[0].items.map((item) => {
@@ -56,6 +61,7 @@ const DetailOrder = (props) => {
     let dt;
     const shippingMethods = dataTrackingOrder.ordersFilter.data[0].detail[0].shipping_methods.shipping_detail;
     if (shippingMethods.length > 0) {
+        // eslint-disable-next-line no-shadow
         shippingMethods.forEach((shipping) => {
             if (shipping.data_detail) {
                 dt = shipping.data_detail;
@@ -87,21 +93,19 @@ const DetailOrder = (props) => {
 
         return (
             <Layout t={t} wishlist={[]} activeMenu="/sales/order/history">
-                {
-                    paymentInfo && paymentInfo.invoice_url && (
-                        <ModalXendit
-                            open={openXendit}
-                            setOpen={() => setOpenXendit(!openXendit)}
-                            iframeUrl={paymentInfo.invoice_url}
-                            order_id={detail[0].order_number}
-                            payment_code={paymentInfo.method_code}
-                            fromOrder
-                            amount={detail[0].detail[0].grand_total}
-                            mode={paymentInfo.xendit_mode}
-                            xendit_qrcode_external_id={paymentInfo.xendit_qrcode_external_id}
-                        />
-                    )
-                }
+                {paymentInfo && paymentInfo.invoice_url && (
+                    <ModalXendit
+                        open={openXendit}
+                        setOpen={() => setOpenXendit(!openXendit)}
+                        iframeUrl={paymentInfo.invoice_url}
+                        order_id={detail[0].order_number}
+                        payment_code={paymentInfo.method_code}
+                        fromOrder
+                        amount={detail[0].detail[0].grand_total}
+                        mode={paymentInfo.xendit_mode}
+                        xendit_qrcode_external_id={paymentInfo.xendit_qrcode_external_id}
+                    />
+                )}
                 <div className="column">
                     <div className={classNames('hidden-mobile', styles.blockHeader)}>
                         <Typography variant="h1" letter="uppercase" type="regular" className={classNames('clear-margin-padding', styles.headerTitle)}>
@@ -277,46 +281,74 @@ const DetailOrder = (props) => {
                                         );
                                     }
                                 })}
-                                {
-                                    (detail[0].status === 'pending' || detail[0].status === 'pending_payment')
-                                    && paymentInfo && (paymentPrefixCodeOnSuccess.includes(paymentInfo.method_code)
-                                    || paymentInfo.method_code === 'qr_codes')
-                                    && (paymentInfo.due_date !== null
-                                        ? dayjs().isBefore(dayjs(paymentInfo.due_date))
-                                        : true
-                                    )
-                                    && (
-                                        <>
-
-                                            <div className={styles.btnPayNow}>
-                                                <Typography variant="span" className="clear-margin-padding">
-                                                    {t('order:onboarding')}
+                                {(detail[0].status === 'pending' || detail[0].status === 'pending_payment')
+                                    && paymentInfo
+                                    && (paymentPrefixCodeOnSuccess.includes(paymentInfo.method_code) || paymentInfo.method_code === 'qr_codes')
+                                    && (paymentInfo.due_date !== null ? dayjs().isBefore(dayjs(paymentInfo.due_date)) : true) && (
+                                    <>
+                                        <div className={styles.btnPayNow}>
+                                            <Typography variant="span" className="clear-margin-padding">
+                                                {t('order:onboarding')}
+                                            </Typography>
+                                        </div>
+                                        <div className="hidden-mobile">
+                                            <Button onClick={() => handleOpenXendit()} className={styles.btnPayNow} align="left">
+                                                <Typography size="10" type="bold" color="white" letter="uppercase" className={styles.txtConfirm}>
+                                                    {t('thanks:paynow')}
                                                 </Typography>
-                                            </div>
-                                            <div className="hidden-mobile">
-                                                <Button
-                                                    onClick={() => handleOpenXendit()}
-                                                    className={styles.btnPayNow}
-                                                    align="left"
-                                                >
-                                                    <Typography size="10" type="bold" color="white" letter="uppercase" className={styles.txtConfirm}>
-                                                        {t('thanks:paynow')}
-                                                    </Typography>
-                                                </Button>
-                                            </div>
-                                            <div className="hidden-desktop">
-                                                <Button
-                                                    onClick={() => handleOpenXendit()}
-                                                    className={styles.btnPayNow}
-                                                >
-                                                    <Typography size="10" type="bold" color="white" letter="uppercase" className={styles.txtConfirm}>
-                                                        {t('thanks:paynow')}
-                                                    </Typography>
-                                                </Button>
-                                            </div>
-                                        </>
-                                    )
-                                }
+                                            </Button>
+                                        </div>
+                                        <div className="hidden-desktop">
+                                            <Button onClick={() => handleOpenXendit()} className={styles.btnPayNow}>
+                                                <Typography size="10" type="bold" color="white" letter="uppercase" className={styles.txtConfirm}>
+                                                    {t('thanks:paynow')}
+                                                </Typography>
+                                            </Button>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.block}>
+                        <div className="row center-xs start-sm start-sm start-md start-lg">
+                            <div className="col-xs-12">
+                                <Typography
+                                    variant="span"
+                                    letter="capitalize"
+                                    type="regular"
+                                    className={classNames('clear-margin-padding', styles.blockLabel)}
+                                >
+                                    {t('order:orderComment:title')}
+                                </Typography>
+                                <hr />
+                            </div>
+                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
+                                    {t('order:orderComment:commentHistory')}
+                                </Typography>
+                                {detail[0].comments.map((item) => (
+                                    <div className="row" style={{ margin: '1rem 0rem 1rem' }}>
+                                        <div className="col-xs-12 col-sm-4 col-md-3 col-lg-2 clear-margin-padding">
+                                            <Typography variant="span" className="clear-margin-padding" style={{ fontWeight: 'bold' }}>
+                                                {formatDate(item.timestamp)}
+                                            </Typography>
+                                        </div>
+                                        <div className="col-xs-12 col-sm-8 col-md-9 col-lg-10 clear-margin-padding">
+                                            <Typography variant="span" className="clear-margin-padding">
+                                                {item.message}
+                                            </Typography>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <Typography variant="p" type="bold" letter="uppercase" className={styles.labelDetail}>
+                                    {t('order:orderComment:subTitle')}
+                                </Typography>
+                                <Typography variant="span" className="clear-margin-padding">
+                                    {detail[0].order_comment || ''}
+                                </Typography>
                             </div>
                         </div>
                     </div>
@@ -336,7 +368,7 @@ const DetailOrder = (props) => {
                                 <div className="hidden-desktop">
                                     {items.length > 0
                                         && items.map((item, key) => (
-                                            <ItemProduct t={t} key={key} {...item} currency={currency} features={features} />
+                                            <ItemProduct t={t} key={key} {...item} currency={currency} storeConfig={storeConfig} />
                                         ))}
                                 </div>
                                 <div className="hidden-mobile">
@@ -402,7 +434,7 @@ const DetailOrder = (props) => {
                                         </Typography>
                                     </div>
                                 ) : null}
-                                {(modules.giftcard.enabled && detail[0].detail[0] && detail[0].detail[0].aw_giftcard.giftcard_amount) ? (
+                                {modules.giftcard.enabled && detail[0].detail[0] && detail[0].detail[0].aw_giftcard.giftcard_amount ? (
                                     <div className={styles.listSummary}>
                                         <Typography variant="span" letter="capitalize" className={styles.labelSummary}>
                                             {t('order:giftcard')}
@@ -449,22 +481,15 @@ const DetailOrder = (props) => {
                                             </Typography>
                                         </button>
                                     </div>
-                                    {
-                                        (detail[0].detail[0].aw_rma && detail[0].detail[0].aw_rma.status)
-                                        && (
-                                            <div className={styles.wrapperButton}>
-                                                <button
-                                                    type="button"
-                                                    className={styles.reorderButton}
-                                                    onClick={() => returnUrl(detail[0].order_number)}
-                                                >
-                                                    <Typography variant="span" type="regular">
-                                                        {t('order:smReturn')}
-                                                    </Typography>
-                                                </button>
-                                            </div>
-                                        )
-                                    }
+                                    {detail[0].detail[0].aw_rma && detail[0].detail[0].aw_rma.status && (
+                                        <div className={styles.wrapperButton}>
+                                            <button type="button" className={styles.reorderButton} onClick={() => returnUrl(detail[0].order_number)}>
+                                                <Typography variant="span" type="regular">
+                                                    {t('order:smReturn')}
+                                                </Typography>
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

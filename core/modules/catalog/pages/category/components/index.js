@@ -4,10 +4,14 @@ import Router from 'next/router';
 import classNames from 'classnames';
 import Typography from '@common_typography';
 import Product from '@plugin_productlist';
-import { features } from '@config';
 import { getStoreHost } from '@helpers/config';
 import { getAppEnv } from '@root/core/helpers/env';
 import useStyles from '@core_modules/catalog/pages/category/components/style';
+import dynamic from 'next/dynamic';
+import BreadcrumbView from '@common_breadcrumb';
+import TabView from '@common_tabs';
+
+const BannerView = dynamic(() => import('@common_image/LazyImage'), { ssr: false });
 
 // sementara di comment dlu, untuk custom filter memakai aggregations product
 // import { getFilter } from '../../../services/graphql';
@@ -22,7 +26,7 @@ const categoryTabs = (category) => {
 };
 
 const CategoryPage = ({
-    data, storeConfig, t, BannerView, BreadcrumbView, TabView, ...other
+    data, storeConfig, t, ...other
 }) => {
     const styles = useStyles();
     const [value] = React.useState(0);
@@ -71,6 +75,10 @@ const CategoryPage = ({
         link: '#',
         active: true,
     });
+
+    const image_product_height = storeConfig?.pwa?.image_product_height;
+    const image_product_width = storeConfig?.pwa?.image_product_width;
+
     return (
         <>
             <style jsx>
@@ -90,8 +98,8 @@ const CategoryPage = ({
                         ? (
                             <BannerView
                                 src={UrlString}
-                                width={features.imageSize.category.width}
-                                height={features.imageSize.category.height}
+                                width={typeof image_product_width === 'string' ? parseInt(image_product_width, 0) : image_product_width}
+                                height={typeof image_product_height === 'string' ? parseInt(image_product_height, 0) : image_product_height}
                                 showArrow={dataBanner.length > 1}
                                 style={{ width: '100%', height: 'auto' }}
                             />

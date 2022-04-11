@@ -346,6 +346,11 @@ const ContentDetail = ({
         }
     }, [customizableOptions]);
 
+    let enablePopupImage = false;
+    if (storeConfig && storeConfig.pwa) {
+        enablePopupImage = storeConfig.pwa.popup_detail_image_enable;
+    }
+
     return (
         <Content
             data={{
@@ -385,6 +390,7 @@ const ContentDetail = ({
             smartProductTabs={dataProductTabs}
             isLogin={isLogin}
             handleSetCompareList={handleSetCompareList}
+            enablePopupImage={enablePopupImage}
             storeConfig={storeConfig}
         />
     );
@@ -415,11 +421,16 @@ const PageDetail = (props) => {
             includeName: productProps.name && productProps.name !== '',
             includePrice: productProps.price && true,
             includeImg: productProps.small_image?.url && true,
+            url: slug[0],
         },
-    } : {};
+    } : {
+        variables: {
+            url: slug[0],
+        },
+    };
 
-    const labels = getProductLabel(slug[0], { context });
-    const { loading, data, error } = getProduct(slug[0], { context, ...productVariables });
+    const labels = getProductLabel(storeConfig, { context, variables: { url: slug[0] } });
+    const { loading, data, error } = getProduct(storeConfig, { context, ...productVariables });
     const [getProductTabs, { data: dataProductTabs }] = smartProductTabs();
     React.useEffect(() => {
         if (slug[0] !== '') {
@@ -442,6 +453,7 @@ const PageDetail = (props) => {
                     name={productProps.name || ''}
                     price={productProps.price || 0}
                     banner={productProps.small_image ? [{ link: '#', imageUrl: productProps.small_image?.url, videoUrl: '#' }] : []}
+                    storeConfig={storeConfig}
                 />
             </Layout>
         );
@@ -465,10 +477,10 @@ const PageDetail = (props) => {
             };
         }
 
-        const viewedProduct = getLocalStorage('recently_viewed_product');
         if (product.items.length > 0) {
             const item = product.items[0];
             let isExist = false;
+            const viewedProduct = getLocalStorage('recently_viewed_product');
 
             if (viewedProduct) {
                 temporaryArr = viewedProduct;
@@ -524,8 +536,8 @@ const PageDetail = (props) => {
             'og:image': product.items[0].small_image.url,
             'og:image:type': 'image/jpeg',
             'og:description': StripHtmlTags(product.items[0].description.html),
-            'og:image:width': features.imageSize.product.width,
-            'og:image:height': features.imageSize.product.height,
+            'og:image:width': storeConfig?.pwa?.image_product_width,
+            'og:image:height': storeConfig?.pwa?.image_product_height,
             'og:image:alt': product.items[0].name || '',
             'og:type': 'product',
             'product:availability': product.items[0].stock_status,

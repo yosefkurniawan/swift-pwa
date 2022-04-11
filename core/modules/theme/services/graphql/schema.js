@@ -1,6 +1,5 @@
 /* eslint-disable import/prefer-default-export */
 import { gql } from '@apollo/client';
-import { features } from '@config';
 
 export const categories = gql`
     {
@@ -138,7 +137,7 @@ export const getProduct = (key) => {
                 name
                 url_key
                 small_image {
-                    url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height})
+                    url
                     label
                 }
                 price_tiers {
@@ -190,7 +189,7 @@ export const getRecentlyProduct = () => {
             name
             url_key
             small_image {
-                url(width: ${features.imageSize.product.width}, height: ${features.imageSize.product.height})
+                url
                 label
             }
             price_range{
@@ -290,6 +289,15 @@ export const getCurrencySchema = gql`
     }
 `;
 
+export const getCountCart = gql`
+    query getCartData($cartId: String!) {
+        cart(cart_id: $cartId) {
+            id
+            total_quantity
+        }
+    }
+`;
+
 export default {
     categories,
     getCustomer,
@@ -299,4 +307,5 @@ export default {
     getProduct,
     getCategoryByName,
     getRecentlyProduct,
+    getCountCart,
 };

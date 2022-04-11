@@ -15,7 +15,6 @@ import Link from 'next/link';
 import { useRef, useState } from 'react';
 import Slider from 'react-slick';
 import Thumbor from '@common_image';
-import { features } from '@config';
 
 const MagezonRecentReviews = (props) => {
     // prettier-ignore
@@ -35,7 +34,7 @@ const MagezonRecentReviews = (props) => {
         owl_active_background_color, owl_slide_by,
         owl_background_color, owl_color,
         owl_hover_background_color, owl_hover_color,
-        owl_autoplay, owl_autoplay_hover_pause,
+        owl_autoplay, owl_autoplay_hover_pause, storeConfig,
     } = props;
     const { data, loading } = getProductReviews({ sku: product_sku, pageSize: max_items });
     const reviewData = data?.products?.items[0] || [];
@@ -91,6 +90,12 @@ const MagezonRecentReviews = (props) => {
 
     if (loading) return null;
 
+    let defaultWidth = storeConfig?.pwa?.image_product_width;
+    let defaultHeight = storeConfig?.pwa?.image_product_height;
+
+    if (typeof defaultWidth === 'string') defaultWidth = parseInt(defaultWidth, 0);
+    if (typeof defaultHeight === 'string') defaultHeight = parseInt(defaultHeight, 0);
+
     return (
         <>
             <div className="mgz-recent-reviews">
@@ -133,11 +138,11 @@ const MagezonRecentReviews = (props) => {
                                 )}
                                 <div style={{ display: 'flex' }}>
                                     {review_product_image && (
-                                        <div style={{ width: features.imageSize.product.width, maxWidth: '20%', display: 'flex' }}>
+                                        <div style={{ width: defaultWidth, maxWidth: '20%', display: 'flex' }}>
                                             <Thumbor
                                                 src={reviewData.small_image.url}
-                                                width={features.imageSize.product.width}
-                                                height={features.imageSize.product.height}
+                                                width={defaultWidth}
+                                                height={defaultHeight}
                                             />
                                         </div>
                                     )}
