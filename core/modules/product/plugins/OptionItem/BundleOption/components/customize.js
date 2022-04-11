@@ -24,9 +24,9 @@ const GenerateOptionsSelect = (props) => {
     }
     return options.map((val, idx) => {
         if (data.type === 'radio') {
-            return <Radio val={val} key={idx} data={data} selectOptions={selectOptions} />;
+            return val.product !== null ? <Radio val={val} key={idx} data={data} selectOptions={selectOptions} /> : null;
         } if (data.type === 'checkbox') {
-            return <Checkbox val={val} key={idx} data={data} selectOptions={selectOptions} />;
+            return val.product !== null ? <Checkbox val={val} key={idx} data={data} selectOptions={selectOptions} /> : null;
         }
 
         return null;
