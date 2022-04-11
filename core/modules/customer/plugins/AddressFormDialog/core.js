@@ -424,7 +424,20 @@ const AddressFormDialog = (props) => {
     }, [formik.values.district]);
 
     React.useEffect(() => {
-        if (formik.values.village && enableSplitCity) formik.setFieldValue('postcode', formik.values.village.postcode);
+        if (city !== null) {
+            const state = { ...addressState };
+            if (formik.values.village && enableSplitCity) {
+                const defaultValue = splitCityValue(city);
+                const villageValue = getCityByLabel(defaultValue[2], state.dropdown.village);
+                if (formik.values.village !== villageValue) {
+                    formik.setFieldValue('postcode', formik.values.village.postcode);
+                } else {
+                    formik.setFieldValue('postcode', postcode);
+                }
+            }
+        } else if (formik.values.village && enableSplitCity) {
+            formik.setFieldValue('postcode', formik.values.village.postcode);
+        }
     }, [formik.values.village]);
     return (
         <Content
