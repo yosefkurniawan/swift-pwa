@@ -28,6 +28,7 @@ const AddressView = (props) => {
         loading,
         success,
         gmapKey,
+        geocodingKey,
         enableSplitCity,
         getCountries,
         responCountries,
@@ -420,6 +421,7 @@ const AddressView = (props) => {
                             <div className={styles.boxMap}>
                                 <IcubeMapsAutocomplete
                                     gmapKey={gmapKey}
+                                    geocodingKey={geocodingKey}
                                     formik={formik}
                                     mapPosition={mapPosition}
                                     dragMarkerDone={handleDragPosition}

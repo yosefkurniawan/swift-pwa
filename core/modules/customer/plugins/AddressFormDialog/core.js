@@ -46,6 +46,7 @@ const AddressFormDialog = (props) => {
     }
     const pwaConfig = getLocalStorage('pwa_config');
     const gmapKey = pwaConfig && pwaConfig.icube_pinlocation_gmap_key ? pwaConfig.icube_pinlocation_gmap_key : null;
+    const geocodingKey = pwaConfig && pwaConfig.icube_pinlocation_geocoding_key ? pwaConfig.icube_pinlocation_geocoding_key : null;
     const { pin_location_latitude, pin_location_longitude } = pwaConfig ?? {};
 
     const [getCountries, responCountries] = getAllCountries();
@@ -457,6 +458,7 @@ const AddressFormDialog = (props) => {
             loading={loading}
             success={success}
             gmapKey={gmapKey}
+            geocodingKey={geocodingKey}
             enableSplitCity={enableSplitCity}
             getCountries={getCountries}
             responCountries={responCountries}
