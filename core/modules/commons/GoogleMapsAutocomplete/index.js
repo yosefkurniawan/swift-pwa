@@ -265,7 +265,7 @@ const IcubeMapsAutocomplete = (props) => {
                             new google.maps.LatLng(parseFloat(stateBounds.northeast.lat !== undefined ? stateBounds.northeast.lat : mapPosition.lat),
                                 parseFloat(stateBounds.northeast.lng !== undefined ? stateBounds.northeast.lng : mapPosition.lng)),
                         ),
-                        strictBounds: true,
+                        strictBounds: !!geocodingKey,
                     }}
                 >
                     <CustomTextField
