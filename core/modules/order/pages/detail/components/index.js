@@ -25,7 +25,7 @@ import { checkJson } from '@core_modules/trackingorder/pages/default/helpers/che
 const DetailOrder = (props) => {
     const {
         t, detail, currency, storeConfig, reOrder, returnUrl,
-        paymentInfo, dataTrackingOrder
+        paymentInfo, dataTrackingOrder,
     } = props;
     const {
         checkout: {
@@ -44,7 +44,7 @@ const DetailOrder = (props) => {
         track_number: dataTrackingOrder.ordersFilter.data[0].detail[0].shipping_methods.shipping_detail[0].track_number,
         trackorder_type: dataTrackingOrder.ordersFilter.data[0].detail[0].shipping_methods.shipping_detail[0].trackorder_type,
     };
-  
+
     if (detail.length > 0 && detail[0].detail[0].items.length) {
         const configurableProduct = [];
         detail[0].detail[0].items.map((item) => {

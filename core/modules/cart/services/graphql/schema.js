@@ -502,6 +502,7 @@ export const deleteCartitem = gql`
           id
           total_quantity
           ${items}
+          ${prices}
         }
       }
     }
