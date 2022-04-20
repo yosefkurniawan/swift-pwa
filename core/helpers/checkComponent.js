@@ -1,11 +1,11 @@
-function isClassComponent(component) {
+export function isClassComponent(component) {
     return (
         typeof component === 'function'
         && !!component.prototype.isReactComponent
     );
 }
 
-function isFunctionComponent(component) {
+export function isFunctionComponent(component) {
     return (
         typeof component === 'function'
         && String(component).includes('return React.createElement')
