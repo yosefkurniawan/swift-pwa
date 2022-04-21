@@ -121,6 +121,9 @@ const useStyles = makeStyles((theme) => ({
         ...FlexRow,
         justifyContent: 'flex-end',
         flex: 1,
+        '& > div': {
+            textAlign: 'right !important',
+        },
         [theme.breakpoints.down('sm')]: {
             '& button span': {
                 fontSize: 9,

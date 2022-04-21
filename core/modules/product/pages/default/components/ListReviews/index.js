@@ -73,6 +73,7 @@ const ListReviews = (props) => {
     };
 
     let review = {};
+
     review = data && data.getProductReviews
         ? data.getProductReviews
         : {
@@ -97,7 +98,7 @@ const ListReviews = (props) => {
                         <Typography type="regular" variant="p" letter="capitalize" className="clear-margin-padding">
                             {(review && review.totalCount) || 0}
                             {' '}
-                            {props.t('produc:review')}
+                            {props.t('product:review')}
                         </Typography>
                     </div>
                     {isLogin ? (
