@@ -357,6 +357,17 @@ const Login = (props) => {
             </div>
             <style jsx global>
                 {`
+                    @media screen and (max-width: 768px) {
+                                            
+                        .firebaseui-card-content {
+                            width: 100%;
+                            padding: 0px !important;
+                        }
+                        .firebaseui-card-footer {
+                            padding: 0px !important;
+                        }
+                    }
+                    
                     .firebaseui-container {
                         display: flex !important;
                         flex-direaction: column !important;
