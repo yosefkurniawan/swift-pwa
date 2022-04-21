@@ -62,7 +62,7 @@ const View = (props) => {
                 </Typography>
             </div>
             <div className={styles.info}>
-                <Typography variant="span" className="clear-margin-padding" letter="none">
+                <Typography variant="span" className={styles.infoOrderId} letter="none">
                     {`${t('thanks:yourOrderId')} : `}
                     {isLogin && isLogin === 1 ? (
                         <>
