@@ -23,7 +23,9 @@ const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
     const { t } = useTranslation();
 
     React.useEffect(() => {
-        if (!dataCompare && compareList && compareList.compareList != null) {
+        if (!dataCompare
+            && compareList
+            && compareList.compareList !== null) {
             client.writeQuery({
                 query: localCompare,
                 data: {
@@ -108,7 +110,12 @@ const ProductCompareIcon = ({ withLink, WihtLinkView, isLogin }) => {
     return (
         <>
             <Typography variant="span" type="bold" letter="uppercase">
-                {t('common:productCompare:title')} ( {dataCompare ? dataCompare.item_count : compareList ? compareList.compareList.item_count : 0} )
+                {t('common:productCompare:title')} (
+                {
+                    dataCompare && dataCompare.item_count ||
+                    compareList && compareList.compareList && compareList.compareList.item_count && compareList.compareList.item_count || 0
+                }
+                )
             </Typography>
         </>
     );
