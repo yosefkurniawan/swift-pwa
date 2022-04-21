@@ -5,6 +5,7 @@ import Typography from '@common_typography';
 import classNames from 'classnames';
 import React from 'react';
 import dynamic from 'next/dynamic';
+import { getLoginInfo } from '@helpers/auth';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { setCountReview } from '@core_modules/product/pages/default/components/@core_modules/product/pages/default/components/redux/action';
 import { getReviews } from '@core_modules/product/services/graphql';
@@ -28,6 +29,7 @@ const ListReviews = (props) => {
         sku: props.data.sku || '',
         pageSize: 2,
     });
+    const isLogin = getLoginInfo();
 
     const { loading, fetchMore, data } = getReviews(reviewParams);
     const handleOpenReview = ({ message, variant }) => {
@@ -98,13 +100,15 @@ const ListReviews = (props) => {
                             {props.t('produc:review')}
                         </Typography>
                     </div>
-                    <div className={styles.shareContainer}>
-                        <Button onClick={() => setOpenReview(true)} variant="outlined">
-                            <Typography variant="span" type="bold" letter="uppercase">
-                                {props.t('product:writeReview')}
-                            </Typography>
-                        </Button>
-                    </div>
+                    {isLogin ? (
+                        <div className={styles.shareContainer}>
+                            <Button onClick={() => setOpenReview(true)} variant="outlined">
+                                <Typography variant="span" type="bold" letter="uppercase">
+                                    {props.t('product:writeReview')}
+                                </Typography>
+                            </Button>
+                        </div>
+                    ) : ''}
                 </div>
                 <div className={styles.reviewContainer}>
                     {review && review.items.map((item, index) => <CustomerReview key={index} {...item} />)}
