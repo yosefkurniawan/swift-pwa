@@ -106,6 +106,7 @@ export const storeConfig = `
       header_logo_src
       head_shortcut_icon
       icube_pinlocation_gmap_key
+      icube_pinlocation_geocoding_key
       locale
       logo_alt
       logo_width
