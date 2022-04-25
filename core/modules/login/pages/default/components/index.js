@@ -189,8 +189,10 @@ const Login = (props) => {
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <TextField
                                                 name="username"
-                                                label={t('login:phoneEmailLabel')}
-                                                placeholder={t('login:phoneEmailFields')}
+                                                // eslint-disable-next-line max-len
+                                                label={otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login ? t('login:emailLabel') : t('login:phoneEmailLabel')}
+                                                // eslint-disable-next-line max-len
+                                                placeholder={otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login ? t('login:emailFields') : t('login:phoneEmailFields')}
                                                 value={formikPhoneEmail.values.username}
                                                 onChange={formikPhoneEmail.handleChange}
                                                 error={!!formikPhoneEmail.errors.username}
@@ -355,6 +357,17 @@ const Login = (props) => {
             </div>
             <style jsx global>
                 {`
+                    @media screen and (max-width: 768px) {
+                                            
+                        .firebaseui-card-content {
+                            width: 100%;
+                            padding: 0px !important;
+                        }
+                        .firebaseui-card-footer {
+                            padding: 0px !important;
+                        }
+                    }
+                    
                     .firebaseui-container {
                         display: flex !important;
                         flex-direaction: column !important;

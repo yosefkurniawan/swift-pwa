@@ -57,6 +57,14 @@ export default makeStyles((theme) => ({
         },
     },
 
+    infoOrderId: {
+        margin: '0 !important',
+        padding: '0 !important',
+        [theme.breakpoints.down('sm')]: {
+            textAlign: 'center !important',
+        },
+    },
+
     wrapperBank: {
         display: 'flex',
         flexDirection: 'row',

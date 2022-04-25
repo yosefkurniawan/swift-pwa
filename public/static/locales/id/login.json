@@ -13,7 +13,9 @@
     "loginInformation": "Jika kamu sudah mempunyai akun, silahkan masuk dengan email.",
     "loginPhoneEmailInformation": "Jika kamu sudah mempunyai akun, silahkan masuk dengan email.",
     "phoneEmailLabel": "Email atau Nomor Telepon",
+    "emailLabel": "Email",
     "phoneEmailFields": "john.doe@gmail.com / +628123456789",
+    "emailFields": "john.doe@gmail.com",
     "loginOtpInformation": " Jika kamu mempunyai akun terdaftar dengan nomor telepon, masuk dengan nomor telepon.",
     "registerInformation": "Membuat akun akan mendapatkan benefit : checkout dengan cepat, simpan lebih dari satu alamat pengiriman, lacak pembelian and masih banyak lagi."
 }
