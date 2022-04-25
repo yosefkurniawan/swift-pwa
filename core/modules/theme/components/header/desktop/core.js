@@ -64,7 +64,7 @@ const CoreTopNavigation = (props) => {
                 client.writeQuery({ query: localTotalCart, data: { totalCart: 0 } });
                 client.writeQuery({ query: localCompare, data: { item_count: 0 } });
                 window.backdropLoader(false);
-                Router.reload();
+                Router.push('/customer/account/login');
             })
             .catch(() => {
                 window.backdropLoader(false);

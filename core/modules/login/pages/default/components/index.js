@@ -77,16 +77,6 @@ const Login = (props) => {
         },
     };
 
-    const FirebaseSocialLogin = () => {
-        if (firebase.app()) {
-            try {
-                return !socialLoginMethodLoading && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />;
-            } catch {
-                return null;
-            }
-        }
-    };
-
     return (
         <div className={styles.container}>
             {!desktop && otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_login && (
@@ -126,7 +116,7 @@ const Login = (props) => {
                                                 label="Email"
                                                 placeholder="john.doe@gmail.com"
                                                 value={formik.values.username}
-                                                onChange={formik.handleChange}
+                                                // onChange={formik.handleChange}
                                                 error={!!formik.errors.username}
                                                 errorMessage={formik.errors.username || null}
                                             />
@@ -137,7 +127,7 @@ const Login = (props) => {
                                                 label="Password"
                                                 placeholder="********"
                                                 value={formik.values.password}
-                                                onChange={formik.handleChange}
+                                                // onChange={formik.handleChange}
                                                 error={!!formik.errors.password}
                                                 errorMessage={formik.errors.password || null}
                                                 showVisible
@@ -165,7 +155,11 @@ const Login = (props) => {
                                             </Button>
                                         </div>
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                            <FirebaseSocialLogin />
+                                            {
+                                                firebase.app()
+                                                && !socialLoginMethodLoading
+                                                && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+                                            }
                                         </div>
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <Button
@@ -239,7 +233,11 @@ const Login = (props) => {
                                             </Button>
                                         </div>
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                            <FirebaseSocialLogin />
+                                            {
+                                                firebase.app()
+                                                && !socialLoginMethodLoading
+                                                && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+                                            }
                                         </div>
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <Button
