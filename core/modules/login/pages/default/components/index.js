@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-nested-ternary */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TextField from '@common_textfield';
 import PasswordField from '@common_password';
 import Button from '@common_button';
@@ -16,6 +16,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import OtpBlock from '@plugin_otp';
 import OtpView from '@plugin_otp/view';
 import useStyles from '@core_modules/login/pages/default/components/style';
+import { features } from '@config';
 
 const Login = (props) => {
     const {
@@ -44,7 +45,7 @@ const Login = (props) => {
 
     const signInOptions = [];
 
-    if (firebase && firebase.auth && socialLoginMethodData && socialLoginMethodData.length > 0) {
+    if (features.firebase.config.apiKey !== '' && firebase && firebase.auth && socialLoginMethodData && socialLoginMethodData.length > 0) {
         for (let idx = 0; idx < socialLoginMethodData.length; idx += 1) {
             const code = socialLoginMethodData[idx];
             if (code.match(/google/i) && firebase.auth.GoogleAuthProvider && firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
@@ -76,6 +77,16 @@ const Login = (props) => {
             signInSuccessWithAuthResult: () => false,
         },
     };
+
+    const [firebaseLoaded, setFirebaseLoaded] = useState(false);
+
+    useEffect(() => {
+        if (features.firebase.config.apiKey === '') {
+            setFirebaseLoaded(false);
+        } else {
+            setFirebaseLoaded(true);
+        }
+    }, [firebaseLoaded]);
 
     return (
         <div className={styles.container}>
@@ -116,7 +127,7 @@ const Login = (props) => {
                                                 label="Email"
                                                 placeholder="john.doe@gmail.com"
                                                 value={formik.values.username}
-                                                // onChange={formik.handleChange}
+                                                onChange={formik.handleChange}
                                                 error={!!formik.errors.username}
                                                 errorMessage={formik.errors.username || null}
                                             />
@@ -127,7 +138,7 @@ const Login = (props) => {
                                                 label="Password"
                                                 placeholder="********"
                                                 value={formik.values.password}
-                                                // onChange={formik.handleChange}
+                                                onChange={formik.handleChange}
                                                 error={!!formik.errors.password}
                                                 errorMessage={formik.errors.password || null}
                                                 showVisible
@@ -156,7 +167,8 @@ const Login = (props) => {
                                         </div>
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             {
-                                                firebase.app()
+                                                firebaseLoaded
+                                                && firebase.app()
                                                 && !socialLoginMethodLoading
                                                 && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
                                             }
@@ -236,7 +248,8 @@ const Login = (props) => {
                                         </div>
                                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             {
-                                                firebase.app()
+                                                firebaseLoaded
+                                                && firebase.app()
                                                 && !socialLoginMethodLoading
                                                 && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
                                             }

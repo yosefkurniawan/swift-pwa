@@ -219,7 +219,7 @@ class MyApp extends App {
          * ---------------------------------------------
          * FIREBASE INITIALIZATION
          */
-        if (features.firebase.pushNotification.enabled) {
+        if (features.firebase.config.apiKey !== '' && features.firebase.pushNotification.enabled) {
             // initial firebase messaging
             Notification.init();
             // handle if have message on focus
