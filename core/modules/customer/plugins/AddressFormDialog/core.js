@@ -74,8 +74,8 @@ const AddressFormDialog = (props) => {
     const splitCityValue = (cityValue) => cityValue.split(', ');
 
     const [mapPosition, setMapPosition] = useState({
-        lat: latitude || pin_location_latitude,
-        lng: longitude || pin_location_longitude,
+        lat: parseFloat(latitude) || parseFloat(pin_location_latitude),
+        lng: parseFloat(longitude) || parseFloat(pin_location_longitude),
     });
 
     const displayLocationInfo = (position) => {
@@ -91,8 +91,8 @@ const AddressFormDialog = (props) => {
     const displayLocationFallback = () => {
         // A callback that triggers when user deny map permissions.
         setMapPosition({
-            lat: pin_location_latitude,
-            lng: pin_location_longitude,
+            lat: parseFloat(pin_location_latitude),
+            lng: parseFloat(pin_location_longitude),
         });
     };
 
