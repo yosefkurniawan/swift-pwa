@@ -292,13 +292,19 @@ const IcubeMapsAutocomplete = (props) => {
                 <GoogleMap
                     id="google-maps-container"
                     mapContainerStyle={containerStyle}
-                    center={mapPosition}
+                    center={{
+                        lat: parseFloat(mapPosition.lat),
+                        lng: parseFloat(mapPosition.lng),
+                    }}
                     onLoad={mapLoad}
                     zoom={defaultZoom}
                 >
                     <Marker
                         onLoad={markerLoad}
-                        position={mapPosition}
+                        position={{
+                            lat: parseFloat(mapPosition.lat),
+                            lng: parseFloat(mapPosition.lng),
+                        }}
                         onDragEnd={(event) => handleDragEnd(event)}
                         draggable
                     />
